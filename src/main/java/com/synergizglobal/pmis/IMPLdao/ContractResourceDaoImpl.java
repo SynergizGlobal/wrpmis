@@ -345,4 +345,27 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 
 		return obj;
 	}
+
+	@Override
+	public List<ContractResource> getSubResourceTypeListForContractResourceForm(ContractResource obj) throws Exception {
+		List<ContractResource> objsList = null;
+		try {
+			String qry ="select resource_type_fk as resource_type,sub_resource_type from sub_resource_type where sub_resource_type is not null and sub_resource_type <> ''  ";
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResource_type())) {
+				qry = qry + " and resource_type_fk = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResource_type())) {
+				pValues[i++] = obj.getResource_type();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+		throw new Exception(e);
+		}
+		return objsList;
+	}
 }

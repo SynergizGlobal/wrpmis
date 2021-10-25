@@ -61,11 +61,27 @@ public class ContractResourceController {
 			List<ContractResource> resourceTypeList = service.getResourceTypeListForContractResourceForm(obj);
 			model.addObject("resourceTypeList", resourceTypeList);
 			
+			List<ContractResource> subResourceTypeList = service.getSubResourceTypeListForContractResourceForm(obj);
+			model.addObject("subResourceTypeList", subResourceTypeList);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("contractResourceForm : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getgetSubResourceTypesForContractResourceForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<ContractResource> getSubResourceTypeListForContractResourceForm(@ModelAttribute ContractResource obj) {
+		List<ContractResource> objsList = null;
+		try {
+			objsList = service.getSubResourceTypeListForContractResourceForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getSubResourceTypeListForContractResourceForm : " + e.getMessage());
+		}
+		return objsList;
 	}
 	
 	@RequestMapping(value = "/ajax/getProjectsListForContractResourceForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)

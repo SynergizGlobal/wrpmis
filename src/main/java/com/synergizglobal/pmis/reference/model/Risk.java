@@ -2,7 +2,24 @@ package com.synergizglobal.pmis.reference.model;
 
 public class Risk {
 	
-	private String risk_classification_id, notification_type, financial_year,sub_area,area_short_name, risk_area_fk,id, type_fk, category,notification_type_icon,classification, minimum, maximum,area, item_no,revision_status,report_type,railway_id, railway_name;
+	private String risk_classification_id, notification_type, financial_year,sub_area,area_short_name, risk_area_fk,id, type_fk, category,notification_type_icon,
+	 resource_type_fk, sub_resource_type,classification, minimum, maximum,area, item_no,revision_status,report_type,railway_id, railway_name;
+
+	public String getResource_type_fk() {
+		return resource_type_fk;
+	}
+
+	public void setResource_type_fk(String resource_type_fk) {
+		this.resource_type_fk = resource_type_fk;
+	}
+
+	public String getSub_resource_type() {
+		return sub_resource_type;
+	}
+
+	public void setSub_resource_type(String sub_resource_type) {
+		this.sub_resource_type = sub_resource_type;
+	}
 
 	public String getArea_short_name() {
 		return area_short_name;

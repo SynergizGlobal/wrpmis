@@ -6,7 +6,7 @@ public class ContractResource {
 	
 	private String resource_id, contract_id_fk, structure_fk, date, resource_type, resource_name, quantity,
 	created_by_user_id, project_id,created_date,contract_name,contract_short_name,work_id,work_id_fk,work_short_name,work_name,project_id_fk,project_name,
-	user_role_code,user_id,user_type_fk,hod_user_id_fk,user_name,designation,from_date,to_date,count,average,created_by_user_id_fk;
+	user_role_code,user_id,sub_resource_type,user_type_fk,hod_user_id_fk,user_name,designation,from_date,to_date,count,average,created_by_user_id_fk;
 
 	private String []  resource_ids, resource_types, resource_names, quantitys, created_by_user_ids, created_dates;
 	List<ContractResource> resourceList;
@@ -16,6 +16,14 @@ public class ContractResource {
 	List<ContractResource> quantityList;
 	List<ContractResource> actualDatesList;
 	
+	public String getSub_resource_type() {
+		return sub_resource_type;
+	}
+
+	public void setSub_resource_type(String sub_resource_type) {
+		this.sub_resource_type = sub_resource_type;
+	}
+
 	public List<ContractResource> getActualDatesList() {
 		return actualDatesList;
 	}

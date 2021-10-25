@@ -155,6 +155,7 @@ public class PageConstants {
 	public static final String riskDelete = "referenceForms/riskDelete";
 	public static final String riskArea = "referenceForms/riskArea";
 	public static final String riskSubArea = "referenceForms/riskSubArea";
+	public static final String subResourceType = "referenceForms/subResourceType";
 	
 	public static final String projectPriority = "referenceForms/projectPriority";
 	

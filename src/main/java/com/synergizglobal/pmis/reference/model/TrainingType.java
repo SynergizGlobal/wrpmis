@@ -17,16 +17,49 @@ public class TrainingType {
 	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
 	,impact,root_cause,structure_type, user_role_code_new,user_access_table_new,user_access_type_val,short_description,short_description_new,area, item_no,
 	item_no_new,risk_area_fk,risk_area_fk_new,sub_area,sub_area_new,la_sub_category_new,la_category_fk_new,la_category_fk_old,la_sub_category_old,sub_category,
-	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, classification, minimum, maximum,alert_level,alert_type,as_built_status,user_type,
+	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, resource_type_fk_new,classification, minimum, maximum,alert_level,alert_type,as_built_status,user_type,
 	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year,
 	risk_work_hod_id, work_id_fk, hod_user_id_fk,designation,work_short_name,work_id_fk_new,hod_user_id_fk_new,sub_work,sub_work_new,
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
-	, template_name, attachment, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name;
+	, template_name, attachment, resource_type_fk, sub_resource_type, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name;
     
 	List<TrainingType> tableHistoryList;
+	List<TrainingType> subResourceDeatails;
 	private MultipartFile templateFile;
 	private MultipartFile templateFileOld;
 	
+
+	public String getResource_type_fk_new() {
+		return resource_type_fk_new;
+	}
+
+	public void setResource_type_fk_new(String resource_type_fk_new) {
+		this.resource_type_fk_new = resource_type_fk_new;
+	}
+
+	public String getResource_type_fk() {
+		return resource_type_fk;
+	}
+
+	public void setResource_type_fk(String resource_type_fk) {
+		this.resource_type_fk = resource_type_fk;
+	}
+
+	public String getSub_resource_type() {
+		return sub_resource_type;
+	}
+
+	public void setSub_resource_type(String sub_resource_type) {
+		this.sub_resource_type = sub_resource_type;
+	}
+
+	public List<TrainingType> getSubResourceDeatails() {
+		return subResourceDeatails;
+	}
+
+	public void setSubResourceDeatails(List<TrainingType> subResourceDeatails) {
+		this.subResourceDeatails = subResourceDeatails;
+	}
 
 	public String getCommonAttachment() {
 		return commonAttachment;

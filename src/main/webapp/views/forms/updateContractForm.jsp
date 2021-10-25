@@ -1039,15 +1039,17 @@
                                                <th class="fs-100">Code </th>
                                                 <th>BG Type <span class="required">*</span></th>
                                                 <th>Issuing Bank </th>
-                                               <!--  <th>Bank Address </th> -->
+                                                <!--<th>Bank Address </th> -->
                                                 <th>BG / FDR <br>Number </th>
                                                 <th >Amount </th>
-                                               <!--  <th>Unit</th> -->
+                                                <!--<th>Unit</th> -->
                                                 <th>BG / FDR <br> Date </th>
                                                 <th>Expiry Date <span class="required">*</span></th>
-                                              <!--   <th>Remarks </th> -->
+                                                <!--<th>Remarks </th> -->
                                                 <th>Release Date</th>
-                                                <th>Action</th>
+                                                <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
+                                                	<th>Action</th>
+                                                </c:if>
                                             </tr>
                                         </thead>
                                         <tbody id="bankTableBody">
@@ -1122,10 +1124,12 @@
                                                 <td data-head="Release Date" class="input-field">	<input id="release_dates${index.count }" name="release_dates" type="text" class="validate datepicker" value="${bankObj.release_date }"
                                                         placeholder="Release Date">
                                                     <button type="button" id="release_dates${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>       
-                                                <td class="mobile_btn_close">
-                                                    <a onclick="removeBank('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>                                               
+                                                <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
+	                                                <td class="mobile_btn_close">
+	                                                    <a onclick="removeBank('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+	                                                            class="fa fa-close"></i></a>
+	                                                </td>   
+                                                </c:if>                                            
                                                
                                             </tr>
                                            <script type="text/javascript">
@@ -1208,11 +1212,12 @@
                                                 <td data-head="Release Date" class="input-field">	<input id="release_dates0" name="release_dates" type="text" class="validate datepicker"
                                                         placeholder="Release Date">
                                                     <button type="button" id="release_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>	</td>       
-                                                <td class="mobile_btn_close">
-                                                    <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
-                                                
+                                                <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
+	                                                <td class="mobile_btn_close">
+	                                                    <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
+	                                                            class="fa fa-close"></i></a>
+	                                                </td>
+                                                </c:if>
                                                 
                                             </tr> 
                                             <!-- 	<script type="text/javascript">
@@ -1291,9 +1296,11 @@
                                                 <!-- <th>Unit</th> -->
                                                 <!-- <th>Revision </th> -->
                                                 <th>Valid Upto <span class="required">*</span></th>
-                                              <!--   <th>Remarks </th> -->
+                                              	<!--<th>Remarks </th>-->
                                                 <th>Release</th>
-                                                <th>Action</th>
+                                                <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
+                                                	<th>Action</th>
+                                                </c:if>
                                             </tr>
                                         </thead>
                                         <tbody id="insurenceTableBody">
@@ -1360,11 +1367,14 @@
                                                 </td> --%>
                                                 <td data-head="Release" class="input-field"> <p><label> <input type="hidden" id="insuranceStatuss${index.count }" name="insuranceStatus" value="${insurenceObj.insurance_status}" />
                                                 <input type="checkbox" id="insuranceStatus${index.count }" <c:if test="${insurenceObj.insurance_status == 'Yes'}">checked
-                                            </c:if>/> <span></span> </label>	</p></td>       
-                                                <td class="mobile_btn_close">
-                                                    <a onclick="removeInsurence('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
+                                            		</c:if>/> <span></span> </label>	</p></td>   
+                                            
+	                                            <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">    
+	                                                <td class="mobile_btn_close">
+	                                                    <a onclick="removeInsurence('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+	                                                            class="fa fa-close"></i></a>
+	                                                </td>
+                                                </c:if>
                                             </tr>
                                              <script type="text/javascript">
 	                                               /*  $("#insurence_valid_uptos${index.count }").datepicker({
@@ -1456,11 +1466,14 @@
                                                         placeholder="Remarks">
                                                 </td> -->
                                                 <td data-head="Release" class="input-field"><p><label><input type="hidden" id="insuranceStatuss0" name="insuranceStatus" value="No" />
-                                                 <input type="checkbox" id="insuranceStatus0" /> <span></span> </label>	</p></td>       
-                                                <td class="mobile_btn_close">
-                                                    <a onclick="removeInsurence('0');" class="btn waves-effect waves-light red t-c "> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
+                                                 <input type="checkbox" id="insuranceStatus0" /> <span></span> </label>	</p></td> 
+                                                 
+                                                <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">          
+	                                                <td class="mobile_btn_close">
+	                                                    <a onclick="removeInsurence('0');" class="btn waves-effect waves-light red t-c "> <i
+	                                                            class="fa fa-close"></i></a>
+	                                                </td>
+                                                </c:if>
                                             </tr>
                                             <script type="text/javascript">
 	                                              /*   $("#insurence_valid_uptos0").datepicker({
@@ -2044,8 +2057,10 @@
 	                                                	<th>File Type </th>
 	                                                    <th>Name </th>
 	                                                    <th style="text-align:center;">Attachment</th>
-	                                                     <th> </th>
-	                                                    <th style="width:8%">Action</th>
+	                                                    <th> </th>
+	                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+	                                                    	<th style="width:8%">Action</th>
+	                                                    </c:if>
 	                                                </tr>
 	                                            </thead>
 	                                            <tbody id="contractDocumentTableBody" >
@@ -2079,10 +2094,12 @@
 			                                                      		<a href="<%=CommonConstants2.CONTRACT_FILES%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 			                                                        
 			                                                    </td>
-			                                                    <td class="mobile_btn_close">
-			                                                        <a href="javascript:void(0);" onclick="removeContractDocument('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
-			                                                                class="fa fa-close"></i></a>
-			                                                    </td>
+			                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+				                                                    <td class="mobile_btn_close">
+				                                                        <a href="javascript:void(0);" onclick="removeContractDocument('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+				                                                                class="fa fa-close"></i></a>
+				                                                    </td>
+			                                                    </c:if>
 			                                                </tr> 
 	                                                	</c:forEach>
 	                                           		</c:when>
@@ -2111,10 +2128,13 @@
 		                                                    </td>
 		                                                    <td><input type="hidden" id="contract_file_ids0" name="contract_file_ids" value= " "/>
 		                                                    </td>
-		                                                    <td class="mobile_btn_close">
-		                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
-		                                                                class="fa fa-close"></i></a>
-		                                                    </td>
+		                                                    
+		                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+			                                                    <td class="mobile_btn_close">
+			                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
+			                                                                class="fa fa-close"></i></a>
+			                                                    </td>
+		                                                    </c:if>
 		                                                </tr>
 	                                             	</c:otherwise>
                                             	</c:choose> 
@@ -3422,8 +3442,13 @@
 				   +'<td data-head="Expiry Date " class="input-field"><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"  id="bg_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button><span id="bg_valid_uptos'+rNo+'Error" class="my-error"></span></td>'
 				   //+'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
 				   //+'<td><label> <input type="checkbox" name="bankStatus" id="bankStatus'+rNo+'" value="Inactive"/> <span></span> </label></td>'
-				   +'<td data-head="Release Date" class="input-field"><input id="release_dates'+rNo+'" name="release_dates" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button" id="release_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
-				   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+				   +'<td data-head="Release Date" class="input-field"><input id="release_dates'+rNo+'" name="release_dates" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button" id="release_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>';
+				   
+				   var user_role_name = '${sessionScope.USER_ROLE_NAME}';
+				   if(user_role_name == 'IT Admin'){
+					   html = html +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td>';
+				   }
+				   html = html +'</tr>';
 			 
 				 $('#bankTableBody').append(html);
 				 $("#bankRowNo").val(rNo);
@@ -3493,8 +3518,12 @@
 			   +'<td data-head="Valid Upto " class="input-field"><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurence_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button><span id="insurence_valid_uptos'+rNo+'Error" class="my-error"></span></td>'
 			  // +'<td data-head="Remarks " class="input-field"><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
 			   +'<td data-head="Release" class="input-field"><p><label> <input type="hidden" id="insuranceStatus'+rNo+'" name="insuranceStatus" value="No" /><input type="checkbox" id="insuranceStatuss'+rNo+'" /> <span></span> </label></p></td>'
-			   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-		 		  
+			   var user_role_name = '${sessionScope.USER_ROLE_NAME}';
+			   if(user_role_name == 'IT Admin'){
+				   html = html +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td>';
+			   }
+			   html = html +'</tr>';
+			   
 			 $('#insurenceTableBody').append(html);
 			 $("#insurenceRowNo").val(rNo);
 			 $('.searchable').select2();
@@ -3717,11 +3746,15 @@
 						 +'<span id="contractDocumentFileName'+rNo+'" class="filevalue"></span>'
 						 +'</span>'
 						 +'</td>'
-						 +'<td><input type="hidden" id="contract_file_ids'+rNo+'" name="contract_file_ids"/></td>'
-						 +'<td class="mobile_btn_close">'
-						 +'<a href="javascript:void(0);" onclick="removeContractDocument('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
-						 +'</td>'
-				   		 +'</tr>';
+						 +'<td><input type="hidden" id="contract_file_ids'+rNo+'" name="contract_file_ids"/></td>';
+						 
+						 var user_role_name = '${sessionScope.USER_ROLE_NAME}';
+						 if(user_role_name == 'IT Admin'){
+							 html = html +'<td class="mobile_btn_close">'
+							 +'<a href="javascript:void(0);" onclick="removeContractDocument('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
+							 +'</td>';
+						 }
+						 html = html +'</tr>';
 			
 				 $('#contractDocumentTableBody').append(html);
 				 $("#documentRowNo").val(rNo);

@@ -48,10 +48,8 @@
 	       position: relative;
 	   }
 	
-	   #resourceFormTableBody .select2-container {
-	       max-width: 125px;
-	   }
-	
+	   
+		.th-w{width: 25em;}i
 	   .select2-container--default .select2-selection--single {
 	       background-color: transparent;
 	   }
@@ -140,8 +138,8 @@
                                                 class="mdl-data-table mobile_responsible_table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Resource Type</th>
-                                                        <th>Resource Name</th>
+                                                        <th class="th-w">Resource Type</th>
+                                                        <th class="th-w">Resource Name</th>
                                                         <th>Quantity </th>
                                                         <th>Action</th>
                                                     </tr>

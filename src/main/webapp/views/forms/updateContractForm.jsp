@@ -39,7 +39,7 @@
 			position:sticky;
 		}
 		.z-1{
-			z-index:2;
+			z-index:1;
 		}
 		.t-46{
 			top:46px;
@@ -2444,6 +2444,11 @@
             	$("#date_of_startDiv").show();
             	$('#date_of_start').rules('add',  { required: true });
             	$('#date_of_start_req').text('*');
+            }else if($.trim(contract_status) != 'Yet to be Awarded' && $.trim(contract_status_fk) == 'Not Started'){
+            	$("#date_of_startDiv").show();
+            	$('#date_of_start').rules('remove',  'required');
+            	$('#date_of_start_req').text('');
+            	$('#date_of_startError').text('');
             }else{
             	$("#date_of_startDiv").hide();
             	$('#date_of_start').rules('remove',  'required');

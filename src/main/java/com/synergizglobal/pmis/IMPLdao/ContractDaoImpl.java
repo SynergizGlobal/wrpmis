@@ -2605,7 +2605,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getContractStatusFilterListInContract(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT status as contract_status "
+			String qry = "SELECT c.status as contract_status "
 					+ "from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
@@ -2646,7 +2646,8 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + "GROUP BY status ";
+			qry = qry + " GROUP BY c.status ORDER BY FIELD(status,'Open','Closed','Yet to be Awarded')";
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2729,6 +2730,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			qry = qry + "GROUP BY contract_status_fk ";
+			qry = qry + " ORDER BY FIELD(contract_status_fk,'Commissioned','Completed','In Progress','On Hold','Dropped','Not Started')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -3317,7 +3319,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getContractStatus() throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry =" select distinct contract_status from general_status ";
+			String qry =" select distinct contract_status from general_status ORDER BY FIELD(contract_status,'Open','Closed','Yet to be Awarded')";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -3337,7 +3339,7 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and contract_status = ? ";
 				arrSize++;
 			}
-			qry = qry + " order by FIELD(general_status,'Commissioned','Completed','In Progress','Not Started','On Hold','Dropped','Yet to be Awarded','Closed')";
+			qry = qry + " ORDER BY FIELD(general_status,'Commissioned','Completed','In Progress','On Hold','Dropped','Not Started')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {

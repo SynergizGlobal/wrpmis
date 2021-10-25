@@ -306,7 +306,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				qry = qry + " and c.contract_id = ?";
 				arrSize++;
 			}
-			qry = qry + " group by c.contract_status_fk order by c.contract_status_fk ";
+			qry = qry + " group by c.contract_status_fk "
+					+ "ORDER BY FIELD(c.contract_status_fk,'Commissioned','Completed','In Progress','On Hold','Dropped','Not Started') ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
@@ -378,6 +379,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
@@ -394,7 +399,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				qry = qry + " and c.contract_id = ?";
 				arrSize++;
 			}
-			qry = qry + " group by c.contract_status_fk order by c.contract_status_fk ";
+			qry = qry + " group by c.contract_status_fk "
+					+ "ORDER BY FIELD(c.contract_status_fk,'Commissioned','Completed','In Progress','On Hold','Dropped','Not Started')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
@@ -406,6 +412,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				}				
 				
 				
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
+				pValues[i++] = obj.getStatus();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -2238,7 +2247,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				qry = qry + " and c.contract_id = ?";
 				arrSize++;
 			}
-			qry = qry + " group by status ORDER BY FIELD(status,'Open','Yet to be Awarded','Closed') ";
+			qry = qry + " group by status ORDER BY FIELD(status,'Open','Closed','Yet to be Awarded') ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

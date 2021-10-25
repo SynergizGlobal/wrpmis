@@ -466,8 +466,13 @@
 	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
 	                                        <option value="" >Select</option>
 	                                          <c:forEach var="obj" items="${contract_Status }">
-		                                    	 <option value="${obj.contract_status }" <c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
-		                                     </c:forEach>     
+	                                          	 <c:if test="${contractDeatils.status eq 'Closed' and obj.contract_status eq 'Closed'}">
+	                                          	 	<option value="${obj.contract_status }" <c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
+	                                          	 </c:if>
+	                                          	 <c:if test="${contractDeatils.status ne 'Closed' and obj.contract_status ne 'Closed'}">
+		                                    	 	<option value="${obj.contract_status }" <c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
+		                                     	 </c:if>
+		                                     </c:forEach>
 	                                    </select>
 	                                     <span id="contract_statusError" class="error-msg" ></span>
 	                                </div>

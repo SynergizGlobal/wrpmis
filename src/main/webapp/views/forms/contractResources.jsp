@@ -272,46 +272,6 @@
 												<td class="input-field" data-head="Quantity"><input id="quantitys5" name="quantitys" type="number" value="0" class="validate" placeholder="Qty" min="0"></td>
 												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('5');"><i class="fa fa-close"></i></a></td>
 											</tr>
-											<tr id="resourceFormTableRow6">
-												<td class="input-field" data-head="Resource Type" >
-													<select id="resource_types6" name="resource_types" class="select searchable" onchange="getSubResourceTypes('6');">
-														<option value="" >Select</option>  
-												          <c:forEach var="obj" items="${resourceTypeList }">
-				                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
-				                                          </c:forEach>
-													</select>
-												</td>
-												<td class="input-field" data-head="Resource Name">
-													<select id="sub_resource_type6" name="resource_names" class="select searchable" onchange="setResourceType('6');">
-																 <option value="" >Select</option>  
-														          <c:forEach var="obj" items="${subResourceTypeList }">
-						                                      	    <option  resourceType = "${obj.resource_type}" value= "${obj.sub_resource_type}" >${obj.sub_resource_type}</option>
-						                                          </c:forEach>
-													  </select>
-												</td>
-												<td class="input-field" data-head="Quantity"><input id="quantitys6" name="quantitys" type="number"  value="0" class="validate" placeholder="Qty" min="0"></td>
-												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('6');"><i class="fa fa-close"></i></a></td>
-											</tr>
-											<tr id="resourceFormTableRow7">
-												<td class="input-field" data-head="Resource Type" >
-												<select id="resource_types7" name="resource_types"class="select searchable" onchange="getSubResourceTypes('7');">
-													<option value="" >Select</option>  
-												          <c:forEach var="obj" items="${resourceTypeList }">
-				                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
-				                                          </c:forEach>
-													</select>
-												</td>
-												<td class="input-field" data-head="Resource Name">
-													<select id="sub_resource_type7" name="resource_names" class="select searchable" onchange="setResourceType('7');">
-																 <option value="" >Select</option>  
-														          <c:forEach var="obj" items="${subResourceTypeList }">
-						                                      	    <option resourceType = "${obj.resource_type}" value= "${obj.sub_resource_type}" >${obj.sub_resource_type}</option>
-						                                          </c:forEach>
-													</select>
-												</td>
-												<td class="input-field" data-head="Quantity"><input id="quantitys7" name="quantitys" type="number" class="validate" value="0" placeholder="Qty" min="0"></td>
-												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('7');"><i class="fa fa-close"></i></a></td>
-											</tr>
                                                 </tbody>
                                             </table>
                                             <table class="mdl-data-table">

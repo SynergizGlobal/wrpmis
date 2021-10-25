@@ -130,7 +130,9 @@ public class ActivitiesBulkUpdateController {
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_type_fk(uObj.getUser_type_fk());
 			obj.setUser_role_code(uObj.getUser_role_code());
-			obj.setUser_id(uObj.getUser_id());			
+			obj.setUser_id(uObj.getUser_id());
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			
 			contracts = activitiesBulkUpdateService.getAcivitiesBulkUpdateContractsList(obj);			
 		}catch(Exception e){
 			e.printStackTrace();

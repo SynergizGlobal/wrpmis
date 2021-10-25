@@ -510,8 +510,8 @@
                                         </div>
                                     </div> 
 
-									<div class="row legends card" style="height: 4rem;padding-top:14px;" id="legends" style="display:none;">
-										<div class="col m1 s4 center-align">Leagand</div>
+									<div class="row legends card" style="height: 4rem;padding-top:14px;display:none;" id="legends">
+										<div class="col m1 s4 center-align">Legend</div>
                                         <div class="col m3 s4 center-align">
                                             <span class="box not-started"></span>
                                             <span class="description">Not Started</span>

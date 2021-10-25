@@ -610,7 +610,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		ResultSet rs = null;
 		String color = "";
 		try {	
-			String qry = " select top 1 color mys* from (select (case "  
+			String qry = " select * from (select (case "  
 					+" when ((select count(*) from activities s1 where (s1.scope - IFNULL(s1.completed,0)) <> 0 "
 					+ " and s1.contract_id_fk = ? and s1.structure = ? and s1.component_id = ? and s1.component = ? AND activity_id=a.activity_id ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {

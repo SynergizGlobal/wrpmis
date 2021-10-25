@@ -1601,7 +1601,7 @@
 	                                              </c:when>
 	                                             <c:otherwise>
 	                                              <tr id="mileRow0"> 
-	                                              <td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids0" value=" "/>
+	                                              <td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids0" value=""/>
 	                                                    <input id="milestone_ids0" name="milestone_ids" type="text" class="validate" 
 	                                                        placeholder="Milestone ID" value="K-1" readonly>
 	                                                </td>                                        
@@ -2122,11 +2122,11 @@
 		                                                                style="display:none" onchange="getFileName('0')"/>
 		                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
 		                                                                    class="fa fa-paperclip"></i></label>
-		                                                            <input type="hidden" id="contractDocumentFileNames0" name="contractDocumentFileNames" value=" ">
+		                                                            <input type="hidden" id="contractDocumentFileNames0" name="contractDocumentFileNames" value="">
 		                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
 		                                                        </span>
 		                                                    </td>
-		                                                    <td><input type="hidden" id="contract_file_ids0" name="contract_file_ids" value= " "/>
+		                                                    <td><input type="hidden" id="contract_file_ids0" name="contract_file_ids" value= ""/>
 		                                                    </td>
 		                                                    
 		                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
@@ -2844,7 +2844,7 @@
   			if($('#contract_status').val()=="Yet to be Awarded"){
 				 var y = document.getElementById("date_of_start");
 				 y.type= "hidden"; 
-				 document.getElementById("date_of_start").value=" ";
+				 document.getElementById("date_of_start").value="";
 				 
 				 var y1 = document.getElementById("doc");
 				 y1.type= "hidden";

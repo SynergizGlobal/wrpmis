@@ -78,6 +78,7 @@
         }
         .w7em{width: 7em;}
         .bd-none{border:none !important;}
+        .mt20px{margin-top: 15px !important;}
 		@media(max-width: 2200px){
 		.table-add{position: absolute;}
 		.add-align{position: absolute;
@@ -216,7 +217,7 @@
 			margin-top:0;
 		}
 		@media(max-width: 575px){
-		.row .col{margin: 11px auto;}
+		.row .col{margin: 15px auto;}
 		}		
     </style>
 </head> 
@@ -419,7 +420,7 @@
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div> -->	                              
-	                                <div class="col s12 m8 l12 input-field offset-m2">
+	                                <div class="col s12 m8 l12 input-field mt20px">
 	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
 	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
@@ -637,7 +638,8 @@
 	                        
  							<div class="table-div">
 	
-	                            <div class=" col m10 s12 l12" style="margin-bottom:30px; padding:0;">
+	                    <div class="">
+	                    	<div class=" col m10 s12 l12" style="margin-bottom:30px; padding:0;">
 	                                <div class="row fixed-width">
 	                                    <h5 class="center-align">Documents</h5>
 	                                    <!-- <div class="table-inside"> -->
@@ -695,7 +697,8 @@
 		                                   	 <input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
 	                                    <!-- </div> -->
 	                                </div>
-	                            </div>
+	                            </div>        
+	                    </div>
 						</div>
 
                             <div class="row">

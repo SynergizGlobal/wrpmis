@@ -111,6 +111,7 @@
        .pdb10{padding-bottom: 10px !important;}
        .pd5px{padding-bottom: 15px;}
        .div-header{width: 100% !important;}
+       .mt20px{margin-top: 20px !important;}
 	    @media only screen and (max-width: 600px) {
           .no-float-small {
               float: none !important;
@@ -542,7 +543,7 @@
                                 </div>
                                 
                                 <div class="row">
-	                                <div class="col s12 m8 l12 input-field offset-m2">
+	                                <div class="col s12 m8 l12 input-field offset-m2 mt20px">
 	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate validate-dropdown" 
 	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
 	                                     value="${contractDeatils.contract_short_name }" >
@@ -2031,7 +2032,8 @@
 					</div>		
 					
 					
-						<div class="row  " id="documentDetails">
+						<div class="container container-no-margin">
+							<div class="row  " id="documentDetails">
 	                            <div class="col l12 m8 s12 offset-m2"  >
 	                                <div class="row fixed-width">
 	                                     <h5 class="center-align"><span class="div-header">Documents</span></h5> 
@@ -2138,7 +2140,8 @@
 	                                    </div>
 	                                </div>
 	                            </div>
-							</div>					
+							</div>
+						</div>					
 						                 
                     </div>
                 </div>

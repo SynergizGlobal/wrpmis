@@ -38,8 +38,8 @@
 		.p-sticky{
 			position:sticky;
 		}
-		.z-1{
-			z-index:1;
+		.z-2{
+			z-index:2;
 		}
 		.t-46{
 			top:46px;
@@ -112,6 +112,7 @@
        .pd5px{padding-bottom: 15px;}
        .div-header{width: 100% !important;}
        .mt20px{margin-top: 20px !important;}
+       .blue.lighten-1{z-index: 10}
 	    @media only screen and (max-width: 600px) {
           .no-float-small {
               float: none !important;
@@ -415,7 +416,7 @@
             <input id="contract_id" name="contract_id" type="hidden" value="${contractDeatils.contract_id }">
             <div class="card ">
                 <div class="card-content">
-                    <div class="center-align p-sticky t-46 z-1">
+                    <div class="center-align p-sticky t-46 z-2">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-1">
                                 <h6>Update Contract (${contractDeatils.contract_id })</h6>
@@ -423,7 +424,7 @@
                         </span>
                     </div>
  					<!-- <div class="container container-no-margin"> -->
-                        	 <div class="row p-sticky t-98 z-1">
+                        	 <div class="row p-sticky t-98 z-2">
 							    <div class="col s12 m12">
 							      <ul class="tabs tab-flex" id="menu-center">
 							        <li class="tab" ><a class="active t-c" href="#basicDetails">Contract Managers</a></li>

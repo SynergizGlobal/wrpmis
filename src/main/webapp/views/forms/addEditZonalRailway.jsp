@@ -523,39 +523,39 @@
                                                     placeholder="Month">
                                             </td>
                                             <!-- <td data-head="Cum Actual Current FY (in Cr)" class="input-field">
-                                                <input id="cum_actual_expenditure_fy_crs0" name="cum_actual_expenditure_fy_crs" value=" "
+                                                <input id="cum_actual_expenditure_fy_crs0" name="cum_actual_expenditure_fy_crs" value=""
                                                     type="number" class="validate" min="0" 
                                                     placeholder="Amount">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td> -->
                                             <td data-head="Cum planned %" class="input-field">
-                                                <input id="cum_planned_expenditure_pers0" name="cum_planned_expenditure_pers"  value=" "
+                                                <input id="cum_planned_expenditure_pers0" name="cum_planned_expenditure_pers"  value=""
                                                     type="number" class="validate" min="0" step="0.01"
                                                     placeholder="Cum Planned %">
                                                     <span class="units">%</span>
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <!-- <td data-head="Cum Actual (in Cr)" class="input-field">
-                                                <input id="cum_actual_expenditure_crs0" name="cum_actual_expenditure_crs" type="number" class="validate"  value=" "
+                                                <input id="cum_actual_expenditure_crs0" name="cum_actual_expenditure_crs" type="number" class="validate"  value=""
                                                     min="0" placeholder="cum Actual">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td> -->
                                             <td data-head="Cum Actual %" class="input-field">
-                                                <input id="cum_actual_expenditure_pers0" name="cum_actual_expenditure_pers" type="number"   value=" "
+                                                <input id="cum_actual_expenditure_pers0" name="cum_actual_expenditure_pers" type="number"   value=""
                                                     class="validate" min="0.01" step="0.01" placeholder="cum Actual %">
                                                     <span class="units">%</span>
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td data-head="Cum planned %" class="input-field">
                                                 <input id="cum_planned_physical_progress_pers0"
-                                                    name="cum_planned_physical_progress_pers" type="number" class="validate"  value=" "
+                                                    name="cum_planned_physical_progress_pers" type="number" class="validate"  value=""
                                                     min="0.01" step="0.01" placeholder="Cum Planned %">
                                                     <span class="units">%</span>
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td data-head="Cum Actual %" class="input-field">
                                                 <input id="cum_actual_physical_progress_pers0"
-                                                    name="cum_actual_physical_progress_pers" type="number" class="validate"  value=" "
+                                                    name="cum_actual_physical_progress_pers" type="number" class="validate"  value=""
                                                     min="0.01" step="0.01" placeholder="cum Actual %">
                                                     <span class="units">%</span>
                                                     <span id="erroerArea" class="error-msg"></span>

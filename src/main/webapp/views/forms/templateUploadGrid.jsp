@@ -126,7 +126,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>template </th>
-                                                                    <th>uploaaded by</th>
+                                                                    <th>uploaded by</th>
                                                                     <th>uploaded on</th>
                                                                     <th>status</th>
                                                                 </tr>

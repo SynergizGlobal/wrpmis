@@ -49,7 +49,7 @@
 	   }
 	
 	   
-		.th-w{width: 25em;}i
+		.th-w{width: 40%;}
 	   .select2-container--default .select2-selection--single {
 	       background-color: transparent;
 	   }

@@ -271,7 +271,7 @@ public class ActivitiesProgressReportController {
             /********************************************************/
 	        int sheetNo = 0;
 	        
-	        if(StringUtils.isEmpty(obj.getFob_id_fk()))
+	        if(StringUtils.isEmpty(obj.getProject_id()) && StringUtils.isEmpty(obj.getWork_id()) && StringUtils.isEmpty(obj.getContract_id()))
 	        {
 	        
 	        if(!reportData.isEmpty()) {
@@ -461,7 +461,7 @@ public class ActivitiesProgressReportController {
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
-								cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()));
+								cell.setCellValue(!StringUtils.isEmpty(dObj.getCompleted_scope())?Double.parseDouble(dObj.getCompleted_scope()):0);
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
@@ -655,24 +655,98 @@ public class ActivitiesProgressReportController {
 					        cell = headingRow.createCell(i+2);
 					        cell.setCellStyle(greenStyle);
 							cell.setCellValue(headerStringArr[i]);
-						}				
-						
-					    int tempRowNoRemarks = rowNo;
-					    
-					    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
+						}
 				        
-				        cell = remarksRow.createCell(2);
-				        cell.setCellStyle(indexWhiteStyle);
 				        
-				        String remarks="No Progress for the day";
-						cell.setCellValue(remarks);
-						
-						for (int i = 3; i < 9; i++) {		        	
-					        cell = remarksRow.createCell(i);
+				        if(!reportData.isEmpty()) 
+				        {
+					        for (Map.Entry<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> entry : reportData.entrySet()) 
+					        {  
+					        	Map<String,List<ActivitiesProgressReport>> dprDataList = entry.getValue();
+					        	if(dprDataList != null && dprDataList.size() > 0)
+					        	{
+									for (Map.Entry<String,List<ActivitiesProgressReport>> entry2 : dprDataList.entrySet()) 
+									{  
+							        	List<ActivitiesProgressReport> dataList = entry2.getValue();					        	
+					        	
+								        for (ActivitiesProgressReport dObj : dataList) {
+									        XSSFRow row = dprSheet.createRow(rowNo);
+									        int c = 2;
+									        
+									        cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(dObj.getStructure());
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(dObj.getComponent());
+											
+									        cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(dObj.getComponent_id());
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(dObj.getActivity_name());
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(Double.parseDouble(dObj.getScope()));
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()==null?"0":dObj.getCompleted_scope()));
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(!StringUtils.isEmpty(dObj.getCumulative_completed())?Double.parseDouble(dObj.getCumulative_completed()):0);
+											
+									        rowNo++;
+								        }
+								        String remarks=service.getActivitiesRemarks(structure,obj.getFrom_date());
+										if(remarks!=null && remarks!="" && !remarks.isEmpty())
+										{
+										    int tempRowNoRemarks = rowNo;
+										    
+										    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
+									        
+									        cell = remarksRow.createCell(2);
+									        cell.setCellStyle(indexWhiteStyle);
+									        
+											cell.setCellValue(remarks);
+
+										
+											for (int i = 3; i < 9; i++) {		        	
+										        cell = remarksRow.createCell(i);
+										        cell.setCellStyle(indexWhiteStyle);
+												cell.setCellValue("");
+											}	
+											dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));	
+										}
+									}
+					        	}
+					        }		
+				        }
+				        else
+				        {	
+				        	
+						    int tempRowNoRemarks = rowNo;
+						    
+						    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
+					        
+					        cell = remarksRow.createCell(2);
 					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue("");
-						}	
-						dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));
+					        
+					        String remarks="No Progress for the day";
+							cell.setCellValue(remarks);
+							
+							for (int i = 3; i < 9; i++) {		        	
+						        cell = remarksRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));
+				        }
 					    
 					    for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
 						     //sheet.autoSizeColumn(columnIndex);
@@ -781,7 +855,7 @@ public class ActivitiesProgressReportController {
 
             /********************************************************/
 	        int sheetNo = 0;
-	        if(StringUtils.isEmpty(obj.getFob_id_fk()))
+	        if(StringUtils.isEmpty(obj.getProject_id()) && StringUtils.isEmpty(obj.getWork_id()) && StringUtils.isEmpty(obj.getContract_id()))
 	        {
 	        if(!reportData.isEmpty()) {
 		        for (Map.Entry<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> entry : reportData.entrySet()) {  
@@ -1148,29 +1222,82 @@ public class ActivitiesProgressReportController {
 					        cell = headingRow.createCell(i+2);
 					        cell.setCellStyle(greenStyle);
 							cell.setCellValue(headerStringArr[i]);
-						}				
-						
-					    int tempRowNoRemarks = rowNo;
-					    
-					    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
-				        
-				        cell = remarksRow.createCell(2);
-				        cell.setCellStyle(indexWhiteStyle);
-				        
-				        String remarks="No Progress for the Period";
-						cell.setCellValue(remarks);
-						
-						for (int i = 3; i < 9; i++) {		        	
-					        cell = remarksRow.createCell(i);
-					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue("");
 						}	
-						dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));
+				        
+				        if(!reportData.isEmpty()) 
+				        {
+					        for (Map.Entry<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> entry : reportData.entrySet()) 
+					        {  
+					        	Map<String,List<ActivitiesProgressReport>> dprDataList = entry.getValue();
+					        	if(dprDataList != null && dprDataList.size() > 0)
+					        	{
+									for (Map.Entry<String,List<ActivitiesProgressReport>> entry2 : dprDataList.entrySet()) 
+									{  
+							        	List<ActivitiesProgressReport> dataList = entry2.getValue();					        	
+					        	
+								        for (ActivitiesProgressReport dObj : dataList) {
+									        XSSFRow row = dprSheet.createRow(rowNo);
+									        int c = 2;
+									        
+									        cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(dObj.getStructure());
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(dObj.getComponent());
+											
+									        cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(dObj.getComponent_id());
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(dObj.getActivity_name());
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(Double.parseDouble(dObj.getScope()));
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()==null?"0":dObj.getCompleted_scope()));
+											
+											cell = row.createCell(c++);
+											cell.setCellStyle(sectionStyle);
+											cell.setCellValue(!StringUtils.isEmpty(dObj.getCumulative_completed())?Double.parseDouble(dObj.getCumulative_completed()):0);
+											
+									        rowNo++;
+								        }
+									}
+					        	}
+					        }		
+				        }
+				        else
+				        {
+						
+						    int tempRowNoRemarks = rowNo;
+						    
+						    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
+					        
+					        cell = remarksRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+					        
+					        String remarks="No Progress for the Period";
+							cell.setCellValue(remarks);
+							
+							for (int i = 3; i < 9; i++) {		        	
+						        cell = remarksRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));
+				        }
 					    
 					    for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
 						     //sheet.autoSizeColumn(columnIndex);
 			            	dprSheet.setColumnWidth(columnIndex+2, 25 * 200);
-						}
+						}				        
 					}	        
 	        
             /*******************************************************************************/

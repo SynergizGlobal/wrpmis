@@ -319,6 +319,7 @@
         <input type="hidden" name="user_role_name_fk" id="exportUser_role_name_fk" />
          <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="reporting_to_id_srfk" id="exportReporting_to_id_srfk" />
+        <input type="hidden" name="user_type_fk" id="exportUser_type_fk" />  
 	</form>
 	
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -707,10 +708,12 @@
           	 var user_role_name_fk = $("#user_role_name_fk").val();
           	 var department_fk = $("#department_fk").val();
           	 var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
+          	 var user_type_fk = $("#user_type_fk").val();
           	 
           	 $("#exportUser_role_name_fk").val(user_role_name_fk);
           	 $("#exportDepartment_fk").val(department_fk);
           	 $("#exportReporting_to_id_srfk").val(reporting_to_id_srfk);
+          	 $("#exportUser_type_fk").val(user_type_fk);
           	 $("#exportUserForm").submit();
        	}
 

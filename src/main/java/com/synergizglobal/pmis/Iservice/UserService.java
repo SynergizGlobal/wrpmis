@@ -50,5 +50,7 @@ public interface UserService {
 
 	List<User> getUserTypesFilter(User obj) throws Exception;
 
+	List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception;
+
 	
 }

@@ -455,28 +455,51 @@ public class UserDaoImpl implements UserDao{
 	public int uploadUsers(List<User> usersList) throws Exception {
 		int count = 0;
 		boolean flag = false;
+		int uploadedCOunt = 0;
 		try {
 			for (User user : usersList) {				
-
+				
+				String userId = checkUserIdExitence(user.getUser_id());
+				
 				String user_role_code_qry = "select user_role_code from user_role where user_role_name = ?";
 				
 				String user_role_code = (String)jdbcTemplate.queryForObject( user_role_code_qry,new Object[] {user.getUser_role_name_fk()}, String.class);	
 				
-				String user_id = getMaxUserId(user_role_code);
+				String user_id = null;
+				if(StringUtils.isEmpty(user.getUser_id())) {
+					user_id = getMaxUserId(user_role_code);
+				}else {
+					user_id = user.getUser_id();
+				}
+				List<User> reporting_to_list = getReportingToUserId(user.getReporting_to_id_srfk());
+				if(reporting_to_list.size() == 1) {
+					String reporting_to = reporting_to_list.get(0).getUser_id();
+					
+					String department_qry = "select department from department where department_name = ?";
+					String department_id = (String)jdbcTemplate.queryForObject( department_qry,new Object[] {user.getDepartment_name()}, String.class);					
+					user.setDepartment_fk(department_id);
+					user.setUser_id(user_id);
+					user.setReporting_to_id_srfk(reporting_to);
+					if(StringUtils.isEmpty(userId)) {
+						NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
+						String qry = "INSERT INTO user"
+								+ "(user_id,user_name,password,designation,email_id,mobile_number,personal_contact_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
+								+ "VALUES "
+								+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:personal_contact_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks)";		 
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(user);		 
+						count = namedParamJdbcTemplate.update(qry, paramSource);
+					}else {
+						NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
+						String qry = "UPDATE user set "
+								+ "user_name = :user_name,designation =:designation,email_id =:email_id,mobile_number =:mobile_number,"
+								+ "department_fk =:department_fk,reporting_to_id_srfk =:reporting_to_id_srfk,user_role_name_fk =:user_role_name_fk"
+								+ " where user_id = :user_id";
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(user);		 
+						count = namedParamJdbcTemplate.update(qry, paramSource);
+					}
+					uploadedCOunt++;
+				}
 				
-
-				String department_qry = "select department from department where department_name = ?";
-				
-				String department_id = (String)jdbcTemplate.queryForObject( department_qry,new Object[] {user.getDepartment_name()}, String.class);					
-				user.setDepartment_fk(department_id);
-				user.setUser_id(user_id);
-				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-				String qry = "INSERT INTO user"
-						+ "(user_id,user_name,password,designation,email_id,mobile_number,personal_contact_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
-						+ "VALUES "
-						+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:personal_contact_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks)";		 
-				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(user);		 
-				count = namedParamJdbcTemplate.update(qry, paramSource);			
 				if(count > 0) {
 					flag = true;
 				}
@@ -490,7 +513,7 @@ public class UserDaoImpl implements UserDao{
 				                public void setValues(PreparedStatement ps, int i) throws SQLException {
 				                	String permission = user.getUserPermissions().get(i).getUser_access_type();
 				                	String value = user.getUserPermissions().get(i).getAccess_value();
-				                    ps.setString(1, user_id);
+				                    ps.setString(1, user.getUser_id());
 				                    ps.setString(2, !StringUtils.isEmpty(permission)?permission:null);
 				                    ps.setString(3, !StringUtils.isEmpty(value)?value:null);			                    
 				                }
@@ -508,7 +531,46 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 			throw new Exception(e);
 		}
-		return count;
+		return uploadedCOunt;
+	}
+	@Override
+	public List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select user_id from user  where designation = ?";
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			pValues[0] = reporting_to_id_srfk;
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	private String checkUserIdExitence(String user_id) throws Exception {
+		PreparedStatement stmt = null;
+		Connection con = null;
+		ResultSet rs = null;
+		String userId = null;
+		try{
+			con = dataSource.getConnection();
+			String maxIdQry = "select user_id from user where user_id = ?";
+			stmt = con.prepareStatement(maxIdQry);
+			stmt.setString(1, user_id);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				userId = rs.getString("user_id");
+				
+			}
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return userId;
 	}
 
 	@Override
@@ -732,9 +794,9 @@ public class UserDaoImpl implements UserDao{
 				pValues[i++] = obj.getUser_type_fk();
 			}
 			
-			qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
-			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
+			//qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
+			qry = qry + "order by u.user_type_fk is null, field(u.user_type_fk,'Management','HOD','DyHOD','Officers ( Jr./Sr. Scale )','Others','Training')";
+;			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
 			
 		}catch(Exception e){ 

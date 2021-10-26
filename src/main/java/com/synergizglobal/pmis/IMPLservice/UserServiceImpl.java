@@ -123,4 +123,9 @@ public class UserServiceImpl implements UserService{
 		return userDao.getUserTypesFilter(obj);
 	}
 
+	@Override
+	public List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception {
+		return userDao.getReportingToUserId(reporting_to_id_srfk);
+	}
+
 }

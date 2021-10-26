@@ -6,8 +6,10 @@ import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +17,17 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -421,20 +432,33 @@ public class UserController {
 	            XSSFWorkbook  workBook = new XSSFWorkbook ();
 	            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("User"));
 		        workBook.setSheetOrder(sheet.getSheetName(), 0);
+		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+		        byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)0};
+		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+		        
+		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Calibri";
+		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Calibri";
+		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        
 	            XSSFRow headingRow = sheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("User ID");
-	            headingRow.createCell((short)1).setCellValue("User Name");
-	            headingRow.createCell((short)2).setCellValue("Designation");
-	            headingRow.createCell((short)3).setCellValue("Department");
-	            headingRow.createCell((short)4).setCellValue("Reporting to");
-	            headingRow.createCell((short)5).setCellValue("Role");
-	            headingRow.createCell((short)6).setCellValue("Email-Id");
-	            headingRow.createCell((short)7).setCellValue("Mobile Number");
-	            headingRow.createCell((short)8).setCellValue("Personal Contact Number");
-	            headingRow.createCell((short)9).setCellValue("Landline Number");
-	            headingRow.createCell((short)10).setCellValue("Extension");
-	            headingRow.createCell((short)11).setCellValue("User Type");
-	            headingRow.createCell((short)12).setCellValue("Remarks");
+	            String headerString = "User ID^User Name^Designation^Department^Reporting to^Email-Id^Mobile Number^User Type^Role";
+	            String[] firstHeaderStringArr = headerString.split("\\^");
+	            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(yellowStyle);
+					cell.setCellValue(firstHeaderStringArr[i]);
+				}
 	            short rowNo = 1;
 	            for (User obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
@@ -443,15 +467,11 @@ public class UserController {
 	                row.createCell((short)2).setCellValue(obj.getDesignation());
 	                row.createCell((short)3).setCellValue(obj.getDepartment_name());
 	                row.createCell((short)4).setCellValue(obj.getReporting_to_designation());
-	                row.createCell((short)5).setCellValue(obj.getUser_role_name_fk());
-	              
-	                row.createCell((short)6).setCellValue(obj.getEmail_id());
-	                row.createCell((short)7).setCellValue(obj.getMobile_number());
-	                row.createCell((short)8).setCellValue(obj.getPersonal_contact_number());
-	                row.createCell((short)9).setCellValue(obj.getLandline());
-	                row.createCell((short)10).setCellValue(obj.getExtension());
-	                row.createCell((short)11).setCellValue(obj.getUser_type_fk());
-	                row.createCell((short)12).setCellValue(obj.getRemarks());
+	                
+	                row.createCell((short)5).setCellValue(obj.getEmail_id());
+	                row.createCell((short)6).setCellValue(obj.getMobile_number());
+	                row.createCell((short)7).setCellValue(obj.getUser_type_fk());
+	                row.createCell((short)8).setCellValue(obj.getUser_role_name_fk());
 	                
 	                rowNo++;
 	            }
@@ -506,7 +526,37 @@ public class UserController {
 		}
 		//return view;
 	}
-	
+	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
+		CellStyle style = workBook.createCellStyle();
+		//Setting Background color  
+		//style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		if (style instanceof XSSFCellStyle) {
+		   XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle)style;
+		   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
+		}
+		//style.setFillPattern(FillPatternType.ALT_BARS);
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setAlignment(hAllign);
+		style.setVerticalAlignment(vAllign);
+		style.setWrapText(isWrapText);
+		
+		Font font = workBook.createFont();
+        //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
+        font.setFontHeightInPoints((short)fontSize);  
+        font.setFontName(fontName);  //"Times New Roman"
+        
+        font.setItalic(isItalicText); 
+        font.setBold(isBoldText);
+        // Applying font to the style  
+        style.setFont(font); 
+        
+        return style;
+	}
 	
 	@RequestMapping(value = "/upload-users", method = {RequestMethod.POST})
 	public ModelAndView uploadUsers(@ModelAttribute User user,RedirectAttributes attributes,HttpSession session){
@@ -529,14 +579,15 @@ public class UserController {
 					if(workbook != null && !"".equals(workbook)) {
 						int sheetsCount = workbook.getNumberOfSheets();
 						if(sheetsCount > 0) {
-							uploadFilesSheet = workbook.getSheetAt(2);
+							uploadFilesSheet = workbook.getSheetAt(0);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
-							XSSFRow headerRow = uploadFilesSheet.getRow(1);
+							XSSFRow headerRow = uploadFilesSheet.getRow(0);
 							//checking given file format
 							if(headerRow != null){
 								List<String> fileFormat = FileFormatModel.getUserFileFormat();;	
 								int noOfColumns = headerRow.getLastCellNum();
+								int noOfrOWs = uploadFilesSheet.getLastRowNum();
 								if(noOfColumns == fileFormat.size()){
 									for (int i = 0; i < fileFormat.size();i++) {
 					                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
@@ -555,9 +606,27 @@ public class UserController {
 								attributes.addFlashAttribute("error",uploadformatError);
 		                		return model;
 							}
-							
+							String errorRows = "";int rowNo = 1,errorNo = 0;
+							for(int i = 1; i<= uploadFilesSheet.getLastRowNum();i++){
+								XSSFRow row = uploadFilesSheet.getRow(i);
+								DataFormatter formatter = new DataFormatter(); 
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
+								user.setReporting_to_id_srfk(formatter.formatCellValue(row.getCell(4)).trim());	
+								List<User> error_rows = userService.getReportingToUserId(user.getReporting_to_id_srfk());
+								rowNo++;
+								if(error_rows.size() > 1) {
+									errorRows = errorRows+ ","+rowNo;
+									errorNo++;
+								}
+							}
 							int count = uploadUsers(user,userId,userName,workbook);
 							attributes.addFlashAttribute("success", count + " Users added successfully.");	
+							if(errorNo >0) {
+								errorRows = String.join(",",Arrays.asList(errorRows.split(",")).stream().distinct().collect(Collectors.toList()));
+								errorRows  = errorRows.replaceAll("(^(\\s*?\\,+)+\\s?)", "");
+								errorRows = "<br><span style='color:red;'>Error occurs at "+ errorRows + " Rows, Conflict with same Designation for multiple Reporting to Users </span> ";
+								attributes.addFlashAttribute("error",errorRows);	
+							}
 						}
 					}
 					
@@ -609,12 +678,12 @@ public class UserController {
 					if(workbook != null && !"".equals(workbook)) {
 						int sheetsCount = workbook.getNumberOfSheets();
 						if(sheetsCount > 0) {
-							uploadFilesSheet = workbook.getSheetAt(2);
+							uploadFilesSheet = workbook.getSheetAt(0);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
 							//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
 							
-							for(int i = 2; i<= uploadFilesSheet.getLastRowNum();i++){
+							for(int i = 1; i<= uploadFilesSheet.getLastRowNum();i++){
 								XSSFRow row = uploadFilesSheet.getRow(i);
 								// Sets the Read data to the model class
 								DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
@@ -624,28 +693,35 @@ public class UserController {
 								user = new User();
 								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
-									user.setUser_name(formatter.formatCellValue(row.getCell(0)).trim());
+									user.setUser_id(formatter.formatCellValue(row.getCell(0)).trim());
+								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
-									user.setEmail_id(formatter.formatCellValue(row.getCell(1)).trim());
+									user.setUser_name(formatter.formatCellValue(row.getCell(1)).trim());
+								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
-									user.setDepartment_name(formatter.formatCellValue(row.getCell(2)).trim());								
+									user.setDesignation(formatter.formatCellValue(row.getCell(2)).trim());	
+								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
-									user.setDesignation(formatter.formatCellValue(row.getCell(3)).trim());											
+									user.setDepartment_name(formatter.formatCellValue(row.getCell(3)).trim());
+								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
-									user.setReporting_to_id_srfk(formatter.formatCellValue(row.getCell(4)).trim());								
+									user.setReporting_to_id_srfk(formatter.formatCellValue(row.getCell(4)).trim());	
+								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
-									user.setUser_role_name_fk(formatter.formatCellValue(row.getCell(5)).trim());										
+									user.setEmail_id(formatter.formatCellValue(row.getCell(5)).trim());
+								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
 									user.setMobile_number(formatter.formatCellValue(row.getCell(6)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(7)).trim()))
-									user.setLandline(formatter.formatCellValue(row.getCell(7)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(8)).trim()))
-									user.setExtension(formatter.formatCellValue(row.getCell(8)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(9)).trim()))
-									user.setRemarks(formatter.formatCellValue(row.getCell(9)).trim());
 								
 
-								List<User> pObjList = new ArrayList<User>();
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(7)).trim()))
+									user.setUser_type_fk(formatter.formatCellValue(row.getCell(7)).trim());	
+								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(8)).trim()))
+									user.setUser_role_name_fk(formatter.formatCellValue(row.getCell(8)).trim());	
+						
+
+								/*List<User> pObjList = new ArrayList<User>();
 								if(!StringUtils.isEmpty(user.getDesignation())) {
 									XSSFSheet uploadFilesSheet2 = workbook.getSheetAt(3);
 									for(int j = 2; j<= uploadFilesSheet2.getLastRowNum();j++){
@@ -672,7 +748,7 @@ public class UserController {
 									}
 									user.setUserPermissions(pObjList);
 								}
-								
+								*/
 								
 								if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getUser_name()) && !StringUtils.isEmpty(user.getDepartment_name())) {
 									usersList.add(user);

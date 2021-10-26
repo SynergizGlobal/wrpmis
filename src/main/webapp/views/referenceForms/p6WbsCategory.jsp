@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
-   
+   <link rel="stylesheet" href="/pmis/resources/css/rightColumnFixed.css">
 </head>
 
 <body>
@@ -228,6 +228,7 @@
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -256,6 +257,9 @@
                 paging:false,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
+                fixedColumns:   {
+                    right: 1
+                },
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });

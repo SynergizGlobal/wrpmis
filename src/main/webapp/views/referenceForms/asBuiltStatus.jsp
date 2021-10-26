@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
-    
+    <link rel="stylesheet" href="/pmis/resources/css/rightColumnFixed.css">
 </head>
 
 <body>
@@ -145,12 +145,12 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col s12 m6">
+                            <div class="col s6 m6">
                                <div class="center-align m-1">
 										<button  id="bttn" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
 								</div>
                             </div>
-                            <div class="col s12 m6">
+                            <div class="col s6 m6">
                                 <div class="center-align m-1">
                                     <a href="<%=request.getContextPath()%>/as-built-status"
 									class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
@@ -158,7 +158,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -182,13 +181,13 @@
                          </div>
                         </div>
                         <div class="row">
-                            <div class="col s12 m6">
+                            <div class="col s6 m6">
                                 <div class="center-align m-1">
                                     <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
-                             <div class="col s12 m6">
+                             <div class="col s6 m6">
                                 <div class="center-align m-1">
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
@@ -199,7 +198,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -225,6 +223,7 @@
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -254,6 +253,9 @@
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,
+                fixedColumns:   {
+                    right: 1
+                },
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
                     var input = $('.dataTables_filter input');

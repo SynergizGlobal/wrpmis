@@ -72,6 +72,8 @@
                         	var i = data.length;
                             $.each(data, function (i, val) {
                             	var path = val.form_url;
+                            	console.log(val);
+                            	console.log(path);
     	                           $("#frame-holder").append('<div class="col s12 m6" id="frame"><iframe src="'+ path +'" title="" width="100%" id="" name="pageLoader" class=" frameportions" onload="resizeIframe(this,600)"></iframe></div>');
                             });
                         }

@@ -19,12 +19,11 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css"><!-- 
-   
+    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">    
+    <link rel="stylesheet" href="/pmis/resources/css/rightColumnFixed.css">
 </head>
 
 <body>
-
     <div class="row">
         <div class="col s12 m12">
             <div class="card">
@@ -45,9 +44,8 @@
 							</div>
 					</c:if>
                     <div class="">
-                        <div class="row">
-                            <div class="col m4 hide-on-small"></div>
-                            <div class="col m4 s12 center-align">
+                        <div class="row no-mar">
+                            <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Issue Contract Category</a>
                             </div>
@@ -252,6 +250,7 @@
     
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
@@ -277,6 +276,9 @@
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,
+                fixedColumns:   {
+                    right: 1
+                },
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
                     var input = $('.dataTables_filter input');

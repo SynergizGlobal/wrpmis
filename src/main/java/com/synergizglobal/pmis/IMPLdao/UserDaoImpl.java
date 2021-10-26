@@ -455,7 +455,7 @@ public class UserDaoImpl implements UserDao{
 	public int uploadUsers(List<User> usersList) throws Exception {
 		int count = 0;
 		boolean flag = false;
-		int uploadedCOunt = 0;
+		int uploadedCount = 0;
 		try {
 			for (User user : usersList) {				
 				
@@ -497,7 +497,7 @@ public class UserDaoImpl implements UserDao{
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(user);		 
 						count = namedParamJdbcTemplate.update(qry, paramSource);
 					}
-					uploadedCOunt++;
+					uploadedCount++;
 				}
 				
 				if(count > 0) {
@@ -531,7 +531,7 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 			throw new Exception(e);
 		}
-		return uploadedCOunt;
+		return uploadedCount;
 	}
 	@Override
 	public List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception {

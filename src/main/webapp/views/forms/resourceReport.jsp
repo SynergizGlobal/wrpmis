@@ -94,21 +94,21 @@
                                 </div>
                                 <div class="col s6 m4 l2 input-field">                                    
                                     <input id="to_date" type="text" name="to_date" class="validate datepicker">
-                                    <label for="to_date" class="fs-sm-8rem">Deployment To Date <span class="required">*</span></label>
+                                    <label for="to_date" class="fs-sm-8rem">Deployment To Date</label>
                                     <button type="button" id="to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="to_dateError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">	                                	
-                                <div class="col s12 m4 l3 input-field center-align offset-l3 offset-m2">
-                                    <button class="btn bg-s waves-effect waves-light t-c" type="button"
-                                        style="margin-top: 6px; font-weight: 600; min-width:160px"
-                                        onclick="clearFilter()">Clear Filter</button>
-                                </div>
-                                <div class="col s12 m4 l3 input-field center-align">
+                                 <div class="col s12 m4 l3 input-field center-align offset-l3 offset-m2">
                                     <button type="submit" class="btn bg-m waves-effect waves-light t-c clear-filters"
                                         style="margin-top: 6px;min-width:160px%; font-weight: 600;">Generate Report</button>
                                 </div>
+                                 <div class="col s12 m4 l3 input-field left-align ">
+                                    <button class="btn bg-s waves-effect waves-light t-c" type="button"
+                                        style="margin-top: 6px; font-weight: 600; min-width:160px"
+                                        onclick="clearFilter()">Reset</button>
+                                </div>                               
                              </div>
                         </form>
                         </div>
@@ -454,16 +454,17 @@
 	  		 		  "from_date": {
 	  			 		required: true
 	  			 	  }	,"to_date": {
-	  			 		required: true,
+	  			 		//required: true,
 	  			 		greaterThan: "#from_date",	  			 		
 	  			 	  }	
 	  		 	},
 	  		    messages: {
 	  		 		 "from_date": {
 	  			 		required: ' This field is required'
-	  			 	  },"to_date": {
-	  			 		required: ' This field is required',	  			 		
 	  			 	  }
+	  		 	      /*,"to_date": {
+	  			 		required: ' This field is required',	  			 		
+	  			 	  }*/
 		   		},
 		   		errorPlacement:function(error, element){
 		   		 	if(element.attr("id") == "project" ){
@@ -481,15 +482,23 @@
 					} else if(element.attr("id") == "from_date" ){
 						   document.getElementById("from_dateError").innerHTML="";
 					 	   error.appendTo('#from_dateError');
-					} else if(element.attr("id") == "to_date" ){
+					} 
+					/*else if(element.attr("id") == "to_date" ){
 						   document.getElementById("to_dateError").innerHTML="";
 					 	   error.appendTo('#to_dateError');
-					} else{
+					}*/
+					else{
 	 					error.insertAfter(element);
 			       }
                 }
 		   		,submitHandler:function(form){
+		            var to_date = $("#to_date").val();
+	            	if($("#to_date").val()=="")
+	            	{
+	            		$("#to_date").val($("#from_date").val());
+	            	}
 			    	form.submit();
+			    	$("#to_date").val();
 			    }
 			}); 
         

@@ -232,40 +232,46 @@ public class UserActivityReportController {
             /********************************************************/
 	        int sheetNo = 0;
 	        int len  = 0;
+	        int rowNum=0;
 	        String dates = null;
 	        if(!(StringUtils.isEmpty(reportData))) {
+	        	
+       		 	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("User Activity Report"));
+       		 	
+		        XSSFRow dateRow = dprSheet.createRow(rowNum);
+		        
+		        Cell cell = dateRow.createCell(0);
+		        
+		        
+				cell.setCellStyle(whiteStyle);
+				cell.setCellValue("");
+				for (int i = 0; i < 9; i++) {		        	
+			        cell = dateRow.createCell(i);
+			        cell.setCellStyle(whiteStyle);
+					cell.setCellValue("User Activity Report On :" + report_created_date);
+				}
+			   dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,8));	     		 	
+       		 	
+			    // workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);	        	
 	        
 	        	 for (UserActivityReport zObj : reportData.getDatesList()) {  
 	        		 dates = zObj.getDate();
 	        		 DateFormat inputFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 					 Date datesVal = inputFormat2.parse(dates);
 					 String dateFields = outputFormat.format(datesVal);
-	        		 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(dateFields));
-				     workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
+
 				        
-				        XSSFRow dateRow = dprSheet.createRow(0);
-				        
-				        Cell cell = dateRow.createCell(0);
-				        
-				        
-						cell.setCellStyle(whiteStyle);
-						cell.setCellValue("");
-						for (int i = 0; i < 8; i++) {		        	
-					        cell = dateRow.createCell(i);
-					        cell.setCellStyle(whiteStyle);
-							cell.setCellValue("User Activity Report On :" + report_created_date);
-						}
-					   dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,7));				        
+			        
 		
 					/*************************************************************************/		
 
 					
-						int rowNo = 2;
+						int rowNo = rowNum+2;
 				            int tempRowNo = rowNo;
 				            XSSFRow structureRow = dprSheet.createRow(rowNo);
 					
 				            /**********************************************************************/
-							String headerString = "User ID^User^Module^Work^Contarct^Action Type^Details^Time";
+							String headerString = "Date^User ID^User^Module^Work^Contarct^Action Type^Details^Time";
 					        
 					        String[] headerStringArr = headerString.split("\\^");
 					        int HeaderSize = obj.getDatesList().size();
@@ -289,16 +295,21 @@ public class UserActivityReportController {
 								  		    cell = row.createCell(c++);
 											cell.setCellStyle(componentStyle);
 											cell.setCellValue("");
-											for (int i = 0; i < 8; i++) {		        	
+											for (int i = 0; i < 9; i++) {		        	
 										        cell = row.createCell(i);
 										        cell.setCellStyle(componentStyle);
 										        cell.setCellValue("Updated by PMIS Users");
 											}
-										   dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 0,7));
+										   dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 0,8));
 										   rowNo++;
 										   x++;
 								        }
 								        row = dprSheet.createRow(rowNo);c = 0;
+								        
+								        cell = row.createCell(c++);
+										cell.setCellStyle(activityNameStyle);
+										cell.setCellValue(dateFields);								        
+								        
 								        cell = row.createCell(c++);
 										cell.setCellStyle(activityNameStyle);
 										cell.setCellValue(dObj.getCreated_by_user_id_fk());
@@ -344,18 +355,24 @@ public class UserActivityReportController {
 							        	    cell = row.createCell(c++);
 											cell.setCellStyle(componentStyle);
 											cell.setCellValue("");
-											for (int i = 0; i < 8; i++) {		        	
+											for (int i = 0; i < 9; i++) {		        	
 										        cell = row.createCell(i);
 										        cell.setCellStyle(componentStyle);
 										        cell.setCellValue("Updated by Synergiz");
 											}
-										   dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 0,7));
+										   dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 0,8));
 										   rowNo++;
 										   z++;
 								        }
 								        //XSSFRow componentRow = dprSheet.createRow(rowNo);
 								        row = dprSheet.createRow(rowNo);
 								        c = 0;
+								        
+								        cell = row.createCell(c++);
+										cell.setCellStyle(activityNameStyle);
+										cell.setCellValue(dateFields);
+										
+										
 								        cell = row.createCell(c++);
 										cell.setCellStyle(activityNameStyle);
 										cell.setCellValue(dObj.getCreated_by_user_id_fk());
@@ -397,16 +414,20 @@ public class UserActivityReportController {
 						    	//dprSheet.autoSizeColumn(columnIndex);
 				            	dprSheet.setColumnWidth(columnIndex, 35 * 165);
 							}
-						}else {
+						}
+					     else {
 							    XSSFRow row = dprSheet.createRow(rowNo);
-						        for (int i = 0; i < 8; i++) {		        	
+						        for (int i = 0; i < 9; i++) {		        	
 							        cell = row.createCell(i);
 							        cell.setCellStyle(whiteStyle);
 									cell.setCellValue("No updates in this period");
 								}	
-								dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 0,7));
+								dprSheet.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 0,8));
 				        }
-					}
+			        	 rowNum=rowNo;
+
+					
+	        	 }
 	        }
             /*******************************************************************************/
             

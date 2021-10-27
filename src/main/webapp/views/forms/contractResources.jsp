@@ -444,6 +444,17 @@
         function getSubResourceTypes(idNo){
         	$(".page-loader").show();
         	var resource_type = $('#resource_types'+idNo).val();
+        	if(resource_type=="Equipment" || resource_type=="Manpower")
+       		{
+        		$('#unit'+idNo).val("Nos.");
+        		$('#unit'+idNo).prop("disabled",true);
+       		}
+        	else
+       		{
+        		$('#unit'+idNo).val("");
+        		$('#unit'+idNo).prop("disabled",false);       		
+       		}
+     	
             $("#sub_resource_type"+idNo+" option:not(:first)").remove();
             if ($.trim(resource_type) != "") {
                 var myParams = { resource_type: resource_type };
@@ -553,6 +564,10 @@
          	 	});
            	 	if(flag){
     	       	 	$(".page-loader").show();
+    	       	 	
+    	        	$('form select[name=units]').each(function(){
+    	        		$("#"+this.id).attr("disabled",false);
+    	        	});	   	       	 	
     	       	 	document.getElementById("resourceForm").submit();
             	}else{
             		swal("All Fields required");

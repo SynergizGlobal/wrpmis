@@ -947,15 +947,15 @@
         		$("#amendment_not_required_in_contract").prop("checked", true);
         		$('#actionRadioBtns').show();
         		$('#isPhysicallyCompletedYes').prop('checked',true);
-                if($("#alert_type_fk").val()=="Contract Value"){
+                if(alert_type_fk == "Contract Value"){
             		$('#contractValueRadio').show();
             		$('#contractValueRadioNo').prop('checked',true);            		
-           		}else if($("#alert_type_fk").val()=="Contract Period"){
+           		}else if(alert_type_fk == "Contract Period"){
            			$('#contractPeriodRadio').show();
            			$('#contractPeriodRadioNo').prop('checked',true);
             	}          
         	}   
-             stopAlertShowHide();        	
+            stopAlertShowHide();        	
         }
         
         $('#amendment_not_required_in_contract').change(function() {
@@ -969,9 +969,9 @@
         	$('#isPhysicallyCompletedNo').prop('checked',false);           	
             if(this.checked) {
                $('#actionRadioBtns').show();
-               if($("#alert_type_fk").val()=="Contract Value"){
+               if($("#alert_type").val()=="Contract Value"){
            			$('#contractValueRadio').show();
-          		}else if($("#alert_type_fk").val()=="Contract Period"){
+          		}else if($("#alert_type").val()=="Contract Period"){
           			$('#contractPeriodRadio').show();
            		}
             } else{
@@ -979,6 +979,7 @@
             	$("#btnStpAlert").hide();
                 $("#btnRmks").show();
             } 
+            
         });
         
         

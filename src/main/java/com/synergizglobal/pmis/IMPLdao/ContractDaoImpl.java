@@ -2052,6 +2052,36 @@ public class ContractDaoImpl implements ContractDao {
 						messagesDao.addMessages(msgObj,template);
 					}
 					
+					if(!StringUtils.isEmpty(contract.getDy_hod_user_id_fk()) && !contract.getDy_hod_user_id_fk().equals(contract.getUser_id()) 
+							&& "Update".equalsIgnoreCase(contract.getUpdate_type()) 
+							&& !StringUtils.isEmpty(contract.getContract_closure_date()) && !contract.getContract_closure_date().equals(contract.getExisting_contract_closure_date())) {
+						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+						
+						int arrSize = 1;
+						
+						int i = 0;
+						String userIds[]  = new String[arrSize];
+						userIds[i++] = contract.getDy_hod_user_id_fk();
+						
+						String messageType = "Contract";
+						//String redirect_url = "/InfoViz/contract/contract-details/" + contract.getContract_id();
+						String tab_name = "contractClosureDetails";
+						String redirect_url = "/get-contract?contract_id=" + contract.getContract_id() + "&tab_name="+tab_name;
+						String contract_name = contract.getContract_short_name();
+						if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
+						String work_name = contract.getWork_short_name();
+						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
+						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
+						String message = "Request for Contract Closure for "+contract_name+" under work "+work_name+" on PMIS ";
+						 
+						Messages msgObj = new Messages();
+						msgObj.setUser_ids(userIds);
+						msgObj.setMessage_type(messageType);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage(message);
+						messagesDao.addMessages(msgObj,template);
+					}
+					
 					if(!StringUtils.isEmpty(contract.getDy_hod_user_id_fk()) && "Close Contract".equalsIgnoreCase(contract.getUpdate_type())) {
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 						

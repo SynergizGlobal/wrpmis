@@ -756,6 +756,8 @@ public class ContractController {
 			contract.setUser_name(userName);
 			contract.setDesignation(userDesignation);
 			
+			contract.setUser_id(user_Id);
+			
 			model.setViewName("redirect:/contract");
 
 			contract.setDoc(DateParser.parse(contract.getDoc()));
@@ -774,6 +776,7 @@ public class ContractController {
 			contract.setRelease_date(DateParser.parse(contract.getRelease_date()));
 			contract.setTarget_doc(DateParser.parse(contract.getTarget_doc()));
 			contract.setActual_date_of_commissioning(DateParser.parse(contract.getActual_date_of_commissioning()));
+			contract.setExisting_contract_closure_date(DateParser.parse(contract.getExisting_contract_closure_date()));
 			
 			boolean flag =  contractService.updateContract(contract);
 			if(flag) {

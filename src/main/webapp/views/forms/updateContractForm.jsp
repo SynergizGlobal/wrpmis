@@ -1018,6 +1018,7 @@
 	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
+	                                <input type="hidden" id="existing_contract_closure_date" name="existing_contract_closure_date" value="${contractDeatils.contract_closure_date }" />
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s12 m8 l12 input-field offset-m2">

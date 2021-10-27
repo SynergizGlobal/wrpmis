@@ -113,6 +113,24 @@
        .div-header{width: 100% !important;}
        .mt20px{margin-top: 20px !important;}
        .blue.lighten-1{z-index: 10}
+       .mobile_responsible_table  tbody tr td{
+        	vertical-align:baseline;
+        }
+       @media(max-width: 1366px){
+       .mdl-data-table .amount-dropdown .select-wrapper{right: 1.5rem;}
+       .mdl-data-table .amount-dropdown .select-wrapper input.select-dropdown{overflow: hidden;
+			    text-overflow: ellipsis;
+			    white-space: nowrap;
+			    width: 36px;
+			    -webkit-padding-end: 7px !important;
+			    -webkit-padding-start: 5px !important;
+			    right: -5px;}
+       }
+       @media(max-width: 1024px){
+       	.mdl-data-table .amount-dropdown .select-wrapper {
+    					right: 1rem;}
+    	.mdl-data-table .amount-dropdown .select-wrapper input.select-dropdown{width: 18px;right: -19px;}
+       }
 	    @media only screen and (max-width: 600px) {
           .no-float-small {
               float: none !important;
@@ -132,7 +150,7 @@
 			margin-top:10px;
 		}
 					
-		@media only screen and (min-width: 769px){
+		@media only screen and (min-width: 770px){
 			.min-w-120 > .select2-container{
 				width:auto;
 				min-width:120px;			
@@ -149,6 +167,15 @@
 				max-width:100px;
 				width:90px;
 			}
+			}
+			@media(max-width: 768px){
+			.mdl-data-table .amount-dropdown .select-wrapper, .mdl-data-table .amount-dropdown .amount-symbol {
+    				top: 0.9rem;}
+    		.mdl-data-table .amount-dropdown .select-wrapper {
+    			right: -77%;}
+    		.mdl-data-table .amount-dropdown .select-wrapper input.select-dropdown {
+				    width: 100%;
+				    right: 0}
 		}
 		#insurenceTableBody td.input-field .prefix,
 		#revTableBody td.input-field .prefix,
@@ -402,6 +429,16 @@
 		    	width:30% !important;
 		    }
 		}
+		@media(max-width: 575px){
+			.mdl-data-table .amount-dropdown .select-wrapper input.select-dropdown {
+				    width: 90%;
+				    right: 2px;}
+		}
+		@media(max-width: 360px){
+			.mdl-data-table .amount-dropdown .select-wrapper input.select-dropdown {
+				    width: 72%;
+				    right: -6px;}
+		}
     </style>
 </head>
 
@@ -450,12 +487,12 @@
 	                            </div> --%>
 							
 	                            <div class="row"> 
-	                                <div class="col s4 m4 l4 input-field ">
+	                                <div class="col s6 m4 l4 input-field ">
                                			 <input type="text" id="project_id_fk_temp"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
                                			 <label for="project_id_fk_temp">Project <span class="required">*</span></label>
                                       	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
-	                                <div class="col s4 m4 l4 input-field">
+	                                <div class="col s6 m4 l4 input-field">
                                     	<input type="text" id="work_id_fk_temp"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
                                     	<label for="work_id_fk_temp">Work <span class="required">*</span></label>
                                         <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
@@ -463,7 +500,7 @@
                                     	<input type="hidden" name="work_short_name" value="${contractDeatils.work_short_name}" />
 	                                </div>	
 	                                
-	                                <div class="col s4 m4 l4 input-field">
+	                                <div class="col s12 m4 l4 input-field">
 	                                   <p class="searchable_label">Contract Status<span class="required">*</span></p>
 	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
 	                                        <option value="" >Select</option>
@@ -492,7 +529,7 @@
 	                                
 	                            </div>
                                 <div class="row">	                                    
-                                    <div class="col s4 m4 l4 input-field ">
+                                    <div class="col s6 m4 l4 input-field ">
                               			 <p class="searchable_label">HOD <span class="required">*</span></p>
                             			 <c:choose>
 		                                   <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
@@ -511,7 +548,7 @@
 		                                	</c:otherwise>
 		                                </c:choose>
 	                              </div>
-	                              <div class="col s4 m4 l4 input-field ">
+	                              <div class="col s6 m4 l4 input-field ">
 	                                  <p class="searchable_label">Dy HOD <span class="required">*</span></p>
 	                                  <c:choose>
 	                                   <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
@@ -530,7 +567,7 @@
 	                                	</c:otherwise>
 	                                </c:choose>
 	                              </div>
-	                              <div class="col s4 m4 l4 input-field">
+	                              <div class="col s12 m4 l4 input-field">
 	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails(this.value);setContractStatus();">
 	                                        <option value="" selected>Select</option>
@@ -852,7 +889,7 @@
 	                                     <button type="button" id="target_doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="target_docError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 l6 input-field offset-m2" id="actual_date_of_commissioning_div">
+	                                <div class="col s6 m4 l6 input-field" id="actual_date_of_commissioning_div">
 	                                    <input autocomplete="off" name="actual_date_of_commissioning" id="actual_date_of_commissioning" type="text" class="validate datepicker-max-today" value="${contractDeatils.actual_date_of_commissioning }">
 	                                    <label for="actual_date_of_commissioning">Actual Date of Commissioning <span class="required" id="actual_date_of_commissioning_req">*</span></label>
 	                                     <button type="button" id="actual_date_of_commissioning_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>

@@ -74,13 +74,13 @@ public class ZonalRailwayController {
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
 	@RequestMapping(value="/zonal-railway",method={RequestMethod.GET})
-	public ModelAndView ZonalRailway(HttpSession session){
+	public ModelAndView zonalRailway(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.zonalRailwayGrid);
 		try {
 		
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("ZonalRailway : " + e.getMessage());
+			logger.error("zonalRailway : " + e.getMessage());
 		}
 		return model;
 	}

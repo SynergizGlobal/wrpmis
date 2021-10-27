@@ -272,16 +272,21 @@ public class UserActivityReportController {
 					
 				            /**********************************************************************/
 							String headerString = "Date^User ID^User^Module^Work^Contarct^Action Type^Details^Time";
-					        
 					        String[] headerStringArr = headerString.split("\\^");
-					        int HeaderSize = obj.getDatesList().size();
-					        XSSFRow headingRow = dprSheet.createRow(rowNo++);
-					        for (int i = 0; i < headerStringArr.length ; i++) {	
-				        	
-				        			 cell = headingRow.createCell(i);
-				        	    	 cell.setCellStyle(greenStyle1);
-									 cell.setCellValue(headerStringArr[i]);
-							}				
+
+				            
+				            if(rowNo==2)
+				            {
+						        
+						        int HeaderSize = obj.getDatesList().size();
+						        XSSFRow headingRow = dprSheet.createRow(rowNo++);
+						        for (int i = 0; i < headerStringArr.length ; i++) {	
+					        	
+					        			 cell = headingRow.createCell(i);
+					        	    	 cell.setCellStyle(greenStyle1);
+										 cell.setCellValue(headerStringArr[i]);
+								}	
+				            }
 					     if(zObj.getUserActivitiesList() != null && zObj.getUserActivitiesList().size() > 0){
 					    	 int x = 0,z=0;
 					        /***********************************************************************/
@@ -420,7 +425,7 @@ public class UserActivityReportController {
 						        for (int i = 0; i < 9; i++) {		        	
 							        cell = row.createCell(i);
 							        cell.setCellStyle(whiteStyle);
-									cell.setCellValue("No updates in this period");
+									cell.setCellValue("No updates on this date:"+dateFields);
 								}	
 								dprSheet.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 0,8));
 				        }

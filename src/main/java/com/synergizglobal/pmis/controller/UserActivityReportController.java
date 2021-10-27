@@ -422,12 +422,17 @@ public class UserActivityReportController {
 						}
 					     else {
 							    XSSFRow row = dprSheet.createRow(rowNo);
-						        for (int i = 0; i < 9; i++) {		        	
+							    
+							    cell = row.createCell(0);
+						        cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(dateFields);
+								
+						        for (int i = 1; i < 9; i++) {		        	
 							        cell = row.createCell(i);
 							        cell.setCellStyle(whiteStyle);
-									cell.setCellValue("No updates on this date:"+dateFields);
+									cell.setCellValue("No updates");
 								}	
-								dprSheet.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 0,8));
+								dprSheet.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,8));
 				        }
 			        	 rowNum=rowNo;
 

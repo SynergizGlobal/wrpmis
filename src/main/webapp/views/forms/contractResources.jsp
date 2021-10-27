@@ -49,7 +49,8 @@
 	   }
 	
 	   
-		.th-w{width: 40%;}
+		.th-w{width: 35%;}
+		.th-w1{width: 15%;}
 	   .select2-container--default .select2-selection--single {
 	       background-color: transparent;
 	   }
@@ -140,6 +141,7 @@
                                                     <tr>
                                                         <th class="th-w">Resource Type</th>
                                                         <th class="th-w">Resource Name</th>
+                                                        <th class="th-w1">Unit</th>
                                                         <th>Quantity </th>
                                                         <th>Action</th>
                                                     </tr>
@@ -162,6 +164,14 @@
 					                                      	    <option  resourceType = "${obj.resource_type}" value= "${obj.sub_resource_type}" >${obj.sub_resource_type}</option>
 					                                          </c:forEach>
 															</select>
+                                                        </td>
+                                                        <td  class="input-field">
+                                                             <select id="unit0" name="units" class="select searchable">
+															 		<option value="" >Select</option>  
+															          <c:forEach var="obj" items="${unitsList }">
+							                                      	    <option value= "${obj.unit}" >${obj.unit}</option>
+							                                          </c:forEach>
+															</select>                                                       
                                                         </td>
                                                         <td data-head="Quantity" class="input-field">
                                                         <input id="quantitys0" type="number" name="quantitys" min="1" step="1" class="validate" placeholder="Qty" value="0" ></td>
@@ -187,6 +197,14 @@
 				                                          </c:forEach>
 													</select>
 												</td>
+                                                        <td  class="input-field">
+                                                             <select id="unit1" name="units" class="select searchable">
+															 		<option value="" >Select</option>  
+															          <c:forEach var="obj" items="${unitsList }">
+							                                      	    <option value= "${obj.unit}" >${obj.unit}</option>
+							                                          </c:forEach>
+															</select>                                                       
+                                                        </td>												
 												<td class="input-field" data-head="Quantity"><input id="quantitys1" name="quantitys" type="number" value="0" class="validate" placeholder="Qty" min="0"></td>
 												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('1');"><i class="fa fa-close"></i></a></td>
 											</tr>
@@ -207,6 +225,14 @@
 					                                          </c:forEach>
 												  </select>
 												</td>
+                                                        <td  class="input-field">
+                                                             <select id="unit2" name="units" class="select searchable">
+															 		<option value="" >Select</option>  
+															          <c:forEach var="obj" items="${unitsList }">
+							                                      	    <option value= "${obj.unit}" >${obj.unit}</option>
+							                                          </c:forEach>
+															</select>                                                       
+                                                        </td>												
 												<td class="input-field" data-head="Quantity"><input id="quantitys2" name="quantitys" type="number" value="0" class="validate" placeholder="Qty" min="0"></td>
 												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('2');"><i class="fa fa-close"></i></a></td>
 											</tr>
@@ -227,6 +253,14 @@
 					                                          </c:forEach>
 												  </select>
 												</td>
+                                                        <td  class="input-field">
+                                                             <select id="unit3" name="units" class="select searchable">
+															 		<option value="" >Select</option>  
+															          <c:forEach var="obj" items="${unitsList }">
+							                                      	    <option value= "${obj.unit}" >${obj.unit}</option>
+							                                          </c:forEach>
+															</select>                                                       
+                                                        </td>												
 												<td class="input-field" data-head="Quantity"><input id="quantitys3" name="quantitys" type="number" value="0" class="validate" placeholder="Qty" min="0"></td>
 												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('3');"><i class="fa fa-close"></i></a></td>
 											</tr>
@@ -247,6 +281,14 @@
 					                                          </c:forEach>
 												    </select>
 												</td>
+                                                        <td  class="input-field">
+                                                             <select id="unit4" name="units" class="select searchable">
+															 		<option value="" >Select</option>  
+															          <c:forEach var="obj" items="${unitsList }">
+							                                      	    <option value= "${obj.unit}" >${obj.unit}</option>
+							                                          </c:forEach>
+															</select>                                                       
+                                                        </td>												
 												<td class="input-field" data-head="Quantity"><input id="quantitys4" name="quantitys" type="number" value="0" class="validate" placeholder="Qty" min="0"></td>
 												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('4');"><i class="fa fa-close"></i></a></td>
 											</tr>
@@ -267,6 +309,14 @@
 						                                          </c:forEach>
 													  </select>
 												</td>
+                                                        <td  class="input-field">
+                                                             <select id="unit5" name="units" class="select searchable">
+															 		<option value="" >Select</option>  
+															          <c:forEach var="obj" items="${unitsList }">
+							                                      	    <option value= "${obj.unit}" >${obj.unit}</option>
+							                                          </c:forEach>
+															</select>                                                       
+                                                        </td>												
 												<td class="input-field" data-head="Quantity"><input id="quantitys5" name="quantitys" type="number" value="0" class="validate" placeholder="Qty" min="0"></td>
 												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('5');"><i class="fa fa-close"></i></a></td>
 											</tr>
@@ -467,7 +517,15 @@
 					     <c:forEach var="obj" items="${subResourceTypeList }">
                                '<option resourceType = "${obj.resource_type}" value= "${obj.sub_resource_type}" >${obj.sub_resource_type}</option>'+
                          </c:forEach>
-			            '</select></td> <td data-head="Quantity" class="input-field"><input id="quantitys' + rNo + '" type="number" min="1" step="1" class="validate" placeholder="Qty" name="quantitys" value="0"></td>'+
+			            '</select></td>'+
+			            
+			            '<td><select class="searchable" id="unit' + rNo + '" name="units">'+
+			            '<option value="">select</option>'+
+					     <c:forEach var="obj" items="${unitList }">
+                               '<option value= "${obj.unit}" >${obj.unit}</option>'+
+                         </c:forEach>
+			            '</select></td>'+			            
+			            '<td data-head="Quantity" class="input-field"><input id="quantitys' + rNo + '" type="number" min="1" step="1" class="validate" placeholder="Qty" name="quantitys" value="0"></td>'+
 			            ' <td class="mobile_btn_close"> <a href="javascript:void(0);" onclick="removeResource(' + rNo + ');" class="btn waves-effect waves-light red t-c ">' +
 			            '<i class="fa fa-close"></i></a></td></tr>';
 

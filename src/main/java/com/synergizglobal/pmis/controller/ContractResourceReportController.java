@@ -341,7 +341,7 @@ public class ContractResourceReportController {
 				            XSSFRow structureRow = dprSheet.createRow(rowNo);
 					
 				            /**********************************************************************/
-							String headerString = "^Resource^Resource Type^dates^Average Daily deployment";
+							String headerString = "^Resource Type^Resource^Unit^dates^Average Daily deployment";
 					        
 					        String[] headerStringArr = headerString.split("\\^");
 					        int HeaderSize = obj.getDatesList().size();
@@ -379,11 +379,16 @@ public class ContractResourceReportController {
 								
 						        cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(dObj.getResource_type());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
 								cell.setCellValue(dObj.getResource_name());
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue(dObj.getResource_type());
+								cell.setCellValue(dObj.getUnit());
+								
 								String stored = null;
 								int v = 0;
 								breakLoop:

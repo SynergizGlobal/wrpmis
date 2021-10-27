@@ -262,14 +262,18 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 			if(!StringUtils.isEmpty(obj.getQuantitys()) && obj.getQuantitys().length > 0) {
 				obj.setQuantitys(CommonMethods.replaceEmptyByNullInSringArray(obj.getQuantitys()));
 			}
+			if(!StringUtils.isEmpty(obj.getUnits()) && obj.getUnits().length > 0) {
+				obj.setUnits(CommonMethods.replaceEmptyByNullInSringArray(obj.getUnits()));
+			}			
 			String[] resourceTypes = obj.getResource_types();
 			String[] resourceNames = obj.getResource_names();
 			String[] resourceQuntity = obj.getQuantitys();
+			String[] resourceUnits = obj.getUnits();
 
 			String insertQry = "INSERT INTO contract_resource"
-					+ "(contract_id_fk, date, resource_type, resource_name, quantity,created_by_user_id)"
+					+ "(contract_id_fk, date, resource_type, resource_name,unit, quantity,created_by_user_id)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?)";
 			
 			int[] counts = jdbcTemplate.batchUpdate(insertQry,
 		            new BatchPreparedStatementSetter() {			                 
@@ -280,6 +284,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		                	ps.setString(k++, obj.getDate());
 							ps.setString(k++, resourceTypes.length > 0 ?resourceTypes[i]:null);
 							ps.setString(k++, resourceNames.length > 0 ?resourceNames[i]:null);
+							ps.setString(k++, resourceUnits.length > 0 ?resourceUnits[i]:null);
 							ps.setString(k++, resourceQuntity.length > 0 ?resourceQuntity[i]:null);
 							ps.setString(k++, obj.getCreated_by_user_id());
 		                }
@@ -298,6 +303,12 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		    						arraySize = obj.getResource_names().length;
 		    					}
 		    				}
+		    				if(!StringUtils.isEmpty(obj.getUnits()) && obj.getUnits().length > 0) {
+		    					obj.setUnits(CommonMethods.replaceEmptyByNullInSringArray(obj.getUnits()));
+		    					if(arraySize < obj.getUnits().length) {
+		    						arraySize = obj.getUnits().length;
+		    					}
+		    				}		    				
 		    				if(!StringUtils.isEmpty(obj.getQuantitys()) && obj.getQuantitys().length > 0) {
 		    					obj.setQuantitys(CommonMethods.replaceEmptyByNullInSringArray(obj.getQuantitys()));
 		    					if(arraySize < obj.getQuantitys().length) {
@@ -339,6 +350,19 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		}
 		return objsList;
 	}
+	
+	@Override
+	public List<ContractResource> getUnitsListForContractResourceForm() throws Exception {
+		List<ContractResource> objsList = null;
+		try {
+			String qry ="select distinct unit from unit ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+		throw new Exception(e);
+		}
+		return objsList;
+	}	
 
 	@Override
 	public ContractResource getContarctResourceReportData(ContractResource obj) throws Exception {

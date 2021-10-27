@@ -196,7 +196,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 	@Override
 	public ContractResource getContarctResourceReportData(ContractResource obj) throws Exception {
 		try {
-			String qry = "SELECT resource_id, contract_id_fk, date,contract_name,contract_short_name,work_name,work_short_name, resource_type, resource_name, quantity, created_by_user_id, created_date FROM `contract_resource` cr "
+			String qry = "SELECT resource_id, contract_id_fk, date,contract_name,contract_short_name,work_name,work_short_name, resource_type, resource_name, quantity, created_by_user_id, created_date,unit FROM `contract_resource` cr "
 					+ " LEFT JOIN contract c on cr.contract_id_fk = c.contract_id "
 					+ " LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id ";
@@ -258,7 +258,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 			
 			for (ContractResource dataList : contractList) {
 				
-				String dataQry = "SELECT resource_name,resource_type,sum(quantity) As quantity,format((sum(quantity)/(SELECT  DATEDIFF( ?, ? )+1  AS days FROM contract_resource limit 1)),2)+0 as average  "
+				String dataQry = "SELECT resource_name,resource_type,sum(quantity) As quantity,unit,format((sum(quantity)/(SELECT  DATEDIFF( ?, ? )+1  AS days FROM contract_resource limit 1)),2)+0 as average  "
 						+ " FROM `contract_resource` ";
 			
 				dataQry = dataQry + "WHERE (date BETWEEN ? AND ? ) ";
@@ -267,7 +267,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 					dataQry = dataQry + " and contract_id_fk = ? ";
 					arrSz++;
 				}
-				dataQry = dataQry + "group by resource_name order by date asc ";
+				dataQry = dataQry + "group by resource_name order by date,resource_type asc ";
 				Object[] pValues1 = new Object[arrSz];
 				int k = 0;
 				
@@ -282,7 +282,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 				dataList.setDataList(reportList);
 				List<ContractResource> quantityReportList = new ArrayList<ContractResource>();
 				for (ContractResource quantityList : reportList) {
-					String quantityQry =  "Select contract_id_fk,resource_name,resource_type,sum(quantity) As quantity, date from contract_resource  ";
+					String quantityQry =  "Select contract_id_fk,resource_name,resource_type,sum(quantity) As quantity, date,unit from contract_resource  ";
 					
 					quantityQry = quantityQry + " WHERE (date BETWEEN ? AND ? )  ";
 					int arrCount = 2;

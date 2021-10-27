@@ -6,9 +6,9 @@ public class ContractResource {
 	
 	private String resource_id, contract_id_fk, structure_fk, date, resource_type, resource_name, quantity,
 	created_by_user_id, project_id,created_date,contract_name,contract_short_name,work_id,work_id_fk,work_short_name,work_name,project_id_fk,project_name,
-	user_role_code,user_id,sub_resource_type,user_type_fk,hod_user_id_fk,user_name,designation,from_date,to_date,count,average,created_by_user_id_fk;
+	user_role_code,user_id,sub_resource_type,user_type_fk,hod_user_id_fk,user_name,designation,from_date,to_date,count,average,created_by_user_id_fk,unit;
 
-	private String []  resource_ids, resource_types, resource_names, quantitys, created_by_user_ids, created_dates;
+	private String []  resource_ids, resource_types, resource_names, quantitys, created_by_user_ids, created_dates,units;
 	List<ContractResource> resourceList;
 	List<ContractResource> contarctsList;
 	List<ContractResource> datesList;
@@ -350,6 +350,22 @@ public class ContractResource {
 
 	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
 		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String [] getUnits() {
+		return units;
+	}
+
+	public void setUnits(String [] units) {
+		this.units = units;
 	}
 
 }

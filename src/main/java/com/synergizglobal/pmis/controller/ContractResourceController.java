@@ -64,6 +64,9 @@ public class ContractResourceController {
 			List<ContractResource> subResourceTypeList = service.getSubResourceTypeListForContractResourceForm(obj);
 			model.addObject("subResourceTypeList", subResourceTypeList);
 			
+			List<ContractResource> unitsList = service.getUnitsListForContractResourceForm();
+			model.addObject("unitsList", unitsList);			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("contractResourceForm : " + e.getMessage());

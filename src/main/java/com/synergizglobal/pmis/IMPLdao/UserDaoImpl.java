@@ -471,15 +471,34 @@ public class UserDaoImpl implements UserDao{
 				}else {
 					user_id = user.getUser_id();
 				}
+				String department_qry = "select department from department where department_name = ?";
+				String department_id = (String)jdbcTemplate.queryForObject( department_qry,new Object[] {user.getDepartment_name()}, String.class);					
+				user.setDepartment_fk(department_id);
+				user.setUser_id(user_id);
+				
 				List<User> reporting_to_list = getReportingToUserId(user.getReporting_to_id_srfk());
-				if(reporting_to_list.size() == 1) {
+				if(!StringUtils.isEmpty(reporting_to_list) && reporting_to_list.size() == 1) {
 					String reporting_to = reporting_to_list.get(0).getUser_id();
-					
-					String department_qry = "select department from department where department_name = ?";
-					String department_id = (String)jdbcTemplate.queryForObject( department_qry,new Object[] {user.getDepartment_name()}, String.class);					
-					user.setDepartment_fk(department_id);
-					user.setUser_id(user_id);
 					user.setReporting_to_id_srfk(reporting_to);
+					if(StringUtils.isEmpty(userId)) {
+						NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
+						String qry = "INSERT INTO user"
+								+ "(user_id,user_name,password,designation,email_id,mobile_number,personal_contact_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
+								+ "VALUES "
+								+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:personal_contact_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks)";		 
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(user);		 
+						count = namedParamJdbcTemplate.update(qry, paramSource);
+					}else {
+						NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
+						String qry = "UPDATE user set "
+								+ "user_name = :user_name,designation =:designation,email_id =:email_id,mobile_number =:mobile_number,"
+								+ "department_fk =:department_fk,reporting_to_id_srfk =:reporting_to_id_srfk,user_role_name_fk =:user_role_name_fk"
+								+ " where user_id = :user_id";
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(user);		 
+						count = namedParamJdbcTemplate.update(qry, paramSource);
+					}
+					uploadedCount++;
+				}else {
 					if(StringUtils.isEmpty(userId)) {
 						NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 						String qry = "INSERT INTO user"

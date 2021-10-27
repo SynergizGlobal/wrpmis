@@ -77,7 +77,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY expenditure_id ASC limit ?,?";
+				qry = qry + " ORDER BY DATE( date ) DESC limit ?,?";
 				arrSize++;
 				arrSize++;
 			}	

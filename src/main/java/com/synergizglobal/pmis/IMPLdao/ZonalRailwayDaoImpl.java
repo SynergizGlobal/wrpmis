@@ -1094,15 +1094,17 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	public List<ZonalRailway> getZonalRailwayList(ZonalRailway obj) throws Exception {
 		List<ZonalRailway> objsList = null;
 		try {
-			String qry ="select contract_id, work_id_fk,w.work_short_name,u.designation,sub_work,r.railway_name, execution_agency_railway_fk, source_of_funds_fk as source_of_funds, sanction_cost, latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
-					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS expected_finish,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish, z.completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date, responsible_person_user_fk "
+			String qry ="select contract_id,max(cum_actual_expenditure) as cum_actual_expenditure,(select cum_actual_expenditure_units from zonal_railway_progress where cum_actual_expenditure = (SELECT max(cum_actual_expenditure) FROM zonal_railway_progress) ) as cum_actual_expenditure_units"
+					+ ",work_id_fk,w.work_short_name,u.designation,sub_work,r.railway_name, execution_agency_railway_fk, source_of_funds_fk as source_of_funds, sanction_cost, latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
+					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS expected_finish,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish, z.completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date, responsible_person_user_fk,u.user_name,u.designation, "
 					+ "sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units, "
-					+ " m.unit as sanction_unit,m.unit as revised_cost_unit,m.unit as cumilative_unit,m.unit as completion_unit from zonal_railway_contracts z " + 
+					+ " m.unit as sanction_unit,m1.unit as revised_cost_unit,m2.unit as cumilative_unit,m3.unit as completion_unit from zonal_railway_contracts z " + 
 					"left join work w on z.work_id_fk = w.work_id "+
 					"left join railway r on z.execution_agency_railway_fk = r.railway_id "+
+					"left join zonal_railway_progress zp on z.contract_id = zp.contract_id_fk  "+
 					"left join money_unit m on z.sanction_cost_units = m.value "+
 					"left join money_unit m1 on z.latest_revised_cost_units = m1.value "+
-					"left join money_unit m2 on z.cumilative_expenditure_units = m2.value "+
+					"left join money_unit m2 on cum_actual_expenditure_units = m2.value "+
 					"left join money_unit m3 on z.completion_cost_units = m3.value "
 					+"left join user u on z.responsible_person_user_fk = u.user_id  where contract_id is not null  ";
 			int arrSize = 0;
@@ -1126,7 +1128,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
-	
+			qry = qry + " group by contract_id";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {

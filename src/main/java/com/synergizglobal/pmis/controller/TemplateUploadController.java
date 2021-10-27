@@ -72,6 +72,7 @@ public class TemplateUploadController {
 			int renNum = random.nextInt(50);
 			int renNum2 = random.nextInt(300);
 			String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+			String timeStamp_for_file = new SimpleDateFormat("yyyy-MM-dd_HH_MM_SS").format(Calendar.getInstance().getTime());
 			obj.setUploaded_on(timeStamp);
 			MultipartFile file = obj.getTemplateFile();
 			File theDir = new File(CommonConstants.TEMPLATE_OLD_FILEPATH);
@@ -80,12 +81,12 @@ public class TemplateUploadController {
 			}
 			String commonAttachment = obj.getCommonAttachment();
 			Path oldFile  = Paths.get(CommonConstants.TEMPLATE_FILEPATH + obj.getTemplate_name()+".xlsx");
-			String renameFile = obj.getTemplate_name() +"_"+ timeStamp+"_"+renNum+renNum2+".xlsx";
-			Files.move(oldFile, oldFile.resolveSibling(CommonConstants.TEMPLATE_FILEPATH + commonAttachment));
+			String renameFile = obj.getTemplate_name() +"_"+ timeStamp_for_file+"_"+renNum+renNum2+".xlsx";
+			Files.move(oldFile, oldFile.resolveSibling(CommonConstants.TEMPLATE_FILEPATH + renameFile));
 			
 			Path temp = Files.move
-			        (Paths.get(CommonConstants.TEMPLATE_FILEPATH + commonAttachment), 
-			        Paths.get(CommonConstants.TEMPLATE_OLD_FILEPATH + commonAttachment));
+			        (Paths.get(CommonConstants.TEMPLATE_FILEPATH + renameFile), 
+			        Paths.get(CommonConstants.TEMPLATE_OLD_FILEPATH + renameFile));
 			String fileDirectory = CommonConstants.TEMPLATE_FILEPATH ;
 			
 			String fileName = file.getOriginalFilename();

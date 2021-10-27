@@ -1096,7 +1096,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 		try {
 			String qry ="select contract_id, work_id_fk,w.work_short_name,u.designation,sub_work,r.railway_name, execution_agency_railway_fk, source_of_funds_fk as source_of_funds, sanction_cost, latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
 					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS expected_finish,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish, z.completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date, responsible_person_user_fk "
-					+ "sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units "
+					+ "sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units, "
 					+ " m.unit as sanction_unit,m.unit as revised_cost_unit,m.unit as cumilative_unit,m.unit as completion_unit from zonal_railway_contracts z " + 
 					"left join work w on z.work_id_fk = w.work_id "+
 					"left join railway r on z.execution_agency_railway_fk = r.railway_id "+

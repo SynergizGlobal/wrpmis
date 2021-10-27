@@ -432,7 +432,7 @@
                                     <thead>
                                         <tr>
                                             <th rowspan="2" class="fw-125">Month</th>
-                                            <th colspan="2">Expenditure </th>
+                                            <th colspan="2">Financial Progress </th>
                                             <th colspan="2">Physical Progress</th>
                                             <th rowspan="2">Progress</th>
                                             <th rowspan="2">Issue</th>

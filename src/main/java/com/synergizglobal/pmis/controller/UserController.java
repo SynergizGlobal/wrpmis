@@ -579,7 +579,9 @@ public class UserController {
 					if(workbook != null && !"".equals(workbook)) {
 						int sheetsCount = workbook.getNumberOfSheets();
 						if(sheetsCount > 0) {
-							uploadFilesSheet = workbook.getSheetAt(0);
+							int sheetNo =0;
+							if(sheetsCount >1) {sheetNo =1;}
+							uploadFilesSheet = workbook.getSheetAt(sheetNo);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
 							XSSFRow headerRow = uploadFilesSheet.getRow(0);
@@ -619,7 +621,7 @@ public class UserController {
 									errorNo++;
 								}
 							}
-							int count = uploadUsers(user,userId,userName,workbook);
+							int count = uploadUsers(user,userId,userName,workbook,sheetNo);
 							attributes.addFlashAttribute("success", count + " Users added successfully.");	
 							if(errorNo >0) {
 								errorRows = String.join(",",Arrays.asList(errorRows.split(",")).stream().distinct().collect(Collectors.toList()));
@@ -650,11 +652,12 @@ public class UserController {
 	 * @param userId is type of String it store the userId
 	 * @param userName is type of String it store the userName
 	 * @param workbook is type of XSSWorkbook variable it takes the workbook as input.
+	 * @param sheetNo 
 	 * @return type of this method is count.
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
 	
-	public int uploadUsers(User obj, String userId, String userName, XSSFWorkbook workbook) throws Exception {
+	public int uploadUsers(User obj, String userId, String userName, XSSFWorkbook workbook, int sheetNo) throws Exception {
 		User user = null;
 		List<User> usersList = new ArrayList<User>();
 		
@@ -678,7 +681,7 @@ public class UserController {
 					if(workbook != null && !"".equals(workbook)) {
 						int sheetsCount = workbook.getNumberOfSheets();
 						if(sheetsCount > 0) {
-							uploadFilesSheet = workbook.getSheetAt(0);
+							uploadFilesSheet = workbook.getSheetAt(sheetNo);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
 							//XSSFRow headerRow = uploadFilesSheet.getRow(0);							

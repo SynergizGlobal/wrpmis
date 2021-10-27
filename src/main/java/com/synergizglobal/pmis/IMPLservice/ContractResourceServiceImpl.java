@@ -38,7 +38,10 @@ public class ContractResourceServiceImpl implements ContractResourceService{
 	public List<ContractResource> getResourceTypeListForContractResourceForm(ContractResource obj) throws Exception {
 		return dao.getResourceTypeListForContractResourceForm(obj);
 	}
-
+	@Override
+	public List<ContractResource> getUnitsListForContractResourceForm() throws Exception {
+		return dao.getUnitsListForContractResourceForm();
+	}
 	@Override
 	public ContractResource getContarctResourceReportData(ContractResource obj) throws Exception {
 		return dao.getContarctResourceReportData(obj);

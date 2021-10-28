@@ -223,6 +223,7 @@ public class ContractResourceReportController {
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle activityNameStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle averageStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
 	        /********************************************************/
 
@@ -369,6 +370,7 @@ public class ContractResourceReportController {
 							}				
 								//rowNo++;
 						        int sNo = 1;
+						        
 					        /***********************************************************************/
 						    for (ContractResource dObj : zObj.getDataList()) {
 						        XSSFRow row = dprSheet.createRow(rowNo);
@@ -418,7 +420,7 @@ public class ContractResourceReportController {
 										}
 								}
 								cell = row.createCell(c++);
-								cell.setCellStyle(activityNameStyle);
+								cell.setCellStyle(averageStyle);
 								cell.setCellValue(dObj.getAverage());
 								
 						        rowNo++;

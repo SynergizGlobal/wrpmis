@@ -662,8 +662,13 @@
             initComplete: function () {
                 $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 var input = $('.dataTables_filter input')
-				.unbind(), self = this.api(), 
-				$searchButton = $('<i class="fa fa-search" title="Go" id="save_post">')
+				.unbind()				
+				.bind('keyup',function(e){
+				    if (e.which == 13){
+				    	self.search(input.val()).draw();
+				    }
+				}), self = this.api(), 
+				$searchButton = $('<i class="fa fa-search" title="Go">')
 				.click(function() {
 					self.search(input.val()).draw();
 				}), $clearButton = $('<i class="fa fa-close" title="Reset">')

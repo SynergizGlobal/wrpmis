@@ -398,14 +398,7 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
-	
-	<script>
-	$(document).keypress(function(e){
-    if (e.which == 13){
-        $("#save_post").click();
-    }
-	});
-	</script>
+
     <script>
     
         $(document).ready(function () {
@@ -500,8 +493,13 @@
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                     var input = $('.dataTables_filter input')
-					.unbind(), self = this.api(), $searchButton = $(
-					'<i class="fa fa-search" title="Go" id="save_post">')
+					.unbind()
+					.bind('keyup',function(e){
+					    if (e.which == 13){
+					    	self.search(input.val()).draw();
+					    }
+					}), self = this.api(), $searchButton = $(
+					'<i class="fa fa-search" title="Go">')
 					.click(function() {
 						self.search(input.val()).draw();
 					}), $clearButton = $(

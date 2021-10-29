@@ -587,7 +587,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 		List<ActivitiesProgressReport> datāL̥īśt = null;
 		
 		try {
-			String progressQry = "SELECT max(date_format(progress_date,'%d-%b-%y')) as progress_date,activity_id_fk,d.department_name,a.contract_id_fk,c.hod_user_id_fk,"
+			String progressQry = "SELECT date_format(progress_date,'%d-%b-%y') as progress_date,activity_id_fk,d.department_name,a.contract_id_fk,c.hod_user_id_fk,"
 					+ "u2.designation as hod_designation,c.work_id_fk,w.work_short_name,p.project_name, c.contract_short_name,structure as structure_type_fk,u.user_id,u.designation,u.user_name,c.department_fk," 
 					+ "(select  count(distinct progress_date)) as progress_dates,"
 					+ " COALESCE( (select COUNT(a1.created_by_user_id_fk) FROM approvable_activity_progress a1 left join activities a2 on  a2.activity_id = a1.activity_id_fk where a1.created_by_user_id_fk = acp.created_by_user_id_fk and a2.structure=a.structure), 0)  as updated,"
@@ -643,7 +643,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 				arrSize++;
 			}
 			
-			progressQry = progressQry + " GROUP BY acp.created_by_user_id_fk,structure order by DATE(progress_date) desc";
+			progressQry = progressQry + " GROUP BY acp.created_by_user_id_fk,structure order by progress_date desc";
 			
 			Object[] pValues1 = new Object[arrSize];
 			

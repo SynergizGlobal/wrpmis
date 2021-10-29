@@ -591,7 +591,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
 		try {
 			
-			String contractsQry = "select activity_id_fk,contract_id_fk,work_id,project_id,project_name "
+			String contractsQry = "select activity_id_fk,contract_id_fk,c.contract_short_name,work_id,project_id,project_name "
 					+ "from activity_progress ap " 
 					+ "LEFT JOIN activities a on activity_id_fk = activity_id " 
 					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
@@ -683,7 +683,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 
 				ActivitiesProgressReport sObj = new ActivitiesProgressReport();
 				/*******************************************************************************************************************/
-				String progressStructuresQry = "select ap.activity_id_fk,a.contract_id_fk,a.structure "
+				String progressStructuresQry = "select ap.activity_id_fk,a.contract_id_fk,contract_short_name,a.structure "
 						+ "from activity_progress ap "  
 						+ "left join activities a on ap.activity_id_fk = a.activity_id "  
 						+ "left join contract c on a.contract_id_fk = c.contract_id "  
@@ -729,7 +729,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select activity_id_fk,MAX(ap.progress_date) AS progress_date,contract_id_fk,work_id,project_id,project_name "
+					String contractProgressDatesQry = "select activity_id_fk,MAX(ap.progress_date) AS progress_date,contract_id_fk,contract_short_name,work_id,project_id,project_name "
 							+ "from activity_progress ap " 
 							+ "LEFT JOIN activities a on activity_id_fk = activity_id  " 
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
@@ -957,5 +957,84 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 			}
 			return contractname;
+	}
+
+	@Override
+	public List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
+		try {
+			String qry = "SELECT contract_id,contract_short_name,w.work_id ,cr.contractor_name,a.structure as fob_id_fk ,c.contractor_id_fk as contractor_id "+
+					"from activities a " + 
+					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
+					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
+					"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id " +
+					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' ";
+			
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				qry = qry + " and a.structure = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
+				qry = qry + " and c.contractor_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and c.hod_user_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
+				qry = qry + " and c.dy_hod_user_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " GROUP BY contract_id ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
+				pValues[i++] = obj.getProject_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
+				pValues[i++] = obj.getContractor_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
+				pValues[i++] = obj.getDyhod();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
+					
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
 	}	
 }

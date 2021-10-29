@@ -28,6 +28,8 @@ public interface ActivitiesProgressReportDao {
 	String getContractorName(String contract_id) throws Exception;
 	String getWorkName(String work_id) throws Exception;
 	String getContractName(String contract_id) throws Exception;
+
+	List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception;
 	
 	
 }

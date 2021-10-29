@@ -74,6 +74,11 @@ public class ActivitiesProgressReportServiceImpl implements ActivitiesProgressRe
 	@Override
 	public String getContractName(String contract_id) throws Exception {
 		return dao.getContractName(contract_id);
+	}
+
+	@Override
+	public List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception {
+		return dao.getContarctDetaisl(obj);
 	}	
 
 }

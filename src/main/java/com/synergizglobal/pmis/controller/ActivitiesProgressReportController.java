@@ -513,8 +513,132 @@ public class ActivitiesProgressReportController {
 			            
 			        }
 		        }else {
-		        		 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Progress for the day-"+cObj.getContract_short_name()));
+		        		 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(cObj.getContract_short_name()));
 					     workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
+					     XSSFRow dateRow = dprSheet.createRow(0);
+					        
+					        Cell cell = dateRow.createCell(2);
+					        cell.setCellStyle(whiteStyle);
+							cell.setCellValue("Date : " + report_created_date);
+					        for (int i = 3; i < 9; i++) {		        	
+						        cell = dateRow.createCell(i);
+						        cell.setCellStyle(whiteStyle);
+								cell.setCellValue("");
+							}	
+					        dprSheet.addMergedRegion(new CellRangeAddress(0, 0, 2,8));
+					        
+					        	
+					        XSSFRow mainHeadingRow = dprSheet.createRow(2);
+					        
+					        cell = mainHeadingRow.createCell(2);
+					        cell.setCellStyle(greenStyle);
+							//cell.setCellValue("Activities Progress Report ");
+					        cell.setCellValue("Daily Progress Report");
+					        
+					        for (int i = 3; i < 9; i++) {		        	
+						        cell = mainHeadingRow.createCell(i);
+						        cell.setCellStyle(greenStyle);
+								cell.setCellValue("");
+							}	
+					        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 2,8));
+							/********************************************************/	
+					        
+					        /********************************************************/	
+					        XSSFRow deatilsRow = dprSheet.createRow(3);
+					        
+					        cell = deatilsRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Progress on ");
+							
+							cell = deatilsRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+					        if(!StringUtils.isEmpty(from_date) && !StringUtils.isEmpty(to_date)) {
+					        	cell.setCellValue(from_date);
+					        }else {
+					        	cell.setCellValue(from_date);
+					        }
+							
+							
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = deatilsRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 3,8));
+							/********************************************************/
+					        
+							/********************************************************/	
+					        deatilsRow = dprSheet.createRow(4);
+					        
+					        cell = deatilsRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Work ");
+							
+							cell = deatilsRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue(cObj.getWork_id_fk() + " - " + (!StringUtils.isEmpty(cObj.getWork_short_name())?cObj.getWork_short_name():cObj.getWork_name()));
+							
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = deatilsRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 3,8));
+					        
+							/********************************************************/
+					        
+							/********************************************************/	
+					        deatilsRow = dprSheet.createRow(5);
+					        
+					        cell = deatilsRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Contract ");
+							
+							cell = deatilsRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue(cObj.getContract_id() + " - " + (!StringUtils.isEmpty(cObj.getContract_short_name())?cObj.getContract_short_name():cObj.getContract_name()));
+					        
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = deatilsRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(5,5, 3,8));
+							
+							/********************************************************/
+							
+							/********************************************************/	
+					        deatilsRow = dprSheet.createRow(6);
+					        
+					        cell = deatilsRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Contractor ");
+							
+							cell = deatilsRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue(cObj.getContractor_name());
+							
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = deatilsRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(6,6, 3,8));
+						    
+						    XSSFRow remarksRow = dprSheet.createRow(7);
+					        
+					        cell = remarksRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+					        
+					        String remarks="No Progress for the day";
+							cell.setCellValue(remarks);
+							
+							for (int i = 3; i < 9; i++) {		        	
+						        cell = remarksRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(7,7, 2,8));
 		        }
 	        }
 	       }else
@@ -1105,9 +1229,133 @@ public class ActivitiesProgressReportController {
 				            
 				        }
 			        }else {
-			        	 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Progress for the day-"+cObj.getContract_short_name()));
+			        	 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(cObj.getContract_short_name()));
 					     workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
-			        }
+					     XSSFRow dateRow = dprSheet.createRow(0);
+					        
+					        Cell cell = dateRow.createCell(2);
+					        cell.setCellStyle(whiteStyle);
+							cell.setCellValue("Date : " + report_created_date);
+					        for (int i = 3; i < 9; i++) {		        	
+						        cell = dateRow.createCell(i);
+						        cell.setCellStyle(whiteStyle);
+								cell.setCellValue("");
+							}	
+					        dprSheet.addMergedRegion(new CellRangeAddress(0, 0, 2,8));
+					        
+					        	
+					        XSSFRow mainHeadingRow = dprSheet.createRow(2);
+					        
+					        cell = mainHeadingRow.createCell(2);
+					        cell.setCellStyle(greenStyle);
+							//cell.setCellValue("Activities Progress Report ");
+					        cell.setCellValue("Daily Progress Report");
+					        
+					        for (int i = 3; i < 9; i++) {		        	
+						        cell = mainHeadingRow.createCell(i);
+						        cell.setCellStyle(greenStyle);
+								cell.setCellValue("");
+							}	
+					        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 2,8));
+							/********************************************************/	
+					        
+					        /********************************************************/	
+					        XSSFRow deatilsRow = dprSheet.createRow(3);
+					        
+					        cell = deatilsRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Progress on ");
+							
+							cell = deatilsRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+					        if(!StringUtils.isEmpty(from_date) && !StringUtils.isEmpty(to_date)) {
+					        	cell.setCellValue(from_date);
+					        }else {
+					        	cell.setCellValue(from_date);
+					        }
+							
+							
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = deatilsRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 3,8));
+							/********************************************************/
+					        
+							/********************************************************/	
+					        deatilsRow = dprSheet.createRow(4);
+					        
+					        cell = deatilsRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Work ");
+							
+							cell = deatilsRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue(cObj.getWork_id_fk() + " - " + (!StringUtils.isEmpty(cObj.getWork_short_name())?cObj.getWork_short_name():cObj.getWork_name()));
+							
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = deatilsRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 3,8));
+					        
+							/********************************************************/
+					        
+							/********************************************************/	
+					        deatilsRow = dprSheet.createRow(5);
+					        
+					        cell = deatilsRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Contract ");
+							
+							cell = deatilsRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue(cObj.getContract_id() + " - " + (!StringUtils.isEmpty(cObj.getContract_short_name())?cObj.getContract_short_name():cObj.getContract_name()));
+					        
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = deatilsRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(5,5, 3,8));
+							
+							/********************************************************/
+							
+							/********************************************************/	
+					        deatilsRow = dprSheet.createRow(6);
+					        
+					        cell = deatilsRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Contractor ");
+							
+							cell = deatilsRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue(cObj.getContractor_name());
+							
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = deatilsRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(6,6, 3,8));
+						    
+						    XSSFRow remarksRow = dprSheet.createRow(7);
+					        
+					        cell = remarksRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+					        
+					        String remarks="No Progress for the day";
+							cell.setCellValue(remarks);
+							
+							for (int i = 3; i < 9; i++) {		        	
+						        cell = remarksRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(7,7, 2,8));
+		        }
 	        }
 	        }
 	        else

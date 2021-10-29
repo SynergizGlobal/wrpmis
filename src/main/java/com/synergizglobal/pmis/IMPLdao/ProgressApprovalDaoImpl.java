@@ -52,13 +52,12 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
 					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
-					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
 					+ "where progress_id is not null";
 			int arrSize = 0;			
 			
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and c1.department_id_fk=? and aph.dyhod_user_id_fk = ? ";
+				qry = qry + " and u.department_fk=? and aph.dyhod_user_id_fk = ? ";
 				arrSize++;
 				arrSize++;
 			}

@@ -168,7 +168,7 @@ public class DocxTableCreationForActivitiesReport {
 			tableHeader.add("Contract"); 
 			tableHeader.add("Structure");
 			tableHeader.add("Progress update Date");
-			tableHeader.add("Data Dates");
+			//tableHeader.add("Data Dates");
 			tableHeader.add("No of Activities");
 			tableHeader.add("");
 			tableHeader.add("");
@@ -188,7 +188,7 @@ public class DocxTableCreationForActivitiesReport {
 			tableHeader.add(""); 
 			tableHeader.add("");
 			tableHeader.add("");
-			tableHeader.add("");
+			//tableHeader.add("");
 			tableHeader.add("Updated");
 			tableHeader.add("Approved");
 			tableHeader.add("Rejected");
@@ -229,8 +229,8 @@ public class DocxTableCreationForActivitiesReport {
 				addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_date(),
 						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				
-				addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_dates(),
-						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				/*addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_dates(),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);*/
 				
 				addTableCell(factory, wordMLPackage, contentRow, aObj.getUpdated(),
 						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);

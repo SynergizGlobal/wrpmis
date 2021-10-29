@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -367,12 +368,17 @@ public class ContractResourceReportController {
 										 cell.setCellValue(headerStringArr[i]);
 										 j++; 
 					        	}
-							}				
+							}	
+						    ArrayList<String> rtypearray = new ArrayList<String>();
+
 								//rowNo++;
 						        int sNo = 1;
-						        
+						        int loopRow=rowNo;
+						        int startRow=0;
+						        int endRow=0;
 					        /***********************************************************************/
-						    for (ContractResource dObj : zObj.getDataList()) {
+						    for (ContractResource dObj : zObj.getDataList()) 
+						    {
 						        XSSFRow row = dprSheet.createRow(rowNo);
 						        int c = 0;
 						        cell = row.createCell(c++);
@@ -394,6 +400,7 @@ public class ContractResourceReportController {
 								String stored = null;
 								int v = 0;
 								breakLoop:
+								
 								for(ContractResource actDates : obj.getDatesList()) {
 									for(ContractResource qtyObj : dObj.getQuantityList()) {
 										stored = qtyObj.getDate();
@@ -422,8 +429,24 @@ public class ContractResourceReportController {
 								cell = row.createCell(c++);
 								cell.setCellStyle(averageStyle);
 								cell.setCellValue(dObj.getAverage());
-								
 						        rowNo++;
+						        if(rowNo>5)
+						        {
+							        if(rtypearray.indexOf(dObj.getResource_type())!=-1)
+							        {
+							        	startRow=startRow+loopRow;
+							            endRow=endRow+rowNo;
+							            dprSheet.addMergedRegion(new CellRangeAddress(startRow,endRow,1,1));
+							        }
+							        else
+							        {
+							        	loopRow=rowNo-1;
+							        	startRow=0;
+							        	endRow=0;
+							        	rtypearray.add(dObj.getResource_type());
+							        }
+						        }
+
 						    }
 						    
 						    for(int columnIndex = 1; columnIndex < HeaderSize; columnIndex++) {
@@ -431,6 +454,23 @@ public class ContractResourceReportController {
 						    	//dprSheet.autoSizeColumn(columnIndex);
 				            	dprSheet.setColumnWidth(columnIndex, 25 * 150);
 							}
+						    /*if(rtypearray.size()>0 && rowNo>5)
+						    {
+						    	
+								  for(int i=0; i<rtypearray.size(); i++)
+								  {
+									  
+										
+										
+
+								    	
+
+										
+								  }						    	
+						    }
+						    startRow=rowNo;
+						    endRow=rowNo;*/
+
 						}
 					}
 	        }else {

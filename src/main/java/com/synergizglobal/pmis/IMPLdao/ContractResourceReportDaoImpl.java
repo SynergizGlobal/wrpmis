@@ -267,7 +267,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 					dataQry = dataQry + " and contract_id_fk = ? ";
 					arrSz++;
 				}
-				dataQry = dataQry + "group by resource_name order by date,resource_type asc ";
+				dataQry = dataQry + "group by resource_name order by resource_type asc ";
 				Object[] pValues1 = new Object[arrSz];
 				int k = 0;
 				
@@ -294,7 +294,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 						quantityQry = quantityQry + " and resource_name = ?  ";
 						arrCount++;
 					}
-					quantityQry = quantityQry + "Group By date,resource_name  order by date ";
+					quantityQry = quantityQry + "Group By date,resource_name  order by resource_type asc ";
 					Object[] qValues1 = new Object[arrCount];
 					int z = 0;
 					

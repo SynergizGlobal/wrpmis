@@ -513,10 +513,8 @@ public class ActivitiesProgressReportController {
 			            
 			        }
 		        }else {
-		        	 if(!reportData.isEmpty()) {
-		        		 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(cObj.getContract_short_name()));
+		        		 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Progress for the day-"+cObj.getContract_short_name()));
 					     workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
-		        	 }
 		        }
 	        }
 	       }else
@@ -1107,10 +1105,8 @@ public class ActivitiesProgressReportController {
 				            
 				        }
 			        }else {
-			        	 if(!reportData.isEmpty()) {
-			        		 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(cObj.getContract_short_name()));
-						     workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
-			        	 }
+			        	 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Progress for the day-"+cObj.getContract_short_name()));
+					     workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
 			        }
 	        }
 	        }

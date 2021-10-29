@@ -199,14 +199,14 @@ public class DocxTableCreationForActivitiesReport {
 						JcEnumeration.CENTER, true, "ecf2ff");
 			}
 			table.getContent().add(titleRow);
-			mergeCellsHorizontal(table, 0, 7, 10);
+			mergeCellsHorizontal(table, 0, 6, 9);
 			mergeCellsVertically(table, 0, 0, 1);
 			mergeCellsVertically(table, 1, 0, 1);
 			mergeCellsVertically(table, 2, 0, 1);
 			mergeCellsVertically(table, 3, 0, 1);
 			mergeCellsVertically(table, 4, 0, 1);
 			mergeCellsVertically(table, 5, 0, 1);
-			mergeCellsVertically(table, 6, 0, 1);
+			//mergeCellsVertically(table, 6, 0, 1);
 			//mergeCellsVertically(table, 7, 0, 1);
 			int sNo=1;
 			for (ActivitiesProgressReport aObj : obj.getProgressUpdateList()) {

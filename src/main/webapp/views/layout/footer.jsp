@@ -69,17 +69,6 @@
 		   		item.style.height = (item.scrollHeight < 59) ? '59px' : item.scrollHeight + 'px';
 		   });
 		   
-		   $('.searchable').on('select2:open', (elm) => {  const targetLabel = $(elm.target).prev('label');
-		   		targetLabel.addClass('selected');
-		    })
-		    .on('select2:close', (elm) => {
-			    const target =$(elm.target) ;
-			    const targetLabel = target.prev('label');
-			    const targetOptions = $(elm.target.selectedOptions);
-			    if (targetOptions.length === 0) {
-			      targetLabel.removeAttr('class');
-			    }
-			});
 		}); 
      
      document.getElementById("currentYear").innerHTML = new Date().getFullYear();

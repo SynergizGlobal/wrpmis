@@ -606,7 +606,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 				arrSize++;
 			}else {
-				contractsQry = contractsQry + " and progress_date <=  ?";
+				contractsQry = contractsQry + " and progress_date =  ?";
 				arrSize++;
 			}
 			

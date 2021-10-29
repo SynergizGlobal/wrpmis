@@ -643,7 +643,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 				arrSize++;
 			}
 			
-			progressQry = progressQry + " GROUP BY acp.created_by_user_id_fk,structure ";
+			progressQry = progressQry + " GROUP BY acp.created_by_user_id_fk,structure order by progress_date desc";
 			
 			Object[] pValues1 = new Object[arrSize];
 			

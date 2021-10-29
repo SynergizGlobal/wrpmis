@@ -532,7 +532,7 @@
 			            
 			            '<td><select class="searchable" id="unit' + rNo + '" name="units">'+
 			            '<option value="">select</option>'+
-					     <c:forEach var="obj" items="${unitList }">
+					     <c:forEach var="obj" items="${unitsList }">
                                '<option value= "${obj.unit}" >${obj.unit}</option>'+
                          </c:forEach>
 			            '</select></td>'+			            

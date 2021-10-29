@@ -23,6 +23,7 @@ import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.ProgressApprovalService;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Activity;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class ProgressApprovalController {
@@ -61,8 +62,11 @@ public class ProgressApprovalController {
 		try{
 			String user_id = (String) session.getAttribute("USER_ID");
 			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			User uObj = (User) session.getAttribute("user");
 			obj.setDyhod_user_id_fk(user_id);
 			obj.setUser_role_code(user_role_code);
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			
 			activities = service.getApprovableActivities(obj);	
 		}catch(Exception e){
 			e.printStackTrace();

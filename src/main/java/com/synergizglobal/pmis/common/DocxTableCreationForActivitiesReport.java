@@ -97,14 +97,16 @@ public class DocxTableCreationForActivitiesReport {
 			if(!StringUtils.isEmpty(obj.getHod())|| !StringUtils.isEmpty(obj.getContract_id()) || !StringUtils.isEmpty(obj.getContractor_id())||!StringUtils.isEmpty(obj.getDyhod())) {
 				HOD = aObj.getHod_designation();
 				}
-			fromDate = obj.getFrom_date();
-			toDate = obj.getTo_date();
-			dates = fromDate;
-			if(!(StringUtils.isEmpty(toDate))) {
-				dates = fromDate +" to "+toDate;
-			}
+
 			break;
 		}
+		
+		fromDate = obj.getFrom_date();
+		toDate = obj.getTo_date();
+		dates = fromDate;
+		if(!(StringUtils.isEmpty(toDate))) {
+			dates = fromDate +" to "+toDate;
+		}		
 	
 		/*===========================================================*/
 			
@@ -336,15 +338,40 @@ public class DocxTableCreationForActivitiesReport {
 				noDataRow.add("");
 				noDataRow.add("");
 				noDataRow.add("");
-				for (String headerValue : noDataRow) {
-					addTableCell(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);
-				}		
+				int columnNo1 = 1;
+				for (String headerValue : tableHeader) {
+					int width = 0;
+					if(1 == columnNo1) {
+						width = 100;
+					}else if(2 == columnNo1) {
+						width = 1100;
+					}else if(3 == columnNo1) {
+						width = 1100;
+					}else if(4 == columnNo1) {
+						width = 1100;
+					}else if(5 == columnNo1) {
+						width = 1100;
+					}else if(6 == columnNo1) {
+						width = 650;
+					}
+					else if(7 == columnNo1) 
+					{
+						width = 650;
+					}
+					else if(8 == columnNo1) 
+					{
+						width = 650;
+					}				
+					
+					columnNo1++;
+					addTableCellAndWidth(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
+							JcEnumeration.CENTER, hasBgColor, backgroundColor,width);
+				}	
 				table.getContent().add(contentRow);	
 				mergeCellsHorizontal(table, 2, 0, 10);
 			}
 			
-			setTableAlign(factory, table, JcEnumeration.CENTER);
+			setTableAlign(factory, table, JcEnumeration.LEFT);
 			mp.addObject(table);
 			}
 			

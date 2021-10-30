@@ -491,27 +491,26 @@ public class ActivitiesProgressReportController {
 									
 							        rowNo++;
 							    }
-							    int tempRowNoRemarks = rowNo;
-							    
-							    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
-						        
-						        cell = remarksRow.createCell(2);
-						        cell.setCellStyle(indexWhiteStyle);
-						        
-						        String remarks=service.getActivitiesRemarks(structure,obj.getFrom_date());
-								cell.setCellValue(remarks);
-								
-								for (int i = 3; i < 9; i++) {		        	
-							        cell = remarksRow.createCell(i);
+							    String remarks=service.getActivitiesRemarks(structure,obj.getFrom_date());
+							    if(remarks!=null && remarks!="" && !remarks.isEmpty()) {
+								    int tempRowNoRemarks = rowNo;
+								    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
+							        cell = remarksRow.createCell(2);
 							        cell.setCellStyle(indexWhiteStyle);
-									cell.setCellValue("");
-								}	
-								dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));
-							    
-							    for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
-								     //sheet.autoSizeColumn(columnIndex);
-					            	dprSheet.setColumnWidth(columnIndex+2, 25 * 200);
-								}
+									cell.setCellValue(remarks);
+									for (int i = 3; i < 9; i++) {		        	
+								        cell = remarksRow.createCell(i);
+								        cell.setCellStyle(indexWhiteStyle);
+										cell.setCellValue("");
+									}	
+									dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));
+								    
+								    for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
+									     //sheet.autoSizeColumn(columnIndex);
+						            	dprSheet.setColumnWidth(columnIndex+2, 25 * 200);
+									}
+							    }
+						
 							}
 							
 							

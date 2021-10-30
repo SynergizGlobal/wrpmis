@@ -239,10 +239,20 @@ public class ContractResourceReportController {
 			        XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(contarct_id));
 			        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
 			        
-			        XSSFRow dateRow = dprSheet.createRow(2);
+			        	
+			        XSSFRow mainHeadingRow = dprSheet.createRow(0);
 			        
-			        Cell cell = dateRow.createCell(0);
-		
+			        Cell cell = mainHeadingRow.createCell(0);
+			        cell.setCellStyle(whiteStyle);
+					cell.setCellValue("Resource Report ");
+			        for (int i = 1; i < 6; i++) {		        	
+				        cell = mainHeadingRow.createCell(i);
+				        cell.setCellStyle(whiteStyle);
+						cell.setCellValue("");
+					}	
+			        dprSheet.addMergedRegion(new CellRangeAddress(0, 0, 0,6));			        
+			        
+	
 					/********************************************************/	
 			        
 			        /********************************************************/	
@@ -250,7 +260,7 @@ public class ContractResourceReportController {
 			   
 			        cell = deatilsRow.createCell(0);
 			        cell.setCellStyle(greenStyle);
-					cell.setCellValue("Daily Resource Report for Period : ");
+					cell.setCellValue("Report for Period : ");
 					cell = deatilsRow.createCell(3);
 			        cell.setCellStyle(greenStyle);
 					cell.setCellValue("From");
@@ -434,6 +444,7 @@ public class ContractResourceReportController {
 						        {
 							        if(rtypearray.indexOf(dObj.getResource_type())!=-1)
 							        {
+							        	
 							        	startRow=startRow+loopRow;
 							            endRow=endRow+rowNo;
 							            dprSheet.addMergedRegion(new CellRangeAddress(startRow,endRow,1,1));
@@ -481,7 +492,7 @@ public class ContractResourceReportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "Contract_Resource_Report_"+dateFormat.format(date);
+            String fileName = "Resource_Report_"+dateFormat.format(date);
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");

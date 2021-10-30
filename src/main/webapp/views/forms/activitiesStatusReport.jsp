@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Activities Progress Report - Reports - PMIS</title>
+	<title>Structure Status Report - Reports - PMIS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
@@ -39,7 +39,7 @@
 					<div class="center-align">
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m m-b-2">
-								<h6 id="rptName">Activities Status Report</h6>
+								<h6 id="rptName">Structure Status Report</h6>
 							</div>
 						</span>
 					</div>

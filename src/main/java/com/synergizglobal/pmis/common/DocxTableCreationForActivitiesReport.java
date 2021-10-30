@@ -200,7 +200,7 @@ public class DocxTableCreationForActivitiesReport {
 			
 			tableHeader.add("S.No");
 			tableHeader.add("Employee");
-			tableHeader.add("Department");
+			//tableHeader.add("Department");
 			tableHeader.add("Contract"); 
 			tableHeader.add("Structure");
 			tableHeader.add("Progress update Date");
@@ -220,7 +220,7 @@ public class DocxTableCreationForActivitiesReport {
 			tableHeader = new ArrayList<String>();
 			tableHeader.add("");
 			tableHeader.add("");
-			tableHeader.add("");
+			//tableHeader.add("");
 			tableHeader.add(""); 
 			tableHeader.add("");
 			tableHeader.add("");
@@ -235,13 +235,12 @@ public class DocxTableCreationForActivitiesReport {
 						JcEnumeration.CENTER, true, "ecf2ff");
 			}
 			table.getContent().add(titleRow);
-			mergeCellsHorizontal(table, 0, 6, 9);
+			mergeCellsHorizontal(table, 0, 5, 8);
 			mergeCellsVertically(table, 0, 0, 1);
 			mergeCellsVertically(table, 1, 0, 1);
 			mergeCellsVertically(table, 2, 0, 1);
 			mergeCellsVertically(table, 3, 0, 1);
 			mergeCellsVertically(table, 4, 0, 1);
-			mergeCellsVertically(table, 5, 0, 1);
 			//mergeCellsVertically(table, 6, 0, 1);
 			//mergeCellsVertically(table, 7, 0, 1);
 			int sNo=1;
@@ -259,8 +258,8 @@ public class DocxTableCreationForActivitiesReport {
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, designation + aObj.getUser_name(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						/*addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getContract_short_name(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						
@@ -296,8 +295,8 @@ public class DocxTableCreationForActivitiesReport {
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, designation + aObj.getUser_name(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						/*addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getContract_short_name(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						
@@ -330,7 +329,7 @@ public class DocxTableCreationForActivitiesReport {
 				List<String> noDataRow = new ArrayList<String>();
 				noDataRow.add("NILL");
 				noDataRow.add("");
-				noDataRow.add("");
+				//noDataRow.add("");
 				noDataRow.add("");
 				noDataRow.add("");
 				noDataRow.add("");
@@ -358,11 +357,6 @@ public class DocxTableCreationForActivitiesReport {
 					{
 						width = 650;
 					}
-					else if(8 == columnNo1) 
-					{
-						width = 650;
-					}				
-					
 					columnNo1++;
 					addTableCellAndWidth(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor,width);

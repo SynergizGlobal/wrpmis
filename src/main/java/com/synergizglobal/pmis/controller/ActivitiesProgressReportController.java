@@ -674,40 +674,40 @@ public class ActivitiesProgressReportController {
 			        cObj.setFrom_date(DateParser.parse(from_date)); cObj.setTo_date(DateParser.parse(to_date));
 			        XSSFRow dateRow = dprSheet.createRow(0);
 			        
-			        Cell cell = dateRow.createCell(2);
+			        Cell cell = dateRow.createCell(0);
 			        cell.setCellStyle(whiteStyle);
 					cell.setCellValue("Date : " + report_created_date);
-			        for (int i = 3; i < 9; i++) {		        	
+			        for (int i = 1; i < 7; i++) {		        	
 				        cell = dateRow.createCell(i);
 				        cell.setCellStyle(whiteStyle);
 						cell.setCellValue("");
 					}	
-			        dprSheet.addMergedRegion(new CellRangeAddress(0, 0, 2,8));
+			        dprSheet.addMergedRegion(new CellRangeAddress(0, 0, 0,6));
 			        
 			        	
 			        XSSFRow mainHeadingRow = dprSheet.createRow(2);
 			        
-			        cell = mainHeadingRow.createCell(2);
+			        cell = mainHeadingRow.createCell(0);
 			        cell.setCellStyle(greenStyle);
 					//cell.setCellValue("Activities Progress Report ");
 			        cell.setCellValue("Daily Progress Report");
 			        
-			        for (int i = 3; i < 9; i++) {		        	
+			        for (int i = 1; i < 7; i++) {		        	
 				        cell = mainHeadingRow.createCell(i);
 				        cell.setCellStyle(greenStyle);
 						cell.setCellValue("");
 					}	
-			        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 2,8));
+			        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 0,6));
 					/********************************************************/	
 			        
 			        /********************************************************/	
 			        XSSFRow deatilsRow = dprSheet.createRow(3);
 			        
-			        cell = deatilsRow.createCell(2);
+			        cell = deatilsRow.createCell(0);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("Progress on ");
 					
-					cell = deatilsRow.createCell(3);
+					cell = deatilsRow.createCell(1);
 			        cell.setCellStyle(indexWhiteStyle);
 			        if(!StringUtils.isEmpty(from_date) && !StringUtils.isEmpty(to_date)) {
 			        	cell.setCellValue(from_date);
@@ -716,74 +716,74 @@ public class ActivitiesProgressReportController {
 			        }
 					
 					
-					for (int i = 4; i < 9; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 3,8));
+					dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 1,6));
 					/********************************************************/
 			        
 					/********************************************************/	
 			        deatilsRow = dprSheet.createRow(4);
 			        
-			        cell = deatilsRow.createCell(2);
+			        cell = deatilsRow.createCell(0);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("Work ");
 					
-					cell = deatilsRow.createCell(3);
+					cell = deatilsRow.createCell(1);
 			        cell.setCellStyle(indexWhiteStyle);
 			        String workname=service.getWorkName(cObj.getWork_id());
 					cell.setCellValue(cObj.getWork_id()+" - "+workname);
 					
-					for (int i = 4; i < 9; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 3,8));
+					dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 1,6));
 			        
 					/********************************************************/
 			        
 					/********************************************************/	
 			        deatilsRow = dprSheet.createRow(5);
 			        
-			        cell = deatilsRow.createCell(2);
+			        cell = deatilsRow.createCell(0);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("Contract ");
 					
-					cell = deatilsRow.createCell(3);
+					cell = deatilsRow.createCell(1);
 			        cell.setCellStyle(indexWhiteStyle);
 			        
 					cell.setCellValue(cObj.getContract_id() + " - " + contractname);
 			        
-					for (int i = 4; i < 9; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(5,5, 3,8));
+					dprSheet.addMergedRegion(new CellRangeAddress(5,5, 1,6));
 					
 					/********************************************************/
 					
 					/********************************************************/	
 			        deatilsRow = dprSheet.createRow(6);
 			        
-			        cell = deatilsRow.createCell(2);
+			        cell = deatilsRow.createCell(0);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("Contractor ");
 					
-					cell = deatilsRow.createCell(3);
+					cell = deatilsRow.createCell(1);
 			        cell.setCellStyle(indexWhiteStyle);
 			        String contractorname=service.getContractorName(cObj.getContractor_id());
 					cell.setCellValue(contractorname);
 					
-					for (int i = 4; i < 9; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(6,6, 3,8));
+					dprSheet.addMergedRegion(new CellRangeAddress(6,6, 1,6));
 			        
 					/********************************************************/
 			        
@@ -818,7 +818,7 @@ public class ActivitiesProgressReportController {
 					        
 					        XSSFRow headingRow = dprSheet.createRow(rowNo++);
 					        for (int i = 0; i < headerStringArr.length; i++) {		        	
-						        cell = headingRow.createCell(i+2);
+						        cell = headingRow.createCell(i);
 						        cell.setCellStyle(greenStyle);
 								cell.setCellValue(headerStringArr[i]);
 							}
@@ -837,7 +837,7 @@ public class ActivitiesProgressReportController {
 						        	
 									        for (ActivitiesProgressReport dObj : dataList) {
 										        XSSFRow row = dprSheet.createRow(rowNo);
-										        int c = 2;
+										        int c = 0;
 										        if(repeat == 0) {
 											    	   cell = row.createCell(c++);
 														cell.setCellStyle(indexWhiteStyle);
@@ -847,7 +847,7 @@ public class ActivitiesProgressReportController {
 														cell.setCellStyle(indexWhiteStyle);
 														cell.setCellValue(dObj.getStructure());
 														
-														for (int i = 4; i < 9; i++) {		        	
+														for (int i = 2; i < 7; i++) {		        	
 													        cell = row.createCell(i);
 													        cell.setCellStyle(indexWhiteStyle);
 															cell.setCellValue("");
@@ -856,7 +856,7 @@ public class ActivitiesProgressReportController {
 														 structure = dObj.getStructure();
 														rowNo++;repeat++;
 														row = dprSheet.createRow(rowNo);
-														c = 2;
+														c = 0;
 											    }
 										        cell = row.createCell(c++);
 												cell.setCellStyle(sectionStyle);
@@ -895,18 +895,18 @@ public class ActivitiesProgressReportController {
 											    
 											    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
 										        
-										        cell = remarksRow.createCell(2);
+										        cell = remarksRow.createCell(0);
 										        cell.setCellStyle(indexWhiteStyle);
 										        
 												cell.setCellValue(remarks);
 	
 											
-												for (int i = 3; i < 9; i++) {		        	
+												for (int i = 1; i < 7; i++) {		        	
 											        cell = remarksRow.createCell(i);
 											        cell.setCellStyle(indexWhiteStyle);
 													cell.setCellValue("");
 												}	
-												dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));	
+												dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,6));	
 											}
 										}
 						        	}else {
@@ -914,18 +914,18 @@ public class ActivitiesProgressReportController {
 									    
 									    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
 								        
-								        cell = remarksRow.createCell(2);
+								        cell = remarksRow.createCell(0);
 								        cell.setCellStyle(indexWhiteStyle);
 								        
 								        String remarks="No Progress for the day";
 										cell.setCellValue(remarks);
 										
-										for (int i = 3; i < 9; i++) {		        	
+										for (int i = 1; i < 7; i++) {		        	
 									        cell = remarksRow.createCell(i);
 									        cell.setCellStyle(indexWhiteStyle);
 											cell.setCellValue("");
 										}	
-										dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));
+										dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,6));
 						        	}
 						        }		
 					        }
@@ -936,23 +936,27 @@ public class ActivitiesProgressReportController {
 							    
 							    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
 						        
-						        cell = remarksRow.createCell(2);
+						        cell = remarksRow.createCell(0);
 						        cell.setCellStyle(indexWhiteStyle);
 						        
 						        String remarks="No Progress for the day";
 								cell.setCellValue(remarks);
 								
-								for (int i = 3; i < 9; i++) {		        	
+								for (int i = 1; i < 7; i++) {		        	
 							        cell = remarksRow.createCell(i);
 							        cell.setCellStyle(indexWhiteStyle);
 									cell.setCellValue("");
 								}	
-								dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));
+								dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,6));
 					        }
 						    
 						    for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
 							     //sheet.autoSizeColumn(columnIndex);
 				            	dprSheet.setColumnWidth(columnIndex+2, 25 * 200);
+				            	dprSheet.setColumnWidth(0, 27 * 200);
+				            	dprSheet.setColumnWidth(1, 25 * 200);
+				            	dprSheet.setColumnWidth(2, 30 * 200);
+				            	dprSheet.setColumnWidth(3, 30 * 200);				            	
 							}
 						}
 					
@@ -963,7 +967,7 @@ public class ActivitiesProgressReportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "Activities_Report_"+dateFormat.format(date);
+            String fileName = "Daily_Progress_Report_"+dateFormat.format(date);
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
@@ -1431,40 +1435,40 @@ public class ActivitiesProgressReportController {
 			        
 			        XSSFRow dateRow = dprSheet.createRow(0);
 			        
-			        Cell cell = dateRow.createCell(2);
+			        Cell cell = dateRow.createCell(0);
 			        cell.setCellStyle(whiteStyle);
 					cell.setCellValue("Date : " + report_created_date);
-			        for (int i = 3; i < 9; i++) {		        	
+			        for (int i = 1; i < 7; i++) {		        	
 				        cell = dateRow.createCell(i);
 				        cell.setCellStyle(whiteStyle);
 						cell.setCellValue("");
 					}	
-			        dprSheet.addMergedRegion(new CellRangeAddress(0, 0, 2,8));
+			        dprSheet.addMergedRegion(new CellRangeAddress(0, 0, 0,6));
 			        
 			        	
 			        XSSFRow mainHeadingRow = dprSheet.createRow(2);
 			        
-			        cell = mainHeadingRow.createCell(2);
+			        cell = mainHeadingRow.createCell(0);
 			        cell.setCellStyle(greenStyle);
 					//cell.setCellValue("Activities Progress Report ");
-			        cell.setCellValue("Daily Progress Report");
+			        cell.setCellValue("Report for the period");
 			        
-			        for (int i = 3; i < 9; i++) {		        	
+			        for (int i = 1; i < 7; i++) {		        	
 				        cell = mainHeadingRow.createCell(i);
 				        cell.setCellStyle(greenStyle);
 						cell.setCellValue("");
 					}	
-			        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 2,8));
+			        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 0,6));
 					/********************************************************/	
 			        
 			        /********************************************************/	
 			        XSSFRow deatilsRow = dprSheet.createRow(3);
 			        
-			        cell = deatilsRow.createCell(2);
+			        cell = deatilsRow.createCell(0);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("Period ");
 					
-					cell = deatilsRow.createCell(3);
+					cell = deatilsRow.createCell(1);
 			        cell.setCellStyle(indexWhiteStyle);
 			        if(!StringUtils.isEmpty(from_date) && !StringUtils.isEmpty(to_date)) {
 			        	cell.setCellValue(from_date + " to " + to_date);
@@ -1473,74 +1477,74 @@ public class ActivitiesProgressReportController {
 			        }
 					
 					
-					for (int i = 4; i < 9; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 3,8));
+					dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 1,6));
 					/********************************************************/
 			        
 					/********************************************************/	
 			        deatilsRow = dprSheet.createRow(4);
 			        
-			        cell = deatilsRow.createCell(2);
+			        cell = deatilsRow.createCell(0);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("Work ");
 					
-					cell = deatilsRow.createCell(3);
+					cell = deatilsRow.createCell(1);
 			        cell.setCellStyle(indexWhiteStyle);
 			        String workname=service.getWorkName(cObj.getWork_id());
 					cell.setCellValue(cObj.getWork_id()+" - "+workname);
 					
-					for (int i = 4; i < 9; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 3,8));
+					dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 1,6));
 			        
 					/********************************************************/
 			        
 					/********************************************************/	
 			        deatilsRow = dprSheet.createRow(5);
 			        
-			        cell = deatilsRow.createCell(2);
+			        cell = deatilsRow.createCell(0);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("Contract ");
 					
-					cell = deatilsRow.createCell(3);
+					cell = deatilsRow.createCell(1);
 			        cell.setCellStyle(indexWhiteStyle);
 			        
 					cell.setCellValue(cObj.getContract_id() + " - " + contractname);
 			        
-					for (int i = 4; i < 9; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(5,5, 3,8));
+					dprSheet.addMergedRegion(new CellRangeAddress(5,5, 1,6));
 					
 					/********************************************************/
 					
 					/********************************************************/	
 			        deatilsRow = dprSheet.createRow(6);
 			        
-			        cell = deatilsRow.createCell(2);
+			        cell = deatilsRow.createCell(0);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("Contractor ");
 					
-					cell = deatilsRow.createCell(3);
+					cell = deatilsRow.createCell(1);
 			        cell.setCellStyle(indexWhiteStyle);
 			        String contractorname=service.getContractorName(cObj.getContractor_id());
 					cell.setCellValue(contractorname);
 					
-					for (int i = 4; i < 9; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(6,6, 3,8));
+					dprSheet.addMergedRegion(new CellRangeAddress(6,6, 1,6));
 			        
 					/********************************************************/
 			        
@@ -1574,7 +1578,7 @@ public class ActivitiesProgressReportController {
 					        
 					        XSSFRow headingRow = dprSheet.createRow(rowNo++);
 					        for (int i = 0; i < headerStringArr.length; i++) {		        	
-						        cell = headingRow.createCell(i+2);
+						        cell = headingRow.createCell(i);
 						        cell.setCellStyle(greenStyle);
 								cell.setCellValue(headerStringArr[i]);
 							}	
@@ -1593,7 +1597,7 @@ public class ActivitiesProgressReportController {
 								        	
 									        for (ActivitiesProgressReport dObj : dataList) {
 										        XSSFRow row = dprSheet.createRow(rowNo);
-										        int c = 2;
+										        int c = 0;
 										      if(repeat == 0) {
 										    	   cell = row.createCell(c++);
 													cell.setCellStyle(indexWhiteStyle);
@@ -1603,16 +1607,16 @@ public class ActivitiesProgressReportController {
 													cell.setCellStyle(indexWhiteStyle);
 													cell.setCellValue(dObj.getStructure());
 													
-													for (int i = 4; i < 9; i++) {		        	
+													for (int i = 2; i < 7; i++) {		        	
 												        cell = row.createCell(i);
 												        cell.setCellStyle(indexWhiteStyle);
 														cell.setCellValue("");
 													}	
-													dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
+													dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 1,6));
 													 structure = dObj.getStructure();
 													rowNo++;repeat++;
 													row = dprSheet.createRow(rowNo);
-													c = 2;
+													c = 0;
 										       }
 										      
 										        cell = row.createCell(c++);
@@ -1652,27 +1656,31 @@ public class ActivitiesProgressReportController {
 					        else
 					        {
 							
-							    int tempRowNoRemarks = rowNo;
+								int tempRowNoRemarks = rowNo;
 							    
 							    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
 						        
-						        cell = remarksRow.createCell(2);
+						        cell = remarksRow.createCell(0);
 						        cell.setCellStyle(indexWhiteStyle);
 						        
-						        String remarks="No Progress for the Period";
+						        String remarks="No Progress for the period";
 								cell.setCellValue(remarks);
 								
-								for (int i = 3; i < 9; i++) {		        	
+								for (int i = 1; i < 7; i++) {		        	
 							        cell = remarksRow.createCell(i);
 							        cell.setCellStyle(indexWhiteStyle);
 									cell.setCellValue("");
 								}	
-								dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 2,8));
+								dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,6));
 					        }
 						    
 						    for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
 							     //sheet.autoSizeColumn(columnIndex);
 				            	dprSheet.setColumnWidth(columnIndex+2, 25 * 200);
+				            	dprSheet.setColumnWidth(0, 27 * 200);
+				            	dprSheet.setColumnWidth(1, 25 * 200);
+				            	dprSheet.setColumnWidth(2, 30 * 200);
+				            	dprSheet.setColumnWidth(3, 30 * 200);
 							}				        
 						}	        
 	        }
@@ -1680,7 +1688,7 @@ public class ActivitiesProgressReportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "Activities_Report_"+dateFormat.format(date);
+            String fileName = "Report_for_the_Period_"+dateFormat.format(date);
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");

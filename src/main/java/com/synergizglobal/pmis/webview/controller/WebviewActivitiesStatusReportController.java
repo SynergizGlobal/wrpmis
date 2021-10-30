@@ -216,7 +216,7 @@ public class WebviewActivitiesStatusReportController {
 			        
 			        cell = mainHeadingRow.createCell(0);
 			        cell.setCellStyle(centerStyle);
-					cell.setCellValue("Activities Progress Report ");
+					cell.setCellValue("Structure Status Report ");
 			        for (int i = 1; i < 6; i++) {		        	
 				        cell = mainHeadingRow.createCell(i);
 				        cell.setCellStyle(greenStyle);

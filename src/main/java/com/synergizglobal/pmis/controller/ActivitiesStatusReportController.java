@@ -216,7 +216,7 @@ public class ActivitiesStatusReportController {
 			        
 			        cell = mainHeadingRow.createCell(0);
 			        cell.setCellStyle(centerStyle);
-					cell.setCellValue("Activities Progress Report ");
+					cell.setCellValue("Structure Status Report ");
 			        for (int i = 1; i < 6; i++) {		        	
 				        cell = mainHeadingRow.createCell(i);
 				        cell.setCellStyle(greenStyle);
@@ -399,7 +399,7 @@ public class ActivitiesStatusReportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "Activities_Progress_Report_"+dateFormat.format(date);
+            String fileName = "Structure_Status_Report_"+dateFormat.format(date);
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");

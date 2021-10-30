@@ -302,7 +302,7 @@ public class ProgressUpdateReportController {
 						byteArray = bos.toByteArray();
 						InputStream targetStream = new ByteArrayInputStream(byteArray);
 						String FILE_EXTENSION = ".docx";
-						String fileName = "Progress Update Report - " + currentDate + FILE_EXTENSION;
+						String fileName = "Progress Entry Report - " + currentDate + FILE_EXTENSION;
 						
 						response.setContentType("application/.csv");
 						response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

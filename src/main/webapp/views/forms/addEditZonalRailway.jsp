@@ -136,7 +136,17 @@
 		#zonal_railway_table tbody td{
 			vertical-align:baseline;
 		}
-
+	@media only screen and (max-width: 575px){
+			.s6.amount-dropdown .select-wrapper,
+			.s6 .amount-dropdown .select-wrapper,
+			.mdl-data-table .amount-dropdown .select-wrapper{
+			    max-width: 30px;
+			}
+			.s6.amount-dropdown > input,
+			.s6 .amount-dropdown > input{
+			    padding-left:1.5rem !important;
+			}
+		}
     </style>
 
 </head>
@@ -226,7 +236,7 @@
 							</c:if>
                             <div class="row">
                              <c:if test="${action eq 'add'}">
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label fs-sm-8rem">Executing Agency <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="execution_agency_railway_fk" name="execution_agency_railway_fk">
                                         <option value="" >Select</option>
@@ -253,7 +263,7 @@
                             
                                <!--  <div class="col s12 m8 input-field"> 
                                     <div class="row">-->
-                                        <div class="col s6 m4 l4 input-field offset-m2">
+                                        <div class="col s6 m4 l4 input-field">
                                             <p class="searchable_label">Source of Funds </p>
                                             <select class="searchable" id="source_of_funds" name="source_of_funds">
                                                 <option value="" >Select</option>
@@ -262,7 +272,7 @@
 		                                        </c:forEach>
                                             </select>
                                         </div>
-                                         <div class="col s12 m4 l4 input-field">
+                                         <div class="col s12 m8 l4 input-field offset-m2">
                                             <p class="searchable_label fs-sm-8rem">Nodal Officer in MRVC </p>
                                             <select class="searchable" id="responsible_person_user_fk" name="responsible_person_user_fk">
                                                 <option value="" >Select</option>
@@ -276,7 +286,7 @@
                                 </div> -->
                             </div>
 						<div class="row">
-							<div class="col s12 m4 l4 input-field offset-m2">
+							<div class="col s6 m4 l4 input-field offset-m2">
 								<p class="searchable_label mb-lg-5px">Status</p>
 								<select class="searchable" id="status_fk" name="status_fk">
 									<option value="">Select</option>
@@ -286,13 +296,20 @@
 									</c:forEach>
 								</select>
 							</div>
-							<div class="col s8 m3 l3 input-field offset-m2">
-                                    <i class="material-icons prefix center-align">₹</i>
+							<div class="col s6 m4 l4 input-field amount-dropdown">
+                                    <i class="material-icons amount-symbol center-align">₹</i>
                                     <input id="sanction_cost" name="sanction_cost" type="number" class="validate" min="0.01" step="0.01" value="${zonalRailwayDetails.sanction_cost }">
                                     <label for="sanction_cost">Sanction Cost</label>
                                     <span id="sanction_costError" class="error-msg"></span>
+                                	<span id="sanction_cost_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="sanction_cost_units" name="sanction_cost_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.sanction_cost_units eq obj.value }">selected</c:if> <c:if test="${empty zonalRailwayDetails.sanction_cost_units}">selected</c:if>>${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
                                 </div>
-                                <div class="col s4 m1 l1 input-field pt-5">
+                                <%-- <div class="col s4 m1 l1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="sanction_cost_units" name="sanction_cost_units">
                                 		<option value="">Select</option>
@@ -301,15 +318,22 @@
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="sanction_cost_unitsError" class="error-msg" ></span>
-                               	</div>
-                               	<div class="col s8 m3 l3 input-field">
-                                     <i class="material-icons prefix center-align">₹</i>
+                               	</div> --%>
+                               	<div class="col s12 m8 l4 input-field amount-dropdown offset-m2">
+                                     <i class="material-icons amount-symbol center-align">₹</i>
                                     <input id="latest_revised_cost" name="latest_revised_cost" type="number" min="0.01" step="0.01"  value="${zonalRailwayDetails.latest_revised_cost }"
                                         class="validate">
                                     <label for="latest_revised_cost" class="fs-sm-8rem">Latest Revised Cost</label>
                                     <span id="latest_revised_costError" class="error-msg"></span>
+                                	<span id="latest_revised_cost_unitsError" class="error-msg right" ></span>
+                                    <select class=" validate-dropdown" id="latest_revised_cost_units" name="latest_revised_cost_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.latest_revised_cost_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.latest_revised_cost_units}">selected</c:if>>${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
                                 </div>
-                                <div class="col s4 m1 l1 input-field pt-5">
+                               <%--  <div class="col s4 m1 l1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="latest_revised_cost_units" name="latest_revised_cost_units">
                                 		<option value="">Select</option>
@@ -318,21 +342,26 @@
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="latest_revised_cost_unitsError" class="error-msg" ></span>
-                               	</div>
+                               	</div> --%>
 							
 						</div>
 
-						
-
                             <div class="row">
-                                <div class="col s9 m3 l3 input-field sm-width-redused">
-                                     <i class="material-icons prefix center-align">₹</i>	
+                                <div class="col s12 m8 l4 input-field sm-width-redused amount-dropdown offset-m2">
+                                     <i class="material-icons amount-symbol center-align">₹</i>	
                                     <input id="cumilative_expenditure" name="cumulative_expenditure_upto_last_finacial_year" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cumulative_expenditure_upto_last_finacial_year }"
                                         class="validate">
                                     <label for="cumilative_expenditure" class="fs11px lh14">Cumulative Expenditure upto Last Financial Year </label>
                                     <span id="cumulative_expenditure_upto_last_finacial_yearError" class="error-msg"></span>
+                                	<span id="cumilative_expenditure_unitsError" class="error-msg right" ></span>
+                                    	<select class="validate-dropdown" id="cumilative_expenditure_units" name="cumilative_expenditure_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cumilative_expenditure_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.cumilative_expenditure_units}">selected</c:if>>${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
                                 </div>
-                                <div class="col s3 m1 l1 input-field pt-5">
+                               <%--  <div class="col s3 m1 l1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="cumilative_expenditure_units" name="cumilative_expenditure_units">
                                 		<option value="">Select</option>
@@ -340,16 +369,23 @@
 	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cumilative_expenditure_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.cumilative_expenditure_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
-                                	<span id="cumilative_expenditure_unitsError" class="error-msg" ></span>
-                               	</div>
-                               	 <div class="col s12 m3 l3 input-field ">
-                                     <i class="material-icons prefix center-align">₹</i>	
+                                	<span id="cumilative_expenditure_unitsError" class="error-msg right" ></span>
+                               	</div> --%>
+                               	 <div class="col s12 m8 l4 input-field amount-dropdown offset-m2">
+                                     <i class="material-icons amount-symbol center-align">₹</i>	
                                     <input id="cum_actual_expenditure" name="cum_actual_expenditure" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cum_actual_expenditure }" 	
                                         class="validate">
                                     <label for="cum_actual_expenditure" class="fs11px lh14">Cumulative Actual Expenditure</label>
                                     <span id="cum_actual_expenditure_crError" class="error-msg"></span>
+                                	<span id="cumilative_actual_expenditure_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="cum_actual_expenditure_units" name="cum_actual_expenditure_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cum_actual_expenditure_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.cum_actual_expenditure_units}">selected</c:if>>${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
                                 </div>
-                                <div class="col s4 m1 input-field pt-5">
+                                <%-- <div class="col s4 m1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="cum_actual_expenditure_units" name="cum_actual_expenditure_units">
                                 		<option value="">Select</option>
@@ -357,16 +393,23 @@
 	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cum_actual_expenditure_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.cum_actual_expenditure_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
-                                	<span id="cumilative_actual_expenditure_unitsError" class="error-msg" ></span>
-                               	</div>
-                                <div class="col s8 m3 l3 input-field offset-m2">
-                                    <i class="material-icons prefix center-align">₹</i>
+                                	<span id="cumilative_actual_expenditure_unitsError" class="error-msg right" ></span>
+                               	</div> --%>
+                                <div class="col s12 m8 l4 input-field offset-m2 amount-dropdown">
+                                    <i class="material-icons amount-symbol center-align">₹</i>
                                     <input id="completion_cost" name="completion_cost" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.completion_cost }"
                                         class="validate">
                                     <label for="completion_cost">Completion Cost</label>
                                     <span id="completion_costError" class="error-msg"></span>
+                                	<span id="completion_cost_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="completion_cost_units" name="completion_cost_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.completion_cost_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.completion_cost_units}">selected</c:if>>${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
                                 </div>
-                                 <div class="col s4 m1 l1 input-field pt-5">
+                                <%--  <div class="col s4 m1 l1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="completion_cost_units" name="completion_cost_units">
                                 		<option value="">Select</option>
@@ -374,8 +417,8 @@
 	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.completion_cost_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.completion_cost_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
-                                	<span id="completion_cost_unitsError" class="error-msg" ></span>
-                               	</div>                                
+                                	<span id="completion_cost_unitsError" class="error-msg right" ></span>
+                               	</div>  --%>                               
                             </div>
 
 							<div class="row">

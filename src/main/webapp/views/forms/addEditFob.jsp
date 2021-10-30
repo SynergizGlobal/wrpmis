@@ -415,13 +415,20 @@
                                     <button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="target_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s8 m3 l4 input-field">
-                                	<i class="material-icons prefix cost">₹</i>   
+                                <div class="col s12 m4 l6 input-field amount-dropdown">
+                                	<i class="material-icons amount-symbol cost">₹</i>   
                                     <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }" min="0.01" step="0.01" <c:if test="${not empty fob.estimated_cost}">readonly</c:if>>
                                     <label for="estimated_cost">Estimated Cost</label>
                                     <span id="estimated_costError" class="error-msg" ></span> 
+                                	<span id="estimated_cost_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${fob.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		 </c:forEach>
+                                	</select>
                                 </div>
-                                <div class="col s4 m1 l2 input-field">
+                              <%--   <div class="col s4 m1 l2 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
                                 		<option value="">Select</option>
@@ -430,7 +437,7 @@
                                    		 </c:forEach>
                                 	</select>
                                 	<span id="estimated_cost_unitsError" class="error-msg" ></span>
-                                </div>
+                                </div> --%>
                             </div>
                             
                             <div class="row">
@@ -456,6 +463,7 @@
                             </c:if>
                             
                             <div class="row">
+                            	<div class="col m2 hide-on-small-only"></div> 
                                 <div class="col s6 m4 l6 input-field " id="construction_start_dateDiv" style="display: none;">
                                     <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }" <c:if test="${not empty fob.construction_start_date}">disabled</c:if>>
                                     <label for="construction_start_date" class="fs-sm-8rem">Construction Start Date </label>
@@ -467,8 +475,7 @@
                                     <label for="revised_completion" class="fs-sm-8rem">Target completion Date </label>
                                     <button type="button" id="revised_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="revised_completionError" class="error-msg" ></span>
-                                </div> 
-                                <div class="col m2 hide-on-small-only"></div>                               
+                                </div>                                                               
                             </div>
                             
 							<c:if test="${action eq 'edit'}">

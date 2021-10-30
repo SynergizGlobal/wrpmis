@@ -1489,7 +1489,7 @@ public class ActivitiesProgressReportController {
 				            rowNo++;
 				            int tempRowNo = rowNo;
 				            XSSFRow structureRow = dprSheet.createRow(rowNo++);
-					        
+				            cObj.setFob_id_fk(structure);
 					        cell = structureRow.createCell(2);
 					        cell.setCellStyle(indexWhiteStyle);
 							cell.setCellValue("Structure ");

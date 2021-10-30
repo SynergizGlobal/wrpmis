@@ -820,7 +820,7 @@ public class ActivitiesProgressReportController {
 										        cell = row.createCell(c++);
 												cell.setCellStyle(sectionStyle);
 												cell.setCellValue(dObj.getStructure());
-												
+												structure = dObj.getStructure();
 												cell = row.createCell(c++);
 												cell.setCellStyle(sectionStyle);
 												cell.setCellValue(dObj.getComponent());
@@ -847,7 +847,7 @@ public class ActivitiesProgressReportController {
 												
 										        rowNo++;
 									        }
-									        String remarks=service.getActivitiesRemarks(cObj.getFob_id_fk(),obj.getFrom_date());
+									        String remarks=service.getActivitiesRemarks(structure,obj.getFrom_date());
 											if(remarks!=null && remarks!="" && !remarks.isEmpty())
 											{
 											    int tempRowNoRemarks = rowNo;

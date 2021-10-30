@@ -686,30 +686,37 @@
 																										 value="${dObj.training_session_id_fk}" />
 																										<input type="hidden" class="no-reset" name="training_attendees_ids" id="new_training_attendees_ids0${indexx.count }${index.count }${indexx.count }"
 																										value="${dObj.training_attendees_id }" /> 
-																										<select class="searchable no-reset validate-dropdown" name="department_fks" id="new_department_fks0${indexx.count }${index.count }${indexx.count }" onchange="getHODsList('0${indexx.count }${index.count }${indexx.count }');">
+																										<select class="searchable no-reset validate-dropdown department_fks" name="department_fks" id="new_department_fks0${indexx.count }${index.count }${indexx.count }" onchange="getHODsList('0${indexx.count }${index.count }${indexx.count }');">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj"
 																												items="${departmentsList}">
 																												<option value="${obj.department_fk }"
 																													<c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>
 																											</c:forEach>
-																									</select> <span id="new_training_category_fkError" class="error-msg"></span></td>																									
+																									</select><span id="new_department_fksError0${index.count }" class="error-msg"></span></td>																									
 																									<td data-head="HOD" class="input-field">																											
-																                                        <select class="searchable no-reset" name="hod_user_id_fks" id="new_hod_user_id_fks0${indexx.count }${index.count }${indexx.count }" onchange="setHODDeptList('0${indexx.count }${index.count }${indexx.count }');">
+																                                        <select class="searchable no-reset hod_user_id_fks"  name="hod_user_id_fks" id="new_hod_user_id_fks0${indexx.count }${index.count }${indexx.count }" onchange="setHODDeptList('0${indexx.count }${index.count }${indexx.count }');">
 																                                            <option value="" >Select HOD</option>  
 																                                            <c:forEach var="obj" items="${dObj.HODsList}">
 																												<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation }</option>
 																											</c:forEach>                                         
-																                                        </select>                                   
+																                                        </select>  
+																                                        <span id="new_hod_user_id_fkError0${index.count }" class="error-msg"></span>                                 
 																									</td>
 																									<input type="hidden"  name="is_new_users" class="no-reset" value="Yes"/>
 																									<td data-head="Attendee" class="input-field">
-																										 <input id="new_attendees0${indexx.count }${index.count }${indexx.count }" name="attendees" type="text" class="validate no-reset" placeholder="Name" value="${dObj.attendee}">
+																										 <input id="new_attendees0${indexx.count }${index.count }${indexx.count }" name="attendees" type="text" class="validate no-reset attendees" placeholder="Name" value="${dObj.attendee}">
+																										 <span id="new_attendeesError0${index.count }" class="error-msg"></span>  
 																									</td>
-																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations0${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}" class="no-reset"></td>		
-																									<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email0${indexx.count }${index.count }${indexx.count }" name="emails" value="${dObj.email}" class="no-reset"></td>		
-																									<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${indexx.count }${index.count }${indexx.count }" name="mobile_nos" class="no-reset" type="number" class="validate" placeholder="Mobile"
-																										value="${dObj.mobile_no }"></td>
+																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}" class="no-reset trainee_designations">
+																									<span id="new_trainee_designationsError0${index.count }" class="error-msg"></span></td>		
+																									<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email0${indexx.count }${index.count }${indexx.count }" name="emails" value="${dObj.email}" class="no-reset email">
+																										<span id="emailError0${index.count }" class="error-msg"></span>
+																									</td>		
+																									<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${indexx.count }${index.count }${indexx.count }" name="mobile_nos" class="no-reset" type="number" class="validate new_mobile_nos" placeholder="Mobile"
+																										value="${dObj.mobile_no }">
+																										<span id="mobile_nosError0${index.count }" class="error-msg"></span>
+																									</td>
 																									<td data-head="Nominated" class="input-field">
 																										<p class="disp-init">
 																											<label><input type="hidden" class="no-reset" name="required_fks" value ="${dObj.required_fk}" id="new_required_fk0${indexx.count }${index.count }${indexx.count }" />
@@ -719,6 +726,7 @@
 																												<span></span>
 																											</label>
 																										</p>
+																										<span id="new_required_fkError0${index.count }" class="error-msg"></span>
 																									</td>
 																									<td data-head="Participated" class="input-field">
 																										<p class="disp-init">
@@ -729,6 +737,7 @@
 																												<span></span>
 																											</label>
 																										</p>
+																										<span id="new_participated_fkError0${index.count }" class="error-msg"></span>
 																									</td>
 																									<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('0${indexx.count }${index.count }','${index.count }');"
 																										class="btn waves-effect waves-light red t-c ">
@@ -771,42 +780,50 @@
 																								<input type="hidden" name="training_session_id_fks" id="new_training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
 																									 <input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids0${index.count }" />
-																									  <select class="searchable validate-dropdown" name="department_fks" id="new_department_fks0${index.count }" onchange="getHODsList('0${index.count }');">
+																									  <select class="searchable validate-dropdown department_fks" name="department_fks" id="new_department_fks0${index.count }" onchange="getHODsList('0${index.count }');">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj" items="${departmentsList}">
 																												<option value="${obj.department_fk }">${obj.department_name }</option>
 																											</c:forEach>
-																									  </select> <span id="new_training_category_fkError" class="error-msg"></span></td>
+																									  </select><span id="new_department_fksError0${index.count }" class="error-msg"></span></td>
 																								<td data-head="HOD" class="input-field">																											
-																                                        <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks0${index.count }" onchange="setHODDeptList('0${index.count }');">
+																                                        <select class="searchable hod_user_id_fks" name="hod_user_id_fks" id="new_hod_user_id_fks0${index.count }" onchange="setHODDeptList('0${index.count }');">
 																                                            <option value="" >Select HOD</option>  
 																                                        <c:forEach var="obj" items="${usersList}">
 																												<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>
 																											</c:forEach>                                            
-																                                        </select>                                   
+																                                        </select>        
+																                                        <span id="new_hod_user_id_fkError0${index.count }" class="error-msg"></span>                           
 																								</td>
 																								<%-- <input type="hidden" id="rowsCounts${index.count }" name="rowsCounts"/>	 --%>
 																								<input type="hidden"  name="is_new_users" value="Yes"/>
 																								<td data-head="Attendee" class="input-field">																									
-																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate" placeholder="Name">																								    
+																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate attendees" placeholder="Name">		
+																									<span id="new_attendeesError0${index.count }" class="error-msg"></span>  																						    
 																								</td>	
-																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${index.count }" name="trainee_designations" ></td>																							
-																								<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email0${index.count }" name="emails" ></td>																							
-																								<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
+																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${index.count }" name="trainee_designations" class="trainee_designations">
+																									<span id="new_trainee_designationsError0${index.count }" class="error-msg"></span>  </td>																							
+																								<td data-head="Email" class="input-field"> <input class="email" type="text" placeholder="Email" id="email0${index.count }" name="emails" >
+																									<span id="emailError0${index.count }" class="error-msg"></span>
+																								</td>																							
+																								<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${index.count }" name="mobile_nos" type="number" class="validate new_mobile_nos" placeholder="Mobile">
+																									<span id="mobile_nosError0${index.count }" class="error-msg"></span>
 																								</td>
 																								<td data-head="Nominated" class="input-field">
 																									<p class="disp-init">
 																										<label> <input type="hidden" id="new_required_fk0${index.count }" name="required_fks" value="No" class="req" />
-																											<input type="checkbox" id="new_required_fks0${index.count }" /> <span></span>
+																											<input type="checkbox" id="new_required_fks0${index.count }" class="required_fks" /> <span></span>
 																										</label>
 																									</p>
+																									<span id="new_required_fkError0${index.count }" class="error-msg"></span>
 																								</td>
 																								<td data-head="Participated" class="input-field">
 																									<p class="disp-init">
 																										<label> <input type="hidden" id="new_participated_fk0${index.count }" name="participated_fks" value="No" class="part" /> 
-																											<input type="checkbox" id="new_participated_fks0${index.count }"  /> <span></span>
+																											<input type="checkbox" id="new_participated_fks0${index.count }" class="participated_fks" /> <span></span>
 																										</label>
 																									</p>
+																									<span id="new_participated_fkError0${index.count }" class="error-msg"></span>
 																								</td>
 																								<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('0${index.count }','${index.count }');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
 																							</tr>
@@ -866,7 +883,7 @@
 																			</c:choose>
 																			<div class="row" style="margin:0;">    
 																				<div class="col s6 m4 offset-m2 center-align">        
-																					<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>    
+																					<a type="button" onclick="validateAttendees(${index.count });"  class="btn waves-effect waves-light bg-m t-c"> Update</a>    
 																				</div>   
 																				<div class="col s6 m4 center-align">    
 																				    <button type="button" class="btn waves-effect waves-light modal-close t-c bg-s" onclick="resetModal(this)">Cancel</button>     
@@ -987,41 +1004,49 @@
 																				<tr id="newAttendeesRow00">
 																					<td data-head="Department" class="input-field">
 																					<input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" value="${tObj.training_session_id_fk}"/> 
-																					<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks00" onchange="getHODsList('00');">
+																					<select class="searchable validate-dropdown department_fks" name="department_fks" id="new_department_fks00" onchange="getHODsList('00');">
 																							<option value="">Select Department</option>
 																							<c:forEach var="obj" items="${departmentsList}">
 																								<option value="${obj.department_fk }">${obj.department_name }</option>
 																							</c:forEach>
-																					</select> <!-- //pattern="[6-7-9]{1}[0-9]{9}" --> 
-																					<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks00" onchange="setHODDeptList('00');">
+																					</select>  <span id="new_department_fksError00${index.count }" class="error-msg"></span> <!-- //pattern="[6-7-9]{1}[0-9]{9}" --> 
+																					<td data-head="HOD" class="input-field"> <select class="searchable hod_user_id_fks" name="hod_user_id_fks" id="new_hod_user_id_fks00" onchange="setHODDeptList('00');">
 																					<option value="" >Select HOD</option>
 																					 <c:forEach var="obj" items="${usersList}">
 																							<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>
 																					</c:forEach>   
-																					</select>    
+																					</select> 
+																					<span id="new_hod_user_id_fkError00${index.count }" class="error-msg"></span>   
 																					</td>
 																					<input type="hidden"  name="is_new_users" value="Yes"/>
-																					<td data-head="Attendee" class="input-field">																						
-																						 <input id="new_attendees00" name="attendees" type="text" class="validate" placeholder="Name">
+																					<td data-head="Attendee" class="input-field attendees">																						
+																						 <input id="new_attendees00" name="attendees" type="text" class="validate attendees" placeholder="Name">
+																						 <span id="new_attendeesError00${index.count }" class="error-msg"></span>  
 																					</td>
-																					<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0" name="trainee_designations" ></td>
-																					<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email0" name="emails" ></td>
-																					<td data-head="Mobile" class="input-field"><input id="new_mobile_nos00" name="mobile_nos" type="number" class="validate num" placeholder="Mobile">
-																					<br><span id="new_mobile_nosError" class="error-msg"></span></td>
+																					<td data-head="Designation" class="input-field"> <input class="trainee_designations" type="text" placeholder="Designation" id="new_trainee_designations0" name="trainee_designations" >
+																						<span id="new_trainee_designationsError00${index.count }" class="error-msg"></span>	
+																					</td>
+																					<td data-head="Email" class="input-field"> <input class="email" type="text" placeholder="Email" id="email0" name="emails" >
+																						<span id="emailError00${index.count }" class="error-msg"></span>
+																					</td>
+																					<td data-head="Mobile" class="input-field"><input id="new_mobile_nos00" name="mobile_nos" type="number" class="validate num new_mobile_nos" placeholder="Mobile">
+																					<br><span id="mobile_nosError00${index.count }" class="error-msg"></span></td>
 																					<td data-head="Nominated" class="input-field">
 																						<p class="disp-init">
 																							<label> 
 																								<input type="hidden" id="new_required_fk00" name="required_fks" value="No" class="req" /> 
-																								<input type="checkbox" id="new_required_fks0" /> <span></span>
+																								<input type="checkbox" id="new_required_fks0" class="required_fks" /> <span></span>
 																							</label>
 																						</p>
+																						<span id="new_required_fkError00${index.count }" class="error-msg"></span>
 																					</td>
 																					<td data-head="Participated" class="input-field">
 																						<p class="disp-init">
 																							<label> <input type="hidden" id="new_participated_fk00" name="participated_fks" value="No" class="part" />
-																								<input type="checkbox" id="new_participated_fks00"  /> <span></span>
+																								<input type="checkbox" id="new_participated_fks00" class="participated_fks" /> <span></span>
 																							</label>
 																						</p>
+																						<span id="new_participated_fkError00${index.count }" class="error-msg"></span>
 																					</td>
 																					
 																					<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('00','0');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i>
@@ -1065,7 +1090,7 @@
 																		</table>
 																		<div class="row" style="margin:0;">    
 																			<div class="col s6 m4 offset-m2 center-align">        
-																				<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>    
+																				<a type="button" onclick="validateAttendees(00);" class="btn waves-effect waves-light bg-m t-c"> Update</a>    
 																			</div>    
 																			<div class="col s6 m4 center-align">        
 																				<button type="button" class="btn waves-effect waves-light modal-close t-c bg-s" onclick="resetModal(this)">Cancel</button>  
@@ -1564,23 +1589,23 @@
             '<td data-head="Department" class="input-field">'+
 		 	   '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+tNo+'" value="'+trainingSessionId+'" />'+
 			   '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo +tNo+'" />'+
-            '<select id="new_department_fks'+ rNo +tNo+'" name="department_fks" class="searchable validate-dropdown " onchange="getHODsList('+ rNo +tNo+');">'+
+            '<select id="new_department_fks'+ rNo +tNo+'" name="department_fks" class="searchable validate-dropdown department_fks" onchange="getHODsList('+ rNo +tNo+');">'+
             '<option value="" >Select Department</option>'+
 	                <c:forEach var="obj" items="${departmentsList}">
 	             	  '<option value="${obj.department_fk }">${obj.department_name}</option>' +
 	                </c:forEach>
-      	    '</select></td><input type="hidden"  name="is_new_users" value="Yes"/>'+
-             '<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks'+ rNo +tNo+'" onchange="setHODDeptList('+ rNo +tNo+');">'+
+      	    '</select> <span id="new_department_fksError'+ rNo +tNo+'" class="error-msg"></span> </td><input type="hidden"  name="is_new_users" value="Yes"/>'+
+             '<td data-head="HOD" class="input-field"> <select class="searchable hod_user_id_fks" name="hod_user_id_fks" id="new_hod_user_id_fks'+ rNo +tNo+'" onchange="setHODDeptList('+ rNo +tNo+');">'+
              '<option value="" >Select HOD</option>'+
              	<c:forEach var="obj" items="${usersList}">
 					'<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
 				</c:forEach> 
-             '</select></td>'+
-             '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate" placeholder="Name"></td>' +
-             '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations'+ rNo +tNo+'" name="trainee_designations" ></td><td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email'+ rNo +tNo+'" name="emails" ></td>'+
-             '<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
-             '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
-             '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
+             '</select><span id="new_hod_user_id_fkError'+ rNo +tNo+'" class="error-msg"></span></td>'+
+             '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate attendees" placeholder="Name"><span id="new_attendeesError'+ rNo +tNo+'" class="error-msg"></span>  </td>' +
+             '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" class="trainee_designations" id="new_trainee_designations'+ rNo +tNo+'" name="trainee_designations" ><span id="new_trainee_designationsError'+ rNo +tNo+'" class="error-msg"></span></td><td data-head="Email" class="input-field"> <input class="email" type="text" placeholder="Email" id="email'+ rNo +tNo+'" name="emails" ><span id="emailError'+ rNo +tNo+'" class="error-msg"></span></td>'+
+             '<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate new_mobile_nos" placeholder="Mobile"><span id="mobile_nosError'+ rNo +tNo+'" class="error-msg"></span> </td>' +
+             '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p><span id="new_required_fkError'+ rNo +tNo+'" class="error-msg"></span></td>' +
+             '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p><span id="new_participated_fkError'+ rNo +tNo+'" class="error-msg"></span></td>' +
              '<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('+rNo+','+tNo+'); " class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
              $('#newAttendeesTableBody'+ tNo1).append(html);
              $("#newTrainNo").val(rNo );
@@ -1605,7 +1630,76 @@
                	  $("#new_participated_fk"+ rNo+tNo).prop('checked',false).removeAttr('checked');;
                  }
             });
+           	 $('.attendees').keyup(function(key, element){
+      			$(".attendees").each(function(){
+      				var idNo = (this.id).replace('new_attendees',''); 
+            		if($.trim(this.value) != ""){ 
+            			$('#new_attendeesError'+idNo).text('');
+      			}
+                });
+      		});
+           $('.department_fks').change(function(key, element){
+     			$(".department_fks").each(function(){
+     				var idNo = (this.id).replace('new_department_fks',''); 
+           		if($.trim(this.value) != ""){ 
+           			$('#new_department_fksError'+idNo).text('');
+     			}
+               });
+     		});
+           $('.required_fks').change(function(key, element){
+     			$(".required_fks").each(function(){
+     				var idNo = (this.id).replace('new_required_fks',''); 
+     				var new_required_fks = $("#new_required_fks"+idNo+":checked");
+          			if($("#new_required_fks"+idNo).is(":checked")){
+            			$('#new_required_fkError'+idNo).text('');
+     			}
+                });
+     		}); 
+           $('.participated_fks').change(function(key, element){
+     			$(".participated_fks").each(function(){
+     				var idNo = (this.id).replace('new_participated_fks',''); 
+     				var participatedCheck = $("#new_participated_fks"+idNo+":checked");
+          			if($("#new_participated_fks"+idNo).is(":checked")){
+             			$('#new_participated_fkError'+idNo).text('');
+     				}
+                 });
+     		});  
+           $('.new_mobile_nos').keyup(function(key, element){
+     			$("input[name=mobile_nos]").each(function(){
+     				var idNo = (this.id).replace('new_mobile_nos',''); 
+           		if($.trim(this.value) != "" ){ 
+           			$('#mobile_nosError'+idNo).text('');
+     			}
+               });
+     			
+     		});
+           $('.email').keyup(function(key, element){
+     			$("input[name=emails]").each(function(){
+     				var idNo = (this.id).replace('email',''); 
+           		if($.trim(this.value) != "" ){ 
+            			$('#emailError'+idNo).text('');
+     			}
+                }); 
+     		});
+           $('.trainee_designations').keyup(function(key, element){
+     			$("input[name=trainee_designations]").each(function(){
+     				var idNo = (this.id).replace('new_trainee_designations',''); 
+             		if($.trim(this.value) != "" ){ 
+             			$('#new_trainee_designationsError'+idNo).text('');
+     				}
+                 });
+     		});
+           $('.hod_user_id_fks').change(function(key, element){
+      			$(".hod_user_id_fks").each(function(){
+      				var idNo = (this.id).replace('new_hod_user_id_fks',''); 
+              		if($.trim(this.value) != "" ){ 
+              			$('#new_hod_user_id_fkError'+idNo).text('');
+      					$('#new_department_fksError'+idNo).text('');
+      				}
+                  });
+      		});
           
+                       
         }
         
         function addSessionRow(sessionId) {
@@ -1660,36 +1754,36 @@
 						'<tbody id="newAttendeesTableBody'+ rNo +'" ><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><tr id="newAttendeesRow'+0+0+rNo+1+'"><td data-head="Department" class="input-field">'+
 						    '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo+i+'" />'+
-						    '<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks'+ rNo+i+'" onchange="getHODsList('+ rNo+i+');">'+
+						    '<select class="searchable validate-dropdown department_fks" name="department_fks" id="new_department_fks'+ rNo+i+'" onchange="getHODsList('+ rNo+i+');">'+
 						      ' <option value="" >Select Department </option>'+
 					             <c:forEach var="obj" items="${departmentsList}">
 						            '<option value="${obj.department_fk }" >${obj.department_name }</option>'+
 						          </c:forEach>
-						     '</select></td>'+
-							'<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks'+ rNo +i+'" onchange="setHODDeptList('+ rNo +i+');">'+
+						     '</select><span id="new_department_fksError'+ rNo+i+'" class="error-msg"></span> </td>'+
+							'<td data-head="HOD" class="input-field"> <select class="searchable hod_user_id_fks" name="hod_user_id_fks" id="new_hod_user_id_fks'+ rNo +i+'" onchange="setHODDeptList('+ rNo +i+');">'+
 							'<option value="" >Select HOD</option>'+
 			                <c:forEach var="obj" items="${usersList}">
 								'<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
 							</c:forEach> 
-			                '</select> </td><input type="hidden"  name="is_new_users" value="Yes"/>'+
+			                '</select> <span id="new_hod_user_id_fkError'+ rNo +i+'" class="error-msg"></span></td><input type="hidden"  name="is_new_users" value="Yes"/>'+
 			               // '</select></td>'+
-							'<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo+i+'" name="attendees" type="text" class="validate" placeholder="Name"></td>' +
-			                '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations'+ rNo+i+'" name="trainee_designations" ></td>'+
-			                '<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email'+ rNo+i+'" name="emails" ></td>'+
-							'<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
-			                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
-			                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +
+							'<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo+i+'" name="attendees" type="text" class="validate attendees" placeholder="Name"><span id="new_attendeesError'+ rNo+i+'" class="error-msg"></span></td>' +
+			                '<td data-head="Designation" class="input-field"> <input type="text" class="trainee_designations" placeholder="Designation" id="new_trainee_designations'+ rNo+i+'" name="trainee_designations" ><span id="new_trainee_designationsError'+ rNo+i+'" class="error-msg"></span></td>'+
+			                '<td data-head="Email" class="input-field"> <input class="email" type="text" placeholder="Email" id="email'+ rNo+i+'" name="emails" ><span id="emailError'+ rNo+i+'" class="error-msg"></span></td>'+
+							'<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo+i+'" class="new_mobile_nos" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ><span id="mobile_nosError'+ rNo+i+'" class="error-msg"></span></td>'+
+			                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p><span id="new_required_fkError'+ rNo+i+'" class="error-msg"></span></td>' +
+			                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p><span id="new_participated_fkError'+ rNo+i+'" class="error-msg"></span></td>' +
 			                '<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees(\''+0+0+rNo+1+'\',\''+ rNo +'\');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 							'<input type="hidden" id="newTrainNo"  name="newTrainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="newTrainingUpdateBody">'+                                          
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addNewTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                          '</tbody></table></div></div></div> '+
-	                          '<div class="row"> <div class="col s6 m4 offset-m2 center-align"> <a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a> </div>'+
+	                          '<div class="row"> <div class="col s6 m4 offset-m2 center-align"> <a type="button" onclick="validateAttendees('+rNo+');" class="btn waves-effect waves-light bg-m t-c"> Update</a> </div>'+
 	                          '<div class="col s6 m4 center-align"> <button type="button" class="btn waves-effect waves-light modal-close t-c bg-s" onclick="resetModal(this)">Cancel</a></div> </div></td>';
 	                          
 	                          </c:if>           
 	                          
-	                          html +='<td class="mobile_btn_close right"> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';       	  
+	                          html +='<td class="mobile_btn_close "> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';       	  
           
           $('#trainingTableBody').append(html);
            
@@ -1746,6 +1840,76 @@
            	  	  $("#participated_fk"+ rNo+i).prop('checked',false).removeAttr('checked');;
              }
         });
+       	 $('.attendees').keyup(function(key, element){
+  			$(".attendees").each(function(){
+  				var idNo = (this.id).replace('new_attendees',''); 
+        		if($.trim(this.value) != ""){ 
+        			$('#new_attendeesError'+idNo).text('');
+  			}
+            });
+  		});
+       $('.department_fks').change(function(key, element){
+ 			$(".department_fks").each(function(){
+ 				var idNo = (this.id).replace('new_department_fks',''); 
+       		if($.trim(this.value) != ""){ 
+       			$('#new_department_fksError'+idNo).text('');
+ 			}
+           });
+ 		});
+       $('.required_fks').change(function(key, element){
+ 			$(".required_fks").each(function(){
+ 				var idNo = (this.id).replace('new_required_fks',''); 
+ 				var new_required_fks = $("#new_required_fks"+idNo+":checked");
+      			if($("#new_required_fks"+idNo).is(":checked")){
+        			$('#new_required_fkError'+idNo).text('');
+ 			}
+            });
+ 		}); 
+       $('.participated_fks').change(function(key, element){
+ 			$(".participated_fks").each(function(){
+ 				var idNo = (this.id).replace('new_participated_fks',''); 
+ 				var participatedCheck = $("#new_participated_fks"+idNo+":checked");
+      			if($("#new_participated_fks"+idNo).is(":checked")){
+         			$('#new_participated_fkError'+idNo).text('');
+ 				}
+             });
+ 		});  
+       $('.new_mobile_nos').keyup(function(key, element){
+ 			$("input[name=mobile_nos]").each(function(){
+ 				var idNo = (this.id).replace('new_mobile_nos',''); 
+       		if($.trim(this.value) != "" ){ 
+       			$('#mobile_nosError'+idNo).text('');
+ 			}
+           });
+ 			
+ 		});
+       $('.email').keyup(function(key, element){
+ 			$("input[name=emails]").each(function(){
+ 				var idNo = (this.id).replace('email',''); 
+       		if($.trim(this.value) != "" ){ 
+        			$('#emailError'+idNo).text('');
+ 			}
+            }); 
+ 		});
+       $('.trainee_designations').keyup(function(key, element){
+ 			$("input[name=trainee_designations]").each(function(){
+ 				var idNo = (this.id).replace('new_trainee_designations',''); 
+         		if($.trim(this.value) != "" ){ 
+         			$('#new_trainee_designationsError'+idNo).text('');
+ 				}
+             });
+ 		});
+       $('.hod_user_id_fks').change(function(key, element){
+  			$(".hod_user_id_fks").each(function(){
+  				var idNo = (this.id).replace('new_hod_user_id_fks',''); 
+          		if($.trim(this.value) != ""){ 
+          			$('#new_hod_user_id_fkError'+idNo).text('');
+  					$('#new_department_fksError'+idNo).text('');
+  				}
+              });
+  		});
+      
+                   
     }
         function selectFiles(no,rNo){
 		    files = $("#trainingSessionFiles"+no)[0].files;
@@ -1842,7 +2006,12 @@
 			$('form input[name=participated_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=hod_user_id_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=is_new_user]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-			document.getElementById("trainingForm").submit();	
+			var flag = validateAttendees(rowNumber);
+			if(flag){
+				document.getElementById("trainingForm").submit();	
+			}else{
+	        	$(".page-loader").hide();
+	 		}
     	}
      }
      
@@ -1933,9 +2102,6 @@
 				}else if(element.attr("id") == "faculty_name" ){
 			 		 document.getElementById("faculty_nameError").innerHTML="";
 	 				 error.appendTo('#faculty_nameError');
-				}else if(element.attr("name") == "mobile_nos" ){
-			 		 document.getElementById("mobile_nosError").innerHTML="";
-	 				 error.appendTo('#mobile_nosError');
 				}else{
 	 					error.insertAfter(element);
 			       } 
@@ -1946,7 +2112,7 @@
 		             jQuery('html, body').animate({
 		                 scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
 		             }, 1000);
-		         }
+		         }validateAttendees();
 		     },submitHandler:function(form){
 		    	form.submit();
 		    }
@@ -1985,7 +2151,215 @@
         	 $('#'+modalId+' select:not(".no-reset")').val('');
         	 $('.searchable').select2();
          }
-                         
+         var rowNumber = 1;
+         function validateAttendees(rowNo){
+        	 rowNumber = rowNo;
+     		var flag = true;
+     		$(".department_fks").each(function(){
+     			var idNo = (this.id).replace('new_department_fks','');
+     			var new_department_fks = $("#new_department_fks"+idNo).val();
+     			if($.trim(new_department_fks) == "" ){
+ 					$('#new_department_fksError'+idNo).text('Requried');
+ 					$('#new_department_fksError'+idNo).slideDown(100,function(){
+ 						$(this).focus();
+ 					});
+ 					flag = false;
+ 				}
+     		});
+     		
+     		$(".hod_user_id_fks").each(function(){
+     			var idNo = (this.id).replace('new_hod_user_id_fks','');
+     			var new_hod_user_id_fks = $("#new_department_fks"+idNo).val();
+     			if($.trim(new_hod_user_id_fks) == "" ){
+ 					$('#new_hod_user_id_fkError'+idNo).text('Requried');
+ 					$('#new_hod_user_id_fkError'+idNo).slideDown(100,function(){
+ 						$(this).focus();
+ 					});
+ 					flag = false;
+ 				}
+     		});
+     		$(".attendees").each(function(){
+     			var idNo = (this.id).replace('new_attendees','');
+     			var new_attendees = $("#new_attendees"+idNo).val();
+     			if($.trim(new_attendees) == "" ){
+ 					$('#new_attendeesError'+idNo).text('Requried');
+ 					$('#new_attendeesError'+idNo).slideDown(100,function(){
+ 						$(this).focus();
+ 					});
+ 					flag = false;
+ 				}
+     		});
+     		$(".trainee_designations").each(function(){
+     			var idNo = (this.id).replace('new_trainee_designations','');
+     			var new_trainee_designations = $("#new_trainee_designations"+idNo).val();
+     			if($.trim(new_trainee_designations) == "" ){
+ 					$('#new_trainee_designationsError'+idNo).text('Requried');
+ 					$('#new_trainee_designationsError'+idNo).slideDown(100,function(){
+ 						$(this).focus();
+ 					});
+ 					flag = false;
+ 				}
+     		});
+     		$(".email").each(function(){
+     			var idNo = (this.id).replace('email','');
+     			var email = $("#email"+idNo).val();
+     			if($.trim(email) == "" ){
+ 					$('#emailError'+idNo).text('Requried');
+ 					$('#emailError'+idNo).slideDown(100,function(){
+ 						$(this).focus();
+ 					});
+ 					flag = false;
+ 				}
+     		});
+     		$(".new_mobile_nos").each(function(){
+     			var idNo = (this.id).replace('new_mobile_nos','');
+     			var new_mobile_nos = $("#new_mobile_nos"+idNo).val();
+     			if($.trim(new_mobile_nos) == "" ){
+ 					$('#mobile_nosError'+idNo).text('Requried');
+ 					$('#mobile_nosError'+idNo).slideDown(100,function(){
+ 						$(this).focus();
+ 					});
+ 					flag = false;
+ 				}
+     		});
+     		$(".required_fks").each(function(){
+     			var idNo = (this.id).replace('new_required_fks','');
+     			var reqCheck =  $("#new_required_fks"+idNo+":checked")
+     			if(reqCheck.length > 0){
+ 					$('#new_required_fkError'+idNo).text('');
+ 				}else{
+ 					$('#new_required_fkError'+idNo).text('Requried');
+ 					$('#new_required_fkError'+idNo).slideDown(100,function(){
+ 						$(this).focus();
+ 					});
+ 					flag = false;
+ 				}
+     		});
+     		$(".participated_fks").each(function(){
+     			var idNo = (this.id).replace('new_participated_fks','');
+     			var participatedCheck = $("#new_participated_fks"+idNo+":checked");
+     			if(participatedCheck.length > 0){
+ 					$('#new_participated_fkError'+idNo).text('');
+     			}else{
+     				$('#new_participated_fkError'+idNo).text('Requried');
+ 					$('#new_participated_fkError'+idNo).slideDown(100,function(){
+ 						$(this).focus();
+ 					});
+ 					flag = false;
+     			}
+ 				});
+     			var len = $('#newAttendeesTableBody'+rowNo+' tr').length;
+     			$(".department_fks").each(function(){
+     				
+         			var idNo = (this.id).replace('new_department_fks','');
+         			var new_department_fks = $("#new_department_fks"+idNo).val();
+         			var new_hod_user_id_fks = $("#new_department_fks"+idNo).val();
+         			var new_attendees = $("#new_attendees"+idNo).val();
+         			var new_trainee_designations = $("#new_trainee_designations"+idNo).val();
+         			var new_mobile_nos = $("#new_mobile_nos"+idNo).val();
+         			var reqCheck =  $("#new_required_fks"+idNo+":checked");
+         			var participatedCheck = $("#new_participated_fks"+idNo+":checked");
+         			var email = $("#email"+idNo).val();
+         			if($.trim(new_department_fks) == "" && $.trim(new_hod_user_id_fks) == "" && $.trim(new_attendees) == "" && $.trim(new_trainee_designations) == "" 
+         				&& $.trim(new_mobile_nos) == "" && $.trim(email) == "" && (reqCheck.length == 0) && (participatedCheck.length == 0)){
+     					$('#new_department_fksError'+idNo).text('');
+     					$('#new_hod_user_id_fkError'+idNo).text('');
+     					$('#new_attendeesError'+idNo).text('');
+     					$('#new_trainee_designationsError'+idNo).text('');
+     					$('#emailError'+idNo).text('');
+     					$('#mobile_nosError'+idNo).text('');
+     					$('#new_required_fkError'+idNo).text('');
+     					$('#new_participated_fkError'+idNo).text('');
+     				}
+         		});
+     			//$('#newAttendeesTableBody'+rowNo+' .error-msg').each(function(index,value){
+     				a = [];
+     				$('#newAttendeesTableBody'+rowNo+' .error-msg').each(function(){a.push(this.innerHTML)});
+     				console.log(a)
+     				var found = a.includes('Requried');
+     				if (!found){
+     					flag = true;
+     				}
+     			//})
+     			if(!flag){
+     				 //$('#session-update-modal'+rowNo).modal();
+     				//$('#session-update-modal'+rowNo).modal({dismissible:false});
+     				$('#session-update-modal'+rowNo).modal('open');
+     			}else{
+     				$('#session-update-modal'+rowNo).modal('close');
+     			}
+     			return flag;
+     		};
+            
+         $('.attendees').keyup(function(key, element){
+ 			$(".attendees").each(function(){
+ 				var idNo = (this.id).replace('new_attendees',''); 
+       		if($.trim(this.value) != ""){ 
+       			$('#new_attendeesError'+idNo).text('');
+ 			}
+           });
+ 		});
+      $('.department_fks').change(function(key, element){
+			$(".department_fks").each(function(){
+				var idNo = (this.id).replace('new_department_fks',''); 
+      		if($.trim(this.value) != ""){ 
+      			$('#new_department_fksError'+idNo).text('');
+			}
+          });
+		});
+      $('.required_fks').change(function(key, element){
+			$(".required_fks").each(function(){
+				var idNo = (this.id).replace('new_required_fks',''); 
+				var new_required_fks = $("#new_required_fks"+idNo+":checked");
+     			if($("#new_required_fks"+idNo).is(":checked")){
+       			$('#new_required_fkError'+idNo).text('');
+			}
+           });
+		}); 
+      $('.participated_fks').change(function(key, element){
+			$(".participated_fks").each(function(){
+				var idNo = (this.id).replace('new_participated_fks',''); 
+				var participatedCheck = $("#new_participated_fks"+idNo+":checked");
+     			if($("#new_participated_fks"+idNo).is(":checked")){
+        			$('#new_participated_fkError'+idNo).text('');
+				}
+            });
+		});  
+      $('.new_mobile_nos').keyup(function(key, element){
+			$("input[name=mobile_nos]").each(function(){
+				var idNo = (this.id).replace('new_mobile_nos',''); 
+      		if($.trim(this.value) != "" ){ 
+      			$('#mobile_nosError'+idNo).text('');
+			}
+          });
+			
+		});
+      $('.email').keyup(function(key, element){
+			$("input[name=emails]").each(function(){
+				var idNo = (this.id).replace('email',''); 
+      		if($.trim(this.value) != "" ){ 
+       			$('#emailError'+idNo).text('');
+			}
+           }); 
+		});
+      $('.trainee_designations').keyup(function(key, element){
+			$("input[name=trainee_designations]").each(function(){
+				var idNo = (this.id).replace('new_trainee_designations',''); 
+        		if($.trim(this.value) != "" ){ 
+        			$('#new_trainee_designationsError'+idNo).text('');
+				}
+            });
+		});
+      $('.hod_user_id_fks').change(function(key, element){
+ 			$(".hod_user_id_fks").each(function(){
+ 				var idNo = (this.id).replace('new_hod_user_id_fks',''); 
+         		if($.trim(this.value) != ""){ 
+         			$('#new_hod_user_id_fkError'+idNo).text('');
+ 					$('#new_department_fksError'+idNo).text('');
+ 				}
+             });
+ 		});
+     
  </script>
 </body>
 

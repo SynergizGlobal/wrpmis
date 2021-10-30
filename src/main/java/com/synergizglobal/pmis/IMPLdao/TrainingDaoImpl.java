@@ -465,7 +465,6 @@ public class TrainingDaoImpl implements TrainingDao{
 		Training obj = null;
 		try {
 			con = dataSource.getConnection();
-			
 			String qry = "select distinct training_attendees_id,d.department_name, training_id_fk,reporting_to_id_srfk as hod_user_id_fk,mobile_number as mobile_no,"
 					+ " training_session_id_fk, u.department_fk, u.user_name as attendee,u.designation as designation, required_fk, participated_fk,email_id as email "
 					+ " from training_attendees ta "
@@ -475,7 +474,6 @@ public class TrainingDaoImpl implements TrainingDao{
 			stmt = con.prepareStatement(qry);
 		  	stmt.setString(1, training_id);
 			stmt.setString(2, training_session_id);
-			
 			
 			resultSet = stmt.executeQuery();
 			ArrayList<String> list=new ArrayList<String>();
@@ -1298,13 +1296,13 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList1 = null;
 		try {
 			int arrSize = 0;
-			String qry ="SELECT  user_id,user_name as attendee,department_fk,designation FROM user u where user_name NOT LIKE '%User%' " ;
+			String qry ="SELECT  user_id,user_name as attendee,department_fk,designation FROM user u where user_name NOT LIKE '%User%'  and user_id LIKE 'PMIS%'  " ;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and u.department_fk = ?";
 				arrSize++;
 			}	
 			qry = qry + " GROUP BY user_name ";
-			qry = qry + " ORDER BY CASE WHEN  user_type_fk IS NULL THEN 1 ELSE 0 END,FIELD( user_type_fk, 'Management','HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others' ),designation;";
+			qry = qry + " ORDER BY CASE WHEN  user_type_fk IS NULL THEN 1 ELSE 0 END,FIELD( user_type_fk, 'Management','HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others' ),designation";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {

@@ -460,13 +460,10 @@ public class UserDaoImpl implements UserDao{
 			for (User user : usersList) {				
 				
 				String userId = checkUserIdExitence(user.getUser_id());
-				
-				String user_role_code_qry = "select user_role_code from user_role where user_role_name = ?";
-				
-				String user_role_code = (String)jdbcTemplate.queryForObject( user_role_code_qry,new Object[] {user.getUser_role_name_fk()}, String.class);	
-				
 				String user_id = null;
 				if(StringUtils.isEmpty(user.getUser_id())) {
+					String user_role_code_qry = "select user_role_code from user_role where user_role_name = ?";
+					String user_role_code = (String)jdbcTemplate.queryForObject( user_role_code_qry,new Object[] {user.getUser_role_name_fk()}, String.class);
 					user_id = getMaxUserId(user_role_code);
 				}else {
 					user_id = user.getUser_id();

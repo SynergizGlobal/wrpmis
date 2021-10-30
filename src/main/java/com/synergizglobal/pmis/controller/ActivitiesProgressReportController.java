@@ -393,51 +393,74 @@ public class ActivitiesProgressReportController {
 						dprSheet.addMergedRegion(new CellRangeAddress(6,6, 3,8));
 				        
 						/********************************************************/
-				        
-						/*************************************************************************/		
 						int rowNo = 8;
+						String headerString = "Structure^Component^Component ID^Activity^Total Scope^Daily Progress^Cumulative Completed";
+				        
+				        String[] headerStringArr = headerString.split("\\^");
+				        
+				        XSSFRow headingRow = dprSheet.createRow(rowNo++);
+				        for (int i = 0; i < headerStringArr.length; i++) {		        	
+					        cell = headingRow.createCell(i+2);
+					        cell.setCellStyle(greenStyle);
+							cell.setCellValue(headerStringArr[i]);
+						}				
+						
+						/*************************************************************************/		
+						
 						if(dprDataList != null && dprDataList.size() > 0){
 							
 							for (Map.Entry<String,List<ActivitiesProgressReport>> entry2 : dprDataList.entrySet()) {  
 					            //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
 					        	List<ActivitiesProgressReport> dataList = entry2.getValue();
 					            String structure = entry2.getKey();
-					            rowNo++;
-					            int tempRowNo = rowNo;
-					            XSSFRow structureRow = dprSheet.createRow(rowNo++);
-						        
-						        cell = structureRow.createCell(2);
-						        cell.setCellStyle(indexWhiteStyle);
-								cell.setCellValue("Structure ");
-								
-								cell = structureRow.createCell(3);
-						        cell.setCellStyle(indexWhiteStyle);
-								cell.setCellValue(structure);
-								
-								for (int i = 4; i < 9; i++) {		        	
-							        cell = structureRow.createCell(i);
-							        cell.setCellStyle(indexWhiteStyle);
-									cell.setCellValue("");
-								}	
-								dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));
+					            int repeat = 0;
+									/*  int tempRowNo = rowNo;
+									  XSSFRow structureRow = dprSheet.createRow(rowNo++);
+									  
+									  cell = structureRow.createCell(2);
+									  cell.setCellStyle(indexWhiteStyle);
+									cell.setCellValue("Structure ");
+									
+									cell = structureRow.createCell(3);
+									  cell.setCellStyle(indexWhiteStyle);
+									cell.setCellValue(structure);
+									
+									for (int i = 4; i < 9; i++) {		        	
+									cell = structureRow.createCell(i);
+									cell.setCellStyle(indexWhiteStyle);
+										cell.setCellValue("");
+									}	
+									dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));*/
 					            /**********************************************************************/
-								String headerString = "Structure^component^Component ID^Activity^Total Scope^Daily Progress^Cumulative Completed";
-						        
-						        String[] headerStringArr = headerString.split("\\^");
-						        
-						        XSSFRow headingRow = dprSheet.createRow(rowNo++);
-						        for (int i = 0; i < headerStringArr.length; i++) {		        	
-							        cell = headingRow.createCell(i+2);
-							        cell.setCellStyle(greenStyle);
-									cell.setCellValue(headerStringArr[i]);
-								}				
-								
+							
 						        /***********************************************************************/
 								
 							    for (ActivitiesProgressReport dObj : dataList) {
 							        XSSFRow row = dprSheet.createRow(rowNo);
 							        int c = 2;
 							        
+							        if(repeat == 0) {
+								    	   cell = row.createCell(c++);
+											cell.setCellStyle(indexWhiteStyle);
+											cell.setCellValue("Structure ");
+											
+									        cell = row.createCell(c++);
+											cell.setCellStyle(indexWhiteStyle);
+											cell.setCellValue(dObj.getStructure());
+											
+											for (int i = 4; i < 9; i++) {		        	
+										        cell = row.createCell(i);
+										        cell.setCellStyle(indexWhiteStyle);
+												cell.setCellValue("");
+											}	
+											dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
+											 structure = dObj.getStructure();
+											rowNo++;repeat++;
+											row = dprSheet.createRow(rowNo);
+											c = 2;
+								       }
+								      
+									
 							        cell = row.createCell(c++);
 									cell.setCellStyle(sectionStyle);
 									cell.setCellValue(dObj.getStructure());
@@ -768,26 +791,26 @@ public class ActivitiesProgressReportController {
 					/*************************************************************************/				        
 						int rowNo = 8;
 				            String structure = obj.getFob_id_fk();
-				            if(!StringUtils.isEmpty(structure)) {
-				            	 	rowNo++;
-						            int tempRowNo = rowNo;
-						            XSSFRow structureRow = dprSheet.createRow(rowNo++);
-							        cObj.setFob_id_fk(structure);
-							        cell = structureRow.createCell(2);
-							        cell.setCellStyle(indexWhiteStyle);
-									cell.setCellValue("Structure ");
-									
-									cell = structureRow.createCell(3);
-							        cell.setCellStyle(indexWhiteStyle);
-									cell.setCellValue(structure);
-									
-									for (int i = 4; i < 9; i++) {		        	
-								        cell = structureRow.createCell(i);
-								        cell.setCellStyle(indexWhiteStyle);
-										cell.setCellValue("");
-									}	
-									dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));
-				            }
+					/* if(!StringUtils.isEmpty(structure)) {
+					 	 	rowNo++;
+					         int tempRowNo = rowNo;
+					         XSSFRow structureRow = dprSheet.createRow(rowNo++);
+					        cObj.setFob_id_fk(structure);
+					        cell = structureRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Structure ");
+							
+							cell = structureRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue(structure);
+							
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = structureRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));
+					 }*/
 							
 				            /**********************************************************************/
 							String headerString = "Structure^component^Component ID^Activity^Total Scope^Daily Progress^Cumulative Completed";
@@ -810,13 +833,32 @@ public class ActivitiesProgressReportController {
 						        	if(dprDataList != null && dprDataList.size() > 0)
 						        	{
 										for (Map.Entry<String,List<ActivitiesProgressReport>> entry2 : dprDataList.entrySet()) 
-										{  
+										{  int repeat = 0;
 								        	List<ActivitiesProgressReport> dataList = entry2.getValue();					        	
 						        	
 									        for (ActivitiesProgressReport dObj : dataList) {
 										        XSSFRow row = dprSheet.createRow(rowNo);
 										        int c = 2;
-										        
+										        if(repeat == 0) {
+											    	   cell = row.createCell(c++);
+														cell.setCellStyle(indexWhiteStyle);
+														cell.setCellValue("Structure ");
+														
+												        cell = row.createCell(c++);
+														cell.setCellStyle(indexWhiteStyle);
+														cell.setCellValue(dObj.getStructure());
+														
+														for (int i = 4; i < 9; i++) {		        	
+													        cell = row.createCell(i);
+													        cell.setCellStyle(indexWhiteStyle);
+															cell.setCellValue("");
+														}	
+														dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
+														 structure = dObj.getStructure();
+														rowNo++;repeat++;
+														row = dprSheet.createRow(rowNo);
+														c = 2;
+											    }
 										        cell = row.createCell(c++);
 												cell.setCellStyle(sectionStyle);
 												cell.setCellValue(dObj.getStructure());
@@ -1143,50 +1185,70 @@ public class ActivitiesProgressReportController {
 							dprSheet.addMergedRegion(new CellRangeAddress(6,6, 3,8));
 					        
 							/********************************************************/
+							int rowNo = 8;
+							String headerString = "Structure^component^Component ID^Activity^Total Scope^Progress For The Period^Cumulative Completed";
 					        
+					        String[] headerStringArr = headerString.split("\\^");
+					        
+					        XSSFRow headingRow = dprSheet.createRow(rowNo++);
+					        for (int i = 0; i < headerStringArr.length; i++) {		        	
+						        cell = headingRow.createCell(i+2);
+						        cell.setCellStyle(greenStyle);
+								cell.setCellValue(headerStringArr[i]);
+							}	
 							/*************************************************************************/				        
 							if(dprDataList != null && dprDataList.size() > 0){
-								int rowNo = 8;
+								
 								for (Map.Entry<String,List<ActivitiesProgressReport>> entry2 : dprDataList.entrySet()) {  
+									int repeat = 0;
 						            //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
 						        	List<ActivitiesProgressReport> dataList = entry2.getValue();
 						            String structure = entry2.getKey();
-						            rowNo++;
-						            int tempRowNo = rowNo;
-						            XSSFRow structureRow = dprSheet.createRow(rowNo++);
-							        
-							        cell = structureRow.createCell(2);
-							        cell.setCellStyle(indexWhiteStyle);
+									/* int tempRowNo = rowNo;
+									XSSFRow structureRow = dprSheet.createRow(rowNo++);
+									
+									cell = structureRow.createCell(2);
+									cell.setCellStyle(indexWhiteStyle);
 									cell.setCellValue("Structure ");
 									
 									cell = structureRow.createCell(3);
-							        cell.setCellStyle(indexWhiteStyle);
+									cell.setCellStyle(indexWhiteStyle);
 									cell.setCellValue(structure);
 									
 									for (int i = 4; i < 9; i++) {		        	
-								        cell = structureRow.createCell(i);
-								        cell.setCellStyle(indexWhiteStyle);
+									    cell = structureRow.createCell(i);
+									    cell.setCellStyle(indexWhiteStyle);
 										cell.setCellValue("");
 									}	
-									dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));
+									dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));*/
 						            /**********************************************************************/
-									String headerString = "Structure^component^Component ID^Activity^Total Scope^Progress For The Period^Cumulative Completed";
-							        
-							        String[] headerStringArr = headerString.split("\\^");
-							        
-							        XSSFRow headingRow = dprSheet.createRow(rowNo++);
-							        for (int i = 0; i < headerStringArr.length; i++) {		        	
-								        cell = headingRow.createCell(i+2);
-								        cell.setCellStyle(greenStyle);
-										cell.setCellValue(headerStringArr[i]);
-									}				
+										
 									
 							        /***********************************************************************/
 									
 								    for (ActivitiesProgressReport dObj : dataList) {
 								        XSSFRow row = dprSheet.createRow(rowNo);
 								        int c = 2;
-								        
+								        if(repeat == 0) {
+									    	   cell = row.createCell(c++);
+												cell.setCellStyle(indexWhiteStyle);
+												cell.setCellValue("Structure ");
+												
+										        cell = row.createCell(c++);
+												cell.setCellStyle(indexWhiteStyle);
+												cell.setCellValue(dObj.getStructure());
+												
+												for (int i = 4; i < 9; i++) {		        	
+											        cell = row.createCell(i);
+											        cell.setCellStyle(indexWhiteStyle);
+													cell.setCellValue("");
+												}	
+												dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
+												 structure = dObj.getStructure();
+												rowNo++;repeat++;
+												row = dprSheet.createRow(rowNo);
+												c = 2;
+									    }
 								        cell = row.createCell(c++);
 										cell.setCellStyle(sectionStyle);
 										cell.setCellValue(dObj.getStructure());
@@ -1485,27 +1547,29 @@ public class ActivitiesProgressReportController {
 			        
 					/*************************************************************************/				        
 						int rowNo = 8;
-				            String structure = obj.getFob_id_fk();
-				            rowNo++;
-				            int tempRowNo = rowNo;
-				            XSSFRow structureRow = dprSheet.createRow(rowNo++);
-				            cObj.setFob_id_fk(structure);
-					        cell = structureRow.createCell(2);
-					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue("Structure ");
-							
-							cell = structureRow.createCell(3);
-					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue(structure);
-							
-							for (int i = 4; i < 9; i++) {		        	
-						        cell = structureRow.createCell(i);
-						        cell.setCellStyle(indexWhiteStyle);
-								cell.setCellValue("");
-							}	
-							dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));
+					 String structure = obj.getFob_id_fk();
+					 cObj.setFob_id_fk(structure);
+					 cObj.setFob_id_fk(structure);
+					  rowNo++;
+					  /* int tempRowNo = rowNo;
+					 XSSFRow structureRow = dprSheet.createRow(rowNo++);
+					
+					 cell = structureRow.createCell(2);
+					 cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("Structure ");
+					
+					cell = structureRow.createCell(3);
+					 cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue(structure);
+					
+					for (int i = 4; i < 9; i++) {		        	
+					     cell = structureRow.createCell(i);
+					     cell.setCellStyle(indexWhiteStyle);
+						cell.setCellValue("");
+					}	
+					dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));*/
 				            /**********************************************************************/
-							String headerString = "Structure^component^Component ID^Activity^Total Scope^Progress For The Period^Cumulative Completed";
+							String headerString = "Structure^Component^Component ID^Activity^Total Scope^Progress For The Period^Cumulative Completed";
 					        
 					        String[] headerStringArr = headerString.split("\\^");
 					        
@@ -1515,6 +1579,7 @@ public class ActivitiesProgressReportController {
 						        cell.setCellStyle(greenStyle);
 								cell.setCellValue(headerStringArr[i]);
 							}	
+					       
 					        Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> reportData = service.getActivitiesReportData(cObj);
 					        if(!reportData.isEmpty()) 
 					        {
@@ -1524,13 +1589,33 @@ public class ActivitiesProgressReportController {
 						        	if(dprDataList != null && dprDataList.size() > 0)
 						        	{
 										for (Map.Entry<String,List<ActivitiesProgressReport>> entry2 : dprDataList.entrySet()) 
-										{  
+										{   int repeat = 0;
 								        	List<ActivitiesProgressReport> dataList = entry2.getValue();					        	
-						        	
+								        	
 									        for (ActivitiesProgressReport dObj : dataList) {
 										        XSSFRow row = dprSheet.createRow(rowNo);
 										        int c = 2;
-										        
+										      if(repeat == 0) {
+										    	   cell = row.createCell(c++);
+													cell.setCellStyle(indexWhiteStyle);
+													cell.setCellValue("Structure ");
+													
+											        cell = row.createCell(c++);
+													cell.setCellStyle(indexWhiteStyle);
+													cell.setCellValue(dObj.getStructure());
+													
+													for (int i = 4; i < 9; i++) {		        	
+												        cell = row.createCell(i);
+												        cell.setCellStyle(indexWhiteStyle);
+														cell.setCellValue("");
+													}	
+													dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
+													 structure = dObj.getStructure();
+													rowNo++;repeat++;
+													row = dprSheet.createRow(rowNo);
+													c = 2;
+										       }
+										      
 										        cell = row.createCell(c++);
 												cell.setCellStyle(sectionStyle);
 												cell.setCellValue(dObj.getStructure());

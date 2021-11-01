@@ -238,7 +238,7 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> workRevisions = new ArrayList<Work>();
 		Work obj = null;
 		try {
-			String qry ="SELECT financial_year,latest_revised_cost, year_of_revision,latest_revised_cost_unit,revision_number"
+			String qry ="SELECT financial_year,latest_revised_cost, year_of_revision,revision_number"
 					+ " from work_yearly_sanction where work_id_fk = ?";
 		
 			stmt = connection.prepareStatement(qry);
@@ -249,7 +249,7 @@ public class WorkDaoImpl implements WorkDao {
 				obj.setFinancial_year(resultSet.getString("financial_year"));
 				obj.setLatest_revised_cost(resultSet.getString("latest_revised_cost"));
 				obj.setYear_of_revision(resultSet.getString("year_of_revision"));
-				obj.setLatest_revised_cost_unit(resultSet.getString("latest_revised_cost_unit"));
+				//obj.setLatest_revised_cost_unit(resultSet.getString("latest_revised_cost_unit"));
 				obj.setRevision_number(resultSet.getString("revision_number"));
 				workRevisions.add(obj);
 			}
@@ -845,11 +845,11 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getWorkRevisionsList(Work obj) throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry ="SELECT work_yearly_sanction_id, work_id_fk, wys.financial_year, wys.pink_book_item_number, latest_revised_cost_unit,wys.latest_revised_cost, wys.year_of_revision, wys.revision_number,m.unit as revision_unit  "
+			String qry ="SELECT work_yearly_sanction_id, work_id_fk, wys.financial_year, wys.pink_book_item_number,wys.latest_revised_cost, wys.year_of_revision, wys.revision_number "
 					+ "FROM work_yearly_sanction wys "  
 					+"LEFT JOIN Work w ON wys.work_id_fk = w.work_id "
-					+"LEFT JOIN project p ON w.project_id_fk = p.project_id "+
-					"LEFT JOIN money_unit m ON wys.latest_revised_cost_unit = m.value  ";
+					+"LEFT JOIN project p ON w.project_id_fk = p.project_id ";
+					//"LEFT JOIN money_unit m ON wys.latest_revised_cost_unit = m.value  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " where w.project_id_fk = ?";

@@ -1655,7 +1655,7 @@
      			}
                 });
      		}); 
-           $('.participated_fks').change(function(key, element){
+         /*   $('.participated_fks').change(function(key, element){
      			$(".participated_fks").each(function(){
      				var idNo = (this.id).replace('new_participated_fks',''); 
      				var participatedCheck = $("#new_participated_fks"+idNo+":checked");
@@ -1663,7 +1663,7 @@
              			$('#new_participated_fkError'+idNo).text('');
      				}
                  });
-     		});  
+     		});   */
            $('.new_mobile_nos').keyup(function(key, element){
      			$("input[name=mobile_nos]").each(function(){
      				var idNo = (this.id).replace('new_mobile_nos',''); 
@@ -1865,7 +1865,7 @@
  			}
             });
  		}); 
-       $('.participated_fks').change(function(key, element){
+    /*    $('.participated_fks').change(function(key, element){
  			$(".participated_fks").each(function(){
  				var idNo = (this.id).replace('new_participated_fks',''); 
  				var participatedCheck = $("#new_participated_fks"+idNo+":checked");
@@ -1873,7 +1873,7 @@
          			$('#new_participated_fkError'+idNo).text('');
  				}
              });
- 		});  
+ 		});   */
        $('.new_mobile_nos').keyup(function(key, element){
  			$("input[name=mobile_nos]").each(function(){
  				var idNo = (this.id).replace('new_mobile_nos',''); 
@@ -2235,7 +2235,7 @@
  					flag = false;
  				}
      		});
-     		$(".participated_fks").each(function(){
+     	/* 	$(".participated_fks").each(function(){
      			var idNo = (this.id).replace('new_participated_fks','');
      			var participatedCheck = $("#new_participated_fks"+idNo+":checked");
      			if(participatedCheck.length > 0){
@@ -2247,7 +2247,7 @@
  					});
  					flag = false;
      			}
- 				});
+ 				}); */
      			var len = $('#newAttendeesTableBody'+rowNo+' tr').length;
      			$(".department_fks").each(function(){
      				
@@ -2258,10 +2258,10 @@
          			var new_trainee_designations = $("#new_trainee_designations"+idNo).val();
          			var new_mobile_nos = $("#new_mobile_nos"+idNo).val();
          			var reqCheck =  $("#new_required_fks"+idNo+":checked");
-         			var participatedCheck = $("#new_participated_fks"+idNo+":checked");
+         			//var participatedCheck = $("#new_participated_fks"+idNo+":checked");
          			var email = $("#email"+idNo).val();
          			if($.trim(new_department_fks) == "" && $.trim(new_hod_user_id_fks) == "" && $.trim(new_attendees) == "" && $.trim(new_trainee_designations) == "" 
-         				&& $.trim(new_mobile_nos) == "" && $.trim(email) == "" && (reqCheck.length == 0) && (participatedCheck.length == 0)){
+         				&& $.trim(new_mobile_nos) == "" && $.trim(email) == "" && (reqCheck.length == 0)){
      					$('#new_department_fksError'+idNo).text('');
      					$('#new_hod_user_id_fkError'+idNo).text('');
      					$('#new_attendeesError'+idNo).text('');
@@ -2269,7 +2269,7 @@
      					$('#emailError'+idNo).text('');
      					$('#mobile_nosError'+idNo).text('');
      					$('#new_required_fkError'+idNo).text('');
-     					$('#new_participated_fkError'+idNo).text('');
+     					//$('#new_participated_fkError'+idNo).text('');
      				}
          		});
      			//$('#newAttendeesTableBody'+rowNo+' .error-msg').each(function(index,value){
@@ -2316,7 +2316,7 @@
 			}
            });
 		}); 
-      $('.participated_fks').change(function(key, element){
+     /*  $('.participated_fks').change(function(key, element){
 			$(".participated_fks").each(function(){
 				var idNo = (this.id).replace('new_participated_fks',''); 
 				var participatedCheck = $("#new_participated_fks"+idNo+":checked");
@@ -2324,7 +2324,7 @@
         			$('#new_participated_fkError'+idNo).text('');
 				}
             });
-		});  
+		});   */
       $('.new_mobile_nos').keyup(function(key, element){
 			$("input[name=mobile_nos]").each(function(){
 				var idNo = (this.id).replace('new_mobile_nos',''); 

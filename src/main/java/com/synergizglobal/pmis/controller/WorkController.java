@@ -533,7 +533,7 @@ public class WorkController {
 						}
 			            
 			            XSSFRow headingRow1 = revisonSheet.createRow(0);
-			            String headerString1 = "Work ID^Financial Year^PB Item No^Latest Revised Cost^Unit^Year Of Revision^Revision Number";
+			            String headerString1 = "Work ID^Financial Year^PB Item No^Latest Revised  Cost (Cr)^Year Of Revision^Revision Number";
 			            
 			            String[] secondHeaderStringArr = headerString1.split("\\^");
 			            
@@ -649,10 +649,10 @@ public class WorkController {
 									cell1.setCellStyle(sectionStyle);
 									cell1.setCellValue(obj.getLatest_revised_cost());
 									
-									cell1 = row.createCell(b++);
-									cell1.setCellStyle(sectionStyle);
-									cell1.setCellValue(obj.getRevision_unit());
-										
+					/*cell1 = row.createCell(b++);
+					cell1.setCellStyle(sectionStyle);
+					cell1.setCellValue(obj.getRevision_unit());
+						*/
 					                cell1 = row.createCell(b++);
 									cell1.setCellStyle(sectionStyle);
 									cell1.setCellValue(obj.getYear_of_revision());

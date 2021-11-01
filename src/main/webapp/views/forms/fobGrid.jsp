@@ -203,6 +203,7 @@
 											<!-- <th class="fw-400">Contract</th> -->
 											<th>FOB ID</th>
 											<th>FOB Name</th>
+											<th>Contract</th>
 											<th>Work Status</th>
 											<th class="no-sort">Action</th>
 										</tr>
@@ -406,7 +407,8 @@
     	                   	
     	                   	rowArray.push( workName);
     	                   	rowArray.push($.trim(val.fob_id));
-    	                   	rowArray.push($.trim(val.fob_name)); 
+    	                   	rowArray.push($.trim(val.fob_name));
+    	                   	rowArray.push($.trim(val.contract_short_name));
     	                   	rowArray.push($.trim(val.work_status_fk));
     	                   	rowArray.push($.trim(actions));   	                   	
     	                   	

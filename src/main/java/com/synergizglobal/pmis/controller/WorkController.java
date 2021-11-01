@@ -521,7 +521,7 @@ public class WorkController {
 				        
 				        
 			            XSSFRow headingRow = sheet.createRow(0);
-			            String headerString = "Project ID^Project Name^Work ID^Work Short Name^Sanctioned Year^Railway Agency^Executed By^Sanctioned Estimated Cost^Unit^Sanctioned Completion Cost^Unit^Completeion Period Months^"
+			            String headerString = "Project ID^Project Name^Work ID^Work Short Name^Sanctioned Year^Railway Agency^Executed By^Sanctioned Estimated  Cost (Cr)^Sanctioned Completion  Cost (Cr)^Completeion Period Months^"
 			            		+ "Anticipated Cost^Unit^Projected Completion Date^Completion Cost^Unit^Year of Completion^Remarks";
 			            
 			            String[] firstHeaderStringArr = headerString.split("\\^");
@@ -580,17 +580,9 @@ public class WorkController {
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getSanctioned_estimated_cost());
 							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getEstimated_cost_unit());
-							
 			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getSanctioned_completion_cost());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getSanctioned_cost_unit());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);

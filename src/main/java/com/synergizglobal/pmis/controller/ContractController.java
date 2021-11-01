@@ -827,12 +827,14 @@ public class ContractController {
 		        
 		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectioncostStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectionunitsStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
 		        
 		        
 	            XSSFRow headingRow = sheet.createRow(0);
 	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Contract Type^Scope of Contract"
-	            		+ "^Tally Head^Estimated Cost^Awarded Cost^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
+	            		+ "^Tally Head^Estimated Cost^Units^Awarded Cost^Units^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
 	            		+ "Actual Completion Date^Completed Cost^Contract Closure Date^Completion Certificate Release^Final Takeover^Final Release^"
 	            		+ "Contract Status^Status of Work^Defect Liability Period^Retention Money Release^PBG Release^Contract Closure^Bank Guarantee Requried^Insurance Requried";
 	            
@@ -894,12 +896,20 @@ public class ContractController {
 					cell.setCellValue(obj.getTally_head());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(sectioncostStyle);
 					cell.setCellValue(obj.getEstimated_cost());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(sectionunitsStyle);
+					cell.setCellValue(obj.getEstimated_cost_units());					
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectioncostStyle);
 					cell.setCellValue(obj.getAwarded_cost());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionunitsStyle);
+					cell.setCellValue(obj.getAwarded_cost_units());					
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

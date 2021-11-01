@@ -256,12 +256,12 @@
 			}
 			span.select2-container--default .select2-selection--single .select2-selection__arrow{
 				top:.75rem;
-			}
-			.searchable-label~span.select2 .selection .select2-selection--single{
+			}			
+			.searchable_label ~ span.select2 .selection > .select2-selection--single{
 				height:2.05rem;
 				padding-top:0;
 			}
-			.searchable-label~span.select2-container--default .select2-selection--single .select2-selection__arrow{
+			.searchable_label ~ span.select2 .select2-selection--single > .select2-selection__arrow{
 				top:0;
 			}
 		}
@@ -714,7 +714,7 @@
                                             <tr>
                                                 <th>Financial Year </th>
                                                 <!-- <th>PB Item No </th> -->
-                                                <th>Latest Revised Cost </th>
+                                                <th>Latest Revised Cost (in Cr)</th>
                                                 <th>Year of Revision </th>
                                                 <th>Revision No </th>
 									<!--        <th>Remarks </th> -->
@@ -770,17 +770,17 @@
 		                                                    </div> 
 	                                                    </span> --%>
 	                                                <!-- </td> -->
-	                                                <td data-head="Latest Revised Cost" class="input-field amount-dropdown">
+	                                                <td data-head="Latest Revised Cost (in Cr)" class="input-field amount-dropdown">
 	                                                	<i class="material-icons amount-symbol cost left-align">₹</i>
 	                                                	<input id="latest_revised_costs${index.count }" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
 	                                                        placeholder="Latest Revised Cost">
-	                                                    <select class="validate-dropdown" id="latest_revised_cost_units${index.count}" name="latest_revised_cost_units">
+	                                                    <%-- <select class="validate-dropdown" id="latest_revised_cost_units${index.count}" name="latest_revised_cost_units">
 					                                		<option value="">Select</option>
 					                                		<c:forEach var="obj" items="${unitsList }">
 				                                  			   <option value="${obj.value }" <c:if test="${revObj.latest_revised_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
 				                                   			 </c:forEach>
 					                                	</select>
-					                                	<p id="units${index.count}Error" class="my-error right" ></p>
+					                                	<p id="units${index.count}Error" class="my-error right" ></p> --%>
 	                                                </td>
 	                                              <%--   <td>
 	                                                	<select class="validate-dropdown" id="latest_revised_cost_units${index.count}" name="latest_revised_cost_units">
@@ -856,17 +856,17 @@
 	                                                    </div>
 	                                                    </span> --%>
 	                                               <!--  </td> -->
-	                                               <td data-head="Latest Revised Cost" class="input-field amount-dropdown">
+	                                               <td data-head="Latest Revised Cost (in Cr)" class="input-field amount-dropdown">
 	                                               		<i class="material-icons amount-symbol cost left-align">₹</i>
 	                                               		<input id="latest_revised_costs0" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
 	                                                        placeholder="Latest Revised Cost">
-	                                                        <select class=" validate-dropdown" id="latest_revised_cost_units0" name="latest_revised_cost_units">
+	                                                       <%--  <select class=" validate-dropdown" id="latest_revised_cost_units0" name="latest_revised_cost_units">
 					                                		<option value="">Select</option>
 					                                		<c:forEach var="obj" items="${unitsList }">
 					                                  			   <option value="${obj.value }">${obj.unit }</option>
 					                                   		 </c:forEach>
 					                                	</select>
-					                                	<p id="units0Error" class="my-error right" ></p>
+					                                	<p id="units0Error" class="my-error right" ></p> --%>
 	                                               </td>
 	                                            <%--    <td>
 	                                               		<select class="units validate-dropdown" id="latest_revised_cost_units0" name="latest_revised_cost_units">
@@ -1168,8 +1168,8 @@
   //*********************VALIDATION FOR WORK ADD/EDIT FORMS*************************************      
         
         function addWork(){
-        	var flag = validateContract();
-        	if(flag){
+        	/* var flag = validateContract();
+        	if(flag){ */
 		  		if(validator.form()){ // validation perform
 		  			$(".page-loader").show();	    
 		  			var sanctioned_estimated_cost = $('#sanctioned_estimated_cost').val();
@@ -1190,13 +1190,13 @@
 		  			$('form input[name=year_of_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			document.getElementById("workForm").submit();			
-	    	 	}
+	    	 	/* } */
         	}
     	}
   
         function updateWork(){
-        	var flag = validateWork();
-        	if(flag){
+        	/* var flag = validateWork();
+        	if(flag){ */
 		  		if(validator.form()){ // validation perform
 		  			$(".page-loader").show();	   
 		  			var sanctioned_estimated_cost = $('#sanctioned_estimated_cost').val();
@@ -1215,7 +1215,7 @@
 		  			$('form input[name=latest_revised_cost_unit]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			document.getElementById("workForm").submit();			
-	    	 	}
+	    	 	/* } */
         	}
     	}
         
@@ -1415,14 +1415,15 @@
 		   		   +'</select></td>'
 				   //+'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
 				   //+'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
-				   +'<td data-head="Latest Revised Cost " class="input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i> <input id="latest_revised_costs'+rNo+'" name="latest_revised_costs" type="number" class="validate" value=""'
-				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> <select class="validate-dropdown" id="latest_revised_cost_units'+rNo+'" name="latest_revised_cost_units">'
+				   +'<td data-head="Latest Revised Cost (in Cr)" class="input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i> <input id="latest_revised_costs'+rNo+'" name="latest_revised_costs" type="number" class="validate" value=""'
+				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> '
+				  /*  +'<select class="validate-dropdown" id="latest_revised_cost_units'+rNo+'" name="latest_revised_cost_units">'
                	   +'<option value="">Select</option>'
 		             <c:forEach var="obj" items="${unitsList }">
 		      			   +'<option value="${obj.value }">${obj.unit }</option>'
 		       		 </c:forEach>	              
-		      	   +'</select><p id="units'+rNo+'Error" class="my-error right" ></p></td>'
-				   +'<td data-head="Year of Revision " class="input-field">'
+		      	   +'</select><p id="units'+rNo+'Error" class="my-error right" ></p></td>' */
+				   +'</td><td data-head="Year of Revision " class="input-field">'
 				   +'<select id="year_of_revisions'+rNo+'" name="year_of_revisions" class="validate-dropdown searchable" >'
 				   +'<option value="" selected>select</option>'
 				     <c:forEach var="obj" items="${yearList}">
@@ -1439,11 +1440,11 @@
 				 $('.searchable').select2();
 				 $('.units').select2({dropdownCssClass : 'cost_dropdown'});
 				 
-				 $('#latest_revised_cost_units'+rNo).on('change', function(e){
+				 /* $('#latest_revised_cost_units'+rNo).on('change', function(e){
 	            	 if($.trim($('#latest_revised_costs'+rNo).val()) != ""){
 	            		 $('#units'+rNo+'Error').text('');
 	            	 }
-	             });
+	             }); */
 		 //******************* Revision table Validation***************************************
 
 		
@@ -1474,7 +1475,7 @@
 	   	  $(link).css('display','none');
      }       
      
-     function validateWork(){
+/*      function validateWork(){
     	 var flag = true;
 	     $("input[name=latest_revised_costs]").each(function(){
 	    		var idNo = (this.id).replace('latest_revised_costs','');
@@ -1505,7 +1506,7 @@
 				}
             });
 		});
-	
+     */
     </script>
 </body>
 

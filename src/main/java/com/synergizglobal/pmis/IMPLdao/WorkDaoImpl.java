@@ -443,8 +443,8 @@ public class WorkDaoImpl implements WorkDao {
 				
 				
 				String qry4 = "INSERT into  work_yearly_sanction (financial_year,latest_revised_cost,"
-						 +"year_of_revision,revision_number,work_id_fk,latest_revised_cost_unit) "
-						 +"VALUES (?,?,?,?,?,?)";
+						 +"year_of_revision,revision_number,work_id_fk) "
+						 +"VALUES (?,?,?,?,?)";
 				stmt = con.prepareStatement(qry4); 
 				
 				arraySize = 0;
@@ -491,7 +491,7 @@ public class WorkDaoImpl implements WorkDao {
 						stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
 						stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
 						stmt.setString(p++,work.getWork_id());
-						stmt.setString(p++,(work.getLatest_revised_cost_units().length > 0)?work.getLatest_revised_cost_units()[i]:null);
+						//stmt.setString(p++,(work.getLatest_revised_cost_units().length > 0)?work.getLatest_revised_cost_units()[i]:null);
 						stmt.addBatch();
 					}
 				}
@@ -655,9 +655,9 @@ public class WorkDaoImpl implements WorkDao {
 					}
 				}
 				
-				String qry4 = "INSERT into  work_yearly_sanction (financial_year,latest_revised_cost,latest_revised_cost_unit,"
+				String qry4 = "INSERT into  work_yearly_sanction (financial_year,latest_revised_cost,"
 							 +"year_of_revision,revision_number,work_id_fk) "
-							 +"VALUES (?,?,?,?,?,?)";
+							 +"VALUES (?,?,?,?,?)";
 				stmt = con.prepareStatement(qry4); 
 				if(flag) {	
 					arraySize = 0;
@@ -696,7 +696,7 @@ public class WorkDaoImpl implements WorkDao {
 						p = 1;
 						stmt.setString(p++,(work.getFinancial_years().length > 0)?work.getFinancial_years()[i]:null);
 						stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
-						stmt.setString(p++,(work.getLatest_revised_cost_units().length > 0)?work.getLatest_revised_cost_units()[i]:null);
+						//stmt.setString(p++,(work.getLatest_revised_cost_units().length > 0)?work.getLatest_revised_cost_units()[i]:null);
 						stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
 						stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
 						stmt.setString(p++,workId);

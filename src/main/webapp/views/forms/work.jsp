@@ -306,8 +306,8 @@
 				"drawCallback" : function() {
 					var info = table.page.info();
 					window.localStorage.setItem("pageNo", info.page);
-					console.log(info.page)
-					console.log(pageNo)
+					/* console.log(info.page)
+					console.log(pageNo) */
 				},
                 columnDefs: [
                    

@@ -106,14 +106,45 @@
 			max-width:70px !important;
 		}
 		/* responsive_units styling ends */
+		.mdl-data-table .amount-dropdown .select-wrapper, .mdl-data-table .amount-dropdown .amount-symbol {
+		    top: 1rem;
+		    margin-left: 0;
+		    width: auto;
+		}
+		.amount-dropdown .select-wrapper{
+			margin-right:0;
+		}
+		tbody tr td input[name="months"]{
+			width:100%;
+		}
 		@media only screen and (max-width: 769px){
-			input[type="month"]{
+			tbody tr td input[type="month"]{
 				width: -webkit-fill-available;
+				width: 90%;
 				height:40px;
 				box-shadow:inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff !important;
 			}
 			.responsive_units > .select2-container{
 				max-width:inherit !important;
+			}
+			input[type="month" i]::-webkit-calendar-picker-indicator{
+				margin:0;
+			}
+			.mdl-data-table .amount-dropdown .amount-symbol{
+				margin:0 0 0 5px;
+			}
+			.mdl-data-table .amount-dropdown .select-wrapper{
+				margin:0;
+				width:30px;
+				right: 4.7rem;
+			}
+		}
+		@media only screen and (max-width: 500px){	
+			tbody tr td input[type="month"]{
+				width: -webkit-fill-available;
+			}	
+			.mdl-data-table .amount-dropdown .select-wrapper {
+			    right: 18vw;
 			}
 		}
 
@@ -190,7 +221,7 @@
                            </c:if>
                         </div>
                         <div class="row no-mar">
-                            <div class="col s12 m12">
+                            <div class="col s12 m10 offset-m1 ">
                                 <div class="row fixed-width">
                                     <h5 class="center-align">TA Financial Details</h5>
                                     <div class="table-inside">
@@ -199,11 +230,11 @@
                                                 <tr>
                                                     <th>Month </th>
                                                     <th>Planned Invoicing </th>
-                                                    <th>Unit</th>
+                                                   <!--  <th>Unit</th> -->
                                                     <th>Actual Invoicing </th>
-                                                    <th>Unit</th>
+                                                    <!-- <th>Unit</th> -->
                                                     <th>Payment Received </th>
-                                                    <th>Unit</th>
+                                                    <!-- <th>Unit</th> -->
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -218,14 +249,21 @@
 	                                                            placeholder="Select Month">
 	                                                        <span id="month${index.count }sgst_tdsError" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td data-head="Planned Invoicing" class="input-field">
-	                                                        <i class="material-icons prefix center-align">₹</i>
+	                                                    <td data-head="Planned Invoicing" class="input-field amount-dropdown">
+	                                                        <i class="material-icons amount-symbol center-align">₹</i>
 	                                                        <input id="planned_invoice${index.count }" type="number" step="0.01" value="${sObj.planned }"
 	                                                            min="0.01" class="validate" name="planneds"
 	                                                            placeholder="Planned Invoicing">
 	                                                        <span id="planned_invoice${index.count }Error" class="error-msg"></span>
+					                                		<span id="planned_invoice_units${index.count }Error" class="my-error right"></span>
+	                                                        <select class="validate-dropdown" id="planned_invoice${index.count }_units" name="planned_units">
+						                                		<option value="">Select</option>
+						                                		<c:forEach var="obj" items="${unitsList }">
+			                                    			      <option value="${obj.value }" <c:if test="${sObj.planned_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
+			                                     			    </c:forEach>
+						                                	</select>
 	                                                    </td>
-	                                                    <td class="responsive_units">
+	                                                   <%--  <td class="responsive_units">
 						                                	<select class="units validate-dropdown searchable" id="planned_invoice${index.count }_units" name="planned_units">
 						                                		<option value="">Select</option>
 						                                		<c:forEach var="obj" items="${unitsList }">
@@ -233,15 +271,22 @@
 			                                     			    </c:forEach>
 						                                	</select>
 					                                		<span id="planned_invoice_units${index.count }Error" class="my-error"></span>
-                                                		</td>
-	                                                    <td data-head="Actual Invoicing" class="input-field">
-	                                                        <i class="material-icons prefix center-align">₹</i>
+                                                		</td> --%>
+	                                                    <td data-head="Actual Invoicing" class="input-field amount-dropdown">
+	                                                        <i class="material-icons amount-symbol center-align">₹</i>
 	                                                        <input id="actual_invoices${index.count }" type="number" step="0.01" min="0.01" value="${sObj.actual }"
 	                                                            class="validate" name="actuals"
 	                                                            placeholder="Actual Invoicing">
 	                                                        <span id="actual_invoice${index.count }Error" class="error-msg"></span>
+					                                		<span id="actual_invoice_units${index.count}Error" class="my-error right"></span>
+	                                                        <select class="validate-dropdown" id="actual_invoices${index.count }_units" name="actual_units">
+						                                		<option value="">Select</option>
+						                                		<c:forEach var="obj" items="${unitsList }">
+			                                    			      <option value="${obj.value }" <c:if test="${sObj.actual_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
+			                                     			    </c:forEach>
+						                                	</select>
 	                                                    </td>
-	                                                    <td class="responsive_units">
+	                                                    <%-- <td class="responsive_units">
 						                                	<select class="units validate-dropdown searchable" id="actual_invoices${index.count }_units" name="actual_units">
 						                                		<option value="">Select</option>
 						                                		<c:forEach var="obj" items="${unitsList }">
@@ -249,15 +294,22 @@
 			                                     			    </c:forEach>
 						                                	</select>
 					                                		<span id="actual_invoice_units${index.count}Error" class="my-error"></span>
-                                                		</td>
-	                                                    <td data-head="Payment Received" class="input-field">
-	                                                        <i class="material-icons prefix center-align">₹</i>
+                                                		</td> --%>
+	                                                    <td data-head="Payment Received" class="input-field amount-dropdown">
+	                                                        <i class="material-icons amount-symbol center-align">₹</i>
 	                                                        <input id="payment_receiveds${index.count }" type="number" step="0.01" value="${sObj.payment_received }"
 	                                                            min="0.01" class="validate" name="payment_receiveds"
 	                                                            placeholder="Payment Received">
 	                                                        <span id="payment_received${index.count }Error" class="error-msg"></span>
+					                                		<span id="payment_received_units${index.count}Error" class="my-error right"></span>
+	                                                        <select class="validate-dropdown" id="payment_receiveds${index.count }_units" name="payment_received_units">
+						                                		<option value="">Select</option>
+						                                		<c:forEach var="obj" items="${unitsList }">
+			                                    			      <option value="${obj.value }" <c:if test="${sObj.payment_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
+			                                     			    </c:forEach>
+						                                	</select>
 	                                                    </td>
-	                                                    <td class="responsive_units"> 
+	                                                    <%-- <td class="responsive_units"> 
 						                                	<select class="units validate-dropdown searchable" id="payment_receiveds${index.count }_units" name="payment_received_units">
 						                                		<option value="">Select</option>
 						                                		<c:forEach var="obj" items="${unitsList }">
@@ -265,7 +317,7 @@
 			                                     			    </c:forEach>
 						                                	</select>
 					                                		<span id="payment_received_units${index.count}Error" class="my-error"></span>
-                                                		</td>
+                                                		</td> --%>
 	                                                    <td class="mobile_btn_close">
 	                                                        <a onclick="removeFinancial('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
 	                                                                class="fa fa-close"></i></a>
@@ -279,14 +331,21 @@
 	                                                            placeholder="Select Month">
 	                                                        <span id="month0sgst_tdsError" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td data-head="Planned Invoicing" class="input-field">
-	                                                        <i class="material-icons prefix center-align">₹</i>
+	                                                    <td data-head="Planned Invoicing" class="input-field amount-dropdown">
+	                                                        <i class="material-icons amount-symbol center-align">₹</i>
 	                                                        <input id="planned_invoice0" type="number" step="0.01"
 	                                                            min="0.01" class="validate" name="planneds"
 	                                                            placeholder="Planned Invoicing">
-	                                                        <span id="planned_invoice0Error" class="error-msg"></span>
+														    <span id="planned_invoice_units0Error" class="my-error"></span>
+	                                                        <span id="planned_invoice0Error" class="error-msg right"></span>
+	                                                         <select class=" validate-dropdown " id="planned_invoice0_units" name="planned_units">
+														        <option value="">Select</option>
+														        <c:forEach var="obj" items="${unitsList }">
+														          <option value="${obj.value }" >${obj.unit }</option>
+														         </c:forEach>
+														    </select>
 	                                                    </td>
-	                                                    <td class="responsive_units">
+	                                                  <%--   <td class="responsive_units">
 														    <select class="units validate-dropdown searchable" id="planned_invoice0_units" name="planned_units">
 														        <option value="">Select</option>
 														        <c:forEach var="obj" items="${unitsList }">
@@ -294,15 +353,22 @@
 														         </c:forEach>
 														    </select>
 														    <span id="planned_invoice_units0Error" class="my-error"></span>
-														</td>
-	                                                    <td class="input-field" data-head="Actual Invoicing">
-	                                                        <i class="material-icons prefix center-align">₹</i>
+														</td> --%>
+	                                                    <td class="input-field amount-dropdown" data-head="Actual Invoicing">
+	                                                        <i class="material-icons amount-symbol center-align">₹</i>
 	                                                        <input id="actual_invoices0" type="number" step="0.01" min="0.01"
 	                                                            class="validate" name="actuals"
 	                                                            placeholder="Actual Invoicing">
 	                                                        <span id="actual_invoice0Error" class="error-msg"></span>
+														    <span id="actual_invoice_units0Error" class="my-error right"></span>
+	                                                        <select class="validate-dropdown" id="actual_invoices0_units" name="actual_units">
+														        <option value="">Select</option>
+														        <c:forEach var="obj" items="${unitsList }">
+														          <option value="${obj.value }" >${obj.unit }</option>
+														         </c:forEach>
+														    </select>
 	                                                    </td>
-	                                                    <td class="responsive_units">
+	                                                   <%--  <td class="responsive_units">
 														    <select class="units validate-dropdown searchable" id="actual_invoices0_units" name="actual_units">
 														        <option value="">Select</option>
 														        <c:forEach var="obj" items="${unitsList }">
@@ -310,15 +376,22 @@
 														         </c:forEach>
 														    </select>
 														    <span id="actual_invoice_units0Error" class="my-error"></span>
-														</td>
-	                                                    <td class="input-field" data-head="Payment Received">
-	                                                        <i class="material-icons prefix center-align">₹</i>
+														</td> --%>
+	                                                    <td class="input-field amount-dropdown" data-head="Payment Received">
+	                                                        <i class="material-icons amount-symbol center-align">₹</i>
 	                                                        <input id="payment_receiveds0" type="number" step="0.01"
 	                                                            min="0.01" class="validate" name="payment_receiveds"
 	                                                            placeholder="Payment Received">
 	                                                        <span id="payment_received0Error" class="error-msg"></span>
+														    <span id="payment_received_units0Error" class="my-error right"></span>
+	                                                        <select class="validate-dropdown" id="payment_receiveds0_units" name="payment_received_units">
+														        <option value="">Select</option>
+														        <c:forEach var="obj" items="${unitsList }">
+														          <option value="${obj.value }" >${obj.unit }</option>
+														         </c:forEach>
+														    </select>
 	                                                    </td>
-	                                                    <td class="responsive_units">
+	                                                   <%--  <td class="responsive_units">
 														    <select class="units validate-dropdown searchable" id="payment_receiveds0_units" name="payment_received_units">
 														        <option value="">Select</option>
 														        <c:forEach var="obj" items="${unitsList }">
@@ -326,7 +399,7 @@
 														         </c:forEach>
 														    </select>
 														    <span id="payment_received_units0Error" class="my-error"></span>
-														</td>
+														</td> --%>
 	                                                    <td class="mobile_btn_close">
 	                                                        <a onclick="removeFinancial('0');" class="btn waves-effect waves-light red t-c "> <i
 	                                                                class="fa fa-close"></i></a>
@@ -410,7 +483,7 @@
 
     <script>
         $(document).ready(function () {
-            $('select:not(.searchable)').formSelect();
+            $('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2({readonly: true});
             // $('#textarea1,#textarea2,#textarea3').characterCounter();
             $("#funding_date").datepicker();
@@ -491,30 +564,33 @@
             var No = Number(rowNo)+1;
             
             var html = ' <tr id="financialRow' + No + '"> <input type="hidden" name= "IDs" id="IDs'+No+'" />'+
-            	'<td data-head="Month" class="input-field"> <input id="months' + No + '"  name="months" type="month" class="validate" placeholder="Select Month">' +
+            	'<td data-head="Month" class="input-field"> <input id="months' + No + '" name="months" type="month" class="validate" placeholder="Select Month">' +
                 '<span id="month' + No + 'Error" class="error-msg"></span></td >'+
-                '<td data-head="Planned Invoicing" class="input-field"> <i class="material-icons prefix center-align">₹</i>' +
+                '<td data-head="Planned Invoicing" class="input-field amount-dropdown"> <i class="material-icons amount-symbol center-align">₹</i>' +
                 '<input id="planned_invoice' + No + '" type="number" step="0.01" min="0.01" class="validate" name="planneds" placeholder="Planned Invoicing">' +
-                '<span id="planned_invoice' + No + 'Error" class="error-msg"></span> </td>'+
-                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="planned_invoice'+No+'_units" name="planned_units"> '+
+                '<span id="planned_invoice' + No + 'Error" class="error-msg"></span> '+
+                //'</td><td class="responsive_units">'+
+                ' <select class="validate-dropdown" id="planned_invoice'+No+'_units" name="planned_units"> '+
                 '<option value="">Select</option>'
 	                <c:forEach var="obj" items="${unitsList }"> 
 	                	+'<option value="${obj.value }">${obj.unit }</option> '
 	                </c:forEach>
                 +'</select> '+
                 '<span id="planned_invoice_units'+No+'Error" class="my-error"></span> </td>'+
-                '<td data-head="Actual Invoicing" class="input-field"><i class="material-icons prefix center-align">₹</i><input id="actual_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="actuals" placeholder="Actual Invoicing">' +
-                '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> </td> '+
-                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="actual_invoices' + No + '_units" name="actual_units">'+
+                '<td data-head="Actual Invoicing" class="input-field amount-dropdown"><i class="material-icons amount-symbol center-align">₹</i><input id="actual_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="actuals" placeholder="Actual Invoicing">' +
+                '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> '+
+                //'</td> <td class="responsive_units"> '+
+                '<select class="validate-dropdown" id="actual_invoices' + No + '_units" name="actual_units">'+
                 ' <option value="">Select</option>'
                		 <c:forEach var="obj" items="${unitsList }"> 
                 		+'<option value="${obj.value }">${obj.unit }</option>'
                 	  </c:forEach>
                 +'</select><span id="actual_invoice_units' + No + 'Error" class="my-error"></span></td>'
-                +'<td data-head="Payment Received" class="input-field"><i class="material-icons prefix center-align">₹</i>' +
+                +'<td data-head="Payment Received" class="input-field amount-dropdown"><i class="material-icons amount-symbol center-align">₹</i>' +
                 '<input id="payment_receiveds' + No + '" type="number" step="0.01" min="0.01" class="validate" name="payment_receiveds" placeholder="Payment Received">' +
-                '<span id="payment_received' + No + 'Error" class="error-msg"></span></td>'+
-                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="payment_receiveds' + No + '_units" name="payment_received_units"> '+
+                '<span id="payment_received' + No + 'Error" class="error-msg"></span>'+
+                //'</td><td class="responsive_units"> '+
+                '<select class="validate-dropdown" id="payment_receiveds' + No + '_units" name="payment_received_units"> '+
                 '<option value="">Select</option>'
 	                <c:forEach var="obj" items="${unitsList }"> 
 	                	+'<option value="${obj.value }">${obj.unit }</option>'
@@ -525,6 +601,7 @@
                 $('#financialTableBody').append(html);
 				$("#rowNo").val(No);
 				$('.searchable').select2();
+	            $('select:not(.searchable):not(.units)').formSelect();
 				
 			  $('#planned_invoice'+ No +'_units').on('change', function(e){
 	            	 if($.trim($('#planned_invoice'+ No +'_units').val()) != ""){

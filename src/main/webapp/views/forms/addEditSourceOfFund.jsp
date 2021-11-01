@@ -144,9 +144,9 @@
 				              <c:if test="${action eq 'add'}">				                
 				                	<form action="<%=request.getContextPath() %>/add-funds" id="fundsForm" name="fundsForm" method="post"  enctype="multipart/form-data">
 							  </c:if>
-							 <c:if test="${action eq 'add'}">	
                               <div class="row">
-                                <div class="col s12 m4 l4 input-field pl0">
+							 <c:if test="${action eq 'add'}">	
+                                <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Project <span class="required">*</span></p>
                                      <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
@@ -173,8 +173,8 @@
                            </c:if>
                            		
                             <c:if test="${action eq 'edit'}">	
-                              <div id="center" >
-	                       		  <div class="col s12 m4 l4 input-field pl0">
+                             <!--  <div id="center" > -->
+	                       		  <div class="col s12 m4 l4 input-field ">
 										 <p class="searchable_label">Project <span class="required">*</span></p>
 	                                     <input type="text" class="h2em" value="${fundDetails.project_id_fk} - ${fundDetails.project_name}" readonly />
 								  </div> 
@@ -195,8 +195,7 @@
                                     </select>
                                     <span id="source_of_funds_fkError" class="error-msg" ></span>
                                 </div>
-                            <div class="row">
-                                
+                            <!-- <div class="row">  -->                               
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label fs-sm-67rem">Sub Category Railway <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="sub_category_railway_id_fk" id="sub_category_railway_id_fk">
@@ -207,7 +206,7 @@
                                     </select>
                                     <span id="sub_category_railway_id_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
+                            </div> 
 
                             <div class="row">
                                 <div class="col s12 m4 l4 input-field">
@@ -216,13 +215,20 @@
                                     <button type="button" id="funding_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="funding_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s8 m3 l3 input-field">
-                                    <i class="material-icons prefix center-align">₹</i>
+                                <div class="col s12 m4 l4 amount-dropdown input-field">
+                                    <i class="material-icons amount-symbol center-align">₹</i>
                                     <input id="fund_amount" min="0.01" step="0.01" type="number" class="validate" name="fund_amount" value="${fundDetails.fund_amount }">
                                     <label for="fund_amount fs-sm-8rem"> Fund Amount </label>
                                     <span id="fund_amountError" class="error-msg" ></span>
+                                	<span id="fund_amount_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="fund_amount_units" name="fund_amount_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" <c:if test="${fundDetails.fund_amount_units eq obj.value }">selected</c:if>>${obj.unit }</option>
+	                                	</c:forEach> 
+                                	</select>
                                 </div>
-                                <div class="col s4 m1 l1 input-field pt-10">
+                            <%--     <div class="col s4 m1 l1 input-field pt-10">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="fund_amount_units" name="fund_amount_units">
                                 		<option value="">Select</option>
@@ -231,7 +237,7 @@
 	                                	</c:forEach> 
                                 	</select>
                                 	<span id="fund_amount_unitsError" class="error-msg" ></span>
-                               	</div> 
+                               	</div>  --%>
                                	<div class="col s6 m4 l4 input-field">
                                     <input id="voucher_type" type="text" class="validate" name="voucher_type" value="${fundDetails.voucher_type }">
                                     <label for="voucher_type">Voucher Type </label>
@@ -256,7 +262,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s12 m8 l12 input-field">
+                                <div class="col s12 m12 l12 input-field">
                                     <textarea id="narration" name="narration" class="pmis-textarea" data-length="1000">${fundDetails.narration }</textarea>
                                     <label for="narration">Narration </label>
                                     <span id="narrationError" class="error-msg" ></span>
@@ -264,7 +270,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col l12 m8 s12">
+                                <div class="col l12 m12 s12">
                                 
                                  <c:if test="${action eq 'add'}">
 			                            <div id="selectedFilesInput">
@@ -311,10 +317,9 @@
 				                             </c:if>	
 				                         
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col s12 m8 l12 input-field">
+                                <div class="col s12 m12 l12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${fundDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>

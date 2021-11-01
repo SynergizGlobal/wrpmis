@@ -396,15 +396,15 @@
                                 <div class="col s6 m4 l4 input-field amount-dropdown">
                        				<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="0.01" step="0.01">
-                                    <label for="sanctioned_estimated_cost" class="active fs-sm-8rem fs-md-9r fs7rem">Sanctioned Estimated Cost</label>
+                                    <label for="sanctioned_estimated_cost" class="active fs-sm-8rem fs-md-9r fs7rem">Sanctioned Estimated Cost (in Cr)</label>
                                     <span id="sanctioned_estimated_costError"></span>
-                                	<span id="sanctioned_estimated_cost_unitError" class="error-msg right" ></span>
+                                	<%-- <span id="sanctioned_estimated_cost_unitError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="sanctioned_estimated_cost_unit" name="sanctioned_estimated_cost_unit">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
                                   			   <option value="${obj.value }" <c:if test="${workDetails.sanctioned_estimated_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
                                    		 </c:forEach>
-                                	</select>
+                                	</select> --%>
                                 </div>
                                <%--  <div class="col s4 m3 l1 input-field">
                                 	<p class="searchable_label">Units</p>
@@ -420,15 +420,15 @@
                                  <div class="col s12 m8 l4 input-field offset-m2 amount-dropdown">
                                   	<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="0.01" step="0.01">
-                                    <label for="sanctioned_completion_cost" class="fs-sm-67rem fs-md-9r fs7rem"> Sanctioned Completion Cost</label>
+                                    <label for="sanctioned_completion_cost" class="fs-sm-67rem fs-md-9r fs7rem"> Sanctioned Completion Cost (in Cr)</label>
                                     <span id="sanctioned_completion_costError"></span>
-                                	<span id="sanctioned_completion_cost_unitError" class="error-msg right" ></span>
+                                	<%-- <span id="sanctioned_completion_cost_unitError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="sanctioned_completion_cost_unit" name="sanctioned_completion_cost_unit">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
                                   			   <option value="${obj.value }" <c:if test="${workDetails.sanctioned_completion_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
                                    		 </c:forEach>
-                                	</select>
+                                	</select> --%>
                                 </div>
                          <%--        <div class="col s4 m3 l1 input-field">
                                 	<p class="searchable_label">Units</p>
@@ -1172,12 +1172,12 @@
         	if(flag){ */
 		  		if(validator.form()){ // validation perform
 		  			$(".page-loader").show();	    
-		  			var sanctioned_estimated_cost = $('#sanctioned_estimated_cost').val();
-		  			var sanctioned_completion_cost = $('#sanctioned_completion_cost').val();
+		  			//var sanctioned_estimated_cost = $('#sanctioned_estimated_cost').val();
+		  			//var sanctioned_completion_cost = $('#sanctioned_completion_cost').val();
 		  			var anticipated_cost = $('#anticipated_cost').val();
 		  			var completion_cost = $('#completion_cost').val();
-		  			if(sanctioned_estimated_cost == ""){$('#sanctioned_estimated_cost_unit').val("");}
-		  			if(sanctioned_completion_cost == ""){$('#sanctioned_completion_cost_unit').val("");}
+		  			//if(sanctioned_estimated_cost == ""){$('#sanctioned_estimated_cost_unit').val("");}
+		  			//if(sanctioned_completion_cost == ""){$('#sanctioned_completion_cost_unit').val("");}
 		  			if(anticipated_cost == ""){$('#anticipated_cost_unit').val("");}
 		  			if(completion_cost == ""){$('#completion_cost_unit').val("");}
 		  			
@@ -1199,12 +1199,12 @@
         	if(flag){ */
 		  		if(validator.form()){ // validation perform
 		  			$(".page-loader").show();	   
-		  			var sanctioned_estimated_cost = $('#sanctioned_estimated_cost').val();
-		  			var sanctioned_completion_cost = $('#sanctioned_completion_cost').val();
+		  			//var sanctioned_estimated_cost = $('#sanctioned_estimated_cost').val();
+		  			//var sanctioned_completion_cost = $('#sanctioned_completion_cost').val();
 		  			var anticipated_cost = $('#anticipated_cost').val();
 		  			var completion_cost = $('#completion_cost').val();
-		  			if(sanctioned_estimated_cost == ""){$('#sanctioned_estimated_cost_unit').val("");}
-		  			if(sanctioned_completion_cost == ""){$('#sanctioned_completion_cost_unit').val("");}
+		  			//if(sanctioned_estimated_cost == ""){$('#sanctioned_estimated_cost_unit').val("");}
+		  			//if(sanctioned_completion_cost == ""){$('#sanctioned_completion_cost_unit').val("");}
 		  			if(anticipated_cost == ""){$('#anticipated_cost_unit').val("");}
 		  			if(completion_cost == ""){$('#completion_cost_unit').val("");}
 		  			

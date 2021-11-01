@@ -50,7 +50,9 @@
 		       	min-width:50px;
 	      } 
          @media only screen and (max-width: 769px){ 
-		
+		.mdl-data-table thead tr th{
+			text-align:left !important;
+		}		
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
 			padding:3px !important;
@@ -356,6 +358,7 @@
                     { targets: [ 0,1,2, 3], className: 'fw-12vw'  },
                     { targets: [4], className: 'fw-10vw'  },
                     { targets: [0,1], className: 'fw-111'  },
+                    { "width": "20px", "targets": [5] },
                     { orderable: false, 'aTargets': ['no-sort'] } 
                 ],
                 // "ScrollX": true,

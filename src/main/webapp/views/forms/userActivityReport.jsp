@@ -49,7 +49,7 @@
 			            <form action="<%=request.getContextPath() %>/generate-user-activity-report" id="userActivityReportForm" name="userActivityReportForm" method="post" target="_blank">	                              
                        		 <div class="row no-mar">
                                 <div class="col s6 m4 l2 input-field offset-l3">
-                                    <p class="searchable_label" style="text-align:left">Module</p>
+                                    <p class="searchable_label" style="text-align:left">Update Form</p>
                                     <select class="searchable validate-dropdown" id="module_name" name="module_name" onchange="addInQueModule(this.value);getUserActivityReport();">
                                         <option value="">Select </option>
                                          <c:forEach var="obj" items="${modulelist }">

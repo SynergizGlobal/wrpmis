@@ -56,7 +56,7 @@
 			padding:0 .5rem;
 		}
 		.w10em{width: 10em !important;}
-		.w20em{width:  20em !important;}
+		.w20em{width:  23em !important;}
 		@media screen and (max-width: 1300px) and (min-width: 1150px) {
 			.btn.bg-s{
 				font-size:1.5vmin;
@@ -783,8 +783,8 @@
                 columnDefs: [
                    // { orderable: false, 'aTargets': ['nosort'] },
                     { targets: [0, 1], className: 'dt-left'  },  
-                    { targets: [2,6], className: 'dt-center hideCOl'},
-                    { targets: [3,4,5], className: 'hideCOl dt-left'},
+                    { targets: [2,6,4], className: 'dt-center hideCOl'},
+                    { targets: [3,5], className: 'hideCOl dt-left'},
                     { targets: [4,6], className: 'hideCOl w10em'},
                 ],
                 // "ScrollX": true,

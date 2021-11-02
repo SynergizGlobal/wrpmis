@@ -93,15 +93,15 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			{
 				if(obj.getApproval_status_fk().equals("Approved"))
 				{
-					qry = qry + " order by approved_on desc";
+					qry = qry + " order by date(approved_on) desc";
 				}
 				else if(obj.getApproval_status_fk().equals("Rejected"))
 				{
-					qry = qry + " order by rejected_on desc";
+					qry = qry + " order by date(rejected_on) desc";
 				}	
 				else if(obj.getApproval_status_fk().equals("Pending"))
 				{
-					qry = qry + " order by ap.created_date desc";
+					qry = qry + " order by date(ap.created_date) desc";
 				}					
 			}			
 			

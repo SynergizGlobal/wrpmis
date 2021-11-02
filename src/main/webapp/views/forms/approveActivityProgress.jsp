@@ -761,7 +761,7 @@
                      $("#pending_div").show();
         			table.column( 0 ).visible(true);
         			table.column( 1 ).visible(false);
-        			table.column( 2 ).visible(false);
+        			table.column( 2 ).visible(true);
         			table.column( 9 ).visible(true);
         			table.column( 10 ).visible(true);
         			table.column( 11 ).visible(true);

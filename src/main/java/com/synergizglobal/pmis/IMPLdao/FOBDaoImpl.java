@@ -79,14 +79,16 @@ public class FOBDaoImpl implements FOBDao {
 				qry = qry + " and f.work_status_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and ce.contract_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				//qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
 				qry = qry + " and  responsible_people_id_fk = ? ";
 				arrSize++;
 				//arrSize++;
 			}			
-			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -95,6 +97,9 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {
 				pValues[i++] = obj.getWork_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				pValues[i++] = obj.getUser_id();
@@ -1001,18 +1006,29 @@ public class FOBDaoImpl implements FOBDao {
 		List<FOB> objsList = null;
 		List<FOB> objsList1 = null;
 		try {
-			String qry = "SELECT work_status_fk "
+			String qry = "SELECT f.work_status_fk "
 					+ "from fob f "
-					+ "where work_status_fk is not null and work_status_fk <> ''  ";
+					+ "left join fob_contract_responsible_people ce on f.fob_id = ce.fob_id_fk "+
+					"LEFT JOIN contract c on ce.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "where f.work_status_fk is not null and f.work_status_fk <> ''  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and work_status_fk = ?";
+				qry = qry + " and f.work_status_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				qry = qry + " and ce.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and  responsible_people_id_fk = ? ";
+				arrSize++;
+			}	
 			/*
 			 * if(!StringUtils.isEmpty(obj) &&
 			 * !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) { qry =
@@ -1024,7 +1040,7 @@ public class FOBDaoImpl implements FOBDao {
 			 * "or fob_id in (select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) "
 			 * ; arrSize++; arrSize++; arrSize++; arrSize++; }
 			 */		
-			qry = qry + " GROUP BY work_status_fk ";
+			qry = qry + " GROUP BY f.work_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
@@ -1032,6 +1048,13 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
 				pValues[i++] = obj.getWork_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_id();
+
 			}
 			/*
 			 * if(!StringUtils.isEmpty(obj) &&
@@ -1065,12 +1088,13 @@ public class FOBDaoImpl implements FOBDao {
 	@Override
 	public List<FOB> getWorksListForFilter(FOB obj) throws Exception {
 		List<FOB> objsList = null;
-		List<FOB> objsList1 = null;
 		try {
-			String qry = "SELECT work_id_fk,work_name,work_short_name "
+			String qry = "SELECT c.work_id_fk,work_name,work_short_name "
 					+ "from fob f "
-					+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
-					+ "where work_id_fk is not null ";
+					+ "left join fob_contract_responsible_people ce on f.fob_id = ce.fob_id_fk "+
+					"LEFT JOIN contract c on ce.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "where c.work_id_fk is not null ";
 			int arrSize = 0;
 		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -1078,21 +1102,17 @@ public class FOBDaoImpl implements FOBDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			/*
-			 * if(!StringUtils.isEmpty(obj) &&
-			 * !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) { qry =
-			 * qry + " and ( " +
-			 * "fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
-			 * +
-			 * "or fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
-			 * +
-			 * "or fob_id in (select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) "
-			 * ; arrSize++; arrSize++; arrSize++; arrSize++; }
-			 */			
-	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				qry = qry + " and ce.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and  responsible_people_id_fk = ? ";
+				arrSize++;
+			}	
 			qry = qry + " GROUP BY work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1101,6 +1121,13 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
 				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_id();
+
 			}
 			/*
 			 * if(!StringUtils.isEmpty(obj) &&
@@ -1135,28 +1162,45 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getContractsListForFilter(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "SELECT contract_id_fk,c.contract_name,c.contract_short_name from fob f " + 
-					"LEFT JOIN contract c on f.contract_id_fk = c.contract_id "+
-					"where contract_id_fk is not null ";
+			String qry = "SELECT ce.contract_id_fk,c.contract_name,c.contract_short_name from fob f " 
+					+ "left join fob_contract_responsible_people ce on f.fob_id = ce.fob_id_fk "+
+					"LEFT JOIN contract c on ce.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "+
+					"where ce.contract_id_fk is not null ";
 			int arrSize = 0;
 		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
 				qry = qry + " and f.work_status_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
-				qry = qry + " and contract_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY contract_id_fk ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				qry = qry + " and ce.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and  responsible_people_id_fk = ? ";
+				arrSize++;
+			}	
+			qry = qry + "GROUP BY ce.contract_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
 				pValues[i++] = obj.getWork_status_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
 				pValues[i++] = obj.getContract_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_id();
+
+			}	
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
 		}catch(Exception e){ 
 			throw new Exception(e);

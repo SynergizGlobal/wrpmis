@@ -182,7 +182,7 @@
 									<div class="col s6 m3 input-field">
 										<p class="searchable_label">Contract</p>
 										<select id="contract_id_fk" name="contract_id_fk"
-											onchange="addInQueWork(this.value);getFOBList();" class="searchable">
+											onchange="addInQueContract(this.value);getFOBList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
@@ -255,6 +255,7 @@
 	<form action="<%=request.getContextPath() %>/export-fobs" name="exportFOBForm" id="exportFOBForm" target="_blank" method="post">	
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="work_status_fk" id="exportWork_status_fk" />
+         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
 	</form>
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -283,7 +284,9 @@
   		        		getWorkStatusFilterList(temp2[1]);
   		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
   		        		getWorksFilterList(temp2[1]);
-  		        	  }
+  	        		  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+  	        			getContractsFilterList(temp2[1]);
+		        	  }
   	        	  }
   	            }
               }
@@ -325,6 +328,14 @@
 	   		});
         	if($.trim(work_status_fk) != ''){
        	    	filtersMap["work_status_fk"] = work_status_fk;
+        	}
+        }
+        function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
         	}
         }
 
@@ -446,9 +457,10 @@
         	$(".page-loader").show();
     	 	var work_id_fk = $("#work_id_fk").val();
     	 	var work_status_fk = $("#work_status_fk").val();
+    	 	var contract_id_fk = $("#contract_id_fk").val();
     	    if ($.trim(work_status_fk) == "") {
     	    	$("#work_status_fk option:not(:first)").remove();
-    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk};
+    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk,contract_id_fk : contract_id_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorkStatusFilterListInFOB",
                     data: myParams, cache: false,async: false,
@@ -475,9 +487,10 @@
     	 	$(".page-loader").show();
     	 	var work_status_fk = $("#work_status_fk").val();
     	 	var work_id_fk = $("#work_id_fk").val();
+    	 	var contract_id_fk = $("#contract_id_fk").val();
     	    if ($.trim(work_id_fk) == "") {
     	    	$("#work_id_fk option:not(:first)").remove();
-    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk};
+    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk,contract_id_fk : contract_id_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInFOB",
                     data: myParams, cache: false,async: false,
@@ -505,11 +518,12 @@
         
         function getContractsFilterList(contract_id){
     	 	$(".page-loader").show();
+    		var work_id_fk = $("#work_id_fk").val();
     	 	var work_status_fk = $("#work_status_fk").val();
     	 	var contract_id_fk = $("#contract_id_fk").val();
     	    if ($.trim(contract_id_fk) == "") {
     	    	$("#contract_id_fk option:not(:first)").remove();
-    	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
+    	    	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInFOB",
                     data: myParams, cache: false,async: false,
@@ -564,9 +578,11 @@
         function exportFOB(){
           	 var work_id_fk = $("#work_id_fk").val();
           	 var work_status_fk = $("#work_status_fk").val();
+          	 var contract_id_fk = $("#contract_id_fk").val();
           	 
           	 $("#exportWork_id_fk").val(work_id_fk);
           	 $("#exportWork_status_fk").val(work_status_fk);
+          	 $("#exportContract_id_fk").val(contract_id_fk);
           	 $("#exportFOBForm").submit();
        	}
         <%--         

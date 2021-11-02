@@ -456,7 +456,7 @@
         function getWorkStatusFilterList(work_status){
         	$(".page-loader").show();
     	 	var work_id_fk = $("#work_id_fk").val();
-    	 	var work_status_fk = $("#work_status_fk").val();
+    	 	var work_status_fk = $("#work_status_fk").val(); 
     	 	var contract_id_fk = $("#contract_id_fk").val();
     	    if ($.trim(work_status_fk) == "") {
     	    	$("#work_status_fk option:not(:first)").remove();

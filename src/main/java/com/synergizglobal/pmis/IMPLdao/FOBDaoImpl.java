@@ -1005,7 +1005,7 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getWorkStatusList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		List<FOB> objsList1 = null;
-		try {
+		try { 
 			String qry = "SELECT f.work_status_fk "
 					+ "from fob f "
 					+ "left join fob_contract_responsible_people ce on f.fob_id = ce.fob_id_fk "+

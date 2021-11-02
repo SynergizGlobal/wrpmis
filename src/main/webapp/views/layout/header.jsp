@@ -100,6 +100,16 @@
      	.brand-logo{width: 15%;}
      	.brand-logo img{width: 33% !important;}
      
+     .markread{float: right;
+			    background-color: rgba(255, 255, 255, 0.6);
+			    padding: 4px 1rem;
+			    border-radius: 1rem;
+			    box-shadow: 2px 2px 4px #333;
+			    border: none;
+			    color: #333;}
+	 .more{position: absolute;
+ 	   		top: 26em;
+    		right: 0.5em;}	
      @media only screen and (max-width:1400px) and (min-width:1024px) {
      	nav ul a{
      		padding : 0 5px;
@@ -562,6 +572,7 @@
 						<ul class="notifications_group message_group"	id="messagesList">
 							<!-- list of messages starts -->
 							<c:if test="${not empty messages and fn:length(messages) gt 0}">
+							
 								<li class="head-item">Messages</li>
 								<c:forEach var="obj" items="${messages }">
 									<c:if test="${not empty obj.read_time}">
@@ -586,10 +597,11 @@
 										</a>
 									</li>
 								</c:forEach>
-							</c:if>
-																							
+							</c:if>														
 						</ul>
-
+						
+							<div class="head-item  more"><button class="markread"  id="markasread" onclick="getAllMessages();">More</button></div>
+						
 						<!-- messages dropdown body ends -->
 					</div>
 				</li>
@@ -1116,6 +1128,71 @@
 		           });                   
 				}
                
+               function getAllMessages(){
+            	   $("#messagesList").html('');
+            	   $("#messagesListMobile").html('');
+            	   var myParams = {message_type : message_type};
+                   $.ajax({
+                       url: "<%=request.getContextPath()%>/ajax/getMesagesForHeader",
+                       	  data: myParams,cache: false,async:true,
+		                  success: function (data) {
+		                    	  var html = "";
+		                    	  var count = 0;
+		                    	  $.each(data, function(i, val) {
+		                    		  if(data.length > 0 && i==0){
+				                    	  html = html + '<li class="head-item">Messages<button type="button" class="markread">Mark All Read</button></li>';
+		                    		  }
+		                    		  var message_color_bg = '';
+		                    		  if($.trim(val.read_time) != ''){
+		                    			  message_color_bg = 'read-message';
+		                    		  }else{
+		                    			  message_color_bg = 'unread-message';
+		                    		  }
+		                    		  if($.trim(val.read_time) == ''){
+		                    		  	count = count + 1;
+		                    		  }
+		                    		  var urlStringContains = "?"
+		                    		  if($.trim(val.redirect_url) != '' && (val.redirect_url).indexOf("?") > 0){
+		                    			  urlStringContains = "&";
+		                    		  }
+		                    		  html = html + '<li class="item '+message_color_bg+' row">';
+		                    		  		if($.trim(val.redirect_url) != ''){
+		                    		  			html = html + '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+urlStringContains+'message_id='+val.message_id +'">'
+		                    		  		}else{
+		                    		  			html = html + '<a href="javascript:void(0);">'
+		                    		  		}
+		                    		  		
+		                    		  		
+		                    		  		//+ '<div class="col m12">'
+		                    		  		html = html + '<div class="col m2" style="text-align: center;">'
+		                    		  		+ '<i class="fa fa-exclamation-triangle" style="font-size:2rem;margin-top: 10px;height: 1.5rem;line-height: 1.5rem;"></i>'
+		                    		  		+ '<span class="">'+val.message_type+'</span>'
+		                    		  		+ '</div>'
+		                    		  		+ '<div class="col m10">'
+		                    		  		+ '<div>'+val.message +'</div> '
+		                    		  		+ '<div style="font-size: 10px;padding:5px 0px 0px 0px;"> <i class="fa fa-clock-o"></i> &nbsp;'+val.created_date+'<span style="float:right;font-size: 10px;">'+val.timeAgo+'</span></div>'
+		                    		  		+ '</div>'
+		                    		  		//+ '</div>'
+		                    		  				
+		                    		  		/* + '<span class="icon"> <i class="fa fa-exclamation-triangle"></i> <span class="icon-text">'+val.message_type+'</span> </span>'
+		                    		  		+ '<div>'+val.message +'</div>'
+		                    		  		+ '<span class="date_text"><i class="fa fa-clock-o"></i>'+val.created_date+'</span>' */
+		                    		  		
+		                    		  		+ '</a></li>';
+			                    		 
+	                    		  });
+		                    	  
+		                    	  $("#messagesList").html(html);
+		                    	  $("#messagesListMobile").html(html);
+		                    	  
+		                    	  if (count > 99) {
+		                    		  count = "99+";
+		                          }
+		                    	  $("#messagesCount").html(count);
+		                          $("#messagesCountMobile").html(count);
+		                      }
+		           });
+               }
                function getMesagesForHeader(message_type) {
             	   $("#messagesList").html('');
             	   $("#messagesListMobile").html('');
@@ -1128,6 +1205,9 @@
 		                    	  var count = 0;
 		                    	  html = html + '<li class="head-item">Messages</li>';
 		                    	  $.each(data, function(i, val) {
+		                    		  if(data.length > 0 && i==0){
+				                    	  html = '<li class="head-item">Messages<button type="button" class="markread">Mark All Read</button></li>';
+		                    		  } 
 		                    		  var message_color_bg = '';
 		                    		  if($.trim(val.read_time) != ''){
 		                    			  message_color_bg = 'read-message';

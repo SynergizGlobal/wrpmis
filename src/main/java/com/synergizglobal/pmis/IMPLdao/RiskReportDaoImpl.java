@@ -214,7 +214,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	public List<RiskReport> getSummaryOfRiskAssessmentOfProjects() throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select r.sub_work,DATE_FORMAT(max(rr.date),'%d-%m-%Y') as last_assessment_date,rr.owner," + 
+			String qry = "select r.sub_work,DATE_FORMAT(max(rr.date),'%d-%m-%Y') as last_assessment_date,u.designation as owner," + 
 					"(select max(probability)*max(impact) from risk_revision where date = max(rr.date) and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as risk_score, " + 
 					"(select sum(probability*impact) from risk_revision where date = max(rr.date) and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_risk_rating," + 
 					"(select count(classification) from risk_revision_view where date = max(rr.date) and classification = 'High' and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_high_risks," + 
@@ -224,7 +224,8 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					"(select count(risk_revision_id_fk) from risk_action where risk_revision_id_fk in(select risk_revision_id from risk_revision where date = max(rr.date) and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work))) as atr_submitted " + 
 					"from risk r " + 
 					"LEFT JOIN risk_revision rr on rr.risk_id_pk_fk = r.risk_id_pk " + 
-					"LEFT JOIN risk_work_hod rwh on rwh.sub_work = r.sub_work " + 
+					"LEFT JOIN risk_work_hod rwh on rwh.sub_work = r.sub_work "
+					+ "LEFT JOIN user u on rwh.hod_user_id_fk = u.user_id " + 
 					"WHERE (rwh.risk_work_completed is null or rwh.risk_work_completed = '' or rwh.risk_work_completed = 'No') group by r.sub_work "+
 					"order by rwh.priority asc ";			
 					//"order by max(rr.date) desc";

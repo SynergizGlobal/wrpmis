@@ -56,6 +56,7 @@
 			padding:0 .5rem;
 		}
 		.w10em{width: 10em !important;}
+		.w20em{width:  20em !important;}
 		@media screen and (max-width: 1300px) and (min-width: 1150px) {
 			.btn.bg-s{
 				font-size:1.5vmin;
@@ -529,7 +530,7 @@
 	                                            <th class="mob-50 no-sort">Work</th>											
 												<th class="mob-50">Uploaded File</th>
 												<th class="hideCOl">Status</th>
-												<th class="hideCOl">Remarks</th>
+												<th class="hideCOl w20em">Remarks</th>
 												<th class="hideCOl">Assessment date</th>
 												<th class="hideCOl">Uploaded by </th>
 												<th class="hideCOl">Uploaded On</th>

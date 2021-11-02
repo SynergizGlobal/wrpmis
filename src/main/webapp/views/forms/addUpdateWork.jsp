@@ -228,7 +228,12 @@
 				-webkit-transform: translateY(-20px) scale(0.95);
 			    transform: translateY(-20px) scale(0.95);
 			}	
-			
+		.input-field p.searchable_label {
+		    font-size: 0.85rem;
+		    margin-top: -16px !important;
+		    margin-bottom: 12px;
+		}
+		
 		@media only screen and (max-width: 769px) and (min-width: 500px){
 			#revisionsTableBody .select2-container--default,
 			.mobile_responsible_table .select2-container--default {
@@ -516,13 +521,13 @@
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
                                     <label for="anticipated_cost">Anticipated cost</label>
                                     <span id="anticipated_costError"></span>
-                                	<span id="anticipated_cost_unitError" class="error-msg right" ></span>
+                                	<%-- <span id="anticipated_cost_unitError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="anticipated_cost_unit" name="anticipated_cost_unit">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
                                   			   <option value="${obj.value }" <c:if test="${workDetails.anticipated_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
                                    		 </c:forEach>
-                                	</select>
+                                	</select> --%>
                                 </div>
                                 <%-- <div class="col s4 m1 l1 input-field">
                                 	<p class="searchable_label">Units</p>
@@ -936,13 +941,13 @@
                                     <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDetails.completion_cost }" min="0.01" step="0.01">
                                     <label for="completion_cost" class="fs-sm-8rem">Actual Completion cost</label>
                                     <span id="completion_costError"></span>
-                                	<span id="completion_cost_unitError" class="error-msg right" ></span>
+                                	<%-- <span id="completion_cost_unitError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="completion_cost_unit" name="completion_cost_unit">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
                                   			   <option value="${obj.value }" <c:if test="${workDetails.completion_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
                                    		 </c:forEach>
-                                	</select>
+                                	</select> --%>
                                 </div>
                              <%--    <div class="col s4 m3 l1 input-field">
                                 	<p class="searchable_label">Units</p>

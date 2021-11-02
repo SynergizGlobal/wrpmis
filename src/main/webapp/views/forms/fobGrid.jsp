@@ -157,7 +157,7 @@
 							    <a href="<%=request.getContextPath()%>/add-fob-form" class="btn waves-effect waves-light bg-s t-c"> <strong><i
 							                class="fa fa-plus-circle"></i> Add FOB</strong></a>
 							</div>
-							<div class="col s12 l6 offset-l3 m9 offset-m2">
+							<div class="col s12 l8 offset-l2 m9 offset-m2">
 								<div class="row no-mar">
 									<!-- <div class="col s6 m4 input-field">
 										<p>
@@ -170,7 +170,7 @@
 										</select>
 									</div> -->
 									
-									<div class="col s6 m4 input-field">
+									<div class="col s6 m3 input-field">
 										<p class="searchable_label">Work</p>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getFOBList();" class="searchable">
@@ -179,7 +179,15 @@
 										</select>
 									</div>
 									
-									<div class="col s6 m4 input-field">
+									<div class="col s6 m3 input-field">
+										<p class="searchable_label">Contract</p>
+										<select id="contract_id_fk" name="contract_id_fk"
+											onchange="addInQueWork(this.value);getFOBList();" class="searchable">
+											<option value="">Select</option>
+										</select>
+									</div>
+									
+									<div class="col s6 m3 input-field">
 										<p class="searchable_label">Work Status</p>
 										<select id="work_status_fk" name="work_status_fk"
 											onchange="addInQueWorkStatus(this.value);getFOBList();" class="searchable">
@@ -187,7 +195,7 @@
 
 										</select>
 									</div>
-									<div class="col s12 m4 input-field center-align">
+									<div class="col s12 m3 input-field center-align">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
 											style="width: 100%;"
@@ -292,6 +300,7 @@
         function clearFilter(){
         	$("#work_id_fk").val('');
         	$("#work_status_fk").val('');
+        	$("#contract_id_fk").val('');
         	$(".searchable").select2();
         	window.localStorage.setItem("fobFilters",'');
         	window.location.href="<%=request.getContextPath()%>/fob"
@@ -325,9 +334,11 @@
         	
         	getWorkStatusFilterList('');
         	getWorksFilterList('');
+        	getContractsFilterList('');
         	
         	var work_id_fk = $("#work_id_fk").val();
         	var work_status_fk = $("#work_status_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
         	
         	var filters = '';
         	Object.keys(filtersMap).forEach(function (key) {
@@ -394,7 +405,7 @@
             }).rows().remove().draw();
     		table.state.clear();		
     	 
-    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk};
+    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk, contract_id_fk:contract_id_fk};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
 	    			type:"POST",
 	    			data:myParams,cache: false,async:false,
@@ -491,7 +502,8 @@
             }
     	 }
         
-         <%-- function getContractsFilterList(contract_id){
+        
+        function getContractsFilterList(contract_id){
     	 	$(".page-loader").show();
     	 	var work_status_fk = $("#work_status_fk").val();
     	 	var contract_id_fk = $("#contract_id_fk").val();
@@ -520,7 +532,7 @@
             }else{
             	  $(".page-loader").hide();
             }
-    	 } --%>
+    	 }
         
       	//This function is used to get error message for all ajax calls
         function getErrorMessage(jqXHR, exception) {

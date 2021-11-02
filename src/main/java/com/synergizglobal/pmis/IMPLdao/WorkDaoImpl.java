@@ -91,8 +91,7 @@ public class WorkDaoImpl implements WorkDao {
 			String qry ="SELECT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," 
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
 					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
-					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk"
-					+ ",anticipated_cost_unit,completion_cost_unit "
+					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk "
 					+ "FROM work w " 
 					+ "LEFT JOIN project p ON w.project_id_fk = p.project_id " 
 				    + "where work_id = ?";
@@ -121,8 +120,8 @@ public class WorkDaoImpl implements WorkDao {
 				work.setProjected_completion_date(resultSet.getString("projected_completion_date"));
 				//work.setSanctioned_estimated_cost_unit(resultSet.getString("sanctioned_estimated_cost_unit"));
 				//work.setSanctioned_completion_cost_unit(resultSet.getString("sanctioned_completion_cost_unit"));
-				work.setAnticipated_cost_unit(resultSet.getString("anticipated_cost_unit"));
-				work.setCompletion_cost_unit(resultSet.getString("completion_cost_unit"));
+				//work.setAnticipated_cost_unit(resultSet.getString("anticipated_cost_unit"));
+				//work.setCompletion_cost_unit(resultSet.getString("completion_cost_unit"));
 				work.setWorkRevisions(getWorkRevisions(work.getWork_id(),connection));	
 				work.setRailwayAgencyList(getRailwayAgencyList(work.getWork_id(),connection));
 				work.setExecutedByList(getExecutedByList(work.getWork_id(),connection));
@@ -275,9 +274,8 @@ public class WorkDaoImpl implements WorkDao {
 			con.setAutoCommit(false);
 			String qry = "update work set work_name = ?,project_id_fk = ?,sanctioned_year_fk=?,sanctioned_estimated_cost = ?," + 
 						 "completeion_period_months = ?,sanctioned_completion_cost = ?,anticipated_cost = ?,year_of_completion = ?,"
-						 + "completion_cost = ?,remarks = ?,attachment = ?,projected_completion = ?,work_short_name = ?,projected_completion_date = ? ,work_status_fk = ?"
-						 + ",anticipated_cost_unit = ?,completion_cost_unit = ? "+
-						 "where work_id =?";
+						 + "completion_cost = ?,remarks = ?,attachment = ?,projected_completion = ?,work_short_name = ?,projected_completion_date = ? ,work_status_fk = ? "
+						 + "where work_id =?";
 		
 			stmt = con.prepareStatement(qry); 
 			int p = 1;
@@ -298,8 +296,8 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(p++,work.getWork_status_fk());
 			//stmt.setString(p++,work.getSanctioned_estimated_cost_unit());
 			//stmt.setString(p++,work.getSanctioned_completion_cost_unit());
-			stmt.setString(p++,work.getAnticipated_cost_unit());
-			stmt.setString(p++,work.getCompletion_cost_unit());
+			//stmt.setString(p++,work.getAnticipated_cost_unit());
+			//stmt.setString(p++,work.getCompletion_cost_unit());
 			stmt.setString(p++,work.getWork_id());
 			int count = stmt.executeUpdate();
 			if(count > 0){
@@ -544,9 +542,8 @@ public class WorkDaoImpl implements WorkDao {
 			con.setAutoCommit(false);
 			String qry ="INSERT into work (work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost," + 
 						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,"
-						+ "remarks,attachment,projected_completion,work_short_name,projected_completion_date"
-						+ ",anticipated_cost_unit,completion_cost_unit)"+
-						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ "remarks,attachment,projected_completion,work_short_name,projected_completion_date )"+
+						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry); 
 			int p = 1;
 			stmt.setString(p++,workId ); 
@@ -566,8 +563,8 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(p++,work.getProjected_completion_date());
 			//stmt.setString(p++,work.getSanctioned_estimated_cost_unit());
 			//stmt.setString(p++,work.getSanctioned_completion_cost_unit());
-			stmt.setString(p++,work.getAnticipated_cost_unit());
-			stmt.setString(p++,work.getCompletion_cost_unit());
+			//stmt.setString(p++,work.getAnticipated_cost_unit());
+			//stmt.setString(p++,work.getCompletion_cost_unit());
 			count = stmt.executeUpdate();
 			if(count > 0){
 				flag = true; 
@@ -895,15 +892,14 @@ public class WorkDaoImpl implements WorkDao {
 					"(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`, " + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost "  + 
 					",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion, " + 
-					"DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk"
-					+ ",anticipated_cost_unit "+
-					"FROM work w  " + 
+					"DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk "
+					+ "FROM work w  " + 
 					"LEFT JOIN project p ON w.project_id_fk = p.project_id  "+
 					//"LEFT JOIN money_unit m ON w.sanctioned_estimated_cost_unit = m.value  "+
 					//"LEFT JOIN money_unit m1 ON w.sanctioned_completion_cost_unit = m1.value  "+
-					"LEFT JOIN money_unit m2 ON w.anticipated_cost_unit = m2.value  "+
-					"LEFT JOIN money_unit m3 ON w.completion_cost_unit = m3.value  "
-					+ "where work_id is not null " ;
+					//"LEFT JOIN money_unit m2 ON w.anticipated_cost_unit = m2.value  "+
+					//"LEFT JOIN money_unit m3 ON w.completion_cost_unit = m3.value  "
+					 "where work_id is not null " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and w.project_id_fk = ?";

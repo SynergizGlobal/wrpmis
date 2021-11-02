@@ -45,7 +45,7 @@ public class RiskDeleteDaoImpl implements RiskDeleteDao{
 				qry = qry + " where sub_work = ? ";
 				arrSize++;
 			}
-			qry = qry + "group by sub_work, date";
+			qry = qry + "group by sub_work, date order by date desc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {

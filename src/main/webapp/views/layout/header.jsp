@@ -1141,8 +1141,8 @@
 		                    	  html = html + '<li class="head-item">Messages</li>';
 		                    	  $.each(data, function(i, val) {
 		                    		  if(data.length > 0 && i==0){
-				                    	  html = '<li class="head-item">Messages<button type="button" class="markread" id="markallread" onClick="changeReadStatus();">Mark All Read</button></li>';
-		                    		  } 
+/* 				                    	  html = '<li class="head-item">Messages<button type="button" class="markread" id="markallread" onClick="changeReadStatus();">Mark All Read</button></li>';
+ */		                    		  } 
 		                    		  var message_color_bg = '';
 		                    		  if($.trim(val.read_time) != ''){
 		                    			  message_color_bg = 'read-message';

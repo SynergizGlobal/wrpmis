@@ -76,7 +76,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		}
 		return objsList;
 	}
-
+ 
 	@Override
 	public List<Dashboard> getModulesFilterListInDashboard(Dashboard obj) throws Exception {
 		List<Dashboard> objsList = null;

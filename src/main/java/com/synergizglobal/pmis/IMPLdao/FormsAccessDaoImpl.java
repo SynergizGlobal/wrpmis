@@ -70,7 +70,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 	@Override
 	public List<Form> getModulesFilterListInForm(Form obj) throws Exception {
 		List<Form> objsList = null;
-		try {
+		try { 
 			String qry = "SELECT module_name_fk from form  " + 
 					"where module_name_fk is not null and module_name_fk <> '' ";
 			int arrSize = 0;

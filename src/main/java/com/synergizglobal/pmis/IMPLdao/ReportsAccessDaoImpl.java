@@ -74,7 +74,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ?";
-				arrSize++;
+				arrSize++; 
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
 				qry = qry + " and soft_delete_status_fk = ? ";

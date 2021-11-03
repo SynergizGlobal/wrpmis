@@ -673,7 +673,7 @@ public class UserActivityReportController {
 							}
 							else
 							{
-								rowNo1=rowNum1+1;
+								rowNo1=rowNum1+1; 
 							}
 							
 					            int tempRowNo = rowNo1;

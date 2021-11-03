@@ -1320,7 +1320,7 @@ public class ActivitiesProgressReportController {
 					        cell = mainHeadingRow.createCell(2);
 					        cell.setCellStyle(greenStyle);
 							//cell.setCellValue("Activities Progress Report ");
-					        cell.setCellValue("Daily Progress Report");
+					        cell.setCellValue("Daily Report For the Period");
 					        
 					        for (int i = 3; i < 9; i++) {		        	
 						        cell = mainHeadingRow.createCell(i);

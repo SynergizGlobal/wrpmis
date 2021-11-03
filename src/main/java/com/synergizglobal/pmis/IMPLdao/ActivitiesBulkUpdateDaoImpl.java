@@ -968,7 +968,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			    	Float Str=Float.parseFloat(Str2[i]);
 
 			    				
-			    	if((Str1.compareTo(String.valueOf(Str))!=0) ||(obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!=""))
+			    	if((Str1.compareTo(String.valueOf(Str))!=0) && (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!=""))
 			    	{
 				    	String Prdate=null;
 						if(!StringUtils.isEmpty(obj.getProgress_date())) 
@@ -1147,7 +1147,11 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		            String date2=sdf.format(c2.getTime());
 		            
 					
-					if(Float.parseFloat(StrVar2[i])>=completed && date2.compareTo(date1)>=0)
+		            String Str1=getScopeValue(obj.getActivity_ids()[i]);
+		            String Str2[]=obj.getScope().split(",");
+		            Float Str=Float.parseFloat(Str2[i]);		            
+		            
+					if(Float.parseFloat(StrVar2[i])>=completed && date2.compareTo(date1)>=0 && ((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") ) )
 					{
 						//String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
 						
@@ -1251,9 +1255,12 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					{
 						String SplitStr2=obj.getScope();
 						String[] StrVar2=SplitStr2.split(",");	
-						
+
+			            String Str1=getScopeValue(obj.getActivity_ids()[i]);
+			            String Str2[]=obj.getScope().split(",");
+			            Float Str=Float.parseFloat(Str2[i]);
 					
-						if(Float.parseFloat(StrVar2[i])>=completed)
+						if(Float.parseFloat(StrVar2[i])>=completed && ((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") ) )
 						{
 						
 							String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) ";
@@ -1363,6 +1370,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRemarks())) 
 				{
 					boolean FOBDailyUpdate_flag = insertFOBDailyUpdate(obj);
+					flag=true;
 				}	
 			
 				/********************************************************************************/	

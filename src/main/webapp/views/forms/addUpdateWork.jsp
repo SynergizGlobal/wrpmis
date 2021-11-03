@@ -519,7 +519,7 @@
                                 <div class="col s12 m4 l4 input-field offset-m2 amount-dropdown"> 
                                   	<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
-                                    <label for="anticipated_cost">Anticipated cost</label>
+                                    <label for="anticipated_cost">Anticipated cost (in Cr)</label>
                                     <span id="anticipated_costError"></span>
                                 	<%-- <span id="anticipated_cost_unitError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="anticipated_cost_unit" name="anticipated_cost_unit">
@@ -939,7 +939,7 @@
                                 <div class="col s12 m8 l6 input-field offset-m2 amount-dropdown">
                                 	<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDetails.completion_cost }" min="0.01" step="0.01">
-                                    <label for="completion_cost" class="fs-sm-8rem">Actual Completion cost</label>
+                                    <label for="completion_cost" class="fs-sm-8rem">Actual Completion cost (in Cr)</label>
                                     <span id="completion_costError"></span>
                                 	<%-- <span id="completion_cost_unitError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="completion_cost_unit" name="completion_cost_unit">

@@ -968,7 +968,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			    	Float Str=Float.parseFloat(Str2[i]);
 
 			    				
-			    	if((Str1.compareTo(String.valueOf(Str))!=0) && (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!=""))
+			    	if((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!=""))
 			    	{
 				    	String Prdate=null;
 						if(!StringUtils.isEmpty(obj.getProgress_date())) 

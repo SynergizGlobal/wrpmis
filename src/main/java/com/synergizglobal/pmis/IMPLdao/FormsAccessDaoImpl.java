@@ -82,7 +82,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 				qry = qry + " and soft_delete_status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY module_name_fk ";
+			qry = qry + "GROUP BY module_name_fk ORDER BY module_name_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {

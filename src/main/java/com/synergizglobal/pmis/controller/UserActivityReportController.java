@@ -421,17 +421,18 @@ public class UserActivityReportController {
 					        String[] headerStringArr = headerString.split("\\^");
 
 				            
-				            if(rowNo==8)
+				            if(rowNo==9)
 				            {
 						        
 						        int HeaderSize = obj.getDatesList().size();
-						        XSSFRow headingRow = dprSheet.createRow(7);
+						        XSSFRow headingRow = dprSheet.createRow(rowNo);
 						        for (int i = 0; i < headerStringArr.length ; i++) {	
 					        	
 					        			 cell = headingRow.createCell(i);
 					        	    	 cell.setCellStyle(greenStyle1);
 										 cell.setCellValue(headerStringArr[i]);
 								}	
+						        rowNo++;
 				            }
 					     if(zObj.getUserActivitiesList() != null && zObj.getUserActivitiesList().size() > 0){
 					    	 int x = 0,z=0;
@@ -682,17 +683,18 @@ public class UserActivityReportController {
 						        String[] headerStringArr = headerString.split("\\^");
 
 					            
-					            if(rowNo1==8)
+					            if(rowNo1==9)
 					            {
 							        
 							        int HeaderSize = obj.getDatesList().size();
-							        XSSFRow headingRow = dprSheet1.createRow(7);
+							        XSSFRow headingRow = dprSheet1.createRow(rowNo1);
 							        for (int i = 0; i < headerStringArr.length ; i++) {	
 						        	
 						        			 cell1 = headingRow.createCell(i);
 						        	    	 cell1.setCellStyle(greenStyle1);
 											 cell1.setCellValue(headerStringArr[i]);
 									}	
+							        rowNo1++;
 					            }
 						     if(zObj.getUserActivitiesList() != null && zObj.getUserActivitiesList().size() > 0){
 						    	 int x = 0,z=0;

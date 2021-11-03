@@ -49,6 +49,8 @@
 	     div.dataTables_wrapper div.dataTables_info {
 		    white-space: break-spaces;
 		} 
+		
+		.w-th{width: 5em !important;min-width: 5vw !important;}
           @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -301,6 +303,7 @@
                     {targets: [2,3,4,5,6], className: 'hideCOl'},
                     {targets: [0,1,2,3,4,5,6,7], className: 'fw-111'},
                     {targets: [0,1,7], className: 'fw-111'},
+                    {targets: [5,6], className: 'hideCOl, w-th'},
                     { orderable: false, 'aTargets': ['no-sort'] }
                 ],
                 // "ScrollX": true,

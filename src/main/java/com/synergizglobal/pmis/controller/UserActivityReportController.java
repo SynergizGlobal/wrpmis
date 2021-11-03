@@ -53,91 +53,96 @@ import com.synergizglobal.pmis.model.UserActivityReport;
 @Controller
 public class UserActivityReportController {
 	@InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-    }
+	public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	}
+
 	public static Logger logger = Logger.getLogger(UserActivityReportController.class);
-	
+
 	@Autowired
 	UserActivityReportService service;
-	
+
 	@Value("${common.error.message}")
 	public String commonError;
-	
+
 	@Value("${record.dataexport.success}")
 	public String dataExportSucess;
-	
+
 	@Value("${record.dataexport.invalid.directory}")
 	public String dataExportInvalid;
-	
+
 	@Value("${record.dataexport.error}")
 	public String dataExportError;
-	
+
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
-	
-	
-	@RequestMapping(value = "/user-activity-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView UserActivityReport(@ModelAttribute UserActivityReport obj,RedirectAttributes attributes){
+
+	@RequestMapping(value = "/user-activity-report", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView UserActivityReport(@ModelAttribute UserActivityReport obj, RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView(PageConstants.userActivityReport);
-		try{
+		try {
 			List<UserActivityReport> contarctsList = service.getContractsFilterListInUserActivityReport(obj);
 			model.addObject("contarctsList", contarctsList);
-			
+
 			List<UserActivityReport> worksList = service.getWorksFilterListInUserActivityReport(obj);
 			model.addObject("worksList", worksList);
-			
+
 			List<UserActivityReport> UsersList = service.getHODsFilterListInUserActivityReport(obj);
 			model.addObject("UsersList", UsersList);
-			
+
 			List<UserActivityReport> modulelist = service.getModulessFilterListInUserActivityReport(obj);
 			model.addObject("modulelist", modulelist);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("UserActivityReport : " + e.getMessage());
 		}
 		return model;
-    }
-	@RequestMapping(value = "/ajax/getContractsListForUserActivityReportForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	}
+
+	@RequestMapping(value = "/ajax/getContractsListForUserActivityReportForm", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<UserActivityReport> getContractsFilterListInUserActivityReport(@ModelAttribute UserActivityReport obj) {
 		List<UserActivityReport> objList = null;
 		try {
 			objList = service.getContractsFilterListInUserActivityReport(obj);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getContractsFilterListInUserActivityReport : " + e.getMessage());
 		}
 		return objList;
 	}
-	
-	@RequestMapping(value = "/ajax/getWorksListForUserActivityReportForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "/ajax/getWorksListForUserActivityReportForm", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<UserActivityReport> getWorksFilterListInUserActivityReport(@ModelAttribute UserActivityReport obj) {
 		List<UserActivityReport> objList = null;
 		try {
 			objList = service.getWorksFilterListInUserActivityReport(obj);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getWorksFilterListInUserActivityReport : " + e.getMessage());
 		}
 		return objList;
 	}
-	
-	@RequestMapping(value = "/ajax/getUsersListForUserActivityReportForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "/ajax/getUsersListForUserActivityReportForm", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<UserActivityReport> getHODsFilterListInUserActivityReport(@ModelAttribute UserActivityReport obj) {
 		List<UserActivityReport> objList = null;
 		try {
 			objList = service.getHODsFilterListInUserActivityReport(obj);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getHODsFilterListInUserActivityReport : " + e.getMessage());
 		}
 		return objList;
 	}
-	
-	@RequestMapping(value = "/ajax/getUserActivityReportFormData", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "/ajax/getUserActivityReportFormData", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<UserActivityReport> getUserActivityReportFormData(@ModelAttribute UserActivityReport obj) {
 		List<UserActivityReport> objList = null;
@@ -145,26 +150,27 @@ public class UserActivityReportController {
 			obj.setFrom_date(DateParser.parse(obj.getFrom_date()));
 			obj.setTo_date(DateParser.parse(obj.getTo_date()));
 			objList = service.getUserActivityReportFormData(obj);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getUserActivityReportFormData : " + e.getMessage());
 		}
 		return objList;
 	}
-	
-	@RequestMapping(value = "/ajax/getModulesListForUserActivityReportForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "/ajax/getModulesListForUserActivityReportForm", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<UserActivityReport> getModulessFilterListInUserActivityReport(@ModelAttribute UserActivityReport obj) {
 		List<UserActivityReport> objList = null;
 		try {
 			objList = service.getModulessFilterListInUserActivityReport(obj);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getModulessFilterListInUserActivityReport : " + e.getMessage());
 		}
 		return objList;
 	}
-	
+
 	@RequestMapping(value = "/generate-user-activity-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public void generateUserActivityReport(@ModelAttribute UserActivityReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		//ModelAndView model = new ModelAndView("redirect:/activities-progress-report");
@@ -232,8 +238,8 @@ public class UserActivityReportController {
             /********************************************************/
 	        int sheetNo = 0;
 	        int len  = 0;
-	        int rowNum=0;
-	        int rowNum1=0;
+	        int rowNum=7;
+	        int rowNum1=7;
 	        
 	        String dates = null;
 	        if(!(StringUtils.isEmpty(reportData))) 
@@ -241,7 +247,7 @@ public class UserActivityReportController {
 	        	
        		 	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Updated by PMIS Users"));
        		 	
-		        XSSFRow dateRow = dprSheet.createRow(rowNum);
+		        XSSFRow dateRow = dprSheet.createRow(0);
 		        
 		        Cell cell = dateRow.createCell(0);
 		        
@@ -253,7 +259,122 @@ public class UserActivityReportController {
 			        cell.setCellStyle(whiteStyle);
 					cell.setCellValue("User Activity Report On :" + report_created_date);
 				}
-			   dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,8));	     		 	
+			   dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,8));	
+			   
+			   
+			   XSSFRow mainHeadingRow = dprSheet.createRow(2);
+		        
+		        cell = mainHeadingRow.createCell(0);
+		        cell.setCellStyle(greenStyle1);
+				//cell.setCellValue("Activities Progress Report ");
+		        cell.setCellValue("User Activity Report");
+		        
+		        for (int i = 1; i < 9; i++) {		        	
+			        cell = mainHeadingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue("");
+				}	
+		        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 0,8));
+				/********************************************************/	
+		        
+		        /********************************************************/	
+		        XSSFRow deatilsRow = dprSheet.createRow(3);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("Report for the Period ");
+				cell = deatilsRow.createCell(1);
+				dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 0,1));
+				
+				cell = deatilsRow.createCell(2);
+		        cell.setCellStyle(indexWhiteStyle);
+		        if(!StringUtils.isEmpty(from_date) && !StringUtils.isEmpty(to_date)) {
+		        	cell.setCellValue(from_date + " to " + to_date);
+		        }else {
+		        	cell.setCellValue(from_date);
+		        }
+				
+				
+				for (int i = 3; i < 9; i++) {		        	
+			        cell = deatilsRow.createCell(i);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("");
+				}	
+				dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 2,8));
+				/********************************************************/
+		        
+				/********************************************************/	
+		        deatilsRow = dprSheet.createRow(4);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("Work ");
+				cell = deatilsRow.createCell(1);
+				
+				dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 0,1));
+				
+				cell = deatilsRow.createCell(2);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue(reportData.getWork());
+				
+				for (int i = 2; i < 9; i++) {		        	
+			        cell = deatilsRow.createCell(i);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("");
+				}	
+				dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 2,8));
+		        
+				/********************************************************/
+		        
+				/********************************************************/	
+		        deatilsRow = dprSheet.createRow(5);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("Contract ");
+				cell = deatilsRow.createCell(1);
+				
+				dprSheet.addMergedRegion(new CellRangeAddress(5, 5, 0,1));
+				
+				cell = deatilsRow.createCell(2);
+		        cell.setCellStyle(indexWhiteStyle);
+		        
+				cell.setCellValue(reportData.getContract());
+		        
+				for (int i = 2; i < 9; i++) {		        	
+			        cell = deatilsRow.createCell(i);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("");
+				}	
+				dprSheet.addMergedRegion(new CellRangeAddress(5,5, 2,8));
+				
+				/********************************************************/
+				
+				/********************************************************/	
+		        deatilsRow = dprSheet.createRow(6);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("User");
+				
+				cell = deatilsRow.createCell(1);
+				
+				dprSheet.addMergedRegion(new CellRangeAddress(6, 6, 0,1));
+				
+				cell = deatilsRow.createCell(2);
+				
+				
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue(reportData.getUser());
+				
+				for (int i = 2; i < 9; i++) {		        	
+			        cell = deatilsRow.createCell(i);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("");
+				}	
+				dprSheet.addMergedRegion(new CellRangeAddress(6,6, 2,8));			   
+			   
+			   
        		 	
 			    // workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);	        	
 	        
@@ -269,9 +390,9 @@ public class UserActivityReportController {
 					/*************************************************************************/		
 					 	
 					
-						int rowNo = 0;
+						int rowNo = 7;
 						
-						if(rowNum==0)
+						if(rowNum==7)
 						{
 							rowNo=rowNum+2;
 						}
@@ -288,11 +409,11 @@ public class UserActivityReportController {
 					        String[] headerStringArr = headerString.split("\\^");
 
 				            
-				            if(rowNo==2)
+				            if(rowNo==8)
 				            {
 						        
 						        int HeaderSize = obj.getDatesList().size();
-						        XSSFRow headingRow = dprSheet.createRow(rowNo++);
+						        XSSFRow headingRow = dprSheet.createRow(7);
 						        for (int i = 0; i < headerStringArr.length ; i++) {	
 					        	
 					        			 cell = headingRow.createCell(i);
@@ -381,10 +502,13 @@ public class UserActivityReportController {
 	        	 }
 	        	 
 	        	 
-
-	       		 	XSSFSheet dprSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Updated by Synergiz"));
-	       		 	
-			        XSSFRow dateRow1 = dprSheet1.createRow(rowNum1);
+	        	
+	        	 
+	        	 XSSFSheet dprSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Updated by Synergiz"));
+	        	 
+	        	 
+	        	 
+	        	 XSSFRow dateRow1 = dprSheet1.createRow(0);
 			        
 			        Cell cell1 = dateRow1.createCell(0);
 			        
@@ -396,25 +520,112 @@ public class UserActivityReportController {
 				        cell1.setCellStyle(whiteStyle);
 						cell1.setCellValue("User Activity Report On :" + report_created_date);
 					}
-				   dprSheet1.addMergedRegion(new CellRangeAddress(0,0, 0,8));	     		 	
-	       		 	
-				    // workBook.setSheetOrder(dprSheet1.getSheetName(), sheetNo++);	        	
-		        
-		        	 for (UserActivityReport zObj : reportData.getDatesList()) {  
+				   dprSheet1.addMergedRegion(new CellRangeAddress(0,0, 0,8));	
+				   
+				   
+				   XSSFRow mainHeadingRow1 = dprSheet1.createRow(2);
+			        
+			        cell1 = mainHeadingRow1.createCell(0);
+			        cell1.setCellStyle(greenStyle1);
+					//cell.setCellValue("Activities Progress Report ");
+			        cell1.setCellValue("User Activity Report");
+			        
+			        for (int i = 1; i < 9; i++) {		        	
+				        cell1 = mainHeadingRow1.createCell(i);
+				        cell1.setCellStyle(greenStyle);
+						cell1.setCellValue("");
+					}	
+			        dprSheet1.addMergedRegion(new CellRangeAddress(2, 2, 0,8));
+					/********************************************************/	
+			        
+			        /********************************************************/	
+			        XSSFRow deatilsRow1 = dprSheet1.createRow(3);
+			        
+			        cell1 = deatilsRow1.createCell(0);
+			        cell1.setCellStyle(indexWhiteStyle);
+					cell1.setCellValue("Report for the Period ");
+					
+					cell1 = deatilsRow1.createCell(1);
+			        cell1.setCellStyle(indexWhiteStyle);
+			        if(!StringUtils.isEmpty(from_date) && !StringUtils.isEmpty(to_date)) {
+			        	cell1.setCellValue(from_date + " to " + to_date);
+			        }else {
+			        	cell1.setCellValue(from_date);
+			        }
+					
+					
+			        for (int i = 2; i < 9; i++) {		        	
+				        cell1 = deatilsRow1.createCell(i);
+				        cell1.setCellStyle(indexWhiteStyle);
+						cell1.setCellValue("");
+					}	
+					dprSheet1.addMergedRegion(new CellRangeAddress(3, 3, 1,8));
+
+			        deatilsRow1 = dprSheet1.createRow(4);
+			        
+			        cell1 = deatilsRow1.createCell(0);
+			        cell1.setCellStyle(indexWhiteStyle);
+					cell1.setCellValue("Work ");
+					
+					cell1 = deatilsRow1.createCell(1);
+			        cell1.setCellStyle(indexWhiteStyle);
+					cell1.setCellValue(reportData.getWork());
+					
+					for (int i = 2; i < 9; i++) {		        	
+				        cell1 = deatilsRow1.createCell(i);
+				        cell1.setCellStyle(indexWhiteStyle);
+						cell1.setCellValue("");
+					}	
+					dprSheet1.addMergedRegion(new CellRangeAddress(4, 4, 1,8));
+			        
+
+			        deatilsRow1 = dprSheet1.createRow(5);
+			        
+			        cell1 = deatilsRow1.createCell(0);
+			        cell1.setCellStyle(indexWhiteStyle);
+					cell1.setCellValue("Contract ");
+					
+					cell1 = deatilsRow1.createCell(1);
+			        cell1.setCellStyle(indexWhiteStyle);
+			        
+					cell1.setCellValue(reportData.getContract());
+			        
+					for (int i = 2; i < 9; i++) {		        	
+				        cell1 = deatilsRow1.createCell(i);
+				        cell1.setCellStyle(indexWhiteStyle);
+						cell1.setCellValue("");
+					}	
+					dprSheet1.addMergedRegion(new CellRangeAddress(5,5, 1,8));
+					
+
+			        deatilsRow1 = dprSheet1.createRow(6);
+			        
+			        cell1 = deatilsRow1.createCell(0);
+			        cell1.setCellStyle(indexWhiteStyle);
+					cell1.setCellValue("User");
+					
+					cell1 = deatilsRow1.createCell(1);
+			        cell1.setCellStyle(indexWhiteStyle);
+					cell1.setCellValue(reportData.getUser());
+					
+					for (int i = 2; i < 9; i++) {		        	
+				        cell1 = deatilsRow1.createCell(i);
+				        cell1.setCellStyle(indexWhiteStyle);
+						cell1.setCellValue("");
+					}	
+					dprSheet1.addMergedRegion(new CellRangeAddress(6,6, 1,8));	        	 
+	        	 
+	        
+				   for (UserActivityReport zObj : reportData.getDatesList()) {  
 		        		 dates = zObj.getDate();
 		        		 DateFormat inputFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 						 Date datesVal = inputFormat2.parse(dates);
 						 String dateFields = outputFormat.format(datesVal);
 
-					        
-				        
-			
-						/*************************************************************************/		
-						 	
-						
-							int rowNo1 = 0;
+					
+							int rowNo1 = 7;
 							
-							if(rowNum1==0)
+							if(rowNum1==7)
 							{
 								rowNo1=rowNum1+2;
 							}
@@ -426,16 +637,15 @@ public class UserActivityReportController {
 					            int tempRowNo = rowNo1;
 					            XSSFRow structureRow = dprSheet1.createRow(rowNo1);
 						
-					            /**********************************************************************/
 								String headerString = "Date^User ID^User^Update Form^Work^Contarct^Action Type^Details^Time";
 						        String[] headerStringArr = headerString.split("\\^");
 
 					            
-					            if(rowNo1==2)
+					            if(rowNo1==8)
 					            {
 							        
 							        int HeaderSize = obj.getDatesList().size();
-							        XSSFRow headingRow = dprSheet1.createRow(rowNo1++);
+							        XSSFRow headingRow = dprSheet1.createRow(7);
 							        for (int i = 0; i < headerStringArr.length ; i++) {	
 						        	
 						        			 cell1 = headingRow.createCell(i);
@@ -523,7 +733,13 @@ public class UserActivityReportController {
 				        	 rowNum1=rowNo1;
 
 						
-		        	 } 	        	 
+		        	 } 	  	        	 
+	        	 
+	        	 
+
+	        	 
+
+	       		 	        	 
 	        	       	 
 	        	 
 	        	 
@@ -578,27 +794,30 @@ public class UserActivityReportController {
 		}
 		//return model;
     }
-	
+
 	private ModelAndView noDataAlertCall(RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
 			attributes.addFlashAttribute("error", "No updates in this period");
-		}catch (Exception e) {
-			
+		} catch (Exception e) {
+
 		}
 		return model;
 	}
-	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
+
+	private CellStyle cellFormating(XSSFWorkbook workBook, byte[] rgb, HorizontalAlignment hAllign,
+			VerticalAlignment vAllign, boolean isWrapText, boolean isBoldText, boolean isItalicText, int fontSize,
+			String fontName) {
 		CellStyle style = workBook.createCellStyle();
-		//Setting Background color  
-		//style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+		// Setting Background color
+		// style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
 		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-		
+
 		if (style instanceof XSSFCellStyle) {
-		   XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle)style;
-		   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
+			XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle) style;
+			xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
 		}
-		//style.setFillPattern(FillPatternType.ALT_BARS);
+		// style.setFillPattern(FillPatternType.ALT_BARS);
 		style.setBorderBottom(BorderStyle.MEDIUM);
 		style.setBorderTop(BorderStyle.MEDIUM);
 		style.setBorderLeft(BorderStyle.MEDIUM);
@@ -606,17 +825,17 @@ public class UserActivityReportController {
 		style.setAlignment(hAllign);
 		style.setVerticalAlignment(vAllign);
 		style.setWrapText(isWrapText);
-		
+
 		Font font = workBook.createFont();
-        //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
-        font.setFontHeightInPoints((short)fontSize);  
-        font.setFontName(fontName);  //"Calibri"
-        
-        font.setItalic(isItalicText); 
-        font.setBold(isBoldText);
-        // Applying font to the style  
-        style.setFont(font); 
-        
-        return style;
+		// font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
+		font.setFontHeightInPoints((short) fontSize);
+		font.setFontName(fontName); // "Calibri"
+
+		font.setItalic(isItalicText);
+		font.setBold(isBoldText);
+		// Applying font to the style
+		style.setFont(font);
+
+		return style;
 	}
 }

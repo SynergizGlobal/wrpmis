@@ -30,18 +30,18 @@
             border: 1px solid #ddd;
         }
 
-        .fw-45p {
-            width: 45%;
-            max-width: 45%;
+        .fw-55p {
+            width: 55%;
+            max-width: 55%;
         }
         .fw-30p {
             width: 30%;
             max-width: 30%;
         }
 
-        .fw-15p {
-            width: 15%;
-            max-width: 15%;
+        .fw-5p {
+            width: 5%;
+            max-width: 5%;
         }
 
         /* Chrome, Safari, Edge, Opera */
@@ -118,8 +118,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="fw-30p">Name</th>
-                                                        <th class="fw-45p">Link</th>
-                                                        <th class="fw-15p">Priority</th>
+                                                        <th class="fw-55p">Link</th>
+                                                        <th class="fw-5p">Priority</th>
                                                         <th class="no-sort">Action</th>
                                                     </tr>
                                                 </thead>

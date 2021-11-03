@@ -249,6 +249,7 @@ public class ActivitiesProgressReportController {
 	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
 	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        byte[] greyRGB = new byte[]{(byte)211, (byte)211, (byte)211};
 	        
 	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
 	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -258,10 +259,12 @@ public class ActivitiesProgressReportController {
 	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        
 	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        
+	        CellStyle indexShadedStyle = cellFormating(workBook,greyRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	       
+	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
 	        /********************************************************/
 
             /********************************************************/
@@ -441,16 +444,16 @@ public class ActivitiesProgressReportController {
 							        
 							        if(repeat == 0) {
 								    	   cell = row.createCell(c++);
-											cell.setCellStyle(indexWhiteStyle);
+											cell.setCellStyle(indexShadedStyle);
 											cell.setCellValue("Structure ");
 											
 									        cell = row.createCell(c++);
-											cell.setCellStyle(indexWhiteStyle);
+											cell.setCellStyle(indexShadedStyle);
 											cell.setCellValue(dObj.getStructure());
 											
 											for (int i = 4; i < 9; i++) {		        	
 										        cell = row.createCell(i);
-										        cell.setCellStyle(indexWhiteStyle);
+										        cell.setCellStyle(indexShadedStyle);
 												cell.setCellValue("");
 											}	
 											dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
@@ -478,15 +481,15 @@ public class ActivitiesProgressReportController {
 									cell.setCellValue(dObj.getActivity_name());
 									
 									cell = row.createCell(c++);
-									cell.setCellStyle(sectionStyle);
+									cell.setCellStyle(numberStyle);
 									cell.setCellValue(Double.parseDouble(dObj.getScope()));
 									
 									cell = row.createCell(c++);
-									cell.setCellStyle(sectionStyle);
+									cell.setCellStyle(numberStyle);
 									cell.setCellValue(!StringUtils.isEmpty(dObj.getCompleted_scope())?Double.parseDouble(dObj.getCompleted_scope()):0);
 									
 									cell = row.createCell(c++);
-									cell.setCellStyle(sectionStyle);
+									cell.setCellStyle(numberStyle);
 									cell.setCellValue(!StringUtils.isEmpty(dObj.getCumulative_completed())?Double.parseDouble(dObj.getCumulative_completed()):0);
 									
 							        rowNo++;
@@ -840,16 +843,16 @@ public class ActivitiesProgressReportController {
 										        int c = 0;
 										        if(repeat == 0) {
 											    	   cell = row.createCell(c++);
-														cell.setCellStyle(indexWhiteStyle);
+														cell.setCellStyle(indexShadedStyle);
 														cell.setCellValue("Structure ");
 														
 												        cell = row.createCell(c++);
-														cell.setCellStyle(indexWhiteStyle);
+														cell.setCellStyle(indexShadedStyle);
 														cell.setCellValue(dObj.getStructure());
 														
 														for (int i = 2; i < 7; i++) {		        	
 													        cell = row.createCell(i);
-													        cell.setCellStyle(indexWhiteStyle);
+													        cell.setCellStyle(indexShadedStyle);
 															cell.setCellValue("");
 														}	
 														dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
@@ -875,15 +878,15 @@ public class ActivitiesProgressReportController {
 												cell.setCellValue(dObj.getActivity_name());
 												
 												cell = row.createCell(c++);
-												cell.setCellStyle(sectionStyle);
+												cell.setCellStyle(numberStyle);
 												cell.setCellValue(Double.parseDouble(dObj.getScope()));
 												
 												cell = row.createCell(c++);
-												cell.setCellStyle(sectionStyle);
+												cell.setCellStyle(numberStyle);
 												cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()==null?"0":dObj.getCompleted_scope()));
 												
 												cell = row.createCell(c++);
-												cell.setCellStyle(sectionStyle);
+												cell.setCellStyle(numberStyle);
 												cell.setCellValue(!StringUtils.isEmpty(dObj.getCumulative_completed())?Double.parseDouble(dObj.getCumulative_completed()):0);
 												
 										        rowNo++;
@@ -1044,6 +1047,7 @@ public class ActivitiesProgressReportController {
 	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
 	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        byte[] greyRGB = new byte[]{(byte)211, (byte)211, (byte)211};
 	        
 	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
 	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -1053,10 +1057,12 @@ public class ActivitiesProgressReportController {
 	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        
 	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        
+	        CellStyle indexShadedStyle = cellFormating(workBook,greyRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	       
+	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
 	        /********************************************************/
 
             /********************************************************/
@@ -1234,16 +1240,16 @@ public class ActivitiesProgressReportController {
 								        int c = 2;
 								        if(repeat == 0) {
 									    	   cell = row.createCell(c++);
-												cell.setCellStyle(indexWhiteStyle);
+												cell.setCellStyle(indexShadedStyle);
 												cell.setCellValue("Structure ");
 												
 										        cell = row.createCell(c++);
-												cell.setCellStyle(indexWhiteStyle);
+												cell.setCellStyle(indexShadedStyle);
 												cell.setCellValue(dObj.getStructure());
 												
 												for (int i = 4; i < 9; i++) {		        	
 											        cell = row.createCell(i);
-											        cell.setCellStyle(indexWhiteStyle);
+											        cell.setCellStyle(indexShadedStyle);
 													cell.setCellValue("");
 												}	
 												dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
@@ -1269,15 +1275,15 @@ public class ActivitiesProgressReportController {
 										cell.setCellValue(dObj.getActivity_name());
 										
 										cell = row.createCell(c++);
-										cell.setCellStyle(sectionStyle);
+										cell.setCellStyle(numberStyle);
 										cell.setCellValue(Double.parseDouble(dObj.getScope()));
 										
 										cell = row.createCell(c++);
-										cell.setCellStyle(sectionStyle);
+										cell.setCellStyle(numberStyle);
 										cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()==null?"0":dObj.getCompleted_scope()));
 										
 										cell = row.createCell(c++);
-										cell.setCellStyle(sectionStyle);
+										cell.setCellStyle(numberStyle);
 										cell.setCellValue(!StringUtils.isEmpty(dObj.getCumulative_completed())?Double.parseDouble(dObj.getCumulative_completed()):0);
 										
 								        rowNo++;
@@ -1600,16 +1606,16 @@ public class ActivitiesProgressReportController {
 										        int c = 0;
 										      if(repeat == 0) {
 										    	   cell = row.createCell(c++);
-													cell.setCellStyle(indexWhiteStyle);
+													cell.setCellStyle(indexShadedStyle);
 													cell.setCellValue("Structure ");
 													
 											        cell = row.createCell(c++);
-													cell.setCellStyle(indexWhiteStyle);
+													cell.setCellStyle(indexShadedStyle);
 													cell.setCellValue(dObj.getStructure());
 													
 													for (int i = 2; i < 7; i++) {		        	
 												        cell = row.createCell(i);
-												        cell.setCellStyle(indexWhiteStyle);
+												        cell.setCellStyle(indexShadedStyle);
 														cell.setCellValue("");
 													}	
 													dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 1,6));
@@ -1636,15 +1642,15 @@ public class ActivitiesProgressReportController {
 												cell.setCellValue(dObj.getActivity_name());
 												
 												cell = row.createCell(c++);
-												cell.setCellStyle(sectionStyle);
+												cell.setCellStyle(numberStyle);
 												cell.setCellValue(Double.parseDouble(dObj.getScope()));
 												
 												cell = row.createCell(c++);
-												cell.setCellStyle(sectionStyle);
+												cell.setCellStyle(numberStyle);
 												cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()==null?"0":dObj.getCompleted_scope()));
 												
 												cell = row.createCell(c++);
-												cell.setCellStyle(sectionStyle);
+												cell.setCellStyle(numberStyle);
 												cell.setCellValue(!StringUtils.isEmpty(dObj.getCumulative_completed())?Double.parseDouble(dObj.getCumulative_completed()):0);
 												
 										        rowNo++;

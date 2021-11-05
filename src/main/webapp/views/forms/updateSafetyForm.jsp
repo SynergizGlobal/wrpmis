@@ -22,7 +22,6 @@
             margin-bottom: 0;
         }
         .hidden{
-        	display:none;
         }
          .input-field .searchable_label{
         	font-size:0.85rem;
@@ -311,12 +310,12 @@
                             </div>
                             <div class="row">
                                 <div class="col s6 m6 l6 input-field">
-                                    <input id="equipment_impact" name="equipment_impact" type="text" class="validate" value="${safety.equipment_impact }">
+                                    <input id="equipment_impact" name="equipment_impact" type="text" class="validate charCount" value="${safety.equipment_impact }" data-length="100">
                                     <label for="equipment_impact"> Equipment Impact </label>
                                     <span id="equipment_impactError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m6 l6 input-field">
-                                    <input id="people_impact" name="people_impact" type="text" class="validate" value="${safety.people_impact }">
+                                    <input id="people_impact" name="people_impact" type="text" class="validate charCount" value="${safety.people_impact }" data-length="100">
                                     <label for="people_impact">People Impact</label>
                                     <span id="people_impactError" class="error-msg" ></span>
                                 </div>
@@ -324,7 +323,7 @@
 
                             <div class="row">
                                 <div class="col s12 m12 l12 input-field">
-                                    <input id="work_impact" name="work_impact" type="text" class="validate" value="${safety.work_impact }">
+                                    <input id="work_impact" name="work_impact" type="text" class="validate charCount" value="${safety.work_impact }" data-length="100">
                                     <label for="work_impact"> Work Impact </label>
                                     <span id="work_impactError" class="error-msg" ></span>
                                 </div>
@@ -621,6 +620,10 @@
 	        }else{
 	        	$("#committee_formed_fk").val("No");
 	        }
+	        
+	        $("[data-length]").each(function(i,val){
+	        	$('#'+val.id).characterCounter();;
+	        });
             
         });
         
@@ -765,11 +768,11 @@
     			 	   	  },"investigation_completed": {
     				 		required: false,
      			 		    dateBefore3 : "#date",
-    				 		statusCheck2: true
+    				 		//statusCheck2: true
     				 	  },"payment_date": {
     			 		    required: false,
      			 		    dateBefore2 : "#date",
-    				 		statusCheck3: true
+    				 		//statusCheck3: true
     			 	   	  },"corrective_measure_short_term": {
     				 		required: false
     				 	  },"corrective_measure_long_term":{

@@ -955,6 +955,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			 }
 			 
 			String[] SplitScope=obj.getScope().split(",");
+			String Message="Scope";
 			
 			for (int i = 0; i < arraySize; i++) 
 			{				
@@ -994,6 +995,20 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				            
 				            Prdate=df.format(c3.getTime());
 						}
+						
+						if(Str1.compareTo(String.valueOf(Str))!=0)
+						{
+							Message="Scope";
+						}
+			            if(obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="")
+			            {
+			            	Message="Progress";
+			            }
+			            
+			            if(obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="" && Str1.compareTo(String.valueOf(Str))!=0)
+			            {
+			            	Message="Progress";
+			            }
 			            
 					    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
 					    insertStmt.setString(k++, obj.getRemarks());
@@ -1121,9 +1136,11 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		            Calendar c1 = Calendar.getInstance();
 		            SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM");
 		            
-		            
-		            c1.setTime(inputFormat.parse(SplitWith[1]));
-		            c1.set(Calendar.DATE, Integer.parseInt(SplitWith[0]));
+					if(StrVar.length>0)
+					{
+			            c1.setTime(inputFormat.parse(SplitWith[1]));
+			            c1.set(Calendar.DATE, Integer.parseInt(SplitWith[0]));
+					
 
 					DateFormat dfm1 = new SimpleDateFormat("dd-MM-yy");
 					DateFormat rdfm1 = new SimpleDateFormat("YYYY");
@@ -1133,21 +1150,23 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		            
 		            c1.set(Calendar.YEAR, Integer.parseInt(gdate1));
 		            
-		            
-		            
-		            
+					}
 		            Calendar c2 = Calendar.getInstance();
-
-		            c2.setTime(inputFormat.parse(SplitWith1[1]));
-		            c2.set(Calendar.DATE, Integer.parseInt(SplitWith1[0]));
 		            
-					DateFormat dfm2 = new SimpleDateFormat("dd-MM-yy");
-					DateFormat rdfm2 = new SimpleDateFormat("YYYY");
-					Date Cdfm2=dfm2.parse(SplitWith1[0]+'-'+c2.get(Calendar.MONTH)+'-'+SplitWith1[2]);	
-					
-		            String gdate2=rdfm2.format(Cdfm2);
-		            
-		            c2.set(Calendar.YEAR, Integer.parseInt(gdate2));		            
+					if(StrVar.length>0)
+					{		            
+	
+			            c2.setTime(inputFormat.parse(SplitWith1[1]));
+			            c2.set(Calendar.DATE, Integer.parseInt(SplitWith1[0]));
+			            
+						DateFormat dfm2 = new SimpleDateFormat("dd-MM-yy");
+						DateFormat rdfm2 = new SimpleDateFormat("YYYY");
+						Date Cdfm2=dfm2.parse(SplitWith1[0]+'-'+c2.get(Calendar.MONTH)+'-'+SplitWith1[2]);	
+						
+			            String gdate2=rdfm2.format(Cdfm2);
+			            
+			            c2.set(Calendar.YEAR, Integer.parseInt(gdate2));
+					}
 		            
 		            
 		            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -1365,7 +1384,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						if(StringUtils.isEmpty(fob_name)) {
 							fob_name = obj.getStrip_chart_structure_id_fk();
 						}
-						String message = "Scope Update for FOB "+fob_name+". Pending approval.";
+						String message = Message+" Update for FOB "+fob_name+". Pending approval.";
 						 
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);

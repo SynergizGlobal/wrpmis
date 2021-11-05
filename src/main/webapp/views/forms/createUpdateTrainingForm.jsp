@@ -662,9 +662,9 @@
 																				class="mdl-data-table val mobile_responsible_table">
 																				<thead>
 																					<tr>
+																						<th>Attendee</th>
 																						<th>Department</th>
 																						<th>HOD</th>
-																						<th>Attendee</th>
 																						<th>Designation</th>
 																						<th class="fw-220">Email </th>
 																						<th class="mw-150"> Mobile </th>
@@ -680,7 +680,10 @@
 																							test="${not empty tObj.trainingNewList && fn:length(tObj.trainingNewList) gt 0 }">
 																							<c:forEach var="dObj" items="${tObj.trainingNewList }" varStatus="indexx">
 																								<tr id="newAttendeesRow0${indexx.count }${index.count }">
-																								
+																									<td data-head="Attendee" class="input-field">
+																										 <input id="new_attendees0${indexx.count }${index.count }${indexx.count }" name="attendees" type="text" class="validate no-reset attendees" placeholder="Name" value="${dObj.attendee}">
+																										 <span id="new_attendeesError0${index.count }" class="error-msg"></span>  
+																									</td>
 																									<td data-head="Department" class="input-field">
 																									<input type="hidden" class="no-reset" name="training_session_id_fks" id="new_training_session_id_fks0${indexx.count }${index.count }${indexx.count }"
 																										 value="${dObj.training_session_id_fk}" />
@@ -704,10 +707,7 @@
 																                                        <span id="new_hod_user_id_fkError0${index.count }" class="error-msg"></span>                                 
 																									</td>
 																									<input type="hidden"  name="is_new_users" class="no-reset" value="Yes"/>
-																									<td data-head="Attendee" class="input-field">
-																										 <input id="new_attendees0${indexx.count }${index.count }${indexx.count }" name="attendees" type="text" class="validate no-reset attendees" placeholder="Name" value="${dObj.attendee}">
-																										 <span id="new_attendeesError0${index.count }" class="error-msg"></span>  
-																									</td>
+																									
 																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}" class="no-reset trainee_designations">
 																									<span id="new_trainee_designationsError0${index.count }" class="error-msg"></span></td>		
 																									<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email0${indexx.count }${index.count }${indexx.count }" name="emails" value="${dObj.email}" class="no-reset email">
@@ -776,6 +776,10 @@
 																						 </c:when>
 																	 					<c:otherwise>
 																							<tr id="newAttendeesRow0${index.count }">
+																								<td data-head="Attendee" class="input-field">																									
+																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate attendees" placeholder="Name">		
+																									<span id="new_attendeesError0${index.count }" class="error-msg"></span>  																						    
+																								</td>
 																								<td data-head="Department" class="input-field">
 																								<input type="hidden" name="training_session_id_fks" id="new_training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
@@ -797,10 +801,7 @@
 																								</td>
 																								<%-- <input type="hidden" id="rowsCounts${index.count }" name="rowsCounts"/>	 --%>
 																								<input type="hidden"  name="is_new_users" value="Yes"/>
-																								<td data-head="Attendee" class="input-field">																									
-																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate attendees" placeholder="Name">		
-																									<span id="new_attendeesError0${index.count }" class="error-msg"></span>  																						    
-																								</td>	
+																									
 																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${index.count }" name="trainee_designations" class="trainee_designations">
 																									<span id="new_trainee_designationsError0${index.count }" class="error-msg"></span>  </td>																							
 																								<td data-head="Email" class="input-field"> <input class="email" type="text" placeholder="Email" id="email0${index.count }" name="emails" >
@@ -988,9 +989,9 @@
 																		<table id="training-new-update-table0"	class="mdl-data-table mobile_responsible_table">
 																			<thead>
 																				<tr>
+																					<th>Attendee</th>
 																					<th>Department</th>
 																					<th>HOD</th>
-																					<th>Attendee</th>
 																					<th>Designation</th>
 																					<th class='fw-220'>Email </th>
 																					<th class="mw-150"> Mobile</th>
@@ -1002,6 +1003,10 @@
 																			<tbody id="newAttendeesTableBody00">
 																			<input type="hidden" id="rowsCounts0" name="rowsCounts" value="2"/>
 																				<tr id="newAttendeesRow00">
+																					<td data-head="Attendee" class="input-field attendees">																						
+																						 <input id="new_attendees00" name="attendees" type="text" class="validate attendees" placeholder="Name">
+																						 <span id="new_attendeesError00${index.count }" class="error-msg"></span>  
+																					</td>
 																					<td data-head="Department" class="input-field">
 																					<input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" value="${tObj.training_session_id_fk}"/> 
 																					<select class="searchable validate-dropdown department_fks" name="department_fks" id="new_department_fks00" onchange="getHODsList('00');">
@@ -1019,10 +1024,7 @@
 																					<span id="new_hod_user_id_fkError00${index.count }" class="error-msg"></span>   
 																					</td>
 																					<input type="hidden"  name="is_new_users" value="Yes"/>
-																					<td data-head="Attendee" class="input-field attendees">																						
-																						 <input id="new_attendees00" name="attendees" type="text" class="validate attendees" placeholder="Name">
-																						 <span id="new_attendeesError00${index.count }" class="error-msg"></span>  
-																					</td>
+																					
 																					<td data-head="Designation" class="input-field"> <input class="trainee_designations" type="text" placeholder="Designation" id="new_trainee_designations0" name="trainee_designations" >
 																						<span id="new_trainee_designationsError00${index.count }" class="error-msg"></span>	
 																					</td>
@@ -1586,6 +1588,7 @@
             var rNo = Number(trainNo)+1;
       
             var html = '<tr id="newAttendeesRow'+rNo+'">' +
+            '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate attendees" placeholder="Name"><span id="new_attendeesError'+ rNo +tNo+'" class="error-msg"></span>  </td>' +
             '<td data-head="Department" class="input-field">'+
 		 	   '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+tNo+'" value="'+trainingSessionId+'" />'+
 			   '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo +tNo+'" />'+
@@ -1601,7 +1604,6 @@
 					'<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
 				</c:forEach> 
              '</select><span id="new_hod_user_id_fkError'+ rNo +tNo+'" class="error-msg"></span></td>'+
-             '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate attendees" placeholder="Name"><span id="new_attendeesError'+ rNo +tNo+'" class="error-msg"></span>  </td>' +
              '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" class="trainee_designations" id="new_trainee_designations'+ rNo +tNo+'" name="trainee_designations" ><span id="new_trainee_designationsError'+ rNo +tNo+'" class="error-msg"></span></td><td data-head="Email" class="input-field"> <input class="email" type="text" placeholder="Email" id="email'+ rNo +tNo+'" name="emails" ><span id="emailError'+ rNo +tNo+'" class="error-msg"></span></td>'+
              '<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate new_mobile_nos" placeholder="Mobile"><span id="mobile_nosError'+ rNo +tNo+'" class="error-msg"></span> </td>' +
              '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p><span id="new_required_fkError'+ rNo +tNo+'" class="error-msg"></span></td>' +
@@ -1750,9 +1752,9 @@
                  '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
                  '</tbody></table></div></div></div></div><p id="msg-text"><b>If name of attendee is not in list please add below</b></p>'+
 		         '<div class="row fixed-width"><div class="table-inside"> <table id="training-new-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+
-					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th class="fw-220">Email</th><th class="mw-150"> Mobile</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
-						'<tbody id="newAttendeesTableBody'+ rNo +'" ><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><tr id="newAttendeesRow'+0+0+rNo+1+'"><td data-head="Department" class="input-field">'+
-						    '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
+					  '<thead><tr><th>Attendee</th><th>Department</th><th>HOD</th><th>Designation</th><th class="fw-220">Email</th><th class="mw-150"> Mobile</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
+						'<tbody id="newAttendeesTableBody'+ rNo +'" ><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><tr id="newAttendeesRow'+0+0+rNo+1+'"><td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo+i+'" name="attendees" type="text" class="validate attendees" placeholder="Name"><span id="new_attendeesError'+ rNo+i+'" class="error-msg"></span></td>'+
+						'<td data-head="Department" class="input-field"><input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo+i+'" />'+
 						    '<select class="searchable validate-dropdown department_fks" name="department_fks" id="new_department_fks'+ rNo+i+'" onchange="getHODsList('+ rNo+i+');">'+
 						      ' <option value="" >Select Department </option>'+
@@ -1766,8 +1768,7 @@
 								'<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
 							</c:forEach> 
 			                '</select> <span id="new_hod_user_id_fkError'+ rNo +i+'" class="error-msg"></span></td><input type="hidden"  name="is_new_users" value="Yes"/>'+
-			               // '</select></td>'+
-							'<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo+i+'" name="attendees" type="text" class="validate attendees" placeholder="Name"><span id="new_attendeesError'+ rNo+i+'" class="error-msg"></span></td>' +
+			               // '</select></td>'+	'' +
 			                '<td data-head="Designation" class="input-field"> <input type="text" class="trainee_designations" placeholder="Designation" id="new_trainee_designations'+ rNo+i+'" name="trainee_designations" ><span id="new_trainee_designationsError'+ rNo+i+'" class="error-msg"></span></td>'+
 			                '<td data-head="Email" class="input-field"> <input class="email" type="text" placeholder="Email" id="email'+ rNo+i+'" name="emails" ><span id="emailError'+ rNo+i+'" class="error-msg"></span></td>'+
 							'<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo+i+'" class="new_mobile_nos" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ><span id="mobile_nosError'+ rNo+i+'" class="error-msg"></span></td>'+

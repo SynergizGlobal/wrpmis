@@ -52,7 +52,18 @@
          div.dataTables_wrapper div.dataTables_info {
 		    white-space: break-spaces;
 		} 
-     
+     	th{
+     		vertical-align:middle !important;
+     	}
+     	td.max-50x,th.max-50x{
+     		max-width:6rem !important;
+     	}
+     	tbody tr td:nth-child(5),
+     	tbody tr td:nth-child(6),
+     	tbody tr td:nth-child(7),
+     	tbody tr td:nth-child(8){     		
+     		word-break:inherit;
+     	}
           @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -167,8 +178,8 @@
                                             <th>Work</th>
                                             <th>Contract</th>
                                             <th>Folder</th>
-                                            <th>Mobile View</th>
-                                            <th>Dashboard Type</th>
+                                            <th>Mobile <br> View</th>
+                                            <th>Dashboard <br> Type</th>
                                             <th>Priority</th>
                                             <th>Status</th>
                                             <th class="no-sort">Action</th>
@@ -327,7 +338,8 @@
                     },
                     {targets: [2,3,4,5,6,7], className: 'hideCOl'},
                     {targets: [0], className: 'fw-200'},
-                    {targets: [1], className: 'fw-300'},
+                    {targets: [1,2], className: 'fw-300'},
+                    {targets: [4,5,6,7], className: 'max-50x'},
                     { orderable: false, 'aTargets': ['no-sort'] } 
                 ],
                 // "ScrollX": true,

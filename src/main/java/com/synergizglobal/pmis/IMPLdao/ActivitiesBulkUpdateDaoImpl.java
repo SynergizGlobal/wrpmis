@@ -1153,7 +1153,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					}
 		            Calendar c2 = Calendar.getInstance();
 		            
-					if(StrVar.length>0)
+					if(StrVar1.length>0)
 					{		            
 	
 			            c2.setTime(inputFormat.parse(SplitWith1[1]));

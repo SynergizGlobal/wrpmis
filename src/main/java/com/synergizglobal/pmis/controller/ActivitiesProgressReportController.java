@@ -451,12 +451,12 @@ public class ActivitiesProgressReportController {
 											cell.setCellStyle(indexShadedStyle);
 											cell.setCellValue(dObj.getStructure());
 											
-											for (int i = 4; i < 9; i++) {		        	
+											for (int i = 2; i < 7; i++) {		        	
 										        cell = row.createCell(i);
 										        cell.setCellStyle(indexShadedStyle);
 												cell.setCellValue("");
 											}	
-											dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
+											dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 2,6));
 											 structure = dObj.getStructure();
 											rowNo++;repeat++;
 											row = dprSheet.createRow(rowNo);
@@ -855,7 +855,7 @@ public class ActivitiesProgressReportController {
 													        cell.setCellStyle(indexShadedStyle);
 															cell.setCellValue("");
 														}	
-														dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 3,8));
+														dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 2,6));
 														 structure = dObj.getStructure();
 														rowNo++;repeat++;
 														row = dprSheet.createRow(rowNo);

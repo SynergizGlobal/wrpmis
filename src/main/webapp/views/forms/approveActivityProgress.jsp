@@ -1251,6 +1251,20 @@
 				var progress_id = $('input[name="pending_activity_check"]:checked').map(function() {
 		            return $(this).val();
 		        }).get().join(",");
+				
+/* 				var myTab = document.getElementById('datatable-table-pending');
+				
+				for (i = 1; i < myTab.rows.length; i++) {
+
+		            var objCells = myTab.rows.item(i).cells;
+
+		            for (var j = 0; j < 2; j++) 
+		            {
+		                alert(objCells.item(j).innerHTML);
+		            }
+		        }		 */		
+				
+				
 				//alert(progress_id);
                 if ($.trim(progress_id) != "") {
                     var myParams = {progress_id : progress_id };

@@ -1,6 +1,6 @@
-<%@ page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>

@@ -1601,12 +1601,12 @@
 	    			 var s4=document.getElementById("planned_finish"+i).value;
 	    			 var s5=document.getElementById("actualScopes"+i).value;
 	    			 
-	    			        	if(s1<s2)
+	    			        	if(parseFloat(s1)<parseFloat(s2))
 	    			        	{
 			     		    	 	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
 			    		    	 	return false;
 	    			        	}
-	    			        	if(s1<s2+s5)
+	    			        	if(parseFloat(s1)<parseFloat(s2)+parseFloat(s5))
 	    			        		{
 			     		    	 	alert("Scope Should be greater than or equal to Completed + actual in row "+(i+1));
 			    		    	 	return false;	    			        		

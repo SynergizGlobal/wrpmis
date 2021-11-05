@@ -41,4 +41,6 @@ public interface HomeDao {
 	public List<Messages> getMessages(Messages mObj) throws Exception;
 
 	public List<Messages> getMessageTypes(Messages mObj) throws Exception;
+
+	public List<Messages> changeMessagesReadStatus(Messages mObj) throws Exception;
 }

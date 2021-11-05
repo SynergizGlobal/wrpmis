@@ -1127,6 +1127,7 @@
 		                      }
 		           });                   
 				}
+               var messagesArray=new Array();
                
                function getMesagesForHeader(message_type) {
             	   $("#messagesList").html('');
@@ -1136,13 +1137,15 @@
                        url: "<%=request.getContextPath()%>/ajax/getMesagesForHeader",
                        	  data: myParams,cache: false,async:true,
 		                  success: function (data) {
+		                	  messagesArray=[];
 		                    	  var html = "";
 		                    	  var count = 0;
 		                    	  html = html + '<li class="head-item">Messages</li>';
 		                    	  $.each(data, function(i, val) {
+		                    		  messagesArray.push(val.message_id);
 		                    		  if(data.length > 0 && i==0){
-/* 				                    	  html = '<li class="head-item">Messages<button type="button" class="markread" id="markallread" onClick="changeReadStatus();">Mark All Read</button></li>';
- */		                    		  } 
+ 				                    	  html = '<li class="head-item">Messages<button type="button" class="markread" id="markallread" onClick="changeReadStatus();">Mark All Read</button></li>';
+ 		                    		  } 
 		                    		  var message_color_bg = '';
 		                    		  if($.trim(val.read_time) != ''){
 		                    			  message_color_bg = 'read-message';
@@ -1229,7 +1232,46 @@
                
                function changeReadStatus()
                {
-            	   
+            	   if($("#messages-srch-term").val()=="")
+            	   {
+	            	    var myParams = { message_ids:  messagesArray.toString() };
+	            	   	$.ajax({
+		                      url: "<%=request.getContextPath()%>/ajax/changeMessagesReadStatus",
+		                      data: myParams, cache: false,
+		                      success: function (data) 
+		                      {
+		                    	  console.log(data);
+		                          getMesagesForHeader($('[name="message_type"]').val());
+	
+		                      }
+		                  }); 
+            		}
+            	    else
+            		{
+                        var newMsgArray=new Array();
+
+                        $("#messagesList li.item").filter(function () {
+                        	if($(this).is(":visible"))
+                        		{
+                        			var msgValue=$("a",this).attr('href');
+                        			var spltStr=msgValue.split("=");
+                        			newMsgArray.push(spltStr[spltStr.length-1]);
+                        
+                        		}
+                        });   
+                        var myParams = { message_ids:  newMsgArray.toString() };
+	            	   	$.ajax({
+		                      url: "<%=request.getContextPath()%>/ajax/changeMessagesReadStatus",
+		                      data: myParams, cache: false,
+		                      success: function (data) 
+		                      {
+		                    	  console.log(data);
+		                          getMesagesForHeader($('[name="message_type"]').val());
+	
+		                      }
+		                  });                        
+            	    	
+            		}
                }
                
                

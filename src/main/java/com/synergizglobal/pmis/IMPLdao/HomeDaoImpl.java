@@ -883,7 +883,7 @@ public class HomeDaoImpl implements HomeDao {
 			String qry ="select * from (select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,created_date as created_date_24hr_format, "
 					+ "read_time,message_type "
 					+ "from messages where user_id_fk = ? "
-					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) and message_type not in ('Risk') union all "
+					+ " and ((read_time is null and created_date> (NOW() - INTERVAL 3 DAY)) or (read_time is not null and read_time > (NOW() - INTERVAL 1 DAY))) and message_type not in ('Risk') union all "
 				    + " select distinct (SELECT MAX(message_id) FROM messages m where m.redirect_url=redirect_url and left(m.created_date,10)=left(m2.created_date,10) "
 				    + "and m.message_type=m2.message_type) as message_id,message,user_id_fk,redirect_url,left(DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p'),10) as created_date,"
 					+ "(SELECT MAX(created_date) FROM messages m where m.redirect_url=redirect_url and left(m.created_date,10)=left(m2.created_date,10) "
@@ -891,7 +891,7 @@ public class HomeDaoImpl implements HomeDao {
 					+ ") as created_date_24hr_format, "
 					+ "read_time,message_type "
 					+ "from messages m2 where user_id_fk = ? "
-					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) and message_type in ('Risk')) as a ";
+					+ " and ((read_time is null and created_date> (NOW() - INTERVAL 3 DAY)) or (read_time is not null and read_time > (NOW() - INTERVAL 1 DAY))) and message_type in ('Risk')) as a ";
 			
 			int arrSize = 2;		
 			if(!StringUtils.isEmpty(mObj.getMessage_type())) {
@@ -939,6 +939,32 @@ public class HomeDaoImpl implements HomeDao {
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<Messages> changeMessagesReadStatus(Messages mObj) throws Exception {
+		Connection con = null;
+		try {			
+			con = dataSource.getConnection();
+			
+			PreparedStatement stmt = null;
+
+			for(int i=0;i<mObj.getMessage_ids().length;i++) 
+			{
+				String updateQry = "UPDATE messages SET read_time=CURRENT_TIMESTAMP where message_id = ?";
+				stmt = con.prepareStatement(updateQry);
+				stmt.setString(1, mObj.getMessage_ids()[i]);
+				stmt.addBatch();
+				int[] count = stmt.executeBatch(); 	
+			}
+				
+		}catch(SQLException e){ 
+			throw new SQLException(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, null, null);
+		}
+		return null;
 	}
 	
 }

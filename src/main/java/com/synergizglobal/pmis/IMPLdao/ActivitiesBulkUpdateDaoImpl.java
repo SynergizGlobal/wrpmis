@@ -1105,9 +1105,18 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					String SplitStr2=obj.getScope();
 					String[] StrVar2=SplitStr2.split(",");	
 					
+					String[] SplitWith=null;
+					String[] SplitWith1=null;
 					
-					String[] SplitWith=StrVar[i].split("-");
-					String[] SplitWith1=StrVar1[i].split("-");
+					if(StrVar.length>0)
+					{
+						SplitWith=StrVar[i].split("-");
+					}
+					
+					if(StrVar1.length>0)
+					{
+						SplitWith1=StrVar1[i].split("-");
+					}
 					
 		            Calendar c1 = Calendar.getInstance();
 		            SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM");
@@ -1171,15 +1180,20 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 							}
 						}
 						
-						if(!StringUtils.isEmpty(StrVar[i])) 
+						if(StrVar.length>0)
 						{
-							updateQry = updateQry + ", planned_start = ? ";	
+							if(!StringUtils.isEmpty(StrVar[i])) 
+							{
+								updateQry = updateQry + ", planned_start = ? ";	
+							}
 						}
 
-						
-						if(!StringUtils.isEmpty(StrVar1[i])) 
+						if(StrVar1.length>0)
 						{
-							updateQry = updateQry + ", planned_finish = ? ";	
+							if(!StringUtils.isEmpty(StrVar1[i])) 
+							{
+								updateQry = updateQry + ", planned_finish = ? ";	
+							}
 						}
 						
 						/*if(!StringUtils.isEmpty(scope)) 
@@ -1228,16 +1242,21 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 							}
 						}
 						
-						if(!StringUtils.isEmpty(StrVar[i])) 
+						if(StrVar.length>0)
 						{
-							updateStmt.setString(k++, DateParser.parse(date1) );	
+							if(!StringUtils.isEmpty(StrVar[i])) 
+							{
+								updateStmt.setString(k++, DateParser.parse(date1) );	
+							}
 						}
 
-						
-						if(!StringUtils.isEmpty(StrVar1[i])) 
+						if(StrVar1.length>0)
 						{
-							updateStmt.setString(k++, DateParser.parse(date2) );	
-						}	
+							if(!StringUtils.isEmpty(StrVar1[i])) 
+							{
+								updateStmt.setString(k++, DateParser.parse(date2) );	
+							}	
+						}
 						
 						
 						

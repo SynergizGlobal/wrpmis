@@ -172,6 +172,21 @@ public class HomeController {
 		return messages;
 	}
 	
+	@RequestMapping(value = "/ajax/changeMessagesReadStatus", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Messages> changeMessagesReadStatus(@ModelAttribute Messages obj, HttpSession session) {
+		List<Messages> messages = null;
+		try {
+			User userDetails = (User)session.getAttribute("user");
+			obj.setUser_id_fk(userDetails.getUser_id());
+			messages = homeService.changeMessagesReadStatus(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAlertsForHeaderNotifications : " + e.getMessage());
+		}
+		return messages;
+	}	
+	
 	/**
 	 * This method will call the ajax request and fetch the Project list
 	 * @return of this method is projects

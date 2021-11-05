@@ -91,6 +91,10 @@ public class HomeServiceImpl implements HomeService {
 		return dao.getMessages(mObj);
 	}
 	@Override
+	public List<Messages> changeMessagesReadStatus(Messages mObj) throws Exception {
+		return dao.changeMessagesReadStatus(mObj);
+	}	
+	@Override
 	public List<Messages> getMessageTypes(Messages mObj) throws Exception {
 		return dao.getMessageTypes(mObj);
 	}

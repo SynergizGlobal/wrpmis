@@ -483,6 +483,10 @@
                 $('#date').click();
             });
             
+	        $("[data-length]").each(function(i,val){
+	        	$('#'+val.id).characterCounter();;
+	        });           
+            
           /*   $('#closure_date_icon').click(function () {
                 event.stopPropagation();
                 $('#closure_date').click();
@@ -621,7 +625,7 @@
                             $.each(data, function (i, val) {
                             	var userName = '';
                                 if ($.trim(val.user_name) != '') { userName = ' - ' + $.trim(val.user_name) }
-                                $("#responsible_person").append('<option  value="' + val.designation + '">' + $.trim(val.designation) + userName + '</option>');
+                                $("#responsible_person").append('<option  value="' + val.user_id + '">' + $.trim(val.designation) + userName + '</option>');
                             });
                         }
                         $('.searchable').select2();

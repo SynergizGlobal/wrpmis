@@ -1123,49 +1123,55 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					String[] SplitWith=null;
 					String[] SplitWith1=null;
 					
-					if(StrVar.length>0)
+					if(i >=0 && i < StrVar.length)
 					{
-						SplitWith=StrVar[i].split("-");
+							SplitWith=StrVar[i].split("-");
 					}
 					
-					if(StrVar1.length>0)
+					if(i >=0 && i < StrVar1.length)
 					{
-						SplitWith1=StrVar1[i].split("-");
+						
+							SplitWith1=StrVar1[i].split("-");
 					}
+
 					
 		            Calendar c1 = Calendar.getInstance();
 		            SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM");
 		            
-					if(StrVar.length>0)
+		            if(i >=0 && i < StrVar.length)
 					{
-			            c1.setTime(inputFormat.parse(SplitWith[1]));
-			            c1.set(Calendar.DATE, Integer.parseInt(SplitWith[0]));
-					
-
-					DateFormat dfm1 = new SimpleDateFormat("dd-MM-yy");
-					DateFormat rdfm1 = new SimpleDateFormat("YYYY");
-					Date Cdfm1=dfm1.parse(SplitWith[0]+'-'+c1.get(Calendar.MONTH)+'-'+SplitWith[2]);	
-					
-		            String gdate1=rdfm1.format(Cdfm1);
-		            
-		            c1.set(Calendar.YEAR, Integer.parseInt(gdate1));
+		            	if(SplitWith[0].length()>0) 
+		            	{
+				            c1.setTime(inputFormat.parse(SplitWith[1]));
+				            c1.set(Calendar.DATE, Integer.parseInt(SplitWith[0]));
+	
+							DateFormat dfm1 = new SimpleDateFormat("dd-MM-yy");
+							DateFormat rdfm1 = new SimpleDateFormat("YYYY");
+							Date Cdfm1=dfm1.parse(SplitWith[0]+'-'+c1.get(Calendar.MONTH)+'-'+SplitWith[2]);	
+							
+				            String gdate1=rdfm1.format(Cdfm1);
+				            
+				            c1.set(Calendar.YEAR, Integer.parseInt(gdate1));
+		            	}
 		            
 					}
 		            Calendar c2 = Calendar.getInstance();
 		            
-					if(StrVar1.length>0)
+		            if(i >=0 && i < StrVar1.length)
 					{		            
-	
-			            c2.setTime(inputFormat.parse(SplitWith1[1]));
-			            c2.set(Calendar.DATE, Integer.parseInt(SplitWith1[0]));
-			            
-						DateFormat dfm2 = new SimpleDateFormat("dd-MM-yy");
-						DateFormat rdfm2 = new SimpleDateFormat("YYYY");
-						Date Cdfm2=dfm2.parse(SplitWith1[0]+'-'+c2.get(Calendar.MONTH)+'-'+SplitWith1[2]);	
-						
-			            String gdate2=rdfm2.format(Cdfm2);
-			            
-			            c2.set(Calendar.YEAR, Integer.parseInt(gdate2));
+		            	if(SplitWith1[0].length()>0) 
+		            	{
+				            c2.setTime(inputFormat.parse(SplitWith1[1]));
+				            c2.set(Calendar.DATE, Integer.parseInt(SplitWith1[0]));
+				            
+							DateFormat dfm2 = new SimpleDateFormat("dd-MM-yy");
+							DateFormat rdfm2 = new SimpleDateFormat("YYYY");
+							Date Cdfm2=dfm2.parse(SplitWith1[0]+'-'+c2.get(Calendar.MONTH)+'-'+SplitWith1[2]);	
+							
+				            String gdate2=rdfm2.format(Cdfm2);
+				            
+				            c2.set(Calendar.YEAR, Integer.parseInt(gdate2));
+		            	}
 					}
 		            
 		            
@@ -1408,8 +1414,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRemarks())) 
 				{
 					boolean FOBDailyUpdate_flag = insertFOBDailyUpdate(obj);
-					flag=true;
-				}	
+					
+				}
+				flag=true;
 			
 				/********************************************************************************/	
 			//}

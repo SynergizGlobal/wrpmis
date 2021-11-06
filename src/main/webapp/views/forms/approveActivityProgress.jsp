@@ -1263,16 +1263,37 @@
 		            return $("#work"+replaceStmystring).html();
 		        }).get().join(",");	
 				
+				var WorksValue = work_id_fk.split(",");
+				var distinctWorks = [];
+				jQuery.each(WorksValue, function(index, c) {
+				if (jQuery.inArray(c, distinctWorks) > -1) 
+				{
+				       
+				    } else {
+				    	distinctWorks.push(c);
+				    }
+				});
+
 				var contract_id_fk = $('input[name="pending_activity_check"]:checked').map(function() {
 					var assignCval=$(this).val();
 					var replaceStmyCstring = assignCval.replace(/["']/g, "");
 					return $("#contract"+replaceStmyCstring).html();
-		        }).get().join(",");					
+		        }).get().join(",");	
 				
+				var ContractsValue = contract_id_fk.split(",");
+				var distinctContracts = [];
+				jQuery.each(ContractsValue, function(index, c) {
+				if (jQuery.inArray(c, distinctContracts) > -1) 
+				{
+				       
+				    } else {
+				    	distinctContracts.push(c);
+				    }
+				});
+
 				
-				//alert(progress_id);
-                if ($.trim(progress_id) != "") {
-                    var myParams = {progress_id : progress_id,work_id_fk:work_id_fk,contract_id_fk:contract_id_fk };
+				if ($.trim(progress_id) != "") {
+                    var myParams = {progress_id : progress_id,work_id_fk:distinctWorks.toString(),contract_id_fk:distinctContracts.toString() };
                     $.ajax({
                         url: "<%=request.getContextPath()%>/ajax/approveMultipleActivityProgress",
                         data: myParams, cache: false,async: false,

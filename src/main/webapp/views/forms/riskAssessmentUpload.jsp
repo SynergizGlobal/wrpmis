@@ -38,7 +38,24 @@
         	word-break: break-word;
     		white-space: initial;
 		}
-
+		@media only screen and (min-width: 770px){ 
+	 		.fw-250{
+	    	 	width:250px !important;
+	    	 	max-width:250px;
+	    	 }
+	    	 .fw-120{
+	    	 	width:120px !important;
+	    	 	max-width:120px;
+	    	 }
+	    	 .fw-90{
+	    	 	width:90px !important;
+	    	 	max-width:90px;
+	    	 }
+	    	 tbody tr td:nth-child(1),
+	    	 thead tr th:nth-child(1){
+	    	 	max-width:150px !important;
+	    	 }
+    	 }
 		.error-msg label{color:red!important;}
 		.mt-1{
 			margin-top:.5rem !important;
@@ -782,10 +799,14 @@
   				},
                 columnDefs: [
                    // { orderable: false, 'aTargets': ['nosort'] },
-                    { targets: [0, 1], className: 'dt-left'  },  
-                    { targets: [2,6,4], className: 'dt-center hideCOl'},
-                    { targets: [3,5], className: 'hideCOl dt-left'},
-                    { targets: [4,6], className: 'hideCOl w10em'},
+                    //{ targets: [0, 1], className: 'dt-left'  },  
+                    //{ targets: [2], className: 'dt-center hideCOl'},
+                    { targets: [0], className: 'dt-left'},
+                    { targets: [3], className: 'hideCOl dt-left'},
+                    { targets: [2], className: 'fw-90 hideCOl w10em'},
+                    { targets: [3,1], className: 'fw-250 dt-left'},
+                    { targets: [5], className: 'fw-120 hideCOl dt-left'},
+                    { targets: [4,6], className: 'hideCOl w10em dt-center fw-120'},
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",

@@ -834,7 +834,7 @@ public class ContractController {
 		        
 	            XSSFRow headingRow = sheet.createRow(0);
 	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Contract Type^Scope of Contract"
-	            		+ "^Tally Head^Estimated Cost^Units^Awarded Cost^Units^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
+	            		+ "^Tally Head^Estimated Cost^Awarded Cost^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
 	            		+ "Actual Completion Date^Completed Cost^Contract Closure Date^Completion Certificate Release^Final Takeover^Final Release^"
 	            		+ "Contract Status^Status of Work^Defect Liability Period^Retention Money Release^PBG Release^Contract Closure^Bank Guarantee Requried^Insurance Requried";
 	            
@@ -895,21 +895,29 @@ public class ContractController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getTally_head());
 					
+					String estimated_cost = "";
+					String estimated_cost_unit = "";
+					if(!StringUtils.isEmpty(obj.getEstimated_cost())) {
+						estimated_cost = obj.getEstimated_cost();
+					}
+					if(!StringUtils.isEmpty(obj.getEstimated_cost_unit())) {
+						estimated_cost_unit = obj.getEstimated_cost_unit();
+					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectioncostStyle);
-					cell.setCellValue(obj.getEstimated_cost());
+					cell.setCellValue(estimated_cost +" "+estimated_cost_unit);
 					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionunitsStyle);
-					cell.setCellValue(obj.getEstimated_cost_units());					
-					
+					String awarded_cost = "";
+					String awarded_cost_unit = "";
+					if(!StringUtils.isEmpty(obj.getAwarded_cost())) {
+						awarded_cost = obj.getAwarded_cost();
+					}
+					if(!StringUtils.isEmpty(obj.getAwarded_cost_unit())) {
+						awarded_cost_unit = obj.getAwarded_cost_unit();
+					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectioncostStyle);
-					cell.setCellValue(obj.getAwarded_cost());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionunitsStyle);
-					cell.setCellValue(obj.getAwarded_cost_units());					
+					cell.setCellValue(awarded_cost+" "+awarded_cost_unit);
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -939,9 +947,17 @@ public class ContractController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getActual_completion_date());
 					
+					String completed_cost = "";
+					String completed_cost_unit = "";
+					if(!StringUtils.isEmpty(obj.getCompleted_cost())) {
+						completed_cost = obj.getCompleted_cost();
+					}
+					if(!StringUtils.isEmpty(obj.getCompleted_cost_unit())) {
+						completed_cost_unit = obj.getCompleted_cost_unit();
+					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getCompleted_cost());
+					cell.setCellValue(completed_cost+" "+completed_cost_unit);
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

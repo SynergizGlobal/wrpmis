@@ -16,7 +16,7 @@ public class Contract {
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
 	responsible_people_id_fk,hod_name,contract_status,dy_hod_name,PhysicalProgress,revision_amounts_status, unit, value,ContractAlertRemarks,revised_amount_units,bg_value_units,completed_cost_units,insurance_value_units,
 	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,is_contract_closure_initiated,contract_details_types,created_by_user_id_fk,milestone_requried,revision_requried,contractors_key_requried,
-	actual_date_of_commissioning,existing_contract_closure_date;
+	actual_date_of_commissioning,existing_contract_closure_date,estimated_cost_unit,awarded_cost_unit,completed_cost_unit;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
 
@@ -46,6 +46,30 @@ public class Contract {
 	private List<Contract> executivesList;
 	private List<Contract> responsiblePersonsList;
 
+
+	public String getEstimated_cost_unit() {
+		return estimated_cost_unit;
+	}
+
+	public void setEstimated_cost_unit(String estimated_cost_unit) {
+		this.estimated_cost_unit = estimated_cost_unit;
+	}
+
+	public String getAwarded_cost_unit() {
+		return awarded_cost_unit;
+	}
+
+	public void setAwarded_cost_unit(String awarded_cost_unit) {
+		this.awarded_cost_unit = awarded_cost_unit;
+	}
+
+	public String getCompleted_cost_unit() {
+		return completed_cost_unit;
+	}
+
+	public void setCompleted_cost_unit(String completed_cost_unit) {
+		this.completed_cost_unit = completed_cost_unit;
+	}
 
 	public String getIs_contract_closure_initiated() {
 		return is_contract_closure_initiated;

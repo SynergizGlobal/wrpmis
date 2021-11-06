@@ -830,7 +830,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					formHistory.setWork(obj.getWork_id_fk());
 					formHistory.setContract(obj.getContract_id_fk());
 					
-					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+					boolean history_flag = formsHistoryDao.saveValidityFormHistory(formHistory);
 				}
 				if(failureCount > 0 && !StringUtils.isEmpty(successMessage)) {
 					successMessage = successMessage + "And "+failureCount+" activities failed to approve";

@@ -826,6 +826,10 @@
         	                    		
 	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'"  '+disabledval+' /><span></span></label></p>';
 	        	                   	
+	        	                   	var replaceStmystring = progress_id.replace(/["']/g, "");
+
+	        	                   	checkbox =checkbox+'<span id="work'+replaceStmystring+'" style="display:none;">'+val.work_short_name+'</span><span id="contract'+replaceStmystring+'" style="display:none;">'+val.contract_short_name+'</span>';
+	        	                   	
 	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-m" '+disabledval+'><i class="fa fa-check"></i> </a>'
         	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>'+concat;
         	                   	}
@@ -1252,22 +1256,23 @@
 		            return $(this).val();
 		        }).get().join(",");
 				
-/* 				var myTab = document.getElementById('datatable-table-pending');
 				
-				for (i = 1; i < myTab.rows.length; i++) {
-
-		            var objCells = myTab.rows.item(i).cells;
-
-		            for (var j = 0; j < 2; j++) 
-		            {
-		                alert(objCells.item(j).innerHTML);
-		            }
-		        }		 */		
+				var work_id_fk = $('input[name="pending_activity_check"]:checked').map(function() {
+					var assignWval=$(this).val();
+					var replaceStmystring = assignWval.replace(/["']/g, "");
+		            return $("#work"+replaceStmystring).html();
+		        }).get().join(",");	
+				
+				var contract_id_fk = $('input[name="pending_activity_check"]:checked').map(function() {
+					var assignCval=$(this).val();
+					var replaceStmyCstring = assignCval.replace(/["']/g, "");
+					return $("#contract"+replaceStmyCstring).html();
+		        }).get().join(",");					
 				
 				
 				//alert(progress_id);
                 if ($.trim(progress_id) != "") {
-                    var myParams = {progress_id : progress_id };
+                    var myParams = {progress_id : progress_id,work_id_fk:work_id_fk,contract_id_fk:contract_id_fk };
                     $.ajax({
                         url: "<%=request.getContextPath()%>/ajax/approveMultipleActivityProgress",
                         data: myParams, cache: false,async: false,

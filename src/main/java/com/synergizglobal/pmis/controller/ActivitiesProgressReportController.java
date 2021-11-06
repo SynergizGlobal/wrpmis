@@ -264,6 +264,8 @@ public class ActivitiesProgressReportController {
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle remarkWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
 
 	        /********************************************************/
 
@@ -901,15 +903,20 @@ public class ActivitiesProgressReportController {
 										        cell = remarksRow.createCell(0);
 										        cell.setCellStyle(indexWhiteStyle);
 										        
-												cell.setCellValue(remarks);
+												cell.setCellValue("Remark");
+												
+										        cell = remarksRow.createCell(1);
+										        cell.setCellStyle(remarkWhiteStyle);
+										        
+												cell.setCellValue(remarks);												
 	
 											
-												for (int i = 1; i < 7; i++) {		        	
+												for (int i = 2; i < 7; i++) {		        	
 											        cell = remarksRow.createCell(i);
 											        cell.setCellStyle(indexWhiteStyle);
 													cell.setCellValue("");
 												}	
-												dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,6));	
+												dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 1,6));	
 											}
 										}
 						        	}else {
@@ -1062,6 +1069,7 @@ public class ActivitiesProgressReportController {
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle remarkWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
 	        /********************************************************/
 

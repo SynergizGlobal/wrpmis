@@ -635,10 +635,6 @@
     		if(validator.form()){ 
     			//if(flag){
         			$(".page-loader").show();
-        				if($('#pmis_key_fk').val()=="")
-        				{
-        					$('#pmis_key_fk').val('null');
-        				}
         			document.getElementById("userForm").submit();		
             	//}		
     	 	}
@@ -647,10 +643,6 @@
         function updateUser(){
       		if(validator.form()){ // validation perform
       			if(flag){
-    				if($('#pmis_key_fk').val()=="")
-    				{
-    					$('#pmis_key_fk').val('null');
-    				}     				
         			$(".page-loader").show();
         			document.getElementById("userForm").submit();	
             	}			

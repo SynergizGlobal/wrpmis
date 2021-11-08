@@ -456,127 +456,6 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE dashboard set "
-					+ "dashboard_name= :dashboard_name,parent_dashboard_id_sr_fk= :folder, work_id_fk= :work_id_fk, contract_id_fk= :contract_id_fk,"
-					+ "module_name_fk= :module_name_fk, dashboard_url= :dashboard_url, mobile_view= :mobile_view,dashboard_type_fk= :dashboard_type_fk, priority= :priority, "
-					+ "icon_path= :icon_path, modified_by_user_id_fk = :modified_by_user_id_fk, modified_on= CURDATE(),soft_delete_status_fk= :soft_delete_status_fk "
-					+ "where dashboard_id= :dashboard_id";
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
-			if(count > 0) {
-				flag = true;
-				
-				String deleteQry ="delete from dashboard_access where dashboard_id_fk = :dashboard_id ";
-				paramSource = new BeanPropertySqlParameterSource(obj);		 
-				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
-				
-				int arraySize = 0;
-				if(!StringUtils.isEmpty(obj.getAccess_types()) && obj.getAccess_types().length > 0 ) {
-					obj.setAccess_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_types()));
-					if(arraySize < obj.getAccess_types().length) {
-						arraySize = obj.getAccess_types().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getAccess_values()) && obj.getAccess_values().length > 0 ) {
-					obj.setAccess_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_values()));
-					if(arraySize < obj.getAccess_values().length) {
-						arraySize = obj.getAccess_values().length;
-					}
-				}
-				
-				
-				if(arraySize > 0) {				
-					
-					String[] types = obj.getAccess_types();
-					String[] values = obj.getAccess_values();
-					
-					String qryUserPermissions = "INSERT INTO dashboard_access (dashboard_id_fk,access_type,access_value) VALUES  (?,?,?)";		
-					
-					int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
-				            new BatchPreparedStatementSetter() {
-				                 
-				                @Override
-				                public void setValues(PreparedStatement ps, int i) throws SQLException {
-				                    ps.setString(1, obj.getDashboard_id());
-				                    ps.setString(2, types.length > 0?types[i]:null);
-				                    ps.setString(3, values.length > 0?values[i]:null);			                    
-				                }
-				                @Override  
-				                public int getBatchSize() {				                	
-				                	int arraySize = 0;
-				    				if(!StringUtils.isEmpty(obj.getAccess_types()) && obj.getAccess_types().length > 0 ) {
-				    					obj.setAccess_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_types()));
-				    					if(arraySize < obj.getAccess_types().length) {
-				    						arraySize = obj.getAccess_types().length;
-				    					}
-				    				}
-				    				if(!StringUtils.isEmpty(obj.getAccess_values()) && obj.getAccess_values().length > 0 ) {
-				    					obj.setAccess_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_values()));
-				    					if(arraySize < obj.getAccess_values().length) {
-				    						arraySize = obj.getAccess_values().length;
-				    					}
-				    				}
-				    				return arraySize; 
-				                }
-				            });
-					
-				}
-			}
-		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e);
-		}
-		return flag;
-	}
-
-	@Override
-	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception {
-		List<Dashboard> objsList = null;
-		try {
-			String qry = "select user_role_name as access_value_id from user_role";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Dashboard> getUserTypesInDashboardAccess(Dashboard obj) throws Exception {
-		List<Dashboard> objsList = null;
-		try {
-			String qry = "select user_type as access_value_id from user_type";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Dashboard> getUsersInDashboardAccess(Dashboard obj) throws Exception {
-		List<Dashboard> objsList = null;
-		try {
-			String qry = "select user_id as access_value_id,user_name as access_value_name from user";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}	
-	
-	
-	@Override
-	public boolean updateTableauDashboard(Dashboard obj) throws Exception {
-		boolean flag = false;
-		try {
-			if(StringUtils.isEmpty(obj.getFolder())) {
-				obj.setFolder(obj.getDashboard_id());
-			}
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-			String updateQry = "UPDATE dashboard set "
 					+ "mobile_view= :mobile_view,priority= :priority,modified_by_user_id_fk = :modified_by_user_id_fk, modified_on= CURDATE(),soft_delete_status_fk= :soft_delete_status_fk "
 					+ "where dashboard_id= :dashboard_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -645,5 +524,45 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		}
 		return flag;
 	}
+
+	@Override
+	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception {
+		List<Dashboard> objsList = null;
+		try {
+			String qry = "select user_role_name as access_value_id from user_role";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Dashboard> getUserTypesInDashboardAccess(Dashboard obj) throws Exception {
+		List<Dashboard> objsList = null;
+		try {
+			String qry = "select user_type as access_value_id from user_type";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Dashboard> getUsersInDashboardAccess(Dashboard obj) throws Exception {
+		List<Dashboard> objsList = null;
+		try {
+			String qry = "select user_id as access_value_id,user_name as access_value_name from user";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}	
+	
 	
 }

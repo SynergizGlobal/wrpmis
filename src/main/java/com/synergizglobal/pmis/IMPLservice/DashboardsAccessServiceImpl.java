@@ -93,9 +93,4 @@ public class DashboardsAccessServiceImpl implements DashboardsAccessService{
 	public List<Dashboard> getUsersInDashboardAccess(Dashboard obj) throws Exception {
 		return dao.getUsersInDashboardAccess(obj);
 	}
-
-	@Override
-	public boolean updateTableauDashboard(Dashboard obj) throws Exception {
-		return dao.updateTableauDashboard(obj);
-	}
 }

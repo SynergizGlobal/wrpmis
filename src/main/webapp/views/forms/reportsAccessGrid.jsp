@@ -127,14 +127,14 @@
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-                        <div class="row plr-1">
+                        <%-- <div class="row plr-1">
                             <div class="col s12 m4 offset-m4">
                                 <div class="m-1 center-align">
                                     <a href="<%=request.getContextPath()%>/add-report-access" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Report</strong></a>
                                 </div>
                             </div>
-                        </div>
+                        </div> --%>
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col s6 m3 l2 offset-l3 input-field offset-m2">
                                 <p class="searchable_label">Select Module</p>
@@ -163,10 +163,10 @@
 	                                            <th class="no-sort">Module</th>
 	                                            <th>Report</th>
 	                                            <th>Folder</th>
-	                                            <th>Web URL</th>
-	                                            <th>Mobile URL</th>
-	                                            <th>Priority</th>
 	                                            <th>Status</th>
+	                                            <th>User Role Access</th>
+	                                            <th>User Type Access</th>
+	                                            <th>User Access</th>
 	                                            <th class="no-sort">Action</th>
 	                                        </tr>
 	                                    </thead>
@@ -353,17 +353,25 @@
                            if($.trim(val.web_form_url) != ''){
                            	actions = actions +'<a href="<%=request.getContextPath()%>/'+val.web_form_url+'" target="_blank" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-share"></i></a>';
                            }			  
+                           
+                           if($.trim(val.user_role_access) == ''){ user_role_access =  '-'; }else{ user_role_access =  $.trim(val.user_role_access); }
+                           if($.trim(val.user_type_access) == ''){ user_type_access =  '-'; }else{ user_type_access =  $.trim(val.user_type_access); }
+                           if($.trim(val.user_access) == ''){ user_access =  '-'; }else{ user_access =  $.trim(val.user_access); }
+                           
                            var rowArray = [];    	                 
                            
                            rowArray.push(val.module_name_fk);
                            rowArray.push(val.form_name);
-                          	rowArray.push(val.folder_name);
-                          	rowArray.push(val.web_form_url);
-                          	rowArray.push(val.mobile_form_url);
-                          	rowArray.push(val.priority);
-                          	rowArray.push(val.soft_delete_status_fk);
+                           rowArray.push(val.folder_name);
+                       	   /* rowArray.push(val.web_form_url);
+                       	   rowArray.push(val.mobile_form_url);
+                       	   rowArray.push(val.priority); */
+                       	   rowArray.push(val.soft_delete_status_fk);
+                           rowArray.push(user_role_access);
+                           rowArray.push(user_type_access);
+                           rowArray.push(user_access);
                           
-                          	rowArray.push($.trim(actions)); 
+                           rowArray.push($.trim(actions)); 
                           	
                            table.row.add(rowArray).draw( true );
                            		                       

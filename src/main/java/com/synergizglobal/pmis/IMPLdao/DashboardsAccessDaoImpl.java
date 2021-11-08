@@ -329,14 +329,14 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			
 			dObj = (Dashboard)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 			
-			if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(dObj.getDashboard_id())) {
+			/*if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(dObj.getDashboard_id())) {
 				List<Dashboard> objsList = null;
 				String qryUserPermission = "select access_type,access_value from dashboard_access where dashboard_id_fk = ? " ;
 				
 				objsList = jdbcTemplate.query(qryUserPermission, new Object[] {dObj.getDashboard_id()}, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));	
 				
 				dObj.setAccessPermissions(objsList);
-			}
+			}*/
 			
 		}catch(Exception e){ 
 			throw new Exception(e);

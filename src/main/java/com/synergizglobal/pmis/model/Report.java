@@ -4,11 +4,35 @@ import java.util.List;
 
 public class Report {
 	private String form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,
-	folder_name,report_access_id,form_id_fk,access_type,access_value,access_value_id,access_value_name,display_in_mobile;
+	folder_name,report_access_id,form_id_fk,access_type,access_value,access_value_id,access_value_name,display_in_mobile,user_role_access,user_type_access,user_access;
 	
 	private String[] access_types,access_values;
 	
 	private List<Report> accessPermissions;
+
+	public String getUser_role_access() {
+		return user_role_access;
+	}
+
+	public void setUser_role_access(String user_role_access) {
+		this.user_role_access = user_role_access;
+	}
+
+	public String getUser_type_access() {
+		return user_type_access;
+	}
+
+	public void setUser_type_access(String user_type_access) {
+		this.user_type_access = user_type_access;
+	}
+
+	public String getUser_access() {
+		return user_access;
+	}
+
+	public void setUser_access(String user_access) {
+		this.user_access = user_access;
+	}
 
 	public String getFolder_name() {
 		return folder_name;

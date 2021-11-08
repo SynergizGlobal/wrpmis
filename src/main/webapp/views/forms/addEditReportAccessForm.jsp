@@ -10,10 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-     	 <c:if test="${action eq 'edit'}">Update Report - Admin - PMIS</c:if>
-		 <c:if test="${action eq 'add'}"> Add Report - Admin - PMIS</c:if>
-    </title>
+    <title>Update Report - Admin - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <!-- <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css"> -->
@@ -130,73 +127,36 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-2">
-                                <h6>
-									<c:if test="${action eq 'edit'}">Update Report</c:if>
-		 							<c:if test="${action eq 'add'}"> Add Report</c:if>
-								</h6>
+                                <h6>Update Report</h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
-                    <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-report" id="accessReport" name="accessReport" method="post" class="form-horizontal" role="form" >
-                          </c:if>
-		              <c:if test="${action eq 'add'}">				                
-		                	<form action="<%=request.getContextPath() %>/add-report" id="accessReport" name="accessReport" method="post" class="form-horizontal" role="form" >
-					  </c:if>
-					  	<input type="hidden" name ="form_id" value="${reportDetails.form_id }" />
-                        <div class="container container-no-margin">
+                    <form action="<%=request.getContextPath() %>/update-report" id="accessReport" name="accessReport" method="post" class="form-horizontal" role="form" >
+                    	<input type="hidden" name ="form_id" value="${reportDetails.form_id }" />
+                        <div class="container container-no-margin">                            
                             <div class="row">
-                                <div class="col s12 m4 l4 input-field m0">
-                                   <input id="form_name" name="form_name" type="text" class="validate" value="${reportDetails.form_name }">
-                                    <label for="form_name">Report Name <span class="required">*</span></label>
-                                    <span id="form_nameError" class="error-msg"></span>
+                                <div class="col s12 m4 l4 input-field">
+                                   <input id="form_name" type="text" class="validate" value="${reportDetails.form_name }" readonly="readonly">
+                                    <label for="form_name">Report Name</label>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Module </p>
-                                    <select class="searchable" id="module_name_fk" name="module_name_fk">
-                                        <option value="">Select</option>
-                                         <c:forEach var="obj" items="${modulesList }">
-                                      	    <option value= "${ obj.module_name_fk}" <c:if test="${reportDetails.module_name_fk eq obj.module_name_fk}">selected</c:if>>${obj.module_name_fk}</option>
-                                          </c:forEach>
-                                    </select>
-                                    <span id="moduleError" class="error-msg"></span>
+                                <div class="col s12 m4 l4 input-field">
+                                   <input id="module_name_fk" type="text" class="validate" value="${reportDetails.module_name_fk }" readonly="readonly">
+                                    <label for="module_name_fk">Module</label>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Folder </p>
-                                    <select class="searchable" id="parent_form_id_sr_fk" name="parent_form_id_sr_fk">
-                                        <option value="">Select</option>
-                                         <c:forEach var="obj" items="${foldersList }">
-                                      	    <option value= "${ obj.form_id}" <c:if test="${reportDetails.parent_form_id_sr_fk eq obj.form_id}">selected</c:if>>${obj.form_name}</option>
-                                          </c:forEach>
-                                    </select>
-                                    <span id="moduleError" class="error-msg"></span>
+                                <div class="col s12 m4 l4 input-field">
+                                   <input id="parent_form_id_sr_fk" type="text" class="validate" value="${reportDetails.folder_name }" readonly="readonly">
+                                    <label for="parent_form_id_sr_fk">Folder</label>
                                 </div>
                             </div>
-                            <div class="row">                                 
-                                
-                                                                 
-                            </div>
-                            <div class="row">
-                            	<div class="col s12 m4 l4 input-field">
+                            
+                            <div class="row">     
+                            	<div class="col s12 m4 input-field">
                                     <input id="priority" name="priority" type="number" class="validate" value="${reportDetails.priority }">
-                                    <label for="priority">priority </label>
+                                    <label for="priority">priority <span class="required">*</span></label>
                                     <span id="priorityError" class="error-msg"></span>
-                                </div>                                 
-                                <div class="col s6 m4 l4 input-field">
-                                    <input id="web_form_url" name="web_form_url" type="text" class="validate" value="${reportDetails.web_form_url }">
-                                    <label for="web_form_url">Web Url </label>
-                                    <span id="web_form_urlError" class="error-msg"></span>
-                                </div>
-                                <div class="col s6 m4 l4 input-field ">
-                                    <input id="mobile_form_url" name="mobile_form_url" type="text" class="validate" value="${reportDetails.mobile_form_url }">
-                                    <label for="mobile_form_url">Mobile Url </label>
-                                    <span id="mobile_form_urlError" class="error-msg"></span>
-                                </div>                                 
-                            </div>
-
-                            <div class="row">                                 
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                </div>                             
+                                <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Status </p>
                                     <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk">
                                         <option value="">Select</option>
@@ -204,19 +164,13 @@
                                       	    <option value= "${ obj.soft_delete_status_fk}" <c:if test="${reportDetails.soft_delete_status_fk eq obj.soft_delete_status_fk}">selected</c:if>>${obj.soft_delete_status_fk}</option>
                                           </c:forEach>
                                     </select>
-                                </div> 
-                                <div class="col s12 m4 l8 input-field">
-                                   <%--  <p class="searchable_label">Display In Mobile </p>
-                                    <select id="display_in_mobile" class="searchable" name="display_in_mobile">
-                                        <option value="No" <c:if test="${reportDetails.display_in_mobile eq 'No'}">selected</c:if>>No</option>
-                                        <option value="Yes" <c:if test="${reportDetails.display_in_mobile eq 'Yes'}">selected</c:if>>Yes</option>
-                                    </select> --%>
-                                    <div class="row">
-                                        <!-- row 7 -->
-                                        <div class="col s5 m5 l4 input-field">
-                                            <p style="margin-top: 12px;" class="center-align">Mobile View ?</p>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <div class="row">                                        
+                                        <div class="col s5 m5 input-field">
+                                            <p style="margin-top: 12px;">Mobile View ?</p>
                                         </div>
-                                        <div class="col s7 m7 l4 input-field">
+                                        <div class="col s5 m7 input-field">
                                             <p class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
                                                 <label>
                                                     <input class="with-gap" name="display_in_mobile" type="radio"
@@ -224,15 +178,15 @@
                                                     <span>Yes</span>
                                                 </label> &nbsp; <label>
                                                     <input class="with-gap" name="display_in_mobile" type="radio"
-                                                        value="No" <c:if test="${reportDetails.display_in_mobile == 'No'}">checked</c:if>  <c:if test="${empty reportDetails.display_in_mobile}">checked</c:if>/>
+                                                        value="No" <c:if test="${reportDetails.display_in_mobile == 'No'}">checked</c:if> <c:if test="${empty reportDetails.display_in_mobile}">checked</c:if>/>
                                                     <span>No</span>
                                                 </label>
                                             </p>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
+                                 
                             </div>
-                            
 
                             <div class="row" style="margin-bottom: 20px;">
                                  
@@ -243,104 +197,41 @@
                                             <table id="form_form_table" class="mdl-data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Access Type </th>
-                                                        <th>Access Value </th>
-                                                        <th class="fw-8p">Action</th>
+                                                        <th>User Role</th>
+                                                        <th>User Type</th>
+                                                        <th class="fw-8p">User</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="detailsBody">
-                                                    <c:choose>
-														<c:when	test="${not empty reportDetails.accessPermissions && fn:length(reportDetails.accessPermissions) gt 0 }">
-															<c:forEach var="aObj" items="${reportDetails.accessPermissions }"	varStatus="index">
-																<tr id="actionRow${index.count }">
-																	<td class="input-field">
-			                                                            <select id="access_types${index.count }" name="access_types" onchange="getAccessValues(this.value,'${index.count }');" class="searchable">
-			                                                                <option value="">Select</option>
-			                                                                <option value="user_role" <c:if test="${aObj.access_type eq 'user_role' }">selected</c:if>>User Role</option>
-			                                                                <option value="user_type" <c:if test="${aObj.access_type eq 'user_type' }">selected</c:if>>User Type</option>
-			                                                                <option value="user" <c:if test="${aObj.access_type eq 'user' }">selected</c:if>>User</option>
-			                                                            </select>
-			                                                            <span id="access_type${index.count }Error" class="error-msg"></span>
-			                                                        </td>
-			                                                        <td class="input-field">
-			                                                            <select id="access_values${index.count }" class="searchable" name="access_values">
-			                                                                <option value="">Select</option>
-			                                                                
-			                                                                <c:if test="${aObj.access_type eq 'user_role' }">		                                                		  
-						                                                        <c:forEach var="obj" items="${user_roles }">
-						                                                        	<option value="${obj.access_value_id }" <c:if test="${aObj.access_value eq obj.access_value_id}">selected</c:if>>${obj.access_value_id}</option>
-						                                                        </c:forEach>
-					                                                        </c:if>
-					                                                        <c:if test="${aObj.access_type eq 'user_type' }">		                                                		  
-						                                                        <c:forEach var="obj" items="${user_types }">
-						                                                        	<option value="${obj.access_value_id }" <c:if test="${aObj.access_value eq obj.access_value_id}">selected</c:if>>${obj.access_value_id }</option>
-						                                                        </c:forEach>
-					                                                        </c:if>  
-					                                                        <c:if test="${aObj.access_type eq 'user' }">		                                                		  
-						                                                        <c:forEach var="obj" items="${users }">
-						                                                        	<option value="${obj.access_value_id }" <c:if test="${aObj.access_value eq obj.access_value_id}">selected</c:if>>${obj.access_value_id }<c:if test="${not empty obj.access_value_name}"> - </c:if> ${obj.access_value_name }</option>
-						                                                        </c:forEach>
-					                                                        </c:if> 
-					                                                        
-			                                                            </select>
-			                                                            <span id="access_value${index.count }Error" class="error-msg"></span>
-			                                                        </td>
-																	<td>
-																		<a onclick="removeActions('${index.count }');" class="btn red waves-effect waves-light"> 
-																		<i class="fa fa-close"></i></a>
-																	</td>
-																</tr>															
-															</c:forEach>
-														</c:when>
-														<c:otherwise>
-															<tr id="actionRow0">
-																<td class="input-field">
-		                                                            <select id="access_types0" name="access_types" onchange="getAccessValues(this.value,'0');" class="searchable">
-		                                                                <option value="">Select</option>
-		                                                                <option value="user_role">User Role</option>
-		                                                                <option value="user_type">User Type</option>
-		                                                                <option value="user">User</option>
-		                                                            </select>
-		                                                            <span id="access_type0Error" class="error-msg"></span>
-		                                                        </td>
-		                                                        <td class="input-field">
-		                                                            <select id="access_values0" class="searchable" name="access_values">
-		                                                                <option value="">Select</option>
-		                                                            </select>
-		                                                            <span id="access_value0Error" class="error-msg"></span>
-		                                                        </td>
-																<td>
-																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
-																</td>
-															</tr>
-														</c:otherwise>
-													</c:choose>
-													
+                                                <tbody>
+                                                    <tr>
+														<td class="input-field">
+                                                            <select id="user_role_access" name="user_role_access" class="searchable" multiple>
+                                                                <option value="">Select</option>
+                                                                <c:forEach var="obj" items="${user_roles }">
+		                                                        	<option value="${obj.access_value_id }">${obj.access_value_id}</option>
+		                                                        </c:forEach>
+                                                            </select>
+                                                        </td>
+                                                        <td class="input-field">
+                                                            <select id="user_type_access" name="user_type_access" class="searchable" multiple>
+                                                                <option value="">Select</option>
+		                                                        <c:forEach var="obj" items="${user_types }">
+		                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }</option>
+		                                                        </c:forEach>
+                                                            </select>
+                                                        </td>
+														<td class="input-field">
+                                                            <select id="user_access" name="user_access" class="searchable" multiple>
+                                                                <option value="" >Select</option>
+		                                                        <c:forEach var="obj" items="${users }">
+		                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }<c:if test="${not empty obj.access_value_name}"> - </c:if> ${obj.access_value_name }</option>
+		                                                        </c:forEach>
+                                                            </select>
+                                                        </td>
+													</tr>
                                                 </tbody>
                                             </table>
-                                            
-                                            <table class="mdl-data-table table-add bd-none">
-												<tbody>
-													<tr class="bd-none">
-														<td colspan="6" class="bd-none"><a
-															type="button"
-															class="btn waves-effect waves-light bg-m t-c add-align"
-															onclick="addRow()"> <i
-																class="fa fa-plus"></i>
-														</a>
-													</tr>
-												</tbody>
-											</table>
-											<c:choose>
-												<c:when
-													test="${not empty (reportDetails.accessPermissions) && fn:length(reportDetails.accessPermissions) gt 0 }">
-													<input type="hidden" id="rowNo" name="rowNo"
-														value="${fn:length(reportDetails.accessPermissions) }" />
-												</c:when>
-												<c:otherwise>
-													<input type="hidden" id="rowNo" name="rowNo" value="0" />
-												</c:otherwise>
-											</c:choose>
+											
                                         </div>
                                     </div>
                                 </div>
@@ -351,13 +242,8 @@
                                  
                                 <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                     <div class=" m-1">
-	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateReport();" class="btn waves-effect waves-light bg-m">Update</button>
-	                                         </c:if>
-											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addReport();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
-											 </c:if>
-                                    </div>
+	                                         <button type="button" onclick="updateReport();" class="btn waves-effect waves-light bg-m">Update</button>
+	                                </div>
                                 </div>
                                 <div class="col s6 m4 l6 mt-brdr center-align">
                                     <div class=" m-1">
@@ -403,44 +289,51 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
+            
+            var user_role_access = '${reportDetails.user_role_access}';
+            var user_type_access = '${reportDetails.user_type_access}';
+            var user_access = '${reportDetails.user_access}';
+            if($.trim(user_role_access) != ''){
+            	var user_role_accessArr = user_role_access.split(',');
+            	$("#user_role_access").val(user_role_accessArr);
+            }
+            if($.trim(user_type_access) != ''){
+            	var user_type_accessArr = user_type_access.split(',');
+            	$("#user_type_access").val(user_type_accessArr);
+            }
+            if($.trim(user_access) != ''){
+            	var user_accessArr = user_access.split(',');
+            	$("#user_access").val(user_accessArr);
+            }
+            
+            $('.searchable').select2();
         });
         function updateReport(){
       	   if(validator.form()){ // validation perform
-      	  		   $(".page-loader").show();	  
-          		   document.getElementById("accessReport").submit();	
-      	   }
-          	   else{
-              	   $(".page-loader").hide();
-          	   }		
-     	 	 
-         }
-         function addReport(){
-      	   if(validator.form()){ // validation perform
-  		  		   $(".page-loader").show();	  
-  	    		   document.getElementById("accessReport").submit();			
+   	  		   $(".page-loader").show();	  
+       		   document.getElementById("accessReport").submit();	
       	   }else{
-  	        	   $(".page-loader").hide();
-  	    	   }
+           	   $(".page-loader").hide();
+       	   }		
      	 	 
          }
          
-         var validator =	$('#accessReport').validate({
- 			
+         var validator = $('#accessReport').validate({ 			
  			 ignore: ":hidden:not(.validate-dropdown)",
  	  		    rules: {
- 	  		 		 "form_name": {
+ 	  		 		 "priority": {
  	  			 		required: true
  	  			 	  },
  	  		 	},
  	  		    messages: {
- 	  		 		  "form_name": {
+ 	  		 		  "priority": {
  	  			 		required: 'Required'
  	  			 	  },
  		   		},
  		   		errorPlacement:function(error, element){
- 		   		 	  if(element.attr("id") == "form_name" ){
- 					     document.getElementById("form_nameError").innerHTML="";
- 				 	     error.appendTo('#form_nameError');
+ 		   		 	  if(element.attr("id") == "priority" ){
+ 					     document.getElementById("priorityError").innerHTML="";
+ 				 	     error.appendTo('#priorityError');
  					 }else{
  	 					 error.insertAfter(element);
  			        } 
@@ -468,83 +361,6 @@
  	               $(this).valid();
  	           }
  	       });
-            
-         function addRow() {        	
-             var rowNo = $("#rowNo").val();
-             var rNo = Number(rowNo)+1;
-             var html = '<tr id="actionRow' + rNo + '">'
-             + '<td class="input-field">'
-             + '<select id="access_types' + rNo + '" class="searchable" name="access_types" onchange="getAccessValues(this.value,'+rNo+');"> ' 
-             + '<option value="">Select</option>'
-             + '<option value="user_role">User Role</option>'
-             + '<option value="user_type">User Type</option>'
-             + '<option value="user">User</option>'
-             + '</select>'
-             + '<span id="access_type' + rNo + 'Error" class="error-msg"></span>'
-             + '</td>'
-             + '<td class="input-field">'
-             + '<select id="access_values' + rNo + '" class="searchable" name="access_values">'
-             + '<option value="">Select</option>' 
-             + '</select>' 
-             + '<span id="access_value' + rNo + 'Error" class="error-msg"></span>' 
-             + '</td>'
- 			+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
- 		
- 			$('#detailsBody').append(html);
-             $("#rowNo").val(rNo);
-             
-             $('select:not(.searchable)').formSelect();
-             $('.searchable').select2();
-         }
-         
-         function removeActions(rowNo){
-         	$("#actionRow"+rowNo).remove();
-         }
-         
-         function getAccessValues(access_type,indexNo){
-         	$(".page-loader").show();
-         	var url = "";
-         	if(access_type == 'user_role'){
-         		url = "<%=request.getContextPath()%>/ajax/getUserRolesInReportAccess";
-         	}else if(access_type == 'user_type'){
-         		url = "<%=request.getContextPath()%>/ajax/getUserTypesInReportAccess";
-         	}else if(access_type == 'user'){
-         		url = "<%=request.getContextPath()%>/ajax/getUsersInReportAccess";
-         	}
-         	
-         	if($.trim(url) != ''){
-         		$("#access_values"+indexNo+" option:not(:first)").remove();
-                 $.ajax({
-                     url: url,
-                     cache: false,
-                     success: function (data) {
-                         if (data.length > 0) {
-                         	if(access_type == 'user_role'){
-                         		 $.each(data, function (i, val) {
-                         			 var access_value_name = '';
-                                      if ($.trim(val.access_value_name) != '') { access_value_name = ' - ' + $.trim(val.access_value_name) }
-                                      $("#access_values"+indexNo).append('<option value="' + val.access_value_id + '">' + $.trim(val.access_value_id) + access_value_name+ '</option>');
-                                  });
-                         	}else if(access_type == 'user_type'){
-                         		 $.each(data, function (i, val) {
-                         			 var access_value_name = '';
-                                      if ($.trim(val.access_value_name) != '') { access_value_name = ' - ' + $.trim(val.access_value_name) }
-                                      $("#access_values"+indexNo).append('<option value="' + val.access_value_id + '">' + $.trim(val.access_value_id) + access_value_name + '</option>');
-                                  });
-                         	}else if(access_type == 'user'){
-                         		 $.each(data, function (i, val) {
-                         			 var access_value_name = '';
-                                      if ($.trim(val.access_value_name) != '') { access_value_name = ' - ' + $.trim(val.access_value_name) }
-                                      $("#access_values"+indexNo).append('<option value="' + val.access_value_id + '">' + $.trim(val.access_value_id) + access_value_name + '</option>');
-                                  });
-                         	}                           
-                         }
-                         $("#access_values"+indexNo).select2();
-                         $(".page-loader").hide();
-                     }
-                 });
-         	}
-         }
     </script>
 
 </body>

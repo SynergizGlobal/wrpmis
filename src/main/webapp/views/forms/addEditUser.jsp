@@ -600,9 +600,9 @@
          }
         
         var pmis_key_fk = $('#pmis_key_fk').val();
-        if ($.trim(pmis_key_fk) != '' && pmis_key_fk == '${usrObj.pmis_key_fk }') { 
+/*         if ($.trim(pmis_key_fk) != '' && pmis_key_fk == '${usrObj.pmis_key_fk }') { 
         	flag = true;
-        }
+        } */
         
         $('#pmis_key_fk').on('blur', function(){
         	$('#pmis_key_fkError').html('');
@@ -632,17 +632,25 @@
         });
         
         function addUser(){
-    		if(validator.form()){ // validation perform
-    			if(flag){
+    		if(validator.form()){ 
+    			//if(flag){
         			$(".page-loader").show();
+        				if($('#pmis_key_fk').val()=="")
+        				{
+        					$('#pmis_key_fk').val('null');
+        				}
         			document.getElementById("userForm").submit();		
-            	}		
+            	//}		
     	 	}
     	}
     	
         function updateUser(){
       		if(validator.form()){ // validation perform
       			if(flag){
+    				if($('#pmis_key_fk').val()=="")
+    				{
+    					$('#pmis_key_fk').val('null');
+    				}     				
         			$(".page-loader").show();
         			document.getElementById("userForm").submit();	
             	}			
@@ -744,10 +752,10 @@
     			 	    }else if (element.attr("id") == "extension" ){
     			 		     document.getElementById("extensionError").innerHTML="";
     			 			 error.appendTo('#extensionError');
-    			 	    }/* else if (element.attr("id") == "pmis_key_fk" ){
+    			 	    } else if (element.attr("id") == "pmis_key_fk" ){
 	   			 		     document.getElementById("pmis_key_fkError").innerHTML="";
 				 			 error.appendTo('#pmis_key_fkError');
-				 	    } */
+				 	    } 
     			 },invalidHandler: function (form, validator) {
                      var errors = validator.numberOfInvalids();
                      if (errors) {

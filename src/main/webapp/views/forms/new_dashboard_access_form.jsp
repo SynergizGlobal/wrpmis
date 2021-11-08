@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add / Edit Dashboard</title>
+    <title>
+     	 Update Dashboard - Admin - PMIS
+    </title>
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -85,58 +93,58 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h5>Add / Edit Dashboard</h5>
+                                <h5>Update Dashboard</h5>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+                    <form action="<%=request.getContextPath() %>/update-tableau-dashboard" id="dashboardForm" name="dashboardForm" method="post" class="form-horizontal" role="form" >
+                    
                         <div class="container container-no-margin">
+                        	<input type="hidden" name ="dashboard_id" value="${dashboardDetails.dashboard_id }" />
                             <div class="row">                              
                                 <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Dashboard :</p>
-                                    <p>DashBoard Name</p>  
+                                    <p>${dashboardDetails.dashboard_name }</p>  
                                 </div> 
                                 <div class="col s12 m4 l4 input-field"> 
                                     <p class="searchable_label"> Module :</p>
-                                    <p>Module Name</p>
-                                    <input type="hidden" id="work_id_fk" name="work_id_fk" value="${risk.work_id_fk}" />
+                                    <p>${dashboardDetails.module_name_fk}</p>
                                 </div>
                                 <div class="col s12 m4 l4 input-field"> 
                                     <p class="searchable_label"> Dashboard Type :</p>
-                                    <p>Dashboard name</p>
-                                    <input type="hidden" id="work_id_fk" name="work_id_fk" value="${risk.work_id_fk}" />
+                                    <p>${dashboardDetails.dashboard_type_fk}</p>
                                 </div>
                                 
                             </div>
                             <div class="row">
                                 <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Folder :</p>
-                                    <p>Folder Name</p>  
+                                    <p>${dashboardDetails.folder }</p>  
                                 </div> 
                                 <div class="col s12 m4 l4 input-field"> 
                                     <p class="searchable_label"> Work :</p>
-                                    <p>Work Name</p>
-                                    <input type="hidden" id="work_id_fk" name="work_id_fk" value="${risk.work_id_fk}" />
+                                    <p>${dashboardDetails.work_id_fk}<c:if test="${not empty dashboardDetails.work_short_name}"> - </c:if> ${dashboardDetails.work_short_name }</p>
                                 </div>
                                 <div class="col s12 m4 l4 input-field"> 
-                                    <p class="searchable_label"> Contract Type :</p>
-                                    <p>Contract name</p>
-                                    <input type="hidden" id="work_id_fk" name="work_id_fk" value="${risk.work_id_fk}" />
+                                    <p class="searchable_label"> Contract :</p>
+                                    <p>${dashboardDetails.contract_id_fk}<c:if test="${not empty dashboardDetails.contract_short_name}"> - </c:if> ${dashboardDetails.contract_short_name }</p>
                                 </div>
                             </div>
                             <div class="row">
                                 
                                 <div class="col s12 m4 input-field">
-                                    <input id="priority" name="priority" type="number" class="validate">
+                                    <input id="priority" name="priority" type="number" class="validate" value="${dashboardDetails.priority }">
                                     <label for="priority">priority </label>
                                     <span id="priorityError" class="error-msg"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Status </p>
-                                    <select id="status" class="searchable" name="status">
+                                    <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk">
                                         <option value="">Select</option>
-                                        <option value="Govt">Govt </option>
+                                         <c:forEach var="obj" items="${statusList }">
+                                      	    <option value= "${ obj.soft_delete_status_fk}" <c:if test="${dashboardDetails.soft_delete_status_fk eq obj.soft_delete_status_fk}">selected</c:if>>${obj.soft_delete_status_fk}</option>
+                                          </c:forEach>
                                     </select>
                                 </div>
                                 <div class="col s12 m4">
@@ -149,11 +157,11 @@
                                             <p class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
                                                 <label>
                                                     <input class="with-gap" name="mobile_view" type="radio"
-                                                        value="yes" />
+                                                        value="Yes" <c:if test="${dashboardDetails.mobile_view == 'Yes'}">checked</c:if>/>
                                                     <span>Yes</span>
                                                 </label> &nbsp; <label>
                                                     <input class="with-gap" name="mobile_view" type="radio"
-                                                        value="no" />
+                                                        value="No" <c:if test="${dashboardDetails.mobile_view == 'No'}">checked</c:if>/>
                                                     <span>No</span>
                                                 </label>
                                             </p>
@@ -177,44 +185,36 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td class="input-field">
-
-                                                            <select id="user_role" class="searchable"
-                                                                name="user_role" multiple placeholder="User Role">
-                                                                <option value="select">Select</option>
-                                                            </select>
-                                                            <span id="access_type0Error" class="error-msg"></span>
-                                                        </td>
-                                                        <td class="input-field">
-                                                            <select id="user_type" class="searchable"
-                                                                name="user_type" multiple placeholder="User Type">
-                                                                <option value="Select">Select</option>
-                                                            </select>
-                                                            <span id="access_value0Error" class="error-msg"></span>
-                                                        </td>
-                                                        <td class="input-field">
-                                                            <!-- <a href="#" class="btn waves-effect waves-light red t-c ">
-                                                                <i class="fa fa-close"></i></a> -->
-                                                                <select id="user" class="searchable"
-                                                                name="user" multiple placeholder="User">
-                                                                <option value="Select">Select</option>
+                                                    <tr id="actionRow${index.count }">
+														<td class="input-field">
+                                                            <select id="user_role_access" name="user_role_access" class="searchable" multiple>
+                                                                <option value="">Select</option>
+                                                                <c:forEach var="obj" items="${user_roles }">
+		                                                        	<option value="${obj.access_value_id }">${obj.access_value_id}</option>
+		                                                        </c:forEach>
                                                             </select>
                                                         </td>
-                                                    </tr>
-                                                    <!-- <tr>
-                                                        <td></td>
-                                                        <td><a href="#" class="btn waves-effect waves-light bg-m t-c"
-                                                                onclick="addRow()">
-                                                                <i class="fa fa-plus"></i></a></td>
-                                                        <td>
-                                                            
+                                                        <td class="input-field">
+                                                            <select id="user_type_access" name="user_type_access" class="searchable" multiple>
+                                                                <option value="">Select</option>
+		                                                        <c:forEach var="obj" items="${user_types }">
+		                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }</option>
+		                                                        </c:forEach>
+                                                            </select>
                                                         </td>
-
-                                                    </tr> -->
+														<td class="input-field">
+                                                            <select id="user_access" name="user_access" class="searchable" multiple>
+                                                                <option value="" >Select</option>
+		                                                        <c:forEach var="obj" items="${users }">
+		                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }<c:if test="${not empty obj.access_value_name}"> - </c:if> ${obj.access_value_name }</option>
+		                                                        </c:forEach>
+                                                            </select>
+                                                        </td>
+													</tr>
+													
                                                 </tbody>
                                             </table>
-
+											
                                         </div>
                                     </div>
                                 </div>
@@ -223,18 +223,16 @@
                             <!-- </div> -->
                             <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col s12 m6 l6 mt-brdr ">
-                                    <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-m">Add /
-                                            Edit</button>
+                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
+                                   <div class="m-1">
+	                                 <button type="button" onclick="updateDashboard();" class="btn waves-effect waves-light bg-m">Update</button>
+	                               </div>
+                                </div>
+                                <div class="col s6 m4 l6 mt-brdr center-align">
+                                	<div class="m-1">
+                                      <a href="<%=request.getContextPath()%>/tableau-dashboards" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col s12 m6 l6 mt-brdr ">
-                                    <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s">Cancel</button>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </div>
                     </form>
@@ -245,34 +243,111 @@
         </div>
     </div>
 
-
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+	
     <!-- footer  -->
-<jsp:include page="../layout/footer.jsp"></jsp:include>
+	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
-
-    <script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	
+    <script type="text/javascript">
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $( ".searchable" ).each(function( index,val ) {
    				$( this ).select2({ placeholder: $( this ).attr('placeholder') });
 			});
+            
+            var user_role_access = '${dashboardDetails.user_role_access}';
+            var user_type_access = '${dashboardDetails.user_type_access}';
+            var user_access = '${dashboardDetails.user_access}';
+            if($.trim(user_role_access) != ''){
+            	var user_role_accessArr = user_role_access.split(',');
+            	$("#user_role_access").val(user_role_accessArr);
+            }
+            if($.trim(user_type_access) != ''){
+            	var user_type_accessArr = user_type_access.split(',');
+            	$("#user_type_access").val(user_type_accessArr);
+            }
+            if($.trim(user_access) != ''){
+            	var user_accessArr = user_access.split(',');
+            	$("#user_access").val(user_accessArr);
+            }
+            
+            $( ".searchable" ).each(function( index,val ) {
+   				$( this ).select2({ placeholder: $( this ).attr('placeholder') });
+			});
+            
         });
-        No = 1
-        function addRow() {
-            var text = '<tr><td class="input-field"> <select id="access_type' + No + '" class="searchable" name="access_type"> ' +
-                '<option value="">Select</option> </select> <span id="access_type' + No + 'Error" class="error-msg"></span> </td>' +
-                '<td class="input-field"><select id="access_value' + No + '" class="searchable" name="access_value">' +
-                '<option value="">Select</option> </select> <span id="access_value' + No + 'Error" class="error-msg"></span> </td>' +
-                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
-            $('#dashboard_form_table').find('tr:last').prev().after(text);
-            $('.searchable').select2();
-            No++;
-        }
+        
+        function updateDashboard(){
+	      	   if(validator.form()){ // validation perform
+      	  		   $(".page-loader").show();	  
+          		   document.getElementById("dashboardForm").submit();	
+	      	   }else{
+	            $(".page-loader").hide();
+	           }	
+         }
+        
+        var validator =	$('#dashboardForm').validate({
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		 "priority": {
+	  			 		required: true
+	  			 	  }
+	  		 	},
+	  		    messages: {
+	  		 		  "priority": {
+	  			 		required: 'Required'
+	  			 	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	  if(element.attr("id") == "priority" ){
+					     document.getElementById("priorityError").innerHTML="";
+				 	     error.appendTo('#priorityError');
+					 }else{
+	 					 error.insertAfter(element);
+			        } 
+		   		},invalidHandler: function (form, validator) {
+                  var errors = validator.numberOfInvalids();
+                  if (errors) {
+                      var position = validator.errorList[0].element;
+                      jQuery('html, body').animate({
+                          scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                      }, 1000);
+                  }
+              },submitHandler:function(form){
+			    	form.submit();
+			    }
+			});   
+     
+	       $('select').change(function(){
+	           if ($(this).val() != ""){
+	               $(this).valid();
+	           }
+	       });
+	
+	       $('input').change(function(){
+	           if ($(this).val() != ""){
+	               $(this).valid();
+	           }
+	       });
     </script>
 
 </body>

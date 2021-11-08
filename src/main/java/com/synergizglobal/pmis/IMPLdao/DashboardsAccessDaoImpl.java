@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -15,6 +16,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -22,6 +24,7 @@ import com.synergizglobal.pmis.Idao.DashboardsAccessDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.Dashboard;
+import com.synergizglobal.pmis.model.Messages;
 @Repository
 public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 
@@ -37,13 +40,17 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		List<Dashboard>  objsList = null;
 		try {
 			String qry ="SELECT d.dashboard_id,d1.dashboard_name as folder,c.contract_short_name,w.work_short_name,d.dashboard_name,d.work_id_fk,d.contract_id_fk,d.module_name_fk,d.parent_dashboard_id_sr_fk,d.dashboard_url,d.mobile_view,d.dashboard_type_fk,d.priority, " + 
-					" d.icon_path,d.published_by_user_id_fk,d.published_on,d.modified_by_user_id_fk,d.modified_on,d.soft_delete_status_fk FROM dashboard d " + 
+					" d.icon_path,d.published_by_user_id_fk,d.published_on,d.modified_by_user_id_fk,d.modified_on,d.soft_delete_status_fk,"
+					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
+					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
+					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
+					+ "FROM dashboard d " + 
 					" left join dashboard d1 on d.parent_dashboard_id_sr_fk = d1.dashboard_id " + 
 					" left join work w on d.work_id_fk = w.work_id " + 
 					" left join contract c on d.contract_id_fk = c.contract_id " + 
 					" where d.dashboard_id is not null ";
 			
-			int arrSize = 0;
+			int arrSize = 3;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and d.module_name_fk = ?";
 				arrSize++;
@@ -59,6 +66,9 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			pValues[i++] = "user_role";
+			pValues[i++] = "user_type";
+			pValues[i++] = "user";
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				pValues[i++] = obj.getModule_name_fk();
 			}
@@ -298,13 +308,26 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		Dashboard dObj = null;
 		try {
 			String qry ="SELECT d.dashboard_id,d1.dashboard_name as folder,c.contract_short_name,w.work_short_name,d.dashboard_name,d.work_id_fk,d.contract_id_fk,d.module_name_fk,d.parent_dashboard_id_sr_fk,d.dashboard_url,d.mobile_view,d.dashboard_type_fk,d.priority, " + 
-					"d.icon_path,d.published_by_user_id_fk,d.published_on,d.modified_by_user_id_fk,d.modified_on,d.soft_delete_status_fk FROM dashboard d  " + 
+					"d.icon_path,d.published_by_user_id_fk,d.published_on,d.modified_by_user_id_fk,d.modified_on,d.soft_delete_status_fk, "
+					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
+					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
+					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
+					+ "FROM dashboard d  " + 
 					"left join dashboard d1 on d.parent_dashboard_id_sr_fk = d1.dashboard_id  " + 
 					"left join work w on d.work_id_fk = w.work_id  " + 
 					"left join contract c on d.contract_id_fk = c.contract_id " 
-					+ "where d.dashboard_id is not null and d.dashboard_id = ?" ;
+					+ "where d.dashboard_id is not null and d.dashboard_id = ?"; 
+					
+			int arrSize = 4;
+
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = "user_role";
+			pValues[i++] = "user_type";
+			pValues[i++] = "user";
+			pValues[i++] = obj.getDashboard_id();
 			
-			dObj = (Dashboard)jdbcTemplate.queryForObject(qry, new Object[] {obj.getDashboard_id()}, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
+			dObj = (Dashboard)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 			
 			if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(dObj.getDashboard_id())) {
 				List<Dashboard> objsList = null;
@@ -543,5 +566,84 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		}
 		return objsList;
 	}	
+	
+	
+	@Override
+	public boolean updateTableauDashboard(Dashboard obj) throws Exception {
+		boolean flag = false;
+		try {
+			if(StringUtils.isEmpty(obj.getFolder())) {
+				obj.setFolder(obj.getDashboard_id());
+			}
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String updateQry = "UPDATE dashboard set "
+					+ "mobile_view= :mobile_view,priority= :priority,modified_by_user_id_fk = :modified_by_user_id_fk, modified_on= CURDATE(),soft_delete_status_fk= :soft_delete_status_fk "
+					+ "where dashboard_id= :dashboard_id";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+				
+				String deleteQry ="delete from dashboard_access where dashboard_id_fk = :dashboard_id ";
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
+				
+				if(!StringUtils.isEmpty(obj.getUser_role_access())) {
+					String[] user_role_access = obj.getUser_role_access().split(",");
+					int user_role_access_count = user_role_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_role_access_count];
+					String messageQry = "INSERT INTO dashboard_access (dashboard_id_fk,access_type,access_value)"
+							+ "VALUES" + "(:dashboard_id,:access_type,:access_value)";
+					
+					for (int i = 0; i < user_role_access_count; i++) {
+						Dashboard msgObj = new Dashboard();
+						msgObj.setDashboard_id(obj.getDashboard_id());
+						msgObj.setAccess_type("user_role");
+						msgObj.setAccess_value(user_role_access[i]);
+				        source[i] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getUser_type_access())) {
+					String[] user_type_access = obj.getUser_type_access().split(",");
+					int user_type_access_count = user_type_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_type_access_count];
+					String messageQry = "INSERT INTO dashboard_access (dashboard_id_fk,access_type,access_value)"
+							+ "VALUES" + "(:dashboard_id,:access_type,:access_value)";
+					
+					for (int i = 0; i < user_type_access_count; i++) {
+						Dashboard msgObj = new Dashboard();
+						msgObj.setDashboard_id(obj.getDashboard_id());
+						msgObj.setAccess_type("user_type");
+						msgObj.setAccess_value(user_type_access[i]);
+				        source[i] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getUser_access())) {
+					String[] user_access = obj.getUser_access().split(",");
+					int user_access_count = user_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_access_count];
+					String messageQry = "INSERT INTO dashboard_access (dashboard_id_fk,access_type,access_value)"
+							+ "VALUES" + "(:dashboard_id,:access_type,:access_value)";
+					
+					for (int i = 0; i < user_access_count; i++) {
+						Dashboard msgObj = new Dashboard();
+						msgObj.setDashboard_id(obj.getDashboard_id());
+						msgObj.setAccess_type("user");
+						msgObj.setAccess_value(user_access[i]);
+				        source[i] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return flag;
+	}
 	
 }

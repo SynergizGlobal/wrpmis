@@ -50,4 +50,9 @@ public class PageConstants2 {
 	public static final String updateLandAcquisition3 = "forms/LandAcquisition/updateLandAcquisition3";
 	public static final String updateLandAcquisition4 = "forms/LandAcquisition/updateLandAcquisition4";
 	
+	public static final String NEW_DASHBOARD_ACCESS_GRID = "forms/new_dashboard_access_grid";
+	public static final String NEW_DASHBOARD_ACCESS_FORM = "forms/new_dashboard_access_form";
+	
+	
+	
 }

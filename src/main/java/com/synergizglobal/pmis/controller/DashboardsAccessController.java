@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.DashboardsAccessService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Dashboard;
 
 @Controller
@@ -277,4 +278,66 @@ public class DashboardsAccessController {
 		}
 		return model;
 	}
+	
+	
+	@RequestMapping(value="/tableau-dashboards",method={RequestMethod.GET})
+	public ModelAndView tableauDashboards(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants2.NEW_DASHBOARD_ACCESS_GRID);
+		try {
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("tableauDashboards : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/get-tableau-dashboard",method={RequestMethod.POST})
+	public ModelAndView getTableauDashboardDetails(@ModelAttribute Dashboard obj,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.NEW_DASHBOARD_ACCESS_FORM);
+			
+			List<Dashboard> statusList = service.getStatusListForDashboardForm(obj);
+			model.addObject("statusList", statusList);
+			
+			List<Dashboard> user_roles = service.getUserRolesInDashboardAccess(obj);
+			model.addObject("user_roles", user_roles);
+			
+			List<Dashboard> user_types = service.getUserTypesInDashboardAccess(obj);
+			model.addObject("user_types", user_types);
+			
+			List<Dashboard> users = service.getUsersInDashboardAccess(obj);
+			model.addObject("users", users);
+			
+			Dashboard dashboardDetails = service.getDashboardForm(obj);
+			model.addObject("dashboardDetails", dashboardDetails);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getTableauDashboardDetails : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-tableau-dashboard", method = {RequestMethod.POST})
+	public ModelAndView updateTableauDashboard(@ModelAttribute Dashboard obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			obj.setModified_by_user_id_fk(user_Id);
+			model.setViewName("redirect:/tableau-dashboards");
+			boolean flag =  service.updateTableauDashboard(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Dashboard Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Dashboard is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Dashboard is failed. Try again.");
+			logger.error("updateTableauDashboard : " + e.getMessage());
+		}
+		return model;
+	}
+	
 }

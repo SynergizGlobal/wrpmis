@@ -38,4 +38,6 @@ public interface DashboardsAccessService {
 
 	public List<Dashboard> getUsersInDashboardAccess(Dashboard obj) throws Exception;
 
+	public boolean updateTableauDashboard(Dashboard obj) throws Exception;
+
 }

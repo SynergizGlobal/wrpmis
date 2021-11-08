@@ -431,7 +431,7 @@
         
         function getDashboard(dashboard_id){
         	$("#dashboard_id").val(dashboard_id);
-        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-dashboard');
+        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-tableau-dashboard');
         	$('#getForm').submit();
         }
         function goToDashboardLinks(dashboardName,parentId,dshboardId){

@@ -37,7 +37,7 @@ public class DashboardsAccessController {
 	
 	@RequestMapping(value="/dashboards",method={RequestMethod.GET})
 	public ModelAndView dashboards(HttpSession session){
-		ModelAndView model = new ModelAndView(PageConstants2.NEW_DASHBOARD_ACCESS_GRID);
+		ModelAndView model = new ModelAndView(PageConstants.dashboardsAccessGrid);
 		try {
 			
 		}catch (Exception e) {
@@ -195,8 +195,24 @@ public class DashboardsAccessController {
 	@RequestMapping(value = "/get-dashboard", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDashboardForm(@ModelAttribute Dashboard obj ){
 		ModelAndView model = new ModelAndView();
-		try {
-			model.setViewName(PageConstants2.NEW_DASHBOARD_ACCESS_FORM);
+		try{
+			model.setViewName(PageConstants.addEditDashboardAccessForm);
+			model.addObject("action", "edit");
+			
+			List<Dashboard> worksList = service.getWorkListForDashboardForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Dashboard> contractsList = service.getContractsListForDashboardForm(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<Dashboard> modulesList = service.getModulesListForDashboardForm(obj);
+			model.addObject("modulesList", modulesList);
+			
+			List<Dashboard> dashboardTypeList = service.getDashboardTypesListForDashboardForm(obj);
+			model.addObject("dashboardTypeList", dashboardTypeList);
+			
+			List<Dashboard> foldersList = service.getFolderssListForDashboardForm(obj);
+			model.addObject("foldersList", foldersList);
 			
 			List<Dashboard> statusList = service.getStatusListForDashboardForm(obj);
 			model.addObject("statusList", statusList);
@@ -212,9 +228,10 @@ public class DashboardsAccessController {
 			
 			Dashboard dashboardDetails = service.getDashboardForm(obj);
 			model.addObject("dashboardDetails", dashboardDetails);
+		
 		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getTableauDashboardDetails : " + e.getMessage());
+				e.printStackTrace();
+				logger.error("getDashboardForm : " + e.getMessage());
 		}
 		return model;
 	 }
@@ -258,6 +275,66 @@ public class DashboardsAccessController {
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Updating Dashboard is failed. Try again.");
 			logger.error("updateDashboard : " + e.getMessage());
+		}
+		return model;
+	}
+
+	@RequestMapping(value="/tableau-dashboards",method={RequestMethod.GET})
+	public ModelAndView tableauDashboards(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants2.NEW_DASHBOARD_ACCESS_GRID);
+		try {
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("tableauDashboards : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/get-tableau-dashboard",method={RequestMethod.POST})
+	public ModelAndView getTableauDashboardDetails(@ModelAttribute Dashboard obj,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.NEW_DASHBOARD_ACCESS_FORM);
+			
+			List<Dashboard> statusList = service.getStatusListForDashboardForm(obj);
+			model.addObject("statusList", statusList);
+			
+			List<Dashboard> user_roles = service.getUserRolesInDashboardAccess(obj);
+			model.addObject("user_roles", user_roles);
+			
+			List<Dashboard> user_types = service.getUserTypesInDashboardAccess(obj);
+			model.addObject("user_types", user_types);
+			
+			List<Dashboard> users = service.getUsersInDashboardAccess(obj);
+			model.addObject("users", users);
+			
+			Dashboard dashboardDetails = service.getDashboardForm(obj);
+			model.addObject("dashboardDetails", dashboardDetails);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getTableauDashboardDetails : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-tableau-dashboard", method = {RequestMethod.POST})
+	public ModelAndView updateTableauDashboard(@ModelAttribute Dashboard obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			obj.setModified_by_user_id_fk(user_Id);
+			model.setViewName("redirect:/tableau-dashboards");
+			boolean flag =  service.updateTableauDashboard(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Dashboard Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Dashboard is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Dashboard is failed. Try again.");
+			logger.error("updateTableauDashboard : " + e.getMessage());
 		}
 		return model;
 	}

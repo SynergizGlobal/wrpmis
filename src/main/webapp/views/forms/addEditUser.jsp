@@ -272,7 +272,7 @@
                                 </div>
                                 <div class="col s12 m4 l4 input-field offset-m4">                                
                                     <input id="pmis_key_fk" name="pmis_key_fk" type="text" class="validate" value="${usrObj.pmis_key_fk }">
-                                    <label for="pmis_key_fk">PMIS KEY <span id="pmis_key_req" class="required"> *</span></label>
+                                    <label for="pmis_key_fk">PMIS KEY</label>
                                     <span id="pmis_key_fkError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -500,10 +500,10 @@
             $('.searchable').select2();
             $('#remarks').characterCounter();
             if('${action}' == 'edit'){
-           	 $('#pmis_key_fk').rules('remove',  'required');
+           	 //$('#pmis_key_fk').rules('remove',  'required');
            	 $('#pmis_key_req').text('');
             }else{
-           	 $('#pmis_key_fk').rules('add',  { required: true });
+           	 //$('#pmis_key_fk').rules('add',  { required: true });
            	 $('#pmis_key_req').text('*');
             }
         });
@@ -680,10 +680,10 @@
     			 		    required: false,
     			 	   	  },"extension": {
     				 		required: false
-    				 	  },"pmis_key_fk":{
+    				 	  }/* ,"pmis_key_fk":{
     				 		 required: false
     				 		 //checkExists: true
-    				 	  }
+    				 	  } */
     				 				
     			 	},
     			   messages: {
@@ -707,9 +707,9 @@
     			 			required: 'Required'
     			 	  	 },"extension": {
     			 			required: 'Required'
-    			 	  	 },"pmis_key_fk":{
+    			 	  	 }/* ,"pmis_key_fk":{
     				 		required: 'Required'
-   				 	  	 }
+   				 	  	 } */
     			 				      
     		    },
     			  errorPlacement:
@@ -744,10 +744,10 @@
     			 	    }else if (element.attr("id") == "extension" ){
     			 		     document.getElementById("extensionError").innerHTML="";
     			 			 error.appendTo('#extensionError');
-    			 	    }else if (element.attr("id") == "pmis_key_fk" ){
+    			 	    }/* else if (element.attr("id") == "pmis_key_fk" ){
 	   			 		     document.getElementById("pmis_key_fkError").innerHTML="";
 				 			 error.appendTo('#pmis_key_fkError');
-				 	    }
+				 	    } */
     			 },invalidHandler: function (form, validator) {
                      var errors = validator.numberOfInvalids();
                      if (errors) {

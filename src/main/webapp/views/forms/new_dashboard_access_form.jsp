@@ -98,7 +98,7 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="<%=request.getContextPath() %>/update-tableau-dashboard" id="dashboardForm" name="dashboardForm" method="post" class="form-horizontal" role="form" >
+                    <form action="<%=request.getContextPath() %>/update-dashboard" id="dashboardForm" name="dashboardForm" method="post" class="form-horizontal" role="form" >
                     
                         <div class="container container-no-margin">
                         	<input type="hidden" name ="dashboard_id" value="${dashboardDetails.dashboard_id }" />
@@ -230,7 +230,7 @@
                                 </div>
                                 <div class="col s6 m4 l6 mt-brdr center-align">
                                 	<div class="m-1">
-                                      <a href="<%=request.getContextPath()%>/tableau-dashboards" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                      <a href="<%=request.getContextPath()%>/dashboards" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>

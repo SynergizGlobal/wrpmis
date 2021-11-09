@@ -279,20 +279,20 @@ public class DashboardsAccessController {
 		return model;
 	}
 
-	@RequestMapping(value="/tableau-dashboards",method={RequestMethod.GET})
-	public ModelAndView tableauDashboards(HttpSession session){
+	@RequestMapping(value="/accesss-dashboards",method={RequestMethod.GET})
+	public ModelAndView accesssDashboards(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants2.NEW_DASHBOARD_ACCESS_GRID);
 		try {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("tableauDashboards : " + e.getMessage());
+			logger.error("accesssDashboards : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value="/get-tableau-dashboard",method={RequestMethod.POST})
-	public ModelAndView getTableauDashboardDetails(@ModelAttribute Dashboard obj,HttpSession session){
+	@RequestMapping(value="/get-access-dashboard",method={RequestMethod.POST})
+	public ModelAndView getAccessDashboardDetails(@ModelAttribute Dashboard obj,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.NEW_DASHBOARD_ACCESS_FORM);
@@ -313,13 +313,13 @@ public class DashboardsAccessController {
 			model.addObject("dashboardDetails", dashboardDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getTableauDashboardDetails : " + e.getMessage());
+			logger.error("getAccessDashboardDetails : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value = "/update-tableau-dashboard", method = {RequestMethod.POST})
-	public ModelAndView updateTableauDashboard(@ModelAttribute Dashboard obj,RedirectAttributes attributes,HttpSession session){
+	@RequestMapping(value = "/update-access-dashboard", method = {RequestMethod.POST})
+	public ModelAndView updateAccessDashboard(@ModelAttribute Dashboard obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
@@ -334,7 +334,7 @@ public class DashboardsAccessController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Updating Dashboard is failed. Try again.");
-			logger.error("updateTableauDashboard : " + e.getMessage());
+			logger.error("updateAccessDashboard : " + e.getMessage());
 		}
 		return model;
 	}

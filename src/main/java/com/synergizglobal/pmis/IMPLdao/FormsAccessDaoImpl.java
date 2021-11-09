@@ -201,13 +201,13 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			
 			dObj = (Form)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Form>(Form.class));
 			
-			/*if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(dObj.getForm_id())) {
+			if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(dObj.getForm_id())) {
 				String qryUserPermission = "select access_type,access_value from form_access where form_id_fk = ? " ;
 				
 				List<Form> objsList = jdbcTemplate.query(qryUserPermission, new Object[] {dObj.getForm_id()}, new BeanPropertyRowMapper<Form>(Form.class));	
 				
 				dObj.setAccessPermissions(objsList);
-			}*/
+			}
 			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -321,6 +321,124 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE form set "
+					+ "form_name= :form_name,"
+					+ "module_name_fk= :module_name_fk,parent_form_id_sr_fk=:parent_form_id_sr_fk, web_form_url= :web_form_url, mobile_form_url= :mobile_form_url, priority= :priority, "
+					+ "soft_delete_status_fk= :soft_delete_status_fk,display_in_mobile=:display_in_mobile "
+					+ "where form_id= :form_id";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+				
+				String deleteQry ="delete from form_access where form_id_fk = :form_id ";
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
+				
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getAccess_types()) && obj.getAccess_types().length > 0 ) {
+					obj.setAccess_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_types()));
+					if(arraySize < obj.getAccess_types().length) {
+						arraySize = obj.getAccess_types().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getAccess_values()) && obj.getAccess_values().length > 0 ) {
+					obj.setAccess_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_values()));
+					if(arraySize < obj.getAccess_values().length) {
+						arraySize = obj.getAccess_values().length;
+					}
+				}
+				
+				
+				if(arraySize > 0) {				
+					
+					String[] types = obj.getAccess_types();
+					String[] values = obj.getAccess_values();
+					
+					String qryUserPermissions = "INSERT INTO form_access (form_id_fk,access_type,access_value) VALUES  (?,?,?)";		
+					
+					int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
+				            new BatchPreparedStatementSetter() {
+				                 
+				                @Override
+				                public void setValues(PreparedStatement ps, int i) throws SQLException {
+				                    ps.setString(1, obj.getForm_id());
+				                    ps.setString(2, types.length > 0?types[i]:null);
+				                    ps.setString(3, values.length > 0?values[i]:null);			                    
+				                }
+				                @Override  
+				                public int getBatchSize() {				                	
+				                	int arraySize = 0;
+				    				if(!StringUtils.isEmpty(obj.getAccess_types()) && obj.getAccess_types().length > 0 ) {
+				    					obj.setAccess_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_types()));
+				    					if(arraySize < obj.getAccess_types().length) {
+				    						arraySize = obj.getAccess_types().length;
+				    					}
+				    				}
+				    				if(!StringUtils.isEmpty(obj.getAccess_values()) && obj.getAccess_values().length > 0 ) {
+				    					obj.setAccess_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_values()));
+				    					if(arraySize < obj.getAccess_values().length) {
+				    						arraySize = obj.getAccess_values().length;
+				    					}
+				    				}
+				    				return arraySize; 
+				                }
+				            });
+					
+				}
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return flag;
+	}
+
+	@Override
+	public List<Form> getUserRolesInFormAccess(Form obj) throws Exception {
+		List<Form> objsList = null;
+		try {
+			String qry = "select user_role_name as access_value_id from user_role";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Form> getUserTypesInFormAccess(Form obj) throws Exception {
+		List<Form> objsList = null;
+		try {
+			String qry = "select user_type as access_value_id from user_type";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Form> getUsersInFormAccess(Form obj) throws Exception {
+		List<Form> objsList = null;
+		try {
+			String qry = "select user_id as access_value_id,user_name as access_value_name from user";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}	
+	
+	
+	@Override
+	public boolean updateAccessForm(Form obj) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String updateQry = "UPDATE form set "
 					+ "priority= :priority,soft_delete_status_fk= :soft_delete_status_fk,display_in_mobile=:display_in_mobile "
 					+ "where form_id = :form_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -390,44 +508,5 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		}
 		return flag;
 	}
-
-	@Override
-	public List<Form> getUserRolesInFormAccess(Form obj) throws Exception {
-		List<Form> objsList = null;
-		try {
-			String qry = "select user_role_name as access_value_id from user_role";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Form> getUserTypesInFormAccess(Form obj) throws Exception {
-		List<Form> objsList = null;
-		try {
-			String qry = "select user_type as access_value_id from user_type";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Form> getUsersInFormAccess(Form obj) throws Exception {
-		List<Form> objsList = null;
-		try {
-			String qry = "select user_id as access_value_id,user_name as access_value_name from user";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}	
 
 }

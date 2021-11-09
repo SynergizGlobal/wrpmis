@@ -8,10 +8,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports - Admin - PMIS</title>
+    <title>Forms</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
@@ -29,14 +30,7 @@
         td:last-child {
             text-align: center !important;
         }
-		.fw-200{
-        	width:200px !important;
-        	max-width:200px;
-        }
-		.fw-150{
-        	width:150px !important;
-        	max-width:150px;
-        }
+
         td:last-child {
             white-space: inherit;
         }
@@ -48,20 +42,21 @@
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
-       
+  		 .fw-111{
+	        	width:11vw; 
+	        	min-width:11vw;
+	     }
 	     div.dataTables_wrapper div.dataTables_info {
 		    white-space: break-spaces;
 		} 
+		
+		.w-th{width: 5em !important;min-width: 5vw !important;}
           @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
 				padding:3px !important;
 				max-width: 45px;
-			}
-			td:not(:last-of-type),
-			th:not(:last-of-type){
-				width:30vw !important;
 			}
 			.mob-btn{
 				padding:0 12px;
@@ -117,7 +112,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Reports</h6>
+                            <h6>Forms</h6>
                         </div>
                     </span>
                     <div class="">
@@ -127,28 +122,26 @@
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-                        <div class="row plr-1">
-                            <div class="col s12 m4 offset-m4">
-                                <div class="m-1 center-align">
-                                    <a href="<%=request.getContextPath()%>/add-report-access" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Report</strong></a>
-                                </div>
+                        <%-- <div class="row plr-1">
+                            <div class="col s12 m4 offset-m4 center-align" style="margin-bottom:20px;">
+                                 <a href="<%=request.getContextPath()%>/add-form-access" class="btn waves-effect waves-light bg-s t-c">
+                                     <strong><i class="fa fa-plus-circle"></i> Add Form</strong></a>
                             </div>
-                        </div>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col s6 m3 l2 offset-l3 input-field offset-m2">
+                        </div> --%>
+                        <div class="row no-mar">
+                            <div class="col s6 m3 l2 input-field offset-m2 offset-l3">
                                 <p class="searchable_label">Select Module</p>
-                                <select id="module_name_fk" name="module_name_fk" class="searchable" onchange="addInQueModule(this.value);getReportsList();">
+                                <select id="module_name_fk" name="module_name_fk" class="searchable" onchange="addInQueModule(this.value);getFormsList();">
                                     <option value="">Select</option>
                                 </select>
                             </div>
                             <div class="col s6 m3 l2 input-field">
                                 <p class="searchable_label">Select Status</p>
-                               <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk" onchange="addInQueStatus(this.value);getReportsList();">
+                               <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk" onchange="addInQueStatus(this.value);getFormsList();">
                                     <option value="" >Select</option>
                                 </select>
                             </div>
-                            <div class="col s12 m3 l2 center-align">
+                            <div class="col s12 m3 l2 mob-center">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                     style="margin-top: 10px;width: 100%;" onclick="clearFilters()">Clear
                                     Filters</button>
@@ -157,24 +150,24 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-									 <table id="data-table-forms" class="mdl-data-table">
-	                                    <thead>
-	                                        <tr>
-	                                            <th class="no-sort">Module</th>
-	                                            <th>Report</th>
-	                                            <th>Folder</th>
-	                                            <th>Web URL</th>
-	                                            <th>Mobile URL</th>
-	                                            <th>Priority</th>
-	                                            <th>Status</th>
-	                                            <th class="no-sort">Action</th>
-	                                        </tr>
-	                                    </thead>
-	                                    <tbody>
-	                                    </tbody>
-	
-	                                </table>
-								</div>
+                                <table id="data-table-forms" class="mdl-data-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="no-sort">Module</th>
+                                            <th>Form</th>
+                                            <th>Folder</th>
+                                            <th>Status</th>
+                                            <th>User Role Access</th>
+                                            <th>User Type Access</th>
+                                            <th>User Access</th>
+                                            <th class="no-sort">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,7 +206,7 @@
 
     <!-- footer  -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
-    <form name="getReport" id="getReport" method="post">
+    <form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="form_id" id="form_id" />
     </form>
 
@@ -231,7 +224,7 @@
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('.close-message').delay(3000).fadeOut('slow');
-            var filters = window.localStorage.getItem("reportFilters");
+            var filters = window.localStorage.getItem("formFilters");
 	          
             if($.trim(filters) != '' && $.trim(filters) != null){
         	  var temp = filters.split('^');  
@@ -246,8 +239,18 @@
  	        	  }
  	          }
             }
-         	getReportsList(); 
+         	getFormsList(); 
         });
+
+        function clearFilters() {
+        	 $('#module_name_fk').val("");
+             $('#soft_delete_status_fk').val("");
+             $('.searchable').select2();
+             getFormsList();
+
+         	window.localStorage.setItem("formFilters",'');
+         	window.location.href= "<%=request.getContextPath()%>/forms";
+        }
         function addInQueModule(module_name_fk){
         	Object.keys(filtersMap).forEach(function (key) {
        			if(key.match('module_name_fk')) delete filtersMap[key];
@@ -265,16 +268,7 @@
        	    	filtersMap["soft_delete_status_fk"] = soft_delete_status_fk;
         	}
         }
-        function clearFilters() {
-        	 $('#module_name_fk').val("");
-             $('#soft_delete_status_fk').val("");
-             $('.searchable').select2();
-             getReportsList(); 
-             window.localStorage.setItem("reportFilters",'');
-          	 window.location.href= "<%=request.getContextPath()%>/reports";
-        }
-        
-        function getReportsList(){
+        function getFormsList(){
         	$(".page-loader-2").show();
         	var module_name_fk = $("#module_name_fk").val();
         	var soft_delete_status_fk = $("#soft_delete_status_fk").val();
@@ -284,101 +278,108 @@
         	Object.keys(filtersMap).forEach(function (key) {
         		//alert(filtersMap[key]);
         		filters = filters + key +"="+filtersMap[key] + "^";
-        		window.localStorage.setItem("reportFilters", filters);
+        		window.localStorage.setItem("formFilters", filters);
     		});
 
-         	table = $('#data-table-forms').DataTable();
-         		 
-       		table.destroy();
-       		
-       		$.fn.dataTable.moment('DD-MMM-YYYY');
-       		table = $('#data-table-forms').DataTable({
-           		"bStateSave": true,
-           		fixedHeader: true,
-                   "fnStateSave": function (oSettings, oData) {
-                       localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                   },
-                   "fnStateLoad": function (oSettings) {
-                       return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                   },
-                   columnDefs: [
-                       {
-                           targets: [7],
-                           className: 'last-column'
-                       },
-                       {targets: [2,3,4,5,6], className: 'hideCOl'},
-                       {targets: [0,1,2,3,4,5,6,7], className: 'fw-111'},
-                       {targets: [0], className: 'fw-200'},
-                       {targets: [1], className: 'fw-150'},
-                       { orderable: false, 'aTargets': ['no-sort'] }
-                   ],
-                   // "ScrollX": true,
-                   "sScrollX": "100%",
-                   "ordering":false,
-                    "sScrollXInner": "100%",
-                    "bScrollCollapse": true,
-                   initComplete: function () {
-                       $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                       var input = $('.dataTables_filter input')
-	   					.unbind()
-						.bind('keyup',function(e){
-						    if (e.which == 13){
-						    	self.search(input.val()).draw();
-						    }
-						}), self = this.api(), $searchButton = $(
-	   					'<i class="fa fa-search" title="Go" >')
-	   					.click(function() {
-	   						self.search(input.val()).draw();
-	   					}), $clearButton = $(
-	   							'<i class="fa fa-close" title="Reset">')
-	   					.click(function() {
-	   						input.val('');
-	   						$searchButton.click();
-	   					})
-	   					$('.dataTables_filter').append( '<div class="right-btns"></div>');
-	   					$('.dataTables_filter div').append( $searchButton, $clearButton);
-                   }
-               }).rows().remove().draw();
-       		
-       		table.state.clear();	
-       	 	var myParams = {module_name_fk : module_name_fk,soft_delete_status_fk : soft_delete_status_fk};
-       	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-reports-list",type:"POST",data:myParams,success : function(data){    
-       	 		
-       			if(data != null && data != '' && data.length > 0){    					
-                		$.each(data,function(key,val){
-                			var form_id = "'"+val.form_id+"'";
-                           var actions = '<a href="javascript:void(0);"  onclick="getAccessReport('+form_id+');" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-pencil"></i></a>';
-                           			  
-                         	
-                           if($.trim(val.web_form_url) != ''){
-                           	actions = actions +'<a href="<%=request.getContextPath()%>/'+val.web_form_url+'" target="_blank" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-share"></i></a>';
-                           }			  
-                           var rowArray = [];    	                 
-                           
-                           rowArray.push(val.module_name_fk);
-                           rowArray.push(val.form_name);
-                          	rowArray.push(val.folder_name);
-                          	rowArray.push(val.web_form_url);
-                          	rowArray.push(val.mobile_form_url);
-                          	rowArray.push(val.priority);
-                          	rowArray.push(val.soft_delete_status_fk);
-                          
-                          	rowArray.push($.trim(actions)); 
-                          	
-                           table.row.add(rowArray).draw( true );
-                           		                       
-       				});
-                		
-                		$(".page-loader-2").hide();
-       			}else{
-       				$(".page-loader-2").hide();
-       			}
-       			
-       		},error: function (jqXHR, exception) {
-       			$(".page-loader-2").hide();
-                	getErrorMessage(jqXHR, exception);
-            }});
-         	
+        	table = $('#data-table-forms').DataTable();
+  	   		 
+    		table.destroy();
+    		
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#data-table-forms').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [7],
+                        className: 'last-column'
+                    },
+                    {targets: [2,3,4,5,6], className: 'hideCOl'},
+                    {targets: [0,1,2,3,4,5,6,7], className: 'fw-111'},
+                    {targets: [0,1,7], className: 'fw-111'},
+                    {targets: [5,6], className: 'hideCOl, w-th'},
+                    { orderable: false, 'aTargets': ['no-sort'] }
+                ],
+                // "ScrollX": true,
+                "sScrollX": "100%",
+                "ordering":false,
+                 "sScrollXInner": "100%",
+                 "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input')
+					.unbind()
+					.bind('keyup',function(e){
+					    if (e.which == 13){
+					    	self.search(input.val()).draw();
+					    }
+					}), self = this.api(), $searchButton = $(
+					'<i class="fa fa-search" title="Go" >')
+					.click(function() {
+						self.search(input.val()).draw();
+					}), $clearButton = $(
+							'<i class="fa fa-close" title="Reset">')
+					.click(function() {
+						input.val('');
+						$searchButton.click();
+					})
+					$('.dataTables_filter').append( '<div class="right-btns"></div>');
+					$('.dataTables_filter div').append( $searchButton, $clearButton);
+                }
+            }).rows().remove().draw();
+    		
+    		table.state.clear();	
+    	 	var myParams = {module_name_fk : module_name_fk,soft_delete_status_fk : soft_delete_status_fk};
+    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-forms-list",type:"POST",data:myParams,success : function(data){    
+    	 		
+    			if(data != null && data != '' && data.length > 0){    					
+             		$.each(data,function(key,val){
+             			var form_id = "'"+val.form_id+"'";
+                        var actions = '<a href="javascript:void(0);"  onclick="getAccessForm('+form_id+');" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-pencil"></i></a>';
+                        			  
+                      	
+                        if($.trim(val.web_form_url) != ''){
+                        	actions = actions +'<a href="<%=request.getContextPath()%>/'+val.web_form_url+'" target="_blank" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-share"></i></a>';
+                        }			  
+                        
+                        if($.trim(val.user_role_access) == ''){ user_role_access =  '-'; }else{ user_role_access =  $.trim(val.user_role_access); }
+                        if($.trim(val.user_type_access) == ''){ user_type_access =  '-'; }else{ user_type_access =  $.trim(val.user_type_access); }
+                        if($.trim(val.user_access) == ''){ user_access =  '-'; }else{ user_access =  $.trim(val.user_access); }
+                        
+                        var rowArray = [];    	                 
+                        
+                        rowArray.push(val.module_name_fk);
+                        rowArray.push(val.form_name); 
+                       	rowArray.push(val.folder_name);
+                       	/* rowArray.push(val.web_form_url);
+                       	rowArray.push(val.mobile_form_url);
+                       	rowArray.push(val.priority); */
+                       	rowArray.push(val.soft_delete_status_fk);
+                       	rowArray.push(user_role_access);
+                       	rowArray.push(user_type_access);
+                       	rowArray.push(user_access);
+                       	
+                       	rowArray.push($.trim(actions)); 
+                       	
+                        table.row.add(rowArray).draw( true );
+                        		                       
+    				});
+             		
+             		$(".page-loader-2").hide();
+    			}else{
+    				$(".page-loader-2").hide();
+    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+         }});
        }
         
         function getModulesFilterList(module) {
@@ -389,17 +390,17 @@
             	$("#module_name_fk option:not(:first)").remove();
             	var myParams = { module_name_fk: module_name_fk,soft_delete_status_fk: soft_delete_status_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getModulesFilterListInReport",
+                    url: "<%=request.getContextPath()%>/ajax/getModulesFilterListInForm",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	 var selectedFlag = (module == val.module_name_fk)?'selected':'';
-  	                           $("#module_name_fk").append('<option value="' + val.module_name_fk + '"'+selectedFlag+'>' + $.trim(val.module_name_fk) +'</option>');
-                          });
+                            	   var selectedFlag = (module == val.module_name_fk)?'selected':'';
+    	                           $("#module_name_fk").append('<option value="' + val.module_name_fk + '"'+selectedFlag+'>' + $.trim(val.module_name_fk) +'</option>');
+                            });
                         }
                         $('.searchable').select2();
-                        $(".page-loader").hide(); 
+                        $(".page-loader").hide();
                     },error: function (jqXHR, exception) {
      	   			      $(".page-loader").hide();
     	   	          	  getErrorMessage(jqXHR, exception);
@@ -418,14 +419,14 @@
             	$("#soft_delete_status_fk option:not(:first)").remove();
             	var myParams = { module_name_fk: module_name_fk,soft_delete_status_fk: soft_delete_status_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInReport",
+                    url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInForm",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	 var selectedFlag = (status == val.soft_delete_status_fk)?'selected':'';
-  	                           $("#soft_delete_status_fk").append('<option value="' + val.soft_delete_status_fk + '"'+selectedFlag+'>' + $.trim(val.soft_delete_status_fk) +'</option>');
-                          });
+                            	   var selectedFlag = (status == val.soft_delete_status_fk)?'selected':'';
+    	                           $("#soft_delete_status_fk").append('<option value="' + val.soft_delete_status_fk + '"'+selectedFlag+'>' + $.trim(val.soft_delete_status_fk) +'</option>');
+                            });
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();
@@ -460,10 +461,10 @@
         	    console.log(msg);
          }
         
-        function getAccessReport(form_id){
+        function getAccessForm(form_id){
         	$("#form_id").val(form_id);
-        	$('#getReport').attr('action', '<%=request.getContextPath()%>/get-report');
-        	$('#getReport').submit();
+        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-access-form');
+        	$('#getForm').submit();
         }
     </script>
 </body>

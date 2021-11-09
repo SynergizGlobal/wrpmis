@@ -199,14 +199,14 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			
 			dObj = (Report)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Report>(Report.class));
 			
-			/*if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(dObj.getForm_id())) {
+			if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(dObj.getForm_id())) {
 				List<Report> objsList = null;
 				String qryUserPermission = "select access_type,access_value from report_access where form_id_fk = ? " ;
 				
 				objsList = jdbcTemplate.query(qryUserPermission, new Object[] {dObj.getForm_id()}, new BeanPropertyRowMapper<Report>(Report.class));	
 				
 				dObj.setAccessPermissions(objsList);
-			}*/
+			}
 			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -431,5 +431,81 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 		}
 		return objsList;
 	}	
+	
+	@Override
+	public boolean updateAccessReport(Report obj) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String updateQry = "UPDATE report_form set "
+					+ "priority= :priority,soft_delete_status_fk= :soft_delete_status_fk,display_in_mobile=:display_in_mobile "
+					+ "where form_id = :form_id";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+				
+				String deleteQry ="delete from report_access where form_id_fk = :form_id ";
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
+				
+				if(!StringUtils.isEmpty(obj.getUser_role_access())) {
+					String[] user_role_access = obj.getUser_role_access().split(",");
+					int user_role_access_count = user_role_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_role_access_count];
+					String messageQry = "INSERT INTO report_access (form_id_fk,access_type,access_value)"
+							+ "VALUES" + "(:form_id,:access_type,:access_value)";
+					
+					for (int i = 0; i < user_role_access_count; i++) {
+						Report msgObj = new Report();
+						msgObj.setForm_id(obj.getForm_id());
+						msgObj.setAccess_type("user_role");
+						msgObj.setAccess_value(user_role_access[i]);
+				        source[i] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getUser_type_access())) {
+					String[] user_type_access = obj.getUser_type_access().split(",");
+					int user_type_access_count = user_type_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_type_access_count];
+					String messageQry = "INSERT INTO report_access (form_id_fk,access_type,access_value)"
+							+ "VALUES" + "(:form_id,:access_type,:access_value)";
+					
+					for (int i = 0; i < user_type_access_count; i++) {
+						Report msgObj = new Report();
+						msgObj.setForm_id(obj.getForm_id());
+						msgObj.setAccess_type("user_type");
+						msgObj.setAccess_value(user_type_access[i]);
+				        source[i] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getUser_access())) {
+					String[] user_access = obj.getUser_access().split(",");
+					int user_access_count = user_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_access_count];
+					String messageQry = "INSERT INTO report_access (form_id_fk,access_type,access_value)"
+							+ "VALUES" + "(:form_id,:access_type,:access_value)";
+					
+					for (int i = 0; i < user_access_count; i++) {
+						Report msgObj = new Report();
+						msgObj.setForm_id(obj.getForm_id());
+						msgObj.setAccess_type("user");
+						msgObj.setAccess_value(user_access[i]);
+				        source[i] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+				
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return flag;
+	}
 
 }

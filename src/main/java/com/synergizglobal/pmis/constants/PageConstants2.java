@@ -53,6 +53,10 @@ public class PageConstants2 {
 	public static final String NEW_DASHBOARD_ACCESS_GRID = "forms/new_dashboard_access_grid";
 	public static final String NEW_DASHBOARD_ACCESS_FORM = "forms/new_dashboard_access_form";
 	
+	public static final String formsAccessGridNew = "forms/formsAccessGridNew";
+	public static final String addEditFormAccessFormNew = "forms/addEditFormAccessFormNew";
 	
+	public static final String reportsAccessGridNew = "forms/reportsAccessGridNew";
+	public static final String addEditReportAccessFormNew = "forms/addEditReportAccessFormNew";
 	
 }

@@ -30,4 +30,6 @@ public interface ReportsAccessDao {
 
 	public List<Report> getStatusListForReportAccess(Report obj) throws Exception;
 
+	public boolean updateAccessReport(Report obj) throws Exception;
+
 }

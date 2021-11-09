@@ -30,4 +30,6 @@ public interface FormsAccessService {
 
 	public List<Form> getStatusListForFormAccess(Form obj) throws Exception;
 
+	public boolean updateAccessForm(Form obj) throws Exception;
+
 }

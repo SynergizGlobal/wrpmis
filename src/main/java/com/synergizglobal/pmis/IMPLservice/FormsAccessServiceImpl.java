@@ -75,4 +75,9 @@ public class FormsAccessServiceImpl implements FormsAccessService{
 		return dao.getUsersInFormAccess(obj);
 	}
 
+	@Override
+	public boolean updateAccessForm(Form obj) throws Exception {
+		return dao.updateAccessForm(obj);
+	}
+
 }

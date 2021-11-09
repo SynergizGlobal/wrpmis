@@ -20,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ReportsAccessService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.Form;
 import com.synergizglobal.pmis.model.Report;
 
 @Controller
@@ -228,6 +230,73 @@ public class ReportsAccessController {
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Updating Report is failed. Try again.");
 			logger.error("updateReport : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/access-reports",method={RequestMethod.GET})
+	public ModelAndView accessReports(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants2.reportsAccessGridNew);
+		try {
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("accessReports : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/get-access-report",method={RequestMethod.POST})
+	public ModelAndView getAccessReportDetails(@ModelAttribute Report obj,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.addEditReportAccessFormNew);
+			
+			List<Report> modulesList = service.getModulesListForReportAccess(obj);
+			model.addObject("modulesList", modulesList);
+			
+			List<Report> foldersList = service.getFolderssListForReportAccess(obj);
+			model.addObject("foldersList", foldersList);
+			
+			List<Report> statusList = service.getStatusListForReportAccess(obj);
+			model.addObject("statusList", statusList);
+			
+			List<Report> user_roles = service.getUserRolesInReportAccess(obj);
+			model.addObject("user_roles", user_roles);
+			
+			List<Report> user_types = service.getUserTypesInReportAccess(obj);
+			model.addObject("user_types", user_types);
+			
+			List<Report> users = service.getUsersInReportAccess(obj);
+			model.addObject("users", users);
+			
+			Report reportDetails = service.getReport(obj);
+			model.addObject("reportDetails", reportDetails);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAccessReportDetails : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-access-report", method = {RequestMethod.POST})
+	public ModelAndView updateAccessReport(@ModelAttribute Report obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			
+			model.setViewName("redirect:/access-reports");
+			boolean flag =  service.updateAccessReport(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Report Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Report is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Report is failed. Try again.");
+			logger.error("updateAccessReport : " + e.getMessage());
 		}
 		return model;
 	}

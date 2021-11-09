@@ -74,4 +74,9 @@ public class ReportsAccessServiceImpl implements ReportsAccessService{
 		return dao.getUsersInReportAccess(obj);
 	}
 
+	@Override
+	public boolean updateAccessReport(Report obj) throws Exception {
+		return dao.updateAccessReport(obj);
+	}
+
 }

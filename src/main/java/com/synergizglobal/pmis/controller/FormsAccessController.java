@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.FormsAccessService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Form;
 
 @Controller
@@ -228,6 +229,75 @@ public class FormsAccessController {
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Updating Form is failed. Try again.");
 			logger.error("updateForm : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
+
+	@RequestMapping(value="/access-forms",method={RequestMethod.GET})
+	public ModelAndView accessForms(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants2.formsAccessGridNew);
+		try {
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("accessForms : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/get-access-form",method={RequestMethod.POST})
+	public ModelAndView getAccessFormDetails(@ModelAttribute Form obj,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.addEditFormAccessFormNew);
+			
+			List<Form> modulesList = service.getModulesListForFormAccess(obj);
+			model.addObject("modulesList", modulesList);
+			
+			List<Form> foldersList = service.getFolderssListForFormAccess(obj);
+			model.addObject("foldersList", foldersList);
+			
+			List<Form> statusList = service.getStatusListForFormAccess(obj);
+			model.addObject("statusList", statusList);
+			
+			List<Form> user_roles = service.getUserRolesInFormAccess(obj);
+			model.addObject("user_roles", user_roles);
+			
+			List<Form> user_types = service.getUserTypesInFormAccess(obj);
+			model.addObject("user_types", user_types);
+			
+			List<Form> users = service.getUsersInFormAccess(obj);
+			model.addObject("users", users);
+		
+			Form formDetails = service.getForm(obj);
+			model.addObject("formDetails", formDetails);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAccessFormDetails : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-access-form", method = {RequestMethod.POST})
+	public ModelAndView updateAccessForm(@ModelAttribute Form obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			
+			model.setViewName("redirect:/access-forms");
+			boolean flag =  service.updateAccessForm(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Form Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Form is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Form is failed. Try again.");
+			logger.error("updateAccessForm : " + e.getMessage());
 		}
 		return model;
 	}

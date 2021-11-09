@@ -1772,8 +1772,7 @@
                                                  	<label> 
                                                   	   <input type="hidden" class="hidden_check hidden_amount" id="revision_amounts_statuss${index.count }" name="revision_amounts_statuss" value="${revObj.revision_amounts_status}" />
                                                 	   <input type="checkbox"  id="revision_amounts_status${index.count }" 
-                                                          onchange="revisionChecks('amounts',${index.count })"<c:if test="${revObj.revision_amounts_status == 'Yes'}">checked
-                                                          </c:if> class="revision_amount_status" /> 
+                                                          onchange="revisionChecks('amounts',${index.count })" <c:if test="${revObj.revision_amounts_status eq 'Yes'}">checked</c:if> class="revision_amount_status" /> 
                                                 			<span></span> 
                                                 	</label></p>
                                                 </td>
@@ -1787,7 +1786,7 @@
                                                  	<label> 
                                                  		<input type="hidden" class="hidden_check hidden_doc" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
                                                 		<input type="checkbox" id="revision_status${index.count }"  onchange="revisionChecks('docs','${index.count }')" class="revision_doc_status" 
-                                                			<c:if test="${revObj.revision_status == 'Yes'}">checked</c:if>/> 
+                                                			<c:if test="${revObj.revision_status eq 'Yes'}">checked</c:if>/> 
                                                 			<span></span> 
                                                 	</label></p>
                                                 </td> 
@@ -1845,24 +1844,8 @@
 														}else{
 															$('#units${index.count }Error').text('');
 														}
-											    	});	                                             	                                                
-	                                             	       
-	                                                 $(document).ready(function () {                                               
-                                                	 if( $('#revision_amounts_status'+${index.count}).prop('checked',true) ){    
-                                                		if(!$('#revision_amounts_status'+${index.count}).attr('disabled')){
-                                                	 		revisionChecks('amounts',${index.count});	                                                			
-                                                		} else {
-                                                			$('#revision_amounts_status'+${index.count}).prop('checked',false)
-                                                		}
-                                                	}
-                                                	if(	$('#revision_status'+${index.count}).prop('checked',true) ){    
-                                                		if (!$('#revision_status'+${index.count}).attr('disabled')){
-                                                	 		revisionChecks('docs',${index.count})	                                                			
-                                                		} else {
-                                                			$('#revision_status'+${index.count}).prop('checked',false)
-                                                		}
-                                                	} 	                                                	
-	                                                }); 
+											    	});	   
+	                                                
                                                 </script>
                                           </c:forEach>
                                            </c:when>

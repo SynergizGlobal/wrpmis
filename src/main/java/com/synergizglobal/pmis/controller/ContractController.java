@@ -850,7 +850,7 @@ public class ContractController {
 	            XSSFRow headingRow = contractsSheet.createRow(0);
 	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Contract Type^Scope of Contract"
 	            		+ "^Estimated Cost^Awarded Cost^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
-	            		+ "Actual Completion Date^Final Taking over by Client^Date of issue of Completion Certificate^Final Release^Date of Payment of Final bill^Date of release of Final Retention / BG^Completion  Cost^"
+	            		+ "Actual Completion Date^Final Taking over by Client^Date of issue of Completion Certificate^Date of Payment of Final bill^Date of release of Final Retention / BG^Completion  Cost^"
 	            		+ "End date of Defect Liability Period^Date of release of PBG^Date of Contract Closure^Contract Status^Status of Work^Bank Guarantee Requried^Insurance Requried^Tally Head";
 	            
 	            String[] headerStringArr = headerString.split("\\^");
@@ -965,10 +965,6 @@ public class ContractController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getCompletion_certificate_release());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue("");
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

@@ -124,18 +124,22 @@
                             <br>
                             <div class="row">
                                 <div class="col s12 m4 l4 input-field">
-                                    <p class="searchable_label">Folder :</p>
-                                    <p>${dashboardDetails.folder }</p>  
+                                	<p><span class="searchable_label">Folder :</span> ${dashboardDetails.folder }</p>
+                                    <%-- <p class="searchable_label">Folder :</p>
+                                    <p>${dashboardDetails.folder }</p>  --%> 
                                 </div> 
                                 <div class="col s12 m4 l4 input-field"> 
-                                    <p class="searchable_label"> Work :</p>
-                                    <p>${dashboardDetails.work_id_fk}<c:if test="${not empty dashboardDetails.work_short_name}"> - </c:if> ${dashboardDetails.work_short_name }</p>
+                                	<p><span class="searchable_label">Work :</span> ${dashboardDetails.work_id_fk}<c:if test="${not empty dashboardDetails.work_short_name}"> - </c:if> ${dashboardDetails.work_short_name }</p>
+                                    <%-- <p class="searchable_label"> Work :</p>
+                                    <p>${dashboardDetails.work_id_fk}<c:if test="${not empty dashboardDetails.work_short_name}"> - </c:if> ${dashboardDetails.work_short_name }</p> --%>
                                 </div>
                                 <div class="col s12 m4 l4 input-field"> 
-                                    <p class="searchable_label"> Contract :</p>
-                                    <p>${dashboardDetails.contract_id_fk}<c:if test="${not empty dashboardDetails.contract_short_name}"> - </c:if> ${dashboardDetails.contract_short_name }</p>
+                                <p><span class="searchable_label">Folder :</span> ${dashboardDetails.contract_id_fk}<c:if test="${not empty dashboardDetails.contract_short_name}"> - </c:if> ${dashboardDetails.contract_short_name }</p>
+                                    <%-- <p class="searchable_label"> Contract :</p>
+                                    <p>${dashboardDetails.contract_id_fk}<c:if test="${not empty dashboardDetails.contract_short_name}"> - </c:if> ${dashboardDetails.contract_short_name }</p> --%>
                                 </div>
                             </div>
+                            <br>
                             <div class="row">
                                 
                                 <div class="col s12 m4 input-field">

@@ -32,7 +32,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Land Acquisition Sub Category</h6>
+                            <h6>  Sub Category</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -49,7 +49,7 @@
                         <div class="row no-mar">
                             <div class="col m12 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Land Acquisition Sub Category</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Sub Category</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -139,15 +139,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-la-sub-category" id="addLaSubCategoryForm" name="addLaSubCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Land Acquisition Sub Category <span
-                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Sub Category <span
+                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row no-mar">
                             <div class="input-field col s12 m6">
                                 <!-- <input id="la_category_fk" name="la_category_fk" type="text" class="validate"> -->
-                                <p class="searchable_label">Land Acquisition Category</p>
+                                <p class="searchable_label"> Category</p>
                                 <select name="la_category_fk" id="la_category_fk" class="searchable validate-dropdown">
                                     <option value="">Select </option>
                                      <c:forEach var="obj" items="${LACategorysList }">
@@ -158,7 +158,7 @@
                             </div>
                             <div class="input-field col s12 m6">
                                 <input id="la_sub_category" name="la_sub_category" type="text" class="validate">
-                                <label for="la_sub_category">Land Acquisition Sub Category </label>
+                                <label for="la_sub_category"> Sub Category </label>
                                 <span id="la_sub_categoryError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -188,15 +188,15 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-la-sub-category" id=updateLaSubCategoryForm name="updateLaSubCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Land Acquisition Status <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Status <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                             <div class="input-field col s12 m6">
                                 <input id="ids" name="id" type="hidden" class="validate"> 
-                                <p class="searchable_label">Land Acquisition Category</p>
+                                <p class="searchable_label"> Category</p>
                                 <input id="la_category_fk_old" type="hidden" name="la_category_fk_old"  >
                                 <select name="la_category_fk_new" id="la_category_fk_new" class="searchable validate-dropdown">
                                     <option value="">Select </option>
@@ -209,7 +209,7 @@
                             <div class="input-field col s12 m6">
                                 <input id="la_sub_category_new" name="la_sub_category_new" type="text" class="validate">
                                 <input id="la_sub_category_old" type="hidden" name="la_sub_category_old"  >
-                                <label for="la_sub_category">Land Acquisition Sub Category </label>
+                                <label for="la_sub_category"> Sub Category </label>
                                 <span id="la_sub_category_newError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -240,8 +240,8 @@
     </div>
    <!--  <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

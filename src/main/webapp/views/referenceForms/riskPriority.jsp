@@ -48,7 +48,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Risk Priority</h6>
+                            <h6>  Priority</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -65,7 +65,7 @@
                         <div class="row no-mar">
                             <div class="col m12 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Risk Priority</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Priority</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -73,7 +73,7 @@
                                 <table id="risk_priority_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Risk Priority</th>
+                                            <th> Priority</th>
                                             <c:forEach var="tObj" items="${riskPriorityDetails.tablesList}" >
                                             	 <%-- <th>${tObj.tName } <br>(count)</th> --%>
                                             	 <c:forEach var="TObj" items="${tObj.tName }" >
@@ -150,15 +150,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-risk-priority" id="addRiskPriorityForm" name="addRiskPriorityForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Risk Priority <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Priority <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="risk_priority_text" name="risk_priority" type="text" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="risk_priority_text">Risk Priority</label>
+                                <label for="risk_priority_text"> Priority</label>
                             	 <span id="risk_priorityError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -190,8 +190,8 @@
   <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-risk-priority" id=updateRiskPriorityForm name="id=updateRiskPriorityForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Risk Priority <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Priority <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -199,7 +199,7 @@
                             <div class="input-field col s12 m12">
                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">Risk Priority</label>
+                                <label for="value_new"> Priority</label>
                                  <span id="value_newError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -230,8 +230,8 @@
     </div>
    <!--  <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                  <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

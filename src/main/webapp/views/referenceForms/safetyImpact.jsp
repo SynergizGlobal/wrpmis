@@ -31,7 +31,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Safety Impact</h6>
+                            <h6>  Impact</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -49,7 +49,7 @@
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c "
                                     href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Safety Impact</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Impact</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -57,7 +57,7 @@
                                 <table id="safety_impact_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Safety Impact</th>
+                                            <th> Impact</th>
                                             <c:forEach var="tObj" items="${safetyImpactDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -129,15 +129,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-safety-impact" id="addSafetyimpactForm" name="addSafetyimpactForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header ">Add Safety Impact <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header ">Add  Impact <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="safety_impact_text" type="text" name="impact" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="safety_impact_text">Safety Impact</label>
+                                <label for="safety_impact_text"> Impact</label>
                                 <span id="impactError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -167,8 +167,8 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-safety-impact" id=updateSafetyimpactForm name="updateSafetyimpactForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Safety Impact <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Impact <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -176,7 +176,7 @@
                             <div class="input-field col s12 m12">
                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">Safety Impact</label>
+                                <label for="value_new"> Impact</label>
                                  <span id="value_newError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -207,8 +207,8 @@
     </div>
     <!-- <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header black-text">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header black-text">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p class="error">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

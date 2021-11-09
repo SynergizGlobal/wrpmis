@@ -30,7 +30,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Issue Contract Category</h6>
+                            <h6> Contract Category</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -47,7 +47,7 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Issue Contract Category</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Contract Category</a>
                             </div>
                             <div class="col m4 hide-on-small"></div>
                         </div>
@@ -61,7 +61,7 @@
                                          <%--    <c:forEach var="tObj" items="${issueContractCategory.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach> --%>
-                                            <th>Issue Category</th>
+                                            <th>Category</th>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -108,8 +108,8 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-issue-contract-category" id="addIssueContractCategoryForm" name="addIssueContractCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Issue Contract Category <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add Contract Category <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -126,7 +126,7 @@
                                 <span id="contract_category_fkError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6"> 
-                            	<p class="searchable_label">Issue Category</p>
+                            	<p class="searchable_label">Category</p>
                                 <select  id="issue_category_fk_text" name="issue_category_fk" class="searchable validate-dropdown" onchange="doValidate(null,this.value)">
                                 	<option value="">Select</option>
                                 	 <c:forEach var="obj" items="${issueCategoryDetails }">
@@ -169,8 +169,8 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-issue-contract-category" id=updateIssueContractCategoryForm name="updateIssueContractCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Issue Contract Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update Contract Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -191,7 +191,7 @@
                             </div>
                             <div class="input-field col s12 m6">
                                 <input type="hidden" id="issue_caregory_old" name="issue" />
-                            	<p class="searchable_label">Issue Category</p>
+                            	<p class="searchable_label">Category</p>
                                 <select class="searchable validate-dropdown" id="issue_category_text_update" name="issue_category_fk_new" onchange="doValidateUpdate(null,null)">
                                 	<option value="">Select</option>
                                 	  <c:forEach var="obj" items="${issueCategoryDetails }">
@@ -232,8 +232,8 @@
     </div>
    <!--  <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

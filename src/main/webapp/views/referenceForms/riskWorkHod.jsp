@@ -150,8 +150,8 @@
     <div id="addUpdateModal" class="modal">
 		<form action="<%=request.getContextPath() %>/add-risk-work-hod" id="RiskWorkHODForm" name="RiskWorkHODForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Risk Work HOD <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Work HOD <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row no-mar">
                     <div class="col m8 s12 offset-m2">
                         <div class="row no-mar">
@@ -199,7 +199,7 @@
                         <div class="row no-mar">
                         	<div class="input-field col s6 m6">
                                <p class="center-align">
-							      Risk Work Completed ?
+							       Work Completed ?
 							    </p>
                             </div>
                         	<div class="input-field col s6 m6">
@@ -233,8 +233,8 @@
     <div id="onlyUpdateModal" class="modal">
 		<form action="<%=request.getContextPath() %>/update-risk-work-hod" id="RiskWorkHODUpdateForm" name="RiskWorkHODUpdateForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Update Risk Work HOD <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Update  Work HOD <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row no-mar">
                     <div class="col m8 s12 offset-m2">
                         <div class="row">
@@ -280,7 +280,7 @@
                         <div class="row no-mar">
                         	<div class="input-field col s6 m6">
                                <p class="center-align">
-							      Risk Work Completed ?
+							       Work Completed ?
 							    </p>
                             </div>
                         	<div class="input-field col s6 m6">
@@ -313,8 +313,8 @@
 
     <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

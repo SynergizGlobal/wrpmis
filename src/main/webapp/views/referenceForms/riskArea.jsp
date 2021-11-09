@@ -67,7 +67,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Risk Area</h6>
+                            <h6>  Area</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -84,7 +84,7 @@
                         <div class="row no-mar">
                             <div class="col m12 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Risk Area</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Area</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -92,8 +92,8 @@
                                 <table id="risk_area_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Risk Area</th>
-                                            <th>Risk Short Name </th>
+                                            <th> Area</th>
+                                            <th> Short Name </th>
                                             <th>Item No</th>
                                             <c:forEach var="tObj" items="${riskAreaDetails.tablesList}" >
                                             	<%--  <th>${tObj.tName } <br>(count)</th> --%>
@@ -183,19 +183,19 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-risk-area" id="riskAreaForm" name="riskAreaForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Risk Area <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Area <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m8 s12 offset-m2">
                         <div class="row no-mar">
                             <div class="input-field col s12 m6">
                                 <input id="risk_area_text" type="text" name="area" class="validate"  onkeyup="doValidate(this.value,null,null)">
-                                <label for="risk_area_text">Risk Area</label>
+                                <label for="risk_area_text"> Area</label>
                                 <span id="areaError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
                                 <input id="risk_short_name_text" type="text" name="area_short_name" class="validate"  onkeyup="doValidate(null,this.value,null)">
-                                <label for="risk_short_name_text">Risk Short Name</label>
+                                <label for="risk_short_name_text"> Short Name</label>
                                 <span id="shortNameError" class="error-msg" ></span>
                             </div>
                             </div><div class="row">
@@ -236,21 +236,21 @@
 	<div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-risk-area" id="updateRiskAreaForm" name="updateRiskAreaForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Risk Area <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Area <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m8 s12 offset-m2">
                          <div class="row no-mar">
                             <div class="input-field col s12 m6">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">Risk Area</label>
+                                <label for="value_new"> Area</label>
                                 <span id="value_newError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
                                 <input id="area_short_name_new" type="text" name="area_short_name_new" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <input id="short_value_old" type="hidden" name="short_value_old"  >
-                                <label for="area_short_name_new">Risk Short Name</label>
+                                <label for="area_short_name_new"> Short Name</label>
                                 <span id="short_value_newError" class="error-msg" ></span>
                             </div>
                             </div><div class="row">
@@ -291,8 +291,8 @@
     </div>
     <!-- <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

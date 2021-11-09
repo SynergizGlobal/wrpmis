@@ -33,7 +33,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Land Acquisition Category</h6>
+                            <h6>Category</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -50,7 +50,7 @@
                         <div class="row no-mar">
                             <div class="col m12 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Land Acquisition Category</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Category</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -58,7 +58,7 @@
                                 <table id="la_category_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Land Acquisition Category</th>
+                           <th>L ategory</th>
                                             <c:forEach var="tObj" items="${landAcquisitionCategoryDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -133,15 +133,15 @@
     <div id="addUpdateModal" class="modal">
 		<form action="<%=request.getContextPath() %>/add-la-category" id="addLaCategoryForm" name="addLaCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Land Acquisition Category <span
-                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Category <span
+                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="la_category" name="la_category" type="text" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="la_category">Land Acquisition Category</label>
+                                <label for="la_category"> Category</label>
                                 <span id="la_categoryError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -170,8 +170,8 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-la-category" id=updateLaCategoryForm name="updateLaCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Land Acquisition Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -179,7 +179,7 @@
                          <div class="input-field col s12 m12">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">Land Acquisition Category</label>
+                                <label for="value_new"> Category</label>
                                 <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
@@ -210,8 +210,8 @@
     </div>
     <!-- <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

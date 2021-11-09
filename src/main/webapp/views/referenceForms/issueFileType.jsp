@@ -32,7 +32,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Issue File Type</h6>
+                            <h6> File Type</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -49,7 +49,7 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Issue File Type</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add File Type</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -57,7 +57,7 @@
                                 <table id="issue_file_type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Issue File Type</th>                                           
+                                            <th>File Type</th>                                           
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -100,15 +100,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-issue-file-type" id="addIssueFileTypeForm" name="addIssueFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header ">Add Issue File Type <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header ">Add File Type <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="issue_file_type" name="issue_file_type" type="text" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="issue_file_type">Issue File Type</label>
+                                <label for="issue_file_type">File Type</label>
                                  <span id="issue_file_typeError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -140,8 +140,8 @@
  <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-issue-file-type" id=updateIssueFileTypeForm name="id=updateIssueFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Issue File Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update File Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                  <input id="id" type="hidden" name="id"  >
                     <div class="col m2 hide-on-small"></div>
@@ -150,7 +150,7 @@
                          <div class="input-field col s12 m12">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">Issue File Type</label>
+                                <label for="value_new">File Type</label>
                                 <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>

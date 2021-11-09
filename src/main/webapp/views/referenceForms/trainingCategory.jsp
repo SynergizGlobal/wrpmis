@@ -31,7 +31,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Training Category</h6>
+                            <h6>  Category</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -48,7 +48,7 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Training Category</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Category</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -56,7 +56,7 @@
                                 <table id="training_category_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Training Category</th>
+                                            <th> Category</th>
                                              <c:forEach var="tObj" items="${trainingCategoryDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -128,15 +128,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-training-category" id="trainingCategoryForm" name="trainingCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Training Category <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Category <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="training_category_text" name="training_category" type="text" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="training_category_text">Training Category</label>
+                                <label for="training_category_text"> Category</label>
                                 <span id="training_categoryError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -165,8 +165,8 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-training-category" id=updateTrainingCategoryForm  name="updateTrainingCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Training Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -174,7 +174,7 @@
                             <div class="input-field col s12 m12">
                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">Training Category</label>
+                                <label for="value_new"> Category</label>
                                  <span id="value_newError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -205,8 +205,8 @@
     </div>
     <!-- <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

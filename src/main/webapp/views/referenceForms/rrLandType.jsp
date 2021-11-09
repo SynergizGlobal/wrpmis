@@ -32,7 +32,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> RR Land Type</h6>
+                            <h6>  Land Type</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -49,7 +49,7 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add RR Land Type</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Land Type</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -57,7 +57,7 @@
                                 <table id="rr_land_type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>RR Land Type</th>
+                                            <th> Land Type</th>
                                             <c:forEach var="tObj" items="${rrLandTypeDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -129,15 +129,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-rr-land-type" id="addRRLandTypeForm" name="addRRLandTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add RR Land Type <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Land Type <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="rr_land_type_text" name="land_type" type="text" class="validate">
-                                <label for="rr_land_type_text">RR Land Type</label>
+                                <label for="rr_land_type_text"> Land Type</label>
                                 <span id="land_typeError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -169,8 +169,8 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-rr-land-type" id=updateRRLandTypeForm  name="updateRRLandTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update RR Land Type <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Land Type <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -178,7 +178,7 @@
                             <div class="input-field col s12 m12">
                                <input id="value_new" type="text" name="value_new" class="validate">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">RR Land Type</label>
+                                <label for="value_new"> Land Type</label>
                                  <span id="value_newError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -209,8 +209,8 @@
     </div>
    <!--  <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

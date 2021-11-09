@@ -32,7 +32,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> RR Document Type</h6>
+                            <h6>  Document Type</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -49,7 +49,7 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add RR Document Type</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Document Type</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -57,7 +57,7 @@
                                 <table id="rr_document_type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>RR Document Type</th>
+                                            <th> Document Type</th>
                                              <c:forEach var="tObj" items="${rrDocumentTypeDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -130,15 +130,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-rr-document-type" id="addRRDocumentTypeForm" name="addRRDocumentTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add RR Document Type <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Document Type <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="rr_document_type_text" name="document_type" type="text" class="validate">
-                                <label for="rr_document_type_text">RR Document Type</label>
+                                <label for="rr_document_type_text"> Document Type</label>
                                 <span id="document_typeError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -171,8 +171,8 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-rr-document-type" id=updateRRDocumentTypeForm name="id=updateRRDocumentTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update RR Document Type <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Document Type <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -180,7 +180,7 @@
                             <div class="input-field col s12 m12">
                                <input id="value_new" type="text" name="value_new" class="validate">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">RR Document Type</label>
+                                <label for="value_new"> Document Type</label>
                                  <span id="value_newError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -211,8 +211,8 @@
     </div>
     <!-- <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

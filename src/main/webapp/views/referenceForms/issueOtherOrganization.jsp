@@ -31,7 +31,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Issue Other Organization</h6>
+                            <h6>Other Organization</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -99,8 +99,8 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-issue-other-organization" id="otherOrganizationForm" name="otherOrganizationForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header ">Add Other Organization <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header ">Add Other Organization <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -139,8 +139,8 @@
  <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-issue-other-organization" id=updateOtherOrganizationForm name="id=updateOtherOrganizationForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Other Organization <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update Other Organization <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                  <input id="id" type="hidden" name="id"  >
                     <div class="col m2 hide-on-small"></div>

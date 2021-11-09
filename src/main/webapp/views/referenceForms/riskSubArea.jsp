@@ -46,7 +46,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Risk Sub Area</h6>
+                            <h6>  Sub Area</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -63,7 +63,7 @@
                         <div class="row no-mar">
                             <div class="col m12 s12 center-align">
                                 <a style="height: auto;" class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Risk Sub Area</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Sub Area</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -71,7 +71,7 @@
                                 <table id="risk_sub_area_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Risk Area</th>
+                                            <th> Area</th>
                                             <th>Sub Area</th>
                                             <th>Item No</th>
                                             <c:forEach var="tObj" items="${riskAreaDetails.tablesList}" >
@@ -154,18 +154,18 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-risk-sub-area" id="riskSubAreaForm" name="riskSubAreaForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Risk Sub Area <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Sub Area <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row no-mar">
                            <!--  <div class="input-field col s12 m6">
                                 <input id="risk_area" type="text" class="validate">
-                                <label for="risk_area">Risk Area</label>
+                                <label for="risk_area"> Area</label>
                             </div> -->
                               <div class="col s12 m6 input-field">
-                                 <p class="searchable_label">Risk Area</p>
+                                 <p class="searchable_label"> Area</p>
                                  <select class="searchable validate-dropdown" name="risk_area_fk" id="area" onchange="doValidate(this.value,null,null)">
                                      <option value="">Select</option>
                                       <c:forEach var="obj" items="${riskAreaList }">
@@ -216,8 +216,8 @@
    <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-risk-sub-area" id="updateRiskSubAreaForm" name="updateRiskSubAreaForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Risk Sub Area <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Sub Area <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -225,10 +225,10 @@
                        <div class="row no-mar">
                            <!--  <div class="input-field col s12 m6">
                                 <input id="risk_area" type="text" class="validate">
-                                <label for="risk_area">Risk Area</label>
+                                <label for="risk_area"> Area</label>
                             </div> -->
                               <div class="col s12 m6 input-field">
-                                 <p class="searchable_label">Risk Area</p>
+                                 <p class="searchable_label"> Area</p>
                                  <select class="searchable validate-dropdown" name="risk_area_fk_new" id="risk_area_fk_new" onchange="doValidateUpdate(null,null,null)">
                                      <option value="">Select</option>
                                       <c:forEach var="obj" items="${riskAreaList }">

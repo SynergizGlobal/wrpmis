@@ -34,7 +34,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Safety Category</h6>
+                            <h6>  Category</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -52,7 +52,7 @@
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c "
                                     href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Safety Category</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Category</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -60,7 +60,7 @@
                                 <table id="safety_category_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Safety Category</th>
+                                            <th> Category</th>
                                             <th>Short Description </th>
                                             <c:forEach var="tObj" items="${safetyCategoryDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
@@ -138,20 +138,20 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-safety-category" id="safetyCategoryForm" name="safetyCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header ">Add Safety Category <span
-                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
+                <h6 class="modal-header ">Add  Category <span
+                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m6">
                                 <input id="safety_category_text" type="text" name="category" class="validate" onkeyup="doValidate(this.value,null)">
-                                <label for="safety_category_text">Safety Category</label>
+                                <label for="safety_category_text"> Category</label>
                                 <span id="categoryError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
                                 <input id="short_description_text" type="text" name="short_description" class="validate" onkeyup="doValidate(null,this.value)">
-                                <label for="short_description_text">Safety Description</label>
+                                <label for="short_description_text"> Description</label>
                                 <span id="short_descriptionError" class="error-msg" ></span>
                             </div>
                             <div  style="text-align:center">
@@ -186,8 +186,8 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-safety-category" id="updateSafetyCategoryForm" name="updateSafetyCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Safety Category <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Category <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -195,12 +195,12 @@
                             <div class="input-field col s12 m6">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(null,null)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">Safety Category</label>
+                                <label for="value_new"> Category</label>
                                 <span id="value_newError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
                                 <input id="short_description_new" name="short_description_new" type="text" class="validate" onkeyup="doValidateUpdate(null,null)">
-                                <label for="short_description_new">Safety Description</label>
+                                <label for="short_description_new"> Description</label>
                                 <span id="short_description_newError" class="error-msg" ></span>
                             </div>
                             <div  style="text-align:center">
@@ -235,8 +235,8 @@
     </div>
     <!--  <div id="errorModal" class="modal">
            <div class="modal-content">
-               <h5 class="modal-header black-text">Error <span class="right modal-action modal-close"><span
-                           class="material-icons">close</span></span></h5>
+               <h6 class="modal-header black-text">Error <span class="right modal-action modal-close"><span
+                           class="material-icons">close</span></span></h6>
                <div class="row center-align" style="margin-bottom: 0;">
                    <p style="color:red;">Reference data cannot be edited or deleted when in use by other Data sets</p>
                </div>

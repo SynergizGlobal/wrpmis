@@ -32,7 +32,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> RR Approval Status</h6>
+                            <h6>  Approval Status</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -49,7 +49,7 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add RR Approval Status</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Approval Status</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -57,7 +57,7 @@
                                 <table id="rr_approval_status_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>RR Approval Status</th>
+                                            <th> Approval Status</th>
                                             <c:forEach var="tObj" items="${rrApprovalStatusDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -128,15 +128,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-rr-approval-status" id="addApprovalStatusForm" name="addApprovalStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add RR Approval Status <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Approval Status <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="rr_approval_status_text" name="approval_status" type="text" class="validate"  onkeyup="doValidate(this.value)">
-                                <label for="rr_approval_status_text">RR Approval Status</label>
+                                <label for="rr_approval_status_text"> Approval Status</label>
                                 <span id="approval_statusError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -170,8 +170,8 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-rr-approval-status" id=updateApprovalStatusForm name="id=updateApprovalStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update RR Approval Status <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Approval Status <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -179,7 +179,7 @@
                             <div class="input-field col s12 m12">
                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">RR Approval Status</label>
+                                <label for="value_new"> Approval Status</label>
                                  <span id="value_newError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -210,8 +210,8 @@
     </div>
     <!-- <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

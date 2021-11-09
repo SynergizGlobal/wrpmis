@@ -33,7 +33,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Safety Root Cause</h6>
+                            <h6>  Root Cause</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -51,7 +51,7 @@
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c "
                                     href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Safety Root Cause</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Root Cause</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -59,7 +59,7 @@
                                 <table id="safety_root_cause_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Safety Root Cause</th>
+                                            <th> Root Cause</th>
                                             <c:forEach var="tObj" items="${safetyRootCauseDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -131,15 +131,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-safety-root-cause" id="addSafetyRootForm" name="addSafetyRootForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header ">Add Safety Root Cause <span
-                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
+                <h6 class="modal-header ">Add  Root Cause <span
+                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="safety_root_cause_text" name="root_cause" type="text" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="safety_root_cause_text">Safety Root Cause</label>
+                                <label for="safety_root_cause_text"> Root Cause</label>
                                 <span id="root_causeError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -171,8 +171,8 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-safety-root-cause" id=updateSafetyRootForm name="updateSafetyRootForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Safety Root Cause <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Root Cause <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -180,7 +180,7 @@
                             <div class="input-field col s12 m12">
                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">Safety Root Cause</label>
+                                <label for="value_new"> Root Cause</label>
                                  <span id="value_newError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -211,8 +211,8 @@
     </div>
    <!--  <div id="errorModal" class="modal">
            <div class="modal-content">
-               <h5 class="modal-header black-text">Error <span class="right modal-action modal-close"><span
-                           class="material-icons">close</span></span></h5>
+               <h6 class="modal-header black-text">Error <span class="right modal-action modal-close"><span
+                           class="material-icons">close</span></span></h6>
                <div class="row center-align" style="margin-bottom: 0;">
                    <p style="color:red;">Reference data cannot be edited or deleted when in use by other Data sets</p>
                </div>

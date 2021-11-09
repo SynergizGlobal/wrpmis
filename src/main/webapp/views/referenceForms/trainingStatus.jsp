@@ -31,7 +31,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Training Status</h6>
+                            <h6>  Status</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -48,7 +48,7 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Training Status</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Status</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -56,7 +56,7 @@
                                 <table id="training_status_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Training Status</th>
+                                            <th> Status</th>
                                             <c:forEach var="tObj" items="${trainingStatusDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -131,15 +131,15 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-training-status" id="addStatusForm" name="addStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Training Status <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header">Add  Status <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
                                 <input id="training_status_text" name="status" type="text" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="training_status_text">Training Status</label>
+                                <label for="training_status_text"> Status</label>
                                 <span id="statusError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -169,8 +169,8 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-training-status" id=updateStatusForm name="updateStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Training Status <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header bg-m">Update  Status <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
@@ -178,7 +178,7 @@
                          <div class="input-field col s12 m12">
                                 <input id="status_new" type="text" name="status_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="status_old" type="hidden" name="status_old"  >
-                                <label for="status_new">Training Status</label>
+                                <label for="status_new"> Status</label>
                                 <span id="status_newError" class="error-msg" ></span>
                          </div>
                         </div>
@@ -209,8 +209,8 @@
     </div>
     <!-- <div id="errorModal" class="modal">
         <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
+            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
+                        class="material-icons">close</span></span></h6>
             <div class="row center-align" style="margin-bottom: 0;">
                 <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>

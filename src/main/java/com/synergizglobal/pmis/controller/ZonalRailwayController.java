@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,8 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.docx4j.org.xhtmlrenderer.css.parser.property.OneToFourPropertyBuilders.BorderColor;
+import org.docx4j.org.xhtmlrenderer.css.parser.property.PrimitivePropertyBuilders.BorderBottomColor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -419,7 +422,7 @@ public class ZonalRailwayController {
 		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Calibri";
 		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormatingHeader(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
@@ -427,7 +430,9 @@ public class ZonalRailwayController {
 		        
 		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Calibri";
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        
+		        CellStyle costSectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectionStyleheader = cellFormatingHeader(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
 		        XSSFRow headingRow = sheet.createRow(0);
 		        String headerString = "Contract ID^Work^Execution Agency^Sub Work^Nodal Officer in MRVC^Source Of Funds^Sanction Cost^Unit^Latest Revised Cost"
 		        		+ "^Unit^Cumulative Actual Expenditure^Unit^Actual Start^Target For Completion^Actual Finish^Completion Cost^Unit^Status^As On Date";
@@ -437,14 +442,29 @@ public class ZonalRailwayController {
 			        cell.setCellStyle(greenStyle);
 					cell.setCellValue(firstHeaderStringArr[j]);
 				}
+	            int  k =0;
 	            short rowNo = 1;
 	            for (ZonalRailway obj : dataList) {
 	            	int j = 0;
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)j++).setCellValue(obj.getContract_id());
-	                row.createCell((short)j++).setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_short_name());
-	                row.createCell((short)j++).setCellValue(obj.getExecution_agency_railway_fk()+"-"+obj.getRailway_name());
-	                row.createCell((short)j++).setCellValue(obj.getSub_work());
+	                int c = 0;
+	                
+	                Cell cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_id());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_short_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getExecution_agency_railway_fk() +" - "+obj.getRailway_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getSub_work());
+					
 	                String responsibleUser = "";
 	                if(!StringUtils.isEmpty(obj.getResponsible_person_user_fk())) {
 	                	String userName = "",designation="";
@@ -452,21 +472,66 @@ public class ZonalRailwayController {
 	                	if(!StringUtils.isEmpty(obj.getDesignation())){designation = obj.getDesignation();}
 	                	responsibleUser = designation + userName;
 	                }
-	                row.createCell((short)j++).setCellValue(responsibleUser);
-	                row.createCell((short)j++).setCellValue(obj.getSource_of_funds());
-	                row.createCell((short)j++).setCellValue(obj.getSanction_cost());
-	                row.createCell((short)j++).setCellValue(obj.getSanction_unit());
-	                row.createCell((short)j++).setCellValue(obj.getLatest_revised_cost());
-	                row.createCell((short)j++).setCellValue(obj.getRevised_cost_unit());
-	                row.createCell((short)j++).setCellValue(obj.getCum_actual_expenditure());
-	                row.createCell((short)j++).setCellValue(obj.getCumilative_unit());
-	                row.createCell((short)j++).setCellValue(obj.getActual_start());
-	                row.createCell((short)j++).setCellValue(obj.getExpected_finish());
-	                row.createCell((short)j++).setCellValue(obj.getActual_finish());
-	                row.createCell((short)j++).setCellValue(obj.getCompletion_cost());
-	                row.createCell((short)j++).setCellValue(obj.getCompletion_unit());
-	                row.createCell((short)j++).setCellValue(obj.getStatus_fk());
-	                row.createCell((short)j++).setCellValue(obj.getAs_on_date());
+	                cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(responsibleUser);
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getSource_of_funds());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(costSectionStyle);
+					cell.setCellValue(obj.getSanction_cost());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getSanction_unit());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(costSectionStyle);
+					cell.setCellValue(obj.getLatest_revised_cost());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRevised_cost_unit());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(costSectionStyle);
+					cell.setCellValue(obj.getCum_actual_expenditure());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getCumilative_unit());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getActual_start());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getExpected_finish());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getActual_finish());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(costSectionStyle);
+					cell.setCellValue(obj.getCompletion_cost());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getCompletion_unit());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getStatus_fk());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getAs_on_date());
+					
 	                //row.createCell((short)j++).setCellValue(obj.getDesignation());
 	          
 	                rowNo++;
@@ -475,7 +540,7 @@ public class ZonalRailwayController {
 	            XSSFSheet progressSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Zonal_Progress"));
 		        workBook.setSheetOrder(progressSheet.getSheetName(), 1);
 		        XSSFRow headingRow1 = progressSheet.createRow(0);
-		        String headerString2 = "Contract ID^Month^Cum Planned  Financial Progress(%)^Cum Actual  Financial Progress(%)^Cum Planned Physical Progress(%)"
+		        String headerString2 = "Contract ID^Sub Work^Month^Cum Planned  Financial Progress(%)^Cum Actual  Financial Progress(%)^Cum Planned Physical Progress(%)"
 		        		+ "^Cum Actual Physical Progress(%)^Progress^Issue^Assistance Required";
 		        String[] firstHeaderStringArr2 = headerString2.split("\\^");
 		        for (int j = 0; j < firstHeaderStringArr2.length; j++) {		        	
@@ -483,34 +548,68 @@ public class ZonalRailwayController {
 			        cell.setCellStyle(greenStyle);
 					cell.setCellValue(firstHeaderStringArr2[j]);
 				}
-	            short rowNo2 = 1;
+	            short rowNo2 = 1,n=0;
 	        	for (ZonalRailway progress : dataList) { 
 	        		String id = progress.getContract_id();
 	        		progressList = service.getProgressList(id);
 		           
 		            for (ZonalRailway sObj : progressList) {
 		                XSSFRow row2 = progressSheet.createRow(rowNo2);
-		                row2.createCell((short)0).setCellValue(sObj.getContract_id());
-		                row2.createCell((short)1).setCellValue(sObj.getMonth());
-		                row2.createCell((short)2).setCellValue(sObj.getCum_planned_expenditure_per());
-		                row2.createCell((short)3).setCellValue(sObj.getCum_actual_expenditure_per());
-		                row2.createCell((short)4).setCellValue(sObj.getCum_planned_physical_progress_per());
-		                row2.createCell((short)5).setCellValue(sObj.getCum_actual_physical_progress_per());
-		                row2.createCell((short)6).setCellValue(sObj.getProgress());
-		                row2.createCell((short)7).setCellValue(sObj.getIssue());
-		                row2.createCell((short)8).setCellValue(sObj.getAssistance_required());
+		                int c = 0;
+		                
+		                Cell cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(sObj.getContract_id());
+						
+						cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue (sObj.getSub_work());
+						
+						cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(sObj.getMonth());
+						
+						cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(sObj.getCum_planned_expenditure_per());
+						
+						cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(sObj.getCum_actual_expenditure_per());
+						
+						cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(sObj.getCum_planned_physical_progress_per());
+						
+						cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(sObj.getCum_actual_physical_progress_per());
+						
+						cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(sObj.getProgress());
+						
+						cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(sObj.getIssue());
+						
+						cell = row2.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(sObj.getAssistance_required());
 		          
-		                rowNo2++;
+		                rowNo2++;n++;
 		            }
 	        	}
 	        	for(int columnIndex = 0; columnIndex < firstHeaderStringArr.length; columnIndex++) {
 		            	//sheet.autoSizeColumn(columnIndex);
 		        		sheet.setColumnWidth(columnIndex, 25 * 200);
 				}
+	        	sheet.setColumnWidth(7, 25 * 50);sheet.setColumnWidth(9, 25 * 50);sheet.setColumnWidth(11, 25 * 50);sheet.setColumnWidth(16, 25 * 50);
 	        	for(int columnIndex = 0; columnIndex < firstHeaderStringArr2.length; columnIndex++) {
 	        		//revisionSheet.autoSizeColumn(columnIndex);
-	        		progressSheet.setColumnWidth(columnIndex, 25 * 200);
+	        		progressSheet.setColumnWidth(columnIndex, 25 * 170);
 				}
+	        	progressSheet.setColumnWidth(7, 25 * 300);progressSheet.setColumnWidth(8, 25 * 300);progressSheet.setColumnWidth(9, 25 * 300);
 	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Zonal_Railway_"+dateFormat.format(date);
@@ -568,14 +667,13 @@ public class ZonalRailwayController {
 		   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
 		}
 		//style.setFillPattern(FillPatternType.ALT_BARS);
-		style.setBorderBottom(BorderStyle.MEDIUM);
-		style.setBorderTop(BorderStyle.MEDIUM);
-		style.setBorderLeft(BorderStyle.MEDIUM);
-		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setBorderBottom(BorderStyle.THIN );
+		style.setBorderTop(BorderStyle.THIN);
+		style.setBorderLeft(BorderStyle.THIN);
+		style.setBorderRight(BorderStyle.THIN);
 		style.setAlignment(hAllign);
 		style.setVerticalAlignment(vAllign);
 		style.setWrapText(isWrapText);
-		
 		Font font = workBook.createFont();
         //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
         font.setFontHeightInPoints((short)fontSize);  
@@ -588,4 +686,35 @@ public class ZonalRailwayController {
         
         return style;
 	}
+
+private CellStyle cellFormatingHeader(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
+	CellStyle style = workBook.createCellStyle();
+	//Setting Background color  
+	//style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+	style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	
+	if (style instanceof XSSFCellStyle) {
+	   XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle)style;
+	   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
+	}
+	//style.setFillPattern(FillPatternType.ALT_BARS);
+	style.setBorderBottom(BorderStyle.MEDIUM );
+	style.setBorderTop(BorderStyle.MEDIUM);
+	style.setBorderLeft(BorderStyle.MEDIUM);
+	style.setBorderRight(BorderStyle.MEDIUM);
+	style.setAlignment(hAllign);
+	style.setVerticalAlignment(vAllign);
+	style.setWrapText(isWrapText);
+	Font font = workBook.createFont();
+    //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
+    font.setFontHeightInPoints((short)fontSize);  
+    font.setFontName(fontName);  //"Times New Roman"
+    
+    font.setItalic(isItalicText); 
+    font.setBold(isBoldText);
+    // Applying font to the style  
+    style.setFont(font); 
+    
+    return style;
+}
 }

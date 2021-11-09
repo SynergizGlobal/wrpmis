@@ -86,6 +86,8 @@
         }
         .m0{margin: 0 !important;}
        	.bd-none{border:none !important;background: transparent}
+       	.w20em{width: 20em;}
+       	.pd0{padding: 0 !important;}
 		@media(max-width: 2200px){
 		.table-add{position: absolute;}
 		.add-align{position: absolute;
@@ -137,19 +139,22 @@
                         <div class="container container-no-margin">                            
                             <div class="row">
                                 <div class="col s12 m4 l4 input-field">
-                                   <input id="form_name" type="text" class="validate" value="${reportDetails.form_name }" readonly="readonly">
-                                    <label for="form_name">Report Name</label>
+                                <p><span class="searchable_label">Report Name :</span> ${reportDetails.form_name }</p>
+                                   <%-- <input id="form_name" type="text" class="validate" value="${reportDetails.form_name }" readonly="readonly">
+                                    <label for="form_name">Report Name</label> --%>
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
-                                   <input id="module_name_fk" type="text" class="validate" value="${reportDetails.module_name_fk }" readonly="readonly">
-                                    <label for="module_name_fk">Module</label>
+                                <p><span class="searchable_label">Module :</span> ${reportDetails.module_name_fk }</p>
+                                   <%-- <input id="module_name_fk" type="text" class="validate" value="${reportDetails.module_name_fk }" readonly="readonly">
+                                    <label for="module_name_fk">Module</label> --%>
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
-                                   <input id="parent_form_id_sr_fk" type="text" class="validate" value="${reportDetails.folder_name }" readonly="readonly">
-                                    <label for="parent_form_id_sr_fk">Folder</label>
+                                <p><span class="searchable_label">Folder :</span> ${reportDetails.folder_name }</p>
+                                   <%-- <input id="parent_form_id_sr_fk" type="text" class="validate" value="${reportDetails.folder_name }" readonly="readonly">
+                                    <label for="parent_form_id_sr_fk">Folder</label> --%>
                                 </div>
                             </div>
-                            
+                            <br>
                             <div class="row">     
                             	<div class="col s12 m4 input-field">
                                     <input id="priority" name="priority" type="number" class="validate" value="${reportDetails.priority }">
@@ -167,7 +172,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <div class="row">                                        
-                                        <div class="col s5 m5 input-field">
+                                        <div class="col s5 m5 input-field pd0">
                                             <p style="margin-top: 12px;">Mobile View ?</p>
                                         </div>
                                         <div class="col s5 m7 input-field">
@@ -197,9 +202,9 @@
                                             <table id="form_form_table" class="mdl-data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>User Role</th>
-                                                        <th>User Type</th>
-                                                        <th class="fw-8p">User</th>
+                                                        <th class="w20em">User Role</th>
+                                                        <th class="w20em">User Type</th>
+                                                        <th class="fw-8p w20em">User</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

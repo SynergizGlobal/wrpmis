@@ -91,6 +91,8 @@
 		}
 		.w7em{width: 7em;}
         .bd-none{border:none !important;background: transparent}
+        .w20em{width: 20em;}
+        .pd0{padding: 0 !important;}
 		@media(max-width: 2200px){
 		.table-add{position: absolute;}
 		.add-align{position: absolute;
@@ -138,27 +140,31 @@
                         <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col s12 m4 l4 input-field">
-                                   <input id="form_name" type="text" class="validate" value="${formDetails.form_name }" readonly="readonly">
-                                    <label for="form_name">Form Name</label>
+                                	<p><span class="searchable_label">Form Name :</span> ${formDetails.form_name }</p>
+                                    
+                                   <%-- <input id="form_name" type="text" class="validate" value="${formDetails.form_name }" readonly="readonly">
+                                    <label for="form_name">Form Name</label> --%>
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
-                                   <input id="module_name_fk" type="text" class="validate" value="${formDetails.module_name_fk }" readonly="readonly">
-                                    <label for="module_name_fk">Module</label>
+                                <p><span class="searchable_label">Form Name :</span> ${formDetails.module_name_fk }</p>
+                                   <%-- <input id="module_name_fk" type="text" class="validate" value="${formDetails.module_name_fk }" readonly="readonly">
+                                    <label for="module_name_fk">Module</label> --%>
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
-                                   <input id="parent_form_id_sr_fk" type="text" class="validate" value="${formDetails.folder_name }" readonly="readonly">
-                                    <label for="parent_form_id_sr_fk">Folder</label>
+                                <p><span class="searchable_label">Form Name :</span> ${formDetails.folder_name }</p>
+                                   <%-- <input id="parent_form_id_sr_fk" type="text" class="validate" value="${formDetails.folder_name }" readonly="readonly">
+                                    <label for="parent_form_id_sr_fk">Folder</label> --%>
                                 </div>
                             </div>
                             
-
+							<br>
                             <div class="row">     
-                            	<div class="col s12 m4 input-field">
+                            	<div class="col s12 m4 l4 input-field">
                                     <input id="priority" name="priority" type="number" class="validate" value="${formDetails.priority }">
                                     <label for="priority">priority <span class="required">*</span></label>
                                     <span id="priorityError" class="error-msg"></span>
                                 </div>                             
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label"> Status </p>
                                     <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk">
                                         <option value="">Select</option>
@@ -167,9 +173,9 @@
                                           </c:forEach>
                                     </select>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <div class="row">                                        
-                                        <div class="col s5 m5 input-field">
+                                        <div class="col s5 m5 input-field pd0">
                                             <p style="margin-top: 12px;">Mobile View ?</p>
                                         </div>
                                         <div class="col s5 m7 input-field">
@@ -199,9 +205,9 @@
                                             <table id="form_form_table" class="mdl-data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>User Role</th>
-                                                        <th>User Type</th>
-                                                        <th class="fw-8p">User</th>
+                                                        <th class="w20em">User Role</th>
+                                                        <th class="w20em">User Type</th>
+                                                        <th class="fw-8p w20em">User</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

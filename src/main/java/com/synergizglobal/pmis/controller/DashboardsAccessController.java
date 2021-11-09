@@ -279,14 +279,14 @@ public class DashboardsAccessController {
 		return model;
 	}
 
-	@RequestMapping(value="/accesss-dashboards",method={RequestMethod.GET})
+	@RequestMapping(value="/access-dashboards",method={RequestMethod.GET})
 	public ModelAndView accesssDashboards(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants2.NEW_DASHBOARD_ACCESS_GRID);
 		try {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("accesssDashboards : " + e.getMessage());
+			logger.error("accessDashboards : " + e.getMessage());
 		}
 		return model;
 	}
@@ -324,7 +324,7 @@ public class DashboardsAccessController {
 		try{
 			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
 			obj.setModified_by_user_id_fk(user_Id);
-			model.setViewName("redirect:/tableau-dashboards");
+			model.setViewName("redirect:/access-dashboards");
 			boolean flag =  service.updateTableauDashboard(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Dashboard Updated Succesfully.");

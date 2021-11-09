@@ -212,58 +212,100 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 	@Override
 	public UserActivityReport getUserActivityReportData(UserActivityReport obj) throws Exception {
 		List<UserActivityReport> objtList = null;
+		List<UserActivityReport> objtList1 = null;
 		UserActivityReport uObj = null;
 		try {
-			String datesQry ="SELECT ADDDATE(?, INTERVAL @i:=@i+1 DAY) AS date FROM (SELECT a.a FROM (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS a CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS b CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS c) a JOIN (SELECT @i := -1) r1 WHERE @i < DATEDIFF(?, ?)";			
-			Object[] dValues = new Object[3];
-			int j = 0;
-			dValues[j++] = obj.getFrom_date();
-			dValues[j++] = obj.getTo_date();
-			dValues[j++] = obj.getFrom_date();
 			
-			List<UserActivityReport> datesList = jdbcTemplate.query( datesQry,dValues, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
-			obj.setDatesList(datesList);
-			for (UserActivityReport dataList : datesList) {
-				String qry = "SELECT form_history_id, module_name, work, u.user_name,contract, form_action_type, form_details, created_by_user_id_fk, user,DATE_FORMAT(created_date,'%H:%i ') time"
+			String qry = "SELECT Distinct user"
+					+ " FROM forms_history " + 
+					"left join user u on created_by_user_id_fk = u.user_id  "
+					+ "where DATE(created_date) >= ?  and DATE(created_date) <= ?";
+			int arrSize = 2;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name())) {
+				qry = qry + " and module_name = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract())) {
+				qry = qry + " and contract = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork())) {
+				qry = qry + " and work = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
+				qry = qry + " and user = ?";
+				arrSize++;
+			}
+			qry = qry + " order by user asc ";
+			
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = obj.getFrom_date();
+			pValues[i++] = obj.getTo_date();
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name())) {
+				pValues[i++] = obj.getModule_name();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract())) {
+				pValues[i++] = obj.getContract();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork())) {
+				pValues[i++] = obj.getWork();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
+				pValues[i++] = obj.getUser();
+			}
+			objtList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));			
+			List<UserActivityReport> usersList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
+			obj.setUsersList(usersList);	
+
+			for (UserActivityReport dataList : usersList) 
+			{
+				String qry1 = "SELECT form_history_id, module_name, work, u.user_name,contract, form_action_type, form_details, created_by_user_id_fk, user,created_date as date,DATE_FORMAT(created_date,'%H:%i ') time"
 						+ " FROM forms_history " + 
 						"left join user u on created_by_user_id_fk = u.user_id  "
-						+ "where DATE(created_date) = ? ";
-				int arrSize = 1;
+						+ "where user=? and DATE(created_date) >= ?  and DATE(created_date) <= ? ";
+				int arrSize1 = 3;
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name())) {
-					qry = qry + " and module_name = ? ";
-					arrSize++;
+					qry1 = qry1 + " and module_name = ? ";
+					arrSize1++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract())) {
-					qry = qry + " and contract = ?";
-					arrSize++;
+					qry1 = qry1 + " and contract = ?";
+					arrSize1++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork())) {
-					qry = qry + " and work = ?";
-					arrSize++;
+					qry1 = qry1 + " and work = ?";
+					arrSize1++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
-					qry = qry + " and user = ?";
-					arrSize++;
+					qry1 = qry1 + " and user = ?";
+					arrSize1++;
 				}
 				qry = qry + " order by time asc ";
-				Object[] pValues = new Object[arrSize];
-				int i = 0;
-				pValues[i++] = dataList.getDate();
+				Object[] pValues1 = new Object[arrSize1];
+				int i1 = 0;
+				pValues1[i1++] = dataList.getUser();
+				pValues1[i1++] = obj.getFrom_date();
+				pValues1[i1++] = obj.getTo_date();
+				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name())) {
-					pValues[i++] = obj.getModule_name();
+					pValues1[i1++] = obj.getModule_name();
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract())) {
-					pValues[i++] = obj.getContract();
+					pValues1[i1++] = obj.getContract();
 				}	
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork())) {
-					pValues[i++] = obj.getWork();
+					pValues1[i1++] = obj.getWork();
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
-					pValues[i++] = obj.getUser();
+					pValues1[i1++] = obj.getUser();
 				}
-				objtList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
+				objtList1 = jdbcTemplate.query( qry1,pValues1, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 				
-				dataList.setUserActivitiesList(objtList);
+				dataList.setUserActivitiesList(objtList1);
 			}
 			
 		}catch (Exception e) {

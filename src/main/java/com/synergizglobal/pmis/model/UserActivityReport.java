@@ -9,6 +9,7 @@ public class UserActivityReport {
 
 	List<UserActivityReport> datesList;
 	List<UserActivityReport> userActivitiesList;
+	List<UserActivityReport> usersList;
 	
 	public String getDate() {
 		return date;
@@ -66,6 +67,15 @@ public class UserActivityReport {
 		this.userActivitiesList = userActivitiesList;
 	}
 
+	public List<UserActivityReport> getUsersList() {
+		return usersList;
+	}
+
+	public void setUsersList(List<UserActivityReport> usersList) {
+		this.usersList = usersList;
+	}	
+	
+	
 	public String getForm_history_id() {
 		return form_history_id;
 	}

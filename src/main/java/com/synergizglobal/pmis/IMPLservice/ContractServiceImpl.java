@@ -152,6 +152,22 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> getContractStatus() throws Exception {
 		return contractDao.getContractStatus();
 	}
+	@Override
+	public List<Contract> contractRevisionsList(Contract contract) throws Exception {
+		return contractDao.contractRevisionsList(contract);
+	}
+	@Override
+	public List<Contract> contractBGList(Contract contract) throws Exception {
+		return contractDao.contractBGList(contract);
+	}
+	@Override
+	public List<Contract> contractInsuranceList(Contract contract) throws Exception {
+		return contractDao.contractInsuranceList(contract);
+	}
+	@Override
+	public List<Contract> contractMilestoneList(Contract contract) throws Exception {
+		return contractDao.contractMilestoneList(contract);
+	}
 	
 
 }

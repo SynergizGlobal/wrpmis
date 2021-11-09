@@ -51,6 +51,9 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 					" where d.dashboard_id is not null ";
 			
 			int arrSize = 3;
+			if("MRVC".equals(obj.getUser_type_access())) {
+				qry = qry + " and d.dashboard_url IS NOT NULL and d.dashboard_url <> '' ";
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and d.module_name_fk = ?";
 				arrSize++;

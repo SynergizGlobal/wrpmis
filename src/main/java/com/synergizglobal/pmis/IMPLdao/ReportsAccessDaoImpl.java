@@ -44,6 +44,9 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 					+ "where f1.form_id is not null ";
 			
 			int arrSize = 3;
+			if("MRVC".equals(obj.getUser_type_access())) {
+				qry = qry + " and f1.web_form_url IS NOT NULL and f1.web_form_url <> '' ";
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and f1.module_name_fk = ?";
 				arrSize++;

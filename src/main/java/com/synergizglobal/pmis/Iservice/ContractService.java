@@ -73,6 +73,14 @@ public interface ContractService {
 
 	public List<Contract> getContractStatus() throws Exception;
 
+	public List<Contract> contractRevisionsList(Contract contract) throws Exception;
+
+	public List<Contract> contractBGList(Contract contract) throws Exception;
+
+	public List<Contract> contractInsuranceList(Contract contract) throws Exception;
+
+	public List<Contract> contractMilestoneList(Contract contract) throws Exception;
+
 
 
 }

@@ -205,6 +205,7 @@
         	var module_name_fk = $("#module_name_fk").val();
         	var dashboard_type_fk = $("#dashboard_type_fk").val();
         	var soft_delete_status_fk = $("#soft_delete_status_fk").val();
+        	var user_type_access = "MRVC";
         	getModulesFilterList('');
          	getDashboardTypesFilterList('');
          	getStatusFilterList('');
@@ -268,7 +269,7 @@
             }).rows().remove().draw();
     		
     		table.state.clear();		
-    	 	var myParams = {module_name_fk : module_name_fk, dashboard_type_fk : dashboard_type_fk, soft_delete_status_fk : soft_delete_status_fk};
+    	 	var myParams = {module_name_fk : module_name_fk, dashboard_type_fk : dashboard_type_fk, soft_delete_status_fk : soft_delete_status_fk,user_type_access : user_type_access};
     	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-dashboards-list",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){

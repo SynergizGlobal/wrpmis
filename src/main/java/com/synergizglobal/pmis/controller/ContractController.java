@@ -796,7 +796,6 @@ public class ContractController {
 	@RequestMapping(value = "/export-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportSafety(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contract contract,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.contractGrid);
-		List<Contract> dataList = new ArrayList<Contract>();
 		try {
 			String userId = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
@@ -804,11 +803,27 @@ public class ContractController {
 			contract.setUser_id(userId);
 			contract.setUser_role_code(userRoleCode);
 			view.setViewName("redirect:/contract");
-			dataList = contractService.contractList(contract);  
+			
+			List<Contract> dataList = contractService.contractList(contract);  
+			List<Contract> revisionsDataList = contractService.contractRevisionsList(contract); 
+			List<Contract> bgDataList = contractService.contractBGList(contract); 
+			List<Contract> insuranceDataList = contractService.contractInsuranceList(contract); 
+			List<Contract> milestoneDataList = contractService.contractMilestoneList(contract); 
+			
+			
 			if(dataList != null && dataList.size() > 0){
 	            XSSFWorkbook  workBook = new XSSFWorkbook ();
-	            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Contract"));
-		        workBook.setSheetOrder(sheet.getSheetName(), 0);
+	            XSSFSheet contractsSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Contract"));
+	            XSSFSheet revisionsSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Revision Details"));
+	            XSSFSheet bgSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("BG"));
+	            XSSFSheet insuranceSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Insurance"));
+	            XSSFSheet milestoneSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Milestone"));
+	            
+		        workBook.setSheetOrder(contractsSheet.getSheetName(), 0);
+		        workBook.setSheetOrder(revisionsSheet.getSheetName(), 1);
+		        workBook.setSheetOrder(bgSheet.getSheetName(), 2);
+		        workBook.setSheetOrder(insuranceSheet.getSheetName(), 3);
+		        workBook.setSheetOrder(milestoneSheet.getSheetName(), 4);
 		        
 		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
 		        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
@@ -832,23 +847,23 @@ public class ContractController {
 		        
 		        
 		        
-	            XSSFRow headingRow = sheet.createRow(0);
+	            XSSFRow headingRow = contractsSheet.createRow(0);
 	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Contract Type^Scope of Contract"
-	            		+ "^Tally Head^Estimated Cost^Awarded Cost^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
-	            		+ "Actual Completion Date^Completed Cost^Contract Closure Date^Completion Certificate Release^Final Takeover^Final Release^"
-	            		+ "Contract Status^Status of Work^Defect Liability Period^Retention Money Release^PBG Release^Contract Closure^Bank Guarantee Requried^Insurance Requried";
+	            		+ "^Estimated Cost^Awarded Cost^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
+	            		+ "Actual Completion Date^Final Taking over by Client^Date of issue of Completion Certificate^Final Release^Date of Payment of Final bill^Date of release of Final Retention / BG^Completion  Cost^"
+	            		+ "End date of Defect Liability Period^Date of release of PBG^Date of Contract Closure^Contract Status^Status of Work^Bank Guarantee Requried^Insurance Requried^Tally Head";
 	            
-	            String[] firstHeaderStringArr = headerString.split("\\^");
+	            String[] headerStringArr = headerString.split("\\^");
 	            
-	            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+	            for (int i = 0; i < headerStringArr.length; i++) {		        	
 		        	Cell cell = headingRow.createCell(i);
 			        cell.setCellStyle(greenStyle);
-					cell.setCellValue(firstHeaderStringArr[i]);
+					cell.setCellValue(headerStringArr[i]);
 				}
 	            
 	            short rowNo = 1;
 	            for (Contract obj : dataList) {
-	                XSSFRow row = sheet.createRow(rowNo);
+	                XSSFRow row = contractsSheet.createRow(rowNo);
 	                int c = 0;
 	                
 	                Cell cell = row.createCell(c++);
@@ -890,10 +905,6 @@ public class ContractController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getScope_of_contract());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getTally_head());
 					
 					String estimated_cost = "";
 					String estimated_cost_unit = "";
@@ -947,6 +958,26 @@ public class ContractController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getActual_completion_date());
 					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getFinal_takeover());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getCompletion_certificate_release());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getFinal_bill_release());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getFinal_bill_release());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRetention_money_release());
+					
 					String completed_cost = "";
 					String completed_cost_unit = "";
 					if(!StringUtils.isEmpty(obj.getCompleted_cost())) {
@@ -961,19 +992,15 @@ public class ContractController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getDefect_liability_period());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getPbg_release());					
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getContract_closure_date());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getCompletion_certificate_release());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getFinal_takeover());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getFinal_bill_release());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -985,33 +1012,288 @@ public class ContractController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getDefect_liability_period());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getRetention_money_release());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getPbg_release());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getContract_closure());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getBg_required());
 	                
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getInsurance_required());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getTally_head());
 	                
 	                rowNo++;
 	            }
-	            for(int columnIndex = 0; columnIndex < firstHeaderStringArr.length; columnIndex++) {
-	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+	            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
+	            	contractsSheet.setColumnWidth(columnIndex, 25 * 200);
 				}
+	            
+	            
+	            /********************************** Revision Details *********************************************************/
+	            
+	            headingRow = revisionsSheet.createRow(0);
+	            headerString = "Contract ID^Contract Short Name^Revision Number^Revised Contract Value^Current^Revised DOC^Current^Remarks";
+	            
+	            headerStringArr = headerString.split("\\^");
+	            
+	            for (int i = 0; i < headerStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue(headerStringArr[i]);
+				}
+	            
+	            rowNo = 1;
+	            for (Contract obj : revisionsDataList) {
+	                XSSFRow row = revisionsSheet.createRow(rowNo);
+	                int c = 0;
+	                
+	                Cell cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_id());
+					
+	                cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_short_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRevision_number());
+					
+					String revised_amount = "";
+					String revised_amount_unit = "";
+					if(!StringUtils.isEmpty(obj.getRevised_amount())) {
+						revised_amount = obj.getRevised_amount();
+					}
+					if(!StringUtils.isEmpty(obj.getUnit())) {
+						revised_amount_unit = obj.getUnit();
+					}
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectioncostStyle);
+					cell.setCellValue(revised_amount +" "+revised_amount_unit);
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRevision_amounts_status());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRevised_doc());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRevision_status());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRevision_remark());
+	                
+	                rowNo++;
+	            }
+	            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
+	            	revisionsSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            
+	            /********************************** BG Details *********************************************************/
+	            
+	            headingRow = bgSheet.createRow(0);
+	            headerString = "Contract ID^Contract Short Name^Code^BG Type^Issuing Bank^BG / FDR Number^Amount^BG / FDR Date^Expiry Date^Release Date";
+	            
+	            headerStringArr = headerString.split("\\^");
+	            
+	            for (int i = 0; i < headerStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue(headerStringArr[i]);
+				}
+	            
+	            rowNo = 1;
+	            for (Contract obj : bgDataList) {
+	                XSSFRow row = bgSheet.createRow(rowNo);
+	                int c = 0;
+	                
+	                Cell cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_id());
+					
+	                cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_short_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getCode());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getBg_type_fk());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getIssuing_bank());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getBg_number());
+					
+					String bg_value = "";
+					String bg_value_unit = "";
+					if(!StringUtils.isEmpty(obj.getBg_value())) {
+						bg_value = obj.getBg_value();
+					}
+					if(!StringUtils.isEmpty(obj.getUnit())) {
+						bg_value_unit = obj.getUnit();
+					}
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectioncostStyle);
+					cell.setCellValue(bg_value +" "+bg_value_unit);
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getBg_date());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getBg_valid_upto());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRelease_date());
+					
+	                
+	                rowNo++;
+	            }
+	            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
+	            	bgSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            
+	            /********************************** Insurance Details *********************************************************/
+	            
+	            headingRow = insuranceSheet.createRow(0);
+	            headerString = "Contract ID^Contract Short Name^Insurance Type^Issuing Agency^Agency Address^Insurance Number^Insurance Value^Valid Upto^Release";
+	            
+	            headerStringArr = headerString.split("\\^");
+	            
+	            for (int i = 0; i < headerStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue(headerStringArr[i]);
+				}
+	            
+	            rowNo = 1;
+	            for (Contract obj : insuranceDataList) {
+	                XSSFRow row = insuranceSheet.createRow(rowNo);
+	                int c = 0;
+	                
+	                Cell cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_id());
+					
+	                cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_short_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getInsurance_type());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getIssuing_agency());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getAgency_address());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getInsurance_number());
+					
+					String insurance_value = "";
+					String insurance_value_unit = "";
+					if(!StringUtils.isEmpty(obj.getInsurance_value())) {
+						insurance_value = obj.getInsurance_value();
+					}
+					if(!StringUtils.isEmpty(obj.getUnit())) {
+						insurance_value_unit = obj.getUnit();
+					}
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectioncostStyle);
+					cell.setCellValue(insurance_value +" "+insurance_value_unit);
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getInsurence_valid_upto());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getInsurance_status());
+					
+	                
+	                rowNo++;
+	            }
+	            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
+	            	insuranceSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            
+	            /********************************** Milestone Details *********************************************************/
+	            
+	            headingRow = milestoneSheet.createRow(0);
+	            headerString = "Contract ID^Contract Short Name^Milestone ID^Milestone Name^Milestone Date^Actual Date^Revision^Remarks ";
+	            
+	            headerStringArr = headerString.split("\\^");
+	            
+	            for (int i = 0; i < headerStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue(headerStringArr[i]);
+				}
+	            
+	            rowNo = 1;
+	            for (Contract obj : milestoneDataList) {
+	                XSSFRow row = milestoneSheet.createRow(rowNo);
+	                int c = 0;
+					
+					Cell cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_id());
+					
+	                cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_short_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getMilestone_id());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getMilestone_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getMilestone_date());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getActual_date());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRevision());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRemarks());
+					
+	                rowNo++;
+	            }
+	            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
+	            	milestoneSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            
+	            /*******************************************************************************************/
+	            
+	            
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Contract_"+dateFormat.format(date);

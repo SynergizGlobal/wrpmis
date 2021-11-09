@@ -17,6 +17,29 @@
   <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
        
      <style>
+     .dataTables_filter label input[type="search"]::placeholder {
+  color: #6C587B !important;
+  color: rgb(0 122 122 / 80%) !important;
+}
+
+.dataTables_filter label {
+  color: #fff;
+  font-size:.1px;
+}
+
+.right-btns .fa {
+  position: relative;
+  top: -35px;
+  right: .75rem;
+}
+
+.right-btns .fa:hover {
+  color: #007A7A;
+}
+
+.right-btns .fa+.fa {
+  right: 0 !important;
+}
      .theme-change {
 		  position: fixed;
 		  z-index: 2;
@@ -41,9 +64,11 @@
        .text-capitalize{
        		text-transform:capitalize;
        }
-       .table-inside{
-       	    overflow-x: auto;
-       }
+		.mdl-grid.dt-table >div,
+		.table-inside {
+		  width: 100%;
+		  overflow-x: auto;
+		}
        .table-plus-btn{
        	    text-align: center;
     		margin-top: .5rem;
@@ -61,16 +86,14 @@
 	     table:not(.datepicker-table) td{
 	        word-break: break-word;
 	    	word-wrap: break-word;
-	   		white-space: initial;
-	   		width:50%;  
+	   		white-space: initial;  
 	     }
-	     .mdl-data-table tr td{	     
+	   /*   .mdl-data-table tr td{	     
 	   		text-align:center !important;  
-	   	}
+	   	}*/
 	     thead th{
-	     	text-align: center !important;
    			color: #fff !important;
-	     }
+	     } 
         .card-title.headbg {
             padding: 15px;
             margin: -24px;
@@ -137,22 +160,79 @@
             -webkit-box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
             box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
         }
-
-		#past-leaves-table tbody tr >td,
-		#past-leaves-table thead tr >th{
+		
+		.dataTables_filter{
+			max-height:40px;
+		}
+		.dataTables_wrapper tbody tr >td,
+		.dataTables_wrapper  thead tr >th{
 			text-align:left !important;
 		}
-		#past-leaves-table tbody tr >td> .btn{
+		.dataTables_wrapper tbody tr >td> .btn{
 			height: 1.7rem;
 		    line-height: 1.75rem;
 		    padding: 0 0.5rem;
 		    font-size: .97rem;
-		}
-		
-		#past-leaves-table tbody tr >td.last-column{
+		}		
+		.dataTables_wrapper tbody tr >td.last-column,
+		.dataTables_wrapper thead tr >th:last-of-type {
 			padding-left:5px;
 			padding-right:5px;
+			max-width:80px !important;
+			min-width:70px;
 		}
+		.dataTables_wrapper tbody tr >td.no-pad,
+		.dataTables_wrapper thead tr >th.no-pad{
+			padding:0;
+		}
+		.dataTables_wrapper tbody tr >td>.btn i{
+		    font-size: .9rem;
+		}
+		.dataTables_wrapper .mdl-button {
+		    min-width: inherit;
+		    text-transform: capitalize;
+		    padding: 0 8px;
+		}
+		.dataTables_wrapper .dataTables_length label{
+			position:relative;
+			top:.6rem;
+		}
+		.dataTables_wrapper select.form-control.input-sm {
+			display: inline-block;
+		    width: auto;
+		    height: auto;
+		}
+		.dataTables_scrollBody{
+			height:auto !important;
+		}
+		.mdl-button--raised.mdl-button--colored,
+		.mdl-button--raised.mdl-button--colored:hover{
+			background-color:#007a7a;
+		}
+		td.fw-120{
+			width: 120px !important;
+			max-width:120px !important;
+			padding-right:5px;
+			padding-left:14px !important;
+		}
+        @media only screen and (max-width: 769px) {
+			.m-no-pad{
+				padding-left:0 !important;
+				padding-right:0 !important;
+			}
+			.m-no-pad > .card-title.headbg{
+				margin: -24px 0 8px;
+			} 
+			.dataTables_filter label input {
+			    width: 92% !important;
+			}
+			.dataTables_length{
+				text-align:center;
+			}
+			.mdl-grid:not(.dt-table){
+				justify-content:center;
+			}
+        }  
         @media only screen and (max-width: 600px) {
 
             .dataTables_info,
@@ -213,9 +293,9 @@
                 <form action="<%=request.getContextPath() %>/update-profile" method="POST" id="profileForm" name="profileForm" class="form-horizontal" role="form" enctype="multipart/form-data">
                 	<span class="card-title headbg main">
                 		<div class="profile_name">
-                         	 <span class="hideOrShow">${ userDetails.user_name } Details </span>
-                         	 <span class="hideOrShow input-field hidden disp-inflex">
-                         	 	<input name="user_name" id="user_name" type="text" class="validate"  value="${ userDetails.user_name }"/> Details
+                         	 <span class="hideOrShow">${ userDetails.user_id } - ${ userDetails.user_name } </span>
+                         	 <span class="hideOrShow input-field hidden disp-inflex">${ userDetails.user_id } &nbsp; 
+                         	 	<input name="user_name" id="user_name" type="text" class="validate"  value="${ userDetails.user_name }"/> 
                          	 	<span id="user_nameError" class="error-msg"></span>
                          	 </span>
                          </div>  
@@ -290,14 +370,14 @@
                         <div class="col m6 l4 s12">
                             <div class="card">
                                 <div class="card-content">
-                                    <span class="card-title headbg">Basic</span>
+                                    <span class="card-title headbg">User Details</span>
                                     <div class="profile_info">
                                         <div class="row">                                        
 											<table>
 											    <tbody>
 											        <tr>
-											            <td>User ID</td>
-											            <td>: &nbsp; ${ userDetails.user_id } - ${ userDetails.user_role_name_fk }</td>
+											            <td>User Role</td>
+											            <td>: &nbsp; <%-- ${ userDetails.user_id } -  --%>${ userDetails.user_role_name_fk }</td>
 											        </tr>
 											        <tr>
 											            <td>User Type</td>
@@ -424,7 +504,7 @@
 										                <button type="button" id="to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 										            </div>
 									            </div>
-									            <div class="row fixed-width no-mar" id="responsibleDiv" style="/* display:none; */ opacity:0">
+									            <div class="row no-mar" id="responsibleDiv" style="/* display:none; */ opacity:0">
 												    <h6 class="center-align">Assign Responsibility</h6>
 												    <div class="table-inside">   
 													    <table class="mdl-data-table mobile_responsible_table" id="responsibility_table">
@@ -486,32 +566,32 @@
                         </div> 
                         <div class="col m6 l4 s12" style="display:none;">
                         	<div class="card">
-							    <div class="card-content">
+							    <div class="card-content m-no-pad">
 							        <span class="card-title headbg">Past Leaves</span>
-							        <div class="row">
-							            <div class="col s12">
+							        <div class="row no-mar fixed-width">
+							            <div class="col s12 table-inside">
 							                <table id="past-leaves-table" class="mdl-data-table">
 							                    <thead>
 							                        <tr>
-							                            <th>from date /<br> to date</th>
-							                            <th>module /<br> responsible person</th>
+							                            <th class="fw-120">From Date /<br>To Date</th>
+							                            <th class="no-pad">Module /<br>Responsible Person</th>
 							                            <th class="nosort">Action</th>
 							                        </tr>
 							                    </thead>
 							                    <tbody>
 							                        <tr>                                            
-							                            <td> 10-11-2021 / 20-11-2021 </td>
-							                            <td> contract - some hod which is near to my position</td>
+							                            <td class="fw-120"> 10-11-2021 / 20-11-2021 </td>
+							                            <td class="no-pad"> contract - some hod which is near to my position</td>
 							                            <td class="last-column"> <a href="#"
 							                                    class="btn waves-effect waves-light bg-m t-c"><i
 							                                        class="fa fa-pencil"></i></a>
-							                                <a href="#" class="btn waves-effect waves-light bg-m t-c"><i
-							                                        class="fa fa-share"></i></a>
+							                                <a href="#" class="btn waves-effect waves-light bg-s t-c"><i
+							                                        class="fa fa-trash"></i></a>
 							                            </td>
 							                        </tr>
 							                    </tbody>
 							                </table>
-							            </div>
+							            </div> 
 							        </div>
 							    </div>
 							</div>                        	
@@ -551,7 +631,6 @@
 	  <script>
      $(document).ready(function () {
             $('#past-leaves-table').DataTable({
-                "searching": false,
                 columnDefs: [
                     {
                         targets: [],
@@ -560,21 +639,45 @@
                 ],
                 "language": {
                     "info": "Showing _START_ - _END_ in _TOTAL_ ",
-                    "lengthMenu": "",
                     "paginate": {
                         "previous": "<",
                         "next": ">",
                     },
                 },
                 "ScrollX": true,
-                "scrollCollapse": true,
+                "sScrollXInner": "100%",
+                "bscrollCollapse": true,
+                "fixedHeader":true,
                 "ordering":false,
-                "sScrollY": 400,
+                "bLengthChange": true,
+                //"paging": true,
+                //"sScrollY": 400,
+                initComplete: function () {
+	                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '150px', 'display': 'inline-block' });
+	                   var input = $('.dataTables_filter input')
+						.unbind()
+						.bind('keyup',function(e){
+						    if (e.which == 13){
+						    	self.search(input.val()).draw();
+						    }
+						}), self = this.api(), $searchButton = $(
+						'<i class="fa fa-search" title="Go" id="save_post">')
+						.click(function() {
+							self.search(input.val()).draw();
+						}), $clearButton = $(
+								'<i class="fa fa-close" title="Reset">')
+						.click(function() {
+							input.val('');
+							$searchButton.click();
+						})
+						$('.dataTables_filter').append('<div class="right-btns"></div>');
+						$('.dataTables_filter div').append(	$searchButton, $clearButton);
+	               }
             });
-        }); 
-    	$(document).ready(function () {
         	$('.searchable').select2();
-    	});
+        	//$('select:not(.searchable)').formSelect();
+        }); 
+
         function datesShowHide(){
         	 if($('input[name="leaveYes"]:checked').val()){
         		 //$('#datesDiv,#btnDiv').show();

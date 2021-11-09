@@ -968,7 +968,7 @@ public class ContractController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getFinal_bill_release());
+					cell.setCellValue("");
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

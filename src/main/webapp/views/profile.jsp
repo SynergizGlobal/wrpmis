@@ -89,15 +89,25 @@
             width: 250px;
             height: 250px;
             border-radius: 50%;
+                        
+            width: 50px;
+		    height: 50px;
+		    border-radius: 50%;
+		    position: absolute;
+		    right: -6px;
+		    top: -10px;
         }
-        
-        .profile_name {
-		    font-size: 2rem;
+        .profile_photo .hideOrShow{
+        	position:relative;
+        }
+       .profile_name {
+		    /* font-size: 2rem;
 		    margin: 20px 0;
 		    font-weight: bold;
 		    text-transform: uppercase;
-		    line-height: 1;
-		}
+		    line-height: 1; */
+		    display:inline-block;
+		} 
 
         .profile_designation {
             font-size: 1.5rem;
@@ -111,7 +121,12 @@
             font-weight: 300;
             text-transform: capitalize;
         }
-
+		.disp-inflex{
+			display:inline-flex;
+		}
+		.disp-inflex.hidden{
+			display:flex;
+		}
         /* right side code  */
         .profile_info {
             text-align: left;
@@ -123,6 +138,21 @@
             box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
         }
 
+		#past-leaves-table tbody tr >td,
+		#past-leaves-table thead tr >th{
+			text-align:left !important;
+		}
+		#past-leaves-table tbody tr >td> .btn{
+			height: 1.7rem;
+		    line-height: 1.75rem;
+		    padding: 0 0.5rem;
+		    font-size: .97rem;
+		}
+		
+		#past-leaves-table tbody tr >td.last-column{
+			padding-left:5px;
+			padding-right:5px;
+		}
         @media only screen and (max-width: 600px) {
 
             .dataTables_info,
@@ -182,13 +212,35 @@
                 <div class="card-content"> 
                 <form action="<%=request.getContextPath() %>/update-profile" method="POST" id="profileForm" name="profileForm" class="form-horizontal" role="form" enctype="multipart/form-data">
                 	<span class="card-title headbg main">
-                		User Details 
+                		<div class="profile_name">
+                         	 <span class="hideOrShow">${ userDetails.user_name } Details </span>
+                         	 <span class="hideOrShow input-field hidden disp-inflex">
+                         	 	<input name="user_name" id="user_name" type="text" class="validate"  value="${ userDetails.user_name }"/> Details
+                         	 	<span id="user_nameError" class="error-msg"></span>
+                         	 </span>
+                         </div>  
                 		<span class="left">
                 		<a class="btn bg-m editing" onclick="toggleEditing()">Edit</a> 
                 		<i class="fa fa-save saving hidden" onclick='profileFormSubmit()'></i>
                 		<i class="fa fa-close closing hidden" onclick="toggleEditing()"></i>
                 		</span>
-                		
+                		<span class="right">
+               			  <div class="profile_photo">
+                              <span class="hideOrShow">
+                              	<img src="<%=CommonConstants2.USER_IMAGES %>${userDetails.user_image}" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" >
+                              </span> 
+                              <span class="hideOrShow hidden"> 
+								<div class="file-field input-field">
+									<div class="btn bg-m">
+										<span>Change Image</span> <input type="file" name="userImageFile" id="userImageFile" accept='image/*'>
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" name="user_image" type="text" value="${ userDetails.user_image }">
+									</div>
+								</div> 
+							 </span>
+							</div>
+                		</span>
                 	</span>
                 	 <c:if test="${not empty success }">
 					        <div class="center-align m-1 close-message">	
@@ -201,7 +253,7 @@
 							</div>
 				  </c:if>
                     <div class="row">                   
-                        <div class="col m6 l4 s12 center-align">
+                        <%-- <div class="col m6 l4 s12 center-align">
                             <div class="card">
                                 <div class="card-content">
                                    <!--  <span class="card-title headbg">Basic</span> -->
@@ -220,20 +272,20 @@
 												</div>
 											</div> <!-- </form> -->
 										</span>
-									</div>
+									</div> 
                                     <div class="profile_name">
                                     	 <span class="hideOrShow">${ userDetails.user_name }</span>
                                     	 <span class="hideOrShow input-field hidden">
                                     	 	<input name="user_name" id="user_name" type="text" class="validate"  value="${ userDetails.user_name }"/>
                                     	 	<span id="user_nameError" class="error-msg"></span>
                                     	 </span>
-                                    </div>
+                                    </div> 
                                     <div class="profile_designation">${ userDetails.designation }
                                         <span class="profile_role">( ${ userDetails.user_role_name_fk } )</span>
-                                    </div>
+                                    </div> 
                                 </div>
                             </div>
-                        </div>
+                        </div>  --%>
                         <input type="hidden"  name="user_id" id="user_id" value="${ userDetails.user_id }" />
                         <div class="col m6 l4 s12">
                             <div class="card">
@@ -245,7 +297,7 @@
 											    <tbody>
 											        <tr>
 											            <td>User ID</td>
-											            <td>: &nbsp; ${ userDetails.user_id }</td>
+											            <td>: &nbsp; ${ userDetails.user_id } - ${ userDetails.user_role_name_fk }</td>
 											        </tr>
 											        <tr>
 											            <td>User Type</td>
@@ -348,8 +400,8 @@
                             </div>
                         </div> --%>
                         
-                         <div class="col m12 l4 s12" style="display:none;">
-                            <div class="card" style="min-height: 445px;">
+                         <div class="col m6 l4 s12">
+                            <div class="card">
                                 <div class="card-content">
                                     <span class="card-title headbg">Leave Responsibility</span>
                                     <div class="row">
@@ -361,7 +413,8 @@
 									                    <span>Yes</span>
 									                </label>
 									            </p>
-									            <div id="datesDiv" style="display:none;">
+									            <div id="leaveResponsibleDiv" style="/* display:none; */">
+									            <div id="datesDiv" style="/* display:none; */ opacity:0">
 									            	<div class="input-field col s6">
 										                <input type="text" class="datepicker" id="from_date" placeholder="From Date">
 										                <button type="button" id="from_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -371,7 +424,7 @@
 										                <button type="button" id="to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 										            </div>
 									            </div>
-									            <div class="row fixed-width no-mar" id="responsibleDiv" style="display:none;">
+									            <div class="row fixed-width no-mar" id="responsibleDiv" style="/* display:none; */ opacity:0">
 												    <h6 class="center-align">Assign Responsibility</h6>
 												    <div class="table-inside">   
 													    <table class="mdl-data-table mobile_responsible_table" id="responsibility_table">
@@ -411,7 +464,7 @@
 													    </div>
 													  </div>
 												</div>
-												<div class="row no-mar" id="btnDiv" style="display:none;">
+												<div class="row no-mar" id="btnDiv" style="/* display:none; */ opacity:0">
 					                                <div class="col s6 mt-brdr mt-20px">
 					                                    <div class="center-align m-1">
 						                                       <button type="button" class="btn waves-effect waves-light bg-m">Update</button>
@@ -423,6 +476,7 @@
 					                                    </div>
 					                                </div>
 					                            </div>
+					                            </div>
 									        </form>
 									    </div>
 									</div>
@@ -430,7 +484,38 @@
                                 </div>
                             </div>
                         </div> 
-                        
+                        <div class="col m6 l4 s12" style="display:none;">
+                        	<div class="card">
+							    <div class="card-content">
+							        <span class="card-title headbg">Past Leaves</span>
+							        <div class="row">
+							            <div class="col s12">
+							                <table id="past-leaves-table" class="mdl-data-table">
+							                    <thead>
+							                        <tr>
+							                            <th>from date /<br> to date</th>
+							                            <th>module /<br> responsible person</th>
+							                            <th class="nosort">Action</th>
+							                        </tr>
+							                    </thead>
+							                    <tbody>
+							                        <tr>                                            
+							                            <td> 10-11-2021 / 20-11-2021 </td>
+							                            <td> contract - some hod which is near to my position</td>
+							                            <td class="last-column"> <a href="#"
+							                                    class="btn waves-effect waves-light bg-m t-c"><i
+							                                        class="fa fa-pencil"></i></a>
+							                                <a href="#" class="btn waves-effect waves-light bg-m t-c"><i
+							                                        class="fa fa-share"></i></a>
+							                            </td>
+							                        </tr>
+							                    </tbody>
+							                </table>
+							            </div>
+							        </div>
+							    </div>
+							</div>                        	
+                        </div>
                     </div>
                   </form>
                 </div>
@@ -464,8 +549,8 @@
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	  <script>
-       /*  $(document).ready(function () {
-            $('#example2').DataTable({
+     $(document).ready(function () {
+            $('#past-leaves-table').DataTable({
                 "searching": false,
                 columnDefs: [
                     {
@@ -486,17 +571,21 @@
                 "ordering":false,
                 "sScrollY": 400,
             });
-        }); */
+        }); 
     	$(document).ready(function () {
         	$('.searchable').select2();
     	});
         function datesShowHide(){
         	 if($('input[name="leaveYes"]:checked').val()){
-        		 $('#datesDiv,#btnDiv').show();
-        		 $('#responsibleDiv').show();        		 
+        		 //$('#datesDiv,#btnDiv').show();
+        		 //$('#responsibleDiv').show();        		 
+        		// $('#leaveResponsibleDiv').show();        		         		 
+        		 $('#datesDiv,#btnDiv,#responsibleDiv').css({'opacity':'1','transition':'all .7s ease-in-out'});
         	 }else{
-        		 $('#datesDiv,#btnDiv').hide();
-        		 $('#responsibleDiv').hide();
+        		 //$('#datesDiv,#btnDiv').hide();
+        		 //$('#responsibleDiv').hide();
+        		 $('#datesDiv,#btnDiv,#responsibleDiv').css({'opacity':'0','transition':'all .7s ease-in-out'});
+        		 //$('#leaveResponsibleDiv').hide(); 
         	 }
         }
         function toggleEditing(){

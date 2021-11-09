@@ -105,19 +105,23 @@
                         	<input type="hidden" name ="dashboard_id" value="${dashboardDetails.dashboard_id }" />
                             <div class="row">                              
                                 <div class="col s12 m4 l4 input-field">
-                                    <p class="searchable_label">Dashboard :</p>
-                                    <p>${dashboardDetails.dashboard_name }</p>  
+                                	<p><span class="searchable_label">Dashboard :</span> ${dashboardDetails.dashboard_name }</p>
+                                    <%-- <p class="searchable_label">Dashboard :</p>
+                                    <p>${dashboardDetails.dashboard_name }</p>  --%> 
                                 </div> 
                                 <div class="col s12 m4 l4 input-field"> 
-                                    <p class="searchable_label"> Module :</p>
-                                    <p>${dashboardDetails.module_name_fk}</p>
+                                	<p><span class="searchable_label">Module :</span> ${dashboardDetails.module_name_fk}</p>
+                                    <%-- <p class="searchable_label"> Module :</p>
+                                    <p>${dashboardDetails.module_name_fk}</p> --%>
                                 </div>
                                 <div class="col s12 m4 l4 input-field"> 
-                                    <p class="searchable_label"> Dashboard Type :</p>
-                                    <p>${dashboardDetails.dashboard_type_fk}</p>
+                                	<p><span class="searchable_label">Dashboard Type :</span> ${dashboardDetails.dashboard_type_fk}</p>
+                                    <%-- <p class="searchable_label"> Dashboard Type :</p>
+                                    <p>${dashboardDetails.dashboard_type_fk}</p> --%>
                                 </div>
                                 
                             </div>
+                            <br>
                             <div class="row">
                                 <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Folder :</p>

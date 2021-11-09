@@ -146,12 +146,12 @@
                                     <label for="form_name">Form Name</label> --%>
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
-                                <p><span class="searchable_label">Form Name :</span> ${formDetails.module_name_fk }</p>
+                                <p><span class="searchable_label">Module :</span> ${formDetails.module_name_fk }</p>
                                    <%-- <input id="module_name_fk" type="text" class="validate" value="${formDetails.module_name_fk }" readonly="readonly">
                                     <label for="module_name_fk">Module</label> --%>
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
-                                <p><span class="searchable_label">Form Name :</span> ${formDetails.folder_name }</p>
+                                <p><span class="searchable_label">Folder :</span> ${formDetails.folder_name }</p>
                                    <%-- <input id="parent_form_id_sr_fk" type="text" class="validate" value="${formDetails.folder_name }" readonly="readonly">
                                     <label for="parent_form_id_sr_fk">Folder</label> --%>
                                 </div>

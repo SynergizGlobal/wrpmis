@@ -566,7 +566,7 @@ public class ZonalRailwayController {
 						cell.setCellValue (sObj.getSub_work());
 						
 						cell = row2.createCell(c++);
-						cell.setCellStyle(sectionStyle);
+						cell.setCellStyle(dateStyle);
 						cell.setCellValue(sObj.getMonth());
 						
 						cell = row2.createCell(c++);

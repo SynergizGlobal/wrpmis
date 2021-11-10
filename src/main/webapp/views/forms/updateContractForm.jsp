@@ -415,6 +415,10 @@
 			    cursor: pointer;
 			    background-color: transparent;
 		}
+		.max-130{
+			max-width:135px !important;
+			width:135px;
+		}
        @media only screen and (min-width: 770px){
 			.min-w-120 > .select2-container{
 				width:auto;
@@ -1082,10 +1086,10 @@
                                                 <th>BG / FDR <br>Number </th>
                                                 <th >Amount </th>
                                                 <!--<th>Unit</th> -->
-                                                <th>BG / FDR <br> Date </th>
-                                                <th>Expiry Date <span class="required">*</span></th>
+                                                <th class="max-130">BG / FDR <br> Date </th>
+                                                <th class="max-130">Expiry Date <span class="required">*</span></th>
                                                 <!--<th>Remarks </th> -->
-                                                <th>Release Date</th>
+                                                <th class="max-130">Release Date</th>
                                                 <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
                                                 	<th>Action</th>
                                                 </c:if>
@@ -1334,7 +1338,7 @@
                                                 <th >Insurance Value </th>
                                                 <!-- <th>Unit</th> -->
                                                 <!-- <th>Revision </th> -->
-                                                <th>Valid Upto <span class="required">*</span></th>
+                                                <th class="max-130">Valid Upto <span class="required">*</span></th>
                                               	<!--<th>Remarks </th>-->
                                                 <th>Release</th>
                                                 <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">

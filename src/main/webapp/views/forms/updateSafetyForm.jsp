@@ -303,8 +303,8 @@
                                     <span id="investigation_completedError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m6 l6 input-field">
-                                    <input id="lti_hours" name="lti_hours" type="text" class="validate" value="${safety.lti_hours }">
-                                    <label for="lti_hours">Loss Time Injury (LTI) Hours</label>
+                                    <input id="lti_hours" name="lti_hours" type="number" class="validate" value="${safety.lti_hours }">
+                                    <label for="lti_hours"> LTI  in hours</label>
                                     <span id="lti_hoursError" class="error-msg" ></span>
                                 </div>
                             </div>

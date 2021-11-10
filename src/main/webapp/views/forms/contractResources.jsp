@@ -180,7 +180,7 @@
                                                                 <i class="fa fa-close"></i></a>
                                                         </td>
                                                     </tr>
-                                                <tr id="resourceFormTableRow1">
+<%--                                                 <tr id="resourceFormTableRow1">
 												<td class="input-field" data-head="Resource Type" >
 													<select id="resource_types1" name="resource_types" class="select searchable" onchange="getSubResourceTypes('1');">
 														 <option value="" >Select</option>  
@@ -319,7 +319,7 @@
                                                         </td>												
 												<td class="input-field" data-head="Quantity"><input id="quantitys5" name="quantitys" type="number" value="0" class="validate" placeholder="Qty" min="0"></td>
 												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('5');"><i class="fa fa-close"></i></a></td>
-											</tr>
+											</tr> --%>
                                                 </tbody>
                                             </table>
                                             <table class="mdl-data-table">
@@ -330,7 +330,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <input type="hidden" id="rowNo" name="rowNo" value="7" />
+                                            <input type="hidden" id="rowNo" name="rowNo" value="0" />
                                         </div>
                                     </div>
                                 </div>
@@ -515,8 +515,8 @@
         
         function addResource() {    
             // var rowNo = $("#rowNo").val();
-            var rowNo = $("#resourceFormTableBody tr").length;
-            var rNo = Number(rowNo) + 1;
+            var rowNo = $("#resourceFormTable tbody tr").length;
+            var rNo = Number(rowNo);
             var html = '<tr id="resourceFormTableRow' + rNo + '"><td data-head="Resource Type" class="input-field"><select class="searchable" id="resource_types' + rNo + '" name="resource_types" onchange="getSubResourceTypes(' + rNo + ');">' +
 			            '<option value="">select</option>'+
 					       <c:forEach var="obj" items="${resourceTypeList }">
@@ -540,8 +540,8 @@
 			            ' <td class="mobile_btn_close"> <a href="javascript:void(0);" onclick="removeResource(' + rNo + ');" class="btn waves-effect waves-light red t-c ">' +
 			            '<i class="fa fa-close"></i></a></td></tr>';
 
-            $("#resourceFormTableBody").append(html);
-            $("#rowNo").val(rNo);
+            $("#resourceFormTable tbody").append(html);
+            $("#rowNo").val(rNo+1);
             $('.searchable').select2();
         }
         
@@ -552,13 +552,45 @@
         function submitResource(){
     		if(validator.form()){
     			var flag = true;
+    			var inputName="";
             	$('select[name=resource_types').each(function(){
             		var num = (this.id).replace('resource_types','');
+
             		
             		var resource_type = $("#resource_types"+num).val();
      				var resource_name = $("#sub_resource_type"+num).val(); 
          	 		var quantity = $("#quantitys"+num).val();
-         	 		if($.trim(resource_type) == '' || $.trim(resource_name) == '' || $.trim(quantity) == ''){
+         	 		var unit = $("#unit"+num).val();
+         	 		
+         	 		var incRow=Number(num)+1;
+         	 		
+            		if($.trim(resource_type) == '')
+        			{
+            			inputName="Resource Type required in "+incRow+" row";
+        			}
+	        		if($.trim(resource_name) == '')
+	    			{
+	        			inputName="Resource Name required in "+incRow+" row";
+	    			}
+	        		if($.trim(unit) == '')
+	    			{
+	        			inputName="Unit required in "+incRow+" row";
+	    			}	        		
+	        		if($.trim(quantity) == '')
+	    			{
+	        			inputName="Quantity required in "+incRow+" row";
+	    			}
+	        		if($.trim(quantity) ==0)
+	    			{
+	    				inputName="Quantity should not be 0 in "+incRow+" row";
+	    			}   
+	        		
+	        		
+         	 		if($.trim(resource_type) == '' && $.trim(resource_name) == ''&& $.trim(unit) == '' &&( $.trim(quantity) == '' || $.trim(quantity) == 0)){
+         	 			inputName="All fields are blank in "+incRow+" row";
+         	 		}	        		
+         	 		
+         	 		if($.trim(resource_type) == '' || $.trim(resource_name) == '' || $.trim(unit) == '' || $.trim(quantity) == '' || $.trim(quantity) == 0){
          	 			flag = false;
          	 		}
          	 	});
@@ -569,8 +601,9 @@
     	        		$("#"+this.id).attr("disabled",false);
     	        	});	   	       	 	
     	       	 	document.getElementById("resourceForm").submit();
-            	}else{
-            		swal("All Fields required");
+            	}else
+            	{
+        				swal(inputName);
             	}						
     	 	}
     	}

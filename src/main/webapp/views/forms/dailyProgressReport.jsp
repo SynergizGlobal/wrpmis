@@ -77,7 +77,7 @@
 								</div>	
 								</div> 
 							    <div class="row no-mar" id="nextRow">
-									<div class="col s6 m3 l4 input-field">
+<%-- 									<div class="col s6 m3 l4 input-field">
 										<p class="searchable_label">Contractor</p>
 										<select class="searchable validate-dropdown" id="contractor_id" name="contractor_id" onchange="addInQueContractor(this.value); getHodList('');getDyhodList('');resetFilterDropDowns();">
 											<option value="">Select</option>	
@@ -86,7 +86,7 @@
 	                                         </c:forEach>
 										</select> 
 										<span id="contractor_idError" class="error-msg"></span>
-									</div>
+									</div> --%>
 									<div class="col s6 m3 l4 input-field">
 										<p class="searchable_label">HOD</p>
 										<select class="searchable validate-dropdown" id="hod" name="hod" onchange="addInQueHOD(this.value);getDyhodList('');resetFilterDropDowns();">

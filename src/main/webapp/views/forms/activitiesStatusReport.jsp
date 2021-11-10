@@ -76,7 +76,7 @@
 									<span id="contract_idError" class="error-msg"></span>
 								</div>	 
 							
-							    <div class="col s12 m3 l4 input-field" id="fob_id_fk_div" style="display: none;">
+							    <div class="col s12 m3 l4 input-field" id="fob_id_fk_div">
 									<p class="searchable_label">Structure</p>
 									<select class="searchable validate-dropdown" id="fob_id_fk" name="fob_id_fks" multiple="multiple"  onchange="addInQueFOB();getActivitiesList();">
 										<option value="">Select</option>	
@@ -252,7 +252,7 @@
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
         	var fob_id_fk = $("#fob_id_fk").val();
-        	if(contract_id == ""){$("#fob_id_fk_div").hide();}
+        	//if(contract_id == ""){$("#fob_id_fk_div").hide();}
             if ($.trim(project_id) == "") {
             	$("#project_id option:not(:first)").remove();
             	var myParams = {};
@@ -284,7 +284,7 @@
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
         	var fob_id_fk = $("#fob_id_fk").val(); 
-        	if(contract_id == ""){$("#fob_id_fk_div").hide();}
+        	//if(contract_id == ""){$("#fob_id_fk_div").hide();}
         	
            	$("#work_id option:not(:first)").remove();
            	var myParams = {project_id : project_id};
@@ -315,7 +315,7 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	if(contract_id == ""){$("#fob_id_fk_div").hide();}
+        	//if(contract_id == ""){$("#fob_id_fk_div").hide();}
             	$("#contract_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id};
                 $.ajax({
@@ -395,12 +395,12 @@
                                 }
                                else{
                                 	 $("#fob_id_fk").append('<option value="' + val.fob_id + '">' + $.trim(val.fob_id)  + fobName +'</option>');
-                                	 $("#fob_id_fk_div").show();
+                                	 //$("#fob_id_fk_div").show();
                                 }
                             });
-                            $("#fob_id_fk_div").show();
+                            //$("#fob_id_fk_div").show();
                         }else{
-                        	$("#fob_id_fk_div").hide();
+                        	//$("#fob_id_fk_div").hide();
                         }                     
                         $(".page-loader").hide();
                     },error: function (jqXHR, exception) {

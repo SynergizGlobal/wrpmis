@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
 
 public interface DesignService {
@@ -55,6 +56,9 @@ public interface DesignService {
 	public boolean saveDesignDataUploadFile(Design design) throws Exception;
 
 	public List<Design> getDesignUploadsList(Design obj) throws Exception;
+
+	public List<Design> getHodList(Design obj) throws Exception;
 	
+	public List<Design> getDyHodList(Design obj) throws Exception;
 
 }

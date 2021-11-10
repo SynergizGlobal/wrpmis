@@ -55,5 +55,9 @@ public interface DesignDao {
 	public boolean saveDesignDataUploadFile(Design design) throws Exception;
 
 	public List<Design> getDesignUploadsList(Design obj) throws Exception;
+	
+	public List<Design> getHodList(Design obj) throws Exception;
+	
+	public List<Design> getDyHodList(Design obj) throws Exception;
 
 }

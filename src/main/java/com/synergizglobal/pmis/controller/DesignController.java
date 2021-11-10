@@ -60,6 +60,7 @@ import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.DesignsPaginationObject;
 
 @Controller
@@ -470,6 +471,37 @@ public class DesignController {
 			logger.error("getDesignUploadsList : " + e.getMessage());
 		}
 		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getHodListForDesignForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getHodList(@ModelAttribute Design obj,HttpSession session) {
+		List<Design> dataList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_code());
+			
+			dataList = designService.getHodList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHodList : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
+	@RequestMapping(value = "/ajax/getDyHodListForDesignForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getDyHodList(@ModelAttribute Design obj,HttpSession session) {
+		List<Design> dataList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_code());
+			dataList = designService.getDyHodList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDyHodList : " + e.getMessage());
+		}
+		return dataList;
 	}
 	
 	@RequestMapping(value = "/add-design", method = {RequestMethod.GET,RequestMethod.POST})

@@ -36,6 +36,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Risk;
@@ -1417,5 +1418,68 @@ public class DesignDaoImpl implements DesignDao{
 		return objsList;
 	}
 	
+	
+	@Override
+	public List<Design> getHodList(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="SELECT u.user_id as hod,u.user_name,u.designation "
+					+ "FROM user u " 
+					+ "left join user u1 on u.reporting_to_id_srfk = u1.user_id "
+					+ "LEFT JOIN department d on u.department_fk = d.department "
+					+ "where  u.user_type_fk = ?  ";
+			
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
+				qry = qry + " and u.user_id = ? ";
+				arrSize++;
+			}
+			qry = qry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),u.designation" ;
+
+			//qry = qry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE_HOD;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
+				pValues[i++] = obj.getDy_hod();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getDyHodList(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="SELECT u.user_id as dy_hod,u.user_name,u.designation "
+					+ "FROM user u " 
+					+ "left join user u1 on u.reporting_to_id_srfk = u1.user_id " 
+					+ "where u.user_type_fk = ?  ";
+			
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
+				qry = qry + " and u.reporting_to_id_srfk = ? ";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE_DYHOD;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
+				pValues[i++] = obj.getHod();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
 	
 }

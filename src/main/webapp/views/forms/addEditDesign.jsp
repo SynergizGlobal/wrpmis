@@ -349,7 +349,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <%-- <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="hod" type="text" class="validate" name="hod" value="${designDetails.hod }">
                                     <label for="hod">HOD <span class="required">*</span></label>
                                     <span id="hodError" class="error-msg" ></span>
@@ -358,6 +358,20 @@
                                     <input id="dy_hod" type="text" class="validate" name="dy_hod" value="${designDetails.dy_hod }">
                                     <label for="dy_hod">Dy HOD <span class="required">*</span></label>
                                     <span id="dy_hodError" class="error-msg" ></span>
+                                </div> --%>
+                                <div class="col s6 m4 l4 input-field offset-m2">
+                                	<p class="searchable_label">HOD <span class="required">*</span></p>
+                                	<select name="hod" id="hod" class="validate-dropdown searchable" onchange="getDyHodList();"> 
+                         		  			<option value="">Select</option> 
+                                	</select>
+                                	<span id="hodError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field">
+                                	<p class="searchable_label">Dy HOD <span class="required">*</span></p>
+                                	<select name="dy_hod" id="dy_hod" class="validate-dropdown searchable"> 
+                         		  			<option value="">Select</option> 
+                                	</select>
+                                	<span id="dy_hodError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label">Prepared By <span class="required">*</span></p>
@@ -1100,6 +1114,9 @@
          	$('.searchable').select2();
             $('#remarks,#issueDesc').characterCounter();
             $('.tooltipped').tooltip();
+            
+            getHodList();
+            getDyHodList();
 
             $('input[name=is_there_issue]').change(function () {
                 var radioval = $('input[name=is_there_issue]:checked').val();
@@ -1164,6 +1181,7 @@
             if($.trim(work_id_fk) != ''){
             	getContractsList(work_id_fk);
             }
+            
         });
 
       
@@ -1616,51 +1634,109 @@
             
     
 
-	  function addRevisionRow(){
+	  		function addRevisionRow(){
 		
-      var rowNo = $("#rowNo").val();
-      var rNo = Number(rowNo)+1;
-	//console.log("rowno= "+rowNo+" rno= "+rNo);
-      var html ='<tr id="revisionRow'+rNo+'"> '
-		      +'<td data-head="Revision" class="input-field"> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
-		      +'<td data-head="Consultant Submission" class="input-field"><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_submissions'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
-		      +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_revieweds'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
-		      +'<td data-head="Divisional Approval" class="input-field"><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
-			  +'<td data-head="HQ approval" class="input-field"><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
-			  +'<td data-head="Revision Status" class="input-field">'
-			  +'<select class="searchable" id="revision_status_fks'+rNo+'" name="revision_status_fks">'
-		      +'<option value="" selected>Select </option>'
-		        <c:forEach var="obj" items="${revisionStatuses }">
-			  	  +'<option value="${obj.revision_status }">${obj.revision_status }</option>'
-				</c:forEach>
-			  +'</select></td>'
-			  +'<td data-head="Remarks" class="input-field"> <input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
-			  +'<td class="mobile_btn_close"><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-				
-			  $('#revisionsTableBody').append(html);
-			  $("#rowNo").val(rNo);
-			  // $('select').formSelect();
-		      $('.searchable').select2();
-		      
-
-	           /*  $(document).on('focus', '.datepicker',function(){
-			        $(this).datepicker({
-			        	format:'dd-mm-yyyy',
-			   	    	onSelect: function () {
-			   	    	   $('.confirmation-btns .datepicker-done').click();
-			   	    	}
-			        })
-			    }); */
-	  }
-	  
-	  function removeRevision(rowNo){
-	    	$("#revisionRow"+rowNo).remove();
-	    }
-	  function removeMedia(link,id){
-	   	  $('#'+id).val('');
-	   	  $(link).prev().text('');
-	   	  $(link).css('display','none');
-}  
+		      var rowNo = $("#rowNo").val();
+		      var rNo = Number(rowNo)+1;
+			  //console.log("rowno= "+rowNo+" rno= "+rNo);
+		      var html ='<tr id="revisionRow'+rNo+'"> '
+				      +'<td data-head="Revision" class="input-field"> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
+				      +'<td data-head="Consultant Submission" class="input-field"><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_submissions'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
+				      +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_revieweds'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
+				      +'<td data-head="Divisional Approval" class="input-field"><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
+					  +'<td data-head="HQ approval" class="input-field"><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
+					  +'<td data-head="Revision Status" class="input-field">'
+					  +'<select class="searchable" id="revision_status_fks'+rNo+'" name="revision_status_fks">'
+				      +'<option value="" selected>Select </option>'
+				        <c:forEach var="obj" items="${revisionStatuses }">
+					  	  +'<option value="${obj.revision_status }">${obj.revision_status }</option>'
+						</c:forEach>
+					  +'</select></td>'
+					  +'<td data-head="Remarks" class="input-field"> <input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
+					  +'<td class="mobile_btn_close"><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+						
+					  $('#revisionsTableBody').append(html);
+					  $("#rowNo").val(rNo);
+					  // $('select').formSelect();
+				      $('.searchable').select2();
+				      
+		
+			           /*  $(document).on('focus', '.datepicker',function(){
+					        $(this).datepicker({
+					        	format:'dd-mm-yyyy',
+					   	    	onSelect: function () {
+					   	    	   $('.confirmation-btns .datepicker-done').click();
+					   	    	}
+					        })
+					    }); */
+			  }
+			  
+			  function removeRevision(rowNo){
+			    	$("#revisionRow"+rowNo).remove();
+			  }
+			  function removeMedia(link,id){
+			   	  $('#'+id).val('');
+			   	  $(link).prev().text('');
+			   	  $(link).css('display','none');
+			  }  
+			  
+			  function getHodList() {
+		        	$(".page-loader").show();
+		        	var myParams = {};
+	                $.ajax({
+	                    url: "<%=request.getContextPath()%>/ajax/getHodListForDesignForm",
+	                    data: myParams, cache: false,async:false,
+	                    success: function (data) {
+	                        if (data.length > 0) {
+	                            $.each(data, function (i, val) {
+	                            	var userName = '';
+	 	                        	if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+	 	                        	var hod = "${designDetails.hod }";
+	 	                        	if(val.hod == hod ){
+	                            		$("#hod").append('<option value="' + val.hod + '" selected>' + $.trim(val.designation) + userName + '</option>');
+	 	                        	}else{
+	 	                        		$("#hod").append('<option value="' + val.hod + '">' + $.trim(val.designation) + userName + '</option>');
+	 	                        	}
+	                            });
+	                        }
+	                        $('.searchable').select2();
+	                        $(".page-loader").hide();
+	                    },error: function (jqXHR, exception) {
+	     	   			      $(".page-loader").hide();
+	    	   	          	  getErrorMessage(jqXHR, exception);
+	    	   	     	  }
+	                });
+		        }
+		        
+		        function getDyHodList() {
+		        	$(".page-loader").show();
+		        	$("#dy_hod option:not(:first)").remove();
+		        	var hod = $("#hod").val();
+		            var myParams = { hod: hod};
+		            $.ajax({
+		                url: "<%=request.getContextPath()%>/ajax/getDyHodListForDesignForm",
+		                data: myParams, cache: false,async:false,
+		                success: function (data) {
+		                    if (data.length > 0) {
+		                        $.each(data, function (i, val) {
+		                        	var userName = '';
+	 	                        	if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+	 	                        	var hy_hod = "${designDetails.dy_hod }";
+	 	                        	if(val.dy_hod == hy_hod ){
+	 	                        		$("#dy_hod").append('<option value="' + val.dy_hod + '" selected>' + $.trim(val.designation) + userName + '</option>');
+	 	                        	}else{
+			                        	$("#dy_hod").append('<option value="' + val.dy_hod + '">' + $.trim(val.designation) + userName + '</option>');
+	 	                        	}
+		                        });
+		                    }
+		                    $('.searchable').select2();
+		                    $(".page-loader").hide();
+		                },error: function (jqXHR, exception) {
+		 	   			      $(".page-loader").hide();
+			   	          	  getErrorMessage(jqXHR, exception);
+			   	     	  }
+		            });
+		        }
     
     </script>
 

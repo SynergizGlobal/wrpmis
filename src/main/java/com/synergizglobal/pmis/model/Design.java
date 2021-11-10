@@ -15,7 +15,7 @@ public class Design {
 	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
 	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq,
 	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,
-	 project_id,work_id,project_name,contract_id,revision_status,status,uploaded_by_user_id_fk,design_data_id, uploaded_file, uploaded_on;
+	 project_id,work_id,project_name,contract_id,revision_status,status,uploaded_by_user_id_fk,design_data_id, uploaded_file, uploaded_on,user_role_code,user_name;
 	
 	
 	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
@@ -703,6 +703,22 @@ public class Design {
 
 	public void setClearance_to_consultant(String clearance_to_consultant) {
 		this.clearance_to_consultant = clearance_to_consultant;
+	}
+
+	public String getUser_role_code() {
+		return user_role_code;
+	}
+
+	public void setUser_role_code(String user_role_code) {
+		this.user_role_code = user_role_code;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 
 }

@@ -233,7 +233,8 @@ public class UserActivityReportController {
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle activityNameStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle indexShadedStyle = cellFormating(workBook,greyRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle indexShadedStyle = cellFormating(workBook,greyRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,true,isItalicText,11,fontName);
 
 
 	        /********************************************************/
@@ -241,8 +242,8 @@ public class UserActivityReportController {
             /********************************************************/
 	        int sheetNo = 0;
 	        int len  = 0;
-	        int rowNum=7;
-	        int rowNum1=7;
+	        int rowNum=8;
+	        int rowNum1=8;
 	        
 	        String dates = null;
 	        String UserName = null;
@@ -258,12 +259,12 @@ public class UserActivityReportController {
 		        
 				cell.setCellStyle(whiteStyle);
 				cell.setCellValue("");
-				for (int i = 0; i < 9; i++) {		        	
+				for (int i = 0; i < 7; i++) {		        	
 			        cell = dateRow.createCell(i);
 			        cell.setCellStyle(whiteStyle);
 					cell.setCellValue("User Activity Report On :" + report_created_date);
 				}
-			   dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,8));	
+			   dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,6));	
 			   
 			   
 			   XSSFRow mainHeadingRow = dprSheet.createRow(2);
@@ -273,12 +274,12 @@ public class UserActivityReportController {
 				//cell.setCellValue("Activities Progress Report ");
 		        cell.setCellValue("User Activity Report");
 		        
-		        for (int i = 1; i < 9; i++) {		        	
+		        for (int i = 1; i < 7; i++) {		        	
 			        cell = mainHeadingRow.createCell(i);
 			        cell.setCellStyle(greenStyle);
 					cell.setCellValue("");
 				}	
-		        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 0,8));
+		        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 0,6));
 				/********************************************************/	
 		        
 		        /********************************************************/	
@@ -301,12 +302,12 @@ public class UserActivityReportController {
 		        }
 				
 				
-				for (int i = 3; i < 9; i++) {		        	
+				for (int i = 3; i < 7; i++) {		        	
 			        cell = deatilsRow.createCell(i);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("");
 				}	
-				dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 2,8));
+				dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 2,6));
 				/********************************************************/
 		        
 				/********************************************************/	
@@ -327,12 +328,12 @@ public class UserActivityReportController {
 		        cell.setCellStyle(indexWhiteStyle);
 				cell.setCellValue(work);
 				
-				for (int i = 3; i < 9; i++) {		        	
+				for (int i = 3; i < 7; i++) {		        	
 			        cell = deatilsRow.createCell(i);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("");
 				}	
-				dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 2,8));
+				dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 2,6));
 		        
 				/********************************************************/
 		        
@@ -355,12 +356,12 @@ public class UserActivityReportController {
 				}
 				cell.setCellValue(contract);
 		        
-				for (int i = 3; i < 9; i++) {		        	
+				for (int i = 3; i < 7; i++) {		        	
 			        cell = deatilsRow.createCell(i);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("");
 				}	
-				dprSheet.addMergedRegion(new CellRangeAddress(5,5, 2,8));
+				dprSheet.addMergedRegion(new CellRangeAddress(5,5, 2,6));
 				
 				/********************************************************/
 				
@@ -383,12 +384,39 @@ public class UserActivityReportController {
 		        cell.setCellStyle(indexWhiteStyle);
 				cell.setCellValue(user);
 				
-				for (int i = 3; i < 9; i++) {		        	
+				for (int i = 3; i < 7; i++) {		        	
 			        cell = deatilsRow.createCell(i);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue("");
 				}	
-				dprSheet.addMergedRegion(new CellRangeAddress(6,6, 2,8));			   
+				dprSheet.addMergedRegion(new CellRangeAddress(6,6, 2,6));	
+				
+				
+				
+		        deatilsRow = dprSheet.createRow(7);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("Update Form");
+				
+				cell = deatilsRow.createCell(1);
+				cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("");
+				dprSheet.addMergedRegion(new CellRangeAddress(7, 7, 0,1));
+				String updateform = reportData.getModule_name();
+				if(StringUtils.isEmpty(updateform)) {
+					updateform = "All";
+				}
+				cell = deatilsRow.createCell(2);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue(updateform);
+				
+				for (int i = 3; i < 7; i++) {		        	
+			        cell = deatilsRow.createCell(i);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("");
+				}	
+				dprSheet.addMergedRegion(new CellRangeAddress(7,7, 2,6));					
 			   
 			   
        		 	
@@ -402,9 +430,9 @@ public class UserActivityReportController {
 					/*************************************************************************/		
 					 	
 					
-						int rowNo = 7;
+						int rowNo = 8;
 						
-						if(rowNum==7)
+						if(rowNum==8)
 						{
 							rowNo=rowNum+2;
 						}
@@ -417,11 +445,11 @@ public class UserActivityReportController {
 				            XSSFRow structureRow = dprSheet.createRow(rowNo);
 					
 				            /**********************************************************************/
-							String headerString = "Date^User ID^User^Update Form^Work^Contarct^Action Type^Details^Time";
+							String headerString = "Date^Update Form^Work^Contarct^Action Type^Details^Time";
 					        String[] headerStringArr = headerString.split("\\^");
 
 				            
-				            if(rowNo==9)
+				            if(rowNo==10)
 				            {
 						        
 						        XSSFRow headingRow = dprSheet.createRow(rowNo);
@@ -450,12 +478,12 @@ public class UserActivityReportController {
 									cell.setCellStyle(indexShadedStyle);
 									cell.setCellValue(UserName);
 									
-									for (int i = 2; i < 9; i++) {		        	
+									for (int i = 2; i < 7; i++) {		        	
 								        cell = UserRow.createCell(i);
 								        cell.setCellStyle(indexShadedStyle);
 										cell.setCellValue("");
 									}
-									dprSheet.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,8));
+									dprSheet.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,6));
 									
 									rowNo++;
 				            	}
@@ -483,14 +511,6 @@ public class UserActivityReportController {
 										 
 										 
 										cell.setCellValue(dateFields);								        
-								        
-								        cell = row.createCell(c++);
-										cell.setCellStyle(activityNameStyle);
-										cell.setCellValue(dObj.getCreated_by_user_id_fk());
-										
-										cell = row.createCell(c++);
-										cell.setCellStyle(activityNameStyle);
-										cell.setCellValue(dObj.getUser());
 							
 										cell = row.createCell(c++);
 										cell.setCellStyle(activityNameStyle);
@@ -528,7 +548,11 @@ public class UserActivityReportController {
 				            	dprSheet.setColumnWidth(columnIndex, 35 * 165);
 							}
 						    dprSheet.setColumnWidth(0, 25 * 120);
-						    dprSheet.setColumnWidth(1, 25 * 135);
+						    dprSheet.setColumnWidth(1, 35 * 135);
+						    dprSheet.setColumnWidth(2, 40 * 145);
+						    dprSheet.setColumnWidth(3, 45 * 165);
+						    dprSheet.setColumnWidth(4, 29 * 135);
+						    dprSheet.setColumnWidth(5, 45 * 165);
 						    dprSheet.setColumnWidth(6, 25 * 120);
 						}
 			        	 rowNum=rowNo;
@@ -548,12 +572,12 @@ public class UserActivityReportController {
 			        
 					cell1.setCellStyle(whiteStyle);
 					cell1.setCellValue("");
-					for (int i = 0; i < 9; i++) {		        	
+					for (int i = 0; i < 7; i++) {		        	
 				        cell1 = dateRow1.createCell(i);
 				        cell1.setCellStyle(whiteStyle);
 					cell1.setCellValue("User Activity Report On :" + report_created_date);
 					}
-				   dprSheet1.addMergedRegion(new CellRangeAddress(0,0, 0,8));	
+				   dprSheet1.addMergedRegion(new CellRangeAddress(0,0, 0,6));	
 				   
 				   
 				   XSSFRow mainHeadingRow1 = dprSheet1.createRow(2);
@@ -563,12 +587,12 @@ public class UserActivityReportController {
 					//cell1.setCellValue("Activities Progress Report ");
 			        cell1.setCellValue("User Activity Report");
 			        
-			        for (int i = 1; i < 9; i++) {		        	
+			        for (int i = 1; i < 7; i++) {		        	
 				        cell1 = mainHeadingRow1.createCell(i);
 				        cell1.setCellStyle(greenStyle);
 						cell1.setCellValue("");
 					}	
-			        dprSheet1.addMergedRegion(new CellRangeAddress(2, 2, 0,8));
+			        dprSheet1.addMergedRegion(new CellRangeAddress(2, 2, 0,6));
 					/********************************************************/	
 			        
 			        /********************************************************/	
@@ -591,12 +615,12 @@ public class UserActivityReportController {
 			        }
 					
 					
-					for (int i = 3; i < 9; i++) {		        	
+					for (int i = 3; i < 7; i++) {		        	
 				        cell1 = deatilsRow1.createCell(i);
 				        cell1.setCellStyle(indexWhiteStyle);
 						cell1.setCellValue("");
 					}	
-					dprSheet1.addMergedRegion(new CellRangeAddress(3, 3, 2,8));
+					dprSheet1.addMergedRegion(new CellRangeAddress(3, 3, 2,6));
 					/********************************************************/
 			        
 					/********************************************************/	
@@ -617,12 +641,12 @@ public class UserActivityReportController {
 			        cell1.setCellStyle(indexWhiteStyle);
 					cell1.setCellValue(work1);
 					
-					for (int i = 3; i < 9; i++) {		        	
+					for (int i = 3; i < 7; i++) {		        	
 				        cell1 = deatilsRow1.createCell(i);
 				        cell1.setCellStyle(indexWhiteStyle);
 						cell1.setCellValue("");
 					}	
-					dprSheet1.addMergedRegion(new CellRangeAddress(4, 4, 2,8));
+					dprSheet1.addMergedRegion(new CellRangeAddress(4, 4, 2,6));
 			        
 					/********************************************************/
 			        
@@ -645,12 +669,12 @@ public class UserActivityReportController {
 					}
 					cell1.setCellValue(contract1);
 			        
-					for (int i = 3; i < 9; i++) {		        	
+					for (int i = 3; i < 7; i++) {		        	
 				        cell1 = deatilsRow1.createCell(i);
 				        cell1.setCellStyle(indexWhiteStyle);
 						cell1.setCellValue("");
 					}	
-					dprSheet1.addMergedRegion(new CellRangeAddress(5,5, 2,8));
+					dprSheet1.addMergedRegion(new CellRangeAddress(5,5, 2,6));
 					
 					/********************************************************/
 					
@@ -673,13 +697,39 @@ public class UserActivityReportController {
 			        cell1.setCellStyle(indexWhiteStyle);
 					cell1.setCellValue(user1);
 					
-					for (int i = 3; i < 9; i++) {		        	
+					for (int i = 3; i < 7; i++) {		        	
 				        cell1 = deatilsRow1.createCell(i);
 				        cell1.setCellStyle(indexWhiteStyle);
 						cell1.setCellValue("");
 					}	
-					dprSheet1.addMergedRegion(new CellRangeAddress(6,6, 2,8));			   
-				   
+					dprSheet1.addMergedRegion(new CellRangeAddress(6,6, 2,6));	
+					
+					
+					
+			        deatilsRow1 = dprSheet1.createRow(7);
+			        
+			        cell1 = deatilsRow1.createCell(0);
+			        cell1.setCellStyle(indexWhiteStyle);
+					cell1.setCellValue("Update Form");
+					
+					cell1 = deatilsRow1.createCell(1);
+					cell1.setCellStyle(indexWhiteStyle);
+					cell1.setCellValue("");
+					dprSheet1.addMergedRegion(new CellRangeAddress(7, 7, 0,1));
+					String updateform1 = reportData.getModule_name();
+					if(StringUtils.isEmpty(updateform1)) {
+						updateform1 = "All";
+					}
+					cell1 = deatilsRow1.createCell(2);
+			        cell1.setCellStyle(indexWhiteStyle);
+					cell1.setCellValue(updateform1);
+					
+					for (int i = 3; i < 7; i++) {		        	
+				        cell1 = deatilsRow1.createCell(i);
+				        cell1.setCellStyle(indexWhiteStyle);
+						cell1.setCellValue("");
+					}	
+					dprSheet1.addMergedRegion(new CellRangeAddress(7,7, 2,6));					   
 				   
 	       		 	
 				    // workBook.setSheetOrder(dprSheet1.getSheetName(), sheetNo++);	        	
@@ -692,9 +742,9 @@ public class UserActivityReportController {
 						/*************************************************************************/		
 						 	
 						
-							int rowNo1 = 7;
+							int rowNo1 = 8;
 							
-							if(rowNum1==7)
+							if(rowNum1==8)
 							{
 								rowNo1=rowNum1+2;
 							}
@@ -707,11 +757,11 @@ public class UserActivityReportController {
 					            XSSFRow structureRow = dprSheet1.createRow(rowNo1);
 						
 					            /**********************************************************************/
-								String headerString = "Date^User ID^User^Update Form^Work^Contarct^Action Type^Details^Time";
+								String headerString = "Date^Update Form^Work^Contarct^Action Type^Details^Time";
 						        String[] headerStringArr = headerString.split("\\^");
 
 					            
-					            if(rowNo1==9)
+					            if(rowNo1==10)
 					            {
 							        
 							        XSSFRow headingRow = dprSheet1.createRow(rowNo1);
@@ -740,12 +790,12 @@ public class UserActivityReportController {
 										cell1.setCellStyle(indexShadedStyle);
 										cell1.setCellValue(UserName);
 										
-										for (int i = 2; i < 9; i++) {		        	
+										for (int i = 2; i < 7; i++) {		        	
 									        cell1 = UserRow.createCell(i);
 									        cell1.setCellStyle(indexShadedStyle);
 											cell1.setCellValue("");
 										}
-										dprSheet1.addMergedRegion(new CellRangeAddress(rowNo1, rowNo1, 1,8));
+										dprSheet1.addMergedRegion(new CellRangeAddress(rowNo1, rowNo1, 1,6));
 										
 										rowNo1++;
 					            	}
@@ -774,13 +824,6 @@ public class UserActivityReportController {
 											 
 											cell1.setCellValue(dateFields);								        
 									        
-									        cell1 = row.createCell(c++);
-											cell1.setCellStyle(activityNameStyle);
-											cell1.setCellValue(dObj.getCreated_by_user_id_fk());
-											
-											cell1 = row.createCell(c++);
-											cell1.setCellStyle(activityNameStyle);
-											cell1.setCellValue(dObj.getUser());
 								
 											cell1 = row.createCell(c++);
 											cell1.setCellStyle(activityNameStyle);
@@ -818,7 +861,11 @@ public class UserActivityReportController {
 					            	dprSheet1.setColumnWidth(columnIndex, 35 * 165);
 								}
 							    dprSheet1.setColumnWidth(0, 25 * 120);
-							    dprSheet1.setColumnWidth(1, 25 * 135);
+							    dprSheet1.setColumnWidth(1, 35 * 135);
+							    dprSheet1.setColumnWidth(2, 40 * 145);
+							    dprSheet1.setColumnWidth(3, 45 * 165);
+							    dprSheet1.setColumnWidth(4, 29 * 135);
+							    dprSheet1.setColumnWidth(5, 45 * 165);
 							    dprSheet1.setColumnWidth(6, 25 * 120);
 							}
 				        	 rowNum1=rowNo1;

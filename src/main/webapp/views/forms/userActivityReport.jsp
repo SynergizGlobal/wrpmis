@@ -49,13 +49,13 @@
 			            <form action="<%=request.getContextPath() %>/generate-user-activity-report" id="userActivityReportForm" name="userActivityReportForm" method="post" target="_blank">	                              
                        		 <div class="row no-mar">
                                 <div class="col s6 m4 l2 input-field offset-l3">
-                                    <p class="searchable_label" style="text-align:left">Update Form</p>
-                                    <select class="searchable validate-dropdown" id="module_name" name="module_name" onchange="addInQueModule(this.value);getUserActivityReport();">
+                                    <p class="searchable_label" style="text-align:left">User</p>
+                                    <select class="searchable validate-dropdown" id="user" name="user" onchange="addInQueUser(this.value);getUserActivityReport();">
                                         <option value="">Select </option>
-                                         <c:forEach var="obj" items="${modulelist }">
-                                      	   <option value= "${obj.module_name}">${obj.module_name}</option>
+                                         <c:forEach var="obj" items="${UsersList }">
+                                      	   <option  value= "${obj.user}">${obj.user}<%-- <c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name } --%></option>
                                          </c:forEach>
-                                    </select>
+                                    </select>                                    
                                     <span id="projectError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m4 l2 input-field">
@@ -83,11 +83,11 @@
                            	
                                   
                                    	<div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
-                                    <p class="searchable_label" style="text-align:left">User</p>
-                                    <select class="searchable validate-dropdown" id="user" name="user" onchange="addInQueUser(this.value);getUserActivityReport();">
+                                    <p class="searchable_label" style="text-align:left">Update Form</p>
+                                    <select class="searchable validate-dropdown" id="module_name" name="module_name" onchange="addInQueModule(this.value);getUserActivityReport();">
                                         <option value="">Select </option>
-                                         <c:forEach var="obj" items="${UsersList }">
-                                      	   <option  value= "${obj.user}">${obj.user}<%-- <c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name } --%></option>
+                                         <c:forEach var="obj" items="${modulelist }">
+                                      	   <option value= "${obj.module_name}">${obj.module_name}</option>
                                          </c:forEach>
                                     </select>
                                     <span id="hodError" class="error-msg" ></span>

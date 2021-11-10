@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -431,11 +432,11 @@ public class ZonalRailwayController {
 		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Calibri";
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle costSectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        CellStyle sectionStyleheader = cellFormatingHeader(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle dateStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
 		        XSSFRow headingRow = sheet.createRow(0);
-		        String headerString = "Contract ID^Work^Execution Agency^Sub Work^Nodal Officer in MRVC^Source Of Funds^Sanction Cost^Unit^Latest Revised Cost"
-		        		+ "^Unit^Cumulative Actual Expenditure^Unit^Actual Start^Target For Completion^Actual Finish^Completion Cost^Unit^Status^As On Date";
+		        String headerString = "Contract ID^Work^Execution Agency^Sub Work^Nodal Officer in MRVC^Source Of Funds^Sanction Cost in Cr ^Latest Revised Cost in Cr"
+		        		+ "^Cumulative Actual Expenditure in Cr^Actual Start^Target For Completion^Actual Finish^Completion Cost in Cr^Status^As On Date";
 		        String[] firstHeaderStringArr = headerString.split("\\^");
 	            for (int j = 0; j < firstHeaderStringArr.length; j++) {		        	
 		        	Cell cell = headingRow.createCell(j);
@@ -480,56 +481,55 @@ public class ZonalRailwayController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getSource_of_funds());
 					
+				    DecimalFormat df = new DecimalFormat("#.#");
+			        df.setMaximumFractionDigits(8);
+			        double sanction_cost = 0,latest_revised_cost= 0,completion_cost= 0,cum_actual_expenditure = 0;
+					if(!StringUtils.isEmpty(obj.getSanction_cost())) {
+						sanction_cost = Double.parseDouble(obj.getSanction_cost());
+					}
+					if(!StringUtils.isEmpty(obj.getLatest_revised_cost())) {
+						latest_revised_cost = Double.parseDouble(obj.getLatest_revised_cost());
+					}
+					if(!StringUtils.isEmpty(obj.getCompletion_cost())) {
+						completion_cost = Double.parseDouble(obj.getCompletion_cost());
+					}
+					if(!StringUtils.isEmpty(obj.getCum_actual_expenditure())) {
+						cum_actual_expenditure = Double.parseDouble(obj.getCum_actual_expenditure());
+					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(costSectionStyle);
-					cell.setCellValue(obj.getSanction_cost());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getSanction_unit());
+					cell.setCellValue(df.format(sanction_cost));
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(costSectionStyle);
-					cell.setCellValue(obj.getLatest_revised_cost());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getRevised_cost_unit());
+					cell.setCellValue(df.format(latest_revised_cost));
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(costSectionStyle);
-					cell.setCellValue(obj.getCum_actual_expenditure());
+					cell.setCellValue(df.format(cum_actual_expenditure));
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getCumilative_unit());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(dateStyle);
 					cell.setCellValue(obj.getActual_start());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(dateStyle);
 					cell.setCellValue(obj.getExpected_finish());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(dateStyle);
 					cell.setCellValue(obj.getActual_finish());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(costSectionStyle);
-					cell.setCellValue(obj.getCompletion_cost());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getCompletion_unit());
+					cell.setCellValue(df.format(completion_cost));
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getStatus_fk());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(dateStyle);
 					cell.setCellValue(obj.getAs_on_date());
 					
 	                //row.createCell((short)j++).setCellValue(obj.getDesignation());
@@ -604,7 +604,6 @@ public class ZonalRailwayController {
 		            	//sheet.autoSizeColumn(columnIndex);
 		        		sheet.setColumnWidth(columnIndex, 25 * 200);
 				}
-	        	sheet.setColumnWidth(7, 25 * 50);sheet.setColumnWidth(9, 25 * 50);sheet.setColumnWidth(11, 25 * 50);sheet.setColumnWidth(16, 25 * 50);
 	        	for(int columnIndex = 0; columnIndex < firstHeaderStringArr2.length; columnIndex++) {
 	        		//revisionSheet.autoSizeColumn(columnIndex);
 	        		progressSheet.setColumnWidth(columnIndex, 25 * 170);

@@ -568,13 +568,15 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 		ZonalRailway zonalRailway = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry ="select contract_id,max(cum_actual_expenditure) as cum_actual_expenditure,(select cum_actual_expenditure_units from zonal_railway_progress where cum_actual_expenditure = (SELECT max(cum_actual_expenditure) FROM zonal_railway_progress) ) as cum_actual_expenditure_units,work_id_fk,w.work_short_name,user_name, designation,project_id_fk,project_name, execution_agency_railway_fk,railway_id, responsible_person_user_fk,railway_name, source_of_funds_fk as source_of_funds,cast(sanction_cost as CHAR) as sanction_cost,cast(latest_revised_cost as CHAR) as latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
+			String qry ="select contract_id,(select max(cum_actual_expenditure) from zonal_railway_progress where contract_id_fk = z.contract_id) as cum_actual_expenditure,"
+					+ "(select max(cum_actual_expenditure_units) from zonal_railway_progress where cum_actual_expenditure = (SELECT max(cum_actual_expenditure) FROM zonal_railway_progress where contract_id_fk = z.contract_id )) as cum_actual_expenditure_units,"
+					+ "work_id_fk,w.work_short_name,user_name, designation,project_id_fk,project_name, execution_agency_railway_fk,railway_id, responsible_person_user_fk,railway_name, source_of_funds_fk as source_of_funds,"
+					+ "cast(sanction_cost as CHAR) as sanction_cost,cast(latest_revised_cost as CHAR) as latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
 					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS  expected_finish,sub_work,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS  actual_finish, cast(z.completion_cost as CHAR) as completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date"
 					+ ",sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units from zonal_railway_contracts z " + 
 					"left join work w on z.work_id_fk = w.work_id "+
 					"left join railway r on z.execution_agency_railway_fk = r.railway_id "+
 					"left join user u on z.responsible_person_user_fk = u.user_id  "
-					+"left join zonal_railway_progress zp on z.contract_id = zp.contract_id_fk  "
 					+"left join project p on w.project_id_fk = p.project_id where contract_id is not null  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {

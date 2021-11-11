@@ -1037,5 +1037,53 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			throw new Exception(e);
 		}
 		return objsList;
-	}	
+	}
+
+	@Override
+	public List<ActivitiesProgressReport> getStructureRemarks(ActivitiesProgressReport obj) throws Exception {
+			Map<String,List<ActivitiesProgressReport>> structureProgresses = new LinkedHashMap<String, List<ActivitiesProgressReport>>();
+	
+			ActivitiesProgressReport sObj = new ActivitiesProgressReport();
+			String progressStructuresQry = "select ap.remarks,ap.structure "
+					+ "from fobdailyupdate ap "  
+					+ "left join activities a on ap.contract_id_fk = a.contract_id_fk and a.structure=ap.structure "  
+					+ "left join contract c on a.contract_id_fk = c.contract_id and c.contract_id=ap.contract_id_fk "  
+					+ " where a.contract_id_fk = ?";
+			
+			
+			int arrSize = 1;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFrom_date()) && !StringUtils.isEmpty(obj.getTo_date())) {
+				progressStructuresQry = progressStructuresQry + " and ap.reporting_date >= ? and reporting_date <= ?";
+				arrSize++;
+				arrSize++;
+			}else {
+				progressStructuresQry = progressStructuresQry + " and reporting_date = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				progressStructuresQry = progressStructuresQry + " and a.structure = ?";
+				arrSize++;
+			}
+			
+			progressStructuresQry = progressStructuresQry + " GROUP BY a.structure ORDER BY a.structure ASC";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = obj.getContract_id();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFrom_date()) && !StringUtils.isEmpty(obj.getTo_date())) {
+				pValues[i++] = obj.getFrom_date();
+				pValues[i++] = obj.getTo_date();
+			}else {
+				pValues[i++] = obj.getFrom_date();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
+			}
+			
+			List<ActivitiesProgressReport> contractProgressStructuresList = jdbcTemplate.query( progressStructuresQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
+			return contractProgressStructuresList;
+		}	
 }

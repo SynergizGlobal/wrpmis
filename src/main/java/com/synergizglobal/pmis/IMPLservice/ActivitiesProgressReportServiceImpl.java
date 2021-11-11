@@ -80,5 +80,9 @@ public class ActivitiesProgressReportServiceImpl implements ActivitiesProgressRe
 	public List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception {
 		return dao.getContarctDetaisl(obj);
 	}	
-
+	
+	@Override
+	public List<ActivitiesProgressReport> getStructureRemarks(ActivitiesProgressReport obj) throws Exception {
+		return dao.getStructureRemarks(obj);
+	}	
 }

@@ -30,5 +30,7 @@ public interface ActivitiesProgressReportService {
 
 	List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception;
 	
+	List<ActivitiesProgressReport> getStructureRemarks(ActivitiesProgressReport obj) throws Exception;
+	
 	
 }

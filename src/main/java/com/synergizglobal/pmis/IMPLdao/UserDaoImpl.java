@@ -742,7 +742,9 @@ public class UserDaoImpl implements UserDao{
 				qry = qry + " and u.user_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY u.reporting_to_id_srfk";
+			qry = qry + " GROUP BY u.reporting_to_id_srfk ";
+			qry = qry + " ORDER BY FIELD(usr.user_type_fk,'Management','HOD','DyHOD','Officers ( Jr./Sr. Scale )','Others','Training'), FIELD(usr.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T',usr.designation)" ;
+
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -858,7 +860,7 @@ public class UserDaoImpl implements UserDao{
 				qry = qry + " and u.user_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY u.user_type_fk";
+			qry = qry + " GROUP BY u.user_type_fk order by field (u.user_type_fk,'Management','HOD','DyHOD','Officers ( Jr./Sr. Scale )','Others','Training')";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;

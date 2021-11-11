@@ -45,7 +45,7 @@
 	
 	.read-message {
 		/*background-color: #e7e7e7;*/
-		background-color: #ffffff;
+		background-color: #ffffff!important;
 	}
 	
 	.notifications_group .item.unread-message:hover {
@@ -1090,8 +1090,21 @@
 			                    		  }else if(val.alert_type_fk == 'Safety'){
 			                    			  bgIcon = '<i class="material-icons">verified_user</i>';
 			                    		  }
-			                    		  html = html + '<li class="item '+bgClass+' row">'
-			                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'">'
+			                    		  
+			                    		  var urlStringContains = ""
+			                    		  if($.trim(val.redirect_url) != '' && (val.redirect_url).indexOf("?") > 0 && $.trim(val.alerts_user_id) != ''){
+			                    			  urlStringContains = "&"+ 'alerts_user_id='+val.alerts_user_id;
+			                    		  }else if($.trim(val.alerts_user_id) != ''){
+			                    			  urlStringContains = "?" + 'alerts_user_id='+val.alerts_user_id
+			                    		  }
+			                    				  
+			                    		  var read_message_bg = "";
+			                    		  if($.trim(val.read_time) != ''){
+			                    			  read_message_bg = " read-message";
+			                    		  }
+			                    		  
+			                    		  html = html + '<li class="item '+bgClass + read_message_bg + ' row">'
+			                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+urlStringContains+'">'
 			                    		  		/* +'<div class="col m2 s2 icon-holder">'
 			                    		  		+ '<span class="icon"> '+bgIcon+' <span class="icon-text">'+val.alert_type_fk+'</span> </span>'
 			                    		  		+'</div> <div class="col m10 s10 text-holder">'; */

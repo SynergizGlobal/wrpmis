@@ -20,8 +20,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.AlertsDao;
@@ -34,6 +39,7 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FormHistory;
+import com.synergizglobal.pmis.model.Issue;
 @Repository
 public class AlertsDaoImpl implements AlertsDao{
 	
@@ -2573,8 +2579,13 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				
 				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
-						+ "from alerts a " ; 
+						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url ";
+				
+						if(!"IT Admin".equals(obj.getUser_role_name())) {
+							qry = qry + ",au.alerts_user_id,au.read_time "; 
+						}
+				
+						qry = qry + "from alerts a " ; 
 						
 						if(!"IT Admin".equals(obj.getUser_role_name())) {
 							qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
@@ -3737,5 +3748,28 @@ public class AlertsDaoImpl implements AlertsDao{
 		return objsList;
 	}
 
+	@Override
+	public boolean readIssueAlert(String alerts_user_id) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		try {
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+			String msgUpdateqry = "UPDATE alerts_user SET read_time = CURRENT_TIMESTAMP where alerts_user_id = :alerts_user_id";
+			
+			Alerts obj = new Alerts();
+			obj.setAlerts_user_id(alerts_user_id);
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+			int count = template.update(msgUpdateqry, paramSource);
+			if (count > 0) {
+				flag = true;
+			}
+			transactionManager.commit(status);
+		} catch (Exception e) {
+			transactionManager.rollback(status);
+			throw new Exception(e);
+		}
+		return flag;
+	}
 	
 }

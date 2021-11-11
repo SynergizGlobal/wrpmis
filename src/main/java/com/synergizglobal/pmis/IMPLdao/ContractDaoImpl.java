@@ -1017,6 +1017,13 @@ public class ContractDaoImpl implements ContractDao {
 				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 				template.update(msgUpdateqry, paramSource);
 			}
+			if (!StringUtils.isEmpty(obj.getAlerts_user_id())) {
+				NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+				String msgUpdateqry = "UPDATE alerts_user SET read_time = CURRENT_TIMESTAMP where alerts_user_id = :alerts_user_id";
+
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				template.update(msgUpdateqry, paramSource);
+			}
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);

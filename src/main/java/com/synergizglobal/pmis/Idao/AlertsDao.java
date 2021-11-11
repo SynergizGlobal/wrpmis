@@ -60,5 +60,7 @@ public interface AlertsDao {
 	List<Alerts> getAlertLevelsListInAlertsReport(Alerts obj) throws Exception;
 
 	List<Alerts> getAlertTypesListInAlertsReport(Alerts obj) throws Exception;
+
+	boolean readIssueAlert(String alerts_user_id) throws Exception;
 	
 }

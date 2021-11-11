@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.RiskService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -53,6 +54,9 @@ public class RiskController {
 	
 	@Autowired
 	RiskService riskService;
+	
+	@Autowired
+	AlertsService alertsService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -97,6 +101,10 @@ public class RiskController {
 			}else {
 				model.addObject("sub_work", obj.getSub_work());
 			}*/
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlerts_user_id())) {
+				boolean flag = alertsService.readIssueAlert(obj.getAlerts_user_id());
+			}
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -876,6 +884,11 @@ public class RiskController {
 		try {
 			model.addObject("sub_work", obj.getSub_work());
 			model.addObject("assessment_date", DateParser.parseToDDMMMYYYYFormat(obj.getAssessment_date()));
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlerts_user_id())) {
+				boolean flag = alertsService.readIssueAlert(obj.getAlerts_user_id());
+			}
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("riskATRUpdate : " + e.getMessage());

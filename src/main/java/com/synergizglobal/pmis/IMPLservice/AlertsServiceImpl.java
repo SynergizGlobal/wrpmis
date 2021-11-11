@@ -150,4 +150,9 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.getAlertTypesListInAlertsReport(obj);
 	}
 
+	@Override
+	public boolean readIssueAlert(String alerts_user_id) throws Exception {
+		return dao.readIssueAlert(alerts_user_id);
+	}
+
 }

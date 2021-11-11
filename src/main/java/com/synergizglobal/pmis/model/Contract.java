@@ -16,7 +16,7 @@ public class Contract {
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
 	responsible_people_id_fk,hod_name,contract_status,dy_hod_name,PhysicalProgress,revision_amounts_status, unit, value,ContractAlertRemarks,revised_amount_units,bg_value_units,completed_cost_units,insurance_value_units,
 	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,is_contract_closure_initiated,contract_details_types,created_by_user_id_fk,milestone_requried,revision_requried,contractors_key_requried,
-	actual_date_of_commissioning,existing_contract_closure_date,estimated_cost_unit,awarded_cost_unit,completed_cost_unit;
+	actual_date_of_commissioning,existing_contract_closure_date,estimated_cost_unit,awarded_cost_unit,completed_cost_unit,alerts_user_id;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
 
@@ -1817,6 +1817,14 @@ public class Contract {
 
 	public void setExisting_contract_closure_date(String existing_contract_closure_date) {
 		this.existing_contract_closure_date = existing_contract_closure_date;
+	}
+
+	public String getAlerts_user_id() {
+		return alerts_user_id;
+	}
+
+	public void setAlerts_user_id(String alerts_user_id) {
+		this.alerts_user_id = alerts_user_id;
 	}
 	
 }

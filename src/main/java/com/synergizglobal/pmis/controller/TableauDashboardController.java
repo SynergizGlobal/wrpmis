@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.TableauDashboardService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
@@ -43,6 +44,9 @@ public class TableauDashboardController {
 	
 	@Autowired
 	IssueService issueService;
+	
+	@Autowired
+	AlertsService alertsService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -276,6 +280,9 @@ public class TableauDashboardController {
 			view.addObject("url", vo);
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMessage_id())) {
 				boolean flag = issueService.readIssueMessage(obj.getMessage_id());
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlerts_user_id())) {
+				boolean flag = alertsService.readIssueAlert(obj.getAlerts_user_id());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -696,7 +697,17 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
 				pValues1[j++] = obj.getDyhod();
 			}
+			
 			datāL̥īśt = jdbcTemplate.query(progressQry, pValues1, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));	
+			List<String> contracts = new ArrayList<>();
+			for (ActivitiesProgressReport aObj : datāL̥īśt) 
+			{
+				if(contracts.indexOf(aObj.getContract_short_name())==-1)
+				{
+					contracts.add(aObj.getContract_short_name());
+				}
+			}
+	    obj.setContractsList(contracts);
 		obj.setProgressUpdateList(datāL̥īśt);
 	}catch(Exception e){ 
 		throw new Exception(e);

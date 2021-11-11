@@ -267,7 +267,7 @@ public class ProgressUpdateReportController {
 					obj.setTo_date(DateParser.parse(obj.getTo_date()));
 					ActivitiesProgressReport progressUpdate = service.getActivitiesProgressUpdate(obj);
 					
-					boolean landscape = true;
+					boolean landscape = false;
 					WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 					
 					MainDocumentPart mp = wordMLPackage.getMainDocumentPart();

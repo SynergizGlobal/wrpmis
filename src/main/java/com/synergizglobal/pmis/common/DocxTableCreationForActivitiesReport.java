@@ -256,19 +256,11 @@ public class DocxTableCreationForActivitiesReport {
 			//mergeCellsVertically(table, 6, 0, 1);
 			//mergeCellsVertically(table, 7, 0, 1);
 			int sNo=1;
-			for (String cObj : obj.getContractsList()) {
-				
-			Tr contractRow = factory.createTr();	
-			addTableCell(factory, wordMLPackage, contractRow, "Contract" +cObj,calibriBoldDateRPr, JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
-			table.getContent().add(contractRow);
+			int loopCnt=0;
 			
-			//mergeCellsHorizontal(table, sNo+1, 0, 7);
+			int headCnt=1;
+			for (String cObj : obj.getContractsList()) {
+			int iteration=0;	
 			
 			for (ActivitiesProgressReport aObj : obj.getProgressUpdateList()) 
 			{
@@ -280,6 +272,34 @@ public class DocxTableCreationForActivitiesReport {
 					{
 						if(aObj.getUser_id().contains("PMIS")) 
 						{
+							
+						    loopCnt=1;
+						   
+							if(loopCnt==1 && iteration==0)
+							{
+								Tr contractRow = factory.createTr();	
+								addTableCell(factory, wordMLPackage, contractRow, "Contract: " +cObj,calibriBoldDateRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								table.getContent().add(contractRow);
+								
+								if(sNo==1)
+								{
+									mergeCellsHorizontal(table, sNo+1, 0, 7);
+								}
+								else
+								{
+									int addCnt=sNo+headCnt;
+									mergeCellsHorizontal(table, addCnt, 0, 7);
+								}
+								iteration=1;
+								headCnt++;
+							}
+							
 							boolean hasBgColor = false;
 							String backgroundColor = null, designation = "";
 							Tr contentRow = factory.createTr();	
@@ -315,6 +335,33 @@ public class DocxTableCreationForActivitiesReport {
 					{
 						if(!aObj.getUser_id().contains("PMIS")) 
 						{
+							
+						    loopCnt=1;
+							if(loopCnt==1 && iteration==0)
+							{
+								Tr contractRow = factory.createTr();	
+								addTableCell(factory, wordMLPackage, contractRow, "Contract: " +cObj,calibriBoldDateRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+								table.getContent().add(contractRow);
+								
+								if(sNo==1)
+								{
+									mergeCellsHorizontal(table, sNo+1, 0, 7);
+								}
+								else
+								{
+									int addCnt=sNo+headCnt;
+									mergeCellsHorizontal(table, addCnt, 0, 7);
+								}
+								iteration=1;
+							    headCnt++;
+							}
+							
 							boolean hasBgColor = false;
 							String backgroundColor = null, designation = "";
 							Tr contentRow = factory.createTr();	

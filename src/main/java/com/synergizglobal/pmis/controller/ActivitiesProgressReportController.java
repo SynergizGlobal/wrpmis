@@ -1166,7 +1166,8 @@ public class ActivitiesProgressReportController {
 						        }		
 					        }
 					        else
-					        {	
+					        {
+								cObj.setFob_id_fk(structure);
 					        	List<ActivitiesProgressReport> dataList = service.getStructureRemarks(cObj);					        	
 					        	
 						        for (ActivitiesProgressReport dObj : dataList) 

@@ -618,6 +618,25 @@ public class ActivitiesProgressReportController {
 								}
 								rowNo=rowNo+1;	
 					        }
+					        if(dataList.size()==0)
+					        {
+					        		int tempRowNoRemarks = rowNo;
+							    
+							    XSSFRow remarksRow = dprSheet.createRow(tempRowNoRemarks);
+						        
+						        cell = remarksRow.createCell(0);
+						        cell.setCellStyle(indexWhiteStyle);
+						        
+						        String remarks1="No Progress for the day";
+								cell.setCellValue(remarks1);
+								
+								for (int i = 1; i < 6; i++) {		        	
+							        cell = remarksRow.createCell(i);
+							        cell.setCellStyle(indexWhiteStyle);
+									cell.setCellValue("");
+								}	
+								dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,5));						        	
+					        }					        
 						}
 			            
 			        }
@@ -1236,6 +1255,26 @@ public class ActivitiesProgressReportController {
 									dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,5));
 									}
 									rowNo=rowNo+1;	
+						        }
+						        
+						        if(dataList.size()==0)
+						        {
+						        		int tempRowNoRemarks = rowNo;
+								    
+								    XSSFRow remarksRow = dprSheet.createRow(tempRowNoRemarks);
+							        
+							        cell = remarksRow.createCell(0);
+							        cell.setCellStyle(indexWhiteStyle);
+							        
+							        String remarks1="No Progress for the day";
+									cell.setCellValue(remarks1);
+									
+									for (int i = 1; i < 6; i++) {		        	
+								        cell = remarksRow.createCell(i);
+								        cell.setCellStyle(indexWhiteStyle);
+										cell.setCellValue("");
+									}	
+									dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,5));						        	
 						        }
 					        	
 

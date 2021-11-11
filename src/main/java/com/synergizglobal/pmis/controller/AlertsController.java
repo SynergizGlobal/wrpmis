@@ -122,6 +122,7 @@ public class AlertsController {
 	    	logger.error("generateAlertsManually : "+flag);
 	    	attributes.addFlashAttribute("success","Alerts generated successfully");
 		 } catch (Exception e) {
+			 e.printStackTrace();
 			 attributes.addFlashAttribute("error",commonError);
 			 logger.error("generateAlertsByManual() : "+e.getMessage());
 		 }

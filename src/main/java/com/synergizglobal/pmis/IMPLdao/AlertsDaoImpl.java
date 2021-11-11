@@ -410,6 +410,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				String valid_upto = obj.getValidity();
 				
 				String amendment_not_required_in_contract = getAmendmentNotRequiredInContract(contract_id,alert_type,alert_value,connection);
+				String last_alert_id = getLastAlertId(contract_id,alert_level,alert_type,alert_value,connection);
 				
 				int p = 1;
                 stmt.setString(p++, alert_level);
@@ -432,20 +433,24 @@ public class AlertsDaoImpl implements AlertsDao{
                 	}
                 	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
                 	
-                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
+                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk,read_time)VALUES(?,?,?)";
     				stmt = connection.prepareStatement(qry);
     				
     				if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+    					String read_time = getReadTimeFromAlertsUser(last_alert_id,obj.getHod_user_id_fk(),connection);
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getHod_user_id_fk());
+		                stmt.setString(p++, read_time);
 		                stmt.addBatch();
 					}
     				
     				if(!StringUtils.isEmpty(obj.getDy_hod_user_id_fk())) {
+    					String read_time = getReadTimeFromAlertsUser(last_alert_id,obj.getDy_hod_user_id_fk(),connection);
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getDy_hod_user_id_fk());
+		                stmt.setString(p++, read_time);
 		                stmt.addBatch();
     				}
     				
@@ -468,9 +473,11 @@ public class AlertsDaoImpl implements AlertsDao{
 					}
 					
 					for(int k=0; k<contractExecutivesIds.length; k++) {
+						String read_time = getReadTimeFromAlertsUser(last_alert_id,contractExecutivesIds[k],connection);
 						p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, contractExecutivesIds[k]);
+		                stmt.setString(p++, read_time);
 		                stmt.addBatch();
 				    }
 					
@@ -486,29 +493,37 @@ public class AlertsDaoImpl implements AlertsDao{
     				
     				for (Alerts aObj : alertsSendManually) {
     					if(StringUtils.isEmpty(aObj.getAlert_level_fk()) && (!StringUtils.isEmpty(aObj.getAlert_type_fk()) && aObj.getAlert_type_fk().equals(alert_type))) {
+    						String read_time = getReadTimeFromAlertsUser(last_alert_id,aObj.getUser_id_fk(),connection);
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
+    		                stmt.setString(p++, read_time);
     		                stmt.addBatch();
     					}
     					if(StringUtils.isEmpty(aObj.getAlert_type_fk()) && (!StringUtils.isEmpty(aObj.getAlert_level_fk()) && aObj.getAlert_level_fk().equals(alert_level))) {
+    						String read_time = getReadTimeFromAlertsUser(last_alert_id,aObj.getUser_id_fk(),connection);
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
+    		                stmt.setString(p++, read_time);
     		                stmt.addBatch();
     					}
     					if((!StringUtils.isEmpty(aObj.getAlert_type_fk()) && aObj.getAlert_type_fk().equals(alert_type)) && (!StringUtils.isEmpty(aObj.getAlert_level_fk()) 
     							&& aObj.getAlert_level_fk().equals(alert_level))) {
+    						String read_time = getReadTimeFromAlertsUser(last_alert_id, aObj.getUser_id_fk(),connection);
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
+    		                stmt.setString(p++, read_time);
     		                stmt.addBatch();
     					}
     					
     					if(StringUtils.isEmpty(aObj.getAlert_type_fk()) && StringUtils.isEmpty(aObj.getAlert_level_fk())) {
+    						String read_time = getReadTimeFromAlertsUser(last_alert_id,aObj.getUser_id_fk(),connection);
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
+    		                stmt.setString(p++, read_time);
     		                stmt.addBatch();
     					}
 					}   				
@@ -761,6 +776,85 @@ public class AlertsDaoImpl implements AlertsDao{
 		}
 		return amendment_not_required_in_contract;
 	}
+	
+	private String getLastAlertId(String contract_id, String alert_level,  String alert_type, String alert_value,Connection connection) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String alert_id = null;
+		try {
+			String qry ="select alert_id "
+					+ "from alerts "
+					+ "where alert_level = ? and alert_type_fk = ?  and alert_value = ? ";
+					
+			
+			if(!StringUtils.isEmpty(contract_id)) {
+				qry = qry + " and contract_id = ?"; 
+			}
+			qry = qry + " and created_date = (select max(created_date) "
+					+ "from alerts "
+					+ "where alert_level = ? and alert_type_fk = ? and alert_value = ? ";
+			if(!StringUtils.isEmpty(contract_id)) {
+				qry = qry + " and contract_id = ?"; 
+			}		
+			qry = qry + "limit 1)  limit 1";
+			
+			stmt = connection.prepareStatement(qry);
+			int p = 1;
+			stmt.setString(p++, alert_level);
+            stmt.setString(p++, alert_type);
+            stmt.setString(p++, alert_value);
+            if(!StringUtils.isEmpty(contract_id)) {
+            	stmt.setString(p++, contract_id);
+			}
+            stmt.setString(p++, alert_level);
+            stmt.setString(p++, alert_type);
+            stmt.setString(p++, alert_value);
+            if(!StringUtils.isEmpty(contract_id)) {
+            	stmt.setString(p++, contract_id);
+			}
+            
+            rs = stmt.executeQuery();
+            if(rs.next()) {
+            	alert_id = rs.getString("alert_id");
+            }
+            
+		} catch (Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return alert_id;
+	}
+	
+
+
+	private String getReadTimeFromAlertsUser(String last_alert_id, String user_id_fk, Connection connection) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String read_time = null;
+		try {
+			String qry ="select read_time "
+					+ "from alerts_user where alerts_id_fk = ? and user_id_fk = ? ";
+			
+			stmt = connection.prepareStatement(qry);
+			int p = 1;
+            
+            stmt.setString(p++, last_alert_id);
+            stmt.setString(p++, user_id_fk);
+            
+            rs = stmt.executeQuery();
+            if(rs.next()) {
+            	read_time = rs.getString("read_time");
+            }
+            
+		} catch (Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return read_time;
+	}
+	
 
 	public boolean generateIssueAlertsByCronJob() throws Exception {
 		boolean flag = false;
@@ -846,6 +940,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					remarks = remarks + "\n" + obj.getRemarks();
 				}
 				
+				String last_alert_id = getLastAlertId(contract_id,alert_level,alert_type,alert_value,connection);
+				
 				int p = 1;
                 stmt.setString(p++, alert_level);
                 stmt.setString(p++, alert_type);
@@ -856,6 +952,7 @@ public class AlertsDaoImpl implements AlertsDao{
                 stmt.setString(p++, remarks);
                 stmt.setString(p++, redirect_url);
                 
+                
                 int c = stmt.executeUpdate();
                 resultSet = stmt.getGeneratedKeys();
                 if(c > 0) {
@@ -865,65 +962,81 @@ public class AlertsDaoImpl implements AlertsDao{
                 	}
                 	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
                 	
-                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
+                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk,read_time)VALUES(?,?,?)";
     				stmt = connection.prepareStatement(qry);
     				
     				if(!StringUtils.isEmpty(obj.getAlert_level()) && obj.getAlert_level().equals("2nd Alert")) {
     					if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+    						String read_time = getReadTimeFromAlertsUser(last_alert_id,obj.getHod_user_id_fk(),connection);
 			                p = 1;
 		    				stmt.setString(p++, alert_id);
 			                stmt.setString(p++, obj.getHod_user_id_fk());
+			                stmt.setString(p++, read_time);
 			                stmt.addBatch();
     					}
     				}
     				
     				if(!StringUtils.isEmpty(obj.getAlert_level()) && obj.getAlert_level().equals("3rd Alert")) {
+    					String read_time = getReadTimeFromAlertsUser(last_alert_id,"PMIS_SU_001",connection);
     					p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, "PMIS_SU_001");
+		                stmt.setString(p++, read_time);
 		                stmt.addBatch();
 			                
 		                if(!StringUtils.isEmpty(obj.getDepartment_name()) && obj.getDepartment_name().equals("Engineering")) {
+		                	read_time = getReadTimeFromAlertsUser(last_alert_id,"PMIS_SU_002",connection);
 		                	p = 1;
 		    				stmt.setString(p++, alert_id);
 			                stmt.setString(p++, "PMIS_SU_002");
+			                stmt.setString(p++, read_time);
 			                stmt.addBatch();
 		                }
 		                if(!StringUtils.isEmpty(obj.getDepartment_name()) && (obj.getDepartment_name().equals("Signalling & Telecom") 
 		                		|| obj.getDepartment_name().equals("Electrical"))) {
+		                	read_time = getReadTimeFromAlertsUser(last_alert_id,"PMIS_SU_003",connection);
 		                	p = 1;
 		    				stmt.setString(p++, alert_id);
 			                stmt.setString(p++, "PMIS_SU_003");
+			                stmt.setString(p++, read_time);
 			                stmt.addBatch();
 		                }
 		                
 		                if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+		                	read_time = getReadTimeFromAlertsUser(last_alert_id,obj.getHod_user_id_fk(),connection);
 			                p = 1;
 		    				stmt.setString(p++, alert_id);
 			                stmt.setString(p++, obj.getHod_user_id_fk());
+			                stmt.setString(p++, read_time);
 			                stmt.addBatch();
     					}
 		                
     				}
     				
     				if(!StringUtils.isEmpty(obj.getResponsible_person())) {
+    					String read_time = getReadTimeFromAlertsUser(last_alert_id,obj.getResponsible_person(),connection);
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getResponsible_person());
+		                stmt.setString(p++, read_time);
 		                stmt.addBatch();
 					}
     				
     				if(!StringUtils.isEmpty(obj.getDy_hod_user_id_fk())) {
+    					String read_time = getReadTimeFromAlertsUser(last_alert_id,obj.getDy_hod_user_id_fk(),connection);
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getDy_hod_user_id_fk());
+		                stmt.setString(p++, read_time);
 		                stmt.addBatch();
     				}
     				
     				if(!StringUtils.isEmpty(obj.getEscalated_to())) {
+    					String read_time = getReadTimeFromAlertsUser(last_alert_id,obj.getEscalated_to(),connection);
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getEscalated_to());
+		                stmt.setString(p++, read_time);
 		                stmt.addBatch();
     				}
     				
@@ -1014,6 +1127,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				String alert_value = obj.getAlert_value();
 				String redirect_url = obj.getRedirect_url();
 				
+				String last_alert_id = getLastAlertId(contract_id,alert_level,alert_type,alert_value,connection);
+				
 				int p = 1;
                 stmt.setString(p++, alert_level);
                 stmt.setString(p++, alert_type);
@@ -1032,36 +1147,45 @@ public class AlertsDaoImpl implements AlertsDao{
                 	}
                 	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
                 	
-                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk,no_email)VALUES(?,?,?)";
+                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk,no_email,read_time)VALUES(?,?,?,?)";
     				stmt = connection.prepareStatement(qry);
+    				
+    				String read_time = getReadTimeFromAlertsUser(last_alert_id,obj.getUser_id_fk(),connection);
     				
     				p = 1;
     				stmt.setString(p++, alert_id);
 	                stmt.setString(p++, obj.getUser_id_fk());
 	                stmt.setString(p++, null);
+	                stmt.setString(p++, read_time);
 	                stmt.addBatch();
 	                
 					/*if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) 
 							&& ("3rd Alert".equals(obj.getAlert_level()) || "Overdue".equals(obj.getAlert_level())) ) {*/
 					if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) 
 							&& ("Overdue".equals(obj.getAlert_level())) ) {
+						read_time = getReadTimeFromAlertsUser(last_alert_id,obj.getReporting_to_user_id(),connection);
 						p = 1;
 						stmt.setString(p++, alert_id);
 					    stmt.setString(p++, obj.getReporting_to_user_id());
 					    stmt.setString(p++, "Yes");
+					    stmt.setString(p++, read_time);
 					    stmt.addBatch();
 					}
 					if("Overdue".equals(obj.getAlert_level()) && "PMIS_SU_002".equals(obj.getReporting_to_user_id())) {
+						read_time = getReadTimeFromAlertsUser(last_alert_id,"PMIS_SU_006",connection);
 						p = 1;
 						stmt.setString(p++, alert_id);
 					    stmt.setString(p++, "PMIS_SU_006");
 					    stmt.setString(p++, "Yes");
+					    stmt.setString(p++, read_time);
 					    stmt.addBatch();
 					    
+					    read_time = getReadTimeFromAlertsUser(last_alert_id,"PMIS_SU_052",connection);
 					    p = 1;
 						stmt.setString(p++, alert_id);
 					    stmt.setString(p++, "PMIS_SU_052");
 					    stmt.setString(p++, "Yes");
+					    stmt.setString(p++, read_time);
 					    stmt.addBatch();
 					}
 	                

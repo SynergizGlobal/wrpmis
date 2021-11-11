@@ -1,9 +1,11 @@
 package com.synergizglobal.pmis.reference.IMPLdao;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -119,6 +121,19 @@ public class IssueCategoryDaoImpl implements IssueCategoryDao{
 					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'issue_category' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+			for(TrainingType tName : tablesList) {
+				 String name = tName.gettName();
+				 if(!name.equals("issue")) {
+					 String result = name.split("issue_")[1];
+					 name = result.replaceAll("[_]", " ");  
+				 }
+				 String regex = "\\b(.)(.*?)\\b";
+			     String captilizedName = Pattern.compile(regex).matcher(name).replaceAll(
+			            matche -> matche.group(1).toUpperCase() + matche.group(2)
+			     );
+			     tName.setCaptiliszedTableName(captilizedName);
+			}
+
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);

@@ -59,7 +59,10 @@
                                             <th>General Status</th>
                                             <th>Contract Status</th>
                                             <c:forEach var="tObj" items="${generalStatusDetails.tablesList}" >
-                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            	 <c:forEach var="TObj" items="${tObj.tName }" >
+                                            	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
+                                            	 	<th>${mTObj } </th>
+                                            	</c:forEach>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

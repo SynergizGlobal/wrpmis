@@ -75,7 +75,11 @@
                                             <th>Sub Area</th>
                                             <th>Item No</th>
                                             <c:forEach var="tObj" items="${riskAreaDetails.tablesList}" >
-                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            	<%--  <th>${tObj.tName } <br>(count)</th> --%>
+                                            	 <c:forEach var="TObj" items="${tObj.tName }" >
+                                            	 	<c:set var = "mTObj" value = "${fn:replace(TObj, ' ', ' ')}" />
+                                            	 	<th>${mTObj } </th>
+                                            	</c:forEach>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

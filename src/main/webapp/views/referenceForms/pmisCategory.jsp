@@ -60,7 +60,7 @@
                                         <tr>
                                             <th>PMIS Category</th>
                                              <c:forEach var="tObj" items="${pmisCategoryDetails.tablesList}" >
-                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

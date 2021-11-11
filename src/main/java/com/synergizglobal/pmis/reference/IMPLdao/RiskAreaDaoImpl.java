@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.reference.IMPLdao;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
@@ -118,7 +119,19 @@ public class RiskAreaDaoImpl implements RiskAreaDao{
 			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
 					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'risk_area' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
 			
-			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+			for(TrainingType tName : tablesList) {
+				 String name = tName.gettName();
+				 if(!name.equals("risk")) {
+					 String result = name.split("risk_")[1];
+					 name = result.replaceAll("[_]", " ");  
+				 }
+				 String regex = "\\b(.)(.*?)\\b";
+			     String captilizedName = Pattern.compile(regex).matcher(name).replaceAll(
+			            matche -> matche.group(1).toUpperCase() + matche.group(2)
+			     );
+			     tName.setCaptiliszedTableName(captilizedName);
+			}
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);

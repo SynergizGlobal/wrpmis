@@ -60,7 +60,7 @@
                                         <tr>
                                             <th>P6 WBS Category</th>
                                             <c:forEach var="tObj" items="${p6WbsCategoryDetails.tablesList}" >
-                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

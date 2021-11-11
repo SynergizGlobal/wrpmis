@@ -63,7 +63,10 @@
                                             <th> Category</th>
                                             <th>Short Description </th>
                                             <c:forEach var="tObj" items="${safetyCategoryDetails.tablesList}" >
-                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            	 <c:forEach var="TObj" items="${tObj.tName }" >
+                                            	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
+                                            	 	<th>${mTObj } </th>
+                                            	</c:forEach>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

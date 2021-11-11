@@ -75,11 +75,7 @@
                                         <tr>
                                             <th> Priority</th>
                                             <c:forEach var="tObj" items="${riskPriorityDetails.tablesList}" >
-                                            	 <%-- <th>${tObj.tName } <br>(count)</th> --%>
-                                            	 <c:forEach var="TObj" items="${tObj.tName }" >
-                                            	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
-                                            	 	<th>${mTObj } <br>(count)</th>
-                                            	</c:forEach>
+                                            	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

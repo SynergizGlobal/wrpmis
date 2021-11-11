@@ -57,10 +57,10 @@
                                 <table id="la_subcategory_table" class="mdl-data-table">
                                     <thead>
                                         <tr><th>ID</th>
-                                            <th>LA Category</th>
-                                            <th>LA Sub Category</th>
+                                            <th>Category</th>
+                                            <th>Sub Category</th>
                                             <c:forEach var="tObj" items="${landAcquisitionSubCategoryDetails.tablesList}" >
-                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

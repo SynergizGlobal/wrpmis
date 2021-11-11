@@ -59,7 +59,7 @@
                                         <tr>
                                             <th>Insurance Type</th>
                                             <c:forEach var="tObj" items="${insuranceTypesDetails.tablesList}" >
-                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

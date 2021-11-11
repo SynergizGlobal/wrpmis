@@ -96,11 +96,7 @@
                                             <th> Short Name </th>
                                             <th>Item No</th>
                                             <c:forEach var="tObj" items="${riskAreaDetails.tablesList}" >
-                                            	<%--  <th>${tObj.tName } <br>(count)</th> --%>
-                                            	 <c:forEach var="TObj" items="${tObj.tName }" >
-                                            	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
-                                            	 	<th>${mTObj } <br>(count)</th>
-                                            	</c:forEach>
+                                             	<th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

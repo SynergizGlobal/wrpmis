@@ -61,9 +61,9 @@
                                             <th>Bank Guarantee Type</th>
                                            
                                             <c:forEach var="oobj" items="${bankGuaranteeDetails.tablesList}" >
-                                            	 <th>${oobj.tName } <br>(count)</th>
+                                            	 <th>${oobj.captiliszedTableName }</th>
                                             </c:forEach>
-                                             
+                                              
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -77,7 +77,7 @@
 											 
 												<td><c:forEach var="oobj" items="${bankGuaranteeDetails.countList}" >
 												<c:choose> 
-													    <c:when test="${oaobj.tName eq oobj.tName }"> 
+													    <c:when test="${oaobj.tName eq oobj.tName }">  
 													    
 													    		<c:choose>  
 																    <c:when test="${oobj.bg_type_fk eq obj.bg_type }"> 

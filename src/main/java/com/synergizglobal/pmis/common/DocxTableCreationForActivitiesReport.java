@@ -87,7 +87,9 @@ public class DocxTableCreationForActivitiesReport {
 		RPr garamondDateRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);
 		
-		String work = "-",fromDate = null,toDate = null, HOD = "-",dates = null;
+		String work = "All",fromDate = null,toDate = null, HOD = "All",DyHOD = "All",dates = null;
+		
+		
 			
 		for (ActivitiesProgressReport aObj : obj.getProgressUpdateList()) {
 			if(!StringUtils.isEmpty(obj.getWork_id()) || !StringUtils.isEmpty(obj.getContract_id())) {
@@ -97,6 +99,10 @@ public class DocxTableCreationForActivitiesReport {
 			if(!StringUtils.isEmpty(obj.getHod())|| !StringUtils.isEmpty(obj.getContract_id()) || !StringUtils.isEmpty(obj.getContractor_id())||!StringUtils.isEmpty(obj.getDyhod())) {
 				HOD = aObj.getHod_designation();
 				}
+			if(!StringUtils.isEmpty(obj.getDyhod())|| !StringUtils.isEmpty(obj.getContract_id()) || !StringUtils.isEmpty(obj.getContractor_id())||!StringUtils.isEmpty(obj.getDyhod())) {
+				DyHOD = aObj.getHod_designation();
+				}			
+			
 
 			break;
 		}
@@ -151,6 +157,16 @@ public class DocxTableCreationForActivitiesReport {
 		  	titleTable.getContent().add(titleTableRow);	
 		  	mergeCellsHorizontal(titleTable, 3, 1, 8);
 			/*===========================================================*/
+			titleTableRow = factory.createTr();	
+			addTableCell(factory, wordMLPackage, titleTableRow, "DyHOD", garamondBoldRPr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, HOD, garamondBoldRPr2,
+					JcEnumeration.LEFT, false, null);
+			
+		
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, 4, 1, 8);
+			/*===========================================================*/		  	
 			
 			
 			setTableAlign(factory, titleTable, JcEnumeration.CENTER);
@@ -171,13 +187,12 @@ public class DocxTableCreationForActivitiesReport {
 				Tr hodRow = factory.createTr();
 				if(m==0)
 				{
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "PMIS Employees", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "PMIS Users", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				}
 				else
 				{
 					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "Synergiz Employees", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				}
-				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
@@ -201,7 +216,6 @@ public class DocxTableCreationForActivitiesReport {
 			tableHeader.add("S.No");
 			tableHeader.add("Employee");
 			//tableHeader.add("Department");
-			tableHeader.add("Contract"); 
 			tableHeader.add("Structure");
 			tableHeader.add("Progress update Date");
 			//tableHeader.add("Data Dates");
@@ -223,7 +237,6 @@ public class DocxTableCreationForActivitiesReport {
 			//tableHeader.add("");
 			tableHeader.add(""); 
 			tableHeader.add("");
-			tableHeader.add("");
 			//tableHeader.add("");
 			tableHeader.add("Updated");
 			tableHeader.add("Approved");
@@ -235,91 +248,108 @@ public class DocxTableCreationForActivitiesReport {
 						JcEnumeration.CENTER, true, "ecf2ff");
 			}
 			table.getContent().add(titleRow);
-			mergeCellsHorizontal(table, 0, 5, 8);
+			mergeCellsHorizontal(table, 0, 4, 7);
 			mergeCellsVertically(table, 0, 0, 1);
 			mergeCellsVertically(table, 1, 0, 1);
 			mergeCellsVertically(table, 2, 0, 1);
 			mergeCellsVertically(table, 3, 0, 1);
-			mergeCellsVertically(table, 4, 0, 1);
 			//mergeCellsVertically(table, 6, 0, 1);
 			//mergeCellsVertically(table, 7, 0, 1);
 			int sNo=1;
+			for (String cObj : obj.getContractsList()) {
+				
+			Tr contractRow = factory.createTr();	
+			addTableCell(factory, wordMLPackage, contractRow, "Contract" +cObj,calibriBoldDateRPr, JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, contractRow, "",garamondRPr, JcEnumeration.LEFT, false, null);
+			table.getContent().add(contractRow);
+			
+			//mergeCellsHorizontal(table, sNo+1, 0, 7);
+			
 			for (ActivitiesProgressReport aObj : obj.getProgressUpdateList()) 
 			{
-				if(m==0)
+				if(aObj.getDesignation()!="")
 				{
-					if(aObj.getUser_id().contains("PMIS")) 
+				if(cObj.compareTo(aObj.getContract_short_name())==0)
+				{
+					if(m==0)
 					{
-						boolean hasBgColor = false;
-						String backgroundColor = null, designation = "";
-						Tr contentRow = factory.createTr();	
-					if(!StringUtils.isEmpty(aObj.getDesignation())) { designation = aObj.getDesignation()+" - "; }
-						addTableCell(factory, wordMLPackage, contentRow, Integer.toString(sNo++),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, designation + aObj.getUser_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						/*addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getContract_short_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getStructure_type_fk(),
-								garamondDateRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_date(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						
-						/*addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_dates(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);*/
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getUpdated(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getApproved(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getRejected(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						table.getContent().add(contentRow);
+						if(aObj.getUser_id().contains("PMIS")) 
+						{
+							boolean hasBgColor = false;
+							String backgroundColor = null, designation = "";
+							Tr contentRow = factory.createTr();	
+						if(!StringUtils.isEmpty(aObj.getDesignation())) { designation = aObj.getDesignation()+" - "; }
+							addTableCell(factory, wordMLPackage, contentRow, Integer.toString(sNo++),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, designation + aObj.getUser_name(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							/*addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getStructure_type_fk(),
+									garamondDateRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_date(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							
+							/*addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_dates(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);*/
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getUpdated(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getApproved(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getRejected(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							table.getContent().add(contentRow);
+						}
 					}
-				}
-				else
-				{
-					if(!aObj.getUser_id().contains("PMIS")) 
+					else
 					{
-						boolean hasBgColor = false;
-						String backgroundColor = null, designation = "";
-						Tr contentRow = factory.createTr();	
-					if(!StringUtils.isEmpty(aObj.getDesignation())) { designation = aObj.getDesignation()+" - "; }
-						addTableCell(factory, wordMLPackage, contentRow, Integer.toString(sNo++),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, designation + aObj.getUser_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						/*addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getContract_short_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getStructure_type_fk(),
-								garamondDateRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_date(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						
-						/*addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_dates(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);*/
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getUpdated(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getApproved(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getRejected(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						table.getContent().add(contentRow);
-					}					
+						if(!aObj.getUser_id().contains("PMIS")) 
+						{
+							boolean hasBgColor = false;
+							String backgroundColor = null, designation = "";
+							Tr contentRow = factory.createTr();	
+						if(!StringUtils.isEmpty(aObj.getDesignation())) { designation = aObj.getDesignation()+" - "; }
+							addTableCell(factory, wordMLPackage, contentRow, Integer.toString(sNo++),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, designation + aObj.getUser_name(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getStructure_type_fk(),
+									garamondDateRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_date(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							
+							/*addTableCell(factory, wordMLPackage, contentRow, aObj.getProgress_dates(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);*/
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getUpdated(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getApproved(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							
+							addTableCell(factory, wordMLPackage, contentRow, aObj.getRejected(),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							table.getContent().add(contentRow);
+						}					
+					
+					}
+					
 				}
+				}
+				}
+		
 			}
 			if(StringUtils.isEmpty(obj.getProgressUpdateList()) || obj.getProgressUpdateList().isEmpty()) {
 				boolean hasBgColor = false;

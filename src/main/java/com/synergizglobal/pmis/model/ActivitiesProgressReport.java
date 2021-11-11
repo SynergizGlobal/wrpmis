@@ -7,10 +7,11 @@ public class ActivitiesProgressReport {
 	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,hod,dyhod,unit,
 	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope,from_date,to_date,
 	project_id,project_name,project_id_fk,department_name,contractor_id,user_id,user_name,designation,fob_id,fob_name,hod_user_id_fk,structure_type_fk,progress_dates,
-	department_fk,structure_type,component_id,updated,approved,rejected,hod_designation,remarks;
+	department_fk,structure_type,component_id,updated,approved,rejected,hod_designation,remarks,dyhod_designation;
 
 	List<ActivitiesProgressReport> componentsList;
 	List<ActivitiesProgressReport> activitiessList;
+	List<String> contractsList;
 	List<ActivitiesProgressReport> structuressList;
 	List<ActivitiesProgressReport> progressUpdateList;
 	
@@ -22,6 +23,14 @@ public class ActivitiesProgressReport {
 	public void setProgressUpdateList(List<ActivitiesProgressReport> progressUpdateList) {
 		this.progressUpdateList = progressUpdateList;
 	}
+	
+	public List<String> getContractsList() {
+		return contractsList;
+	}
+
+	public void setContractsList(List<String> contractsList) {
+		this.contractsList = contractsList;
+	}	
 
 	public String getHod_designation() {
 		return hod_designation;
@@ -488,6 +497,14 @@ public class ActivitiesProgressReport {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getDyhod_designation() {
+		return dyhod_designation;
+	}
+
+	public void setDyhod_designation(String dyhod_designation) {
+		this.dyhod_designation = dyhod_designation;
 	}
 	
 	

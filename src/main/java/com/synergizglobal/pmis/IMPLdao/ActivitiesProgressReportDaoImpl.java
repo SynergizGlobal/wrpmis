@@ -963,10 +963,11 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	public List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,cr.contractor_name,c.dy_hod_user_id_fk as dyhod ,c.hod_user_id_fk as hod,c.contractor_id_fk as contractor_id "+
+			String qry = "SELECT contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,u1.designation as hod_designation,u.designation as dyhod_designation,cr.contractor_name,c.dy_hod_user_id_fk as dyhod ,c.hod_user_id_fk as hod,c.contractor_id_fk as contractor_id "+
 					"from activities a " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
+					"LEFT JOIN user u1 on c.hod_user_id_fk = u1.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id " +

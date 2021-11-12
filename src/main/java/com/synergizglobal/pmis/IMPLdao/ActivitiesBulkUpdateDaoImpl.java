@@ -690,7 +690,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			rs = stmt.executeQuery();
 			if (rs.next()) {
 				color = rs.getString("color");	
-				if(color=="over")
+				if(color.compareTo("over")==0)
 				{
 					color="completed";
 				}

@@ -589,7 +589,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						arrSize++;
 					}					
 					
-					if(aObj.getUpdated_scope()!=null && Float.parseFloat(aObj.getUpdated_scope())>0)
+					if(aObj.getUpdated_scope()!=null)
 					{
 						updateQry = updateQry + ", Scope = ?";
 						arrSize++;						
@@ -599,8 +599,15 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					
 					pValues = new Object[arrSize];
 					int i = 0;			
-					pValues[i++] = aObj.getCompleted();			
-					pValues[i++] = aObj.getActual_for_the_day();
+					pValues[i++] = aObj.getCompleted();	
+					if(aObj.getActual_for_the_day()!=null)
+					{
+						pValues[i++] = aObj.getActual_for_the_day();
+					}
+					else
+					{
+						pValues[i++] = 0;
+					}
 					if(completed == 0) {
 						pValues[i++] = aObj.getProgress_date();
 					}
@@ -614,7 +621,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						pValues[i++] = getActivityMaxProgressDate(aObj.getActivity_id());
 					}					
 					
-					if(aObj.getUpdated_scope()!=null && Float.parseFloat(aObj.getUpdated_scope())>0)
+					if(aObj.getUpdated_scope()!=null)
 					{
 						pValues[i++] = aObj.getUpdated_scope();
 					}
@@ -768,7 +775,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 							arrSize++;
 						}
 						
-						if(activity.getUpdated_scope()!=null && Float.parseFloat(activity.getUpdated_scope())>0)
+						if(activity.getUpdated_scope()!=null)
 						{
 							updateQry = updateQry + ", Scope = ?";
 							arrSize++;						
@@ -779,7 +786,14 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						Object[] pValues = new Object[arrSize];
 						int i = 0;			
 						pValues[i++] = activity.getCompleted();			
-						pValues[i++] = activity.getActual_for_the_day();
+						if(activity.getActual_for_the_day()!=null)
+						{
+							pValues[i++] = activity.getActual_for_the_day();
+						}
+						else
+						{
+							pValues[i++] = 0;
+						}
 						if(completed == 0) {
 							pValues[i++] = activity.getProgress_date();
 						}
@@ -790,7 +804,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						{
 							pValues[i++] = getActivityMaxProgressDate(activity.getActivity_id());
 						}
-						if(activity.getUpdated_scope()!=null && Float.parseFloat(activity.getUpdated_scope())>0)
+						if(activity.getUpdated_scope()!=null)
 						{
 							pValues[i++] = activity.getUpdated_scope();
 						}						

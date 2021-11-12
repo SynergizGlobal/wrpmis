@@ -105,5 +105,11 @@ public class ActivitiesServiceImpl implements ActivitiesService{
 		return dao.getIssuesStatusList();
 	}
 	
+	@Override
+	public boolean checkUserAccess(String contract_id_fk,String strip_chart_structure_id_fk,String user_id,String user_role_name_fk) throws Exception {
+		return dao.checkUserAccess(contract_id_fk,strip_chart_structure_id_fk,user_id,user_role_name_fk);
+	}	
+	
+	
 }
 

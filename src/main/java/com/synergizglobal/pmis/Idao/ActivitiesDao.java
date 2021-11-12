@@ -25,4 +25,5 @@ public interface ActivitiesDao {
 	public List<Issue> getIssuesCategoryList() throws Exception;
 	public List<Issue> getIssuesPriorityList() throws Exception;
 	public List<Issue> getIssuesStatusList() throws Exception;
+	public boolean checkUserAccess(String contract_id_fk,String strip_chart_structure_id_fk,String user_id,String user_role_name_fk) throws Exception;;
 }

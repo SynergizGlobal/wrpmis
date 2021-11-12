@@ -273,6 +273,7 @@
                             <form id="activitiesChartForm" name="activitiesChartForm" method="post" enctype="multipart/form-data">
                                 <div class="col m1 hide-on-small-only"></div>
                                 <div class="col m10 s12">
+ 									<div class="row" id="msg" style="color:red;text-align:center;"></div><br>                               
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Project <span class="required">*</span></p>
@@ -655,7 +656,7 @@
                                     <div class="row">
                                         <div class="col s12 m6 mt-brdr">
                                             <div class="center-align m-1">
-                                                <button type="button" class="btn waves-effect waves-light bg-m"  onclick="saveProgress();">Update</button>
+                                                <button type="button" class="btn waves-effect waves-light bg-m" id="btnSave" onclick="saveProgress();">Update</button>
                                             </div>
                                         </div>
                                         <div class="col s12 m6 mt-brdr">
@@ -828,14 +829,53 @@
   	      
 
             var project_id = "${activitiesData.project_id}";
-            if ($.trim(project_id) != '') {
+            if ($.trim(project_id) != '') 
+            {
             	$("#project_id").val(project_id);
             	$("#project_id").select2();
             	getActivitiesWorksList(project_id);
+
+            	if(checkUserAccess()==true)
+           		{
+             		$("#btnSave").prop("disabled",false);
+             		$("#msg").html("");
+           		}
+            	else
+           		{
+             		$("#btnSave").prop("disabled",true);
+             		$("#msg").html("You are not authorized to update this form");
+           		}            		
             }
            
         });
 
+        
+        function checkUserAccess()
+        {
+        	var contract_id = "${activitiesData.contract_id}";
+        	var strip_chart_structure_id = "${activitiesData.strip_chart_structure_id}";
+        	
+        	var myParams = { contract_id_fk: contract_id,strip_chart_structure_id_fk:strip_chart_structure_id };
+        	var bool = false;
+           	 $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/checkUserAccess",
+                 data: myParams,type: 'POST',
+                 async: false,
+                 dataType: 'json',
+                 success: function (data) 
+                 {
+                	 if (data == true) 
+                	 {
+                         bool = true;
+                     }
+                 }
+             });
+           	return trueOrFalse(bool);
+        }	
+        
+        function trueOrFalse(bool){
+            return bool;
+    	}        
 
         //geting works list from database    
         function getActivitiesWorksList(projectId) { 

@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -48,6 +49,13 @@ public class ActivitiesController {
 	public ModelAndView activities(@ModelAttribute StripChart obj,HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.activitiesProgress);
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			
 			List<StripChart> projectsList = activitiesService.getActivitiesProjectsList(obj);
 			model.addObject("projectsList", projectsList);
 			
@@ -98,9 +106,15 @@ public class ActivitiesController {
 	
 	@RequestMapping(value = "/ajax/getActivitiesProjectsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getActivitiesProjectsList(@ModelAttribute StripChart obj){
+	public List<StripChart> getActivitiesProjectsList(@ModelAttribute StripChart obj,HttpSession session){
 		List<StripChart> projects = null;
 		try{
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			projects = activitiesService.getActivitiesProjectsList(obj);			
 		}catch(Exception e){
 			logger.error("getActivitiesProjectsList() : "+e.getMessage());
@@ -110,9 +124,15 @@ public class ActivitiesController {
 	
 	@RequestMapping(value = "/ajax/getActivitiesWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getActivitiesWorksList(@ModelAttribute StripChart obj){
+	public List<StripChart> getActivitiesWorksList(@ModelAttribute StripChart obj,HttpSession session){
 		List<StripChart> works = null;
 		try{
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			works = activitiesService.getActivitiesWorksList(obj);			
 		}catch(Exception e){
 			logger.error("geStripCharttWorksList() : "+e.getMessage());
@@ -120,11 +140,32 @@ public class ActivitiesController {
 		return works;
 	}
 	
+	@RequestMapping(value = "/ajax/checkUserAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean checkUserAccess(String contract_id_fk,String strip_chart_structure_id_fk,HttpSession session) throws Exception {
+		boolean flag = false;
+		try 
+		{
+			User uObj = (User) session.getAttribute("user");
+			flag = activitiesService.checkUserAccess(contract_id_fk,strip_chart_structure_id_fk,uObj.getUser_id(),uObj.getUser_role_code());
+		} catch (SQLException e) {
+			logger.error("checkUserAccess : " + e.getMessage());
+		}
+		return flag;
+	}	
+	
 	@RequestMapping(value = "/ajax/getActivitiesContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getActivitiesContractsList(@ModelAttribute StripChart obj){
+	public List<StripChart> getActivitiesContractsList(@ModelAttribute StripChart obj,HttpSession session){
 		List<StripChart> contracts = null;
 		try{
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			
 			contracts = activitiesService.getActivitiesContractsList(obj);			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -135,9 +176,14 @@ public class ActivitiesController {
 	
 	@RequestMapping(value = "/ajax/getActivitiesStructures", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getActivitiesStructures(@ModelAttribute StripChart obj){
+	public List<StripChart> getActivitiesStructures(@ModelAttribute StripChart obj,HttpSession session){
 		List<StripChart> structures = null;
 		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			structures = activitiesService.getActivitiesStructures(obj);			
 		}catch(Exception e){
 			logger.error("getActivitiesStructures() : "+e.getMessage());

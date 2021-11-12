@@ -100,7 +100,7 @@ public class DocxTableCreationForActivitiesReport {
 				HOD = aObj.getHod_designation();
 				}
 			if(!StringUtils.isEmpty(obj.getDyhod())|| !StringUtils.isEmpty(obj.getContract_id()) || !StringUtils.isEmpty(obj.getContractor_id())||!StringUtils.isEmpty(obj.getDyhod())) {
-				DyHOD = aObj.getHod_designation();
+				DyHOD = aObj.getDyhod_designation();
 				}			
 			
 
@@ -160,7 +160,7 @@ public class DocxTableCreationForActivitiesReport {
 			titleTableRow = factory.createTr();	
 			addTableCell(factory, wordMLPackage, titleTableRow, "DyHOD", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, HOD, garamondBoldRPr2,
+			addTableCell(factory, wordMLPackage, titleTableRow, DyHOD, garamondBoldRPr2,
 					JcEnumeration.LEFT, false, null);
 			
 		

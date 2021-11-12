@@ -3419,7 +3419,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					}
 				}
 				
-				alerts.put(lObj.getAlert_level(), allAlertsList);
+				alerts.put(lObj.getAlert_level(), allAlertsList); 
 			}
 			
 			List<String> email_ids = new ArrayList<String>();

@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -849,8 +851,8 @@ public class ContractController {
 		        
 	            XSSFRow headingRow = contractsSheet.createRow(0);
 	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Contract Type^Scope of Contract"
-	            		+ "^Estimated Cost^Awarded Cost^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
-	            		+ "Actual Completion Date^Final Taking over by Client^Date of issue of Completion Certificate^Date of Payment of Final bill^Date of release of Final Retention / BG^Completion  Cost^"
+	            		+ "^Estimated Cost\n(Rs in Lakhs)^Awarded Cost\n(Rs in Lakhs)^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
+	            		+ "Actual Completion Date^Final Taking over by Client^Date of issue of Completion Certificate^Date of Payment of Final bill^Date of release of Final Retention / BG^Completion  Cost\n(Rs in Lakhs)^"
 	            		+ "End date of Defect Liability Period^Date of release of PBG^Date of Contract Closure^Contract Status^Status of Work^Bank Guarantee Requried^Insurance Requried^Tally Head";
 	            
 	            String[] headerStringArr = headerString.split("\\^");
@@ -860,6 +862,8 @@ public class ContractController {
 			        cell.setCellStyle(greenStyle);
 					cell.setCellValue(headerStringArr[i]);
 				}
+	            
+	            NumberFormat numberFormatter = new DecimalFormat("#0.00");
 	            
 	            short rowNo = 1;
 	            for (Contract obj : dataList) {
@@ -907,28 +911,38 @@ public class ContractController {
 					cell.setCellValue(obj.getScope_of_contract());
 					
 					String estimated_cost = "";
-					String estimated_cost_unit = "";
+					String estimated_cost_units = "";
 					if(!StringUtils.isEmpty(obj.getEstimated_cost())) {
 						estimated_cost = obj.getEstimated_cost();
 					}
-					if(!StringUtils.isEmpty(obj.getEstimated_cost_unit())) {
-						estimated_cost_unit = obj.getEstimated_cost_unit();
+					if(!StringUtils.isEmpty(obj.getEstimated_cost_units())) {
+						estimated_cost_units = obj.getEstimated_cost_units();
+					}
+					String estimated_cost_value = "";
+					if(!StringUtils.isEmpty(estimated_cost) && !StringUtils.isEmpty(estimated_cost_units)) {
+						double val = (Double.parseDouble(estimated_cost)*Double.parseDouble(estimated_cost_units))/100000;
+						estimated_cost_value = numberFormatter.format(val);
 					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectioncostStyle);
-					cell.setCellValue(estimated_cost +" "+estimated_cost_unit);
+					cell.setCellValue(estimated_cost_value);
 					
 					String awarded_cost = "";
-					String awarded_cost_unit = "";
+					String awarded_cost_units = "";
 					if(!StringUtils.isEmpty(obj.getAwarded_cost())) {
 						awarded_cost = obj.getAwarded_cost();
 					}
-					if(!StringUtils.isEmpty(obj.getAwarded_cost_unit())) {
-						awarded_cost_unit = obj.getAwarded_cost_unit();
+					if(!StringUtils.isEmpty(obj.getAwarded_cost_units())) {
+						awarded_cost_units = obj.getAwarded_cost_units();
+					}
+					String awarded_cost_value = "";
+					if(!StringUtils.isEmpty(awarded_cost) && !StringUtils.isEmpty(awarded_cost_units)) {
+						double val = (Double.parseDouble(awarded_cost)*Double.parseDouble(awarded_cost_units))/100000;
+						awarded_cost_value = numberFormatter.format(val);
 					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectioncostStyle);
-					cell.setCellValue(awarded_cost+" "+awarded_cost_unit);
+					cell.setCellValue(awarded_cost_value);
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -975,16 +989,22 @@ public class ContractController {
 					cell.setCellValue(obj.getRetention_money_release());
 					
 					String completed_cost = "";
-					String completed_cost_unit = "";
+					String completed_cost_units = "";
 					if(!StringUtils.isEmpty(obj.getCompleted_cost())) {
 						completed_cost = obj.getCompleted_cost();
 					}
-					if(!StringUtils.isEmpty(obj.getCompleted_cost_unit())) {
-						completed_cost_unit = obj.getCompleted_cost_unit();
+					if(!StringUtils.isEmpty(obj.getCompleted_cost_units())) {
+						completed_cost_units = obj.getCompleted_cost_units();
 					}
+					String completed_cost_value = "";
+					if(!StringUtils.isEmpty(completed_cost) && !StringUtils.isEmpty(completed_cost_units)) {
+						double val = (Double.parseDouble(completed_cost)*Double.parseDouble(completed_cost_units))/100000;
+						completed_cost_value = numberFormatter.format(val);
+					}
+					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(completed_cost+" "+completed_cost_unit);
+					cell.setCellValue(completed_cost_value);
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1028,7 +1048,7 @@ public class ContractController {
 	            /********************************** Revision Details *********************************************************/
 	            
 	            headingRow = revisionsSheet.createRow(0);
-	            headerString = "Contract ID^Contract Short Name^Revision Number^Revised Contract Value^Current^Revised DOC^Current^Remarks";
+	            headerString = "Contract ID^Contract Short Name^Revision Number^Revised Contract Value\n(Rs in Lakhs)^Current^Revised DOC^Current^Remarks";
 	            
 	            headerStringArr = headerString.split("\\^");
 	            
@@ -1056,16 +1076,22 @@ public class ContractController {
 					cell.setCellValue(obj.getRevision_number());
 					
 					String revised_amount = "";
-					String revised_amount_unit = "";
+					String revised_amount_units = "";
 					if(!StringUtils.isEmpty(obj.getRevised_amount())) {
 						revised_amount = obj.getRevised_amount();
 					}
-					if(!StringUtils.isEmpty(obj.getUnit())) {
-						revised_amount_unit = obj.getUnit();
+					if(!StringUtils.isEmpty(obj.getRevised_amount_units())) {
+						revised_amount_units = obj.getRevised_amount_units();
 					}
+					String revised_amount_value = "";
+					if(!StringUtils.isEmpty(revised_amount) && !StringUtils.isEmpty(revised_amount_units)) {
+						double val = (Double.parseDouble(revised_amount)*Double.parseDouble(revised_amount_units))/100000;
+						revised_amount_value = numberFormatter.format(val);
+					}
+					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectioncostStyle);
-					cell.setCellValue(revised_amount +" "+revised_amount_unit);
+					cell.setCellValue(revised_amount_value);
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1092,7 +1118,7 @@ public class ContractController {
 	            /********************************** BG Details *********************************************************/
 	            
 	            headingRow = bgSheet.createRow(0);
-	            headerString = "Contract ID^Contract Short Name^Code^BG Type^Issuing Bank^BG / FDR Number^Amount^BG / FDR Date^Expiry Date^Release Date";
+	            headerString = "Contract ID^Contract Short Name^Code^BG Type^Issuing Bank^BG / FDR Number^Amount\n(Rs in Lakhs)^BG / FDR Date^Expiry Date^Release Date";
 	            
 	            headerStringArr = headerString.split("\\^");
 	            
@@ -1132,16 +1158,21 @@ public class ContractController {
 					cell.setCellValue(obj.getBg_number());
 					
 					String bg_value = "";
-					String bg_value_unit = "";
+					String bg_value_units = "";
 					if(!StringUtils.isEmpty(obj.getBg_value())) {
 						bg_value = obj.getBg_value();
 					}
-					if(!StringUtils.isEmpty(obj.getUnit())) {
-						bg_value_unit = obj.getUnit();
+					if(!StringUtils.isEmpty(obj.getBg_value_units())) {
+						bg_value_units = obj.getBg_value_units();
 					}
+					if(!StringUtils.isEmpty(bg_value) && !StringUtils.isEmpty(bg_value_units)) {
+						double val = (Double.parseDouble(bg_value)*Double.parseDouble(bg_value_units))/100000;
+						bg_value = numberFormatter.format(val);
+					}
+					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectioncostStyle);
-					cell.setCellValue(bg_value +" "+bg_value_unit);
+					cell.setCellValue(bg_value);
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1165,7 +1196,7 @@ public class ContractController {
 	            /********************************** Insurance Details *********************************************************/
 	            
 	            headingRow = insuranceSheet.createRow(0);
-	            headerString = "Contract ID^Contract Short Name^Insurance Type^Issuing Agency^Agency Address^Insurance Number^Insurance Value^Valid Upto^Release";
+	            headerString = "Contract ID^Contract Short Name^Insurance Type^Issuing Agency^Agency Address^Insurance Number^Insurance Value\n(Rs in Lakhs)^Valid Upto^Release";
 	            
 	            headerStringArr = headerString.split("\\^");
 	            
@@ -1205,16 +1236,22 @@ public class ContractController {
 					cell.setCellValue(obj.getInsurance_number());
 					
 					String insurance_value = "";
-					String insurance_value_unit = "";
+					String insurance_value_units = "";
 					if(!StringUtils.isEmpty(obj.getInsurance_value())) {
 						insurance_value = obj.getInsurance_value();
 					}
-					if(!StringUtils.isEmpty(obj.getUnit())) {
-						insurance_value_unit = obj.getUnit();
+					if(!StringUtils.isEmpty(obj.getInsurance_value_units())) {
+						insurance_value_units = obj.getInsurance_value_units();
 					}
+					
+					if(!StringUtils.isEmpty(insurance_value) && !StringUtils.isEmpty(insurance_value_units)) {
+						double val = (Double.parseDouble(insurance_value)*Double.parseDouble(insurance_value_units))/100000;
+						insurance_value = numberFormatter.format(val);
+					}
+					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectioncostStyle);
-					cell.setCellValue(insurance_value +" "+insurance_value_unit);
+					cell.setCellValue(insurance_value);
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

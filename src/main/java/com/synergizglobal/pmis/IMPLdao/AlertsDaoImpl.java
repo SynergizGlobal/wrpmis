@@ -3289,7 +3289,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
 			String aLevelQry = "select alert_level " 
 					+ "from alerts a "
-					+ "where alert_status = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+					+ "where alert_status = ? and count <> 0 ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(alert_types)) {
@@ -3346,7 +3346,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where alert_level = ? and alert_status = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+						+ "where alert_level = ? and alert_status = ? and count <> 0  ";
 				
 				arrSize = 2;
 				if(!StringUtils.isEmpty(alert_types)) {
@@ -3374,8 +3374,36 @@ public class AlertsDaoImpl implements AlertsDao{
 					}
 				}
 				List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-				
 				for (Alerts alert : allAlertsList) {
+						String sub_work = "";
+						if(!StringUtils.isEmpty(alert.getRedirect_url()) && alert.getRedirect_url().contains("sub_work")) {
+							String[] url_arr = alert.getRedirect_url().split("=");
+							sub_work = url_arr[1];
+							
+							if(sub_work.contains("&assessment_date")) {
+								String[] url_arr2 = sub_work.split("&assessment_date");
+								sub_work = url_arr2[0];
+							}								
+						}
+						if(!StringUtils.isEmpty(sub_work)) {
+							String workQry = "select rwh.sub_work,rwh.work_id_fk as work_id,hod_user_id_fk,work_name,work_short_name,u.designation as hod "  
+									+ "from risk_work_hod rwh "
+									+ "left join work w on rwh.work_id_fk = w.work_id "
+									+ "left join user u on rwh.hod_user_id_fk = u.user_id " 
+									+ "where rwh.sub_work = ?";			
+							List<Alerts> wObjList = jdbcTemplate.query( workQry,new Object[]{sub_work},new BeanPropertyRowMapper<Alerts>(Alerts.class));
+							if(wObjList != null && wObjList.size() > 0) {
+								for (Alerts wObj : wObjList) {
+									if(!StringUtils.isEmpty(wObj)) {
+										alert.setContract_short_name(sub_work);
+										alert.setWork_id(wObj.getWork_id());
+										alert.setWork_name(wObj.getWork_name());
+										alert.setWork_short_name(wObj.getWork_short_name());
+										alert.setHod(wObj.getHod());
+									}
+								}
+							}
+						}
 					if("Bank Guarantee".equals(alert.getAlert_type_fk()) ) {
 						alert.setAlert_type_image("bank_guarantee.png");
 					}else if("Insurance".equals(alert.getAlert_type_fk()) ) {
@@ -3386,6 +3414,8 @@ public class AlertsDaoImpl implements AlertsDao{
 						alert.setAlert_type_image("contract_value.png");
 					}else if("Issue".equals(alert.getAlert_type_fk()) ) {
 						alert.setAlert_type_image("issue.png");
+					}else if("Risk".equals(alert.getAlert_type_fk()) ) {
+						alert.setAlert_type_image("risk.png");
 					}
 				}
 				
@@ -3413,13 +3443,13 @@ public class AlertsDaoImpl implements AlertsDao{
 						alert_type = "Contract";
 					}
 		            
-					String emailSubject = "PMIS "+alert_type+" Alerts";
+					String emailSubject = "PMIS Alerts";
 					
 					Mail mail = new Mail();
 					mail.setMailTo(email_id);
 					mail.setMailBcc(CommonConstants.BCC_MAIL);
 					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("ContractAlerts.vm");
+					mail.setTemplateName("sendAlertsToITAdmins.vm");
 					
 					logger.error("sendAlertsToParticulars() >> Sending mail to "+email_id+": Start ");	
 					emailSender.sendEmailWithContractAlerts(mail,alerts,today_date,current_year,alert_type); 

@@ -897,4 +897,50 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 		return objsList;
 	}
 
+	@Override
+	public boolean checkUserAccess(String contract_id_fk, String strip_chart_structure_id_fk,String user_id,String user_role_name_fk) throws Exception {
+			Connection con = null;
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			boolean process = false;
+			try{  
+				con = dataSource.getConnection();
+				if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(user_role_name_fk)) {
+					
+					String updateQry = "select a.activity_id from activities a "
+							+ "left  join fob_contract_responsible_people f on f.contract_id_fk=a.contract_id_fk and a.structure=f.fob_id_fk "
+							+ "where a.contract_id_fk=? and a.structure=? ";
+					
+					updateQry = updateQry + " and ( "
+							+ "structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+							+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+							+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?)) ";
+					
+					stmt = con.prepareStatement(updateQry);
+					stmt.setString(1, contract_id_fk);
+					stmt.setString(2, strip_chart_structure_id_fk);
+					
+					stmt.setString(3, user_id);
+					stmt.setString(4, user_id);
+					stmt.setString(5, user_id);
+					stmt.setString(6, user_id);
+					rs = stmt.executeQuery(); 
+					if(rs.next()) {		
+						process=true;	
+					}					
+				}
+				else
+				{
+					process=true;					
+				}
+
+			}catch(Exception e){ 
+				throw new SQLException(e);
+			}finally {
+				DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+			}
+			return process;
+		}
+	
+
 }

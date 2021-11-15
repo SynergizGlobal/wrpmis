@@ -1247,7 +1247,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 							}
 							
 							
-							if((completed+actual) > 0 && scope == (completed+actual)) 
+							if((completed+actual) > 0 && Str == (completed+actual)) 
 							{
 								updateQry = updateQry + ", actual_finish = ? ";						
 							}
@@ -1309,7 +1309,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 							if(completed == 0) {
 								updateStmt.setString(k++, Prdate );	
 							}
-							if((completed+actual) > 0 && scope == (completed+actual)) 
+							if((completed+actual) > 0 && Str == (completed+actual)) 
 							{
 								updateStmt.setString(k++, Prdate);						
 							}
@@ -1365,7 +1365,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 								}
 								
 								
-								if((completed+actual) > 0 && scope == (completed+actual)) 
+								if((completed+actual) > 0 && Str == (completed+actual)) 
 								{
 									updateQry = updateQry + ", actual_finish = ? ";						
 								}
@@ -1405,7 +1405,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 								if(completed == 0) {
 									updateStmt.setString(k++, Prdate );	
 								}
-								if((completed+actual) > 0 && scope == (completed+actual)) 
+								if((completed+actual) > 0 && Str == (completed+actual)) 
 								{
 									updateStmt.setString(k++, Prdate);						
 								}

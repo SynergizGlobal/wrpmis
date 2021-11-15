@@ -688,13 +688,61 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}
 			
 			rs = stmt.executeQuery();
-			if (rs.next()) {
-				color = rs.getString("color");	
-				if(color.compareTo("over")==0)
-				{
-					color="completed";
-				}
-			}
+				int Ncount=0;
+				int Icount=0;
+				int Ocount=0;				
+		        if (rs != null) 
+		        {
+		            while (rs.next()) 
+		            {
+						if(rs.getString("color").compareTo("not-started")==0)
+						{
+							Ncount++;
+						}
+						if(rs.getString("color").compareTo("in-progress")==0)
+						{
+							Icount++;
+						}
+						if(rs.getString("color").compareTo("over")==0)
+						{
+							Ocount++;
+						}	
+						if(Ncount>0 && Icount>0 && Ocount==0)
+						{
+							color="in-progress";
+						}
+						else if(Ncount>0 && Ocount>0 && Icount==0)
+						{
+							color="in-progress";
+						}
+						else if(Ocount>0 && Icount>0 && Ncount==0)
+						{
+							color="in-progress";
+						}
+						else if(Ncount==0 && Ocount==0 && Icount>0)
+						{
+							color="in-progress";
+						}
+						else if(Icount==0 && Ocount==0 && Ncount>0)
+						{
+							color="not-started";
+						}	
+						else if(Ocount==0 && Ncount==0 && Icount>0)
+						{
+							color="in-progress";
+						}	
+						else if(Icount==0 && Ncount==0 && Ocount>0)
+						{
+							color="over";
+						}
+						
+						if(color.compareTo("over")==0)
+						{
+							color="completed";
+						}						
+		            }
+		        }
+			
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);

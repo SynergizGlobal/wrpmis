@@ -640,14 +640,14 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						jdbcTemplate.update( pQry,new Object[]{aObj.getProgress_id()});
 						
 						aObj.setMessage_flag(true);
-						aObj.setMessage("Activity progress approved.");
+						aObj.setMessage("Activity progress approved");
 						
 						FormHistory formHistory = new FormHistory();
 						formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 						formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 						formHistory.setModule_name("Validate Data");
 						formHistory.setForm_action_type("Approved");
-						formHistory.setForm_details("1 activity progres has been updated.");
+						formHistory.setForm_details("1 activity progress updated for "+obj.getStructure());
 						formHistory.setWork(obj.getWork_id_fk());
 						formHistory.setContract(obj.getContract_id_fk());
 						
@@ -658,7 +658,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					}
 				}else{
 					aObj.setMessage_flag(false);
-					aObj.setMessage("Acceptable progress is "+remaining+". But here actual for the day is "+actual_for_the_day);
+					aObj.setMessage("Acceptable progress is "+remaining+". But actual for the day is "+actual_for_the_day);
 				}
 			}
 			transactionManager.commit(status);
@@ -679,14 +679,14 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						new Object[]{"Rejected",obj.getDyhod_user_id_fk(),obj.getProgress_id()});	
 			if(c > 0) {
 				aObj.setMessage_flag(true);
-				aObj.setMessage("Activity progress rejected.");
+				aObj.setMessage("Activity progress rejected");
 				
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 				formHistory.setModule_name("Validate Data");
 				formHistory.setForm_action_type("Rejected");
-				formHistory.setForm_details("1 activity progres has been rejected.");
+				formHistory.setForm_details("1 activity progres rejected for "+obj.getStructure());
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				
@@ -834,14 +834,14 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				}
 				aObj.setMessage_flag(true);
 				if(successCount > 0) {
-					successMessage = successMessage + successCount+ " Activities approved.";
+					successMessage = successMessage + successCount+ " Activities approved";
 					
 					FormHistory formHistory = new FormHistory();
 					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 					formHistory.setModule_name("Validate Data");
 					formHistory.setForm_action_type("Approved");
-					formHistory.setForm_details(successCount + " activity(s) progress has been approve.");
+					formHistory.setForm_details(successCount + " activities progress approved for "+obj.getStructure());
 					formHistory.setWork(obj.getWork_id_fk());
 					formHistory.setContract(obj.getContract_id_fk());
 					
@@ -857,7 +857,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				aObj.setMessage(successMessage);
 			}else{
 				aObj.setMessage_flag(false);
-				aObj.setMessage("There is no activities to approve");
+				aObj.setMessage("There are no activities to approve");
 			}
 		}catch(Exception e){ 
 			aObj.setMessage_flag(false);
@@ -911,14 +911,14 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				int c = jdbcTemplate.update( qry,pValues);	
 				if(c > 0) {
 					aObj.setMessage_flag(true);
-					aObj.setMessage("You are rejected "+ progress_ids.length +" activities" );
+					aObj.setMessage("Rejected "+ progress_ids.length +" activities" );
 					
 					FormHistory formHistory = new FormHistory();
 					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 					formHistory.setModule_name("Validate Data");
 					formHistory.setForm_action_type("Rejected");
-					formHistory.setForm_details(c + " activity(s) progress has been rejected.");
+					formHistory.setForm_details(c + " activities progress rejected for "+obj.getStructure());
 					formHistory.setWork(obj.getWork_id_fk());
 					formHistory.setContract(obj.getContract_id_fk());
 					

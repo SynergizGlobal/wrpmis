@@ -1567,11 +1567,11 @@ public class ActivitiesProgressReportController {
 								        XSSFRow row = dprSheet.createRow(rowNo);
 								        int c = 0;
 								        if(repeat == 0) {
-									    	   cell = row.createCell(c++);
+									    	   cell = row.createCell(2);
 												cell.setCellStyle(indexShadedStyle);
 												cell.setCellValue("Structure ");
 												
-										        cell = row.createCell(c++);
+										        cell = row.createCell(3);
 												cell.setCellStyle(indexShadedStyle);
 												cell.setCellValue(dObj.getStructure());
 												
@@ -1586,31 +1586,31 @@ public class ActivitiesProgressReportController {
 												row = dprSheet.createRow(rowNo);
 												c = 0;
 									    }
-								        cell = row.createCell(c++);
+								        cell = row.createCell(2);
 										cell.setCellStyle(sectionStyle);
 										cell.setCellValue(dObj.getStructure());
 										
-										cell = row.createCell(c++);
+										cell = row.createCell(3);
 										cell.setCellStyle(sectionStyle);
 										cell.setCellValue(dObj.getComponent());
 										
-								        cell = row.createCell(c++);
+								        cell = row.createCell(4);
 										cell.setCellStyle(sectionStyle);
 										cell.setCellValue(dObj.getComponent_id());
 										
-										cell = row.createCell(c++);
+										cell = row.createCell(5);
 										cell.setCellStyle(sectionStyle);
 										cell.setCellValue(dObj.getActivity_name());
 										
-										cell = row.createCell(c++);
+										cell = row.createCell(6);
 										cell.setCellStyle(numberStyle);
 										cell.setCellValue(Double.parseDouble(dObj.getScope()));
 										
-										cell = row.createCell(c++);
+										cell = row.createCell(7);
 										cell.setCellStyle(numberStyle);
 										cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()==null?"0":dObj.getCompleted_scope()));
 										
-										cell = row.createCell(c++);
+										cell = row.createCell(8);
 										cell.setCellStyle(numberStyle);
 										cell.setCellValue(!StringUtils.isEmpty(dObj.getCumulative_completed())?Double.parseDouble(dObj.getCumulative_completed()):0);
 										

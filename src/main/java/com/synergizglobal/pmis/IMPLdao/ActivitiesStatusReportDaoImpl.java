@@ -37,10 +37,11 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 		List<ActivitiesProgressReport> objList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
 		try {
-			String contractsQry = "select contract_id,work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name " + 
+			String contractsQry = "select contract_id,c.work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name,f.work_status_fk " + 
 					"from contract c " + 
 					"left outer join work w on work_id_fk = work_id " + 
 					"left outer join activities a on c.contract_id = a.contract_id_fk " + 
+					"left outer join fob f on f.fob_id = a.structure " +
 					"left outer join contractor cr on contractor_id_fk = contractor_id " + 
 					"where contract_id is not null" ;
 			int arrSize = 0;
@@ -99,8 +100,9 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			obj = jdbcTemplate.queryForObject( contractsQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));		
 			
 			/***********************************************************************/
-			String structureQry = "select a.contract_id_fk,contract_id,a.structure as fob_id_fk,component "
-					+ "from activities a "  
+			String structureQry = "select a.contract_id_fk,contract_id,a.structure as fob_id_fk,component,f.fob_name "
+					+ "from activities a "
+					+"left outer join fob f on f.fob_id = a.structure " 
 					+ "left join contract c on a.contract_id_fk = c.contract_id "  
 					+ "where a.contract_id_fk = ?";
 			arrSize = 1;
@@ -161,7 +163,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 							+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-							+ "where a.contract_id_fk = ?";
+							+ "where a.scope>0 and a.contract_id_fk = ?";
 					
 					arrSize = 1;
 					

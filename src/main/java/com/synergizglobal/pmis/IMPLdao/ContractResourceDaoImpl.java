@@ -326,7 +326,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 				formHistory.setModule_name("Contract Resources");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("New Contract Resources are created.");
+				formHistory.setForm_details("New Contract Resources created");
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				

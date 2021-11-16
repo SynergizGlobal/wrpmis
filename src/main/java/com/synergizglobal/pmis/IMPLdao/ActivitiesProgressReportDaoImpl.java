@@ -597,7 +597,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-					+ "where progress_date is not null";
+					+ "where progress_date is not null and completed_scope is not null ";
 			
 			int arrSize = 0;
 			
@@ -687,7 +687,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 						+ "from activity_progress ap "  
 						+ "left join activities a on ap.activity_id_fk = a.activity_id "  
 						+ "left join contract c on a.contract_id_fk = c.contract_id "  
-						+ "where a.contract_id_fk = ?";
+						+ "where completed_scope is not null and a.contract_id_fk = ?";
 				
 				
 				arrSize = 1;
@@ -735,7 +735,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 							+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-							+ "where a.contract_id_fk = ?";
+							+ "where completed_scope is not null and a.contract_id_fk = ?";
 					
 					arrSize = 1;
 					
@@ -780,11 +780,11 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 								"from activity_progress ap1 " + 
 								"left outer join activities a1 on ap1.activity_id_fk = a1.activity_id " + 
 								"left outer join contract c1 on a1.contract_id_fk = c1.contract_id " + 
-								"where a1.contract_id_fk = ? and a1.structure = ? and ap1.progress_date > ? and ap1.activity_id_fk = ap.activity_id_fk),0)) as cumulative_completed " + 
+								"where ap1.completed_scope is not null and a1.contract_id_fk = ? and a1.structure = ? and ap1.progress_date > ? and ap1.activity_id_fk = ap.activity_id_fk),0)) as cumulative_completed " + 
 								"from activity_progress ap " + 
 								"left outer join activities a on ap.activity_id_fk = a.activity_id " + 
 								"left outer join contract c on a.contract_id_fk = c.contract_id " + 
-								"where a.contract_id_fk = ? and a.structure = ?";
+								"where completed_scope is not null and a.contract_id_fk = ? and a.structure = ?";
 						
 						arrSize = 5;
 						

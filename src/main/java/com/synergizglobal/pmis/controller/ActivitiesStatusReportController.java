@@ -295,7 +295,7 @@ public class ActivitiesStatusReportController {
 							
 							cell = deatilsRow.createCell(1);
 					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue(structure);
+							cell.setCellValue(structure+'-'+zObj.getFob_name());
 							
 							for (int i = 2; i < 6; i++) {		        	 
 						        cell = deatilsRow.createCell(i);
@@ -306,11 +306,33 @@ public class ActivitiesStatusReportController {
 						
 					}
 					/********************************************************/
+					
+					/*************************************************************************/		
+					if(!StringUtils.isEmpty(zObj.getFob_id_fk())) {
+						 deatilsRow = dprSheet.createRow(6);
+					
+					        cell = deatilsRow.createCell(0);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Structure status");
+							
+							cell = deatilsRow.createCell(1);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue(reportData.getWork_status_fk());
+							
+							for (int i = 2; i < 6; i++) {		        	 
+						        cell = deatilsRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(6,6, 1,5));
+						
+					}
+					/********************************************************/					
 			        
 					/*************************************************************************/		
 						
 					if(zObj.getComponentsList() != null && zObj.getComponentsList().size() > 0){
-						int rowNo = 5;
+						int rowNo = 6;
 						 rowNo++;
 				            int tempRowNo = rowNo;
 				            XSSFRow structureRow = dprSheet.createRow(rowNo++);

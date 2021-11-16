@@ -311,6 +311,7 @@ public class ActivitiesController {
 			user_Id = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
 			User uObj = (User) session.getAttribute("user");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			if(!StringUtils.isEmpty(uObj) && !StringUtils.isEmpty(uObj.getEmail_id())) {
 				obj.setReported_by_email_id(uObj.getEmail_id());
 			}
@@ -326,6 +327,9 @@ public class ActivitiesController {
 			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
 				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());
 			}
+			
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);			
 			
 			boolean flag = activitiesService.updateActivities(obj);
 			if(flag) {

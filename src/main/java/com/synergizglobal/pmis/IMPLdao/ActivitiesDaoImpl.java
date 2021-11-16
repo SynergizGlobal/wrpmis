@@ -29,11 +29,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.ActivitiesDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Activity;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
@@ -55,6 +57,10 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 	
 	@Autowired
 	MessagesDao messagesDao;
+	
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;	
 
 	@Override
 	public List<StripChart> getActivitiesProjectsList(StripChart obj) throws Exception {
@@ -780,7 +786,16 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 				}
 			}
 			/********************************************************************************/	
+			FormHistory formHistory = new FormHistory();
+			formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+			formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+			formHistory.setModule_name("Activities Update");
+			formHistory.setForm_action_type("Update");
+			formHistory.setForm_details("1 activitity updated for "+obj.getStrip_chart_structure_id_fk());
+			formHistory.setWork(obj.getWork_id_fk());
+			formHistory.setContract(obj.getContract_id_fk());
 			
+			boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);			
 			
 			transactionManager.commit(status);
 		}catch( Exception e) {

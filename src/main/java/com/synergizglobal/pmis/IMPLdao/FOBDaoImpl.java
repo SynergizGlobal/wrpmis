@@ -495,7 +495,7 @@ public class FOBDaoImpl implements FOBDao {
 					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 					formHistory.setModule_name("FOB");
 					formHistory.setForm_action_type("Add");
-					formHistory.setForm_details("FOB "+obj.getFob_name() + " has been created.");
+					formHistory.setForm_details("FOB "+obj.getFob_name() + " created");
 					formHistory.setWork(obj.getWork_id_fk());
 					
 					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
@@ -981,7 +981,7 @@ public class FOBDaoImpl implements FOBDao {
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 				formHistory.setModule_name("FOB");
 				formHistory.setForm_action_type("Update");
-				formHistory.setForm_details("FOB "+obj.getFob_name() + " has been updated.");
+				formHistory.setForm_details("FOB "+obj.getFob_name() + " updated");
 				formHistory.setWork(obj.getWork_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);

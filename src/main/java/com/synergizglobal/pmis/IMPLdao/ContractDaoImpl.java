@@ -844,7 +844,7 @@ public class ContractDaoImpl implements ContractDao {
 				formHistory.setUser(contract.getDesignation()+" - "+contract.getUser_name());
 				formHistory.setModule_name("Contract");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("New Contract "+contract.getContract_short_name()+" has been created.");
+				formHistory.setForm_details("New Contract "+contract.getContract_short_name()+" created");
 				formHistory.setWork(contract.getWork_id_fk());
 				formHistory.setContract(contract.getContract_id());
 				
@@ -2136,7 +2136,7 @@ public class ContractDaoImpl implements ContractDao {
 					formHistory.setUser(contract.getDesignation()+" - "+contract.getUser_name());
 					formHistory.setModule_name("Contract");
 					formHistory.setForm_action_type("Update");
-					formHistory.setForm_details("Contract "+contract.getContract_short_name() + " has been updated.");
+					formHistory.setForm_details("Contract "+contract.getContract_short_name() + " updated");
 					formHistory.setWork(contract.getWork_id_fk());
 					formHistory.setContract(contract.getContract_id());
 					

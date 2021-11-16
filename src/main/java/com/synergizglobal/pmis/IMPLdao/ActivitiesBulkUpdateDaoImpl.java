@@ -1454,7 +1454,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 				formHistory.setModule_name("Activities Bulk Update");
 				formHistory.setForm_action_type("Update");
-				formHistory.setForm_details(insertCount.length + " Activities are updated.");
+				formHistory.setForm_details(insertCount.length + " activities updated for "+obj.getStrip_chart_structure_id_fk());
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				

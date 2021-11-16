@@ -103,13 +103,13 @@
                     </div>
                     <!-- form start-->
                    		    <c:if test="${action eq 'edit'}">				                
-				                 	<form action="<%=request.getContextPath() %>/update-structure" id="documentForm" name="documentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+				                 	<form action="<%=request.getContextPath() %>/update-structure" id="structureForm" name="structureForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 	                         </c:if>
 				             <c:if test="${action eq 'add'}">				                
-				                	<form action="<%=request.getContextPath() %>/add-document" id="documentForm" name="documentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+				                	<form action="<%=request.getContextPath() %>/add-structure" id="structureForm" name="structureForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							 </c:if>
                         <div class="container container-no-margin">
-                        <input type="hidden" name= "document_no" id="document_no" value="${documentDetails.document_no}" />
+                        <input type="hidden" name= "structure_id" id="structure_id" value="${structuresListDetails.structure_id}" />
                         <c:if test="${action eq 'add'}">
                             <div class="row"> 
                                 <div class="col s6 offset-m2 m4 input-field">
@@ -126,12 +126,11 @@
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Work </p>
                                      <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                   		  onchange="getContractsList(this.value);">
+                                   		  onchange="getContractsList(this.value);resetProject();">
                                    		  <option value="" >Select</option>
                                    		  	 <c:forEach var="obj" items="${worksList }">
 	                                      	   		<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
 	                                      	 </c:forEach>
-                                   		  <option value="">Select</option>
 	                                  </select>
                                    		   
                                   <span id="work_id_fkError" class="error-msg" ></span>
@@ -141,11 +140,13 @@
                              <c:if test="${action eq 'edit'}">	
                              <div class="row">                              
                                 <div class="col s6 m4 input-field offset-m2">
-                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${documentDetails.project_id_fk}- ${documentDetails.project_name}" readonly />
+                                    <input type="text"  id="project_id_fk" value="${structuresListDetails.project_id_fk}- ${structuresListDetails.project_name}" readonly />
+                                    <input type="hidden" name="project_id_fk"  value="${structuresListDetails.project_id_fk}" />
 									<label for="project_id_fk">Project <span class="required">*</span></label>     
 							    </div> 
                                 <div class="col s6 m4 input-field"> 
-                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${documentDetails.work_id_fk}- ${documentDetails.work_short_name}" readonly />
+                                    <input type="text" id="work_id_fk"  value="${structuresListDetails.work_id_fk}- ${structuresListDetails.work_short_name}" readonly />
+								    <input type="hidden" name="work_id_fk"  value="${structuresListDetails.work_id_fk}" />
 								    <label for="work_id_fk">Work <span class="required">*</span></label>     
                                 </div>
                             </div>
@@ -154,17 +155,18 @@
                             	 
                                 <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Department</span></p>
-                                    <select class="searchable validate-dropdown" name="department_type_fk" id="department_type_fk">
+                                    <select class="searchable validate-dropdown" name="department_fk" id="department_fk">
                                         <option value="" >Select</option>
-                                        <c:forEach var="obj" items="${documentTypeList }">
-		                                     <option value="${obj.department_type_fk }" <c:if test="${documentDetails.department_type_fk eq obj.department_type_fk}">selected</c:if>>${obj.document_type_fk}</option>
+                                        <c:forEach var="obj" items="${departmentsList }">
+		                                     <option value="${obj.department_fk }" <c:if test="${structuresListDetails.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
 		                                </c:forEach>
                                     </select>
-                                    <span id="department_type_fkError" class="error-msg" ></span>
+                                    <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 <c:if test="${action eq 'edit'}">	
                                  <div class="col s6 m4 input-field "> 
-                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${documentDetails.contract_id_fk} - ${documentDetails.contract_short_name}" readonly />
+                              	    <input type="text" id="contract_id_fk" value="${structuresListDetails.contract_id_fk} - ${structuresListDetails.contract_short_name}" readonly />
+                                 	<input type="hidden" name="contract_id_fk"  value="${structuresListDetails.contract_id_fk}" />
                                  	<label for="contract_id_fk">Contract <span class="required">*</span></label>           
                               	    </div>
                                  </c:if>
@@ -196,20 +198,20 @@
                                     </thead>
                                     <tbody id="structureTableBody">
                                     <c:choose>
-                                      	 <c:when test="${not empty documentDetails.documents && fn:length(documentDetails.documents) gt 0 }">
-                                       	 <c:forEach var="dObj" items="${documentDetails.documents }" varStatus="index"> 
+                                      	 <c:when test="${not empty structuresListDetails.structureList && fn:length(structuresListDetails.structureList) gt 0 }">
+                                       	 <c:forEach var="dObj" items="${structuresListDetails.structureList }" varStatus="index"> 
                                         <tr id="structureRow${index.count }">
                                             <td data-head="Structure Type" class="input-field" >
                                                 <select id="structure_type_fks${index.count }" name="structure_type_fks" class="validate-dropdown searchable">
                                                     <option value="" >Select</option>
-                                                    <c:forEach var="obj" items="${statusList }">
-		                                           			 <option value="${obj.status_fk }" <c:if test="${dObj.status_fk eq obj.status_fk}">selected</c:if>>${obj.status_fk}</option>
+                                                    <c:forEach var="obj" items="${structuresList }">
+		                                           			 <option value="${obj.structure_type }" <c:if test="${dObj.structure_type_fk eq obj.structure_type}">selected</c:if>>${obj.structure_type}</option>
 		                                            </c:forEach>
                                                 </select>
                                             </td>
                                            <td data-head="Structure Id" class="input-field">
-                                                    <input type="hidden" name= "ids" id="ids" value="${dObj.id}" />
-                                                    <input id="structure_id${index.count }" name="structure_id" type="text" class="validate"  placeholder="Structure Id" value="${dObj.revision_no }">
+                                                    <input type="hidden" name= "ids" id="ids" value="${dObj.structure_id}" />
+                                                    <input id="structure_id${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${dObj.structure }">
                                            </td>                                            
                                             <td class="mobile_btn_close">
                                                 <a  onclick="removeStructureRow('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
@@ -223,13 +225,13 @@
                                             <td data-head="Structure Type" class="input-field">
                                                   <select id="structure_type_fks0" name="structure_type_fks" class="validate-dropdown searchable">
                                                     <option value="" >Select</option>
-                                                    <c:forEach var="obj" items="${statusList }">
-		                                           			 <option value="${obj.status_fk }">${obj.status_fk}</option>
+                                                    <c:forEach var="obj" items="${structuresList }">
+		                                           			 <option value="${obj.structure_type }">${obj.structure_type}</option>
 		                                            </c:forEach>
                                                 </select>
                                             </td>                                            
-                                           <td data-head="Structure Id" class="input-field"> <input type="hidden" name= "ids" id="ids0"  />
-                                                    <input id="structure_id0" name="structure_id" type="text" class="validate"
+                                           <td data-head="Structure Id" class="input-field"> 
+                                                    <input id="structure_id0" name="structures" type="text" class="validate"
                                                         placeholder="Structure Id">
                                             </td>
                                             <td class="mobile_btn_close">
@@ -253,8 +255,8 @@
                                         </tbody>
                                     </table>
   									<c:choose>
-                                        <c:when test="${not empty (documentDetails.documents) && fn:length(documentDetails.documents) gt 0 }">
-                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(documentDetails.documents) }" />
+                                        <c:when test="${not empty (structuresListDetails.structureList) && fn:length(structuresListDetails.structureList) gt 0 }">
+                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(structuresListDetails.structureList) }" />
                                     	</c:when>
                                      	<c:otherwise>
                                      		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
@@ -278,7 +280,7 @@
                                 </div>
                                <div class="col s6 m6 mt-brdr center-align">
                                     <div class=" m-1">
-                                          <a href="<%=request.getContextPath()%>/documents" class="btn waves-effect waves-light bg-s w-text">Cancel</a>
+                                          <a href="<%=request.getContextPath()%>/structure" class="btn waves-effect waves-light bg-s w-text">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -351,11 +353,11 @@
                 console.log($('#myFile')[0].localName)
             });
             
-            var project_id_fk = "${documentDetails.project_id_fk}";
+            var project_id_fk = "${structuresListDetails.project_id_fk}";
             if($.trim(project_id_fk) != ''){
             	getWorksList(project_id_fk);
             }
-            var work_id_fk = "${documentDetails.work_id_fk}";
+            var work_id_fk = "${structuresListDetails.work_id_fk}";
             if($.trim(work_id_fk) != ''){
             	getContractsList(work_id_fk);
             }
@@ -369,14 +371,14 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForDocumentForm",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForStructureForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
                                 if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                var work_id_fk = "${documentDetails.work_id_fk }";
+                                var work_id_fk = "${structuresListDetails.work_id_fk }";
                                 if ($.trim(work_id_fk) != '' && val.work_id_fk == $.trim(work_id_fk)) {
                                     $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                                 } else {
@@ -398,14 +400,14 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractsListForDocumentForm",
+                	url: "<%=request.getContextPath()%>/ajax/getContractListForStructureFrom",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
                                 if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
-                                var contract_id_fk = "${documentDetails.contract_id_fk }";
+                                var contract_id_fk = "${structuresListDetails.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
                                 	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                                 } else {
@@ -433,58 +435,39 @@
        			//workId = workId.substring(3, work_id.length);
        			$("#project_id_fk").val(projectId);
        			$("#project_id_fk").select2();
+       			$("#work_id_fk").val(workId);
+       			$("#work_id_fk").select2();
        		}
-       		
-       		if ($.trim(projectId) != "") {
-       			$("#work_id_fk option:not(:first)").remove();
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForDocumentForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-                $('.searchable').select2();
-            }
-       		
+       		$(".page-loader").hide();
         }
         
-        
+        function resetProject(){
+        	$(".page-loader").show();        	
+        	var projectId = '';
+        	var workId = $("#work_id_fk").val();
+        	if($.trim(workId) != ''){  
+            	projectId = workId.substring(0, 3);    
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		$(".page-loader").hide();
+        }
         function addDocument(){
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
-	  			$('form input[name=revision_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=submission_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=approval_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=document_attachments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			document.getElementById("documentForm").submit();	
+	  			$('form input[name=structure_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=structures]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			document.getElementById("structureForm").submit();	
         	}
         }
         function updateDocument(){
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
-	        	$('form input[name=revision_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=submission_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=approval_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=document_attachments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			document.getElementById("documentForm").submit();	
+	        	$('form input[name=structure_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=structures]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			document.getElementById("structureForm").submit();	
         	}
         }
      
@@ -496,12 +479,12 @@
              var html = '<tr id="structureRow'+rNo+'">'
              			+'<td data-head="Structure Type" class="input-field"><select id="structure_type_fks'+rNo+'" name="structure_type_fks" class="validate-dropdown searchable">'
              			+'<option value="" >Select</option>'
-			               <c:forEach var="obj" items="${statusList }">
-			              	+'<option value="${obj.status_fk }">${obj.status_fk}</option>'
+			               <c:forEach var="obj" items="${structuresList }">
+			              	+'<option value="${obj.structure_type }">${obj.structure_type}</option>'
 			               </c:forEach>
            				+'</select></td>'
-           				+'<td data-head="Structure Id" class="input-field"> <input type="hidden" name= "ids" id="ids'+rNo+'"  />'
-               			+'<input id="structure_id'+rNo+'" name="structure_id" type="text" class="validate" placeholder="Structure Id"> </td>'
+           				+'<td data-head="Structure Id" class="input-field">'
+               			+'<input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"> </td>'
                			+'<td class="mobile_btn_close"><a  onclick="removeStructureRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
        					+'</td></tr>';
 
@@ -515,7 +498,7 @@
 				$("#structureRow"+rowNo).remove();
 			}
 
-		    var validator =	$('#documentForm').validate({
+		    var validator =	$('#structureForm').validate({
 				 errorClass: "my-error-class",
 				 validClass: "my-valid-class",
 				 ignore: ":hidden:not(.validate-dropdown)",
@@ -526,7 +509,7 @@
 		  			 		required: true
 		  			 	  },"contract_id_fk": {
 		  		 		    required: true
-		  			 	  },"document_type_fk": {
+		  			 	  },"department_fk": {
 		  		 		    required: true
 		  			 	  }
 		  		 	},
@@ -537,7 +520,7 @@
 		  			 		required: ' This field is required'
 		  			 	  },"contract_id_fk": {
 		  		 			required: ' This field is required'
-		  		 	  	  },"document_type_fk": {
+		  		 	  	  },"department_fk": {
 		  		 			required: ' This field is required'
 		  		 	  	  }
 			   		},
@@ -551,9 +534,9 @@
 						}else if(element.attr("id") == "contract_id_fk" ){
 							document.getElementById("contract_id_fkError").innerHTML="";
 						 	error.appendTo('#contract_id_fkError');
-						}else if(element.attr("id") == "document_type_fk" ){
-							document.getElementById("document_type_fkError").innerHTML="";
-						 	error.appendTo('#document_type_fkError');
+						}else if(element.attr("id") == "department_fk" ){
+							document.getElementById("department_fkError").innerHTML="";
+						 	error.appendTo('#department_fkError');
 						}else{
 		 					error.insertAfter(element);
 				        } 

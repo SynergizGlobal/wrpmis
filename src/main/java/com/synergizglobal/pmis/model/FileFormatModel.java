@@ -114,4 +114,14 @@ public class FileFormatModel {
 		}		
 		return fileFormat;
 	}
+
+	public static List<String> getStructureFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Work,Contract,Department,Structure Type,Structure";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}
 }

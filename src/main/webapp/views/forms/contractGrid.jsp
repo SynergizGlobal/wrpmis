@@ -536,8 +536,7 @@
 											'<div class="right-btns"></div>');
 									$('.dataTables_filter div').append(
 											$searchButton, $clearButton);
-								if(rowLen <= 1 &&  queue == 1){
-									var oTable = $('#datatable-contract').DataTable();
+								if(rowLen <= 1 &&  queue == 1){									
 									$('#datatable-contract').dataTable().api().draw(); 
 									getContractList();
 									queue++;

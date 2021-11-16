@@ -370,6 +370,7 @@
     	$('.close-message').delay(3000).fadeOut('slow');
     	
     	getContractList();
+    	
     });
     
     
@@ -447,7 +448,7 @@
    	    	filtersMap["contract_status_fk"] = contract_status_fk;
     	}
     }
-    
+    var queue = 1;
     function getContractList() {
 		$(".page-loader-2").show();
 
@@ -474,7 +475,7 @@
     		window.localStorage.setItem("contractFilters", filters);
 		});
 
-
+    	var rowLen = 0;
 		var myParams = "designation=" + designation + "&dy_hod_designation=" + dy_hod_designation+ "&contractor_id_fk=" + contractor_id_fk
 				+ "&contract_status_fk="+ contract_status_fk + "&work_id_fk=" + work_id_fk + "&project_id_fk=" + project_id_fk+ "&contract_status="+ contract_status;
 
@@ -489,13 +490,7 @@
 							"bServerSide" : true,
 							//"sort" : "position",
 							//bStateSave variable you can use to save state on client cookies: set value "true" 
-							"bStateSave" : false,
-						   "fnStateSave": function (oSettings, oData) {
-			                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-			                },
-			                "fnStateLoad": function (oSettings) {
-			                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-			                },
+							
 					        stateSave: true,
 							//Default: Page display length
 							"iDisplayLength" : 10,
@@ -518,30 +513,35 @@
 											'width' : '350px ',
 											'display' : 'inline-block'
 										});
-
-								var input = $('.dataTables_filter input')
-										.unbind()
-  										.bind('keyup',function(e){
-										    if (e.which == 13){
-										    	self.search(input.val()).draw();
-										    }
-										}), self = this.api(), $searchButton = $(
-										'<i class="fa fa-search" title="Go">')
-								//.text('Go')
-								.click(function() {
-									self.search(input.val()).draw();
-								}), $clearButton = $(
-										'<i class="fa fa-close" title="Reset">')
-								//.text('X')
-								.click(function() {
-									input.val('');
-									$searchButton.click();
-								})
-								$('.dataTables_filter').append(
-										'<div class="right-btns"></div>');
-								$('.dataTables_filter div').append(
-										$searchButton, $clearButton);
-
+								rowLen = $('#datatable-contract tbody tr:visible').length
+									var input = $('.dataTables_filter input')
+									.unbind()
+										.bind('keyup',function(e){
+									    if (e.which == 13){
+									    	self.search(input.val()).draw(); 
+									    }
+									}), self = this.api(), $searchButton = $(
+											'<i class="fa fa-search" title="Go">')
+									//.text('Go')
+									.click(function() {
+										self.search(input.val()).draw();
+									}), $clearButton = $(
+											'<i class="fa fa-close" title="Reset">')
+									//.text('X')
+									.click(function() {
+										input.val('');
+										$searchButton.click();
+									})
+									$('.dataTables_filter').append(
+											'<div class="right-btns"></div>');
+									$('.dataTables_filter div').append(
+											$searchButton, $clearButton);
+								if(rowLen <= 1 &&  queue == 1){
+									var oTable = $('#datatable-contract').DataTable();
+									$('#datatable-contract').dataTable().api().draw(); 
+									getContractList();
+									queue++;
+							   } 
 								/* var input = $('.dataTables_filter input').unbind(),
 								self = this.api(),
 								$searchButton = $('<i class="fa fa-search">')
@@ -576,9 +576,9 @@
 		            	var work_short_name = '';
                         if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
                      	if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
-        			} },   				            
+        			}},   				            
 		            { "mData": function(data,type,row){
-		            	if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id; }
+		            	if($.trim(data.contract_id) == ''){ return alert("khs"); }else{ return data.contract_id; }
 		            } },
 		         	{ "mData": function(data,type,row){
 		            	if($.trim(data.contract_short_name) == ''){ return '-'; }else{ return data.contract_short_name; }
@@ -605,7 +605,7 @@
 		    });
 	    
 	  $(".page-loader-2").hide();  		     
-  	
+	
  }
     
 
@@ -623,7 +623,7 @@
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getDyHODDesignationsFilterListInContract",
-                data: myParams, cache: false,async: false,async: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {

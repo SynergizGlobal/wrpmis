@@ -169,7 +169,7 @@ public class DesignDaoImpl implements DesignDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (contract_id_fk like ? or c.contract_name like ? or d.drawing_title like ? or d.structure_type_fk like ?"
+				qry = qry + " and (contract_id_fk like ? or c.contract_short_name like ? or d.drawing_title like ? or d.structure_type_fk like ?"
 						+ " or drawing_type_fk like ? or d.contractor_drawing_no like ? or d.mrvc_drawing_no like ? or d.division_drawing_no like ? or d.hq_drawing_no like ?)";
 				arrSize++;
 				arrSize++;
@@ -270,7 +270,7 @@ public class DesignDaoImpl implements DesignDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (contract_id_fk like ? or c.contract_name like ? or d.drawing_title like ? or d.structure_type_fk like ?"
+				qry = qry + " and (contract_id_fk like ? or c.contract_short_name like ? or d.drawing_title like ? or d.structure_type_fk like ?"
 						+ " or drawing_type_fk like ? or d.contractor_drawing_no like ? or d.mrvc_drawing_no like ? or d.division_drawing_no like ? or d.hq_drawing_no like ?)";
 				arrSize++;
 				arrSize++;

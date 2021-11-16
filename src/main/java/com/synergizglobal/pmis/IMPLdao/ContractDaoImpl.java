@@ -2858,10 +2858,12 @@ public class ContractDaoImpl implements ContractDao {
 		int totalRecords = 0;
 		try {
 			
-			String qry ="select count(*) as total_records from contract c " + 
+			String qry ="select count(DISTINCT(contract_id)) as total_records from contract c " + 
 					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id "+
+					"left join user u on c.hod_user_id_fk = u.user_id "+
+					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
 					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "
 					+"left join department dt on ce.department_id_fk = dt.department "
 					+"where contract_id is not null ";
@@ -2903,7 +2905,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id like ?"
-						+ " or c.contract_short_name like ? or cr.contractor_name like ? or dt.department_name like ? or c.hod_user_id_fk like ? or c.dy_hod_user_id_fk like ?)";
+						+ " or c.contract_short_name like ? or cr.contractor_name like ? or dt.department_name like ? or u.designation like ? or us.designation like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -3017,7 +3019,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id like ?"
-						+ " or c.contract_short_name like ? or cr.contractor_name like ? or dt.department_name like ? or c.hod_user_id_fk like ? or c.dy_hod_user_id_fk like ?)";
+						+ " or c.contract_short_name like ? or cr.contractor_name like ? or dt.department_name like ? or u.designation like ? or us.designation like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;

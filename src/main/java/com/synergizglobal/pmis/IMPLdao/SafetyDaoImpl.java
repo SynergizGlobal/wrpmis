@@ -1338,6 +1338,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry = "SELECT count(*) as total_records from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "		
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "LEFT OUTER JOIN department d ON s.department_fk  = d.department "
@@ -1371,7 +1372,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.contract_id like ? or c.contract_short_name like ? or title like ? or location like ? "
-						+ "or responsible_person like ? or department_name like ? or category_fk like ? or status_fk like ?)";
+						+ "or u2.designation like ? or department_name like ? or category_fk like ? or status_fk like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1465,7 +1466,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.contract_id like ? or c.contract_short_name like ? or title like ? or location like ? "
-						+ "or responsible_person like ? or department_name like ? or category_fk like ? or status_fk like ?)";
+						+ "or u2.designation like ? or department_name like ? or category_fk like ? or status_fk like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;

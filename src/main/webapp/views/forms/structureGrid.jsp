@@ -256,7 +256,7 @@
 				</div>
 			</div>
 		</div>
-		<c:if test="${USER_ROLE_CODE eq 'IT' }">
+		<%-- <c:if test="${USER_ROLE_CODE eq 'IT' }">
 		<div class="row hide-on-med-and-down">
 			<div class="col m12 s12">
 				 <div class="card">
@@ -313,7 +313,7 @@
 	            </div>
 			</div>
 		</div>
-	</c:if>
+	</c:if> --%>
 	</div>
 
 	<!-- update popup starts -->
@@ -482,7 +482,7 @@
 	                }
 	            });
 			getStructureList();
-			getStructureUploadsList();
+			//getStructureUploadsList();
 		});
 
 		function clearFilter() {
@@ -495,7 +495,7 @@
 			window.location.href = "<%=request.getContextPath()%>/structure";
 			var table = $('#datatable-structure').DataTable();
     		table.draw( true );
-			getStructureUploadsList();
+			//getStructureUploadsList();
 		}
         
 		  function addInQueProject(project_id_fk){
@@ -534,7 +534,7 @@
 		      	}
 	        }
 	        
-        function getStructureUploadsList(){
+      <%--   function getStructureUploadsList(){
         	$(".page-loader-2").show();
         	
         	table1 = $('#structure-table').DataTable();
@@ -602,7 +602,7 @@
     			$(".page-loader-2").hide();
              	getErrorMessage(jqXHR, exception);
          }});
-       }
+       } --%>
         
 		function getStructureList() {
 			$(".page-loader-2").show();
@@ -623,7 +623,7 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("structureFilters", filters);
    			});
-        	
+        	 
 						table = $('#datatable-structure').DataTable();
 			
 						table.destroy();

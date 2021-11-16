@@ -388,17 +388,20 @@
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();
+                        getContractsList("") 
                     }
                 });
             }else{
+            	
             	$(".page-loader").hide();
             }
         }
         function getContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
-            if ($.trim(work_id_fk) != "") {
-                var myParams = { work_id_fk: work_id_fk };
+            var project_id_fk = $("#project_id_fk").val();
+            if ($.trim(work_id_fk) != "" || $.trim(project_id_fk) != "") {
+                var myParams = { work_id_fk: work_id_fk, project_id_fk : project_id_fk };
                 $.ajax({
                 	url: "<%=request.getContextPath()%>/ajax/getContractListForStructureFrom",
                     data: myParams, cache: false,

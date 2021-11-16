@@ -84,10 +84,51 @@ public class TemplateUploadController {
 			if (!theDir.exists()){
 			    theDir.mkdirs();
 			}
+			boolean isUnix = OSValidator.isUnix();
+        	if(isUnix) {
+            	String perm = "rwxrwxrwx";
+            	Set<PosixFilePermission> permissions = PosixFilePermissions.fromString(perm);
+            	Files.setPosixFilePermissions(theDir.toPath(), permissions);
+        	}
 			String commonAttachment = obj.getCommonAttachment();
 			Path oldFile  = Paths.get(CommonConstants.TEMPLATE_FILEPATH + obj.getTemplate_name()+".xlsx");
 			String renameFile = obj.getTemplate_name() +"_"+ timeStamp_for_file+"_"+renNum+renNum2+".xlsx";
-			Path renamingExistingFileToNewName = Files.move(oldFile, oldFile.resolveSibling(CommonConstants.TEMPLATE_FILEPATH + renameFile));
+			File f = new File(CommonConstants.TEMPLATE_FILEPATH + obj.getTemplate_name()+".xlsx");
+			if(f.exists()) { 
+				Path renamingExistingFileToNewName = Files.move(oldFile, oldFile.resolveSibling(CommonConstants.TEMPLATE_FILEPATH + renameFile));
+				
+				Path movingExistingFileToNewPath = Files.move
+				        (Paths.get(CommonConstants.TEMPLATE_FILEPATH + renameFile), 
+				        Paths.get(CommonConstants.TEMPLATE_OLD_FILEPATH + renameFile));
+				File old_file = new File(theDir + renameFile);
+	                if(old_file.exists()) {
+	                    //Setting file permissions for owner, group and others using PosixFilePermission
+	                     
+	                    HashSet<PosixFilePermission> permissions = new HashSet<PosixFilePermission>();
+	                     
+	                    //Adding owner's file permissions
+	                     
+	                    permissions.add(PosixFilePermission.OWNER_EXECUTE);
+	                    permissions.add(PosixFilePermission.OWNER_READ);
+	                    permissions.add(PosixFilePermission.OWNER_WRITE);
+	                     
+	                    //Adding group's file permissions
+	                     
+	                    permissions.add(PosixFilePermission.GROUP_EXECUTE);
+	                    permissions.add(PosixFilePermission.GROUP_READ);
+	                    permissions.add(PosixFilePermission.GROUP_WRITE);
+	                     
+	                    //Adding other's file permissions
+	                     
+	                    permissions.add(PosixFilePermission.OTHERS_EXECUTE);
+	                    permissions.add(PosixFilePermission.OTHERS_READ);
+	                    permissions.add(PosixFilePermission.OTHERS_WRITE);
+	                     
+	                    Files.setPosixFilePermissions(Paths.get(theDir + renameFile), permissions);
+	                }
+			}
+			
+			
 			MultipartFile file = obj.getTemplateFile();
 			String fileDirectory = CommonConstants.TEMPLATE_FILEPATH ;
 			
@@ -99,41 +140,7 @@ public class TemplateUploadController {
 			
 			
 			//FileUploads.singleFileSaving(file, CommonConstants.TEMPLATE_OLD_FILEPATH, renameFile);
-			boolean isUnix = OSValidator.isUnix();
-        	if(isUnix) {
-            	String perm = "rwxrwxrwx";
-            	Set<PosixFilePermission> permissions = PosixFilePermissions.fromString(perm);
-            	Files.setPosixFilePermissions(theDir.toPath(), permissions);
-        	}
-			Path movingExistingFileToNewPath = Files.move
-			        (Paths.get(CommonConstants.TEMPLATE_FILEPATH + renameFile), 
-			        Paths.get(CommonConstants.TEMPLATE_OLD_FILEPATH + renameFile));
-			File old_file = new File(theDir + renameFile);
-                if(old_file.exists()) {
-                    //Setting file permissions for owner, group and others using PosixFilePermission
-                     
-                    HashSet<PosixFilePermission> permissions = new HashSet<PosixFilePermission>();
-                     
-                    //Adding owner's file permissions
-                     
-                    permissions.add(PosixFilePermission.OWNER_EXECUTE);
-                    permissions.add(PosixFilePermission.OWNER_READ);
-                    permissions.add(PosixFilePermission.OWNER_WRITE);
-                     
-                    //Adding group's file permissions
-                     
-                    permissions.add(PosixFilePermission.GROUP_EXECUTE);
-                    permissions.add(PosixFilePermission.GROUP_READ);
-                    permissions.add(PosixFilePermission.GROUP_WRITE);
-                     
-                    //Adding other's file permissions
-                     
-                    permissions.add(PosixFilePermission.OTHERS_EXECUTE);
-                    permissions.add(PosixFilePermission.OTHERS_READ);
-                    permissions.add(PosixFilePermission.OTHERS_WRITE);
-                     
-                    Files.setPosixFilePermissions(Paths.get(theDir + renameFile), permissions);
-                }
+	
         	
 			boolean flag =  service.uploadTemplate(obj);
 			//boolean old = setOldFilePath(obj,session,attributes);

@@ -131,7 +131,7 @@
 						</c:if>
 						<div class="row plr-1 center-align">
 							<div class="col s12 m4 l-align hide-on-med-and-down">
-								<div class="m-1">
+								<!-- <div class="m-1">
 									<a href="javascript:void(0);" onclick="openUploadStructureModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-arrow-circle-up" ></i> Upload Data</strong></a>
@@ -139,7 +139,7 @@
 										Click <a href="/pmis/StructureFile.xlsx" download>here</a>
 										for the template
 									</p>
-								</div>
+								</div> -->
 							</div>
 
 							<div class="col s12 m4 c-align">

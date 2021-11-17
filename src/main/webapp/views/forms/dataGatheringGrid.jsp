@@ -352,7 +352,7 @@
     	    	filtersMap["status_fk"] = status_fk;
      	}
      }
-     
+     var queue = 1;
      function getDataGatheringList() {
  		$(".page-loader-2").show();
 
@@ -379,7 +379,7 @@
  		table.destroy();
 
  		$.fn.dataTable.moment('DD-MMM-YYYY');
-
+ 		var rowLen = 0;
  		var myParams = "status_fk=" + status_fk + "&project_id_fk="
  				+ project_id_fk + "&work_id_fk=" + work_id_fk
  				+ "&contract_id_fk=" + contract_id_fk;
@@ -445,7 +445,12 @@
  										'<div class="right-btns"></div>');
  								$('.dataTables_filter div').append(
  										$searchButton, $clearButton);
-
+ 								rowLen = $('#datatable-data-gathering tbody tr:visible').length
+								if(rowLen <= 1 &&  queue == 1){									
+									$('#datatable-data-gathering').dataTable().api().draw(); 
+									getDataGatheringList();
+									queue++;
+							    } 
  								/* var input = $('.dataTables_filter input').unbind(),
  								self = this.api(),
  								$searchButton = $('<i class="fa fa-search">')

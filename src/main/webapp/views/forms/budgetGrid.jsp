@@ -309,7 +309,7 @@
       	}
     }
     
-    
+    var queue = 1;
     function getBudgetList() {
 		$(".page-loader-2").show();
 
@@ -331,7 +331,7 @@
     		table.destroy();
 			var i = 0;
     		$.fn.dataTable.moment('DD-MMM-YYYY');
-
+    		var rowLen = 0;
     		var myParams =  "work_id_fk="
     				+ work_id_fk + "&project_id_fk="+ project_id_fk+ "&financial_year_fk="+ financial_year_fk;
 
@@ -396,7 +396,12 @@
     										'<div class="right-btns"></div>');
     								$('.dataTables_filter div').append(
     										$searchButton, $clearButton);
-
+    								rowLen = $('#datatable-budget tbody tr:visible').length
+    								if(rowLen <= 1 &&  queue == 1){									
+    									$('#datatable-budget').dataTable().api().draw(); 
+    									getBudgetList();
+    									queue++;
+    							    } 
     								/* var input = $('.dataTables_filter input').unbind(),
     								self = this.api(),
     								$searchButton = $('<i class="fa fa-search">')

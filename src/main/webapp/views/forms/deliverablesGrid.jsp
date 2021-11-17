@@ -355,7 +355,7 @@
 	      	}
      }
      
-     
+     var queue = 1;
      function getDeliverablesList() {
   		$(".page-loader-2").show();
 
@@ -380,7 +380,7 @@
       		table.destroy();
 
       		$.fn.dataTable.moment('DD-MMM-YYYY');
-
+      		var rowLen = 0;
       		var myParams = "status_fk=" + status_fk + "&project_id_fk="
       				+ project_id_fk + "&work_id_fk=" + work_id_fk
       				+ "&contract_id_fk=" + contract_id_fk;
@@ -446,7 +446,12 @@
       										'<div class="right-btns"></div>');
       								$('.dataTables_filter div').append(
       										$searchButton, $clearButton);
-
+      								rowLen = $('#datatable-deliverables tbody tr:visible').length
+    								if(rowLen <= 1 &&  queue == 1){									
+    									$('#datatable-deliverables').dataTable().api().draw(); 
+    									getDeliverablesList();
+    									queue++;
+    							    } 
       								/* var input = $('.dataTables_filter input').unbind(),
       								self = this.api(),
       								$searchButton = $('<i class="fa fa-search">')

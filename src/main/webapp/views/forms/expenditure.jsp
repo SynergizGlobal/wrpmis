@@ -447,7 +447,7 @@
    	    	filtersMap["voucher_type"] = voucher_type;
     	}
     }
-    
+    var queue = 1;
     function getExpenditureList() {
 		$(".page-loader-2").show();
 
@@ -475,7 +475,7 @@
     		table.destroy();
 
     		$.fn.dataTable.moment('DD-MMM-YYYY');
-
+    		var rowLen = 0;
     		var myParams = "work_id_fk=" + work_id_fk + "&contract_id_fk="
     				+ contract_id_fk + "&ledger_account=" + ledger_account
     				+ "&contractor_name=" + contractor_name+ "&voucher_type=" + voucher_type;
@@ -541,7 +541,12 @@
     										'<div class="right-btns"></div>');
     								$('.dataTables_filter div').append(
     										$searchButton, $clearButton);
-
+    								rowLen = $('#datatable-expenditure tbody tr:visible').length
+    								if(rowLen <= 1 &&  queue == 1){									
+    									$('#datatable-expenditure').dataTable().api().draw(); 
+    									getExpenditureList();
+    									queue++;
+    							    } 
     								/* var input = $('.dataTables_filter input').unbind(),
     								self = this.api(),
     								$searchButton = $('<i class="fa fa-search">')

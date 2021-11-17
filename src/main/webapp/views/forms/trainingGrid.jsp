@@ -443,7 +443,7 @@
         	$("#trainingUploadForm").submit();
         }
         
-        
+        var queue = 1;
         function getTraningList(){
         	$(".page-loader-2").show();
         	getTrainingTypesFilterList('');
@@ -468,7 +468,7 @@
 			table.destroy();
 
 			$.fn.dataTable.moment('DD-MMM-YYYY');
-
+			var rowLen = 0;
 			var myParams = "training_type_fk=" + training_type_fk + "&training_category_fk="
 					+ training_category_fk +  "&status_fk=" + status_fk+  "&title=" + title;
 
@@ -528,7 +528,12 @@
 											'<div class="right-btns"></div>');
 									$('.dataTables_filter div').append(
 											$searchButton, $clearButton);
-
+									rowLen = $('#datatable-training tbody tr:visible').length
+    								if(rowLen <= 1 &&  queue == 1){									
+    									$('#datatable-training').dataTable().api().draw(); 
+    									getTraningList();
+    									queue++;
+    							    }
 									/* var input = $('.dataTables_filter input').unbind(),
 									self = this.api(),
 									$searchButton = $('<i class="fa fa-search">')

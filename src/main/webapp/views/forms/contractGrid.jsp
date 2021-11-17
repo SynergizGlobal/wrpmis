@@ -513,7 +513,7 @@
 											'width' : '350px ',
 											'display' : 'inline-block'
 										});
-								rowLen = $('#datatable-contract tbody tr:visible').length
+									
 									var input = $('.dataTables_filter input')
 									.unbind()
 										.bind('keyup',function(e){
@@ -536,11 +536,12 @@
 											'<div class="right-btns"></div>');
 									$('.dataTables_filter div').append(
 											$searchButton, $clearButton);
-								if(rowLen <= 1 &&  queue == 1){									
-									$('#datatable-contract').dataTable().api().draw(); 
-									getContractList();
-									queue++;
-							   } 
+									rowLen = $('#datatable-contract tbody tr:visible').length
+									if(rowLen <= 1 &&  queue == 1){									
+										$('#datatable-contract').dataTable().api().draw(); 
+										getContractList();
+										queue++;
+								    } 
 								/* var input = $('.dataTables_filter input').unbind(),
 								self = this.api(),
 								$searchButton = $('<i class="fa fa-search">')

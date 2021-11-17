@@ -485,7 +485,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		try {
 			String qry ="SELECT  count(DISTINCT contract_id_fk) as total_records FROM ta_financials t " + 
 					" left join contract c on c.contract_id = t.contract_id_fk " + 
-					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and status = ? ";
+					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and t.status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";

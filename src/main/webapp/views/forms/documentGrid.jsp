@@ -387,7 +387,7 @@
             	filtersMap["responsible_for_approval"] = responsible_for_approval;
 	      	}
         }
-        
+        var queue = 1;
         function getDocumentList() {
 			$(".page-loader-2").show();
 
@@ -419,7 +419,7 @@
     			table.destroy();
 
     			$.fn.dataTable.moment('DD-MMM-YYYY');
-
+    			var rowLen = 0;
     			var myParams = "project_id_fk=" + project_id_fk + "&work_id_fk="
     					+ work_id_fk + "&contract_id_fk="
     					+ contract_id_fk + "&project_priority_fk=" + project_priority_fk
@@ -488,7 +488,12 @@
     											'<div class="right-btns"></div>');
     									$('.dataTables_filter div').append(
     											$searchButton, $clearButton);
-
+    									rowLen = $('#datatable-document tbody tr:visible').length
+        								if(rowLen <= 1 &&  queue == 1){									
+        									$('#datatable-document').dataTable().api().draw(); 
+        									getDocumentList();
+        									queue++;
+        							    } 
     									/* var input = $('.dataTables_filter input').unbind(),
     									self = this.api(),
     									$searchButton = $('<i class="fa fa-search">')

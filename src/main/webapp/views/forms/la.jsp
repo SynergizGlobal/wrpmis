@@ -390,7 +390,7 @@
        	    	filtersMap["sub_category_of_land"] = sub_category_of_land;
         	}
         }
-        
+        var queue = 1;
         function getLandAcquisitionList(){
         	$(".page-loader-2").show();
 
@@ -416,7 +416,7 @@
 			table.destroy();
 			
 			$.fn.dataTable.moment('DD-MMM-YYYY');
-      	
+			var rowLen = 0;
 			var myParams = "project_id_fk="+ project_id_fk+"&work_id_fk="+ work_id_fk+"&village="+ village+"&type_of_land="+ type_of_land+"&sub_category_of_land="+ sub_category_of_land ;
   		 
 		    /***************************************************************************************************/   
@@ -457,19 +457,24 @@
 						}),
 		   	            self = this.api(),
 		   	            $searchButton = $('<i class="fa fa-search" title="Go" id="save_post">')
-		   	                       //.text('Go')
-		   	                       .click(function() {
-		   	                          self.search(input.val()).draw();
-		   	                       }),
-		   	            $clearButton = $('<i class="fa fa-close" title="Reset">')
-		   	                       //.text('X')
-		   	                       .click(function() {
-		   	                          input.val('');
-		   	                          $searchButton.click(); 
-		   	                       }) 
-		   	                    $('.dataTables_filter').append('<div class="right-btns"></div>');
+  	                       //.text('Go')
+  	                       .click(function() {
+  	                          self.search(input.val()).draw();
+  	                       }),
+  	            		   $clearButton = $('<i class="fa fa-close" title="Reset">')
+  	                       //.text('X')
+  	                       .click(function() {
+  	                          input.val('');
+  	                          $searchButton.click(); 
+  	                       }) 
+  	                    $('.dataTables_filter').append('<div class="right-btns"></div>');
 			   	          $('.dataTables_filter div').append($searchButton, $clearButton);
-			   	          
+			   	        rowLen = $('#land-acquisition-datatable tbody tr:visible').length
+						if(rowLen <= 1 &&  queue == 1){									
+							$('#land-acquisition-datatable').dataTable().api().draw(); 
+							getLandAcquisitionList();
+							queue++;
+					    } 
    	                    /* var input = $('.dataTables_filter input').unbind(),
 		   	            self = this.api(),
 		   	            $searchButton = $('<i class="fa fa-search">')

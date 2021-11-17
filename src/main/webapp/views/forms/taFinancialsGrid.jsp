@@ -288,7 +288,7 @@
         	}
         }
        
-        
+        var queue = 1;
         function getTAFinancialList() {
 			$(".page-loader-2").show();
 
@@ -308,7 +308,7 @@
    			table.destroy();
 
    			$.fn.dataTable.moment('DD-MMM-YYYY');
-
+   			var rowLen = 0;
    			var myParams =  "work_id_fk="
    					+ work_id_fk + "&contract_id_fk="
    					+ contract_id_fk;
@@ -374,7 +374,12 @@
    											'<div class="right-btns"></div>');
    									$('.dataTables_filter div').append(
    											$searchButton, $clearButton);
-
+   									rowLen = $('#tafinancials tbody tr:visible').length
+    								if(rowLen <= 1 &&  queue == 1){									
+    									$('#tafinancials').dataTable().api().draw(); 
+    									getTAFinancialList();
+    									queue++;
+    							    } 
    									/* var input = $('.dataTables_filter input').unbind(),
    									self = this.api(),
    									$searchButton = $('<i class="fa fa-search">')

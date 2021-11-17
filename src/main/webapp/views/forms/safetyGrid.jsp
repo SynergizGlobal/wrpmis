@@ -398,7 +398,7 @@
         	}
         }
            
-        
+        var queue = 1;
         function getSafetyList() {
     		$(".page-loader-2").show();
 
@@ -427,7 +427,7 @@
     		table.destroy();
 
     		$.fn.dataTable.moment('DD-MMM-YYYY');
-
+    		var rowLen = 0;
     		var myParams =  "work_id_fk="
     				+ work_id_fk + "&contract_id_fk="+ contract_id_fk+ "&department_fk="+ department_fk+ "&category_fk="+ category_fk+ "&status_fk="+ status_fk+ "&hod_user_id_fk="+ hod_user_id_fk;
 
@@ -492,7 +492,12 @@
     										'<div class="right-btns"></div>');
     								$('.dataTables_filter div').append(
     										$searchButton, $clearButton);
-
+    								rowLen = $('#datatable-safety tbody tr:visible').length
+    								if(rowLen <= 1 &&  queue == 1){									
+    									$('#datatable-safety').dataTable().api().draw(); 
+    									getSafetyList();
+    									queue++;
+    							    }
     								/* var input = $('.dataTables_filter input').unbind(),
     								self = this.api(),
     								$searchButton = $('<i class="fa fa-search">')

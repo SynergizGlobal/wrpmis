@@ -380,7 +380,7 @@
       	}
     }
     
-    
+    var queue = 1;
     function getFundList() {
 		$(".page-loader-2").show();
 		getSOFFilterList('');
@@ -402,7 +402,7 @@
 			table.destroy();
 	
 			$.fn.dataTable.moment('DD-MMM-YYYY');
-	
+			var rowLen = 0;
 			var myParams =  "source_of_funds_fk="+ source_of_funds_fk+ "&sub_category_railway_id_fk="+ sub_category_railway_id_fk;
 	
 			/***************************************************************************************************/
@@ -466,7 +466,12 @@
 											'<div class="right-btns"></div>');
 									$('.dataTables_filter div').append(
 											$searchButton, $clearButton);
-	
+									rowLen = $('#datatable-fund tbody tr:visible').length
+    								if(rowLen <= 1 &&  queue == 1){									
+    									$('#datatable-fund').dataTable().api().draw(); 
+    									getFundList();
+    									queue++;
+    							    } 
 									/* var input = $('.dataTables_filter input').unbind(),
 									self = this.api(),
 									$searchButton = $('<i class="fa fa-search">')

@@ -662,7 +662,7 @@
              	getErrorMessage(jqXHR, exception);
          }});
        }
-        
+        var queue = 1;
 		function getDesignList() {
 			$(".page-loader-2").show();
 
@@ -692,7 +692,7 @@
 						table.destroy();
 			
 						$.fn.dataTable.moment('DD-MMM-YYYY');
-			
+						var rowLen = 0;
 						var myParams = "work_id_fk=" + work_id_fk + "&contract_id_fk="
 								+ contract_id_fk + "&department_id_fk="
 								+ encodeURIComponent(department_id_fk) + "&hod=" + hod
@@ -761,9 +761,12 @@
 														'<div class="right-btns"></div>');
 												$('.dataTables_filter div').append(
 														$searchButton, $clearButton);
-												 if(window.matchMedia("(max-width: 769px)").matches){
-										  		      	
-										  		   } 
+												rowLen = $('#datatable-design tbody tr:visible').length
+			    								if(rowLen <= 1 &&  queue == 1){									
+			    									$('#datatable-design').dataTable().api().draw(); 
+			    									getDesignList();
+			    									queue++;
+			    							    } 
 												/* var input = $('.dataTables_filter input').unbind(),
 												self = this.api(),
 												$searchButton = $('<i class="fa fa-search">')

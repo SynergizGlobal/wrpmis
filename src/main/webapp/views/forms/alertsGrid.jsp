@@ -532,7 +532,7 @@
         	}
         }
         
-        
+        var queue = 1;
         function getAlerts() {
     		$(".page-loader-2").show();
 
@@ -563,7 +563,7 @@
     		table.destroy();
 
     		$.fn.dataTable.moment('DD-MMM-YYYY');
-
+    		var rowLen = 0;
     		var myParams =  "hod="
     				+ encodeURIComponent(hod) + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
 
@@ -628,7 +628,12 @@
     										'<div class="right-btns"></div>');
     								$('.dataTables_filter div').append(
     										$searchButton, $clearButton); 
-
+    								rowLen = $('#notifications-table tbody tr:visible').length
+    								if(rowLen <= 1 &&  queue == 1){									
+    									$('#notifications-table').dataTable().api().draw(); 
+    									getAlerts();
+    									queue++;
+    							    }
     								/* var input = $('.dataTables_filter input').unbind(),
     								self = this.api(),
     								$searchButton = $('<i class="fa fa-search">')

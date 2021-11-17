@@ -3489,7 +3489,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractBGList(Contract obj) throws Exception {
 		List<Contract> objsList = new ArrayList<Contract>();
 		try {
-			String qry ="SELECT code,bg_type_fk,issuing_bank, bg_number,cast(bg_value as CHAR) as bg_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto,"
+			String qry ="SELECT code,bg_type_fk,issuing_bank, bg_number,cast(bg_value as CHAR) as bg_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS bg_valid_upto,"
 					+ "DATE_FORMAT(bg_date,'%d-%m-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%m-%Y') AS release_date,bg_value_units,mu.unit,c.contract_short_name,c.contract_id "
 					+ "from bank_guarantee bg "
 					+ "left join money_unit mu on bg.bg_value_units = mu.value COLLATE utf8mb4_unicode_ci "
@@ -3576,7 +3576,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractInsuranceList(Contract obj) throws Exception {
 		List<Contract> objsList = new ArrayList<Contract>();
 		try {
-			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(insurance_value as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto,"
+			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(insurance_value as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS insurence_valid_upto,"
 					+ "i.remarks,revision,released_fk as insurance_status,insurance_value_units,mu.unit,c.contract_short_name,c.contract_id "
 					+ "from insurance i "
 					+ "left join money_unit mu on i.insurance_value_units = mu.value COLLATE utf8mb4_unicode_ci "

@@ -847,6 +847,8 @@ public class ContractController {
 		        CellStyle sectioncostStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle sectionunitsStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
+		        CellStyle centerStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle rightStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
 		        
 	            XSSFRow headingRow = contractsSheet.createRow(0);
@@ -924,7 +926,7 @@ public class ContractController {
 						estimated_cost_value = numberFormatter.format(val);
 					}
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectioncostStyle);
+					cell.setCellStyle(rightStyle);
 					cell.setCellValue(estimated_cost_value);
 					
 					String awarded_cost = "";
@@ -941,7 +943,7 @@ public class ContractController {
 						awarded_cost_value = numberFormatter.format(val);
 					}
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectioncostStyle);
+					cell.setCellStyle(rightStyle);
 					cell.setCellValue(awarded_cost_value);
 					
 					cell = row.createCell(c++);
@@ -949,7 +951,7 @@ public class ContractController {
 					cell.setCellValue(obj.getLoa_letter_number());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getLoa_date());
 					
 					cell = row.createCell(c++);
@@ -957,35 +959,35 @@ public class ContractController {
 					cell.setCellValue(obj.getCa_no());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getCa_date());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getDate_of_start());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getDoc());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getActual_completion_date());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getFinal_takeover());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getCompletion_certificate_release());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getFinal_bill_release());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getRetention_money_release());
 					
 					String completed_cost = "";
@@ -1003,35 +1005,35 @@ public class ContractController {
 					}
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(rightStyle);
 					cell.setCellValue(completed_cost_value);
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getDefect_liability_period());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getPbg_release());					
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getContract_closure_date());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getContract_status());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getContract_status_fk());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getBg_required());
 	                
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getInsurance_required());
 					
 					cell = row.createCell(c++);
@@ -1090,24 +1092,24 @@ public class ContractController {
 					}
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectioncostStyle);
+					cell.setCellStyle(rightStyle);
 					cell.setCellValue(revised_amount_value);
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getRevision_amounts_status());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getRevised_doc());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getRevision_status());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getRevision_remark());
+					cell.setCellValue(obj.getRemarks());
 	                
 	                rowNo++;
 	            }
@@ -1142,7 +1144,7 @@ public class ContractController {
 					cell.setCellValue(obj.getContract_short_name());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(rightStyle);
 					cell.setCellValue(obj.getCode());
 					
 					cell = row.createCell(c++);
@@ -1171,19 +1173,19 @@ public class ContractController {
 					}
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectioncostStyle);
+					cell.setCellStyle(rightStyle);
 					cell.setCellValue(bg_value);
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getBg_date());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getBg_valid_upto());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getRelease_date());
 					
 	                
@@ -1221,7 +1223,7 @@ public class ContractController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getInsurance_type());
+					cell.setCellValue(obj.getInsurance_type_fk());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1250,15 +1252,15 @@ public class ContractController {
 					}
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectioncostStyle);
+					cell.setCellStyle(rightStyle);
 					cell.setCellValue(insurance_value);
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getInsurence_valid_upto());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getInsurance_status());
 					
 	                
@@ -1303,11 +1305,11 @@ public class ContractController {
 					cell.setCellValue(obj.getMilestone_name());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getMilestone_date());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getActual_date());
 					
 					cell = row.createCell(c++);

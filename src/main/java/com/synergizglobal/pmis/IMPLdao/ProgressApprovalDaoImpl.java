@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.TransactionDefinition;
@@ -539,7 +542,10 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		Activity aObj = new Activity();
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
+		Connection con = null;
+		PreparedStatement stmt = null;
 		try {
+			con = dataSource.getConnection();
 			String qry = "select progress_id,progress_date,activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
 					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
@@ -598,18 +604,44 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					updateQry = updateQry + " WHERE activity_id = ?";
 					
 					pValues = new Object[arrSize];
-					int i = 0;			
-					pValues[i++] = aObj.getCompleted();	
+					int i = 0;	
+					if(Float.parseFloat(aObj.getUpdated_scope())==0)
+					{
+						pValues[i++] = 0;
+
+					}
+					else
+					{
+						pValues[i++] = aObj.getCompleted();	
+					}
+					
 					if(aObj.getActual_for_the_day()!=null)
 					{
-						pValues[i++] = aObj.getActual_for_the_day();
+						if(Float.parseFloat(aObj.getUpdated_scope())==0)
+						{
+							pValues[i++] = 0;
+
+						}
+						else
+						{
+							pValues[i++] = aObj.getActual_for_the_day();
+						}
 					}
 					else
 					{
 						pValues[i++] = 0;
 					}
-					if(completed == 0) {
-						pValues[i++] = aObj.getProgress_date();
+					if(completed == 0) 
+					{
+						if(Float.parseFloat(aObj.getUpdated_scope())==0)
+						{
+							pValues[i++] = null;
+
+						}
+						else
+						{
+							pValues[i++] = aObj.getProgress_date();
+						}
 					}
 					if(scope == (completed+actual_for_the_day)) {
 						pValues[i++] = aObj.getProgress_date();
@@ -618,7 +650,16 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					
 					if(scope==completed)
 					{
-						pValues[i++] = getActivityMaxProgressDate(aObj.getActivity_id());
+						
+						if(Float.parseFloat(aObj.getUpdated_scope())==0)
+						{
+							pValues[i++] = null;
+
+						}
+						else
+						{
+							pValues[i++] = getActivityMaxProgressDate(aObj.getActivity_id());
+						}						
 					}					
 					
 					if(aObj.getUpdated_scope()!=null && Float.parseFloat(aObj.getUpdated_scope())>=0)
@@ -638,6 +679,15 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 								+ "FROM approvable_activity_progress "
 								+ "WHERE progress_id = ?";
 						jdbcTemplate.update( pQry,new Object[]{aObj.getProgress_id()});
+						
+						
+						if(Float.parseFloat(aObj.getUpdated_scope())==0)
+						{
+							String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,aObj.getActivity_id());
+							stmt.executeUpdate();
+						}						
 						
 						aObj.setMessage_flag(true);
 						aObj.setMessage("Activity progress approved");
@@ -686,7 +736,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 				formHistory.setModule_name("Validate Data");
 				formHistory.setForm_action_type("Rejected");
-				formHistory.setForm_details("1 activity progres rejected for "+obj.getStructure());
+				formHistory.setForm_details("1 activity progress rejected for "+obj.getStructure());
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				
@@ -707,7 +757,10 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	@Override
 	public Activity approveMultipleActivityProgress(Activity obj) throws Exception {
 		Activity aObj = new Activity();
+		Connection con = null;
+		PreparedStatement stmt = null;
 		try {
+			con = dataSource.getConnection();
 			List<Activity> approvableList = new ArrayList<Activity>();
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProgress_id())) {
 				String qry = "select progress_id,progress_date,activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
@@ -786,7 +839,16 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						
 						Object[] pValues = new Object[arrSize];
 						int i = 0;			
-						pValues[i++] = activity.getCompleted();			
+						if(Float.parseFloat(activity.getUpdated_scope())==0)
+						{
+							pValues[i++] = 0;
+
+						}
+						else
+						{
+							pValues[i++] = activity.getCompleted();	
+						}
+						
 						if(activity.getActual_for_the_day()!=null)
 						{
 							pValues[i++] = activity.getActual_for_the_day();
@@ -795,15 +857,32 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						{
 							pValues[i++] = 0;
 						}
-						if(completed == 0) {
-							pValues[i++] = activity.getProgress_date();
+						if(completed == 0) 
+						{
+							if(Float.parseFloat(activity.getUpdated_scope())==0)
+							{
+								pValues[i++] = null;
+
+							}
+							else
+							{
+								pValues[i++] = activity.getProgress_date();
+							}							
 						}
 						if(scope == (completed+actual_for_the_day)) {
 							pValues[i++] = activity.getProgress_date();
 						}
 						if(scope==completed)
 						{
-							pValues[i++] = getActivityMaxProgressDate(activity.getActivity_id());
+							if(Float.parseFloat(activity.getUpdated_scope())==0)
+							{
+								pValues[i++] = null;
+
+							}
+							else
+							{
+								pValues[i++] = getActivityMaxProgressDate(activity.getActivity_id());
+							}							
 						}
 						if(activity.getUpdated_scope()!=null && Float.parseFloat(activity.getUpdated_scope())>=0)
 						{
@@ -823,6 +902,14 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 									+ "FROM approvable_activity_progress "
 									+ "WHERE progress_id = ?";
 							jdbcTemplate.update( pQry,new Object[]{activity.getProgress_id()});
+							
+							if(Float.parseFloat(activity.getUpdated_scope())==0)
+							{
+								String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
+								stmt = con.prepareStatement(deleteQry);
+								stmt.setString(1,activity.getActivity_id());
+								stmt.executeUpdate();
+							}
 							
 							successCount++;
 						}else {

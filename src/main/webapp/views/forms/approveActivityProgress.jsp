@@ -810,6 +810,7 @@
         	         			var progress_id = "'"+val.progress_id+"'";
         	         			var work_id_fk = "'"+val.work_id_fk+"'";
         	         			var contract_id_fk = "'"+val.contract_id_fk+"'";
+        	         			var structure = "'"+val.structure+"'";
         	         			
         	                    var rowArray = [];   
         	                    var checkbox = '-';
@@ -828,10 +829,10 @@
 	        	                   	
 	        	                   	var replaceStmystring = progress_id.replace(/["']/g, "");
 
-	        	                   	checkbox =checkbox+'<span id="work'+replaceStmystring+'" style="display:none;">'+val.work_short_name+'</span><span id="contract'+replaceStmystring+'" style="display:none;">'+val.contract_short_name+'</span>';
+	        	                   	checkbox =checkbox+'<span id="work'+replaceStmystring+'" style="display:none;">'+val.work_short_name+'</span><span id="contract'+replaceStmystring+'" style="display:none;">'+val.contract_short_name+'</span><span id="structure'+replaceStmystring+'" style="display:none;">'+val.structure+'</span>';
 	        	                   	
-	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-m" '+disabledval+'><i class="fa fa-check"></i> </a>'
-        	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>'+concat;
+	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+structure+','+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-m" '+disabledval+'><i class="fa fa-check"></i> </a>'
+        	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+structure+','+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>'+concat;
         	                   	}
         	                    
 	        	         		rowArray.push(checkbox);
@@ -897,10 +898,10 @@
            	
             }
             
-			function approveActivityProgress(progress_id,work_id_fk,contract_id_fk){
+			function approveActivityProgress(structure,progress_id,work_id_fk,contract_id_fk){
 				$(".page-loader").show();
                 if ($.trim(progress_id) != "") {
-                    var myParams = {progress_id : progress_id,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk };
+                    var myParams = {structure:structure,progress_id : progress_id,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk };
                     $.ajax({
                         url: "<%=request.getContextPath()%>/ajax/approveActivityProgress",
                         data: myParams, cache: false,async: false,
@@ -939,7 +940,7 @@
                 }
             }
 			
-			function rejectActivityProgress(progress_id,work_id_fk,contract_id_fk){
+			function rejectActivityProgress(structure,progress_id,work_id_fk,contract_id_fk){
 				swal({
                     title: "Are you sure You want to Reject progress of activity?",
                     text: "", 
@@ -951,16 +952,16 @@
     	            closeOnCancel: true
                 },function (isConfirm) {   
                     if (isConfirm) {
-                    	confirmRejectActivityProgress(progress_id,work_id_fk,contract_id_fk);
+                    	confirmRejectActivityProgress(structure,progress_id,work_id_fk,contract_id_fk);
     	            }
                 }
               );
 			}
 			
-			function confirmRejectActivityProgress(progress_id,work_id_fk,contract_id_fk){
+			function confirmRejectActivityProgress(structure,progress_id,work_id_fk,contract_id_fk){
 				$(".page-loader").show();
                 if ($.trim(progress_id) != "") {
-                    var myParams = {progress_id : progress_id,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk };
+                    var myParams = {structure:structure,progress_id : progress_id,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk };
                     $.ajax({
                         url: "<%=request.getContextPath()%>/ajax/rejectActivityProgress",
                         data: myParams, cache: false,async: false,
@@ -1290,10 +1291,32 @@
 				    	distinctContracts.push(c);
 				    }
 				});
+				
+				
+				
+				var structure = $('input[name="pending_activity_check"]:checked').map(function() {
+					var assignSval=$(this).val();
+					var replaceStmyCstring = assignSval.replace(/["']/g, "");
+					return $("#structure"+replaceStmyCstring).html();
+		        }).get().join(",");	
+				
+				
+				var StructuresValue = structure.split(",");
+				var distinctStructures = [];
+				jQuery.each(StructuresValue, function(index, c) {
+				if (jQuery.inArray(c, distinctStructures) > -1) 
+				{
+				       
+				    } else {
+				    	distinctStructures.push(c);
+				    }
+				});				
+				
+				
 
 				
 				if ($.trim(progress_id) != "") {
-                    var myParams = {progress_id : progress_id,work_id_fk:distinctWorks.toString(),contract_id_fk:distinctContracts.toString() };
+                    var myParams = {structure:distinctStructures.toString(),progress_id : progress_id,work_id_fk:distinctWorks.toString(),contract_id_fk:distinctContracts.toString() };
                     $.ajax({
                         url: "<%=request.getContextPath()%>/ajax/approveMultipleActivityProgress",
                         data: myParams, cache: false,async: false,

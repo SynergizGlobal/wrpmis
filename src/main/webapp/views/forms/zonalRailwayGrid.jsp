@@ -204,7 +204,7 @@
 									</select>
 								</div>
 								<div class="col s12 m4 l2 input-field center-align">
-									<button
+									<button type='button'
 										class="btn bg-m waves-effect waves-light t-c clear-filters"
 										style="margin-top: 6px;width:100%;" onclick="clearFilters()">Clear
 										Filters</button>

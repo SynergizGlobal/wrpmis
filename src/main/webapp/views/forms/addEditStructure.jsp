@@ -51,7 +51,7 @@
    		.bd-none{border: none;background: transparent}
    		 }
     	@media(max-Width: 2000px){
-    	.add-align{margin-left:36%;}
+    		td >a.add-align{margin-left:57% !important;}
     	}
     	@media(max-width: 800px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
@@ -80,6 +80,65 @@
 		}
 		.my-valid-class {
    			 color:green;
+		}
+		.mob-btn{
+			height: 1.7rem;
+		    line-height: 1.75rem;
+		    padding: 0 0.5rem;
+		    font-size: .97rem;
+		}
+		.mob-btn i{
+		    vertical-align: bottom;
+		    font-size: .9rem;
+		}
+		td.no-pad{
+			padding:0 !important;
+		}
+		.mob-add-btn{
+			position:absolute;			
+		}
+		.internal-table{
+			border:1px solid rgba(0,0,0,0.12);
+		}
+		.internal-table tbody >tr, .internal-table tr >td{
+			border:none;
+			padding-top:0 !important;
+			padding-bottom:0 !important;
+		}
+		.internal-table .mob-add-btn{
+			height:0;
+		}
+		.internal-table .mob-add-btn >td{
+			position: absolute;
+		    right: 0;
+		    padding: 0;
+		    padding-left: 100%;
+		    height: 0;
+		}
+		.internal-table .mob-add-btn >td>a.mob-btn{
+			position: absolute;
+		    top: -2.5rem;
+		    right: -2.2rem;
+		}
+		.max-w-350{
+			max-width:350px;
+			width:340px;
+		}
+		@media only screen and (min-width: 769px) {
+			td.mobile_btn_close{
+				text-align:right;
+			}
+			td.mobile_btn_close:before{
+				content: '';
+			    border: 1px solid #ececec;
+			    position: absolute;
+			    left: 3rem;
+			    top: 0;
+			    height: 100%;
+			}
+			#structure_details .text-right{
+				text-align:right;
+			}
 		}
     </style>
 </head>
@@ -151,8 +210,7 @@
                                 </div>
                             </div>
                              </c:if>
-                            <div class="row">
-                            	 
+                       <%--      <div class="row">                            	 
                                 <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Department</span></p>
                                     <select class="searchable validate-dropdown" name="department_fk" id="department_fk">
@@ -182,18 +240,18 @@
                                    	<span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                  </c:if>                                
-                            </div>
+                            </div> --%>
                           
                         <div class="row fixed-width" style="margin-bottom: 10px;margin-top:20px;">
                             <!-- <h5 class="center-align">Revision Details</h5> -->
-                            <div class=" col s12 m8 offset-m2 table-inside">
+                            <div class=" col s12 m10 offset-m1 table-inside">
                               <!-- <div class=""> -->
                                 <table id="structure_details" class="mdl-data-table mobile_responsible_table">
                                     <thead>
                                         <tr>
-                                            <th>Structure Type</th>
+                                            <th class="max-w-350">Structure Type</th>
                                             <th>Structure Id</th>
-                                            <th>Action</th>
+                                            <th class="text-right">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="structureTableBody">
@@ -209,12 +267,25 @@
 		                                            </c:forEach>
                                                 </select>
                                             </td>
-                                           <td data-head="Structure Id" class="input-field">
+                                           <td data-head="Structure Id" class="input-field no-pad">
+                                           		<c:choose>
+			                                        <c:when test="${not empty (structuresListDetails.structureList) && fn:length(structuresListDetails.structureList) gt 0 }">
+			                                    		<input type="hidden" id="internalRow${index.count }"  name="internalRowNo" value="${fn:length(structuresListDetails.structureList) }" />
+			                                    	</c:when>
+			                                     	<c:otherwise>
+			                                     		<input type="hidden" id="internalRow${index.count }"  name="internalRowNo" value="0" />
+			                                     	</c:otherwise>
+			                                     </c:choose> 
                                                     <input type="hidden" name= "ids" id="ids" value="${dObj.structure_id}" />
-                                                    <input id="structure_id${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${dObj.structure }">
+                                                    <table class="internal-table" id="structureRow${index.count }-internalTable"><tbody><tr id="internalTableRow${index.count }"><td><input id="structure_id${index.count }_${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${dObj.structure }"></td><td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('${index.count }')"> <i
+                                                        class="fa fa-close"></i></a></td></tr> <tr class="mob-add-btn"><td> 
+		  											<a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onClick="addInternalTableRow('${index.count }')"> <i
+		                                                            class="fa fa-plus" ></i></a>
+		                                        </td></tr></tbody></table>
+                                                    <%-- <input id="structure_id${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${dObj.structure }"> --%>
                                            </td>                                            
                                             <td class="mobile_btn_close">
-                                                <a  onclick="removeStructureRow('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+                                                <a onclick="removeStructureRow('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                         class="fa fa-close"></i></a>
                                             </td>
                                         </tr>
@@ -230,9 +301,21 @@
 		                                            </c:forEach>
                                                 </select>
                                             </td>                                            
-                                           <td data-head="Structure Id" class="input-field"> 
-                                                    <input id="structure_id0" name="structures" type="text" class="validate"
-                                                        placeholder="Structure Id">
+                                           <td data-head="Structure Id" class="input-field no-pad"> 
+                                               <c:choose>
+			                                        <c:when test="${not empty (structuresListDetails.structureList) && fn:length(structuresListDetails.structureList) gt 0 }">
+			                                    		<input type="hidden" id="internalRow0"  name="internalRowNo" value="${fn:length(structuresListDetails.structureList) }" />
+			                                    	</c:when>
+			                                     	<c:otherwise>
+			                                     		<input type="hidden" id="internalRow0"  name="internalRowNo" value="0" />
+			                                     	</c:otherwise>
+			                                     </c:choose> 
+												<table class="internal-table" id="structureRow0-internalTable"><tbody><tr id="internalTableRow0"><td><input id="structure_id0_0" name="structures" type="text" class="validate"
+                                                        placeholder="Structure Id"></td><td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('0')"> <i
+                                                        class="fa fa-close"></i></a></td></tr><tr class="mob-add-btn"><td> 
+		  											<a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onClick="addInternalTableRow('0')"> <i
+		                                                            class="fa fa-plus" ></i></a>
+		                                        </td></tr></tbody></table>                                                        
                                             </td>
                                             <td class="mobile_btn_close">
                                                 <a  onclick="removeStructureRow('0');" class="btn waves-effect waves-light red t-c "> <i
@@ -265,7 +348,23 @@
                                 <!--  </div> -->
                             </div>
                         </div>
-
+                        
+						<c:if test="${action eq 'edit'}">	
+						<div class="row">                            
+                             <div class="col s6 m4 offset-m2  input-field" id="loa_date_div">
+                                 <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker">
+                                 <label for="commissioning_date">Actual date of Commissioning</label>
+                                  <span id="commissioning_dateError" class="error-msg" ></span>
+                                 <button type="button" id="commissioning_date_icon"><i class="fa fa-calendar"></i></button>
+                             </div>
+                             <div class="col s6 m4 input-field" id="loa_date_div">
+                                 <input id="structure_value" name="structure_value" type="text" class="validate">
+                                 <label for="structure_value">Structure Value</label>
+                                 <span id="structure_valueError" class="error-msg" ></span>
+                             </div>
+                         </div>
+	                     </c:if>     
+	                            
                         <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col s6 m6 mt-brdr center-align">
@@ -486,8 +585,13 @@
 			              	+'<option value="${obj.structure_type }">${obj.structure_type}</option>'
 			               </c:forEach>
            				+'</select></td>'
-           				+'<td data-head="Structure Id" class="input-field">'
-               			+'<input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"> </td>'
+           				+'<td data-head="Structure Id" class="input-field no-pad"><input type="hidden" id="internalRow'+rNo+'"  name="internalRowNo" value="0" /> <table class="internal-table" id="structureRow'+rNo+'-internalTable"><tbody>'
+           				+'<tr id="internalTableRow'+rNo+'"><td><input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
+           				+'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c " onclick="removeStructureInternalRow('+rNo+')"> <i class="fa fa-close"></i></a></td></tr>'
+           				+'<tr class="mob-add-btn"><td> <a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onclick="addInternalTableRow('+rNo+')"> <i class="fa fa-plus"></i></a>'
+           				+'</td></tr></tbody></table></td>'
+           				//+'<td data-head="Structure Id" class="input-field">'
+               			//+'<input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"> </td>'
                			+'<td class="mobile_btn_close"><a  onclick="removeStructureRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
        					+'</td></tr>';
 
@@ -500,7 +604,23 @@
 			function removeStructureRow(rowNo){
 				$("#structureRow"+rowNo).remove();
 			}
+			
+			function addInternalTableRow(ind){
+				var rowNo=$('#internalRow'+ind).val();
+				var rNo = Number(rowNo)+1;
+				
+				var html = '<tr id="internalTableRow'+rNo+'"><td><input id="structure_id'+ind+'_'+rNo+'" name="structures" type="text" class="validate"'
+						   +'placeholder="Structure Id"></td><td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" '
+						   +'onclick="removeStructureInternalRow('+rNo+')"> <i class="fa fa-close"></i></a></td></tr>';
 
+			 $('#structureRow'+ind+'-internalTable tbody tr:last').prev().after(html);
+			 $("#internalRow"+ind).val(rNo);
+			}
+			
+			function removeStructureInternalRow(rowNo){
+				$("#internalTableRow"+rowNo).remove();
+			}
+			
 		    var validator =	$('#structureForm').validate({
 				 errorClass: "my-error-class",
 				 validClass: "my-valid-class",

@@ -78,6 +78,13 @@
 	.m-1 {
    		 margin: -2rem auto;
 	}
+	@media only screen and (max-width: 767px){
+		.exportButton .btn{
+			padding-left: 6px;
+	   		padding-right: 6px;
+		}
+	}
+	
     </style>
 </head>
 <body>
@@ -141,12 +148,16 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<h6 class="hide-on-med-and-down">Update User</h6>
-								 <h6 class="hide-on-large-only">Users</h6> 
-								<div class="col s12 m12 r-align exportButton" >
+								 <h6 class="hide-on-large-only left-align">Users</h6> 
+								<div class="col s12 m12 right-align exportButton" >
 								<div class="m-1 ">
+									<a href="<%=request.getContextPath()%>/add-user-form"
+							        class="btn waves-effect waves-light bg-s t-c"> <strong><i
+							            class="fa fa-plus-circle"></i> Add Users</strong></a>
 									<a href="javascript:void(0);" onclick="exportUser();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-download"></i> Export Data</strong></a>
+									
 								</div>
 							</div>
 							</div>

@@ -83,9 +83,10 @@
 		}
 		.mob-btn{
 			height: 1.7rem;
-		    line-height: 1.75rem;
+		    line-height: 1.7rem;
 		    padding: 0 0.5rem;
 		    font-size: .97rem;
+		    border-radius:8px;
 		}
 		.mob-btn i{
 		    vertical-align: bottom;
@@ -98,7 +99,9 @@
 			position:absolute;			
 		}
 		.internal-table{
-			border:1px solid rgba(0,0,0,0.12);
+			border-left:1px solid rgba(0,0,0,0.12);
+			border-right:1px solid rgba(0,0,0,0.12);
+			/* background-color:#EBFFFF; */
 		}
 		.internal-table tbody >tr, .internal-table tr >td{
 			border:none;
@@ -123,6 +126,9 @@
 		.max-w-350{
 			max-width:350px;
 			width:340px;
+		}
+		.mobile_responsible_table > tbody >tr >td{
+			border-bottom: 1px solid rgba(0,0,0,.35);
 		}
 		@media only screen and (min-width: 769px) {
 			td.mobile_btn_close{

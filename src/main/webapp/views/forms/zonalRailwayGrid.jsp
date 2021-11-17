@@ -337,12 +337,15 @@
             $('#execution_agency_railway_fk').val('');
             $('#source_of_funds').val('');
             $('#status_fk').val('');
+            $('.searchable').select2();
+            
             window.localStorage.setItem("zonalFilters",'');
-            window.location.href = "<%=request.getContextPath()%>/zonal-railway";
+            window.location.href= "<%=request.getContextPath()%>/zonal-railway";
+            
             var table = $('#zonal_railway_table').DataTable();
         	table.draw( true );
             //getZonalRailwayList();
-            $('.searchable').select2();
+           
         }
         
         function addInQueProject(project_id_fk){
@@ -389,6 +392,7 @@
        	    	filtersMap["status_fk"] = status_fk;
         	}
         }
+        var queue = 1;
         function getZonalRailwayList() {
 			$(".page-loader-2").show();
 
@@ -413,7 +417,7 @@
        		table = $('#zonal_railway_table').DataTable();
 
    			table.destroy();
-
+   			var rowLen = 0;
    			$.fn.dataTable.moment('DD-MMM-YYYY');
 
    			var myParams = "project_id_fk=" + project_id_fk + "&work_id_fk="
@@ -425,7 +429,8 @@
 
    			$("#zonal_railway_table")
    					.DataTable(
-   							{
+   							{	"bSort": false,
+   								"order": [],
    								"bProcessing" : true,
    								"bServerSide" : true,
    								"sort" : "position",
@@ -460,10 +465,11 @@
    												'width' : '350px ',
    												'display' : 'inline-block'
    											});
-
+   									//console.log($('#zonal_railway_table tbody tr:visible').length);
+   									
    									var input = $('.dataTables_filter input')
    											.unbind()
-   											.bind('keyup',function(e){
+   											.bind('keyup',function(e){ 
 											    if (e.which == 13){
 											    	self.search(input.val()).draw();
 											    }
@@ -483,7 +489,12 @@
    											'<div class="right-btns"></div>');
    									$('.dataTables_filter div').append(
    											$searchButton, $clearButton);
-
+   									rowLen = $('#zonal_railway_table tbody tr:visible').length
+   									if(rowLen <= 1 &&  queue == 1){									
+   										$('#zonal_railway_table').dataTable().api().draw(); 
+   										getZonalRailwayList();
+   										queue++;
+   								    } 
    									/* var input = $('.dataTables_filter input').unbind(),
    									self = this.api(),
    									$searchButton = $('<i class="fa fa-search">')
@@ -514,7 +525,8 @@
    			            { "mData": function(data,type,row){
    			            	var work_short_name = '';
    	                        if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-   	                     	if($.trim(data.sub_work) == ''){ return '-'; }else{ return data.sub_work; }
+   	                     	if($.trim(data.sub_work) == ''){ return '-'; }else{ return data.sub_work;  }
+   	                    
                			} },   				            
    			            { "mData": function(data,type,row){
    			            	if($.trim(data.execution_agency_railway_fk) == ''){ return '-'; }else{ return data.execution_agency_railway_fk; }
@@ -543,10 +555,11 @@
    			            	return actions;
    			            } }
    			            
-   			        ]
+   			        ] 
+   							
    			    });
-		  $(".page-loader-2").hide();  		     
-      	
+   			
+		  $(".page-loader-2").hide();  	
      }
         
       function getZonalRailwayList1(){

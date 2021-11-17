@@ -87,7 +87,7 @@ public class ZonalRailwayController {
 	
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
-	@RequestMapping(value="/zonal-railway",method={RequestMethod.GET})
+	@RequestMapping(value="/zonal-railway",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView zonalRailway(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.zonalRailwayGrid);
 		try {

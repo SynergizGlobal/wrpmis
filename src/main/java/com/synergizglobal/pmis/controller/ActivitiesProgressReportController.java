@@ -1663,12 +1663,12 @@ public class ActivitiesProgressReportController {
 					        
 					        cell = deatilsRow.createCell(2);
 					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue("Progress on ");
+							cell.setCellValue("Period ");
 							
 							cell = deatilsRow.createCell(3);
 					        cell.setCellStyle(indexWhiteStyle);
 					        if(!StringUtils.isEmpty(from_date) && !StringUtils.isEmpty(to_date)) {
-					        	cell.setCellValue(from_date);
+					        	cell.setCellValue(from_date + " to " + to_date);
 					        }else {
 					        	cell.setCellValue(from_date);
 					        }

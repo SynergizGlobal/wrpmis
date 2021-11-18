@@ -72,6 +72,25 @@
         	} 
 			
 		} 
+		.page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.page-loader-2 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 
@@ -335,13 +354,13 @@
     <script>
     
     var filtersMap = new Object();
-    
+    var pageNo = window.localStorage.getItem("contractPageNo");
     $(document).ready(function () {
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
            
            var filters = window.localStorage.getItem("contractFilters");
-	          
+         
            if($.trim(filters) != '' && $.trim(filters) != null){
        	  var temp = filters.split('^'); 
        	  for(var i=0;i< temp.length;i++){
@@ -365,8 +384,6 @@
 	        	  }
 	          }
            } 
-		
-    	
     	$('.close-message').delay(3000).fadeOut('slow');
     	
     	getContractList();
@@ -448,8 +465,131 @@
    	    	filtersMap["contract_status_fk"] = contract_status_fk;
     	}
     }
+    
+    
+    function getContractList(){
+    	$(".page-loader-2").show();
+    	getDesignationFilterList('');
+    	getDyHODDesignationFilterList('');
+    	getContractorsFilterList('');
+    	getWorkFilterList('');
+    	getProjectFilterList('');
+    	getContractStatusFilterList('');
+    	getStatusFilterList('');
+    	
+    	var contractor_id_fk = $("#contractor_id_fk").val();
+    	var work_id_fk = $("#work_id_fk").val();
+    	var project_id_fk = $("#project_id_fk").val();
+    	var designation = $("#designation").val();
+    	var dy_hod_designation = $("#dy_hod_designation").val();
+    	var contract_status = $("#contract_status").val();
+    	var contract_status_fk = $("#contract_status_fk").val();
+
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		//alert(filtersMap[key]);
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("contractFilters", filters);
+		});
+     	table = $('#datatable-contract').DataTable();
+		 
+		table.destroy();
+		
+		$.fn.dataTable.moment('DD-MMM-YYYY');
+		table = $('#datatable-contract').DataTable({
+			"bStateSave": true,  
+     		fixedHeader: true,
+           
+         	//Default: Page display length
+				"iDisplayLength" : 10,
+				"iData" : {
+					"start" : 52
+				},"iDisplayStart" : 0,
+				"drawCallback" : function() {
+					var info = table.page.info();
+					window.localStorage.setItem("contractPageNo", info.page);
+				},
+            columnDefs: [
+                {
+                    targets: [0, 1, 2],
+                    className: 'mdl-data-table__cell--non-numeric'
+                },
+                { orderable: false, 'aTargets': ['nosort'] }
+            ],
+            // "ScrollX": true,
+            //"scrollCollapse": true,
+            "sScrollX": "100%",
+            "sScrollXInner": "100%",
+            "bScrollCollapse": true,
+            "initComplete" : function() {
+					$('.dataTables_filter input[type="search"]')
+							.attr('placeholder', 'Search')
+							.css({
+								'width' : '350px ',
+								'display' : 'inline-block'
+							});
+					var input = $('.dataTables_filter input')
+							.unbind()
+							.bind('keyup',function(e){
+						    if (e.which == 13){
+						    	self.search(input.val()).draw();
+						    }
+						}), self = this.api(), $searchButton = $('<i class="fa fa-search" title="Go" >')
+					.click(function() {
+						self.search(input.val()).draw();
+					}), 
+					$clearButton = $('<i class="fa fa-close" title="Reset">')
+					.click(function() {
+						input.val('');
+						$searchButton.click();
+					})
+					$('.dataTables_filter').append( '<div class="right-btns"></div>');
+					$('.dataTables_filter div').append( $searchButton, $clearButton); 					
+				}
+        }).rows().remove().draw();
+		
+		
+		table.state.clear();		
+	 
+	 	var myParams = {contractor_id_fk : contractor_id_fk, project_id_fk : project_id_fk, work_id_fk : work_id_fk,designation : designation, dy_hod_designation : dy_hod_designation,contract_status: contract_status,contract_status_fk:contract_status_fk};
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContracts",type:"POST",data:myParams,success : function(data){    				
+				if(data != null && data != '' && data.length > 0){    					
+	         		$.each(data,function(key,val){
+	         			var contract_id = "'"+val.contract_id+"'";
+	                    var actions = '<a href="javascript:void(0);"  onclick="getContract('+contract_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+	                   	var rowArray = [];    	                 
+	                   	
+	                	var workName = '';
+                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                        
+	                   	rowArray.push($.trim(val.work_id_fk) + workName);
+	                   	rowArray.push($.trim(val.contract_id));
+	                   	rowArray.push($.trim(val.contract_short_name));
+	                   	rowArray.push($.trim(val.contractor_name));
+	                   	rowArray.push($.trim(val.department_name));
+	                   	rowArray.push($.trim(val.designation));
+	                   	rowArray.push($.trim(val.dy_hod_designation));
+	                   	rowArray.push($.trim(actions));   	                   	
+	                   	
+	                    table.row.add(rowArray).draw( true );
+					});
+	         		if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+	                var oTable = $('#datatable-contract').dataTable();
+	                oTable.fnPageChange( pageNo );
+	         		$(".page-loader-2").hide();
+				}else{
+					$(".page-loader-2").hide();
+				}
+				
+			},error: function (jqXHR, exception) {
+				$(".page-loader-2").hide();
+	         	getErrorMessage(jqXHR, exception);
+	     }});
+    } 
+
+    
     var queue = 1;
-    function getContractList() {
+    function getContractList1() {
 		$(".page-loader-2").show();
 
 		getDesignationFilterList('');

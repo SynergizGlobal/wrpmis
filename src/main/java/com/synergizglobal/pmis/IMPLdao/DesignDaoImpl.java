@@ -908,8 +908,8 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getHodListFilter(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select hod from design d "
-					+ " left join user u on d.hod = u.designation "
+			String qry ="select user_id,u.designation as hod,u.user_name from design d "
+					+ " left join user u on d.hod = u.user_id "
 					+ " where hod is not null and hod <> '' ";
 				
 			int arrSize = 0;

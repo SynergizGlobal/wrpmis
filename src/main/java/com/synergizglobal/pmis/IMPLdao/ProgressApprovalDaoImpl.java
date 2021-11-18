@@ -605,7 +605,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					
 					pValues = new Object[arrSize];
 					int i = 0;	
-					if(Float.parseFloat(aObj.getUpdated_scope())==0)
+					if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
 					{
 						pValues[i++] = 0;
 
@@ -617,7 +617,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					
 					if(aObj.getActual_for_the_day()!=null)
 					{
-						if(Float.parseFloat(aObj.getUpdated_scope())==0)
+						if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
 						{
 							pValues[i++] = 0;
 
@@ -633,7 +633,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					}
 					if(completed == 0) 
 					{
-						if(Float.parseFloat(aObj.getUpdated_scope())==0)
+						if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
 						{
 							pValues[i++] = null;
 
@@ -651,7 +651,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					if(scope==completed)
 					{
 						
-						if(Float.parseFloat(aObj.getUpdated_scope())==0)
+						if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
 						{
 							pValues[i++] = null;
 
@@ -681,7 +681,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						jdbcTemplate.update( pQry,new Object[]{aObj.getProgress_id()});
 						
 						
-						if(Float.parseFloat(aObj.getUpdated_scope())==0)
+						if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
 						{
 							String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
 							stmt = con.prepareStatement(deleteQry);
@@ -839,7 +839,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						
 						Object[] pValues = new Object[arrSize];
 						int i = 0;			
-						if(Float.parseFloat(activity.getUpdated_scope())==0)
+						if(Float.parseFloat(activity.getUpdated_scope()==null?"0":activity.getUpdated_scope())==0)
 						{
 							pValues[i++] = 0;
 
@@ -859,7 +859,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						}
 						if(completed == 0) 
 						{
-							if(Float.parseFloat(activity.getUpdated_scope())==0)
+							if(Float.parseFloat(activity.getUpdated_scope()==null?"0":activity.getUpdated_scope())==0)
 							{
 								pValues[i++] = null;
 
@@ -874,7 +874,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						}
 						if(scope==completed)
 						{
-							if(Float.parseFloat(activity.getUpdated_scope())==0)
+							if(Float.parseFloat(activity.getUpdated_scope()==null?"0":activity.getUpdated_scope())==0)
 							{
 								pValues[i++] = null;
 
@@ -903,7 +903,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 									+ "WHERE progress_id = ?";
 							jdbcTemplate.update( pQry,new Object[]{activity.getProgress_id()});
 							
-							if(Float.parseFloat(activity.getUpdated_scope())==0)
+							if(Float.parseFloat(activity.getUpdated_scope()==null?"0":activity.getUpdated_scope())==0)
 							{
 								String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
 								stmt = con.prepareStatement(deleteQry);

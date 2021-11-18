@@ -153,7 +153,7 @@
 								<div class="m-1 ">
 									<a href="<%=request.getContextPath()%>/add-user-form"
 							        class="btn waves-effect waves-light bg-s t-c"> <strong><i
-							            class="fa fa-plus-circle"></i> Add Users</strong></a>
+							            class="fa fa-plus-circle"></i> Add User</strong></a>
 									<a href="javascript:void(0);" onclick="exportUser();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-download"></i> Export Data</strong></a>

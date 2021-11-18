@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.ProgressApprovalDao;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.FormHistory;
@@ -540,12 +541,10 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	@Override
 	public Activity approveActivityProgress(Activity obj) throws Exception {
 		Activity aObj = new Activity();
-		TransactionDefinition def = new DefaultTransactionDefinition();
-		TransactionStatus status = transactionManager.getTransaction(def);
-		Connection con = null;
-		PreparedStatement stmt = null;
+		//TransactionDefinition def = new DefaultTransactionDefinition();
+		//TransactionStatus status = transactionManager.getTransaction(def);
 		try {
-			con = dataSource.getConnection();
+			
 			String qry = "select progress_id,progress_date,activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
 					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
@@ -683,10 +682,15 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						
 						if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
 						{
+							Connection con = null;
+							PreparedStatement stmt = null;
+							con = dataSource.getConnection();
+							
 							String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
 							stmt = con.prepareStatement(deleteQry);
 							stmt.setString(1,aObj.getActivity_id());
 							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}
 						}						
 						
 						aObj.setMessage_flag(true);
@@ -711,9 +715,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					aObj.setMessage("Acceptable progress is "+remaining+". But actual for the day is "+actual_for_the_day);
 				}
 			}
-			transactionManager.commit(status);
+			//transactionManager.commit(status);
 		}catch(Exception e){ 
-			transactionManager.rollback(status);
+			//transactionManager.rollback(status);
 			aObj.setMessage_flag(false);
 			aObj.setMessage("Please try again after sometime.");
 			throw new Exception(e);
@@ -909,6 +913,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 								stmt = con.prepareStatement(deleteQry);
 								stmt.setString(1,activity.getActivity_id());
 								stmt.executeUpdate();
+								if(stmt != null){stmt.close();}
 							}
 							
 							successCount++;

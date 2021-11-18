@@ -863,10 +863,11 @@
         	                            } 
         	                            else 
         	                            {
-        	                            	/*var t=0;
+
+        	                            	var t=0;
         	                            	
         	                            	$('input[name="pending_activity_check"]').each(function () {
-        	                            		if ($('#pending_activity_check_'+key).is(':checked')) 
+        	                            		if ($(this).is(':checked')) 
         	                                    {
             	                                    t++;
         	                                    } 
@@ -875,9 +876,14 @@
 												if(t>=1)
 												{
 	            	                            	$('#pending_activity_check_'+key).prop('checked', false);
+	            	                                $('#approve-btn').removeClass('disabled');
+	            	                                $('#reject-btn').removeClass('disabled');
+												}
+												else
+												{
 	            	                                $('#approve-btn').addClass('disabled');
-	            	                                $('#reject-btn').addClass('disabled');
-												}*/
+	            	                                $('#reject-btn').addClass('disabled');												
+												}
         	                            }
         	                    });       	                    
         	                    
@@ -897,6 +903,8 @@
         	     }});
            	
             }
+            
+            
             
 			function approveActivityProgress(structure,progress_id,work_id_fk,contract_id_fk){
 				$(".page-loader").show();

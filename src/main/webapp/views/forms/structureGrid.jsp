@@ -180,7 +180,7 @@
 									        class="btn waves-effect waves-light bg-s t-c"> <strong><i
 									            class="fa fa-plus-circle"></i> Add Structure</strong></a>
 									</div>
-									<div class="col s6 m4 l2 offset-l1 input-field">
+									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Project</p>
 										<select id="project_id_fk" name="project_id_fk"
 											  class="searchable" onchange="addInQueProject(this.value);getStructureList();">
@@ -201,15 +201,15 @@
 										</select>
 									</div>
 									<div class="col s6 m4 l2 input-field">
-										<p class="searchable_label">Department</p>
-										<select id="department_fk" name="department_fk"
+										<p class="searchable_label">Structure</p>
+										<select id="structure_fk" name="structure_fk"
 											  class="searchable"  onchange="addInQueDepartment(this.value);getStructureList();">
 											<option value="">Select</option>
-											<c:forEach var="obj" items="${departmentList}">
-												<option value="${obj.department_fk }"
+											<%-- <c:forEach var="obj" items="${structureList}">
+												<option value="${obj.structureList_fk }"
 													<c:if test="${param.department_fk eq obj.department_fk }">selected</c:if>>${obj.department_fk}<c:if
 														test="${not empty obj.department_name}"> - </c:if>${obj.department_name}</option>
-											</c:forEach>
+											</c:forEach> --%>
 										</select>
 									</div>
 									<div class="col s6 m4 l2 input-field">
@@ -221,6 +221,17 @@
 												<option value="${obj.contract_id }"
 													<c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
 											</c:forEach>
+										</select>
+									</div>									
+									<div class="col s6 m4 l2 input-field">
+										<p class="searchable_label">Work Status</p>
+										<select id="work_status_fk" name="work_status_fk"
+										 class="searchable" onchange="addInQueContract(this.value);getStructureList();">
+											<option value="">Select</option>
+											<%-- <c:forEach var="obj" items="${workStatusList}">
+												<option value="${obj.work_status_fk }"
+													<c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
+											</c:forEach> --%>
 										</select>
 									</div>									
 									<div class="col s12 m4 l2 input-field center-align">
@@ -240,9 +251,10 @@
 										<thead>
 											<tr>
 												<th>Work </th>
-												<th>Department </th>
-												<th>Contract </th>
 												<th>Structures </th>
+												<th>Structure Id </th>
+												<th>Contract </th>
+												<th>Work Status </th>
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -729,19 +741,22 @@
 				                     	if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk + work_short_name; }
 			            			} },   				            
 						            { "mData": function(data,type,row){
+						            	var structureType = data.structure_type_fk;
+										if(structureType.indexOf(",") > -1){
+											structureType = structureType.replace(/,/g, "<br />");
+						            	}
+						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return structureType; }
+						            } },
+						            { "mData": function(data,type,row){
+						            	if($.trim(data.department_fk) == ''){ return '-'; }else{ return data.department_name; }
+						            } },
+						            { "mData": function(data,type,row){
 						            	if($.trim(data.department_fk) == ''){ return '-'; }else{ return data.department_name; }
 						            } },
 						         	{ "mData": function(data,type,row){
 						         		var contract_short_name = '';
 						         		if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) } 
 						            	if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contract_short_name; }
-						            } },
-						            { "mData": function(data,type,row){
-						            	var structureType = data.structure_type_fk;
-										if(structureType.indexOf(",") > -1){
-											structureType = structureType.replace(/,/g, "<br />");
-						            	}
-						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return structureType; }
 						            } },
 						         	{ "mData": function(data,type,row){
 						         		var structure_id = "'"+data.structure_id+"'";

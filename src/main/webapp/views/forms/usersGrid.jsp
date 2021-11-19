@@ -147,8 +147,9 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6 class="hide-on-med-and-down">Update User</h6>
-								 <h6 class="hide-on-large-only left-align">Users</h6> 
+								<!-- <h6 class="hide-on-med-and-down">Update User</h6>
+								 <h6 class="hide-on-large-only left-align">Users</h6>  -->
+								 <h6 class="">Users</h6> 
 								<div class="col s12 m12 right-align exportButton" >
 								<div class="m-1 ">
 									<a href="<%=request.getContextPath()%>/add-user-form"

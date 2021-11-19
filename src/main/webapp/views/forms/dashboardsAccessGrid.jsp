@@ -114,6 +114,16 @@
 		opacity:0 !important;
 		content:'' !important;
 	}
+	.m-n1 {
+        margin: -2rem auto 0;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .exportButton .btn {
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+    }
     </style>
 </head>
 <body>
@@ -127,6 +137,12 @@
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
                             <h6>Dashboards</h6>
+                            <div class="col s12 m12 right-align exportButton">
+							    <div class="m-n1">
+							        <a href="<%=request.getContextPath()%>/add-dashboard-form" class="btn waves-effect waves-light bg-s t-c">
+							                                        <strong><i class="fa fa-plus-circle"></i> Add </strong></a>
+							    </div>
+							</div>
                         </div>
                     </span>
                     <div class="">
@@ -136,12 +152,12 @@
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-                        <div class="row plr-1">
+                     <%--    <div class="row plr-1">
                             <div class="col s12 m4 offset-m4 center-align" style="margin-bottom:20px">
                                     <a href="<%=request.getContextPath()%>/add-dashboard-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Dashboard</strong></a>
                             </div>
-                        </div>
+                        </div> --%>
                         <div class="row no-mar">
                             <div class="col s6 m3 l2 input-field offset-l2 ">
                                 <p class="searchable_label">Select Module</p>

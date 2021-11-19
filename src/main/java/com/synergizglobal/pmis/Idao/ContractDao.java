@@ -81,5 +81,7 @@ public interface ContractDao {
 
 	public List<Contract> contractMilestoneList(Contract contract) throws Exception;
 
+	public List<Contract> contractListForExport(Contract contract) throws Exception;
+
 
 }

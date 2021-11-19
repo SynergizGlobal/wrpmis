@@ -560,7 +560,7 @@
 	                   	var rowArray = [];    	                 
 	                   	
 	                	var workName = '';
-                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                         
 	                   	rowArray.push($.trim(val.work_id_fk) + workName);
 	                   	rowArray.push($.trim(val.contract_id));
@@ -592,7 +592,7 @@
     function getContractList1() {
 		$(".page-loader-2").show();
 
-		getDesignationFilterList('');
+		getDesignationFilterList(''); 
     	getDyHODDesignationFilterList('');
     	getContractorsFilterList('');
     	getWorkFilterList('');
@@ -718,7 +718,7 @@
                      	if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
         			}},   				            
 		            { "mData": function(data,type,row){
-		            	if($.trim(data.contract_id) == ''){ return alert("khs"); }else{ return data.contract_id; }
+		            	if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id; }
 		            } },
 		         	{ "mData": function(data,type,row){
 		            	if($.trim(data.contract_short_name) == ''){ return '-'; }else{ return data.contract_short_name; }

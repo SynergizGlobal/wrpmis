@@ -806,7 +806,7 @@ public class ContractController {
 			contract.setUser_role_code(userRoleCode);
 			view.setViewName("redirect:/contract");
 			
-			List<Contract> dataList = contractService.contractList(contract);  
+			List<Contract> dataList = contractService.contractListForExport(contract);  
 			List<Contract> revisionsDataList = contractService.contractRevisionsList(contract); 
 			List<Contract> bgDataList = contractService.contractBGList(contract); 
 			List<Contract> insuranceDataList = contractService.contractInsuranceList(contract); 

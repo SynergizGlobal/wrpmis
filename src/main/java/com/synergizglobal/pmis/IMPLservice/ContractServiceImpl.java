@@ -168,6 +168,10 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> contractMilestoneList(Contract contract) throws Exception {
 		return contractDao.contractMilestoneList(contract);
 	}
+	@Override
+	public List<Contract> contractListForExport(Contract contract) throws Exception {
+		return contractDao.contractListForExport(contract);
+	}
 	
 
 }

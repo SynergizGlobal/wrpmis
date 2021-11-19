@@ -59,21 +59,19 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractList(Contract obj)throws Exception{
 		List<Contract> objsList = null;
 		try {
-			String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head  " + 
+			String qry ="select w.work_name,w.work_short_name, GROUP_CONCAT(DISTINCT dt.department_name SEPARATOR ', ') as department_name,hoddt.department_name as hod_department,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head  " + 
 					",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 					+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-					+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%m-%Y') AS contract_closure ,c.status as contract_status, contract_status_fk,bg_required,insurance_required,dth.department_name as hod_department,estimated_cost_units,awarded_cost_units,completed_cost_units,mu1.unit as estimated_cost_unit,mu2.unit as awarded_cost_unit,mu3.unit as completed_cost_unit " + 
+					+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%m-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required " + 
 					"from contract c " + 
 					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.department_fk = dt.department "
-					+"left join department dth on u.department_fk = dth.department "
-					+"left join money_unit mu1 on c.estimated_cost_units = mu1.value "
-					+"left join money_unit mu2 on c.awarded_cost_units = mu2.value "
-					+"left join money_unit mu3 on c.completed_cost_units = mu3.value "
+					"left join department hoddt on u.department_fk = hoddt.department "+
+					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
+					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "
+					+"left join department dt on ce.department_id_fk = dt.department "
 					+"where contract_id is not null ";
 			
 			int arrSize = 0;
@@ -81,10 +79,6 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
@@ -116,13 +110,13 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 			}
+			
+			qry = qry + "GROUP BY contract_id ORDER BY contract_id ASC ";
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -142,15 +136,47 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
-				
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();	
 			}
+			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-				
+						
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				for (Contract cObj : objsList) {
+					Contract deptObj = getDepartmentsLists(cObj);
+					if(!StringUtils.isEmpty(deptObj)){
+						if(!StringUtils.isEmpty(deptObj.getDepartment_name()) && !StringUtils.isEmpty(cObj.getHod_department()) && !deptObj.getDepartment_name().contains(cObj.getHod_department())) {
+							cObj.setDepartment_name(deptObj.getDepartment_name() + "," +cObj.getHod_department() );
+						}else if(StringUtils.isEmpty(deptObj.getDepartment_name())) {
+							cObj.setDepartment_name(cObj.getHod_department() );
+						}else {
+							cObj.setDepartment_name(deptObj.getDepartment_name() );
+						}
+					}else {
+						for (Contract cObj1 : objsList) {
+							if(!StringUtils.isEmpty(cObj1.getDepartment_name()) && !StringUtils.isEmpty(cObj1.getHod_department()) && !cObj1.getDepartment_name().contains(cObj1.getHod_department())) {
+								cObj1.setDepartment_name(cObj1.getDepartment_name() + "," +cObj1.getHod_department() );
+							}else if(StringUtils.isEmpty(cObj1.getDepartment_name())) {
+								cObj1.setDepartment_name(cObj1.getHod_department() );
+							}
+						}
+					}
+				}
+			}else {
+				for (Contract cObj : objsList) {
+					if(!StringUtils.isEmpty(cObj.getDepartment_name()) && !StringUtils.isEmpty(cObj.getHod_department()) && !cObj.getDepartment_name().contains(cObj.getHod_department())) {
+						cObj.setDepartment_name(cObj.getDepartment_name() + "," +cObj.getHod_department() );
+					}else if(StringUtils.isEmpty(cObj.getDepartment_name())) {
+						cObj.setDepartment_name(cObj.getHod_department() );
+					}
+				}
+			}
+		
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return objsList;
@@ -3740,6 +3766,107 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> contractListForExport(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head  " + 
+					",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
+					+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
+					+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%m-%Y') AS contract_closure ,c.status as contract_status, contract_status_fk,bg_required,insurance_required,dth.department_name as hod_department,estimated_cost_units,awarded_cost_units,completed_cost_units,mu1.unit as estimated_cost_unit,mu2.unit as awarded_cost_unit,mu3.unit as completed_cost_unit " + 
+					"from contract c " + 
+					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+					"left join project p on w.project_id_fk = p.project_id " + 
+					"left join user u on c.hod_user_id_fk = u.user_id "+
+					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					+"left join department dt on c.department_fk = dt.department "
+					+"left join department dth on u.department_fk = dth.department "
+					+"left join money_unit mu1 on c.estimated_cost_units = mu1.value "
+					+"left join money_unit mu2 on c.awarded_cost_units = mu2.value "
+					+"left join money_unit mu3 on c.completed_cost_units = mu3.value "
+					+"where contract_id is not null ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and c.department_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
+				qry = qry + " and c.hod_user_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
+				pValues[i++] = obj.getDesignation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
+				pValues[i++] = obj.getDy_hod_designation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+				
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+				
+		}catch(Exception e){ 
 			throw new Exception(e);
 		}
 		return objsList;

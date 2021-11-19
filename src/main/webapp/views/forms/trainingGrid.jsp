@@ -100,6 +100,25 @@
 				opacity:0;
 				content:'';
 			}
+			
+			    .m-n1 {
+        margin: -2rem auto 0;
+    }
+
+    .template-btn {
+        text-shadow: 1px 1px 1px black;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .mob-mar {
+            text-align: left;
+        }
+
+        .exportButton .btn {
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+    }
     </style>
 </head>
 
@@ -108,7 +127,7 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 	<div class="row">
-		<div class="col s12 m12 hide-on-med-and-down">
+		<%-- <div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -152,23 +171,38 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --%>
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6 class="hide-on-med-and-down">Update Training</h6>
-								<h6 class="hide-on-large-only">Training</h6>	
+								<!-- <h6 class="hide-on-med-and-down">Update Training</h6> -->
+								<h6 class="mob-mar">Training</h6>	
+								<div class="col s12 m12 right-align exportButton">
+    								<div class="m-n1">
+    									<a href="<%=request.getContextPath()%>/create-training"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add</strong></a>
+											<a href="javascript:void(0);" onclick="exportTraining();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export</strong></a>
+    								</div>
+    							</div>
 							</div>
 						</span>
-						<div class="row no-mar" style="margin-bottom: 0;">
-								<div class="col s12 hide-on-large-only mb-md-2 center-align">
-									<a href="<%=request.getContextPath()%>/add-training-form"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add Training</strong></a>
-								</div>
+						<div class="row no-mar">
+							<div class="row clearfix">
+							    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							        <c:if test="${not empty success }">
+							            <div class="center-align m-1 close-message">${success}</div>
+							        </c:if>
+							        <c:if test="${not empty error }">
+							            <div class="center-align m-1 close-message">${error}</div>
+							        </c:if>
+							    </div>
+							</div>
 							<div class="col m1 hide-on-small-only"></div>
 							<div class="col m10 s12 ">
 								<div class="row" style="margin-bottom: 0;">

@@ -958,7 +958,7 @@ public class EMailSender {
 				 InternetAddress[] addressTo = new InternetAddress[sizeTo];
 				 if(sizeTo<36)
 				 {
-					 for (int i = 0; i < 36; i++) {
+					 for (int i = 0; i < sizeTo; i++) {
 						 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
 					 }	 
 					 message.setRecipients(Message.RecipientType.TO, addressTo);

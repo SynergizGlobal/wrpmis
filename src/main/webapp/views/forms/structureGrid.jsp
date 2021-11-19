@@ -621,7 +621,7 @@
 
 			getWorksListFilter('');
 			getProjectListFilter('');
-			getDepartmentListFilter('');
+			//getDepartmentListFilter('');
 			getContractListFilter('');
 						
 			var work_id_fk = $("#work_id_fk").val();
@@ -644,7 +644,6 @@
 			
 						var myParams = "work_id_fk=" + work_id_fk + "&contract_id_fk="
 								+ contract_id_fk + "&department_fk="
-								+ encodeURIComponent(department_fk) 
 								+ "&project_id_fk=" + project_id_fk;
 			
 						/***************************************************************************************************/

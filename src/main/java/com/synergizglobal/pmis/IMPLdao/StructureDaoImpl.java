@@ -28,6 +28,7 @@ import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Structure;
 
 @Repository
@@ -69,10 +70,7 @@ public class StructureDaoImpl implements StructureDao{
 				arrSize++;
 			}
 
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
-				arrSize++;
-			}
+			
 			qry = qry + " GROUP BY w.project_id_fk ";
 
 			Object[] pValues = new Object[arrSize];
@@ -87,9 +85,7 @@ public class StructureDaoImpl implements StructureDao{
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
-			}
+			
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 		} catch (Exception e) {
@@ -124,10 +120,7 @@ public class StructureDaoImpl implements StructureDao{
 				arrSize++;
 			}
 
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
-				arrSize++;
-			}
+			
 			qry = qry + " GROUP BY s.work_id_fk ";
 
 			Object[] pValues = new Object[arrSize];
@@ -142,9 +135,7 @@ public class StructureDaoImpl implements StructureDao{
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
-			}
+			
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 		} catch (Exception e) {
@@ -179,10 +170,7 @@ public class StructureDaoImpl implements StructureDao{
 				arrSize++;
 			}
 
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
-				arrSize++;
-			}
+			
 			qry = qry + " GROUP BY s.contract_id_fk ";
 
 			Object[] pValues = new Object[arrSize];
@@ -197,9 +185,7 @@ public class StructureDaoImpl implements StructureDao{
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
-			}
+			
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 		} catch (Exception e) {
@@ -290,10 +276,7 @@ public class StructureDaoImpl implements StructureDao{
 				arrSize++;
 			}
 
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
-				arrSize++;
-			}
+			
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (w.project_id_fk like ? or p.project_name like ? or s.work_id_fk like ? or w.work_short_name like ? or s.contract_id_fk like ?"
 						+ " or c.contract_short_name like ? or dt.department_name like ? or structure_type_fk like ? or structure like ?)";
@@ -319,10 +302,7 @@ public class StructureDaoImpl implements StructureDao{
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
-			}
-
+			
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -371,11 +351,11 @@ public class StructureDaoImpl implements StructureDao{
 				qry = qry + " and s.contract_id_fk = ?";
 				arrSize++;
 			}
-
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
-				arrSize++;
-			}
+			/*
+						if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+							qry = qry + " and s.department_fk = ?";
+							arrSize++;
+						}*/
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (w.project_id_fk like ? or p.project_name like ? or s.work_id_fk like ? or w.work_short_name like ? or s.contract_id_fk like ?"
 						+ " or c.contract_short_name like ? or dt.department_name like ? or structure_type_fk like ? or structure like ?)";
@@ -405,9 +385,9 @@ public class StructureDaoImpl implements StructureDao{
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+			/*if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
-			}
+			}*/
 
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
@@ -560,10 +540,20 @@ public class StructureDaoImpl implements StructureDao{
 			if(!StringUtils.isEmpty(structure) && !StringUtils.isEmpty(structure.getStructure_id())) {
 				List<Structure> objsList = null;
 				String qryDetails = "select structure_id, structure_type_fk,structure"
-						+ " from structure s  where s.work_id_fk = ? ";
+						+ " from structure s  where s.work_id_fk = ? group by structure_type_fk";
 				
 				objsList = jdbcTemplate.query(qryDetails, new Object[] {structure.getWork_id_fk()}, new BeanPropertyRowMapper<Structure>(Structure.class));	
 				structure.setStructureList(objsList);
+				if(!StringUtils.isEmpty(objsList)) {
+					for(Structure list : structure.getStructureList()) {
+						
+						String qry2 ="select structure_id, structure  from structure s where s.work_id_fk = ? and s.structure_type_fk = ? ";
+						List<Structure> objList1 = jdbcTemplate.query( qry2,new Object[] {structure.getWork_id_fk(),list.getStructure_type_fk()}, new BeanPropertyRowMapper<Structure>(Structure.class));
+
+						list.setStructureSubList(objList1);
+					}
+					
+				}
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -599,11 +589,12 @@ public class StructureDaoImpl implements StructureDao{
 					arraySize = obj.getStructures().length;
 				}
 			}
-			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0 && !StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
+			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0 && !StringUtils.isEmpty(obj.getWork_id_fk()) && obj.getStructures().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
 				    int p = 1;
-				    if( obj.getStructure_type_fks().length > 0 && !StringUtils.isEmpty(obj.getStructure_type_fks()[i])) {
-					    insertStmt.setString(p++,(obj.getWork_id_fk()));
+				    if( obj.getStructure_type_fks().length > 0 ){
+				    	
+			    	    insertStmt.setString(p++,(obj.getWork_id_fk()));
 					    insertStmt.setString(p++,(obj.getContract_id_fk()));
 					    insertStmt.setString(p++,(obj.getDepartment_fk()));
 					    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
@@ -611,10 +602,10 @@ public class StructureDaoImpl implements StructureDao{
 					    insertStmt.addBatch();
 				    }
 				    insertCount = insertStmt.executeBatch();
-				    if(insertCount.length > 0) {
-						flag = true;
-				 }
-			  }
+			}
+			if(insertCount.length > 0) {
+					flag = true;
+			}
 		}
 		
 		   con.commit();
@@ -639,6 +630,7 @@ public class StructureDaoImpl implements StructureDao{
 		int[] insertCount = {};
 		try {
 			con = dataSource.getConnection();
+			con.setAutoCommit(false);
 			con.setAutoCommit(false);
 			String inactiveQry = "DELETE from structure  where work_id_fk = ?";		 
 			stmt = con.prepareStatement(inactiveQry);
@@ -666,7 +658,7 @@ public class StructureDaoImpl implements StructureDao{
 			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0 && !StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
 				    int p = 1;
-				    if( obj.getStructure_type_fks().length > 0 && !StringUtils.isEmpty(obj.getStructure_type_fks()[i])) {
+				    if( obj.getStructure_type_fks().length > 0 && !StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])) {
 					    insertStmt.setString(p++,(obj.getWork_id_fk()));
 					    insertStmt.setString(p++,(obj.getContract_id_fk()));
 					    insertStmt.setString(p++,(obj.getDepartment_fk()));
@@ -675,10 +667,10 @@ public class StructureDaoImpl implements StructureDao{
 					    insertStmt.addBatch();
 				    }
 				    insertCount = insertStmt.executeBatch();
-				    if(insertCount.length > 0) {
-						flag = true;
-				    }
-			  }
+			}
+			if(insertCount.length > 0) {
+				flag = true;
+		    }
 			}
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt1, null);
 			con.commit();
@@ -841,10 +833,7 @@ public class StructureDaoImpl implements StructureDao{
 				arrSize++;
 			}
 
-			if (!StringUtils.isEmpty(structure) && !StringUtils.isEmpty(structure.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
-				arrSize++;
-			}
+			
 			qry = qry +" GROUP BY s.structure_id ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -857,9 +846,7 @@ public class StructureDaoImpl implements StructureDao{
 			if (!StringUtils.isEmpty(structure) && !StringUtils.isEmpty(structure.getContract_id_fk())) {
 				pValues[i++] = structure.getContract_id_fk();
 			}
-			if (!StringUtils.isEmpty(structure) && !StringUtils.isEmpty(structure.getDepartment_fk())) {
-				pValues[i++] = structure.getDepartment_fk();
-			}
+			
 
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 		

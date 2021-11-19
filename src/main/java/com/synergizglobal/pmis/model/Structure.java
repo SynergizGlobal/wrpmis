@@ -10,12 +10,30 @@ public class Structure {
 	private String structure_id,work_id_fk,contract_id_fk,department_fk,structure_type_fk,structure,structure_count,
 	work_name,work_short_name,user_type_fk,user_id,user_role_code,contract_name,contract_short_name,department_name,project_id_fk,project_name,structure_type,
 	id, uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on;
-
+	private int [] subRowsLengths;
 	private MultipartFile structureFile;
 	
 	private String [] structure_type_fks,structures;
 	private List<Structure> structureList;
+	private List<Structure> structureSubList;
 	
+
+	public int[] getSubRowsLengths() {
+		return subRowsLengths;
+	}
+
+	public void setSubRowsLengths(int[] subRowsLengths) {
+		this.subRowsLengths = subRowsLengths;
+	}
+
+	public List<Structure> getStructureSubList() {
+		return structureSubList;
+	}
+
+	public void setStructureSubList(List<Structure> structureSubList) {
+		this.structureSubList = structureSubList;
+	}
+
 	public String getId() {
 		return id;
 	}

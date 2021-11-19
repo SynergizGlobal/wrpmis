@@ -265,8 +265,10 @@
                                       	 <c:when test="${not empty structuresListDetails.structureList && fn:length(structuresListDetails.structureList) gt 0 }">
                                        	 <c:forEach var="dObj" items="${structuresListDetails.structureList }" varStatus="index"> 
                                         <tr id="structureRow${index.count }">
+                                       
                                             <td data-head="Structure Type" class="input-field" >
-                                                <select id="structure_type_fks${index.count }" name="structure_type_fks" class="validate-dropdown searchable">
+                                                <select id="structure_type_fks${index.count }" name="structure_type_fks" class="validate-dropdown searchable" 
+                                                onchange="setStructureTypes(${index.count });">
                                                     <option value="" >Select</option>
                                                     <c:forEach var="obj" items="${structuresList }">
 		                                           			 <option value="${obj.structure_type }" <c:if test="${dObj.structure_type_fk eq obj.structure_type}">selected</c:if>>${obj.structure_type}</option>
@@ -274,20 +276,26 @@
                                                 </select>
                                             </td>
                                            <td data-head="Structure Id" class="input-field no-pad">
-                                           		<c:choose>
-			                                        <c:when test="${not empty (structuresListDetails.structureList) && fn:length(structuresListDetails.structureList) gt 0 }">
-			                                    		<input type="hidden" id="internalRow${index.count }"  name="internalRowNo" value="${fn:length(structuresListDetails.structureList) }" />
-			                                    	</c:when>
-			                                     	<c:otherwise>
-			                                     		<input type="hidden" id="internalRow${index.count }"  name="internalRowNo" value="0" />
-			                                     	</c:otherwise>
-			                                     </c:choose> 
+                                         
                                                     <input type="hidden" name= "ids" id="ids" value="${dObj.structure_id}" />
-                                                    <table class="internal-table" id="structureRow${index.count }-internalTable"><tbody><tr id="internalTableRow${index.count }"><td><input id="structure_id${index.count }_${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${dObj.structure }"></td><td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('${index.count }')"> <i
-                                                        class="fa fa-close"></i></a></td></tr> <tr class="mob-add-btn"><td> 
-		  											<a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onClick="addInternalTableRow('${index.count }')"> <i
-		                                                            class="fa fa-plus" ></i></a>
-		                                        </td></tr></tbody></table>
+                                                    
+                                                 <table class="internal-table" id="structureRow${index.count }-internalTable">
+                                                    <tbody id="internalTable${indexx.count }${index.count }">
+                                                     <c:forEach var="sObj" items="${dObj.structureSubList }" varStatus="indexx"> 
+	                                                     <tr id="internalTableRow${indexx.count }${index.count }">
+		                                                    <td>
+			                                                  <input type="hidden" id="structure_type_fks${indexx.count }${index.count }"   <c:if test="${indexx.count != 1}"> name="structure_type_fks"</c:if> value="${dObj.structure_type_fk }"/>
+			                                                    <input id="structure_id${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${sObj.structure }"></td>
+		                                                    <td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('${indexx.count }${index.count }','${index.count }')">
+		                                                     <i class="fa fa-close"></i></a></td></tr> 
+		                                      
+		                                         </c:forEach>
+		                                          <tr class="mob-add-btn"><td> 
+			  												<a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onClick="addInternalTableRow('${indexx.count }${index.count }','${index.count }')"> <i
+			                                                            class="fa fa-plus" ></i></a>
+			                                        </td></tr>
+		                                        </tbody>
+		                                        </table>
                                                     <%-- <input id="structure_id${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${dObj.structure }"> --%>
                                            </td>                                            
                                             <td class="mobile_btn_close">
@@ -295,12 +303,22 @@
                                                         class="fa fa-close"></i></a>
                                             </td>
                                         </tr>
+                                       <c:choose>
+                                        <c:when test="${not empty (dObj.structureSubList) && fn:length(dObj.structureSubList) gt 0 }">
+                                    		<input type="hidden" id="internalRow${indexx.count }${index.count }"  name="internalRowNo" value="${fn:length(dObj.structureSubList) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="internalRow${indexx.count }${index.count }"  name="internalRowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose>
                                         </c:forEach>
                                        </c:when>
                                        	<c:otherwise>
                                        <tr id="structureRow0">
+                                        
                                             <td data-head="Structure Type" class="input-field">
-                                                  <select id="structure_type_fks0" name="structure_type_fks" class="validate-dropdown searchable">
+                                                  <select id="structure_type_fks0" name="structure_type_fks" class="validate-dropdown searchable" 
+                                                   onchange="setStructureTypes(0);">
                                                     <option value="" >Select</option>
                                                     <c:forEach var="obj" items="${structuresList }">
 		                                           			 <option value="${obj.structure_type }">${obj.structure_type}</option>
@@ -309,19 +327,30 @@
                                             </td>                                            
                                            <td data-head="Structure Id" class="input-field no-pad"> 
                                                <c:choose>
-			                                        <c:when test="${not empty (structuresListDetails.structureList) && fn:length(structuresListDetails.structureList) gt 0 }">
-			                                    		<input type="hidden" id="internalRow0"  name="internalRowNo" value="${fn:length(structuresListDetails.structureList) }" />
+			                                        <c:when test="${not empty (dObj.structureSubList) && fn:length(dObj.structureSubList) gt 0 }">
+			                                    		<input type="hidden" id="internalRow00"  name="internalRowNo" value="${fn:length(dObj.structureSubList) }" />
 			                                    	</c:when>
 			                                     	<c:otherwise>
-			                                     		<input type="hidden" id="internalRow0"  name="internalRowNo" value="0" />
+			                                     		<input type="hidden" id="internalRow00"  name="internalRowNo" value="0" />
 			                                     	</c:otherwise>
 			                                     </c:choose> 
-												<table class="internal-table" id="structureRow0-internalTable"><tbody><tr id="internalTableRow0"><td><input id="structure_id0_0" name="structures" type="text" class="validate"
-                                                        placeholder="Structure Id"></td><td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('0')"> <i
-                                                        class="fa fa-close"></i></a></td></tr><tr class="mob-add-btn"><td> 
-		  											<a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onClick="addInternalTableRow('0')"> <i
-		                                                            class="fa fa-plus" ></i></a>
-		                                        </td></tr></tbody></table>                                                        
+												<table class="internal-table" id="structureRow0-internalTable">
+												<tbody id="internalTable00">
+													<!-- <input type="hidden" id="subRowsLengths00" name="subRowsLengths"/>	 -->
+													<tr id="internalTableRow00"><td>
+													<input id="structure_id0_0" name="structures" type="text" class="validate"
+	                                                        placeholder="Structure Id"></td><td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('00','0')"> <i
+	                                                        class="fa fa-close"></i></a></td>
+	                                               </tr><tr class="mob-add-btn"><td> 
+			  											<a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onClick="addInternalTableRow('00','0')"> <i
+			                                                            class="fa fa-plus" ></i></a>
+			                                        </td></tr>
+				                                    <!--  <script>
+														 var len = $("#internalTable0 tr").length-1;
+															 $("#subRowsLengths0").val(len);
+				                                     </script> -->
+			                                    </tbody>
+		                                        </table>                                                        
                                             </td>
                                             <td class="mobile_btn_close">
                                                 <a  onclick="removeStructureRow('0');" class="btn waves-effect waves-light red t-c "> <i
@@ -355,7 +384,7 @@
                             </div>
                         </div>
                         
-						<c:if test="${action eq 'edit'}">	
+					<c:if test="${action eq 'edit'}">	
 						<div class="row">                            
                              <div class="col s6 m4 offset-m2  input-field" id="loa_date_div">
                                  <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker">
@@ -369,7 +398,7 @@
                                  <span id="structure_valueError" class="error-msg" ></span>
                              </div>
                          </div>
-	                     </c:if>     
+	                 </c:if>   
 	                            
                         <div class="container container-no-margin">
                             <div class="row">
@@ -557,6 +586,7 @@
             	projectId = workId.substring(0, 3);    
        			$("#project_id_fk").val(projectId);
        			$("#project_id_fk").select2();
+       		    document.getElementById("project_idError").innerHTML="";
        		}
        		$(".page-loader").hide();
         }
@@ -585,16 +615,16 @@
             var rNo = Number(rowNo)+1;
           
              var html = '<tr id="structureRow'+rNo+'">'
-             			+'<td data-head="Structure Type" class="input-field"><select id="structure_type_fks'+rNo+'" name="structure_type_fks" class="validate-dropdown searchable">'
+             			+'<td data-head="Structure Type" class="input-field"><select id="structure_type_fks'+rNo+'" name="structure_type_fks" class="validate-dropdown searchable" onchange="setStructureTypes('+rNo+');">'
              			+'<option value="" >Select</option>'
 			               <c:forEach var="obj" items="${structuresList }">
 			              	+'<option value="${obj.structure_type }">${obj.structure_type}</option>'
 			               </c:forEach>
            				+'</select></td>'
-           				+'<td data-head="Structure Id" class="input-field no-pad"><input type="hidden" id="internalRow'+rNo+'"  name="internalRowNo" value="0" /> <table class="internal-table" id="structureRow'+rNo+'-internalTable"><tbody>'
-           				+'<tr id="internalTableRow'+rNo+'"><td><input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
-           				+'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c " onclick="removeStructureInternalRow('+rNo+')"> <i class="fa fa-close"></i></a></td></tr>'
-           				+'<tr class="mob-add-btn"><td> <a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onclick="addInternalTableRow('+rNo+')"> <i class="fa fa-plus"></i></a>'
+           				+'<td data-head="Structure Id" class="input-field no-pad"><input type="hidden" id="internalRow'+rNo+rNo+'"  name="internalRowNo" value="0" /> <table class="internal-table" id="structureRow'+rNo+'-internalTable"><tbody id="internalTable'+rNo+'">'
+           				+'<tr id="internalTableRow'+rNo+rNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+rNo+'"/><input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
+           				+'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c " onclick="removeStructureInternalRow('+rNo+rNo+','+rNo+')"> <i class="fa fa-close"></i></a></td></tr>'
+           				+'<tr class="mob-add-btn"><td> <a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onclick="addInternalTableRow('+rNo+rNo+','+rNo+')"> <i class="fa fa-plus"></i></a>'
            				+'</td></tr></tbody></table></td>'
            				//+'<td data-head="Structure Id" class="input-field">'
                			//+'<input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"> </td>'
@@ -611,21 +641,46 @@
 				$("#structureRow"+rowNo).remove();
 			}
 			
-			function addInternalTableRow(ind){
+			function addInternalTableRow(ind,tableNo){
 				var rowNo=$('#internalRow'+ind).val();
 				var rNo = Number(rowNo)+1;
+				/* var len = $("#internalTable"+rNo+" tr").length-1;
+				$("#subRowsLengths"+rNo).val(len); */
+				var structureType = $("#structure_type_fks"+tableNo).val();
 				
-				var html = '<tr id="internalTableRow'+rNo+'"><td><input id="structure_id'+ind+'_'+rNo+'" name="structures" type="text" class="validate"'
+				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+tableNo+rNo+'"/><input id="structure_id'+ind+'_'+rNo+'" name="structures" type="text" class="validate"'
 						   +'placeholder="Structure Id"></td><td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" '
-						   +'onclick="removeStructureInternalRow('+rNo+')"> <i class="fa fa-close"></i></a></td></tr>';
+						   +'onclick="removeStructureInternalRow('+rNo+tableNo+','+tableNo+')"> <i class="fa fa-close"></i></a></td></tr>';
 
-			 $('#structureRow'+ind+'-internalTable tbody tr:last').prev().after(html);
-			 $("#internalRow"+ind).val(rNo);
+			   $('#structureRow'+tableNo+'-internalTable tbody tr:last').prev().after(html);
+			   $("#internalRow"+ind).val(rNo);
+			   $("#structure_type_fks"+rNo+tableNo+rNo).val(structureType);
+			  // $("#subRowsLengths"+ind).val(rNo+1);
 			}
 			
-			function removeStructureInternalRow(rowNo){
+			function removeStructureInternalRow(rowNo,ind){
 				$("#internalTableRow"+rowNo).remove();
+				var row = $('#structureRow'+ind+'-internalTable tbody tr td input')[0]; //get the first row of the tbody
+				var structureId = $(row).attr('id');
+				$("#"+structureId).removeAttr('name');
+				var len = $("#internalTable"+ind+" tr").length-1;
+				var rNo = Number(len) - 1;
+				$("#internalRow"+ind).val(rNo); 
+				//$("#subRowsLengths"+ind).val(len);
 			}
+			
+			
+			function setStructureTypes(rNo){
+				 var structureType = $("#structure_type_fks"+rNo).val();
+				$('#structureRow'+rNo+'-internalTable input[name="structure_type_fks"]').each(function(index,val){ $(val).val(structureType);});
+				var row = $('#structureRow'+rNo+'-internalTable tbody tr td input')[0]; //get the first row of the tbody
+				var structureId = $(row).attr('id');
+				if (structureId.indexOf("structure_type_fks") >= 0){
+					$("#"+structureId).removeAttr('name');
+				}
+				
+			}
+			
 			
 		    var validator =	$('#structureForm').validate({
 				 errorClass: "my-error-class",
@@ -644,13 +699,13 @@
 		  		 	},
 		  		    messages: {
 		  		 		 "project_id_fk": {
-		  				 	required: 'This field is required',
+		  				 	required: 'Required',
 		  			 	  },"work_id_fk": {
-		  			 		required: ' This field is required'
+		  			 		required: 'Required'
 		  			 	  },"contract_id_fk": {
-		  		 			required: ' This field is required'
+		  		 			required: 'Required'
 		  		 	  	  },"department_fk": {
-		  		 			required: ' This field is required'
+		  		 			required: 'Required'
 		  		 	  	  }
 			   		},
 			   		errorPlacement:function(error, element){

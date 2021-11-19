@@ -616,14 +616,13 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					
 					if(aObj.getActual_for_the_day()!=null)
 					{
-						if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
+						if(aObj.getActual_for_the_day()!=null)
 						{
-							pValues[i++] = 0;
-
+							pValues[i++] = aObj.getActual_for_the_day();
 						}
 						else
 						{
-							pValues[i++] = aObj.getActual_for_the_day();
+							pValues[i++] = 0;
 						}
 					}
 					else

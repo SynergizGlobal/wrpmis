@@ -106,6 +106,29 @@
     opacity:0 !important;
     content:'' !important;
 }
+tbody tr td:last-of-type,
+thead tr th:last-of-type{
+	max-width:100px;
+	width:100px;
+}
+    .m-n1 {
+        margin: -2rem auto 0;
+    }
+
+    .template-btn {
+        text-shadow: 1px 1px 1px black;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .mob-mar {
+            text-align: left;
+        }
+
+        .exportButton .btn {
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+    }
     </style>
 </head>
 <body>
@@ -114,7 +137,7 @@
          <jsp:include page="../layout/header.jsp"></jsp:include>
 
 	<div class="row">
-		<div class="col s12 m12 hide-on-med-and-down">
+		<%-- <div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -161,24 +184,39 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --%>
 		<div class="row no-mar">
 			<div class="col s12 m12">
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6 class="hide-on-med-and-down">Update Structure</h6>
-								<h6 class="hide-on-large-only">Structure</h6>
+								<!-- <h6 class="hide-on-med-and-down">Update Structure</h6> -->
+								<h6 class="mob-mar">Structure</h6>
+								<div class="col s12 m12 right-align exportButton">
+							    <div class="m-n1">
+							        <a href="<%=request.getContextPath()%>/add-structure-form"
+																	class="btn waves-effect waves-light bg-s t-c"> <strong><i
+																		class="fa fa-plus-circle"></i> Add</strong></a>
+									<a href="javascript:void(0);" onclick="exportStructure();"
+																	class="btn waves-effect waves-light bg-s t-c"> <strong><i
+																		class="fa fa-cloud-download"></i> Export</strong></a>
+							    </div>
+							</div>
 							</div>
 						</span>
 						<div class="row no-mar">
 							<div class="col s12 m12">
 								<div class="row">
-									<div class="col s12 hide-on-large-only mb-md-2 center-align">
-									    <a href="<%=request.getContextPath()%>/add-structure-form"
-									        class="btn waves-effect waves-light bg-s t-c"> <strong><i
-									            class="fa fa-plus-circle"></i> Add Structure</strong></a>
+									<div class="row clearfix">
+									    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									        <c:if test="${not empty success }">
+									            <div class="center-align m-1 close-message">${success}</div>
+									        </c:if>
+									        <c:if test="${not empty error }">
+									            <div class="center-align m-1 close-message">${error}</div>
+									        </c:if>
+									    </div>
 									</div>
 									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Project</p>
@@ -252,9 +290,9 @@
 											<tr>
 												<th>Work </th>
 												<th>Structures </th>
-												<th>Structure Id </th>
+												<!-- <th>Structure Id </th>
 												<th>Contract </th>
-												<th>Work Status </th>
+												<th>Work Status </th> -->
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -716,6 +754,7 @@
 											},
 											// {targets:[1,2,4,5], className: 'hideCOl'},
 											{ targets: [0], className: 'no-sort'  },
+											{ targets: [1], className: 'last-column'  },
 											//{ targets: [0,3], className: 'fw-111'  }  
 											],
 											"sScrollX" : "100%",
@@ -746,7 +785,7 @@
 						            	}
 						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return structureType; }
 						            } },
-						            { "mData": function(data,type,row){
+						           /*  { "mData": function(data,type,row){
 						            	if($.trim(data.department_fk) == ''){ return '-'; }else{ return data.department_name; }
 						            } },
 						            { "mData": function(data,type,row){
@@ -756,7 +795,7 @@
 						         		var contract_short_name = '';
 						         		if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) } 
 						            	if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contract_short_name; }
-						            } },
+						            } }, */
 						         	{ "mData": function(data,type,row){
 						         		var structure_id = "'"+data.structure_id+"'";
 					                    var actions = '<a href="javascript:void(0);"  onclick="getStructure('+structure_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';

@@ -244,7 +244,12 @@
 		 .datepicker~button ,
 		 .datepicker-max-today~button{
 		    bottom: 1.5rem;
-		}        
+		} 
+		
+		 .datepicker~button ,
+		 .datepicker-max-button{
+		    bottom: 1.5rem;
+		} 		       
         
     </style>
      <style>
@@ -754,6 +759,41 @@
 	                });
 	        }, 500);
 	    };
+	    $(document).on('focus', '.datepicker-max', function () {        	 
+			var id = $(this).attr('id');
+				var dt = this.value.split('-');
+			    this.value = "";
+			    var options = {
+			    	//maxDate: new Date(),
+			    	format: 'dd-mmm-yy',
+			        autoClose: true,
+			        onOpen: datePickerSelectAddClass,
+			        showClearBtn: true,
+			        onClose: function () {
+			            if (!$(this.el).val()) {
+			                $(this.el).siblings('label').removeClass('active');
+			            }
+			        }
+			    };
+			    if (dt.length > 1) {			    	
+			        var year=(dt[2] < 80)?Number(dt[2])+2000:Number(dt[2])+1900;
+			        var month=monthShortCode.indexOf(dt[1]);
+			        options.setDefaultDate = true,
+			        options.defaultDate = new Date(year, month, dt[0])
+			    }
+			    M.Datepicker.init(this, options);		       
+		 });
+	    
+		 
+		 $(document).on('focus', '.datepicker-max-button', function () { 
+			 var id = $(this).attr('id').split('_i')[0];
+		     $('#'+id+'_icon').click(function () {
+		         event.stopPropagation();
+		         $('#'+id).focus().click();
+		     });
+		 }); 	    
+	    
+	    
 	    $(document).on('focus', '.datepicker-max-today', function () {        	 
 			var id = $(this).attr('id');
 				var dt = this.value.split('-');
@@ -778,6 +818,8 @@
 			    }
 			    M.Datepicker.init(this, options);		       
 		 });
+	    
+	    
 		 $(document).on('focus', '.datepicker-max-today-button', function () { 
 			 var id = $(this).attr('id').split('_i')[0];
 		     $('#'+id+'_icon').click(function () {
@@ -785,6 +827,7 @@
 		         $('#'+id).focus().click();
 		     });
 		 }); 
+		 
 		 
 	    var filtersMap = new Object();
 	    var structureVal = "";
@@ -1391,8 +1434,8 @@
  	            	 						{
  	            	 							disDisabled="readonly";
  	            	 						}
-				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max-today" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
-				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max-today" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
+				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
+				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
 				 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
 		 	            	 						 	            	 			
  	            	 				}

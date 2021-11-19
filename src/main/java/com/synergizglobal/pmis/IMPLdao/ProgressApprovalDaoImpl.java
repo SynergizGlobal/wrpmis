@@ -550,7 +550,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 					+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
 					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
-					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope "
+					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope,ap.planned_start,ap.planned_finish "
 					+ "from approvable_activity_progress ap "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
 					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
@@ -582,13 +582,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						arrSize++;
 					}
 					
+	
 					
-					if(scope == (completed+actual_for_the_day)) {
-						updateQry = updateQry + ", planned_finish = ?";
-						arrSize++;
-					}	
-					
-					if(scope==completed)
+					if(scope == (completed+actual_for_the_day)) 
 					{
 						updateQry = updateQry + ", actual_finish = ?";
 						arrSize++;
@@ -600,30 +596,44 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						arrSize++;						
 					}
 					
+					if(aObj.getPlanned_start()!=null)
+					{
+						
+						updateQry = updateQry + ", planned_start = ?";
+						arrSize++;						
+					}
+					
+					if(aObj.getPlanned_finish()!=null)
+					{
+						
+						updateQry = updateQry + ", planned_finish = ?";
+						arrSize++;						
+					}					
+					
 					updateQry = updateQry + " WHERE activity_id = ?";
 					
 					pValues = new Object[arrSize];
 					int i = 0;	
-					if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
+					if(aObj.getUpdated_scope()==null)
 					{
-						pValues[i++] = 0;
+						pValues[i++] = aObj.getCompleted();	
 
 					}
 					else
 					{
-						pValues[i++] = aObj.getCompleted();	
+						if(Float.parseFloat(aObj.getUpdated_scope())==0)
+						{
+							pValues[i++] = 0;	
+						}
+						else
+						{
+							pValues[i++] = aObj.getCompleted();	
+						}
 					}
 					
 					if(aObj.getActual_for_the_day()!=null)
 					{
-						if(aObj.getActual_for_the_day()!=null)
-						{
-							pValues[i++] = aObj.getActual_for_the_day();
-						}
-						else
-						{
-							pValues[i++] = 0;
-						}
+						pValues[i++] = aObj.getActual_for_the_day();
 					}
 					else
 					{
@@ -631,39 +641,62 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					}
 					if(completed == 0) 
 					{
-						if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
-						{
-							pValues[i++] = null;
-
-						}
-						else
+						if(aObj.getUpdated_scope()==null)
 						{
 							pValues[i++] = aObj.getProgress_date();
-						}
-					}
-					if(scope == (completed+actual_for_the_day)) {
-						pValues[i++] = aObj.getProgress_date();
-					}
-					
-					
-					if(scope==completed)
-					{
-						
-						if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
-						{
-							pValues[i++] = null;
 
 						}
 						else
 						{
+							if(Float.parseFloat(aObj.getUpdated_scope())==0)
+							{
+								pValues[i++] = null;	
+							}
+							else
+							{
+								pValues[i++] = aObj.getProgress_date();	
+							}
+						}
+					}
+			
+					
+					if(scope==completed+actual_for_the_day)
+					{
+						
+						if(aObj.getUpdated_scope()==null)
+						{
 							pValues[i++] = getActivityMaxProgressDate(aObj.getActivity_id());
-						}						
+
+						}
+						else
+						{
+							if(Float.parseFloat(aObj.getUpdated_scope())==0)
+							{
+								pValues[i++] = null;	
+							}
+							else
+							{
+								pValues[i++] = getActivityMaxProgressDate(aObj.getActivity_id());
+							}
+						}					
 					}					
 					
 					if(aObj.getUpdated_scope()!=null && Float.parseFloat(aObj.getUpdated_scope())>=0)
 					{
 						pValues[i++] = aObj.getUpdated_scope();
 					}
+					
+					if(aObj.getPlanned_start()!=null)
+					{
+						
+						pValues[i++] = aObj.getPlanned_start();						
+					}
+					
+					if(aObj.getPlanned_finish()!=null)
+					{
+						
+						pValues[i++] = aObj.getPlanned_finish();						
+					}						
 					
 					pValues[i++] = aObj.getActivity_id();
 					
@@ -679,18 +712,23 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						jdbcTemplate.update( pQry,new Object[]{aObj.getProgress_id()});
 						
 						
-						if(Float.parseFloat(aObj.getUpdated_scope()==null?"0":aObj.getUpdated_scope())==0)
+						if(aObj.getUpdated_scope()!=null)
 						{
-							Connection con = null;
-							PreparedStatement stmt = null;
-							con = dataSource.getConnection();
-							
-							String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
-							stmt = con.prepareStatement(deleteQry);
-							stmt.setString(1,aObj.getActivity_id());
-							stmt.executeUpdate();
-							if(stmt != null){stmt.close();}
-						}						
+							if(Float.parseFloat(aObj.getUpdated_scope())==0)
+							{
+								Connection con = null;
+								PreparedStatement stmt = null;
+								con = dataSource.getConnection();
+								
+								String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
+								stmt = con.prepareStatement(deleteQry);
+								stmt.setString(1,aObj.getActivity_id());
+								stmt.executeUpdate();
+								if(stmt != null){stmt.close();}
+							}
+						}
+
+												
 						
 						aObj.setMessage_flag(true);
 						aObj.setMessage("Activity progress approved");
@@ -771,7 +809,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 						+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
 						+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
-						+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope "
+						+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope,ap.planned_start,ap.planned_finish "
 						+ "from approvable_activity_progress ap "
 						+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
 						+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
@@ -821,11 +859,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 							updateQry = updateQry + ", actual_start = ?";
 							arrSize++;
 						}				
-						if(scope == (completed+actual_for_the_day)) {
-							updateQry = updateQry + ", planned_finish = ?";
-							arrSize++;
-						}
-						if(scope==completed)
+						if(scope == (completed+actual_for_the_day)) 
 						{
 							updateQry = updateQry + ", actual_finish = ?";
 							arrSize++;
@@ -836,21 +870,45 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 							
 							updateQry = updateQry + ", Scope = ?";
 							arrSize++;						
+						}
+						
+						if(activity.getPlanned_start()!=null)
+						{
+							
+							updateQry = updateQry + ", planned_start = ?";
+							arrSize++;						
+						}
+						
+						if(activity.getPlanned_finish()!=null)
+						{
+							
+							updateQry = updateQry + ", planned_finish = ?";
+							arrSize++;						
 						}						
+						
+						
 						
 						updateQry = updateQry + " WHERE activity_id = ?";
 						
 						Object[] pValues = new Object[arrSize];
 						int i = 0;			
-						if(Float.parseFloat(activity.getUpdated_scope()==null?"0":activity.getUpdated_scope())==0)
+					
+						if(activity.getUpdated_scope()==null)
 						{
-							pValues[i++] = 0;
+							pValues[i++] = activity.getCompleted();	
 
 						}
 						else
 						{
-							pValues[i++] = activity.getCompleted();	
-						}
+							if(Float.parseFloat(activity.getUpdated_scope())==0)
+							{
+								pValues[i++] = 0;	
+							}
+							else
+							{
+								pValues[i++] = activity.getCompleted();	
+							}
+						}						
 						
 						if(activity.getActual_for_the_day()!=null)
 						{
@@ -862,34 +920,62 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						}
 						if(completed == 0) 
 						{
-							if(Float.parseFloat(activity.getUpdated_scope()==null?"0":activity.getUpdated_scope())==0)
+							
+							if(activity.getUpdated_scope()==null)
 							{
-								pValues[i++] = null;
+								pValues[i++] = activity.getProgress_date();	
 
 							}
 							else
 							{
-								pValues[i++] = activity.getProgress_date();
-							}							
+								if(Float.parseFloat(activity.getUpdated_scope())==0)
+								{
+									pValues[i++] = null;	
+								}
+								else
+								{
+									pValues[i++] = activity.getProgress_date();	
+								}
+							}								
+						
 						}
-						if(scope == (completed+actual_for_the_day)) {
-							pValues[i++] = activity.getProgress_date();
-						}
-						if(scope==completed)
+						if(scope == (completed+actual_for_the_day))
 						{
-							if(Float.parseFloat(activity.getUpdated_scope()==null?"0":activity.getUpdated_scope())==0)
-							{
-								pValues[i++] = null;
-
-							}
-							else
+							
+							if(activity.getUpdated_scope()==null)
 							{
 								pValues[i++] = getActivityMaxProgressDate(activity.getActivity_id());
+
+							}
+							else
+							{
+								if(Float.parseFloat(activity.getUpdated_scope())==0)
+								{
+									pValues[i++] = null;	
+								}
+								else
+								{
+									pValues[i++] = getActivityMaxProgressDate(activity.getActivity_id());
+								}
 							}							
+						
 						}
 						if(activity.getUpdated_scope()!=null && Float.parseFloat(activity.getUpdated_scope())>=0)
 						{
 							pValues[i++] = activity.getUpdated_scope();
+						}	
+						
+						
+						if(activity.getPlanned_start()!=null)
+						{
+							
+							pValues[i++] = activity.getPlanned_start();						
+						}
+						
+						if(activity.getPlanned_finish()!=null)
+						{
+							
+							pValues[i++] = activity.getPlanned_finish();						
 						}						
 						
 						
@@ -905,15 +991,19 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 									+ "FROM approvable_activity_progress "
 									+ "WHERE progress_id = ?";
 							jdbcTemplate.update( pQry,new Object[]{activity.getProgress_id()});
+						
 							
-							if(Float.parseFloat(activity.getUpdated_scope()==null?"0":activity.getUpdated_scope())==0)
+							if(activity.getUpdated_scope()!=null)
 							{
-								String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
-								stmt = con.prepareStatement(deleteQry);
-								stmt.setString(1,activity.getActivity_id());
-								stmt.executeUpdate();
-								if(stmt != null){stmt.close();}
-							}
+								if(Float.parseFloat(activity.getUpdated_scope())==0)
+								{
+									String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
+									stmt = con.prepareStatement(deleteQry);
+									stmt.setString(1,activity.getActivity_id());
+									stmt.executeUpdate();
+									if(stmt != null){stmt.close();}
+								}
+							}							
 							
 							successCount++;
 						}else {

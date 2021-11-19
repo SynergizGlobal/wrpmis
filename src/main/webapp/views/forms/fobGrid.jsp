@@ -92,7 +92,24 @@
 		opacity:0 !important;
 		content:'' !important;
 	}
-     
+   .m-n1 {
+        margin: -2rem auto 0;
+    }
+
+    .template-btn {
+        text-shadow: 1px 1px 1px black;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .mob-mar {
+            text-align: left;
+        }
+
+        .exportButton .btn {
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+    }
     
     </style>
 </head>
@@ -100,7 +117,7 @@
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 		<c:if test="${(sessionScope.USER_TYPE eq 'DyHOD') or (sessionScope.USER_TYPE eq 'HOD') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
-			<div class="row no-mar" style="margin-bottom:0;">
+		<%-- 	<div class="row no-mar" style="margin-bottom:0;">
 			<div class="col s12 m12 hide-on-med-and-down ">
 				<div class="card">
 					<div class="card-content">
@@ -131,7 +148,7 @@
 					</div>
 				</div>
 			</div>
-		  </div>
+		  </div> --%>
 		</c:if>
 		<div class="row">
 			<div class="col s12 m12">
@@ -139,8 +156,20 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6 class="hide-on-med-and-down">Update FOB</h6>
-								<h6 class="hide-on-large-only">FOB</h6>
+								<!-- <h6 class="hide-on-med-and-down">Update FOB</h6> -->
+								<h6 class="mob-mar">FOB</h6>
+								<c:if test="${(sessionScope.USER_TYPE eq 'DyHOD') or (sessionScope.USER_TYPE eq 'HOD') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
+									<div class="col s12 m12 right-align exportButton">
+									    <div class="m-n1">
+									        <a href="<%=request.getContextPath()%>/add-fob-form"
+												class="btn waves-effect waves-light bg-s t-c"> <strong><i
+													class="fa fa-plus-circle"></i> Add</strong></a>
+											<a href="javascript:void(0);" onclick="exportFOB();"
+												class="btn waves-effect waves-light bg-s t-c"> <strong><i
+													class="fa fa-cloud-download"></i> Export</strong></a>
+									    </div>
+									</div>
+								</c:if>
 							</div>
 						</span>
 						

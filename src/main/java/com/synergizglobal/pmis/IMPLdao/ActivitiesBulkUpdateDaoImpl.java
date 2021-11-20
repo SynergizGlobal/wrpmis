@@ -1027,8 +1027,16 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			 }
 			 
 			String[] SplitScope=obj.getScope().split(",");
-			String[] SplitPlannedStart=obj.getPlanned_start().split(",");
-			String[] SplitPlannedFinish=obj.getPlanned_finish().split(",");
+			String[] SplitPlannedStart=null;
+			String[] SplitPlannedFinish=null;
+			if(obj.getPlanned_start()!=null)
+			{
+				SplitPlannedStart=obj.getPlanned_start().split(",");
+			}
+			if(obj.getPlanned_finish()!=null)
+			{
+				SplitPlannedFinish=obj.getPlanned_finish().split(",");
+			}
 			String Message="Scope";
 			
 			for (int i = 0; i < arraySize; i++) 
@@ -1043,7 +1051,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			    	Float Str=Float.parseFloat(Str2[i]);
 
 			    	boolean insertFlag=false;		
-			    	if((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") || SplitPlannedStart.length>0 || SplitPlannedFinish.length>0)
+			    	if((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") || (obj.getPlanned_start()!=null) || (obj.getPlanned_finish()!=null))
 			    	{
 				    	String Prdate=null;
 						if(!StringUtils.isEmpty(obj.getProgress_date())) 

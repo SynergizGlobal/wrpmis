@@ -246,9 +246,16 @@
 		    bottom: 1.5rem;
 		} 
 		
-		 .datepicker-max~button{
-		    bottom: 1.5rem;
-		} 		       
+.datepicker-max~button {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border: 0;
+    opacity: 0.7;
+    cursor: pointer;
+    background-color: transparent;
+     bottom: 1.5rem;
+}		       
         
     </style>
      <style>
@@ -1433,8 +1440,8 @@
  	            	 						{
  	            	 							disDisabled="readonly";
  	            	 						}
-				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max-today" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
-				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max-today" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
+				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
+				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
 				 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
 		 	            	 						 	            	 			
  	            	 				}

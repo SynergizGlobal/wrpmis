@@ -822,7 +822,7 @@
         	                    		if(parseFloat(val.total_scope)<parseFloat(val.cumulative_completed)+parseFloat(val.actual_for_the_day))
         	                    		{
         	                    			disabledval="disabled";
-        	                    		    concat='&nbsp;&nbsp;&nbsp;<a href="#" style="font-size:15px;"><span class="fa fa-info-circle fa-1x" style="color:#469408;" data-toggle="tooltip" title="Activity Scope Completed"></span></a>';
+        	                    		    concat='&nbsp;&nbsp;&nbsp;<a href="#" style="font-size:15px;"><span class="fa fa-info-circle fa-2x" style="color:#469408;" data-toggle="tooltip" title="Activity Scope Completed"></span></a>';
         	                    		}
         	                    		
 	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'"  '+disabledval+' /><span></span></label></p>';

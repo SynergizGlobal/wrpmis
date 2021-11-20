@@ -50,7 +50,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 					+ "ap.created_by_user_id_fk,aph.dyhod_user_id_fk,u.user_name as updated_by,approved_or_rejected_by,"
 					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
-					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope "
+					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope,ap.planned_start,ap.planned_finish "
 					+ "from approvable_activity_progress_dyhod aph "
 					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
@@ -762,6 +762,18 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		return aObj;
 	}
 	
+	private String getCompletedValue(String activity_id) throws Exception
+	{
+		String Completed="";
+		try {
+			String qry = "select IFNULL(Completed,0) as Completed from activities where activity_id = ?";
+			Completed = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return Completed;
+	}	
+	
 	@Override
 	public Activity rejectActivityProgress(Activity obj) throws Exception {
 		Activity aObj = new Activity();
@@ -835,8 +847,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					pValues[p] = progress_ids[p].trim();
 				}
 				List<Activity> objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
-				for (Activity activity : objsList) {
-					approvableList.add(activity);	
+				for (Activity activityRows : objsList) {
+					approvableList.add(activityRows);	
 				}
 			}
 			
@@ -848,7 +860,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			if(!StringUtils.isEmpty(approvableList) && approvableList.size() > 0) {
 				for (Activity activity : approvableList) {
 					float scope = Float.parseFloat(activity.getScope());
-					float completed = Float.parseFloat(activity.getCompleted());
+					float completed = Float.parseFloat(getCompletedValue(activity.getActivity_id()));
 					float remaining = Float.parseFloat(activity.getRemaining_scope());
 					float actual_for_the_day = Float.parseFloat(activity.getActual_for_the_day()==null?"0":activity.getActual_for_the_day());
 					if((completed+actual_for_the_day) <= scope) {
@@ -895,7 +907,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					
 						if(activity.getUpdated_scope()==null)
 						{
-							pValues[i++] = activity.getCompleted();	
+							pValues[i++] = completed;
 
 						}
 						else

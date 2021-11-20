@@ -291,7 +291,7 @@ public class ActivitiesBulkUpdateController {
 			//obj.setProgress_date(DateParser.parse(obj.getProgress_date()));
 			boolean flag =  activitiesBulkUpdateService.updateAcivitiesBulk(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Acivities are Updated Succesfully.");
+				attributes.addFlashAttribute("success", "Acivities Updated Succesfully.");
 			}
 			else {
 				attributes.addFlashAttribute("error","Updating Acivities are failed. Try again.");

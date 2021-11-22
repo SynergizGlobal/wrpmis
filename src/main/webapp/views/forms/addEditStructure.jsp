@@ -235,7 +235,7 @@ td label.btn.bg-m{
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Work </p>
                                      <select class="searchable validate-dropdown no-z" id="work_id_fk" name="work_id_fk"
-                                   		  onchange="getContractsList(this.value);resetProject();">
+                                   		  onchange="resetProject();">  <!-- getContractsList(this.value); -->
                                    		  <option value="" >Select</option>
                                    		  	 <c:forEach var="obj" items="${worksList }">
 	                                      	   		<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -339,6 +339,9 @@ td label.btn.bg-m{
 											                                    <p class="searchable_label">Work Status </p>
 											                                    <select id="work_status_fk${indexx.count }${index.count }" name="work_status_fk"  class="searchable validate-dropdown">
 											                                        <option value="">Select</option>
+											                                         <c:forEach var="obj" items="${workStatusList}">
+																						<option value="${obj.work_status_fk }" >${obj.work_status_fk }</option>
+																					</c:forEach>
 											                                     </select>
 											                                    <span id="work_status_fk${indexx.count }${index.count }Error" class="error-msg" ></span>
 											                                </div>
@@ -357,7 +360,10 @@ td label.btn.bg-m{
 											                                    <span id="estimated_cost${indexx.count }${index.count }Error" class="error-msg" ></span> 
 											                                	<span id="estimated_cost_units${indexx.count }${index.count }Error" class="error-msg right" ></span>
 											                                    <select class="validate-dropdown" id="estimated_cost_units${indexx.count }${index.count }" name="estimated_cost_units">
-											                                		<option value="">Select</option>                                		
+											                                		<option value="">Select</option>    
+											                                		<c:forEach var="obj" items="${unitsList}">
+																						<option value="${obj.value }" >${obj.unit }</option>
+																					</c:forEach>                              		
 											                                	</select>
 											                                </div>
 										                                	 <div class="col s6 input-field">
@@ -396,14 +402,20 @@ td label.btn.bg-m{
 																			    <tbody id="structureResponsibleBody${indexx.count }${index.count }${index.count }">
 																			        <tr id="structureResponsibleRow${indexx.count }${index.count }${index.count }">
 																			            <td data-head="Department" class="input-field">
-																			                <select class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk${indexx.count }${index.count }${index.count }">
+																			                <select class="searchable validate-dropdown contracts_id_fk" name="contracts_id_fk" id="contract_id_fk${indexx.count }${index.count }${index.count }">
 																			                    <option value="">Select</option>
+																			                    <c:forEach var="obj" items="${contractsList}">
+																									<option value="${obj.contract_id_fk }" >${obj.contract_short_name }</option>
+																								</c:forEach>
 																			                </select>
 																			            </td>
 																			            <td data-head="Select Executives" class="input-field h-auto">
-																			                <select class="searchable validate-dropdown" name="responsible_people_id_fks"
-																			                    id="responsible_people_id_fks${indexx.count }${index.count }${index.count }" multiple>
+																			            	<input type="hidden"  id="responsible_people_id_fk${indexx.count }${index.count }${index.count }" name="responsible_people_id_fks" />
+																			                <select class="searchable validate-dropdown"  id="responsible_people_id_fks${indexx.count }${index.count }${index.count }" multiple onchange="executivesToStringMethod('${indexx.count }${index.count }${index.count }')">
 																			                    <option value="">Select</option>
+																			                     <c:forEach var="obj" items="${responsiblePeopleList}">
+																									<option value="${obj.user_id }" >${obj.designation }</option>
+																								</c:forEach>
 																			                </select>
 																			            </td>
 																			            <td class="mobile_btn_close">
@@ -483,9 +495,12 @@ td label.btn.bg-m{
 																	                <tbody id="structureFilesBody${indexx.count }${index.count }${index.count }">
 																	                    <tr id="structureFilesRow${indexx.count }${index.count }${index.count }">
 																	                        <td data-head="File Type" class="input-field">
-																	                            <select name="structure_file_types" id="structure_file_types${indexx.count }${index.count }${index.count }" class="validate-dropdown searchable">
+																	                           <select name="structure_file_types" id="structure_file_types${indexx.count }${index.count }${index.count }" class="validate-dropdown searchable">
 																	                                <option value="">Select</option>
-																	                        </td>
+																	                                 <c:forEach var="obj" items="${fileType}">
+																										<option value="${obj.structure_file_type }" >${obj.structure_file_type }</option>
+																									 </c:forEach>
+																	                      	 </select></td> 
 																	                        <td data-head="Name" class="input-field">
 																	                            <input id="structureDocumentNames${indexx.count }${index.count }${index.count }" name="structureDocumentNames" type="text" class="validate"
 																	                                placeholder="Name">
@@ -592,6 +607,9 @@ td label.btn.bg-m{
 											                                    <p class="searchable_label">Work Status </p>
 											                                    <select id="work_status_fk00" name="work_status_fk"  class="searchable validate-dropdown">
 											                                        <option value="">Select</option>
+											                                        <c:forEach var="obj" items="${workStatusList}">
+																						<option value="${obj.work_status_fk }" >${obj.work_status_fk }</option>
+																					</c:forEach>
 											                                     </select>
 											                                    <span id="work_status_fk00Error" class="error-msg" ></span>
 											                                </div>
@@ -610,7 +628,10 @@ td label.btn.bg-m{
 											                                    <span id="estimated_cost00Error" class="error-msg" ></span> 
 											                                	<span id="estimated_cost_units00Error" class="error-msg right" ></span>
 											                                    <select class="validate-dropdown" id="estimated_cost_units00" name="estimated_cost_units">
-											                                		<option value="">Select</option>                                		
+											                                		<option value="">Select</option>             
+											                                		<c:forEach var="obj" items="${unitsList}">
+																						<option value="${obj.value }" >${obj.unit }</option>
+																					</c:forEach>                   		
 											                                	</select>
 											                                </div>
 										                                	 <div class="col s6 input-field">
@@ -647,16 +668,25 @@ td label.btn.bg-m{
 																			        </tr>
 																			    </thead>
 																			    <tbody id="structureResponsibleBody000">
+																			    	<input type="hidden" id="executivesCount000" name="subRowsLengths" />
 																			        <tr id="structureResponsibleRow000">
 																			            <td data-head="Department" class="input-field">
-																			                <select class="searchable validate-dropdown " name="contracts_id_fk" id="contract_id_fk00_0">
+																			                <select class="searchable validate-dropdown contracts_id_fk" name="contracts_id_fk" id="contract_id_fk000">
 																			                    <option value="">Select</option>
+																			                    <c:forEach var="obj" items="${contractsList}">
+																									<option value="${obj.contract_id_fk }" >${obj.contract_short_name }</option>
+																								</c:forEach>
 																			                </select>
 																			            </td>
 																			            <td data-head="Select Executives" class="input-field h-auto">
-																			                <select class="searchable validate-dropdown" name="responsible_people_id_fks"
-																			                    id="responsible_people_id_fks00_0" multiple>
+																			            	<input type="hidden" id="responsible_people_id_fk000" name="responsible_people_id_fks" />
+																			            	
+																			                <select class="searchable validate-dropdown"
+																			                    id="responsible_people_id_fks000" multiple onchange="executivesToStringMethod('000')">
 																			                    <option value="">Select</option>
+																			                    <c:forEach var="obj" items="${responsiblePeopleList}">
+																									<option value="${obj.user_id }" >${obj.designation }</option>
+																								</c:forEach>
 																			                </select>
 																			            </td>
 																			            <td class="mobile_btn_close">
@@ -738,7 +768,10 @@ td label.btn.bg-m{
 																                        <td data-head="File Type" class="input-field">
 																                            <select name="structure_file_types" id="structure_file_types000" class="validate-dropdown searchable">
 																                                <option value="">Select</option>
-																                        </td>
+																                                <c:forEach var="obj" items="${fileType}">
+																									<option value="${obj.structure_file_type }" >${obj.structure_file_type }</option>
+																								</c:forEach>
+																                        </select></td>
 																                        <td data-head="Name" class="input-field">
 																                            <input id="structureDocumentNames000" name="structureDocumentNames" type="text" class="validate"
 																                                placeholder="Name">
@@ -960,11 +993,10 @@ td label.btn.bg-m{
             }
         }
         function getContractsList(work_id_fk) {
-        	$(".page-loader").show();
-            $("#contract_id_fk option:not(:first)").remove();
+            $(".contracts_id_fk option:not(:first)").remove();
             var project_id_fk = $("#project_id_fk").val();
             if ($.trim(work_id_fk) != "" || $.trim(project_id_fk) != "") {
-                var myParams = { work_id_fk: work_id_fk, project_id_fk : project_id_fk };
+                var myParams = {work_id_fk:work_id_fk,project_id_fk:project_id_fk};
                 $.ajax({
                 	url: "<%=request.getContextPath()%>/ajax/getContractListForStructureFrom",
                     data: myParams, cache: false,
@@ -974,19 +1006,17 @@ td label.btn.bg-m{
                             	var contract_name = '';
                                 if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
                                 var contract_id_fk = "${structuresListDetails.contract_id_fk }";
+                                var count = val.quantity;
                                 if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                	$(".contracts_id_fk").slice(0, count).append('<option  value="' + val.contract_id_fk + '" selected>' + $.trim(contract_name) + '</option>');
                                 } else {
-                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                	$(".contracts_id_fk").slice(0, count).append('<option  value="' + val.contract_id_fk + '">' + $.trim(contract_name) + '</option>');
                                 }
                             });
                         }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
+                        $('.searchable').select2(); 
                     }
                 });
-            }else{
-            	$(".page-loader").hide();
             }
         }
         
@@ -1039,10 +1069,11 @@ td label.btn.bg-m{
         }
      
     function addStructureRow(){
-      		
-            var rowNo = $("#rowNo").val();
-            var rNo = Number(rowNo)+1;
-          
+    	 	/*  var work_id_fk = $("#work_id_fk").val();
+    	 	 getContractsList(work_id_fk); */
+             var rowNo = $("#rowNo").val();
+             var rNo = Number(rowNo)+1;
+             var x = Math.floor(Math.random() * (5 - 99 + 1) + 99)
              var html = '<tr id="structureRow'+rNo+'">'
              			+'<td data-head="Structure Type" class="input-field"><select id="structure_type_fks'+rNo+'" name="structure_type_fks" class="validate-dropdown searchable no-z" onchange="setStructureTypes('+rNo+');">'
              			+'<option value="" >Select</option>'
@@ -1054,15 +1085,25 @@ td label.btn.bg-m{
            				+'<tr id="internalTableRow'+rNo+rNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+rNo+'"/><input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
            				+'<td style="text-align:center;"><div id="modal'+rNo+rNo+'" class="modal">'
            			    +'<div class="modal-content"><h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
-           			    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p><select id="work_status_fk'+rNo+rNo+'" '
-           			    +'name="work_status_fk"  class="searchable validate-dropdown"><option value="">Select</option></select><span id="work_status_fk'+rNo+rNo+'Error" class="error-msg" ></span>'
+           			    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p><select id="work_status_fk'+rNo+rNo+x+'" '
+           			    +'name="work_status_fk"  class="searchable validate-dropdown">'+
+           			    '<option value="">Select</option>'
+		           			 <c:forEach var="obj" items="${workStatusList }">
+			              	 	+'<option value="${obj.work_status_fk }">${obj.work_status_fk}</option>'
+			                 </c:forEach>
+           			    +'</select><span id="work_status_fk'+rNo+rNo+'Error" class="error-msg" ></span>'
            			    +'</div><div class="col s6 input-field"><input id="target_date'+rNo+rNo+'" name="target_date" type="text" class="validate datepicker" value="" >'
            			    +'<label for="target_date'+rNo+rNo+'">Original Target Date </label><button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
            			    +'<span id="target_date'+rNo+rNo+'Error" class="error-msg" ></span></div></div>'
            			    +'<div class="row"><div class="col s6 input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i>'
            			    +'<input id="estimated_cost'+rNo+rNo+'" name="estimated_cost" type="number" class="validate" value="" min="0.01" step="0.01"><label for="estimated_cost'+rNo+rNo+'">Estimated Cost</label>'
-           			    +'<span id="estimated_cost'+rNo+rNo+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+'Error" class="error-msg right" ></span>'
-           			    +'<select class="validate-dropdown" id="estimated_cost_units'+rNo+rNo+'" name="estimated_cost_units"><option value="">Select</option></select></div>'
+           			    +'<span id="estimated_cost'+rNo+rNo+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+x+'Error" class="error-msg right" ></span>'
+           			    +'<select class="validate-dropdown searchable" id="estimated_cost_units'+rNo+rNo+x+'" name="estimated_cost_units">'+
+           			    '<option value="">Select</option>'
+		           			 <c:forEach var="obj" items="${unitsList }">
+			              	 	+'<option value="${obj.value }">${obj.unit}</option>'
+			                 </c:forEach>
+           			    +'</select></div>'
            			    +'<div class="col s6 input-field"><input id="construction_start_date'+rNo+rNo+'" name="construction_start_date" type="text" class="validate datepicker" value="" >'
            			    +'<label for="construction_start_date'+rNo+rNo+'">Construction Start Date </label><button type="button" id="construction_start_date'+rNo+rNo+'_icon" class="datepicker-button">'
            			    +'<i class="fa fa-calendar"></i></button><span id="construction_start_date'+rNo+rNo+'Error" class="error-msg" ></span></div>'
@@ -1071,39 +1112,52 @@ td label.btn.bg-m{
            			    +'</i></button><span id="revised_completion'+rNo+rNo+'Error" class="error-msg" ></span></div></div>'
            			    +'<div class="row"><div class="col s12  input-field "><textarea id="remarks'+rNo+rNo+'" name="remarks" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
            			    +'<label for="remarks'+rNo+rNo+'">Remarks</label><span id="remarks'+rNo+rNo+'Error" class="error-msg" ></span></div></div></div>'
-           			    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+rNo+rNo+rNo+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
+           			    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+1+rNo+rNo+rNo+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
            			    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'
-           			    +'<tbody id="structureResponsibleBody'+rNo+rNo+rNo+'"><tr id="structureResponsibleRow'+rNo+rNo+rNo+'"><td data-head="Department" class="input-field">'
-           			    +'<select class="searchable validate-dropdown " name="contracts_id_fk" id="contract_id_fk'+rNo+rNo+rNo+'"><option value="">Select</option></select></td>'
-           			    +'<td data-head="Select Executives" class="input-field h-auto"><select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fks'+rNo+rNo+rNo+'" multiple>'
-           			    +'<option value="">Select</option></select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+rNo+rNo+rNo+','+rNo+');" class="btn waves-effect waves-light red t-c ">'
+           			    +'<tbody id="structureResponsibleBody'+1+rNo+rNo+rNo+'"><input type="hidden" id="executivesCount'+1+rNo+rNo+rNo+'" name="subRowsLengths" /><tr id="structureResponsibleRow'+1+rNo+rNo+rNo+'"><td data-head="Department" class="input-field">'
+           			    +'<select class="searchable validate-dropdown contracts_id_fk" name="contracts_id_fk" id="contract_id_fk'+1+rNo+rNo+rNo+'">'+
+           			    '<option value="">Select</option>'
+           			    	<c:forEach var="obj" items="${contractsList }">
+				              	 +'<option value="${obj.contract_id_fk }">${obj.contract_short_name}</option>'
+				            </c:forEach>
+           			    +'</select></td>'
+           			    +'<td data-head="Select Executives" class="input-field h-auto"><input type="hidden" id="responsible_people_id_fk'+1+rNo+rNo+rNo+'" name="responsible_people_id_fks" /><select class="searchable validate-dropdown"  id="responsible_people_id_fks'+1+rNo+rNo+rNo+'" multiple onchange="executivesToStringMethod('+1+rNo+rNo+rNo+')">'
+           			    +'<option value="">Select</option>'
+		           			 <c:forEach var="obj" items="${responsiblePeopleList }">
+				              	 +'<option value="${obj.user_id }">${obj.designation}</option>'
+				             </c:forEach>
+           			    +'</select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+1+rNo+rNo+rNo+','+rNo+');" class="btn waves-effect waves-light red t-c ">'
            			    +'<i class="fa fa-close"></i></a></td></tr></tbody></table>'
-           			    +'<input type="hidden" value="0" id="structureResponsibleLength'+rNo+rNo+rNo+'"><table class="mdl-data-table bd-none"><tbody>  <tr class="bd-none">'
-           			    +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureResponsibleRow('+rNo+rNo+rNo+')"> <i class="fa fa-plus"></i></a></td>'
+           			    +'<input type="hidden" value="0" id="structureResponsibleLength'+1+rNo+rNo+rNo+'"><table class="mdl-data-table bd-none"><tbody>  <tr class="bd-none">'
+           			    +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureResponsibleRow('+1+rNo+rNo+rNo+')"> <i class="fa fa-plus"></i></a></td>'
            			    +'</tr></tbody></table></div></div>'
            			    
-           			 	+ '<div class="row"><h5 class="center-align">Structure Details</h5><div class="col s12 m10 offset-m1"><table id="structureDetailsTable'+rNo+rNo+rNo+'" class="mdl-data-table">'
-			            +'<thead><tr><th>Structure Detail </th><th>Value </th><th>Action</th></tr></thead><tbody id="structureDetailsTableBody'+rNo+rNo+rNo+'"><tr id="structureDetailsRow'+rNo+rNo+rNo+'">'
-			            +'<td><input id="structure_detail_names'+rNo+rNo+rNo+'" name="structure_detail_names" type="text" class="validate" value="" placeholder="Detail name"></td> <td>'
-			            +'<input id="structure_detail_values'+rNo+rNo+rNo+'" name="structure_detail_values" type="text" class="validate" value="" placeholder="Value"></td> <td class="mobile_btn_close">'
-			            +'<a onclick="removeStructureDetail('+rNo+rNo+rNo+','+rNo+');"class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'
-			            +'<input type="hidden" value="0" id="structureDetailsLength'+rNo+rNo+rNo+'"><table class="mdl-data-table bd-none"><tbody><tr class="bd-none">'
-			            +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureDetailRow('+rNo+rNo+rNo+')"> <i class="fa fa-plus"></i></a></td></tr>'
+           			 	+ '<div class="row"><h5 class="center-align">Structure Details</h5><div class="col s12 m10 offset-m1"><table id="structureDetailsTable'+1+rNo+rNo+rNo+'" class="mdl-data-table">'
+			            +'<thead><tr><th>Structure Detail </th><th>Value </th><th>Action</th></tr></thead><tbody id="structureDetailsTableBody'+1+rNo+rNo+rNo+'"><tr id="structureDetailsRow'+1+rNo+rNo+rNo+'">'
+			            +'<td><input id="structure_detail_names'+1+rNo+rNo+rNo+'" name="structure_detail_names" type="text" class="validate" value="" placeholder="Detail name"></td> <td>'
+			            +'<input id="structure_detail_values'+1+rNo+rNo+rNo+'" name="structure_detail_values" type="text" class="validate" value="" placeholder="Value"></td> <td class="mobile_btn_close">'
+			            +'<a onclick="removeStructureDetail('+1+rNo+rNo+rNo+','+rNo+');"class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'
+			            +'<input type="hidden" value="0" id="structureDetailsLength'+1+rNo+rNo+rNo+'"><table class="mdl-data-table bd-none"><tbody><tr class="bd-none">'
+			            +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureDetailRow('+1+rNo+rNo+rNo+')"> <i class="fa fa-plus"></i></a></td></tr>'
 			            +'</tbody></table></div></div>'
 			            
 			            + '<div class="row"><div class="col s12"><div class="row fixed-width"><h5 class="center-align"><span class="div-header">Documents</span></h5>'
-			            +'<table class="mdl-data-table update-table mobile_responsible_table" id="structureFilesTable'+rNo+rNo+rNo+'"><thead><tr><th class="min-180">File Type</th>'
-			            +'<th>Name</th><th>Attachment</th><th style="display:none;"></th><th>Action</th></tr></thead><tbody id="structureFilesBody'+rNo+rNo+rNo+'">'
-			            +'<tr id="structureFilesRow'+rNo+rNo+rNo+'"><td data-head="File Type" class="input-field"><select name="structure_file_types" id="structure_file_types'+rNo+rNo+rNo+'" '
-			            +'class="validate-dropdown searchable"><option value="">Select</option></td><td data-head="Name" class="input-field">'
-			            +'<input id="structureDocumentNames'+rNo+rNo+rNo+'" name="structureDocumentNames" type="text" class="validate" placeholder="Name"></td>'
-			            +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto"><div class="t-c"><input type="file" id="structureFiles'+rNo+rNo+rNo+'" '
-			            +'name="structureFiles" accept="image/*"><label for="structureFiles'+rNo+rNo+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label></div>'
-			            +'<div class="file-path-wrapper"><input class="file-path validate" type="text" id="structureFileNames'+rNo+rNo+rNo+'" name="structureFileNames"></div></td>'
-			            +'<td style="display:none;"><input type="hidden" id="structure_file_ids'+rNo+rNo+rNo+'" name="structure_file_ids" /></td><td class="mobile_btn_close">'
-			            +'<a onclick="removeStructureFileRow('+rNo+rNo+rNo+','+rNo+');" class="btn red"><i class="fa fa-close"></i></a></td></tr></tbody></table>'
-			            +'<input type="hidden" id="structureFilesLength'+rNo+rNo+rNo+'" name="structureFilesLength" value="0" /> <table class="mdl-data-table bd-none"><tbody><tr class="bd-none"> '
-			            +'<td colspan="5" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addStructureFileRow('+rNo+rNo+rNo+')"> <i class="fa fa-plus"></i>'
+			            +'<table class="mdl-data-table update-table mobile_responsible_table" id="structureFilesTable'+1+rNo+rNo+rNo+'"><thead><tr><th class="min-180">File Type</th>'
+			            +'<th>Name</th><th>Attachment</th><th style="display:none;"></th><th>Action</th></tr></thead><tbody id="structureFilesBody'+1+rNo+rNo+rNo+'">'
+			            +'<tr id="structureFilesRow'+1+rNo+rNo+rNo+'"><td data-head="File Type" class="input-field"><select name="structure_file_types" id="structure_file_types'+1+rNo+rNo+rNo+'" '
+			            +'class="validate-dropdown searchable"><option value="">Select</option>'
+				            <c:forEach var="obj" items="${fileType }">
+		              		 +'<option value="${obj.structure_file_type }">${obj.structure_file_type}</option>'
+		             	 	</c:forEach>
+			            +'</select></td><td data-head="Name" class="input-field">'
+			            +'<input id="structureDocumentNames'+1+rNo+rNo+rNo+'" name="structureDocumentNames" type="text" class="validate" placeholder="Name"></td>'
+			            +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto"><div class="t-c"><input type="file" id="structureFiles'+1+rNo+rNo+rNo+'" '
+			            +'name="structureFiles" accept="image/*"><label for="structureFiles'+1+rNo+rNo+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label></div>'
+			            +'<div class="file-path-wrapper"><input class="file-path validate" type="text" id="structureFileNames'+1+rNo+rNo+rNo+'" name="structureFileNames"></div></td>'
+			            +'<td style="display:none;"><input type="hidden" id="structure_file_ids'+1+rNo+rNo+rNo+'" name="structure_file_ids" /></td><td class="mobile_btn_close">'
+			            +'<a onclick="removeStructureFileRow('+1+rNo+rNo+rNo+','+rNo+');" class="btn red"><i class="fa fa-close"></i></a></td></tr></tbody></table>'
+			            +'<input type="hidden" id="structureFilesLength'+1+rNo+rNo+rNo+'" name="structureFilesLength" value="0" /> <table class="mdl-data-table bd-none"><tbody><tr class="bd-none"> '
+			            +'<td colspan="5" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addStructureFileRow('+1+rNo+rNo+rNo+')"> <i class="fa fa-plus"></i>'
 			            +'</a></tr></tbody></table> </div></div></div>'
            			    
            				//+'<span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5></div></div>'
@@ -1127,25 +1181,39 @@ td label.btn.bg-m{
 			}
 			
 			function addInternalTableRow(ind,tableNo){
+				/* var work_id_fk = $("#work_id_fk").val();
+	    	 	getContractsList(work_id_fk); */
 				var rowNo=$('#internalRow'+ind).val();
 				var rNo = Number(rowNo)+1;
 				/* var len = $("#internalTable"+rNo+" tr").length-1;
 				$("#subRowsLengths"+rNo).val(len); */
 				var structureType = $("#structure_type_fks"+tableNo).val();
-				
-				var html = '<tr id="internalTableRow'+rNo+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+rNo+tableNo+'"/><input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
+				var x = Math.floor(Math.random() * (100 - 500 + 1) + 500)
+				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+rNo+tableNo+'"/><input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
 						   +'placeholder="Structure Id"></td>'
 						   +'<td style="text-align:center;"><div id="modal'+rNo+tableNo+'" class="modal"> '
 						    +'<div class="modal-content"><h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
-						    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p><select id="work_status_fk'+rNo+tableNo+'" '
-						    +'name="work_status_fk"  class="searchable validate-dropdown"><option value="">Select</option></select><span id="work_status_fk'+rNo+rNo+'Error" class="error-msg" ></span>'
+						    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p>'+
+						    '<select id="work_status_fk'+rNo+tableNo+x+'" name="work_status_fk"  class="searchable validate-dropdown"> '+
+						    	'<option value="">Select</option>'
+						    	 <c:forEach var="obj" items="${workStatusList }">
+				              	 	+'<option value="${obj.work_status_fk }">${obj.work_status_fk}</option>'
+				                 </c:forEach>
+				            +'</select><span id="work_status_fk'+rNo+rNo+'Error" class="error-msg" ></span>'
 						    +'</div><div class="col s6 input-field"><input id="target_date'+rNo+rNo+'" name="target_date" type="text" class="validate datepicker" value="" >'
 						    +'<label for="target_date'+rNo+rNo+'">Original Target Date </label><button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
 						    +'<span id="target_date'+rNo+rNo+'Error" class="error-msg" ></span></div></div>'
+						    
 						    +'<div class="row"><div class="col s6 input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i>'
 						    +'<input id="estimated_cost'+rNo+rNo+'" name="estimated_cost" type="number" class="validate" value="" min="0.01" step="0.01"><label for="estimated_cost'+rNo+rNo+'">Estimated Cost</label>'
-						    +'<span id="estimated_cost'+rNo+rNo+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+'Error" class="error-msg right" ></span>'
-						    +'<select class="validate-dropdown" id="estimated_cost_units'+rNo+rNo+'" name="estimated_cost_units"><option value="">Select</option></select></div>'
+						    +'<span id="estimated_cost'+rNo+rNo+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+x+'Error" class="error-msg right" ></span>'
+						    +'<select class="validate-dropdown searchable" id="estimated_cost_units'+rNo+rNo+x+'" name="estimated_cost_units">'+
+						    '<option value="">Select</option>'
+							   <c:forEach var="obj" items="${unitsList }">
+				              	+'<option value="${obj.value }">${obj.unit}</option>'
+				               </c:forEach>
+						    +'</select></div>'
+						    
 						    +'<div class="col s6 input-field"><input id="construction_start_date'+rNo+rNo+'" name="construction_start_date" type="text" class="validate datepicker" value="" >'
 						    +'<label for="construction_start_date'+rNo+rNo+'">Construction Start Date </label><button type="button" id="construction_start_date'+rNo+rNo+'_icon" class="datepicker-button">'
 						    +'<i class="fa fa-calendar"></i></button><span id="construction_start_date'+rNo+rNo+'Error" class="error-msg" ></span></div>'
@@ -1154,39 +1222,52 @@ td label.btn.bg-m{
 						    +'</i></button><span id="revised_completion'+rNo+rNo+'Error" class="error-msg" ></span></div></div>'
 						    +'<div class="row"><div class="col s12  input-field "><textarea id="remarks'+rNo+rNo+'" name="remarks" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
 						    +'<label for="remarks'+rNo+rNo+'">Remarks</label><span id="remarks'+rNo+rNo+'Error" class="error-msg" ></span></div></div></div>'
-						    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+rNo+rNo+rNo+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
+						    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
 						    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'
-						    +'<tbody id="structureResponsibleBody'+rNo+rNo+rNo+'"><tr id="structureResponsibleRow'+rNo+rNo+rNo+'"><td data-head="Department" class="input-field">'
-						    +'<select class="searchable validate-dropdown " name="contracts_id_fk" id="contract_id_fk'+rNo+rNo+rNo+'"><option value="">Select</option></select></td>'
-						    +'<td data-head="Select Executives" class="input-field h-auto"><select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fks'+rNo+rNo+rNo+'" multiple>'
-						    +'<option value="">Select</option></select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+rNo+rNo+rNo+','+rNo+');" class="btn waves-effect waves-light red t-c ">'
+						    +'<tbody id="structureResponsibleBody'+rNo+rNo+rNo+x+'"><input type="hidden" id="executivesCount'+rNo+rNo+rNo+x+'" name="subRowsLengths" /><tr id="structureResponsibleRow'+rNo+rNo+rNo+x+'"><td data-head="Department" class="input-field">'
+						    +'<select class="searchable validate-dropdown contracts_id_fk" name="contracts_id_fk" id="contract_id_fk'+rNo+rNo+rNo+x+'">'+
+						    '<option value="">Select</option>'
+						     	<c:forEach var="obj" items="${contractsList }">
+				              	   +'<option value="${obj.contract_id_fk }">${obj.contract_short_name}</option>'
+				                </c:forEach>
+						    +'</select></td>'
+						    +'<td data-head="Select Executives" class="input-field h-auto"><input type="hidden" id="responsible_people_id_fk'+rNo+rNo+rNo+x+'" name="responsible_people_id_fks" /><select class="searchable validate-dropdown" id="responsible_people_id_fks'+rNo+rNo+rNo+x+'" multiple onchange="executivesToStringMethod('+rNo+rNo+rNo+x+')">'
+						    +'<option value="">Select</option>'
+							    <c:forEach var="obj" items="${responsiblePeopleList }">
+				              	 +'<option value="${obj.user_id }">${obj.designation}</option>'
+				             	</c:forEach>
+						    +'</select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+rNo+rNo+rNo+x+','+rNo+');" class="btn waves-effect waves-light red t-c ">'
 						    +'<i class="fa fa-close"></i></a></td></tr></tbody></table>'
-						    +'<input type="hidden" value="0" id="structureResponsibleLength'+rNo+rNo+rNo+'"><table class="mdl-data-table bd-none"><tbody>  <tr class="bd-none">'
-						    +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureResponsibleRow('+rNo+rNo+rNo+')"> <i class="fa fa-plus"></i></a></td>'
+						    +'<input type="hidden" value="0" id="structureResponsibleLength'+rNo+rNo+rNo+x+'"><table class="mdl-data-table bd-none"><tbody>  <tr class="bd-none">'
+						    +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureResponsibleRow('+rNo+rNo+rNo+x+')"> <i class="fa fa-plus"></i></a></td>'
 						    +'</tr></tbody></table></div></div>'
 						    
-						    + '<div class="row"><h5 class="center-align">Structure Details</h5><div class="col s12 m10 offset-m1"><table id="structureDetailsTable'+rNo+rNo+rNo+'" class="mdl-data-table">'
-				            +'<thead><tr><th>Structure Detail </th><th>Value </th><th>Action</th></tr></thead><tbody id="structureDetailsTableBody'+rNo+rNo+rNo+'"><tr id="structureDetailsRow'+rNo+rNo+rNo+'">'
-				            +'<td><input id="structure_detail_names'+rNo+rNo+rNo+'" name="structure_detail_names" type="text" class="validate" value="" placeholder="Detail name"></td> <td>'
-				            +'<input id="structure_detail_values'+rNo+rNo+rNo+'" name="structure_detail_values" type="text" class="validate" value="" placeholder="Value"></td> <td class="mobile_btn_close">'
-				            +'<a onclick="removeStructureDetail('+rNo+rNo+rNo+','+rNo+');"class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'
-				            +'<input type="hidden" value="0" id="structureDetailsLength'+rNo+rNo+rNo+'"><table class="mdl-data-table bd-none"><tbody><tr class="bd-none">'
-				            +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureDetailRow('+rNo+rNo+rNo+')"> <i class="fa fa-plus"></i></a></td></tr>'
+						    + '<div class="row"><h5 class="center-align">Structure Details</h5><div class="col s12 m10 offset-m1"><table id="structureDetailsTable'+rNo+rNo+rNo+x+'" class="mdl-data-table">'
+				            +'<thead><tr><th>Structure Detail </th><th>Value </th><th>Action</th></tr></thead><tbody id="structureDetailsTableBody'+rNo+rNo+rNo+x+'"><tr id="structureDetailsRow'+rNo+rNo+rNo+x+'">'
+				            +'<td><input id="structure_detail_names'+rNo+rNo+rNo+x+'" name="structure_detail_names" type="text" class="validate" value="" placeholder="Detail name"></td> <td>'
+				            +'<input id="structure_detail_values'+rNo+rNo+rNo+x+'" name="structure_detail_values" type="text" class="validate" value="" placeholder="Value"></td> <td class="mobile_btn_close">'
+				            +'<a onclick="removeStructureDetail('+rNo+rNo+rNo+x+','+rNo+');"class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'
+				            +'<input type="hidden" value="0" id="structureDetailsLength'+rNo+rNo+rNo+x+'"><table class="mdl-data-table bd-none"><tbody><tr class="bd-none">'
+				            +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureDetailRow('+rNo+rNo+rNo+x+')"> <i class="fa fa-plus"></i></a></td></tr>'
 				            +'</tbody></table></div></div>'
 				            
 				            + '<div class="row"><div class="col s12"><div class="row fixed-width"><h5 class="center-align"><span class="div-header">Documents</span></h5>'
-				            +'<table class="mdl-data-table update-table mobile_responsible_table" id="structureFilesTable'+rNo+rNo+rNo+'"><thead><tr><th class="min-180">File Type</th>'
-				            +'<th>Name</th><th>Attachment</th><th style="display:none;"></th><th>Action</th></tr></thead><tbody id="structureFilesBody'+rNo+rNo+rNo+'">'
-				            +'<tr id="structureFilesRow'+rNo+rNo+rNo+'"><td data-head="File Type" class="input-field"><select name="structure_file_types" id="structure_file_types'+rNo+rNo+rNo+'" '
-				            +'class="validate-dropdown searchable"><option value="">Select</option></td><td data-head="Name" class="input-field">'
-				            +'<input id="structureDocumentNames'+rNo+rNo+rNo+'" name="structureDocumentNames" type="text" class="validate" placeholder="Name"></td>'
-				            +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto"><div class="t-c"><input type="file" id="structureFiles'+rNo+rNo+rNo+'" '
-				            +'name="structureFiles" accept="image/*"><label for="structureFiles'+rNo+rNo+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label></div>'
-				            +'<div class="file-path-wrapper"><input class="file-path validate" type="text" id="structureFileNames'+rNo+rNo+rNo+'" name="structureFileNames"></div></td>'
-				            +'<td style="display:none;"><input type="hidden" id="structure_file_ids'+rNo+rNo+rNo+'" name="structure_file_ids" /></td><td class="mobile_btn_close">'
-				            +'<a onclick="removeStructureFileRow('+rNo+rNo+rNo+','+rNo+');" class="btn red"><i class="fa fa-close"></i></a></td></tr></tbody></table>'
-				            +'<input type="hidden" id="structureFilesLength'+rNo+rNo+rNo+'" name="structureFilesLength" value="0" /> <table class="mdl-data-table bd-none"><tbody><tr class="bd-none"> '
-				            +'<td colspan="5" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addStructureFileRow('+rNo+rNo+rNo+')"> <i class="fa fa-plus"></i>'
+				            +'<table class="mdl-data-table update-table mobile_responsible_table" id="structureFilesTable'+1+ind+rNo+rNo+'"><thead><tr><th class="min-180">File Type</th>'
+				            +'<th>Name</th><th>Attachment</th><th style="display:none;"></th><th>Action</th></tr></thead><tbody id="structureFilesBody'+1+ind+rNo+rNo+'">'
+				            +'<tr id="structureFilesRow'+1+ind+rNo+rNo+'"><td data-head="File Type" class="input-field"><select name="structure_file_types" id="structure_file_types'+1+ind+rNo+rNo+'" '
+				            +'class="validate-dropdown searchable"><option value="">Select</option>'
+					            <c:forEach var="obj" items="${fileType }">
+			              		 +'<option value="${obj.structure_file_type }">${obj.structure_file_type}</option>'
+			             	 	</c:forEach>
+				            +'</select></td><td data-head="Name" class="input-field">'
+				            +'<input id="structureDocumentNames'+1+ind+rNo+rNo+'" name="structureDocumentNames" type="text" class="validate" placeholder="Name"></td>'
+				            +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto"><div class="t-c"><input type="file" id="structureFiles'+1+ind+rNo+rNo+'" '
+				            +'name="structureFiles" accept="image/*"><label for="structureFiles'+1+ind+rNo+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label></div>'
+				            +'<div class="file-path-wrapper"><input class="file-path validate" type="text" id="structureFileNames'+1+ind+rNo+rNo+'" name="structureFileNames"></div></td>'
+				            +'<td style="display:none;"><input type="hidden" id="structure_file_ids'+1+ind+rNo+rNo+'" name="structure_file_ids" /></td><td class="mobile_btn_close">'
+				            +'<a onclick="removeStructureFileRow('+1+ind+rNo+rNo+','+rNo+');" class="btn red"><i class="fa fa-close"></i></a></td></tr></tbody></table>'
+				            +'<input type="hidden" id="structureFilesLength'+1+ind+rNo+rNo+'" name="structureFilesLength" value="0" /> <table class="mdl-data-table bd-none"><tbody><tr class="bd-none"> '
+				            +'<td colspan="5" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addStructureFileRow('+1+ind+rNo+rNo+')"> <i class="fa fa-plus"></i>'
 				            +'</a></tr></tbody></table> </div></div></div>'
 				            
 						   //+'<h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5></div></div>'
@@ -1195,6 +1276,7 @@ td label.btn.bg-m{
 						   +'onclick="removeStructureInternalRow('+rNo+tableNo+','+tableNo+')"> <i class="fa fa-close"></i></a></td></tr>';
 
 			   $('#structureRow'+tableNo+'-internalTable tbody tr:last').prev().after(html);
+			  // $('#internalTable'+tableNo).append(html);
 			   $("#internalRow"+ind).val(rNo);
 			   $("#structure_type_fks"+rNo+tableNo+rNo).val(structureType);
 			   $('.modal').modal(); 
@@ -1214,12 +1296,14 @@ td label.btn.bg-m{
 			}
 			
 			function addstructureDetailRow(ind){
-				 var rowNo = $("#structureDetails"+ind).val();
+				 var rowNo = $("#structureDetailsLength"+ind).val();
 				 var rNo = Number(rowNo)+1;
-				 var html = '<tr id="structureDetailsRow'+rNo+rNo+rNo+'">'
-			            +'<td><input id="structure_detail_names'+rNo+rNo+rNo+'" name="structure_detail_names" type="text" class="validate" value="" placeholder="Detail name"></td> <td>'
-			            +'<input id="structure_detail_values'+rNo+rNo+rNo+'" name="structure_detail_values" type="text" class="validate" value="" placeholder="Value"></td> <td class="mobile_btn_close">'
-			            +'<a onclick="removeStructureDetail('+rNo+rNo+rNo+','+rNo+');"class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+				 var x = Math.floor(Math.random() * (500 - 900 + 1) + 900)
+				 var index = rNo+ind+x;
+				 var html = '<tr id="structureDetailsRow'+index+'">'
+			            +'<td><input id="structure_detail_names'+index+'" name="structure_detail_names" type="text" class="validate" value="" placeholder="Detail name"></td> <td>'
+			            +'<input id="structure_detail_values'+index+'" name="structure_detail_values" type="text" class="validate" value="" placeholder="Value"></td> <td class="mobile_btn_close">'
+			            +'<a onclick="removeStructureDetail('+index+','+rNo+');"class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
 			            
 				 $('#structureDetailsTableBody'+ind).append(html); 
 				 $("#structureDetailsLength"+ind).val(rNo);
@@ -1227,14 +1311,27 @@ td label.btn.bg-m{
 			}
 			
 			 function addstructureResponsibleRow(ind){
-			   	 var rowNo = $("#structureResponsibleLength"+ind).val();
+					/*  var work_id_fk = $("#work_id_fk").val();
+		    	 	 getContractsList(work_id_fk); */
+				   	 var rowNo = $("#structureResponsibleLength"+ind).val();
 					 var rNo = Number(rowNo)+1;
 					 var no = 0;
-					 var html = '<tr id="structureResponsibleRow'+ind+rNo+'"> <td data-head="Department" class="input-field">'
-					 			+'<select class="searchable validate-dropdown " name="contracts_id_fk" id="contract_id_fk'+ind+rNo+'"><option value="">Select</option>'
-					 			+'</select></td> <td data-head="Select Executives" class="input-field h-auto"> <select class="searchable validate-dropdown" '
-					 			+'name="responsible_people_id_fks" id="responsible_people_id_fks'+ind+rNo+'" multiple> <option value="">Select</option>	</select> </td>'
-					 			+'<td class="mobile_btn_close">	<a onclick="removeStructureResponsible('+ind+rNo+');" class="btn waves-effect waves-light red t-c "> '
+					 var x = Math.floor(Math.random() * (500 - 900 + 1) + 900)
+					 var index = rNo+ind+x;
+					 var html = '<tr id="structureResponsibleRow'+index+'" class=""> <td data-head="Department" class="input-field">'
+					 			+'<select class="searchable validate-dropdown contracts_id_fk" name="contracts_id_fk" id="contract_id_fk'+index+'">'+
+					 			'<option value="">Select</option>'
+					 			 <c:forEach var="obj" items="${contractsList }">
+				              	    +'<option value="${obj.contract_id_fk }">${obj.contract_short_name}</option>'
+				                 </c:forEach>
+					 			+'</select></td> <td data-head="Select Executives" class="input-field h-auto"><input type="hidden" id="responsible_people_id_fk'+index+'" name="responsible_people_id_fks" /> <select class="searchable validate-dropdown" '
+					 			+' id="responsible_people_id_fks'+index+'" multiple onchange="executivesToStringMethod('+index+')"> '+
+					 			'<option value="">Select</option>'
+					 			 <c:forEach var="obj" items="${responsiblePeopleList }">
+				              		 +'<option value="${obj.user_id }">${obj.designation}</option>'
+				             	 </c:forEach>
+					 			+'</select> </td>'
+					 			+'<td class="mobile_btn_close">	<a onclick="removeStructureResponsible('+index+');" class="btn waves-effect waves-light red t-c "> '
 					 			+'<i class="fa fa-close"></i></a> </td> </tr>';
 						 $('#structureResponsibleBody'+ind).append(html); 
 						 $("#structureResponsibleLength"+ind).val(rNo);
@@ -1245,21 +1342,33 @@ td label.btn.bg-m{
 			   	 var rowNo = $("#structureFilesLength"+ind).val();
 					 var rNo = Number(rowNo)+1;
 					 var no = 0;
-					 var html = '<tr id="structureFilesRow'+rNo+rNo+rNo+'"><td data-head="File Type" class="input-field"><select name="structure_file_types" id="structure_file_types'+rNo+rNo+rNo+'" '
-				        +'class="validate-dropdown searchable"><option value="">Select</option></td><td data-head="Name" class="input-field">'
-				        +'<input id="structureDocumentNames'+rNo+rNo+rNo+'" name="structureDocumentNames" type="text" class="validate" placeholder="Name"></td>'
-				        +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto"><div class="t-c"><input type="file" id="structureFiles'+rNo+rNo+rNo+'" '
-				        +'name="structureFiles" accept="image/*"><label for="structureFiles'+rNo+rNo+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label></div>'
-				        +'<div class="file-path-wrapper"><input class="file-path validate" type="text" id="structureFileNames'+rNo+rNo+rNo+'" name="structureFileNames"></div></td>'
-				        +'<td style="display:none;"><input type="hidden" id="structure_file_ids'+rNo+rNo+rNo+'" name="structure_file_ids" /></td><td class="mobile_btn_close">'
-				        +'<a onclick="removeStructureFileRow('+rNo+rNo+rNo+','+rNo+');" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
+					 var x = Math.floor(Math.random() * (500 - 900 + 1) + 900)
+					 var index = rNo+ind+x;
+					 var html = '<tr id="structureFilesRow'+index+rNo+'"><td data-head="File Type" class="input-field"><select name="structure_file_typesindextructure_file_types'+index+rNo+'" '
+				        +'class="validate-dropdown searchable"><option value="">Select</option>'
+					        <c:forEach var="obj" items="${fileType }">
+		              		 +'<option value="${obj.structure_file_type }">${obj.structure_file_type}</option>'
+		             	 	</c:forEach>
+				        +'</select></td><td data-head="Name" class="input-field">'
+				        +'<input id="structureDocumentNames'+index+rNo+'" name="structureDocumentNames" type="text" class="validate" placeholder="Name"></td>'
+				        +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto"><div class="t-c"><input type="file" id="structureFiles'+index+rNo+'" '
+				        +'name="structureFiles" accept="image/*"><label for="structureFiles'+index+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label></div>'
+				        +'<div class="file-path-wrapper"><input class="file-path validate" type="text" id="structureFileNames'+index+rNo+'" name="structureFileNames"></div></td>'
+				        +'<td style="display:none;"><input type="hidden" id="structure_file_ids'+index+rNo+'" name="structure_file_ids" /></td><td class="mobile_btn_close">'
+				        +'<a onclick="removeStructureFileRow('+index+rNo+','+rNo+');" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 				        
 						 $('#structureFilesBody'+ind).append(html); 
 						 $("#structureFilesLength"+ind).val(rNo);
 						 $('.searchable').select2();
 			   }  
-			 function removeStructureResponsible(ind,rowNo){
-				 $('#structureResponsibleRow'+ind+rowNo).remove();
+			 function removeStructureResponsible(indexs,rowNo){
+				 $('#structureResponsibleRow'+indexs).remove();
+			 }
+			 function removeStructureDetail(indexs,rowNo){
+				 $('#structureDetailsRow'+indexs).remove();
+			 }
+			 function removeStructureFileRow(indexs,rowNo){
+				 $('#structureFilesRow'+indexs).remove();
 			 }
 			
 			function setStructureTypes(rNo){
@@ -1362,6 +1471,13 @@ td label.btn.bg-m{
 	                });
 	    			
 	    		});
+	             
+	           function executivesToStringMethod(index){
+	        	     var val = $('#responsible_people_id_fks'+index).val();
+	        	     val = val.join(',');
+	            	 var val3 = $('#responsible_people_id_fk'+index).val(val);
+	            	
+	           }
     </script>
 </body>
 </html>

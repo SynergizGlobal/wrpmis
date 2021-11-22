@@ -1098,7 +1098,7 @@ td label.btn.bg-m{
            			    +'<div class="row"><div class="col s6 input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i>'
            			    +'<input id="estimated_cost'+rNo+rNo+'" name="estimated_cost" type="number" class="validate" value="" min="0.01" step="0.01"><label for="estimated_cost'+rNo+rNo+'">Estimated Cost</label>'
            			    +'<span id="estimated_cost'+rNo+rNo+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+x+'Error" class="error-msg right" ></span>'
-           			    +'<select class="validate-dropdown searchable" id="estimated_cost_units'+rNo+rNo+x+'" name="estimated_cost_units">'+
+           			    +'<select class="validate-dropdown" id="estimated_cost_units'+rNo+rNo+x+'" name="estimated_cost_units">'+
            			    '<option value="">Select</option>'
 		           			 <c:forEach var="obj" items="${unitsList }">
 			              	 	+'<option value="${obj.value }">${obj.unit}</option>'
@@ -1172,7 +1172,8 @@ td label.btn.bg-m{
 
     				 $('#structureTableBody').append(html);
     				 $("#rowNo").val(rNo);
-    				 $('.searchable').select2();   				  
+    				 $('.searchable').select2();  
+    				 $('select:not(.searchable)').formSelect();
     				 $('.modal').modal(); 
             } 
          
@@ -1207,7 +1208,7 @@ td label.btn.bg-m{
 						    +'<div class="row"><div class="col s6 input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i>'
 						    +'<input id="estimated_cost'+rNo+rNo+'" name="estimated_cost" type="number" class="validate" value="" min="0.01" step="0.01"><label for="estimated_cost'+rNo+rNo+'">Estimated Cost</label>'
 						    +'<span id="estimated_cost'+rNo+rNo+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+x+'Error" class="error-msg right" ></span>'
-						    +'<select class="validate-dropdown searchable" id="estimated_cost_units'+rNo+rNo+x+'" name="estimated_cost_units">'+
+						    +'<select class="validate-dropdown " id="estimated_cost_units'+rNo+rNo+x+'" name="estimated_cost_units">'+
 						    '<option value="">Select</option>'
 							   <c:forEach var="obj" items="${unitsList }">
 				              	+'<option value="${obj.value }">${obj.unit}</option>'
@@ -1275,12 +1276,13 @@ td label.btn.bg-m{
 						   +'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" '
 						   +'onclick="removeStructureInternalRow('+rNo+tableNo+','+tableNo+')"> <i class="fa fa-close"></i></a></td></tr>';
 
-			   $('#structureRow'+tableNo+'-internalTable tbody tr:last').prev().after(html);
-			  // $('#internalTable'+tableNo).append(html);
+			   $('#structureRow'+tableNo+'-internalTable tbody tr.mob-add-btn').prev().after(html);
+			   //$('#structureRow'+tableNo+'-internalTable tbody').append(html);
 			   $("#internalRow"+ind).val(rNo);
 			   $("#structure_type_fks"+rNo+tableNo+rNo).val(structureType);
 			   $('.modal').modal(); 
 			   $('.searchable').select2(); 
+			   $('select:not(.searchable)').formSelect();
 			  // $("#subRowsLengths"+ind).val(rNo+1);
 			}
 			
@@ -1308,6 +1310,7 @@ td label.btn.bg-m{
 				 $('#structureDetailsTableBody'+ind).append(html); 
 				 $("#structureDetailsLength"+ind).val(rNo);
 				 $('.searchable').select2(); 
+				 $('select:not(.searchable)').formSelect();
 			}
 			
 			 function addstructureResponsibleRow(ind){

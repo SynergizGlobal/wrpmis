@@ -65,7 +65,6 @@
 										<c:forEach var="obj" items="${structureFileType}" varStatus="index">
 											<tr>
 											<td>
-											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
 												<input type="hidden" id="structure_file_type${index.count}" value="${obj.structure_file_type }" class="findLengths"//>
 												${obj.structure_file_type }</td>
 										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.structure_file_type }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
@@ -356,9 +355,7 @@
 
            function updateRow(no) {
        	      var structure_file_type = $('#structure_file_type'+no).val();
-       	      var id = $('#id'+no).val();
        	      $('#value_old').val($.trim(structure_file_type))
-       	      $('#id').val($.trim(id))
        	      $('#onlyUpdateModal').modal('open');
        	      $('#onlyUpdateModal #value_new').val($.trim(structure_file_type)).focus();
        	  }

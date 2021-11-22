@@ -39,8 +39,8 @@ public class StructureFileTypeController {
 		ModelAndView model = new ModelAndView(PageConstants.structureFileType);
 		try {
 			
-			List<TrainingType> StructureFileType = service.getStructureFileType(obj);
-			model.addObject("StructureFileType",StructureFileType);
+			List<TrainingType> structureFileType = service.getStructureFileType(obj);
+			model.addObject("structureFileType",structureFileType);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("StructureFileType : " + e.getMessage());

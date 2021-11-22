@@ -1277,7 +1277,6 @@ td label.btn.bg-m{
 						   +'onclick="removeStructureInternalRow('+rNo+tableNo+','+tableNo+')"> <i class="fa fa-close"></i></a></td></tr>';
 
 			   $('#structureRow'+tableNo+'-internalTable tbody tr.mob-add-btn').prev().after(html);
-			   //$('#structureRow'+tableNo+'-internalTable tbody').append(html);
 			   $("#internalRow"+ind).val(rNo);
 			   $("#structure_type_fks"+rNo+tableNo+rNo).val(structureType);
 			   $('.modal').modal(); 

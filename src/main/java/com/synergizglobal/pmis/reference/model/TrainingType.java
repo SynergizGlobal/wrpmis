@@ -11,7 +11,7 @@ public class TrainingType {
 
 	private String Table_name,column_name,constraint_name,user_name,resource_type,area_short_name,area_short_name_new,referenced_table_name,risk_work_completed,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
 	
-	private String department_new,department_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
+	private String structure_file_type,department_new,department_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
 	,contractor_specialization_new,contract_type_old,contract_type_new,dashboard_type_old,dashboard_type_new,status_old,status_new,deliverable_type_old,
 	deliverable_type_new,document_type_old,document_type_new,value_old,value_new,general_status,category,priority,status_of_new,status_of,manual_folders,module_name,module_incharge,incharge_user_id_fk
 	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
@@ -25,6 +25,14 @@ public class TrainingType {
     
 	List<TrainingType> tableHistoryList;
 	List<TrainingType> subResourceDeatails;
+	public String getStructure_file_type() {
+		return structure_file_type;
+	}
+
+	public void setStructure_file_type(String structure_file_type) {
+		this.structure_file_type = structure_file_type;
+	}
+
 	private MultipartFile templateFile;
 	private MultipartFile templateFileOld;
 	

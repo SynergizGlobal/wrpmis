@@ -195,6 +195,8 @@ public class PageConstants {
 	
 	public static final String sourceOfFunds = "referenceForms/sourceOfFund";
 	public static final String softDeleteStatus = "referenceForms/softDeleteStatus";
+
+	public static final String structureFileType = "referenceForms/structureFileType";
 	
 	public static final String rrStatus = "referenceForms/rrStatus";
 	public static final String rrLandType = "referenceForms/rrLandType";

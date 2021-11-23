@@ -22,10 +22,37 @@ public class Structure {
 	
 	private List<Structure> structureList;
 	private List<Structure> structureSubList;
+	private List<Structure> structureSubList2;
 	private List<Structure> executivesList;
 	private List<Structure> documentsList;
 	private List<Structure> structureDetailsList;
+	private List<Structure> contractsLists;
+	private List<Structure> responsiblePeopleLists;
 	
+
+	public List<Structure> getContractsLists() {
+		return contractsLists;
+	}
+
+	public void setContractsLists(List<Structure> contractsLists) {
+		this.contractsLists = contractsLists;
+	}
+
+	public List<Structure> getResponsiblePeopleLists() {
+		return responsiblePeopleLists;
+	}
+
+	public void setResponsiblePeopleLists(List<Structure> responsiblePeopleLists) {
+		this.responsiblePeopleLists = responsiblePeopleLists;
+	}
+
+	public List<Structure> getStructureSubList2() {
+		return structureSubList2;
+	}
+
+	public void setStructureSubList2(List<Structure> structureSubList2) {
+		this.structureSubList2 = structureSubList2;
+	}
 
 	public String[] getStructureFiless() {
 		return structureFiless;

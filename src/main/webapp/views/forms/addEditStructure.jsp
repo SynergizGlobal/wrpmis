@@ -2,6 +2,7 @@
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -325,7 +326,7 @@ td label.btn.bg-m{
                                                     <tbody id="internalTable${indexx.count }${index.count }">
                                                      <c:forEach var="sObj" items="${dObj.structureSubList }" varStatus="indexx"> 
 	                                                     <tr id="internalTableRow${indexx.count }${index.count }">
-		                                                    <td>
+		                                                    <td> 
 			                                                  <input type="hidden" id="structure_type_fks${indexx.count }${index.count }"   <c:if test="${indexx.count != 1}"> name="structure_type_fks"</c:if> value="${dObj.structure_type_fk }"/>
 			                                                 
 			                                                    <input id="structure_id${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${sObj.structure }"></td>
@@ -334,108 +335,166 @@ td label.btn.bg-m{
 															    
 															    <div class="modal-content">
 																	<h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
-																	<div class="container">
-																		<div class="row">
-											                                 <div class="col s6 input-field">
-											                                    <p class="searchable_label">Work Status </p>
-											                                    <select id="work_status_fk${indexx.count }${index.count }" name="work_status_fks"  class="searchable validate-dropdown">
-											                                        <option value="">Select</option>
-											                                         <c:forEach var="obj" items="${workStatusList}">
-																						<option value="${obj.work_status_fk }" >${obj.work_status_fk }</option>
-																					</c:forEach>
-											                                     </select>
-											                                    <span id="work_status_fk${indexx.count }${index.count }Error" class="error-msg" ></span>
+																	 <c:forEach var="sObj1" items="${sObj.structureSubList2 }" > 
+																		<div class="container">
+																			<div class="row">
+												                                 <div class="col s6 input-field">
+												                                    <p class="searchable_label">Work Status </p>
+												                                    <select id="work_status_fk${indexx.count }${index.count }" name="work_status_fks"  class="searchable validate-dropdown">
+												                                        <option value="">Select</option>
+												                                         <c:forEach var="obj" items="${workStatusList}">
+																							<option value="${obj.work_status_fk }" <c:if test="${sObj1.work_status_fk eq obj.work_status_fk}">selected</c:if>>${obj.work_status_fk }</option>
+																						</c:forEach>
+												                                     </select>
+												                                    <span id="work_status_fk${indexx.count }${index.count }Error" class="error-msg" ></span>
+												                                </div>
+												                                <div class="col s6 input-field">
+												                                    <input id="target_date${indexx.count }${index.count }" name="target_dates" type="text" class="validate datepicker" value="${sObj1.target_date }" >
+												                                    <label for="target_date${indexx.count }${index.count }">Original Target Date </label>
+												                                    <button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+												                                    <span id="target_date${indexx.count }${index.count }Error" class="error-msg" ></span>
+												                                </div>
 											                                </div>
-											                                <div class="col s6 input-field">
-											                                    <input id="target_date${indexx.count }${index.count }" name="target_dates" type="text" class="validate datepicker" value="" >
-											                                    <label for="target_date${indexx.count }${index.count }">Original Target Date </label>
-											                                    <button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-											                                    <span id="target_date${indexx.count }${index.count }Error" class="error-msg" ></span>
+											                                <div class="row">
+											                                	<div class="col s6 input-field amount-dropdown">
+												                                	<i class="material-icons amount-symbol cost">₹</i>   
+												                                    <input id="estimated_cost${indexx.count }${index.count }" name="estimated_costs" type="number" class="validate" value="${sObj1.estimated_cost }" min="0.01" step="0.01">
+												                                    <label for="estimated_cost${indexx.count }${index.count }">Estimated Cost</label>
+												                                    <span id="estimated_cost${indexx.count }${index.count }Error" class="error-msg" ></span> 
+												                                	<span id="estimated_cost_units${indexx.count }${index.count }Error" class="error-msg right" ></span>
+												                                    <select class="validate-dropdown" id="estimated_cost_units${indexx.count }${index.count }" name="estimated_cost_unitss">
+												                                		<option value="">Select</option>    
+												                                		<c:forEach var="obj" items="${unitsList}">
+																							<option value="${obj.value }" <c:if test="${sObj1.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+																						</c:forEach>                              		
+												                                	</select>
+												                                </div>
+											                                	 <div class="col s6 input-field">
+												                                    <input id="construction_start_date${indexx.count }${index.count }" name="construction_start_dates" type="text" class="validate datepicker" value="${sObj1.construction_start_date }" >
+												                                    <label for="construction_start_date${indexx.count }${index.count }">Construction Start Date </label>
+												                                    <button type="button" id="construction_start_date${indexx.count }${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+												                                    <span id="construction_start_date${indexx.count }${index.count }Error" class="error-msg" ></span>
+												                                </div>
+												                                <div class="col s6 input-field " >
+												                                    <input id="revised_completion${indexx.count }${index.count }" name="revised_completions" type="text" class="validate datepicker" value="${sObj1.revised_completion }">
+												                                    <label for="revised_completion${indexx.count }${index.count }" >Target completion Date </label>
+												                                    <button type="button" id="revised_completion${indexx.count }${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+												                                    <span id="revised_completion${indexx.count }${index.count }Error" class="error-msg" ></span>
+												                                </div> 
 											                                </div>
-										                                </div>
-										                                <div class="row">
-										                                	<div class="col s6 input-field amount-dropdown">
-											                                	<i class="material-icons amount-symbol cost">₹</i>   
-											                                    <input id="estimated_cost${indexx.count }${index.count }" name="estimated_costs" type="number" class="validate" value="" min="0.01" step="0.01">
-											                                    <label for="estimated_cost${indexx.count }${index.count }">Estimated Cost</label>
-											                                    <span id="estimated_cost${indexx.count }${index.count }Error" class="error-msg" ></span> 
-											                                	<span id="estimated_cost_units${indexx.count }${index.count }Error" class="error-msg right" ></span>
-											                                    <select class="validate-dropdown" id="estimated_cost_units${indexx.count }${index.count }" name="estimated_cost_unitss">
-											                                		<option value="">Select</option>    
-											                                		<c:forEach var="obj" items="${unitsList}">
-																						<option value="${obj.value }" >${obj.unit }</option>
-																					</c:forEach>                              		
-											                                	</select>
+											                                <div class="row">
+											                                	<div class="col s12 input-field ">
+												                                    <textarea id="remarks${indexx.count }${index.count }" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000">${sObj1.remarks }</textarea>
+												                                    <label for="remarks${indexx.count }${index.count }">Remarks</label>
+												                                    <span id="remarks${indexx.count }${index.count }Error" class="error-msg" ></span>
+												                                </div>
 											                                </div>
-										                                	 <div class="col s6 input-field">
-											                                    <input id="construction_start_date${indexx.count }${index.count }" name="construction_start_dates" type="text" class="validate datepicker" value="" >
-											                                    <label for="construction_start_date${indexx.count }${index.count }">Construction Start Date </label>
-											                                    <button type="button" id="construction_start_date${indexx.count }${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-											                                    <span id="construction_start_date${indexx.count }${index.count }Error" class="error-msg" ></span>
-											                                </div>
-											                                <div class="col s6 input-field " >
-											                                    <input id="revised_completion${indexx.count }${index.count }" name="revised_completions" type="text" class="validate datepicker" value="${fob.revised_completion }" <c:if test="${not empty fob.revised_completion}">disabled</c:if>>
-											                                    <label for="revised_completion${indexx.count }${index.count }" >Target completion Date </label>
-											                                    <button type="button" id="revised_completion${indexx.count }${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-											                                    <span id="revised_completion${indexx.count }${index.count }Error" class="error-msg" ></span>
-											                                </div> 
-										                                </div>
-										                                <div class="row">
-										                                	<div class="col s12 input-field ">
-											                                    <textarea id="remarks${indexx.count }${index.count }" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000">${fob.remarks }</textarea>
-											                                    <label for="remarks${indexx.count }${index.count }">Remarks</label>
-											                                    <span id="remarks${indexx.count }${index.count }Error" class="error-msg" ></span>
-											                                </div>
-										                                </div>
-																	</div>
-																	
+																		</div>
+																	</c:forEach>
 																	
 																	<div class="row">
 																		<div class="col m12">
-																			<table id="structureResponsibleTable${indexx.count }${index.count }${index.count }" class="mdl-data-table mobile_responsible_table">
-																			    <thead>
-																			        <tr>
-																			            <th style="width:50%">Contract </th>
-																			            <th style="text-align : left;">Responsible Executives </th>
-																			            <th style="width:8%">Action</th>
-																			        </tr>
-																			    </thead>
-																			    <tbody id="structureResponsibleBody${indexx.count }${index.count }${index.count }">
-																			    <input type="hidden"  id="contracts_id_fk${indexx.count }${index.count }${index.count }" name="contracts_id_fk" />
-																			        <tr id="structureResponsibleRow${indexx.count }${index.count }${index.count }">
-																			            <td data-head="Department" class="input-field">
-																			                <select class="searchable validate-dropdown contracts_id_fk"
-																			                id="contract_id_fk${indexx.count }${index.count }${index.count }" name="contracts"  onchange="getRowsCount('${indexx.count }${index.count }${index.count }','${indexx.count }${index.count }');">
-																			                    <option value="">Select</option>
-																			                    <c:forEach var="obj" items="${contractsList}">
-																									<option value="${obj.contract_id_fk }" >${obj.contract_short_name }</option>
-																								</c:forEach>
-																			                </select>
-																			            </td>
-																			            <td data-head="Select Executives" class="input-field h-auto">
-																			            	<input type="hidden"  id="responsible_people_id_fk${indexx.count }${index.count }${index.count }" name="responsible_people_id_fks" />
-																			                <select class="searchable validate-dropdown"  id="responsible_people_id_fks${indexx.count }${index.count }${index.count }" multiple onchange="executivesToStringMethod('${indexx.count }${index.count }${index.count }')">
-																			                    <option value="">Select</option>
-																			                     <c:forEach var="obj" items="${responsiblePeopleList}">
-																									<option value="${obj.user_id }" >${obj.designation }</option>
-																								</c:forEach>
-																			                </select>
-																			            </td>
-																			            <td class="mobile_btn_close">
-																			                <a onclick="removeStructureResponsible('${indexx.count }${index.count }${index.count }','${index.count }');deleteRowsCount('${indexx.count }${index.count }${index.count }','${indexx.count }${index.count }');" class="btn waves-effect waves-light red t-c "> <i
-																			                        class="fa fa-close"></i></a>
-																			            </td>
-																			        </tr>
-																			    </tbody>
-																			</table>
-																			<input type="hidden" value="0" id="structureResponsibleLength${indexx.count }${index.count }${index.count }">
-																			<table class="mdl-data-table bd-none">
-																			    <tbody>                                          
-																			        <tr class="bd-none">
-																			               <td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureResponsibleRow('${indexx.count }${index.count }${index.count }');"> <i class="fa fa-plus"></i></a></td>
-																			         </tr>
-																			    </tbody>
-																			</table>
+																		<table id="structureResponsibleTable${indexx.count }${index.count }${index.count }" class="mdl-data-table mobile_responsible_table">
+																				    <thead>
+																				        <tr>
+																				            <th style="width:50%">Contract </th>
+																				            <th style="text-align : left;">Responsible Executives </th>
+																				            <th style="width:8%">Action</th>
+																				        </tr>
+																				    </thead>
+																				    <tbody id="structureResponsibleBody${indexx.count }${index.count }${index.count }">
+																				    <input type="hidden"  id="contracts_id_fk${indexx.count }${index.count }${index.count }" name="contracts_id_fk" />
+																				    <input type="hidden"  id="responsible_people_id_fk${indexx.count }${index.count }${index.count }" name="responsible_people_id_fks" />
+																				    <c:choose>
+																					<c:when test="${not empty sObj.executivesList && fn:length(sObj.executivesList) gt 0 }">
+																				    <c:forEach var="exObj" items="${sObj.executivesList }" varStatus="indexxx"> 
+																				        <tr id="structureResponsibleRow${indexx.count }${index.count }${indexxx.count }">
+																				            <td data-head="Department" class="input-field">
+																				                <select class="searchable validate-dropdown "
+																				                id="contract_id_fk${indexx.count }${index.count }${indexxx.count }" name="contracts"  onchange="getRowsCount('${indexx.count }${index.count }${index.count }','${indexx.count }${index.count }');">
+																				                    <option value="">Select</option>
+																				                    <c:forEach var="obj" items="${contractsList}">
+																										<option value="${obj.contract_id_fk }" <c:if test="${exObj.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_short_name }</option>
+																									</c:forEach>
+																				                </select>
+																				            </td>
+																				            
+																				            <td data-head="Select Executives" class="input-field h-auto">
+																				            	
+																				                <select class="searchable validate-dropdown"  id="responsible_people_id_fks${indexx.count }${index.count }${indexxx.count }" name="excecutives" multiple onchange="executivesToStringMethod('${indexx.count }${index.count }${index.count }')">
+																				                    <option value="">Select</option>
+																				                     <c:forEach var="obj" items="${responsiblePeopleList}">
+																										<option value="${obj.user_id }" 
+																											<c:forEach var="tempobj" items="${exObj.responsiblePeopleLists}">
+																									 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id }">selected</c:if>
+																                                          	</c:forEach>>${obj.designation }</option>
+																									</c:forEach>
+																				                </select>
+																				            </td>
+																				            <td class="mobile_btn_close">
+																				                <a onclick="removeStructureResponsible('${indexx.count }${index.count }${index.count }','${index.count }');deleteRowsCount('${indexx.count }${index.count }${indexxx.count }','${indexx.count }${index.count }');executivesToStringMethod('${indexx.count }${index.count }${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+																				                        class="fa fa-close"></i></a>
+																				            </td>
+																				        </tr>
+																				        <script>
+																		                   var vals = [];
+																		     			   $('#structureResponsibleTable${indexx.count }${index.count }${index.count } select[name="contracts"]').each(function(i,val){vals.push($(this).val());   });
+																		             	   vals = vals.join(',_,');
+																		             	   vals = vals.replace(/,_,\s*$/, '');
+																		     			   $('#contracts_id_fk${indexx.count }${index.count }${index.count }' ).val(vals);
+																		     			   
+																		     			   var exvals = [];
+																		     			   $('#structureResponsibleTable${indexx.count }${index.count }${index.count } select[name="excecutives"]').each(function(i,val){exvals.push($(this).val());   });
+																		     			   exvals = exvals.join(',_,');
+																		     			   exvals = exvals.replace(/,_,\s*$/, '');
+																		     			   $('#responsible_people_id_fk${indexx.count }${index.count }${index.count }' ).val(exvals);
+																                    
+																                         </script>
+																				     </c:forEach>
+																				     </c:when>
+         																	  	<c:otherwise>
+         																	  		<tr id="structureResponsibleRow${indexx.count }${index.count }${index.count }">
+																				            <td data-head="Department" class="input-field">
+																				                <select class="searchable validate-dropdown contracts_id_fk"
+																				                id="contract_id_fk${indexx.count }${index.count }${index.count }" name="contracts"  onchange="getRowsCount('${indexx.count }${index.count }${index.count }','${indexx.count }${index.count }');">
+																				                    <option value="">Select</option>
+																				                    <c:forEach var="obj" items="${contractsList}">
+																										<option value="${obj.contract_id_fk }">${obj.contract_short_name }</option>
+																									</c:forEach>
+																				                </select>
+																				            </td>
+																				            <td data-head="Select Executives" class="input-field h-auto">
+																				                <select class="searchable validate-dropdown"  id="responsible_people_id_fks${indexx.count }${index.count }${index.count }" multiple name="excecutives" onchange="executivesToStringMethod('${indexx.count }${index.count }${index.count }')">
+																				                    <option value="">Select</option>
+																				                     <c:forEach var="obj" items="${responsiblePeopleList}">
+																										<option value="${obj.user_id }" >${obj.designation }</option>
+																									</c:forEach>
+																				                </select>
+																				            </td>
+																				            <td class="mobile_btn_close">
+																				                <a onclick="removeStructureResponsible('${indexx.count }${index.count }${index.count }','${index.count }');deleteRowsCount('${indexx.count }${index.count }${index.count }','${indexx.count }${index.count }');executivesToStringMethod('${indexx.count }${index.count }${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+																				                        class="fa fa-close"></i></a>
+																				            </td>
+																				        </tr>
+         																	  </c:otherwise>
+         																	  </c:choose>
+																				  </tbody>
+																				</table>
+																				 <c:choose>
+											                                        <c:when test="${not empty sObj.executivesList && fn:length(sObj.executivesList) gt 0 }">
+											                                    		<input type="hidden" id="structureResponsibleLength${indexx.count }${index.count }${index.count }"  value="${fn:length(sObj.executivesList) }" />
+											                                    	</c:when>
+											                                     	<c:otherwise>
+											                                     		<input type="hidden" id="structureResponsibleLength${indexx.count }${index.count }${index.count }"   value="0" />
+											                                     	</c:otherwise>
+											                                      </c:choose> 
+																				<table class="mdl-data-table bd-none">
+																				    <tbody>                                          
+																				        <tr class="bd-none">
+																				               <td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureResponsibleRow('${indexx.count }${index.count }${index.count }');"> <i class="fa fa-plus"></i></a></td>
+																				         </tr>
+																				    </tbody>
+																				</table>
 																		</div>
 																	</div>	
 																	
@@ -453,7 +512,35 @@ td label.btn.bg-m{
 																                </thead>
 																                <tbody id="structureDetailsTableBody${indexx.count }${index.count }${index.count }">
 																                	<input type="hidden" id="structure_details${indexx.count }${index.count }${index.count }" name="structure_detailss">
+																                	<c:choose>
+																					<c:when test="${not empty sObj.structureDetailsList && fn:length(sObj.structureDetailsList) gt 0 }">
+																				    <c:forEach var="valObj" items="${sObj.structureDetailsList }" > 
 																                    <tr id="structureDetailsRow${indexx.count }${index.count }${index.count }">
+																                        <td>
+																                            <input id="structure_detail_names${indexx.count }${index.count }${index.count }" name="structure_details" type="text" onkeyup="detailsMethod('${indexx.count }${index.count }${index.count }')"
+																                                class="validate" value="${valObj.structure_detail}" placeholder="Detail name">
+																                        </td>
+																                        <td>
+																                            <input id="structure_detail_values${indexx.count }${index.count }${index.count }" name="structure_values" type="text"
+																                                class="validate" value="${valObj.structure_value}" placeholder="Value">
+																                        </td>
+																                        <td class="mobile_btn_close">
+																                            <a onclick="removeStructureDetail('${indexx.count }${index.count }${index.count }','${index.count }');detailsMethod('${indexx.count }${index.count }${index.count }');"
+																                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+																                        </td>
+																                    </tr>
+																                    <script>
+																		                   var vals = [];
+																		     			   $('#structureDetailsTableBody${indexx.count }${index.count }${index.count } input[name="structure_details"]').each(function(i,val){vals.push($(this).val());   });
+																		             	   vals = vals.join(',_,');
+																		             	   vals = vals.replace(/,_,\s*$/, '');
+																		     			   $('#structure_details${indexx.count }${index.count }${index.count }' ).val(vals);
+																                    
+																                    </script>
+																                   </c:forEach>
+																				     </c:when>
+         																	  	<c:otherwise>
+         																	  		<tr id="structureDetailsRow${indexx.count }${index.count }${index.count }">
 																                        <td>
 																                            <input id="structure_detail_names${indexx.count }${index.count }${index.count }" name="structure_details" type="text" onkeyup="detailsMethod('${indexx.count }${index.count }${index.count }')"
 																                                class="validate" value="" placeholder="Detail name">
@@ -467,9 +554,18 @@ td label.btn.bg-m{
 																                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 																                        </td>
 																                    </tr>
+         																	  	</c:otherwise>
+         																	  </c:choose>
 																                </tbody>
 																            </table>
-																            <input type="hidden" value="0" id="structureDetailsLength${indexx.count }${index.count }${index.count }">
+																             <c:choose>
+											                                        <c:when test="${not empty sObj.structureDetailsList && fn:length(sObj.structureDetailsList) gt 0 }">
+											                                    		<input type="hidden" id="structureDetailsLength${indexx.count }${index.count }${index.count }"   value="${fn:length(sObj.structureDetailsList) }" />
+											                                    	</c:when>
+											                                     	<c:otherwise>
+											                                     		<input type="hidden" id="structureDetailsLength${indexx.count }${index.count }${index.count }"   value="0" />
+											                                     	</c:otherwise>
+											                                 </c:choose> 
 																            <table class="mdl-data-table bd-none">
 																                <tbody>
 																                    <tr class="bd-none">
@@ -498,25 +594,30 @@ td label.btn.bg-m{
 																	                </thead>
 																	                <tbody id="structureFilesBody${indexx.count }${index.count }${index.count }">
 																	                 <input type="hidden"  id="structureFiless${indexx.count }${index.count }${index.count }" name="structureFiless" />
+																	                 <c:choose>
+																					 <c:when test="${not empty sObj.documentsList && fn:length(sObj.documentsList) gt 0 }">
+																				     <c:forEach var="docObj" items="${sObj.documentsList }" > 
 																	                    <tr id="structureFilesRow${indexx.count }${index.count }${index.count }">
 																	                        <td data-head="File Type" class="input-field">
 																	                           <select name="structure_file_types" id="structure_file_types${indexx.count }${index.count }${index.count }" class="validate-dropdown searchable">
 																	                                <option value="">Select</option>
 																	                                 <c:forEach var="obj" items="${fileType}">
-																										<option value="${obj.structure_file_type }" >${obj.structure_file_type }</option>
+																										<option value="${obj.structure_file_type }" <c:if test="${docObj.structure_file_type eq obj.structure_file_type}">selected</c:if>>${obj.structure_file_type }</option>
 																									 </c:forEach>
 																	                      	 </select></td> 
 																	                        <td data-head="Name" class="input-field">
 																	                            <input id="structureDocumentNames${indexx.count }${index.count }${index.count }" name="structureDocumentNames" type="text" class="validate"
-																	                                placeholder="Name">
+																	                                placeholder="Name" value="${docObj.name}">
 																	                        </td>
 																	                        <td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 																	                            <div class="t-c">
-																	                                <input type="file" id="structureFiles${indexx.count }${index.count }${index.count }" name="structureFiles" accept="image/*" onchange="documentMethod('${indexx.count }${index.count }${index.count }');">
+																	                            <a href="<%=CommonConstants2.STRUCTURE_FILES %>${docObj.attachment }" class="filevalue" download>${docObj.attachment }</a>
+																	                                <input type="file" id="structureFiles${indexx.count }${index.count }${index.count }" name="structureFiles" accept="image/*" 
+																	                                onchange="documentMethod('${indexx.count }${index.count }${index.count }');" value="${docObj.attachment}">
 																	                                <label for="structureFiles${indexx.count }${index.count }${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 																	                            </div>
 																	                            <div class="file-path-wrapper">
-																	                                <input class="file-path validate" type="text" id="structureFileNames${indexx.count }${index.count }${index.count }" name="structureFileNames">
+																	                                <input class="file-path validate" type="text" id="structureFileNames${indexx.count }${index.count }${index.count }" name="structureFileNames"  value="${docObj.attachment}">
 																	                            </div>
 																	                        </td>
 																	                        <td style="display:none;"><input type="hidden" id="structure_file_ids${indexx.count }${index.count }${index.count }" name="structure_file_ids" /></td>
@@ -525,10 +626,56 @@ td label.btn.bg-m{
 																	                                <i class="fa fa-close"></i></a>
 																	                        </td>
 																	                    </tr>
+																	                     <script>
+																		                   var vals = [];
+																		     			   $('#structureFilesBody${indexx.count }${index.count }${index.count } input[name="structureFiles"]').each(function(i,val){vals.push($(this).val());   });
+																		             	   vals = vals.join(',_,');
+																		             	   vals = vals.replace(/,_,\s*$/, '');
+																		     			   $('#structureFiless${indexx.count }${index.count }${index.count }' ).val(vals);
+																                    
+																                         </script>
+																	                     </c:forEach>
+																				     </c:when>
+         																	  	<c:otherwise>
+	         																	  	<tr id="structureFilesRow${indexx.count }${index.count }${index.count }">
+																		                        <td data-head="File Type" class="input-field">
+																		                           <select name="structure_file_types" id="structure_file_types${indexx.count }${index.count }${index.count }" class="validate-dropdown searchable">
+																		                                <option value="">Select</option>
+																		                                 <c:forEach var="obj" items="${fileType}">
+																											<option value="${obj.structure_file_type }" >${obj.structure_file_type }</option>
+																										 </c:forEach>
+																		                      	 </select></td> 
+																		                        <td data-head="Name" class="input-field">
+																		                            <input id="structureDocumentNames${indexx.count }${index.count }${index.count }" name="structureDocumentNames" type="text" class="validate"
+																		                                placeholder="Name">
+																		                        </td>
+																		                        <td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
+																		                            <div class="t-c">
+																		                                <input type="file" id="structureFiles${indexx.count }${index.count }${index.count }" name="structureFiles" accept="image/*" onchange="documentMethod('${indexx.count }${index.count }${index.count }');">
+																		                                <label for="structureFiles${indexx.count }${index.count }${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+																		                            </div>
+																		                            <div class="file-path-wrapper">
+																		                                <input class="file-path validate" type="text" id="structureFileNames${indexx.count }${index.count }${index.count }" name="structureFileNames">
+																		                            </div>
+																		                        </td>
+																		                        <td style="display:none;"><input type="hidden" id="structure_file_ids${indexx.count }${index.count }${index.count }" name="structure_file_ids" /></td>
+																		                        <td class="mobile_btn_close">
+																		                            <a onclick="removeStructureFileRow('${indexx.count }${index.count }${index.count }','${index.count }');documentMethod('${indexx.count }${index.count }${index.count }');" class="btn red">
+																		                                <i class="fa fa-close"></i></a>
+																		                        </td>
+																		                 </tr>
+         																	  	</c:otherwise>
+         																	   </c:choose>
 																	                </tbody>
 																	            </table>
-																	            <input type="hidden" id="structureFilesLength${indexx.count }${index.count }${index.count }" name="structureFilesLength" value="0" />
-																	
+																	             <c:choose>
+											                                        <c:when test="${not empty sObj.documentsList && fn:length(sObj.documentsList) gt 0 }">
+											                                    		<input type="hidden" id="structureFilesLength${indexx.count }${index.count }${index.count }"   value="${fn:length(sObj.documentsList) }" />
+											                                    	</c:when>
+											                                     	<c:otherwise>
+											                                     		<input type="hidden" id="structureFilesLength${indexx.count }${index.count }${index.count }"   value="0" />
+											                                     	</c:otherwise>
+											                                    </c:choose> 
 																	            <table class="mdl-data-table bd-none">
 																	                <tbody>
 																	                    <tr class="bd-none">
@@ -675,6 +822,7 @@ td label.btn.bg-m{
 																			    </thead>
 																			    <tbody id="structureResponsibleBody1000">
 																			    <input type="hidden"  id="contracts_id_fk1000" name="contracts_id_fk" />
+																			    <input type="hidden" id="responsible_people_id_fk1000" name="responsible_people_id_fks" />
 																			        <tr id="structureResponsibleRow1000">
 																			            <td data-head="Department" class="input-field">
 																			           	    
@@ -689,7 +837,7 @@ td label.btn.bg-m{
 																			            	<input type="hidden" id="responsible_people_id_fk1000" name="responsible_people_id_fks" />
 																			            	
 																			                <select class="searchable validate-dropdown"
-																			                    id="responsible_people_id_fks1000" multiple onchange="executivesToStringMethod('1000')">
+																			                    id="responsible_people_id_fks1000" multiple name="excecutives" onchange="executivesToStringMethod('1000')">
 																			                    <option value="">Select</option>
 																			                    <c:forEach var="obj" items="${responsiblePeopleList}">
 																									<option value="${obj.user_id }" >${obj.designation }</option>
@@ -697,7 +845,7 @@ td label.btn.bg-m{
 																			                </select>
 																			            </td>
 																			            <td class="mobile_btn_close">
-																			                <a onclick="removeStructureResponsible('1000','0');deleteRowsCount('1000','00');" class="btn waves-effect waves-light red t-c "> <i
+																			                <a onclick="removeStructureResponsible('1000','0');deleteRowsCount('1000','00');executivesToStringMethod('1000');" class="btn waves-effect waves-light red t-c "> <i
 																			                        class="fa fa-close"></i></a>
 																			            </td>
 																			        </tr>
@@ -1140,19 +1288,19 @@ td label.btn.bg-m{
            			    +'<label for="remarks'+rNo+rNo+x+'">Remarks</label><span id="remarks'+rNo+rNo+x+'Error" class="error-msg" ></span></div></div></div>'
            			    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+1+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
            			    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'
-           			    +'<tbody id="structureResponsibleBody'+1+rNo+rNo+rNo+x+'"><input type="hidden"  id="contracts_id_fk'+1+rNo+rNo+rNo+x+'" name="contracts_id_fk" /><tr id="structureResponsibleRow'+1+rNo+rNo+rNo+x+'"><td data-head="Departments" class="input-field">'
+           			    +'<tbody id="structureResponsibleBody'+1+rNo+rNo+rNo+x+'"><input type="hidden" id="responsible_people_id_fk'+1+rNo+rNo+rNo+x+'" name="responsible_people_id_fks" /><input type="hidden"  id="contracts_id_fk'+1+rNo+rNo+rNo+x+'" name="contracts_id_fk" /><tr id="structureResponsibleRow'+1+rNo+rNo+rNo+x+'"><td data-head="Departments" class="input-field">'
            			    +'<select class="searchable validate-dropdown contracts_id_fk"  id="contract_id_fk'+1+rNo+rNo+rNo+x+'" name="contracts"  onchange="getRowsCount('+1+rNo+rNo+rNo+x+','+rNo+');">'+
            			    '<option value="">Select</option>'
            			    	<c:forEach var="obj" items="${contractsList }">
 				              	 +'<option value="${obj.contract_id_fk }">${obj.contract_short_name}</option>'
 				            </c:forEach> 
            			    +'</select></td>'
-           			    +'<td data-head="Select Executives" class="input-field h-auto"><input type="hidden" id="responsible_people_id_fk'+1+rNo+rNo+rNo+x+'" name="responsible_people_id_fks" /><select class="searchable validate-dropdown"  id="responsible_people_id_fks'+1+rNo+rNo+rNo+x+'" multiple onchange="executivesToStringMethod('+1+rNo+rNo+rNo+x+')">'
+           			    +'<td data-head="Select Executives" class="input-field h-auto"><select class="searchable validate-dropdown"  id="responsible_people_id_fks'+1+rNo+rNo+rNo+x+'" multiple name="excecutives" onchange="executivesToStringMethod('+1+rNo+rNo+rNo+x+')">'
            			    +'<option value="">Select</option>'
 		           			 <c:forEach var="obj" items="${responsiblePeopleList }">
 				              	 +'<option value="${obj.user_id }">${obj.designation}</option>'
 				             </c:forEach>
-           			    +'</select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+1+rNo+rNo+rNo+x+','+rNo+');deleteRowsCount('+1+rNo+rNo+rNo+x+','+rNo+');" class="btn waves-effect waves-light red t-c ">'
+           			    +'</select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+1+rNo+rNo+rNo+x+','+rNo+');deleteRowsCount('+1+rNo+rNo+rNo+x+','+rNo+');executivesToStringMethod('+1+rNo+rNo+rNo+x+');" class="btn waves-effect waves-light red t-c ">'
            			    +'<i class="fa fa-close"></i></a></td></tr></tbody></table>'
            			    +'<input type="hidden" value="0" id="structureResponsibleLength'+1+rNo+rNo+rNo+x+'"><table class="mdl-data-table bd-none"><tbody>  <tr class="bd-none">'
            			    +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureResponsibleRow('+1+rNo+rNo+rNo+x+');"> <i class="fa fa-plus"></i></a></td>'
@@ -1252,19 +1400,19 @@ td label.btn.bg-m{
 						    +'<label for="remarks'+rNo+rNo+'">Remarks</label><span id="remarks'+rNo+rNo+'Error" class="error-msg" ></span></div></div></div>'
 						    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+y+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
 						    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'
-						    +'<tbody id="structureResponsibleBody'+y+rNo+rNo+rNo+x+'"><input type="hidden"  id="contracts_id_fk'+y+rNo+rNo+rNo+x+'" name="contracts_id_fk" /><tr id="structureResponsibleRow'+y+rNo+rNo+rNo+x+'"><td data-head="Department" class="input-field">'
+						    +'<tbody id="structureResponsibleBody'+y+rNo+rNo+rNo+x+'"><input type="hidden" id="responsible_people_id_fk'+y+rNo+rNo+rNo+x+'" name="responsible_people_id_fks" /><input type="hidden"  id="contracts_id_fk'+y+rNo+rNo+rNo+x+'" name="contracts_id_fk" /><tr id="structureResponsibleRow'+y+rNo+rNo+rNo+x+'"><td data-head="Department" class="input-field">'
 						    +'<select class="searchable validate-dropdown contracts_id_fk" id="contract_id_fk'+y+rNo+rNo+rNo+x+'" name="contracts"  onchange="getRowsCount('+y+rNo+rNo+rNo+x+','+rNo+rNo+tableNo+');">'+
 						    '<option value="">Select</option>'
 						     	<c:forEach var="obj" items="${contractsList }">
 				              	   +'<option value="${obj.contract_id_fk }">${obj.contract_short_name}</option>'
 				                </c:forEach>
 						    +'</select></td>'
-						    +'<td data-head="Select Executives" class="input-field h-auto"><input type="hidden" id="responsible_people_id_fk'+y+rNo+rNo+rNo+x+'" name="responsible_people_id_fks" /><select class="searchable validate-dropdown" id="responsible_people_id_fks'+y+rNo+rNo+rNo+x+'" multiple onchange="executivesToStringMethod('+y+rNo+rNo+rNo+x+')">'
+						    +'<td data-head="Select Executives" class="input-field h-auto"><select class="searchable validate-dropdown" id="responsible_people_id_fks'+y+rNo+rNo+rNo+x+'" multiple name="excecutives" onchange="executivesToStringMethod('+y+rNo+rNo+rNo+x+')">'
 						    +'<option value="">Select</option>'
 							    <c:forEach var="obj" items="${responsiblePeopleList }">
 				              	 +'<option value="${obj.user_id }">${obj.designation}</option>'
 				             	</c:forEach>
-						    +'</select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+y+rNo+rNo+rNo+x+','+rNo+');deleteRowsCount('+y+rNo+rNo+rNo+x+','+rNo+rNo+tableNo+');" class="btn waves-effect waves-light red t-c ">'
+						    +'</select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+y+rNo+rNo+rNo+x+','+rNo+');deleteRowsCount('+y+rNo+rNo+rNo+x+','+rNo+rNo+tableNo+');executivesToStringMethod('+y+rNo+rNo+rNo+x+');" class="btn waves-effect waves-light red t-c ">'
 						    +'<i class="fa fa-close"></i></a></td></tr></tbody></table>'
 						    +'<input type="hidden" value="0" id="structureResponsibleLength'+y+rNo+rNo+rNo+x+'"><table class="mdl-data-table bd-none"><tbody>  <tr class="bd-none">'
 						    +'<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c " onclick="addstructureResponsibleRow('+y+rNo+rNo+rNo+x+');"> <i class="fa fa-plus"></i></a></td>'
@@ -1361,14 +1509,14 @@ td label.btn.bg-m{
 					 			 <c:forEach var="obj" items="${contractsList }">
 				              	    +'<option value="${obj.contract_id_fk }">${obj.contract_short_name}</option>'
 				                 </c:forEach>
-					 			+'</select></td> <td data-head="Select Executives" class="input-field h-auto"><input type="hidden" id="responsible_people_id_fk'+index+'" name="responsible_people_id_fks" /> <select class="searchable validate-dropdown" '
-					 			+' id="responsible_people_id_fks'+index+'" multiple onchange="executivesToStringMethod('+index+')"> '+
+					 			+'</select></td> <td data-head="Select Executives" class="input-field h-auto"><select class="searchable validate-dropdown" '
+					 			+' id="responsible_people_id_fks'+index+'" multiple name="excecutives" onchange="executivesToStringMethod('+ind+')"> '+
 					 			'<option value="">Select</option>'
 					 			 <c:forEach var="obj" items="${responsiblePeopleList }">
 				              		 +'<option value="${obj.user_id }">${obj.designation}</option>'
 				             	 </c:forEach>
 					 			+'</select> </td>'
-					 			+'<td class="mobile_btn_close">	<a onclick="removeStructureResponsible('+index+');deleteRowsCount('+index+','+ind+');" class="btn waves-effect waves-light red t-c "> '
+					 			+'<td class="mobile_btn_close">	<a onclick="removeStructureResponsible('+index+');deleteRowsCount('+index+','+ind+');executivesToStringMethod('+index+');" class="btn waves-effect waves-light red t-c "> '
 					 			+'<i class="fa fa-close"></i></a> </td> </tr>';
 						 $('#structureResponsibleBody'+ind).append(html); 
 						 $("#structureResponsibleLength"+ind).val(rNo);
@@ -1516,10 +1664,12 @@ td label.btn.bg-m{
 	    			
 	    		});
 	             
-	           function executivesToStringMethod(index){
-	        	     var val = $('#responsible_people_id_fks'+index).val();
-	        	     val = val.join(',');
-	            	 var val3 = $('#responsible_people_id_fk'+index).val(val);
+	           function executivesToStringMethod(count){
+	            	   var vals = [];
+		        	   $('#structureResponsibleBody'+count+' select[name="excecutives"]').each(function(i,val){vals.push($(this).val());   });
+		        	   vals = vals.join(',');
+		        	   vals = vals.replace(/,\s*$/, '');
+					   $('#responsible_people_id_fk'+count).val(vals);
 	           }
 	           
 	           function getRowsCount(count,index){

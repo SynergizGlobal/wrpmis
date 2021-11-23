@@ -54,6 +54,7 @@ import com.synergizglobal.pmis.model.Structure;
 import com.synergizglobal.pmis.model.StructurePaginationObject;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.Structure;
 import com.synergizglobal.pmis.model.User;
@@ -321,6 +322,19 @@ public class StructureController {
 			List<Structure> departmentsList = structureService.getDepartmentsListForStructureFrom(obj);
 			model.addObject("departmentsList", departmentsList);
 			
+			List<Structure> responsiblePeopleList = structureService.getResponsiblePeopleListForStructureForm(obj);
+			model.addObject("responsiblePeopleList", responsiblePeopleList);
+			
+			List<Structure> workStatusList = structureService.getWorkStatusListForStructureForm(obj);
+			model.addObject("workStatusList", workStatusList);
+			
+			List<Structure> unitsList = structureService.getUnitsListForStructureForm(obj);
+			model.addObject("unitsList", unitsList);
+			
+			List<Structure> fileType = structureService.getFileTypeForStructureForm(obj);
+			model.addObject("fileType", fileType);
+			
+			
 		}catch (Exception e) {
 			logger.error("addStructureForm : " + e.getMessage());
 		}
@@ -350,6 +364,9 @@ public class StructureController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/structure");
+			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));	
+			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));	
+			obj.setRevised_completion(DateParser.parse(obj.getRevised_completion()));	
 			boolean flag =  structureService.addStructure(obj);	
 			if(flag) {
 				attributes.addFlashAttribute("success", "Structure Added Succesfully."); 
@@ -383,6 +400,18 @@ public class StructureController {
 			
 			List<Structure> departmentsList = structureService.getDepartmentsListForStructureFrom(obj);
 			model.addObject("departmentsList", departmentsList);
+		
+			List<Structure> responsiblePeopleList = structureService.getResponsiblePeopleListForStructureForm(obj);
+			model.addObject("responsiblePeopleList", responsiblePeopleList);
+			
+			List<Structure> workStatusList = structureService.getWorkStatusListForStructureForm(obj);
+			model.addObject("workStatusList", workStatusList);
+			
+			List<Structure> unitsList = structureService.getUnitsListForStructureForm(obj);
+			model.addObject("unitsList", unitsList);
+			
+			List<Structure> fileType = structureService.getFileTypeForStructureForm(obj);
+			model.addObject("fileType", fileType);
 			
 			Structure structuresListDetails = structureService.getStructuresListDetails(obj);
 			model.addObject("structuresListDetails", structuresListDetails);

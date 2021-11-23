@@ -5,6 +5,7 @@ import java.util.List;
 import com.synergizglobal.pmis.model.Structure;
 
 public interface StructureDao {
+	
 	List<Structure> getProjectsListFilter(Structure obj) throws Exception;
 
 	List<Structure> getWorksListFilter(Structure obj) throws Exception;
@@ -40,4 +41,12 @@ public interface StructureDao {
 	List<Structure> getStructureUploadsList(Structure obj) throws Exception;
 
 	List<Structure> getStructureExportList(Structure structure) throws Exception;
+
+	List<Structure> getResponsiblePeopleListForStructureForm(Structure obj) throws Exception;
+
+	List<Structure> getWorkStatusListForStructureForm(Structure obj) throws Exception;
+
+	List<Structure> getUnitsListForStructureForm(Structure obj) throws Exception;
+
+	List<Structure> getFileTypeForStructureForm(Structure obj) throws Exception;
 }

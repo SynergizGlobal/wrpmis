@@ -106,4 +106,24 @@ public class StructureServiceImpl implements StructureService{
 		return dao.getStructureExportList(structure);
 	}
 
+	@Override
+	public List<Structure> getResponsiblePeopleListForStructureForm(Structure obj) throws Exception {
+		return dao.getResponsiblePeopleListForStructureForm(obj);
+	}
+
+	@Override
+	public List<Structure> getWorkStatusListForStructureForm(Structure obj) throws Exception {
+		return dao.getWorkStatusListForStructureForm(obj);
+	}
+
+	@Override
+	public List<Structure> getUnitsListForStructureForm(Structure obj) throws Exception {
+		return dao.getUnitsListForStructureForm(obj);
+	}
+
+	@Override
+	public List<Structure> getFileTypeForStructureForm(Structure obj) throws Exception {
+		return dao.getFileTypeForStructureForm(obj);
+	}
+
 }

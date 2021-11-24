@@ -1622,7 +1622,10 @@ public class ActivitiesProgressReportController {
 										
 								        rowNo++;
 								    }
-								    dprSheet.addMergedRegion(new CellRangeAddress(tCount+1,rowNo-1, 9,9));
+								    if(tCount+1!=rowNo-1)
+								    {
+								    	dprSheet.addMergedRegion(new CellRangeAddress(tCount+1,rowNo-1, 9,9));
+								    }
 
 								    
 								    for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
@@ -2012,6 +2015,7 @@ public class ActivitiesProgressReportController {
 					        else
 					        {
 							
+					        	String remarks1=service.getReportforthePeriodActivitiesRemarks(structure,obj.getFrom_date(),obj.getFrom_date());
 								int tempRowNoRemarks = rowNo;
 							    
 							    XSSFRow remarksRow = dprSheet.createRow(rowNo++);
@@ -2022,10 +2026,17 @@ public class ActivitiesProgressReportController {
 						        String remarks="No Progress for the period";
 								cell.setCellValue(remarks);
 								
-								for (int i = 1; i < 7; i++) {		        	
+								for (int i = 1; i < 8; i++) {		        	
 							        cell = remarksRow.createCell(i);
 							        cell.setCellStyle(indexWhiteStyle);
-									cell.setCellValue("");
+							        if(i==7)
+							        {
+							        	cell.setCellValue(remarks1);
+							        }
+							        else
+							        {
+							        	cell.setCellValue("");
+							        }
 								}	
 								dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,6));
 					        }

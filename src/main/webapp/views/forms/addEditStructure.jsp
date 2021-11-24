@@ -794,14 +794,14 @@ td label.btn.bg-m{
 											                                    <button type="button" id="construction_start_date00_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											                                    <span id="construction_start_date00Error" class="error-msg" ></span>
 											                                </div>
+										                                </div>
+										                                <div class="row">
 											                                <div class="col s6 input-field " >
 											                                    <input id="revised_completion00" name="revised_completions" type="text" class="validate datepicker" value="${fob.revised_completion }" <c:if test="${not empty fob.revised_completion}">disabled</c:if>>
 											                                    <label for="revised_completion00" >Target completion Date </label>
 											                                    <button type="button" id="revised_completion00_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											                                    <span id="revised_completion00Error" class="error-msg" ></span>
 											                                </div> 
-										                                </div>
-										                                <div class="row">
 										                                	<div class="col s12  input-field ">
 											                                    <textarea id="remarks00" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000">${fob.remarks }</textarea>
 											                                    <label for="remarks00">Remarks</label>
@@ -1352,10 +1352,10 @@ td label.btn.bg-m{
            			    +'<div class="col s6 input-field"><input id="construction_start_date'+rNo+rNo+x+'" name="construction_start_dates" type="text" class="validate datepicker" value="" >'
            			    +'<label for="construction_start_date'+rNo+rNo+x+'">Construction Start Date </label><button type="button" id="construction_start_date'+rNo+rNo+x+'_icon" class="datepicker-button">'
            			    +'<i class="fa fa-calendar"></i></button><span id="construction_start_date'+rNo+rNo+x+'Error" class="error-msg" ></span></div>'
-           			    +'<div class="col s6 input-field " ><input id="revised_completion'+rNo+rNo+x+'" name="revised_completions" type="text" class="validate datepicker" >'
+           			    +'</div><div class="row"><div class="col s6 input-field " ><input id="revised_completion'+rNo+rNo+x+'" name="revised_completions" type="text" class="validate datepicker" >'
            			    +'<label for="revised_completion'+rNo+rNo+x+'" >Target completion Date </label><button type="button" id="revised_completion'+rNo+rNo+x+'_icon" class="datepicker-button"><i class="fa fa-calendar">'
-           			    +'</i></button><span id="revised_completion'+rNo+rNo+x+'Error" class="error-msg" ></span></div></div>'
-           			    +'<div class="row"><div class="col s12  input-field "><textarea id="remarks'+rNo+rNo+x+'" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
+           			    +'</i></button><span id="revised_completion'+rNo+rNo+x+'Error" class="error-msg" ></span></div>'
+           			    +'<div class="col s12 input-field "><textarea id="remarks'+rNo+rNo+x+'" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
            			    +'<label for="remarks'+rNo+rNo+x+'">Remarks</label><span id="remarks'+rNo+rNo+x+'Error" class="error-msg" ></span></div></div></div>'
            			    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+1+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
            			    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'
@@ -1449,7 +1449,7 @@ td label.btn.bg-m{
 				var y = Math.floor(Math.random() * (10 - 50 + 100) + 5)
 				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+tableNo+rNo+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
 						   +'placeholder="Structure Id"></td>'
-						   +'<td style="text-align:center;"><div id="modal'+rNo+tableNo+'" class="modal"> '
+						   +'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal"> '
 						    +'<div class="modal-content"><h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
 						    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p>'+
 						    '<select id="work_status_fk'+rNo+tableNo+x+'" name="work_status_fks"  class="searchable validate-dropdown"> '+
@@ -1463,8 +1463,8 @@ td label.btn.bg-m{
 						    +'<span id="target_date'+rNo+rNo+'Error" class="error-msg" ></span></div></div>'
 						    
 						    +'<div class="row"><div class="col s6 input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i>'
-						    +'<input id="estimated_cost'+rNo+rNo+'" name="estimated_costs" type="number" class="validate" value="" min="0.01" step="0.01"><label for="estimated_cost'+rNo+rNo+'">Estimated Cost</label>'
-						    +'<span id="estimated_cost'+rNo+rNo+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+x+'Error" class="error-msg right" ></span>'
+						    +'<input id="estimated_cost'+rNo+rNo+x+'" name="estimated_costs" type="number" class="validate" value="" min="0.01" step="0.01"><label for="estimated_cost'+rNo+rNo+x+'">Estimated Cost</label>'
+						    +'<span id="estimated_cost'+rNo+rNo+x+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+x+'Error" class="error-msg right" ></span>'
 						    +'<select class="validate-dropdown " id="estimated_cost_units'+rNo+rNo+x+'" name="estimated_cost_unitss">'+
 						    '<option value="">Select</option>'
 							   <c:forEach var="obj" items="${unitsList }">
@@ -1475,10 +1475,10 @@ td label.btn.bg-m{
 						    +'<div class="col s6 input-field"><input id="construction_start_date'+rNo+rNo+'" name="construction_start_dates" type="text" class="validate datepicker" value="" >'
 						    +'<label for="construction_start_date'+rNo+rNo+'">Construction Start Date </label><button type="button" id="construction_start_date'+rNo+rNo+'_icon" class="datepicker-button">'
 						    +'<i class="fa fa-calendar"></i></button><span id="construction_start_date'+rNo+rNo+'Error" class="error-msg" ></span></div>'
-						    +'<div class="col s6 input-field " ><input id="revised_completion'+rNo+rNo+'" name="revised_completions" type="text" class="validate datepicker" >'
+						    +'</div><div class="row"><div class="col s6 input-field " ><input id="revised_completion'+rNo+rNo+'" name="revised_completions" type="text" class="validate datepicker" >'
 						    +'<label for="revised_completion'+rNo+rNo+'" >Target completion Date </label><button type="button" id="revised_completion'+rNo+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar">'
-						    +'</i></button><span id="revised_completion'+rNo+rNo+'Error" class="error-msg" ></span></div></div>'
-						    +'<div class="row"><div class="col s12  input-field "><textarea id="remarks'+rNo+rNo+'" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
+						    +'</i></button><span id="revised_completion'+rNo+rNo+'Error" class="error-msg" ></span></div>'
+						    +'<div class="col s12  input-field "><textarea id="remarks'+rNo+rNo+'" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
 						    +'<label for="remarks'+rNo+rNo+'">Remarks</label><span id="remarks'+rNo+rNo+'Error" class="error-msg" ></span></div></div></div>'
 						    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+y+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
 						    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'
@@ -1529,7 +1529,7 @@ td label.btn.bg-m{
 				            +'</a></tr></tbody></table> </div></div></div>'
 				            
 						   //+'<h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5></div></div>'
-	           				+'</div></div><a class="modal-trigger btn bg-m t-c" href="#modal'+rNo+tableNo+'">Update</a>	</td>'
+	           				+'</div></div><a class="modal-trigger btn bg-m t-c" href="#modal'+rNo+rNo+x+'">Update</a>	</td>'
 						   +'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" '
 						   +'onclick="removeStructureInternalRow('+rNo+tableNo+','+tableNo+')"> <i class="fa fa-close"></i></a></td></tr>';
 

@@ -884,7 +884,8 @@ public class StructureDaoImpl implements StructureDao{
 										}if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount])) {
 											fileName = obj.getStructureFileNames()[fCount];
 										}
-										if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount]))) {
+										if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount]))
+												&& (!StringUtils.isEmpty(obj.getStructure_file_types()[fCount])) && (!StringUtils.isEmpty(obj.getStructureDocumentNames()[fCount]))) {
 											documentsStmt.setString(q++,(obj.getStructure_id()));
 											documentsStmt.setString(q++,(fileName));
 											documentsStmt.setString(q++,(obj.getStructure_file_types()[fCount]));
@@ -934,37 +935,6 @@ public class StructureDaoImpl implements StructureDao{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			con.setAutoCommit(false);
-			con.setAutoCommit(false);
-			con.setAutoCommit(false);
-			con.setAutoCommit(false);
-			List<Structure> structure_ids = getStructureIdsWithWork(obj.getWork_id_fk());
-			for(Structure structureIds : structure_ids){
-				String id = structureIds.getStructure_id();
-				String executivesInactiveQry = "DELETE from structure_contract_responsible_people  where structure_id_fk = ?";		 
-				stmt = con.prepareStatement(executivesInactiveQry);
-				stmt.setString(1,id);
-				stmt.executeUpdate(); 
-				if(stmt != null){stmt.close();}
-				
-				String detailsInactiveQry = "DELETE from structure_details  where structure_id_fk = ?";		 
-				stmt = con.prepareStatement(detailsInactiveQry);
-				stmt.setString(1,id);
-				stmt.executeUpdate();
-				if(stmt != null){stmt.close();}
-				
-				String DocumentsInactiveQry = "DELETE from structure_documents  where structure_id_fk = ?";		 
-				stmt = con.prepareStatement(DocumentsInactiveQry);
-				stmt.setString(1,id);
-				stmt.executeUpdate();
-				if(stmt != null){stmt.close();}
-				
-			}
-			String inactiveQry = "DELETE from structure  where work_id_fk = ?";		 
-			stmt = con.prepareStatement(inactiveQry);
-			stmt.setString(1,obj.getWork_id_fk());
-			stmt.executeUpdate();
-			if(stmt != null){stmt.close();}
-			
 			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
 					+ "structure,work_status_fk,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
 					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
@@ -1032,6 +1002,33 @@ public class StructureDaoImpl implements StructureDao{
 				}
 			}
 			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0 && !StringUtils.isEmpty(obj.getWork_id_fk()) && obj.getStructures().length > 0) {
+				List<Structure> structure_ids = getStructureIdsWithWork(obj.getWork_id_fk());
+				for(Structure structureIds : structure_ids){
+					String id = structureIds.getStructure_id();
+					String executivesInactiveQry = "DELETE from structure_contract_responsible_people  where structure_id_fk = ?";		 
+					stmt = con.prepareStatement(executivesInactiveQry);
+					stmt.setString(1,id);
+					stmt.executeUpdate(); 
+					if(stmt != null){stmt.close();}
+					
+					String detailsInactiveQry = "DELETE from structure_details  where structure_id_fk = ?";		 
+					stmt = con.prepareStatement(detailsInactiveQry);
+					stmt.setString(1,id);
+					stmt.executeUpdate();
+					if(stmt != null){stmt.close();}
+					
+					String DocumentsInactiveQry = "DELETE from structure_documents  where structure_id_fk = ?";		 
+					stmt = con.prepareStatement(DocumentsInactiveQry);
+					stmt.setString(1,id);
+					stmt.executeUpdate();
+					if(stmt != null){stmt.close();}
+				}
+				String inactiveQry = "DELETE from structure  where work_id_fk = ?";		 
+				stmt = con.prepareStatement(inactiveQry);
+				stmt.setString(1,obj.getWork_id_fk());
+				stmt.executeUpdate();
+				if(stmt != null){stmt.close();}
+				
 				for (int i = 0; i < arraySize; i++) {
 				    int p = 1;
 				    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
@@ -1227,7 +1224,8 @@ public class StructureDaoImpl implements StructureDao{
 										}if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount])) {
 											fileName = obj.getStructureFileNames()[fCount];
 										}
-										if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount]))) {
+										if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount])) 
+												&& (!StringUtils.isEmpty(obj.getStructure_file_types()[fCount])) && (!StringUtils.isEmpty(obj.getStructureDocumentNames()[fCount]))) {
 											documentsStmt.setString(q++,(obj.getStructure_id()));
 											documentsStmt.setString(q++,(fileName));
 											documentsStmt.setString(q++,(obj.getStructure_file_types()[fCount]));

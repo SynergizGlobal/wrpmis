@@ -312,7 +312,7 @@ td label.btn.bg-m{
                                         <tr id="structureRow${index.count }">
                                        
                                             <td data-head="Structure Type" class="input-field" >
-                                                <select id="structure_type_fks${index.count }" name="structure_type_fks" class="validate-dropdown searchable no-z" 
+                                                <select id="structure_type_fks${index.count }" name="structure_type_fks" class="validate-dropdown searchable no-z"  disabled
                                                 onchange="setStructureTypes(${index.count });">
                                                     <option value="" >Select</option>
                                                     <c:forEach var="obj" items="${structuresList }">

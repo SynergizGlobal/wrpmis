@@ -745,7 +745,7 @@ public class StructureDaoImpl implements StructureDao{
 						    	}
 						    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getResponsible_people_id_fks().length > 0 ) {
 						    		for(String cObj : contracts) {
-						    			if(arraySize == 1) {
+						    			if(arraySize == 1 && !(firstArray[i].contains(","))) {
 								    		String joined = String.join(",", obj.getResponsible_people_id_fks());
 								    		String[] strArray = new String[] {joined};
 								    		obj.setResponsible_people_id_fks(strArray);
@@ -1056,11 +1056,11 @@ public class StructureDaoImpl implements StructureDao{
 				    	String executivesinsert_qry = "INSERT into  structure_contract_responsible_people ( structure_id_fk, contract_id_fk, responsible_people_id_fk) "
 								+"VALUES (?,?,?)";
 				    	executivesInsertStmt = con.prepareStatement(executivesinsert_qry);
-				    	int executivesArrSize = 0;
+				    	int executivesArrSize = 0,contarctsArrSize = 0;
 				    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getContracts_id_fk().length > 0) {
 							obj.setContracts_id_fk(CommonMethods.replaceEmptyByNullInSringArray(obj.getContracts_id_fk()));
-							if(executivesArrSize < obj.getContracts_id_fk().length) {
-								executivesArrSize = obj.getContracts_id_fk().length;
+							if(contarctsArrSize < obj.getContracts_id_fk().length) {
+								contarctsArrSize = obj.getContracts_id_fk().length;
 							}
 						}
 				    	if(!StringUtils.isEmpty(obj.getResponsible_people_id_fks()) && obj.getResponsible_people_id_fks().length > 0) {
@@ -1086,7 +1086,7 @@ public class StructureDaoImpl implements StructureDao{
 						    	}
 						    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getResponsible_people_id_fks().length > 0 ) {
 						    		for(String cObj : contracts) {
-						    			if(arraySize == 1) {
+						    			if(arraySize == 1 && !(firstArray[i].contains(","))) {
 								    		String joined = String.join(",", obj.getResponsible_people_id_fks());
 								    		String[] strArray = new String[] {joined};
 								    		obj.setResponsible_people_id_fks(strArray);

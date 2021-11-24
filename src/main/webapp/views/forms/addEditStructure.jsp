@@ -1149,31 +1149,82 @@ td label.btn.bg-m{
             	$(".page-loader").hide();
             }
         }
+
         function getContractsList(work_id_fk) {
-            $(".contracts_id_fk option:not(:first)").remove();
-            var project_id_fk = $("#project_id_fk").val();
-            if ($.trim(work_id_fk) != "" || $.trim(project_id_fk) != "") {
-                var myParams = {work_id_fk:work_id_fk,project_id_fk:project_id_fk};
-                $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractListForStructureFrom",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var contract_name = '';
-                                if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
-                                var contract_id_fk = "${structuresListDetails.contract_id_fk }";
-                                var count = val.quantity;
-                                if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
-                                	$(".contracts_id_fk").slice(0, count).append('<option  value="' + val.contract_id_fk + '" selected>' + $.trim(contract_name) + '</option>');
-                                } else {
-                                	$(".contracts_id_fk").slice(0, count).append('<option  value="' + val.contract_id_fk + '">' + $.trim(contract_name) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2(); 
-                    }
-                });
+        	$(".page-loader").show();
+            //$("#responsible_people_id_fk option:not(:first)").remove();
+            if($.trim(work_id_fk) != ''){
+            	 $("#contract_id_fk1000 option:not(:first)").remove();
+            	var myParams = { work_id_fk: work_id_fk };
+    	        $.ajax({
+    	        	url: "<%=request.getContextPath()%>/ajax/getContractListForStructureFrom",
+    	            data: myParams, cache: false,async:false,
+    	            success: function (data) {
+    	                if (data.length > 0) {
+    	                    $.each(data, function (i, val) {
+    	                    	var contract_name = '';
+    	                        if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
+    	                       /*  var contract_id_fk = "${fob.contract_id_fk }";
+    	                        if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
+    	                        	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '" selected>' +  $.trim(contract_name) + '</option>');
+    	                        } else {
+    	                        	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '">' +  $.trim(contract_name) + '</option>');
+    	                        } */
+    	                        var selectedFlag = ''
+    	                        <c:forEach var="tempobj" items="${structuresListDetails.executivesList}">	                        	
+    	                        	if('${tempobj.contract_id_fk}' == val.contract_id){
+    	                        		selectedFlag = 'selected';
+    	                        	}
+    		                   	</c:forEach>
+    		                   	$("#contract_id_fk1000").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" '+selectedFlag+'>' +  $.trim(contract_name) + '</option>');
+    	                    });
+    	                }
+    	                $('.searchable').select2();
+    	                $(".page-loader").hide();
+    	            }
+    	        });
+    	        
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        
+        function getContractsByRowList(row) {
+        	var work_id_fk = $('#work_id_fk').val();
+        	if(work_id_fk != "" && work_id_fk.indexOf('-')){
+        		var work = work_id_fk.split("-");
+        		work_id_fk = work[0];
+        	}
+        	var workid="";
+            if($.trim("${structuresListDetails.work_id_fk}")!= ''){
+            	workid="${structuresListDetails.work_id_fk}";
+            } else{
+            	workid = work_id_fk;
+           	}
+            
+        	$(".page-loader").show();
+            if(workid!=''){
+            	$("#contract_id_fk"+row+" option:not(:first)").remove();
+            	var myParams = { work_id_fk: workid };
+    	        $.ajax({
+    	        	url: "<%=request.getContextPath()%>/ajax/getContractListForStructureFrom",
+    	            data: myParams, cache: false,async:false,
+    	            success: function (data) {
+    	                if (data.length > 0) {
+    	                    $.each(data, function (i, val) {
+    	                    	var contract_name = '';
+    	                        if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
+    		                   	$("#contract_id_fk"+row).append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' +  $.trim(contract_name) + '</option>');
+    	                       
+    	                    });
+    	                }
+    	                $('.searchable').select2();
+    	                $(".page-loader").hide();
+    	            }
+    	        });
+    	        
+            }else{
+            	$(".page-loader").hide();
             }
         }
         
@@ -1351,6 +1402,9 @@ td label.btn.bg-m{
     				 $('.searchable').select2();  
     				 $('select:not(.searchable)').formSelect();
     				 $('.modal').modal(); 
+    				 var rowNumber = "rw"+1+rNo+rNo+rNo+x;
+    				 rowNumber.replace("rw", "");
+    				 getContractsByRowList(rowNumber);
             } 
          
 			function removeStructureRow(rowNo){
@@ -1459,7 +1513,9 @@ td label.btn.bg-m{
 			   $('.modal').modal(); 
 			   $('.searchable').select2(); 
 			   $('select:not(.searchable)').formSelect();
-			  // $("#subRowsLengths"+ind).val(rNo+1);
+			   var rowNumber = "rw"+y+rNo+rNo+rNo+x;
+			   rowNumber.replace("rw", "");
+			   getContractsByRowList(rowNumber);
 			}
 			
 			function removeStructureInternalRow(rowNo,ind){
@@ -1523,6 +1579,7 @@ td label.btn.bg-m{
 						 $('#structureResponsibleBody'+ind).append(html); 
 						 $("#structureResponsibleLength"+ind).val(rNo);
 						 $('.searchable').select2();
+						 getContractsByRowList(index);
 			   }  
 			 
 			 function addStructureFileRow(ind){

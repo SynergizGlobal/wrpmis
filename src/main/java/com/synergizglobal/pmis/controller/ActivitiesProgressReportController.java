@@ -2003,7 +2003,7 @@ public class ActivitiesProgressReportController {
 												
 										        rowNo++;
 									        }
-									        if(dataList.size()>0)
+									        if(tCount+1!=rowNo-1)
 									        {
 									        	dprSheet.addMergedRegion(new CellRangeAddress(tCount+1,rowNo-1, 7,7));
 									        }

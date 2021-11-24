@@ -404,7 +404,7 @@ td label.btn.bg-m{
 																				    </thead>
 																				    <tbody id="structureResponsibleBody${indexx.count }${index.count }${index.count }">
 																				    <input type="hidden"  id="contracts_id_fk${indexx.count }${index.count }${index.count }" name="contracts_id_fk" />
-																				    <input type="hidden"  id="responsible_people_id_fk${indexx.count }${index.count }${index.count }" name="responsible_people_id_fks" />
+																				    
 																				    <c:choose>
 																					<c:when test="${not empty sObj.executivesList && fn:length(sObj.executivesList) gt 0 }">
 																				    <c:forEach var="exObj" items="${sObj.executivesList }" varStatus="indexxx"> 
@@ -420,42 +420,41 @@ td label.btn.bg-m{
 																				            </td>
 																				            
 																				            <td data-head="Select Executives" class="input-field h-auto">
-																				            	
-																				                <select class="searchable validate-dropdown"  id="responsible_people_id_fks${indexx.count }${index.count }${indexxx.count }" name="excecutives" multiple onchange="executivesToStringMethod('${indexx.count }${index.count }${index.count }')">
+																				            	<input type="hidden"  id="responsible_people_id_fk${indexx.count }${index.count }${indexxx.count }" name="responsible_people_id_fks" />
+																				                <select class="searchable validate-dropdown"  id="responsible_people_id_fks${indexx.count }${index.count }${indexxx.count }" name="excecutives" multiple onchange="executivesToStringMethod('${indexx.count }${index.count }${indexxx.count }')">
 																				                    <option value="">Select</option>
 																				                     <c:forEach var="obj" items="${responsiblePeopleList}">
 																										<option value="${obj.user_id }" 
 																											<c:forEach var="tempobj" items="${exObj.responsiblePeopleLists}">
 																									 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id }">selected</c:if>
-																                                          	</c:forEach>>${obj.designation }</option>
+																                                          	</c:forEach>>${obj.designation }-${obj.user_name}</option>
 																									</c:forEach>
 																				                </select>
 																				            </td>
 																				            <td class="mobile_btn_close">
-																				                <a onclick="removeStructureResponsible('${indexx.count }${index.count }${index.count }','${index.count }');deleteRowsCount('${indexx.count }${index.count }${indexxx.count }','${indexx.count }${index.count }');executivesToStringMethod('${indexx.count }${index.count }${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+																				                <a onclick="removeStructureResponsible('${indexx.count }${index.count }${indexxx.count }','${index.count }');deleteRowsCount('${indexx.count }${index.count }${index.count }','${indexx.count }${index.count }');executivesToStringMethod('${indexx.count }${index.count }${indexxx.count }');" class="btn waves-effect waves-light red t-c "> <i
 																				                        class="fa fa-close"></i></a>
 																				            </td>
 																				        </tr>
 																				        <script>
 																		                   var vals = [];
 																		     			   $('#structureResponsibleTable${indexx.count }${index.count }${index.count } select[name="contracts"]').each(function(i,val){vals.push($(this).val());   });
-																		             	   vals = vals.join(',_,');
-																		             	   vals = vals.replace(/,_,\s*$/, '');
+																		             	   vals = vals.join(',');
+																		             	   vals = vals.replace(/,\s*$/, '');
 																		     			   $('#contracts_id_fk${indexx.count }${index.count }${index.count }' ).val(vals);
 																		     			   
-																		     			   var exvals = [];
-																		     			   $('#structureResponsibleTable${indexx.count }${index.count }${index.count } select[name="excecutives"]').each(function(i,val){exvals.push($(this).val());   });
-																		     			   exvals = exvals.join(',_,');
-																		     			   exvals = exvals.replace(/,_,\s*$/, '');
-																		     			   $('#responsible_people_id_fk${indexx.count }${index.count }${index.count }' ).val(exvals);
-																                    
+																		     			   var exvals =  $('#responsible_people_id_fks${indexx.count }${index.count }${indexxx.count }').val();
+																		     			  exvals = exvals.join(',');
+																		            	   $('#responsible_people_id_fk${indexx.count }${index.count }${indexxx.count }').val(exvals);
+																		            	   
+																		     			 
 																                         </script>
 																				     </c:forEach>
 																				     </c:when>
          																	  	<c:otherwise>
          																	  		<tr id="structureResponsibleRow${indexx.count }${index.count }${index.count }">
 																				            <td data-head="Department" class="input-field">
-																				                <select class="searchable validate-dropdown contracts_id_fk"
+																				                <select class="searchable validate-dropdown"
 																				                id="contract_id_fk${indexx.count }${index.count }${index.count }" name="contracts"  onchange="getRowsCount('${indexx.count }${index.count }${index.count }','${indexx.count }${index.count }');">
 																				                    <option value="">Select</option>
 																				                    <c:forEach var="obj" items="${contractsList}">
@@ -464,10 +463,11 @@ td label.btn.bg-m{
 																				                </select>
 																				            </td>
 																				            <td data-head="Select Executives" class="input-field h-auto">
+																				            <input type="hidden"  id="responsible_people_id_fk${indexx.count }${index.count }${index.count }" name="responsible_people_id_fks" />
 																				                <select class="searchable validate-dropdown"  id="responsible_people_id_fks${indexx.count }${index.count }${index.count }" multiple name="excecutives" onchange="executivesToStringMethod('${indexx.count }${index.count }${index.count }')">
 																				                    <option value="">Select</option>
 																				                     <c:forEach var="obj" items="${responsiblePeopleList}">
-																										<option value="${obj.user_id }" >${obj.designation }</option>
+																										<option value="${obj.user_id }" >${obj.designation }-${obj.user_name}</option>
 																									</c:forEach>
 																				                </select>
 																				            </td>
@@ -514,18 +514,18 @@ td label.btn.bg-m{
 																                	<input type="hidden" id="structure_details${indexx.count }${index.count }${index.count }" name="structure_detailss">
 																                	<c:choose>
 																					<c:when test="${not empty sObj.structureDetailsList && fn:length(sObj.structureDetailsList) gt 0 }">
-																				    <c:forEach var="valObj" items="${sObj.structureDetailsList }" > 
-																                    <tr id="structureDetailsRow${indexx.count }${index.count }${index.count }">
+																				    <c:forEach var="valObj" items="${sObj.structureDetailsList }" varStatus="indexxx"> 
+																                    <tr id="structureDetailsRow${indexx.count }${index.count }${indexxx.count }">
 																                        <td>
-																                            <input id="structure_detail_names${indexx.count }${index.count }${index.count }" name="structure_details" type="text" onkeyup="detailsMethod('${indexx.count }${index.count }${index.count }')"
+																                            <input id="structure_detail_names${indexx.count }${index.count }${indexxx.count }" name="structure_details" type="text" onkeyup="detailsMethod('${indexx.count }${index.count }${indexxx.count }')"
 																                                class="validate" value="${valObj.structure_detail}" placeholder="Detail name">
 																                        </td>
 																                        <td>
-																                            <input id="structure_detail_values${indexx.count }${index.count }${index.count }" name="structure_values" type="text"
+																                            <input id="structure_detail_values${indexx.count }${index.count }${indexxx.count }" name="structure_values" type="text"
 																                                class="validate" value="${valObj.structure_value}" placeholder="Value">
 																                        </td>
 																                        <td class="mobile_btn_close">
-																                            <a onclick="removeStructureDetail('${indexx.count }${index.count }${index.count }','${index.count }');detailsMethod('${indexx.count }${index.count }${index.count }');"
+																                            <a onclick="removeStructureDetail('${indexx.count }${index.count }${indexxx.count }','${index.count }');detailsMethod('${indexx.count }${index.count }${indexxx.count }');"
 																                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 																                        </td>
 																                    </tr>
@@ -596,39 +596,40 @@ td label.btn.bg-m{
 																	                 <input type="hidden"  id="structureFiless${indexx.count }${index.count }${index.count }" name="structureFiless" />
 																	                 <c:choose>
 																					 <c:when test="${not empty sObj.documentsList && fn:length(sObj.documentsList) gt 0 }">
-																				     <c:forEach var="docObj" items="${sObj.documentsList }" > 
+																				     <c:forEach var="docObj" items="${sObj.documentsList }" varStatus="indexex"> 
 																	                    <tr id="structureFilesRow${indexx.count }${index.count }${index.count }">
 																	                        <td data-head="File Type" class="input-field">
-																	                           <select name="structure_file_types" id="structure_file_types${indexx.count }${index.count }${index.count }" class="validate-dropdown searchable">
+																	                           <select name="structure_file_types" id="structure_file_types${indexx.count }${index.count }${indexex.count }" class="validate-dropdown searchable">
 																	                                <option value="">Select</option>
 																	                                 <c:forEach var="obj" items="${fileType}">
-																										<option value="${obj.structure_file_type }" <c:if test="${docObj.structure_file_type eq obj.structure_file_type}">selected</c:if>>${obj.structure_file_type }</option>
+																										<option value="${obj.structure_file_type }" <c:if test="${docObj.structure_file_type_fk eq obj.structure_file_type}">selected</c:if>>${obj.structure_file_type }</option>
 																									 </c:forEach>
 																	                      	 </select></td> 
 																	                        <td data-head="Name" class="input-field">
-																	                            <input id="structureDocumentNames${indexx.count }${index.count }${index.count }" name="structureDocumentNames" type="text" class="validate"
+																	                            <input id="structureDocumentNames${indexx.count }${index.count }${indexex.count }" name="structureDocumentNames" type="text" class="validate"
 																	                                placeholder="Name" value="${docObj.name}">
 																	                        </td>
 																	                        <td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 																	                            <div class="t-c">
-																	                            <a href="<%=CommonConstants2.STRUCTURE_FILES %>${docObj.attachment }" class="filevalue" download>${docObj.attachment }</a>
-																	                                <input type="file" id="structureFiles${indexx.count }${index.count }${index.count }" name="structureFiles" accept="image/*" 
-																	                                onchange="documentMethod('${indexx.count }${index.count }${index.count }');" value="${docObj.attachment}">
-																	                                <label for="structureFiles${indexx.count }${index.count }${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+																	                                <input type="file" id="structureFiles${indexx.count }${index.count }${indexex.count }" name="structureFiles" accept="image/*" 
+																	                                onchange="documentMethod('${indexx.count }${index.count }${indexex.count }');" value="${docObj.attachment}">
+																	                                <label for="structureFiles${indexx.count }${index.count }${indexex.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 																	                            </div>
 																	                            <div class="file-path-wrapper">
-																	                                <input class="file-path validate" type="text" id="structureFileNames${indexx.count }${index.count }${index.count }" name="structureFileNames"  value="${docObj.attachment}">
+																	                                <input class="file-path validate" type="text" id="structureFileNames${indexx.count }${index.count }${indexex.count }" name="structureFileNames"  value="${docObj.attachment}">
+																	                                
 																	                            </div>
+																	                            <%--  <a href="<%=CommonConstants2.STRUCTURE_FILES %>${docObj.attachment }"  download>${docObj.attachment }</a> --%>
 																	                        </td>
-																	                        <td style="display:none;"><input type="hidden" id="structure_file_ids${indexx.count }${index.count }${index.count }" name="structure_file_ids" /></td>
+																	                        <td style="display:none;"><input type="hidden" id="structure_file_ids${indexx.count }${index.count }${indexex.count }" name="structure_file_ids" /></td>
 																	                        <td class="mobile_btn_close">
-																	                            <a onclick="removeStructureFileRow('${indexx.count }${index.count }${index.count }','${index.count }');documentMethod('${indexx.count }${index.count }${index.count }');" class="btn red">
+																	                            <a onclick="removeStructureFileRow('${indexx.count }${index.count }${indexex.count }','${index.count }');documentMethod('${indexx.count }${index.count }${indexex.count }');" class="btn red">
 																	                                <i class="fa fa-close"></i></a>
 																	                        </td>
 																	                    </tr>
 																	                     <script>
 																		                   var vals = [];
-																		     			   $('#structureFilesBody${indexx.count }${index.count }${index.count } input[name="structureFiles"]').each(function(i,val){vals.push($(this).val());   });
+																		     			   $('#structureFilesBody${indexx.count }${index.count }${index.count } input[name="structureFileNames"]').each(function(i,val){vals.push($(this).val());   });
 																		             	   vals = vals.join(',_,');
 																		             	   vals = vals.replace(/,_,\s*$/, '');
 																		     			   $('#structureFiless${indexx.count }${index.count }${index.count }' ).val(vals);
@@ -822,11 +823,11 @@ td label.btn.bg-m{
 																			    </thead>
 																			    <tbody id="structureResponsibleBody1000">
 																			    <input type="hidden"  id="contracts_id_fk1000" name="contracts_id_fk" />
-																			    <input type="hidden" id="responsible_people_id_fk1000" name="responsible_people_id_fks" />
+																			    
 																			        <tr id="structureResponsibleRow1000">
 																			            <td data-head="Department" class="input-field">
 																			           	    
-																			                <select class="searchable validate-dropdown contracts_id_fk" id="contract_id_fk1000" name="contracts"  onchange="getRowsCount('1000','00');">
+																			                <select class="searchable validate-dropdown" id="contract_id_fk1000" name="contracts"  onchange="getRowsCount('1000','00');">
 																			                    <option value="">Select</option>
 																			                    <c:forEach var="obj" items="${contractsList}">
 																									<option value="${obj.contract_id_fk }" >${obj.contract_short_name }</option>
@@ -835,12 +836,11 @@ td label.btn.bg-m{
 																			            </td>
 																			            <td data-head="Select Executives" class="input-field h-auto">
 																			            	<input type="hidden" id="responsible_people_id_fk1000" name="responsible_people_id_fks" />
-																			            	
 																			                <select class="searchable validate-dropdown"
 																			                    id="responsible_people_id_fks1000" multiple name="excecutives" onchange="executivesToStringMethod('1000')">
 																			                    <option value="">Select</option>
 																			                    <c:forEach var="obj" items="${responsiblePeopleList}">
-																									<option value="${obj.user_id }" >${obj.designation }</option>
+																									<option value="${obj.user_id }" >${obj.designation }-${obj.user_name}</option>
 																								</c:forEach>
 																			                </select>
 																			            </td>
@@ -1021,7 +1021,7 @@ td label.btn.bg-m{
 										<a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addStructureRow()"> <i
                                                          class="fa fa-plus"></i></a>
                                      </div>
-					<c:if test="${action eq 'edit'}">	
+	<%-- 				<c:if test="${action eq 'edit'}">	
 						<div class="row">                            
                              <div class="col s6 m4 offset-m2  input-field" id="loa_date_div">
                                  <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker">
@@ -1035,7 +1035,7 @@ td label.btn.bg-m{
                                  <span id="structure_valueError" class="error-msg" ></span>
                              </div>
                          </div>
-	                 </c:if>   
+	                 </c:if>  --%>  
 	                            
                         <div class="container container-no-margin">
                             <div class="row">
@@ -1142,7 +1142,6 @@ td label.btn.bg-m{
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();
-                        getContractsList("") 
                     }
                 });
             }else{
@@ -1225,6 +1224,9 @@ td label.btn.bg-m{
         	}
         }
         function updateDocument(){
+        	$('form select[name=structure_type_fks]').each(function(){
+        		$("#"+this.id).attr("disabled",false);
+        	});	
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
 	        	$('form input[name=structure_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -1288,17 +1290,17 @@ td label.btn.bg-m{
            			    +'<label for="remarks'+rNo+rNo+x+'">Remarks</label><span id="remarks'+rNo+rNo+x+'Error" class="error-msg" ></span></div></div></div>'
            			    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+1+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
            			    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'
-           			    +'<tbody id="structureResponsibleBody'+1+rNo+rNo+rNo+x+'"><input type="hidden" id="responsible_people_id_fk'+1+rNo+rNo+rNo+x+'" name="responsible_people_id_fks" /><input type="hidden"  id="contracts_id_fk'+1+rNo+rNo+rNo+x+'" name="contracts_id_fk" /><tr id="structureResponsibleRow'+1+rNo+rNo+rNo+x+'"><td data-head="Departments" class="input-field">'
-           			    +'<select class="searchable validate-dropdown contracts_id_fk"  id="contract_id_fk'+1+rNo+rNo+rNo+x+'" name="contracts"  onchange="getRowsCount('+1+rNo+rNo+rNo+x+','+rNo+');">'+
+           			    +'<tbody id="structureResponsibleBody'+1+rNo+rNo+rNo+x+'"><input type="hidden"  id="contracts_id_fk'+1+rNo+rNo+rNo+x+'" name="contracts_id_fk" /><tr id="structureResponsibleRow'+1+rNo+rNo+rNo+x+'"><td data-head="Departments" class="input-field">'
+           			    +'<select class="searchable validate-dropdown "  id="contract_id_fk'+1+rNo+rNo+rNo+x+'" name="contracts"  onchange="getRowsCount('+1+rNo+rNo+rNo+x+','+rNo+');">'+
            			    '<option value="">Select</option>'
            			    	<c:forEach var="obj" items="${contractsList }">
 				              	 +'<option value="${obj.contract_id_fk }">${obj.contract_short_name}</option>'
 				            </c:forEach> 
            			    +'</select></td>'
-           			    +'<td data-head="Select Executives" class="input-field h-auto"><select class="searchable validate-dropdown"  id="responsible_people_id_fks'+1+rNo+rNo+rNo+x+'" multiple name="excecutives" onchange="executivesToStringMethod('+1+rNo+rNo+rNo+x+')">'
+           			    +'<td data-head="Select Executives" class="input-field h-auto"><input type="hidden" id="responsible_people_id_fk'+1+rNo+rNo+rNo+x+'" name="responsible_people_id_fks" /><select class="searchable validate-dropdown"  id="responsible_people_id_fks'+1+rNo+rNo+rNo+x+'" multiple name="excecutives" onchange="executivesToStringMethod('+1+rNo+rNo+rNo+x+')">'
            			    +'<option value="">Select</option>'
 		           			 <c:forEach var="obj" items="${responsiblePeopleList }">
-				              	 +'<option value="${obj.user_id }">${obj.designation}</option>'
+				              	 +'<option value="${obj.user_id }">${obj.designation}-${obj.user_name}</option>'
 				             </c:forEach>
            			    +'</select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+1+rNo+rNo+rNo+x+','+rNo+');deleteRowsCount('+1+rNo+rNo+rNo+x+','+rNo+');executivesToStringMethod('+1+rNo+rNo+rNo+x+');" class="btn waves-effect waves-light red t-c ">'
            			    +'<i class="fa fa-close"></i></a></td></tr></tbody></table>'
@@ -1400,17 +1402,17 @@ td label.btn.bg-m{
 						    +'<label for="remarks'+rNo+rNo+'">Remarks</label><span id="remarks'+rNo+rNo+'Error" class="error-msg" ></span></div></div></div>'
 						    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+y+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
 						    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'
-						    +'<tbody id="structureResponsibleBody'+y+rNo+rNo+rNo+x+'"><input type="hidden" id="responsible_people_id_fk'+y+rNo+rNo+rNo+x+'" name="responsible_people_id_fks" /><input type="hidden"  id="contracts_id_fk'+y+rNo+rNo+rNo+x+'" name="contracts_id_fk" /><tr id="structureResponsibleRow'+y+rNo+rNo+rNo+x+'"><td data-head="Department" class="input-field">'
-						    +'<select class="searchable validate-dropdown contracts_id_fk" id="contract_id_fk'+y+rNo+rNo+rNo+x+'" name="contracts"  onchange="getRowsCount('+y+rNo+rNo+rNo+x+','+rNo+rNo+tableNo+');">'+
+						    +'<tbody id="structureResponsibleBody'+y+rNo+rNo+rNo+x+'"><input type="hidden"  id="contracts_id_fk'+y+rNo+rNo+rNo+x+'" name="contracts_id_fk" /><tr id="structureResponsibleRow'+y+rNo+rNo+rNo+x+'"><td data-head="Department" class="input-field">'
+						    +'<select class="searchable validate-dropdown " id="contract_id_fk'+y+rNo+rNo+rNo+x+'" name="contracts"  onchange="getRowsCount('+y+rNo+rNo+rNo+x+','+rNo+rNo+tableNo+');">'+
 						    '<option value="">Select</option>'
 						     	<c:forEach var="obj" items="${contractsList }">
 				              	   +'<option value="${obj.contract_id_fk }">${obj.contract_short_name}</option>'
 				                </c:forEach>
 						    +'</select></td>'
-						    +'<td data-head="Select Executives" class="input-field h-auto"><select class="searchable validate-dropdown" id="responsible_people_id_fks'+y+rNo+rNo+rNo+x+'" multiple name="excecutives" onchange="executivesToStringMethod('+y+rNo+rNo+rNo+x+')">'
+						    +'<td data-head="Select Executives" class="input-field h-auto"><input type="hidden" id="responsible_people_id_fk'+y+rNo+rNo+rNo+x+'" name="responsible_people_id_fks" /><select class="searchable validate-dropdown" id="responsible_people_id_fks'+y+rNo+rNo+rNo+x+'" multiple name="excecutives" onchange="executivesToStringMethod('+y+rNo+rNo+rNo+x+')">'
 						    +'<option value="">Select</option>'
 							    <c:forEach var="obj" items="${responsiblePeopleList }">
-				              	 +'<option value="${obj.user_id }">${obj.designation}</option>'
+				              	 +'<option value="${obj.user_id }">${obj.designation}-${obj.user_name}</option>'
 				             	</c:forEach>
 						    +'</select></td><td class="mobile_btn_close"><a href="javascript:void(0);" onClick="removeStructureResponsible('+y+rNo+rNo+rNo+x+','+rNo+');deleteRowsCount('+y+rNo+rNo+rNo+x+','+rNo+rNo+tableNo+');executivesToStringMethod('+y+rNo+rNo+rNo+x+');" class="btn waves-effect waves-light red t-c ">'
 						    +'<i class="fa fa-close"></i></a></td></tr></tbody></table>'
@@ -1504,19 +1506,19 @@ td label.btn.bg-m{
 					 var x = Math.floor(Math.random() * (500 - 900 + 1) + 900)
 					 var index = rNo+ind+x;
 					 var html = '<tr id="structureResponsibleRow'+index+'" class=""> <td data-head="Department" class="input-field">'
-					 			+'<select class="searchable validate-dropdown contracts_id_fk" name="contracts" id="contract_id_fk'+index+'" onchange="getRowsCount('+ind+','+index+');">'+
+					 			+'<select class="searchable validate-dropdown " name="contracts" id="contract_id_fk'+index+'" onchange="getRowsCount('+ind+','+index+');">'+
 					 			'<option value="">Select</option>'
 					 			 <c:forEach var="obj" items="${contractsList }">
 				              	    +'<option value="${obj.contract_id_fk }">${obj.contract_short_name}</option>'
 				                 </c:forEach>
-					 			+'</select></td> <td data-head="Select Executives" class="input-field h-auto"><select class="searchable validate-dropdown" '
-					 			+' id="responsible_people_id_fks'+index+'" multiple name="excecutives" onchange="executivesToStringMethod('+ind+')"> '+
+					 			+'</select></td> <td data-head="Select Executives" class="input-field h-auto"><input type="hidden"  id="responsible_people_id_fk'+index+'" name="responsible_people_id_fks" /><select class="searchable validate-dropdown" '
+					 			+' id="responsible_people_id_fks'+index+'" multiple name="excecutives" onchange="executivesToStringMethod('+index+')"> '+
 					 			'<option value="">Select</option>'
 					 			 <c:forEach var="obj" items="${responsiblePeopleList }">
-				              		 +'<option value="${obj.user_id }">${obj.designation}</option>'
+				              		 +'<option value="${obj.user_id }">${obj.designation}-${obj.user_name}</option>'
 				             	 </c:forEach>
 					 			+'</select> </td>'
-					 			+'<td class="mobile_btn_close">	<a onclick="removeStructureResponsible('+index+');deleteRowsCount('+index+','+ind+');executivesToStringMethod('+index+');" class="btn waves-effect waves-light red t-c "> '
+					 			+'<td class="mobile_btn_close">	<a onclick="removeStructureResponsible('+index+');deleteRowsCount('+ind+','+index+');executivesToStringMethod('+index+');" class="btn waves-effect waves-light red t-c "> '
 					 			+'<i class="fa fa-close"></i></a> </td> </tr>';
 						 $('#structureResponsibleBody'+ind).append(html); 
 						 $("#structureResponsibleLength"+ind).val(rNo);
@@ -1665,11 +1667,9 @@ td label.btn.bg-m{
 	    		});
 	             
 	           function executivesToStringMethod(count){
-	            	   var vals = [];
-		        	   $('#structureResponsibleBody'+count+' select[name="excecutives"]').each(function(i,val){vals.push($(this).val());   });
-		        	   vals = vals.join(',');
-		        	   vals = vals.replace(/,\s*$/, '');
-					   $('#responsible_people_id_fk'+count).val(vals);
+	            	   var vals =  $('#responsible_people_id_fks'+count).val();
+	            	   vals = vals.join(',');
+	            	   $('#responsible_people_id_fk'+count).val(vals);
 	           }
 	           
 	           function getRowsCount(count,index){

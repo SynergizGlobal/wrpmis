@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.sql.DataSource;
 
@@ -284,8 +285,8 @@ public class StructureDaoImpl implements StructureDao{
 
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (w.project_id_fk like ? or p.project_name like ? or s.work_id_fk like ? or w.work_short_name like ? or s.contract_id_fk like ?"
-						+ " or c.contract_short_name like ? or dt.department_name like ? or structure_type_fk like ? or structure like ?)";
+				qry = qry + " and (w.project_id_fk like ? or p.project_name like ? or s.work_id_fk like ? or w.work_short_name like ? "
+						+ " or structure_type_fk like ? or structure like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -333,14 +334,12 @@ public class StructureDaoImpl implements StructureDao{
 			throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry ="SELECT s.structure_id,s.structure,w.work_name,w.work_short_name,dt.department_name,w.project_id_fk,s.department_fk,p.project_name,s.work_id_fk,s.contract_id_fk,c.contract_name," + 
-					"c.contract_short_name, GROUP_CONCAT(CONCAT(structure_type_fk, ' - ', count) SEPARATOR ',') as structure_type_fk " + 
+			String qry ="SELECT s.structure_id,s.structure,w.work_name,w.work_short_name,w.project_id_fk,s.department_fk,p.project_name,s.work_id_fk," + 
+					"GROUP_CONCAT(CONCAT(structure_type_fk, ' - ', count) SEPARATOR ',') as structure_type_fk " + 
 					"FROM ( SELECT structure_id,structure,department_fk,contract_id_fk, work_id_fk, structure_type_fk, COUNT(structure_type_fk) AS count FROM structure " + 
 					"JOIN work ON work.work_id = structure.work_id_fk GROUP BY work_id_fk, structure_type_fk) s " + 
-					"left join contract c on s.contract_id_fk = c.contract_id    " + 
 					"left join work w on s.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci   " + 
 					"left join project p on w.project_id_fk = p.project_id  " + 
-					"left join department dt on s.department_fk = dt.department " + 
 					"where structure_id is not null " ;
 			
 			int arrSize = 0;
@@ -363,8 +362,8 @@ public class StructureDaoImpl implements StructureDao{
 							arrSize++;
 						}*/
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (w.project_id_fk like ? or p.project_name like ? or s.work_id_fk like ? or w.work_short_name like ? or s.contract_id_fk like ?"
-						+ " or c.contract_short_name like ? or dt.department_name like ? or structure_type_fk like ? or structure like ?)";
+				qry = qry + " and (w.project_id_fk like ? or p.project_name like ? or s.work_id_fk like ? or w.work_short_name like ?  "
+						+ "or structure_type_fk like ? or structure like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -623,9 +622,9 @@ public class StructureDaoImpl implements StructureDao{
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			String insert_qry = "INSERT into  structure ( work_id_fk, contract_id_fk, department_fk, structure_type_fk, "
+			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
 					+ "structure,work_status_fk,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
-					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
 			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0) {
@@ -694,8 +693,6 @@ public class StructureDaoImpl implements StructureDao{
 				    int p = 1;
 				    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
 			    	    insertStmt.setString(p++,(obj.getWork_id_fk()));
-					    insertStmt.setString(p++,(obj.getContract_id_fk()));
-					    insertStmt.setString(p++,(obj.getDepartment_fk()));
 					    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
 					    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
 					    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
@@ -730,6 +727,11 @@ public class StructureDaoImpl implements StructureDao{
 								executivesArrSize = obj.getResponsible_people_id_fks().length;
 							}
 						}
+				    	if(arraySize == 1) {
+				    		String joined = String.join(",", obj.getContracts_id_fk());
+				    		String[] strArray = new String[] {joined};
+				    		obj.setContracts_id_fk(strArray);
+				    	}
 				    	String[] firstArray = obj.getContracts_id_fk();
 				    
 				    	if(!StringUtils.isEmpty(firstArray) && firstArray.length > 0 && !StringUtils.isEmpty(obj.getContracts_id_fk()[i])) {
@@ -742,6 +744,11 @@ public class StructureDaoImpl implements StructureDao{
 						    	}
 						    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getResponsible_people_id_fks().length > 0 ) {
 						    		for(String cObj : contracts) {
+						    			if(arraySize == 1) {
+								    		String joined = String.join(",", obj.getResponsible_people_id_fks());
+								    		String[] strArray = new String[] {joined};
+								    		obj.setResponsible_people_id_fks(strArray);
+								    	}
 						    			if( !StringUtils.isEmpty(obj.getResponsible_people_id_fks()[j])) {
 						    				List<String> executives = null;
 								    		if(obj.getResponsible_people_id_fks()[j].contains(",")) {
@@ -760,11 +767,15 @@ public class StructureDaoImpl implements StructureDao{
 							    			}
 							    			insertCount = executivesInsertStmt.executeBatch();
 							    			j++;
+						    			}else {
+						    				j++;
 						    			}
 								    	
 						    		}
 						    	}
-					    }
+					    }else {
+		    				j++;
+		    			}
 				    	
 				    	String structure_details_qry = "INSERT into  structure_details ( structure_id_fk, structure_detail, value) "
 								+"VALUES (?,?,?)";
@@ -784,8 +795,15 @@ public class StructureDaoImpl implements StructureDao{
 						}
 				    	if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0 
 				    			&& !StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0 ) {
+				    		if(arraySize == 1) {
+					    		String joined = String.join("", obj.getStructure_detailss());
+					    		joined = joined.replaceAll("_",",_,");
+					    		String[] strArray = new String[] {joined};
+					    		obj.setStructure_detailss(strArray);
+					    	}
 				    		String[] detailsArray = obj.getStructure_detailss();
-				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 && !StringUtils.isEmpty(obj.getStructure_details()[i]) &&!StringUtils.isEmpty(detailsArray[i])) {
+				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 && !StringUtils.isEmpty(obj.getStructure_details()[i]) 
+				    				&&!StringUtils.isEmpty(detailsArray[i])) {
 					    		//detailsArray =Arrays.stream(detailsArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
 					    		List<String> details = null;
 						    	if(detailsArray[i].contains(",_,")) {
@@ -838,9 +856,14 @@ public class StructureDaoImpl implements StructureDao{
 							}
 						}
 						//structureFiless
-						if(!StringUtils.isEmpty(obj.getStructureFiles()[i]) && !StringUtils.isEmpty(obj.getStructureFiless()) && obj.getStructureFiless().length > 0) {
 							List<String> documents = null;
-							if(!StringUtils.isEmpty(obj.getStructureFiless()[i])) {
+							if(!StringUtils.isEmpty(obj.getStructureFiless()) && obj.getStructureFiless().length > 0 && !StringUtils.isEmpty(obj.getStructureFiless()[i])) {
+								if(arraySize == 1) {
+						    		String joined = String.join("", obj.getStructureFiless());
+						    		joined = joined.replaceAll("_",",_,");
+						    		String[] strArray = new String[] {joined};
+						    		obj.setStructureFiless(strArray);
+						    	}
 						    	if(obj.getStructureFiless()[i].contains(",_,")) {
 						    		documents = new ArrayList<String>(Arrays.asList(obj.getStructureFiless()[i].split(",_,")));
 						    	}else {
@@ -848,14 +871,20 @@ public class StructureDaoImpl implements StructureDao{
 						    	}
 								for (String fObj : documents) {
 									int q=1;
-									if (!StringUtils.isEmpty(obj.getStructureFiles()) && obj.getStructureFiles().length > 0) {
-										MultipartFile multipartFile = obj.getStructureFiles()[fCount];
-										if ((null != multipartFile && !multipartFile.isEmpty())) {
-											String saveDirectory = CommonConstants2.STRUCTURE_FILE_SAVING_PATH ;
-											String fileName = multipartFile.getOriginalFilename();
-											if (null != multipartFile && !multipartFile.isEmpty()) {
-												FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+										String fileName = null;
+										if( !StringUtils.isEmpty(obj.getStructureFiles()[fCount])) {
+											MultipartFile multipartFile = obj.getStructureFiles()[fCount];
+											if ((null != multipartFile && !multipartFile.isEmpty())) {
+												String saveDirectory = CommonConstants2.STRUCTURE_FILE_SAVING_PATH ;
+												fileName = multipartFile.getOriginalFilename();
+												if (null != multipartFile && !multipartFile.isEmpty()) {
+													FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+												}
 											}
+										}if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount])) {
+											fileName = obj.getStructureFileNames()[fCount];
+										}
+										if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount]))) {
 											documentsStmt.setString(q++,(obj.getStructure_id()));
 											documentsStmt.setString(q++,(fileName));
 											documentsStmt.setString(q++,(obj.getStructure_file_types()[fCount]));
@@ -863,12 +892,13 @@ public class StructureDaoImpl implements StructureDao{
 											documentsStmt.addBatch();
 											insertCount = documentsStmt.executeBatch();
 											fCount++;
+										}else {
+											fCount++;
 										}
-									}
 								}
 							}
 						}
-				    }
+				    
 			}
 			if(insertCount.length > 0) {
 					flag = true;
@@ -935,9 +965,9 @@ public class StructureDaoImpl implements StructureDao{
 			stmt.executeUpdate();
 			if(stmt != null){stmt.close();}
 			
-			String insert_qry = "INSERT into  structure ( work_id_fk, contract_id_fk, department_fk, structure_type_fk, "
+			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
 					+ "structure,work_status_fk,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
-					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
 			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0) {
@@ -1006,8 +1036,6 @@ public class StructureDaoImpl implements StructureDao{
 				    int p = 1;
 				    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
 			    	    insertStmt.setString(p++,(obj.getWork_id_fk()));
-					    insertStmt.setString(p++,(obj.getContract_id_fk()));
-					    insertStmt.setString(p++,(obj.getDepartment_fk()));
 					    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
 					    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
 					    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
@@ -1042,6 +1070,11 @@ public class StructureDaoImpl implements StructureDao{
 								executivesArrSize = obj.getResponsible_people_id_fks().length;
 							}
 						}
+				    	if(arraySize == 1) {
+				    		String joined = String.join(",", obj.getContracts_id_fk());
+				    		String[] strArray = new String[] {joined};
+				    		obj.setContracts_id_fk(strArray);
+				    	}
 				    	String[] firstArray = obj.getContracts_id_fk();
 				    
 				    	if(!StringUtils.isEmpty(firstArray) && firstArray.length > 0 && !StringUtils.isEmpty(obj.getContracts_id_fk()[i])) {
@@ -1054,6 +1087,11 @@ public class StructureDaoImpl implements StructureDao{
 						    	}
 						    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getResponsible_people_id_fks().length > 0 ) {
 						    		for(String cObj : contracts) {
+						    			if(arraySize == 1) {
+								    		String joined = String.join(",", obj.getResponsible_people_id_fks());
+								    		String[] strArray = new String[] {joined};
+								    		obj.setResponsible_people_id_fks(strArray);
+								    	}
 						    			if( !StringUtils.isEmpty(obj.getResponsible_people_id_fks()[j])) {
 						    				List<String> executives = null;
 								    		if(obj.getResponsible_people_id_fks()[j].contains(",")) {
@@ -1072,11 +1110,15 @@ public class StructureDaoImpl implements StructureDao{
 							    			}
 							    			insertCount = executivesInsertStmt.executeBatch();
 							    			j++;
+						    			}else {
+						    				j++;
 						    			}
 								    	
 						    		}
 						    	}
-					    }
+					    }else {
+		    				j++;
+		    			}
 				    	
 				    	String structure_details_qry = "INSERT into  structure_details ( structure_id_fk, structure_detail, value) "
 								+"VALUES (?,?,?)";
@@ -1096,8 +1138,15 @@ public class StructureDaoImpl implements StructureDao{
 						}
 				    	if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0 
 				    			&& !StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0 ) {
+				    		if(arraySize == 1) {
+					    		String joined = String.join("", obj.getStructure_detailss());
+					    		joined = joined.replaceAll("_",",_,");
+					    		String[] strArray = new String[] {joined};
+					    		obj.setStructure_detailss(strArray);
+					    	}
 				    		String[] detailsArray = obj.getStructure_detailss();
-				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 && !StringUtils.isEmpty(obj.getStructure_details()[i]) &&!StringUtils.isEmpty(detailsArray[i])) {
+				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 && !StringUtils.isEmpty(obj.getStructure_details()[i]) 
+				    				&&!StringUtils.isEmpty(detailsArray[i])) {
 					    		//detailsArray =Arrays.stream(detailsArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
 					    		List<String> details = null;
 						    	if(detailsArray[i].contains(",_,")) {
@@ -1150,9 +1199,14 @@ public class StructureDaoImpl implements StructureDao{
 							}
 						}
 						//structureFiless
-						if(!StringUtils.isEmpty(obj.getStructureFiles()[i]) && !StringUtils.isEmpty(obj.getStructureFiless()) && obj.getStructureFiless().length > 0) {
+						if(arraySize == 1) {
+				    		String joined = String.join("", obj.getStructureFiless());
+				    		joined = joined.replaceAll("_",",_,");
+				    		String[] strArray = new String[] {joined};
+				    		obj.setStructureFiless(strArray);
+				    	}
 							List<String> documents = null;
-							if(!StringUtils.isEmpty(obj.getStructureFiless()[i])) {
+							if(!StringUtils.isEmpty(obj.getStructureFiless()) && obj.getStructureFiless().length > 0 && !StringUtils.isEmpty(obj.getStructureFiless()[i])) {
 						    	if(obj.getStructureFiless()[i].contains(",_,")) {
 						    		documents = new ArrayList<String>(Arrays.asList(obj.getStructureFiless()[i].split(",_,")));
 						    	}else {
@@ -1160,14 +1214,20 @@ public class StructureDaoImpl implements StructureDao{
 						    	}
 								for (String fObj : documents) {
 									int q=1;
-									if (!StringUtils.isEmpty(obj.getStructureFiles()) && obj.getStructureFiles().length > 0) {
-										MultipartFile multipartFile = obj.getStructureFiles()[fCount];
-										if ((null != multipartFile && !multipartFile.isEmpty())) {
-											String saveDirectory = CommonConstants2.STRUCTURE_FILE_SAVING_PATH ;
-											String fileName = multipartFile.getOriginalFilename();
-											if (null != multipartFile && !multipartFile.isEmpty()) {
-												FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+										String fileName = null;
+										if( !StringUtils.isEmpty(obj.getStructureFiles()[fCount])) {
+											MultipartFile multipartFile = obj.getStructureFiles()[fCount];
+											if ((null != multipartFile && !multipartFile.isEmpty())) {
+												String saveDirectory = CommonConstants2.STRUCTURE_FILE_SAVING_PATH ;
+												fileName = multipartFile.getOriginalFilename();
+												if (null != multipartFile && !multipartFile.isEmpty()) {
+													FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+												}
 											}
+										}if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount])) {
+											fileName = obj.getStructureFileNames()[fCount];
+										}
+										if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount]))) {
 											documentsStmt.setString(q++,(obj.getStructure_id()));
 											documentsStmt.setString(q++,(fileName));
 											documentsStmt.setString(q++,(obj.getStructure_file_types()[fCount]));
@@ -1175,12 +1235,13 @@ public class StructureDaoImpl implements StructureDao{
 											documentsStmt.addBatch();
 											insertCount = documentsStmt.executeBatch();
 											fCount++;
+										}else {
+											fCount++;
 										}
-									}
 								}
 							}
 						}
-				    }
+				    
 			}
 			if(insertCount.length > 0) {
 					flag = true;
@@ -1398,7 +1459,13 @@ public class StructureDaoImpl implements StructureDao{
 	public List<Structure> getResponsiblePeopleListForStructureForm(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM user u where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
+			qry = qry + " ORDER BY FIELD(user_type_fk,'HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others'),"
+					+ "FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','AGM Civil'," 
+					+ " 'DyCPM Civil','DyCPM III','DyCPM V','DyCE EE','DyCE Badlapur','DyCPM Pune','DyCE Proj','DyCEE I','DyCEE Projects','DyCEE PSI','DyCSTE I','DyCSTE IT','DyCSTE Projects','XEN Consultant'," 
+					+ " 'AEN Adhoc','AEN Project','AEN P-Way','AEN','Sr Manager Signal','Manager Signal','Manager Civil','Manager OHE','Manager GS','Manager Finance','Planning Manager'," 
+					+ " 'Manager Project','Manager','SSE','SSE Project','SSE Works','SSE Drg','SSE BR','SSE P-Way','SSE OHE','SPE','PE','JE','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T')";
+			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Structure>(Structure.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);

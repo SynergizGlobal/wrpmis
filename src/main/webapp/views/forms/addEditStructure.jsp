@@ -375,14 +375,14 @@ td label.btn.bg-m{
 												                                    <button type="button" id="construction_start_date${indexx.count }${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 												                                    <span id="construction_start_date${indexx.count }${index.count }Error" class="error-msg" ></span>
 												                                </div>
+											                                </div>
+											                                <div class="row">
 												                                <div class="col s6 input-field " >
 												                                    <input id="revised_completion${indexx.count }${index.count }" name="revised_completions" type="text" class="validate datepicker" value="${sObj1.revised_completion }">
 												                                    <label for="revised_completion${indexx.count }${index.count }" >Target completion Date </label>
 												                                    <button type="button" id="revised_completion${indexx.count }${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 												                                    <span id="revised_completion${indexx.count }${index.count }Error" class="error-msg" ></span>
 												                                </div> 
-											                                </div>
-											                                <div class="row">
 											                                	<div class="col s12 input-field ">
 												                                    <textarea id="remarks${indexx.count }${index.count }" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000">${sObj1.remarks }</textarea>
 												                                    <label for="remarks${indexx.count }${index.count }">Remarks</label>
@@ -597,7 +597,7 @@ td label.btn.bg-m{
 																	                 <c:choose>
 																					 <c:when test="${not empty sObj.documentsList && fn:length(sObj.documentsList) gt 0 }">
 																				     <c:forEach var="docObj" items="${sObj.documentsList }" varStatus="indexex"> 
-																	                    <tr id="structureFilesRow${indexx.count }${index.count }${index.count }">
+																	                    <tr id="structureFilesRow${indexx.count }${index.count }${indexex.count }">
 																	                        <td data-head="File Type" class="input-field">
 																	                           <select name="structure_file_types" id="structure_file_types${indexx.count }${index.count }${indexex.count }" class="validate-dropdown searchable">
 																	                                <option value="">Select</option>
@@ -1279,14 +1279,16 @@ td label.btn.bg-m{
 	  			$('form input[name=construction_start_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_completions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			
-	  			document.getElementById("structureForm").submit();	
+	  			var flag = validateStructure();
+	        	if(flag){
+	        		document.getElementById("structureForm").submit();	
+    	 		}else{
+    	        	$(".page-loader").hide();
+    	 		}	
         	}
         }
         function updateDocument(){
-        	$('form select[name=structure_type_fks]').each(function(){
-        		$("#"+this.id).attr("disabled",false);
-        	});	
+        	
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
 	        	$('form input[name=structure_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -1298,8 +1300,16 @@ td label.btn.bg-m{
 	  			$('form input[name=construction_start_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_completions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			var flag = validateStructure();
+	        	if(flag){
+	        		$('form select[name=structure_type_fks]').each(function(){
+	            		$("#"+this.id).attr("disabled",false);
+	            	});	
+	        		document.getElementById("structureForm").submit();	
+    	 		}else{
+    	        	$(".page-loader").hide();
+    	 		}
 	  			
-	  			document.getElementById("structureForm").submit();	
         	}
         }
      
@@ -1413,6 +1423,14 @@ td label.btn.bg-m{
     				 var rowNumber = "rw"+1+rNo+rNo+rNo+x;
     				 rowNumber =  rowNumber.replace("rw", "");
     				 getContractsByRowList(rowNumber);
+    				 $("[name='estimated_cost_unitss']").change(function(key, element){
+    		      		$("select[name=estimated_cost_unitss]").each(function(){
+    		      			var idNo = (this.id).replace('estimated_cost_units',''); 
+    		           		if($.trim(this.value) != "" ){ 
+    		           			$('#estimated_cost_units'+idNo+'Error').text('');
+    		   				}
+    		      		})
+    		         });
             } 
          
 			function removeStructureRow(rowNo){
@@ -1524,6 +1542,14 @@ td label.btn.bg-m{
 			   var rowNumber = "rw"+y+rNo+rNo+rNo+x;
 			   rowNumber = rowNumber.replace("rw", "");
 			   getContractsByRowList(rowNumber);
+			   $("[name='estimated_cost_unitss']").change(function(key, element){
+		      		$("select[name=estimated_cost_unitss]").each(function(){
+		      			var idNo = (this.id).replace('estimated_cost_units',''); 
+		           		if($.trim(this.value) != "" ){ 
+		           			$('#estimated_cost_units'+idNo+'Error').text('');
+		   				}
+		      		})
+		         });
 			}
 			
 			function removeStructureInternalRow(rowNo,ind){
@@ -1691,7 +1717,7 @@ td label.btn.bg-m{
 	                        jQuery('html, body').animate({
 	                            scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
 	                        }, 1000);
-	                    }
+	                    }validateStructure();
 	                },submitHandler:function(form){
 				    	form.submit();
 				    }
@@ -1754,6 +1780,44 @@ td label.btn.bg-m{
 				   $('#contracts_id_fk'+count).val(vals);
 	        	   
 	           }
+	           
+	           function validateStructure(){
+	   			var flag = true;
+	   			var rowNo;
+	   			$("input[name=estimated_costs]").each(function(){
+	   				var idNo = (this.id).replace('estimated_cost','');
+	   				rowNo = idNo;
+	   				var estimated_cost_units = $("#estimated_cost_units"+idNo).val();
+	   				var estimated_costs = $("#estimated_cost"+idNo).val();
+	   				if($.trim(estimated_costs) == ""){$("#estimated_cost_units"+idNo).val("");}
+	   				if(idNo === ""){
+	   	       				idNo = 0;
+	   	       		}
+	   	       		if($.trim(estimated_cost_units) == "" && estimated_costs != ""){
+	   					$('#estimated_cost_units'+idNo+'Error').text('Requried');
+	   					$('#estimated_cost_units'+idNo+'Error').slideDown(100,function(){
+	   						$(this).focus();
+	   					});
+	   					$('#modal'+rowNo).modal('open');
+	   					flag = false;
+	   				}
+	   			});
+	   			/* if(!flag){
+    				$('#modal'+rowNo).modal('open');
+    			}else{
+    				$('#modal'+rowNo).modal('close');
+    			} */
+	   			return flag;
+	   		}
+	  
+         $("[name='estimated_cost_unitss']").change(function(key, element){
+      		$("[name='estimated_cost_unitss']").each(function(){
+      			var idNo = (this.id).replace('estimated_cost_units',''); 
+           		if($.trim(this.value) != "" ){ 
+           			$('#estimated_cost_units'+idNo+'Error').text('');
+   				}
+      		})
+           });
     </script>
 </body>
 </html>

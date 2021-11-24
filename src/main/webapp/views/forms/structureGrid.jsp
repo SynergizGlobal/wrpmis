@@ -501,11 +501,11 @@ thead tr th:last-of-type{
 		        		  getProjectListFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
 		        		  getWorksListFilter(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+		        	  }/* else if($.trim(temp2[0]) == 'contract_id_fk'){
 		        		  getContractListFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'department_fk'){
 		        		  getDepartmentListFilter(temp2[1]);
-		        	  }
+		        	  } */
 	        	  }
 	          }
             }

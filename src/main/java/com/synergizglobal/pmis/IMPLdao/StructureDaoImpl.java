@@ -758,15 +758,17 @@ public class StructureDaoImpl implements StructureDao{
 									    		executives = new ArrayList<String>(Arrays.asList(obj.getResponsible_people_id_fks()[j]));
 									    	}
 							    			for(String eObj : executives) {
-							    				int n = 1;
-							    				if(!StringUtils.isEmpty(cObj) &&  !StringUtils.isEmpty(eObj)){
-								    				executivesInsertStmt.setString(n++,(obj.getStructure_id()));
-								    				executivesInsertStmt.setString(n++,(cObj.length() > 0)? cObj:null);
-								    				executivesInsertStmt.setString(n++,(eObj.length() > 0)? eObj:null);
-								    				executivesInsertStmt.addBatch();
+							    				if(!eObj.equals("null")) {
+							    					int n = 1;
+								    				if(!StringUtils.isEmpty(cObj) &&  !StringUtils.isEmpty(eObj)){
+									    				executivesInsertStmt.setString(n++,(obj.getStructure_id()));
+									    				executivesInsertStmt.setString(n++,(cObj.length() > 0)? cObj:null);
+									    				executivesInsertStmt.setString(n++,(eObj.length() > 0)? eObj:null);
+									    				executivesInsertStmt.addBatch();
+								    				}
 							    				}
 							    			}
-							    			insertCount = executivesInsertStmt.executeBatch();
+							    			executivesInsertStmt.executeBatch();
 							    			j++;
 						    			}else {
 						    				j++;
@@ -803,8 +805,7 @@ public class StructureDaoImpl implements StructureDao{
 					    		obj.setStructure_detailss(strArray);
 					    	}
 				    		String[] detailsArray = obj.getStructure_detailss();
-				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 && !StringUtils.isEmpty(obj.getStructure_details()[i]) 
-				    				&&!StringUtils.isEmpty(detailsArray[i])) {
+				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 &&!StringUtils.isEmpty(detailsArray[i])) {
 					    		//detailsArray =Arrays.stream(detailsArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
 					    		List<String> details = null;
 						    	if(detailsArray[i].contains(",_,")) {
@@ -820,10 +821,12 @@ public class StructureDaoImpl implements StructureDao{
 								    	detailsInsertStmt.setString(param++,(obj.getStructure_values().length > 0)? obj.getStructure_values()[dCount]:null);
 								    	detailsInsertStmt.addBatch();
 								    }
-								    insertCount = detailsInsertStmt.executeBatch();
+								    detailsInsertStmt.executeBatch();
 								    dCount++;
 					    		}
 					    		
+					    	}else {
+					    		 dCount++;
 					    	}
 				    	}
 				    	
@@ -892,13 +895,15 @@ public class StructureDaoImpl implements StructureDao{
 											documentsStmt.setString(q++,(obj.getStructure_file_types()[fCount]));
 											documentsStmt.setString(q++,(obj.getStructureDocumentNames()[fCount]));
 											documentsStmt.addBatch();
-											insertCount = documentsStmt.executeBatch();
+											documentsStmt.executeBatch();
 											fCount++;
 										}else {
 											fCount++;
 										}
 								}
-							}
+							}else {
+								fCount++;
+					    	}
 						}
 				    
 			}
@@ -1056,11 +1061,11 @@ public class StructureDaoImpl implements StructureDao{
 				    	String executivesinsert_qry = "INSERT into  structure_contract_responsible_people ( structure_id_fk, contract_id_fk, responsible_people_id_fk) "
 								+"VALUES (?,?,?)";
 				    	executivesInsertStmt = con.prepareStatement(executivesinsert_qry);
-				    	int executivesArrSize = 0,contarctsArrSize = 0;
+				    	int executivesArrSize = 0;
 				    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getContracts_id_fk().length > 0) {
 							obj.setContracts_id_fk(CommonMethods.replaceEmptyByNullInSringArray(obj.getContracts_id_fk()));
-							if(contarctsArrSize < obj.getContracts_id_fk().length) {
-								contarctsArrSize = obj.getContracts_id_fk().length;
+							if(executivesArrSize < obj.getContracts_id_fk().length) {
+								executivesArrSize = obj.getContracts_id_fk().length;
 							}
 						}
 				    	if(!StringUtils.isEmpty(obj.getResponsible_people_id_fks()) && obj.getResponsible_people_id_fks().length > 0) {
@@ -1099,15 +1104,17 @@ public class StructureDaoImpl implements StructureDao{
 									    		executives = new ArrayList<String>(Arrays.asList(obj.getResponsible_people_id_fks()[j]));
 									    	}
 							    			for(String eObj : executives) {
-							    				int n = 1;
-							    				if(!StringUtils.isEmpty(cObj) &&  !StringUtils.isEmpty(eObj)){
-								    				executivesInsertStmt.setString(n++,(obj.getStructure_id()));
-								    				executivesInsertStmt.setString(n++,(cObj.length() > 0)? cObj:null);
-								    				executivesInsertStmt.setString(n++,(eObj.length() > 0)? eObj:null);
-								    				executivesInsertStmt.addBatch();
+							    				if(!eObj.equals("null")) {
+							    					int n = 1;
+								    				if(!StringUtils.isEmpty(cObj) &&  !StringUtils.isEmpty(eObj)){
+									    				executivesInsertStmt.setString(n++,(obj.getStructure_id()));
+									    				executivesInsertStmt.setString(n++,(cObj.length() > 0)? cObj:null);
+									    				executivesInsertStmt.setString(n++,(eObj.length() > 0)? eObj:null);
+									    				executivesInsertStmt.addBatch();
+								    				}
 							    				}
 							    			}
-							    			insertCount = executivesInsertStmt.executeBatch();
+							    			executivesInsertStmt.executeBatch();
 							    			j++;
 						    			}else {
 						    				j++;
@@ -1144,8 +1151,7 @@ public class StructureDaoImpl implements StructureDao{
 					    		obj.setStructure_detailss(strArray);
 					    	}
 				    		String[] detailsArray = obj.getStructure_detailss();
-				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 && !StringUtils.isEmpty(obj.getStructure_details()[i]) 
-				    				&&!StringUtils.isEmpty(detailsArray[i])) {
+				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 &&!StringUtils.isEmpty(detailsArray[i])) {
 					    		//detailsArray =Arrays.stream(detailsArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
 					    		List<String> details = null;
 						    	if(detailsArray[i].contains(",_,")) {
@@ -1161,10 +1167,12 @@ public class StructureDaoImpl implements StructureDao{
 								    	detailsInsertStmt.setString(param++,(obj.getStructure_values().length > 0)? obj.getStructure_values()[dCount]:null);
 								    	detailsInsertStmt.addBatch();
 								    }
-								    insertCount = detailsInsertStmt.executeBatch();
+								    detailsInsertStmt.executeBatch();
 								    dCount++;
 					    		}
 					    		
+					    	}else {
+					    		 dCount++;
 					    	}
 				    	}
 				    	
@@ -1198,14 +1206,14 @@ public class StructureDaoImpl implements StructureDao{
 							}
 						}
 						//structureFiless
-						if(arraySize == 1) {
-				    		String joined = String.join("", obj.getStructureFiless());
-				    		joined = joined.replaceAll("_",",_,");
-				    		String[] strArray = new String[] {joined};
-				    		obj.setStructureFiless(strArray);
-				    	}
 							List<String> documents = null;
 							if(!StringUtils.isEmpty(obj.getStructureFiless()) && obj.getStructureFiless().length > 0 && !StringUtils.isEmpty(obj.getStructureFiless()[i])) {
+								if(arraySize == 1) {
+						    		String joined = String.join("", obj.getStructureFiless());
+						    		joined = joined.replaceAll("_",",_,");
+						    		String[] strArray = new String[] {joined};
+						    		obj.setStructureFiless(strArray);
+						    	}
 						    	if(obj.getStructureFiless()[i].contains(",_,")) {
 						    		documents = new ArrayList<String>(Arrays.asList(obj.getStructureFiless()[i].split(",_,")));
 						    	}else {
@@ -1226,20 +1234,22 @@ public class StructureDaoImpl implements StructureDao{
 										}if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount])) {
 											fileName = obj.getStructureFileNames()[fCount];
 										}
-										if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount])) 
+										if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount]))
 												&& (!StringUtils.isEmpty(obj.getStructure_file_types()[fCount])) && (!StringUtils.isEmpty(obj.getStructureDocumentNames()[fCount]))) {
 											documentsStmt.setString(q++,(obj.getStructure_id()));
 											documentsStmt.setString(q++,(fileName));
 											documentsStmt.setString(q++,(obj.getStructure_file_types()[fCount]));
 											documentsStmt.setString(q++,(obj.getStructureDocumentNames()[fCount]));
 											documentsStmt.addBatch();
-											insertCount = documentsStmt.executeBatch();
+											documentsStmt.executeBatch();
 											fCount++;
 										}else {
 											fCount++;
 										}
 								}
-							}
+							}else {
+								fCount++;
+					    	}
 						}
 				    
 			}

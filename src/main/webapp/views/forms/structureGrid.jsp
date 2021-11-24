@@ -198,9 +198,9 @@ thead tr th:last-of-type{
 							        <a href="<%=request.getContextPath()%>/add-structure-form"
 																	class="btn waves-effect waves-light bg-s t-c"> <strong><i
 																		class="fa fa-plus-circle"></i> Add</strong></a>
-									<a href="javascript:void(0);" onclick="exportStructure();"
+									<!-- <a href="javascript:void(0);" onclick="exportStructure();"
 																	class="btn waves-effect waves-light bg-s t-c"> <strong><i
-																		class="fa fa-cloud-download"></i> Export</strong></a>
+																		class="fa fa-cloud-download"></i> Export</strong></a> -->
 							    </div>
 							</div>
 							</div>

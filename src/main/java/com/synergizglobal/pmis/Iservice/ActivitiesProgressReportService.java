@@ -24,6 +24,8 @@ public interface ActivitiesProgressReportService {
 	Map<ActivitiesProgressReport, Map<String, List<ActivitiesProgressReport>>> getActivitiesReportData(ActivitiesProgressReport obj) throws Exception;
 
 	String getActivitiesRemarks(String structure, String from_date) throws Exception;
+	String getReportforthePeriodActivitiesRemarks(String structure, String from_date, String to_date) throws Exception;
+	
 	String getContractorName(String contract_id) throws Exception;
 	String getWorkName(String work_id) throws Exception;
 	String getContractName(String contract_id) throws Exception;

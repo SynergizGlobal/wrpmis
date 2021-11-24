@@ -32,6 +32,8 @@ public interface ActivitiesProgressReportDao {
 	List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception;
 
 	List<ActivitiesProgressReport> getStructureRemarks(ActivitiesProgressReport obj)throws Exception;
+
+	String getReportforthePeriodActivitiesRemarks(String structure, String from_date, String to_date) throws Exception;
 	
 	
 }

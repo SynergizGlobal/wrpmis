@@ -1085,5 +1085,35 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			
 			List<ActivitiesProgressReport> contractProgressStructuresList = jdbcTemplate.query( progressStructuresQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 			return contractProgressStructuresList;
-		}	
+		}
+
+	@Override
+	public String getReportforthePeriodActivitiesRemarks(String structure, String from_date, String to_date) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+	    String remarks = null;
+			try {
+				con = dataSource.getConnection();
+				String qry = "select group_concat(DISTINCT concat(DATE_FORMAT(reporting_date,'%d-%m-%Y'),' - ',remarks) SEPARATOR '\n') as remarks from fobdailyupdate where structure =? and reporting_date>=? and reporting_date<=?";
+				stmt = con.prepareStatement(qry);
+				stmt.setString(1,structure);
+				stmt.setString(2,from_date);
+				stmt.setString(3,to_date);
+				
+				rs = stmt.executeQuery(); 
+				while(rs.next()) 
+				{
+					remarks=rs.getString("remarks");
+				}
+			
+				
+			}catch(Exception e){ 
+				throw new Exception(e.getMessage());
+			}
+			finally {
+				DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+			}
+			return remarks;
+	}	
 }

@@ -61,6 +61,11 @@ public class ActivitiesProgressReportServiceImpl implements ActivitiesProgressRe
 	public String getActivitiesRemarks(String structure,String from_date) throws Exception {
 		return dao.getActivitiesRemarks(structure,from_date);
 	}
+
+	@Override
+	public String getReportforthePeriodActivitiesRemarks(String structure,String from_date,String to_date) throws Exception {
+		return dao.getReportforthePeriodActivitiesRemarks(structure,from_date,to_date);
+	}
 	
 	@Override
 	public String getContractorName(String contract_id) throws Exception {

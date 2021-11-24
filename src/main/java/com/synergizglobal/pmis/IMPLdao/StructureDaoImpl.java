@@ -698,7 +698,8 @@ public class StructureDaoImpl implements StructureDao{
 					    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
 					    insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
 					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
-					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && !StringUtils.isEmpty(obj.getEstimated_costs()[i]))?obj.getEstimated_cost_unitss()[i]:null);
+					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
+					    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
 					    insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
 					    insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
 					    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
@@ -1038,7 +1039,8 @@ public class StructureDaoImpl implements StructureDao{
 					    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
 					    insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
 					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
-					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && !StringUtils.isEmpty(obj.getEstimated_costs()[i]))?obj.getEstimated_cost_unitss()[i]:null);
+					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
+					    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
 					    insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
 					    insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
 					    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);

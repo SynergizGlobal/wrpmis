@@ -236,7 +236,7 @@ td label.btn.bg-m{
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Work </p>
                                      <select class="searchable validate-dropdown no-z" id="work_id_fk" name="work_id_fk"
-                                   		  onchange="resetProject();">  <!-- getContractsList(this.value); -->
+                                   		  onchange="resetProject();getContractsList(this.value);">  <!-- getContractsList(this.value); -->
                                    		  <option value="" >Select</option>
                                    		  	 <c:forEach var="obj" items="${worksList }">
 	                                      	   		<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -1114,6 +1114,7 @@ td label.btn.bg-m{
             var work_id_fk = "${structuresListDetails.work_id_fk}";
             if($.trim(work_id_fk) != ''){
             	getContractsList(work_id_fk);
+            	existedContarcts();
             }
         });
        
@@ -1181,6 +1182,7 @@ td label.btn.bg-m{
     	                }
     	                $('.searchable').select2();
     	                $(".page-loader").hide();
+    	                existedContarcts();
     	            }
     	        });
     	        
@@ -1188,7 +1190,13 @@ td label.btn.bg-m{
             	$(".page-loader").hide();
             }
         }
-        
+        function existedContarcts(){
+        	$('form select[name="contracts"]').each(function(){
+        			var ids = $(this).attr('id'); 
+        			ids = ids.split('fk');
+        			getContractsByRowList(ids[1]);
+        		});
+        }
         function getContractsByRowList(row) {
         	var work_id_fk = $('#work_id_fk').val();
         	if(work_id_fk != "" && work_id_fk.indexOf('-')){
@@ -1201,9 +1209,9 @@ td label.btn.bg-m{
             } else{
             	workid = work_id_fk;
            	}
-            
         	$(".page-loader").show();
             if(workid!=''){
+            	var contractVal = $("#contract_id_fk"+row).val();
             	$("#contract_id_fk"+row+" option:not(:first)").remove();
             	var myParams = { work_id_fk: workid };
     	        $.ajax({
@@ -1212,9 +1220,11 @@ td label.btn.bg-m{
     	            success: function (data) {
     	                if (data.length > 0) {
     	                    $.each(data, function (i, val) {
+    	                    	
     	                    	var contract_name = '';
+    	                    	 var selectedFlag = (contractVal == $.trim(val.contract_id_fk))?'selected':'';
     	                        if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
-    		                   	$("#contract_id_fk"+row).append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' +  $.trim(contract_name) + '</option>');
+    		                   	$("#contract_id_fk"+row).append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '"'+selectedFlag+'>' +  $.trim(contract_name) + '</option>');
     	                       
     	                    });
     	                }
@@ -1262,8 +1272,7 @@ td label.btn.bg-m{
 	        	$(".page-loader").show();	    		
 	  			$('form input[name=structure_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=structures]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=structures]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=work_status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form select[name=work_status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=target_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=estimated_costs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=estimated_cost_unitss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -1282,8 +1291,7 @@ td label.btn.bg-m{
 	        	$(".page-loader").show();	    		
 	        	$('form input[name=structure_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=structures]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=structures]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=work_status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form select[name=work_status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=target_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=estimated_costs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=estimated_cost_unitss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -1403,7 +1411,7 @@ td label.btn.bg-m{
     				 $('select:not(.searchable)').formSelect();
     				 $('.modal').modal(); 
     				 var rowNumber = "rw"+1+rNo+rNo+rNo+x;
-    				 rowNumber.replace("rw", "");
+    				 rowNumber =  rowNumber.replace("rw", "");
     				 getContractsByRowList(rowNumber);
             } 
          
@@ -1514,7 +1522,7 @@ td label.btn.bg-m{
 			   $('.searchable').select2(); 
 			   $('select:not(.searchable)').formSelect();
 			   var rowNumber = "rw"+y+rNo+rNo+rNo+x;
-			   rowNumber.replace("rw", "");
+			   rowNumber = rowNumber.replace("rw", "");
 			   getContractsByRowList(rowNumber);
 			}
 			

@@ -189,7 +189,7 @@ thead tr th:last-of-type{
 			<div class="col s12 m12">
 				<div class="card">
 					<div class="card-content">
-						<span class="card-title headbg">
+						<span class="card-title headbg"> 
 							<div class="center-align bg-m p-2 m-b-5">
 								<!-- <h6 class="hide-on-med-and-down">Update Structure</h6> -->
 								<h6 class="mob-mar">Structure</h6>

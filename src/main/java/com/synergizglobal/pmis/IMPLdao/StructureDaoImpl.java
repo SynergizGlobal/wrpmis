@@ -293,9 +293,6 @@ public class StructureDaoImpl implements StructureDao{
 				arrSize++;
 				arrSize++;
 				arrSize++;
-				arrSize++;
-				arrSize++;
-				arrSize++;
 			}	
 			
 			Object[] pValues = new Object[arrSize];
@@ -311,9 +308,6 @@ public class StructureDaoImpl implements StructureDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -370,9 +364,6 @@ public class StructureDaoImpl implements StructureDao{
 				arrSize++;
 				arrSize++;
 				arrSize++;
-				arrSize++;
-				arrSize++;
-				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
 				qry = qry + "GROUP BY s.work_id_fk ORDER BY structure_id ASC limit ?,?";
@@ -395,9 +386,6 @@ public class StructureDaoImpl implements StructureDao{
 			}*/
 
 			if(!StringUtils.isEmpty(searchParameter)) {
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

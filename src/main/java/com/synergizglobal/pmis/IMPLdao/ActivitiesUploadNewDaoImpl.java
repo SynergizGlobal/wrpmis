@@ -131,7 +131,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 		                public void setValues(PreparedStatement ps, int i) throws SQLException {
 		                	int p = 1;
 		                    ps.setString(p++, insertList.get(i).getContract_id_fk());
-		                    ps.setString(p++, insertList.get(i).getStructure_type_fk());
+		                    ps.setString(p++, insertList.get(i).getStructure_type());
 		                    ps.setString(p++, insertList.get(i).getSection());	
 		                    ps.setString(p++, insertList.get(i).getLine());
 		                    ps.setString(p++, insertList.get(i).getStructure());
@@ -183,7 +183,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 			                ps.setString(p++, updateList.get(i).getModified_by_user_id_fk());
 			                
 			                ps.setString(p++, updateList.get(i).getContract_id_fk());
-			                ps.setString(p++, updateList.get(i).getStructure_type_fk());
+			                ps.setString(p++, updateList.get(i).getStructure_type());
 			                ps.setString(p++, updateList.get(i).getSection());	
 			                ps.setString(p++, updateList.get(i).getLine());
 			                ps.setString(p++, updateList.get(i).getStructure());		                    
@@ -330,7 +330,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 				qry = qry + " and (contract_id_fk IS NULL OR contract_id_fk = '')";
 			}
 			
-			if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
+			if(!StringUtils.isEmpty(obj.getStructure_type())) {
 				qry = qry + " and structure_type_fk = ?";
 			} else {
 				qry = qry + " and (structure_type_fk IS NULL OR structure_type_fk = '')";
@@ -379,8 +379,8 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 				stmt.setString(k++, obj.getContract_id_fk());
 			}
 			
-			if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
-				stmt.setString(k++, obj.getStructure_type_fk());
+			if(!StringUtils.isEmpty(obj.getStructure_type())) {
+				stmt.setString(k++, obj.getStructure_type());
 			}
 			
 			if(!StringUtils.isEmpty(obj.getSection())) {
@@ -432,7 +432,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 				qry = qry + " and (contract_id_fk IS NULL OR contract_id_fk = '')";
 			}
 			
-			if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
+			if(!StringUtils.isEmpty(obj.getStructure_type())) {
 				qry = qry + " and structure_type_fk = ?";
 			} else {
 				qry = qry + " and (structure_type_fk IS NULL OR structure_type_fk = '')";
@@ -481,8 +481,8 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 				stmt.setString(k++, obj.getContract_id_fk());
 			}
 			
-			if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
-				stmt.setString(k++, obj.getStructure_type_fk());
+			if(!StringUtils.isEmpty(obj.getStructure_type())) {
+				stmt.setString(k++, obj.getStructure_type());
 			}
 			
 			if(!StringUtils.isEmpty(obj.getSection())) {
@@ -761,6 +761,21 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 			}
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Activity> getExistingStructures(String contract_id) throws Exception {
+		List<Activity> objsList = null;
+		try {
+			String qry = "SELECT distinct structure_type_fk,structure "
+					+ "FROM structure "
+					+ "where structure_id in (SELECT structure_id_fk FROM structure_contract_responsible_people where contract_id_fk = ?);";
+			
+			objsList = jdbcTemplate.query( qry,new Object[]{contract_id}, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

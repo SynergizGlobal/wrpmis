@@ -72,7 +72,7 @@ public class ActivitiesUploadNewController {
 	@Value("${template.upload.common.error}")
 	public String uploadCommonError;
 
-	@Value("${template.upload.formatError}")
+	@Value("${activity.template.upload.formatError}")
 	public String uploadformatError;
 
 	@RequestMapping(value = "/activities-upload", method = { RequestMethod.GET, RequestMethod.POST })
@@ -122,7 +122,7 @@ public class ActivitiesUploadNewController {
 			HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
-			model.setViewName("redirect:/activities-upload");
+			model.setViewName("redirect:/demo/activities-upload");
 			
 			String userId = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
@@ -140,64 +140,70 @@ public class ActivitiesUploadNewController {
 					try (XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream())) {					
 						// Creates a worksheet object representing the first sheet
 						int sheetsCount = workbook.getNumberOfSheets();
-						if (sheetsCount > 0) {
-							XSSFSheet referenceDataSheet = workbook.getSheetAt(1);
-							//System.out.println(uploadFilesSheet.getSheetName());
-							//header row
-							XSSFRow headerRow = referenceDataSheet.getRow(1);
-							//checking given file format
-							if (headerRow != null) {
-								List<String> fileFormat = FileFormatModel.getActivityRefetenceData_FileFormat();
-								int noOfColumns = headerRow.getLastCellNum();
-								//System.out.println("Ref " + noOfColumns +" : "+fileFormat.size());
-								//if (noOfColumns == fileFormat.size()) {
-									for (int i = 0; i < fileFormat.size(); i++) {
-										//System.out.println(fileFormat.get(i).trim() +" : "+headerRow.getCell(i).getStringCellValue().trim());
-										//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
-										String columnName = headerRow.getCell(i).getStringCellValue().trim();
-										if (!columnName.equals(fileFormat.get(i).trim())
-												&& !columnName.contains(fileFormat.get(i).trim())) {
-											attributes.addFlashAttribute("error", uploadformatError);
-											return model;
+						if (sheetsCount > 2) {
+							try {
+								XSSFSheet referenceDataSheet = workbook.getSheetAt(1);
+								//System.out.println(uploadFilesSheet.getSheetName());
+								//header row
+								XSSFRow headerRow = referenceDataSheet.getRow(1);
+								//checking given file format
+								if (headerRow != null) {
+									List<String> fileFormat = FileFormatModel.getActivityRefetenceData_FileFormat();
+									int noOfColumns = headerRow.getLastCellNum();
+									//System.out.println("Ref " + noOfColumns +" : "+fileFormat.size());
+									//if (noOfColumns == fileFormat.size()) {
+										for (int i = 0; i < fileFormat.size(); i++) {
+											//System.out.println(fileFormat.get(i).trim() +" : "+headerRow.getCell(i).getStringCellValue().trim());
+											//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+											String columnName = headerRow.getCell(i).getStringCellValue().trim();
+											if (!columnName.equals(fileFormat.get(i).trim())
+													&& !columnName.contains(fileFormat.get(i).trim())) {
+												attributes.addFlashAttribute("error", uploadformatError);
+												return model;
+											}
 										}
-									}
-								/*} else {
+									/*} else {
+										attributes.addFlashAttribute("error", uploadformatError);
+										return model;
+									}*/
+								} else {
 									attributes.addFlashAttribute("error", uploadformatError);
 									return model;
-								}*/
-							} else {
-								attributes.addFlashAttribute("error", uploadformatError);
-								return model;
-							}
-							
-							
-							/********************************************************************************************************************/
-							XSSFSheet stripChartSheet = workbook.getSheetAt(2);
-							//System.out.println(uploadFilesSheet.getSheetName());
-							//header row
-							headerRow = stripChartSheet.getRow(1);
-							//checking given file format
-							if (headerRow != null) {
-								List<String> fileFormat = FileFormatModel.getActivityData_FileFormat();
+								}
 								
-								int noOfColumns = headerRow.getLastCellNum();
-								//System.out.println(noOfColumns +" : "+fileFormat.size());
-								//if (noOfColumns == fileFormat.size()) {
-									for (int i = 0; i < fileFormat.size(); i++) {
-										//System.out.println(fileFormat.get(i).trim() +" : "+headerRow.getCell(i).getStringCellValue().trim());
-										//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
-										String columnName = headerRow.getCell(i).getStringCellValue().trim();
-										if (!columnName.equals(fileFormat.get(i).trim())
-												&& !columnName.contains(fileFormat.get(i).trim())) {
-											attributes.addFlashAttribute("error", uploadformatError);
-											return model;
+								
+								/********************************************************************************************************************/
+								XSSFSheet stripChartSheet = workbook.getSheetAt(2);
+								//System.out.println(uploadFilesSheet.getSheetName());
+								//header row
+								headerRow = stripChartSheet.getRow(1);
+								//checking given file format
+								if (headerRow != null) {
+									List<String> fileFormat = FileFormatModel.getActivityData_new_FileFormat();
+									
+									int noOfColumns = headerRow.getLastCellNum();
+									//System.out.println(noOfColumns +" : "+fileFormat.size());
+									//if (noOfColumns == fileFormat.size()) {
+										for (int i = 0; i < fileFormat.size(); i++) {
+											//System.out.println(fileFormat.get(i).trim() +" : "+headerRow.getCell(i).getStringCellValue().trim());
+											//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+											String columnName = headerRow.getCell(i).getStringCellValue().trim();
+											if (!columnName.equals(fileFormat.get(i).trim())
+													&& !columnName.contains(fileFormat.get(i).trim())) {
+												attributes.addFlashAttribute("error", uploadformatError);
+												return model;
+											}
 										}
-									}
-								/*} else {
+									/*} else {
+										attributes.addFlashAttribute("error", uploadformatError);
+										return model;
+									}*/
+								} else {
 									attributes.addFlashAttribute("error", uploadformatError);
 									return model;
-								}*/
-							} else {
+								}
+							} catch (Exception e) {
+								logger.fatal("updateDataDate() : " + e.getMessage());
 								attributes.addFlashAttribute("error", uploadformatError);
 								return model;
 							}
@@ -205,7 +211,12 @@ public class ActivitiesUploadNewController {
 							/*int[] counts = uploadActivities(activity, userId, userName, workbook);
 							attributes.addFlashAttribute("success", counts[0] + " activities added and "+counts[1]+" activities updated successfully.");*/
 							String[] messages = uploadActivities(activity, userId, userName, workbook);
-							attributes.addFlashAttribute("success", messages[0]);
+							if(!StringUtils.isEmpty(messages[0])) {
+								attributes.addFlashAttribute("success", messages[0]);
+							}else{
+								attributes.addFlashAttribute("error", "No data found in uploaded file.");
+							}
+							
 							
 							if(messages.length > 0) {
 								String data_remarks = messages[1];
@@ -215,6 +226,9 @@ public class ActivitiesUploadNewController {
 								activity.setUploaded_by_user_id_fk(userId);
 								boolean flag = service.addFileInActivitiesDataTable(data_remarks,activity);
 							}
+						}else {
+							attributes.addFlashAttribute("error", uploadformatError);
+							return model;
 						}
 					}
 				}
@@ -247,16 +261,19 @@ public class ActivitiesUploadNewController {
 		int[] counts = null;
 		String[] messages = new String[2];
 		String message = "";
-		String contarct_and_fob_mismatch = null;
+		String contarct_and_fob_mismatch = "";
 		String data_remarks = "";
 		try {
 			MultipartFile excelfile = obj.getUploadFile();
 			// Creates a workbook object from the uploaded excelfile
 			if (null != excelfile) {
-				if (excelfile.getSize() > 0)
+				if (excelfile.getSize() > 0) {
 					//workbook = new XSSFWorkbook(excelfile.getInputStream());
 					// Creates a worksheet object representing the first sheet
 					if (workbook != null && !"".equals(workbook)) {
+						
+						List<Activity> existingStructures = service.getExistingStructures(obj.getContract_id_fk());
+						
 						int sheetsCount = workbook.getNumberOfSheets();
 						if(sheetsCount > 0) {
 							XSSFSheet referenceDataSheet = workbook.getSheetAt(1);
@@ -304,7 +321,7 @@ public class ActivitiesUploadNewController {
 							
 							List<Activity> activityList = new ArrayList<Activity>();
 							
-							String activity_id = null,contract_id_fk = null,struture_type_fk = null,section = null,line = null,structure = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
+							String activity_id = null,contract_id_fk = null,struture_type_fk = null,section = null,line = null,structure_type = null,structure_id = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
 							String completed_scope_gt_total_scope = "",
 									planned_start_null = "",planned_finish_null = "",planned_start_gt_planned_finish = "",
 									actual_start_null = "",actual_start_gt_actual_finish = "";
@@ -312,7 +329,7 @@ public class ActivitiesUploadNewController {
 								XSSFRow row = activityDataSheet.getRow(j);
 								if(!StringUtils.isEmpty(row)) {
 									String componentId_temp = null;
-									Cell cell = row.getCell(4);
+									Cell cell = row.getCell(5);
 									if(!StringUtils.isEmpty(cell)) {
 										componentId_temp = formatter.formatCellValue(cell).trim();
 									}
@@ -322,7 +339,6 @@ public class ActivitiesUploadNewController {
 										
 										activityObj.setWork_id(obj.getWork_id());
 										activityObj.setContract_id_fk(obj.getContract_id_fk());
-										activityObj.setStructure_type_fk(obj.getStructure_type_fk());
 										activityObj.setCreated_by_user_id_fk(userId);
 										activityObj.setModified_by_user_id_fk(userId);
 										
@@ -343,21 +359,28 @@ public class ActivitiesUploadNewController {
 										tempVal = formatter.formatCellValue(row.getCell(2)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											structure = getCellDataType(workbook,row.getCell(2));
+											structure_type = getCellDataType(workbook,row.getCell(2));
 										}	
-										if(!StringUtils.isEmpty(structure)) { activityObj.setStructure(structure);}
+										if(!StringUtils.isEmpty(structure_type)) { activityObj.setStructure_type(structure_type);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(3)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											component = getCellDataType(workbook,row.getCell(3));
+											structure_id = getCellDataType(workbook,row.getCell(3));
 										}	
-										if(!StringUtils.isEmpty(component)) { activityObj.setComponent(component);}
+										if(!StringUtils.isEmpty(structure_id)) { activityObj.setStructure(structure_id);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(4)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											component_id = getCellDataType(workbook,row.getCell(4));
+											component = getCellDataType(workbook,row.getCell(4));
+										}	
+										if(!StringUtils.isEmpty(component)) { activityObj.setComponent(component);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(5)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											component_id = getCellDataType(workbook,row.getCell(5));
 										}	
 										if(!StringUtils.isEmpty(component_id)) { activityObj.setComponent_id(component_id);}
 										
@@ -368,80 +391,80 @@ public class ActivitiesUploadNewController {
 										}
 										if(StringUtils.isEmpty(activityObj.getOrder())) { activityObj.setOrder("9999");}
 										
-										tempVal = formatter.formatCellValue(row.getCell(5)).trim();
-										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										if(count != 2) {
-											activity_name = getCellDataType(workbook,row.getCell(5));
-										}	
-										if(!StringUtils.isEmpty(activity_name)) { activityObj.setActivity_name(activity_name);}
-										
 										tempVal = formatter.formatCellValue(row.getCell(6)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											planned_start = getCellDataType(workbook,row.getCell(6));
+											activity_name = getCellDataType(workbook,row.getCell(6));
 										}	
-										if(!StringUtils.isEmpty(planned_start)) { activityObj.setPlanned_start(DateParser.parse(planned_start));}
+										if(!StringUtils.isEmpty(activity_name)) { activityObj.setActivity_name(activity_name);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(7)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											planned_finish = getCellDataType(workbook,row.getCell(7));
+											planned_start = getCellDataType(workbook,row.getCell(7));
 										}	
-										if(!StringUtils.isEmpty(planned_finish)) { activityObj.setPlanned_finish(DateParser.parse(planned_finish));}
+										if(!StringUtils.isEmpty(planned_start)) { activityObj.setPlanned_start(DateParser.parse(planned_start));}
 										
 										tempVal = formatter.formatCellValue(row.getCell(8)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											actual_start = getCellDataType(workbook,row.getCell(8));
+											planned_finish = getCellDataType(workbook,row.getCell(8));
 										}	
-										if(!StringUtils.isEmpty(actual_start)) { activityObj.setActual_start(DateParser.parse(actual_start));}
+										if(!StringUtils.isEmpty(planned_finish)) { activityObj.setPlanned_finish(DateParser.parse(planned_finish));}
 										
 										tempVal = formatter.formatCellValue(row.getCell(9)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											actual_finish = getCellDataType(workbook,row.getCell(9));
+											actual_start = getCellDataType(workbook,row.getCell(9));
 										}	
-										if(!StringUtils.isEmpty(actual_finish)) { activityObj.setActual_finish(DateParser.parse(actual_finish));}
+										if(!StringUtils.isEmpty(actual_start)) { activityObj.setActual_start(DateParser.parse(actual_start));}
 										
 										tempVal = formatter.formatCellValue(row.getCell(10)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											unit = getCellDataType(workbook,row.getCell(10));
+											actual_finish = getCellDataType(workbook,row.getCell(10));
 										}	
-										if(!StringUtils.isEmpty(unit)) { activityObj.setUnit(unit);}
+										if(!StringUtils.isEmpty(actual_finish)) { activityObj.setActual_finish(DateParser.parse(actual_finish));}
 										
 										tempVal = formatter.formatCellValue(row.getCell(11)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											scope = getCellDataType(workbook,row.getCell(11));
+											unit = getCellDataType(workbook,row.getCell(11));
 										}	
-										if(!StringUtils.isEmpty(scope)) { activityObj.setScope(scope);}
+										if(!StringUtils.isEmpty(unit)) { activityObj.setUnit(unit);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(12)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											completed = getCellDataType(workbook,row.getCell(12));
+											scope = getCellDataType(workbook,row.getCell(12));
 										}	
-										if(!StringUtils.isEmpty(completed)) { activityObj.setCompleted(completed);}
+										if(!StringUtils.isEmpty(scope)) { activityObj.setScope(scope);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(13)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											weightage = getCellDataType(workbook,row.getCell(13));
+											completed = getCellDataType(workbook,row.getCell(13));
 										}	
-										if(!StringUtils.isEmpty(weightage)) { activityObj.setWeightage(weightage);}
+										if(!StringUtils.isEmpty(completed)) { activityObj.setCompleted(completed);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(14)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											component_details = getCellDataType(workbook,row.getCell(14));
+											weightage = getCellDataType(workbook,row.getCell(14));
 										}	
-										if(!StringUtils.isEmpty(component_details)) { activityObj.setComponent_details(component_details);}
+										if(!StringUtils.isEmpty(weightage)) { activityObj.setWeightage(weightage);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(15)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											remarks = getCellDataType(workbook,row.getCell(15));
+											component_details = getCellDataType(workbook,row.getCell(15));
+										}	
+										if(!StringUtils.isEmpty(component_details)) { activityObj.setComponent_details(component_details);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(16)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											remarks = getCellDataType(workbook,row.getCell(16));
 										}	
 										if(!StringUtils.isEmpty(remarks)) { activityObj.setRemarks(remarks);}
 										
@@ -472,13 +495,29 @@ public class ActivitiesUploadNewController {
 										if(!StringUtils.isEmpty(activityObj.getPlanned_finish())) {
 											planned_finish_date = format.parse(activityObj.getPlanned_finish());
 										}
+										boolean tempFlag = false;
+										if(!StringUtils.isEmpty(existingStructures) && existingStructures.size() > 0) {
+											for (Activity sObj : existingStructures) {
+												if(!StringUtils.isEmpty(activityObj.getStructure_type()) && activityObj.getStructure_type().equals(sObj.getStructure_type_fk()) 
+														&& !StringUtils.isEmpty(activityObj.getStructure()) && activityObj.getStructure().equals(sObj.getStructure())) {
+													//contarct_and_fob_mismatch = " FOB selected from the dropdown and on the Activity File do not match. at Row no(s) " + (j+1);
+													tempFlag = true;
+												}
+											}
+											if(!tempFlag) {
+												contarct_and_fob_mismatch = contarct_and_fob_mismatch + (!StringUtils.isEmpty(contarct_and_fob_mismatch)?",":"") + (j+1);
+											}
+										}else {
+											contarct_and_fob_mismatch = contarct_and_fob_mismatch + (!StringUtils.isEmpty(contarct_and_fob_mismatch)?",":"") + (j+1);
+										}
+										
 										
 										if(completedScope <= totalScope 
 												&& ((!StringUtils.isEmpty(actual_start_date) && !StringUtils.isEmpty(actual_finish_date) && (actual_start_date.compareTo(actual_finish_date) < 0 || actual_start_date.compareTo(actual_finish_date) == 0))
 														|| (!StringUtils.isEmpty(actual_start_date) && StringUtils.isEmpty(actual_finish_date))
 														|| (StringUtils.isEmpty(actual_start_date) && StringUtils.isEmpty(actual_finish_date))) 
-												&& ((StringUtils.isEmpty(planned_start_date) && StringUtils.isEmpty(planned_finish_date)) || (!StringUtils.isEmpty(planned_start_date) && !StringUtils.isEmpty(planned_finish_date) && (planned_start_date.compareTo(planned_finish_date) < 0 || planned_start_date.compareTo(planned_finish_date) == 0)))
-												) {
+												&& ((StringUtils.isEmpty(planned_start_date) && StringUtils.isEmpty(planned_finish_date)) || (!StringUtils.isEmpty(planned_start_date) && !StringUtils.isEmpty(planned_finish_date) && (planned_start_date.compareTo(planned_finish_date) < 0 || planned_start_date.compareTo(planned_finish_date) == 0))) 
+												&& tempFlag) {
 											activityList.add(activityObj);
 										}
 										
@@ -501,77 +540,65 @@ public class ActivitiesUploadNewController {
 											//actual_start_date is after actual_finish_date (actual_start_date > actual_finish_date)
 											actual_start_gt_actual_finish = actual_start_gt_actual_finish + (!StringUtils.isEmpty(actual_start_gt_actual_finish)?",":"") + (j+1);
 										}
-										
-
-										if(!StringUtils.isEmpty(obj.getContract_id_fk()) && !obj.getContract_id_fk().equals(activityObj.getContract_id_fk())) {
-											contarct_and_fob_mismatch = "Contract selected from the dropdown and on the Activity File do not match. at Row no(s) " + (j+1);
-											break;
-										}
-										
-										if(!StringUtils.isEmpty(obj.getFob_id()) && !obj.getFob_id().equals(activityObj.getStructure())) {
-											contarct_and_fob_mismatch = " FOB selected from the dropdown and on the Activity File do not match. at Row no(s) " + (j+1);
-											break;
-										}
-										
 									}
 								}
 								
 							}
 							
-							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0  && StringUtils.isEmpty(contarct_and_fob_mismatch)){
+							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0){
 								counts  = service.uploadActivities(activityList,obj);
 								if(counts[0] > 0) {
-									message = message + "<br><span style='color:green;'>" + counts[0] + " activities added successfully.</span>";
+									message = message + "<br><span style='color:green;'>" + counts[0] + " Activities added successfully.</span>";
 								}
 								if(counts[1] > 0) {
-									message = message + "<br><span style='color:green;'>" + counts[1] + " activities updated successfully.</span>";
+									message = message + "<br><span style='color:green;'>" + counts[1] + " Activities updated successfully.</span>";
 								}
 								
-							}
-								if(!StringUtils.isEmpty(completed_scope_gt_total_scope)) {
-									message = message + "<br><span style='color:red;'> Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope).</span>";
-									data_remarks = data_remarks + "Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope). ";
-								}
-								
-								if(!StringUtils.isEmpty(completed_scope_gt_total_scope)) {
-									message = message + "<br><span style='color:red;'> Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope).</span>";
-									data_remarks = data_remarks + "Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope). ";
-								}
-								
-								if(!StringUtils.isEmpty(planned_start_null)) {
-									message = message + "<br><span style='color:red;'> Row no(s) " + planned_start_null + " are not inserted (Reason : Planned Start should not empty).</span>";
-									data_remarks = data_remarks + "Row no(s) " + planned_start_null + " are not inserted (Reason : Planned Start should not empty). ";
-								}
-								if(!StringUtils.isEmpty(planned_finish_null)) {
-									message = message + "<br><span style='color:red;'> Row no(s) " + planned_finish_null + " are not inserted (Reason : Planned Finish should not empty).</span>";
-									data_remarks = data_remarks + "Row no(s) " + planned_finish_null + " are not inserted (Reason : Planned Finish should not empty). ";
-								}
-								if(!StringUtils.isEmpty(planned_start_gt_planned_finish)) {
-									message = message + "<br><span style='color:red;'> Row no(s) " + planned_start_gt_planned_finish + " are not inserted (Reason : Planned Start should not after Planned Finish).</span>";
-									data_remarks = data_remarks + "Row no(s) " + planned_start_gt_planned_finish + " are not inserted (Reason : Planned Start should not after Planned Finish). ";
-								}
-								
-								if(!StringUtils.isEmpty(actual_start_null)) {
-									message = message + "<br><span style='color:red;'> Row no(s) " + actual_start_null + " are not inserted (Reason : Actual Start should not empty).</span>";
-									data_remarks = data_remarks + "Row no(s) " + actual_start_null + " are not inserted (Reason : Actual Start should not empty). ";
-								}
-								if(!StringUtils.isEmpty(actual_start_gt_actual_finish)) {
-									message = message + "<br><span style='color:red;'> Row no(s) " + actual_start_gt_actual_finish + " are not inserted (Reason : Actual Start should not after Actual Finish).</span>";
-									data_remarks = data_remarks + "Row no(s) " + actual_start_gt_actual_finish + " are not inserted (Reason : Actual Start should not after Actual Finish). ";
-								}
-								if(!StringUtils.isEmpty(contarct_and_fob_mismatch)) {
-									message = "<br><span style='color:red;'>" + contarct_and_fob_mismatch + "</span> ";
-								}
-								
-								message = message + "<br>";
-								
-								messages[0] = message;
-								messages[1] = data_remarks;
 							}
 							
-						
+							if(!StringUtils.isEmpty(completed_scope_gt_total_scope)) {
+								message = message + "<br><span style='color:red;'> Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope).</span>";
+								data_remarks = data_remarks + "Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope). ";
+							}
+							
+							if(!StringUtils.isEmpty(completed_scope_gt_total_scope)) {
+								message = message + "<br><span style='color:red;'> Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope).</span>";
+								data_remarks = data_remarks + "Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope). ";
+							}
+							
+							if(!StringUtils.isEmpty(planned_start_null)) {
+								message = message + "<br><span style='color:red;'> Row no(s) " + planned_start_null + " are not inserted (Reason : Planned Start should not empty).</span>";
+								data_remarks = data_remarks + "Row no(s) " + planned_start_null + " are not inserted (Reason : Planned Start should not empty). ";
+							}
+							if(!StringUtils.isEmpty(planned_finish_null)) {
+								message = message + "<br><span style='color:red;'> Row no(s) " + planned_finish_null + " are not inserted (Reason : Planned Finish should not empty).</span>";
+								data_remarks = data_remarks + "Row no(s) " + planned_finish_null + " are not inserted (Reason : Planned Finish should not empty). ";
+							}
+							if(!StringUtils.isEmpty(planned_start_gt_planned_finish)) {
+								message = message + "<br><span style='color:red;'> Row no(s) " + planned_start_gt_planned_finish + " are not inserted (Reason : Planned Start should not after Planned Finish).</span>";
+								data_remarks = data_remarks + "Row no(s) " + planned_start_gt_planned_finish + " are not inserted (Reason : Planned Start should not after Planned Finish). ";
+							}
+							
+							if(!StringUtils.isEmpty(actual_start_null)) {
+								message = message + "<br><span style='color:red;'> Row no(s) " + actual_start_null + " are not inserted (Reason : Actual Start should not empty).</span>";
+								data_remarks = data_remarks + "Row no(s) " + actual_start_null + " are not inserted (Reason : Actual Start should not empty). ";
+							}
+							if(!StringUtils.isEmpty(actual_start_gt_actual_finish)) {
+								message = message + "<br><span style='color:red;'> Row no(s) " + actual_start_gt_actual_finish + " are not inserted (Reason : Actual Start should not after Actual Finish).</span>";
+								data_remarks = data_remarks + "Row no(s) " + actual_start_gt_actual_finish + " are not inserted (Reason : Actual Start should not after Actual Finish). ";
+							}
+							if(!StringUtils.isEmpty(contarct_and_fob_mismatch)) {
+								message = message + "<br><span style='color:red;'> Row no(s) " + contarct_and_fob_mismatch + " are not inserted (Reason : No matching Structure and Structure Type in our existing system with the selected contract).</span> ";
+								data_remarks = data_remarks + "<span style='color:red;'> Row no(s) " + contarct_and_fob_mismatch + " are not inserted (Reason : No matching Structure and Structure Type in our existing system with the selected contract).</span> ";
+							}
+							
+							messages[0] = message;
+							messages[1] = data_remarks;
+							
+						}
 						workbook.close();
 					}
+				}
 			}
 
 		} catch (Exception e) {

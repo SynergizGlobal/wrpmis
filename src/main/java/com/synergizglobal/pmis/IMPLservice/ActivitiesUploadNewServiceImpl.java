@@ -54,4 +54,9 @@ public class ActivitiesUploadNewServiceImpl implements ActivitiesUploadNewServic
 	public List<Activity> getActivitiesUploadFilesList(Activity obj) throws Exception {
 		return dao.getActivitiesUploadFilesList(obj);
 	}
+
+	@Override
+	public List<Activity> getExistingStructures(String contract_id) throws Exception {
+		return dao.getExistingStructures(contract_id);
+	}
 }

@@ -26,7 +26,6 @@
 			<mvc:exclude-mapping path="/mobileappwebview/**" />
 			<!-- <mvc:exclude-mapping path="/getTableauUrl" /> -->
 			<mvc:exclude-mapping path="/ajax/**" />
-			<mvc:exclude-mapping path="/demo/**" />
 			<mvc:exclude-mapping path="/changeLoginBackground" />
 			<mvc:exclude-mapping path="/generate-risk-analysis-report" />
 			<mvc:exclude-mapping path="/fob-gallery/**" />

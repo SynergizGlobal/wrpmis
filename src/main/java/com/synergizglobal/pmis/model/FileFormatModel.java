@@ -72,6 +72,16 @@ public class FileFormatModel {
 		}		
 		return fileFormat;
 	}
+	
+	public static List<String> getActivityData_new_FileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Section^Line^Structure Type^Structure ID^Component^Component ID^Activity^Planned Start Date^Planned Finish Date^Actual Start Date^Actual Finish Date^Unit^Total Scope^Completed^Weightage Point^Components Detail^Remarks";
+		String[] convertedColumnsArray = columns.split("\\^");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}		
+		return fileFormat;
+	}
 
 	public static List<String> getRiskFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();

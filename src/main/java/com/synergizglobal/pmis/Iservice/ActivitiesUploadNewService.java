@@ -20,4 +20,6 @@ public interface ActivitiesUploadNewService {
 	List<Activity> getStructureTypesListFilter(Activity obj) throws Exception;
 
 	List<Activity> getActivitiesUploadFilesList(Activity obj) throws Exception;
+
+	List<Activity> getExistingStructures(String contract_id) throws Exception;
 }

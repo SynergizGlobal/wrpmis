@@ -591,7 +591,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
 		try {
 			
-			String contractsQry = "select activity_id_fk,contract_id_fk,c.contract_short_name,work_id,project_id,project_name "
+			String contractsQry = "select activity_id_fk,contract_id_fk,c.contract_short_name,work_id,project_id,project_name,a.unit "
 					+ "from activity_progress ap " 
 					+ "LEFT JOIN activities a on activity_id_fk = activity_id " 
 					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
@@ -683,7 +683,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 
 				ActivitiesProgressReport sObj = new ActivitiesProgressReport();
 				/*******************************************************************************************************************/
-				String progressStructuresQry = "select ap.activity_id_fk,a.contract_id_fk,contract_short_name,a.structure "
+				String progressStructuresQry = "select ap.activity_id_fk,a.contract_id_fk,contract_short_name,a.structure,a.unit "
 						+ "from activity_progress ap "  
 						+ "left join activities a on ap.activity_id_fk = a.activity_id "  
 						+ "left join contract c on a.contract_id_fk = c.contract_id "  
@@ -729,7 +729,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select activity_id_fk,MAX(ap.progress_date) AS progress_date,contract_id_fk,contract_short_name,work_id,project_id,project_name "
+					String contractProgressDatesQry = "select activity_id_fk,MAX(ap.progress_date) AS progress_date,contract_id_fk,contract_short_name,work_id,project_id,project_name,a.unit "
 							+ "from activity_progress ap " 
 							+ "LEFT JOIN activities a on activity_id_fk = activity_id  " 
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
@@ -775,7 +775,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					for (ActivitiesProgressReport contractProgressDate : contractProgressDatesList) {
 						
 						String progressQry = "select distinct ap.progress_date,ap.activity_id_fk,sum(ap.completed_scope) as completed_scope,a.activity_id,a.contract_id_fk,a.structure_type_fk,a.component_id," + 
-								"a.component,a.activity_name,a.structure,a.scope,a.completed,c.contract_name,c.contract_short_name," + 
+								"a.component,a.activity_name,a.unit,a.structure,a.scope,a.completed,c.contract_name,c.contract_short_name," + 
 								"(a.completed - IFNULL((select sum(completed_scope) " + 
 								"from activity_progress ap1 " + 
 								"left outer join activities a1 on ap1.activity_id_fk = a1.activity_id " + 

@@ -528,42 +528,39 @@
                             </c:if>
                            
                             <div class="row">
-                                <div class="col s6 m4 l6 input-field offset-m2" id="commissioning_dateDiv" style="display: none;">
+                                <div class="col s12 m3 input-field" id="commissioning_dateDiv" style="display: none;">
                                     <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${fob.commissioning_date }" <c:if test="${not empty fob.commissioning_date}">disabled</c:if>>
                                     <label for="commissioning_date">Commissioning Date </label>
                                     <button type="button" id="commissioning_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="commissioning_dateError" class="error-msg" ></span>
                                 </div>
-                            </div>
+                           
 
-                            <div class="row" id="actual_completion_dateDiv" style="display: none;">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s6 m4 input-field offset-m2"  >
-                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }" <c:if test="${not empty fob.actual_completion_date}">disabled</c:if>>
-                                    <label for="actual_completion_date">Actual Completion Date </label>
-                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-                                    <span id="actual_completion_dateError" class="error-msg" ></span>
-                                </div>
-                               <%--  <c:if test="${action eq 'edit'}"> --%>
-                                <div class="col s9 m3 input-field">
-                                	<i class="material-icons prefix cost">₹</i>   
-                                    <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }" <c:if test="${not empty fob.completion_cost}">readonly</c:if>>
-                                    <label for="completion_cost">Actual Completion Cost</label>
-                                    <span id="completion_costError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s3 m1 input-field">
-                                	<p class="searchable_label">Units</p>
-                                	<select class="units validate-dropdown" id="completion_cost_units" name="completion_cost_units">
-                                		<option value="">Select</option>
-                                		<c:forEach var="obj" items="${unitsList }">
-                                  			   <option value="${obj.value }" <c:if test="${fob.completion_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
-                                   		 </c:forEach>
-                                	</select>
-                                	<span id="completion_cost_unitsError" class="error-msg" ></span>
-                                </div>
-                               <%--  </c:if> --%>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+	                            <div class="col m9 input-field" id="actual_completion_dateDiv" style="display: none;">
+	                                <div class="col m4 input-field"  >
+	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }" <c:if test="${not empty fob.actual_completion_date}">disabled</c:if>>
+	                                    <label for="actual_completion_date">Actual Completion Date </label>
+	                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m4 input-field">
+	                                	<i class="material-icons prefix cost">₹</i>   
+	                                    <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }" <c:if test="${not empty fob.completion_cost}">readonly</c:if>>
+	                                    <label for="completion_cost">Actual Completion Cost</label>
+	                                    <span id="completion_costError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m4 input-field">
+	                                	<p class="searchable_label">Units</p>
+	                                	<select class="units validate-dropdown" id="completion_cost_units" name="completion_cost_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+	                                  			   <option value="${obj.value }" <c:if test="${fob.completion_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+	                                   		 </c:forEach>
+	                                	</select>
+	                                	<span id="completion_cost_unitsError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
+                           </div>
                             
                             <div class="row"> 
                                 <div class="col m2 hide-on-small-only"></div>
@@ -1042,9 +1039,10 @@
     		}else if($.trim(work_status) == 'Commissioned'){
     			$("#construction_start_dateDiv").show();
     			$("#commissioning_dateDiv").show();
-    			$("#actual_completion_dateDiv").hide();
+    			$("#actual_completion_dateDiv").show();
     			
-    			$("#actual_completion_date").val('');
+    			
+    			//$("#actual_completion_date").val('');
     		}else if($.trim(work_status) == 'Completed'){
     			$("#construction_start_dateDiv").show();
     			$("#commissioning_dateDiv").show();

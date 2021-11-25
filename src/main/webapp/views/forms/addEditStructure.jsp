@@ -339,7 +339,7 @@ td label.btn.bg-m{
 																		<div class="container">
 																			<div class="row">
 												                                 <div class="col s6 input-field">
-												                                    <p class="searchable_label">Work Status </p>
+												                                    <p class="searchable_label mb">Work Status </p>
 												                                    <select id="work_status_fk${indexx.count }${index.count }" name="work_status_fks"  class="searchable validate-dropdown">
 												                                        <option value="">Select</option>
 												                                         <c:forEach var="obj" items="${workStatusList}">
@@ -349,13 +349,18 @@ td label.btn.bg-m{
 												                                    <span id="work_status_fk${indexx.count }${index.count }Error" class="error-msg" ></span>
 												                                </div>
 												                                <div class="col s6 input-field">
+												                                	<input id="structure_name${indexx.count }${index.count }" name="structure_names" type="text" class="validate" value="" >
+												                                    <label for="structure_name${indexx.count }${index.count }">Structure Name </label>
+												                                    <span id="structure_name${indexx.count }${index.count }Error" class="error-msg" ></span>
+												                                </div>												                                
+											                                </div>
+											                                <div class="row">
+											                                	<div class="col s6 input-field">
 												                                    <input id="target_date${indexx.count }${index.count }" name="target_dates" type="text" class="validate datepicker" value="${sObj1.target_date }" >
 												                                    <label for="target_date${indexx.count }${index.count }">Original Target Date </label>
 												                                    <button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 												                                    <span id="target_date${indexx.count }${index.count }Error" class="error-msg" ></span>
 												                                </div>
-											                                </div>
-											                                <div class="row">
 											                                	<div class="col s6 input-field amount-dropdown">
 												                                	<i class="material-icons amount-symbol cost">₹</i>   
 												                                    <input id="estimated_cost${indexx.count }${index.count }" name="estimated_costs" type="number" class="validate" value="${sObj1.estimated_cost }" min="0.01" step="0.01">
@@ -369,20 +374,34 @@ td label.btn.bg-m{
 																						</c:forEach>                              		
 												                                	</select>
 												                                </div>
+											                                </div>
+											                                <div class="row">											                                	
 											                                	 <div class="col s6 input-field">
 												                                    <input id="construction_start_date${indexx.count }${index.count }" name="construction_start_dates" type="text" class="validate datepicker" value="${sObj1.construction_start_date }" >
 												                                    <label for="construction_start_date${indexx.count }${index.count }">Construction Start Date </label>
 												                                    <button type="button" id="construction_start_date${indexx.count }${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 												                                    <span id="construction_start_date${indexx.count }${index.count }Error" class="error-msg" ></span>
 												                                </div>
-											                                </div>
-											                                <div class="row">
 												                                <div class="col s6 input-field " >
 												                                    <input id="revised_completion${indexx.count }${index.count }" name="revised_completions" type="text" class="validate datepicker" value="${sObj1.revised_completion }">
 												                                    <label for="revised_completion${indexx.count }${index.count }" >Target completion Date </label>
 												                                    <button type="button" id="revised_completion${indexx.count }${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 												                                    <span id="revised_completion${indexx.count }${index.count }Error" class="error-msg" ></span>
-												                                </div> 
+												                                </div>
+												                            </div>
+												                            <div class="row">											                                	
+											                                	 <div class="col s6 input-field">
+											                                	    <input id="latitude${indexx.count }${index.count }" name="latitudes" type="text" class="validate" value="">
+												                                    <label for="latitude${indexx.count }${index.count }">Latitude </label>
+												                                    <span id="latitude${indexx.count }${index.count }Error" class="error-msg"></span>
+											                                	 </div>
+											                                	 <div class="col s6 input-field">
+											                                	 	<input id="longitude${indexx.count }${index.count }" name="longitudes" type="text" class="validate" value="">
+												                                    <label for="longitude${indexx.count }${index.count }">Longitude </label>
+												                                    <span id="longitude${indexx.count }${index.count }Error" class="error-msg"></span>
+											                                	 </div>
+											                               	</div>
+												                            <div class="row"> 
 											                                	<div class="col s12 input-field ">
 												                                    <textarea id="remarks${indexx.count }${index.count }" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000">${sObj1.remarks }</textarea>
 												                                    <label for="remarks${indexx.count }${index.count }">Remarks</label>
@@ -758,7 +777,7 @@ td label.btn.bg-m{
 															    	<div class="container">
 																		<div class="row">
 											                                 <div class="col s6 input-field">
-											                                    <p class="searchable_label">Work Status </p>
+											                                    <p class="searchable_label mb">Work Status </p>
 											                                    <select id="work_status_fk00" name="work_status_fks"  class="searchable validate-dropdown">
 											                                        <option value="">Select</option>
 											                                        <c:forEach var="obj" items="${workStatusList}">
@@ -768,13 +787,18 @@ td label.btn.bg-m{
 											                                    <span id="work_status_fk00Error" class="error-msg" ></span>
 											                                </div>
 											                                <div class="col s6 input-field">
+																			    <input id="structure_name00" name="structure_names" type="text" class="validate" value="" >
+																			    <label for="structure_name00">Structure Name </label>
+																			    <span id="structure_name00Error" class="error-msg" ></span>
+																			</div>											                                
+										                                </div>
+										                                <div class="row">
+										                                	<div class="col s6 input-field">
 											                                    <input id="target_date00" name="target_dates" type="text" class="validate datepicker" value="" >
 											                                    <label for="target_date00">Original Target Date </label>
 											                                    <button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											                                    <span id="target_date00Error" class="error-msg" ></span>
 											                                </div>
-										                                </div>
-										                                <div class="row">
 										                                	<div class="col s6 input-field amount-dropdown">
 											                                	<i class="material-icons amount-symbol cost">₹</i>   
 											                                    <input id="estimated_cost00" name="estimated_costs" type="number" class="validate" value="" min="0.01" step="0.01">
@@ -788,20 +812,35 @@ td label.btn.bg-m{
 																					</c:forEach>                   		
 											                                	</select>
 											                                </div>
-										                                	 <div class="col s6 input-field">
+										                                	 
+										                                </div>
+										                                <div class="row">
+										                                	<div class="col s6 input-field">
 											                                    <input id="construction_start_date00" name="construction_start_dates" type="text" class="validate datepicker" value="" >
 											                                    <label for="construction_start_date00">Construction Start Date </label>
 											                                    <button type="button" id="construction_start_date00_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											                                    <span id="construction_start_date00Error" class="error-msg" ></span>
 											                                </div>
-										                                </div>
-										                                <div class="row">
 											                                <div class="col s6 input-field " >
 											                                    <input id="revised_completion00" name="revised_completions" type="text" class="validate datepicker" value="${fob.revised_completion }" <c:if test="${not empty fob.revised_completion}">disabled</c:if>>
 											                                    <label for="revised_completion00" >Target completion Date </label>
 											                                    <button type="button" id="revised_completion00_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											                                    <span id="revised_completion00Error" class="error-msg" ></span>
 											                                </div> 
+											                             </div>
+											                              <div class="row">											                                	
+																			    <div class="col s6 input-field">
+																			    <input id="latitude00" name="latitudes" type="text" class="validate" value="">
+																			    <label for="latitude00">Latitude </label>
+																			    <span id="latitude00Error" class="error-msg"></span>
+																			    </div>
+																			    <div class="col s6 input-field">
+																			    <input id="longitude00" name="longitudes" type="text" class="validate" value="">
+																			    <label for="longitude00">Longitude </label>
+																			    <span id="longitude00Error" class="error-msg"></span>
+																			    </div>
+																		</div>
+											                             <div class="row">
 										                                	<div class="col s12  input-field ">
 											                                    <textarea id="remarks00" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000">${fob.remarks }</textarea>
 											                                    <label for="remarks00">Remarks</label>
@@ -1337,10 +1376,13 @@ td label.btn.bg-m{
 			              	 	+'<option value="${obj.work_status_fk }">${obj.work_status_fk}</option>'
 			                 </c:forEach>
            			    +'</select><span id="work_status_fk'+rNo+rNo+x+'Error" class="error-msg" ></span>'
-           			    +'</div><div class="col s6 input-field"><input id="target_date'+rNo+rNo+x+'" name="target_dates" type="text" class="validate datepicker" value="" >'
-           			    +'<label for="target_date'+rNo+rNo+x+'">Original Target Date </label><button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
-           			    +'<span id="target_date'+rNo+rNo+x+'Error" class="error-msg" ></span></div></div>'
-           			    +'<div class="row"><div class="col s6 input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i>'
+           			    +'</div><div class="col s6 input-field"> <input id="structure_name'+rNo+rNo+x+'" name="structure_names" type="text" class="validate" value="" > <label for="structure_name'+rNo+rNo+x+'">Structure Name </label>'
+           			    +'<span id="structure_name'+rNo+rNo+x+'Error" class="error-msg" ></span></div></div>'           			    
+           			    +'<div class="row">'
+           			 	+'<div class="col s6 input-field"><input id="target_date'+rNo+rNo+x+'" name="target_dates" type="text" class="validate datepicker" value="" >'
+        			    +'<label for="target_date'+rNo+rNo+x+'">Original Target Date </label><button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
+        			    +'<span id="target_date'+rNo+rNo+x+'Error" class="error-msg" ></span></div>'
+        			    +'<div class="col s6 input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i>'
            			    +'<input id="estimated_cost'+rNo+rNo+x+'" name="estimated_costs" type="number" class="validate" value="" min="0.01" step="0.01"><label for="estimated_cost'+rNo+rNo+x+'">Estimated Cost</label>'
            			    +'<span id="estimated_cost'+rNo+rNo+x+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+x+'Error" class="error-msg right" ></span>' 
            			    +'<select class="validate-dropdown" id="estimated_cost_units'+rNo+rNo+x+'" name="estimated_cost_unitss">'+
@@ -1348,16 +1390,20 @@ td label.btn.bg-m{
 		           			 <c:forEach var="obj" items="${unitsList }">
 			              	 	+'<option value="${obj.value }">${obj.unit}</option>'
 			                 </c:forEach>
-           			    +'</select></div>'
-           			    +'<div class="col s6 input-field"><input id="construction_start_date'+rNo+rNo+x+'" name="construction_start_dates" type="text" class="validate datepicker" value="" >'
-           			    +'<label for="construction_start_date'+rNo+rNo+x+'">Construction Start Date </label><button type="button" id="construction_start_date'+rNo+rNo+x+'_icon" class="datepicker-button">'
-           			    +'<i class="fa fa-calendar"></i></button><span id="construction_start_date'+rNo+rNo+x+'Error" class="error-msg" ></span></div>'
-           			    +'</div><div class="row"><div class="col s6 input-field " ><input id="revised_completion'+rNo+rNo+x+'" name="revised_completions" type="text" class="validate datepicker" >'
+           			    +'</select></div>'     
+           			    +'</div><div class="row">'
+           			 	+'<div class="col s6 input-field"><input id="construction_start_date'+rNo+rNo+x+'" name="construction_start_dates" type="text" class="validate datepicker" value="" >'
+        			    +'<label for="construction_start_date'+rNo+rNo+x+'">Construction Start Date </label><button type="button" id="construction_start_date'+rNo+rNo+x+'_icon" class="datepicker-button">'
+        			    +'<i class="fa fa-calendar"></i></button><span id="construction_start_date'+rNo+rNo+x+'Error" class="error-msg" ></span></div>'
+           			    +'<div class="col s6 input-field " ><input id="revised_completion'+rNo+rNo+x+'" name="revised_completions" type="text" class="validate datepicker" >'
            			    +'<label for="revised_completion'+rNo+rNo+x+'" >Target completion Date </label><button type="button" id="revised_completion'+rNo+rNo+x+'_icon" class="datepicker-button"><i class="fa fa-calendar">'
-           			    +'</i></button><span id="revised_completion'+rNo+rNo+x+'Error" class="error-msg" ></span></div>'
-           			    +'<div class="col s12 input-field "><textarea id="remarks'+rNo+rNo+x+'" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
+           			    +'</i></button><span id="revised_completion'+rNo+rNo+x+'Error" class="error-msg" ></span></div></div>'
+           			    +'<div class="row"><div class="col s6 input-field"> <input id="latitude'+rNo+rNo+x+'" name="latitudes" type="text" class="validate" value=""> <label for="latitude'+rNo+rNo+x+'">Latitude </label>'
+           			    +'<span id="latitude'+rNo+rNo+x+'Error" class="error-msg"></span> </div> <div class="col s6 input-field"> <input id="longitude'+rNo+rNo+x+'" name="longitudes" type="text" class="validate" value="">'
+           			    +'<label for="longitude'+rNo+rNo+x+'">Longitude </label> <span id="longitude'+rNo+rNo+x+'Error" class="error-msg"></span> </div> </div>'
+           			    +'<div class="row"><div class="col s12 input-field "><textarea id="remarks'+rNo+rNo+x+'" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
            			    +'<label for="remarks'+rNo+rNo+x+'">Remarks</label><span id="remarks'+rNo+rNo+x+'Error" class="error-msg" ></span></div></div></div>'
-           			    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+1+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
+           			    +'<div class="row"><div class="col m12 table-inside"><table id="structureResponsibleTable'+1+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
            			    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'
            			    +'<tbody id="structureResponsibleBody'+1+rNo+rNo+rNo+x+'"><input type="hidden"  id="contracts_id_fk'+1+rNo+rNo+rNo+x+'" name="contracts_id_fk" /><tr id="structureResponsibleRow'+1+rNo+rNo+rNo+x+'"><td data-head="Departments" class="input-field">'
            			    +'<select class="searchable validate-dropdown "  id="contract_id_fk'+1+rNo+rNo+rNo+x+'" name="contracts"  onchange="getRowsCount('+1+rNo+rNo+rNo+x+','+rNo+');">'+
@@ -1457,12 +1503,13 @@ td label.btn.bg-m{
 						    	 <c:forEach var="obj" items="${workStatusList }">
 				              	 	+'<option value="${obj.work_status_fk }">${obj.work_status_fk}</option>'
 				                 </c:forEach>
-				            +'</select><span id="work_status_fk'+rNo+rNo+'Error" class="error-msg" ></span>'
-						    +'</div><div class="col s6 input-field"><input id="target_date'+rNo+rNo+'" name="target_dates" type="text" class="validate datepicker" value="" >'
+				            +'</select><span id="work_status_fk'+rNo+rNo+'Error" class="error-msg" ></span></div>'
+				            +'<div class="col s6 input-field"> <input id="structure_name'+rNo+rNo+'" name="structure_names" type="text" class="validate" value="" >'
+				            +'<label for="structure_name'+rNo+rNo+'">Structure Name </label> <span id="structure_name'+rNo+rNo+'Error" class="error-msg" ></span> </div> </div>'
+						    +'<div class="row"><div class="col s6 input-field"><input id="target_date'+rNo+rNo+'" name="target_dates" type="text" class="validate datepicker" value="" >'
 						    +'<label for="target_date'+rNo+rNo+'">Original Target Date </label><button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
-						    +'<span id="target_date'+rNo+rNo+'Error" class="error-msg" ></span></div></div>'
-						    
-						    +'<div class="row"><div class="col s6 input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i>'
+						    +'<span id="target_date'+rNo+rNo+'Error" class="error-msg" ></span></div>'						    
+						    +'<div class="col s6 input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i>'
 						    +'<input id="estimated_cost'+rNo+rNo+x+'" name="estimated_costs" type="number" class="validate" value="" min="0.01" step="0.01"><label for="estimated_cost'+rNo+rNo+x+'">Estimated Cost</label>'
 						    +'<span id="estimated_cost'+rNo+rNo+x+'Error" class="error-msg" ></span><span id="estimated_cost_units'+rNo+rNo+x+'Error" class="error-msg right" ></span>'
 						    +'<select class="validate-dropdown " id="estimated_cost_units'+rNo+rNo+x+'" name="estimated_cost_unitss">'+
@@ -1472,13 +1519,16 @@ td label.btn.bg-m{
 				               </c:forEach>
 						    +'</select></div>'
 						    
-						    +'<div class="col s6 input-field"><input id="construction_start_date'+rNo+rNo+'" name="construction_start_dates" type="text" class="validate datepicker" value="" >'
+						    +'</div><div class="row"><div class="col s6 input-field"><input id="construction_start_date'+rNo+rNo+'" name="construction_start_dates" type="text" class="validate datepicker" value="" >'
 						    +'<label for="construction_start_date'+rNo+rNo+'">Construction Start Date </label><button type="button" id="construction_start_date'+rNo+rNo+'_icon" class="datepicker-button">'
 						    +'<i class="fa fa-calendar"></i></button><span id="construction_start_date'+rNo+rNo+'Error" class="error-msg" ></span></div>'
-						    +'</div><div class="row"><div class="col s6 input-field " ><input id="revised_completion'+rNo+rNo+'" name="revised_completions" type="text" class="validate datepicker" >'
+						    +'<div class="col s6 input-field " ><input id="revised_completion'+rNo+rNo+'" name="revised_completions" type="text" class="validate datepicker" >'
 						    +'<label for="revised_completion'+rNo+rNo+'" >Target completion Date </label><button type="button" id="revised_completion'+rNo+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar">'
-						    +'</i></button><span id="revised_completion'+rNo+rNo+'Error" class="error-msg" ></span></div>'
-						    +'<div class="col s12  input-field "><textarea id="remarks'+rNo+rNo+'" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
+						    +'</i></button><span id="revised_completion'+rNo+rNo+'Error" class="error-msg" ></span></div> </div>'
+						    +'<div class="row">	<div class="col s6 input-field">  <input id="latitude'+rNo+rNo+'" name="latitudes" type="text" class="validate" value=""> <label for="latitude'+rNo+rNo+'">Latitude </label>'
+						    +'<span id="latitude'+rNo+rNo+'Error" class="error-msg"></span>	</div> <div class="col s6 input-field"><input id="longitude'+rNo+rNo+'" name="longitudes" type="text" class="validate" value="">'
+						    +'<label for="longitude'+rNo+rNo+'">Longitude </label> <span id="longitude'+rNo+rNo+'Error" class="error-msg"></span> </div> </div>'
+						    +'<div class="row"><div class="col s12  input-field "><textarea id="remarks'+rNo+rNo+'" name="remarkss" class="pmis-textarea" data-length="1000" maxlength="1000"></textarea>'
 						    +'<label for="remarks'+rNo+rNo+'">Remarks</label><span id="remarks'+rNo+rNo+'Error" class="error-msg" ></span></div></div></div>'
 						    +'<div class="row"><div class="col m12"><table id="structureResponsibleTable'+y+rNo+rNo+rNo+x+'" class="mdl-data-table mobile_responsible_table"><thead><tr>'
 						    +'<th style="width:50%">Contract </th><th style="text-align : left;">Responsible Executives </th><th style="width:8%">Action</th></tr></thead>'

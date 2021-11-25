@@ -293,7 +293,7 @@
                 <form action="<%=request.getContextPath() %>/update-profile" method="POST" id="profileForm" name="profileForm" class="form-horizontal" role="form" enctype="multipart/form-data">
                 	<span class="card-title headbg main">
                 		<div class="profile_name">
-                         	 <span class="hideOrShow">${ userDetails.user_id } - ${ userDetails.user_name } </span>
+                         	 <span class="hideOrShow">${ userDetails.user_id } - ${ userDetails.designation } - ${ userDetails.user_name } </span>
                          	 <span class="hideOrShow input-field hidden disp-inflex">${ userDetails.user_id } &nbsp; 
                          	 	<input name="user_name" id="user_name" type="text" class="validate"  value="${ userDetails.user_name }"/> 
                          	 	<span id="user_nameError" class="error-msg"></span>
@@ -480,7 +480,7 @@
                             </div>
                         </div> --%>
                         
-                         <div class="col m6 l4 s12">
+                         <div class="col m6 l4 s12" style="display:none;">
                             <div class="card">
                                 <div class="card-content">
                                     <span class="card-title headbg">Leave Responsibility</span>

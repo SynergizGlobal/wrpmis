@@ -334,7 +334,7 @@ td label.btn.bg-m{
 															    
 															    
 															    <div class="modal-content">
-																	<h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
+																	<h5 class="modal-header">${dObj.structure_type_fk } - ${sObj.structure } Update <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
 																	 <c:forEach var="sObj1" items="${sObj.structureSubList2 }" > 
 																		<div class="container">
 																			<div class="row">
@@ -349,7 +349,7 @@ td label.btn.bg-m{
 												                                    <span id="work_status_fk${indexx.count }${index.count }Error" class="error-msg" ></span>
 												                                </div>
 												                                <div class="col s6 input-field">
-												                                	<input id="structure_name${indexx.count }${index.count }" name="structure_names" type="text" class="validate" value="" >
+												                                	<input id="structure_name${indexx.count }${index.count }" name="structure_names" type="text" class="validate" value="${sObj1.structure_name }" >
 												                                    <label for="structure_name${indexx.count }${index.count }">Structure Name </label>
 												                                    <span id="structure_name${indexx.count }${index.count }Error" class="error-msg" ></span>
 												                                </div>												                                
@@ -391,12 +391,12 @@ td label.btn.bg-m{
 												                            </div>
 												                            <div class="row">											                                	
 											                                	 <div class="col s6 input-field">
-											                                	    <input id="latitude${indexx.count }${index.count }" name="latitudes" type="text" class="validate" value="">
+											                                	    <input id="latitude${indexx.count }${index.count }" name="latitudes" type="text" class="validate" value="${sObj1.latitude }">
 												                                    <label for="latitude${indexx.count }${index.count }">Latitude </label>
 												                                    <span id="latitude${indexx.count }${index.count }Error" class="error-msg"></span>
 											                                	 </div>
 											                                	 <div class="col s6 input-field">
-											                                	 	<input id="longitude${indexx.count }${index.count }" name="longitudes" type="text" class="validate" value="">
+											                                	 	<input id="longitude${indexx.count }${index.count }" name="longitudes" type="text" class="validate" value="${sObj1.longitude }">
 												                                    <label for="longitude${indexx.count }${index.count }">Longitude </label>
 												                                    <span id="longitude${indexx.count }${index.count }Error" class="error-msg"></span>
 											                                	 </div>
@@ -773,7 +773,7 @@ td label.btn.bg-m{
 	                                                        
 	                                                        <div id="modal00" class="modal">
 															    <div class="modal-content">
-																	<h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
+																	<h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
 															    	<div class="container">
 																		<div class="row">
 											                                 <div class="col s6 input-field">
@@ -1318,6 +1318,9 @@ td label.btn.bg-m{
 	  			$('form input[name=construction_start_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_completions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=structure_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=latitudes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=longitudes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			var flag = validateStructure();
 	        	if(flag){
 	        		document.getElementById("structureForm").submit();	
@@ -1339,6 +1342,9 @@ td label.btn.bg-m{
 	  			$('form input[name=construction_start_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_completions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=structure_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=latitudes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=longitudes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			var flag = validateStructure();
 	        	if(flag){
 	        		$('form select[name=structure_type_fks]').each(function(){
@@ -1368,7 +1374,7 @@ td label.btn.bg-m{
            				+'<td data-head="Structure Id" class="input-field no-pad"><input type="hidden" id="internalRow'+rNo+rNo+x+'"  name="internalRowNo" value="0" /> <table class="internal-table" id="structureRow'+rNo+'-internalTable"><tbody id="internalTable'+rNo+'">'
            				+'<tr id="internalTableRow'+rNo+rNo+x+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+rNo+x+'"/> <input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
            				+'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal">'
-           			    +'<div class="modal-content"><h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
+           			    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
            			    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p><select id="work_status_fk'+rNo+rNo+x+'" '
            			    +'name="work_status_fks"  class="searchable validate-dropdown">'+
            			    '<option value="">Select</option>'
@@ -1496,7 +1502,7 @@ td label.btn.bg-m{
 				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+tableNo+rNo+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
 						   +'placeholder="Structure Id"></td>'
 						   +'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal"> '
-						    +'<div class="modal-content"><h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
+						    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
 						    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p>'+
 						    '<select id="work_status_fk'+rNo+tableNo+x+'" name="work_status_fks"  class="searchable validate-dropdown"> '+
 						    	'<option value="">Select</option>'
@@ -1578,7 +1584,7 @@ td label.btn.bg-m{
 				            +'<td colspan="5" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addStructureFileRow('+1+ind+rNo+rNo+')"> <i class="fa fa-plus"></i>'
 				            +'</a></tr></tbody></table> </div></div></div>'
 				            
-						   //+'<h5 class="modal-header">Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5></div></div>'
+						   //+'<h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5></div></div>'
 	           				+'</div></div><a class="modal-trigger btn bg-m t-c" href="#modal'+rNo+rNo+x+'">Update</a>	</td>'
 						   +'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" '
 						   +'onclick="removeStructureInternalRow('+rNo+tableNo+','+tableNo+')"> <i class="fa fa-close"></i></a></td></tr>';

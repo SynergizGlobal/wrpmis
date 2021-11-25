@@ -546,7 +546,7 @@ public class StructureDaoImpl implements StructureDao{
 						list.setStructureSubList(objList1);
 						if(!StringUtils.isEmpty(objList1)) {
 							for(Structure subdetails : list.getStructureSubList()) {
-								String subdetailsQry ="select structure_id, structure,s.work_status_fk, s.target_date, s.estimated_cost, s.estimated_cost_units, s.construction_start_date, s.revised_completion, s.remarks"
+								String subdetailsQry ="select structure_id, structure,s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude, s.target_date, s.estimated_cost, s.estimated_cost_units, s.construction_start_date, s.revised_completion, s.remarks"
 										+ " from structure s where  structure_id = ? ";
 								List<Structure> subdetailsList = jdbcTemplate.query( subdetailsQry,new Object[] {subdetails.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 								subdetails.setStructureSubList2(subdetailsList);
@@ -606,13 +606,13 @@ public class StructureDaoImpl implements StructureDao{
 		int j = 0,dCount=0,fCount=0;;
 		boolean flag = false;
 		ResultSet rs = null;
-		int[] insertCount = {};
+		int[] insertCount = {0};
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
-					+ "structure,work_status_fk,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
-					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
+					+ "structure,work_status_fk,structure_name,latitude,longitude,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
+					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
 			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0) {
@@ -627,10 +627,22 @@ public class StructureDaoImpl implements StructureDao{
 					arraySize = obj.getStructures().length;
 				}
 			}
-			if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
-				obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
-				if(arraySize < obj.getStructures().length) {
-					arraySize = obj.getStructures().length;
+			if(!StringUtils.isEmpty(obj.getStructure_names()) && obj.getStructure_names().length > 0) {
+				obj.setStructure_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_names()));
+				if(arraySize < obj.getStructure_names().length) {
+					arraySize = obj.getStructure_names().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getLatitudes()) && obj.getLatitudes().length > 0) {
+				obj.setLatitudes(CommonMethods.replaceEmptyByNullInSringArray(obj.getLatitudes()));
+				if(arraySize < obj.getLatitudes().length) {
+					arraySize = obj.getLatitudes().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getLongitudes()) && obj.getLongitudes().length > 0) {
+				obj.setLongitudes(CommonMethods.replaceEmptyByNullInSringArray(obj.getLongitudes()));
+				if(arraySize < obj.getLongitudes().length) {
+					arraySize = obj.getLongitudes().length;
 				}
 			}
 			if(!StringUtils.isEmpty(obj.getWork_status_fks()) && obj.getWork_status_fks().length > 0) {
@@ -684,6 +696,9 @@ public class StructureDaoImpl implements StructureDao{
 					    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
 					    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
 					    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
+					    insertStmt.setString(p++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
+					    insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
+					    insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
 					    insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
 					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
 					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
@@ -924,20 +939,38 @@ public class StructureDaoImpl implements StructureDao{
 		int j = 0,dCount=0,fCount=0;;
 		boolean flag = false;
 		ResultSet rs = null;
-		int[] insertCount = {};
+		int[] insertCount = {0};
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			con.setAutoCommit(false);
 			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
-					+ "structure,work_status_fk,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
-					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
+					+ "structure,work_status_fk,structure_name,latitude,longitude,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
+					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
 			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0) {
 				obj.setStructure_type_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_type_fks()));
 				if(arraySize < obj.getStructure_type_fks().length) {
 					arraySize = obj.getStructure_type_fks().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getStructure_names()) && obj.getStructure_names().length > 0) {
+				obj.setStructure_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_names()));
+				if(arraySize < obj.getStructure_names().length) {
+					arraySize = obj.getStructure_names().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getLatitudes()) && obj.getLatitudes().length > 0) {
+				obj.setLatitudes(CommonMethods.replaceEmptyByNullInSringArray(obj.getLatitudes()));
+				if(arraySize < obj.getLatitudes().length) {
+					arraySize = obj.getLatitudes().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getLatitudes().length > 0) {
+				obj.setLatitudes(CommonMethods.replaceEmptyByNullInSringArray(obj.getLatitudes()));
+				if(arraySize < obj.getLatitudes().length) {
+					arraySize = obj.getLatitudes().length;
 				}
 			}
 			if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
@@ -1030,7 +1063,10 @@ public class StructureDaoImpl implements StructureDao{
 					    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
 					    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
 					    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
-					    insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
+					    insertStmt.setString(p++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
+					    insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
+					    insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
+					    insertStmt.setString(p++,(obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null);
 					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
 					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
 					    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);

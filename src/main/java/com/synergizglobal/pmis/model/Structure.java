@@ -10,7 +10,8 @@ public class Structure {
 	private String structure_id,work_id_fk,contract_id_fk,department_fk,structure_type_fk,structure,structure_count,
 		work_name,work_short_name,user_type_fk,user_id,user_role_code,contract_name,contract_short_name,department_name,project_id_fk,project_name,structure_type,
 		id, uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on,contract_id,responsible_people_id_fk,user_name,designation,work_status_fk, unit, value,structure_file_type
-		,structure_id_fk, structure_detail,name,attachment,structure_file_type_fk,created_date,structure_value,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion;
+		,structure_id_fk, structure_detail,name,attachment,structure_file_type_fk,created_date,structure_value,target_date,estimated_cost,estimated_cost_units,construction_start_date
+		,revised_completion,structure_name,latitude,longitude;
 	private int [] subRowsLengths;
 	
 	private MultipartFile structureFile;
@@ -18,7 +19,7 @@ public class Structure {
 	
 	private String [] structure_type_fks,structures,responsible_people_id_fks,contracts_id_fk,ids,structure_values,structure_file_type_fks,names,structureFiless
 		,structure_details,work_status_fks,target_dates,estimated_costs,estimated_cost_unitss,construction_start_dates,revised_completions,remarkss,contracts
-		,structure_file_types,structureDocumentNames,structureFileNames,structure_file_ids,structure_detailss;
+		,structure_file_types,structureDocumentNames,structureFileNames,structure_file_ids,structure_detailss,structure_names,latitudes,longitudes;
 	
 	private List<Structure> structureList;
 	private List<Structure> structureSubList;
@@ -29,6 +30,54 @@ public class Structure {
 	private List<Structure> contractsLists;
 	private List<Structure> responsiblePeopleLists;
 	
+
+	public String getStructure_name() {
+		return structure_name;
+	}
+
+	public void setStructure_name(String structure_name) {
+		this.structure_name = structure_name;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String[] getStructure_names() {
+		return structure_names;
+	}
+
+	public void setStructure_names(String[] structure_names) {
+		this.structure_names = structure_names;
+	}
+
+	public String[] getLatitudes() {
+		return latitudes;
+	}
+
+	public void setLatitudes(String[] latitudes) {
+		this.latitudes = latitudes;
+	}
+
+	public String[] getLongitudes() {
+		return longitudes;
+	}
+
+	public void setLongitudes(String[] longitudes) {
+		this.longitudes = longitudes;
+	}
 
 	public List<Structure> getContractsLists() {
 		return contractsLists;

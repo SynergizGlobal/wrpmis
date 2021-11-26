@@ -11,13 +11,13 @@ public class Structure {
 		work_name,work_short_name,user_type_fk,user_id,user_role_code,contract_name,contract_short_name,department_name,project_id_fk,project_name,structure_type,
 		id, uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on,contract_id,responsible_people_id_fk,user_name,designation,work_status_fk, unit, value,structure_file_type
 		,structure_id_fk, structure_detail,name,attachment,structure_file_type_fk,created_date,structure_value,target_date,estimated_cost,estimated_cost_units,construction_start_date
-		,revised_completion,structure_name,latitude,longitude;
+		,revised_completion,structure_name,latitude,longitude,commissioning_date,actual_completion_date,completion_cost,completion_cost_units,structure_file_id;
 	private int [] subRowsLengths;
 	
 	private MultipartFile structureFile;
 	private MultipartFile[] structureFiles;
 	
-	private String [] structure_type_fks,structures,responsible_people_id_fks,contracts_id_fk,ids,structure_values,structure_file_type_fks,names,structureFiless
+	private String [] structure_type_fks,structure_ids,structures,responsible_people_id_fks,contracts_id_fk,ids,structure_values,structure_file_type_fks,names,structureFiless
 		,structure_details,work_status_fks,target_dates,estimated_costs,estimated_cost_unitss,construction_start_dates,revised_completions,remarkss,contracts
 		,structure_file_types,structureDocumentNames,structureFileNames,structure_file_ids,structure_detailss,structure_names,latitudes,longitudes;
 	
@@ -30,6 +30,54 @@ public class Structure {
 	private List<Structure> contractsLists;
 	private List<Structure> responsiblePeopleLists;
 	
+
+	public String[] getStructure_ids() {
+		return structure_ids;
+	}
+
+	public void setStructure_ids(String[] structure_ids) {
+		this.structure_ids = structure_ids;
+	}
+
+	public String getStructure_file_id() {
+		return structure_file_id;
+	}
+
+	public void setStructure_file_id(String structure_file_id) {
+		this.structure_file_id = structure_file_id;
+	}
+
+	public String getCompletion_cost_units() {
+		return completion_cost_units;
+	}
+
+	public void setCompletion_cost_units(String completion_cost_units) {
+		this.completion_cost_units = completion_cost_units;
+	}
+
+	public String getCompletion_cost() {
+		return completion_cost;
+	}
+
+	public void setCompletion_cost(String completion_cost) {
+		this.completion_cost = completion_cost;
+	}
+
+	public String getCommissioning_date() {
+		return commissioning_date;
+	}
+
+	public void setCommissioning_date(String commissioning_date) {
+		this.commissioning_date = commissioning_date;
+	}
+
+	public String getActual_completion_date() {
+		return actual_completion_date;
+	}
+
+	public void setActual_completion_date(String actual_completion_date) {
+		this.actual_completion_date = actual_completion_date;
+	}
 
 	public String getStructure_name() {
 		return structure_name;

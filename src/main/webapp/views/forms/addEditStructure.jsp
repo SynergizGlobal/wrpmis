@@ -219,7 +219,7 @@ td label.btn.bg-m{
 				                	<form action="<%=request.getContextPath() %>/add-structure" id="structureForm" name="structureForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							 </c:if>
                         <div class="container container-no-margin">
-                        <input type="hidden" name= "structure_id" id="structure_id" value="${structuresListDetails.structure_id}" />
+                       
                         <c:if test="${action eq 'add'}">
                             <div class="row"> 
                                 <div class="col s6 offset-m2 m4 input-field">
@@ -340,6 +340,7 @@ td label.btn.bg-m{
 																			<div class="row">
 												                                 <div class="col s6 input-field">
 												                                    <p class="searchable_label mb">Work Status </p>
+												                                    <input type="hidden" name= "structure_ids" id="structure_ids${indexx.count }${index.count }" value="${sObj.structure_id}" />
 												                                    <select id="work_status_fk${indexx.count }${index.count }" name="work_status_fks"  class="searchable validate-dropdown">
 												                                        <option value="">Select</option>
 												                                         <c:forEach var="obj" items="${workStatusList}">
@@ -463,7 +464,7 @@ td label.btn.bg-m{
 																		     			   $('#contracts_id_fk${indexx.count }${index.count }${index.count }' ).val(vals);
 																		     			   
 																		     			   var exvals =  $('#responsible_people_id_fks${indexx.count }${index.count }${indexxx.count }').val();
-																		     			  exvals = exvals.join(',');
+																		     			   exvals = exvals.join(',');
 																		            	   $('#responsible_people_id_fk${indexx.count }${index.count }${indexxx.count }').val(exvals);
 																		            	   
 																		     			 
@@ -778,6 +779,7 @@ td label.btn.bg-m{
 																		<div class="row">
 											                                 <div class="col s6 input-field">
 											                                    <p class="searchable_label mb">Work Status </p>
+											                                     <input type="hidden" name= "structure_ids" id="structure_ids00" value="" />
 											                                    <select id="work_status_fk00" name="work_status_fks"  class="searchable validate-dropdown">
 											                                        <option value="">Select</option>
 											                                        <c:forEach var="obj" items="${workStatusList}">
@@ -1375,7 +1377,7 @@ td label.btn.bg-m{
            				+'<tr id="internalTableRow'+rNo+rNo+x+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+rNo+x+'"/> <input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
            				+'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal">'
            			    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
-           			    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p><select id="work_status_fk'+rNo+rNo+x+'" '
+           			    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p> <input type="hidden" name= "structure_ids" id="structure_ids'+rNo+rNo+x+'" value="" /><select id="work_status_fk'+rNo+rNo+x+'" '
            			    +'name="work_status_fks"  class="searchable validate-dropdown">'+
            			    '<option value="">Select</option>'
 		           			 <c:forEach var="obj" items="${workStatusList }">
@@ -1504,7 +1506,7 @@ td label.btn.bg-m{
 						   +'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal"> '
 						    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
 						    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p>'+
-						    '<select id="work_status_fk'+rNo+tableNo+x+'" name="work_status_fks"  class="searchable validate-dropdown"> '+
+						    '<input type="hidden" name= "structure_ids" id="structure_ids'+rNo+tableNo+x+'" value="" /><select id="work_status_fk'+rNo+tableNo+x+'" name="work_status_fks"  class="searchable validate-dropdown"> '+
 						    	'<option value="">Select</option>'
 						    	 <c:forEach var="obj" items="${workStatusList }">
 				              	 	+'<option value="${obj.work_status_fk }">${obj.work_status_fk}</option>'

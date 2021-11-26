@@ -58,8 +58,6 @@ public class StructureDaoImpl implements StructureDao{
 					+ "from structure s "
 					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id "
-					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN department d ON s.department_fk = d.department "
 					+ "where structure_id is not null ";
 
 			int arrSize = 0;
@@ -72,11 +70,6 @@ public class StructureDaoImpl implements StructureDao{
 				qry = qry + " and s.work_id_fk = ?";
 				arrSize++;
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and s.contract_id_fk = ?";
-				arrSize++;
-			}
-
 			
 			qry = qry + " GROUP BY w.project_id_fk ";
 
@@ -89,11 +82,7 @@ public class StructureDaoImpl implements StructureDao{
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}
 			
-
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -108,8 +97,6 @@ public class StructureDaoImpl implements StructureDao{
 			String qry = "SELECT s.work_id_fk,w.work_short_name "
 					+ "from structure s "
 					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "
-					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN department d ON s.department_fk = d.department "
 					+ "where structure_id is not null ";
 
 			int arrSize = 0;
@@ -122,11 +109,6 @@ public class StructureDaoImpl implements StructureDao{
 				qry = qry + " and s.work_id_fk = ?";
 				arrSize++;
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and s.contract_id_fk = ?";
-				arrSize++;
-			}
-
 			
 			qry = qry + " GROUP BY s.work_id_fk ";
 
@@ -139,11 +121,7 @@ public class StructureDaoImpl implements StructureDao{
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}
 			
-
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -263,10 +241,8 @@ public class StructureDaoImpl implements StructureDao{
 			
 			String qry ="select count(DISTINCT(s.work_id_fk)) as total_records " + 
 					"from structure s " + 
-					"left join contract c on s.contract_id_fk = c.contract_id  " + 
 					"left join work w on s.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 					"left join project p on w.project_id_fk = p.project_id " 
-					+"left join department dt on s.department_fk = dt.department "
 					+"where structure_id is not null ";
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -346,15 +322,7 @@ public class StructureDaoImpl implements StructureDao{
 				qry = qry + " and s.work_id_fk = ?";
 				arrSize++;
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and s.contract_id_fk = ?";
-				arrSize++;
-			}
-			/*
-						if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-							qry = qry + " and s.department_fk = ?";
-							arrSize++;
-						}*/
+			
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (w.project_id_fk like ? or p.project_name like ? or s.work_id_fk like ? or w.work_short_name like ?  "
 						+ "or structure_type_fk like ? or structure like ?)";
@@ -378,13 +346,7 @@ public class StructureDaoImpl implements StructureDao{
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
-			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}
-			/*if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
-			}*/
-
+			
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -936,16 +898,24 @@ public class StructureDaoImpl implements StructureDao{
 		PreparedStatement executivesInsertStmt = null;
 		PreparedStatement detailsInsertStmt = null;
 		PreparedStatement documentsStmt = null;
+		PreparedStatement updateStmt = null;
 		int j = 0,dCount=0,fCount=0;;
 		boolean flag = false;
 		ResultSet rs = null;
 		int[] insertCount = {0};
+		int[] updateCount = {0};
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			con.setAutoCommit(false);
+			String updateQry = " update structure set "
+					+ "structure = ?,work_status_fk = ?,structure_name = ?,latitude = ?,longitude = ?,target_date = ?,estimated_cost = ?,estimated_cost_units = ?,"
+					+ "construction_start_date = ?,revised_completion = ?,remarks = ? where structure_id = ?";
+			updateStmt = con.prepareStatement(updateQry);
+			
 			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
-					+ "structure,work_status_fk,structure_name,latitude,longitude,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
+					+ "structure,work_status_fk,structure_name,latitude,longitude,target_date,estimated_cost,estimated_cost_units,construction_start_date,"
+					+ "revised_completion,remarks) "
 					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
@@ -1050,32 +1020,55 @@ public class StructureDaoImpl implements StructureDao{
 					stmt.executeUpdate();
 					if(stmt != null){stmt.close();}
 				}
-				String inactiveQry = "DELETE from structure  where work_id_fk = ?";		 
+				/*String inactiveQry = "DELETE from structure  where work_id_fk = ?";		 
 				stmt = con.prepareStatement(inactiveQry);
 				stmt.setString(1,obj.getWork_id_fk());
 				stmt.executeUpdate();
 				if(stmt != null){stmt.close();}
-				
+				*/
 				for (int i = 0; i < arraySize; i++) {
-				    int p = 1;
-				    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
-			    	    insertStmt.setString(p++,(obj.getWork_id_fk()));
-					    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
-					    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
-					    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
-					    insertStmt.setString(p++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
-					    insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
-					    insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
-					    insertStmt.setString(p++,(obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null);
-					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
-					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
-					    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
-					    insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
-					    insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
-					    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
-					    insertStmt.addBatch();
-				    }
+					String sId = obj.getStructure_ids()[i];
+					if(!StringUtils.isEmpty(sId)) {
+						int k = 1;
+					    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
+						    updateStmt.setString(k++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
+						    updateStmt.setString(k++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
+						    updateStmt.setString(k++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
+						    updateStmt.setString(k++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
+						    updateStmt.setString(k++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
+						    updateStmt.setString(k++,(obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null);
+						    updateStmt.setString(k++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
+						    updateStmt.setString(k++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
+						    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
+						    updateStmt.setString(k++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
+						    updateStmt.setString(k++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
+						    updateStmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+						    updateStmt.setString(k++,(sId));
+						    updateStmt.addBatch();
+					    }
+					}else {
+						int p = 1;
+					    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
+				    	    insertStmt.setString(p++,(obj.getWork_id_fk()));
+						    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
+						    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
+						    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
+						    insertStmt.setString(p++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
+						    insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
+						    insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
+						    insertStmt.setString(p++,(obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null);
+						    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
+						    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
+						    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
+						    insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
+						    insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
+						    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+						    insertStmt.addBatch();
+					    }
+					}
+				    
 				    insertCount = insertStmt.executeBatch();
+				    updateCount = updateStmt.executeBatch();
 				    rs = insertStmt.getGeneratedKeys();
 					if (rs.next()) {
 						String structure_id = rs.getString(1);
@@ -1277,7 +1270,8 @@ public class StructureDaoImpl implements StructureDao{
 						}
 				    
 			}
-			if(insertCount.length > 0) {
+			int result = updateCount.length + insertCount.length;
+			if(result > 0) {
 					flag = true;
 			}
 		}

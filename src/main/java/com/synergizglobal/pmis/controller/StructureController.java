@@ -417,7 +417,7 @@ public class StructureController {
 			model.addObject("structuresListDetails", structuresListDetails);
 			
 		}catch (Exception e) {
-			logger.error("structuresList : " + e.getMessage());
+			logger.error("getStructuresForm : " + e.getMessage());
 		}
 		return model;
 	}	

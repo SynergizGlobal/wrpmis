@@ -284,6 +284,13 @@
 			.div-header{	    		   
 	    		width: 100%;			   
 		    }
+		    .right.mob-center{
+				float: none !important;
+				display:block;
+				margin-left:auto;
+				margin-right:auto;
+				margin-top:5px;
+			}
 		    .fs-sm-67rem{
 		    	line-height:1.3;
 		    }
@@ -424,6 +431,7 @@
 				width:auto;
 				min-width:120px;			
 			}
+			
 		    .normal-btn{
 		        display: block;
 		        text-align: center;
@@ -443,6 +451,10 @@
 				    width: 72%;
 				    right: -6px;}
 		}
+		.py-1r{
+			padding:1rem 0;
+		}
+		
     </style>
 </head>
 
@@ -505,8 +517,8 @@
 	                                </div>	
 	                                
 	                                <div class="col s12 m4 l4 input-field">
-	                                   <p class="searchable_label">Contract Status<span class="required">*</span></p>
-	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
+	                                   <p class="searchable_label py-1r">Contract Status<span class="required">*</span>
+	                                   <%--  <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
 	                                        <option value="" >Select</option>
 	                                          <c:forEach var="obj" items="${contract_Status }">
 	                                          	 <c:if test="${contractDeatils.status eq 'Closed' and obj.contract_status eq 'Closed'}">
@@ -516,7 +528,16 @@
 		                                    	 	<option value="${obj.contract_status }" <c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
 		                                     	 </c:if>
 		                                     </c:forEach>
-	                                    </select>
+	                                    </select> --%>
+	                                      <label>
+                                            <input class="with-gap" name="contract_status" type="radio"  value="Yes" />
+                                            <span>Yes</span>
+                                        </label>
+                                        <label>
+                                            <input class="with-gap" name="contract_status" type="radio" value="No" />
+                                            <span>No</span>
+                                        </label>
+                                        </p>
 	                                     <span id="contract_statusError" class="error-msg" ></span>
 	                                </div>
 	                                <%-- <div class="col s6 m2 l3 input-field">
@@ -571,29 +592,10 @@
 	                                	</c:otherwise>
 	                                </c:choose>
 	                              </div>
-	                              <div class="col s12 m4 l4 input-field">
-	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails(this.value);setContractStatus();">
-	                                        <option value="" selected>Select</option>
-	                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                              </div>
+	                              
 	                              
                                 </div>
-                                
-                                <div class="row">
-	                                <div class="col s12 m8 l12 input-field offset-m2 mt20px">
-	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate validate-dropdown" 
-	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
-	                                     value="${contractDeatils.contract_short_name }" >
-	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
-	                                      <span id="contract_short_nameError" class="error-msg" ></span>
-	                                </div>
-	                            </div>
-							
+                                							
 								<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }"><br> </c:if>
 								
 	                        </div>
@@ -716,6 +718,16 @@
 							
 	                        <div class="container container-no-margin  " id="contractDetails">
 	                        <h5 class="center-align"><span class="div-header">Contract Details</span></h5>
+	                        
+                           <div class="row">
+	                            <div class="col s12 m8 l12 input-field offset-m2 mt20px">
+	                                <input name="contract_short_name" id="contract_short_name" type="text" class="validate validate-dropdown" 
+	                                <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                 value="${contractDeatils.contract_short_name }" >
+	                                <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
+	                                  <span id="contract_short_nameError" class="error-msg" ></span>
+	                            </div>
+                           </div>
 	                        <div class="row">
 	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <textarea id="contract_name" name ="contract_name" class="pmis-textarea validate-dropdown" data-length="1000"
@@ -898,7 +910,19 @@
 	                                    <label for="actual_date_of_commissioning">Actual Date of Commissioning <span class="required" id="actual_date_of_commissioning_req">*</span></label>
 	                                     <button type="button" id="actual_date_of_commissioning_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="actual_date_of_commissioningError" class="error-msg" ></span>
-	                                </div>
+	                                </div>	                              
+	                            </div>
+	                            <div class="row">
+	                              <div class="col s12 m4 l6 input-field offset-m2">
+	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails(this.value);setContractStatus();">
+	                                        <option value="" selected>Select</option>
+	                                           <c:forEach var="obj" items="${contract_Statustype }">
+			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
+			                                    </c:forEach>
+	                                    </select>
+	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                              </div>
 	                            </div>
 	                            <div class="row" id="contractClosureRadioBtn" style="display: none;">
 	                            	<div class="col s12 m6 input-field offset-m3">
@@ -1024,14 +1048,14 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <input type="hidden" id="existing_contract_closure_date" name="existing_contract_closure_date" value="${contractDeatils.contract_closure_date }" />
 	                            </div>
-	                            <div class="row">
+	                           <!--  <div class="row">
 	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000" 
 	                                    >${contractDeatils.remarks }</textarea>
 	                                    <label for="remarks">Remarks</label>
 	                                    <span id="remarksError" class="error-msg"></span>
 	                                </div>
-	                            </div>
+	                            </div> -->
 	                            <%-- <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}">
@@ -1058,7 +1082,18 @@
 	                          
 	                       <div class=" " id="bgDetails" tabindex='0'>
                             <div class="row fixed-width " id="bgHideDiv">
-                               <h5 class="center-align"><span class="div-header">Bank Guarantee Details</span></h5> 
+                               <h5 class="center-align">
+                               		<span class="div-header">Bank Guarantee Details 
+	                               		<span class="right mob-center">
+	                               			<p>
+										      <label>
+										        <input type="checkbox" class="filled-in" checked="checked" name="bg_show_released"/>
+										        <span>Show Released</span>
+										      </label>
+										    </p>
+	                               		</span>
+                               		</span>
+                               	</h5> 
                                  <div class="row">
                                 <div class="col m8 input-field center-align no-float-small offset-m2">
                                     <p>Bank Guarantee Required ? 
@@ -1310,7 +1345,18 @@
 	                           
                             <!-- insurance show hide div  -->
                             <div class="row fixed-width " id="insuranceHideDiv">
-                               <h5 class="center-align"><span class="div-header">Insurance Details</span></h5> 
+                               <h5 class="center-align">
+                               		<span class="div-header">Insurance Details
+		                               <span class="right mob-center">
+	                               			<p>
+										      <label>
+										        <input type="checkbox" class="filled-in" checked="checked" name="insurance_show_released"/>
+										        <span>Show Released</span>
+										      </label>
+										    </p>
+	                               		</span>
+                               		</span>
+                                </h5> 
                               <div class="row">
 	                                <div class="col m8 input-field center-align no-float-small offset-m2">
 	                                    <p>Insurance Required ? 
@@ -1710,7 +1756,18 @@
 	                         
 	                         <div class="container-no-margin  " id="revisionDetails"> 
 	                            <div class="row fixed-width" id="revisionHideDiv">
-                                <h5 class="center-align"><span class="div-header">Revision Details</span></h5>
+                                <h5 class="center-align">
+                                	<span class="div-header">Revision Details
+                                		<span class="right mob-center">
+	                               			<p>
+										      <label>
+										        <input type="checkbox" class="filled-in" checked="checked" name="rev_show_current"/>
+										        <span>Show Current</span>
+										      </label>
+										    </p>
+	                               		</span>
+                                	</span>
+                                </h5>
                                 <div class="row">
 	                                <div class="col m8 input-field center-align no-float-small offset-m2">
 	                                    <p>Revision Required ? 

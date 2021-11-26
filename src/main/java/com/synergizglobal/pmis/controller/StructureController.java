@@ -347,9 +347,9 @@ public class StructureController {
 			model.setViewName("redirect:/structure");
 			boolean flag =  structureService.updateStructure(obj);	
 			if(flag) {
-				attributes.addFlashAttribute("success", "Structure Updated Succesfully."); 
+				attributes.addFlashAttribute("success", "Structures Updated Succesfully."); 
 			} else {
-				attributes.addFlashAttribute("error","Updating Structure is failed. Try again.");
+				attributes.addFlashAttribute("error","Updating Structures is failed. Try again.");
 			}		
 			
 			
@@ -369,13 +369,13 @@ public class StructureController {
 			obj.setRevised_completion(DateParser.parse(obj.getRevised_completion()));	
 			boolean flag =  structureService.addStructure(obj);	
 			if(flag) {
-				attributes.addFlashAttribute("success", "Structure Added Succesfully."); 
+				attributes.addFlashAttribute("success", "Structures Added Succesfully."); 
 			} else {
-				attributes.addFlashAttribute("error","Adding Structure is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding Structures is failed. Try again.");
 			}
 			
 		}catch (Exception e) {
-			logger.error("addStructureForm : " + e.getMessage());
+			logger.error("addStructure : " + e.getMessage());
 		}
 		return model;
 	}	

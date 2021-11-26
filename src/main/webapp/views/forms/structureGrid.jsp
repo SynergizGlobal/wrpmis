@@ -779,7 +779,8 @@ thead tr th:last-of-type{
 			            			} },   				            
 						            { "mData": function(data,type,row){
 						            	var structureType = data.structure_type_fk;
-										if(structureType.indexOf(",") > -1){
+										if(typeof structureType !== "undefined" && structureType != null
+												&& structureType != "" && structureType.indexOf(",") > -1){
 											structureType = structureType.replace(/,/g, "<br />");
 						            	}
 						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return structureType; }

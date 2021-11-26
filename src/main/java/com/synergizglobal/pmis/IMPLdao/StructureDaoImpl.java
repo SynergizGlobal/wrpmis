@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -794,9 +796,11 @@ public class StructureDaoImpl implements StructureDao{
 					    		 dCount++;
 					    	}
 				    	}
-				    	
-						String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name)"
-								+ " VALUES (?,?,?,?)";
+				    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+						LocalDateTime now = LocalDateTime.now();
+						obj.setCreated_date(dtf.format(now));
+						String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date)"
+								+ " VALUES (?,?,?,?,CURDATE())";
 						documentsStmt = con.prepareStatement(document_insert_qry);
 						int docArrSize = 0;
 						
@@ -1029,6 +1033,7 @@ public class StructureDaoImpl implements StructureDao{
 				for (int i = 0; i < arraySize; i++) {
 					String sId = obj.getStructure_ids()[i];
 					if(!StringUtils.isEmpty(sId)) {
+						obj.setStructure_id(sId);
 						int k = 1;
 					    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
 						    updateStmt.setString(k++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
@@ -1074,7 +1079,7 @@ public class StructureDaoImpl implements StructureDao{
 						String structure_id = rs.getString(1);
 						obj.setStructure_id(structure_id);
 					}
-				    if(insertCount.length > 0) {
+				    if(insertCount.length > 0 || updateCount.length > 0) {
 				    	String executivesinsert_qry = "INSERT into  structure_contract_responsible_people ( structure_id_fk, contract_id_fk, responsible_people_id_fk) "
 								+"VALUES (?,?,?)";
 				    	executivesInsertStmt = con.prepareStatement(executivesinsert_qry);
@@ -1193,8 +1198,8 @@ public class StructureDaoImpl implements StructureDao{
 					    	}
 				    	}
 				    	
-						String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name)"
-								+ " VALUES (?,?,?,?)";
+						String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date)"
+								+ " VALUES (?,?,?,?,CURDATE())";
 						documentsStmt = con.prepareStatement(document_insert_qry);
 						int docArrSize = 0;
 						

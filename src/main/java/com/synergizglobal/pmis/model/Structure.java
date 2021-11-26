@@ -11,7 +11,7 @@ public class Structure {
 		work_name,work_short_name,user_type_fk,user_id,user_role_code,contract_name,contract_short_name,department_name,project_id_fk,project_name,structure_type,
 		id, uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on,contract_id,responsible_people_id_fk,user_name,designation,work_status_fk, unit, value,structure_file_type
 		,structure_id_fk, structure_detail,name,attachment,structure_file_type_fk,created_date,structure_value,target_date,estimated_cost,estimated_cost_units,construction_start_date
-		,revised_completion,structure_name,latitude,longitude,commissioning_date,actual_completion_date,completion_cost,completion_cost_units,structure_file_id;
+		,revised_completion,structure_name,structure_details_type,fob_details_type,fob_details_location,structure_details_location,latitude,longitude,commissioning_date,actual_completion_date,completion_cost,completion_cost_units,structure_file_id,created_by_user_id_fk;
 	private int [] subRowsLengths;
 	
 	private MultipartFile structureFile;
@@ -27,9 +27,58 @@ public class Structure {
 	private List<Structure> executivesList;
 	private List<Structure> documentsList;
 	private List<Structure> structureDetailsList;
+	private List<Structure> structureDetailsList1;
 	private List<Structure> contractsLists;
 	private List<Structure> responsiblePeopleLists;
 	
+
+	public String getFob_details_type() {
+		return fob_details_type;
+	}
+
+	public void setFob_details_type(String fob_details_type) {
+		this.fob_details_type = fob_details_type;
+	}
+
+	public String getFob_details_location() {
+		return fob_details_location;
+	}
+
+	public void setFob_details_location(String fob_details_location) {
+		this.fob_details_location = fob_details_location;
+	}
+
+	public List<Structure> getStructureDetailsList1() {
+		return structureDetailsList1;
+	}
+
+	public void setStructureDetailsList1(List<Structure> structureDetailsList1) {
+		this.structureDetailsList1 = structureDetailsList1;
+	}
+
+	public String getStructure_details_type() {
+		return structure_details_type;
+	}
+
+	public void setStructure_details_type(String structure_details_type) {
+		this.structure_details_type = structure_details_type;
+	}
+
+	public String getStructure_details_location() {
+		return structure_details_location;
+	}
+
+	public void setStructure_details_location(String structure_details_location) {
+		this.structure_details_location = structure_details_location;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
 
 	public String[] getStructure_ids() {
 		return structure_ids;

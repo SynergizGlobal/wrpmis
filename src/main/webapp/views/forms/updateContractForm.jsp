@@ -450,11 +450,11 @@
 			.mdl-data-table .amount-dropdown .select-wrapper input.select-dropdown {
 				    width: 72%;
 				    right: -6px;}
+		}		
+		.pad-top-left{
+			padding-top:.5rem;
+			margin-left:-1.1rem !important;
 		}
-		.py-1r{
-			padding:1rem 0;
-		}
-		
     </style>
 </head>
 
@@ -517,7 +517,7 @@
 	                                </div>	
 	                                
 	                                <div class="col s12 m4 l4 input-field">
-	                                   <p class="searchable_label py-1r">Contract Status<span class="required">*</span>
+	                                   <p class="searchable_label">Contract Awarded ? <span class="required">*</span></p>
 	                                   <%--  <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
 	                                        <option value="" >Select</option>
 	                                          <c:forEach var="obj" items="${contract_Status }">
@@ -529,7 +529,7 @@
 		                                     	 </c:if>
 		                                     </c:forEach>
 	                                    </select> --%>
-	                                      <label>
+	                                     <p class="pad-top-left"> <label>
                                             <input class="with-gap" name="contract_status" type="radio"  value="Yes" />
                                             <span>Yes</span>
                                         </label>

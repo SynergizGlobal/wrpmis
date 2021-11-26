@@ -1150,15 +1150,17 @@ td label.btn.bg-m{
             
             var project_id_fk = "${structuresListDetails.project_id_fk}";
             if($.trim(project_id_fk) != ''){
-            	getWorksList(project_id_fk);
+            	//getWorksList(project_id_fk);
             }
             var work_id_fk = "${structuresListDetails.work_id_fk}";
             if($.trim(work_id_fk) != ''){
-            	getContractsList(work_id_fk);
-            	existedContarcts();
+            	//getContractsList(work_id_fk);
+            	//existedContarcts();
             }
         });
-       
+        $(document).on('click','body *',function(){
+        	//existedContarcts();
+        });
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
@@ -1218,12 +1220,12 @@ td label.btn.bg-m{
     	                        		selectedFlag = 'selected';
     	                        	}
     		                   	</c:forEach>
-    		                   	$("#contract_id_fk1000").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" '+selectedFlag+'>' +  $.trim(contract_name) + '</option>');
+    		                   	$("select[name='contracts']").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" '+selectedFlag+'>' +  $.trim(contract_name) + '</option>');
     	                    });
     	                }
     	                $('.searchable').select2();
     	                $(".page-loader").hide();
-    	                existedContarcts();
+    	               // existedContarcts();
     	            }
     	        });
     	        

@@ -453,6 +453,7 @@ thead tr th:last-of-type{
  
 	 <form action="<%=request.getContextPath()%>/get-structure" id="getForm" name="getForm" method="post" >
   		<input type="hidden" name="structure_id" id="structure_id"/>
+  		<input type="hidden" id="work" name="work_id_fk"/>
     </form>
     
   <form action="<%=request.getContextPath()%>/export-structure" name="exportStructureForm" id="exportStructureForm" target="_blank" method="post">	
@@ -798,7 +799,8 @@ thead tr th:last-of-type{
 						            } }, */
 						         	{ "mData": function(data,type,row){
 						         		var structure_id = "'"+data.structure_id+"'";
-					                    var actions = '<a href="javascript:void(0);"  onclick="getStructure('+structure_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+						         		var work = "'"+data.work_id_fk+"'";
+					                    var actions = '<a href="javascript:void(0);"  onclick="getStructure('+structure_id+','+work+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
 						            	return actions;
 						            } }
 						            
@@ -957,8 +959,9 @@ thead tr th:last-of-type{
              }
         } --%>
         
-	    function getStructure(structure_id) {
+	    function getStructure(structure_id,work) {
 			$("#structure_id").val(structure_id);
+			$("#work").val(work);
 			$("#getForm").submit();
 		}
 	

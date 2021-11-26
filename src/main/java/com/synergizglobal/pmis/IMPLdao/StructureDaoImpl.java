@@ -1251,7 +1251,7 @@ public class StructureDaoImpl implements StructureDao{
 												fileName = multipartFile.getOriginalFilename();
 												if (null != multipartFile && !multipartFile.isEmpty()) {
 													FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-												}
+					 							}
 											}
 										}if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount])) {
 											fileName = obj.getStructureFileNames()[fCount];

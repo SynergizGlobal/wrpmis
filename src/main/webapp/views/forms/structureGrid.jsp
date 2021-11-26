@@ -759,7 +759,7 @@ thead tr th:last-of-type{
 											"sScrollX" : "100%",
 											"ordering":false,
 											"sScrollXInner" : "100%",
-											"bScrollCollapse" : true,
+											"bScrollCollapse" : true, 
 											"language" : {
 												"info" : "_START_ - _END_ of _TOTAL_",
 												paginate : {

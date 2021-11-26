@@ -344,7 +344,7 @@ public class StructureController {
 	public ModelAndView updateStructureForm(@ModelAttribute Structure obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName("redirect:/structure");
+			model.setViewName("redirect:/structure"); 
 			boolean flag =  structureService.updateStructure(obj);	
 			if(flag) {
 				attributes.addFlashAttribute("success", "Structures Updated Succesfully."); 

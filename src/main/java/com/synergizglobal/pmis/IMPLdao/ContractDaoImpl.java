@@ -1372,8 +1372,9 @@ public class ContractDaoImpl implements ContractDao {
 			con.setAutoCommit(false);
 			
 			if("Close Contract".equalsIgnoreCase(contract.getUpdate_type())) {
-				contract.setContract_status("Closed");
+				contract.setContract_status("Yes");
 				contract.setContract_status_fk("Completed");
+				contract.setIs_contract_closure_initiated("Closed");
 			}
 			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,contract_name = ?,contract_short_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
@@ -1491,8 +1492,8 @@ public class ContractDaoImpl implements ContractDao {
 					if(stmt != null){stmt.close();}
 					
 					String BankG_qry = "INSERT into  bank_guarantee (bg_type_fk,issuing_bank,"
-							+"bg_number,bg_value,valid_upto,contract_id_fk,code,bg_date,release_date,bg_value_units) "
-							+"VALUES (?,?,?,?,?,?,?,?,?,?)";
+							+"bg_number,bg_value,valid_upto,contract_id_fk,bg_date,release_date,bg_value_units) "
+							+"VALUES (?,?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(BankG_qry);
 				    arraySize = 0;
 					if(!StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
@@ -1501,12 +1502,12 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getBg_type_fks().length;
 						}
 					}
-					if(!StringUtils.isEmpty(contract.getCodes()) && contract.getCodes().length > 0) {
+					/*if(!StringUtils.isEmpty(contract.getCodes()) && contract.getCodes().length > 0) {
 						contract.setCodes(CommonMethods.replaceEmptyByNullInSringArray(contract.getCodes()));
 						if(arraySize < contract.getCodes().length) {
 							arraySize = contract.getCodes().length;
 						}
-					}
+					}*/
 					if(!StringUtils.isEmpty(contract.getBg_dates()) && contract.getBg_dates().length > 0) {
 						contract.setBg_dates(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_dates()));
 						if(arraySize < contract.getBg_dates().length) {
@@ -1561,7 +1562,7 @@ public class ContractDaoImpl implements ContractDao {
 								stmt.setString(k++,(contract.getBg_values().length > 0)?contract.getBg_values()[i]:null);
 								stmt.setString(k++,DateParser.parse((contract.getBg_valid_uptos().length > 0)?contract.getBg_valid_uptos()[i]:null));
 								stmt.setString(k++,contract.getContract_id());
-								stmt.setString(k++,(contract.getCodes().length > 0)?contract.getCodes()[i]:null);
+								//stmt.setString(k++,(contract.getCodes().length > 0)?contract.getCodes()[i]:null);
 								stmt.setString(k++,DateParser.parse((contract.getBg_dates().length > 0)?contract.getBg_dates()[i]:null));
 								stmt.setString(k++,DateParser.parse((contract.getRelease_dates().length > 0)?contract.getRelease_dates()[i]:null));
 								stmt.setString(k++,(contract.getBg_value_unitss().length > 0)?contract.getBg_value_unitss()[i]:null);

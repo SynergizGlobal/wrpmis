@@ -280,11 +280,17 @@
         	padding-left:0 !important;
         	padding-right:10px !important;
         }
+        .right.mob-center{
+			position:absolute;
+			right:4rem;
+		}
 		@media only screen and (max-width: 769px){
 			.div-header{	    		   
 	    		width: 100%;			   
 		    }
 		    .right.mob-center{
+		    	position:relative;
+				right:inherit;
 				float: none !important;
 				display:block;
 				margin-left:auto;
@@ -530,11 +536,11 @@
 		                                     </c:forEach>
 	                                    </select> --%>
 	                                     <p class="pad-top-left"> <label>
-                                            <input class="with-gap" name="contract_status" type="radio"  value="Yes" />
+                                            <input class="with-gap" name="contract_status" type="radio"  value="Yes" <c:if test="${contractDeatils.status eq 'Yes'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();" />
                                             <span>Yes</span>
                                         </label>
                                         <label>
-                                            <input class="with-gap" name="contract_status" type="radio" value="No" />
+                                            <input class="with-gap" name="contract_status" type="radio" value="No" <c:if test="${contractDeatils.status eq 'No'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();"/>
                                             <span>No</span>
                                         </label>
                                         </p>
@@ -915,7 +921,7 @@
 	                            <div class="row">
 	                              <div class="col s12 m4 l6 input-field offset-m2">
 	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails(this.value);setContractStatus();">
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails(this.value);">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">
 			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
@@ -931,13 +937,11 @@
 			                   			</div>
 			                   			<div class="col l4 m12 right-align mob-center">                   				
 									      <label>
-									        <input id="contractClosureRadioYes" name="is_contract_closure_initiated" class="with-gap" type="radio" value="Yes" <c:if test="${contractDeatils.is_contract_closure_initiated eq 'Yes'}">checked
-	                                            </c:if> />
+									        <input id="contractClosureRadioYes" name="is_contract_closure_initiated" class="with-gap" type="radio" value="Yes" <c:if test="${contractDeatils.is_contract_closure_initiated eq 'Yes'}">checked</c:if> <c:if test="${contractDeatils.is_contract_closure_initiated eq 'Closed'}">checked</c:if>/>
 									        <span>Yes</span>
 									      </label>					    
 									      <label>
-									        <input id="contractClosureRadioNo" name="is_contract_closure_initiated" class="with-gap" type="radio" value="No" <c:if test="${empty contractDeatils.is_contract_closure_initiated}">checked </c:if> <c:if test="${contractDeatils.is_contract_closure_initiated eq 'No'}">checked
-	                                            </c:if>/>
+									        <input id="contractClosureRadioNo" name="is_contract_closure_initiated" class="with-gap" type="radio" value="No" <c:if test="${empty contractDeatils.is_contract_closure_initiated}">checked </c:if> <c:if test="${contractDeatils.is_contract_closure_initiated eq 'No'}">checked</c:if>/>
 									        <span>No</span>
 									      </label>							    
 			                   			</div>
@@ -1087,7 +1091,7 @@
 	                               		<span class="right mob-center">
 	                               			<p>
 										      <label>
-										        <input type="checkbox" class="filled-in" checked="checked" name="bg_show_released"/>
+										        <input type="checkbox" class="filled-in" id="bg_show_released" name="bg_show_released"/>
 										        <span>Show Released</span>
 										      </label>
 										    </p>
@@ -1114,7 +1118,7 @@
                                     <table id="bankTable" class="mdl-data-table mobile_responsible_table another">
                                         <thead>
                                             <tr>
-                                               <th class="fs-100">Code </th>
+                                                <!-- <th class="fs-100">Code </th> -->
                                                 <th>BG Type <span class="required">*</span></th>
                                                 <th>Issuing Bank </th>
                                                 <!--<th>Bank Address </th> -->
@@ -1133,13 +1137,11 @@
                                         <tbody id="bankTableBody">
                                         <c:choose>
                                         <c:when test="${not empty contractDeatils.bankGauranree && fn:length(contractDeatils.bankGauranree) gt 0 }">
-                                          
-                                		  <c:forEach var="bankObj" items="${contractDeatils.bankGauranree }" varStatus="index">                                        	
-                                        
-                                            <tr id="bankRow${index.count }">
-                                            <td data-head="Code " class="input-field fs-100"> <input id="codes${index.count }" type="text" class="validate" name="codes" value="${bankObj.code }"
+                                		  <c:forEach var="bankObj" items="${contractDeatils.bankGauranree }" varStatus="index">   
+                                            <tr id="bankRow${index.count }" class="bg-rows <c:if test='${not empty bankObj.release_date}'>bg-released</c:if>">
+                                            	<%-- <td data-head="Code " class="input-field fs-100"> <input id="codes${index.count }" type="text" class="validate" name="codes" value="${bankObj.code }"
                                                         placeholder="Code">
-                                                </td>
+                                                </td> --%>
                                                 <td data-head="BG Type " class="input-field min-w-120"> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
                                                         <option value="">Select</option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
@@ -1223,9 +1225,9 @@
                                            </c:when>
                                              <c:otherwise>
                                              <tr id="bankRow0">
-                                             <td data-head="Code " class="input-field fs-100"> <input id="codes0" type="text" class="validate" name="codes"
+                                             	<!-- <td data-head="Code " class="input-field fs-100"> <input id="codes0" type="text" class="validate" name="codes"
                                                         placeholder="Code">
-                                                </td>
+                                                </td> -->
                                                 <td data-head="BG Type " class="input-field min-w-120"> <select id="bg_type_fks0" name="bg_type_fks" class="searchable">
                                                         <option value="" selected>Select </option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
@@ -1350,7 +1352,7 @@
 		                               <span class="right mob-center">
 	                               			<p>
 										      <label>
-										        <input type="checkbox" class="filled-in" checked="checked" name="insurance_show_released"/>
+										        <input type="checkbox" class="filled-in" id="insurance_show_released" name="insurance_show_released"/>
 										        <span>Show Released</span>
 										      </label>
 										    </p>
@@ -1396,7 +1398,7 @@
                                         <c:choose>
                                         <c:when test="${not empty contractDeatils.insurence && fn:length(contractDeatils.insurence) gt 0 }">
                                           <c:forEach var="insurenceObj" items="${contractDeatils.insurence }" varStatus="index">  
-                                            <tr id="insurenceRow${index.count }">
+                                            <tr id="insurenceRow${index.count }" class="insurance-rows <c:if test='${insurenceObj.insurance_status eq "Yes"}'>insurance-released</c:if>">
                                                 <td data-head="Insurance Type " class="input-field min-w-120">
                                                     <select id="insurance_type_fks${index.count }" name="insurance_type_fks" class="searchable">
                                                         <option value="" selected>Select</option>
@@ -1761,7 +1763,7 @@
                                 		<span class="right mob-center">
 	                               			<p>
 										      <label>
-										        <input type="checkbox" class="filled-in" checked="checked" name="rev_show_current"/>
+										        <input type="checkbox" class="filled-in" checked="checked" id="rev_show_current" name="rev_show_current"/>
 										        <span>Show Current</span>
 										      </label>
 										    </p>
@@ -1803,7 +1805,7 @@
                                         <c:when test="${not empty contractDeatils.contract_revision  && fn:length(contractDeatils.contract_revision ) gt 0 }">
                                           
                                          <c:forEach var="revObj" items="${contractDeatils.contract_revision }" varStatus="index">  
-                                            <tr id="revRow${index.count }">
+                                            <tr id="revRow${index.count }" class="revision-rows <c:if test='${(revObj.revision_amounts_status eq "Yes") or (revObj.revision_status eq "Yes")}'>current-revision</c:if>">
                                                 <td data-head="Revision Number " class="input-field"> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
                                                         placeholder="Revision Number" readonly>
                                                 </td>
@@ -2351,6 +2353,40 @@
                       
             $('#remarks').characterCounter();
             
+            $("#bg_show_released").click(function(){
+            	//alert($('input[name="bg_show_released"]').is(':checked'));
+            	if($('input[name="bg_show_released"]').is(':checked')){
+              	  	$(".bg-rows").hide();
+            		$(".bg-released").show();
+              	}else{
+              		$(".bg-rows").show();
+              	}
+            });
+            
+            $("#insurance_show_released").click(function(){
+            	if($('input[name="insurance_show_released"]').is(':checked')){
+              	  	$(".insurance-rows").hide();
+            		$(".insurance-released").show();
+              	}else{
+              		$(".insurance-rows").show();
+              	}
+            });
+            
+            $("#rev_show_current").click(function(){
+            	if($('input[name="rev_show_current"]').is(':checked')){
+              	  	$(".revision-rows").hide();
+            		$(".current-revision").show();
+              	}else{
+              		$(".revision-rows").show();
+              	}
+            });
+            if($('input[name="rev_show_current"]').is(':checked')){
+          	  	$(".revision-rows").hide();
+        		$(".current-revision").show();
+          	}else{
+          		$(".revision-rows").show();
+          	}
+            
             var tab_name = '${gotoTab}';            
             if($.trim(tab_name) != ''){
             	 $('#menu-center a.t-c').each(function () {
@@ -2376,16 +2412,20 @@
                  $(window).scrollTop(scrollPos);
             }
             
-            var contract_status_fk = '${contractDeatils.contract_status_fk}';
-            var contract_status = $("#contract_status").val();
-            
+            var closureRadioVal =  '${contractDeatils.is_contract_closure_initiated}';            
+
             var USER_ROLE_NAME = "${sessionScope.USER_ROLE_NAME}";
-            if(contract_status == 'Closed' && USER_ROLE_NAME != 'IT Admin'){
+            if(closureRadioVal == 'Closed' && USER_ROLE_NAME != 'IT Admin'){
             	 $("#formDiv :input").attr("disabled",true);
             }
             
+            var contract_status_fk = '${contractDeatils.contract_status_fk}';
+            //var contract_status = $("#contract_status").val();
+            var contract_status = $('input[name="contract_status"]:checked').val();
+            
+            
             getContractClosureDetails(contract_status_fk);
-            setContractStatus();
+            //setContractStatus();
             var bg_required = '${contractDeatils.bg_required}';
             if(bg_required == 'Yes'){
 	       		$("#bank_guarantee_div").show();
@@ -2420,22 +2460,15 @@
 	        /*$("#myForm").submit(function () {
 	            $("#tabs").tabs("select", $("#contractForm .my-error-class").closest(".ui-tabs-panel").get(0).id);
 	        }); */
-            var closureRadioVal =  '${contractDeatils.is_contract_closure_initiated}';
-            if(closureRadioVal == 'Yes'){
-         	   $("#contractClosureDetails").show();
-     		   $('#closureTab').show();
-            }else{
-               $("#contractClosureDetails").hide();
-       		   $('#closureTab').hide();
-            }
+            
             getHodList();
             getDyHodList();
                        
             hideContractDetails();
             
-            $("#contract_status").change(function(){
+            $("input[name=contract_status]").click(function(){
             	var contract_status = $(this).val();
-            	if($.trim(contract_status) == 'Yet to be Awarded'){
+            	if($.trim(contract_status) == 'No'){
             		$("#date_of_start").val('');
             		$("#date_of_startDiv").hide();            		
             		$("#bgHideDiv").hide();
@@ -2467,7 +2500,7 @@
             		$("#keyPersonDetailsTab").show();
             	}
             	
-            	if($.trim(contract_status) == 'Open'){
+            	if($.trim(contract_status) == 'Yes'){
             		$('#contractor_id_fk').rules('add',  { required: true });
                 	$('#contractor_req').text('*');
                 	$('#doc').rules('add',  { required: true });
@@ -2497,7 +2530,7 @@
             });
             
             
-            if($.trim(contract_status) == 'Yet to be Awarded'){
+            if($.trim(contract_status) == 'No'){
         		$("#date_of_start").val('');
         		$("#date_of_startDiv").hide();
         		$("#bgHideDiv").hide();
@@ -2512,7 +2545,7 @@
         		$("#revisionDetailsTab").hide();
         		$("#keyPersonDetailsTab").hide();
         	}
-            if($.trim(contract_status) == 'Open'){
+            if($.trim(contract_status) == 'Yes'){
 	    		$('#contractor_id_fk').rules('add',  { required: true });
         		$('#contractor_req').text('*');
         		$('#doc').rules('add',  { required: true });
@@ -2545,17 +2578,17 @@
         		$('#awarded_cost_req').text('');
         	}
             // Validation code for Date of Start Hide 
-            if($.trim(contract_status) == 'Yet to be Awarded' && $.trim(contract_status_fk) == 'Not Started'){
+            if($.trim(contract_status) == 'No' && $.trim(contract_status_fk) == 'Not Started'){
             	//$("#date_of_start").removeAttr('required');
             	$('#date_of_start').rules('remove',  'required');
             	$("#date_of_startDiv").show();
             	$('#date_of_start_req').text('');
             	$('#date_of_startError').text('');
-            }else if($.trim(contract_status) != 'Yet to be Awarded' && $.trim(contract_status_fk) != 'Not Started'){
+            }else if($.trim(contract_status) != 'No' && $.trim(contract_status_fk) != 'Not Started'){
             	$("#date_of_startDiv").show();
             	$('#date_of_start').rules('add',  { required: true });
             	$('#date_of_start_req').text('*');
-            }else if($.trim(contract_status) != 'Yet to be Awarded' && $.trim(contract_status_fk) == 'Not Started'){
+            }else if($.trim(contract_status) != 'No' && $.trim(contract_status_fk) == 'Not Started'){
             	$("#date_of_startDiv").show();
             	$('#date_of_start').rules('remove',  'required');
             	$('#date_of_start_req').text('');
@@ -2597,12 +2630,12 @@
             	$('#actual_date_of_commissioning_div').hide();
             	var contract_status_fk = $(this).val();
             	var contract_status = $("#contract_status").val();
-            	if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started'){
+            	if($.trim(contract_status) == 'Yes' && $.trim(contract_status_fk) == 'Not Started'){
             		$("#date_of_startDiv").show();
                 	$('#date_of_start').rules('remove',  'required');
                 	$('#date_of_start_req').text('');
                 	$('#date_of_startError').text('');
-                }else if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) != 'Not Started'){
+                }else if($.trim(contract_status) == 'Yes' && $.trim(contract_status_fk) != 'Not Started'){
                 	$("#date_of_startDiv").show();
                 	$('#date_of_start').rules('add',  { required: true });
                 	$('#date_of_start_req').text('*');
@@ -2637,6 +2670,14 @@
                 } 
             	
             });
+            
+            if(closureRadioVal == 'Yes' || closureRadioVal == 'Closed'){
+         	   $("#contractClosureDetails").show();
+     		   $('#closureTab').show();
+            }else{
+               $("#contractClosureDetails").hide();
+       		   $('#closureTab').hide();
+            }
             
             updateBtnValueChange();
         });
@@ -3496,11 +3537,13 @@
 		          var rowNo = $("#bankRowNo").val();
 		          var rNo = Number(rowNo)+1;
 		          var total = 0;
-		          var html = '<tr id="bankRow'+rNo+'"> <td data-head="Code " class="input-field"> <input id="codes'+rNo+'" type="text" class="validate" name="codes" placeholder="Code">       </td><td data-head="BG Type " class="input-field"> '
+		          var html = '<tr id="bankRow'+rNo+'">'
+		           //+' <td data-head="Code " class="input-field"> <input id="codes'+rNo+'" type="text" class="validate" name="codes" placeholder="Code"> </td>'
+		           +'<td data-head="BG Type " class="input-field"> '
 		  		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'" class="searchable">'	   			
 		  		   +'<option value="" >select</option>'
 		  		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
-				  +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
+				   +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
 					</c:forEach>
 		  		   +'</select><span id="bg_type_fks'+rNo+'Error" class="my-error"></span></td>'
 				   +'<td data-head="Issuing Bank " class="input-field"> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
@@ -4062,7 +4105,8 @@
 		
 		function getStatusLIst(){
 		  	$(".page-loader").show();
-		  	var contract_status = $('#contract_status').val();
+		  	//var contract_status = $('#contract_status').val();
+		  	var contract_status = $('input[name="contract_status"]:checked').val();
             $("#contract_status_fk option:not(:first)").remove();
             if ($.trim(contract_status) != "") {
                 var myParams = { contract_status: contract_status };
@@ -4085,8 +4129,9 @@
 		}
 		
 		function hideContractDetails(){
-        	var contract_status = $('#contract_status').val();
-        	if($.trim(contract_status) == 'Yet to be Awarded'){
+        	//var contract_status = $('#contract_status').val();
+        	var contract_status = $('input[name="contract_status"]:checked').val();
+        	if($.trim(contract_status) == 'No'){
         		$('#contractor_id_fk').val('');
             	$('#loa_letter_number').val('').focus();
             	$('#loa_date').val('').focus();
@@ -4111,7 +4156,6 @@
 	        	$('#awarded_cost_units_div').hide();
 	        	$('#doc_div').hide();
         	}else{
-        		
         		var contractor_id_fk='${contractDeatils.contractor_id_fk}';
         		var loa_letter_number='${contractDeatils.loa_letter_number}';
         		var loa_date='${contractDeatils.loa_date}';
@@ -4155,7 +4199,7 @@
         	}
         }
 		
-		function setContractStatus(){
+		/* function setContractStatus(){
 			$(".page-loader").show();        	
 			var contract_status_fk = $('#contract_status_fk').val();
        		if($.trim(contract_status_fk) != ''){  
@@ -4164,7 +4208,7 @@
        			$("#contract_status").select2();
        		}
        		$(".page-loader").hide();
-		}
+		} */
 		
 		
 		

@@ -590,8 +590,7 @@
 					                <table id="past-leaves-table" class="mdl-data-table" style="padding:0px;">
 					                    <thead> 
 					                        <tr>
-					                            <th class="fw-120">From Date</th>
-					                            <th class="fw-120">To Date</th>
+					                            <th class="fw-120" style="width:40%">Dates</th>
 					                            <th class="fw-120 center-align">Module -> <br> Responsible Person</th>
 					                            <th class="fw-120">Action</th>
 					                        </tr>
@@ -697,7 +696,7 @@
     	 $("#addBtnRow").hide();  	 
    	 		if(document.getElementById('past-leaves-table').rows.length<=1)
     		 {
-    		 	$('#past-leaves-table').append("<tr><td colspan='4' class='center-align'>No Past Leaves</td></tr>");
+    		 	$('#past-leaves-table').append("<tr><td colspan='3' class='center-align'>No Past Leaves</td></tr>");
     		 } 
    	 		
    	 		getModulesCount();
@@ -847,14 +846,15 @@
     		 var myTab = document.getElementById('past-leaves-table');
 
              var objCells = myTab.rows.item(rowNo).cells;
-			 var FD=objCells.item(0).innerHTML;
-			 FD=FD.split("-").reverse().join("-");
-			 var TD=objCells.item(1).innerHTML;
-			 TD=TD.split("-").reverse().join("-");			 	 
+             var totalDates=objCells.item(0).innerHTML;
+             var splittotalDates=totalDates.split("/");
+             
+			 var FD=splittotalDates[0];
+			 var TD=splittotalDates[1];
              $("#from_date").val(FD);
              $("#to_date").val(TD);
              
-             var ModResp = objCells.item(2).innerHTML;
+             var ModResp = objCells.item(1).innerHTML;
              var spltBr=ModResp.toString();
              var spltBrEach=spltBr.split("<br>");
              var totalLength=spltBrEach.length-1;
@@ -1014,8 +1014,11 @@
   	                   	
   	                    table.row.add(rowArray).draw( false );*/
   	                  	//clearFilters();
+  	                    
+       					var d1=val.from_date.split("-").reverse().join("-");
+       					var d2=val.to_date.split("-").reverse().join("-");  	                    
   	                  	
-  	                  $('#past-leaves-table').append("<tr><td>"+val.from_date+"</td><td>"+val.to_date+"</td><td>"+concatModuleResponsiblePersons+"</td><td>"+actions+"</td></tr>");
+  	                  $('#past-leaves-table').append("<tr><td>"+d1+"/"+d2+"</td><td>"+concatModuleResponsiblePersons+"</td><td>"+actions+"</td></tr>");
   	                    		                       
   					});
   	         		$('#past-leaves-table').DataTable();

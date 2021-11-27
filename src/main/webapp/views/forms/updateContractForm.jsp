@@ -1060,10 +1060,12 @@
                                		<span class="div-header">Bank Guarantee Details 
 	                               		<span class="right mob-center">
 	                               			<p>
-										      <label>
-										        <input type="checkbox" class="filled-in" id="bg_show_released" name="bg_show_released"/>
-										        <span>Show Released</span>
-										      </label>
+	                               				<c:if test="${contractDeatils.bg_required eq 'Yes'}">
+											      <label>
+											        <input type="checkbox" class="filled-in" id="bg_show_released" name="bg_show_released"/>
+											        <span>Show Released</span>
+											      </label>
+										      	</c:if>
 										    </p>
 	                               		</span>
                                		</span>
@@ -1321,10 +1323,12 @@
                                		<span class="div-header">Insurance Details
 		                               <span class="right mob-center">
 	                               			<p>
-										      <label>
-										        <input type="checkbox" class="filled-in" id="insurance_show_released" name="insurance_show_released"/>
-										        <span>Show Released</span>
-										      </label>
+		                               			<c:if test="${contractDeatils.insurance_required eq 'Yes'}">
+											      <label>
+											        <input type="checkbox" class="filled-in" id="insurance_show_released" name="insurance_show_released"/>
+											        <span>Show Released</span>
+											      </label>
+											    </c:if>
 										    </p>
 	                               		</span>
                                		</span>
@@ -1732,10 +1736,12 @@
                                 	<span class="div-header">Revision Details
                                 		<span class="right mob-center">
 	                               			<p>
-										      <label>
-										        <input type="checkbox" class="filled-in" checked="checked" id="rev_show_current" name="rev_show_current"/>
-										        <span>Show Current</span>
-										      </label>
+	                               				<c:if test="${contractDeatils.revision_requried eq 'Yes'}">
+												      <label>
+												        <input type="checkbox" class="filled-in" checked="checked" id="rev_show_current" name="rev_show_current"/>
+												        <span>Show Current</span>
+												      </label>
+											    </c:if>
 										    </p>
 	                               		</span>
                                 	</span>

@@ -34,6 +34,11 @@ public class FormsAccessServiceImpl implements FormsAccessService{
 	public List<Form> getModulesListForFormAccess(Form obj) throws Exception {
 		return dao.getModulesListForFormAccess(obj);
 	}
+	
+	@Override
+	public List<Form> getAllModules() throws Exception {
+		return dao.getAllModules();
+	}		
 
 	@Override
 	public List<Form> getFolderssListForFormAccess(Form obj) throws Exception {

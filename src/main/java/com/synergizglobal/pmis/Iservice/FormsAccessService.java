@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.Iservice;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Form;
+import com.synergizglobal.pmis.model.User;
 
 public interface FormsAccessService {
 	
@@ -31,5 +32,6 @@ public interface FormsAccessService {
 	public List<Form> getStatusListForFormAccess(Form obj) throws Exception;
 
 	public boolean updateAccessForm(Form obj) throws Exception;
+	public List<Form> getAllModules() throws Exception;
 
 }

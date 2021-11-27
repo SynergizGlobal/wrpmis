@@ -1,7 +1,12 @@
 package com.synergizglobal.pmis.controller;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +30,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.FormsAccessService;
 import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.Iservice.ProfileService;
+import com.synergizglobal.pmis.Iservice.UserService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.RandomGenerator;
@@ -35,9 +43,12 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FOBGallery;
+import com.synergizglobal.pmis.model.Form;
 import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.UserActivityReport;
 @Controller
 public class LoginController {
 	
@@ -53,7 +64,10 @@ public class LoginController {
 	@Autowired
 	ProfileService  profileService;
 	
-	
+	@Autowired
+	UserService  userService;	
+	@Autowired
+	FormsAccessService  formsAccessService;	
 	
 	@Value("${Login.Form.Invalid}")
 	public String invalidUserName;
@@ -227,6 +241,24 @@ public class LoginController {
 		return view;
 	}
 	
+	@RequestMapping(value = "/ajax/getPastLeaves", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getPastLeaves(@ModelAttribute User obj,HttpSession session) {
+		List<User> PastLeaves = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			PastLeaves = profileService.getPastLeaves(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getPastLeaves : " + e.getMessage());
+		}
+		return PastLeaves;
+	}	
+	
+	
 	
 	/**
 	 * When user click on reset password then this method is executed and view page is shown to the user.
@@ -283,14 +315,27 @@ public class LoginController {
 	
 	
 	@RequestMapping(value = "/profile", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView profile(HttpSession session){
+	public ModelAndView profile(HttpSession session,@ModelAttribute User obj){
 		ModelAndView model = new ModelAndView();
 		
 		try{
+			User uObj = (User) session.getAttribute("user");
 			String userId = (String) session.getAttribute("USER_ID");
+			String userType = (String) session.getAttribute("USER_TYPE");
+			
+			obj.setUser_id(userId);
+			obj.setUser_type_fk(userType);
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
 			model.setViewName(PageConstants.profile);
 			
 			User userDetails = profileService.getUserProfile(userId);
+			
+			List<Form> modulesList = formsAccessService.getAllModules();
+			List<User> usersList = userService.getAllUsersList(obj);
+			
+			model.addObject("modulesList", modulesList);
+			model.addObject("usersList", usersList);
 			
 			model.addObject("userDetails", userDetails);	
 			
@@ -302,6 +347,77 @@ public class LoginController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/ajax/insertLeaveResponsibility", method = {RequestMethod.POST})
+	@ResponseBody
+	public boolean insertLeaveResponsibility(@ModelAttribute User user,HttpSession session,RedirectAttributes attributes) {	
+		boolean flag=false;
+		try{
+			
+			if (StringUtils.isEmpty(user.getUser_id())) 
+			{
+				String userId = (String) session.getAttribute("USER_ID");
+				user.setUser_id(userId);
+			}
+			user.setFrom_date(DateParser.parse(user.getFrom_date()));	
+			user.setTo_date(DateParser.parse(user.getTo_date()));	
+			flag =  profileService.insertLeaveResponsibility(user);
+		}catch (Exception e) 
+		{
+			attributes.addFlashAttribute("error","Updating Leave Responsibility is failed. Try again.");
+			logger.error("Leave Responsibility : " + e.getMessage());
+		}
+		return flag;
+	}
+	
+	@RequestMapping(value = "/ajax/checkLeaveResponsibility", method = {RequestMethod.POST})
+	@ResponseBody
+	public boolean checkLeaveResponsibility(@ModelAttribute User user,HttpSession session,RedirectAttributes attributes) {	
+		boolean flag=false;
+		try{
+			String userId = (String) session.getAttribute("USER_ID");
+			user.setUser_id(userId);
+			user.setFrom_date(DateParser.parse(user.getFrom_date()));	
+			user.setTo_date(DateParser.parse(user.getTo_date()));	
+			flag =  profileService.checkLeaveResponsibility(user);
+		}catch (Exception e) 
+		{
+			attributes.addFlashAttribute("error","Updating Leave Responsibility is failed. Try again.");
+			logger.error("Leave Responsibility : " + e.getMessage());
+		}
+		return flag;
+	}
+	
+	@RequestMapping(value = "/ajax/deleteLeaveResponsibility", method = {RequestMethod.POST})
+	@ResponseBody
+	public boolean deleteLeaveResponsibility(@ModelAttribute User user,HttpSession session,RedirectAttributes attributes) {	
+		boolean flag=false;
+		try{
+			String userId = (String) session.getAttribute("USER_ID");
+			user.setUser_id(userId);
+			user.setFrom_date(DateParser.parse(user.getFrom_date()));	
+			user.setTo_date(DateParser.parse(user.getTo_date()));	
+			flag =  profileService.deleteLeaveResponsibility(user);
+		}catch (Exception e) 
+		{
+			attributes.addFlashAttribute("error","Delete Leave Responsibility is failed. Try again.");
+			logger.error("Delete Leave Responsibility : " + e.getMessage());
+		}
+		return flag;
+	}	
+	
+	@RequestMapping(value="/auto-responsibility",method=RequestMethod.GET)
+	public void autoResponsibility(){
+		try 
+		{
+	        boolean flag1 = profileService.generateAutoResponsibility();
+	        boolean flag2 = profileService.generateRevertAutoResponsibility();
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("autoResponsibility : " + e.getMessage());
+		}
+	}	
+	
 	
 	@RequestMapping(value = "/update-profile", method = {RequestMethod.POST})
 	public ModelAndView updateProfile(@ModelAttribute User user,RedirectAttributes attributes){
@@ -408,6 +524,18 @@ public class LoginController {
 		}
 		return flag;
 	}
+	
+	@RequestMapping(value = "/ajax/getModulesCount", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public int getModulesCount() throws Exception {
+		int cnt = 0;
+		try {
+			cnt = profileService.getModulesCount();
+		} catch (SQLException e) {
+			logger.error("getModulesCount : " + e.getMessage());
+		}
+		return cnt;
+	}	
 	
 	@RequestMapping(value = "/ajax/checkUserEmail", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

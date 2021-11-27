@@ -12,7 +12,9 @@ public class User  {
 	
 	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,loginCount,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
-	access_value_id,access_value_name,user_role_code,last7DaysLogins,last30DaysLogins,login_event_date,login_event_type,login_event_type_fk,single_login_session_id,OTP;
+	access_value_id,access_value_name,user_role_code,last7DaysLogins,last30DaysLogins,login_event_date,login_event_type,login_event_type_fk,single_login_session_id,OTP,
+	from_date,to_date;
+	long user_leave_id;
 	
 	private List<User> departmentList,DesignationsList,UserLoginList;
 	
@@ -23,6 +25,9 @@ public class User  {
 	private MultipartFile userImageFile;
 	
 	private String[] user_access_types,user_access_values;
+	
+	private String[] modules,responsible_persons;
+	
 
 	private String system_ipa,public_ipa;
 	
@@ -652,6 +657,56 @@ public class User  {
 
 	public void setOTP(String oTP) {
 		OTP = oTP;
+	}
+
+
+	public String[] getModules() {
+		return modules;
+	}
+
+
+	public void setModules(String[] modules) {
+		this.modules = modules;
+	}
+
+
+	public String[] getResponsible_persons() {
+		return responsible_persons;
+	}
+
+
+	public void setResponsible_persons(String[] responsible_persons) {
+		this.responsible_persons = responsible_persons;
+	}
+
+
+	public String getFrom_date() {
+		return from_date;
+	}
+
+
+	public void setFrom_date(String from_date) {
+		this.from_date = from_date;
+	}
+
+
+	public String getTo_date() {
+		return to_date;
+	}
+
+
+	public void setTo_date(String to_date) {
+		this.to_date = to_date;
+	}
+
+
+	public long getUser_leave_id() {
+		return user_leave_id;
+	}
+
+
+	public void setUser_leave_id(long user_leave_id) {
+		this.user_leave_id = user_leave_id;
 	}
 	
 	

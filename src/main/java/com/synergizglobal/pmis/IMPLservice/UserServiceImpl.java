@@ -127,5 +127,10 @@ public class UserServiceImpl implements UserService{
 	public List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception {
 		return userDao.getReportingToUserId(reporting_to_id_srfk);
 	}
+	
+	@Override
+	public List<User> getAllUsersList(User obj) throws Exception {
+		return userDao.getAllUsersList(obj);
+	}	
 
 }

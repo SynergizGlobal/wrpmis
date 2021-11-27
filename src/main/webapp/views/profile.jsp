@@ -11,10 +11,11 @@
   <title>Profile - User Details - PMIS</title>
   <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
   <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">   
-  <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">    
   <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
   <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
   <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+  <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+  
        
      <style>
      .dataTables_filter label input[type="search"]::placeholder {
@@ -210,8 +211,8 @@
 			background-color:#007a7a;
 		}
 		td.fw-120{
-			width: 120px !important;
-			max-width:120px !important;
+			width: 140px !important;
+			max-width:140px !important;
 			padding-right:5px;
 			padding-left:14px !important;
 		}
@@ -240,7 +241,7 @@
                 text-align: center;
             }
         }  
-        .error-msg label{color:red!important;}   
+        .error-msg label{color:green!important;}   
 		.profile_name .error-msg {
 		    text-transform: capitalize;
 		    color: red;
@@ -276,9 +277,14 @@
 			opacity:0 !important;
 			content:'' !important;
 		}
-		.select2-container--default .select2-selection--single{
-			background-color:transparent;
-		}
+		.error-msg {
+		    color: red;
+		    font-size: .9rem;
+		}	
+		select {
+     display: block; 
+}	
+		
 	</style>
 </head>
 
@@ -293,7 +299,7 @@
                 <form action="<%=request.getContextPath() %>/update-profile" method="POST" id="profileForm" name="profileForm" class="form-horizontal" role="form" enctype="multipart/form-data">
                 	<span class="card-title headbg main">
                 		<div class="profile_name">
-                         	 <span class="hideOrShow">${ userDetails.user_id } - ${ userDetails.designation } - ${ userDetails.user_name } </span>
+                         	 <span class="hideOrShow">${ userDetails.user_id } -${ userDetails.designation } - ${ userDetails.user_name } </span>
                          	 <span class="hideOrShow input-field hidden disp-inflex">${ userDetails.user_id } &nbsp; 
                          	 	<input name="user_name" id="user_name" type="text" class="validate"  value="${ userDetails.user_name }"/> 
                          	 	<span id="user_nameError" class="error-msg"></span>
@@ -367,7 +373,7 @@
                             </div>
                         </div>  --%>
                         <input type="hidden"  name="user_id" id="user_id" value="${ userDetails.user_id }" />
-                        <div class="col m6 l4 s12">
+                        <div class="col m4">
                             <div class="card">
                                 <div class="card-content">
                                     <span class="card-title headbg">User Details</span>
@@ -454,79 +460,67 @@
                                 </div>
                             </div>
                         </div>
-                      <%--   asked to remove so this was commented
-                      	<div class="col m12 l4 s12">
-                            <div class="card" style="min-height: 445px;">
-                                <div class="card-content">
-                                    <span class="card-title headbg">User Access</span>
-                                    <table id="example2" class="mdl-data-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="no-sort">Access Type</th>
-                                                <th>Value</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        	<c:forEach var="obj" items="${userDetails.userPermissions }">
-                                        		<tr>
-	                                                <td>${obj.user_access_type }</td>
-	                                                <td>${obj.access_value }</td>
-	                                            </tr>
-                                        	</c:forEach>
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> --%>
-                        
-                         <div class="col m6 l4 s12" style="display:none;">
-                            <div class="card">
+                        <input type="hidden" id="modulesCnt">
+                         <div class="col m8">
+                            <div class="card row">
                                 <div class="card-content">
                                     <span class="card-title headbg">Leave Responsibility</span>
-                                    <div class="row">
-									    <div class="col s12">
+                                    <div class="row" style="padding-left:80px;padding-right:80px;">
+									    <div class="col s12" style="text-align:center;">
 									        <form action="">
-									            <p class="center-align text-capitalize">are you going on leave 
-									                <label style="margin-left:2rem;">
-									                    <input type="checkbox" name="leaveYes" onchange="datesShowHide()"/>
-									                    <span>Yes</span>
-									                </label>
-									            </p>
-									            <div id="leaveResponsibleDiv" style="/* display:none; */">
-									            <div id="datesDiv" style="/* display:none; */ opacity:0">
-									            	<div class="input-field col s6">
-										                <input type="text" class="datepicker" id="from_date" placeholder="From Date">
+									            <div id="StatusMsg"  style="text-align:center;color:green;"></div>
+									           <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> <div class="row no-mar" id="itadminDiv" style="text-align:left;"><div class="input-field col s4">Apply for</div></div></c:if>
+									            <div id="leaveResponsibleDiv">
+									            <div id="datesDiv" class="row no-mar">
+									             <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">	<div class="input-field col s4">
+														<select name="apply_for" id="apply_for" class="validate-dropdown searchable">
+					                                        <option value="0">Self</option>
+					                                         <c:forEach var="obj" items="${usersList }">
+					                                      	   <option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>
+					                                         </c:forEach>												                    
+                                         				</select>									            	
+									            	</div>
+									            </c:if>
+									            	<div class="input-field col s4">
+										                <input type="text" class="validate datepicker" id="from_date" placeholder="From Date">
 										                <button type="button" id="from_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+										                <span id="from_dateError" class="error-msg"></span>
 										            </div>
-										            <div class="input-field col s6">
-										                <input type="text" class="datepicker" id="to_date" placeholder="To Date">
+										            <div class="input-field col s4">
+										                <input type="text" class="validate datepicker" id="to_date" placeholder="To Date">
 										                <button type="button" id="to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+										                <span id="to_dateError" class="error-msg"></span>
 										            </div>
 									            </div>
-									            <div class="row no-mar" id="responsibleDiv" style="/* display:none; */ opacity:0">
+									            <input type="hidden" name="user_leave_id" id="user_leave_id" value="0">
+									            <br>
+									            <div class="row no-mar" id="responsibleDiv">
 												    <h6 class="center-align">Assign Responsibility</h6>
 												    <div class="table-inside">   
 													    <table class="mdl-data-table mobile_responsible_table" id="responsibility_table">
 													        <thead>
 													            <tr>
-													                <th>Module</th>
-													                <th>Responsible Person</th> 
+													                <th style="text-align:center;width:45%">Module</th>
+													                <th style="text-align:center;width:45%">Responsible Person</th> 
 													                <th>Action</th>
 													            </tr>
 													        </thead>
 													        <tbody id="responsibilityBody">
 													            <tr id="tableRow0">
 													                <td data-head="Module" class="input-field">
-													                    <select name="modules" id="module0" onChange="removeRest()" class="validate-dropdown searchable">
-													                        <option value="all">All</option>
-													                        <option value="contract" selected>Contract</option>
-													                    </select>
+									                                    <select class="searchable" id="module0" name="modules" onChange="selectModule(this.value);">
+									                                        <option value="">All</option>
+									                                         <c:forEach var="obj" items="${modulesList }">
+									                                      	    <option value= "${ obj.module_name_fk}" <c:if test="${formDetails.module_name_fk eq obj.module_name_fk}">selected</c:if>>${obj.module_name_fk}</option>
+									                                          </c:forEach>
+									                                    </select>
 													                </td>
 													                <td data-head="Responsible Person" class="input-field">
-													                    <select name="responsible_person" id="responsible_person0" class="validate-dropdown searchable">
-													                        <option value="">User</option>
-													                    </select>
+													                    <select name="responsible_person" id="responsible_person0" class="validate-dropdown searchable" onChange="selectModule(this.value);">
+                                        <option value=""></option>
+                                         <c:forEach var="obj" items="${usersList }">
+                                      	   <option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>
+                                         </c:forEach>												                    </select>
 													                </td>
 													                <td class="mobile_btn_close">
 													                    <a onclick="removeRow('0');" class="btn red">
@@ -535,8 +529,9 @@
 													            </tr>
 													        </tbody>
 													    </table>
+													    <span id="tableErrorRemove" class="error-msg"></span>
 													    
-													    <div class="table-plus-btn">
+													    <div class="table-plus-btn" id="addBtnRow">
 													    	<input type="hidden" id="rowNo" name="rowNo" value="0" />
 													        <a type="button" class="btn waves-effect waves-light bg-m t-c add-align" onclick="addNewRow()"> <i
 													                class="fa fa-plus"></i>
@@ -544,57 +539,44 @@
 													    </div>
 													  </div>
 												</div>
-												<div class="row no-mar" id="btnDiv" style="/* display:none; */ opacity:0">
-					                                <div class="col s6 mt-brdr mt-20px">
-					                                    <div class="center-align m-1">
-						                                       <button type="button" class="btn waves-effect waves-light bg-m">Update</button>
-					                                    </div>
-					                                </div>
-					                                <div class="col s6 mt-brdr mt-20px">
-					                                    <div class="center-align m-1">
-					                                        <a href="#!" class="btn waves-effect waves-light bg-s" >Cancel</a>
-					                                    </div>
-					                                </div>
-					                            </div>
+<div class="row" id="btnDiv">
+	                                    <div class="col s4 m6 input-field" style="text-align:right;">
+	                                        <button type="button" class="btn btn-primary" id="btnCreate" onclick="createResponsibility();"> Create</button>
+	                                    </div>			                        
+			                            <div class="col s4 m6 input-field" style="text-align:left;;">
+												<button type="button" class="btn btn-danger" id="btnReset" style="background-color:#f44336;" onclick="clearFilters();">Reset</button>
+			                             </div>
+			                        </div>
+		                        
 					                            </div>
 									        </form>
 									    </div>
 									</div>
-                                  
-                                </div>
                             </div>
+                            
+	                           
+                            
                         </div> 
-                        <div class="col m6 l4 s12" style="display:none;">
-                        	<div class="card">
-							    <div class="card-content m-no-pad">
-							        <span class="card-title headbg">Past Leaves</span>
-							        <div class="row no-mar fixed-width">
-							            <div class="col s12 table-inside">
-							                <table id="past-leaves-table" class="mdl-data-table">
-							                    <thead>
-							                        <tr>
-							                            <th class="fw-120">From Date /<br>To Date</th>
-							                            <th class="no-pad">Module /<br>Responsible Person</th>
-							                            <th class="nosort">Action</th>
-							                        </tr>
-							                    </thead>
-							                    <tbody>
-							                        <tr>                                            
-							                            <td class="fw-120"> 10-11-2021 / 20-11-2021 </td>
-							                            <td class="no-pad"> contract - some hod which is near to my position</td>
-							                            <td class="last-column"> <a href="#"
-							                                    class="btn waves-effect waves-light bg-m t-c"><i
-							                                        class="fa fa-pencil"></i></a>
-							                                <a href="#" class="btn waves-effect waves-light bg-s t-c"><i
-							                                        class="fa fa-trash"></i></a>
-							                            </td>
-							                        </tr>
-							                    </tbody>
-							                </table>
-							            </div> 
-							        </div>
-							    </div>
-							</div>                        	
+                        <div class="row card">
+                        
+ 							<div class="card-content">
+					        	<span class="card-title headbg">Past Leaves</span>
+
+					                <table id="past-leaves-table" class="mdl-data-table" style="padding:0px;">
+					                    <thead>
+					                        <tr>
+					                            <th class="fw-120">From Date</th>
+					                            <th class="fw-120">To Date</th>
+					                            <th class="fw-120">Module -> Responsible Person</th>
+					                            <th class="fw-120">Action</th>
+					                        </tr>
+					                    </thead>
+					                    <tbody>
+
+					                    </tbody>
+					                </table>
+
+							</div>                        
                         </div>
                     </div>
                   </form>
@@ -623,97 +605,576 @@
     		
   <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
   <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
-  <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-  <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/pmis/resources/js/select2.min.js"></script>
+	
 	  <script>
      $(document).ready(function () {
-            $('#past-leaves-table').DataTable({
-                columnDefs: [
-                    {
-                        targets: [],
-                        className: 'mdc-data-table__cell'
-                    }
-                ],
-                "language": {
-                    "info": "Showing _START_ - _END_ in _TOTAL_ ",
-                    "paginate": {
-                        "previous": "<",
-                        "next": ">",
-                    },
-                },
-                "ScrollX": true,
-                "sScrollXInner": "100%",
-                "bscrollCollapse": true,
-                "fixedHeader":true,
-                "ordering":false,
-                "bLengthChange": true,
-                //"paging": true,
-                //"sScrollY": 400,
-                initComplete: function () {
-	                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '150px', 'display': 'inline-block' });
-	                   var input = $('.dataTables_filter input')
-						.unbind()
-						.bind('keyup',function(e){
-						    if (e.which == 13){
-						    	self.search(input.val()).draw();
-						    }
-						}), self = this.api(), $searchButton = $(
-						'<i class="fa fa-search" title="Go" id="save_post">')
-						.click(function() {
-							self.search(input.val()).draw();
-						}), $clearButton = $(
-								'<i class="fa fa-close" title="Reset">')
-						.click(function() {
-							input.val('');
-							$searchButton.click();
-						})
-						$('.dataTables_filter').append('<div class="right-btns"></div>');
-						$('.dataTables_filter div').append(	$searchButton, $clearButton);
-	               }
-            });
-        	$('.searchable').select2();
-        	//$('select:not(.searchable)').formSelect();
-        }); 
+    	 
+    	// $('#module0 option:eq(0)').prop('selected',true);
+    	 $('.searchable').select2();
+    	 
+    	 var date = new Date();
+    	 
+    	 $("#from_date").datepicker({
+        	 format:'dd-mm-yyyy',
+           	// minDate: new Date(date.getFullYear(), date.getMonth(), (date.getDate() + 1)),
+           	 onSelect: function () {
+           		    $('.confirmation-btns .datepicker-done').click();
+           			$("#from_dateError").html("");  
+           				if($("#to_date").val()!="")
+           				{
+           					var d1=$("#from_date").val().split("-").reverse().join("-");
+           					var d2=$("#to_date").val().split("-").reverse().join("-");
+           						if(new Date(d1)>new Date(d2))
+           						{
+           							$("#from_dateError").html("From date should not be greater than To date");  
+           							return false;
+           						}
+           						else
+      							{
+      								$("#to_dateError").html("");  
+      							}          						
+           				}
+    	    	 }
+        });  
+    	 
+    	 $("#to_date").datepicker({
+        	 format:'dd-mm-yyyy',
+        	// minDate: new Date(date.getFullYear(), date.getMonth(), (date.getDate() + 1)),
+           	 onSelect: function () 
+           	 {
+           		$('.confirmation-btns .datepicker-done').click();
+           		$("#to_dateError").html("");
+   				if($("#from_date").val()!="")
+   				{
+   					var d1=$("#from_date").val().split("-").reverse().join("-");
+   					var d2=$("#to_date").val().split("-").reverse().join("-");
+   					
+   						if(new Date(d2)<new Date(d1))
+   						{
+   							$("#to_dateError").html("To date should not be less than From date");  
+   							return false;
+   						}
+   						else
+  							{
+  								$("#from_dateError").html("");  
+  							}
+   				}          		
+    	    }
+        });   	 
+    	
+    	 getPastLeaves();
+    	 $('#select2-module0-container').html("All");
 
-        function datesShowHide(){
-        	 if($('input[name="leaveYes"]:checked').val()){
-        		 //$('#datesDiv,#btnDiv').show();
-        		 //$('#responsibleDiv').show();        		 
-        		// $('#leaveResponsibleDiv').show();        		         		 
-        		 $('#datesDiv,#btnDiv,#responsibleDiv').css({'opacity':'1','transition':'all .7s ease-in-out'});
-        	 }else{
-        		 //$('#datesDiv,#btnDiv').hide();
-        		 //$('#responsibleDiv').hide();
-        		 $('#datesDiv,#btnDiv,#responsibleDiv').css({'opacity':'0','transition':'all .7s ease-in-out'});
-        		 //$('#leaveResponsibleDiv').hide(); 
-        	 }
-        }
+    	 $("#addBtnRow").hide();  	 
+   	 		if(document.getElementById('past-leaves-table').rows.length<=1)
+    		 {
+    		 	$('#past-leaves-table').append("<tr><td colspan='4' style='text-align:center;font-size:20px;color:#000000;'>No Past Leaves</td></tr>");
+    		 } 
+   	 		
+   	 		getModulesCount();
+        	
+     });
+     function removeLeave(leave_id,row)
+     {
+    	 if (confirm("Are you sure you want to delete this leave responsibility")) 
+    	 {  
+    		 if(deleteLeaveResponsibility(leave_id,row)==true)
+   			 {
+    			 $("#StatusMsg").html("Leave Responsibility deleted.");
+    			 getPastLeaves();
+    			 
+					$('#select2-module0-container').html("All");
+					
+	        		 if(($("#modulesCnt").val()==Number($("#rowNo").val())+1 || $("#module0").val()==""))
+	              	 {
+	               		 $("#addBtnRow").hide(); 
+	              	 }
+	               	 else
+	              	 {
+	              		$("#addBtnRow").show(); 
+	              	 }	    			 
+   			 }
+    	 }  
+     }
+     
+     function deleteLeaveResponsibility(leave_id,row)
+     {
+ 	    var myParams = {user_leave_id:leave_id};
+    	var bool = false;
+       	 $.ajax({
+             url: "<%=request.getContextPath()%>/ajax/deleteLeaveResponsibility",
+             type:"POST",
+             data:myParams,cache: false,async:false,
+             success: function (data) 
+             {
+            	 if (data == true) 
+            	 {
+                     bool = true;
+                 }
+             }
+         });
+       	return trueOrFalse(bool);
+     }    
+     
+     function getLeave(leave_id,row) 
+     {
+	     	$("#from_dateError").html("");
+	    	$("#to_dateError").html("");
+	    	$("#StatusMsg").html("");
+	    	$("#tableErrorRemove").html("");
+	    	 $('#select2-module0-container').html("");
+ 	    	 $('#select2-responsible_person0-container').html("");      	
+
+    	     $("#addBtnRow").show();  	 
+    	     var rowNo=$(row).closest('td').parent()[0].sectionRowIndex;
+    	 
+    	 	 $("#rowNo").val("0");
+    	 	 $("#user_leave_id").val(leave_id);
+    	 	 
+    	 	 $("#btnCreate").html("Update");
+    	 	 $("#btnReset").html("Cancel");
+    		 rowNo=rowNo+1;
+    		 var myTab = document.getElementById('past-leaves-table');
+
+             var objCells = myTab.rows.item(rowNo).cells;
+			 var FD=objCells.item(0).innerHTML;
+			 FD=FD.split("-").reverse().join("-");
+			 var TD=objCells.item(1).innerHTML;
+			 TD=TD.split("-").reverse().join("-");			 	 
+             $("#from_date").val(FD);
+             $("#to_date").val(TD);
+             
+             var ModResp = objCells.item(2).innerHTML;
+             var spltBr=ModResp.toString();
+             var spltBrEach=spltBr.split("<br>");
+             var totalLength=spltBrEach.length-1;
+             
+             var resPersonsArray=new Array();
+             
+             for(var r=0;r<totalLength;r++)
+             {
+               	 var eachmodule1=spltBrEach[r].toString();
+            	 var eachrow1=eachmodule1.split("-&gt;");
+            	 var replaceStr1=eachrow1[1].replaceAll('&amp;','&');
+            	 
+            	 	if(resPersonsArray.indexOf(replaceStr1)==-1)
+            		 {
+            	 		resPersonsArray.push(replaceStr1);
+            		 }
+             }
+ 	 	 	 $("#responsibilityBody").find("tr:gt(0)").remove();
+             if(resPersonsArray.length==1 && totalLength!=1)
+           	 {
+            		$("#module0").val("");
+            		$("#responsible_person0 option:contains('"+resPersonsArray[0]+"')").attr('selected', true);
+            		$("#responsible_person0 option:contains('"+resPersonsArray[0]+"')").prop('selected', true);
+            		
+            		$("#addBtnRow").hide();
+           	 }
+             else
+             {
+            	 $("#addBtnRow").show(); 
+  	 	 	 
+     	 	 	 
+	             for(var r=0;r<totalLength;r++)
+	             {
+	            	 var eachmodule1=spltBrEach[r].toString();
+	            	 var eachrow1=eachmodule1.split("-&gt;");
+	            	 
+				     var replaceStr=eachrow1[0].replaceAll('&amp;','&');
+				     $("#module"+r).val(replaceStr);
+				     var replaceStr1=eachrow1[1].replaceAll('&amp;','&');
+	            	 $("#responsible_person"+r+" option:contains('"+replaceStr1+"')").attr('selected', true);
+	            	 $("#responsible_person"+r+" option:contains('"+replaceStr1+"')").prop('selected', true);
+
+					 addNewRow();
+	             }
+	             deleterow("responsibility_table");
+            }
+             
+             $('.searchable').select2();
+           	 if(($("#modulesCnt").val()==Number($("#rowNo").val())+1 || $("#module0").val()==""))
+          	 {
+           		 $("#addBtnRow").hide(); 
+          	 }
+           	 else
+          	 {
+          		$("#addBtnRow").show(); 
+          	 }
+            
+ 	 }  
+     
+     function deleterow(tableID) 
+     {
+
+   	    	if($("#rowNo").val()!=0)
+   	    	{
+   	    	    var table = document.getElementById(tableID);
+   	    	    var rowCount = table.rows.length;
+
+   	    	    table.deleteRow(rowCount -1);
+   	    	    var rowVal=Number($("#rowNo").val())-1;   	    		
+   	    		$("#rowNo").val(rowVal);
+   	    	}
+    	}
+     
+     function clearFilters()
+     {
+    	 $("#from_date").val("");
+    	 $("#to_date").val("");
+    	 $("#responsibilityBody").find("tr:gt(0)").remove();
+    	 $('select[name="modules"]').val("");
+    	 $('select[name="responsible_person"]').val("");
+    	 $('#select2-module0-container').html("");
+    	 $('#select2-responsible_person0-container').html("");
+    	
+     }
+     
+     
+     function getModulesCount()
+     {
+     	var bool = false;
+      	 $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getModulesCount",
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) 
+            {
+				$("#modulesCnt").val(data);
+            }
+        });    	 
+     }
+     
+     function getPastLeaves()
+     {
+    	 $("#past-leaves-table").find("tr:gt(0)").remove();
+    	 clearFilters();
+
+      	var from_date = $("#from_date").val();
+     	var to_date = $("#to_date").val();  
+  	 	var myParams = {from_date : from_date, to_date : to_date};
+  		$.ajax({url : "<%=request.getContextPath()%>/ajax/getPastLeaves",
+ 	    			type:"POST",
+ 	    			data:myParams,cache: false,async:false,
+ 	    			success : function(data)
+ 	    			{    	
+  					if(data != null && data != '' && data.length > 0){    					
+  	         		$.each(data,function(key,val)
+  	         				{
+  	         					var d1=new Date();
+  	         					var d2 = new Date(val.from_date);
+  	                         var actions = '';
+  	                    
+ 	                    	//if(d2.getTime()>=d1.getTime() || new Date(val.from_date)>=d1)
+ 	                    	//{
+ 	     	                    actions = '<a href="javascript:void(0);"  onclick="getLeave('+val.user_leave_id+',this);" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a href="#" onclick="removeLeave('+val.user_leave_id+',this);" class="btn waves-effect waves-light bg-s t-c"><i class="fa fa-trash"></i></a>';    	                   	
+ 	                    	//}
+ 	                    	//else
+	                    	//{
+ 	     	                   //actions = '<a href="javascript:void(0);"  onclick="getLeave('+val.user_leave_id+',this);" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+	                    	//}
+
+  	                   	var rowArray = [];    	                  
+  	                   	var user_leave_id = '';
+  	                   	
+  	                   	//rowArray.push( user_leave_id);
+  	                   	
+  	                   	var modulessplit=val.modules;
+  	                        modulessplit=modulessplit.toString();
+  	                    var responsiblepersonssplit=val.responsible_persons;
+  	                   		responsiblepersonssplit=responsiblepersonssplit.toString();
+  	                   	var SpltModulesArray=modulessplit.split(",");
+  	                    var SpltResPersonsArray=responsiblepersonssplit.split(",");
+  	                    var concatModuleResponsiblePersons="";
+  	                    
+ 	                    	for(var f=0;f<SpltModulesArray.length;f++)
+ 	                    	{
+ 	                    		concatModuleResponsiblePersons=concatModuleResponsiblePersons+""+SpltModulesArray[f]+"->"+SpltResPersonsArray[f]+"<br>";
+ 	                    	}
+  	                   	
+/*  	                    	var index = concatModuleResponsiblePersons.lastIndexOf("<br>");
+ 	                    	concatModuleResponsiblePersons = concatModuleResponsiblePersons.substring(0, index); 
+  	                   	
+  	                   	rowArray.push($.trim(val.from_date));
+  	                   	rowArray.push($.trim(val.to_date));
+  	                   	rowArray.push($.trim(concatModuleResponsiblePersons));
+  	                   	rowArray.push($.trim(actions));   	                   	
+  	                   	
+  	                    table.row.add(rowArray).draw( false );*/
+  	                  	//clearFilters();
+  	                  	
+  	                  $('#past-leaves-table').append("<tr><td>"+val.from_date+"</td><td>"+val.to_date+"</td><td>"+concatModuleResponsiblePersons+"</td><td>"+actions+"</td></tr>");
+  	                    		                       
+  					});
+  	         		$('#past-leaves-table').DataTable();
+  	         		
+  	         		$(".page-loader").hide();
+  				}else{
+  					$(".page-loader").hide();
+  				}
+  				
+  			},error: function (jqXHR, exception) {
+  				$(".page-loader").hide();
+  	         	getErrorMessage(jqXHR, exception);
+  	     }});
+	 		if(document.getElementById('past-leaves-table').rows.length<=1)
+   		 	{
+   		 		$('#past-leaves-table').append("<tr><td colspan='4' style='text-align:center;font-size:22px;color:#000000;'>No Past Leaves</td></tr>");
+   		 	} 		
+  		
+     }
+     
+     
+     function selectModule(SelectedValue)
+     {
+    	 selectedModulesArray=[];
+  	 	 if($("#module0").val()=="")
+  		 {
+  		 	$("#addBtnRow").hide();
+  		 }
+  	 	 else
+ 	 	 {
+  	 		$("#addBtnRow").show(); 
+ 	 	 }
+    	 
+    	 
+    	 $("#tableErrorRemove").html("");
+   	 	 if(SelectedValue=="")
+   		 {
+   	 		$("#responsibilityBody").find("tr:gt(0)").remove();
+   	 		$("#rowNo").val("0");
+   	 		$("#addBtnRow").hide();
+   		 }
+   	 	else
+	 	{
+   	 		
+   	 			if(document.getElementById('responsibility_table').rows.length>2)
+   	 			{
+		       		for(var f=0;f<document.getElementById('responsibility_table').rows.length-2;f++)
+		       		{
+		      	 		if(selectedModulesArray.indexOf($("#module"+f).val())==-1)
+		  	 			{
+		  	 				selectedModulesArray.push($("#module"+f).val());
+		  	 			}
+		       		}
+					if(selectedModulesArray.indexOf(SelectedValue)!=-1)
+					{
+			    		$("#tableErrorRemove").html("You have already selected this module.");
+			    		$("#module"+$("#rowNo").val()).val("");
+			       	 	$('#select2-module'+$("#rowNo").val()+'-container').html("");
+			    		return false;	 	 			
+					} 
+   	 			}
+	 	}
+   	 	 
+   	  if(($("#modulesCnt").val()==Number($("#rowNo").val())+1 || $("#module0").val()==""))
+      	 {
+       		 $("#addBtnRow").hide(); 
+      	 }
+       	 else
+      	 {
+      		$("#addBtnRow").show(); 
+      	 }  	 	 
+     }
         function toggleEditing(){
         	$('.main .fa,.main .editing').toggleClass('hidden');
         	$('.hideOrShow').toggleClass('hidden');      	       	
         }
-        
-        function addNewRow(){
+        var selectedModulesArray=new Array();
+
+        function addNewRow()
+        {
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
-            var html='<tr id="tableRow' + rNo + '"> <td data-head="Module" class="input-field">'
-                     +'<select name="modules" id="module' + rNo + '" class="validate-dropdown searchable"> <option value="all">All</option><option value="1">one</option>'
-                     +'</select></td> <td data-head="Responsible Person" class="input-field">'
-                     +'<select name="responsible_person" id="responsible_person' + rNo + '" class="validate-dropdown searchable"> <option value="">User</option>'
-                     +'</select> </td> <td class="mobile_btn_close"> <a onclick="removeRow(' + rNo + ');" class="btn red"> <i class="fa fa-close"></i></a>'
+
+            var html='<tr id="tableRow' + rNo + '"> <td data-head="Module" class="input-field">'+
+                     '<select name="modules" id="module' + rNo + '" class="validate-dropdown searchable" onChange="selectModule(this.value);"><option value=""></option>'+
+                     
+					 <c:forEach var="obj" items="${modulesList }">
+					    '<option value= "${ obj.module_name_fk}">${obj.module_name_fk}</option>'+
+					  </c:forEach>                    
+                     
+                     '</select></td> <td data-head="Responsible Person" class="input-field">'
+                     +'<select name="responsible_person" id="responsible_person' + rNo + '" class="validate-dropdown searchable"><option value=""></option>'+
+                     <c:forEach var="obj" items="${usersList }">
+                	   '<option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>'+
+                   </c:forEach>	                    
+                     '</select> </td> <td class="mobile_btn_close"> <a onclick="removeRow(' + rNo + ');" class="btn red"> <i class="fa fa-close"></i></a>'
                      +'</td></tr>';	
     		$('#responsibilityBody').append(html);
+
+    		$('.searchable').select2();
+    		
             $("#rowNo").val(rNo);          	
+            if(($("#modulesCnt").val()==Number($("#rowNo").val())+1 || $("#module0").val()==""))
+          	 {
+           		 $("#addBtnRow").hide(); 
+          	 }
+           	 else
+          	 {
+          		$("#addBtnRow").show(); 
+          	 }           
             
-            $('.searchable').select2();
         }
         
-        function removeRow(rowNo){
-         	$("#tableRow"+rowNo).remove();
+        function removeRow(rowNo)
+        {
+        		if(document.getElementById('responsibility_table').rows.length>2)
+        		{
+                 	$("#tableRow"+rowNo).remove();
+                 	var rNo=Number($("#rowNo").val())-1;
+                 	$("#rowNo").val(rNo);    
+        		}
+        		else
+       			{
+        			$("#tableErrorRemove").html("We should not delete single row.");
+       			}
+        		 if(($("#modulesCnt").val()==Number($("#rowNo").val())+1 || $("#module0").val()==""))
+              	 {
+               		 $("#addBtnRow").hide(); 
+              	 }
+               	 else
+              	 {
+              		$("#addBtnRow").show(); 
+              	 }         		
         } 
+        
+        function createResponsibility()
+        {
+        	$("#tableErrorRemove").html("");
+        	if($("#from_date").val()=="")
+       		{
+        		$("#from_dateError").html("Please select From Date");
+        		return false;
+       		}
+        	else
+       		{
+        		$("#from_dateError").html("");
+       		}
+        	if($("#to_date").val()=="")
+       		{
+        		$("#to_dateError").html("Please Select To Date");
+        		return false;
+       		}  
+        	else
+       		{
+        		$("#to_dateError").html("");
+       		}
+        	
+       		for(var f=1;f<document.getElementById('responsibility_table').rows.length;f++)
+       		{
+       				if($("#module"+f).val()=="")
+       				{
+       					$("#tableErrorRemove").html("Please Select Module in row "+(f+1));
+       					return false;
+       				}
+       		}
+       		
+       		for(var f=0;f<document.getElementById('responsibility_table').rows.length;f++)
+       		{
+   				if($("#responsible_person"+f).val()=="")
+   				{
+   					$("#tableErrorRemove").html("Please Select Responsible Person in row "+(f+1));
+   					return false;
+   				}      		
+       		}      		
+        	
+        	        	
+			var modules = $('select[name="modules"]').map(function() {
+	            return $(this).val();
+	        }).get().join(",");
+			
+			var responsiblepersons = $('select[name="responsible_person"]').map(function() {
+	            return $(this).val();
+	        }).get().join(",");		
+
+			if(checkLeaveResponsibility()==false)
+					{
+        				var myParams = {user_leave_id:$("#user_leave_id").val(),from_date : $("#from_date").val(), to_date : $("#to_date").val(),modules:modules,responsible_persons:responsiblepersons};
+        			
+        				if($("#apply_for").val()==0)
+        				{
+	        				 myParams = {user_id:"${sessionScope.USER_ID}",user_leave_id:$("#user_leave_id").val(),from_date : $("#from_date").val(), to_date : $("#to_date").val(),modules:modules,responsible_persons:responsiblepersons};
+        				}
+	        				
+						if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
+							{
+	        				 myParams = {user_id:$("#apply_for").val(),user_leave_id:$("#user_leave_id").val(),from_date : $("#from_date").val(), to_date : $("#to_date").val(),modules:modules,responsible_persons:responsiblepersons};
+							}
+						
+			        	$.ajax({url : "<%=request.getContextPath()%>/ajax/insertLeaveResponsibility",
+			    			type:"POST",
+			    			data:myParams,cache: false,async:false,
+			    			success : function(data) 
+			    			{
+			    					if($("#user_leave_id").val()>0)
+			    					{
+			    						$("#StatusMsg").html("Leave Responsibility updated");
+			    					}
+			    					else
+			    					{
+			    						$("#StatusMsg").html("Leave Responsibility created");
+			    					}
+			    					$("#tableErrorRemove").html("");
+			    					$("#user_leave_id").val("0");
+			    					$("#rowNo").val("0");
+			    					
+			    		    	 	 $("#btnCreate").html("Create");
+			    		    	 	 $("#btnReset").html("Reset");
+			    		    	 	 
+			    				    getPastLeaves();
+			    					$('#select2-module0-container').html("All");
+			    					
+			    	        		 if(($("#modulesCnt").val()==Number($("#rowNo").val())+1 || $("#module0").val()==""))
+			    	              	 {
+			    	               		 $("#addBtnRow").hide(); 
+			    	              	 }
+			    	               	 else
+			    	              	 {
+			    	              		$("#addBtnRow").show(); 
+			    	              	 }			    					
+
+			                 }
+			             });
+					}
+					else
+					{
+						$("#StatusMsg").html("You have already created Leave Responsibility in between these dates.");
+					}
+				
+			
+       	
+        }
+        
+        function checkLeaveResponsibility()
+        {
+        	    var myParams = {user_leave_id:$("#user_leave_id").val(),from_date : $("#from_date").val(), to_date : $("#to_date").val()};
+	        	var bool = false;
+	           	 $.ajax({
+	                 url: "<%=request.getContextPath()%>/ajax/checkLeaveResponsibility",
+	                 type:"POST",
+	                 data:myParams,cache: false,async:false,
+	                 success: function (data) 
+	                 {
+	                	 if (data == true) {
+	                         bool = true;
+	                     }
+	                 }
+	             });
+	           	return trueOrFalse(bool);
+        }
+        
+        
+        function trueOrFalse(bool){
+            return bool;
+    	}       
+        
+        
         
         function removeRest(){
         	if($('#module0').val()=='all'){

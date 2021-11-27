@@ -51,4 +51,6 @@ public interface UserDao {
 	List<User> getUserTypesFilter(User obj) throws Exception;
 
 	List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception;
+
+	List<User> getAllUsersList(User obj) throws Exception;
 }

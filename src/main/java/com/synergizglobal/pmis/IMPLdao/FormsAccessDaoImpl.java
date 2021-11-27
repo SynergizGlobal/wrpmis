@@ -153,6 +153,19 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		
 		return objsList;
 	}
+	
+	@Override
+	public List<Form> getAllModules() throws Exception {
+		List<Form> objsList = null;
+		try {
+			String qry = "select module_name as module_name_fk from module where module_name in('contracts','Risk','Execution &  Monitoring','Safety','Issues','Design')";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		
+		return objsList;
+	}	
 
 	@Override
 	public List<Form> getFolderssListForFormAccess(Form obj) throws Exception {

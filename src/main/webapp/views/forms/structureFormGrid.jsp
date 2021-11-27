@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Structure  - Update Forms - PMIS</title>
+	<title>Structure Form - Update Forms - PMIS</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
 	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -128,7 +128,7 @@
 								<c:if test="${(sessionScope.USER_TYPE eq 'DyHOD') or (sessionScope.USER_TYPE eq 'HOD') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
 									<div class="col s12 m12 right-align exportButton">
 									    <div class="m-n1">
-									        <a href="<%=request.getContextPath()%>/add-fob-form"
+									        <a href="<%=request.getContextPath()%>/add-structures-form"
 												class="btn waves-effect waves-light bg-s t-c"> <strong><i
 													class="fa fa-plus-circle"></i> Add</strong></a>
 											<!-- <a href="javascript:void(0);" onclick="exportStructure();"
@@ -226,8 +226,9 @@
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-	<form action="<%=request.getContextPath()%>/get-structure" id="getForm" name="getForm" method="post">
+	<form action="<%=request.getContextPath()%>/get-structure-form" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="structure_id" id="structure_id"/>
+  		<input type="hidden" name="work_id_fk" id="work"/>
     </form>
   
   
@@ -248,11 +249,11 @@
 	<script>
 	
 		var filtersMap = new Object();
-		var pageNo = window.localStorage.getItem("strcturePageNo");
+		//var pageNo = window.localStorage.getItem("strcturePageNo");
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            var filters = window.localStorage.getItem("structureFilters");
+            var filters = window.localStorage.getItem("structureFilters1");
             
             if($.trim(filters) != '' && $.trim(filters) != null){
           	  var temp = filters.split('^'); 
@@ -274,9 +275,9 @@
         	$('.close-message').delay(3000).fadeOut('slow');
         	
         	 getStructureList();
-        	 if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+        	/*  if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
              var oTable = $('#datatable-structure').dataTable();
-             oTable.fnPageChange( pageNo );
+             oTable.fnPageChange( pageNo ); */
         });
 
         function clearFilter(){
@@ -284,8 +285,8 @@
         	$("#work_status_fk").val('');
         	$("#contract_id_fk").val('');
         	$(".searchable").select2();
-        	window.localStorage.setItem("structureFilters",'');
-        	window.location.href="<%=request.getContextPath()%>/structure-new1"
+        	window.localStorage.setItem("structureFilters1",'');
+        	window.location.href="<%=request.getContextPath()%>/structure-form"
         	//getFOBList();
         	var table = $('#datatable-structure').DataTable();
         	table.draw( true );
@@ -318,8 +319,157 @@
         	}
         }
 
+        function getStructureList() {
+			$(".page-loader-2").show();
+
+			getWorkStatusFilterList('');
+        	getWorksFilterList('');
+        	getContractsFilterList('');
+        	
+        	var work_id_fk = $("#work_id_fk").val();
+        	var work_status_fk = $("#work_status_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	
+			
+			var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("structureFilters1", filters);
+   			});
+        	 
+						table = $('#datatable-structure').DataTable();
+			
+						table.destroy();
+			
+						$.fn.dataTable.moment('DD-MMM-YYYY');
+			
+						var myParams = "work_id_fk=" + work_id_fk 
+								+ "&work_status_fk=" + work_status_fk+ "&contract_id_fk=" + contract_id_fk;
+			
+						/***************************************************************************************************/
+			
+						$("#datatable-structure")
+								.DataTable(
+										{
+											"bProcessing" : true,
+											"bServerSide" : true,
+											"sort" : "position",
+											//bStateSave variable you can use to save state on client cookies: set value "true" 
+											"bStateSave" : false,
+											 stateSave: true,
+											 "fnStateSave": function (oSettings, oData) {
+								                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+								                },
+								                "fnStateLoad": function (oSettings) {
+								                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+								                },
+											//Default: Page display length
+											"iDisplayLength" : 10,
+											"iData" : {
+												"start" : 52
+											},
+											//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+											"iDisplayStart" : 0,
+											"fnDrawCallback" : function() {
+												//Get page numer on client. Please note: number start from 0 So
+												//for the first page you will see 0 second page 1 third page 2...
+												//Un-comment below alert to see page number
+												//alert("Current page number: "+this.fnPagingInfo().iPage);
+											},
+											//"sDom": 'l<"toolbar">frtip',
+											"initComplete" : function() {
+												$('.dataTables_filter input[type="search"]')
+														.attr('placeholder', 'Search')
+														.css({
+															'width' : '350px ',
+															'display' : 'inline-block'
+														});
+			
+												var input = $('.dataTables_filter input')
+														.unbind()
+														.bind('keyup',function(e){
+														    if (e.which == 13){
+														    	self.search(input.val()).draw();
+														    }
+														}), self = this.api(), $searchButton = $(
+														'<i class="fa fa-search" title="Go" >')
+												//.text('Go')
+												.click(function() {
+													self.search(input.val()).draw();
+												}), $clearButton = $(
+														'<i class="fa fa-close" title="Reset">')
+												//.text('X')
+												.click(function() {
+													input.val('');
+													$searchButton.click();
+												})
+												$("div.right-btns1").remove();
+												$('.dataTables_filter').append(
+														'<div class="right-btns"></div>');
+												$('.dataTables_filter div').append(
+														$searchButton, $clearButton);
+												
+											},
+											columnDefs : [ {
+												"targets" : 'no-sort',
+												"orderable" : false,
+											},
+											// {targets:[1,2,4,5], className: 'hideCOl'},
+											{ targets: [0], className: 'no-sort'  },
+											{ targets: [1], className: 'last-column'  },
+											//{ targets: [0,3], className: 'fw-111'  }  
+											],
+											"sScrollX" : "100%",
+											"ordering":false,
+											"sScrollXInner" : "100%",
+											"bScrollCollapse" : true,
+											"language" : {
+												"info" : "_START_ - _END_ of _TOTAL_",
+												paginate : {
+													next : '<i class="fa fa-angle-right"></i>', // or '→'
+													previous : '<i class="fa fa-angle-left"></i>' // or '←' 
+												}
+											},
+											"bDestroy" : true,
+											"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getStructuresList?"+myParams,
+													
+						        "aoColumns": [
+						        	
+						            { "mData": function(data,type,row){
+						            	var work_short_name = '';
+				                        if ($.trim(data.work_short_name) != '') { work_short_name = $.trim(data.work_short_name) }    	
+				                     	if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return work_short_name; }
+			            			} },   				            
+						            { "mData": function(data,type,row){
+						            	if($.trim(data.structure) == ''){ return '-'; }else{ return data.structure; }
+						            } },
+						            { "mData": function(data,type,row){
+						            	if($.trim(data.structure_name) == ''){ return '-'; }else{ return data.structure_name; }
+						            } },
+						         	{ "mData": function(data,type,row){
+						         		var contract_short_name = '';
+						         		if ($.trim(data.contract_short_name) != '') { contract_short_name =  $.trim(data.contract_short_name) } 
+						            	if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return  contract_short_name; }
+						            } }, 
+						            { "mData": function(data,type,row){
+						            	if($.trim(data.work_status_fk) == ''){ return '-'; }else{ return data.work_status_fk; }
+						            } },
+						         	{ "mData": function(data,type,row){
+						         		var structure_id = "'"+data.structure_id+"'";
+						         		var work = "'"+data.work_id_fk+"'";
+					                    var actions = '<a href="javascript:void(0);"  onclick="getStructure('+structure_id+','+work+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+						            	return actions;
+						            } }
+						            
+						        ]
+						    });
+		  $(".page-loader-2").hide();  		     
+      	
+     }
+
         
-        function getStructureList(){
+        function getStructureList1(){
         	$(".page-loader").show();
         	
         	getWorkStatusFilterList('');
@@ -334,7 +484,7 @@
         	Object.keys(filtersMap).forEach(function (key) {
 	    		//alert(filtersMap[key]);
         		filters = filters + key +"="+filtersMap[key] + "^";
-        		window.localStorage.setItem("structureFilters", filters);
+        		window.localStorage.setItem("structureFilters1", filters);
    			});
        		table = $('#datatable-structure').DataTable();
     		 
@@ -352,7 +502,7 @@
  				},"iDisplayStart" : 0,
  				"drawCallback" : function() {
  					var info = table.page.info();
- 					window.localStorage.setItem("strcturePageNo", info.page);
+ 					//window.localStorage.setItem("strcturePageNo", info.page);
  				},
                 columnDefs: [ 
                 	{targets: [2,3], className: 'hideCOl'},
@@ -549,8 +699,9 @@
          }
         
         
-        function getStructure(structure_id) {
+        function getStructure(structure_id,work) {
     		$("#structure_id").val(structure_id);
+    		$("#work").val(work);
     		$("#getForm").submit();
     	}
         

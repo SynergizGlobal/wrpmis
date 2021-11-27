@@ -97,6 +97,9 @@
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	}
+    	#structureContractResponsibleTableBody .input-field:not(.h-auto) .select2-container--default{
+    		max-width:400px;
+    	}
         @media only screen and (max-width: 768px){
         	.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
 				float:none;
@@ -161,7 +164,6 @@
                                 <h6>
                                 	<c:if test="${action eq 'edit'}">Update Structure Form</c:if>
 									<c:if test="${action eq 'add'}"> Add Structure Form</c:if>
-									Add / Update Structure Form
 								</h6>
                             </div>
                         </span>
@@ -169,63 +171,68 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                           <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/update-structure-form" id="structuresForm" name="structuresForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/add-structures" id="structuresForm" name="structuresForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field offset-m2">
-                                <p class="searchable_label"> Project</p>
+                                <p class="searchable_label"> Project<span class="required">*</span></p>
+                                <input type="hidden" name="structure_id" id="structure_id" value="${structuresListDetails.structure_id}">
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
-                                        onchange="getWorksList(this.value);" <c:if test="${not empty fob.project_id_fk}">disabled</c:if>>
+                                        onchange="getWorksList(this.value);" <c:if test="${not empty structuresListDetails.project_id_fk}">disabled</c:if>>
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id }" <c:if test="${obj.project_id eq fob.project_id_fk}">selected</c:if>><%-- ${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
+                                            <option value="${obj.project_id_fk }" <c:if test="${obj.project_id_fk eq structuresListDetails.project_id_fk}">selected</c:if>><%-- ${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                	<p class="searchable_label"> Work</p>
+                                	<p class="searchable_label"> Work<span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);" <c:if test="${not empty fob.work_id_fk}">disabled</c:if>>
+                                        onchange="resetProject();getContractsList(this.value);" <c:if test="${not empty structuresListDetails.work_id_fk}">disabled</c:if>>
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}"><%-- ${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> --%> ${obj.work_short_name }</option>
+                                      	   <option value= "${obj.work_id_fk}" <c:if test="${obj.work_id_fk eq structuresListDetails.work_id_fk}">selected</c:if>> ${obj.work_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                	<p class="searchable_label"> Structure Type</p>
+                                	<p class="searchable_label"> Structure Type<span class="required">*</span></p>
                                  	<select id="structure_type_fk" name="structure_type_fk" class="validate-dropdown searchable" >
                                          <option value="" >Select</option>
-                                         <%-- <c:forEach var="obj" items="${structuresList }">
-	                                  		<option value="${obj.structure_type }" <c:if test="${dObj.structure_type_fk eq obj.structure_type}">selected</c:if>>${obj.structure_type}</option>
-	                                     </c:forEach> --%>
-	                                     <option value="fob">FOB</option>
-	                                     <option value="work" selected>work</option>
-	                                     <option value="contract">contract</option>
+                                         <c:forEach var="obj" items="${structuresList }">
+	                                  		<option value="${obj.structure_type }" <c:if test="${structuresListDetails.structure_type_fk eq obj.structure_type}">selected</c:if>>${obj.structure_type}</option>
+	                                     </c:forEach> 
                                      </select>
+                                     <span id="structure_type_fkError" class="error-msg" ></span>
                             	</div>
                             </div>
                             <div class="row">
                                 <div class="col s6 m2 l4 input-field offset-m2">
-                                    <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
-                                    <label for="fob_name">Structure Name <span class="required">*</span></label>
-                                    <span id="fob_nameError" class="error-msg" ></span>
+                                    <input id="structure_name" name="structure_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${structuresListDetails.structure_name }" >
+                                    <label for="structure_name">Structure Name <span class="required">*</span></label>
+                                    <span id="structure_nameError" class="error-msg" ></span>
                                 </div>
                            		
-                           		<div style="display:none">
+                           		<%-- <div style="display:none">
 									<c:forEach var="obj" items="${fobIdCheck}" varStatus="index">
-										<input type="hidden" id="fob_id${index.count}" value="${obj.fob_id }"  class="findLengths"/>
+										<input type="hidden" id="structure${index.count}" value="${obj.structure }"  class="findLengths"/>
 									</c:forEach>
-								</div>                           
-                                <div class="col s6 m2 l4 input-field">
-                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" onkeyup="doValidate(this.value)" <c:if test="${not empty fob.fob_id}">readonly</c:if>>
-                                    <label for="fob_id">Structure ID <span class="required">*</span></label>
-                                    <span id="fob_idError" class="error-msg" ></span>
+								</div>          --%>                  
+                                <div class="col s6 m2 l4 input-field" id="hideForFOB"  >
+                                    <input id="structure" name="structure" type="text" class="validate" value="${structuresListDetails.structure }"  <c:if test="${not empty structuresListDetails.structure}">readonly</c:if>>
+                                    <label for="structure">Structure ID <span class="required">*</span></label>
+                                    <span id="structureError" class="error-msg" ></span>
+                                </div>
+                                
+                                 <div class="col s6 m2 l4 input-field" id="showForFOB" style=" display: none;">
+                                    <input id="fob_id" name="structure" type="text" class="validate" value="${structuresListDetails.structure }" onkeyup="doValidate(this.value)" <c:if test="${not empty structuresListDetails.structure}">readonly</c:if>>
+                                    <label for="structure">Structure ID <span class="required">*</span></label>
+                                    <span id="structureError" class="error-msg" ></span>
                                 </div>
                              
                                 <div class="col s6 m4 l4 input-field mt9px">
@@ -234,13 +241,13 @@
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${generalStatusList }">
                                         	<c:if test="${obj ne 'Closed' and obj ne 'Terminated' and obj ne 'Completed'}">
-                                            	<option value="${obj }" <c:if test="${(empty fob.work_status_fk and obj eq 'Not Started') or (obj eq fob.work_status_fk)}">selected</c:if> >${obj}</option>
+                                            	<option value="${obj }" <c:if test="${(empty structuresListDetails.work_status_fk and obj eq 'Not Started') or (obj eq structuresListDetails.work_status_fk)}">selected</c:if> >${obj}</option>
                                         	</c:if>
                                         </c:forEach>
                                     </select>
                                     <span id="work_status_fkError" class="error-msg" ></span>
                                 </div>
-                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${fob.work_status_fk }"/> 
+                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${structuresListDetails.work_status_fk }"/> 
                            </div>
                          
                             
@@ -254,16 +261,16 @@
 									            <table id="structureContractResponsibleTableBody" class="mdl-data-table mobile_responsible_table" >
 									                <thead>
 									                    <tr>
-									                        <th style="width:50%">Contract <span class="required">*</span></th>
-															<th style="text-align : left;">Responsible Executives <span class="required">*</span></th>
-															<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"><th style="width:8%">Action</th></c:if>
+									                        <th style="width:45%">Contract <span class="required">*</span></th>
+															<th style="width:45%;text-align : left;">Responsible Executives <span class="required">*</span></th>
+															<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"><th>Action</th></c:if>
 									                    </tr>
 									                </thead>
 									                
 												    <tbody id="departmentTableBody">
 									                <c:choose>
-				                                        <c:when test="${not empty fob.contractsList }" >
-				                                		  <c:forEach var="contractObj" items="${fob.contractsList }" varStatus="index"> 
+				                                        <c:when test="${not empty structuresListDetails.executivesList }" >
+				                                		  <c:forEach var="contractObj" items="${structuresListDetails.executivesList }" varStatus="index"> 
 				                                		  <c:set var="selVal" value="" />
 											                  <tr id="departmentRow${index.count }">
 											                        <td data-head="Department" class="input-field">
@@ -272,32 +279,25 @@
 											                                	<option value="" >Select</option>  
 																		          <c:forEach var="obj" items="${contractsList }">
 									 											  <c:set var="selVal" value="${contractObj.contract_id_fk}" />
-									 											<option value= "${obj.contract_id}" <c:if test="${contractObj.contract_id_fk eq obj.contract_id}">selected</c:if>>${ obj.contract_short_name}</option>
+									 											<option value= "${obj.contract_id_fk}" <c:if test="${contractObj.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${ obj.contract_short_name}</option>
 									 											                                          </c:forEach>
 											                              </select> 
 											                              <span id="deptError${index.count }" class="my-error"></span>
 											                        </td>
 											                        <td data-head="Select Executives" class="input-field h-auto">
-											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');"
+											                        	<input type="hidden"  id="responsible_people_id_fk${index.count }" name="responsible_people_id_fks" />
+											                            <select class="searchable validate-dropdown dept" name="excecutives" id="responsible_people_id_fks${index.count }" onchange="executivesToStringMethod('${index.count }');"
 											                             multiple="multiple"
-											                             
-											                           <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>>
+											                             <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>>
 											                             <option value="" disabled="disabled">Select</option>
 										                                    <c:forEach var="obj" items="${responsiblePeopleList}">
-										           					  			 <option value="${obj.user_id }"            					  			 
-										           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
-																				 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id and  tempobj.contract_id_fk eq selVal}">selected</c:if>
-											                                          	</c:forEach>           					  			 
-										           					  			 > ${obj.designation} - ${obj.user_name}</option>
-										                                   </c:forEach>
-                                   
+																				<option value="${obj.user_id }" 
+																					<c:forEach var="tempobj" items="${contractObj.responsiblePeopleLists}">
+																			 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id }">selected</c:if>
+										                                          	</c:forEach>>${obj.designation }-${obj.user_name}</option>
+																			</c:forEach>
 											                            </select>
 											                             <span id="personError${index.count }" class="my-error" ></span>
-											                            <input type="hidden" id="filecounts${index.count }" name="filecounts">
-											                            <script>
-											                            	var count = $("#responsible_people_id_fks${index.count } :selected").length;
-											                            	var s = $('#filecounts${index.count}').val(count);
-											                            </script>
 											                        </td>
 									                				<c:choose>
 								                                        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' || sessionScope.USER_TYPE eq 'DyHOD'}" >											                        
@@ -308,6 +308,11 @@
 															              </c:when>   
 											                       </c:choose>
 											                    </tr>
+											                     <script>
+													     			   var exvals =  $('#responsible_people_id_fks${index.count }').val();
+													     			   exvals = exvals.join(',');
+													            	   $('#responsible_people_id_fk${index.count }').val(exvals);
+											                     </script>
 									                	</c:forEach>
                                            			</c:when>
                                              		<c:otherwise>
@@ -317,28 +322,21 @@
 									                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'  && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>> 
 									                                	<option value="" >Select</option>  
 																          <c:forEach var="obj" items="${contractsList }">
-																			<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
-																		 		<c:forEach var="tempobj" items="${fob.contractsList}">
-																		 			<c:if test="${tempobj.contract_id_fk eq obj.contract_id}">selected</c:if>
-									                                          	</c:forEach>
+																			<option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }" 
 																	 		>${obj.contract_short_name }</option>								                                         
 																	 	 </c:forEach>
 									                              </select>
 									                              <span id="deptError0" class="my-error"></span>
-									                              <input type="hidden" id="filecounts0" name="filecounts" value="0">
 									                        </td>
 									                        <td data-head="Select Executives" class="input-field h-auto">
-									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"  
+									                        <input type="hidden"  id="responsible_people_id_fk0" name="responsible_people_id_fks" />
+									                            <select class="searchable validate-dropdown" name="excecutives"
 									                               <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'   && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>
-									                                id="responsible_people_id_fks0" multiple="multiple" onchange="fileCount(0);">
+									                                id="responsible_people_id_fks0" multiple="multiple" onchange="executivesToStringMethod('0');">
 									                                <option value="" >Select</option>
-														 			<c:forEach var="obj" items="${responsiblePeopleList}">
-								           					  			 <option value="${obj.user_id }"            					  			 
-								           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
-																		 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id}">selected</c:if>
-									                                          	</c:forEach>           					  			 
-								           					  			 > ${obj.designation} - ${obj.user_name}</option>
-														            </c:forEach>				                             	
+														 			 <c:forEach var="obj" items="${responsiblePeopleList}">
+																		<option value="${obj.user_id }" >${obj.designation }-${obj.user_name}</option>
+																	</c:forEach>			                             	
 									                            </select>
 									                            <span id="personError0" class="my-error"></span>
 									                        </td>
@@ -367,8 +365,8 @@
 			                                    </table> 
 			                                    </c:if>
 			                                    <c:choose>
-				                                    <c:when test="${not empty fob.contractsList && fn:length(fob.contractsList) gt 0 }">
-				                                		<input type="hidden" id="structureContractRowNo"  name="structureContractRowNo" value="${fn:length(fob.contractsList) }" />
+				                                    <c:when test="${not empty structuresListDetails.executivesList && fn:length(structuresListDetails.executivesList) gt 0 }">
+				                                		<input type="hidden" id="structureContractRowNo"  name="structureContractRowNo" value="${fn:length(structuresListDetails.executivesList) }" />
 				                                	</c:when>
 				                                 	<c:otherwise>
 				                                 		<input type="hidden" id="structureContractRowNo"  name="structureContractRowNo" value="0" />
@@ -386,21 +384,21 @@
                             <br>
                            <div class="row">
 	                            <div class="col s12 m4 l6 input-field offset-m2">
-                                    <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }" <c:if test="${not empty fob.target_date}">disabled</c:if>>
+                                    <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${structuresListDetails.target_date }" <c:if test="${not empty structuresListDetails.target_date}">disabled</c:if>>
                                     <label for="target_date">Original Target Date </label>
                                     <button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="target_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 l6 input-field amount-dropdown">
                                 	<i class="material-icons amount-symbol cost">₹</i>   
-                                    <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }" min="0.01" step="0.01" <c:if test="${not empty fob.estimated_cost}">readonly</c:if>>
+                                    <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${structuresListDetails.estimated_cost }" min="0.01" step="0.01" <c:if test="${not empty structuresListDetails.estimated_cost}">readonly</c:if>>
                                     <label for="estimated_cost">Estimated Cost</label>
                                     <span id="estimated_costError" class="error-msg" ></span> 
                                 	<span id="estimated_cost_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-                                  			   <option value="${obj.value }" <c:if test="${fob.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                  			   <option value="${obj.value }" <c:if test="${structuresListDetails.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                    		 </c:forEach>
                                 	</select>
                                 </div>
@@ -409,7 +407,7 @@
                             
                             <div class="row">
                                 <div class="col s12 m8 l12 input-field offset-m2">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000" maxlength="1000">${fob.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000" maxlength="1000">${structuresListDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
@@ -417,12 +415,12 @@
                             <c:if test="${action eq 'edit'}">	
                             <div class="row">
                                 <div class="col s6 m4 l6 input-field offset-m2">
-                                    <input id="latitude" name="latitude" type="text" class="validate" value="${fob.latitude }" <c:if test="${not empty fob.latitude}">readonly</c:if>>
+                                    <input id="latitude" name="latitude" type="text" class="validate" value="${structuresListDetails.latitude }" <c:if test="${not empty structuresListDetails.latitude}">readonly</c:if>>
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l6 input-field ">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${fob.longitude }" <c:if test="${not empty fob.longitude}">readonly</c:if>>
+                                    <input id="longitude" name="longitude" type="text" class="validate" value="${structuresListDetails.longitude }" <c:if test="${not empty structuresListDetails.longitude}">readonly</c:if>>
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
@@ -431,20 +429,20 @@
                             
                             <div class="row">
                                 <div class="col s6 m4 l6 input-field " id="construction_start_dateDiv" style=" display: none;">
-                                    <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }" <c:if test="${not empty fob.construction_start_date}">disabled</c:if>>
+                                    <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${structuresListDetails.construction_start_date }" <c:if test="${not empty structuresListDetails.construction_start_date}">disabled</c:if>>
                                     <label for="construction_start_date" class="fs-sm-8rem">Construction Start Date </label>
                                     <button type="button" id="construction_start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="construction_start_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l6 input-field " id="revised_completionDiv" style=" display: none; ">
-                                    <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${fob.revised_completion }" <c:if test="${not empty fob.revised_completion}">disabled</c:if>>
+                                    <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${structuresListDetails.revised_completion }" <c:if test="${not empty structuresListDetails.revised_completion}">disabled</c:if>>
                                     <label for="revised_completion" class="fs-sm-8rem">Target completion Date </label>
                                     <button type="button" id="revised_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="revised_completionError" class="error-msg" ></span>
                                 </div>                                                               
                             </div>
                             
-							<%-- <c:if test="${action eq 'edit'}"> hiden--%> 
+							<c:if test="${action eq 'edit'}"> 
 	                            <div class="row">
 	                                <h5 class="center-align">Structure Details</h5>
 	                                <div class="col s12 m8 offset-m2" id="structureFobDiv" style="display:none;">
@@ -457,41 +455,31 @@
 	                                            </tr>
 	                                        </thead>
 	                                        <tbody id="structureDetailsTableBody">
-	                                        	<tr>
-	                                        	   <td>
-	                                                    <input id="structure_detail_names${index.count }" name="structure_detail_names" type="text" class="validate" value="${dObj.detail_name }"
-	                                                        placeholder="Detail name">
-	                                                </td>
-	                                                <td>
-	                                                     <input id="structure_detail_values${index.count }" name="structure_detail_values" type="text" class="validate" value="${dObj.value }"
-			                                                        placeholder="Value">
-		                                            </td>
-	                                        	</tr>
-	                                       		<c:forEach var="dObj" items="${fob.fobDetails }" varStatus="index">                                        	
+	                                       		<c:forEach var="dObj" items="${structuresListDetails.structureDetailsList }" varStatus="index">                                        	
 		                                           <tr id="structureDetailsRow${index.count }">                                            	
 		                                               <td>
-		                                                    <input id="structure_detail_names${index.count }" name="structure_detail_names" type="text" readonly class="validate" value="${dObj.detail_name }"
+		                                                    <input id="structure_detail_names${index.count }" name="structure_details" type="text" readonly class="validate" value="${dObj.structure_detail }"
 		                                                        placeholder="Detail name">
 		                                                </td>
 		                                                <td>
-			                                                <c:if test="${dObj.detail_name eq 'Type'}">
-			                                                     <select id="structure_detail_values${index.count }" name="structure_detail_values">
+			                                                <c:if test="${dObj.structure_detail eq 'Type'}">
+			                                                     <select id="structure_detail_values${index.count }" name="structure_values">
 			                                                    	<option value="">Select</option>
-			                                                    	<c:forEach var="obj" items="${fobDetailsTypes }"> 
-			                                                    		<option value="${obj.structure_details_type }" <c:if test="${dObj.value eq obj.structure_details_type }">selected</c:if>>${obj.structure_details_type }</option>
+			                                                    	<c:forEach var="obj" items="${structureDetailsTypes }"> 
+			                                                    		<option value="${obj.fob_details_type }" <c:if test="${dObj.structure_value eq obj.fob_details_type }">selected</c:if>>${obj.fob_details_type }</option>
 			                                                    	</c:forEach>
 			                                                     </select>
 			                                                </c:if>
-			                                                <c:if test="${dObj.detail_name eq 'Location of FOB'}">
-			                                                     <select id="structure_detail_values${index.count }" name="structure_detail_values">
+			                                                <c:if test="${dObj.structure_detail eq 'Location of FOB'}">
+			                                                     <select id="structure_detail_values${index.count }" name=structure_values>
 			                                                    	<option value="">Select</option>
-			                                                    	<c:forEach var="obj" items="${fobDetailsLocations }"> 
-			                                                    		<option value="${obj.structure_details_location }" <c:if test="${dObj.value eq obj.structure_details_location }">selected</c:if>>${obj.structure_details_location }</option>
+			                                                    	<c:forEach var="obj" items="${structureDetailsLocations }"> 
+			                                                    		<option value="${obj.fob_details_location }" <c:if test="${dObj.structure_value eq obj.fob_details_location }">selected</c:if>>${obj.fob_details_location }</option>
 			                                                    	</c:forEach>
 			                                                     </select>
 			                                                </c:if>
-			                                                <c:if test="${(dObj.detail_name ne 'Type') and (dObj.detail_name ne 'Location of FOB') }">
-			                                                    <input id="structure_detail_values${index.count }" name="structure_detail_values" type="text" class="validate" value="${dObj.value }"
+			                                                <c:if test="${(dObj.structure_detail ne 'Type') and (dObj.structure_detail ne 'Location of FOB') }">
+			                                                    <input id="structure_detail_values${index.count }" name="structure_values" type="text" class="validate" value="${dObj.structure_value }"
 			                                                        placeholder="Value">
 			                                                </c:if>		                                                 
 		                                                </td>
@@ -510,10 +498,28 @@
 							                    </tr>
 							                </thead>
 							                <tbody id="structureNonFobDetailsTableBody">
-							                <input type="hidden" id="structure_details" name="structure_detailss">
+							                <c:choose>
+											<c:when test="${not empty structuresListDetails.structureDetailsList1 && fn:length(structuresListDetails.structureDetailsList1) gt 0 }">
+											 <c:forEach var="valObj" items="${structuresListDetails.structureDetailsList1 }" varStatus="index"> 
+											  	<tr id="structureDetailsRow${index.count }${index.count }">
+							                        <td>
+							                            <input id="structure_detail_names${index.count }${index.count }" name="structure_details" type="text"
+							                                class="validate" placeholder="Detail name" value="${valObj.structure_detail }">
+							                        </td>
+							                        <td>
+							                            <input id="structure_detail_values${index.count }${index.count }" name="structure_values" type="text"
+							                                class="validate"  placeholder="Value" value="${valObj.structure_value }">
+							                        </td>
+							                        <td class="mobile_btn_close">
+							                            <a onclick="removeStructureDetail(${index.count }${index.count });"
+							                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+							                        </td>
+							                    </tr>
+											  </c:forEach>
+										       </c:when>
+												<c:otherwise>
 							                    <tr id="structureDetailsRow0">
 							                        <td>
-							                        	
 							                            <input id="structure_detail_names" name="structure_details" type="text"
 							                                class="validate" value="" placeholder="Detail name">
 							                        </td>
@@ -526,9 +532,18 @@
 							                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 							                        </td>
 							                    </tr>
+							                  </c:otherwise>
+         									 </c:choose>
 							                </tbody>
 							            </table>
-							            <input type="hidden" value="0" id="structureDetailsLength">
+							              <c:choose>
+		                                        <c:when test="${not empty sObj.structureDetailsList && fn:length(sObj.structureDetailsList) gt 0 }">
+		                                    		<input type="hidden" id="structureDetailsLength${index.count }"   value="${fn:length(sObj.structureDetailsList) }" />
+		                                    	</c:when>
+		                                     	<c:otherwise>
+		                                     		<input type="hidden" id="structureDetailsLength${index.count }"   value="0" />
+		                                     	</c:otherwise>
+		                                 </c:choose>
 							            <table class="mdl-data-table table-add sm bd-none">
 							                <tbody>
 							                    <tr class="bd-none">
@@ -539,11 +554,11 @@
 							            </table>
 							        </div>
 	                            </div>
-                            <%--  </c:if>  hiden--%> 
+                            </c:if>  
                            
-                            <div class="row">
+                            <div class="row" style="margin-top:35px;">
                                 <div class="col s12 m4 input-field" id="commissioning_dateDiv" style="display: none;">
-                                    <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${fob.commissioning_date }" <c:if test="${not empty fob.commissioning_date}">disabled</c:if>>
+                                    <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${structuresListDetails.commissioning_date }" <c:if test="${not empty structuresListDetails.commissioning_date}">disabled</c:if>>
                                     <label for="commissioning_date">Commissioning Date </label>
                                     <button type="button" id="commissioning_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="commissioning_dateError" class="error-msg" ></span>
@@ -552,21 +567,21 @@
 
 	                             <!-- class="col m9 input-field" --><div id="actual_completion_dateDiv" style="display: none;">
 	                                <div class="col m4 input-field">
-	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }" <c:if test="${not empty fob.actual_completion_date}">disabled</c:if>>
+	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${structuresListDetails.actual_completion_date }" <c:if test="${not empty structuresListDetails.actual_completion_date}">disabled</c:if>>
 	                                    <label for="actual_completion_date">Actual Completion Date </label>
 	                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m4 input-field amount-dropdown">
 	                                	<i class="material-icons amount-symbol cost">₹</i>   
-	                                    <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }" <c:if test="${not empty fob.completion_cost}">readonly</c:if>>
+	                                    <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${structuresListDetails.completion_cost }" <c:if test="${not empty structuresListDetails.completion_cost}">readonly</c:if>>
 	                                    <label for="completion_cost">Actual Completion Cost</label>
 	                                    <span id="completion_costError" class="error-msg" ></span>
 	                                	<span id="completion_cost_unitsError" class="error-msg right" ></span>
 	                                    <select class=" validate-dropdown" id="completion_cost_units" name="completion_cost_units">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-	                                  			   <option value="${obj.value }" <c:if test="${fob.completion_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+	                                  			   <option value="${obj.value }" <c:if test="${structuresListDetails.completion_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 	                                   		 </c:forEach>
 	                                	</select>
 	                                </div>
@@ -575,7 +590,7 @@
 	                                	<select class="units validate-dropdown" id="completion_cost_units" name="completion_cost_units">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-	                                  			   <option value="${obj.value }" <c:if test="${fob.completion_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+	                                  			   <option value="${obj.value }" <c:if test="${structuresListDetails.completion_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 	                                   		 </c:forEach>
 	                                	</select>
 	                                	<span id="completion_cost_unitsError" class="error-msg" ></span>
@@ -604,13 +619,13 @@
 												</thead>
 												<tbody id="structureFilesBody">
 													<c:choose>
-														<c:when	test="${not empty fob.fobImages && fn:length(fob.fobImages) gt 0 }">
-															<c:forEach var="fObj" items="${fob.fobImages }" varStatus="index">
+														<c:when	test="${not empty structuresListDetails.documentsList && fn:length(structuresListDetails.documentsList) gt 0 }">
+															<c:forEach var="fObj" items="${structuresListDetails.documentsList }" varStatus="index">
 																<tr id="structureFileRow${index.count }">
 																	<td data-head="File Type" class="input-field">
 																			<select  name="structure_file_types"  id="structure_file_types${index.count }"  class="validate-dropdown searchable">
 							                                   					 <option value="" >Select</option>
-							                                         			  <c:forEach var="obj" items="${structureFileTypesList}">
+							                                         			  <c:forEach var="obj" items="${fileType}">
 							                    					  				 <option value="${obj.structure_file_type }" <c:if test="${fObj.structure_file_type_fk eq obj.structure_file_type}">selected</c:if>>${obj.structure_file_type}</option>
 							                                          			  </c:forEach>
 							                               					  </select>
@@ -632,7 +647,7 @@
 			                                                      	</td>
 			                                                      	<td  style="display:none;">
 			                                                      		<input type="hidden" id="structure_file_ids${index.count }" name="structure_file_ids" value="${fObj.structure_file_id }"/>
-			                                                      		<a href="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                      		<a href="<%=CommonConstants2.STRUCTURE_FILES%>${fObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 			                                                      	</td>
 																	<td class="mobile_btn_close">
 																		<a onclick="removeActions('${index.count }');" class="btn red"> 
@@ -647,7 +662,7 @@
 																<td data-head="File Type" class="input-field">
 																		<select  name="structure_file_types"  id="structure_file_types0"  class="validate-dropdown searchable">
 						                                   					 <option value="" >Select</option>
-						                                         			  <c:forEach var="obj" items="${structureFileTypesList}">
+						                                         			  <c:forEach var="obj" items="${fileType}">
 						                    					  				 <option value="${obj.structure_file_type }">${obj.structure_file_type}</option>
 						                                          			  </c:forEach>
 						                               					  </select>
@@ -695,8 +710,8 @@
 											</table>
 											
 											<c:choose>
-												<c:when test="${not empty (fob.fobImages) && fn:length(fob.fobImages) gt 0 }">
-													<input type="hidden" id="rowNo" name="rowNo" value="${fn:length(fob.fobImages) }" />
+												<c:when test="${not empty (structuresListDetails.documentsList) && fn:length(structuresListDetails.documentsList) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo" value="${fn:length(structuresListDetails.documentsList) }" />
 												</c:when>
 												<c:otherwise>
 													<input type="hidden" id="rowNo" name="rowNo" value="0" />
@@ -720,12 +735,12 @@
 	                                    <c:if test="${action eq 'add'}">
 	                                        <button type="button" onclick="addStructure();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
 	                                    </c:if>
-	                                    <button type="button" onclick="addStructure();" class="btn waves-effect waves-light bg-m" >Add / Update</button>
+	                                  
                                     </div>
                                 </div>
                                 <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/fob" class="btn waves-effect waves-light bg-s" >Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/structure-form" class="btn waves-effect waves-light bg-s" >Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -785,18 +800,34 @@
                              
         $('#structure_type_fk').trigger('change');
         
-        var project_id_fk = "${fob.project_id_fk}";
+        var project_id_fk = "${structuresListDetails.project_id_fk}";
         if ($.trim(project_id_fk) != '') {
-            getWorksList(project_id_fk);
+            //getWorksList(project_id_fk);
         }
         
-        var work_id_fk = "${fob.work_id_fk}";
+        var work_id_fk = "${structuresListDetails.work_id_fk}";
         if ($.trim(work_id_fk) != '') {
-        	getContractsList(work_id_fk);
-       		
+        	//getContractsList(work_id_fk);
+        	//existedContarcts();
         }
-        
-        var work_status = "${fob.work_status_fk}";
+        var structureType = "${structuresListDetails.structure_type_fk}";
+        if ($.trim(structureType) != '' && structureType == 'FOB') {
+        	$('#structureFobDiv').show();
+			$('#structureNonFobDiv').hide();
+			$('#structure').attr("disabled",true);
+			$('#fob_id').attr("disabled",false);
+			$("#structureNonFobDetailsTableBody").find("input,select").attr("disabled", true);
+			$("#structureDetailsTableBody").find("input,select").attr("disabled", false);
+
+        }else{
+        	$('#structureFobDiv').hide();
+			$('#structureNonFobDiv').show();
+			$('#structure').attr("disabled",false);
+			$('#fob_id').attr("disabled",true);
+			$("#structureNonFobDetailsTableBody").find("input,select").attr("disabled", false);
+			$("#structureDetailsTableBody").find("input,select").attr("disabled", true);
+        }
+        var work_status = "${structuresListDetails.work_status_fk}";
         if($.trim(work_status) != ''){
         	if($.trim(work_status) == 'In Progress'){
     			$("#construction_start_dateDiv").show();
@@ -847,7 +878,7 @@
       			$("#commissioning_date").attr('disabled', false);
       			$("#actual_completion_date").attr('disabled', false);
       			
-      			$("#fob_name").attr('readonly', false);
+      			$("#structure_name").attr('readonly', false);
       			$("#estimated_cost").attr('readonly', false);
       			$("#latitude").attr('readonly', false);
       			$("#longitude").attr('readonly', false);
@@ -856,13 +887,13 @@
         	
         }
         
-        var size = '${fn:length(fob.fobImages )}';
+        var size = '${fn:length(structuresListDetails.documentsList )}';
         
         /********************************************************************************/
         
     });
 	
-    var flag = false; 
+	var flag = false; 
     function doValidate(value){
  	   var print_value = value;	
  	   var value = value.trim();
@@ -875,12 +906,12 @@
  		   var findVal = ek[count];
  		   findVal = findVal.toLowerCase();
  		   if(findVal == value){
- 			   $('#fob_idError').text(print_value+' alreday exists').css('color', 'red');
+ 			   $('#structureError').text(print_value+' alreday exists').css('color', 'red');
  			   //$('#bttn').prop('disabled', true);
  			   flag = false;
  			   return false;
  		   }else{
- 			   $('#fob_idError').text('');
+ 			   $('#structureError').text('');
  			  // $('#bttn').prop('disabled', false); 
  			   flag = true;
  		   }
@@ -890,9 +921,10 @@
     }
     
     
-    function fileCount(Rno){
-    	var count = $('#responsible_people_id_fks'+Rno+' option:selected').length;
-    	$('#filecounts'+Rno).val(count)
+    function executivesToStringMethod(Rno){
+    	var vals =  $('#responsible_people_id_fks'+Rno).val();
+  	    vals = vals.join(',');
+  	   $('#responsible_people_id_fk'+Rno).val(vals);
     }   
     
     
@@ -906,18 +938,18 @@
 			   +'<td data-head="Department" class="input-field">'+
 			   <c:choose>
 		        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                 
-		         '<input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"><select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk'+rNo+'" onChange="getResponsibleExecutives('+rNo+');"> '
+		         '<select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk'+rNo+'" onChange="getResponsibleExecutives('+rNo+');"> '
          		 +'<option value="">Select</option>'+
                  <c:forEach var="obj" items="${contractsList}">
-			 		'<option workId="${obj.work_id_fk }" value="${obj.contract_id }" >${obj.contract_short_name }</option>'+
+			 		'<option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }" >${obj.contract_short_name }</option>'+
                  </c:forEach>
          '</select>'+
          </c:when>
          <c:otherwise>
-         '<input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"><select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk'+rNo+'" onChange="getResponsibleExecutives('+rNo+');" disabled >'+
+         '<select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk'+rNo+'" onChange="getResponsibleExecutives('+rNo+');" disabled >'+
          		 '<option value="">Select</option>'+
                  <c:forEach var="obj" items="${contractsList}">
-			 		'<option workId="${obj.work_id_fk }" value="${obj.contract_id }">${obj.contract_short_name }</option>'
+			 		'<option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }">${obj.contract_short_name }</option>'
                  </c:forEach>
          +'</select>' +                               
          </c:otherwise>
@@ -926,9 +958,10 @@
 			   +'<td data-head="Select Executives" class="input-field h-auto">'+
 			   
 	
-			   <c:choose>
-		        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                    
-          '<select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fks'+rNo+'" onchange="fileCount('+rNo+');"  multiple="multiple">'+
+	    <c:choose>
+         <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">   
+         ' <input type="hidden"  id="responsible_people_id_fk'+rNo+'" name="responsible_people_id_fks" />'+
+          '<select  class="searchable validate-dropdown"  name="excecutives" id="responsible_people_id_fks'+rNo+'" onchange="executivesToStringMethod('+rNo+');"  multiple="multiple">'+
           '<option value="" disabled="disabled">Select</option>'+
           <c:forEach var="obj" items="${responsiblePeopleList}">
 		  			 '<option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>'+
@@ -936,8 +969,8 @@
         '</select>'+
          </c:when>
          <c:otherwise>
-         
-		 '<select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fks'+rNo+'"  onchange="fileCount('+rNo+');" multiple="multiple" disabled>'+
+         ' <input type="hidden"  id="responsible_people_id_fk'+rNo+'" name="responsible_people_id_fks" />'+
+		 '<select  class="searchable validate-dropdown"  name="excecutives" id="responsible_people_id_fks'+rNo+'"  onchange="executivesToStringMethod('+rNo+');" multiple="multiple" disabled>'+
                                           
           '<option value="" disabled="disabled">Select</option>'+
            <c:forEach var="obj" items="${responsiblePeopleList}">
@@ -1031,7 +1064,7 @@
 		}else if($.trim(work_status) == 'Commissioned'){
 			$("#construction_start_dateDiv").show();
 			$("#commissioning_dateDiv").show();
-			$("#actual_completion_dateDiv").hide();
+			$("#actual_completion_dateDiv").show();
 			
 			$("#actual_completion_date").val('');
 			
@@ -1102,7 +1135,7 @@
            +'<td data-head="File Type" class="input-field"> '
            +'<select name="structure_file_types" id="structure_file_types'+rNo+'"  class="validate-dropdown searchable" >'	   			
    		   +'<option value="" >Select</option>'
-		     <c:forEach var="obj" items="${structureFileTypesList}">
+		     <c:forEach var="obj" items="${fileType}">
      	      +'<option value="${obj.structure_file_type }">${obj.structure_file_type}</option>'
 		     </c:forEach>
    		   +'</select></td>'  		  			
@@ -1151,18 +1184,18 @@
         if ($.trim(projectId) != "") {
             var myParams = { project_id_fk: projectId };
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorkListForFOBForm",
+                url: "<%=request.getContextPath()%>/ajax/getWorksListForStructureForm",
                 data: myParams, cache: false,async : false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
                             var workName = '';
                             if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
-                            var work_id_fk = "${fob.work_id_fk }";
-                            if ($.trim(work_id_fk) != '' && val.work_id == $.trim(work_id_fk)) {
-                                $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
+                            var work_id_fk = "${structuresListDetails.work_id_fk }";
+                            if ($.trim(work_id_fk) != '' && val.work_id_fk == $.trim(work_id_fk)) {
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' +  $.trim(workName) + '</option>');
                             } else {
-                                $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' +  $.trim(workName) + '</option>');
                             }
                         });
                     }
@@ -1189,31 +1222,32 @@
         if($.trim(work_id_fk) != ''){
         	var myParams = { work_id_fk: work_id_fk };
 	        $.ajax({
-	        	url: "<%=request.getContextPath()%>/ajax/getContractsListForFOBForm",
+	        	url: "<%=request.getContextPath()%>/ajax/getContractsListForStructureFrom",
 	            data: myParams, cache: false,async:false,
 	            success: function (data) {
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                    	var contract_name = '';
 	                        if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
-	                       /*  var contract_id_fk = "${fob.contract_id_fk }";
-	                        if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-	                        	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '" selected>' +  $.trim(contract_name) + '</option>');
+	                       /*  var contract_id_fk = "${structuresListDetails.contract_id_fk }";
+	                        if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
+	                        	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' +  $.trim(contract_name) + '</option>');
 	                        } else {
-	                        	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '">' +  $.trim(contract_name) + '</option>');
+	                        	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' +  $.trim(contract_name) + '</option>');
 	                        } */
 	                        var selectedFlag = ''
-	                        <c:forEach var="tempobj" items="${fob.contractsList}">	                        	
-	                        	if('${tempobj.contract_id_fk}' == val.contract_id){
+	                        <c:forEach var="tempobj" items="${structuresListDetails.executivesList}">	                        	
+	                        	if('${tempobj.contract_id_fk}' == val.contract_id_fk){
 	                        		selectedFlag = 'selected';
 	                        	}
 		                   	</c:forEach>
-		                   	$("#contract_id_fk0").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '" '+selectedFlag+'>' +  $.trim(contract_name) + '</option>');
+		                   	$("#contract_id_fk0").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" '+selectedFlag+'>' +  $.trim(contract_name) + '</option>');
 	                       
 	                    });
 	                }
 	                 $('.searchable:not(.units)').select2();
 	                $(".page-loader").hide();
+	                //existedContarcts();
 	            }
 	        });
 	        
@@ -1221,13 +1255,30 @@
         	$(".page-loader").hide();
         }
     }
-    
-    
+    function resetProject(){
+    	$(".page-loader").show();        	
+    	var projectId = '';
+    	var workId = $("#work_id_fk").val();
+    	if($.trim(workId) != ''){  
+        	projectId = workId.substring(0, 3);    
+   			$("#project_id_fk").val(projectId);
+   			$("#project_id_fk").select2();
+   		    document.getElementById("project_id_fkError").innerHTML="";
+   		}
+   		$(".page-loader").hide();
+    }
+    function existedContarcts(){
+    	$('form select[name="contracts_id_fk"]').each(function(){
+    			var ids = $(this).attr('id'); 
+    			ids = ids.split('fk');
+    			getContractsByRowList(ids[1]);
+    		});
+    }
     function getContractsByRowList(row) {
     	var workid="";
-        if($.trim("${fob.fob_id}")!= '')
+        if($.trim("${structuresListDetails.structure}")!= '')
         {
-        	workid="${fob.work_id_fk}";
+        	workid="${structuresListDetails.work_id_fk}";
         }
         else
        	{
@@ -1235,19 +1286,21 @@
        	}
         
     	$(".page-loader").show();
+    	var contractVal = $("#contract_id_fk"+row).val();
         $("#contract_id_fk"+row+" option:not(:first)").remove();
         if(workid!='')
         {
         	var myParams = { work_id_fk: workid };
 	        $.ajax({
-	        	url: "<%=request.getContextPath()%>/ajax/getContractsListForFOBForm",
+	        	url: "<%=request.getContextPath()%>/ajax/getContractsListForStructureFrom",
 	            data: myParams, cache: false,async:false,
 	            success: function (data) {
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                    	var contract_name = '';
 	                        if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
-		                   	$("#contract_id_fk"+row).append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '">' +  $.trim(contract_name) + '</option>');
+	                        var selectedFlag = (contractVal == $.trim(val.contract_id_fk))?'selected':'';
+		                   	$("#contract_id_fk"+row).append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '"'+selectedFlag+'>' +  $.trim(contract_name) + '</option>');
 	                       
 	                    });
 	                }
@@ -1260,45 +1313,16 @@
         	$(".page-loader").hide();
         }
     }
-    
-    var hitCount = 0;
-    function resetWorksAndProjectsDropdowns(){
-    	$("#responsible_people_id_fk option:not(:first)").remove();
-    	var user_id="";
-    	var contract_id_fk = $("#contract_id_fk").val();
-    	var myParams = {contracts_id_fk : contract_id_fk}
-    	$.ajax({
-            url: "<%=request.getContextPath()%>/ajax/getResponsiblePeopleFOBForm",
-            type:"post",
-   		   traditional: true, 
-            data: myParams, cache: false,aync:false,
-            success: function (data) {
-                if (data.length > 0) {
-                    $.each(data, function (i, val) {
-                        var user_name = '';
-                        if ($.trim(val.user_name) != '') { user_name =  $.trim(val.user_name) }
-                        if ($.trim(user_id) != '' && val.user_id == $.trim(user_id)) {
-                            $("#responsible_people_id_fk").append('<option value="' + val.user_id + '" selected>' + $.trim(val.designation) + ' - ' + $.trim(user_name) + '</option>');
-                        } else {
-                            $("#responsible_people_id_fk").append('<option value="' + val.user_id + '">' + $.trim(val.designation) + ' - ' + $.trim(user_name) + '</option>');
-                        }
-                    });
-                }
-                 $('.searchable:not(.units)').select2();
-                $(".page-loader").hide();
-            }
-        });   	
-    	   		
-    }
-    
-    
+ 
     $('form').on('reset', function () {
         $(".searchable").trigger("change");
     });
     
     function addStructure(){
+    	$(".page-loader").show();
 		if(validator.form()){ // validation perform
 			//var contract_name = $( "#contract_id_fk option:selected" ).text();
+		
 			var completion_cost = $("#completion_cost").val();
 			var estimated_cost = $("#estimated_cost").val();
 			if(completion_cost == ""){
@@ -1308,13 +1332,13 @@
   			}
 			var contract_name = $("#contract_id_fk option:selected").map(function() {
 			    return $(this).text();
-			}).get();
+			}).get(); 
 			$("#contract_name").val(contract_name);
-			$(".page-loader").show();
-  			if(flag){
+  			if(validator.form()){
   				$('form input[name=structure_detail_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
   	  			$('form input[name=structure_detail_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-  	  			document.getElementById("fobForm").submit();	
+  	  	
+  	  			document.getElementById("structuresForm").submit();	
  			}
  			$(".page-loader").hide();
  			return false;
@@ -1327,11 +1351,18 @@
     	$('form select[name=contracts_id_fk]').each(function(){
     		$("#"+this.id).attr("disabled",false);
     	});	
-    	
+    	$('[name=structure_details]').each(function(){
+    		var idNo = (this.id).replace('structure_detail_names','');
+    		if(idNo != '' && idNo == "undefined" && idNo != null){
+    			var detail = $("#"+this.id).val();
+        		if(detail == ''){
+        			('#structure_detail_values'+idNo).val('');
+        		}
+    		}
+    	});	
     	$('form select[name=responsible_people_id_fks]').each(function(){
     		$("#"+this.id).attr("disabled",false);
     	});	   	
-    	
   		if(validator.form()){ 
   			
   			var completion_cost = $("#completion_cost").val();
@@ -1370,7 +1401,7 @@
   					$("#commissioning_dateError").html("");
   				}
   			$(".page-loader").show();
-  			document.getElementById("fobForm").submit();			
+  			document.getElementById("structuresForm").submit();			
 	 	}
 	}
 	
@@ -1378,18 +1409,20 @@
 	
 	// to validate apartment form inputs thruogh jquery.
 	   
-	var validator = $('#fobForm').validate({
+	var validator = $('#structuresForm').validate({
 	    	ignore: ":hidden:not(.validate-dropdown)",
 			   rules: {
-				   	  "fob_id": {
+				   	  "structure": {
+				 		required: true
+			 	  	  },"structure_type_fk": {
 				 		required: true
 			 	  	  },"project_id_fk": {
-   				 		required: false
+   				 		required: true
    				 	  },"work_id_fk": {
-				 		required: false
+				 		required: true
 				 	  },"contract_id_fk": {
 				 		required: true
-				 	  },"fob_name": {
+				 	  },"structure_name": {
 				 		required: true
 				 	  },"work_status_fk": {
 				 		required: true
@@ -1433,7 +1466,9 @@
 				 				
 			 	},
 			   messages: {
-				     "fob_id": {
+				     "structure": {
+  			 			required: 'Required'
+  			 	  	 },"structure_type_fk": {
   			 			required: 'Required'
   			 	  	 },"project_id_fk": {
    			 			required: 'Required'
@@ -1441,7 +1476,7 @@
 			 			required: 'Required'
 			 	  	 },"contract_id_fk": {
 			 			required: 'Required'
-			 	  	 },"fob_name": {
+			 	  	 },"structure_name": {
 			 			required: 'Required'
 			 	  	 },"work_status_fk": {
 			 			required: 'Required'
@@ -1474,10 +1509,13 @@
 		    },
 			  errorPlacement:
 			 	function(error, element){
-				    if (element.attr("id") == "fob_id" ){
-			 		     document.getElementById("fob_idError").innerHTML="";
-			 			 error.appendTo('#fob_idError');
-			 	    }else if (element.attr("id") == "project_id_fk" ){
+				    if (element.attr("id") == "structure" ){
+			 		     document.getElementById("structureError").innerHTML="";
+			 			 error.appendTo('#structureError');
+			 	    }else if (element.attr("id") == "structure_type_fk" ){
+ 			 		     document.getElementById("structure_type_fkError").innerHTML="";
+ 			 			 error.appendTo('#structure_type_fkError');
+ 			 	    }else if (element.attr("id") == "project_id_fk" ){
  			 		     document.getElementById("project_id_fkError").innerHTML="";
  			 			 error.appendTo('#project_id_fkError');
  			 	    }else if (element.attr("id") == "work_id_fk" ){
@@ -1486,9 +1524,9 @@
 			 	    }else if (element.attr("id") == "contract_id_fk" ){
 			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
 			 			 error.appendTo('#contract_id_fkError');
-			 	    }else if (element.attr("id") == "fob_name" ){
-			 		     document.getElementById("fob_nameError").innerHTML="";
-			 			 error.appendTo('#fob_nameError');
+			 	    }else if (element.attr("id") == "structure_name" ){
+			 		     document.getElementById("structure_nameError").innerHTML="";
+			 			 error.appendTo('#structure_nameError');
 			 	    }else if (element.attr("id") == "work_status_fk" ){
 			 		     document.getElementById("work_status_fkError").innerHTML="";
 			 			 error.appendTo('#work_status_fkError');
@@ -1556,7 +1594,17 @@
     	    //"Date format (Aug 02,2020)"
     	    "Date format (DD-MM-YYYY)"
     	);
-	    
+	    $('select').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
+        
+        $('input').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
 	    
 	    $.validator.addMethod("dateBefore1", function(value, element) {
 	    	var d = new Date();
@@ -1764,13 +1812,13 @@
     		   		+'</div>'
     		   		+'<div class="col m2 hide-on-small-only"></div></div>'
 		            +'</td>'
-    			   	+'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeFOBImages('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+    			   	+'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeStructureImages('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
     			 
 			 $('#fobImagesTable').append(html);
 			 $("#rowNo").val(rNo);
         }
         
-		 function removeFOBImages(rowNo){
+		 function removeStructureImages(rowNo){
         	$("#fobImagesRow"+rowNo).remove();
          } 
 		 
@@ -1786,12 +1834,26 @@
 	     }
 		 
  	$('#structure_type_fk').on('change',function(){
-			if($('#structure_type_fk').val()=='fob'){
+			if($('#structure_type_fk').val()=='FOB'){
 				$('#structureFobDiv').show();
 				$('#structureNonFobDiv').hide();
+				$('#hideForFOB').hide();
+				$('#showForFOB').show();
+				$("#hideForFOB").children().prop('disabled', true);
+				$('#structure').attr("disabled",true);
+				$('#fob_id').attr("disabled",false);
+				$("#structureNonFobDetailsTableBody").find("input,select").attr("disabled", true);
+				$("#structureDetailsTableBody").find("input,select").attr("disabled", false);
 			}else{
 				$('#structureNonFobDiv').show();
 				$('#structureFobDiv').hide();
+				$('#showForFOB').hide();
+				$('#hideForFOB').show();
+				$("#hideForFOB").children().prop('disabled', false);
+				$('#structure').attr("disabled",false);
+				$('#fob_id').attr("disabled",true);
+				$("#structureNonFobDetailsTableBody").find("input,select").attr("disabled", false);
+				$("#structureDetailsTableBody").find("input,select").attr("disabled", true);
 			}
 		}); 
 	

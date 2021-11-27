@@ -473,7 +473,7 @@
 									            <div id="leaveResponsibleDiv">
 									            <div id="datesDiv" class="row no-mar">
 									             <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">	<div class="input-field col s4">
-														<select name="apply_for" id="apply_for" class="validate-dropdown searchable">
+														<select name="apply_for" id="apply_for" class="validate-dropdown searchable" onchange="getResponsiblePersonUsers();">
 					                                        <option value="0">Self</option>
 					                                         <c:forEach var="obj" items="${usersList }">
 					                                      	   <option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>
@@ -700,6 +700,86 @@
    			 }
     	 }  
      }
+     function getResponsiblePersonUsers()
+     {
+    	 if($("#apply_for").val()!=0)
+   		 {
+   	 		$("#responsibilityBody").find("tr:gt(0)").remove();
+    	 
+   	 		$("#rowNo").val("0");
+   	 		$("#addBtnRow").hide();
+   	 		getUsers();
+   		 }
+   	 	else
+	 	{
+   	 		$("#responsibilityBody").find("tr:gt(0)").remove();
+	   	 	$("#responsible_person0").empty();
+	       	 $('select[name="responsible_person"]').val("");
+	    	 $('#select2-responsible_person0-container').html("");
+    	 
+            <c:forEach var="obj" items="${usersList }">
+            		$("#responsible_person0").append('<option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>');
+        	</c:forEach>	  	 		
+	 	}
+     }
+     
+     function getNewRowUsers(index)
+     {
+    	 var myParams = {user_id:$("#apply_for").val()};
+    	 $.ajax({url : "<%=request.getContextPath()%>/ajax/getResponsiblePersonUsers",
+  			type:"POST",
+  			data:myParams,cache: false,async:false,
+  			success : function(data)
+  			{    	
+				if(data != null && data != '' && data.length > 0)
+				{ 
+					$("#responsible_person"+index).append('<option value= ""></option>');
+					
+	        		$.each(data,function(key,val){
+	        					
+	        			
+                        $("#responsible_person"+index).append('<option  value= "'+val.user_id+'">'+val.designation+'-'+val.user_name+'</option>');
+
+	                   		                       
+					});
+        		
+				}
+			
+			}
+    	 });   	    	 
+     }
+     
+     function getUsers()
+     {
+    	 $("#module0").val("");
+    	 $('#select2-module0-container').html("All");
+    	 $("#responsible_person0").empty();
+    	 $('select[name="responsible_person"]').val("");
+    	 $('#select2-responsible_person0-container').html("");
+    	 
+    	 var myParams = {user_id:$("#apply_for").val()};
+    	 $.ajax({url : "<%=request.getContextPath()%>/ajax/getResponsiblePersonUsers",
+  			type:"POST",
+  			data:myParams,cache: false,async:false,
+  			success : function(data)
+  			{    	
+				if(data != null && data != '' && data.length > 0)
+				{ 
+					$("#responsible_person0").append('<option  value= ""></option>');
+					
+	        		$.each(data,function(key,val){
+	        					
+	        			
+                        $("#responsible_person0").append('<option  value= "'+val.user_id+'">'+val.designation+'-'+val.user_name+'</option>');
+
+	                   		                       
+					});
+        		
+				}
+			
+			}
+    	 });   	 
+     }
      
      function deleteLeaveResponsibility(leave_id,row)
      {
@@ -824,12 +904,13 @@
      
      function clearFilters()
      {
+    	 $('#select2-apply_for-container').html("Self");
     	 $("#from_date").val("");
     	 $("#to_date").val("");
+    	 $("#apply_for").val("0");
     	 $("#responsibilityBody").find("tr:gt(0)").remove();
     	 $('select[name="modules"]').val("");
     	 $('select[name="responsible_person"]').val("");
-    	 $('#select2-module0-container').html("");
     	 $('#select2-responsible_person0-container').html("");
     	
      }
@@ -989,26 +1070,39 @@
 
         function addNewRow()
         {
+        	
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
+            
+    		var html='<tr id="tableRow' + rNo + '"> <td data-head="Module" class="input-field">'+
+            '<select name="modules" id="module' + rNo + '" class="validate-dropdown searchable" onChange="selectModule(this.value);"><option value=""></option>'+
+            
+			 <c:forEach var="obj" items="${modulesList }">
+			    '<option value= "${ obj.module_name_fk}">${obj.module_name_fk}</option>'+
+			  </c:forEach>                    
+            
+            '</select></td> <td data-head="Responsible Person" class="input-field">'
+            +'<select name="responsible_person" id="responsible_person' + rNo + '" class="validate-dropdown searchable"><option value=""></option>'+
+            <c:forEach var="obj" items="${usersList }">
+       	   '<option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>'+
+          </c:forEach>	                    
+            '</select> </td> <td class="mobile_btn_close"> <a onclick="removeRow(' + rNo + ');" class="btn red"> <i class="fa fa-close"></i></a>'
+            +'</td></tr>';	
+			$('#responsibilityBody').append(html);            
 
-            var html='<tr id="tableRow' + rNo + '"> <td data-head="Module" class="input-field">'+
-                     '<select name="modules" id="module' + rNo + '" class="validate-dropdown searchable" onChange="selectModule(this.value);"><option value=""></option>'+
-                     
-					 <c:forEach var="obj" items="${modulesList }">
-					    '<option value= "${ obj.module_name_fk}">${obj.module_name_fk}</option>'+
-					  </c:forEach>                    
-                     
-                     '</select></td> <td data-head="Responsible Person" class="input-field">'
-                     +'<select name="responsible_person" id="responsible_person' + rNo + '" class="validate-dropdown searchable"><option value=""></option>'+
-                     <c:forEach var="obj" items="${usersList }">
-                	   '<option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>'+
-                   </c:forEach>	                    
-                     '</select> </td> <td class="mobile_btn_close"> <a onclick="removeRow(' + rNo + ');" class="btn red"> <i class="fa fa-close"></i></a>'
-                     +'</td></tr>';	
-    		$('#responsibilityBody').append(html);
+            if(("${sessionScope.USER_ROLE_NAME}"!="IT Admin") || (("${sessionScope.USER_ROLE_NAME}"=="IT Admin" && $("#apply_for").val()==0)))
+            {
+
+        	}
+            else
+           	{
+            	$("#responsible_person"+rNo).empty();
+            	getNewRowUsers(rNo);
+            	//getUsers();
+           	}
 
     		$('.searchable').select2();
+        	
     		
             $("#rowNo").val(rNo);          	
             if(($("#modulesCnt").val()==Number($("#rowNo").val())+1 || $("#module0").val()==""))
@@ -1101,9 +1195,8 @@
         				{
 	        				 myParams = {user_id:"${sessionScope.USER_ID}",user_leave_id:$("#user_leave_id").val(),from_date : $("#from_date").val(), to_date : $("#to_date").val(),modules:modules,responsible_persons:responsiblepersons};
         				}
-	        				
-						if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
-							{
+        				else
+        					{
 	        				 myParams = {user_id:$("#apply_for").val(),user_leave_id:$("#user_leave_id").val(),from_date : $("#from_date").val(), to_date : $("#to_date").val(),modules:modules,responsible_persons:responsiblepersons};
 							}
 						

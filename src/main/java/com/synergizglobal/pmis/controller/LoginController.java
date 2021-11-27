@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -258,7 +259,31 @@ public class LoginController {
 		return PastLeaves;
 	}	
 	
-	
+	@RequestMapping(value = "/ajax/getResponsiblePersonUsers", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getResponsiblePersonUsers(@ModelAttribute User obj,HttpSession session) {
+		List<User> usersList = null;
+		try {
+			
+			List<User> users=userService.getUsersList(obj);
+			for(User UserData : users) { 
+				   if(UserData.getUser_id().equals(obj.getUser_id())) 
+				   { 
+						obj.setUser_type_fk(UserData.getUser_type_fk());
+						obj.setDepartment_fk(UserData.getDepartment_fk());
+						obj.setUser_role_code(UserData.getUser_role_code());
+						obj.setUser_role_code(UserData.getUser_id());	
+				   }
+				}
+
+			
+			usersList = userService.getResponsiblePersonUsers(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getResponsiblePersonUsers : " + e.getMessage());
+		}
+		return usersList;
+	}		
 	
 	/**
 	 * When user click on reset password then this method is executed and view page is shown to the user.
@@ -359,6 +384,7 @@ public class LoginController {
 				String userId = (String) session.getAttribute("USER_ID");
 				user.setUser_id(userId);
 			}
+			user.setCreated_by_user_id_fk((String) session.getAttribute("USER_ID"));
 			user.setFrom_date(DateParser.parse(user.getFrom_date()));	
 			user.setTo_date(DateParser.parse(user.getTo_date()));	
 			flag =  profileService.insertLeaveResponsibility(user);

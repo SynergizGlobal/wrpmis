@@ -113,15 +113,16 @@ public class ProfileDaoImpl implements ProfileDao {
 			if(obj.getUser_leave_id()==0)
 			{
 				String qry = "INSERT INTO user_leave_responsibility"
-						+ "(employee_id,from_date,to_date,delete_status) "
+						+ "(employee_id,from_date,to_date,delete_status,created_by,created_date) "
 						+ "VALUES "
-						+ "(?,?,?,?)";		 
+						+ "(?,?,?,?,?,CURRENT_TIMESTAMP)";		 
 	
 				stmt = connection.prepareStatement(qry,Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, obj.getUser_id());
 				stmt.setString(2, obj.getFrom_date());
 				stmt.setString(3, obj.getTo_date());
 				stmt.setString(4, "No");
+				stmt.setString(5, obj.getCreated_by_user_id_fk());
 				
 				stmt.executeUpdate();
 				ResultSet generatedKeys = stmt.getGeneratedKeys();
@@ -133,12 +134,16 @@ public class ProfileDaoImpl implements ProfileDao {
 			}
 			else
 			{
-				String qry = "update user_leave_responsibility set from_date=?,to_date=? where user_leave_id=?";		 
+				String qry = "update user_leave_responsibility set from_date=?,to_date=?,modified_by=?,modified_date=CURRENT_TIMESTAMP,employee_id=? where user_leave_id=?";		 
 	
 				stmt = connection.prepareStatement(qry,Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, obj.getFrom_date());
 				stmt.setString(2, obj.getTo_date());
-				stmt.setLong(3, obj.getUser_leave_id());
+				stmt.setString(3, obj.getCreated_by_user_id_fk());
+				stmt.setString(4, obj.getUser_id());
+				stmt.setLong(5, obj.getUser_leave_id());
+
+
 				stmt.executeUpdate();	
 				Key=obj.getUser_leave_id();
 				if(stmt != null){stmt.close();}
@@ -383,7 +388,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						
 							if(PKIDORValue!=null)
 							{
-							String qry2 = "insert into user_leave_responsibility_history(tablename,columnname,primary_key_value,user_leave_id,reverted_back) values (?,?,?,?,?)";
+							String qry2 = "insert into user_leave_responsibility_history(tablename,columnname,primary_key_value,user_leave_id,reverted_back,assigned_on) values (?,?,?,?,?,CURRENT_TIMESTAMP)";
 							
 							statement2 = connection.prepareStatement(qry2);
 							statement2.setString(1, tablename);
@@ -597,7 +602,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						
 						PreparedStatement statement2 = null;	
 						
-						String qry2 = "update user_leave_responsibility_history set reverted_back=? where history_responsibility_id=?";
+						String qry2 = "update user_leave_responsibility_history set reverted_back=?,reverted_on=CURRENT_TIMESTAMP where history_responsibility_id=?";
 						
 						statement2 = connection.prepareStatement(qry2);
 						statement2.setString(1, "Yes");

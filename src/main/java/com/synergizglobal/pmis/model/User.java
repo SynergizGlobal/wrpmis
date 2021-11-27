@@ -13,7 +13,7 @@ public class User  {
 	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,loginCount,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
 	access_value_id,access_value_name,user_role_code,last7DaysLogins,last30DaysLogins,login_event_date,login_event_type,login_event_type_fk,single_login_session_id,OTP,
-	from_date,to_date;
+	from_date,to_date,Created_by_user_id_fk;
 	long user_leave_id;
 	
 	private List<User> departmentList,DesignationsList,UserLoginList;
@@ -707,6 +707,16 @@ public class User  {
 
 	public void setUser_leave_id(long user_leave_id) {
 		this.user_leave_id = user_leave_id;
+	}
+
+
+	public String getCreated_by_user_id_fk() {
+		return Created_by_user_id_fk;
+	}
+
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		Created_by_user_id_fk = created_by_user_id_fk;
 	}
 	
 	

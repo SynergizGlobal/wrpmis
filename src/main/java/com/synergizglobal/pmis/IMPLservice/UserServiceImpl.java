@@ -131,6 +131,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> getAllUsersList(User obj) throws Exception {
 		return userDao.getAllUsersList(obj);
+	}
+	@Override
+	public List<User> getResponsiblePersonUsers(User obj) throws Exception {
+		return userDao.getResponsiblePersonUsers(obj);
 	}	
 
 }

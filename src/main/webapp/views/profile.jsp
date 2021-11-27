@@ -714,6 +714,7 @@
 	 	{
    	 		$("#responsibilityBody").find("tr:gt(0)").remove();
 	   	 	$("#responsible_person0").empty();
+	   	    $("#rowNo").val("0");
 	       	 $('select[name="responsible_person"]').val("");
 	    	 $('#select2-responsible_person0-container').html("");
     	 

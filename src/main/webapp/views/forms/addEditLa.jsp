@@ -29,18 +29,6 @@
             text-align: center;
         }
 
-        /* change radio colors  */
-       /*  [type="radio"]:checked+span::after,
-        [type="radio"].with-gap:checked+span::after {
-            background-color: #2E58AD !important;
-        }
-
-        [type="radio"]:checked+span::after,
-        [type="radio"].with-gap:checked+span::before,
-        [type="radio"].with-gap:checked+span::after {
-            border: 2px solid #2E58AD !important;
-        }
- */
         .primary-text-bold {
             color: #007A7A !important;
             font-weight: 600

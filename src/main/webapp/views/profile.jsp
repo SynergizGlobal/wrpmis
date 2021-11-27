@@ -282,9 +282,9 @@
 		    color: red;
 		    font-size: .9rem;
 		}	
-		select {
+		/* select {
 		    display: block; 
-		}	
+		} */	
 		.select2-container--default .select2-selection--single{
 			background-color:transparent;
 		}
@@ -299,6 +299,11 @@
 		th.center-align,
 		td.center-align{
 			text-align:center !important;
+		}
+		.datepicker-dropdown-year-month, body>ul.dropdown-content.select-dropdown {
+		    position: fixed;
+		    height: 300px !important;
+		    top: 16% !important;
 		}
 	</style>
 </head>
@@ -481,7 +486,7 @@
                                 <div class="card-content">
                                     <span class="card-title headbg">Leave Responsibility</span>
                                     <div class="row">
-									    <div class="col s12" style="text-align:center;">
+									    <div class="col s12" >
 									        <form action="">
 									            <div id="StatusMsg"  style="text-align:center;color:green;"></div>
 									            <div id="leaveResponsibleDiv"> 

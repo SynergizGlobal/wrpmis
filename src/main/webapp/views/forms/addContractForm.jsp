@@ -556,7 +556,7 @@
 	                                </div> -->
 	                            </div>
 	
-	                            <div class="row">	
+	                            <div class="row" id="contract_type_fk_div">	
 	                                <div class="col s6 m4 l12 input-field offset-m2">
 	                                 <!-- <p class="searchable_label">Contract Type <span class="required">*</span></p> -->
 	                                 <label class="selected" for="contract_type_fk">Contract Type <span class="required">*</span></label>
@@ -567,20 +567,10 @@
 			                                   </c:forEach>
 	                                    </select>                                   
 	                                     <span id="contract_type_fkError" class="error-msg" ></span>	                                    
-	                                </div>	                                
-	                            <%--     <div class="col s6 m4 l6 input-field" id="contractor_id_fk_div">
-	                                 <p class="searchable_label">Contractor Name</p>
-	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
-	                                        <option value="" selected>Select</option>
-	                                       	    <c:forEach var="obj" items="${contractors }">
-			                                      <option value="${obj.contractor_id_fk }" >${obj.contractor_name }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                                    <span id="contractor_id_fkError" class="error-msg" ></span>
-	                                </div> --%>                             
+	                                </div>	                         
 	                            </div>
 	                            <div class="row">
-	                                <div class="col s12 m8 l12 input-field offset-m2">
+	                                <div class="col s12 m8 l12 input-field offset-m2" id="scope_of_contract_div">
 	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000">${contractDeatils.scope_of_contract }</textarea>
 	                                    <label for="scope_of_contract">Scope of Contract</label>
 	                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
@@ -598,26 +588,7 @@
 	                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                            </div>
-	                          <!--   <div class="row">
-	                                <div class="col s6 m4 l6 input-field offset-m2" id="ca_no_div">
-	                                    <input id="ca_no" name="ca_no" type="text" class="validate">
-	                                    <label for="ca_no">CA No</label>
-	                                    <span id="ca_noError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s6 m4 l6 input-field" id="ca_date_div">
-	                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker">
-	                                    <label for="ca_date">CA Date</label>
-	                                    <span id="ca_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="ca_date_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
-	                            </div> -->
 	                            <div class="row">
-	                                <!-- <div class="col s12 m4 input-field">
-	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker">
-	                                    <label for="date_of_start">Date of Start</label>
-	                                     <span id="date_of_startError" class="error-msg" ></span>
-	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
-	                                </div> -->
 	                                <div class="col s12 m4 l6 input-field offset-m2 amount-dropdown" id="estimated_cost_div">
 	                                    <i class="material-icons amount-symbol cost">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate">
@@ -630,7 +601,7 @@
                                    		    </c:forEach>
 	                                	</select>
 	                                </div>
-	                                 <div class="col s6 m4 l6 input-field">
+	                                 <div class="col s6 m4 l6 input-field" id="contract_status_fk_div">
 		                                   <!-- <p class="searchable_label">Status of Work <span class="required">*</span></p> -->			                                   
 		                                   <label class="selected" for="contract_status_fk">Status of Work <span class="required">*</span></label>			                                   
 		                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select">
@@ -643,74 +614,14 @@
 		                                    </select>
 		                                     <span id="contract_status_fkError" class="error-msg" ></span>
 		                                </div>
-	                                <%-- <div class="col s3 m1 l2 input-field pt-5" id="estimated_cost_units_div">
-	                                	<p class="searchable_label">Unit</p>
-	                                	<select class="units validate-dropdown searchable" id="estimated_cost_units" name="estimated_cost_units">
-	                                		<c:forEach var="obj" items="${unitsList }">
-                                  			   <option value="${obj.value }">${obj.unit }</option>
-                                   		    </c:forEach>
-	                                	</select>
-	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
-                                	</div>   --%>                              	
-	                         		<%--<div class="col s9 m3 l4 input-field" id="awarded_cost_div">
-	                                	<i class="material-icons prefix cost">₹</i>
-	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate">
-	                                    <label for="awarded_cost">Awarded cost</label>
-	                                    <span id="awarded_costError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s3 m1 l2 input-field pt-5" id="awarded_cost_units_div">
-	                                	<p class="searchable_label">Unit</p>
-	                                	<select class="units validate-dropdown searchable" id="awarded_cost_units" name="awarded_cost_units">
-	                                		<c:forEach var="obj" items="${unitsList }">
-                                  			   <option value="${obj.value }">${obj.unit }</option>
-                                   		    </c:forEach>
-	                                	</select>
-	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
-                                	</div> --%>
-                                	
-	                            </div>
-	                           <%--  <div class="row">
-	                                <div class="col s12 m4 l6 input-field offset-m2" id="doc_div">
-	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
-	                                    <label for="doc">Original DOC</label>
-	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="docError" class="error-msg" ></span>
-	                                </div>	
 	                                
-	                                <div class="col s4 m2 l2 input-field">
-	                                   <p class="searchable_label">Contract Status</p>
-	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getStatusLIst();">
-	                                        <option value="" >Select</option>
-	                                          <c:forEach var="obj" items="${contract_Status }">
-	                                          	 <c:if test="${obj.contract_status ne 'Closed'}">
-		                                    	 	<option value="${obj.contract_status }" <c:if test="${obj.contract_status eq 'Open'}">selected</c:if>>${obj.contract_status }</option>
-		                                    	 </c:if>
-		                                     </c:forEach>     
-	                                    </select>
-	                                     <span id="contract_statusError" class="error-msg" ></span>
-	                                </div>
-	                                 <div class="col s4 m2 l4 input-field">
-	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
-	                                        <option value="" selected>Select</option>
-	                                           <c:forEach var="obj" items="${contract_Statustype }">
-	                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
-			                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started'}">selected</c:if>>${obj.contract_status_fk }</option>
-			                                    	</c:if>
-			                                    </c:forEach>
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>	                                
-	                        	   	                                
-	                            </div>	    --%>
-	                         
-	                            <div class="row">
-	                                <div class="col s12 m8 l12 input-field offset-m2">
-	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000"></textarea>
-	                                    <label for="remarks">Remarks</label>
-	                                      <span id="remarksError" class="error-msg"></span>
-	                                </div>
-	                            </div>                        
+			                            <!-- <div class="row">
+			                                <div class="col s12 m8 l12 input-field offset-m2">
+			                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000"></textarea>
+			                                    <label for="remarks">Remarks</label>
+			                                      <span id="remarksError" class="error-msg"></span>
+			                                </div>
+			                            </div>     -->                    
 	                        
  							<div class="table-div">
 	
@@ -847,11 +758,14 @@
              $('.searchable').select2(); 
              $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
              $('#remarks').characterCounter();
-			if(user_role != 'IT Admin'){
+			 if(user_role != 'IT Admin'){
 	             getHodList();
-			}
+			 }
 			 getDyHodList();
 			 getStatusLIst();	
+			 
+			 hideContractDetails();
+			 
         });
         
         function getStatusLIst(){
@@ -885,41 +799,38 @@
         function hideContractDetails(){
         	//var contract_status = $('#contract_status').val();
         	var contract_status = $('input[name="contract_status"]:checked').val();
-        	if($.trim(contract_status) == 'No'){
-        		$('#contractor_id_fk').val('');
+        	if($.trim(contract_status) == 'No' || $.trim(contract_status) == ''){
+        		$('#contract_type_fk').val('');
+        		$('#scope_of_contract').val('');
             	$('#loa_letter_number').val('').focus();
             	$('#loa_date').val('').focus();
             	$('#ca_no').val('').focus();
             	$('#ca_date').val('').focus();
-            	$('#doc').val('').focus();
             	$('#estimated_cost').val('').focus();
+            	$('#contract_status_fk').val('');
             	$('#estimated_cost_units').val('1').focus();
-            	$('#awarded_cost').val('').focus();
-            	$('#awarded_cost_units').val('1').focus();
             	
             	$('.searchable').select2();
             	
-            	$('#contractor_id_fk_div').hide();
+            	$("#contract_type_fk_div").hide();
+				$('#scope_of_contract_div').hide();
 	        	$('#loa_letter_number_div').hide();
 	        	$('#loa_date_div').hide();
 	        	$('#ca_no_div').hide();
 	        	$('#ca_date_div').hide();
 	        	$('#estimated_cost_div').hide();
 	        	$('#estimated_cost_units_div').hide();
-	        	$('#awarded_cost_div').hide();
-	        	$('#awarded_cost_units_div').hide();
-	        	$('#doc_div').hide();
+	        	$('#contract_status_fk_div').hide();
         	}else{
-	        	$('#contractor_id_fk_div').show();
+        		$("#contract_type_fk_div").show();
+				$('#scope_of_contract_div').show();
 	        	$('#loa_letter_number_div').show();
 	        	$('#loa_date_div').show();
 	        	$('#ca_no_div').show();
 	        	$('#ca_date_div').show();
 	        	$('#estimated_cost_div').show();
 	        	$('#estimated_cost_units_div').show();
-	        	$('#awarded_cost_div').show();
-	        	$('#awarded_cost_units_div').show();
-	        	$('#doc_div').show();
+	        	$('#contract_status_fk_div').show();
         	}
         }
      

@@ -522,7 +522,7 @@
                                                     <span >Yes</span>
                                                 </label>
                                                 <label>
-                                                    <input class="with-gap" name="contract_status" type="radio" value="No" <c:if test="${contractDeatils.status ne 'Open'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
+                                                    <input class="with-gap" name="contract_status" type="radio" value="No" <c:if test="${(contractDeatils.status ne 'Open') and (contractDeatils.status ne 'Closed')}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
                                                     <span style="padding-right: 14px;">No</span>
                                                 </label>
                                             </span>
@@ -722,7 +722,7 @@
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
 	                            </div> --%> 
-							<div class="row">
+							<div class="row" id="contract_type_fk_div">
 								  <c:choose>
 						         	<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
 							         	<div class="col s6 m4 l6 input-field offset-m2">
@@ -764,7 +764,7 @@
 	                                                 
 		                     </div>
 						        
-	                            <div class="row">
+	                            <div class="row" id="scope_of_contract_div">
 	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000" 
 	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if> 
@@ -2699,11 +2699,16 @@
 			if($.trim(contract_status_fk) == ''){
 				contract_status_fk = $("#contract_status_fk").val();
 			}
+			var closureRadioVal =  '${contractDeatils.is_contract_closure_initiated}';
 			if(contract_status_fk == 'Completed' || contract_status_fk == 'Commissioned'){
 				$("#contractClosureRadioBtn").show();				
 				///$("#contractClosureRadioNo").prop("checked", true);
 				//$("#contractClosureDetails").hide();				
  				//$('#closureTab').hide();
+ 				if(closureRadioVal == 'Yes'){
+ 					$("#contractClosureDetails").show();
+ 					$('#closureTab').show();
+ 				}
 			}else{
 				$("#contractClosureRadioBtn").hide(); 
 			}
@@ -4118,6 +4123,8 @@
         	//var contract_status = $('#contract_status').val();
         	var contract_status = $('input[name="contract_status"]:checked').val();
         	if($.trim(contract_status) == 'No'){
+        		$('#contract_type_fk').val('');
+        		$('#scope_of_contract').val('');
         		$('#contractor_id_fk').val('');
             	$('#loa_letter_number').val('').focus();
             	$('#loa_date').val('').focus();
@@ -4131,6 +4138,8 @@
             	
             	$('.searchable').select2();
             	
+            	$("#contract_type_fk_div").hide();
+				$('#scope_of_contract_div').hide();
             	$('#contractor_id_fk_div').hide();
 	        	$('#loa_letter_number_div').hide();
 	        	$('#loa_date_div').hide();
@@ -4142,6 +4151,9 @@
 	        	$('#awarded_cost_units_div').hide();
 	        	$('#doc_div').hide();
         	}else{
+        		var contract_type_fk='${contractDeatils.contract_type_fk}';
+        		var scope_of_contract='${contractDeatils.scope_of_contract}';
+        		
         		var contractor_id_fk='${contractDeatils.contractor_id_fk}';
         		var loa_letter_number='${contractDeatils.loa_letter_number}';
         		var loa_date='${contractDeatils.loa_date}';
@@ -4152,6 +4164,8 @@
             	var estimated_cost_units=($.trim('${contractDeatils.estimated_cost_units}')!='')?'${contractDeatils.estimated_cost_units}':'1';
             	var awarded_cost='${contractDeatils.awarded_cost}';
             	var awarded_cost_units=($.trim('${contractDeatils.awarded_cost_units}')!='')?'${contractDeatils.awarded_cost_units}':'1';
+            	$('#contract_type_fk').val(contract_type_fk);
+            	$('#scope_of_contract').val(scope_of_contract);
         		$('#contractor_id_fk').val(contractor_id_fk);
             	$('#loa_letter_number').val(loa_letter_number);
             	if(loa_letter_number!=''){$('#loa_letter_number ~ label').addClass('active');}
@@ -4172,6 +4186,8 @@
             	
             	$('.searchable').select2();
             	
+            	$("#contract_type_fk_div").show();
+				$('#scope_of_contract_div').show();
 	        	$('#contractor_id_fk_div').show();
 	        	$('#loa_letter_number_div').show();
 	        	$('#loa_date_div').show();

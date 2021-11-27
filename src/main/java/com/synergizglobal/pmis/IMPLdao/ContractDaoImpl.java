@@ -277,6 +277,14 @@ public class ContractDaoImpl implements ContractDao {
 		try{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
+			
+			if(StringUtils.isEmpty(contract.getContract_status()) || "No".equals(contract.getContract_status())) {
+				contract.setContract_status(null);
+			}
+			if(!StringUtils.isEmpty(contract.getContract_status()) || "Yes".equals(contract.getContract_status())) {
+				contract.setContract_status("Open");
+			}
+			
 			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),contract.getContract_id_code(),con);
 			contract.setContract_id(contract_id);
 			String ContractQry = "INSERT INTO contract "
@@ -1372,9 +1380,15 @@ public class ContractDaoImpl implements ContractDao {
 			con.setAutoCommit(false);
 			
 			if("Close Contract".equalsIgnoreCase(contract.getUpdate_type())) {
-				contract.setContract_status("Yes");
+				contract.setContract_status("Closed");
 				contract.setContract_status_fk("Completed");
 				contract.setIs_contract_closure_initiated("Closed");
+			}
+			if(StringUtils.isEmpty(contract.getContract_status()) || "No".equals(contract.getContract_status())) {
+				contract.setContract_status(null);
+			}
+			if(!StringUtils.isEmpty(contract.getContract_status()) || "Yes".equals(contract.getContract_status())) {
+				contract.setContract_status("Open");
 			}
 			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,contract_name = ?,contract_short_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"

@@ -151,6 +151,7 @@
 		}
 					
 		@media only screen and (min-width: 770px){
+			
 			.min-w-120 > .select2-container{
 				width:auto;
 				min-width:120px;			
@@ -168,12 +169,18 @@
 				width:90px;
 			}
 			}
+			.pad-top{
+				padding-top:1rem;
+			}
 			@media(max-width: 768px){
-			.mdl-data-table .amount-dropdown .select-wrapper, .mdl-data-table .amount-dropdown .amount-symbol {
-    				top: 0.9rem;}
-    		.mdl-data-table .amount-dropdown .select-wrapper {
-    			right: -77%;}
-    		.mdl-data-table .amount-dropdown .select-wrapper input.select-dropdown {
+				.pad-top{
+					padding-top:0;
+				}
+				.mdl-data-table .amount-dropdown .select-wrapper, .mdl-data-table .amount-dropdown .amount-symbol {
+	    				top: 0.9rem;}
+	    		.mdl-data-table .amount-dropdown .select-wrapper {
+	    			right: -77%;}
+	    		.mdl-data-table .amount-dropdown .select-wrapper input.select-dropdown {
 				    width: 100%;
 				    right: 0}
 		}
@@ -285,6 +292,7 @@
 			right:4rem;
 		}
 		@media only screen and (max-width: 769px){
+			
 			.div-header{	    		   
 	    		width: 100%;			   
 		    }
@@ -352,15 +360,7 @@
 			}
 		}
 		.validate:focus{ scroll-behavior:smooth;}
-		/* cost unit dropdown , lable and input styling ends here  */
-		
-		/* special columns of revision table css starts here  */
-		/* .light-green_column {
-			background-color:#CFDBF2
-		}
-		.light-green_column {
-			background-color:#DFF7F4
-		}	 */		
+	
 		th.light-blue_column {
 			color:#444 !important;
 			background-color:#7DBCC1;
@@ -369,22 +369,7 @@
 			color:#444 !important;
 			background-color:#85CAC2;
 		}
-	/* 	tr:hover td. {
-			background-color:hsl(219, 57%, 92%)
-		}
-		tr:hover td. {
-			background-color:hsl(173, 60%, 96%)
-		} */		
-		/* .  input[type="number"]::placeholder ,
-		.  input[type="text"].datepicker::placeholder{
-            color: #bbb;
-        } */
-       
-		/* special columns of revision table css ends here  */	
-		/* .input-field input[type="text"],
-		.input-field .pmis-textarea{
-        	margin-bottom:0;
-        } */
+
         
         [type="radio"]+span:before, [type="radio"]+span:after {
         	left:12px!important;
@@ -448,6 +433,9 @@
 		    }
 		}
 		@media(max-width: 575px){
+			.pad-top{
+					padding-bottom:1rem;
+				}
 			.mdl-data-table .amount-dropdown .select-wrapper input.select-dropdown {
 				    width: 90%;
 				    right: 2px;}
@@ -457,9 +445,13 @@
 				    width: 72%;
 				    right: -6px;}
 		}		
-		.pad-top-left{
-			padding-top:.5rem;
-			margin-left:-1.1rem !important;
+		@media only screen and (max-width:1220px) and (min-width:820px){
+			.pad-top >span{
+				display:block;
+			}
+		}
+		.tab-flex{
+			margin-bottom:0;
 		}
     </style>
 </head>
@@ -489,11 +481,11 @@
 							        <li class="tab" ><a class="active t-c" href="#basicDetails">Contract Managers</a></li>
 							        <li class="tab" ><a class="t-c" href="#departmentDetails">Executives</a></li>
 							        <li class="tab" ><a class="t-c" href="#contractDetails">Contract Details</a></li>
-							        <li class="tab" id="closureTab"><a class="t-c" href="#contractClosureDetails">Contract Closure Details</a></li>
-							        <li class="tab" id="bgDetailsTab"><a class="t-c" href="#bgDetails">Bank Guarantee Details</a></li>
-							        <li class="tab" id="insuranceDetailsTab"><a class="t-c" href="#insuranceDetails">Insurance Details</a></li>
-							        <li class="tab" id="milestoneDetailsTab"><a class="t-c" href="#milestoneDetails">Milestone Details</a></li>
-							        <li class="tab" id="revisionDetailsTab"><a class="t-c" href="#revisionDetails">Revision Details</a></li>
+							        <li class="tab" id="closureTab"><a class="t-c" href="#contractClosureDetails">Contract Closure </a></li>
+							        <li class="tab" id="bgDetailsTab"><a class="t-c" href="#bgDetails">Bank Guarantee </a></li>
+							        <li class="tab" id="insuranceDetailsTab"><a class="t-c" href="#insuranceDetails">Insurance </a></li>
+							        <li class="tab" id="milestoneDetailsTab"><a class="t-c" href="#milestoneDetails">Milestone </a></li>
+							        <li class="tab" id="revisionDetailsTab"><a class="t-c" href="#revisionDetails">Revision </a></li>
 							        <li class="tab" id="keyPersonDetailsTab"><a class="t-c" href="#keyPersonDetails">Contractor's Key Personnel</a></li>
 							        <li class="tab"><a class="t-c" href="#documentDetails">Documents</a></li>
 							      </ul>
@@ -522,42 +514,20 @@
                                     	<input type="hidden" name="work_short_name" value="${contractDeatils.work_short_name}" />
 	                                </div>	
 	                                
-	                                <div class="col s12 m4 l4 input-field">
-	                                   <p class="searchable_label">Contract Awarded ? <span class="required">*</span></p>
-	                                   <%--  <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
-	                                        <option value="" >Select</option>
-	                                          <c:forEach var="obj" items="${contract_Status }">
-	                                          	 <c:if test="${contractDeatils.status eq 'Closed' and obj.contract_status eq 'Closed'}">
-	                                          	 	<option value="${obj.contract_status }" <c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
-	                                          	 </c:if>
-	                                          	 <c:if test="${contractDeatils.status ne 'Closed' and obj.contract_status ne 'Closed'}">
-		                                    	 	<option value="${obj.contract_status }" <c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
-		                                     	 </c:if>
-		                                     </c:forEach>
-	                                    </select> --%>
-	                                     <p class="pad-top-left"> <label>
-                                            <input class="with-gap" name="contract_status" type="radio"  value="Yes" <c:if test="${contractDeatils.status eq 'Yes'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();" />
-                                            <span>Yes</span>
-                                        </label>
-                                        <label>
-                                            <input class="with-gap" name="contract_status" type="radio" value="No" <c:if test="${contractDeatils.status eq 'No'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();"/>
-                                            <span>No</span>
-                                        </label>
-                                        </p>
-	                                     <span id="contract_statusError" class="error-msg" ></span>
-	                                </div>
-	                                <%-- <div class="col s6 m2 l3 input-field">
-	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);setContractStatus();">
-	                                        <option value="" selected>Select</option>
-	                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div> --%>
-	                                
-	                                
+	                                 <div class="col s12 m4 l4 input-field" style="<c:if test="${(contractDeatils.status eq 'Open') or (contractDeatils.status eq 'Closed')}">pointer-events: none;opacity: 0.4;</c:if>">
+		                                <p class="priokind pad-top" style="text-align: center;"> <span style="margin-right:.5rem; font-weight:600;">Contract Awarded? <span class="required">*</span></span>
+                                           	<span class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
+                                                <label style="padding-right: 10px;">
+                                                    <input class="with-gap" name="contract_status" type="radio" value="Yes" <c:if test="${(contractDeatils.status eq 'Open') or (contractDeatils.status eq 'Closed')}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
+                                                    <span >Yes</span>
+                                                </label>
+                                                <label>
+                                                    <input class="with-gap" name="contract_status" type="radio" value="No" <c:if test="${contractDeatils.status ne 'Open'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
+                                                    <span style="padding-right: 14px;">No</span>
+                                                </label>
+                                            </span>
+                                           </p>	
+                                     </div>	 
 	                            </div>
                                 <div class="row">	                                    
                                     <div class="col s6 m4 l4 input-field ">
@@ -2423,6 +2393,7 @@
             //var contract_status = $("#contract_status").val();
             var contract_status = $('input[name="contract_status"]:checked').val();
             
+            getStatusLIst();
             
             getContractClosureDetails(contract_status_fk);
             //setContractStatus();
@@ -2475,13 +2446,13 @@
             		$("#insuranceHideDiv").hide();
             		$("#milestoneHideDiv").hide();
             		$("#revisionHideDiv").hide();
-            		$("#keyPersonHideDiv").hide();
+            		//$("#keyPersonHideDiv").hide();
             		
             		$("#bgDetailsTab").hide();
             		$("#insuranceDetailsTab").hide();
             		$("#milestoneDetailsTab").hide();
             		$("#revisionDetailsTab").hide();
-            		$("#keyPersonDetailsTab").hide();
+            		//$("#keyPersonDetailsTab").hide();
             	}else{
             		/* var date_of_start = '${contractDeatils.date_of_start}';
             		$("#date_of_startDiv").val(date_of_start).focus();
@@ -2629,7 +2600,8 @@
             $("#contract_status_fk").change(function(){
             	$('#actual_date_of_commissioning_div').hide();
             	var contract_status_fk = $(this).val();
-            	var contract_status = $("#contract_status").val();
+            	//var contract_status = $("#contract_status").val();
+            	var contract_status = $('input[name="contract_status"]:checked').val();
             	if($.trim(contract_status) == 'Yes' && $.trim(contract_status_fk) == 'Not Started'){
             		$("#date_of_startDiv").show();
                 	$('#date_of_start').rules('remove',  'required');
@@ -2718,6 +2690,9 @@
         function getContractClosureDetails(contract_status_fk) {			
 			$("#contractClosureDetails").hide();
 			$('#closureTab').hide();
+			if($.trim(contract_status_fk) == ''){
+				contract_status_fk = $("#contract_status_fk").val();
+			}
 			if(contract_status_fk == 'Completed' || contract_status_fk == 'Commissioned'){
 				$("#contractClosureRadioBtn").show();				
 				///$("#contractClosureRadioNo").prop("checked", true);
@@ -4108,6 +4083,7 @@
 		  	//var contract_status = $('#contract_status').val();
 		  	var contract_status = $('input[name="contract_status"]:checked').val();
             $("#contract_status_fk option:not(:first)").remove();
+            var contract_status_fk = '${contractDeatils.contract_status_fk}';
             if ($.trim(contract_status) != "") {
                 var myParams = { contract_status: contract_status };
                 $.ajax({
@@ -4116,7 +4092,11 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                $("#contract_status_fk").append('<option status="'+val.contract_status +'" value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +  '</option>');
+                            	if(contract_status_fk == val.contract_status_fk){
+                                    $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '" selected>' + $.trim(val.contract_status_fk) +  '</option>');
+                            	}else{
+                                    $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +  '</option>');
+                            	}
                             });
                         }
                         $('.searchable').select2();

@@ -345,6 +345,9 @@ public class StructureController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/structure"); 
+			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));	
+			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));	
+			obj.setRevised_completion(DateParser.parse(obj.getRevised_completion()));	
 			boolean flag =  structureService.updateStructure(obj);	
 			if(flag) {
 				attributes.addFlashAttribute("success", "Structures Updated Succesfully."); 

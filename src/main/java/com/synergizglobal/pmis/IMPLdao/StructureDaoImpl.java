@@ -510,7 +510,7 @@ public class StructureDaoImpl implements StructureDao{
 						list.setStructureSubList(objList1);
 						if(!StringUtils.isEmpty(objList1)) {
 							for(Structure subdetails : list.getStructureSubList()) {
-								String subdetailsQry ="select structure_id, structure,s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude, s.target_date, s.estimated_cost, s.estimated_cost_units, s.construction_start_date, s.revised_completion, s.remarks"
+								String subdetailsQry ="select structure_id, structure,s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude, DATE_FORMAT(s.target_date,'%d-%m-%Y') AS target_date, s.estimated_cost, s.estimated_cost_units, DATE_FORMAT(s.construction_start_date,'%d-%m-%Y') AS construction_start_date, DATE_FORMAT(s.revised_completion,'%d-%m-%Y') AS revised_completion, s.remarks"
 										+ " from structure s where  structure_id = ? ";
 								List<Structure> subdetailsList = jdbcTemplate.query( subdetailsQry,new Object[] {subdetails.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 								subdetails.setStructureSubList2(subdetailsList);
@@ -941,18 +941,13 @@ public class StructureDaoImpl implements StructureDao{
 					arraySize = obj.getLatitudes().length;
 				}
 			}
-			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getLatitudes().length > 0) {
-				obj.setLatitudes(CommonMethods.replaceEmptyByNullInSringArray(obj.getLatitudes()));
-				if(arraySize < obj.getLatitudes().length) {
-					arraySize = obj.getLatitudes().length;
+			if(!StringUtils.isEmpty(obj.getLongitudes()) && obj.getLongitudes().length > 0) {
+				obj.setLongitudes(CommonMethods.replaceEmptyByNullInSringArray(obj.getLongitudes()));
+				if(arraySize < obj.getLongitudes().length) {
+					arraySize = obj.getLongitudes().length;
 				}
 			}
-			if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
-				obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
-				if(arraySize < obj.getStructures().length) {
-					arraySize = obj.getStructures().length;
-				}
-			}
+			
 			if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
 				obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
 				if(arraySize < obj.getStructures().length) {
@@ -1041,7 +1036,7 @@ public class StructureDaoImpl implements StructureDao{
 						    updateStmt.setString(k++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
 						    updateStmt.setString(k++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
 						    updateStmt.setString(k++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
-						    updateStmt.setString(k++,(obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null);
+						    updateStmt.setString(k++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
 						    updateStmt.setString(k++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
 						    updateStmt.setString(k++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
 						    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
@@ -1061,7 +1056,7 @@ public class StructureDaoImpl implements StructureDao{
 						    insertStmt.setString(p++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
 						    insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
 						    insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
-						    insertStmt.setString(p++,(obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null);
+						    insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
 						    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
 						    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
 						    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);

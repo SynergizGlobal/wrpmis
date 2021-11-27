@@ -1259,7 +1259,7 @@
 		}else if($.trim(work_status) == 'Commissioned'){
 			$("#construction_start_dateDiv").show();
 			$("#commissioning_dateDiv").show();
-			$("#actual_completion_dateDiv").hide();
+			$("#actual_completion_dateDiv").show();
 			
 			$("#actual_completion_date").val('');
 			

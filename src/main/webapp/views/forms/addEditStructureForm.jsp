@@ -1312,7 +1312,7 @@
         }else{
         	$(".page-loader").hide();
         }
-    }
+    } 
  
     $('form').on('reset', function () {
         $(".searchable").trigger("change");

@@ -645,7 +645,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 						}	
 					}*/
 					
-					if(!StringUtils.isEmpty(obj.getContracts_id_fk())) {
+					if(!StringUtils.isEmpty(obj.getContracts_id_fk())  && obj.getContracts_id_fk().length > 0) {
 						String qry3 = "INSERT into structure_contract_responsible_people (structure_id_fk,contract_id_fk,responsible_people_id_fk) VALUES (:structure_id_fk,:contract_id_fk,:responsible_people_id_fk)";
 						int len = obj.getContracts_id_fk().length;
 						
@@ -846,7 +846,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 						obj.setStructure_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_file_types()));
 						if (arraySize < obj.getStructure_file_types().length) {
 							arraySize = obj.getStructure_file_types().length;
-						}
+						} 
 					}*/
 					for (int i = 0; i < docArrSize; i++) {
 						if (!StringUtils.isEmpty(obj.getStructureFiles()) && obj.getStructureFiles().length > 0) {
@@ -940,7 +940,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					paramSource = new BeanPropertySqlParameterSource(obj);		 
 					count = namedParamJdbcTemplate.update(conDeleteQry, paramSource);
 					
-					if(!StringUtils.isEmpty(obj.getContracts_id_fk())) {
+					if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getContracts_id_fk().length > 0) {
 						String qry3 = "INSERT into structure_contract_responsible_people (structure_id_fk,contract_id_fk,responsible_people_id_fk) VALUES (:structure_id_fk,:contract_id_fk,:responsible_people_id_fk)";
 						int len = obj.getContracts_id_fk().length;
 						

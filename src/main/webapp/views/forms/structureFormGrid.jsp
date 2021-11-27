@@ -433,7 +433,7 @@
 											},
 											"bDestroy" : true,
 											"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getStructuresList?"+myParams,
-													
+													 
 						        "aoColumns": [
 						        	
 						            { "mData": function(data,type,row){

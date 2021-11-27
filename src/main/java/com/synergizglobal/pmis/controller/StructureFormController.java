@@ -135,7 +135,7 @@ public class StructureFormController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getContractsListForFilter : " + e.getMessage());
-		}
+		} 
 		return contractsList;
 	}
 	

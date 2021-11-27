@@ -13,7 +13,7 @@ public class Structure {
 		,structure_id_fk, structure_detail,name,attachment,structure_file_type_fk,created_date,structure_value,target_date,estimated_cost,estimated_cost_units,construction_start_date
 		,revised_completion,structure_name,structure_details_type,fob_details_type,fob_details_location,structure_details_location,latitude,longitude,commissioning_date,actual_completion_date,completion_cost,completion_cost_units,structure_file_id,created_by_user_id_fk;
 	private int [] subRowsLengths;
-	 
+	  
 	private MultipartFile structureFile;
 	private MultipartFile[] structureFiles;
 	

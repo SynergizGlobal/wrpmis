@@ -46,6 +46,8 @@ public class Schedular {
 	
 	@Autowired
 	ContractReportController contractReportController;
+	@Autowired
+	LoginController loginController;
 	
 	@Autowired
 	UserLoginReportController userLoginReportController;
@@ -97,6 +99,21 @@ public class Schedular {
 			logger.error("generateAlertsByCronJob() : "+e.getMessage());
 		 }
 	}
+	
+	
+	//@Scheduled(cron = "0 30 12 * * *")	//  = every day 12:30 am.
+	//@Scheduled(cron = "${cron.expression.generate.assign.responsibility}")
+	public void generateAutoResponsibilityByCronJob(){	
+	     logger.error("generateAutoResponsibilityByCronJob : Method executed every day. Current time is :"+ new Date());	    
+	     try {
+	    	 
+	    	 logger.error("generateAutoResponsibilityByCronJob> "+new Date());
+	    	 loginController.autoResponsibility();
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("generateAutoResponsibilityByCronJob() : "+e.getMessage());
+		 }
+	}	
 	
 	//@Scheduled(cron = "0 0/2 * * * *")
 	//@Scheduled(cron = "${cron.expression.sending.alert.mails.by.alert.type}")

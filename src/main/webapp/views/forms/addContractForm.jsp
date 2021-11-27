@@ -242,6 +242,20 @@
 			}
 		}
 		/* searchable dropdown code ends here  */
+		
+		.pad-top{
+			padding-top:1rem;
+		}
+		@media only screen and (max-width: 768px){
+			.pad-top{
+				padding-top:0;
+			}
+		}
+		@media only screen and (max-width: 575px){
+			.pad-top{
+				padding-bottom:1rem;
+			}
+		}
     </style>
 </head> 
 
@@ -344,7 +358,7 @@
 								         </c:otherwise>
 								      </c:choose> --%>
 								      
-								     <div class="col s6 m4 l4 input-field ">
+								   <%--   <div class="col s6 m4 l4 input-field ">
 	                                   <!-- <p class="searchable_label">Contract Status</p> -->
 	                                   <label class="selected" for="contract_status">Contract Status</label>
 	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getStatusLIst();hideContractDetails();">
@@ -356,7 +370,37 @@
 		                                     </c:forEach>     
 	                                    </select>
 	                                     <span id="contract_statusError" class="error-msg" ></span>
-	                                </div>
+	                                </div> --%>
+	                                 <!-- <div class="col s12 m4 l4 input-field">
+	                                   <p class="center-align pad-top"> 
+	                                   		<span>Contract Awarded?</span>
+	                                   		<span>
+			                                   	<label>
+		                                            <input class="with-gap" name="contract_status" type="radio"  value="Yes" <c:if test="${contractDeatils.status eq 'Yes'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();" />
+		                                            <span>Yes</span>
+		                                        </label>
+		                                        <label>
+		                                            <input class="with-gap" name="contract_status" type="radio" value="No" <c:if test="${contractDeatils.status eq 'No'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();"/>
+		                                            <span>No</span>
+		                                        </label>
+	                                        </span>
+                                       </p>
+	                                     <span id="contract_statusError" class="error-msg" ></span>
+	                                </div> -->
+	                                <div class="col s12 m4 l4 input-field">
+		                                <p class="priokind pad-top" style="text-align: center;"> <span style="margin-right:.5rem;font-weight:600;">Contract Awarded? <span class="required">*</span></span>
+                                           	<span class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
+                                                <label style="padding-right: 10px;">
+                                                    <input class="with-gap" name="contract_status" type="radio" value="Yes" onclick="getStatusLIst();hideContractDetails();">
+                                                    <span style="padding-left: 23px;">Yes</span>
+                                                </label>
+                                                <label>
+                                                    <input class="with-gap" name="contract_status" type="radio" value="No" onclick="getStatusLIst();hideContractDetails();">
+                                                    <span style="padding-left: 23px;">No</span>
+                                                </label>
+                                            </span>
+                                           </p>	
+                                     </div>
 	                             </div>
 	                                 
 	                             <div class="row">	                                    
@@ -386,19 +430,7 @@
 	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
-	                                         <div class="col s6 m4 l4 input-field">
-			                                   <!-- <p class="searchable_label">Status of Work <span class="required">*</span></p> -->			                                   
-			                                   <label class="selected" for="contract_status_fk">Status of Work <span class="required">*</span></label>			                                   
-			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="setContractStatus();">
-			                                        <option value="" selected>Select</option>
-			                                            <c:forEach var="obj" items="${contract_Statustype }">
-			                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
-					                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started'}">selected</c:if>>${obj.contract_status_fk }</option>
-					                                    	</c:if>
-					                                    </c:forEach>
-			                                    </select>
-			                                     <span id="contract_status_fkError" class="error-msg" ></span>
-			                                </div>
+	                                        
 	                                 
 								         </c:when>
 								         <c:otherwise>
@@ -430,7 +462,7 @@
 	                                         <div class="col s6 m4 l4 input-field">
 			                                  <!--  <p class="searchable_label">Status of Work <span class="required">*</span></p> -->
 			                                   	<label class="selected" for="contract_status_fk">Status of Work <span class="required">*</span></label>	                                                  
-			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
+			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
 			                                        <option value="" selected>Select</option>
 			                                           <c:forEach var="obj" items="${contract_Statustype }">
 			                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
@@ -598,6 +630,19 @@
                                    		    </c:forEach>
 	                                	</select>
 	                                </div>
+	                                 <div class="col s6 m4 l6 input-field">
+		                                   <!-- <p class="searchable_label">Status of Work <span class="required">*</span></p> -->			                                   
+		                                   <label class="selected" for="contract_status_fk">Status of Work <span class="required">*</span></label>			                                   
+		                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select">
+		                                        <option value="" selected>Select</option>
+		                                            <c:forEach var="obj" items="${contract_Statustype }">
+		                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
+				                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started'}">selected</c:if>>${obj.contract_status_fk }</option>
+				                                    	</c:if>
+				                                    </c:forEach>
+		                                    </select>
+		                                     <span id="contract_status_fkError" class="error-msg" ></span>
+		                                </div>
 	                                <%-- <div class="col s3 m1 l2 input-field pt-5" id="estimated_cost_units_div">
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown searchable" id="estimated_cost_units" name="estimated_cost_units">
@@ -806,13 +851,13 @@
 	             getHodList();
 			}
 			 getDyHodList();
-			 //setContractStatus();
 			 getStatusLIst();	
         });
         
         function getStatusLIst(){
 		  	$(".page-loader").show();
-		  	var contract_status = $('#contract_status').val();
+		  	//var contract_status = $('#contract_status').val();
+		  	var contract_status = $('input[name="contract_status"]:checked').val();
             $("#contract_status_fk option:not(:first)").remove();
             if ($.trim(contract_status) != "") {
                 var myParams = { contract_status: contract_status };
@@ -827,9 +872,6 @@
                             	}
                             });
                         }
-                        if(contract_status == 'Yet to be Awarded'){
-                        	$("#contract_status_fk").val('Not Started');
-                        }
                         
                         $('.searchable').select2();
                         $(".page-loader").hide();
@@ -841,8 +883,9 @@
 		}
         
         function hideContractDetails(){
-        	var contract_status = $('#contract_status').val();
-        	if($.trim(contract_status) == 'Yet to be Awarded'){
+        	//var contract_status = $('#contract_status').val();
+        	var contract_status = $('input[name="contract_status"]:checked').val();
+        	if($.trim(contract_status) == 'No'){
         		$('#contractor_id_fk').val('');
             	$('#loa_letter_number').val('').focus();
             	$('#loa_date').val('').focus();
@@ -879,17 +922,6 @@
 	        	$('#doc_div').show();
         	}
         }
-		
-		function setContractStatus(){
-			$(".page-loader").show();        	
-			var contract_status_fk = $('#contract_status_fk').val();
-       		if($.trim(contract_status_fk) != ''){  
-       			var status = $("#contract_status_fk").find('option:selected').attr("status");
-       			$("#contract_status").val(status);
-       			$("#contract_status").select2();
-       		}
-       		$(".page-loader").hide();
-		}
      
         function getExecutivesList(num) {
         	$(".page-loader").show();

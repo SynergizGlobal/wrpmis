@@ -156,7 +156,9 @@
             text-align: left;
             /* padding: 20px; */
         }
-       
+.t-c{
+	text-transform:capitalize;
+}       
         .card .card {
             -webkit-box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
             box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
@@ -261,8 +263,7 @@
         	display:none;
         }
         .bg-m{
-	    	background-color:#007a7a;
-	    	text-transform:Capitalize;    
+	    	background-color:#007a7a;  
 	    }
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
@@ -281,10 +282,29 @@
 		    color: red;
 		    font-size: .9rem;
 		}	
-		select {
-     display: block; 
-}	
-		
+		/* select {
+		    display: block; 
+		} */	
+		.select2-container--default .select2-selection--single{
+			background-color:transparent;
+		}
+		#responsibilityBody .select2-container.select2-container--default {
+			max-width:130px !important;
+			width:130px !important;
+		}
+		#responsibility_table thead th,
+		#responsibility_table tbody td{
+			text-align:left;
+		}
+		th.center-align,
+		td.center-align{
+			text-align:center !important;
+		}
+		.datepicker-dropdown-year-month, body>ul.dropdown-content.select-dropdown {
+		    position: fixed;
+		    height: 300px !important;
+		    top: 16% !important;
+		}
 	</style>
 </head>
 
@@ -306,7 +326,7 @@
                          	 </span>
                          </div>  
                 		<span class="left">
-                		<a class="btn bg-m editing" onclick="toggleEditing()">Edit</a> 
+                		<a class="btn bg-m t-c editing" onclick="toggleEditing()">Edit</a> 
                 		<i class="fa fa-save saving hidden" onclick='profileFormSubmit()'></i>
                 		<i class="fa fa-close closing hidden" onclick="toggleEditing()"></i>
                 		</span>
@@ -461,19 +481,21 @@
                             </div>
                         </div>
                         <input type="hidden" id="modulesCnt">
-                         <div class="col m8">
-                            <div class="card row">
+                         <div class="col s12 m8 l4">
+                            <div class="card">
                                 <div class="card-content">
                                     <span class="card-title headbg">Leave Responsibility</span>
-                                    <div class="row" style="padding-left:80px;padding-right:80px;">
-									    <div class="col s12" style="text-align:center;">
+                                    <div class="row">
+									    <div class="col s12" >
 									        <form action="">
 									            <div id="StatusMsg"  style="text-align:center;color:green;"></div>
-									           <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> <div class="row no-mar" id="itadminDiv" style="text-align:left;"><div class="input-field col s4">Apply for</div></div></c:if>
-									            <div id="leaveResponsibleDiv">
-									            <div id="datesDiv" class="row no-mar">
-									             <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">	<div class="input-field col s4">
-														<select name="apply_for" id="apply_for" class="validate-dropdown searchable">
+									            <div id="leaveResponsibleDiv"> 
+									            
+									            <div id="datesDiv" class="container">
+									            	<div class="row no-mar">
+									             <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">	<div class="input-field col s12">
+														<p class="searchable_label left-align" style="margin-top:-10px !important;">Apply for</p>
+														<select name="apply_for" id="apply_for" class="validate-dropdown searchable" onchange="getResponsiblePersonUsers();">
 					                                        <option value="0">Self</option>
 					                                         <c:forEach var="obj" items="${usersList }">
 					                                      	   <option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>
@@ -481,27 +503,29 @@
                                          				</select>									            	
 									            	</div>
 									            </c:if>
-									            	<div class="input-field col s4">
+									            </div>
+									            	<div class="row no-mar">
+									            	<div class="input-field col s6 ">
 										                <input type="text" class="validate datepicker" id="from_date" placeholder="From Date">
 										                <button type="button" id="from_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 										                <span id="from_dateError" class="error-msg"></span>
 										            </div>
-										            <div class="input-field col s4">
+										            <div class="input-field col s6">
 										                <input type="text" class="validate datepicker" id="to_date" placeholder="To Date">
 										                <button type="button" id="to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 										                <span id="to_dateError" class="error-msg"></span>
 										            </div>
 									            </div>
+									            </div>
 									            <input type="hidden" name="user_leave_id" id="user_leave_id" value="0">
-									            <br>
 									            <div class="row no-mar" id="responsibleDiv">
 												    <h6 class="center-align">Assign Responsibility</h6>
 												    <div class="table-inside">   
 													    <table class="mdl-data-table mobile_responsible_table" id="responsibility_table">
 													        <thead>
 													            <tr>
-													                <th style="text-align:center;width:45%">Module</th>
-													                <th style="text-align:center;width:45%">Responsible Person</th> 
+													                <th style="width:45%">Module</th>
+													                <th style="width:45%">Responsible Person</th> 
 													                <th>Action</th>
 													            </tr>
 													        </thead>
@@ -539,12 +563,12 @@
 													    </div>
 													  </div>
 												</div>
-<div class="row" id="btnDiv">
+									<div class="row" id="btnDiv" style="margin-top:20px;">
 	                                    <div class="col s4 m6 input-field" style="text-align:right;">
-	                                        <button type="button" class="btn btn-primary" id="btnCreate" onclick="createResponsibility();"> Create</button>
+	                                        <button type="button" class="btn bg-m " id="btnCreate" onclick="createResponsibility();"> Create</button>
 	                                    </div>			                        
-			                            <div class="col s4 m6 input-field" style="text-align:left;;">
-												<button type="button" class="btn btn-danger" id="btnReset" style="background-color:#f44336;" onclick="clearFilters();">Reset</button>
+			                            <div class="col s4 m6 input-field" style="text-align:left;">
+												<button type="button" class="btn bg-s" id="btnReset"  onclick="clearFilters();">Reset</button>
 			                             </div>
 			                        </div>
 		                        
@@ -557,17 +581,18 @@
 	                           
                             
                         </div> 
-                        <div class="row card">
-                        
+                        </div>
+                        <div class="col s12 m8 l4">
+                        	<div class=" card">
  							<div class="card-content">
 					        	<span class="card-title headbg">Past Leaves</span>
-
+								  <div class="table-inside">
 					                <table id="past-leaves-table" class="mdl-data-table" style="padding:0px;">
-					                    <thead>
+					                    <thead> 
 					                        <tr>
 					                            <th class="fw-120">From Date</th>
 					                            <th class="fw-120">To Date</th>
-					                            <th class="fw-120">Module -> Responsible Person</th>
+					                            <th class="fw-120 center-align">Module -> <br> Responsible Person</th>
 					                            <th class="fw-120">Action</th>
 					                        </tr>
 					                    </thead>
@@ -575,7 +600,7 @@
 
 					                    </tbody>
 					                </table>
-
+								 </div>
 							</div>                        
                         </div>
                     </div>
@@ -672,7 +697,7 @@
     	 $("#addBtnRow").hide();  	 
    	 		if(document.getElementById('past-leaves-table').rows.length<=1)
     		 {
-    		 	$('#past-leaves-table').append("<tr><td colspan='4' style='text-align:center;font-size:20px;color:#000000;'>No Past Leaves</td></tr>");
+    		 	$('#past-leaves-table').append("<tr><td colspan='4' class='center-align'>No Past Leaves</td></tr>");
     		 } 
    	 		
    	 		getModulesCount();
@@ -699,6 +724,87 @@
 	              	 }	    			 
    			 }
     	 }  
+     }
+     function getResponsiblePersonUsers()
+     {
+    	 if($("#apply_for").val()!=0)
+   		 {
+   	 		$("#responsibilityBody").find("tr:gt(0)").remove();
+    	 
+   	 		$("#rowNo").val("0");
+   	 		$("#addBtnRow").hide();
+   	 		getUsers();
+   		 }
+   	 	else
+	 	{
+   	 		$("#responsibilityBody").find("tr:gt(0)").remove();
+	   	 	$("#responsible_person0").empty();
+	   	    $("#rowNo").val("0");
+	       	 $('select[name="responsible_person"]').val("");
+	    	 $('#select2-responsible_person0-container').html("");
+    	 
+            <c:forEach var="obj" items="${usersList }">
+            		$("#responsible_person0").append('<option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>');
+        	</c:forEach>	  	 		
+	 	}
+     }
+     
+     function getNewRowUsers(index)
+     {
+    	 var myParams = {user_id:$("#apply_for").val()};
+    	 $.ajax({url : "<%=request.getContextPath()%>/ajax/getResponsiblePersonUsers",
+  			type:"POST",
+  			data:myParams,cache: false,async:false,
+  			success : function(data)
+  			{    	
+				if(data != null && data != '' && data.length > 0)
+				{ 
+					$("#responsible_person"+index).append('<option value= ""></option>');
+					
+	        		$.each(data,function(key,val){
+	        					
+	        			
+                        $("#responsible_person"+index).append('<option  value= "'+val.user_id+'">'+val.designation+'-'+val.user_name+'</option>');
+
+	                   		                       
+					});
+        		
+				}
+			
+			}
+    	 });   	    	 
+     }
+     
+     function getUsers()
+     {
+    	 $("#module0").val("");
+    	 $('#select2-module0-container').html("All");
+    	 $("#responsible_person0").empty();
+    	 $('select[name="responsible_person"]').val("");
+    	 $('#select2-responsible_person0-container').html("");
+    	 
+    	 var myParams = {user_id:$("#apply_for").val()};
+    	 $.ajax({url : "<%=request.getContextPath()%>/ajax/getResponsiblePersonUsers",
+  			type:"POST",
+  			data:myParams,cache: false,async:false,
+  			success : function(data)
+  			{    	
+				if(data != null && data != '' && data.length > 0)
+				{ 
+					$("#responsible_person0").append('<option  value= ""></option>');
+					
+	        		$.each(data,function(key,val){
+	        					
+	        			
+                        $("#responsible_person0").append('<option  value= "'+val.user_id+'">'+val.designation+'-'+val.user_name+'</option>');
+
+	                   		                       
+					});
+        		
+				}
+			
+			}
+    	 });   	 
      }
      
      function deleteLeaveResponsibility(leave_id,row)
@@ -824,12 +930,13 @@
      
      function clearFilters()
      {
+    	 $('#select2-apply_for-container').html("Self");
     	 $("#from_date").val("");
     	 $("#to_date").val("");
+    	 $("#apply_for").val("0");
     	 $("#responsibilityBody").find("tr:gt(0)").remove();
     	 $('select[name="modules"]').val("");
     	 $('select[name="responsible_person"]').val("");
-    	 $('#select2-module0-container').html("");
     	 $('#select2-responsible_person0-container').html("");
     	
      }
@@ -924,7 +1031,7 @@
   	     }});
 	 		if(document.getElementById('past-leaves-table').rows.length<=1)
    		 	{
-   		 		$('#past-leaves-table').append("<tr><td colspan='4' style='text-align:center;font-size:22px;color:#000000;'>No Past Leaves</td></tr>");
+   		 		$('#past-leaves-table').append("<tr><td colspan='4' class='center-align'>No Past Leaves</td></tr>");
    		 	} 		
   		
      }
@@ -989,26 +1096,39 @@
 
         function addNewRow()
         {
+        	
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
+            
+    		var html='<tr id="tableRow' + rNo + '"> <td data-head="Module" class="input-field">'+
+            '<select name="modules" id="module' + rNo + '" class="validate-dropdown searchable" onChange="selectModule(this.value);"><option value=""></option>'+
+            
+			 <c:forEach var="obj" items="${modulesList }">
+			    '<option value= "${ obj.module_name_fk}">${obj.module_name_fk}</option>'+
+			  </c:forEach>                    
+            
+            '</select></td> <td data-head="Responsible Person" class="input-field">'
+            +'<select name="responsible_person" id="responsible_person' + rNo + '" class="validate-dropdown searchable"><option value=""></option>'+
+            <c:forEach var="obj" items="${usersList }">
+       	   '<option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>'+
+          </c:forEach>	                    
+            '</select> </td> <td class="mobile_btn_close"> <a onclick="removeRow(' + rNo + ');" class="btn red"> <i class="fa fa-close"></i></a>'
+            +'</td></tr>';	
+			$('#responsibilityBody').append(html);            
 
-            var html='<tr id="tableRow' + rNo + '"> <td data-head="Module" class="input-field">'+
-                     '<select name="modules" id="module' + rNo + '" class="validate-dropdown searchable" onChange="selectModule(this.value);"><option value=""></option>'+
-                     
-					 <c:forEach var="obj" items="${modulesList }">
-					    '<option value= "${ obj.module_name_fk}">${obj.module_name_fk}</option>'+
-					  </c:forEach>                    
-                     
-                     '</select></td> <td data-head="Responsible Person" class="input-field">'
-                     +'<select name="responsible_person" id="responsible_person' + rNo + '" class="validate-dropdown searchable"><option value=""></option>'+
-                     <c:forEach var="obj" items="${usersList }">
-                	   '<option  value= "${obj.user_id}">${obj.designation}-${obj.user_name}</option>'+
-                   </c:forEach>	                    
-                     '</select> </td> <td class="mobile_btn_close"> <a onclick="removeRow(' + rNo + ');" class="btn red"> <i class="fa fa-close"></i></a>'
-                     +'</td></tr>';	
-    		$('#responsibilityBody').append(html);
+            if(("${sessionScope.USER_ROLE_NAME}"!="IT Admin") || (("${sessionScope.USER_ROLE_NAME}"=="IT Admin" && $("#apply_for").val()==0)))
+            {
+
+        	}
+            else
+           	{
+            	$("#responsible_person"+rNo).empty();
+            	getNewRowUsers(rNo);
+            	//getUsers();
+           	}
 
     		$('.searchable').select2();
+        	
     		
             $("#rowNo").val(rNo);          	
             if(($("#modulesCnt").val()==Number($("#rowNo").val())+1 || $("#module0").val()==""))
@@ -1101,9 +1221,8 @@
         				{
 	        				 myParams = {user_id:"${sessionScope.USER_ID}",user_leave_id:$("#user_leave_id").val(),from_date : $("#from_date").val(), to_date : $("#to_date").val(),modules:modules,responsible_persons:responsiblepersons};
         				}
-	        				
-						if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
-							{
+        				else
+        					{
 	        				 myParams = {user_id:$("#apply_for").val(),user_leave_id:$("#user_leave_id").val(),from_date : $("#from_date").val(), to_date : $("#to_date").val(),modules:modules,responsible_persons:responsiblepersons};
 							}
 						

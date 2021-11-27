@@ -946,4 +946,62 @@ public class UserDaoImpl implements UserDao{
 		return objsList;
 	}
 
+	@Override
+	public List<User> getResponsiblePersonUsers(User obj) throws Exception {
+		List<User> objsList = new ArrayList<User>();
+		try {
+			String qry = "select distinct u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
+					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name,"
+					+ "(select DATE_FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
+					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 7 DAY) as last7DaysLogins,"
+					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 30 DAY) as last30DaysLogins "
+					+ "from user u "
+					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
+					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "where u.user_id is not null" ;
+			
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+				qry = qry + " and u.user_id not in (?) ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and u.department_fk = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				qry = qry + " and u.user_type_fk = ? ";
+				arrSize++;
+			}
+			
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+				pValues[i++] = obj.getUser_id();
+			}	
+			
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_type_fk();
+			}	
+			
+			
+			qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
 }

@@ -53,6 +53,7 @@ public interface UserService {
 	List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception;
 
 	List<User> getAllUsersList(User obj) throws Exception;
+	List<User> getResponsiblePersonUsers(User obj) throws Exception;
 
 	
 }

@@ -318,7 +318,7 @@
        	    	filtersMap["contract_id_fk"] = contract_id_fk;
         	}
         }
-
+        var queue = 1;
         function getStructureList() {
 			$(".page-loader-2").show();
 
@@ -343,7 +343,7 @@
 						table.destroy();
 			
 						$.fn.dataTable.moment('DD-MMM-YYYY');
-			
+						var rowLen = 0;
 						var myParams = "work_id_fk=" + work_id_fk 
 								+ "&work_status_fk=" + work_status_fk+ "&contract_id_fk=" + contract_id_fk;
 			
@@ -409,7 +409,12 @@
 														'<div class="right-btns"></div>');
 												$('.dataTables_filter div').append(
 														$searchButton, $clearButton);
-												
+												rowLen = $('#datatable-structure tbody tr:visible').length
+			    								if(rowLen <= 1 &&  queue == 1){									
+			    									$('#datatable-structure').dataTable().api().draw(); 
+			    									getStructureList();
+			    									queue++;
+			    							    }
 											},
 											columnDefs : [ {
 												"targets" : 'no-sort',

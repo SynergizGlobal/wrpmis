@@ -306,87 +306,7 @@
 		                                <input type="hidden" id="work_short_name" name="work_short_name"/>
 		                            </div>
 								   	<input type="hidden" id="contract_id_code" name="contract_id_code"/>  
-	                                    <%-- <c:choose>
-								         <c:when test = "${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
-								         <div class="col s6 m4 l3 input-field offset-m2">
-								            <p class="searchable_label">HOD<span class="required">*</span></p>
-	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
-	                                     		  <option value="">Select</option> 
-	                                     		  	<c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option  deptCode="${obj.contract_id_code }" value="${obj.user_id }"> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> 
-	                                     	     </select> 
-	                                     	<span id="hod_user_id_fkError" class="error-msg" ></span>
-	                                     	</div>
-	                                     	 <div class="col s6 m4 l3 input-field">
-	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
-	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" >
-	                                                <option value="">Select</option>
-	                                                 <c:forEach var="obj" items="${dyHodList }"> 
-			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                         </c:forEach>   
-	                                            </select>
-												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
-	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
-	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
-								         </c:when>
-								         <c:otherwise>
-								           	<div class="col s6 m4 input-field offset-m2">
-	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
-	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"  <c:if test="${sessionScope.USER_TYPE eq 'HOD'  || sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>> 
-	                                     		  <option value="">Select</option> 
-	                                              
-	                                            </select> 
-												<input type="hidden"  name="department_fk" id="department_fk"/>
-												<!-- <label for="hod_user_id_fk">HOD</label>  -->
-	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
-	                                        <c:if test="${sessionScope.USER_TYPE eq 'HOD'  || sessionScope.USER_TYPE eq 'DyHOD'}">  <input type="hidden" id="hodVal" name="hod_user_id_fk" />  </c:if>
-	                                       
-	                                        <div class="col s6 m4 input-field">
-	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
-	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();" <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>>
-	                                                <option value="">Select</option>
-	                                                 
-	                                            </select>
-												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
-	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
-	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
-	                                         <c:if test="${ sessionScope.USER_TYPE eq 'DyHOD'}">  <input type="hidden" id="dyHodVal" name="dy_hod_user_id_fk" />  </c:if>
-								         </c:otherwise>
-								      </c:choose> --%>
-								      
-								   <%--   <div class="col s6 m4 l4 input-field ">
-	                                   <!-- <p class="searchable_label">Contract Status</p> -->
-	                                   <label class="selected" for="contract_status">Contract Status</label>
-	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getStatusLIst();hideContractDetails();">
-	                                        <option value="" >Select</option>
-	                                          <c:forEach var="obj" items="${contract_Status }">
-	                                          	 <c:if test="${obj.contract_status ne 'Closed'}">
-		                                    	 	<option value="${obj.contract_status }" <c:if test="${obj.contract_status eq 'Yet to be Awarded'}">selected</c:if>>${obj.contract_status }</option>
-		                                    	 </c:if>
-		                                     </c:forEach>     
-	                                    </select>
-	                                     <span id="contract_statusError" class="error-msg" ></span>
-	                                </div> --%>
-	                                 <!-- <div class="col s12 m4 l4 input-field">
-	                                   <p class="center-align pad-top"> 
-	                                   		<span>Contract Awarded?</span>
-	                                   		<span>
-			                                   	<label>
-		                                            <input class="with-gap" name="contract_status" type="radio"  value="Yes" <c:if test="${contractDeatils.status eq 'Yes'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();" />
-		                                            <span>Yes</span>
-		                                        </label>
-		                                        <label>
-		                                            <input class="with-gap" name="contract_status" type="radio" value="No" <c:if test="${contractDeatils.status eq 'No'}">checked</c:if> onclick="getContractClosureDetails('');getStatusLIst();hideContractDetails();"/>
-		                                            <span>No</span>
-		                                        </label>
-	                                        </span>
-                                       </p>
-	                                     <span id="contract_statusError" class="error-msg" ></span>
-	                                </div> -->
+	                                 
 	                                <div class="col s12 m4 l4 input-field">
 		                                <p class="priokind pad-top" style="text-align: center;"> <span style="margin-right:.5rem;font-weight:600;">Contract Awarded? <span class="required">*</span></span>
                                            	<span class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
@@ -400,6 +320,7 @@
                                                 </label>
                                             </span>
                                            </p>	
+                                           <p id="contract_statusError" class="error-msg" style="margin-top: 10px;padding-left: 30px;"></p>
                                      </div>
 	                             </div>
 	                                 
@@ -476,12 +397,7 @@
 								      </c:choose>
                                 </div>
                                 
-                                <div class="row">
-	                                <!-- <div class="col s12 m8 l12 input-field offset-m2">
-	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate pmis-textarea" ></textarea>
-	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
-	                                    <span id="contract_nameError" class="error-msg" ></span>
-	                                </div> -->	                              
+                                <div class="row">                            
 	                                <div class="col s12 m8 l12 input-field mt20px offset-m2">
 	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
 	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
@@ -613,15 +529,7 @@
 				                                    </c:forEach>
 		                                    </select>
 		                                     <span id="contract_status_fkError" class="error-msg" ></span>
-		                                </div>
-	                                
-			                            <!-- <div class="row">
-			                                <div class="col s12 m8 l12 input-field offset-m2">
-			                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000"></textarea>
-			                                    <label for="remarks">Remarks</label>
-			                                      <span id="remarksError" class="error-msg"></span>
-			                                </div>
-			                            </div>     -->                    
+		                                </div>                  
 	                        
  							<div class="table-div">
 	
@@ -821,6 +729,9 @@
 	        	$('#estimated_cost_div').hide();
 	        	$('#estimated_cost_units_div').hide();
 	        	$('#contract_status_fk_div').hide();
+	        	
+	        	$('#contract_type_fk').rules('remove',  'required');
+	        	$('#contract_status_fk').rules('remove',  'required');
         	}else{
         		$("#contract_type_fk_div").show();
 				$('#scope_of_contract_div').show();
@@ -831,6 +742,9 @@
 	        	$('#estimated_cost_div').show();
 	        	$('#estimated_cost_units_div').show();
 	        	$('#contract_status_fk_div').show();
+	        	
+	        	$('#contract_type_fk').rules('add',  { required: true });
+	        	$('#contract_status_fk').rules('add',  { required: true });
         	}
         }
      
@@ -1057,54 +971,11 @@
 	  			if(estimated_cost == ""){
 	  				$('#estimated_cost_units').val("");
 	  			}
-	  			if(awarded_cost == ""){
-	  				$('#awarded_cost_units').val("");
-	  			}
 	  			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
 	  			$('form input[name=responsible_people_id_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			
-	  			$('form input[name=bg_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
-	  			$('form input[name=issuing_banks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=bank_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=bg_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=bg_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=bank_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			
-	  			$('form input[name=release_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=bg_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=codes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=insuranceStatus]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			
-	  			$('form input[name=bg_valid_uptos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurance_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=issuing_agencys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=agency_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurance_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurance_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=insurance_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurence_valid_uptos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurence_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=contract_milestones_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=milestone_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=milestone_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=milestone_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=actual_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=mile_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			
-	  			$('form input[name=contract_revision_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revision_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revised_amounts]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revised_docs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revision_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contractDocumentNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contractDocumentFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=contractKeyPersonnelNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=contractKeyPersonnelDesignations]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=contractKeyPersonnelMobileNos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=contractKeyPersonnelEmailIds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			
     			document.getElementById("contractForm").submit();			
     	 	}
@@ -1118,8 +989,6 @@
 		   			 	required: true
 		   			  },"work_id_fk": {
 		   		 		required: true
-		   		 	  },"department_fk": {
-		   		 		required: true
 		   		 	  },"contract_name": {
 		   		 		required: true
 		   		 	  },"contract_short_name":{
@@ -1127,60 +996,34 @@
         		 		 maxlength: 100
         		 	  },"contract_type_fk": {
 		   		 		required: true
-		   		 	  },"contractor_id_fk": {
-		   	 		    required: false,
-		   	 	   	  },"scope_of_contract": {
+		   		 	  },"scope_of_contract": {
 		   	 		    required: false,
 		   	 	   	  },"hod_user_id_fk": {
 		   		 		required: true
 		   		 	  },"dy_hod_user_id_fk": {
 		   	 		    required: true
-		   	 	   	  },"doc": {
-		   		 		required: false
-   				 		//dateBefore1:"#date_of_start"
-		   		 	  },"awarded_cost": {
-		   		 		required: false
-		   		 	  },"date_of_start": {
-		   		 		required: false
-		   		 	  },"estimated_cost": {
-		   		 		//required: false,
+		   	 	   	  },"estimated_cost": {
 			   		 	required: function(element){
 	   		             	return $("#estimated_cost").val()!="";
 	   		         	}
-		   		 	  },"loa_letter_number": {
+		   		 	  },"estimated_cost_units":{
+	        		 		 required: function(element){
+	        		             return $("#estimated_cost").val()!="";
+	        		         }
+	        		  },"loa_letter_number": {
 		   		 		required: false
 		   		 	  },"loa_date":{
 		   		 		 required: false
-		   		 	  },"ca_no": {
-		   	 		    required: false,
-		   	 	   	  },"ca_date": {
-		   		 		required: false
-		   		 	  },"actual_completion_date": {
-		   	 		    required: false
-		   	 	   	  },"completed_cost": {
-		   		 		required: false
-		   		 	  },"estimated_cost_units":{
-        		 		 required: function(element){
-        		             return $("#estimated_cost").val()!="";
-        		         }
-        		 	  },"awarded_cost": {
-		   		 		required: false
-		   		 	  },"awarded_cost_units":{
-        		 		 required: function(element){
-        		             return $("#awarded_cost").val()!="";
-        		         }
-        		 	  },"doc": {
-		   		 		required: false
 		   		 	  },"contract_status_fk":{
 		   	 	  		required: true
-		   		 	  }	
+		   		 	  },"contract_status":{
+		   	 	  		required: true
+		   		 	  }		
 		   	 	},
 		   	   messages: {
 		   			 "project_id_fk": {
 	   		 			required: 'Required'
 	   		 	  	 },"work_id_fk": {
-		   	 			required: 'Required'
-		   	 	  	 },"department_fk": {
 		   	 			required: 'Required'
 		   	 	  	 },"contract_name": {
 		   	 			required: 'Required'
@@ -1189,59 +1032,27 @@
 		   	 	  	 },"contract_short_name": {
 		   	 			required: 'Required',
 		   	 			maxlength : 'Contract short name must be less than or equal to 100 characters'
-		   	 	  	 },"contractor_id_fk": {
-		   	 			required: 'Required'
-		   	 	  	 },"scope_of_contract": {
+		   	 	  	 },"contract_type_fk": {
+		   	 	  		required: 'Required'
+		   		 	 },"scope_of_contract": {
 		   	 	  		required: 'Required'
 		   	 	   	 },"hod_user_id_fk": {
 		   	 			required: 'Required'
 		   	 	  	 },"dy_hod_user_id_fk": {
 		   	 			required: 'Required'
-		   	 	  	 },"doc": {
-		   	 			required: 'Required'
-		   	 	  	 },"awarded_cost": {
+		   	 	  	 },"estimated_cost": {
 				 		required: 'Required'
-				 	  },"date_of_start": {
-				 		required: 'Required'
-				 	  },"estimated_cost": {
-				 		required: 'Required'
-				 	  },"loa_letter_number": {
+				 	  },"estimated_cost_units":{
+        	 	  		required: 'Required'
+        		 	  },"loa_letter_number": {
 				 		required: 'Required'
 				 	  },"loa_date":{
 				 		 required: 'Required'
-				 	  },"ca_no": {
-			 		    required: 'Required',
-			 	   	  },"ca_date": {
-				 		required: 'Required'
-				 	  },"actual_completion_date": {
-			 		    required: 'Required'
-			 	   	  },"completed_cost": {
-				 		required: 'Required'
-				 	  },"contract_closure_date": {
-				 		required: 'Required'
-		   		 	  },"completion_certificate_release":{
-		   		 		 required: 'Required'
-		   		 	  },"final_takeover": {
-		   		 		 required: 'Required'
-		   	 	   	  },"final_bill_release": {
-		   	 	   		required: 'Required'
-		   		 	  },"defect_liability_period": {
-		   		 		 required: 'Required'
-		   	 	   	  },"retention_money_release": {
-		   	 	   		required: 'Required'
-		   		 	  },"pbg_release":{
-		   		 		 required: 'Required'
-		   		 	  },"contract_closure":{
+				 	  },"contract_status_fk":{
 		   	 	  		required: 'Required'
-		   		 	  },"contract_status_fk":{
-		   	 	  		required: 'Required'
-		   		 	  },"remarks":{
-		  	 	  		required: 'Required'
-				 	  },"estimated_cost_units":{
-        	 	  		required: 'Required'
-        		 	  },"awarded_cost_units":{
-        	 	  		required: 'Required'
-        		 	  }
+		   		 	  },"contract_status":{
+        		 		 required: 'Required'
+		   		 	  }	
 		   	 				      
 		       },
 		   	  errorPlacement:
@@ -1250,170 +1061,62 @@
 		   		 		     document.getElementById("project_id_fkError").innerHTML="";
 		   		 			 error.appendTo('#project_id_fkError');
 		   		 	    }else if (element.attr("id") == "work_id_fk" ){
-		   	 		     document.getElementById("work_id_fkError").innerHTML="";
-		   	 			 error.appendTo('#work_id_fkError');  			 	
-		   	 	    }else if (element.attr("id") == "department_fk" ){
-		   	 		     document.getElementById("department_fkError").innerHTML="";
-		   	 			 error.appendTo('#department_fkError');
-		   	 	    }else if (element.attr("id") == "contract_name" ){
-		   	 		     document.getElementById("contract_nameError").innerHTML="";
-		   	 			 error.appendTo('#contract_nameError');
-		   	 	    }else if (element.attr("id") == "contract_short_name" ){
-		   	 		     document.getElementById("contract_short_nameError").innerHTML="";
-		   	 			 error.appendTo('#contract_short_nameError');
-		   	 	    }else if (element.attr("id") == "contract_type_fk" ){
-		   	 		     document.getElementById("contract_type_fkError").innerHTML="";
-		   	 			 error.appendTo('#contract_type_fkError');
-		   	 	    }else if (element.attr("id") == "contractor_id_fk" ){
-		   	 		     document.getElementById("contractor_id_fkError").innerHTML="";
-		   	 			 error.appendTo('#contractor_id_fkError');
-		   	 	    }else if (element.attr("id") == "scope_of_contract" ){
-		   	 		     document.getElementById("scope_of_contractError").innerHTML="";
-		   	 			 error.appendTo('#scope_of_contractError');
-		   	 	    }else if (element.attr("id") == "hod_user_id_fk" ){
-		   	 		     document.getElementById("hod_user_id_fkError").innerHTML="";
-		   	 			 error.appendTo('#hod_user_id_fkError');
-		   	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
-		   	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
-		   	 			 error.appendTo('#dy_hod_user_id_fkError');
-		   	 	    }else if (element.attr("id") == "doc" ){
-		   	 		     document.getElementById("docError").innerHTML="";
-		   	 			 error.appendTo('#docError');
-		   	 	    }else if (element.attr("id") == "awarded_cost" ){
-		   	 		     document.getElementById("awarded_costError").innerHTML="";
-		   	 			 error.appendTo('#awarded_costError');
-		   	 	    }else if (element.attr("id") == "date_of_start" ){
-		   	 	    	     document.getElementById("date_of_startError").innerHTML="";
-		   	 			     error.appendTo('#date_of_startError');
-			 	    }else if (element.attr("id") == "estimated_cost" ){
-			 		     document.getElementById("estimated_costError").innerHTML="";
-			 			 error.appendTo('#estimated_costError');
-			 	    }else if (element.attr("id") == "loa_letter_number" ){
-			 		     document.getElementById("loa_letter_numberError").innerHTML="";
-			 			 error.appendTo('#loa_letter_numberError');
-			 	    }else if (element.attr("id") == "loa_date" ){
-			 		     document.getElementById("loa_dateError").innerHTML="";
-			 			 error.appendTo('#loa_dateError');
-			 	    }else if (element.attr("id") == "ca_no" ){
-			 		     document.getElementById("ca_noError").innerHTML="";
-			 			 error.appendTo('#ca_noError');
-			 	    }else if (element.attr("id") == "ca_date" ){
-			 		     document.getElementById("ca_dateError").innerHTML="";
-			 			 error.appendTo('#ca_dateError');
-			 	    }else if (element.attr("id") == "actual_completion_date" ){
-			 		     document.getElementById("actual_completion_dateError").innerHTML="";
-			 			 error.appendTo('#actual_completion_dateError');
-			 	    }else if (element.attr("id") == "completed_cost" ){
-			 		     document.getElementById("completed_costError").innerHTML="";
-			 			 error.appendTo('#completed_costError');
-			 	    }else if (element.attr("id") == "contract_closure_date" ){
-			 		     document.getElementById("contract_closure_dateError").innerHTML="";
-			 			 error.appendTo('#contract_closure_dateError');
-			 	    }else if (element.attr("id") == "completion_certificate_release" ){
-			 		     document.getElementById("completion_certificate_releaseError").innerHTML="";
-			 			 error.appendTo('#completion_certificate_releaseError');
-			 	    }else if (element.attr("id") == "final_takeover_client" ){
-			 		     document.getElementById("final_takeover_clientError").innerHTML="";
-			 			 error.appendTo('#final_takeover_clientError');
-			 	    }else if (element.attr("id") == "final_bill_release" ){
-			 		     document.getElementById("final_bill_releaseError").innerHTML="";
-			 			 error.appendTo('#final_bill_releaseError');
-			 	    }else if (element.attr("id") == "defect_liability_period" ){
-			 		     document.getElementById("defect_liability_periodError").innerHTML="";
-			 			 error.appendTo('#defect_liability_periodError');
-			 	    }else if (element.attr("id") == "final_retention_release" ){
-			 		     document.getElementById("final_retention_releaseError").innerHTML="";
-			 			 error.appendTo('#final_retention_releaseError');
-			 	    }else if (element.attr("name") == "pbg_release" ){
-			 		     document.getElementById("pbg_releaseError").innerHTML="";
-			 			 error.appendTo('#pbg_releaseError');
-			 	    }else if (element.attr("id") == "contract_closure" ){
-			 		     document.getElementById("ontract_closureError").innerHTML="";
-			 			 error.appendTo('#ontract_closureError');
-			 	    }else if (element.attr("id") == "contract_status_fk" ){
-		 		     document.getElementById("contract_status_fkError").innerHTML="";
-		 			 error.appendTo('#contract_status_fkError');
-		   	 	    }else if (element.attr("id") == "estimated_cost_units" ){
-       	 		     document.getElementById("estimated_cost_unitsError").innerHTML="";
-    	 			 error.appendTo('#estimated_cost_unitsError');
-        	 	    }else if (element.attr("id") == "awarded_cost_units" ){
-    	 		     document.getElementById("awarded_cost_unitsError").innerHTML="";
-    	 			 error.appendTo('#awarded_cost_unitsError');
-        	 	    }else if (element.attr("id") == "remarks" ){
-		  	 		     document.getElementById("remarksError").innerHTML="";
-			 			 error.appendTo('#remarksError');}
-		   	 },invalidHandler: function (form, validator) {
-		         var errors = validator.numberOfInvalids();
-		         if (errors) {
-		             var position = validator.errorList[0].element;
-		             jQuery('html, body').animate({
-		                 scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-		             }, 1000);
-		         }
-		     },submitHandler: function(form) {
-		   	    // do other things for a valid form
-		   	    //form.submit();
-		   	    //return true;
-		   	  }
+			   	 		     document.getElementById("work_id_fkError").innerHTML="";
+			   	 			 error.appendTo('#work_id_fkError');  			 	
+			   	 	    }else if (element.attr("id") == "contract_name" ){
+			   	 		     document.getElementById("contract_nameError").innerHTML="";
+			   	 			 error.appendTo('#contract_nameError');
+			   	 	    }else if (element.attr("id") == "contract_short_name" ){
+			   	 		     document.getElementById("contract_short_nameError").innerHTML="";
+			   	 			 error.appendTo('#contract_short_nameError');
+			   	 	    }else if (element.attr("id") == "contract_type_fk" ){
+			   	 		     document.getElementById("contract_type_fkError").innerHTML="";
+			   	 			 error.appendTo('#contract_type_fkError');
+			   	 	    }else if (element.attr("id") == "scope_of_contract" ){
+			   	 		     document.getElementById("scope_of_contractError").innerHTML="";
+			   	 			 error.appendTo('#scope_of_contractError');
+			   	 	    }else if (element.attr("id") == "hod_user_id_fk" ){
+			   	 		     document.getElementById("hod_user_id_fkError").innerHTML="";
+			   	 			 error.appendTo('#hod_user_id_fkError');
+			   	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
+			   	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
+			   	 			 error.appendTo('#dy_hod_user_id_fkError');
+			   	 	    }else if (element.attr("id") == "estimated_cost" ){
+				 		     document.getElementById("estimated_costError").innerHTML="";
+				 			 error.appendTo('#estimated_costError');
+				 	    }else if (element.attr("id") == "estimated_cost_units" ){
+		       	 		     document.getElementById("estimated_cost_unitsError").innerHTML="";
+		    	 			 error.appendTo('#estimated_cost_unitsError');
+	        	 	    }else if (element.attr("id") == "loa_letter_number" ){
+				 		     document.getElementById("loa_letter_numberError").innerHTML="";
+				 			 error.appendTo('#loa_letter_numberError');
+				 	    }else if (element.attr("id") == "loa_date" ){
+				 		     document.getElementById("loa_dateError").innerHTML="";
+				 			 error.appendTo('#loa_dateError');
+				 	    }else if (element.attr("id") == "contract_status_fk" ){
+				 		     document.getElementById("contract_status_fkError").innerHTML="";
+				 			 error.appendTo('#contract_status_fkError');
+			   	 	    }else if (element.attr("name") == "contract_status" ){
+			  	 		     document.getElementById("contract_statusError").innerHTML="";
+				 			 error.appendTo('#contract_statusError');
+				 		}
+			   	 },invalidHandler: function (form, validator) {
+			         var errors = validator.numberOfInvalids();
+			         if (errors) {
+			             var position = validator.errorList[0].element;
+			             jQuery('html, body').animate({
+			                 scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+			             }, 1000);
+			         }
+			     },submitHandler: function(form) {
+			   	    // do other things for a valid form
+			   	    //form.submit();
+			   	    //return true;
+			   	  }
 		});
         
         
-        $.validator.addMethod("dateBefore1", function(value, element) {
-            var fromDateString = $('#date_of_start').val();
-            var fromDateParts = fromDateString.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-
-            var toDateParts = value.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-            	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-            	return false;
-            }else{
-            	return true;
-            }
-            
-        }, "Planned Doc date must be after Date of start");
-    	
-    	$.validator.addMethod("dateBefore2", function(value, element) {
-            var fromDateString = $('#final_takeover').val();
-            var fromDateParts = fromDateString.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-
-            var toDateParts = value.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-         
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-            	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-            	return false;
-            }else{
-            	return true;
-            }
-        }, "Release of Completion Certificate date must be after Final takeover by client date");
-    	
-    	$.validator.addMethod("dateBefore3", function(value, element) {
-            var fromDateString = $('#completion_certificate_release').val(); 
-            var fromDateParts = fromDateString.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-
-            var toDateParts = value.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-         
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-            	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-            	return false;
-            }else{
-            	return true;
-            }
-        }, "Contract closure date date must be after Release of Completion Certificate date");
+       
         
         
         $.validator.addMethod("dateFormat",
@@ -1425,212 +1128,18 @@
         	    //"Date format (Aug 02,2020)"
         	    "Date format (DD-MM-YYYY)"
         	);
-   $('select').change(function(){
-       if ($(this).val() != ""){
-           $(this).valid();
-       }
-   });
-
-   $('input').change(function(){
-       if ($(this).val() != ""){
-           $(this).valid();
-       }
-   });
-   function addBankRow(){
-		
-       var rowNo = $("#bankRowNo").val();
-       var rNo = Number(rowNo)+1;
-       var total = 0;
-       var html = '<tr id="bankRow'+rNo+'">  <td> <input id="codes'+rNo+'" type="text" class="validate" name="codes" placeholder="Code">       </td><td> <div>'
-		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'"  class="searchable">'	   			
-		   +'<option value="" >Select</option>'
-		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
-		  +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
-			</c:forEach>
-		   +'</select></div></td>'
-		   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
-		   //+'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
-		   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
-		   +'<td class="input-field"><i class="material-icons prefix cost">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
-		   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
-		   +'<td><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
-		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
-		   //+'<td><input id="remarks'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
-		   +'<td><input id="release_dates'+rNo+'" name="release_dates" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
-		   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-	 
-		 $('#bankTableBody').append(html);
-		 $("#bankRowNo").val(rNo);
-		 $('.searchable').select2();
-		 
-		 $("#bg_valid_uptos"+rNo).datepicker({
-      	 format:'dd-mm-yyyy',
-          onSelect: function () {
-	    	     $('.confirmation-btns .datepicker-done').click();
-	    	  }
-      });
-
-	} 
+	   $('select').change(function(){
+	       if ($(this).val() != ""){
+	           $(this).valid();
+	       }
+	   });
 	
-	
-	function removeBank(rowNo){
-	$("#bankRow"+rowNo).remove();
-	}
-	
-	function addInsurenceRow(){
-		
-	 var rowNo = $("#insurenceRowNo").val();
-	 var rNo = Number(rowNo)+1;
-	 var total = 0;
-	 var html = '<tr id="insurenceRow'+rNo+'"><td> <div>'
-		   +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'" class="searchable" >'	   			
-		   +'<option value="" >Select</option>'
-		   <c:forEach var="obj" items="${insurance_type }">
-			  +' <option value= "${ obj.insurance_type}">${ obj.insurance_type}</option>'
-		  </c:forEach>
-		   +'</select></div></td>'
-		   +'<td> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
-		   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
-		   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
-		   +'<td class="input-field"><i class="material-icons prefix cost">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
-		   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
-		   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" ><i class="fa fa-calendar"></i></button></td>'
-		   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
-		   +'<td><label> <input type="hidden" id="insuranceStatus'+rNo+'" name="insuranceStatus" value="No" /><input type="checkbox" id="insuranceStatuss'+rNo+'" /> <span></span> </label></td>'
-		   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-	
-		 $('#insurenceTableBody').append(html);
-		 $("#insurenceRowNo").val(rNo);
-		 $('.searchable').select2();
-		 $("#insurence_valid_uptos"+rNo).datepicker({
-		      	 format:'dd-mm-yyyy',
-		          onSelect: function () {
-			    	     $('.confirmation-btns .datepicker-done').click();
-			    	  }
-		 });
-		 $("#insuranceStatuss"+rNo).on('change', function(e){
-             if($(this).prop('checked'))
-             {
-            	// $(".part").prop('disabled', true);
-                 $("#insuranceStatus"+rNo).val('Yes');
-             } else{
-              	 
-            	  $("#insuranceStatus"+rNo).prop('checked',false).removeAttr('checked');
-            	  $("#insuranceStatus"+rNo).val('No')
-              }
-   	    });
-	} 
-	
-	
-	function removeInsurence(rowNo){
-	$("#insurenceRow"+rowNo).remove();
-	}
-	
-	function addMilestoneRow(){
-		
-	 var rowNo = $("#mileRowNo").val();
-	 var rNo = Number(rowNo)+1;
-	 var total = 0;
-	 var html = '<tr id="mileRow'+rNo+'">'
-	 	   +'<td><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID"></td>'
-		   +'<td><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
-		   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
-		   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'
-		   +'<td><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
-		   +'<td>  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
-		   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-		   +'</tr>';
-	
-		 $('#milestoneTableBody').append(html);
-		 $("#mileRowNo").val(rNo);
-		 $('.searchable').select2();
-		 $("#milestone_dates"+rNo).datepicker({
-		      	 format:'dd-mm-yyyy',
-		          onSelect: function () {
-			    	     $('.confirmation-btns .datepicker-done').click();
-			    	  }
-		      });
-		 $("#actual_dates"+rNo).datepicker({
-		      	 format:'dd-mm-yyyy',
-		          onSelect: function () {
-			    	     $('.confirmation-btns .datepicker-done').click();
-			    	  }
-		      });
-	} 
-	
-	
-	function removeMilestone(rowNo){
-		$("#mileRow"+rowNo).remove();
-	}
-	function addRevRow(){		
-		 var rowNo = $("#revRowNo").val();
-		 var rNo = Number(rowNo)+1;
-		 var total = 0;
-		 var html = '<tr id="revRow'+rNo+'">'
-			   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-			   +'<td class="input-field"><i class="material-icons prefix cost">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
-			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
-			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
-			   +'<td><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check" value="No" /><input type="checkbox" id="revision_status'+rNo+'" onchange="revisionChecks('+rNo+')" class="revision_status_checking"/> <span></span> </label></td>'
-			   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-			   +'</tr>';
-		
-			 $('#revTableBody').append(html);
-			 $("#revRowNo").val(rNo);
-			 $('.searchable').select2();
-			 $("#revised_docs"+rNo).datepicker({
-		      	 format:'dd-mm-yyyy',
-		          onSelect: function () {
-			    	     $('.confirmation-btns .datepicker-done').click();
-			    	  }
-		      });
-			  $("#revision_status"+rNo).on('change', function(e){
-                 if($(this).prop('checked'))
-                 {
-                	// $(".part").prop('disabled', true);
-                     $("#revision_statuss"+rNo).val('Yes');
-                 } else{
-                  	 
-                	  $("#revision_status"+rNo).prop('checked',false);
-                	  $("#revision_statuss"+rNo).val('No')
-                  }
-       	    }); 
-	} 	
-
-
-	function removeRev(rowNo){
-		$("#revRow"+rowNo).remove();
-	}
-	
-	
-	function addKeyPersonnelRow(){		
-		 var rowNo = $("#keyRowNo").val();
-		 var rNo = Number(rowNo)+1;
-		 var total = 0;
-		 var html = '<tr id="keyPersonnelRow'+rNo+'">'
-					 +'<td> <input id="contractKeyPersonnelNames'+rNo+'" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">'
-					 +'</td>'
-					 +'<td> <input id="contractKeyPersonnelDesignations'+rNo+'" name="contractKeyPersonnelDesignations" type="text" class="validate" placeholder="Name">'
-					 +'</td>'
-					 +'<td>'
-					 +'<input id="contractKeyPersonnelMobileNos'+rNo+'" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">'
-					 +'</td>'
-					 +'<td>'
-					 +'<input id="contractKeyPersonnelEmailIds'+rNo+'" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">'
-					 +'</td>'
-					 +'<td>'
-					 +'<a href="javascript:void(0);" onclick="removeKeyPersonnel('+rNo+');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
-					 +'</td>'
-			   		 +'</tr>';
-		
-			 $('#keyPersonnelTableBody').append(html);
-			 $("#keyRowNo").val(rNo);
-	}
-	
-	function removeKeyPersonnel(rowNo){
-		$("#keyPersonnelRow"+rowNo).remove();
-	}
+	   $('input').change(function(){
+	       if ($(this).val() != ""){
+	           $(this).valid();
+	       }
+	   });
+   
 
 	function addContractDocumentRow(){		
 		 var rowNo = $("#documentRowNo").val();

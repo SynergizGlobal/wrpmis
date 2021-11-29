@@ -280,7 +280,7 @@ public class ContractDaoImpl implements ContractDao {
 			
 			if(StringUtils.isEmpty(contract.getContract_status()) || "No".equals(contract.getContract_status())) {
 				contract.setContract_status(null);
-				contract.setContract_status_fk("Not Started");
+				contract.setContract_status_fk("In Progress");
 			}
 			if(!StringUtils.isEmpty(contract.getContract_status()) || "Yes".equals(contract.getContract_status())) {
 				contract.setContract_status("Open");

@@ -838,6 +838,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
 					+ "where contract_id_fk is not null and contract_id_fk <> '' ";
 					
 			int arrSize = 0;
@@ -857,6 +858,15 @@ public class SafetyDaoImpl implements SafetyDao {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and u.department_fk = ?";
+					arrSize++;
+				}
+			}	
+						
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and s.department_fk = ?";
@@ -884,6 +894,14 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+				}
+			}			
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
@@ -907,6 +925,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN department d ON s.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
 					+ "where s.department_fk is not null and s.department_fk <> '' ";
 			int arrSize = 0;
 			
@@ -926,6 +945,14 @@ public class SafetyDaoImpl implements SafetyDao {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and u.department_fk = ?";
+					arrSize++;
+				}
+			}			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and s.department_fk = ?";
@@ -953,6 +980,15 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+
+						pValues[i++] = obj.getDepartment_fk();
+				}
+			}	
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
@@ -974,6 +1010,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry = "SELECT category_fk from safety s "
 					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
 					+ " where category_fk is not null and category_fk <> '' ";
 			
 			int arrSize = 0;
@@ -993,6 +1030,14 @@ public class SafetyDaoImpl implements SafetyDao {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and u.department_fk = ?";
+					arrSize++;
+				}
+			}				
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and s.department_fk = ?";
@@ -1020,6 +1065,14 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+				}
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
@@ -1041,6 +1094,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry = "SELECT status_fk from safety s "
 					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
 					+ " where status_fk is not null and status_fk <> '' ";
 			
 			int arrSize = 0;
@@ -1060,6 +1114,14 @@ public class SafetyDaoImpl implements SafetyDao {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and u.department_fk = ?";
+					arrSize++;
+				}
+			}				
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and s.department_fk = ?";
@@ -1087,6 +1149,14 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+				}
+			}		
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
@@ -1108,6 +1178,7 @@ public class SafetyDaoImpl implements SafetyDao {
 		try {
 			String qry = "SELECT work_id as work_id_fk,work_short_name from safety s "
 					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ " where work_id_fk is not null and work_id_fk <> '' ";
 			
@@ -1128,6 +1199,14 @@ public class SafetyDaoImpl implements SafetyDao {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and u.department_fk =?";
+					arrSize++;
+				}
+			}			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and s.department_fk = ?";
@@ -1155,6 +1234,15 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+				}
+			}					
+			
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
@@ -1176,7 +1264,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry = "SELECT s.hod_user_id_fk,designation,user_name as hod_name "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where s.hod_user_id_fk is not null and s.hod_user_id_fk <> '' ";
 					
@@ -1196,7 +1284,16 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
-			}			
+			}	
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and u.department_fk = ?";
+					arrSize++;
+				}
+			}				
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and s.department_fk = ?";
 				arrSize++;
@@ -1224,6 +1321,14 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+				}
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
@@ -1456,6 +1561,15 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and u.department_fk = ? and u2.department_fk=?";
+					arrSize++;
+					arrSize++;
+				}
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and s.department_fk = ?";
 				arrSize++;
@@ -1497,6 +1611,16 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+					pValues[i++] = obj.getDepartment_fk();
+				
+				}
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}

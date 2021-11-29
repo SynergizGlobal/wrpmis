@@ -121,9 +121,14 @@ public class SafetyController {
 	
 	@RequestMapping(value = "/ajax/getWorksListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Safety> getWorksListFilterInSafety(@ModelAttribute Safety obj) {
+	public List<Safety> getWorksListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objList = null;
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			
 			objList = safetyService.getWorksListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -134,9 +139,13 @@ public class SafetyController {
 	
 	@RequestMapping(value = "/ajax/getContractsListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Safety> getContractsListFilterInSafety(@ModelAttribute Safety obj) {
+	public List<Safety> getContractsListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			
 			objList = safetyService.getContractsListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,9 +156,12 @@ public class SafetyController {
 	
 	@RequestMapping(value = "/ajax/getDepartmentsListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Safety> getDepartmentsListFilterInSafety(@ModelAttribute Safety obj) {
+	public List<Safety> getDepartmentsListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());			
 			objList = safetyService.getDepartmentsListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -160,9 +172,12 @@ public class SafetyController {
 	
 	@RequestMapping(value = "/ajax/getCategoryListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Safety> getCategoryListFilterInSafety(@ModelAttribute Safety obj) {
+	public List<Safety> getCategoryListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());			
 			objList = safetyService.getCategoryListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -173,9 +188,12 @@ public class SafetyController {
 	
 	@RequestMapping(value = "/ajax/getStatusListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Safety> getStatusListFilterInSafety(@ModelAttribute Safety obj) {
+	public List<Safety> getStatusListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());			
 			objList = safetyService.getStatusListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -186,9 +204,12 @@ public class SafetyController {
 	
 	@RequestMapping(value = "/ajax/getHODListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Safety> getHODListFilterInSafety(@ModelAttribute Safety obj) {
+	public List<Safety> getHODListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objsList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());			
 			objsList = safetyService.getHODListFilterInSafety(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -247,11 +268,11 @@ public class SafetyController {
 			if (pageNumber == 1) {
 				startIndex = 0;
 				offset = pageDisplayLength;
-				safetyList = createPaginationData(startIndex, offset, obj, searchParameter);
+				safetyList = createPaginationData(session,startIndex, offset, obj, searchParameter);
 			} else {
 				startIndex = (pageNumber * offset) - offset;
 				offset = pageDisplayLength;
-				safetyList = createPaginationData(startIndex, offset, obj, searchParameter);
+				safetyList = createPaginationData(session,startIndex, offset, obj, searchParameter);
 			}
 
 			//Search functionality: Returns filtered list based on search parameter
@@ -299,9 +320,14 @@ public class SafetyController {
 	 * @param clientId 
 	 * @return
 	 */
-	public List<Safety> createPaginationData(int startIndex, int offset, Safety obj, String searchParameter) {
+	public List<Safety> createPaginationData(HttpSession session, int startIndex, int offset, Safety obj, String searchParameter) {
 		List<Safety> objList = null;
 		try {
+
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			
 			objList = safetyService.getSafetyList(obj, startIndex, offset, searchParameter);
 		} catch (Exception e) {
 			logger.error("createPaginationData : " + e.getMessage());
@@ -567,6 +593,12 @@ public class SafetyController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.setViewName("redirect:/safety");
+			
+			User uObj = (User) session.getAttribute("user");
+			safety.setUser_id(uObj.getDepartment_fk());
+			safety.setDepartment_fk(uObj.getDepartment_fk());
+			safety.setUser_role_code(uObj.getUser_role_code());			
+			
 			dataList = safetyService.getSafetyList(safety);  
 			if(dataList != null && dataList.size() > 0){
 			            XSSFWorkbook  workBook = new XSSFWorkbook ();

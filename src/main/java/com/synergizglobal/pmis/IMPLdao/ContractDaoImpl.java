@@ -3419,7 +3419,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> objsList = null;
 		try {
 			//String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN ('Commissioned', 'Dropped','On Hold') ";
-			String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN ('Terminated') ";
+			String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN ('Terminated','Not Started') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
 				qry = qry + " and contract_status = ? ";

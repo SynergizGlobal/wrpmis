@@ -527,6 +527,7 @@
                                                 </label>
                                             </span>
                                            </p>	
+                                           <p id="contract_statusError" class="error-msg" style="margin-top: 10px;padding-left: 30px;"></p>
                                      </div>	 
 	                            </div>
                                 <div class="row">	                                    
@@ -2445,6 +2446,7 @@
             
             $("input[name=contract_status]").click(function(){
             	var contract_status = $(this).val();
+            	alert(contract_status);
             	if($.trim(contract_status) == 'No'){
             		$("#date_of_start").val('');
             		$("#date_of_startDiv").hide();            		
@@ -2460,9 +2462,9 @@
             		$("#revisionDetailsTab").hide();
             		//$("#keyPersonDetailsTab").hide();
             	}else{
-            		/* var date_of_start = '${contractDeatils.date_of_start}';
+            		var date_of_start = '${contractDeatils.date_of_start}';
             		$("#date_of_startDiv").val(date_of_start).focus();
-            		$("#date_of_startDiv").show(); */
+            		$("#date_of_startDiv").show();
             		
             		$("#bgHideDiv").show();
             		$("#insuranceHideDiv").show();
@@ -2555,17 +2557,17 @@
         		$('#awarded_cost_req').text('');
         	}
             // Validation code for Date of Start Hide 
-            if($.trim(contract_status) == 'No' && $.trim(contract_status_fk) == 'Not Started'){
+            if($.trim(contract_status) == 'No' && $.trim(contract_status_fk) == 'In Progres'){
             	//$("#date_of_start").removeAttr('required');
             	$('#date_of_start').rules('remove',  'required');
             	$("#date_of_startDiv").show();
             	$('#date_of_start_req').text('');
             	$('#date_of_startError').text('');
-            }else if($.trim(contract_status) != 'No' && $.trim(contract_status_fk) != 'Not Started'){
+            }else if($.trim(contract_status) != 'No' && $.trim(contract_status_fk) != 'In Progres'){
             	$("#date_of_startDiv").show();
             	$('#date_of_start').rules('add',  { required: true });
             	$('#date_of_start_req').text('*');
-            }else if($.trim(contract_status) != 'No' && $.trim(contract_status_fk) == 'Not Started'){
+            }else if($.trim(contract_status) != 'No' && $.trim(contract_status_fk) == 'In Progres'){
             	$("#date_of_startDiv").show();
             	$('#date_of_start').rules('remove',  'required');
             	$('#date_of_start_req').text('');
@@ -2608,12 +2610,12 @@
             	var contract_status_fk = $(this).val();
             	//var contract_status = $("#contract_status").val();
             	var contract_status = $('input[name="contract_status"]:checked').val();
-            	if($.trim(contract_status) == 'Yes' && $.trim(contract_status_fk) == 'Not Started'){
+            	if($.trim(contract_status) == 'Yes' && $.trim(contract_status_fk) == 'In Progres'){
             		$("#date_of_startDiv").show();
                 	$('#date_of_start').rules('remove',  'required');
                 	$('#date_of_start_req').text('');
                 	$('#date_of_startError').text('');
-                }else if($.trim(contract_status) == 'Yes' && $.trim(contract_status_fk) != 'Not Started'){
+                }else if($.trim(contract_status) == 'Yes' && $.trim(contract_status_fk) != 'In Progres'){
                 	$("#date_of_startDiv").show();
                 	$('#date_of_start').rules('add',  { required: true });
                 	$('#date_of_start_req').text('*');
@@ -3327,7 +3329,7 @@
         		 	    }else if (element.attr("id") == "contract_status_fk" ){
         	 		     document.getElementById("contract_status_fkError").innerHTML="";
         	 			 error.appendTo('#contract_status_fkError');
-	        	 	    }else if (element.attr("id") == "contract_status" ){
+	        	 	    }else if (element.attr("name") == "contract_status" ){
         	 		     document.getElementById("contract_statusError").innerHTML="";
         	 			 error.appendTo('#contract_statusError');
 	        	 	    }else if (element.attr("id") == "estimated_cost_units" ){
@@ -3424,9 +3426,9 @@
             var toDateParts = value.split("-");
             // month is 0-based, that's why we need dataParts[1] - 1
             var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-            if($.trim(fromDateString) != '' && $.trim(value) != '' && statusNotStarted !='Not Started'){
+            if($.trim(fromDateString) != '' && $.trim(value) != '' && statusNotStarted !='In Progres'){
             	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != '' && statusNotStarted !='Not Started'){
+            }else if($.trim(fromDateString) == '' && $.trim(value) != '' && statusNotStarted !='In Progres'){
             	return false;
             }else{
             	return true;
@@ -4150,6 +4152,10 @@
 	        	$('#awarded_cost_div').hide();
 	        	$('#awarded_cost_units_div').hide();
 	        	$('#doc_div').hide();
+	        	
+	        	$('#contract_type_fk').rules('remove',  'required');
+	        	$('#contract_status_fk').rules('remove',  'required');
+	        	
         	}else{
         		var contract_type_fk='${contractDeatils.contract_type_fk}';
         		var scope_of_contract='${contractDeatils.scope_of_contract}';
@@ -4198,6 +4204,9 @@
 	        	$('#awarded_cost_div').show();
 	        	$('#awarded_cost_units_div').show();
 	        	$('#doc_div').show();
+	        	
+	        	$('#contract_type_fk').rules('add',  { required: true });
+	        	$('#contract_status_fk').rules('add',  { required: true });
         	}
         }
 		

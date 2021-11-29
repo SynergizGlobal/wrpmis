@@ -143,10 +143,10 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				    		url_access_flag = true;
 				    	}
 					}
-				}*/
-				/*if(!url_access_flag) {
+				}
+				if(!url_access_flag) {
 					request.getSession().invalidate();
-					model.setViewName("redirect:/login");
+					model.setViewName("redirect:/home");
 				}*/
 				
 				Alerts aObj = new Alerts();

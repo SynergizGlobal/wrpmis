@@ -387,7 +387,7 @@
 			                                        <option value="" selected>Select</option>
 			                                           <c:forEach var="obj" items="${contract_Statustype }">
 			                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
-					                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started'}">selected</c:if>>${obj.contract_status_fk }</option>
+					                                    		<option value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'In Progres'}">selected</c:if>>${obj.contract_status_fk }</option>
 					                                    	</c:if>
 					                                    </c:forEach>
 			                                    </select>
@@ -524,7 +524,7 @@
 		                                        <option value="" selected>Select</option>
 		                                            <c:forEach var="obj" items="${contract_Statustype }">
 		                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
-				                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started'}">selected</c:if>>${obj.contract_status_fk }</option>
+				                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'In Progres'}">selected</c:if>>${obj.contract_status_fk }</option>
 				                                    	</c:if>
 				                                    </c:forEach>
 		                                    </select>

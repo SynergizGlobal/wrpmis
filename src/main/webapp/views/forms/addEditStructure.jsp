@@ -1503,7 +1503,7 @@ td label.btn.bg-m{
 				var structureType = $("#structure_type_fks"+tableNo).val();
 				var x = Math.floor(Math.random() * (100 - 500 + 1) + 500)
 				var y = Math.floor(Math.random() * (10 - 50 + 100) + 5)
-				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+tableNo+rNo+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
+				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+tableNo+rNo+x+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
 						   +'placeholder="Structure Id"></td>'
 						   +'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal"> '
 						    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
@@ -1595,7 +1595,7 @@ td label.btn.bg-m{
 
 			   $('#structureRow'+tableNo+'-internalTable tbody tr.mob-add-btn').prev().after(html);
 			   $("#internalRow"+ind).val(rNo);
-			   $("#structure_type_fks"+rNo+tableNo+rNo).val(structureType);
+			   $("#structure_type_fks"+rNo+tableNo+rNo+x).val(structureType);
 			   $('.modal').modal(); 
 			   $('.searchable').select2(); 
 			   $('select:not(.searchable)').formSelect();

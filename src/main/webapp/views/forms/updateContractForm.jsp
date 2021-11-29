@@ -2446,7 +2446,6 @@
             
             $("input[name=contract_status]").click(function(){
             	var contract_status = $(this).val();
-            	alert(contract_status);
             	if($.trim(contract_status) == 'No'){
             		$("#date_of_start").val('');
             		$("#date_of_startDiv").hide();            		

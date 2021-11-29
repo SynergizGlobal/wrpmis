@@ -380,19 +380,7 @@
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                         <c:if test="${ sessionScope.USER_TYPE eq 'DyHOD'}">  <input type="hidden" id="dyHodVal" name="dy_hod_user_id_fk" />  </c:if>
-	                                         <div class="col s6 m4 l4 input-field">
-			                                  <!--  <p class="searchable_label">Status of Work <span class="required">*</span></p> -->
-			                                   	<label class="selected" for="contract_status_fk">Status of Work <span class="required">*</span></label>	                                                  
-			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
-			                                        <option value="" selected>Select</option>
-			                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
-					                                    		<option value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'In Progres'}">selected</c:if>>${obj.contract_status_fk }</option>
-					                                    	</c:if>
-					                                    </c:forEach>
-			                                    </select>
-			                                     <span id="contract_status_fkError" class="error-msg" ></span>
-			                                </div>
+	                                         
 								         </c:otherwise>
 								      </c:choose>
                                 </div>

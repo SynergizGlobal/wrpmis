@@ -241,8 +241,15 @@ public class SafetyReportController {
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
-			 			  
-			DocxTableCreation.createTableForSafetyReport(wordMLPackage, mp, factory,safetyData);
+			
+			String Status="";
+			
+			if(!StringUtils.isEmpty(obj.getStatus_fk())) 
+			{
+				Status=obj.getStatus_fk();
+			}
+			
+			DocxTableCreation.createTableForSafetyReport(wordMLPackage, mp, factory,safetyData,obj.getStatus_fk());
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

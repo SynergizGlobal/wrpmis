@@ -621,7 +621,7 @@ public class DocxTableCreation {
 
 
 	public static void createTableForSafetyReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
-			ObjectFactory factory, List<Safety> safetyData) {
+			ObjectFactory factory, List<Safety> safetyData,String Status) {
 		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
 				true, false, false, false);
 		
@@ -648,9 +648,17 @@ public class DocxTableCreation {
 		RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 				false, false, false, false);
 		
-		String sArray[] = new String[] { "Open", "Closed"};
-		List<String> lList = Arrays.asList(sArray);
+		String sArray[]=null;
+		if(Status==null)
+		{
+			sArray = new String[] { "Open", "Closed"};
+		}
+		else
+		{
+			sArray = new String[] { Status};
+		}
 		
+		List<String> lList = Arrays.asList(sArray);
 		
 		for (int i2 = 0; i2 < lList.size(); i2++) 
 		{	
@@ -757,6 +765,7 @@ public class DocxTableCreation {
 				
 			}
 		}
+		
 	}	 
 	
 	

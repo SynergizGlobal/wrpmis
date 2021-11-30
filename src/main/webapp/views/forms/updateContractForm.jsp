@@ -514,7 +514,8 @@
                                     	<input type="hidden" name="work_short_name" value="${contractDeatils.work_short_name}" />
 	                                </div>	
 	                                
-	                                 <div class="col s12 m4 l4 input-field" style="<c:if test="${(contractDeatils.status eq 'Open') or (contractDeatils.status eq 'Closed')}">pointer-events: none;opacity: 0.4;</c:if>">
+	                                 <%-- <div class="col s12 m4 l4 input-field" style="<c:if test="${(contractDeatils.status eq 'Open') or (contractDeatils.status eq 'Closed')}">pointer-events: none;opacity: 0.4;</c:if>"> --%>
+		                             <div class="col s12 m4 l4 input-field" style="<c:if test="${(contractDeatils.status eq 'Open') or (contractDeatils.status eq 'Closed')}">display:none;</c:if>">
 		                                <p class="priokind pad-top" style="text-align: center;"> <span style="margin-right:.5rem; font-weight:600;">Contract Awarded? <span class="required">*</span></span>
                                            	<span class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
                                                 <label style="padding-right: 10px;">
@@ -727,7 +728,7 @@
 								  <c:choose>
 						         	<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
 							         	<div class="col s6 m4 l6 input-field offset-m2">
-		                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
+		                                 <p class="searchable_label">Contract Type <span class="required" id="contract_type_fk_req">*</span></p>
 		                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable" >
 		                                        <option value="" selected>Select</option>
 		                                       	   <c:forEach var="obj" items="${contract_type }">
@@ -889,13 +890,13 @@
 	                                     <span id="actual_date_of_commissioningError" class="error-msg" ></span>
 	                                </div>	                              
 	                            </div>
-	                            <div class="row">
+	                            <div class="row" id="contract_status_fk_div">
 	                              <div class="col s12 m4 l6 input-field offset-m2">
-	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
+	                                   <p class="searchable_label">Status of Work <span class="required" id="contract_status_fk_req">*</span></p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails(this.value);">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
+			                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
 			                                    </c:forEach>
 	                                    </select>
 	                                     <span id="contract_status_fkError" class="error-msg" ></span>
@@ -4136,6 +4137,7 @@
             	$('#estimated_cost_units').val('1').focus();
             	$('#awarded_cost').val('').focus();
             	$('#awarded_cost_units').val('1').focus();
+            	$('#contract_status_fk').val('');
             	
             	$('.searchable').select2();
             	
@@ -4151,10 +4153,12 @@
 	        	$('#awarded_cost_div').hide();
 	        	$('#awarded_cost_units_div').hide();
 	        	$('#doc_div').hide();
+	        	$('#contract_status_fk_div').hide();
 	        	
 	        	$('#contract_type_fk').rules('remove',  'required');
 	        	$('#contract_status_fk').rules('remove',  'required');
-	        	
+	        	$('#contract_status_fk_req').text('');
+	        	$('#contract_type_fk_req').text('');
         	}else{
         		var contract_type_fk='${contractDeatils.contract_type_fk}';
         		var scope_of_contract='${contractDeatils.scope_of_contract}';
@@ -4203,9 +4207,12 @@
 	        	$('#awarded_cost_div').show();
 	        	$('#awarded_cost_units_div').show();
 	        	$('#doc_div').show();
+	        	$('#contract_status_fk_div').show();
 	        	
 	        	$('#contract_type_fk').rules('add',  { required: true });
 	        	$('#contract_status_fk').rules('add',  { required: true });
+	        	$('#contract_status_fk_req').text('*');
+	        	$('#contract_type_fk_req').text('*');
         	}
         }
 		

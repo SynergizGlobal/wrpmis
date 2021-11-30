@@ -280,9 +280,9 @@ public class ContractDaoImpl implements ContractDao {
 			
 			if(StringUtils.isEmpty(contract.getContract_status()) || "No".equals(contract.getContract_status())) {
 				contract.setContract_status(null);
-				contract.setContract_status_fk("In Progress");
+				contract.setContract_status_fk(null);
 			}
-			if(!StringUtils.isEmpty(contract.getContract_status()) || "Yes".equals(contract.getContract_status())) {
+			if(!StringUtils.isEmpty(contract.getContract_status()) && "Yes".equals(contract.getContract_status())) {
 				contract.setContract_status("Open");
 			}
 			
@@ -1380,17 +1380,20 @@ public class ContractDaoImpl implements ContractDao {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			
+			if(StringUtils.isEmpty(contract.getContract_status()) || "No".equals(contract.getContract_status())) {
+				contract.setContract_status(null);
+				contract.setContract_status_fk(null);
+			}
+			if(!StringUtils.isEmpty(contract.getContract_status()) && "Yes".equals(contract.getContract_status())) {
+				contract.setContract_status("Open");
+			}
+			
 			if("Close Contract".equalsIgnoreCase(contract.getUpdate_type())) {
 				contract.setContract_status("Closed");
 				contract.setContract_status_fk("Completed");
 				contract.setIs_contract_closure_initiated("Closed");
 			}
-			if(StringUtils.isEmpty(contract.getContract_status()) || "No".equals(contract.getContract_status())) {
-				contract.setContract_status(null);
-			}
-			if(!StringUtils.isEmpty(contract.getContract_status()) || "Yes".equals(contract.getContract_status())) {
-				contract.setContract_status("Open");
-			}
+			
 			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,contract_name = ?,contract_short_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 

@@ -35,8 +35,29 @@ import com.synergizglobal.pmis.model.WebLinks;
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	Logger logger = Logger.getLogger(AuthenticationInterceptor.class);
 	
+	@Value("${message.password.expired}")
+	public String passwordExpired;
+	
 	@Autowired
 	LoginService  loginService;
+	
+	@Autowired
+	HomeService service;
+	
+	@Autowired
+	WebDocumentsService webDocumentsService;
+	
+	@Autowired
+	WebLinksService webLinksService;
+	
+	@Autowired
+	AlertsService alertsService;
+	
+	@Autowired
+	IssueService issueService;
+	
+	@Autowired
+	UserManualsService userManualsService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) {
@@ -63,27 +84,6 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 		
 		return true;
 	}
-	
-	@Value("${message.password.expired}")
-	public String passwordExpired;
-	
-	@Autowired
-	HomeService service;
-	
-	@Autowired
-	WebDocumentsService webDocumentsService;
-	
-	@Autowired
-	WebLinksService webLinksService;
-	
-	@Autowired
-	AlertsService alertsService;
-	
-	@Autowired
-	IssueService issueService;
-	
-	@Autowired
-	UserManualsService userManualsService;
 	
 	@Override
     public void postHandle(HttpServletRequest request,
@@ -145,8 +145,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 					}
 				}
 				if(!url_access_flag) {
-					request.getSession().invalidate();
-					model.setViewName("redirect:/home");
+					//request.getSession().invalidate();
+					System.out.println("Test : "+request.getRequestURI());
+					model.setViewName("redirect:/no-access");
 				}*/
 				
 				Alerts aObj = new Alerts();

@@ -130,25 +130,6 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				
 				List<Admin> adminForms = service.getAdminList(null);
 			    model.addObject("adminForms", adminForms);
-			    
-				/*boolean url_access_flag = false;
-				for (Forms formObj : forms) {
-					if(request.getRequestURI().contains("/pmis/"+formObj.getWebFormUrl())){
-						System.out.println(request.getRequestURI());
-						url_access_flag = true;
-					}
-					for (Forms formSubObj : formObj.getFormsSubMenu()) {
-						if(request.getRequestURI().contains("/pmis/"+formSubObj.getWebFormUrl())){
-				    		System.out.println(request.getRequestURI());
-				    		url_access_flag = true;
-				    	}
-					}
-				}
-				if(!url_access_flag) {
-					//request.getSession().invalidate();
-					System.out.println("Test : "+request.getRequestURI());
-					model.setViewName("redirect:/no-access");
-				}*/
 				
 				Alerts aObj = new Alerts();
 				aObj.setUser_id(userDetails.getUser_id());

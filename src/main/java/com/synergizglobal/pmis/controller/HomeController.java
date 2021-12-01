@@ -113,18 +113,6 @@ public class HomeController {
 		return model;
 	}
 	
-	@RequestMapping(value="/no-access",method=RequestMethod.GET)
-	public ModelAndView noAccess(HttpSession session) throws IOException {
-		ModelAndView model = new ModelAndView();
-		try {
-			 model.setViewName(PageConstants.login);
-			 model.addObject("message", "No Access");
-		} catch (Exception e) {
-			logger.error("someoneLogin : " + e.getMessage());
-		}
-		return model;
-	}
-	
 	@RequestMapping(value = "/ajax/getDashBoradName", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Work> getDashBoardNames(@ModelAttribute Work obj) {

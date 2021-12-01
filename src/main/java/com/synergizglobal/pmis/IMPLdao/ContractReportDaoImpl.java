@@ -1042,7 +1042,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 + "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Bank Guarantee' and contract_id = c.contract_id and alert_value = (case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ))),'')),'\nBG-NO Data','')," +
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) limit 1) limit 1),'')),'\nBG-NO Data','')," +
 					
 					"replace((coalesce((select CONCAT('Insurance-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
@@ -1051,7 +1051,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 + "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id  and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is not null and i.insurance_number is null) then CONCAT(i.insurance_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ))),'')),'Insurance-NO Data','')) SEPARATOR '\n<space>' ) AS ContractAlertRemarks "
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) limit 1) limit 1),'')),'Insurance-NO Data','')) SEPARATOR '\n<space>' ) AS ContractAlertRemarks "
 					
 					
 						

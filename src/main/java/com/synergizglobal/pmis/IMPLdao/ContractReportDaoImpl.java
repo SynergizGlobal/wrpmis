@@ -931,6 +931,15 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			int arrSize = 0;			
 
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && obj.getDepartment_fk().equals("'Elec','S&T'")) {
+				hodQry = hodQry + " and u.department_fk in (?,?)";
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())){
+				hodQry = hodQry + " and u.department_fk = ?";
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				hodQry = hodQry + " and c.contract_id = ? ";
 				arrSize++;
@@ -987,6 +996,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && obj.getDepartment_fk().equals("'Elec','S&T'")) {
+				pValues[i++] = "Elec";
+				pValues[i++] = "S&T";
+			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
 			}
@@ -1018,14 +1033,14 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {		
 				
-				var conCatBGQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n<space>' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null )";
+				var conCatBGQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null )";
 				
-				var conCatQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n<space>' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes') )";
+				var conCatQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes') )";
 				
 				var conCatDocQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end ";
 				
 
-				String qry ="select distinct contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT doc SEPARATOR '\n' ) as doc,GROUP_CONCAT(DISTINCT bg_valid_upto SEPARATOR '\n' ) as bg_valid_upto,GROUP_CONCAT(DISTINCT insurance_valid_upto SEPARATOR '\n' ) as insurance_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "+conCatQry+" AS insurance_valid_upto,"
+				String qry ="select contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT doc SEPARATOR '\n' ) as doc,GROUP_CONCAT(DISTINCT bg_valid_upto SEPARATOR '\n' ) as bg_valid_upto,GROUP_CONCAT(DISTINCT insurance_valid_upto SEPARATOR '\n' ) as insurance_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "+conCatQry+" AS insurance_valid_upto,"
 						+ "c.contract_short_name,cr.contractor_name," + 
 						conCatDocQry+" AS doc,"
 						+conCatBGQry+" AS bg_valid_upto, "
@@ -1051,7 +1066,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 + "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id  and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is not null and i.insurance_number is null) then CONCAT(i.insurance_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) limit 1) limit 1),'')),'Insurance-NO Data','')) SEPARATOR '\n<space>' ) AS ContractAlertRemarks "
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) limit 1) limit 1),'')),'Insurance-NO Data',''))) AS ContractAlertRemarks "
 					
 					
 						
@@ -1070,6 +1085,14 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				arrSize = 0;			
 	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && obj.getDepartment_fk().equals("'Elec','S&T'")) {
+					qry = qry + " and u.department_fk in (?,?)";
+					arrSize++;
+					arrSize++;
+				}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())){
+					qry = qry + " and u.department_fk = ?";
+					arrSize++;
+				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 					qry = qry + " and c.contract_id = ? ";
 					arrSize++;
@@ -1112,6 +1135,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				}
 				pValues = new Object[arrSize];
 				i = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && obj.getDepartment_fk().equals("'Elec','S&T'")) {
+					pValues[i++] = "Elec";
+					pValues[i++] = "S&T";
+				}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 					pValues[i++] = obj.getContract_id();
 				}

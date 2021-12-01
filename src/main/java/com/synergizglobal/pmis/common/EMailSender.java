@@ -955,20 +955,25 @@ public class EMailSender {
 					 recipientsArray.add(stringTokenizer.nextToken());
 				 }
 				 int sizeTo = recipientsArray.size();
-				 InternetAddress[] addressTo = new InternetAddress[sizeTo];
-				 if(sizeTo<36)
-				 {
+				 if(sizeTo<=32){
+					 InternetAddress[] addressTo = new InternetAddress[sizeTo];
 					 for (int i = 0; i < sizeTo; i++) {
 						 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
 					 }	 
 					 message.setRecipients(Message.RecipientType.TO, addressTo);
-				 }
-				 else
-				 {
-					 int sizeCC = sizeTo-36;
-					 InternetAddress[] addressCC = new InternetAddress[sizeCC];					 
-					 for (int i = 36; i < sizeTo; i++) {
-						 addressCC[i] = new InternetAddress(recipientsArray.get(i).toString());
+				 }else{
+					 InternetAddress[] addressTo = new InternetAddress[32];
+
+					 for (int i = 0; i < 32; i++) {
+						 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
+					 }	 
+					 message.setRecipients(Message.RecipientType.TO, addressTo);					 
+					 
+					 int sizeCC = sizeTo-32;
+					 InternetAddress[] addressCC = new InternetAddress[sizeCC];
+					 int j=0;
+					 for (int i = 32; i < sizeTo; i++) {
+						 addressCC[j++] = new InternetAddress(recipientsArray.get(i).toString());
 					 }
 					 message.setRecipients(Message.RecipientType.CC, addressCC);
 				 }

@@ -56,8 +56,8 @@ td label.btn.bg-m{
 	top:5% !important;
 }
         #structure_details td>.select2-container{
-        	min-width:300px;
-        	max-width:300px;
+        	min-width:260px;
+        	max-width:260px;
         }
         #structure_details .select2-container--default .select2-selection--single {
         	background-color:transparent;
@@ -151,8 +151,8 @@ td label.btn.bg-m{
 		    right: -2.2rem;
 		}
 		.max-w-350{
-			max-width:350px;
-			width:340px;
+			max-width:310px;
+			width:300px;
 		}
 		.mobile_responsible_table > tbody >tr >td{
 			border-bottom: 1px solid rgba(0,0,0,.35);
@@ -190,6 +190,9 @@ td label.btn.bg-m{
 		}
 		.modal-content .mdl-data-table thead tr:hover{
 			background-color:#007a7a;
+		}
+		.internal-table tr td{
+			padding:0 9px !important;
 		}
     </style>
 </head>
@@ -302,6 +305,7 @@ td label.btn.bg-m{
                                         <tr>
                                             <th class="max-w-350">Structure Type</th>
                                             <th>Structure Id</th>
+                                            <th>Structure Name</th>
                                             <th class="text-right">Action</th>
                                         </tr>
                                     </thead>
@@ -320,7 +324,7 @@ td label.btn.bg-m{
 		                                            </c:forEach>
                                                 </select>
                                             </td>
-                                           <td data-head="Structure Id" class="input-field no-pad">                                         
+                                           <td data-head="Structure Id" class="input-field no-pad" colspan=2>                                         
                                                  <input type="hidden" name= "ids" id="ids" value="${dObj.structure_id}" />                                                    
                                                  <table class="internal-table" id="structureRow${index.count }-internalTable">
                                                     <tbody id="internalTable${indexx.count }${index.count }">
@@ -330,9 +334,12 @@ td label.btn.bg-m{
 			                                                  <input type="hidden" id="structure_type_fks${indexx.count }${index.count }"   <c:if test="${indexx.count != 1}"> name="structure_type_fks"</c:if> value="${dObj.structure_type_fk }"/>
 			                                                 
 			                                                    <input id="structure_id${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${sObj.structure }"></td>
-			                                                     <td style="text-align:center;"><div id="modal${indexx.count }${index.count }" class="modal">
-															    
-															    
+			                                                    <td>
+			                                                   	   <input type="hidden" name= "structure_ids" id="structure_ids${indexx.count }${index.count }" value="${sObj.structure_id}" />
+								                                	<input id="structure_name${indexx.count }${index.count }" name="structure_names" type="text"  placeholder="Structure Name" class="validate" value="${sObj.structure_name }" >
+								                                    <span id="structure_name${indexx.count }${index.count }Error" class="error-msg" ></span>
+												                                </td>	
+			                                               <%--<td style="text-align:center;"><div id="modal${indexx.count }${index.count }" class="modal">
 															    <div class="modal-content">
 																	<h5 class="modal-header">${dObj.structure_type_fk } - ${sObj.structure } Update <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
 																	 <c:forEach var="sObj1" items="${sObj.structureSubList2 }" > 
@@ -639,7 +646,7 @@ td label.btn.bg-m{
 																	                                <input class="file-path validate" type="text" id="structureFileNames${indexx.count }${index.count }${indexex.count }" name="structureFileNames"  value="${docObj.attachment}">
 																	                                
 																	                            </div>
-																	                            <%--  <a href="<%=CommonConstants2.STRUCTURE_FILES %>${docObj.attachment }"  download>${docObj.attachment }</a> --%>
+																	                             <a href="<%=CommonConstants2.STRUCTURE_FILES %>${docObj.attachment }"  download>${docObj.attachment }</a>
 																	                        </td>
 																	                        <td style="display:none;"><input type="hidden" id="structure_file_ids${indexx.count }${index.count }${indexex.count }" name="structure_file_ids" /></td>
 																	                        <td class="mobile_btn_close">
@@ -710,10 +717,10 @@ td label.btn.bg-m{
 																	    </div>
 																	</div>
 																    
-															    </div>												
+															    </div>											
 															 </div>
 			                                           		<a class="modal-trigger btn bg-m t-c" href="#modal${indexx.count }${index.count }">Update</a>
-                                           					</td>
+                                           					</td> --%>	
 		                                                    <td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('${indexx.count }${index.count }','${index.count }')">
 		                                                     <i class="fa fa-close"></i></a></td></tr> 
 		                                      
@@ -754,7 +761,7 @@ td label.btn.bg-m{
 		                                            </c:forEach>
                                                 </select>
                                             </td>                                            
-                                           <td data-head="Structure Id" class="input-field no-pad"> 
+                                           <td data-head="Structure Id" class="input-field no-pad" colspan=2> 
                                                <c:choose>
 			                                        <c:when test="${not empty (dObj.structureSubList) && fn:length(dObj.structureSubList) gt 0 }">
 			                                    		<input type="hidden" id="internalRow00"  name="internalRowNo" value="${fn:length(dObj.structureSubList) }" />
@@ -770,7 +777,11 @@ td label.btn.bg-m{
 													<input id="structure_id" name="structuress" type="hidden">
 													<input id="structure_id0_0" name="structures" type="text" class="validate" placeholder="Structure Id">
 	                                                         </td>
-	                                                        <td style="text-align:center;">
+                                                     <td>
+													    <input id="structure_name00" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" >
+													    <span id="structure_name00Error" class="error-msg" ></span>
+														</td>	
+	                                                      <%--   <td style="text-align:center;"> 
 	                                                        
 	                                                        <div id="modal00" class="modal">
 															    <div class="modal-content">
@@ -1010,7 +1021,7 @@ td label.btn.bg-m{
 															    </div>												
 															 </div>
 			                                            		<a class="modal-trigger btn bg-m t-c" href="#modal00">Update</a>
-                                           					</td>			                                                    	
+                                           					</td>			             --%>                                        	
 			                                                    
 	                                                        <td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('00','0')"> <i
 	                                                        class="fa fa-close"></i></a></td>
@@ -1375,9 +1386,10 @@ td label.btn.bg-m{
 			              	+'<option value="${obj.structure_type }">${obj.structure_type}</option>'
 			               </c:forEach>
            				+'</select></td>'
-           				+'<td data-head="Structure Id" class="input-field no-pad"><input type="hidden" id="internalRow'+rNo+rNo+x+'"  name="internalRowNo" value="0" /> <table class="internal-table" id="structureRow'+rNo+'-internalTable"><tbody id="internalTable'+rNo+'">'
+           				+'<td data-head="Structure Id" class="input-field no-pad" colspan=2><input type="hidden" id="internalRow'+rNo+rNo+x+'"  name="internalRowNo" value="0" /> <table class="internal-table" id="structureRow'+rNo+'-internalTable"><tbody id="internalTable'+rNo+'">'
            				+'<tr id="internalTableRow'+rNo+rNo+x+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+rNo+x+'"/> <input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
-           				+'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal">'
+           				+'<td> <input id="structure_name'+rNo+rNo+x+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+rNo+x+'Error" class="error-msg" ></span></td>'
+           			/* 	+'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal">'
            			    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
            			    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p> <input type="hidden" name= "structure_ids" id="structure_ids'+rNo+rNo+x+'" value="" /><select id="work_status_fk'+rNo+rNo+x+'" '
            			    +'name="work_status_fks"  class="searchable validate-dropdown">'+
@@ -1462,7 +1474,7 @@ td label.btn.bg-m{
 			            +'</a></tr></tbody></table> </div></div></div>'
            			    
            				//+'<span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5></div></div>'
-           				+'</div></div><a class="modal-trigger btn bg-m t-c" href="#modal'+rNo+rNo+x+'">Update</a>	</td>'
+           				+'</div></div><a class="modal-trigger btn bg-m t-c" href="#modal'+rNo+rNo+x+'">Update</a>	</td>' */
            				+'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c " onclick="removeStructureInternalRow('+rNo+rNo+x+','+rNo+')"> <i class="fa fa-close"></i></a></td></tr>'
            				+'<tr class="mob-add-btn"><td> <a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onclick="addInternalTableRow('+rNo+rNo+x+','+rNo+')"> <i class="fa fa-plus"></i></a>'
            				+'</td></tr></tbody></table></td>'
@@ -1476,7 +1488,7 @@ td label.btn.bg-m{
     				 $('.searchable').select2();  
     				 $('select:not(.searchable)').formSelect();
     				 $('.modal').modal(); 
-    				 var rowNumber = "rw"+1+rNo+rNo+rNo+x;
+    		/* 		 var rowNumber = "rw"+1+rNo+rNo+rNo+x;
     				 rowNumber =  rowNumber.replace("rw", "");
     				 getContractsByRowList(rowNumber);
     				 $("[name='estimated_cost_unitss']").change(function(key, element){
@@ -1486,7 +1498,7 @@ td label.btn.bg-m{
     		           			$('#estimated_cost_units'+idNo+'Error').text('');
     		   				}
     		      		})
-    		         });
+    		         }); */
             } 
          
 			function removeStructureRow(rowNo){
@@ -1505,7 +1517,8 @@ td label.btn.bg-m{
 				var y = Math.floor(Math.random() * (10 - 50 + 100) + 5)
 				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+tableNo+rNo+x+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
 						   +'placeholder="Structure Id"></td>'
-						   +'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal"> '
+						   +'<td> <input id="structure_name'+rNo+'_'+tableNo+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+'_'+tableNo+'Error" class="error-msg" ></span></td>'
+						  /*  +'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal"> '
 						    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
 						    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p>'+
 						    '<input type="hidden" name= "structure_ids" id="structure_ids'+rNo+tableNo+x+'" value="" /><select id="work_status_fk'+rNo+tableNo+x+'" name="work_status_fks"  class="searchable validate-dropdown"> '+
@@ -1589,7 +1602,7 @@ td label.btn.bg-m{
 				            +'</a></tr></tbody></table> </div></div></div>'
 				            
 						   //+'<h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5></div></div>'
-	           				+'</div></div><a class="modal-trigger btn bg-m t-c" href="#modal'+rNo+rNo+x+'">Update</a>	</td>'
+	           				+'</div></div><a class="modal-trigger btn bg-m t-c" href="#modal'+rNo+rNo+x+'">Update</a>	</td>' */
 						   +'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" '
 						   +'onclick="removeStructureInternalRow('+rNo+tableNo+','+tableNo+')"> <i class="fa fa-close"></i></a></td></tr>';
 
@@ -1599,7 +1612,7 @@ td label.btn.bg-m{
 			   $('.modal').modal(); 
 			   $('.searchable').select2(); 
 			   $('select:not(.searchable)').formSelect();
-			   var rowNumber = "rw"+y+rNo+rNo+rNo+x;
+		/* 	   var rowNumber = "rw"+y+rNo+rNo+rNo+x;
 			   rowNumber = rowNumber.replace("rw", "");
 			   getContractsByRowList(rowNumber);
 			   $("[name='estimated_cost_unitss']").change(function(key, element){
@@ -1609,7 +1622,7 @@ td label.btn.bg-m{
 		           			$('#estimated_cost_units'+idNo+'Error').text('');
 		   				}
 		      		})
-		         });
+		         }); */
 			}
 			
 			function removeStructureInternalRow(rowNo,ind){
@@ -1858,7 +1871,7 @@ td label.btn.bg-m{
 	   					$('#estimated_cost_units'+idNo+'Error').slideDown(100,function(){
 	   						$(this).focus();
 	   					});
-	   					$('#modal'+rowNo).modal('open');
+	   					//$('#modal'+rowNo).modal('open');
 	   					flag = false;
 	   				}
 	   			});

@@ -496,7 +496,7 @@ public class StructureDaoImpl implements StructureDao{
 			structure = (Structure)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Structure>(Structure.class));	
 			if(!StringUtils.isEmpty(structure) && !StringUtils.isEmpty(structure.getStructure_id())) {
 				List<Structure> objsList = null;
-				String qryDetails = "select structure_id, structure_type_fk,structure "
+				String qryDetails = "select structure_id, structure_type_fk,structure_name,structure "
 						+ " from structure s  where s.work_id_fk = ? group by structure_type_fk";
 				
 				objsList = jdbcTemplate.query(qryDetails, new Object[] {structure.getWork_id_fk()}, new BeanPropertyRowMapper<Structure>(Structure.class));	
@@ -504,7 +504,7 @@ public class StructureDaoImpl implements StructureDao{
 				if(!StringUtils.isEmpty(objsList)) {
 					for(Structure list : structure.getStructureList()) {
 						
-						String qry2 ="select structure_id, structure  from structure s where s.work_id_fk = ? and s.structure_type_fk = ? ";
+						String qry2 ="select structure_id,structure_name, structure  from structure s where s.work_id_fk = ? and s.structure_type_fk = ? ";
 						List<Structure> objList1 = jdbcTemplate.query( qry2,new Object[] {structure.getWork_id_fk(),list.getStructure_type_fk()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 
 						list.setStructureSubList(objList1);
@@ -574,9 +574,13 @@ public class StructureDaoImpl implements StructureDao{
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
+			/*String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
 					+ "structure,work_status_fk,structure_name,latitude,longitude,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
-					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";*/
+			
+			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
+					+ "structure,structure_name) "
+					+"VALUES (?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
 			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0) {
@@ -659,17 +663,17 @@ public class StructureDaoImpl implements StructureDao{
 			    	    insertStmt.setString(p++,(obj.getWork_id_fk()));
 					    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
 					    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
-					    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
+					   // insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
 					    insertStmt.setString(p++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
-					    insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
-					    insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
-					    insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
-					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
-					    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
-					    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
-					    insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
-					    insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
-					    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+					    //insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
+					   // insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
+					   // insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
+					    //insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
+					   // insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
+					    	//	&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
+					    //insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
+					    //insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
+					    //insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 					    insertStmt.addBatch();
 				    }
 				    insertCount = insertStmt.executeBatch();
@@ -678,31 +682,31 @@ public class StructureDaoImpl implements StructureDao{
 						String structure_id = rs.getString(1);
 						obj.setStructure_id(structure_id);
 					}
-				    if(insertCount.length > 0) {
-				    	String executivesinsert_qry = "INSERT into  structure_contract_responsible_people ( structure_id_fk, contract_id_fk, responsible_people_id_fk) "
+					/* if(insertCount.length > 0) {
+						String executivesinsert_qry = "INSERT into  structure_contract_responsible_people ( structure_id_fk, contract_id_fk, responsible_people_id_fk) "
 								+"VALUES (?,?,?)";
-				    	executivesInsertStmt = con.prepareStatement(executivesinsert_qry);
-				    	int executivesArrSize = 0;
-				    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getContracts_id_fk().length > 0) {
+						executivesInsertStmt = con.prepareStatement(executivesinsert_qry);
+						int executivesArrSize = 0;
+						if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getContracts_id_fk().length > 0) {
 							obj.setContracts_id_fk(CommonMethods.replaceEmptyByNullInSringArray(obj.getContracts_id_fk()));
 							if(executivesArrSize < obj.getContracts_id_fk().length) {
 								executivesArrSize = obj.getContracts_id_fk().length;
 							}
 						}
-				    	if(!StringUtils.isEmpty(obj.getResponsible_people_id_fks()) && obj.getResponsible_people_id_fks().length > 0) {
+						if(!StringUtils.isEmpty(obj.getResponsible_people_id_fks()) && obj.getResponsible_people_id_fks().length > 0) {
 							obj.setResponsible_people_id_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getResponsible_people_id_fks()));
 							if(executivesArrSize < obj.getResponsible_people_id_fks().length) {
 								executivesArrSize = obj.getResponsible_people_id_fks().length;
 							}
 						}
-				    	if(arraySize == 1) {
-				    		String joined = String.join(",", obj.getContracts_id_fk());
-				    		String[] strArray = new String[] {joined};
-				    		obj.setContracts_id_fk(strArray);
-				    	}
-				    	String[] firstArray = obj.getContracts_id_fk();
-				    
-				    	if(!StringUtils.isEmpty(firstArray) && firstArray.length > 0 && !StringUtils.isEmpty(obj.getContracts_id_fk()[i])) {
+						if(arraySize == 1) {
+							String joined = String.join(",", obj.getContracts_id_fk());
+							String[] strArray = new String[] {joined};
+							obj.setContracts_id_fk(strArray);
+						}
+						String[] firstArray = obj.getContracts_id_fk();
+					
+						if(!StringUtils.isEmpty(firstArray) && firstArray.length > 0 && !StringUtils.isEmpty(obj.getContracts_id_fk()[i])) {
 					    	//firstArray =Arrays.stream(firstArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
 						    	List<String> contracts = null;
 						    	if(firstArray[i].contains(",")) {
@@ -744,35 +748,35 @@ public class StructureDaoImpl implements StructureDao{
 						    		}
 						    	}
 					    }else {
-		    				j++;
-		    			}
-				    	
-				    	String structure_details_qry = "INSERT into  structure_details ( structure_id_fk, structure_detail, value) "
+							j++;
+						}
+						
+						String structure_details_qry = "INSERT into  structure_details ( structure_id_fk, structure_detail, value) "
 								+"VALUES (?,?,?)";
-				    	detailsInsertStmt = con.prepareStatement(structure_details_qry);
-				    	int detailsArrSize = 0;
-				    	if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0) {
+						detailsInsertStmt = con.prepareStatement(structure_details_qry);
+						int detailsArrSize = 0;
+						if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0) {
 							obj.setStructure_details(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_details()));
 							if(detailsArrSize < obj.getStructure_details().length) {
 								detailsArrSize = obj.getStructure_details().length;
 							}
 						}
-				    	if(!StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0) {
+						if(!StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0) {
 							obj.setStructure_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_values()));
 							if(detailsArrSize < obj.getStructure_values().length) {
 								detailsArrSize = obj.getStructure_values().length;
 							}
 						}
-				    	if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0 
-				    			&& !StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0 ) {
-				    		if(arraySize == 1) {
+						if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0 
+								&& !StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0 ) {
+							if(arraySize == 1) {
 					    		String joined = String.join("", obj.getStructure_detailss());
 					    		joined = joined.replaceAll("_",",_,");
 					    		String[] strArray = new String[] {joined};
 					    		obj.setStructure_detailss(strArray);
 					    	}
-				    		String[] detailsArray = obj.getStructure_detailss();
-				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 &&!StringUtils.isEmpty(detailsArray[i])) {
+							String[] detailsArray = obj.getStructure_detailss();
+							if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 &&!StringUtils.isEmpty(detailsArray[i])) {
 					    		//detailsArray =Arrays.stream(detailsArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
 					    		List<String> details = null;
 						    	if(detailsArray[i].contains(",_,")) {
@@ -795,8 +799,8 @@ public class StructureDaoImpl implements StructureDao{
 					    	}else {
 					    		 dCount++;
 					    	}
-				    	}
-				    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+						}
+						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-mm-dd");
 						LocalDateTime now = LocalDateTime.now();
 						obj.setCreated_date(dtf.format(now));
 						String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date)"
@@ -873,7 +877,7 @@ public class StructureDaoImpl implements StructureDao{
 							}else {
 								fCount++;
 					    	}
-						}
+						}*/
 				    
 			}
 			if(insertCount.length > 0) {
@@ -912,15 +916,23 @@ public class StructureDaoImpl implements StructureDao{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			con.setAutoCommit(false);
+			/*	String updateQry = " update structure set "
+						+ "structure = ?,work_status_fk = ?,structure_name = ?,latitude = ?,longitude = ?,target_date = ?,estimated_cost = ?,estimated_cost_units = ?,"
+						+ "construction_start_date = ?,revised_completion = ?,remarks = ? where structure_id = ?";
+				updateStmt = con.prepareStatement(updateQry);
+				
+				String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
+						+ "structure,work_status_fk,structure_name,latitude,longitude,target_date,estimated_cost,estimated_cost_units,construction_start_date,"
+						+ "revised_completion,remarks) "
+						+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";*/
+			
 			String updateQry = " update structure set "
-					+ "structure = ?,work_status_fk = ?,structure_name = ?,latitude = ?,longitude = ?,target_date = ?,estimated_cost = ?,estimated_cost_units = ?,"
-					+ "construction_start_date = ?,revised_completion = ?,remarks = ? where structure_id = ?";
+					+ "structure = ?,structure_name = ?  where structure_id = ?";
 			updateStmt = con.prepareStatement(updateQry);
 			
-			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
-					+ "structure,work_status_fk,structure_name,latitude,longitude,target_date,estimated_cost,estimated_cost_units,construction_start_date,"
-					+ "revised_completion,remarks) "
-					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String insert_qry = "INSERT into structure ( work_id_fk, structure_type_fk, "
+					+ "structure,structure_name) "
+					+"VALUES (?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
 			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0) {
@@ -1032,17 +1044,17 @@ public class StructureDaoImpl implements StructureDao{
 						int k = 1;
 					    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
 						    updateStmt.setString(k++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
-						    updateStmt.setString(k++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
+						   // updateStmt.setString(k++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
 						    updateStmt.setString(k++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
-						    updateStmt.setString(k++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
-						    updateStmt.setString(k++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
-						    updateStmt.setString(k++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
-						    updateStmt.setString(k++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
-						    updateStmt.setString(k++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
-						    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
-						    updateStmt.setString(k++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
-						    updateStmt.setString(k++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
-						    updateStmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+						    //updateStmt.setString(k++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
+						   // updateStmt.setString(k++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
+						   // updateStmt.setString(k++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
+						   // updateStmt.setString(k++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
+						   // updateStmt.setString(k++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
+						    	//	&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
+						   // updateStmt.setString(k++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
+						   // updateStmt.setString(k++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
+						   // updateStmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 						    updateStmt.setString(k++,(sId));
 						    updateStmt.addBatch();
 					    }
@@ -1052,17 +1064,17 @@ public class StructureDaoImpl implements StructureDao{
 				    	    insertStmt.setString(p++,(obj.getWork_id_fk()));
 						    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
 						    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
-						    insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
+						   // insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
 						    insertStmt.setString(p++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
-						    insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
-						    insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
-						    insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
-						    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
-						    insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
-						    		&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
-						    insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
-						    insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
-						    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+						   // insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
+						    //insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
+						    //insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
+						    //insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
+						    //insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
+						    		//&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
+						   // insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
+						    //insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
+						    //insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 						    insertStmt.addBatch();
 					    }
 					}
@@ -1074,31 +1086,31 @@ public class StructureDaoImpl implements StructureDao{
 						String structure_id = rs.getString(1);
 						obj.setStructure_id(structure_id);
 					}
-				    if(insertCount.length > 0 || updateCount.length > 0) {
-				    	String executivesinsert_qry = "INSERT into  structure_contract_responsible_people ( structure_id_fk, contract_id_fk, responsible_people_id_fk) "
+					/* if(insertCount.length > 0 || updateCount.length > 0) {
+						String executivesinsert_qry = "INSERT into  structure_contract_responsible_people ( structure_id_fk, contract_id_fk, responsible_people_id_fk) "
 								+"VALUES (?,?,?)";
-				    	executivesInsertStmt = con.prepareStatement(executivesinsert_qry);
-				    	int executivesArrSize = 0;
-				    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getContracts_id_fk().length > 0) {
+						executivesInsertStmt = con.prepareStatement(executivesinsert_qry);
+						int executivesArrSize = 0;
+						if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getContracts_id_fk().length > 0) {
 							obj.setContracts_id_fk(CommonMethods.replaceEmptyByNullInSringArray(obj.getContracts_id_fk()));
 							if(executivesArrSize < obj.getContracts_id_fk().length) {
 								executivesArrSize = obj.getContracts_id_fk().length;
 							}
 						}
-				    	if(!StringUtils.isEmpty(obj.getResponsible_people_id_fks()) && obj.getResponsible_people_id_fks().length > 0) {
+						if(!StringUtils.isEmpty(obj.getResponsible_people_id_fks()) && obj.getResponsible_people_id_fks().length > 0) {
 							obj.setResponsible_people_id_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getResponsible_people_id_fks()));
 							if(executivesArrSize < obj.getResponsible_people_id_fks().length) {
 								executivesArrSize = obj.getResponsible_people_id_fks().length;
 							}
 						}
-				    	if(arraySize == 1) {
-				    		String joined = String.join(",", obj.getContracts_id_fk());
-				    		String[] strArray = new String[] {joined};
-				    		obj.setContracts_id_fk(strArray);
-				    	}
-				    	String[] firstArray = obj.getContracts_id_fk();
-				    
-				    	if(!StringUtils.isEmpty(firstArray) && firstArray.length > 0 && !StringUtils.isEmpty(obj.getContracts_id_fk()[i])) {
+						if(arraySize == 1) {
+							String joined = String.join(",", obj.getContracts_id_fk());
+							String[] strArray = new String[] {joined};
+							obj.setContracts_id_fk(strArray);
+						}
+						String[] firstArray = obj.getContracts_id_fk();
+					
+						if(!StringUtils.isEmpty(firstArray) && firstArray.length > 0 && !StringUtils.isEmpty(obj.getContracts_id_fk()[i])) {
 					    	//firstArray =Arrays.stream(firstArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
 						    	List<String> contracts = null;
 						    	if(firstArray[i].contains(",")) {
@@ -1140,35 +1152,35 @@ public class StructureDaoImpl implements StructureDao{
 						    		}
 						    	}
 					    }else {
-		    				j++;
-		    			}
-				    	
-				    	String structure_details_qry = "INSERT into  structure_details ( structure_id_fk, structure_detail, value) "
+							j++;
+						}
+						
+						String structure_details_qry = "INSERT into  structure_details ( structure_id_fk, structure_detail, value) "
 								+"VALUES (?,?,?)";
-				    	detailsInsertStmt = con.prepareStatement(structure_details_qry);
-				    	int detailsArrSize = 0;
-				    	if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0) {
+						detailsInsertStmt = con.prepareStatement(structure_details_qry);
+						int detailsArrSize = 0;
+						if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0) {
 							obj.setStructure_details(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_details()));
 							if(detailsArrSize < obj.getStructure_details().length) {
 								detailsArrSize = obj.getStructure_details().length;
 							}
 						}
-				    	if(!StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0) {
+						if(!StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0) {
 							obj.setStructure_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_values()));
 							if(detailsArrSize < obj.getStructure_values().length) {
 								detailsArrSize = obj.getStructure_values().length;
 							}
 						}
-				    	if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0 
-				    			&& !StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0 ) {
-				    		if(arraySize == 1) {
+						if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0 
+								&& !StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0 ) {
+							if(arraySize == 1) {
 					    		String joined = String.join("", obj.getStructure_detailss());
 					    		joined = joined.replaceAll("_",",_,");
 					    		String[] strArray = new String[] {joined};
 					    		obj.setStructure_detailss(strArray);
 					    	}
-				    		String[] detailsArray = obj.getStructure_detailss();
-				    		if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 &&!StringUtils.isEmpty(detailsArray[i])) {
+							String[] detailsArray = obj.getStructure_detailss();
+							if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 &&!StringUtils.isEmpty(detailsArray[i])) {
 					    		//detailsArray =Arrays.stream(detailsArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
 					    		List<String> details = null;
 						    	if(detailsArray[i].contains(",_,")) {
@@ -1191,8 +1203,8 @@ public class StructureDaoImpl implements StructureDao{
 					    	}else {
 					    		 dCount++;
 					    	}
-				    	}
-				    	
+						}
+						
 						String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date)"
 								+ " VALUES (?,?,?,?,CURDATE())";
 						documentsStmt = con.prepareStatement(document_insert_qry);
@@ -1267,7 +1279,7 @@ public class StructureDaoImpl implements StructureDao{
 							}else {
 								fCount++;
 					    	}
-						}
+						}*/
 				    
 			}
 			int result = updateCount.length + insertCount.length;

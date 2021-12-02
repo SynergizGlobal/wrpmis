@@ -583,12 +583,7 @@ public class StructureDaoImpl implements StructureDao{
 					+"VALUES (?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
-			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0) {
-				obj.setStructure_type_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_type_fks()));
-				if(arraySize < obj.getStructure_type_fks().length) {
-					arraySize = obj.getStructure_type_fks().length;
-				}
-			}
+		
 			if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
 				obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
 				if(arraySize < obj.getStructures().length) {
@@ -935,12 +930,7 @@ public class StructureDaoImpl implements StructureDao{
 					+"VALUES (?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
-			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0) {
-				obj.setStructure_type_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_type_fks()));
-				if(arraySize < obj.getStructure_type_fks().length) {
-					arraySize = obj.getStructure_type_fks().length;
-				}
-			}
+			
 			if(!StringUtils.isEmpty(obj.getStructure_names()) && obj.getStructure_names().length > 0) {
 				obj.setStructure_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_names()));
 				if(arraySize < obj.getStructure_names().length) {
@@ -1038,249 +1028,251 @@ public class StructureDaoImpl implements StructureDao{
 				if(stmt != null){stmt.close();}
 				*/
 				for (int i = 0; i < arraySize; i++) {
-					String sId = obj.getStructure_ids()[i];
-					if(!StringUtils.isEmpty(sId)) {
-						obj.setStructure_id(sId);
-						int k = 1;
-					    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
-						    updateStmt.setString(k++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
-						   // updateStmt.setString(k++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
-						    updateStmt.setString(k++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
-						    //updateStmt.setString(k++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
-						   // updateStmt.setString(k++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
-						   // updateStmt.setString(k++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
-						   // updateStmt.setString(k++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
-						   // updateStmt.setString(k++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
-						    	//	&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
-						   // updateStmt.setString(k++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
-						   // updateStmt.setString(k++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
-						   // updateStmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
-						    updateStmt.setString(k++,(sId));
-						    updateStmt.addBatch();
-					    }
-					}else {
-						int p = 1;
-					    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
-				    	    insertStmt.setString(p++,(obj.getWork_id_fk()));
-						    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
-						    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
-						   // insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
-						    insertStmt.setString(p++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
-						   // insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
-						    //insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
-						    //insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
-						    //insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
-						    //insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
-						    		//&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
-						   // insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
-						    //insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
-						    //insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
-						    insertStmt.addBatch();
-					    }
-					}
-				    
-				    insertCount = insertStmt.executeBatch();
-				    updateCount = updateStmt.executeBatch();
-				    rs = insertStmt.getGeneratedKeys();
-					if (rs.next()) {
-						String structure_id = rs.getString(1);
-						obj.setStructure_id(structure_id);
-					}
-					/* if(insertCount.length > 0 || updateCount.length > 0) {
-						String executivesinsert_qry = "INSERT into  structure_contract_responsible_people ( structure_id_fk, contract_id_fk, responsible_people_id_fk) "
-								+"VALUES (?,?,?)";
-						executivesInsertStmt = con.prepareStatement(executivesinsert_qry);
-						int executivesArrSize = 0;
-						if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getContracts_id_fk().length > 0) {
-							obj.setContracts_id_fk(CommonMethods.replaceEmptyByNullInSringArray(obj.getContracts_id_fk()));
-							if(executivesArrSize < obj.getContracts_id_fk().length) {
-								executivesArrSize = obj.getContracts_id_fk().length;
+					if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
+						String sId = obj.getStructure_ids()[i];
+						if(!StringUtils.isEmpty(sId)) {
+							obj.setStructure_id(sId);
+							int k = 1;
+						    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
+							    updateStmt.setString(k++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
+							   // updateStmt.setString(k++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
+							    updateStmt.setString(k++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
+							    //updateStmt.setString(k++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
+							   // updateStmt.setString(k++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
+							   // updateStmt.setString(k++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
+							   // updateStmt.setString(k++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
+							   // updateStmt.setString(k++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
+							    	//	&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
+							   // updateStmt.setString(k++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
+							   // updateStmt.setString(k++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
+							   // updateStmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+							    updateStmt.setString(k++,(sId));
+							    updateStmt.addBatch();
+						    }
+						}else {
+							int p = 1;
+						    if(!StringUtils.isEmpty(obj.getStructure_type_fks()[i]) && !StringUtils.isEmpty(obj.getStructures()[i])){
+					    	    insertStmt.setString(p++,(obj.getWork_id_fk()));
+							    insertStmt.setString(p++,(obj.getStructure_type_fks().length > 0)?obj.getStructure_type_fks()[i]:null);
+							    insertStmt.setString(p++,(obj.getStructures().length > 0)?obj.getStructures()[i]:null);
+							   // insertStmt.setString(p++,(obj.getWork_status_fks().length > 0)?obj.getWork_status_fks()[i]:null);
+							    insertStmt.setString(p++,(obj.getStructure_names().length > 0)?obj.getStructure_names()[i]:null);
+							   // insertStmt.setString(p++,(obj.getLatitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLatitudes()[i]:null);
+							    //insertStmt.setString(p++,(obj.getLongitudes().length > 0 && !StringUtils.isEmpty(obj.getLongitudes()[i]))?obj.getLongitudes()[i]:null);
+							    //insertStmt.setString(p++,DateParser.parse((obj.getTarget_dates().length > 0)?obj.getTarget_dates()[i]:null));
+							    //insertStmt.setString(p++,(obj.getEstimated_costs().length > 0)?obj.getEstimated_costs()[i]:null);
+							    //insertStmt.setString(p++,(obj.getEstimated_costs().length > 0 && obj.getEstimated_cost_unitss().length > 0
+							    		//&& !StringUtils.isEmpty(obj.getEstimated_costs()[i]) && !StringUtils.isEmpty(obj.getEstimated_cost_unitss()[i]))?obj.getEstimated_cost_unitss()[i]:null);
+							   // insertStmt.setString(p++,DateParser.parse((obj.getConstruction_start_dates().length > 0)?obj.getConstruction_start_dates()[i]:null));
+							    //insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
+							    //insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+							    insertStmt.addBatch();
+						    }
+						}
+					    
+					    insertCount = insertStmt.executeBatch();
+					    updateCount = updateStmt.executeBatch();
+					    rs = insertStmt.getGeneratedKeys();
+						if (rs.next()) {
+							String structure_id = rs.getString(1);
+							obj.setStructure_id(structure_id);
+						}
+						/* if(insertCount.length > 0 || updateCount.length > 0) {
+							String executivesinsert_qry = "INSERT into  structure_contract_responsible_people ( structure_id_fk, contract_id_fk, responsible_people_id_fk) "
+									+"VALUES (?,?,?)";
+							executivesInsertStmt = con.prepareStatement(executivesinsert_qry);
+							int executivesArrSize = 0;
+							if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getContracts_id_fk().length > 0) {
+								obj.setContracts_id_fk(CommonMethods.replaceEmptyByNullInSringArray(obj.getContracts_id_fk()));
+								if(executivesArrSize < obj.getContracts_id_fk().length) {
+									executivesArrSize = obj.getContracts_id_fk().length;
+								}
 							}
-						}
-						if(!StringUtils.isEmpty(obj.getResponsible_people_id_fks()) && obj.getResponsible_people_id_fks().length > 0) {
-							obj.setResponsible_people_id_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getResponsible_people_id_fks()));
-							if(executivesArrSize < obj.getResponsible_people_id_fks().length) {
-								executivesArrSize = obj.getResponsible_people_id_fks().length;
+							if(!StringUtils.isEmpty(obj.getResponsible_people_id_fks()) && obj.getResponsible_people_id_fks().length > 0) {
+								obj.setResponsible_people_id_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getResponsible_people_id_fks()));
+								if(executivesArrSize < obj.getResponsible_people_id_fks().length) {
+									executivesArrSize = obj.getResponsible_people_id_fks().length;
+								}
 							}
-						}
-						if(arraySize == 1) {
-							String joined = String.join(",", obj.getContracts_id_fk());
-							String[] strArray = new String[] {joined};
-							obj.setContracts_id_fk(strArray);
-						}
-						String[] firstArray = obj.getContracts_id_fk();
-					
-						if(!StringUtils.isEmpty(firstArray) && firstArray.length > 0 && !StringUtils.isEmpty(obj.getContracts_id_fk()[i])) {
-					    	//firstArray =Arrays.stream(firstArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
-						    	List<String> contracts = null;
-						    	if(firstArray[i].contains(",")) {
-						    		contracts = new ArrayList<String>(Arrays.asList(firstArray[i].split(",")));
-						    	}else {
-						    		contracts = new ArrayList<String>(Arrays.asList(firstArray[i]));
-						    	}
-						    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getResponsible_people_id_fks().length > 0 ) {
-						    		for(String cObj : contracts) {
-						    			if(arraySize == 1 && !(firstArray[i].contains(","))) {
-								    		String joined = String.join(",", obj.getResponsible_people_id_fks());
-								    		String[] strArray = new String[] {joined};
-								    		obj.setResponsible_people_id_fks(strArray);
-								    	}
-						    			if( !StringUtils.isEmpty(obj.getResponsible_people_id_fks()[j])) {
-						    				List<String> executives = null;
-								    		if(obj.getResponsible_people_id_fks()[j].contains(",")) {
-								    			executives = new ArrayList<String>(Arrays.asList(obj.getResponsible_people_id_fks()[j].split(",")));
-									    	}else {
-									    		executives = new ArrayList<String>(Arrays.asList(obj.getResponsible_people_id_fks()[j]));
-									    	}
-							    			for(String eObj : executives) {
-							    				if(!eObj.equals("null")) {
-							    					int n = 1;
-								    				if(!StringUtils.isEmpty(cObj) &&  !StringUtils.isEmpty(eObj)){
-									    				executivesInsertStmt.setString(n++,(obj.getStructure_id()));
-									    				executivesInsertStmt.setString(n++,(cObj.length() > 0)? cObj:null);
-									    				executivesInsertStmt.setString(n++,(eObj.length() > 0)? eObj:null);
-									    				executivesInsertStmt.addBatch();
-								    				}
-							    				}
-							    			}
-							    			executivesInsertStmt.executeBatch();
-							    			j++;
-						    			}else {
-						    				j++;
-						    			}
-								    	
-						    		}
-						    	}
-					    }else {
-							j++;
-						}
-						
-						String structure_details_qry = "INSERT into  structure_details ( structure_id_fk, structure_detail, value) "
-								+"VALUES (?,?,?)";
-						detailsInsertStmt = con.prepareStatement(structure_details_qry);
-						int detailsArrSize = 0;
-						if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0) {
-							obj.setStructure_details(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_details()));
-							if(detailsArrSize < obj.getStructure_details().length) {
-								detailsArrSize = obj.getStructure_details().length;
-							}
-						}
-						if(!StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0) {
-							obj.setStructure_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_values()));
-							if(detailsArrSize < obj.getStructure_values().length) {
-								detailsArrSize = obj.getStructure_values().length;
-							}
-						}
-						if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0 
-								&& !StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0 ) {
 							if(arraySize == 1) {
-					    		String joined = String.join("", obj.getStructure_detailss());
-					    		joined = joined.replaceAll("_",",_,");
-					    		String[] strArray = new String[] {joined};
-					    		obj.setStructure_detailss(strArray);
-					    	}
-							String[] detailsArray = obj.getStructure_detailss();
-							if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 &&!StringUtils.isEmpty(detailsArray[i])) {
-					    		//detailsArray =Arrays.stream(detailsArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
-					    		List<String> details = null;
-						    	if(detailsArray[i].contains(",_,")) {
-						    		details = new ArrayList<String>(Arrays.asList(detailsArray[i].split(",_,")));
-						    	}else {
-						    		details = new ArrayList<String>(Arrays.asList(detailsArray[i]));
-						    	}
-					    		for (String dObj : details) {
-								    int param = 1;
-								    if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(obj.getStructure_values()[dCount])){
-								    	detailsInsertStmt.setString(param++,(obj.getStructure_id()));
-								    	detailsInsertStmt.setString(param++,(dObj.length() > 0)? dObj:null);
-								    	detailsInsertStmt.setString(param++,(obj.getStructure_values().length > 0)? obj.getStructure_values()[dCount]:null);
-								    	detailsInsertStmt.addBatch();
-								    }
-								    detailsInsertStmt.executeBatch();
-								    dCount++;
-					    		}
-					    		
-					    	}else {
-					    		 dCount++;
-					    	}
-						}
+								String joined = String.join(",", obj.getContracts_id_fk());
+								String[] strArray = new String[] {joined};
+								obj.setContracts_id_fk(strArray);
+							}
+							String[] firstArray = obj.getContracts_id_fk();
 						
-						String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date)"
-								+ " VALUES (?,?,?,?,CURDATE())";
-						documentsStmt = con.prepareStatement(document_insert_qry);
-						int docArrSize = 0;
-						
-						if (!StringUtils.isEmpty(obj.getStructure_file_types()) && obj.getStructure_file_types().length > 0) {
-							obj.setStructure_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_file_types()));
-							if (docArrSize < obj.getStructure_file_types().length) {
-								docArrSize = obj.getStructure_file_types().length;
+							if(!StringUtils.isEmpty(firstArray) && firstArray.length > 0 && !StringUtils.isEmpty(obj.getContracts_id_fk()[i])) {
+						    	//firstArray =Arrays.stream(firstArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
+							    	List<String> contracts = null;
+							    	if(firstArray[i].contains(",")) {
+							    		contracts = new ArrayList<String>(Arrays.asList(firstArray[i].split(",")));
+							    	}else {
+							    		contracts = new ArrayList<String>(Arrays.asList(firstArray[i]));
+							    	}
+							    	if(!StringUtils.isEmpty(obj.getContracts_id_fk()) && obj.getResponsible_people_id_fks().length > 0 ) {
+							    		for(String cObj : contracts) {
+							    			if(arraySize == 1 && !(firstArray[i].contains(","))) {
+									    		String joined = String.join(",", obj.getResponsible_people_id_fks());
+									    		String[] strArray = new String[] {joined};
+									    		obj.setResponsible_people_id_fks(strArray);
+									    	}
+							    			if( !StringUtils.isEmpty(obj.getResponsible_people_id_fks()[j])) {
+							    				List<String> executives = null;
+									    		if(obj.getResponsible_people_id_fks()[j].contains(",")) {
+									    			executives = new ArrayList<String>(Arrays.asList(obj.getResponsible_people_id_fks()[j].split(",")));
+										    	}else {
+										    		executives = new ArrayList<String>(Arrays.asList(obj.getResponsible_people_id_fks()[j]));
+										    	}
+								    			for(String eObj : executives) {
+								    				if(!eObj.equals("null")) {
+								    					int n = 1;
+									    				if(!StringUtils.isEmpty(cObj) &&  !StringUtils.isEmpty(eObj)){
+										    				executivesInsertStmt.setString(n++,(obj.getStructure_id()));
+										    				executivesInsertStmt.setString(n++,(cObj.length() > 0)? cObj:null);
+										    				executivesInsertStmt.setString(n++,(eObj.length() > 0)? eObj:null);
+										    				executivesInsertStmt.addBatch();
+									    				}
+								    				}
+								    			}
+								    			executivesInsertStmt.executeBatch();
+								    			j++;
+							    			}else {
+							    				j++;
+							    			}
+									    	
+							    		}
+							    	}
+						    }else {
+								j++;
 							}
-						}
-						if (!StringUtils.isEmpty(obj.getStructureDocumentNames()) && obj.getStructureDocumentNames().length > 0) {
-							obj.setStructureDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructureDocumentNames()));
-							if (docArrSize < obj.getStructureDocumentNames().length) {
-								docArrSize = obj.getStructureDocumentNames().length;
+							
+							String structure_details_qry = "INSERT into  structure_details ( structure_id_fk, structure_detail, value) "
+									+"VALUES (?,?,?)";
+							detailsInsertStmt = con.prepareStatement(structure_details_qry);
+							int detailsArrSize = 0;
+							if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0) {
+								obj.setStructure_details(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_details()));
+								if(detailsArrSize < obj.getStructure_details().length) {
+									detailsArrSize = obj.getStructure_details().length;
+								}
 							}
-						}
-						if (!StringUtils.isEmpty(obj.getStructureFileNames()) && obj.getStructureFileNames().length > 0) {
-							obj.setStructureFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructureFileNames()));
-							if (docArrSize < obj.getStructureFileNames().length) {
-								docArrSize = obj.getStructureFileNames().length;
+							if(!StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0) {
+								obj.setStructure_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_values()));
+								if(detailsArrSize < obj.getStructure_values().length) {
+									detailsArrSize = obj.getStructure_values().length;
+								}
 							}
-						}
-						if (!StringUtils.isEmpty(obj.getStructure_file_ids()) && obj.getStructure_file_ids().length > 0) {
-							obj.setStructure_file_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_file_ids()));
-							if (docArrSize < obj.getStructure_file_ids().length) {
-								docArrSize = obj.getStructure_file_ids().length;
-							}
-						}
-						//structureFiless
-							List<String> documents = null;
-							if(!StringUtils.isEmpty(obj.getStructureFiless()) && obj.getStructureFiless().length > 0 && !StringUtils.isEmpty(obj.getStructureFiless()[i])) {
+							if(!StringUtils.isEmpty(obj.getStructure_details()) && obj.getStructure_details().length > 0 
+									&& !StringUtils.isEmpty(obj.getStructure_values()) && obj.getStructure_values().length > 0 ) {
 								if(arraySize == 1) {
-						    		String joined = String.join("", obj.getStructureFiless());
+						    		String joined = String.join("", obj.getStructure_detailss());
 						    		joined = joined.replaceAll("_",",_,");
 						    		String[] strArray = new String[] {joined};
-						    		obj.setStructureFiless(strArray);
+						    		obj.setStructure_detailss(strArray);
 						    	}
-						    	if(obj.getStructureFiless()[i].contains(",_,")) {
-						    		documents = new ArrayList<String>(Arrays.asList(obj.getStructureFiless()[i].split(",_,")));
+								String[] detailsArray = obj.getStructure_detailss();
+								if(!StringUtils.isEmpty(detailsArray) && detailsArray.length > 0 &&!StringUtils.isEmpty(detailsArray[i])) {
+						    		//detailsArray =Arrays.stream(detailsArray).filter(s -> (s != null && s.length() > 0)).toArray(String[]::new); 
+						    		List<String> details = null;
+							    	if(detailsArray[i].contains(",_,")) {
+							    		details = new ArrayList<String>(Arrays.asList(detailsArray[i].split(",_,")));
+							    	}else {
+							    		details = new ArrayList<String>(Arrays.asList(detailsArray[i]));
+							    	}
+						    		for (String dObj : details) {
+									    int param = 1;
+									    if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(obj.getStructure_values()[dCount])){
+									    	detailsInsertStmt.setString(param++,(obj.getStructure_id()));
+									    	detailsInsertStmt.setString(param++,(dObj.length() > 0)? dObj:null);
+									    	detailsInsertStmt.setString(param++,(obj.getStructure_values().length > 0)? obj.getStructure_values()[dCount]:null);
+									    	detailsInsertStmt.addBatch();
+									    }
+									    detailsInsertStmt.executeBatch();
+									    dCount++;
+						    		}
+						    		
 						    	}else {
-						    		documents = new ArrayList<String>(Arrays.asList(obj.getStructureFiless()[i]));
+						    		 dCount++;
 						    	}
-								for (String fObj : documents) {
-									int q=1;
-										String fileName = null;
-										if( !StringUtils.isEmpty(obj.getStructureFiles()[fCount])) {
-											MultipartFile multipartFile = obj.getStructureFiles()[fCount];
-											if ((null != multipartFile && !multipartFile.isEmpty())) {
-												String saveDirectory = CommonConstants2.STRUCTURE_FILE_SAVING_PATH ;
-												fileName = multipartFile.getOriginalFilename();
-												if (null != multipartFile && !multipartFile.isEmpty()) {
-													FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-					 							}
-											}
-										}if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount])) {
-											fileName = obj.getStructureFileNames()[fCount];
-										}
-										if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount]))
-												&& (!StringUtils.isEmpty(obj.getStructure_file_types()[fCount])) && (!StringUtils.isEmpty(obj.getStructureDocumentNames()[fCount]))) {
-											documentsStmt.setString(q++,(obj.getStructure_id()));
-											documentsStmt.setString(q++,(fileName));
-											documentsStmt.setString(q++,(obj.getStructure_file_types()[fCount]));
-											documentsStmt.setString(q++,(obj.getStructureDocumentNames()[fCount]));
-											documentsStmt.addBatch();
-											documentsStmt.executeBatch();
-											fCount++;
-										}else {
-											fCount++;
-										}
+							}
+							
+							String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date)"
+									+ " VALUES (?,?,?,?,CURDATE())";
+							documentsStmt = con.prepareStatement(document_insert_qry);
+							int docArrSize = 0;
+							
+							if (!StringUtils.isEmpty(obj.getStructure_file_types()) && obj.getStructure_file_types().length > 0) {
+								obj.setStructure_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_file_types()));
+								if (docArrSize < obj.getStructure_file_types().length) {
+									docArrSize = obj.getStructure_file_types().length;
 								}
-							}else {
-								fCount++;
-					    	}
-						}*/
+							}
+							if (!StringUtils.isEmpty(obj.getStructureDocumentNames()) && obj.getStructureDocumentNames().length > 0) {
+								obj.setStructureDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructureDocumentNames()));
+								if (docArrSize < obj.getStructureDocumentNames().length) {
+									docArrSize = obj.getStructureDocumentNames().length;
+								}
+							}
+							if (!StringUtils.isEmpty(obj.getStructureFileNames()) && obj.getStructureFileNames().length > 0) {
+								obj.setStructureFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructureFileNames()));
+								if (docArrSize < obj.getStructureFileNames().length) {
+									docArrSize = obj.getStructureFileNames().length;
+								}
+							}
+							if (!StringUtils.isEmpty(obj.getStructure_file_ids()) && obj.getStructure_file_ids().length > 0) {
+								obj.setStructure_file_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_file_ids()));
+								if (docArrSize < obj.getStructure_file_ids().length) {
+									docArrSize = obj.getStructure_file_ids().length;
+								}
+							}
+							//structureFiless
+								List<String> documents = null;
+								if(!StringUtils.isEmpty(obj.getStructureFiless()) && obj.getStructureFiless().length > 0 && !StringUtils.isEmpty(obj.getStructureFiless()[i])) {
+									if(arraySize == 1) {
+							    		String joined = String.join("", obj.getStructureFiless());
+							    		joined = joined.replaceAll("_",",_,");
+							    		String[] strArray = new String[] {joined};
+							    		obj.setStructureFiless(strArray);
+							    	}
+							    	if(obj.getStructureFiless()[i].contains(",_,")) {
+							    		documents = new ArrayList<String>(Arrays.asList(obj.getStructureFiless()[i].split(",_,")));
+							    	}else {
+							    		documents = new ArrayList<String>(Arrays.asList(obj.getStructureFiless()[i]));
+							    	}
+									for (String fObj : documents) {
+										int q=1;
+											String fileName = null;
+											if( !StringUtils.isEmpty(obj.getStructureFiles()[fCount])) {
+												MultipartFile multipartFile = obj.getStructureFiles()[fCount];
+												if ((null != multipartFile && !multipartFile.isEmpty())) {
+													String saveDirectory = CommonConstants2.STRUCTURE_FILE_SAVING_PATH ;
+													fileName = multipartFile.getOriginalFilename();
+													if (null != multipartFile && !multipartFile.isEmpty()) {
+														FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+						 							}
+												}
+											}if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount])) {
+												fileName = obj.getStructureFileNames()[fCount];
+											}
+											if(!StringUtils.isEmpty(obj.getStructureFileNames()[fCount]) && (!StringUtils.isEmpty(obj.getStructureFiles()[fCount]))
+													&& (!StringUtils.isEmpty(obj.getStructure_file_types()[fCount])) && (!StringUtils.isEmpty(obj.getStructureDocumentNames()[fCount]))) {
+												documentsStmt.setString(q++,(obj.getStructure_id()));
+												documentsStmt.setString(q++,(fileName));
+												documentsStmt.setString(q++,(obj.getStructure_file_types()[fCount]));
+												documentsStmt.setString(q++,(obj.getStructureDocumentNames()[fCount]));
+												documentsStmt.addBatch();
+												documentsStmt.executeBatch();
+												fCount++;
+											}else {
+												fCount++;
+											}
+									}
+								}else {
+									fCount++;
+						    	}
+							}*/
 				    
+				}
 			}
 			int result = updateCount.length + insertCount.length;
 			if(result > 0) {

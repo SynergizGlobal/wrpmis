@@ -778,6 +778,7 @@ td label.btn.bg-m{
 													<input id="structure_id0_0" name="structures" type="text" class="validate" placeholder="Structure Id">
 	                                                         </td>
                                                      <td>
+                                                      <input type="hidden" name= "structure_ids" id="structure_ids00" value="" />
 													    <input id="structure_name00" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" >
 													    <span id="structure_name00Error" class="error-msg" ></span>
 														</td>	
@@ -1388,7 +1389,7 @@ td label.btn.bg-m{
            				+'</select></td>'
            				+'<td data-head="Structure Id" class="input-field no-pad" colspan=2><input type="hidden" id="internalRow'+rNo+rNo+x+'"  name="internalRowNo" value="0" /> <table class="internal-table" id="structureRow'+rNo+'-internalTable"><tbody id="internalTable'+rNo+'">'
            				+'<tr id="internalTableRow'+rNo+rNo+x+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+rNo+x+'"/> <input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
-           				+'<td> <input id="structure_name'+rNo+rNo+x+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+rNo+x+'Error" class="error-msg" ></span></td>'
+           				+'<td><input type="hidden" name= "structure_ids" id="structure_ids'+rNo+rNo+x+'" value="" /> <input id="structure_name'+rNo+rNo+x+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+rNo+x+'Error" class="error-msg" ></span></td>'
            			/* 	+'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal">'
            			    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
            			    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p> <input type="hidden" name= "structure_ids" id="structure_ids'+rNo+rNo+x+'" value="" /><select id="work_status_fk'+rNo+rNo+x+'" '
@@ -1517,7 +1518,7 @@ td label.btn.bg-m{
 				var y = Math.floor(Math.random() * (10 - 50 + 100) + 5)
 				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+tableNo+rNo+x+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
 						   +'placeholder="Structure Id"></td>'
-						   +'<td> <input id="structure_name'+rNo+'_'+tableNo+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+'_'+tableNo+'Error" class="error-msg" ></span></td>'
+						   +'<td> <input type="hidden" name= "structure_ids" id="structure_ids'+rNo+'_'+tableNo+'" value="" /><input id="structure_name'+rNo+'_'+tableNo+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+'_'+tableNo+'Error" class="error-msg" ></span></td>'
 						  /*  +'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal"> '
 						    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
 						    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p>'+

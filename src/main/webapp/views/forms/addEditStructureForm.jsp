@@ -1341,7 +1341,6 @@
   	  			document.getElementById("structuresForm").submit();	
  			}
  			$(".page-loader").hide();
- 			return false;
 	 	}
 	}
 	

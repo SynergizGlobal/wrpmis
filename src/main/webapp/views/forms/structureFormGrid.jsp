@@ -319,6 +319,9 @@
         	}
         }
         var queue = 1;
+        $('select').change(function(){
+        	queue = 1;
+    	});
         function getStructureList() {
 			$(".page-loader-2").show();
 
@@ -410,11 +413,16 @@
 												$('.dataTables_filter div').append(
 														$searchButton, $clearButton);
 												rowLen = $('#datatable-structure tbody tr:visible').length
+												/* if(rowLen <= 1){
+													queue = 1;
+												} */
 			    								if(rowLen <= 1 &&  queue == 1){									
 			    									$('#datatable-structure').dataTable().api().draw(); 
 			    									getStructureList();
 			    									queue++;
 			    							    }
+												
+												
 											},
 											columnDefs : [ {
 												"targets" : 'no-sort',
@@ -467,8 +475,12 @@
 						            	return actions;
 						            } }
 						            
-						        ]
+						        ],error: function (jqXHR, exception) {
+				    				$(".page-loader").hide();
+				    	         	getErrorMessage(jqXHR, exception);
+				    	     }
 						    });
+			
 		  $(".page-loader-2").hide();  		     
       	
      }
@@ -701,6 +713,7 @@
         	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
         	    }
         	    console.log(msg);
+        	    window.href.reload();
          }
         
         

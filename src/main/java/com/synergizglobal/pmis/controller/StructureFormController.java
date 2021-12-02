@@ -147,6 +147,7 @@ public class StructureFormController {
 		String json2 = null;
 		String userId = null;
 		String userName = null;
+		List<Structure> contractList = null;
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
@@ -168,7 +169,7 @@ public class StructureFormController {
 			//Fetch Page display length
 			pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
 
-			List<Structure> contractList = new ArrayList<Structure>();
+			 contractList = new ArrayList<Structure>();
 
 			//Here is server side pagination logic. Based on the page number you could make call 
 			//to the data base create new list and send back to the client. For demo I am shuffling 
@@ -203,8 +204,8 @@ public class StructureFormController {
 			json2 = gson.toJson(personJsonObject);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error(
-					"getStructureList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
+			contractList = new ArrayList<Structure>();
+			logger.error("getStructureList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
 		}
 
 		pw.println(json2);

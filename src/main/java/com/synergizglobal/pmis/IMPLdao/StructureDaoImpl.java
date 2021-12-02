@@ -670,7 +670,7 @@ public class StructureDaoImpl implements StructureDao{
 					    //insertStmt.setString(p++,DateParser.parse((obj.getRevised_completions().length > 0)?obj.getRevised_completions()[i]:null));
 					    //insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 					    insertStmt.addBatch();
-				    }
+				   
 				    insertCount = insertStmt.executeBatch();
 				    rs = insertStmt.getGeneratedKeys();
 					if (rs.next()) {
@@ -874,6 +874,7 @@ public class StructureDaoImpl implements StructureDao{
 					    	}
 						}*/
 				    
+				    }
 			}
 			if(insertCount.length > 0) {
 					flag = true;

@@ -1564,8 +1564,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
 			{			
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					qry = qry + " and u.department_fk = ? and u2.department_fk=?";
-					arrSize++;
+					qry = qry + " and u.department_fk = ?";
 					arrSize++;
 				}
 			}
@@ -1615,7 +1614,6 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
 			{			
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					pValues[i++] = obj.getDepartment_fk();
 					pValues[i++] = obj.getDepartment_fk();
 				
 				}

@@ -223,13 +223,18 @@ public class StructureFormDaoImpl implements StructureFormDao{
 				qry = qry + " and cp.contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
+				qry = qry + " and structure_type_fk = ?";
+				arrSize++;
+			}				
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and  cp.responsible_people_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (cp.contract_id_fk like ? or c.contract_short_name like ? or s.work_id_fk like ? or w.work_short_name like ?  "
-						+ "or s.work_status_fk like ? or structure like ? or structure_name like ?)";
+						+ "or s.work_status_fk like ? or structure_type_fk like ? or structure like ? or structure_name like ?)";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -250,11 +255,15 @@ public class StructureFormDaoImpl implements StructureFormDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
 				pValues[i++] = obj.getContract_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
+				pValues[i++] = obj.getStructure_type_fk();
+			}				
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				pValues[i++] = obj.getUser_id();
 			
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -278,7 +287,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 		List<Structure> objsList = null;
 		try {
 			String qry ="SELECT structure_id,s.work_id_fk,w.work_short_name,work_name,cp.contract_id_fk,c.contract_name,c.contract_short_name,s.structure_name, " + 
-					"s.structure,s.work_status_fk FROM structure s " + 
+					"s.structure,s.work_status_fk,structure_type_fk FROM structure s " + 
 					"left join structure_contract_responsible_people cp on s.structure_id =  cp.structure_id_fk " + 
 					"left join work w on s.work_id_fk = w.work_id " + 
 					"left join contract c on cp.contract_id_fk = c.contract_id  " + 
@@ -297,13 +306,18 @@ public class StructureFormDaoImpl implements StructureFormDao{
 				qry = qry + " and cp.contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
+				qry = qry + " and structure_type_fk = ?";
+				arrSize++;
+			}			
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and  cp.responsible_people_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (cp.contract_id_fk like ? or c.contract_short_name like ? or s.work_id_fk like ? or w.work_short_name like ?  "
-						+ "or s.work_status_fk like ? or structure like ? or structure_name like ?)";
+						+ "or s.work_status_fk like ? or structure_type_fk like ? or structure like ? or structure_name like ?)";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -328,11 +342,15 @@ public class StructureFormDaoImpl implements StructureFormDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
 				pValues[i++] = obj.getContract_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
+				pValues[i++] = obj.getStructure_type_fk();
+			}			
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				pValues[i++] = obj.getUser_id();
 			
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

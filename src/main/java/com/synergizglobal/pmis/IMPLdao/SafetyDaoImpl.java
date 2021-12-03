@@ -1570,10 +1570,10 @@ public class SafetyDaoImpl implements SafetyDao {
 				}
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
-				arrSize++;
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()))
+			 * { qry = qry + " and s.department_fk = ?"; arrSize++; }
+			 */
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and s.hod_user_id_fk = ?";
 				arrSize++;
@@ -1621,9 +1621,10 @@ public class SafetyDaoImpl implements SafetyDao {
 				}
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()))
+			 * { pValues[i++] = obj.getDepartment_fk(); }
+			 */
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}

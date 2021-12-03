@@ -348,6 +348,9 @@ public class SafetyController {
 			List<Safety> worksList = safetyService.getWorkListForSafetyForm(obj);
 			model.addObject("worksList", worksList);
 			
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());			
+			
 			List<Safety> contractsList = safetyService.getContractsListForSafetyForm(obj);
 			model.addObject("contractsList", contractsList);
 			
@@ -407,9 +410,11 @@ public class SafetyController {
 	
 	@RequestMapping(value = "/ajax/getContractsListForSafetyForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Safety> getContractsListForSafetyForm(@ModelAttribute Safety obj) {
+	public List<Safety> getContractsListForSafetyForm(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objsList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());				
 			objsList = safetyService.getContractsListForSafetyForm(obj);
 		}catch (Exception e) {
 			e.printStackTrace();

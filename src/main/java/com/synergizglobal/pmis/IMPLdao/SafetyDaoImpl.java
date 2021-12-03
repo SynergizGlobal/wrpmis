@@ -1394,6 +1394,7 @@ public class SafetyDaoImpl implements SafetyDao {
 		try {
 			String qry ="select c.contract_id as contract_id_fk,c.hod_user_id_fk,c.contract_name,c.contract_short_name,c.work_id_fk "
 					+ "from contract c "
+					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "
 					+ "where c.contract_id is not null ";
 			
 			int arrSize = 0;			
@@ -1401,6 +1402,13 @@ public class SafetyDaoImpl implements SafetyDao {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and c1.department_id_fk = ?";
+					arrSize++;
+				}
+			}			
 			qry = qry + " order by c.contract_id asc";
 			
 			Object[] pValues = new Object[arrSize];
@@ -1409,6 +1417,13 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+				
+				}
+			}			
 				
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));
 				

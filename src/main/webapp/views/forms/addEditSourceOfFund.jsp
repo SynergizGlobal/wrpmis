@@ -222,7 +222,7 @@
                                     <span id="fund_amountError" class="error-msg" ></span>
                                 	<span id="fund_amount_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="fund_amount_units" name="fund_amount_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
 	                                      <option value="${obj.value }" <c:if test="${fundDetails.fund_amount_units eq obj.value }">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach> 

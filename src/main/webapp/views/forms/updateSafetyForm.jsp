@@ -400,7 +400,7 @@
                                     <!-- <div class="col s4 m2 l2 input-field pt-10"> -->
                                 	<!-- <p class="searchable_label">Unit</p> -->
                                 	<select class="units validate-dropdown" id="compensation_units" name="compensation_units">
-                                		<option value="">Units</option>
+                                		<!-- <option value="">Units</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
 	                                      <option value="${obj.value }" <c:if test="${safety.compensation_units eq obj.value }">selected</c:if> >${obj.unit }</option>
 	                                	</c:forEach>
@@ -778,9 +778,9 @@
     				 	  },"work_impact":{
     				 		 required: false
     				 	  },"compensation": {
-    				 		 required: function(element){
+    				 		/*  required: function(element){
    	        		             return $("#compensation_units").val()!="";
-   	        		         }
+   	        		         } */
     			 	   	  },"investigation_completed": {
     				 		required: false,
      			 		    dateBefore3 : "#date",
@@ -796,9 +796,9 @@
     				 	  },"remarks":{
     				 		 required: false
     				 	  },"compensation_units":{
-   	        		 		 required: function(element){
+   	        		 		 /* required: function(element){
    	        		             return $("#compensation").val()!="";
-   	        		         }
+   	        		         } */
    	        		 	  }
     				 				
     			 	},
@@ -850,7 +850,7 @@
     				 	  },"work_impact":{
     				 		 required: 'Required'
     				 	  },"compensation": {
-    				 		 required: 'Required'
+    				 		required: 'Required'
     			 	   	  },"investigation_completed": {
     			 	   		required: 'Required'
     				 	  },"payment_date": {

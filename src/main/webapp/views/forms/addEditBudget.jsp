@@ -54,7 +54,12 @@
     	.input-field .prefix{
 			top:25%;
 		}
-
+		@media only screen and (min-width:769px){
+			.mdl-data-table td.mobile_btn_close{
+				padding-right:inherit;
+			}
+		}
+		
         @media only screen and (max-width: 600px) {
             .input-field .prefix~input {
                 min-width: 80px;
@@ -108,7 +113,7 @@
 		td.input-field .select2-container--default{
 			display:inline-block;
 		}
-		.mdl-data-table td {
+		.mdl-data-table td:not(.mobile_btn_add) {
 			vertical-align: baseline;
 			padding: 0 1px 12px;
 		}
@@ -313,7 +318,7 @@
 												 </div>                                              
 										         <input type="hidden" id="budgetFilesNames${index.count }" name="budgetFilesNames" value="${bObj.attachment }"> --%>
 											</td>
-											<td class="mobile_btn_close right"><a onclick="removeBudget('${index.count }');"
+											<td class="mobile_btn_close "><a onclick="removeBudget('${index.count }');"
 												class="btn waves-effect waves-light red t-c "> <i
 													class="fa fa-close"></i></a></td>
 										</tr>
@@ -380,7 +385,7 @@
 												        </div>
 													</div>
 											</td>
-											<td class="mobile_btn_close right"><a onclick="removeBudget('0');"
+											<td class="mobile_btn_close "><a onclick="removeBudget('0');"
 												class="btn waves-effect waves-light red t-c "> <i
 													class="fa fa-close"></i></a></td>
 										 </tr>
@@ -398,7 +403,7 @@
 								 <table class="mdl-data-table">
                                        <tbody>                                          
 	                                    <tr>
-  										   <td colspan="6" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addBudgetRow()"> <i
+  										   <td colspan="6" class="mobile_btn_add" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addBudgetRow()"> <i
 	                                                            class="fa fa-plus"></i></a>
 	                                    </tr>
                                        </tbody>
@@ -696,7 +701,7 @@
                             +' <div class="file-path-wrapper">'
                         +' <input class="file-path validate" type="text">'
                         +' </div></div></div><div id="selectedFiles'+rNo+'" class="disp-in"><div class="hide" id="hideVal'+rNo+'"> <input id="fileCounts'+rNo+'"  name="filecounts"  type="hidden" value="0"></div></div></td>'
-			            +'<td class="mobile_btn_close right"><a onclick="removeBudget('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+			            +'<td class="mobile_btn_close "><a onclick="removeBudget('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
             $('#budgetTableBody').append(html);
 			$("#rowNo").val(rNo);
             $('.searchable').select2();

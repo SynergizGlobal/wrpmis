@@ -46,13 +46,13 @@
             background-color: transparent;
             border: 0;
             outline: 0;
-            border-bottom: 1px solid #aaa;
+            border-bottom: 1px solid #9e9e9e;
             font-size: 1rem;
         }
 
         input[type=month]:not(.browser-default):focus:not([readonly]) {
-            border-bottom: 1px solid #F99934;
-            box-shadow: 0 1px 0 0 #F99934;
+            border-bottom: 1px solid #007A7A;
+            box-shadow: 0 1px 0 0 #007A7A;
         }
 
         #financialFormTable .input-field .prefix {
@@ -257,7 +257,7 @@
 	                                                        <span id="planned_invoice${index.count }Error" class="error-msg"></span>
 					                                		<span id="planned_invoice_units${index.count }Error" class="my-error right"></span>
 	                                                        <select class="validate-dropdown" id="planned_invoice${index.count }_units" name="planned_units">
-						                                		<option value="">Select</option>
+						                                		<!-- <option value="">Select</option> -->
 						                                		<c:forEach var="obj" items="${unitsList }">
 			                                    			      <option value="${obj.value }" <c:if test="${sObj.planned_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
 			                                     			    </c:forEach>
@@ -280,7 +280,7 @@
 	                                                        <span id="actual_invoice${index.count }Error" class="error-msg"></span>
 					                                		<span id="actual_invoice_units${index.count}Error" class="my-error right"></span>
 	                                                        <select class="validate-dropdown" id="actual_invoices${index.count }_units" name="actual_units">
-						                                		<option value="">Select</option>
+						                                		<!-- <option value="">Select</option> -->
 						                                		<c:forEach var="obj" items="${unitsList }">
 			                                    			      <option value="${obj.value }" <c:if test="${sObj.actual_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
 			                                     			    </c:forEach>
@@ -303,7 +303,7 @@
 	                                                        <span id="payment_received${index.count }Error" class="error-msg"></span>
 					                                		<span id="payment_received_units${index.count}Error" class="my-error right"></span>
 	                                                        <select class="validate-dropdown" id="payment_receiveds${index.count }_units" name="payment_received_units">
-						                                		<option value="">Select</option>
+						                                		<!-- <option value="">Select</option> -->
 						                                		<c:forEach var="obj" items="${unitsList }">
 			                                    			      <option value="${obj.value }" <c:if test="${sObj.payment_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
 			                                     			    </c:forEach>
@@ -339,9 +339,9 @@
 														    <span id="planned_invoice_units0Error" class="my-error"></span>
 	                                                        <span id="planned_invoice0Error" class="error-msg right"></span>
 	                                                         <select class=" validate-dropdown " id="planned_invoice0_units" name="planned_units">
-														        <option value="">Select</option>
+														        <!-- <option value="">Select</option> -->
 														        <c:forEach var="obj" items="${unitsList }">
-														          <option value="${obj.value }" >${obj.unit }</option>
+														          <option value="${obj.value }" <c:if test="${obj.value eq 1}">selected</c:if>>${obj.unit }</option>
 														         </c:forEach>
 														    </select>
 	                                                    </td>
@@ -362,7 +362,7 @@
 	                                                        <span id="actual_invoice0Error" class="error-msg"></span>
 														    <span id="actual_invoice_units0Error" class="my-error right"></span>
 	                                                        <select class="validate-dropdown" id="actual_invoices0_units" name="actual_units">
-														        <option value="">Select</option>
+														        <!-- <option value="">Select</option> -->
 														        <c:forEach var="obj" items="${unitsList }">
 														          <option value="${obj.value }" >${obj.unit }</option>
 														         </c:forEach>
@@ -385,7 +385,7 @@
 	                                                        <span id="payment_received0Error" class="error-msg"></span>
 														    <span id="payment_received_units0Error" class="my-error right"></span>
 	                                                        <select class="validate-dropdown" id="payment_receiveds0_units" name="payment_received_units">
-														        <option value="">Select</option>
+														        <!-- <option value="">Select</option> -->
 														        <c:forEach var="obj" items="${unitsList }">
 														          <option value="${obj.value }" >${obj.unit }</option>
 														         </c:forEach>
@@ -570,8 +570,8 @@
                 '<input id="planned_invoice' + No + '" type="number" step="0.01" min="0.01" class="validate" name="planneds" placeholder="Planned Invoicing">' +
                 '<span id="planned_invoice' + No + 'Error" class="error-msg"></span> '+
                 //'</td><td class="responsive_units">'+
-                ' <select class="validate-dropdown" id="planned_invoice'+No+'_units" name="planned_units"> '+
-                '<option value="">Select</option>'
+                ' <select class="validate-dropdown" id="planned_invoice'+No+'_units" name="planned_units"> '
+                //'+<option value="">Select</option>'
 	                <c:forEach var="obj" items="${unitsList }"> 
 	                	+'<option value="${obj.value }">${obj.unit }</option> '
 	                </c:forEach>
@@ -580,8 +580,8 @@
                 '<td data-head="Actual Invoicing" class="input-field amount-dropdown"><i class="material-icons amount-symbol center-align">₹</i><input id="actual_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="actuals" placeholder="Actual Invoicing">' +
                 '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> '+
                 //'</td> <td class="responsive_units"> '+
-                '<select class="validate-dropdown" id="actual_invoices' + No + '_units" name="actual_units">'+
-                ' <option value="">Select</option>'
+                '<select class="validate-dropdown" id="actual_invoices' + No + '_units" name="actual_units">'
+                //+'<option value="">Select</option>'
                		 <c:forEach var="obj" items="${unitsList }"> 
                 		+'<option value="${obj.value }">${obj.unit }</option>'
                 	  </c:forEach>
@@ -590,8 +590,8 @@
                 '<input id="payment_receiveds' + No + '" type="number" step="0.01" min="0.01" class="validate" name="payment_receiveds" placeholder="Payment Received">' +
                 '<span id="payment_received' + No + 'Error" class="error-msg"></span>'+
                 //'</td><td class="responsive_units"> '+
-                '<select class="validate-dropdown" id="payment_receiveds' + No + '_units" name="payment_received_units"> '+
-                '<option value="">Select</option>'
+                '<select class="validate-dropdown" id="payment_receiveds' + No + '_units" name="payment_received_units"> '
+                //+'<option value="">Select</option>'
 	                <c:forEach var="obj" items="${unitsList }"> 
 	                	+'<option value="${obj.value }">${obj.unit }</option>'
 	                </c:forEach>
@@ -632,9 +632,9 @@
 		        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=planneds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=actuals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			$('form input[name=planned_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			$('form input[name=actual_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			$('form input[name=payment_received_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form select[name=planned_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form select[name=actual_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form select[name=payment_received_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=payment_receiveds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			document.getElementById("taFinancialForm").submit();	
 	        	}
@@ -649,9 +649,9 @@
 		        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=planneds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=actuals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			$('form input[name=planned_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			$('form input[name=actual_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			$('form input[name=payment_received_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form select[name=planned_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form select[name=actual_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form select[name=payment_received_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=payment_receiveds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			document.getElementById("taFinancialForm").submit();	
 	        	}
@@ -724,7 +724,7 @@
            
        function validateTAFinancial(){
 		var flag = true;
-		$("input[name=planneds]").each(function(){
+		/* $("input[name=planneds]").each(function(){
 			var idNo = (this.id).replace('planned_invoice','');
 			var planned_units = $('#planned_invoice'+idNo+'_units').val();
 			var planned_invoice = $("#planned_invoice"+idNo).val();
@@ -771,7 +771,7 @@
 				});
 				flag = false;
 			} 
-		});
+		}); */
 		return flag;
 	}
 	

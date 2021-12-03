@@ -272,7 +272,7 @@
                                     <span id="gross_work_doneError" class="error-msg" ></span>
                                 	<span id="gross_work_done_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="gross_work_done_units" name="gross_work_done_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }" <c:if test="${expenditureDetails.gross_work_done_units eq obj.value}">selected</c:if> >${obj.unit }</option>
                                   		    </c:forEach>
@@ -295,7 +295,7 @@
                                     <span id="net_paidError" class="error-msg" ></span>
                                 	<span id="net_paid_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="net_paid_units" name="net_paid_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }" <c:if test="${expenditureDetails.net_paid_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
@@ -318,7 +318,7 @@
                                     <span id="sd_payableError" class="error-msg" ></span>
                                 	<span id="sd_payable_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="sd_payable_units" name="sd_payable_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }" <c:if test="${expenditureDetails.sd_payable_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
@@ -342,7 +342,7 @@
                                     <span id="contractor_income_taxError" class="error-msg" ></span>
                                 	<span id="contractor_income_tax_unitsError" class="error-msg right" ></span>
                                     <select class=" validate-dropdown" id="contractor_income_tax_units" name="contractor_income_tax_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }" <c:if test="${expenditureDetails.contractor_income_tax_units eq obj.value}">selected</c:if> >${obj.unit }</option>
                                   		    </c:forEach>
@@ -369,7 +369,7 @@
 												class="error-msg"></span>
 			                                	<span id="cgst_tds_unitsError" class="error-msg right" ></span>
 												<select class="validate-dropdown" id="cgst_tds_units" name="cgst_tds_units">
-		                                		<option value="">Select</option>
+		                                		<!-- <option value="">Select</option> -->
 		                                		<c:forEach var="obj" items="${unitsList }">
 		                                 			   <option value="${obj.value }"  <c:if test="${expenditureDetails.cgst_tds_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                  		    </c:forEach>
@@ -393,7 +393,7 @@
 												class="error-msg"></span>
 		                                		<span id="sgst_tds_unitsError" class="error-msg right" ></span>
 												<select class="validate-dropdown" id="sgst_tds_units" name="sgst_tds_units">
-		                                		<option value="">Select</option>
+		                                		<!-- <option value="">Select</option> -->
 		                                		<c:forEach var="obj" items="${unitsList }">
 		                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.sgst_tds_units eq obj.value}">selected</c:if> >${obj.unit }</option>
 		                                  		    </c:forEach>
@@ -417,7 +417,7 @@
 												class="error-msg"></span>
 			                                	<span id="igst_tds_unitsError" class="error-msg right" ></span>
 												<select class="validate-dropdown" id="igst_tds_units" name="igst_tds_units">
-		                                		<option value="">Select</option>
+		                                		<!-- <option value="">Select</option> -->
 		                                		<c:forEach var="obj" items="${unitsList }">
 		                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.igst_tds_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                  		    </c:forEach>
@@ -440,7 +440,7 @@
 	                                    <span id="mob_advanceError" class="error-msg" ></span>
 	                                	<span id="mob_advance_unitsError" class="error-msg right" ></span>
 	                                    <select class="validate-dropdown" id="mob_advance_units" name="mob_advance_units">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 	                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.mob_advance_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 	                                  		    </c:forEach>
@@ -471,7 +471,7 @@
                                     <span id="interest_on_mob_advError" class="error-msg" ></span>
                                 	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }"  <c:if test="${expenditureDetails.interest_on_mob_adv_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
@@ -495,7 +495,7 @@
                                     <span id="vat_wctError" class="error-msg" ></span>
                                 	<span id="vat_wct_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="vat_wct_units" name="vat_wct_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }"  <c:if test="${expenditureDetails.vat_wct_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
@@ -518,7 +518,7 @@
                                     <span id="amount_withheldError" class="error-msg" ></span>
                                 	<span id="amount_withheld_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="amount_withheld_units" name="amount_withheld_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }"  <c:if test="${expenditureDetails.amount_withheld_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>

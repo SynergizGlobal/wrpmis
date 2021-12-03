@@ -303,7 +303,7 @@
                                     <span id="sanction_costError" class="error-msg"></span>
                                 	<span id="sanction_cost_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="sanction_cost_units" name="sanction_cost_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
 	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.sanction_cost_units eq obj.value }">selected</c:if> <c:if test="${empty zonalRailwayDetails.sanction_cost_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
@@ -327,7 +327,7 @@
                                     <span id="latest_revised_costError" class="error-msg"></span>
                                 	<span id="latest_revised_cost_unitsError" class="error-msg right" ></span>
                                     <select class=" validate-dropdown" id="latest_revised_cost_units" name="latest_revised_cost_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
 	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.latest_revised_cost_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.latest_revised_cost_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
@@ -355,7 +355,7 @@
                                     <span id="cumulative_expenditure_upto_last_finacial_yearError" class="error-msg"></span>
                                 	<span id="cumilative_expenditure_unitsError" class="error-msg right" ></span>
                                     	<select class="validate-dropdown" id="cumilative_expenditure_units" name="cumilative_expenditure_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
 	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cumilative_expenditure_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.cumilative_expenditure_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
@@ -379,7 +379,7 @@
                                     <span id="cum_actual_expenditure_crError" class="error-msg"></span>
                                 	<span id="cumilative_actual_expenditure_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="cum_actual_expenditure_units" name="cum_actual_expenditure_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
 	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cum_actual_expenditure_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.cum_actual_expenditure_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
@@ -403,7 +403,7 @@
                                     <span id="completion_costError" class="error-msg"></span>
                                 	<span id="completion_cost_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="completion_cost_units" name="completion_cost_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
 	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.completion_cost_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.completion_cost_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>

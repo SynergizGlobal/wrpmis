@@ -354,6 +354,59 @@ public class HomeDaoImpl implements HomeDao {
 		return objsList;
 	}
 	
+	
+	private List<Forms> getReportFormsSubListLevel2(String base, String parentId, User uObj, Connection connection) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Forms> objsList = new ArrayList<Forms>();
+		Forms obj = null;
+		try {
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
+					+ "FROM report_form f "
+					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
+			
+			
+			if(!StringUtils.isEmpty(base) && base.equals("web")) {
+				qry = qry + " and web_form_url IS NOT NULL and web_form_url <> ''";
+			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
+				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
+			}
+			
+			qry = qry + "and (select count(*) from report_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			
+			qry = qry + " ORDER BY priority ASC";
+			statement = connection.prepareStatement(qry);
+			int p = 1;
+			statement.setString(p++, parentId);
+			statement.setString(p++, CommonConstants.ACTIVE);
+			
+			statement.setString(p++, uObj.getUser_type_fk());
+			statement.setString(p++, uObj.getUser_role_name_fk());
+			statement.setString(p++, uObj.getUser_id());
+			
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				obj = new Forms();
+				obj.setFormId(resultSet.getString("form_id"));
+				obj.setFormName(resultSet.getString("form_name"));
+				obj.setWebFormUrl(resultSet.getString("web_form_url"));
+				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
+				obj.setPriority(resultSet.getString("priority"));
+				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
+				obj.setDisplayInMobile(resultSet.getString("display_in_mobile"));
+
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+		}
+		return objsList;
+	}	
+	
 	/**
 	 * This method get the forms list
 	 * @param base it is string type variable that holds the base
@@ -479,6 +532,10 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
 				obj.setDisplayInMobile(resultSet.getString("display_in_mobile"));
+				
+				String parentIdLevel2 = resultSet.getString("form_id");
+				List<Forms> subList = getReportFormsSubListLevel2(base,parentIdLevel2,uObj, connection);
+				obj.setFormsSubMenuLevel2(subList); 
 
 				objsList.add(obj);
 			}

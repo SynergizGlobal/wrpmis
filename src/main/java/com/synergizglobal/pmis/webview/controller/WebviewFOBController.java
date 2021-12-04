@@ -182,8 +182,8 @@ public class WebviewFOBController {
 			/*List<FOB> fobDetailsList = fobService.getFobDetailsList(obj);
 			model.addObject("fobDetailsList", fobDetailsList);*/
 			
-			List<String> generalStatusList = homeService.getGeneralStatusList();
-			model.addObject("generalStatusList", generalStatusList);
+			List<String> executionStatusList = homeService.getExecutionStatusList();
+			model.addObject("executionStatusList", executionStatusList);
 			
 			List<FOB> unitsList = fobService.getUnitsList(obj);
 			model.addObject("unitsList", unitsList);
@@ -315,8 +315,8 @@ public class WebviewFOBController {
 			List<FOB> fobFileTypesList = fobService.getFobFileTypesList(obj);
 			model.addObject("fobFileTypesList", fobFileTypesList);
 			
-			List<String> generalStatusList = homeService.getGeneralStatusList();
-			model.addObject("generalStatusList", generalStatusList);
+			List<String> executionStatusList = homeService.getExecutionStatusList();
+			model.addObject("executionStatusList", executionStatusList);
 			
 			/*List<FOB> fobDetailsList = fobService.getFobDetailsList(obj);
 			model.addObject("fobDetailsList", fobDetailsList);*/

@@ -239,7 +239,7 @@
                                     <p class="searchable_label">Work Status <span class="required">*</span></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${generalStatusList }">
+                                        <c:forEach var="obj" items="${executionStatusList }">
                                         	<c:if test="${obj ne 'Closed' and obj ne 'Terminated' and obj ne 'Completed'}">
                                             	<option value="${obj }" <c:if test="${(empty structuresListDetails.work_status_fk and obj eq 'Not Started') or (obj eq structuresListDetails.work_status_fk)}">selected</c:if> >${obj}</option>
                                         	</c:if>

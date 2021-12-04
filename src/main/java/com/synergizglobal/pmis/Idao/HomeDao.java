@@ -20,7 +20,7 @@ public interface HomeDao {
 	
 	public List<Work> getWorksList(Work obj) throws Exception;
 	
-	public List<String> getGeneralStatusList() throws Exception;
+	public List<String> getExecutionStatusList() throws Exception;
 	
 	public List<Project> getProjectsInformation(Project obj) throws Exception;
 	

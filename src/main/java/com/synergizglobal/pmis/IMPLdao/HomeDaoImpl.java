@@ -547,7 +547,7 @@ public class HomeDaoImpl implements HomeDao {
 	}
 
 	@Override
-	public List<String> getGeneralStatusList() throws Exception {
+	public List<String> getExecutionStatusList() throws Exception {
 		List<String> objsList = new ArrayList<String>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -555,11 +555,11 @@ public class HomeDaoImpl implements HomeDao {
 		try {
 			connection = dataSource.getConnection();
 			
-			String qry = "select DISTINCT general_status from general_status where general_status is not null and general_status <> '' ORDER BY FIELD(general_status,'Not Started','In Progress','On Hold','Commissioned','Completed','Dropped','Terminated','Closed')";
+			String qry = "select execution_status from execution_status where execution_status is not null and execution_status <> '' ORDER BY FIELD(execution_status,'Not Started','In Progress','On Hold','Commissioned','Completed','Dropped')";
 			statement = connection.prepareStatement(qry);
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
-				objsList.add(resultSet.getString("general_status").trim());
+				objsList.add(resultSet.getString("execution_status").trim());
 			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

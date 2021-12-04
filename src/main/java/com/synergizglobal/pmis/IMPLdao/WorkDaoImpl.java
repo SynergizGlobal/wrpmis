@@ -71,7 +71,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getWorkStatusList(Work obj) throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry = "SELECT general_status as work_status_fk from general_status where general_status in('Not Started','In Progress','Completed')";
+			String qry = "SELECT execution_status as work_status_fk from execution_status where execution_status in('Not Started','In Progress','Completed')";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
 			throw new Exception(e);

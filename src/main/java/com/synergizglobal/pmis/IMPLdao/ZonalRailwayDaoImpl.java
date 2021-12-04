@@ -555,7 +555,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	public List<ZonalRailway> getStatusListForZonalRailwayForm(ZonalRailway obj) throws Exception {
 		List<ZonalRailway> objsList = null;
 		try {
-			String qry = "select distinct(general_status) as status_fk from `general_status` ";
+			String qry = "select distinct(execution_status) as status_fk from `execution_status` ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);

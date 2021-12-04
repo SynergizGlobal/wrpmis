@@ -280,8 +280,8 @@ public class StructureFormController {
 			List<Structure> fileType = structureService.getFileTypeForStructureForm(obj);
 			model.addObject("fileType", fileType);
 			
-			List<String> generalStatusList = homeService.getGeneralStatusList();
-			model.addObject("generalStatusList", generalStatusList);
+			List<String> executionStatusList = homeService.getExecutionStatusList();
+			model.addObject("executionStatusList", executionStatusList);
 		
 		}catch (Exception e) {
 			logger.error("addStructuresForm : " + e.getMessage());
@@ -348,8 +348,8 @@ public class StructureFormController {
 			List<Structure> fileType = structureService.getFileTypeForStructureForm(obj);
 			model.addObject("fileType", fileType);
 			
-			List<String> generalStatusList = homeService.getGeneralStatusList();
-			model.addObject("generalStatusList", generalStatusList);
+			List<String> executionStatusList = homeService.getExecutionStatusList();
+			model.addObject("executionStatusList", executionStatusList);
 			
 			List<Structure> structureDetailsLocations = structureFormService.getStructureDetailsLocations(obj);
 			model.addObject("structureDetailsLocations", structureDetailsLocations);

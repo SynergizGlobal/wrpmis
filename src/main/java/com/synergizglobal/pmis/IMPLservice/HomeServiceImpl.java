@@ -51,8 +51,8 @@ public class HomeServiceImpl implements HomeService {
 	}
 	
 	@Override
-	public List<String> getGeneralStatusList() throws Exception {
-		return dao.getGeneralStatusList();
+	public List<String> getExecutionStatusList() throws Exception {
+		return dao.getExecutionStatusList();
 	}
 	@Override
 	public List<Project> getProjectsInformation(Project obj) throws Exception {

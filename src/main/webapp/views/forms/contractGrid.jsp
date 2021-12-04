@@ -183,9 +183,11 @@
 								<h6 class="mob-mar">Contract</h6>	
 								<div class="col s12 m12 right-align exportButton">
     								<div class="m-n1">
+    								<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
     									<a href="add-contract-form"
 											class="btn waves-effect waves-light bg-s t-c"> <strong><i
 												class="fa fa-plus-circle"></i> Add</strong></a>
+									</c:if>
 										<a href="javascript:void(0);" onclick="exportContract();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-download"></i> Export </strong></a>
@@ -194,8 +196,7 @@
 							</div>
 						</span>
 						<div class="row no-mar">
-						<c:choose>
-							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
+							    
 									   <div class="row clearfix">
 											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 												<c:if test="${not empty success }">
@@ -206,15 +207,6 @@
 												</c:if>
 											</div>
 										</div>
-							    </c:when>
-							    <c:otherwise>
-							        <div class="col s12 m4">
-										<div class="m-1 c-align">
-										
-										</div>
-									</div>
-							    </c:otherwise>
-							</c:choose>
 							<!--   <div class="col m1 hide-on-small-only"></div> -->
 							<div class="col m12 l10 s12">
 								<!--    <div class="row" style="margin-bottom: 0;">

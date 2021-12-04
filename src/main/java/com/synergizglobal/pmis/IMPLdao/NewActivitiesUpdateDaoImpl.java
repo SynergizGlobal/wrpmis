@@ -27,12 +27,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Idao.ActivitiesBulkUpdateDao;
+import com.synergizglobal.pmis.Idao.NewActivitiesUpdateDao;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FormHistory;
@@ -40,7 +41,7 @@ import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.User;
 @Repository
-public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
+public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	
 	@Autowired
 	DataSource dataSource;
@@ -58,7 +59,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	FormsHistoryDao formsHistoryDao;
 	
 	@Override
-	public List<StripChart> getAcivitiesBulkUpdateProjectsList(StripChart obj) throws Exception { 
+	public List<StripChart> getNewActivitiesUpdateProjectsList(StripChart obj) throws Exception { 
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select wr.project_id_fk ,p.project_id,p.project_name "
@@ -73,7 +74,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					+ "select a.contract_id_fk "
 					+ "FROM activities a "
 					+ "left outer join contract co on a.contract_id_fk = co.contract_id "	
-					+ "WHERE a.contract_id_fk is not null and structure_type_fk='FOB' and a.scope <> IFNULL('Completed',0) ";
+					+ "WHERE a.contract_id_fk is not null and structure_type_fk!='FOB' and a.scope <> IFNULL('Completed',0) ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -115,7 +116,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	}
 
 	@Override
-	public List<StripChart> getAcivitiesBulkUpdateWorksList(StripChart obj) throws Exception {
+	public List<StripChart> getNewActivitiesUpdateWorksList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select c.work_id_fk,w.work_id,w.work_name ,w.work_short_name "
@@ -125,7 +126,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					+ "select a.contract_id_fk "
 					+ "from activities a "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "					
-					+ "where a.contract_id_fk is not null and structure_type_fk='FOB' and a.scope <> IFNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null and structure_type_fk!='FOB' and a.scope <> IFNULL('Completed',0) " ;
 					
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -179,7 +180,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
  	
 
 	@Override
-	public List<StripChart> getAcivitiesBulkUpdateContractsList(StripChart obj) throws Exception {
+	public List<StripChart> getNewActivitiesUpdateContractsList(StripChart obj) throws Exception {
 		List<StripChart> objsList = new ArrayList<StripChart>();
 		List<StripChart> objsList1 = null;
 		try {
@@ -191,7 +192,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					+ "from activities a "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
-					+ "where a.contract_id_fk is not null and structure_type_fk='FOB' and a.scope <> IFNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null and structure_type_fk!='FOB' and a.scope <> IFNULL('Completed',0) " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -229,20 +230,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}
 
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
-			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				for (StripChart con : objsList1) {
-			        boolean found=false;
-			        for (StripChart con1 : objsList) {
-			            if ((con.getContract_id().equals(con1.getContract_id()))) {
-			                found=true;
-			                break;
-			            }
-			        }
-			        if(!found){
-			        	objsList.add(con);
-			        }
-			    }
-			}	*/		
+				
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
@@ -253,16 +241,17 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	
 	
 	@Override
-	public List<StripChart> getAcivitiesBulkUpdateStructures(StripChart obj) throws Exception {
+	public List<StripChart> getNewActivitiesUpdateStructures(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
-		List<StripChart> objsList1 = null;
 		try {
 			String qry = "SELECT s.structure as strip_chart_structure_id_fk "
 					+ "FROM activities s "
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
-					+ "WHERE s.structure is not null AND s.structure <> '' AND s.contract_id_fk = ? "
-					+ "AND (select count(*) from activities WHERE scope <> IFNULL(completed,0) and structure_type_fk='FOB' and contract_id_fk = ? AND structure = s.structure ) > 0 ";
-			int arrSize = 2;
+					+ "WHERE s.structure is not null and structure_type_fk!='FOB' and s.structure_type_fk = ? AND s.structure <> '' AND s.contract_id_fk = ? "
+					+ "AND (select count(*) from activities WHERE scope <> IFNULL(completed,0) and structure_type_fk!='FOB' and s.structure_type_fk = ? and contract_id_fk = ? AND structure = s.structure ) > 0 ";
+			int arrSize = 4;
+			
+		
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and ( "
 						+ "structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
@@ -279,8 +268,12 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
+			pValues[i++] = obj.getStructure_type_fk();
 			pValues[i++] = obj.getContract_id_fk();
+			pValues[i++] = obj.getStructure_type_fk();
 			pValues[i++] = obj.getContract_id_fk();
+			
+			
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -298,7 +291,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	
 	
 	@Override
-	public List<StripChart> getAcivitiesBulkUpdateInProgressStructures(StripChart obj) throws Exception {
+	public List<StripChart> getNewActivitiesUpdateInProgressStructures(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		List<StripChart> objsList1 = null;
 		try {
@@ -306,8 +299,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					+ "FROM activities s "
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
 					+ "LEFT JOIN fob f ON f.fob_id = s.structure "
-					+ "WHERE s.structure is not null and structure_type_fk='FOB' and f.work_status_fk='In Progress' AND s.structure <> '' AND s.contract_id_fk = ? "
-					+ "AND (select count(*) from activities WHERE scope <> IFNULL(completed,0) and structure_type_fk='FOB' and contract_id_fk = ? AND structure = s.structure ) > 0 ";
+					+ "WHERE s.structure is not null and structure_type_fk!='FOB' and f.work_status_fk='In Progress' AND s.structure <> '' AND s.contract_id_fk = ? "
+					+ "AND (select count(*) from activities WHERE scope <> IFNULL(completed,0) and structure_type_fk!='FOB' and contract_id_fk = ? AND structure = s.structure ) > 0 ";
 			int arrSize = 2;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and ( "
@@ -343,11 +336,11 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	}	
 
 	@Override
-	public List<StripChart> getAcivitiesBulkUpdateLines(StripChart obj) throws Exception {
+	public List<StripChart> getNewActivitiesUpdateLines(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select line as strip_chart_line_id_fk from activities "
-					+ "where line is not null and line <> '' and structure_type_fk='FOB' ";
+					+ "where line is not null and line <> '' and structure_type_fk!='FOB' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + "and contract_id_fk = ? ";
@@ -377,12 +370,12 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	}
 	
 	@Override
-	public List<StripChart> getAcivitiesBulkUpdateSections(StripChart obj) throws Exception {
+	public List<StripChart> getNewActivitiesUpdateSections(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select section as strip_chart_section_name "
 					+ "from activities "
-					+ "where section is not null and structure_type_fk='FOB' ";
+					+ "where section is not null and structure_type_fk!='FOB' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + "and contract_id_fk = ? ";
@@ -476,7 +469,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					+ "from activities scv "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "where activity_id = ? and structure_type_fk='FOB' ";
+					+ "where activity_id = ? and structure_type_fk!='FOB' ";
 			
 			sObj =  (StripChart) jdbcTemplate.queryForObject( qry, new Object[] {obj.getActivity_id()}, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
@@ -488,7 +481,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 
 
 	@Override
-	public List<StripChart> getAcivitiesBulkUpdateComponentsList(StripChart obj) throws Exception {
+	public List<StripChart> getNewActivitiesUpdateComponentsList(StripChart obj) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -499,7 +492,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			String qry = "select component as strip_chart_component "
 					+ "from activities "
-					+ "where component is not null and structure_type_fk='FOB' and component <> '' and contract_id_fk = ? and structure = ?";
+					+ "where component is not null and component <> '' and structure_type_fk!='FOB'  and contract_id_fk = ? and structure = ?";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				qry = qry + " and line = ?";
@@ -541,7 +534,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	}
 	
 	@Override
-	public List<StripChart> getAcivitiesBulkUpdateComponentIds(StripChart obj) throws Exception {
+	public List<StripChart> getNewActivitiesUpdateComponentIds(StripChart obj) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -558,7 +551,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			String qry = "select distinct component_id as strip_chart_component_id_name,"
 					+ "component as strip_chart_component "
 					+ "from activities "
-					+ "where component_id is not null and structure_type_fk='FOB' and component_id <> '' and contract_id_fk = ? and structure = ? and component = ?";
+					+ "where component_id is not null and component_id <> '' and structure_type_fk!='FOB' and contract_id_fk = ? and structure = ? and component = ?";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				qry = qry + " and line = ?";
@@ -611,7 +604,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		String color = "";
 		try {	
 			String qry = " select * from (select (case "  
-					+" when ((select count(*) from activities s1 where  s1.structure_type_fk='FOB' and (s1.scope - IFNULL(s1.completed,0)) <> 0 "
+					+" when ((select count(*) from activities s1 where s1.structure_type_fk!='FOB' and (s1.scope - IFNULL(s1.completed,0)) <> 0 "
 					+ " and s1.contract_id_fk = ? and s1.structure = ? and s1.component_id = ? and s1.component = ? AND activity_id=a.activity_id ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s1.line = ?";
@@ -629,7 +622,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					//	qry = qry + " and s2.section = ?";
 					//}	
 					//qry = qry + ") < CURDATE() ) > 0) then 'delayed' "  
-					+" when ((select count(*) from activities s3 where s3.structure_type_fk='FOB' and IFNULL(s3.completed,0) = 0 and scope <> 0 "
+					+" when ((select count(*) from activities s3 where s3.structure_type_fk!='FOB' and IFNULL(s3.completed,0) = 0 and scope <> 0 "
 					+ "and s3.contract_id_fk = ? and s3.structure = ? and s3.component_id = ? and s3.component = ? AND activity_id=a.activity_id ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s3.line = ?";
@@ -640,7 +633,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					qry = qry + ") > 0) then 'not-started'  "  
 					+" else 'in-progress' "  
 					+" end ) as color " 
-					+" from activities a where scope <> 0 and structure_type_fk='FOB' and contract_id_fk = ? and structure = ? and component_id = ? and component = ?) as a order by color ";				
+					+" from activities a where scope <> 0 and structure_type_fk!='FOB' and contract_id_fk = ? and structure = ? and component_id = ? and component = ?) as a order by color ";				
 			
 			stmt = connection.prepareStatement(qry);
 			int p = 1;
@@ -759,7 +752,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		try {
 			String qry = "select activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name "
 					+ "from activities "
-					+ "where activity_id is not null and structure_type_fk='FOB' and scope <> IFNULL(completed,0)  "
+					+ "where activity_id is not null and structure_type_fk!='FOB' and scope <> IFNULL(completed,0)  "
 					+ "and component_id = ? and structure = ? and component = ? ";
 			int arrSize = 2;			
 			
@@ -796,7 +789,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	}
 
 	@Override
-	public StripChart getAcivitiesBulkUpdateDetails(StripChart obj) throws Exception {
+	public StripChart getNewActivitiesUpdateDetails(StripChart obj) throws Exception {
 		StripChart sObj = null;
 		try {
 			String qry = "select activity_id,"
@@ -804,7 +797,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					+ "DATE_FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,"
 					+ "component_id as strip_chart_component_id_name,completed as completed,scope as scope,remaining as remaining, units as unit_fk "
 					+ "from activities "
-					+ "where activity_id is not null and structure_type_fk='FOB' and component_id = ? and structure = ? and activity_id = ? ";
+					+ "where activity_id is not null and structure_type_fk!='FOB' and component_id = ? and structure = ? and activity_id = ? ";
 			
 			int arrSize = 3;
 			
@@ -844,7 +837,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		try {
 			String qry = "select activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,DATE_FORMAT(planned_start,'%d-%b-%y') AS planned_start "  
 					+",DATE_FORMAT(planned_finish,'%d-%b-%y') AS planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from activities  " 
-					+ " where activity_id is not null and structure_type_fk='FOB' ";
+					+ " where activity_id is not null and structure_type_fk!='FOB' ";
 			
 				if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))
 				{
@@ -873,6 +866,10 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				qry = qry + "and contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
+				qry = qry + "and structure_type_fk = ?";
+				arrSize++;
+			}			
 			qry = qry + " group by activity_id ";
 			
 			Object[] pValues = new Object[arrSize];
@@ -894,6 +891,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
+				pValues[i++] = obj.getStructure_type_fk();
+			}			
 			
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
@@ -1672,6 +1672,29 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			throw new Exception(e);
 		}
 		return dy_hods;
+	}
+
+	@Override
+	public List<StripChart> getStructureTypesInActivitiesUpdate(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT distinct structure_type_fk as structure_type "
+					+ "FROM activities s "
+					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
+					+ "WHERE s.structure is not null and structure_type_fk!='FOB' AND s.structure <> '' AND s.contract_id_fk = ? ";
+			int arrSize = 1;
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = obj.getContract_id_fk();
+		
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
 	}
 
 }

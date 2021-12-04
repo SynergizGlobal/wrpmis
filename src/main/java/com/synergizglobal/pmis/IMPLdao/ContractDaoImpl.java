@@ -1926,7 +1926,7 @@ public class ContractDaoImpl implements ContractDao {
 					String placeholders = "";
 					String contract_file_ids = "";
 					for (int i = 0; i < arraySize; i++) {
-						if(!StringUtils.isEmpty(contract.getContract_file_ids()[i])) {
+						if(!StringUtils.isEmpty(contract.getContract_file_ids()) && contract.getContract_file_ids().length > 0 && !StringUtils.isEmpty(contract.getContract_file_ids()[i])) {
 							placeholders = placeholders + "?,";
 							contract_file_ids = contract_file_ids + contract.getContract_file_ids()[i] + ",";
 						}
@@ -1952,13 +1952,16 @@ public class ContractDaoImpl implements ContractDao {
 						String docFileName = null;
 						MultipartFile multipartFile = contract.getContractDocumentFiles()[i];
 						if ((null != multipartFile && !multipartFile.isEmpty() && multipartFile.getSize() > 0)
-								|| (!StringUtils.isEmpty(contract.getContractDocumentFileNames()[i]) && !StringUtils.isEmpty(contract.getContractDocumentFileNames()[i].trim()) )) {
+								|| (!StringUtils.isEmpty(contract.getContractDocumentFileNames()) && contract.getContractDocumentFileNames().length > 0 && !StringUtils.isEmpty(contract.getContractDocumentFileNames()[i]) && !StringUtils.isEmpty(contract.getContractDocumentFileNames()[i].trim()) )) {
 							String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
 							String fileName = contract.getContractDocumentFileNames()[i];
 							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 
 							String fileName_new = "Contract-"+contract.getContract_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
 							docFileName = fileName_new;
-							String contract_file_id = contract.getContract_file_ids()[i];
+							String contract_file_id = null;
+							if(!StringUtils.isEmpty(contract.getContract_file_ids()) && contract.getContract_file_ids().length > 0 && !StringUtils.isEmpty(contract.getContract_file_ids()[i])) {
+								contract_file_id = contract.getContract_file_ids()[i];
+							}
 							if (null != multipartFile && !multipartFile.isEmpty()) {
 								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
 							}

@@ -13,7 +13,7 @@ public class TrainingType {
 	
 	private String structure_file_type,department_new,department_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
 	,contractor_specialization_new,contract_type_old,contract_type_new,dashboard_type_old,dashboard_type_new,status_old,status_new,deliverable_type_old,
-	deliverable_type_new,document_type_old,document_type_new,value_old,value_new,general_status,category,priority,status_of_new,status_of,manual_folders,module_name,module_incharge,incharge_user_id_fk
+	deliverable_type_new,document_type_old,document_type_new,value_old,value_new,general_status,execution_status,category,priority,status_of_new,status_of,manual_folders,module_name,module_incharge,incharge_user_id_fk
 	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
 	,impact,root_cause,structure_type, user_role_code_new,user_access_table_new,user_access_type_val,short_description,short_description_new,area, item_no,
 	item_no_new,risk_area_fk,risk_area_fk_new,sub_area,sub_area_new,la_sub_category_new,la_category_fk_new,la_category_fk_old,la_sub_category_old,sub_category,
@@ -1459,6 +1459,14 @@ public class TrainingType {
 
 	public void setShort_name(String short_name) {
 		this.short_name = short_name;
+	}
+
+	public String getExecution_status() {
+		return execution_status;
+	}
+
+	public void setExecution_status(String execution_status) {
+		this.execution_status = execution_status;
 	}
 
 }

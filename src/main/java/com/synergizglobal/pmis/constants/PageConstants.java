@@ -286,6 +286,7 @@ public class PageConstants {
 	
 	public static final String fobFileType = "referenceForms/fobFileType"; 
 	
+	public static final String executionStatus = "referenceForms/executionStatus"; 
 	
 }
 

@@ -306,11 +306,7 @@
 										<ul class="third-level-menu">
 											<!-- 2nd level Dropdown starts -->
 											<c:forEach var="subList" items="${form.formsSubMenu }">
-												<!-- <li>
-	      									<a href="${subList.webFormUrl }">
-	      										<span class="nav-label">${subList.formName }</span>
-	          								</a>
-	              						</li> -->
+
 												<c:if test="${ empty subList.formsSubMenuLevel2}">
 													<li><a
 														href="<%=request.getContextPath()%>/${subList.webFormUrl }">
@@ -364,11 +360,24 @@
 										<ul class="third-level-menu">
 											<!-- 2nd level Dropdown starts -->
 											<c:forEach var="subList" items="${form.formsSubMenu }">
-												<li><a
-													href="<%=request.getContextPath()%>/${subList.webFormUrl }">
-														<span class="nav-label">${subList.formName
-                                                                            }</span>
-												</a></li>
+												<c:if test="${ empty subList.formsSubMenuLevel2}">
+													<li><a
+														href="<%=request.getContextPath()%>/${subList.webFormUrl }">
+															<span class="nav-label">${subList.formName }</span>
+													</a></li>
+												</c:if>
+												<c:if test="${not empty subList.formsSubMenuLevel2}">
+													<li class="sub-menu"><a href="#">
+															${subList.formName }</a>
+														<ul class="fourth-level-menu">
+															<c:forEach var="subListLevel2"
+																items="${subList.formsSubMenuLevel2}">
+																<li><a
+																	href="<%=request.getContextPath()%>/${subListLevel2.webFormUrl }">
+																		${subListLevel2.formName } </a></li>
+															</c:forEach>
+														</ul></li>
+												</c:if>											
 											</c:forEach>
 											<!-- 2nd level Dropdown ends -->
 										</ul></li>

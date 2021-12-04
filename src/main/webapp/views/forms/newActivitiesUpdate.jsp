@@ -977,6 +977,8 @@
 
         
         function getStructureTypesListFilter(fob) {
+        	$("#structure_type_fk option:not(:first)").remove();
+        	
        		var work_id_fk = $("#work_id_fk").val();
            	var contract_id_fk = $("#contract_id_fk").val();
            	var structure_type_fk = $("#structure_type_fk").val();

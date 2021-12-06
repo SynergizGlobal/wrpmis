@@ -390,7 +390,7 @@
                                     
                                         <div class="col m3 s6 input-field" >
 											<p class="searchable_label">Structure Type <span class="required">*</span></p>
-	                                        <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="addInQueStructure(this.value);getNewActivitiesUpdateStructures();" class="searchable">
+	                                        <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="addInQueStructureType(this.value);getNewActivitiesUpdateStructures();" class="searchable">
 	                                            <option value="">Select</option>
 	                                        </select>
                                             <span id="structure_type_fkError" class="error-msg" ></span>
@@ -935,6 +935,15 @@
             	filtersMap["contract_id_fk"] = contract_id_fk;
 	      	}
         }
+        
+        function addInQueStructureType(structure_type_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('structure_type_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(structure_type_fk) != ''){
+            	filtersMap["structure_type_fk"] = structure_type_fk;
+	      	}
+        }       
         function addInQueStructure(strip_chart_structure_id_fk){
 	      	Object.keys(filtersMap).forEach(function (key) {
 		   		if(key.match('strip_chart_structure_id_fk')) delete filtersMap[key];

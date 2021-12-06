@@ -41,23 +41,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Iservice.ActivitiesProgressReportService;
-import com.synergizglobal.pmis.Iservice.ActivitiesStatusReportService;
+import com.synergizglobal.pmis.Iservice.StructureStatusReportService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 
 @Controller
-public class ActivitiesStatusReportController {
+public class StructureStatusReportController {
 
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
-	public static Logger logger = Logger.getLogger(ActivitiesStatusReportController.class);
+	public static Logger logger = Logger.getLogger(StructureStatusReportController.class);
 	
 	@Autowired
-	ActivitiesStatusReportService service;
+	StructureStatusReportService service;
 
 
 	@Value("${common.error.message}")
@@ -76,9 +75,9 @@ public class ActivitiesStatusReportController {
 	public String dataExportNoData;
 
 	
-	@RequestMapping(value = "/activities-status-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView stripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView(PageConstants.activitiesStatusReport);
+	@RequestMapping(value = "/structure-status-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView structureDPRReport(@ModelAttribute ActivitiesProgressReport obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView(PageConstants.structureStatusReport);
 		try{
 			List<ActivitiesProgressReport> contarctsList = service.getContractsFilterListInActivitiesStatusReport(obj);
 			model.addObject("contarctsList", contarctsList);
@@ -92,9 +91,9 @@ public class ActivitiesStatusReportController {
 		return model;
     }
 	
-	@RequestMapping(value = "/ajax/getProjectsFilterListInActivitiesStatusReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getProjectsFilterListInStructureStatusReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getProjectsFilterListInActivitiesStatusReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getProjectsFilterListInStructureStatusReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> projectsList = null;
 		try {
 			projectsList = service.getProjectsFilterListInActivitiesStatusReport(obj);
@@ -105,9 +104,9 @@ public class ActivitiesStatusReportController {
 		return projectsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorksFilterListInActivitiesStatusReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getWorksFilterListInStructureStatusReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getWorksFilterListInActivitiesStatusReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getWorksFilterListInStructureStatusReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> worksList = null;
 		try {
 			worksList = service.getWorksFilterListInActivitiesStatusReport(obj);
@@ -118,9 +117,9 @@ public class ActivitiesStatusReportController {
 		return worksList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractsFilterListInActivitiesStatusReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractsFilterListInStructureStatusReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getContractsFilterListInActivitiesStatusReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getContractsFilterListInStructureStatusReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> contractsList = null;
 		try {
 			contractsList = service.getContractsFilterListInActivitiesStatusReport(obj);
@@ -131,9 +130,9 @@ public class ActivitiesStatusReportController {
 		return contractsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getFobFilterListInActivitiesStatusReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getFobFilterListInStructureStatusReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getFobFilterListInActivitiesStatusReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getFobFilterListInStructureStatusReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> fobList = null;
 		try {
 			fobList = service.getFobFilterListInActivitiesStatusReport(obj);
@@ -144,26 +143,21 @@ public class ActivitiesStatusReportController {
 		return fobList;
 	}
 	
-	@RequestMapping(value = "/generate-activities-status-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public void generateStripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+	@RequestMapping(value = "/generate-structure-status-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public void generateStructureDPRReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		//ModelAndView model = new ModelAndView("redirect:/activities-progress-report");
 		try{
 			
-			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
-			String report_created_date = df.format(new Date());
-			
-			String reporting_date = obj.getReporting_date();
+		
 			//obj.setReporting_date(DateParser.parse(obj.getReporting_date()));
 			
-			String from_date = obj.getFrom_date();
-			String to_date = obj.getTo_date();
+
 			obj.setFrom_date(DateParser.parse(obj.getFrom_date()));
 			obj.setTo_date(DateParser.parse(obj.getTo_date()));
 			
 			//StatusReport details = service.getStripChartDPRReportDetails(obj);
 			//List<ActivitiesReport> dprDataList = service.getStripChartDPRReportData(obj);
 			
-			List<ActivitiesProgressReport> structuresList = service.getStructuresList(obj);
 			ActivitiesProgressReport reportData = service.getActivitiesStatusReportData(obj);
 			
 			XSSFWorkbook  workBook = new XSSFWorkbook();
@@ -173,18 +167,18 @@ public class ActivitiesStatusReportController {
 			byte[] blueRGB = new byte[]{(byte)180, (byte)198, (byte)231};
 			byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)153};
 	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
-	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        byte[] orangeLightRGB = new byte[]{(byte)255, (byte)201, (byte)163};
 	        
 	        
 	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
 	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        
 	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle structureStyle = cellFormating(workBook,orangeLightRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
 	        CellStyle cellStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle centerStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
@@ -198,7 +192,6 @@ public class ActivitiesStatusReportController {
 
             /********************************************************/
 	        int sheetNo = 0;
-	        int len  = 0;
 	        String structure = null;
 	        if(!(StringUtils.isEmpty(reportData))) {
 	        
@@ -216,13 +209,13 @@ public class ActivitiesStatusReportController {
 			        
 			        cell = mainHeadingRow.createCell(0);
 			        cell.setCellStyle(centerStyle);
-					cell.setCellValue("FOB Status Report ");
-			        for (int i = 1; i < 6; i++) {		        	
+					cell.setCellValue("Structure Status Report ");
+			        for (int i = 1; i < 7; i++) {		        	
 				        cell = mainHeadingRow.createCell(i);
 				        cell.setCellStyle(greenStyle);
 						cell.setCellValue("");
 					}	
-			        dprSheet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
+			        dprSheet.addMergedRegion(new CellRangeAddress(1, 1, 0,6));
 					/********************************************************/	
 			        
 			        /********************************************************/	
@@ -236,12 +229,12 @@ public class ActivitiesStatusReportController {
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue(reportData.getWork_id_fk() + " - " + (!StringUtils.isEmpty(reportData.getWork_short_name())?reportData.getWork_short_name():reportData.getWork_name()));
 					
-					for (int i = 2; i < 6; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 1,5));
+					dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 1,6));
 			        
 					/********************************************************/
 			        
@@ -256,12 +249,12 @@ public class ActivitiesStatusReportController {
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue(reportData.getContract_id() + " - " + (!StringUtils.isEmpty(reportData.getContract_short_name())?reportData.getContract_short_name():reportData.getContract_name()));
 			        
-					for (int i = 2; i < 6; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(3,3, 1,5));
+					dprSheet.addMergedRegion(new CellRangeAddress(3,3, 1,6));
 					
 					/********************************************************/
 					
@@ -276,12 +269,12 @@ public class ActivitiesStatusReportController {
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue(reportData.getContractor_name());
 					
-					for (int i = 2; i < 6; i++) {		        	
+					for (int i = 2; i < 7; i++) {		        	
 				        cell = deatilsRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
 						cell.setCellValue("");
 					}	
-					dprSheet.addMergedRegion(new CellRangeAddress(4,4, 1,5));
+					dprSheet.addMergedRegion(new CellRangeAddress(4,4, 1,6));
 			        
 					/********************************************************/
 			        
@@ -291,54 +284,57 @@ public class ActivitiesStatusReportController {
 					
 					        cell = deatilsRow.createCell(0);
 					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue("Structure ");
+							cell.setCellValue("Structure Type");
 							
 							cell = deatilsRow.createCell(1);
 					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue(structure+'-'+zObj.getFob_name());
+							cell.setCellValue(zObj.getStructure_type());
 							
-							for (int i = 2; i < 6; i++) {		        	 
+							for (int i = 2; i < 7; i++) {		        	 
 						        cell = deatilsRow.createCell(i);
 						        cell.setCellStyle(indexWhiteStyle);
 								cell.setCellValue("");
 							}	
-							dprSheet.addMergedRegion(new CellRangeAddress(5,5, 1,5));
+							dprSheet.addMergedRegion(new CellRangeAddress(5,5, 1,6));
 						
 					}
 					/********************************************************/
 					
 					/*************************************************************************/		
 					if(!StringUtils.isEmpty(zObj.getFob_id_fk())) {
-						 deatilsRow = dprSheet.createRow(6);
+						 deatilsRow = dprSheet.createRow(7);
 					
-					        cell = deatilsRow.createCell(0);
-					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue("Structure status");
 							
-							cell = deatilsRow.createCell(1);
-					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue(reportData.getWork_status_fk());
+							cell = deatilsRow.createCell(0);
+					        cell.setCellStyle(structureStyle);
+					        if(zObj.getFob_name()!=null)
+					        {
+					        	cell.setCellValue(zObj.getFob_id_fk()+" ("+zObj.getFob_name()+")");
+					        }
+					        else
+					        {
+					        	cell.setCellValue(zObj.getFob_id_fk());
+					        }
 							
-							for (int i = 2; i < 6; i++) {		        	 
+							for (int i = 1; i < 7; i++) {		        	 
 						        cell = deatilsRow.createCell(i);
-						        cell.setCellStyle(indexWhiteStyle);
+						        cell.setCellStyle(structureStyle);
 								cell.setCellValue("");
 							}	
-							dprSheet.addMergedRegion(new CellRangeAddress(6,6, 1,5));
+							dprSheet.addMergedRegion(new CellRangeAddress(7,7, 0,6));
 						
 					}
 					/********************************************************/					
+		
 			        
 					/*************************************************************************/		
 						
 					if(zObj.getComponentsList() != null && zObj.getComponentsList().size() > 0){
-						int rowNo = 6;
+						int rowNo = 7;
 						 rowNo++;
-				            int tempRowNo = rowNo;
-				            XSSFRow structureRow = dprSheet.createRow(rowNo++);
 					
 				            /**********************************************************************/
-							String headerString = "Activity Name^Unit^Scope^Completed^ Start Date ^Finish Date";
+							String headerString = "Component ID^Activity Name^Unit^Scope^Completed^ Start Date ^Finish Date";
 					        
 					        String[] headerStringArr = headerString.split("\\^");
 					        
@@ -354,18 +350,22 @@ public class ActivitiesStatusReportController {
 							  cell = componentRow.createCell(x++);
 								cell.setCellStyle(componentStyle);
 								cell.setCellValue(cObj.getComponent());
-								for (int i = 1; i < 6; i++) {		        	
+								for (int i = 1; i < 7; i++) {		        	
 							        cell = componentRow.createCell(i);
 							        cell.setCellStyle(indexWhiteStyle);
 									cell.setCellValue("");
 								}
-								dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 0,5));
+								dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 0,6));
 								
 								rowNo++;
 					        /***********************************************************************/
 						    for (ActivitiesProgressReport dObj : cObj.getActivitiessList()) {
 						        XSSFRow row = dprSheet.createRow(rowNo);
 						        int c = 0;
+						        
+						        cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(dObj.getComponent_id());						        
 						        
 						        cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
@@ -406,7 +406,8 @@ public class ActivitiesStatusReportController {
 						    }
 						    
 						    for(int columnIndex = 1; columnIndex < headerStringArr.length; columnIndex++) {
-						    	dprSheet.setColumnWidth(0, 25 * 400);
+						    	dprSheet.setColumnWidth(0, 20 * 300);
+						    	dprSheet.setColumnWidth(1, 25 * 400);
 						    	//dprSheet.autoSizeColumn(columnIndex);
 				            	dprSheet.setColumnWidth(columnIndex, 25 * 150);
 							}
@@ -421,7 +422,7 @@ public class ActivitiesStatusReportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "FOB_Status_Report_"+dateFormat.format(date);
+            String fileName = "Structure_Status_Report_"+dateFormat.format(date);
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");

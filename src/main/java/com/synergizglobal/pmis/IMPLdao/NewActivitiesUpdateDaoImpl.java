@@ -79,9 +79,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
-						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk) "
 						+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
 						+ ")";
 				arrSize++;
@@ -131,9 +131,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
-								+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
-								+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
-								+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk) "
+								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk) "
+								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk) "
+								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk) "
 								+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
 								+ ")";
 						arrSize++;
@@ -200,7 +200,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and c1.department_id_fk=? and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
-						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from fob_contract_responsible_people where fob_id_fk in(select fob_id_fk from pmis.fob_contract_responsible_people where responsible_people_id_fk = ?))) )";
+						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from structure_contract_responsible_people where structure_id_fk in(select structure_id_fk from pmis.structure_contract_responsible_people where responsible_people_id_fk = ?))) )";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -254,9 +254,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and ( "
-						+ "structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) ";
+						+ "structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -298,15 +298,15 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			String qry = "SELECT s.structure as strip_chart_structure_id_fk "
 					+ "FROM activities s "
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
-					+ "LEFT JOIN fob f ON f.fob_id = s.structure "
+					+ "LEFT JOIN structure f ON f.structure = s.structure "
 					+ "WHERE s.structure is not null and structure_type_fk!='FOB' and f.work_status_fk='In Progress' AND s.structure <> '' AND s.contract_id_fk = ? "
 					+ "AND (select count(*) from activities WHERE scope <> IFNULL(completed,0) and structure_type_fk!='FOB' and contract_id_fk = ? AND structure = s.structure ) > 0 ";
 			int arrSize = 2;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and ( "
-						+ "structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) ";
+						+ "structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -412,51 +412,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		return objsList;
 	}
 	
-	private List<StripChart> getExecutivesList(StripChart obj) throws Exception {
-		List<StripChart> objsList = null;
-		try {
-			String qry ="SELECT id, w.work_name,w.work_short_name,f.contract_id_fk as contract_id,"
-					+ "w.project_id_fk,p.project_name,c.hod_user_id_fk as hod_user_id,u.designation,us.designation as dy_hod_designation,u.user_name,"
-					+ "c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_status_fk,c.dy_hod_user_id_fk as dy_hod_user_id,"
-					+ "c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,f.fob_id,f.fob_name,f.work_status_fk"
-					+ " FROM fob_contract_responsible_people ce "
-					+ "LEFT JOIN fob f on f.fob_id = ce.fob_id_fk "
-					+ "LEFT JOIN contract c on c.contract_id = f.contract_id_fk "+
-					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
-					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
-					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id where contract_id is not null ";
-			
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and f.work_id_fk = ?";
-				arrSize++;
-			}	
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
-				qry = qry + " and  responsible_people_id_fk = ? ";
-				arrSize++;
-			}
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				pValues[i++] = obj.getUser_id();
-				
-			}
-			
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}	
-
 	@Override
 	public StripChart getAcivitiesBulkData(StripChart obj) throws Exception {
 		StripChart sObj = null;
@@ -546,7 +501,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "component_id as strip_chart_component_id,component_id as strip_chart_component_id,"
 					+ "component as strip_chart_component "
 					+ "from activities "
-					+ "where component_id is not null and contract_id_fk = ? and fob_id_fk = ?";*/
+					+ "where component_id is not null and contract_id_fk = ? and structure_id_fk = ?";*/
 			
 			String qry = "select distinct component_id as strip_chart_component_id_name,"
 					+ "component as strip_chart_component "
@@ -1604,9 +1559,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				/********************************************************************************/
 				if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
 					String qryUsers ="SELECT dy_hod_user_id_fk "
-							+ "FROM fob_contract_responsible_people "
+							+ "FROM structure_contract_responsible_people "
 							+ "left join contract on contract_id_fk = contract_id "
-							+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
+							+ "where dy_hod_user_id_fk is not null and structure_id_fk = ? group by dy_hod_user_id_fk";
 					List<String> users = jdbcTemplate.queryForList( qryUsers,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
 					if(!StringUtils.isEmpty(users) && users.size() > 0) {
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -1615,12 +1570,12 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						String messageType = "Activity Progress";
 						String redirect_url = "/progress-approval-page";
 						
-						String qryFOBName ="SELECT fob_name FROM fob where fob_id = ? ";
+						String qryFOBName ="SELECT structure_name FROM structure where structure = ? ";
 						String fob_name = jdbcTemplate.queryForObject( qryFOBName,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
 						if(StringUtils.isEmpty(fob_name)) {
 							fob_name = obj.getStrip_chart_structure_id_fk();
 						}
-						String message = Message+" Update for FOB "+fob_name+". Pending approval.";
+						String message = Message+" Update for Structure "+fob_name+". Pending approval.";
 						 
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);
@@ -1634,7 +1589,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-				formHistory.setModule_name("Activities Bulk Update");
+				formHistory.setModule_name("New Activities Update");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details(insertCount.length + " activities updated for "+obj.getStrip_chart_structure_id_fk());
 				formHistory.setWork(obj.getWork_id_fk());
@@ -1664,9 +1619,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		List<String>  dy_hods = null;
 		try {
 			String qryUsers ="SELECT dy_hod_user_id_fk "
-					+ "FROM fob_contract_responsible_people "
+					+ "FROM structure_contract_responsible_people "
 					+ "left join contract on contract_id_fk = contract_id "
-					+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
+					+ "where dy_hod_user_id_fk is not null and structure_id_fk = ? group by dy_hod_user_id_fk";
 			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{structure}, String.class);
 		}catch(Exception e){ 
 			throw new Exception(e);

@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>FOB Status Report - Reports - PMIS</title>
+	<title>Structure Status Report - Reports - PMIS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
@@ -39,12 +39,12 @@
 					<div class="center-align">
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m m-b-2">
-								<h6 id="rptName">FOB Status Report</h6>
+								<h6 id="rptName">Structure Status Report</h6>
 							</div>
 						</span>
 					</div>
 					<!-- form start-->
-					<form action="<%=request.getContextPath() %>/generate-activities-status-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
+					<form action="<%=request.getContextPath() %>/generate-structure-status-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
 						<div class="row">
 						<div class="col s12 m12 l7 offset-l2">
 							<div class="row no-mar" style="margin-bottom:0;">
@@ -76,13 +76,13 @@
 									<span id="contract_idError" class="error-msg"></span>
 								</div>	 
 							
-							    <!-- <div class="col s12 m3 l4 input-field" id="fob_id_fk_div">
+							    <div class="col s12 m3 l4 input-field" id="fob_id_fk_div">
 									<p class="searchable_label">Structure</p>
 									<select class="searchable validate-dropdown" id="fob_id_fk" name="fob_id_fks" multiple="multiple"  onchange="addInQueFOB();getActivitiesList();">
 										<option value="">Select</option>	
 									</select> 
 									<span id="fob_id_fkError" class="error-msg"></span>
-								</div>	 -->		
+								</div>		
 								<div class="col s6 m3 l4 input-field" id="fmRow" style="display: none;">
 									
 								</div>
@@ -187,7 +187,7 @@
         	$("#contract_id").val('');
         	$("#fob_id_fk").val('');
         	window.localStorage.setItem("activitiesReportFilters",'');
-        	window.location.href= "<%=request.getContextPath()%>/activities-status-report";
+        	window.location.href= "<%=request.getContextPath()%>/structure-status-report";
         }
         function addInQueWork(work_id){
           	Object.keys(filtersMap).forEach(function (key) {
@@ -257,7 +257,7 @@
             	$("#project_id option:not(:first)").remove();
             	var myParams = {};
                 $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInActivitiesStatusReport",
+	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInStructureStatusReport",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -289,7 +289,7 @@
            	$("#work_id option:not(:first)").remove();
            	var myParams = {project_id : project_id};
                $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInActivitiesStatusReport",
+                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInStructureStatusReport",
                 data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -319,7 +319,7 @@
             	$("#contract_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id};
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInActivitiesStatusReport",
+	            	url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInStructureStatusReport",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -377,7 +377,7 @@
           //  if ($.trim(contract_id) != "" && $.trim(fob_id_fk) == "") {
             	var myParams = {contract_id : contract_id};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getFobFilterListInActivitiesStatusReport",
+                    url: "<%=request.getContextPath()%>/ajax/getFobFilterListInStructureStatusReport",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -389,12 +389,12 @@
                                      if(fobArr.length > 0){
      	                          	  for(var j=0;j< fobArr.length;j++){
      	                          		 var selectedFlag = (fobArr[j] == val.fob_id)?'selected':'';
-     	                                 $("#fob_id_fk").append('<option value="' + val.fob_id + '"'+selectedFlag+'>' + $.trim(val.fob_id)  + fobName +'</option>');
+     	                                 $("#fob_id_fk").append('<option value="' + val.fob_id + '"'+selectedFlag+'>' + $.trim(val.fob_id)+'</option>');
      	                          	  }
                                      }
                                 }
                                else{
-                                	 $("#fob_id_fk").append('<option value="' + val.fob_id + '">' + $.trim(val.fob_id)  + fobName +'</option>');
+                                	 $("#fob_id_fk").append('<option value="' + val.fob_id + '">' + $.trim(val.fob_id)  + '</option>');
                                 	 //$("#fob_id_fk_div").show();
                                 }
                             });

@@ -1609,7 +1609,7 @@ td label.btn.bg-m{
 
 			   $('#structureRow'+tableNo+'-internalTable tbody tr.mob-add-btn').prev().after(html);
 			   var len = $("#internalTable"+tableNo+" tr").length-1;
-			   $("#internalRow"+tableNo).val(rNo);
+			   $("#internalRow"+ind).val(rNo);
 			   $("#structure_type_fkss"+rNo+tableNo+rNo+x).val(structureType);
 			   $('.modal').modal(); 
 			   $('.searchable').select2(); 

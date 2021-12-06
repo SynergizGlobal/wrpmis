@@ -22,7 +22,9 @@ public class Structure {
 		,structure_file_types,structureDocumentNames,structureFileNames,structure_file_ids,structure_detailss,structure_names,latitudes,longitudes;
 	
 	private List<Structure> structureList;
+	private List<Structure> structureListInactive;
 	private List<Structure> structureSubList;
+	private List<Structure> structureSubListInactive;
 	private List<Structure> structureSubList2;
 	private List<Structure> executivesList;
 	private List<Structure> documentsList;
@@ -31,6 +33,22 @@ public class Structure {
 	private List<Structure> contractsLists;
 	private List<Structure> responsiblePeopleLists;
 	
+
+	public List<Structure> getStructureListInactive() {
+		return structureListInactive;
+	}
+
+	public void setStructureListInactive(List<Structure> structureListInactive) {
+		this.structureListInactive = structureListInactive;
+	}
+
+	public List<Structure> getStructureSubListInactive() {
+		return structureSubListInactive;
+	}
+
+	public void setStructureSubListInactive(List<Structure> structureSubListInactive) {
+		this.structureSubListInactive = structureSubListInactive;
+	}
 
 	public String getFob_details_type() {
 		return fob_details_type;

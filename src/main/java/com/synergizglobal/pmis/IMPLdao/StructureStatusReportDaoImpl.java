@@ -213,10 +213,11 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 		try {
 			String qry = "SELECT p.project_id,p.project_name "+
 					"from activities a " + 
+					"LEFT JOIN structure f on a.structure = f.structure " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where project_id is not null and project_id <> '' and a.structure_type_fk!='FOB' ";
+					"where project_id is not null and f.structure is not null and f.structure <> '' and project_id <> '' and a.structure_type_fk!='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -266,10 +267,11 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 		try {
 			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name "+
 					"from activities a " + 
+					"LEFT JOIN structure f on a.structure = f.structure " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where w.work_id is not null and w.work_id <> '' and a.structure_type_fk!='FOB' ";
+					"where w.work_id is not null and f.structure is not null and f.structure <> '' and w.work_id <> '' and a.structure_type_fk!='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -300,10 +302,11 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 		try {
 			String qry = "SELECT w.project_id_fk as project_id,c.work_id_fk as work_id,c.contract_id,c.contract_name,c.contract_short_name "+
 					"from activities a " + 
+					"LEFT JOIN structure f on a.structure = f.structure " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.contract_id is not null and c.contract_id <> '' and a.structure_type_fk!='FOB' ";
+					"where c.contract_id is not null and f.structure is not null and f.structure <> '' and c.contract_id <> '' and a.structure_type_fk!='FOB' ";
 			
 			int arrSize = 0;
 			

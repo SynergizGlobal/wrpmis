@@ -504,7 +504,7 @@ public class HomeDaoImpl implements HomeDao {
 			
 			
 			if(!StringUtils.isEmpty(base) && base.equals("web")) {
-				qry = qry + " and web_form_url IS NOT NULL and web_form_url <> ''";
+				//qry = qry + " and web_form_url IS NOT NULL and web_form_url <> ''";
 			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
 			}

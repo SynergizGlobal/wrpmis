@@ -1001,27 +1001,27 @@ public class StructureDaoImpl implements StructureDao{
 				}
 			}
 			if(!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0 && !StringUtils.isEmpty(obj.getWork_id_fk()) && obj.getStructures().length > 0) {
-				List<Structure> structure_ids = getStructureIdsWithWork(obj.getWork_id_fk());
-				for(Structure structureIds : structure_ids){
-					String id = structureIds.getStructure_id();
-					String executivesInactiveQry = "DELETE from structure_contract_responsible_people  where structure_id_fk = ?";		 
-					stmt = con.prepareStatement(executivesInactiveQry);
-					stmt.setString(1,id);
-					stmt.executeUpdate(); 
-					if(stmt != null){stmt.close();}
-					
-					String detailsInactiveQry = "DELETE from structure_details  where structure_id_fk = ?";		 
-					stmt = con.prepareStatement(detailsInactiveQry);
-					stmt.setString(1,id);
-					stmt.executeUpdate();
-					if(stmt != null){stmt.close();}
-					
-					String DocumentsInactiveQry = "DELETE from structure_documents  where structure_id_fk = ?";		 
-					stmt = con.prepareStatement(DocumentsInactiveQry);
-					stmt.setString(1,id);
-					stmt.executeUpdate();
-					if(stmt != null){stmt.close();}
-				}
+				//List<Structure> structure_ids = getStructureIdsWithWork(obj.getWork_id_fk());
+				/*		for(Structure structureIds : structure_ids){
+							String id = structureIds.getStructure_id();
+							String executivesInactiveQry = "DELETE from structure_contract_responsible_people  where structure_id_fk = ?";		 
+							stmt = con.prepareStatement(executivesInactiveQry);
+							stmt.setString(1,id);
+							stmt.executeUpdate(); 
+							if(stmt != null){stmt.close();}
+							
+							String detailsInactiveQry = "DELETE from structure_details  where structure_id_fk = ?";		 
+							stmt = con.prepareStatement(detailsInactiveQry);
+							stmt.setString(1,id);
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}
+							
+							String DocumentsInactiveQry = "DELETE from structure_documents  where structure_id_fk = ?";		 
+							stmt = con.prepareStatement(DocumentsInactiveQry);
+							stmt.setString(1,id);
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}
+						}*/
 				/*String inactiveQry = "DELETE from structure  where work_id_fk = ?";		 
 				stmt = con.prepareStatement(inactiveQry);
 				stmt.setString(1,obj.getWork_id_fk());

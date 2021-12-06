@@ -331,9 +331,9 @@ td label.btn.bg-m{
                                                      <c:forEach var="sObj" items="${dObj.structureSubList }" varStatus="indexx"> 
 	                                                     <tr id="internalTableRow${indexx.count }${index.count }">
 		                                                    <td> 
-			                                                  <input type="hidden" id="structure_type_fks${indexx.count }${index.count }"   <c:if test="${indexx.count != 1}"> name="structure_type_fks"</c:if> value="${dObj.structure_type_fk }"/>
+			                                                  <input type="hidden" id="structure_type_fkss${indexx.count }${index.count }"   <c:if test="${indexx.count != 1}"> name="structure_type_fks"</c:if> value="${dObj.structure_type_fk }"/>
 			                                                 
-			                                                    <input id="structure_id${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${sObj.structure }"></td>
+			                                                    <input id="structure_id${indexx.count }${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${sObj.structure }"></td>
 			                                                    <td>
 			                                                   	   <input type="hidden" name= "structure_ids" id="structure_ids${indexx.count }${index.count }" value="${sObj.structure_id}" />
 								                                	<input id="structure_name${indexx.count }${index.count }" name="structure_names" type="text"  placeholder="Structure Name" class="validate" value="${sObj.structure_name }" >
@@ -1388,7 +1388,7 @@ td label.btn.bg-m{
 			               </c:forEach>
            				+'</select></td>'
            				+'<td data-head="Structure Id" class="input-field no-pad" colspan=2><input type="hidden" id="internalRow'+rNo+rNo+x+'"  name="internalRowNo" value="0" /> <table class="internal-table" id="structureRow'+rNo+'-internalTable"><tbody id="internalTable'+rNo+'">'
-           				+'<tr id="internalTableRow'+rNo+rNo+x+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+rNo+x+'"/> <input id="structure_id'+rNo+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
+           				+'<tr id="internalTableRow'+rNo+rNo+x+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fkss'+rNo+rNo+x+'"/> <input id="structure_id'+rNo+rNo+x+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
            				+'<td><input type="hidden" name= "structure_ids" id="structure_ids'+rNo+rNo+x+'" value="" /> <input id="structure_name'+rNo+rNo+x+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+rNo+x+'Error" class="error-msg" ></span></td>'
            			/* 	+'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal">'
            			    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
@@ -1511,12 +1511,12 @@ td label.btn.bg-m{
 	    	 	getContractsList(work_id_fk); */
 				var rowNo=$('#internalRow'+ind).val();
 				var rNo = Number(rowNo)+1;
-				/* var len = $("#internalTable"+rNo+" tr").length-1;
-				$("#subRowsLengths"+rNo).val(len); */
+				tableNo = tableNo.toString();
+				
 				var structureType = $("#structure_type_fks"+tableNo).val();
 				var x = Math.floor(Math.random() * (100 - 500 + 1) + 500)
 				var y = Math.floor(Math.random() * (10 - 50 + 100) + 5)
-				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fks'+rNo+tableNo+rNo+x+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
+				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fkss'+rNo+tableNo+rNo+x+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
 						   +'placeholder="Structure Id"></td>'
 						   +'<td> <input type="hidden" name= "structure_ids" id="structure_ids'+rNo+'_'+tableNo+'" value="" /><input id="structure_name'+rNo+'_'+tableNo+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+'_'+tableNo+'Error" class="error-msg" ></span></td>'
 						  /*  +'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal"> '
@@ -1608,8 +1608,9 @@ td label.btn.bg-m{
 						   +'onclick="removeStructureInternalRow('+rNo+tableNo+','+tableNo+')"> <i class="fa fa-close"></i></a></td></tr>';
 
 			   $('#structureRow'+tableNo+'-internalTable tbody tr.mob-add-btn').prev().after(html);
-			   $("#internalRow"+ind).val(rNo);
-			   $("#structure_type_fks"+rNo+tableNo+rNo+x).val(structureType);
+			   var len = $("#internalTable"+tableNo+" tr").length-1;
+			   $("#internalRow"+tableNo).val(rNo);
+			   $("#structure_type_fkss"+rNo+tableNo+rNo+x).val(structureType);
 			   $('.modal').modal(); 
 			   $('.searchable').select2(); 
 			   $('select:not(.searchable)').formSelect();
@@ -1633,7 +1634,7 @@ td label.btn.bg-m{
 				$("#"+structureId).removeAttr('name');
 				var len = $("#internalTable"+ind+" tr").length-1;
 				var rNo = Number(len) - 1;
-				$("#internalRow"+ind).val(rNo); 
+				$("#internalRow"+ind).val(len); 
 				//$("#subRowsLengths"+ind).val(len);
 			}
 			

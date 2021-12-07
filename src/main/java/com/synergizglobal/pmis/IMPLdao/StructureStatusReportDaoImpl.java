@@ -168,7 +168,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 						arrSize++;
 					}
 					
-					contractProgressDatesQry=contractProgressDatesQry+" ORDER BY FIELD(component,'New FOB site on PF','PF and service buildings','New Constructed FOB','New Constructed  FOB','PF sheds Under new FOB','Dismantling of old & unservicable FOB','PF s cover shed of dismantalling FOB','Station')";
+					contractProgressDatesQry=contractProgressDatesQry+" ORDER BY `order`,activity_name ASC";
 					pValues = new Object[arrSize];
 					i = 0;
 					pValues[i++] = obj.getContract_id();

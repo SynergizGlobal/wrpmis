@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -192,15 +193,25 @@ public class StructureStatusReportController {
 
             /********************************************************/
 	        int sheetNo = 0;
-	        String structure = null;
 	        if(!(StringUtils.isEmpty(reportData))) {
-	        
-	        	 for (ActivitiesProgressReport zObj : reportData.getStructuressList()) {  
-	        		structure = zObj.getFob_id_fk();
-			        XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(structure));
+	        	
+	        	List<String> StructureTypes = new ArrayList<>();
+	        	
+	        	for (ActivitiesProgressReport sTObj : reportData.getStructuressList()) 
+	        	{
+	        		if(StructureTypes.indexOf(sTObj.getStructure_type())==-1)
+	        		{
+	        			StructureTypes.add(sTObj.getStructure_type());
+	        		}
+	        	}
+				for (int i2 = 0; i2 < StructureTypes.size(); i2++) 
+				{
+			        XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(StructureTypes.get(i2)));
 			        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
 			        
+			        
 			        XSSFRow dateRow = dprSheet.createRow(2);
+			        
 			        
 			        Cell cell = dateRow.createCell(0);
 			      
@@ -279,8 +290,8 @@ public class StructureStatusReportController {
 					/********************************************************/
 			        
 					/*************************************************************************/		
-					if(!StringUtils.isEmpty(zObj.getFob_id_fk())) {
-						 deatilsRow = dprSheet.createRow(5);
+
+						 	deatilsRow = dprSheet.createRow(5);
 					
 					        cell = deatilsRow.createCell(0);
 					        cell.setCellStyle(indexWhiteStyle);
@@ -288,7 +299,7 @@ public class StructureStatusReportController {
 							
 							cell = deatilsRow.createCell(1);
 					        cell.setCellStyle(indexWhiteStyle);
-							cell.setCellValue(zObj.getStructure_type());
+							cell.setCellValue(StructureTypes.get(i2));
 							
 							for (int i = 2; i < 7; i++) {		        	 
 						        cell = deatilsRow.createCell(i);
@@ -297,12 +308,36 @@ public class StructureStatusReportController {
 							}	
 							dprSheet.addMergedRegion(new CellRangeAddress(5,5, 1,6));
 						
-					}
-					/********************************************************/
+					
+					/********************************************************/		
+							
+				int incrementRow=0;
+				int loopRow=0;
+
+	        	 for (ActivitiesProgressReport zObj : reportData.getStructuressList()) 
+	        	 { 
+	        		int appendRowNo=0;
+
+	        		
+
+
+	        		 if(StructureTypes.get(i2).compareTo(zObj.getStructure_type())==0)
+	        		 {
+	        		 
+	        		
 					
 					/*************************************************************************/		
-					if(!StringUtils.isEmpty(zObj.getFob_id_fk())) {
-						 deatilsRow = dprSheet.createRow(7);
+					if(!StringUtils.isEmpty(zObj.getFob_id_fk())) 
+					{
+						if(loopRow==0)
+						{
+							appendRowNo=7+incrementRow;
+						}
+						else
+						{
+							appendRowNo=2+incrementRow;
+						}
+						 deatilsRow = dprSheet.createRow(appendRowNo);
 					
 							
 							cell = deatilsRow.createCell(0);
@@ -321,7 +356,9 @@ public class StructureStatusReportController {
 						        cell.setCellStyle(structureStyle);
 								cell.setCellValue("");
 							}	
-							dprSheet.addMergedRegion(new CellRangeAddress(7,7, 0,6));
+							dprSheet.addMergedRegion(new CellRangeAddress(appendRowNo,appendRowNo, 0,6));
+							appendRowNo++;
+							loopRow++;
 						
 					}
 					/********************************************************/					
@@ -330,7 +367,7 @@ public class StructureStatusReportController {
 					/*************************************************************************/		
 						
 					if(zObj.getComponentsList() != null && zObj.getComponentsList().size() > 0){
-						int rowNo = 7;
+						int rowNo = appendRowNo-1;
 						 rowNo++;
 					
 				            /**********************************************************************/
@@ -412,8 +449,12 @@ public class StructureStatusReportController {
 				            	dprSheet.setColumnWidth(columnIndex, 25 * 150);
 							}
 						}
+						incrementRow=rowNo;
 					}
 	        	} 
+	        		 
+				}
+				}
 	        }else {
 	        	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Data"));
 		        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);

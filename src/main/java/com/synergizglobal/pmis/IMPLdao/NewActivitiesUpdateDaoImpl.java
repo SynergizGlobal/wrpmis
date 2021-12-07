@@ -1618,10 +1618,11 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	private List<String> getDyHodsOfActivity(String structure) throws Exception {
 		List<String>  dy_hods = null;
 		try {
-			String qryUsers ="SELECT dy_hod_user_id_fk "
-					+ "FROM structure_contract_responsible_people "
-					+ "left join contract on contract_id_fk = contract_id "
-					+ "where dy_hod_user_id_fk is not null and structure_id_fk = ? group by dy_hod_user_id_fk";
+			String qryUsers ="SELECT c.dy_hod_user_id_fk "
+					+ "FROM structure_contract_responsible_people s1 "
+					+ "left join structure s on s.structure_id = s1.structure_id_fk "
+					+ "left join contract c on c.contract_id = s1.contract_id_fk "
+					+ "where c.dy_hod_user_id_fk is not null and structure = ? group by dy_hod_user_id_fk";
 			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{structure}, String.class);
 		}catch(Exception e){ 
 			throw new Exception(e);

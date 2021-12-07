@@ -168,7 +168,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 						arrSize++;
 					}
 					
-					contractProgressDatesQry=contractProgressDatesQry+" ORDER BY `order`,activity_name ASC";
+					contractProgressDatesQry=contractProgressDatesQry+" ORDER BY component_id,activity_name ASC";
 					pValues = new Object[arrSize];
 					i = 0;
 					pValues[i++] = obj.getContract_id();

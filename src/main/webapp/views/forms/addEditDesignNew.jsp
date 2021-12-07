@@ -220,7 +220,8 @@
 			.t-48{
 			top:37px;}
 		}
-		.mobile_btn_close > .waves-effect.btn.red{
+		.mobile_btn_close > .waves-effect.btn.red,
+		.waves-effect.bg-m.t-c{
 			z-index:0;
 		}
     </style>

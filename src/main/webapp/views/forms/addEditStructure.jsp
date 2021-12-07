@@ -329,9 +329,9 @@ td label.btn.bg-m{
                                                  <table class="internal-table" id="structureRow${index.count }-internalTable">
                                                     <tbody id="internalTable${indexx.count }${index.count }">
                                                      <c:forEach var="sObj" items="${dObj.structureSubList }" varStatus="indexx"> 
-	                                                     <tr id="internalTableRow${indexx.count }${index.count }">
+	                                                     <tr id="internalTableRow${indexx.count }_${index.count }">
 		                                                    <td> 
-			                                                  <input type="hidden" id="structure_type_fkss${indexx.count }${index.count }"   <c:if test="${indexx.count != 1}"> name="structure_type_fks"</c:if> value="${dObj.structure_type_fk }"/>
+			                                                  <input type="hidden" id="structure_type_fkss${sObj.structure_id}"   <c:if test="${indexx.count != 1}"> name="structure_type_fks"</c:if> value="${dObj.structure_type_fk }"/>
 			                                                 
 			                                                    <input id="structure_id${indexx.count }${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${sObj.structure }"></td>
 			                                                    <td>
@@ -721,7 +721,7 @@ td label.btn.bg-m{
 															 </div>
 			                                           		<a class="modal-trigger btn bg-m t-c" href="#modal${indexx.count }${index.count }">Update</a>
                                            					</td> --%>	
-		                                                    <td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('${indexx.count }${index.count }','${index.count }')">
+		                                                    <td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('${indexx.count }_${index.count }','${index.count }')">
 		                                                     <i class="fa fa-close"></i></a></td></tr> 
 		                                      
 		                                         </c:forEach>

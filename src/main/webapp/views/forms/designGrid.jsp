@@ -265,7 +265,7 @@
 										</select>
 									</div>
 									<div class="col s6 m4 l2 input-field">
-										<p class="searchable_label">Structure</p>
+										<p class="searchable_label">Structure Type</p>
 										<select id="structure_type_fk" name="structure_type_fk"
 											onchange="addInQueStructure(this.value);getDesignList();" class="searchable">
 											<option value="">Select</option>
@@ -304,8 +304,8 @@
 											<tr>
 												<th class="fw-200">Contract</th>
 												<th class="fw-300">Title</th>
-												<th>Structure</th>
-												<th>Drawing Type</th>
+												<th>Structure <br>Type</th>
+												<th>Drawing <br>Type</th>
 												<th>Contractor <br>Drawing No </th>
 												<th>MRVC <br>Drawing No	</th>
 												<th>Division <br>Drawing No	</th>

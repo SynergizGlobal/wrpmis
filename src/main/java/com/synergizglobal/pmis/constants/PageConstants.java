@@ -116,6 +116,9 @@ public class PageConstants {
 	
 	public static final String activitiesStatusReport = "forms/activitiesStatusReport";
 	
+	public static final String newlineReportforthePeriod = "forms/newlineReportforthePeriod";
+	public static final String newlineDailyProgressReport = "forms/newlineDailyProgressReport";
+	
 	public static final String resourceReport = "forms/resourceReport";
 	
 	public static final String taFinancialsGrid = "forms/taFinancialsGrid";
@@ -289,8 +292,6 @@ public class PageConstants {
 	public static final String fobFileType = "referenceForms/fobFileType"; 
 	
 	public static final String executionStatus = "referenceForms/executionStatus"; 
-	
-	public static final String approvalAuthority = "referenceForms/approvalAuthority"; 
 	
 }
 

@@ -22,6 +22,12 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
+    	.add2{position: absolute !important;
+    			top: -5.5em;
+    			right: 0;
+    			border:0;
+    	}
+    	.add2 td{border: 0;}
         .row.fixed-width {
             width: 100%;
             margin-left: auto;
@@ -128,6 +134,7 @@
     			margin-top: 10px !important;
 			}
        }
+       
 	 @media only screen and (max-width: 576px){  
 		#zonal_railway_table td input[type="month"] {
 		    width: 100% !important;
@@ -147,6 +154,8 @@
 			    padding-left:1.5rem !important;
 			}
 		}
+	
+		
     </style>
 
 </head>
@@ -467,6 +476,15 @@
                             </div>
                            
                         </div>
+                        
+                        <div class="right">
+                                         <c:if test="${action eq 'edit'}">
+                                           <button type="button" onclick="updateZonalRailway();" class="btn waves-effect waves-light bg-m w7em">Update</button>
+                                         </c:if>
+										 <c:if test="${action eq 'add'}"> 
+					                       <button type="button" onclick="addZonalRailway();" class="btn waves-effect waves-light bg-m w7em">Add</button>
+										 </c:if>
+                                    </div>
 
                         <div class="row fixed-width" style="margin-bottom: 10px;">
                             <h5 class="center-align">Progress details</h5>
@@ -481,8 +499,11 @@
                                             <th rowspan="2">Issue</th>
                                             <th rowspan="2">Assistance <br>Required</th>
                                             <th rowspan="2">Action</th>
+											<th rowspan="2" colspan="5" style="background-color:#fffdfd;">
+														 <a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addProgressRow1()"> 
+																		  <i class="fa fa-plus"></i></a></th>
                                         </tr>
-                                        <tr>
+	                                        <tr>
                                             <!-- <th>Cum Actual <br>Current FY (in Cr)</th> -->
                                             <th class="fw-110">planned %</th>
                                            <!--  <th>Cum Actual Expenditure (in Cr)</th> -->
@@ -554,7 +575,10 @@
                                             <td class="mobile_btn_close">
                                                 <a onclick="removeProgress('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                         class="fa fa-close"></i></a>
-                                            </td>
+                                             </td>
+                                     
+                                         
+                                            
                                         </tr>
                                          
                                       </c:forEach>
@@ -617,18 +641,28 @@
                                             <td class="mobile_btn_close">
                                                 <a onclick="removeProgress('0');" class="btn waves-effect waves-light red t-c "> <i
                                                         class="fa fa-close"></i></a>
+                                                      
                                             </td>
+                                            <!-- <td colspan="5" > <a type="button" class="btn waves-effect waves-light bg-m t-c "  onclick="addProgressRow()"> <i
+	                                                          class="fa fa-plus"></i></a>
+                                            </td> -->
                                         </tr>
  									</c:otherwise>
                                    </c:choose>
                                  </tbody>
                                </table>
+                               <table class="mdl-data-table">
+                                   <tbody id="safetyBody">                                          
+	                                  <tr class="add2">
+											 <td colspan="5" > <a type="button" class="btn waves-effect waves-light bg-m t-c"  onclick="addProgressRow()"> <i
+	                                                          class="fa fa-plus"></i></a>
+											 </td>
+	                                  </tr>
+                                </tbody>
+                               </table>
 							   <table class="mdl-data-table">
                                    <tbody id="safetyBody">                                          
-	                                  <tr>
-											 <td colspan="5" > <a type="button" class="btn waves-effect waves-light bg-m t-c "  onclick="addProgressRow()"> <i
-	                                                          class="fa fa-plus"></i></a>
-	                                  </tr>
+	                               
                                 </tbody>
                                </table>
                                 <c:choose>
@@ -677,7 +711,7 @@
 
                         <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
+                            <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                      <div class=" m-1">
                                          <c:if test="${action eq 'edit'}">
                                            <button type="button" onclick="updateZonalRailway();" class="btn waves-effect waves-light bg-m w7em">Update</button>
@@ -852,11 +886,29 @@
 			$("#rowNo").val(rNo);
 			
         }
-       
+    
+         function addProgressRow1(){ 
+        	var rowNo1 = $("#rowNo1").val();
+        	var rNo1 = Number(rowNo1)+1;
+        	var html= '<tr id="progressRow'+rNo1+'"> <td data-head="Month" class="input-field"><input type="hidden" name= "progress_ids" id="progress_ids' + rNo1 + '" /> <input id="months' + rNo1 + '" name="months" type="month" class="validate" placeholder="Month"> </td>' +
+            '<td class="hideCol" data-head="Expenditure"></td>' +
+            '<td data-head="Cum planned %" class="input-field"> <input id="cum_planned_expenditure_pers' + rNo1 + '" name="cum_planned_expenditure_pers" type="number" value="" class="validate" placeholder="Cum Planned %"> <span class="units">%</span>' +
+            '</td><td data-head="Cum Actual %" class="input-field"> <input id="cum_actual_expenditure_pers' + rNo1 + '" name="cum_actual_expenditure_pers" type="number" class="validate"  placeholder="cum Actual %"><span class="units">%</span> </td>' +
+            '<td class="hideCol" data-head="Physical Progress"></td><td data-head="Cum planned %" class="input-field"> <input id="cum_planned_physical_progress_pers" name="cum_planned_physical_progress_pers" type="number" class="validate"  placeholder="Cum Planned %"><span class="units">%</span>' +
+            '</td> <td data-head="Cum Actual %" class="input-field"> <input id="cum_actual_physical_progress_pers' + rNo1 + '" name="cum_actual_physical_progress_pers" type="number" class="validate"  placeholder="cum Actual %"> <span class="units">%</span>' +
+            '</td> <td class="hideCol" data-head=" "></td><td data-head="Progress" class="input-field"> <input id="progresss' + rNo1 + '" name="progresss" type="text" class="validate" placeholder="Progress"> </td> <td data-head="Issue" class="input-field">' +
+            '<input id="issues' + rNo1 + '" name="issues" type="text" class="validate" placeholder="Issue"> </td> <td data-head="Assistance Required" class="input-field">' +
+            '<input id="assistance_requireds' + rNo1 + '" name="assistance_requireds" type="text" class="validate" placeholder="Assistance Requireds"> </td>' +
+            '<td class="mobile_btn_close"> <a onclick="removeProgress(' + rNo1 + ');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
+        	
+        	$('#progressTableBody').prepend(html);
+        	$("#rowNo1").val(rNo1);
+        }
+         
         function removeProgress(rowNo){
 			$("#progressRow"+rowNo).remove();
 		}
-        
+       
 
         function addZonalRailway(){
         	 if(validator.form()){ // validation perform

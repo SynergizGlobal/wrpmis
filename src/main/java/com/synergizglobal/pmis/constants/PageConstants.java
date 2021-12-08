@@ -293,6 +293,18 @@ public class PageConstants {
 	
 	public static final String executionStatus = "referenceForms/executionStatus"; 
 	
+	public static final String approvalAuthority = "referenceForms/approvalAuthority"; 
+
+	public static final String stage = "referenceForms/stage"; 
+
+	public static final String submittedBy = "referenceForms/submittedBy"; 
+
+	public static final String submittedTo = "referenceForms/submittedTo"; 
+
+	public static final String purposeOfSubmission = "referenceForms/purposeOfSubmission"; 
+
+	public static final String drawingFileType = "referenceForms/DrawingFileType"; 
+	
 }
 
 

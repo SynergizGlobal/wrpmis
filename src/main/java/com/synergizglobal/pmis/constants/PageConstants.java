@@ -290,6 +290,8 @@ public class PageConstants {
 	
 	public static final String executionStatus = "referenceForms/executionStatus"; 
 	
+	public static final String approvalAuthority = "referenceForms/approvalAuthority"; 
+	
 }
 
 

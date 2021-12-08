@@ -159,7 +159,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				/**********************************************************************************************************************************/				
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select activity_id,activity_name,component_id,structure as fob_id_fk,DATE_FORMAT(planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish,unit,IFNULL(NULLIF(scope, '' ), 0) AS scope,IFNULL(NULLIF(completed, '' ), 0) AS completed,contract_id_fk,work_id,project_id,project_name "
+					String contractProgressDatesQry = "select activity_id,activity_name,component_id,a.structure as fob_id_fk,DATE_FORMAT(planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish,unit,IFNULL(NULLIF(scope, '' ), 0) AS scope,IFNULL(NULLIF(completed, '' ), 0) AS completed,a.contract_id_fk,work_id,project_id,project_name "
 							+ "from  activities a "
 							+" left outer join structure f on f.structure = a.structure " 
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "

@@ -109,12 +109,12 @@
 									</div>
 								</div>	
 								<div class="row">
-							    <div class="col s6 m3 l4 input-field" id="fob_id_fk_div" style="display: none;">
-									<p class="searchable_label">Structure</p>
-									<select class="searchable validate-dropdown" id="fob_id_fk" name="fob_id_fk" onchange="addInQueFOB(this.value);resetFilterDropDowns();">
+							    <div class="col s6 m3 l4 input-field" id="structure_type_fk_div" style="display: none;">
+									<p class="searchable_label">Structure Type</p>
+									<select class="searchable validate-dropdown" id="structure_type_fk" name="structure_type_fk" onchange="addInQueFOB(this.value);resetFilterDropDowns();">
 										<option value="">Select</option>	
 									</select> 
-									<span id="fob_id_fkError" class="error-msg"></span>
+									<span id="structure_type_fkError" class="error-msg"></span>
 								</div>			
 								<div class="col s6 m3 l4 input-field" id="fmRow">
 									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> From Date <span class="required">*</span></label>
@@ -255,7 +255,7 @@
     		        		  getHodList(temp2[1]);
     		        	  }else if($.trim(temp2[0]) == 'dyhod'){
     		        		  getDyhodList(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'fob_id_fk'){
+    		        	  }else if($.trim(temp2[0]) == 'structure_type_fk'){
     		        		  getFobList(temp2[1]);
     		        	  }
     	        	  }
@@ -269,7 +269,7 @@
         	$("#project_id").val('');
         	$("#work_id").val('');
         	$("#contract_id").val('');
-        	$("#fob_id_fk").val('');
+        	$("#structure_type_fk").val('');
         	$("#contractor_id").val('');
         	$("#hod").val('');
         	$("#dyhod").val('');        	
@@ -290,7 +290,7 @@
             var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var fob_id_fk = $("#fob_id_fk").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
         	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
@@ -338,12 +338,12 @@
           	}
         }
         
-        function addInQueFOB(fob_id_fk){
+        function addInQueFOB(structure_type_fk){
           	Object.keys(filtersMap).forEach(function (key) {
-    	   		if(key.match('fob_id_fk')) delete filtersMap[key];
+    	   		if(key.match('structure_type_fk')) delete filtersMap[key];
        	   	});
-          	if($.trim(fob_id_fk) != ''){
-            	filtersMap["fob_id_fk"] = fob_id_fk;
+          	if($.trim(structure_type_fk) != ''){
+            	filtersMap["structure_type_fk"] = structure_type_fk;
           	}
         }
         function addInQueHOD(hod){
@@ -440,13 +440,13 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var fob_id_fk = $("#fob_id_fk").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
         	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
             if ($.trim(project_id) == "") {
             	$("#project_id option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,structure_type_fk : structure_type_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInStructureStatusReport",
 	                data: myParams, cache: false,async: false,
@@ -475,7 +475,7 @@
         	$("#work_id").val(""); 
         	$("#contract_id").val("");
         	$("#contractor_id").val("");
-        	$("#fob_id_fk").val("");
+        	$("#structure_type_fk").val("");
         	
         	$("#hod").val("");  
         	$("#dyhod").val("");  
@@ -485,14 +485,14 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var fob_id_fk = $("#fob_id_fk").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
         	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
             if ($.trim(work_id) == "") 
             {
             	$("#work_id option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,structure_type_fk : structure_type_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInStructureStatusReport",
 	                data: myParams, cache: false,async: false,
@@ -529,13 +529,13 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var fob_id_fk = $("#fob_id_fk").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
         	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
             if ($.trim(contract_id) == "") {
             	$("#contract_id option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, structure_type_fk : structure_type_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
 	            	url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInStructureStatusReport",
 	                data: myParams, cache: false,async: false,
@@ -562,38 +562,31 @@
         
         function getFobList(fob) {
         	$(".page-loader").show();           
-        	var project_id = $("#project_id").val();
-        	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var fob_id_fk = $("#fob_id_fk").val();
-        	var contractor_id = $("#contractor_id").val();
-        	var hod = $("#hod").val();
-        	var dyhod = $("#dyhod").val();
-        	//alert(contract_id +" "+ fob_id_fk);
-           // if ($.trim(contract_id) != "" && $.trim(fob_id_fk) == "") {
-            	$("#fob_id_fk option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk :fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getFobFilterListInStructureStatusReport",
-                    data: myParams, cache: false,async: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var fobName = '';
-                                if ($.trim(val.fob_name) != '') { fobName = ' - ' + $.trim(val.fob_name) }
-                                var selectedFlag = (fob == val.fob_id)?'selected':'';
-                                $("#fob_id_fk").append('<option value="' + val.fob_id + '"'+selectedFlag+'>' + $.trim(val.fob_id)+'</option>');
-                            });
-                            $("#fob_id_fk_div").show();
-                        }else{
-                        	$("#fob_id_fk_div").hide();
-                        }                     
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-      	   				$(".page-loader").hide();
-    	   	         	getErrorMessage(jqXHR, exception);
-    	   	     	}
-                });
+            	$("#structure_type_fk option:not(:first)").remove();
+            	var myParams = {Contract_id_fk : contract_id};
+            	  $.ajax({
+                      url: "<%=request.getContextPath()%>/ajax/getStructureTypesInActivitiesUpdate",
+                      data: myParams, cache: false,async: false,
+                      success: function (data) {
+                          if (data.length > 0) {
+                              $.each(data, function (i, val) {
+                             		if(val.structure_type!='FOB')
+                             		{
+  	                            	var selectedFlag = (fob == val.structure_type)?'selected':'';
+  	                            	$("#structure_type_fk").append('<option value="' + val.structure_type + '"'+selectedFlag+'>' + $.trim(val.structure_type) +'</option>');
+                             		}
+                              });
+                              $("#structure_type_fk_div").show();
+                          }else{
+                          	$("#structure_type_fk_div").hide();
+                          }                     
+                          $(".page-loader").hide();
+                      },error: function (jqXHR, exception) {
+       	   			  $(".page-loader").hide();
+     	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                  });
             
         }
         
@@ -605,13 +598,13 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var fob_id_fk = $("#fob_id_fk").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
         	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
             if ($.trim(contractor_id) == "") {
             	$("#contractor_id option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,structure_type_fk : structure_type_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
 	            	url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInStatusReport",
 	                data: myParams, cache: false,async: false,
@@ -651,13 +644,13 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var fob_id_fk = $("#fob_id_fk").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
         	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
             if ($.trim(hod) == "") {
             	$("#hod option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,structure_type_fk : structure_type_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
 	            	url: "<%=request.getContextPath()%>/ajax/getHodFilterListInStructureReport",
 	                data: myParams, cache: false,async: false,
@@ -697,13 +690,13 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var fob_id_fk = $("#fob_id_fk").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
         	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
             if ($.trim(dyhod) == "") {
             	$("#dyhod option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,structure_type_fk : structure_type_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
 	            	url: "<%=request.getContextPath()%>/ajax/getDyhodFilterListInStructureReport",
 	                data: myParams, cache: false,async: false,

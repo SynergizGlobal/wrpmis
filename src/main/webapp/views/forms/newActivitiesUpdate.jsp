@@ -1629,6 +1629,8 @@
  	                    	 		
  	                    	 		else{
  	                    	 			$('#actualScopesError'+num).html("");
+ 	                    	 			$('#btn').prop('disabled',false);
+ 	                    	 			$('#btn1').prop('disabled',false);
  	                    	 		}
  	                    	 	})
  	                    	 	$("#check_"+num).on('change', function(){

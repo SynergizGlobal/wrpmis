@@ -651,7 +651,7 @@ public class StructureStatusReportController {
 	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
 	        byte[] greyRGB = new byte[]{(byte)211, (byte)211, (byte)211};
-	        byte[] orangeLightRGB = new byte[]{(byte)255, (byte)201, (byte)163};
+	        byte[] orangeLightRGB = new byte[]{(byte)255, (byte)255, (byte)0};
 	        
 	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
 	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -1877,7 +1877,7 @@ public class StructureStatusReportController {
 	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
 	        byte[] greyRGB = new byte[]{(byte)211, (byte)211, (byte)211};
-	        byte[] orangeLightRGB = new byte[]{(byte)255, (byte)201, (byte)163};
+	        byte[] orangeLightRGB = new byte[]{(byte)255, (byte)255, (byte)0};
 	        
 	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
 	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);

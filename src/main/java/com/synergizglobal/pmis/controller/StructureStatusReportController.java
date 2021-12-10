@@ -2168,11 +2168,10 @@ public class StructureStatusReportController {
 										
 								        rowNo++;
 								    }
-								    if(tCount+2!=rowNo)
-								    {
-								    	dprSheet.addMergedRegion(new CellRangeAddress(tCount+2,rowNo, 7,7));
-								    }
-								    rowNo++;
+							        if(tCount+2!=rowNo && tCount+3!=rowNo)
+							        {
+							        	dprSheet.addMergedRegion(new CellRangeAddress(tCount+2,rowNo-1, 7,7));
+							        }
 								    
 								    for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
 									     //sheet.autoSizeColumn(columnIndex);
@@ -2552,7 +2551,8 @@ public class StructureStatusReportController {
 														}	
 														dprSheet.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 1,7));
 														 structure = dObj.getStructure();
-														rowNo++;repeat++;
+														rowNo++;
+														repeat++;
 														row = dprSheet.createRow(rowNo);
 														c = 0;
 											       }
@@ -2593,11 +2593,11 @@ public class StructureStatusReportController {
 											       
 										        }
 											}
-									        if(tCount+2!=rowNo)
+									        if(tCount+2!=rowNo && tCount+3!=rowNo)
 									        {
-									        	dprSheet.addMergedRegion(new CellRangeAddress(tCount+2,rowNo, 7,7));
+									        	dprSheet.addMergedRegion(new CellRangeAddress(tCount+2,rowNo-1, 7,7));
 									        }
-									        rowNo++;
+									        
 										}
 						        	}
 						        }		

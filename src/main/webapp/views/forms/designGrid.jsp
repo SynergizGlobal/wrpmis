@@ -192,8 +192,10 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<h6 class="hide-on-med-and-down">Update Design & Drawing</h6>
+								
 								<h6 class="hide-on-large-only left-align mob-mar">Design & Drawing</h6>
 								<div class="col s12 m12 right-align exportButton" >
+								
 								<div class="m-n1">
 									<a href="/pmis/Designs_Drawings.xlsx" download class="template-btn" title="Download Template">
 										<i class="material-icons-outlined">download_for_offline</i>
@@ -212,6 +214,12 @@
 							</div>
 							</div>
 						</span>
+						<c:if test="${not empty success }">
+									<div class="center-align m-1 close-message">${success}</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">${error}</div>
+						</c:if>
 						<div class="row no-mar">
 							<div class="col s12 m12">
 								<div class="row">

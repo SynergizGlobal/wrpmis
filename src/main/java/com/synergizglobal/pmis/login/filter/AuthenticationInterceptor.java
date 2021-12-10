@@ -62,11 +62,12 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) {
 		try {
+			String requestURI = request.getRequestURI();
 			// Avoid a redirect loop for some urls
-			if( !request.getRequestURI().equals("/pmis/") && !request.getRequestURI().equals("/pmis/login") 
-					&& !request.getRequestURI().equals("/") && !request.getRequestURI().equals("/login") 
-					&& !request.getRequestURI().equals("/pmis/someone-login") && !request.getRequestURI().equals("/pmis/someone-login") 
-					&& !request.getRequestURI().equals("/someone-login") && !request.getRequestURI().equals("/someone-login")){
+			if( !requestURI.equals("/pmis/") && !requestURI.equals("/pmis/login") 
+					&& !requestURI.equals("/") && !requestURI.equals("/login") 
+					&& !requestURI.equals("/pmis/someone-login") && !requestURI.equals("/someone-login") 
+					&& !requestURI.equals("/pmis/access-denied") && !request.getRequestURI().equals("/access-denied")){
 			    User userData = (User) request.getSession().getAttribute("user");
 			    if(userData == null){
 			    	String URL = "/pmis/login";
@@ -76,7 +77,20 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 			    		response.sendRedirect("/login");
 			    	}
 				    return false;
-			    }   
+				} /*else {
+					boolean flag = service.checkURLAccessPermission(userData,requestURI);
+					if(flag) {
+						return true;
+					}else {
+						String URL = "/pmis/access-denied";
+					   	if(requestURI.contains("/pmis/")){
+					   		response.sendRedirect(URL);
+					   	}else{
+					   		response.sendRedirect("/access-denied");
+					   	}
+						return false;
+					}
+					}*/
 			}
 		} catch (Exception e) {
 			logger.error("preHandle : " + e.getMessage());
@@ -90,13 +104,13 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
             HttpServletResponse response, Object handler,
             ModelAndView model) throws Exception {
 		try {
+			String requestURI = request.getRequestURI();
+			//System.out.println("requestURI : "+requestURI);
 			User userDetails = (User)request.getSession().getAttribute("user");
 			String single_login_session_id = (String)request.getSession().getAttribute("SINGLE_LOGIN_SESSION_ID");
 			
-			if(!StringUtils.isEmpty(userDetails)) {
-				
-				boolean flag = service.addUserLastActiveDateTime(userDetails);
-				
+			if(!StringUtils.isEmpty(userDetails)) {	
+				boolean flag = service.addUserLastActiveDateTime(userDetails);					
 				String single_session_id = loginService.getSingleLoginSessionId(userDetails);
 				if(!StringUtils.isEmpty(single_login_session_id) && StringUtils.isEmpty(single_session_id)){
 					request.getSession().invalidate();
@@ -151,7 +165,6 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				/*List<Messages> messages = service.getMessages(mObj);
 				model.addObject("messages", messages);*/
 			}
-			
 			UserManuals userManual = new UserManuals();
 			userManual.setStatus("Active");
 			List<UserManuals> userManuals = userManualsService.getUserManuals(userManual);

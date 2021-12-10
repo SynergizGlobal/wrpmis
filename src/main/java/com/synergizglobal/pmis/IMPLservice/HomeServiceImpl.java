@@ -98,4 +98,8 @@ public class HomeServiceImpl implements HomeService {
 	public List<Messages> getMessageTypes(Messages mObj) throws Exception {
 		return dao.getMessageTypes(mObj);
 	}
+	@Override
+	public boolean checkURLAccessPermission(User obj, String requestURI) throws Exception {
+		return dao.checkURLAccessPermission(obj,requestURI);
+	}
 }

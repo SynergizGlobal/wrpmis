@@ -45,5 +45,7 @@ public interface HomeService {
 
 	public List<Messages> getMessageTypes(Messages mObj) throws Exception;
 
+	public boolean checkURLAccessPermission(User obj, String requestURI) throws Exception;
+
 	
 }

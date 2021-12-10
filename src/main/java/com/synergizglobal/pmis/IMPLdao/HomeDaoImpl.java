@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.PermissionURLs;
 import com.synergizglobal.pmis.common.TimeAgo;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
@@ -1022,6 +1023,103 @@ public class HomeDaoImpl implements HomeDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, null, null);
 		}
 		return null;
+	}
+
+	@Override
+	public boolean checkURLAccessPermission(User obj, String requestURI) throws Exception {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		boolean flag = false;
+		try {
+			connection = dataSource.getConnection();
+			List<String> urls = PermissionURLs.urls;
+			if( urls.contains(requestURI) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				return true;
+			}
+
+			requestURI = requestURI.replaceAll("/pmis","");
+			
+			if (!StringUtils.isEmpty(requestURI) && requestURI.endsWith("/"))
+				requestURI = requestURI.substring(0,requestURI.length()-1);
+			
+			if(!StringUtils.isEmpty(requestURI) && requestURI.contains("/InfoViz/")) {
+				if(requestURI.contains("/InfoViz/issues/") || requestURI.contains("/InfoViz/contract/") || requestURI.contains("/InfoViz/risks/")) {
+					return true;
+				}else {
+					String dashboardName = null;
+					String[] params = requestURI.split("/");
+					if(!StringUtils.isEmpty(params) && params.length > 0){
+						String param = params[params.length - 1];
+						dashboardName = param.replaceAll("_", " - ").toLowerCase();
+						dashboardName = dashboardName.replaceAll("-", " ").toLowerCase();
+					}
+					
+					String qry = "select count(*) as count from dashboard_access where dashboard_id_fk = (SELECT dashboard_id FROM dashboard WHERE dashboard_url is not null and dashboard_url <> '' and soft_delete_status_fk = ? and LOWER(dashboard_name) = ?) and (access_value = ? or access_value = ? or access_value = ?)";
+					statement = connection.prepareStatement(qry); 
+					statement.setString(1, CommonConstants.ACTIVE);
+					statement.setString(2, dashboardName);
+					statement.setString(3, obj.getUser_type_fk());
+					statement.setString(4, obj.getUser_role_name_fk());
+					statement.setString(5, obj.getUser_id());
+					resultSet = statement.executeQuery();
+					if(resultSet.next()) {
+						if((resultSet.getInt("count") > 0)){
+							return true;
+						}
+					}
+				}
+			}else{
+				if (!StringUtils.isEmpty(requestURI)) {
+					String tempURL = null;
+					if (!StringUtils.isEmpty(requestURI) && requestURI.startsWith("/"))
+						tempURL = requestURI.substring(1,requestURI.length());
+					else 
+						tempURL = requestURI;
+					
+					/********************************************************************************/
+					String qry = "select count(*) as count from form_access where form_id_fk = (SELECT form_id FROM form WHERE web_form_url is not null and web_form_url <> '' and soft_delete_status_fk = ? and web_form_url = ?) and (access_value = ? or access_value = ? or access_value = ?)";
+					statement = connection.prepareStatement(qry); 
+					statement.setString(1, CommonConstants.ACTIVE);
+					statement.setString(2, tempURL);
+					statement.setString(3, obj.getUser_type_fk());
+					statement.setString(4, obj.getUser_role_name_fk());
+					statement.setString(5, obj.getUser_id());
+					resultSet = statement.executeQuery();
+					if(resultSet.next()) {
+						if((resultSet.getInt("count") > 0)){
+							return true;
+						}
+					}
+					DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+					
+					/********************************************************************************/
+					qry = "select count(*) as count from report_access where form_id_fk = (SELECT form_id FROM report_form WHERE web_form_url is not null and web_form_url <> '' and soft_delete_status_fk = ? and web_form_url = ?) and (access_value = ? or access_value = ? or access_value = ?)";
+					statement = connection.prepareStatement(qry); 
+					statement.setString(1, CommonConstants.ACTIVE);
+					statement.setString(2, tempURL);
+					statement.setString(3, obj.getUser_type_fk());
+					statement.setString(4, obj.getUser_role_name_fk());
+					statement.setString(5, obj.getUser_id());
+					resultSet = statement.executeQuery();
+					if(resultSet.next()) {
+						if((resultSet.getInt("count") > 0)){
+							return true;
+						}
+					}
+					DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+					/********************************************************************************/
+					
+				}
+			}
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return flag;
 	}
 	
 }

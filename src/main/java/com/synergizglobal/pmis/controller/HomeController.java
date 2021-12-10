@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
@@ -97,6 +98,17 @@ public class HomeController {
 	       
 		}catch(Exception e){
 			logger.error("home() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/access-denied",method=RequestMethod.GET)
+	public ModelAndView accessDenied(HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView();
+		try {
+			 model.setViewName(PageConstants2.accessDenied);
+		} catch (Exception e) {
+			logger.error("accessDenied : " + e.getMessage());
 		}
 		return model;
 	}

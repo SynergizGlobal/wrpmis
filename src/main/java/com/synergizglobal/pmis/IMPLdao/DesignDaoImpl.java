@@ -530,7 +530,8 @@ public class DesignDaoImpl implements DesignDao{
 								}
 						}*/
 			
-			if(flag) {
+		    if(count > 0) {
+		    	 flag = true;
 				/*			
 							String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval,"
 									+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";

@@ -78,6 +78,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
 				pValues[i++] = obj.getStructure_type_fk();
 			}
+			String strType=obj.getStructure_type_fk();
 			obj = jdbcTemplate.queryForObject( contractsQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));		
 			
 			/***********************************************************************/
@@ -87,7 +88,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					+ "left join contract c on a.contract_id_fk = c.contract_id "  
 					+ "where a.contract_id_fk = ? and a.structure_type_fk!='FOB' ";
 			arrSize = 1;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type())) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(strType)) {
 				structureQry = structureQry + " and a.structure_type_fk = ?";
 				arrSize++;
 			}
@@ -95,8 +96,8 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			pValues = new Object[arrSize];
 			i = 0;
 			pValues[i++] = obj.getContract_id();
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type())) {
-				pValues[i++] = obj.getStructure_type();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(strType)) {
+				pValues[i++] = strType;
 			}
 			List<ActivitiesProgressReport> structuresList = jdbcTemplate.query( structureQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 			obj.setStructuressList(structuresList);

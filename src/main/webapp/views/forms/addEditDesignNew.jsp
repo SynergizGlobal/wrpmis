@@ -121,17 +121,19 @@
 		.lh{
 			line-height:inherit;
 		}
+		.input-field.min4{
+			min-height:4rem ;
+		}
 		.fs11px{font-size: 11px !important;}
 		@media only screen and (max-width: 768px){
 			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
-			#revisionsTableBody tr .input-field .datepicker~button {
+			#revisionsTableBody tr .input-field .datepicker~button ,
+			 #statusTable tr .input-field .datepicker~button{
 			    position: relative;
 			    top: 0;
 			    right: 26px;
 			}			
-			/* .mobile_responsible_table #revisionsTableBody tr td .select2-container {
-			    width: 100% !important;
-			} */
+			
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td::before {
 			    vertical-align: middle;
 			}
@@ -194,10 +196,11 @@
 				margin-top: -14px !important;
 			} 
 		}
-			/* .input-field>input[type='text'].datepicker ~ label:not(.label-icon).active{
-				-webkit-transform: translateY(-20px) scale(0.95);
-			    transform: translateY(-20px) scale(0.95);
-			}	 */	
+		@media only screen and (max-width: 767px){
+			.input-field.min4{
+				min-height:1px ;
+			}
+		}	
 			.input-field .select2-container--default {
 			    margin-bottom: 0.5rem;
 			}
@@ -224,19 +227,28 @@
 		.waves-effect.bg-m.t-c{
 			z-index:0;
 		}
-		.input-field.min4{
-			min-height:4rem ;
-		}
+		
 		.filevalue {
             display: block;
             margin-top: 10px;
 			font-size: .9rem;
         }
+        .max-200{
+        	max-width: 200px;
+        	width:200px !important;
+        }
 		@media only screen and (max-width: 769px){
-		 .filevalue {
-					    width: 200%;
-					    white-space: break-spaces;
-					}
+			.filevalue {
+			    width: 200%;
+			    white-space: break-spaces;
+			}
+			td[data-head="Status"]>p{
+				display:inline-block;
+			}
+			.input-field .searchable_label.mb-8 {
+				margin-top: -20px !important;
+	    		margin-bottom: -4px !important;
+    		}
 		}
     </style>
 </head>
@@ -283,9 +295,10 @@
 						   </div>
 						  </c:if> 
 						    <div class="container container-no-margin">
-                            <div class="row section scrollspy" id="workDetails">
-						    <c:if test="${action eq 'add'}">	
+                            <div class="section scrollspy" id="workDetails">
+                            <div class="row">
 						    	<h5 class="center-align m-b-2">Work Details</h5>
+						    <c:if test="${action eq 'add'}">	
                                 <div class="col s6 m4 l4 input-field ">
                                     <p class="searchable_label"> Project</p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
@@ -335,7 +348,7 @@
                                 </div>
 
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label"> Department </p>
+                                    <p class="searchable_label"> Department <span class="required">*</span></p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
                                           <c:forEach var="obj" items="${departmentList }">
@@ -359,7 +372,8 @@
                                 	</select>
                                 	<span id="hodError" class="error-msg" ></span>
                                 </div>
-                                                        
+                                 </div>
+                                 <div class="row">                       
                                  <div class="col s6 m4 l4 input-field ">
                                     <p class="searchable_label">Structure <span class="required">*</span></p>
                                     <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown">
@@ -381,7 +395,7 @@
                                     <span id="structure_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Prepared By </p>
+                                    <p class="searchable_label">Prepared By <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="prepared_by_id_fk" id="prepared_by_id_fk">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${preparedBy }">
@@ -390,12 +404,12 @@
                                     </select>
                                     <span id="prepared_by_id_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">       
+                              <!--   </div>
+                            
+                            <div class="row"> -->       
                              <c:if test="${action eq 'add'}">                           
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Contract</p>
+                                    <p class="searchable_label">Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
@@ -434,8 +448,10 @@
                                     </select>
                                     <span id="proof_consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label mb-8">Drawing Type </p>
+                                </div>
+                                <div class="row">
+                                <div class="col s12 m4 l4 input-field">
+                                    <p class="searchable_label mb-8">Drawing Type <span class="required">*</span></p>
                                     <select id="drawing_type_fk" name="drawing_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
                                			<c:forEach var="obj" items="${drawingTypeList}">
@@ -471,10 +487,10 @@
                                 	</div>
                                 </div>
                             </div>
-
+						</div>
                             <div class="row section scrollspy" id="drawingDetails">
                             	<h5 class="center-align">Drawing Details</h5>
-                                <div class="col s12 m8 l12 input-field">
+                                <div class="col s12 m12 input-field">
                                     <textarea id="drawing_title" name="drawing_title" class="pmis-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
                                     <label for="drawing_title">Drawing Title</label>
                                      <span id="drawing_titleError" class="error-msg" ></span>
@@ -511,10 +527,10 @@
                                     <table id="statusTable" class="mdl-data-table mobile_responsible_table">
                                     	<thead>
 										    <tr>
-										        <th>Stage </th>
-										        <th>Submitted By</th>
-										        <th>Submitted To </th>
-										        <th>Purpose of Submission <br>/ Remarks</th>
+										        <th class="max-200">Stage </th>
+										        <th class="max-200">Submitted By</th>
+										        <th class="max-200">Submitted To </th>
+										        <th class="max-200">Purpose of Submission <br>/ Remarks</th>
 										        <th>Submitted Date</th>
 										        <th>Action</th>
 										    </tr>
@@ -942,7 +958,7 @@
  --%>
 
                             <div class="row">
-                                <div class="col s12 m8 l12 input-field">
+                                <div class="col s12 m12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${designDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>

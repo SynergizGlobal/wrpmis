@@ -149,4 +149,44 @@ public class DesignServiceImpl implements DesignService{
 		return designDao.getDyHodList(obj);
 	}
 
+	@Override
+	public List<Design> getApprovingRailwayList() throws Exception {
+		return designDao.getApprovingRailwayList();
+	}
+
+	@Override
+	public List<Design> getApprovalAuthority() throws Exception {
+		return designDao.getApprovalAuthority();
+	}
+
+	@Override
+	public List<Design> getStage() throws Exception {
+		return designDao.getStage();
+	}
+
+	@Override
+	public List<Design> getSubmitted() throws Exception {
+		return designDao.getSubmitted();
+	}
+
+	@Override
+	public List<Design> getSubmssionpurpose() throws Exception {
+		return designDao.getSubmssionpurpose();
+	}
+
+	@Override
+	public List<Design> getDesignFileType() throws Exception {
+		return designDao.getDesignFileType();
+	}
+
+	@Override
+	public List<Design> getStructureId() throws Exception {
+		return designDao.getStructureId();
+	}
+
+	@Override
+	public int uploadDesignsNew(List<Design> designsList) throws Exception {
+		return designDao.uploadDesignsNew(designsList);
+	}
+
 }

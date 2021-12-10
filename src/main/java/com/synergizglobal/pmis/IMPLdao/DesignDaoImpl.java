@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
 import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
@@ -410,7 +411,7 @@ public class DesignDaoImpl implements DesignDao{
 	public Design getDesignDetails(Design obj)throws Exception{
 		Design dObj = null;
 		try {
-			String qry ="select design_id,c.work_id_fk,w.project_id_fk,p.project_name,c.contract_short_name,w.work_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
+			String qry ="select design_id,approving_railway,approval_authority_fk,structure_id_fk,DATE_FORMAT(d.required_date,'%d-%m-%Y') AS required_date,c.work_id_fk,w.project_id_fk,p.project_name,c.contract_short_name,w.work_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title,DATE_FORMAT(d.planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(d.planned_finish,'%d-%m-%Y') AS planned_finish,d.revision,clearance_to_consultant,"
 					+ "DATE_FORMAT(d.consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(d.mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,DATE_FORMAT(d.divisional_approval,'%d-%m-%Y') AS divisional_approval," + 
@@ -427,18 +428,22 @@ public class DesignDaoImpl implements DesignDao{
 					+ "where design_id is not null and design_id = ?" ;
 			
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
-			
+			//DATE_FORMAT(consultant_submission,'%d-%m-%Y') AS consultant_submission,
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry2 ="select revision,DATE_FORMAT(consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,"
-						+ "DATE_FORMAT(divisional_approval,'%d-%m-%Y') AS divisional_approval,DATE_FORMAT(hq_approval,'%d-%m-%Y') AS hq_approval,revision_status_fk,remarks from design_revisions where design_id_fk = ?";
+				String qry2 ="select revision,current,DATE_FORMAT(revision_date,'%d-%m-%Y') AS revision_date,remarks,revision_status_fk from design_revisions where design_id_fk = ?";
 				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignRevisions(objList);
 			}
 			
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry2 ="select id, design_id_fk, attachment  from design_files where design_id_fk = ?";
+				String qry2 ="select id, design_file_type_fk,name,design_id_fk, attachment  from design_files where design_id_fk = ?";
 				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignFilesList(objList);
+			}
+			if(!StringUtils.isEmpty(dObj)) {
+				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,DATE_FORMAT(submitted_date,'%d-%m-%Y') AS submitted_date, submssion_purpose from design_status where design_id_fk = ?";
+				List<Design> objList = jdbcTemplate.query( qry3,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
+				dObj.setDesignStatusList(objList);
 			}
 			
 		}catch(Exception e){ 
@@ -454,17 +459,16 @@ public class DesignDaoImpl implements DesignDao{
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-			String qry = "INSERT INTO design (contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
+			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
 					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
 					+ "planned_start,planned_finish,revision,clearance_to_consultant,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
 					+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,hq_submission_fk,crs_sanction_fk,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq," + 
-					"query_replied_to_hq,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved) "
-					+ "VALUES(:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
+					"query_replied_to_hq,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,approving_railway,approval_authority_fk,structure_id_fk,required_date) "
+					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
 					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
 					+ ":revision,:clearance_to_consultant,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,:divisional_submission_fk,:hq_submission_fk,:crs_sanction_fk,:submitted_to_division,:submitted_to_hq,:query_raised_by_division,:query_replied_to_division"
-					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,:crs_sanction_approved)";
-			
-
+					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,"
+					+ ":crs_sanction_approved,:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date)";
 			
 			SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 		    KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -474,108 +478,186 @@ public class DesignDaoImpl implements DesignDao{
 			//BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			//int count = namedParamJdbcTemplate.update(qry, paramSource);		
 		    String designId = null;
-			if(count > 0) {
-				 designId = String.valueOf(keyHolder.getKey().intValue());
-				 obj.setDesign_id(designId);
-				 flag = true;
-				 if(!StringUtils.isEmpty(obj.getDesignFiles()) && obj.getDesignFiles().size() > 0) {
-						
-						String file_insert_qry = "INSERT into  design_files ( design_id_fk, attachment) VALUES (:design_id,:attachment)";
-						
-						List<MultipartFile> designFiles = obj.getDesignFiles();
-						for (MultipartFile multipartFile : designFiles) {
-							if (null != multipartFile && !multipartFile.isEmpty()){
-								String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
-								String fileName = multipartFile.getOriginalFilename();
-								DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
-								String fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
-								
-								Design fileObj = new Design();
-								fileObj.setDesign_id(obj.getDesign_id());
-								fileObj.setAttachment(fileName_new);
-								//fileObj.setStatus(CommonConstants.ACTIVE);
-								
-								paramSource = new BeanPropertySqlParameterSource(fileObj);	
-								namedParamJdbcTemplate.update(file_insert_qry, paramSource);
-							}
-						}
-					}	
-			}
+			/*			if(count > 0) {
+							 designId = String.valueOf(keyHolder.getKey().intValue());
+							 obj.setDesign_id(designId);
+							 flag = true;
+							 int  docArrSize = 0;
+							 if (!StringUtils.isEmpty(obj.getDesignDocumentFileNames()) && obj.getDesignDocumentFileNames().length > 0) {
+									obj.setDesignDocumentFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesignDocumentFileNames()));
+									if (docArrSize < obj.getDesignDocumentFileNames().length) {
+										docArrSize = obj.getDesignDocumentFileNames().length;
+									}
+								}
+								if (!StringUtils.isEmpty(obj.getDesign_file_typess()) && obj.getDesign_file_typess().length > 0) {
+									obj.setDesign_file_typess(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesign_file_typess()));
+									if (docArrSize < obj.getDesign_file_typess().length) {
+										docArrSize = obj.getDesign_file_typess().length;
+									}
+								}
+								if (!StringUtils.isEmpty(obj.getDesignDocumentNames()) && obj.getDesignDocumentNames().length > 0) {
+									obj.setDesignDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesignDocumentNames()));
+									if (docArrSize < obj.getDesignDocumentNames().length) {
+										docArrSize = obj.getDesignDocumentNames().length;
+									}
+								}
+								for (int i = 0; i < docArrSize; i++) {
+								   if(!StringUtils.isEmpty(obj.getDesignDocumentFiles()) && obj.getDesignDocumentFiles().length > 0) {
+										
+										String file_insert_qry = "INSERT into  design_files ( design_id_fk,design_file_type_fk,name, attachment) VALUES (:design_id,:design_file_type_fk,:name,:attachment)";
+										MultipartFile designFiles = obj.getDesignDocumentFiles()[i];
+										if ((null != designFiles && !designFiles.isEmpty()) && !StringUtils.isEmpty(obj.getDesign_file_typess()[i]) && !StringUtils.isEmpty(obj.getDesignDocumentNames()[i]))  {
+											if (null != designFiles && !designFiles.isEmpty()){
+												String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
+												String fileName = designFiles.getOriginalFilename();
+												DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+												String fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+												FileUploads.singleFileSaving(designFiles, saveDirectory, fileName_new);
+												String design_file_type_fk = obj.getDesign_file_typess()[i];
+												String name = obj.getDesignDocumentNames()[i];
+												Design fileObj = new Design();
+												fileObj.setDesign_id(obj.getDesign_id());
+												fileObj.setDesign_file_types(design_file_type_fk);
+												fileObj.setName(name);
+												fileObj.setAttachment(fileName_new);
+												//fileObj.setStatus(CommonConstants.ACTIVE);
+												
+												paramSource = new BeanPropertySqlParameterSource(fileObj);	
+												namedParamJdbcTemplate.update(file_insert_qry, paramSource);
+											}
+										}
+									}	
+								}
+						}*/
 			
 			if(flag) {
-				
-				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval,"
-						+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
-				
-				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
-			            new BatchPreparedStatementSetter() {
-							@Override
-							public void setValues(PreparedStatement ps, int i) throws SQLException {
-								try {
-									int k = 1;
-									ps.setString(k++, obj.getDesign_id());
-									ps.setString(k++,(obj.getRevisions().length > 0)?obj.getRevisions()[i]:null);									
-									ps.setString(k++,DateParser.parse((obj.getConsultant_submissions().length > 0)?obj.getConsultant_submissions()[i]:null));
-									ps.setString(k++,DateParser.parse((obj.getMrvc_revieweds().length > 0)?obj.getMrvc_revieweds()[i]:null));
-									ps.setString(k++,DateParser.parse((obj.getDivisional_approvals().length > 0)?obj.getDivisional_approvals()[i]:null));
-									ps.setString(k++,DateParser.parse((obj.getHq_approvals().length > 0)?obj.getHq_approvals()[i]:null));
-									ps.setString(k++,(obj.getRevision_status_fks().length > 0)?obj.getRevision_status_fks()[i]:null);
-									ps.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
-								
-								} catch (Exception e) {
-									
-								}
-							}
-							@Override
-							public int getBatchSize() {
-								int arraySize = 0;
-								if(!StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
-									obj.setRevisions(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevisions()));
-									if(arraySize < obj.getRevisions().length) {
-										arraySize = obj.getRevisions().length;
+				/*			
+							String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval,"
+									+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
+							
+							int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
+				        new BatchPreparedStatementSetter() {
+										@Override
+										public void setValues(PreparedStatement ps, int i) throws SQLException {
+											try {
+												int k = 1;
+												ps.setString(k++, obj.getDesign_id());
+												ps.setString(k++,(obj.getRevisions().length > 0)?obj.getRevisions()[i]:null);									
+												ps.setString(k++,DateParser.parse((obj.getConsultant_submissions().length > 0)?obj.getConsultant_submissions()[i]:null));
+												ps.setString(k++,DateParser.parse((obj.getMrvc_revieweds().length > 0)?obj.getMrvc_revieweds()[i]:null));
+												ps.setString(k++,DateParser.parse((obj.getDivisional_approvals().length > 0)?obj.getDivisional_approvals()[i]:null));
+												ps.setString(k++,DateParser.parse((obj.getHq_approvals().length > 0)?obj.getHq_approvals()[i]:null));
+												ps.setString(k++,(obj.getRevision_status_fks().length > 0)?obj.getRevision_status_fks()[i]:null);
+												ps.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+											
+											} catch (Exception e) {
+												
+											}
+										}
+										@Override
+										public int getBatchSize() {
+											int arraySize = 0;
+											if(!StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
+												obj.setRevisions(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevisions()));
+												if(arraySize < obj.getRevisions().length) {
+													arraySize = obj.getRevisions().length;
+												}
+											}
+											if(!StringUtils.isEmpty(obj.getConsultant_submissions()) && obj.getConsultant_submissions().length > 0) {
+												obj.setConsultant_submissions(CommonMethods.replaceEmptyByNullInSringArray(obj.getConsultant_submissions()));
+												if(arraySize < obj.getConsultant_submissions().length) {
+													arraySize = obj.getConsultant_submissions().length;
+												}
+											}
+											if(!StringUtils.isEmpty(obj.getMrvc_revieweds()) && obj.getMrvc_revieweds().length > 0) {
+												obj.setMrvc_revieweds(CommonMethods.replaceEmptyByNullInSringArray(obj.getMrvc_revieweds()));
+												if(arraySize < obj.getMrvc_revieweds().length) {
+													arraySize = obj.getMrvc_revieweds().length;
+												}
+											}
+											if(!StringUtils.isEmpty(obj.getDivisional_approvals()) && obj.getDivisional_approvals().length > 0) {
+												obj.setDivisional_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getDivisional_approvals()));
+												if(arraySize < obj.getDivisional_approvals().length) {
+													arraySize = obj.getDivisional_approvals().length;
+												}
+											}
+											if(!StringUtils.isEmpty(obj.getHq_approvals()) && obj.getHq_approvals().length > 0) {
+												obj.setHq_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getHq_approvals()));
+												if(arraySize < obj.getHq_approvals().length) {
+													arraySize = obj.getHq_approvals().length;
+												}
+											}
+											if(!StringUtils.isEmpty(obj.getRevision_status_fks()) && obj.getRevision_status_fks().length > 0) {
+												obj.setRevision_status_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_status_fks()));
+												if(arraySize < obj.getRevision_status_fks().length) {
+													arraySize = obj.getRevision_status_fks().length;
+												}
+											}			
+											if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+												obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+												if(arraySize < obj.getRemarkss().length) {
+													arraySize = obj.getRemarkss().length;
+												}
+											}
+											return arraySize;
 									}
-								}
-								if(!StringUtils.isEmpty(obj.getConsultant_submissions()) && obj.getConsultant_submissions().length > 0) {
-									obj.setConsultant_submissions(CommonMethods.replaceEmptyByNullInSringArray(obj.getConsultant_submissions()));
-									if(arraySize < obj.getConsultant_submissions().length) {
-										arraySize = obj.getConsultant_submissions().length;
+							  });
+							String qryDesignStatus = "INSERT INTO design_status (design_id_fk,stage_fk,submitted_by,submitted_to,submitted_date,"
+									+ "submssion_purpose) VALUES(?,?,?,?,?,?)";
+							
+							int[] statusCounts = jdbcTemplate.batchUpdate(qryDesignStatus,
+				        new BatchPreparedStatementSetter() {
+										@Override
+										public void setValues(PreparedStatement ps, int i) throws SQLException {
+											try {
+												int k = 1;
+												ps.setString(k++, obj.getDesign_id());
+												ps.setString(k++,(obj.getStage_fks().length > 0)?obj.getStage_fks()[i]:null);	
+												ps.setString(k++,(obj.getSubmitted_bys().length > 0)?obj.getSubmitted_bys()[i]:null);	
+												ps.setString(k++,(obj.getSubmitted_tos().length > 0)?obj.getSubmitted_tos()[i]:null);	
+												ps.setString(k++,DateParser.parse((obj.getSubmitted_dates().length > 0)?obj.getSubmitted_dates()[i]:null));
+												ps.setString(k++,(obj.getSubmssion_purposes().length > 0)?obj.getSubmssion_purposes()[i]:null);
+											
+											} catch (Exception e) {
+												
+											}
+										}
+										@Override
+										public int getBatchSize() {
+											int arraySize = 0;
+											if(!StringUtils.isEmpty(obj.getStage_fks()) && obj.getStage_fks().length > 0) {
+												obj.setStage_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getStage_fks()));
+												if(arraySize < obj.getStage_fks().length) {
+													arraySize = obj.getStage_fks().length;
+												}
+											}
+											if(!StringUtils.isEmpty(obj.getSubmitted_bys()) && obj.getSubmitted_bys().length > 0) {
+												obj.setSubmitted_bys(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmitted_bys()));
+												if(arraySize < obj.getSubmitted_bys().length) {
+													arraySize = obj.getSubmitted_bys().length;
+												}
+											}
+											if(!StringUtils.isEmpty(obj.getSubmitted_tos()) && obj.getSubmitted_tos().length > 0) {
+												obj.setSubmitted_tos(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmitted_tos()));
+												if(arraySize < obj.getSubmitted_tos().length) {
+													arraySize = obj.getSubmitted_tos().length;
+												}
+											}
+											if(!StringUtils.isEmpty(obj.getSubmitted_dates()) && obj.getSubmitted_dates().length > 0) {
+												obj.setSubmitted_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmitted_dates()));
+												if(arraySize < obj.getSubmitted_dates().length) {
+													arraySize = obj.getSubmitted_dates().length;
+												}
+											}
+											if(!StringUtils.isEmpty(obj.getSubmssion_purposes()) && obj.getSubmssion_purposes().length > 0) {
+												obj.setSubmssion_purposes(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmssion_purposes()));
+												if(arraySize < obj.getSubmssion_purposes().length) {
+													arraySize = obj.getSubmssion_purposes().length;
+												}
+											}
+											return arraySize;
 									}
-								}
-								if(!StringUtils.isEmpty(obj.getMrvc_revieweds()) && obj.getMrvc_revieweds().length > 0) {
-									obj.setMrvc_revieweds(CommonMethods.replaceEmptyByNullInSringArray(obj.getMrvc_revieweds()));
-									if(arraySize < obj.getMrvc_revieweds().length) {
-										arraySize = obj.getMrvc_revieweds().length;
-									}
-								}
-								if(!StringUtils.isEmpty(obj.getDivisional_approvals()) && obj.getDivisional_approvals().length > 0) {
-									obj.setDivisional_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getDivisional_approvals()));
-									if(arraySize < obj.getDivisional_approvals().length) {
-										arraySize = obj.getDivisional_approvals().length;
-									}
-								}
-								if(!StringUtils.isEmpty(obj.getHq_approvals()) && obj.getHq_approvals().length > 0) {
-									obj.setHq_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getHq_approvals()));
-									if(arraySize < obj.getHq_approvals().length) {
-										arraySize = obj.getHq_approvals().length;
-									}
-								}
-								if(!StringUtils.isEmpty(obj.getRevision_status_fks()) && obj.getRevision_status_fks().length > 0) {
-									obj.setRevision_status_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_status_fks()));
-									if(arraySize < obj.getRevision_status_fks().length) {
-										arraySize = obj.getRevision_status_fks().length;
-									}
-								}			
-								if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
-									obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
-									if(arraySize < obj.getRemarkss().length) {
-										arraySize = obj.getRemarkss().length;
-									}
-								}
-								return arraySize;
-						}
-				  });
-				
+							  });*/
 				
 				String issueId = null;
 				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
@@ -626,7 +708,7 @@ public class DesignDaoImpl implements DesignDao{
 					+ "query_raised_by_division=:query_raised_by_division,query_replied_to_division=:query_replied_to_division,query_raised_by_hq=:query_raised_by_hq," + 
 					" query_replied_to_hq=:query_replied_to_hq,crs_sanction_fk=:crs_sanction_fk,submitted_for_crs_sanction=:submitted_for_crs_sanction,"
 					+ "query_raised_for_crs_sanction=:query_raised_for_crs_sanction,query_replied_for_crs_sanction=:query_replied_for_crs_sanction,"
-					+ "crs_sanction_approved=:crs_sanction_approved "
+					+ "crs_sanction_approved=:crs_sanction_approved,approving_railway=:approving_railway,approval_authority_fk=:approval_authority_fk,required_date=:required_date,structure_id_fk=:structure_id_fk   "
 					+ "WHERE design_id = :design_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -639,50 +721,64 @@ public class DesignDaoImpl implements DesignDao{
 				paramSource = new BeanPropertySqlParameterSource(obj);	
 				namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
 			
-				String insert_qry = "INSERT into  design_files ( design_id_fk, attachment) VALUES (:design_id,:attachment)";
-				
-				int arraySize = 0;
-				if(!StringUtils.isEmpty(obj.getDesignFileNames()) && obj.getDesignFileNames().length > 0 ) {
-					obj.setDesignFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesignFileNames()));
-					if(arraySize < obj.getDesignFileNames().length) {
-						arraySize = obj.getDesignFileNames().length;
-					}
-				}
-				for (int i = 0; i < arraySize; i++) {
-					fileObj = new Design();
-					fileObj.setDesign_id(obj.getDesign_id());
-					fileObj.setAttachment(obj.getDesignFileNames()[i]);
-					paramSource = new BeanPropertySqlParameterSource(fileObj);	
-					namedParamJdbcTemplate.update(insert_qry, paramSource);
-				}
-				
-				if(!StringUtils.isEmpty(obj.getDesignFiles()) && obj.getDesignFiles().size() > 0) {
-					List<MultipartFile> fobFiles = obj.getDesignFiles();
-					for (MultipartFile multipartFile : fobFiles) {
-						if (null != multipartFile && !multipartFile.isEmpty()){
-							String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
-							String fileName = multipartFile.getOriginalFilename();
-							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
-							String fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
-							obj.setAttachment(fileName_new);
-						
-							fileObj = new Design();
-							fileObj.setDesign_id(obj.getDesign_id());
-							fileObj.setAttachment(fileName_new);
-							paramSource = new BeanPropertySqlParameterSource(fileObj);	
-							namedParamJdbcTemplate.update(insert_qry, paramSource);
+				 flag = true;
+				 int  docArrSize = 0;
+				 if (!StringUtils.isEmpty(obj.getDesignDocumentFileNames()) && obj.getDesignDocumentFileNames().length > 0) {
+						obj.setDesignDocumentFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesignDocumentFileNames()));
+						if (docArrSize < obj.getDesignDocumentFileNames().length) {
+							docArrSize = obj.getDesignDocumentFileNames().length;
 						}
 					}
-				}
+					if (!StringUtils.isEmpty(obj.getDesign_file_typess()) && obj.getDesign_file_typess().length > 0) {
+						obj.setDesign_file_typess(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesign_file_typess()));
+						if (docArrSize < obj.getDesign_file_typess().length) {
+							docArrSize = obj.getDesign_file_typess().length;
+						}
+					}
+					if (!StringUtils.isEmpty(obj.getDesignDocumentNames()) && obj.getDesignDocumentNames().length > 0) {
+						obj.setDesignDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesignDocumentNames()));
+						if (docArrSize < obj.getDesignDocumentNames().length) {
+							docArrSize = obj.getDesignDocumentNames().length;
+						}
+					}
+					for (int i = 0; i < docArrSize; i++) {
+					   if(!StringUtils.isEmpty(obj.getDesignDocumentFiles()) && obj.getDesignDocumentFiles().length > 0) {
+							
+							String file_insert_qry = "INSERT into  design_files ( design_id_fk,design_file_type_fk,name, attachment) VALUES (:design_id,:design_file_type_fk,:name,:attachment)";
+							MultipartFile designFiles = obj.getDesignDocumentFiles()[i];
+							if (((null != designFiles && !designFiles.isEmpty()) || !StringUtils.isEmpty(obj.getDesignDocumentFileNames()[i])) && !StringUtils.isEmpty(obj.getDesign_file_typess()[i]) && !StringUtils.isEmpty(obj.getDesignDocumentNames()[i]))  {
+									String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
+									String fileName = designFiles.getOriginalFilename();
+									DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+									String fileName_new = null;
+									if(!designFiles.isEmpty()) {
+										 fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+									}else {
+										 fileName_new = obj.getDesignDocumentFileNames()[i];
+									}
+									FileUploads.singleFileSaving(designFiles, saveDirectory, fileName_new);
+									String design_file_type_fk = obj.getDesign_file_typess()[i];
+									String name = obj.getDesignDocumentNames()[i];
+									fileObj = new Design();
+									fileObj.setDesign_id(obj.getDesign_id());
+									fileObj.setDesign_file_type_fk(design_file_type_fk);
+									fileObj.setName(name);
+									fileObj.setAttachment(fileName_new);
+									//fileObj.setStatus(CommonConstants.ACTIVE);
+									
+									paramSource = new BeanPropertySqlParameterSource(fileObj);	
+									namedParamJdbcTemplate.update(file_insert_qry, paramSource);
+							}
+						}	
+					}
 			}
 			if(flag) {
 				String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			
-				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval,"
-						+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
+				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,"
+						+ "revision_status_fk,current,remarks) VALUES(?,?,?,?,?,?)";
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 			            new BatchPreparedStatementSetter() {
@@ -692,11 +788,9 @@ public class DesignDaoImpl implements DesignDao{
 									int k = 1;
 									ps.setString(k++, obj.getDesign_id());
 									ps.setString(k++,(obj.getRevisions().length > 0)?obj.getRevisions()[i]:null);									
-									ps.setString(k++,DateParser.parse((obj.getConsultant_submissions().length > 0)?obj.getConsultant_submissions()[i]:null));
-									ps.setString(k++,DateParser.parse((obj.getMrvc_revieweds().length > 0)?obj.getMrvc_revieweds()[i]:null));
-									ps.setString(k++,DateParser.parse((obj.getDivisional_approvals().length > 0)?obj.getDivisional_approvals()[i]:null));
-									ps.setString(k++,DateParser.parse((obj.getHq_approvals().length > 0)?obj.getHq_approvals()[i]:null));
+									ps.setString(k++,DateParser.parse((obj.getRevision_dates().length > 0)?obj.getRevision_dates()[i]:null));
 									ps.setString(k++,(obj.getRevision_status_fks().length > 0)?obj.getRevision_status_fks()[i]:null);
+									ps.setString(k++,(obj.getCurrents().length > 0)?obj.getCurrents()[i]:null);
 									ps.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 								
 								} catch (Exception e) {
@@ -752,7 +846,66 @@ public class DesignDaoImpl implements DesignDao{
 						}
 				  });
 				
+				String deleteQryForDesignStatus = "DELETE from design_status where design_id_fk = :design_id";		 
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQryForDesignStatus, paramSource);
+			
+				String qryDesignStatus = "INSERT INTO design_status (design_id_fk,stage_fk,submitted_by,submitted_to,submitted_date,"
+						+ "submssion_purpose) VALUES(?,?,?,?,?,?)";
 				
+				int[] statusCounts = jdbcTemplate.batchUpdate(qryDesignStatus,
+			            new BatchPreparedStatementSetter() {
+							@Override
+							public void setValues(PreparedStatement ps, int i) throws SQLException {
+								try {
+									int k = 1;
+									ps.setString(k++, obj.getDesign_id());
+									ps.setString(k++,(obj.getStage_fks().length > 0 && !StringUtils.isEmpty(obj.getStage_fks()[i]))?obj.getStage_fks()[i]:null);	
+									ps.setString(k++,(obj.getSubmitted_bys().length > 0 && !StringUtils.isEmpty(obj.getSubmitted_bys()[i]))?obj.getSubmitted_bys()[i]:null);	
+									ps.setString(k++,(obj.getSubmitted_tos().length > 0 && !StringUtils.isEmpty(obj.getSubmitted_tos()[i]))?obj.getSubmitted_tos()[i]:null);	
+									ps.setString(k++,DateParser.parse((obj.getSubmitted_dates().length > 0 && !StringUtils.isEmpty(obj.getSubmitted_dates()[i]))?obj.getSubmitted_dates()[i]:null));
+									ps.setString(k++,(obj.getSubmssion_purposes().length > 0 && !StringUtils.isEmpty(obj.getSubmssion_purposes()[i]))?obj.getSubmssion_purposes()[i]:null);
+								
+								} catch (Exception e) {
+									
+								}
+							}
+							@Override
+							public int getBatchSize() {
+								int arraySize = 0;
+								if(!StringUtils.isEmpty(obj.getStage_fks()) && obj.getStage_fks().length > 0) {
+									obj.setStage_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getStage_fks()));
+									if(arraySize < obj.getStage_fks().length) {
+										arraySize = obj.getStage_fks().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getSubmitted_bys()) && obj.getSubmitted_bys().length > 0) {
+									obj.setSubmitted_bys(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmitted_bys()));
+									if(arraySize < obj.getSubmitted_bys().length) {
+										arraySize = obj.getSubmitted_bys().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getSubmitted_tos()) && obj.getSubmitted_tos().length > 0) {
+									obj.setSubmitted_tos(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmitted_tos()));
+									if(arraySize < obj.getSubmitted_tos().length) {
+										arraySize = obj.getSubmitted_tos().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getSubmitted_dates()) && obj.getSubmitted_dates().length > 0) {
+									obj.setSubmitted_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmitted_dates()));
+									if(arraySize < obj.getSubmitted_dates().length) {
+										arraySize = obj.getSubmitted_dates().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getSubmssion_purposes()) && obj.getSubmssion_purposes().length > 0) {
+									obj.setSubmssion_purposes(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmssion_purposes()));
+									if(arraySize < obj.getSubmssion_purposes().length) {
+										arraySize = obj.getSubmssion_purposes().length;
+									}
+								}
+								return arraySize;
+						}
+				  });
 				
 				String issueId = null;
 				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
@@ -798,13 +951,13 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
 					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
 					+ "planned_start,planned_finish,revision,clearance_to_consultant,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
-					+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,submitted_to_division,hq_submission_fk,submitted_to_hq,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,query_raised_by_division,query_replied_to_division,query_raised_by_hq," + 
-					"query_replied_to_hq,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved) "
+					+ "gfc_released,required_date,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,submitted_to_division,hq_submission_fk,submitted_to_hq,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,query_raised_by_division,query_replied_to_division,query_raised_by_hq," + 
+					"query_replied_to_hq,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,structure_id_fk,approving_railway,approval_authority_fk) "
 					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
 					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
-					+ ":revision,:clearance_to_consultant,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,"
+					+ ":revision,:clearance_to_consultant,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:required_date,:as_built_status,:as_built_date,:remarks,:attachment,"
 					+ ":divisional_submission_fk,:submitted_to_division,:hq_submission_fk,:submitted_to_hq,:submited_to_proof_consultant_fk,:approval_by_proof_consultant_fk,:query_raised_by_division,:query_replied_to_division"  
-					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,:crs_sanction_approved)";
+					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,:crs_sanction_approved,:structure_id_fk,:approving_railway,:approval_authority_fk)";
 			
 			for (Design obj : designsList) {
 				/*String department = null;
@@ -1480,6 +1633,215 @@ public class DesignDaoImpl implements DesignDao{
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<Design> getApprovingRailwayList() throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry = "SELECT DISTINCT(railway_id) from railway where railway_id in ('WR','CR','MRVC','Others') order by field(railway_id,'WR','CR','MRVC','Others')";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getApprovalAuthority() throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry = "SELECT approval_authority as approval_authority_fk from approval_authority where approval_authority is not null and approval_authority <> '' ";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getStage() throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry = "SELECT stage as stage_fk from stage where stage is not null and stage <> '' ";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getSubmitted() throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry = "SELECT design_status_submit from design_status_submit where design_status_submit is not null and design_status_submit <> ''  ";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getSubmssionpurpose() throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry = "SELECT submission_purpose from design_status_submission_purpose where submission_purpose is not null and submission_purpose <> '' ";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getDesignFileType() throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry = "SELECT design_file_type from design_file_type where design_file_type is not null and design_file_type <> '' ";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getStructureId() throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry = "SELECT structure from structure where structure is not null and structure <> '' group by structure ";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public int uploadDesignsNew(List<Design> designsList) throws Exception {
+		int count = 0;
+		boolean flag = false;
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
+					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
+					+ "planned_start,planned_finish,revision,clearance_to_consultant,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
+					+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,hq_submission_fk,crs_sanction_fk,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq," + 
+					"query_replied_to_hq,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,approving_railway,approval_authority_fk,structure_id_fk,required_date) "
+					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
+					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
+					+ ":revision,:clearance_to_consultant,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,:divisional_submission_fk,:hq_submission_fk,:crs_sanction_fk,:submitted_to_division,:submitted_to_hq,:query_raised_by_division,:query_replied_to_division"
+					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,"
+					+ ":crs_sanction_approved,:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date)";
+			
+			for (Design obj : designsList) {
+				/*String department = null;
+				if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) { 
+				  String deptqry ="SELECT department from department where department_name = ?"; 
+				  department = (String)jdbcTemplate.queryForObject( deptqry,new Object[]{obj.getDepartment_id_fk()} ,String.class); 
+				}
+				obj.setDepartment_id_fk(department);*/
+				String hod = getHod(obj.getHod());
+				String dyHod = getDyHod(obj.getDy_hod());
+				obj.setHod(hod);obj.setDy_hod(dyHod);
+				if(!StringUtils.isEmpty(obj.getPrepared_by_id_fk())) {
+					String preparedByQry = "INSERT INTO design_prepared_by (prepared_by) SELECT * FROM (SELECT ?) AS tmp "
+							+ "WHERE NOT EXISTS ( SELECT prepared_by FROM design_prepared_by WHERE prepared_by = ? LIMIT 1 )";
+					jdbcTemplate.update( preparedByQry, new Object[] {obj.getPrepared_by_id_fk(),obj.getPrepared_by_id_fk()});
+				}
+				
+				if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
+					String stQry = "INSERT INTO structure_type (structure_type) SELECT * FROM (SELECT ?) AS tmp "
+							+ "WHERE NOT EXISTS ( SELECT structure_type FROM structure_type WHERE structure_type = ? LIMIT 1 )";
+					jdbcTemplate.update( stQry, new Object[] {obj.getStructure_type_fk(),obj.getStructure_type_fk()});
+				}
+				
+				if(!StringUtils.isEmpty(obj.getDrawing_type_fk())) {
+					String dtQry = "INSERT INTO drawing_type (drawing_type) SELECT * FROM (SELECT ?) AS tmp "
+							+ "WHERE NOT EXISTS ( SELECT drawing_type FROM drawing_type WHERE drawing_type = ? LIMIT 1 )";
+					jdbcTemplate.update( dtQry, new Object[] {obj.getDrawing_type_fk(),obj.getDrawing_type_fk()});
+				}
+				
+				
+				SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+			    KeyHolder keyHolder = new GeneratedKeyHolder();
+			    count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
+			    //return keyHolder.getKey().intValue();
+
+				//BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+				//int count = namedParamJdbcTemplate.update(qry, paramSource);		
+			    String designId = null;
+				if(count > 0) {
+					 designId = String.valueOf(keyHolder.getKey().intValue());
+					 flag = true;
+				}
+				obj.setDesign_id(designId);
+				
+				con = dataSource.getConnection();
+				String qryDesignRevision = "INSERT INTO design_status (design_id_fk, stage_fk, submitted_by, submitted_to, submitted_date, submssion_purpose) VALUES(?,?,?,?,?,?)";
+				stmt = con.prepareStatement(qryDesignRevision); 				
+				String stage_fk = obj.getStage_fk();
+				String submitted_date = obj.getSubmitted_date();
+				String submitted_by = obj.getSubmitted_by();
+				String submitted_to = obj.getSubmitted_to();
+				String submssion_purpose = obj.getSubmission_purpose();
+				if( !StringUtils.isEmpty(stage_fk)) {
+						int k = 1;
+						stmt.setString(k++, obj.getDesign_id());
+						stmt.setString(k++,!StringUtils.isEmpty(stage_fk)?stage_fk:null);
+						stmt.setString(k++,!StringUtils.isEmpty(submitted_by)?submitted_by:null);
+						stmt.setString(k++,!StringUtils.isEmpty(submitted_to)?submitted_to:null);
+						stmt.setString(k++,DateParser.parse(!StringUtils.isEmpty(submitted_date)?submitted_date:null));
+						stmt.setString(k++,!StringUtils.isEmpty(submssion_purpose)?submssion_purpose:null);
+						stmt.addBatch();
+				}
+				stmt.executeBatch();
+				
+			}
+			count = designsList.size();
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
+		}
+		return count;
+	}
+
+	private String getDyHod(String dy_hod) throws Exception {
+		Design dObj = null;
+		String userId = null;
+		try {
+			String qry ="select user_id from user where designation = ?" ;
+			
+			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {dy_hod}, new BeanPropertyRowMapper<Design>(Design.class));
+			userId = dObj.getUser_id();
+		}
+		catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return userId;
+	}
+
+	private String getHod(String hod) throws Exception {
+		Design dObj = null;
+		String userId = null;
+		try {
+			String qry ="select user_id from user where designation = ?" ;
+			
+			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {hod}, new BeanPropertyRowMapper<Design>(Design.class));
+			userId = dObj.getUser_id();
+		}
+		catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return userId;
 	}
 	
 }

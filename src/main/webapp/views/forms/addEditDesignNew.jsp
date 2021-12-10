@@ -224,6 +224,20 @@
 		.waves-effect.bg-m.t-c{
 			z-index:0;
 		}
+		.input-field.min4{
+			min-height:4rem ;
+		}
+		.filevalue {
+            display: block;
+            margin-top: 10px;
+			font-size: .9rem;
+        }
+		@media only screen and (max-width: 769px){
+		 .filevalue {
+					    width: 200%;
+					    white-space: break-spaces;
+					}
+		}
     </style>
 </head>
 <body>
@@ -308,24 +322,18 @@
 	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}" readonly />
 	                                </div>
 	                           
-                            </c:if>
-                            
-                                <c:if test="${action eq 'add'}">
-                                <div class="col s6 m4 l4 input-field">
+                              </c:if>
+                                <div class="col s6 m4 l4 input-field min4">
                                     <p class="searchable_label">Approving Railway<span class="required">*</span></p>
-                                     <select id="approving_railway_fk" name="approving_railway_fk" class="searchable validate-dropdown" >
-                                        <option value="">Select</option>                                       
+                                     <select id="approving_railway" name="approving_railway" class="searchable validate-dropdown" >
+                                        <option value="">Select</option>  
+                                        <c:forEach var="obj" items="${approvingRailway }">
+                                      	    <option value= "${ obj.railway_id}" <c:if test="${designDetails.approving_railway eq obj.railway_id}">selected</c:if>>${ obj.railway_id}</option>
+                                        </c:forEach>                                     
                                     </select>
-                                    <span id="approving_railway_fkError" class="error-msg" ></span>                                     
+                                    <span id="approving_railwayError" class="error-msg" ></span>                                     
                                 </div>
-                                </c:if>
-                                <c:if test="${action eq 'edit'}">
-                                	<div class="col s6 m4 l4 input-field"> 
-	                                    <input type="text" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
-									    <label for="contract_id_fk"> Approving Railway <span class="required">*</span></label>
-									    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}" readonly />
-	                                </div>
-                                </c:if>
+
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Department </p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">
@@ -364,10 +372,13 @@
                                 </div>
                                  <div class="col s6 m4 l4 input-field ">
                                     <p class="searchable_label">Structure Id<span class="required">*</span></p>
-                                    <select id="structure_idtype_fk" name="structure_id_fk" class="searchable validate-dropdown">
-                                        <option value="" selected>Select</option>                                 		
+                                    <select id="structure_id_fk" name="structure_id_fk" class="searchable validate-dropdown">
+                                        <option value="" selected>Select</option> 
+                                        <c:forEach var="obj" items="${structureId }">
+                             				<option value="${obj.structure }" <c:if test="${designDetails.structure_id_fk eq obj.structure }">selected</c:if>>${obj.structure }</option>
+                           				 </c:forEach>                                  		
                                     </select>
-                                    <span id="structure_type_fkError" class="error-msg" ></span>
+                                    <span id="structure_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Prepared By </p>
@@ -381,7 +392,8 @@
                                 </div>
                             </div>
 
-                            <div class="row">                                  
+                            <div class="row">       
+                             <c:if test="${action eq 'add'}">                           
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Contract</p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
@@ -393,7 +405,15 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                </c:if>
+                                 <c:if test="${action eq 'edit'}">
+                                	<div class="col s6 m4 l4 input-field"> 
+	                                    <input type="text" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
+									    <label for="contract_id_fk"> Contract <span class="required">*</span></label>
+									    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}" readonly />
+	                                </div>
+                                </c:if>
+                                <div class="col s6 m4 l4 input-field min4">
                                     <p class="searchable_label">Consultant</p>
                                     <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -403,7 +423,7 @@
                                     </select>
                                      <span id="consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s6 m4 l4 input-field min4">
                                     <p class="searchable_label fs-sm-67rem">Proof Consultant </p>
                                     <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -429,18 +449,21 @@
 		                                <div class="col s6 m4 l4 input-field">
 		                                    <p class="searchable_label mb-8" >Approval Authority<span class="required">*</span></p>
 		                                    <select id="approval_authority_fk" name="approval_authority_fk" class="searchable validate-dropdown">
-		                                        <option value="" selected>Select</option>                               			
+		                                        <option value="" selected>Select</option>     
+		                                         <c:forEach var="obj" items="${approvalAuthority }">
+                                    				<option value="${obj.approval_authority_fk }" <c:if test="${designDetails.approval_authority_fk eq obj.approval_authority_fk }">selected</c:if>>${obj.approval_authority_fk }</option>
+                                  				  </c:forEach>                          			
 		                                    </select>
 		                                    <span id="approval_authority_fkError" class="error-msg" ></span>
 		                                </div>
 		                         		<div class="col s6 m4 l4 input-field">
-		                                    <input id="required_date" name="required_date" type="text" class="validate datepicker" value="${designDetails.consultant_submission }">
+		                                    <input id="required_date" name="required_date" type="text" class="validate datepicker" value="${designDetails.required_date }">
 		                                    <label for="required_date" class="fs-sm-8rem fs-9">Required Date </label>
 		                                    <button type="button" id="required_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 		                                    <span id="required_dateError" class="error-msg" ></span>
 		                                </div>
 		                                <div class="col s6 m4 l4 input-field">
-		                                    <input id="gfc_release_date" name="gfc_release_date" type="text" class="validate datepicker" value="${designDetails.consultant_submission }">
+		                                    <input id="gfc_release_date" name="gfc_released" type="text" class="validate datepicker" value="${designDetails.gfc_released }">
 		                                    <label for="gfc_release_date" class="fs-sm-8rem fs-9">GFC Release Date </label>
 		                                    <button type="button" id="gfc_release_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 		                                    <span id="gfc_release_dateError" class="error-msg" ></span>
@@ -457,9 +480,9 @@
                                      <span id="drawing_titleError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field">
-                                     <input id="agency_drawing_no" name="agency_drawing_no" type="text" class="validate" value="${designDetails.contractor_drawing_no }">
-		                             <label for="agency_drawing_no" >Agency Drawing No </label>
-		                             <span id="agency_drawingError" class="error-msg" ></span>
+                                     <input id="contractor_drawing_no" name="contractor_drawing_no" type="text" class="validate" value="${designDetails.contractor_drawing_no }">
+		                             <label for="contractor_drawing_no" >Agency Drawing No </label>
+		                             <span id="contractor_drawing_noError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field">
                                      <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate" value="${designDetails.mrvc_drawing_no }">
@@ -499,31 +522,43 @@
 										<tbody id="statusTableBody">
                                         
                                         <c:choose>
-	                                        <c:when test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
-	                                        	<c:forEach var="statObj" items="${designDetails.designRevisions }" varStatus="index">  
+	                                        <c:when test="${not empty designDetails.designStatusList && fn:length(designDetails.designStatusList) gt 0 }">
+	                                        	<c:forEach var="statObj" items="${designDetails.designStatusList }" varStatus="index">  
 		                                            <tr id="StatusRow${index.count }">   
 												        <td data-head="Stage" class="input-field">
-													        <select id="stage${index.count }" name="stage" class="searchable validate-dropdown">
-						                                        <option value="" >Select</option>			                                         
+													        <select id="stage${index.count }" name="stage_fks" class="searchable validate-dropdown">
+						                                        <option value="" >Select</option>
+						                                         <c:forEach var="obj" items="${stage }">
+				                                    				<option value="${obj.stage_fk }" <c:if test="${statObj.stage_fk eq obj.stage_fk }">selected</c:if>>${obj.stage_fk }</option>
+				                                  				  </c:forEach>			                                         
 						                                    </select>
 												        </td>
 												        <td data-head="Submitted By" class="input-field">
-												        	<select id="submitted_by${index.count }" name="submitted_by" class="searchable validate-dropdown">
-					                                        	<option value="" >Select</option>			                                         
+												        	<select id="submitted_by${index.count }" name="submitted_bys" class="searchable validate-dropdown">
+					                                        	<option value="" >Select</option>	
+					                                        	 <c:forEach var="obj" items="${submitted }">
+				                                    				<option value="${obj.design_status_submit }" <c:if test="${statObj.submitted_by eq obj.design_status_submit }">selected</c:if>>${obj.design_status_submit }</option>
+				                                  				  </c:forEach>			                                         
 					                                    	</select>
 												        </td>
 												        <td data-head="Submitted To" class="input-field">
-												        	<select id="submitted_to${index.count }" name="submitted_to" class="searchable validate-dropdown">
-					                                        	<option value="" >Select</option>			                                         
+												        	<select id="submitted_to${index.count }" name="submitted_tos" class="searchable validate-dropdown">
+					                                        	<option value="" >Select</option>	
+					                                        	 <c:forEach var="obj" items="${submitted }">
+				                                    				<option value="${obj.design_status_submit }" <c:if test="${statObj.submitted_to eq obj.design_status_submit }">selected</c:if>>${obj.design_status_submit }</option>
+				                                  				  </c:forEach>			                                         
 					                                    	</select>
 												        </td>
 												        <td data-head="Purpose of Submission / Remarks" class="input-field">
-												        	<select id="status_remarks${index.count }" name="status_remarks" class="searchable validate-dropdown">
-					                                        	<option value="" >Select</option>			                                         
+												        	<select id="submssion_purpose${index.count }" name="submssion_purposes" class="searchable validate-dropdown">
+					                                        	<option value="" >Select</option>	
+					                                        	 <c:forEach var="obj" items="${submssionpurpose }">
+				                                    				<option value="${obj.submission_purpose }" <c:if test="${statObj.submssion_purpose eq obj.submission_purpose }">selected</c:if>>${obj.submission_purpose }</option>
+				                                  				  </c:forEach>			                                         
 					                                    	</select>
 												        </td>
 												        <td data-head="Submitted Date" class="input-field">
-												        	<input id="submitted_date${index.count }" name="submitted_date" type="text" class="validate datepicker" value="" placeholder="Submitted Date">
+												        	<input id="submitted_date${index.count }" name="submitted_dates" type="text" class="validate datepicker" value="${statObj.submitted_date}" placeholder="Submitted Date">
 				                                    		<button type="button" id="submitted_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 												        </td>
 												        <td class="mobile_btn_close">
@@ -536,27 +571,39 @@
                                            	<c:otherwise>
                                            		<tr id="StatusRow0">
 											        <td data-head="Stage" class="input-field">
-												        <select id="stage0" name="stage" class="searchable validate-dropdown">
-					                                        <option value="" >Select</option>			                                         
+												        <select id="stage0" name="stage_fks" class="searchable validate-dropdown">
+					                                        <option value="" >Select</option>	
+					                                         <c:forEach var="obj" items="${stage }">
+				                                    				<option value="${obj.stage_fk }" >${obj.stage_fk }</option>
+				                                  			 </c:forEach>		                                         
 					                                    </select>
 											        </td>
 											        <td data-head="Submitted By" class="input-field">
-											        	<select id="submitted_by0" name="submitted_by" class="searchable validate-dropdown">
-				                                        	<option value="" >Select</option>			                                         
+											        	<select id="submitted_by0" name="submitted_bys" class="searchable validate-dropdown">
+				                                        	<option value="" >Select</option>	
+				                                        	 <c:forEach var="obj" items="${submitted }">
+				                                    				<option value="${obj.design_status_submit }">${obj.design_status_submit }</option>
+				                                  			 </c:forEach>			                                         
 				                                    	</select>
 											        </td>
 											        <td data-head="Submitted To" class="input-field">
-											        	<select id="submitted_to0" name="submitted_to" class="searchable validate-dropdown">
-				                                        	<option value="" >Select</option>			                                         
+											        	<select id="submitted_to0" name="submitted_tos" class="searchable validate-dropdown">
+				                                        	<option value="" >Select</option>
+				                                        	<c:forEach var="obj" items="${submitted }">
+				                                    				<option value="${obj.design_status_submit }">${obj.design_status_submit }</option>
+				                                  			</c:forEach>				                                         
 				                                    	</select>
 											        </td>
 											        <td data-head="Purpose of Submission / Remarks" class="input-field">
-											        	<select id="status_remarks0" name="status_remarks" class="searchable validate-dropdown">
-				                                        	<option value="" >Select</option>			                                         
+											        	<select id="submssion_purpose0" name="submssion_purposes" class="searchable validate-dropdown">
+				                                        	<option value="" >Select</option>
+				                                        	 <c:forEach var="obj" items="${submssionpurpose }">
+				                                    				<option value="${obj.submission_purpose }">${obj.submission_purpose }</option>
+				                                  			 </c:forEach>				                                         
 				                                    	</select>
 											        </td>
 											        <td data-head="Submitted Date" class="input-field">
-											        	<input id="submitted_date0" name="submitted_date" type="text" class="validate datepicker" value="" placeholder="Submitted Date">
+											        	<input id="submitted_date0" name="submitted_dates" type="text" class="validate datepicker" value="" placeholder="Submitted Date">
 			                                    		<button type="button" id="submitted_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											        </td>
 											        <td class="mobile_btn_close">
@@ -582,8 +629,8 @@
                                     </table>
                                     
                                     <c:choose>
-                                        <c:when test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
-                                            <input type="hidden" id="statusRowNo"  name="statusRowNo" value="${fn:length(designDetails.designRevisions)}" />
+                                        <c:when test="${not empty designDetails.designStatusList && fn:length(designDetails.designStatusList) gt 0 }">
+                                            <input type="hidden" id="statusRowNo"  name="statusRowNo" value="${fn:length(designDetails.designStatusList)}" />
                                         </c:when>
                                         <c:otherwise>
                                         	<input type="hidden" id="statusRowNo"  name="statusRowNo" value="0" />
@@ -602,7 +649,7 @@
                                                 <th>Revision Date </th>                                               
                                                 <th>Revision Status</th>
                                                 <th>Remarks</th>
-                                                <th>Status</th>
+                                                <th>Current</th>
                                                 <th class="no-sort">Action</th>
                                             </tr>
                                         </thead>
@@ -617,8 +664,8 @@
 		                                                        placeholder="Revision" value="${revObj.revision }">                                                        
 		                                                </td>
 		                                                <td data-head="Revision Date" class="input-field">
-		                                                    <input id="revision_date${index.count }" name="revision_date" type="text" class="validate datepicker"
-		                                                        placeholder="Revision Date" value="${revObj.consultant_submission }">
+		                                                    <input id="revision_date${index.count }" name="revision_dates" type="text" class="validate datepicker"
+		                                                        placeholder="Revision Date" value="${revObj.revision_date }">
 		                                                    <button type="button" id="revision_date${index.count }_icon" class="datepicker-button"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
@@ -638,10 +685,13 @@
 		                                                <td data-head="Status" class="input-field center-align">
 			                                                <p>
 			                                                 	<label> 
-			                                                	   <input type="checkbox"  id="revision_status_checkbox${index.count }" class="revision_status_checkbox" /> 
+			                                                	   <input type="checkbox"  id="revision_status_checkbox${index.count }" name="current"  value="${revObj.current}" class="revision_status_checkbox" 
+			                                                	   <c:if test="${revObj.current eq 'Yes'}">checked</c:if>/> 
 			                                                			<span></span> 
 			                                                	</label>
 		                                                	</p>
+		                                                	  <input type="hidden" id="revision_status_checkbox${index.count }s"  name="currents" value="${revObj.current}" class="revision_status_checkbox" />
+		                                                	
 		                                                </td>
 		                                                <td class="mobile_btn_close">
 		                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
@@ -657,7 +707,7 @@
 	                                                        placeholder="Revision">                                                        
 	                                                </td>
 	                                                <td data-head="Revision Date" class="input-field">
-	                                                    <input id="revision_date0" name="revision_date" type="text" class="validate datepicker"
+	                                                    <input id="revision_date0" name="revision_dates" type="text" class="validate datepicker"
 	                                                        placeholder="Revision Date">
 	                                                    <button type="button" id="revision_date0_icon" class="datepicker-button"><i
 	                                                            class="fa fa-calendar"></i></button>
@@ -678,10 +728,12 @@
 	                                                <td data-head="Status" class="input-field center-align">
 		                                                <p>
 		                                                 	<label> 
-		                                                	   <input type="checkbox" id="revision_status_checkbox0" class="revision_status_checkbox" /> 
+		                                                	   <input type="checkbox" id="revision_status_checkbox0"  name="current"  class="revision_status_checkbox" /> 
+		                                                	   
 		                                                	   <span></span> 
 		                                                	</label>
 	                                                	</p>
+	                                                	<input type="hidden" id="revision_status_checkbox0s"  name="currents" value="No" class="revision_status_checkbox" />
 	                                                </td>
 	                                                <td class="mobile_btn_close">
 	                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
@@ -734,12 +786,15 @@
 	                                            </thead>
 	                                            <tbody id="designDocumentTableBody" >
 	                                             <c:choose>
-			                                        <c:when test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">			                                          
-				                                        <c:forEach var="docObj" items="${designDetails.designRevisions }" varStatus="index">  
+			                                        <c:when test="${not empty designDetails.designFilesList && fn:length(designDetails.designFilesList) gt 0 }">			                                          
+				                                        <c:forEach var="docObj" items="${designDetails.designFilesList }" varStatus="index">  
 			                                                <tr id="designDocumentRow${index.count }">
 			                                                	<td data-head="File Type" class="input-field">
-																	<select  name="design_file_types"  id="design_file_types${index.count }"  class="validate-dropdown searchable">
+																	<select  name="design_file_typess"  id="design_file_types${index.count }"  class="validate-dropdown searchable">
 					                                   					 <option value="" >Select</option>
+					                                   					  <c:forEach var="obj" items="${designFileType }">
+						                                    				<option value="${obj.design_file_type }"<c:if test="${docObj.design_file_type_fk eq obj.design_file_type}">selected</c:if>>${obj.design_file_type }</option>
+						                                  				  </c:forEach>
 					                               					  </select>
 															    </td>
 			                                                    <td data-head="Name" class="input-field"> <input id="designDocumentNames${index.count }" name="designDocumentNames" type="text" class="validate"
@@ -772,11 +827,11 @@
 	                                             	<c:otherwise>
 	                                             		<tr id="designDocumentRow0">
 	                                             			<td data-head="File Type " class="input-field">																		
-																<select  name="design_file_types"  id="design_file_types0"  class="validate-dropdown searchable">
+																<select  name="design_file_typess"  id="design_file_types0"  class="validate-dropdown searchable">
 				                                   					 <option value="" >Select</option>
-				                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-				                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
-				                                          			  </c:forEach>
+				                                         			  <c:forEach var="obj" items="${designFileType }">
+						                                    				<option value="${obj.design_file_type }">${obj.design_file_type }</option>
+						                                  			  </c:forEach>
 				                               					  </select>
 															    </td>
 		                                                    <td data-head="Name " class="input-field"> <input id="designDocumentNames0" name="designDocumentNames" type="text" class="validate"
@@ -816,8 +871,8 @@
 		                                        </tbody>
 		                                     </table>
 		                                   	 <c:choose>
-		                                        <c:when test="${not empty contractDeatils.contractDocuments && fn:length(contractDeatils.contractDocuments) gt 0 }">
-		                                    		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="${fn:length(contractDeatils.contractDocuments) }" />
+		                                        <c:when test="${not empty designDetails.designFilesList && fn:length(designDetails.designFilesList) gt 0 }">
+		                                    		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="${fn:length(designDetails.designFilesList) }" />
 		                                    	</c:when>
 		                                     	<c:otherwise>
 		                                     		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
@@ -991,7 +1046,11 @@
 	    	var that=this;
 	    	var itemId=$( that ).attr('id');
 	    	$(".revision_status_checkbox").prop("checked",false);
+	    	$(".revision_status_checkbox").val("No")
 	    	$("#"+itemId).prop("checked",true);
+	    	if (document.getElementById(itemId).checked) {
+	    		$("#"+itemId+"s").val("Yes")
+	    	}
 	    });
 	    
         $(document).ready(function () {
@@ -1186,12 +1245,19 @@
         	if(validator.form()){ // validation perform
 	   			$(".page-loader").show();
 	   			$('form input[name=revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=revision_date]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=mrvc_revieweds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=revision_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  		/* 	$('form input[name=mrvc_revieweds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=divisional_approvals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=hq_approvals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=hq_approvals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } }); */
+	  			$('form input[name=currents]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revision_status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			$('form input[name=stage_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submitted_bys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submitted_tos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submitted_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submssion_purposes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			document.getElementById("designForm").submit();	
         	}
     	}
@@ -1200,12 +1266,19 @@
     		if(validator.form()){ // validation perform
 				$(".page-loader").show();
 				$('form input[name=revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=revision_date]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=mrvc_revieweds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=revision_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			/* $('form input[name=mrvc_revieweds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=divisional_approvals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=hq_approvals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=hq_approvals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } }); */
+	  			$('form input[name=currents]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revision_status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			$('form input[name=stage_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submitted_bys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submitted_tos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submitted_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submssion_purposes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			document.getElementById("designForm").submit();		
     		}
 		}
@@ -1227,24 +1300,24 @@
     				 		required: false
     				 	  },"proof_consultant_contract_id_fk": {
     				 		required: false
-    				 	  },"consultant_submission": {
+    				 	  }/*"consultant_submission": {
        				 		required: false
-       				 	  },"mrvc_reviewed": {
+       				 	  } ,"mrvc_reviewed": {
     				 		required: false,
        				 		dateBefore1:"#consultant_submission"
-    				 	  },"divisional_approval": {
+    				 	  } */,"divisional_approval": {
     				 		required: false,
        				 		dateBefore2:"#mrvc_reviewed"
-    				 	  },"hq_approval": {
+    				 	  }/* ,"hq_approval": {
     				 		required: false,
        				 		dateBefore3:"#divisional_approval"
-    				 	  },"gfc_released": {
+    				 	  } */,"gfc_released": {
     				 		required: false,
-       				 		dateBefore4:"#hq_approval"
-    				 	  },"as_built_date": {
+       				 		//dateBefore4:"#hq_approval"
+    				 	  }/* ,"as_built_date": {
     				 		required: false,
        				 		dateBefore5:"#gfc_released"
-    				 	  },"hod": {
+    				 	  } */,"hod": {
        				 		required: true
        				 	  },"dy_hod": {
     				 		required: true
@@ -1255,6 +1328,12 @@
     				 	  },"drawing_type_fk": {
     				 		required: true
     				 	  },"drawing_title": {
+    				 		required: true
+    				 	  },"approval_authority_fk": {
+    				 		required: true
+    				 	  },"structure_id_fk": {
+    				 		required: true
+    				 	  },"approving_railway": {
     				 		required: true
     				 	  }
     				 				
@@ -1284,6 +1363,12 @@
 	   				 		required: 'Required'
 	   				 	 },"drawing_title": {
 	   				 		required: 'Required'
+	   				 	 },"approval_authority_fk": {
+	   				 		required: 'Required'
+	   				 	 },"structure_id_fk": {
+	   				 		required: 'Required'
+	   				 	 },"approving_railway": {
+	   				 		required: 'Required'
 	   				 	 }      
     		    },
     			  errorPlacement:
@@ -1294,7 +1379,16 @@
      			 	    }else if (element.attr("id") == "work_id_fk" ){
     			 		     document.getElementById("work_id_fkError").innerHTML="";
     			 			 error.appendTo('#work_id_fkError');
-    			 	    }else if (element.attr("id") == "contract_id_fk" ){
+    			 	    }else if (element.attr("id") == "approving_railway" ){
+   			 		     document.getElementById("approving_railwayError").innerHTML="";
+			 			 error.appendTo('#approving_railwayError');
+			 	    	}else if (element.attr("id") == "approval_authority_fk" ){
+	   			 		     document.getElementById("approval_authority_fkError").innerHTML="";
+				 			 error.appendTo('#approval_authority_fkError');
+			 	    	}else if (element.attr("id") == "structure_id_fk" ){
+	   			 		     document.getElementById("structure_id_fkError").innerHTML="";
+				 			 error.appendTo('#structure_id_fkError');
+			 	    	}else if (element.attr("id") == "contract_id_fk" ){
     			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
     			 			 error.appendTo('#contract_id_fkError');
     			 	    }else if (element.attr("id") == "department_id_fk" ){
@@ -1534,7 +1628,7 @@
 		      var rNo = Number(rowNo)+1;
 		      var html ='<tr id="revisionRow'+rNo+'"> '
 				      +'<td data-head="Revision" class="input-field"> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
-				      +'<td data-head="Revision Date" class="input-field"><input id="revision_date'+rNo+'" name="revision_date" type="text" class="validate datepicker" placeholder="Revision Date"><button type="button" id="revision_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
+				      +'<td data-head="Revision Date" class="input-field"><input id="revision_date'+rNo+'" name="revision_dates" type="text" class="validate datepicker" placeholder="Revision Date"><button type="button" id="revision_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
 				     // +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_revieweds'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 				     // +'<td data-head="Divisional Approval" class="input-field"><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 					 // +'<td data-head="HQ approval" class="input-field"><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
@@ -1546,7 +1640,7 @@
 						</c:forEach>
 					  +'</select></td>'
 					  +'<td data-head="Remarks" class="input-field"> <input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
-					  +'<td data-head="Status" class="input-field center-align"><p>	<label> <input type="checkbox" id="revision_status_checkbox'+rNo+'" class="revision_status_checkbox" /> <span></span> </label> </p> </td>'
+					  +'<td data-head="Status" class="input-field center-align"><p>	<label> <input type="checkbox" id="revision_status_checkbox'+rNo+'" class="revision_status_checkbox" name="current"/><span></span> </label> </p>  <input type="hidden" id="revision_status_checkbox'+rNo+'s"  name="currents" value="No" class="revision_status_checkbox" /></td>'
 					  +'<td class="mobile_btn_close"><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 						
 					  $('#revisionsTableBody').append(html);
@@ -1564,13 +1658,28 @@
 			      var rowNo = $("#statusRowNo").val();
 			      var rNo = Number(rowNo)+1;
 			      var html ='<tr id="StatusRow'+rNo+'"> '
-			      			+'<td data-head="Stage" class="input-field">	 <select id="stage'+rNo+'" name="stage" class="searchable validate-dropdown">'
-			      			+'<option value="" >Select</option> </select> </td> <td data-head="Submitted By" class="input-field">'
-			      			+'<select id="submitted_by'+rNo+'" name="submitted_by" class="searchable validate-dropdown"> <option value="" >Select</option>'
-			      			+'</select></td> <td data-head="Submitted To" class="input-field"> <select id="submitted_to'+rNo+'" name="submitted_to" class="searchable validate-dropdown">'
-			      			+'<option value="" >Select</option> </select> </td> <td data-head="Purpose of Submission / Remarks" class="input-field">'
-			      			+'<select id="status_remarks'+rNo+'" name="status_remarks" class="searchable validate-dropdown"> <option value="" >Select</option> </select> </td>'
-			      			+'<td data-head="Submitted Date" class="input-field"> <input id="submitted_date'+rNo+'" name="submitted_date" type="text" class="validate datepicker" value="" placeholder="Submitted Date">'
+			      			+'<td data-head="Stage" class="input-field">	 <select id="stage'+rNo+'" name="stage_fks" class="searchable validate-dropdown">'
+			      			+'<option value="" >Select</option>'
+			      			 <c:forEach var="obj" items="${stage }">
+			      				+'<option value="${obj.stage_fk }" >${obj.stage_fk }</option>'
+          			 		 </c:forEach>	
+			      			+' </select> </td> <td data-head="Submitted By" class="input-field">'
+			      			+'<select id="submitted_by'+rNo+'" name="submitted_bys" class="searchable validate-dropdown"> <option value="" >Select</option>'
+			      			 <c:forEach var="obj" items="${submitted }">
+		      					+'<option value="${obj.design_status_submit }" >${obj.design_status_submit }</option>'
+      			 		 	 </c:forEach>	
+			      			+'</select></td> <td data-head="Submitted To" class="input-field"> <select id="submitted_to'+rNo+'" name="submitted_tos" class="searchable validate-dropdown">'
+			      			+'<option value="" >Select</option>'
+			      			 <c:forEach var="obj" items="${submitted }">
+	      						+'<option value="${obj.design_status_submit }" >${obj.design_status_submit }</option>'
+  			 		 	 	 </c:forEach>	
+			      			+'</select> </td> <td data-head="Purpose of Submission / Remarks" class="input-field">'
+			      			+'<select id="submssion_purpose'+rNo+'" name="submssion_purposes" class="searchable validate-dropdown"> <option value="" >Select</option>'
+			      			 <c:forEach var="obj" items="${submssionpurpose }">
+      							+'<option value="${obj.submission_purpose }" >${obj.submission_purpose }</option>'
+			 		 	 	 </c:forEach>
+			      			+' </select> </td>'
+			      			+'<td data-head="Submitted Date" class="input-field"> <input id="submitted_date'+rNo+'" name="submitted_dates" type="text" class="validate datepicker" value="" placeholder="Submitted Date">'
 			      			+'<button type="button" id="submitted_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td> '
 			      			+'<td class="mobile_btn_close">	 <a  class="btn waves-effect waves-light red t-c " onclick="removeStatusRow('+rNo+');"> <i class="fa fa-close"></i></a>	</td>';
 							
@@ -1590,9 +1699,9 @@
 					 var total = 0;
 					 var html = '<tr id="designDocumentRow'+rNo+'">'
 								 +'<td data-head="File Type " class="input-field">'
-										+'<select  name="design_file_types"  id="design_file_types'+rNo+'"  class="validate-dropdown searchable">'
+										+'<select  name="design_file_typess"  id="design_file_types'+rNo+'"  class="validate-dropdown searchable">'
 					    					+ '<option value="" >Select</option>'
-					          			  <c:forEach var="obj" items="${designFileTypeList}">
+					          			  <c:forEach var="obj" items="${designFileType}">
 								  				+ '<option value="${obj.design_file_type }">${obj.design_file_type}</option>'
 					           			  </c:forEach>
 									+ '</select></td>'
@@ -1687,7 +1796,11 @@
 			   	     	  }
 		            });
 		        }
-    
+
+		        function getFileName(rowNo){
+		    		var filename = $('#designDocumentFiles'+rowNo)[0].files[0].name;
+		    	    $('#designDocumentFileName'+rowNo).html(filename);
+		    	}
     </script>
 
 </body>

@@ -61,4 +61,20 @@ public interface DesignService {
 	
 	public List<Design> getDyHodList(Design obj) throws Exception;
 
+	public List<Design> getApprovingRailwayList() throws Exception;
+
+	public List<Design> getApprovalAuthority() throws Exception;
+
+	public List<Design> getStage() throws Exception;
+
+	public List<Design> getSubmitted() throws Exception;
+
+	public List<Design> getSubmssionpurpose() throws Exception;
+
+	public List<Design> getDesignFileType() throws Exception;
+
+	public List<Design> getStructureId() throws Exception;
+
+	public int uploadDesignsNew(List<Design> designsList) throws Exception;
+
 }

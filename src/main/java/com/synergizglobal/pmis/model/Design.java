@@ -15,17 +15,331 @@ public class Design {
 	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
 	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq,
 	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,
-	 project_id,work_id,project_name,contract_id,revision_status,status,uploaded_by_user_id_fk,design_data_id, uploaded_file, user_id,uploaded_on,user_role_code,user_name;
+	 project_id,work_id,project_name,contract_id,required_date,revision_status,status,uploaded_by_user_id_fk,design_data_id, railway_id,uploaded_file, user_id,uploaded_on,user_role_code,user_name;
 	
+	private String id, design_file_id,design_id_fk,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current;
+	private String []ids, design_id_fks, design_file_ids,stage_fks,designDocumentFileNames,designDocumentNames, submitted_bys, submitted_tos, submitted_dates, submssion_purposes,design_file_type_fks,currents;
 	
-	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
+	private String[] revisions,revision_dates, consultant_submissions,design_file_typess, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
 	
 	private MultipartFile designFile;
+	private MultipartFile[] designDocumentFiles;
 	
 	private List<Design> designRevisions;
+	private List<Design> designStatusList;
 	private List<MultipartFile> designFiles;
 	private List<Design> designFilesList;
 	private String[] designFileNames;
+
+	public String[] getRevision_dates() {
+		return revision_dates;
+	}
+
+	public void setRevision_dates(String[] revision_dates) {
+		this.revision_dates = revision_dates;
+	}
+
+	public String getDesign_file_type() {
+		return design_file_type;
+	}
+
+	public void setDesign_file_type(String design_file_type) {
+		this.design_file_type = design_file_type;
+	}
+
+	public String getRequired_date() {
+		return required_date;
+	}
+
+	public void setRequired_date(String required_date) {
+		this.required_date = required_date;
+	}
+
+	public List<Design> getDesignStatusList() {
+		return designStatusList;
+	}
+
+	public void setDesignStatusList(List<Design> designStatusList) {
+		this.designStatusList = designStatusList;
+	}
+
+	public String getSubmission_purpose() {
+		return submission_purpose;
+	}
+
+	public void setSubmission_purpose(String submission_purpose) {
+		this.submission_purpose = submission_purpose;
+	}
+
+	public String getStructure_id_fk() {
+		return structure_id_fk;
+	}
+
+	public void setStructure_id_fk(String structure_id_fk) {
+		this.structure_id_fk = structure_id_fk;
+	}
+
+
+
+	public String getStructure() {
+		return structure;
+	}
+
+	public void setStructure(String structure) {
+		this.structure = structure;
+	}
+
+	public String getSubmssionpurpose() {
+		return submssionpurpose;
+	}
+
+	public void setSubmssionpurpose(String submssionpurpose) {
+		this.submssionpurpose = submssionpurpose;
+	}
+
+	public String getDesign_status_submit() {
+		return design_status_submit;
+	}
+
+	public void setDesign_status_submit(String design_status_submit) {
+		this.design_status_submit = design_status_submit;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDesign_file_types() {
+		return design_file_types;
+	}
+
+	public void setDesign_file_types(String design_file_types) {
+		this.design_file_types = design_file_types;
+	}
+
+	public String[] getDesign_file_typess() {
+		return design_file_typess;
+	}
+
+	public void setDesign_file_typess(String[] design_file_typess) {
+		this.design_file_typess = design_file_typess;
+	}
+
+	public String getDesign_file_id() {
+		return design_file_id;
+	}
+
+	public void setDesign_file_id(String design_file_id) {
+		this.design_file_id = design_file_id;
+	}
+
+	public String[] getDesign_file_ids() {
+		return design_file_ids;
+	}
+
+	public void setDesign_file_ids(String[] design_file_ids) {
+		this.design_file_ids = design_file_ids;
+	}
+
+	public String[] getDesignDocumentFileNames() {
+		return designDocumentFileNames;
+	}
+
+	public void setDesignDocumentFileNames(String[] designDocumentFileNames) {
+		this.designDocumentFileNames = designDocumentFileNames;
+	}
+
+	public String[] getDesignDocumentNames() {
+		return designDocumentNames;
+	}
+
+	public void setDesignDocumentNames(String[] designDocumentNames) {
+		this.designDocumentNames = designDocumentNames;
+	}
+
+	public MultipartFile[] getDesignDocumentFiles() {
+		return designDocumentFiles;
+	}
+
+	public void setDesignDocumentFiles(MultipartFile[] designDocumentFiles) {
+		this.designDocumentFiles = designDocumentFiles;
+	}
+
+	public String[] getIds() {
+		return ids;
+	}
+
+	public void setIds(String[] ids) {
+		this.ids = ids;
+	}
+
+	public String[] getDesign_id_fks() {
+		return design_id_fks;
+	}
+
+	public void setDesign_id_fks(String[] design_id_fks) {
+		this.design_id_fks = design_id_fks;
+	}
+
+	public String[] getStage_fks() {
+		return stage_fks;
+	}
+
+	public void setStage_fks(String[] stage_fks) {
+		this.stage_fks = stage_fks;
+	}
+
+	public String[] getSubmitted_bys() {
+		return submitted_bys;
+	}
+
+	public void setSubmitted_bys(String[] submitted_bys) {
+		this.submitted_bys = submitted_bys;
+	}
+
+	public String[] getSubmitted_tos() {
+		return submitted_tos;
+	}
+
+	public void setSubmitted_tos(String[] submitted_tos) {
+		this.submitted_tos = submitted_tos;
+	}
+
+	public String[] getSubmitted_dates() {
+		return submitted_dates;
+	}
+
+	public void setSubmitted_dates(String[] submitted_dates) {
+		this.submitted_dates = submitted_dates;
+	}
+
+	public String[] getSubmssion_purposes() {
+		return submssion_purposes;
+	}
+
+	public void setSubmssion_purposes(String[] submssion_purposes) {
+		this.submssion_purposes = submssion_purposes;
+	}
+
+	public String[] getDesign_file_type_fks() {
+		return design_file_type_fks;
+	}
+
+	public void setDesign_file_type_fks(String[] design_file_type_fks) {
+		this.design_file_type_fks = design_file_type_fks;
+	}
+
+	public String[] getCurrents() {
+		return currents;
+	}
+
+	public void setCurrents(String[] currents) {
+		this.currents = currents;
+	}
+
+	public String getApproving_railway() {
+		return approving_railway;
+	}
+
+	public void setApproving_railway(String approving_railway) {
+		this.approving_railway = approving_railway;
+	}
+
+	public String getApproval_authority_fk() {
+		return approval_authority_fk;
+	}
+
+	public void setApproval_authority_fk(String approval_authority_fk) {
+		this.approval_authority_fk = approval_authority_fk;
+	}
+
+	public String getDesign_file_type_fk() {
+		return design_file_type_fk;
+	}
+
+	public void setDesign_file_type_fk(String design_file_type_fk) {
+		this.design_file_type_fk = design_file_type_fk;
+	}
+
+	public String getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(String current) {
+		this.current = current;
+	}
+
+	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getDesign_id_fk() {
+		return design_id_fk;
+	}
+
+	public void setDesign_id_fk(String design_id_fk) {
+		this.design_id_fk = design_id_fk;
+	}
+
+	public String getStage_fk() {
+		return stage_fk;
+	}
+
+	public void setStage_fk(String stage_fk) {
+		this.stage_fk = stage_fk;
+	}
+
+	public String getSubmitted_by() {
+		return submitted_by;
+	}
+
+	public void setSubmitted_by(String submitted_by) {
+		this.submitted_by = submitted_by;
+	}
+
+	public String getSubmitted_to() {
+		return submitted_to;
+	}
+
+	public void setSubmitted_to(String submitted_to) {
+		this.submitted_to = submitted_to;
+	}
+
+	public String getSubmitted_date() {
+		return submitted_date;
+	}
+
+	public void setSubmitted_date(String submitted_date) {
+		this.submitted_date = submitted_date;
+	}
+
+	public String getSubmssion_purpose() {
+		return submssion_purpose;
+	}
+
+	public void setSubmssion_purpose(String submssion_purpose) {
+		this.submssion_purpose = submssion_purpose;
+	}
+
+	
+
+	public String getRailway_id() {
+		return railway_id;
+	}
+
+	public void setRailway_id(String railway_id) {
+		this.railway_id = railway_id;
+	}
 
 	public String getUser_id() {
 		return user_id;

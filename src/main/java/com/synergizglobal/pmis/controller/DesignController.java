@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -323,6 +325,75 @@ public class DesignController {
 	}
 	
 	@RequestMapping(value = "/get-design", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getDesignNew(@ModelAttribute Design obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.newAddEditDesign);
+			model.addObject("action", "edit");
+			
+			List<Design> projectsList = designService.getProjectsListForDesignForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<Contract> departmentList = contractservice.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+			
+			List<Design> contractList = designService.getContractList();
+			model.addObject("contractList", contractList);
+			
+			List<Design> preparedBy = designService.getPreparedByList();
+			model.addObject("preparedBy", preparedBy);
+			
+			List<Design> approvingRailway = designService.getApprovingRailwayList();
+			model.addObject("approvingRailway", approvingRailway);
+			
+			List<Design> structureTypeList = designService.structureList();
+			model.addObject("structureTypeList", structureTypeList);
+			
+			List<Design> drawingTypeList = designService.drawingTypeList();
+			model.addObject("drawingTypeList", drawingTypeList);
+			
+			List<Design> revisionStatuses = designService.getRevisionStatuses();
+			model.addObject("revisionStatuses", revisionStatuses);
+			
+			List<Design> approvalAuthority = designService.getApprovalAuthority();
+			model.addObject("approvalAuthority", approvalAuthority);
+			
+			List<Design> stage = designService.getStage();
+			model.addObject("stage", stage);
+			
+			List<Design> submitted = designService.getSubmitted();
+			model.addObject("submitted", submitted);
+			
+			List<Design> structureId = designService.getStructureId();
+			model.addObject("structureId", structureId);
+			
+			List<Design> submssionpurpose = designService.getSubmssionpurpose();
+			model.addObject("submssionpurpose", submssionpurpose);
+			
+			List<Design> designFileType = designService.getDesignFileType();
+			model.addObject("designFileType", designFileType);
+		
+			List<Design> asBuiltStatuses = designService.getAsBuiltStatuses();
+			model.addObject("asBuiltStatuses", asBuiltStatuses);
+			
+			Issue iObj = new Issue();
+			List<Issue> issueCategoryList = issueService.getIssuesCategoryList(iObj);	
+			model.addObject("issueCategoryList", issueCategoryList);
+			
+			List<Issue> issuePriorityList = issueService.getIssuesPriorityList();
+			model.addObject("issuePriorityList", issuePriorityList);
+
+			Design designDetails = designService.getDesignDetails(obj);
+			model.addObject("designDetails", designDetails);
+			 
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDesignNew : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/get-design-old", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDesign(@ModelAttribute Design obj){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -371,6 +442,77 @@ public class DesignController {
 	}
 	
 	@RequestMapping(value = "/add-design-form", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addDesignFormNew(@ModelAttribute Design obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.newAddEditDesign);	
+			model.addObject("action", "add");
+			
+			List<Design> projectsList = designService.getProjectsListForDesignForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<Design> worksList = designService.getWorkListForDesignForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Design> contractsList = designService.getContractsListForDesignForm(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<Contract> departmentList = contractservice.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+			
+			List<Design> contractList = designService.getContractList();
+			model.addObject("contractList", contractList);
+			
+			List<Design> preparedBy = designService.getPreparedByList();
+			model.addObject("preparedBy", preparedBy);
+			
+			List<Design> approvingRailway = designService.getApprovingRailwayList();
+			model.addObject("approvingRailway", approvingRailway);
+			
+			List<Design> structureTypeList = designService.structureList();
+			model.addObject("structureTypeList", structureTypeList);
+			
+			List<Design> drawingTypeList = designService.drawingTypeList();
+			model.addObject("drawingTypeList", drawingTypeList);
+			
+			List<Design> revisionStatuses = designService.getRevisionStatuses();
+			model.addObject("revisionStatuses", revisionStatuses);
+			
+			List<Design> approvalAuthority = designService.getApprovalAuthority();
+			model.addObject("approvalAuthority", approvalAuthority);
+			
+			List<Design> structureId = designService.getStructureId();
+			model.addObject("structureId", structureId);
+			
+			List<Design> stage = designService.getStage();
+			model.addObject("stage", stage);
+			
+			List<Design> submitted = designService.getSubmitted();
+			model.addObject("submitted", submitted);
+			
+			List<Design> submssionpurpose = designService.getSubmssionpurpose();
+			model.addObject("submssionpurpose", submssionpurpose);
+			
+			List<Design> designFileType = designService.getDesignFileType();
+			model.addObject("designFileType", designFileType);
+		
+			List<Design> asBuiltStatuses = designService.getAsBuiltStatuses();
+			model.addObject("asBuiltStatuses", asBuiltStatuses);
+			
+			Issue iObj = new Issue();
+			List<Issue> issueCategoryList = issueService.getIssuesCategoryList(iObj);	
+			model.addObject("issueCategoryList", issueCategoryList);
+			
+			List<Issue> issuePriorityList = issueService.getIssuesPriorityList();
+			model.addObject("issuePriorityList", issuePriorityList);
+			
+		}catch (Exception e) {
+			logger.error("addDesignFormNew : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/add-design-form-old", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addDesignForm(@ModelAttribute Design obj){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -534,6 +676,8 @@ public class DesignController {
 			obj.setQuery_replied_for_crs_sanction(DateParser.parse(obj.getQuery_replied_for_crs_sanction()));
 			obj.setCrs_sanction_approved(DateParser.parse(obj.getCrs_sanction_approved()));
 			
+			obj.setRequired_date(DateParser.parse(obj.getRequired_date()));
+			obj.setSubmitted_date(DateParser.parse(obj.getSubmitted_date()));
 			boolean flag =  designService.addDesign(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Design Added Succesfully.");
@@ -576,7 +720,9 @@ public class DesignController {
 			obj.setQuery_raised_for_crs_sanction(DateParser.parse(obj.getQuery_raised_for_crs_sanction()));
 			obj.setQuery_replied_for_crs_sanction(DateParser.parse(obj.getQuery_replied_for_crs_sanction()));
 			obj.setCrs_sanction_approved(DateParser.parse(obj.getCrs_sanction_approved()));
-
+			
+			obj.setRequired_date(DateParser.parse(obj.getRequired_date()));
+			obj.setSubmitted_date(DateParser.parse(obj.getSubmitted_date()));
 			boolean flag =  designService.updateDesign(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Design Updated Succesfully.");
@@ -1043,130 +1189,98 @@ public class DesignController {
 							val = formatter.formatCellValue(row.getCell(1)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setContract_id_fk(val);}
 							
+							
 							val = formatter.formatCellValue(row.getCell(2)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDepartment_id_fk(val);}
+							if(!StringUtils.isEmpty(val)) { design.setApproving_railway(val);}
+							
 							
 							val = formatter.formatCellValue(row.getCell(3)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setHod(val);}	
+							if(!StringUtils.isEmpty(val)) { design.setDepartment_id_fk(val);}
 							
 							val = formatter.formatCellValue(row.getCell(4)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDy_hod(val);}					
+							if(!StringUtils.isEmpty(val)) { design.setHod(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(5)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setPrepared_by_id_fk(val);}								
+							if(!StringUtils.isEmpty(val)) { design.setDy_hod(val);}					
+							
 							
 							val = formatter.formatCellValue(row.getCell(6)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setConsultant_contract_id_fk(val);}										
+							if(!StringUtils.isEmpty(val)) { design.setStructure_type_fk(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(7)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setProof_consultant_contract_id_fk(val);}
+							if(!StringUtils.isEmpty(val)) { design.setStructure_id_fk(val);}	
+							
 							
 							val = formatter.formatCellValue(row.getCell(8)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setSubmited_to_proof_consultant_fk(val);}
+							if(!StringUtils.isEmpty(val)) { design.setPrepared_by_id_fk(val);}								
 							
 							val = formatter.formatCellValue(row.getCell(9)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setApproval_by_proof_consultant_fk(val);}
+							if(!StringUtils.isEmpty(val)) { design.setConsultant_contract_id_fk(val);}										
 							
 							val = formatter.formatCellValue(row.getCell(10)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setStructure_type_fk(val);}
+							if(!StringUtils.isEmpty(val)) { design.setProof_consultant_contract_id_fk(val);}
 							
 							val = formatter.formatCellValue(row.getCell(11)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setComponent(val);}
-							
-							val = formatter.formatCellValue(row.getCell(12)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setDrawing_type_fk(val);}
 							
+							val = formatter.formatCellValue(row.getCell(12)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setDrawing_title(val);}	
+							
 							val = formatter.formatCellValue(row.getCell(13)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setContractor_drawing_no(val);}
+							if(!StringUtils.isEmpty(val)) { design.setApproval_authority_fk(val);}
 							
 							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setMrvc_drawing_no(val);}
+							if(!StringUtils.isEmpty(val)) { 
+								LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
+								val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+								design.setRequired_date(val);}
 							
 							val = formatter.formatCellValue(row.getCell(15)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDivision_drawing_no(val);}								
+							if(!StringUtils.isEmpty(val)) { design.setContractor_drawing_no(val);}
 							
 							val = formatter.formatCellValue(row.getCell(16)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setHq_drawing_no(val);}											
+							if(!StringUtils.isEmpty(val)) { design.setMrvc_drawing_no(val);}
 							
 							val = formatter.formatCellValue(row.getCell(17)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDrawing_title(val);}								
+							if(!StringUtils.isEmpty(val)) { design.setDivision_drawing_no(val);}								
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setPlanned_start(val);}										
+							if(!StringUtils.isEmpty(val)) { design.setHq_drawing_no(val);}											
+							
+													
 							
 							val = formatter.formatCellValue(row.getCell(19)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setPlanned_finish(val);}
-							
+							if(!StringUtils.isEmpty(val)) { design.setStage_fk(val);}										
+						
 							val = formatter.formatCellValue(row.getCell(20)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setRevision(val);}
+							if(!StringUtils.isEmpty(val)) { design.setSubmitted_by(val);}
 							
 							val = formatter.formatCellValue(row.getCell(21)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setClearance_to_consultant(val);}
+							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to(val);}
 							
 							val = formatter.formatCellValue(row.getCell(22)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setConsultant_submission(val);}
+							if(!StringUtils.isEmpty(val)) { design.setSubmission_purpose(val);}
 							
 							val = formatter.formatCellValue(row.getCell(23)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setMrvc_reviewed(val);}
+							if(!StringUtils.isEmpty(val)) { 
+								LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
+								val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+								design.setSubmitted_date(val);}
 							
 							val = formatter.formatCellValue(row.getCell(24)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDivisional_submission_fk(val);}
+							if(!StringUtils.isEmpty(val)) { 
+								LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
+								val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+								design.setGfc_released(val);}
 							
 							val = formatter.formatCellValue(row.getCell(25)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_division(val);}
-							
-							val = formatter.formatCellValue(row.getCell(26)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setQuery_raised_by_division(val);}
-							
-							val = formatter.formatCellValue(row.getCell(27)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setQuery_replied_to_division(val);}
-							
-							val = formatter.formatCellValue(row.getCell(28)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDivisional_approval(val);}
-							
-							val = formatter.formatCellValue(row.getCell(29)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setHq_submission_fk(val);}
-							
-							val = formatter.formatCellValue(row.getCell(30)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_hq(val);}
-
-							val = formatter.formatCellValue(row.getCell(31)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setQuery_raised_by_hq(val);}
-
-							val = formatter.formatCellValue(row.getCell(32)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setQuery_replied_to_hq(val);}
-							
-							val = formatter.formatCellValue(row.getCell(33)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setHq_approval(val);}
-							
-							val = formatter.formatCellValue(row.getCell(34)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setGfc_released(val);}
-
-							val = formatter.formatCellValue(row.getCell(35)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setCrs_sanction_fk(val);}
-							
-							val = formatter.formatCellValue(row.getCell(36)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setSubmitted_for_crs_sanction(val);}
-							
-							val = formatter.formatCellValue(row.getCell(37)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setQuery_raised_for_crs_sanction(val);}
-							
-							val = formatter.formatCellValue(row.getCell(38)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setQuery_replied_for_crs_sanction(val);}
-							
-							val = formatter.formatCellValue(row.getCell(39)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setCrs_sanction_approved(val);}
-							
-							val = formatter.formatCellValue(row.getCell(40)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setAs_built_status(val);}
-							
-							val = formatter.formatCellValue(row.getCell(41)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setAs_built_date(val);}
-							
-							val = formatter.formatCellValue(row.getCell(42)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setRemarks(val);}
 							
-							design.setSubmited_to_proof_consultant_fk(DateParser.parse(design.getSubmited_to_proof_consultant_fk()));
+							design.setGfc_released(DateParser.parse(design.getGfc_released()));
+							design.setSubmitted_date(DateParser.parse(design.getSubmitted_date()));
+							design.setRequired_date(DateParser.parse(design.getRequired_date()));
+							
+							/*design.setSubmited_to_proof_consultant_fk(DateParser.parse(design.getSubmited_to_proof_consultant_fk()));
 							design.setApproval_by_proof_consultant_fk(DateParser.parse(design.getApproval_by_proof_consultant_fk()));
 							design.setPlanned_start(DateParser.parse(design.getPlanned_start()));
 							design.setPlanned_finish(DateParser.parse(design.getPlanned_finish()));
@@ -1176,7 +1290,7 @@ public class DesignController {
 							design.setHq_approval(DateParser.parse(design.getHq_approval()));
 							design.setGfc_released(DateParser.parse(design.getGfc_released()));
 							design.setAs_built_date(DateParser.parse(design.getAs_built_date()));
-
+							
 							design.setSubmitted_to_division(DateParser.parse(design.getSubmitted_to_division()));
 							design.setSubmitted_to_hq(DateParser.parse(design.getSubmitted_to_hq()));
 							design.setQuery_raised_by_division(DateParser.parse(design.getQuery_raised_by_division()));
@@ -1186,7 +1300,7 @@ public class DesignController {
 							design.setSubmitted_for_crs_sanction(DateParser.parse(design.getSubmitted_for_crs_sanction()));
 							design.setQuery_raised_for_crs_sanction(DateParser.parse(design.getQuery_raised_for_crs_sanction()));
 							design.setQuery_replied_for_crs_sanction(DateParser.parse(design.getQuery_replied_for_crs_sanction()));
-							design.setCrs_sanction_approved(DateParser.parse(design.getCrs_sanction_approved()));
+							design.setCrs_sanction_approved(DateParser.parse(design.getCrs_sanction_approved()));*/
 							
 						}
 						List<Design> pObjList = new ArrayList<Design>();
@@ -1231,7 +1345,8 @@ public class DesignController {
 					}
 					
 					if(!designsList.isEmpty() && designsList != null){
-						count  = designService.uploadDesigns(designsList);
+						//count  = designService.uploadDesigns(designsList);
+						count  = designService.uploadDesignsNew(designsList);
 					}
 				}
 				workbook.close();

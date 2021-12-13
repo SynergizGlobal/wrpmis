@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submitted By</title>
+    <title>Submitted</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -54,29 +54,29 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="submitted_by_table" class="mdl-data-table">
+                                <table id="design_status_submit_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>Submitted By</th>
-                                            <c:forEach var="tObj" items="${SubmittedByDetails.tablesList}" >
+                                            <c:forEach var="tObj" items="${submittedDetails.tablesList}" >
                                             	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${SubmittedByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${submittedDetails.dList1}" varStatus="indexs">
 											<tr><td>
-											<input type="hidden" id="submitted_byId${indexs.count}" value="${obj.submitted_by }" class="findLengths"/>
-											${obj.submitted_by }</td>
-											<c:forEach var="tObj" items="${SubmittedByDetails.tablesList}" varStatus="index">
+											<input type="hidden" id="design_status_submitId${indexs.count}" value="${obj.design_status_submit }" class="findLengths"/>
+											${obj.design_status_submit }</td>
+											<c:forEach var="tObj" items="${submittedDetails.tablesList}" varStatus="index">
 											 
-												<td><c:forEach var="cObj" items="${SubmittedByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${submittedDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.submitted_by eq obj.submitted_by }"> 
+																    <c:when test="${cObj.design_status_submit eq obj.design_status_submit }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -89,11 +89,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c  "> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${SubmittedByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${submittedDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.submitted_by eq obj.submitted_by }"> 
-												      	<a onclick="deleteRow('${ oSbj.submitted_by }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.design_status_submit eq obj.design_status_submit }"> 
+												      	<a onclick="deleteRow('${ oSbj.design_status_submit }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -131,7 +131,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-submitted-by" id="addSubmittedByForm" name="addSubmittedByForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-submitted" id="addSubmittedByForm" name="addSubmittedByForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h4 class="modal-header">Add Submitted By <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h4>
@@ -139,9 +139,9 @@
                     <div class="col m8 s12 offset-m2">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="submitted_by_text" type="text" name="submitted_by" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="submitted_by_text">Submitted By</label>
-                                <span id="submitted_byError" class="error-msg" ></span>
+                                <input id="design_status_submit_text" type="text" name="design_status_submit" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="design_status_submit_text">Submitted By</label>
+                                <span id="design_status_submitError" class="error-msg" ></span>
                               </div>
                         </div>
                         <div class="row">
@@ -156,7 +156,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/submitted-by"
+                                        <a href="<%=request.getContextPath()%>/submitted"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-submitted-by" id=updateSubmittedByForm name="updateSubmittedByForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-submitted" id=updateSubmittedByForm name="updateSubmittedByForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Submitted By <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
@@ -178,10 +178,10 @@
                     <div class="col m8 s12 offset-m2">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="submitted_by_new" type="text" name="submitted_by_new" class="validate" onkeyup="doValidateUpdate(this.value)">
-                                <input id="submitted_by_old" type="hidden" name="submitted_by_old"  >
-                                <label for="submitted_by_new">Submitted By</label>
-                                <span id="submitted_by_newError" class="error-msg" ></span>
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
+                                <input id="value_old" type="hidden" name="value_old"  >
+                                <label for="value_new">Submitted By</label>
+                                <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
                         <div class="row">
@@ -196,7 +196,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/submitted-by"
+                                        <a href="<%=request.getContextPath()%>/submitted"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -220,7 +220,7 @@
  <!-- footer  -->
 <%--   <jsp:include page="../layout/footer.jsp"></jsp:include>  --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="submitted_by" id="submitted_by" />
+    	<input type="hidden" name="design_status_submit" id="design_status_submit" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -234,7 +234,7 @@
         $(document).ready(function () {
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
-			var table = $('#submitted_by_table').DataTable({
+			var table = $('#design_status_submit_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -276,12 +276,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#submitted_byError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#design_status_submitError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#submitted_byError').text('');
+     			   $('#design_status_submitError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -295,7 +295,7 @@
      	   var value = value.trim();
      	   var validate = $('.findLengths').length;
      	   var count  = 0;
-     	   var valueOld = $('#submitted_by_old').val();
+     	   var valueOld = $('#value_old').val();
      	   var ek = $('.findLengths').map((_,el) => el.value).get();
      	   value = value.toLowerCase();
      	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
@@ -304,12 +304,12 @@
      		   var findVal = ek[count];
      		   if(findVal != null){ findVal = findVal.toLowerCase();}
      		   if(findVal == value){
-     			   $('#submitted_by_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttnUpdate').prop('disabled', true);
      			   updateFlag = false;
      			   return false;
      		   }else{
-     			   $('#submitted_by_newError').text('');
+     			   $('#value_newError').text('');
      			   $('#bttnUpdate').prop('disabled', false);
      			   updateFlag = true;
      		   }
@@ -319,7 +319,7 @@
         }
         
         function removeErrorMsg(){
-   		 $('#submitted_by_newError').text('');
+   		 $('#value_newError').text('');
    		 $('#bttnUpdate').prop('disabled', false);
    		 updateFlag = true;
    		}
@@ -350,33 +350,33 @@
       
        var validator = $('#addSubmittedByForm').validate({
       	 rules: {
-      		 	"submitted_by": {
+      		 	"design_status_submit": {
   			 		  required: true
       			 }
   			},messages: {
-  		 		 "submitted_by": {
+  		 		 "design_status_submit": {
   			 		  required: 'Required'
   			 	 }
   	        },errorPlacement:function(error, element){
-  	        	 if(element.attr("id") == "submitted_by_text" ){
-  				     document.getElementById("submitted_byError").innerHTML="";
-  			 	     error.appendTo('#submitted_byError');
+  	        	 if(element.attr("id") == "design_status_submit_text" ){
+  				     document.getElementById("design_status_submitError").innerHTML="";
+  			 	     error.appendTo('#design_status_submitError');
   			   }
   	        }
        });
        var validator1 = $('#updateSubmittedByForm').validate({
         	 rules: {
-        		 	"submitted_by_new": {
+        		 	"value_new": {
     			 		  required: true
         			 }
     			},messages: {
-    		 		 "submitted_by_new": {
+    		 		 "value_new": {
     			 		  required: 'Required'
     			 	 }
     	        },errorPlacement:function(error, element){
-    	        	 if(element.attr("id") == "submitted_by_new" ){
-    				     document.getElementById("submitted_by_newError").innerHTML="";
-    			 	     error.appendTo('#submitted_by_newError');
+    	        	 if(element.attr("id") == "value_new" ){
+    				     document.getElementById("value_newError").innerHTML="";
+    			 	     error.appendTo('#value_newError');
     			   }
     	        }
          });
@@ -388,14 +388,14 @@
   	   });
        
        function updateRow(no) {
-           var submitted_by = $('#submitted_byId'+no).val();
-           $('#submitted_by_old').val($.trim(submitted_by))
+           var design_status_submit = $('#design_status_submitId'+no).val();
+           $('#value_old').val($.trim(design_status_submit))
            $('#onlyUpdateModal').modal('open');
-           $('#onlyUpdateModal #submitted_by_new').val($.trim(submitted_by)).focus();
+           $('#onlyUpdateModal #value_new').val($.trim(design_status_submit)).focus();
        }
        
        function deleteRow(val){
-       	$("#submitted_by").val(val);
+       	$("#design_status_submit").val(val);
        	showCancelMessage();
   	    }
        	
@@ -415,7 +415,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-submitted-by');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-submitted');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

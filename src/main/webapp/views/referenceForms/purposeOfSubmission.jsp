@@ -53,29 +53,29 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="purpose_of_submission_table" class="mdl-data-table">
+                                <table id="submission_purpose_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>Purpose of Submission</th>
-                                            <c:forEach var="tObj" items="${PurposeOfSubmissionDetails.tablesList}" >
+                                            <c:forEach var="tObj" items="${purposeOfSubmissionDetails.tablesList}" >
                                             	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${PurposeOfSubmissionDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${purposeOfSubmissionDetails.dList1}" varStatus="indexs">
 											<tr><td>
-											<input type="hidden" id="purpose_of_submissionId${indexs.count}" value="${obj.purpose_of_submission }" class="findLengths"/>
-											${obj.purpose_of_submission }</td>
-											<c:forEach var="tObj" items="${PurposeOfSubmissionDetails.tablesList}" varStatus="index">
+											<input type="hidden" id="submission_purposeId${indexs.count}" value="${obj.submission_purpose }" class="findLengths"/>
+											${obj.submission_purpose }</td>
+											<c:forEach var="tObj" items="${purposeOfSubmissionDetails.tablesList}" varStatus="index">
 											 
-												<td><c:forEach var="cObj" items="${PurposeOfSubmissionDetails.countList}" >
+												<td><c:forEach var="cObj" items="${purposeOfSubmissionDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.purpose_of_submission eq obj.purpose_of_submission }"> 
+																    <c:when test="${cObj.submission_purpose eq obj.submission_purpose }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -88,11 +88,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c  "> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${PurposeOfSubmissionDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${purposeOfSubmissionDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.purpose_of_submission eq obj.purpose_of_submission }"> 
-												      	<a onclick="deleteRow('${ oSbj.purpose_of_submission }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.submission_purpose eq obj.submission_purpose }"> 
+												      	<a onclick="deleteRow('${ oSbj.submission_purpose }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -138,9 +138,9 @@
                     <div class="col m8 s12 offset-m2">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="purpose_of_submission_text" type="text" name="purpose_of_submission" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="purpose_of_submission_text">Purpose of Submission</label>
-                                <span id="purpose_of_submissionError" class="error-msg" ></span>
+                                <input id="submission_purpose_text" type="text" name="submission_purpose" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="submission_purpose_text">Purpose of Submission</label>
+                                <span id="submission_purposeError" class="error-msg" ></span>
                               </div>
                         </div>
                         <div class="row">
@@ -177,10 +177,10 @@
                     <div class="col m8 s12 offset-m2">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="purpose_of_submission_new" type="text" name="purpose_of_submission_new" class="validate" onkeyup="doValidateUpdate(this.value)">
-                                <input id="purpose_of_submission_old" type="hidden" name="purpose_of_submission_old"  >
-                                <label for="purpose_of_submission_new">Purpose of Submission</label>
-                                <span id="purpose_of_submission_newError" class="error-msg" ></span>
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
+                                <input id="value_old" type="hidden" name="value_old"  >
+                                <label for="value_new">Purpose of Submission</label>
+                                <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
                         <div class="row">
@@ -219,7 +219,7 @@
  <!-- footer  -->
 <%--   <jsp:include page="../layout/footer.jsp"></jsp:include>  --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="purpose_of_submission" id="purpose_of_submission" />
+    	<input type="hidden" name="submission_purpose" id="submission_purpose" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -233,7 +233,7 @@
         $(document).ready(function () {
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
-			var table = $('#purpose_of_submission_table').DataTable({
+			var table = $('#submission_purpose_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -275,12 +275,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#purpose_of_submissionError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#submission_purposeError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#purpose_of_submissionError').text('');
+     			   $('#submission_purposeError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -294,7 +294,7 @@
      	   var value = value.trim();
      	   var validate = $('.findLengths').length;
      	   var count  = 0;
-     	   var valueOld = $('#purpose_of_submission_old').val();
+     	   var valueOld = $('#value_old').val();
      	   var ek = $('.findLengths').map((_,el) => el.value).get();
      	   value = value.toLowerCase();
      	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
@@ -303,12 +303,12 @@
      		   var findVal = ek[count];
      		   if(findVal != null){ findVal = findVal.toLowerCase();}
      		   if(findVal == value){
-     			   $('#purpose_of_submission_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttnUpdate').prop('disabled', true);
      			   updateFlag = false;
      			   return false;
      		   }else{
-     			   $('#purpose_of_submission_newError').text('');
+     			   $('#value_newError').text('');
      			   $('#bttnUpdate').prop('disabled', false);
      			   updateFlag = true;
      		   }
@@ -318,7 +318,7 @@
         }
         
         function removeErrorMsg(){
-   		 $('#purpose_of_submission_newError').text('');
+   		 $('#value_newError').text('');
    		 $('#bttnUpdate').prop('disabled', false);
    		 updateFlag = true;
    		}
@@ -349,33 +349,33 @@
       
        var validator = $('#addPurposeOfSubmissionForm').validate({
       	 rules: {
-      		 	"purpose_of_submission": {
+      		 	"submission_purpose": {
   			 		  required: true
       			 }
   			},messages: {
-  		 		 "purpose_of_submission": {
+  		 		 "submission_purpose": {
   			 		  required: 'Required'
   			 	 }
   	        },errorPlacement:function(error, element){
-  	        	 if(element.attr("id") == "purpose_of_submission_text" ){
-  				     document.getElementById("purpose_of_submissionError").innerHTML="";
-  			 	     error.appendTo('#purpose_of_submissionError');
+  	        	 if(element.attr("id") == "submission_purpose_text" ){
+  				     document.getElementById("submission_purposeError").innerHTML="";
+  			 	     error.appendTo('#submission_purposeError');
   			   }
   	        }
        });
        var validator1 = $('#updatePurposeOfSubmissionForm').validate({
         	 rules: {
-        		 	"purpose_of_submission_new": {
+        		 	"value_new": {
     			 		  required: true
         			 }
     			},messages: {
-    		 		 "purpose_of_submission_new": {
+    		 		 "value_new": {
     			 		  required: 'Required'
     			 	 }
     	        },errorPlacement:function(error, element){
-    	        	 if(element.attr("id") == "purpose_of_submission_new" ){
-    				     document.getElementById("purpose_of_submission_newError").innerHTML="";
-    			 	     error.appendTo('#purpose_of_submission_newError');
+    	        	 if(element.attr("id") == "value_new" ){
+    				     document.getElementById("value_newError").innerHTML="";
+    			 	     error.appendTo('#value_newError');
     			   }
     	        }
          });
@@ -387,14 +387,14 @@
   	   });
        
        function updateRow(no) {
-           var purpose_of_submission = $('#purpose_of_submissionId'+no).val();
-           $('#purpose_of_submission_old').val($.trim(purpose_of_submission))
+           var submission_purpose = $('#submission_purposeId'+no).val();
+           $('#value_old').val($.trim(submission_purpose))
            $('#onlyUpdateModal').modal('open');
-           $('#onlyUpdateModal #purpose_of_submission_new').val($.trim(purpose_of_submission)).focus();
+           $('#onlyUpdateModal #value_new').val($.trim(submission_purpose)).focus();
        }
        
        function deleteRow(val){
-       	$("#purpose_of_submission").val(val);
+       	$("#submission_purpose").val(val);
        	showCancelMessage();
   	    }
        	

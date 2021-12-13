@@ -180,10 +180,10 @@
                     <div class="col m8 s12 offset-m2">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="approval_authority_new" type="text" name="approval_authority_new" class="validate" onkeyup="doValidateUpdate(this.value)">
-                                <input id="approval_authority_old" type="hidden" name="approval_authority_old"  >
-                                <label for="approval_authority_new">Approval Authority</label>
-                                <span id="approval_authority_newError" class="error-msg" ></span>
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
+                                <input id="value_old" type="hidden" name="value_old"  >
+                                <label for="value_new">Approval Authority</label>
+                                <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
                         <div class="row">
@@ -297,7 +297,7 @@
      	   var value = value.trim();
      	   var validate = $('.findLengths').length;
      	   var count  = 0;
-     	   var valueOld = $('#approval_authority_old').val();
+     	   var valueOld = $('#value_old').val();
      	   var ek = $('.findLengths').map((_,el) => el.value).get();
      	   value = value.toLowerCase();
      	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
@@ -306,12 +306,12 @@
      		   var findVal = ek[count];
      		   if(findVal != null){ findVal = findVal.toLowerCase();}
      		   if(findVal == value){
-     			   $('#approval_authority_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttnUpdate').prop('disabled', true);
      			   updateFlag = false;
      			   return false;
      		   }else{
-     			   $('#approval_authority_newError').text('');
+     			   $('#value_newError').text('');
      			   $('#bttnUpdate').prop('disabled', false);
      			   updateFlag = true;
      		   }
@@ -321,7 +321,7 @@
         }
         
         function removeErrorMsg(){
-   		 $('#approval_authority_newError').text('');
+   		 $('#value_newError').text('');
    		 $('#bttnUpdate').prop('disabled', false);
    		 updateFlag = true;
    		}
@@ -368,17 +368,17 @@
        });
        var validator1 = $('#updateapprovalAuthorityForm').validate({
         	 rules: {
-        		 	"approval_authority_new": {
+        		 	"value_new": {
     			 		  required: true
         			 }
     			},messages: {
-    		 		 "approval_authority_new": {
+    		 		 "value_new": {
     			 		  required: 'Required'
     			 	 }
     	        },errorPlacement:function(error, element){
-    	        	 if(element.attr("id") == "approval_authority_new" ){
-    				     document.getElementById("approval_authority_newError").innerHTML="";
-    			 	     error.appendTo('#approval_authority_newError');
+    	        	 if(element.attr("id") == "value_new" ){
+    				     document.getElementById("value_newError").innerHTML="";
+    			 	     error.appendTo('#value_newError');
     			   }
     	        }
          });
@@ -391,9 +391,9 @@
        
        function updateRow(no) {
            var approval_authority = $('#approval_authorityId'+no).val();
-           $('#approval_authority_old').val($.trim(approval_authority))
+           $('#value_old').val($.trim(approval_authority))
            $('#onlyUpdateModal').modal('open');
-           $('#onlyUpdateModal #approval_authority_new').val($.trim(approval_authority)).focus();
+           $('#onlyUpdateModal #value_new').val($.trim(approval_authority)).focus();
        }
        
        function deleteRow(val){

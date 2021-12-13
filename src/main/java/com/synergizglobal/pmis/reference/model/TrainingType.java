@@ -9,9 +9,9 @@ public class TrainingType {
 	
 	private String training_type,binary,dashboard_type,id, la_sub_category,bg_type_old,bg_type_fk, la_category_fk,la_category,contractor_specialization,user_role_name,bg_type,status,contract_type,department,deliverable_type, department_name, contract_id_code,document_type, user_role_code,user_access_type,soft_delete_status,source_of_funds, user_access_table,requirement_stage,unit_type,execution_agency,old_training_type,new_training_type,insurance_type,training_status,training_category,drawing_type,utility_type;
 
-	private String Table_name,column_name,constraint_name,user_name,resource_type,area_short_name,area_short_name_new,referenced_table_name,risk_work_completed,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
+	private String Table_name,column_name,constraint_name,user_name,approval_authority,resource_type,area_short_name,area_short_name_new,referenced_table_name,risk_work_completed,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
 	
-	private String structure_file_type,department_new,department_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
+	private String structure_file_type,design_file_type,department_new,stage,department_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
 	,contractor_specialization_new,contract_type_old,contract_type_new,dashboard_type_old,dashboard_type_new,status_old,status_new,deliverable_type_old,
 	deliverable_type_new,document_type_old,document_type_new,value_old,value_new,general_status,execution_status,category,priority,status_of_new,status_of,manual_folders,module_name,module_incharge,incharge_user_id_fk
 	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
@@ -21,10 +21,52 @@ public class TrainingType {
 	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year,
 	risk_work_hod_id, work_id_fk, hod_user_id_fk,designation,work_short_name,work_id_fk_new,hod_user_id_fk_new,sub_work,sub_work_new,
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
-	, template_name, attachment,captiliszedTableName, resource_type_fk, sub_resource_type, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name;
+	, template_name, attachment,captiliszedTableName, resource_type_fk,submission_purpose,design_status_submit, sub_resource_type, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name;
     
 	List<TrainingType> tableHistoryList;
 	List<TrainingType> subResourceDeatails;
+	
+	
+	public String getSubmission_purpose() {
+		return submission_purpose;
+	}
+
+	public void setSubmission_purpose(String submission_purpose) {
+		this.submission_purpose = submission_purpose;
+	}
+
+	public String getDesign_file_type() {
+		return design_file_type;
+	}
+
+	public void setDesign_file_type(String design_file_type) {
+		this.design_file_type = design_file_type;
+	}
+
+	public String getDesign_status_submit() {
+		return design_status_submit;
+	}
+
+	public void setDesign_status_submit(String design_status_submit) {
+		this.design_status_submit = design_status_submit;
+	}
+
+	public String getStage() {
+		return stage;
+	}
+
+	public void setStage(String stage) {
+		this.stage = stage;
+	}
+
+	public String getApproval_authority() {
+		return approval_authority;
+	}
+
+	public void setApproval_authority(String approval_authority) {
+		this.approval_authority = approval_authority;
+	}
+
 	public String getStructure_file_type() {
 		return structure_file_type;
 	}

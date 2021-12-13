@@ -53,29 +53,29 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="drawing_file_type_table" class="mdl-data-table">
+                                <table id="design_file_type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>Drawing File Type</th>
-                                            <c:forEach var="tObj" items="${DrawingFileTypeDetails.tablesList}" >
+                                            <c:forEach var="tObj" items="${designFileTypeDetails.tablesList}" >
                                             	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${DrawingFileTypeDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${designFileTypeDetails.dList1}" varStatus="indexs">
 											<tr><td>
-											<input type="hidden" id="drawing_file_typeId${indexs.count}" value="${obj.drawing_file_type }" class="findLengths"/>
-											${obj.drawing_file_type }</td>
-											<c:forEach var="tObj" items="${DrawingFileTypeDetails.tablesList}" varStatus="index">
+											<input type="hidden" id="design_file_typeId${indexs.count}" value="${obj.design_file_type }" class="findLengths"/>
+											${obj.design_file_type }</td>
+											<c:forEach var="tObj" items="${designFileTypeDetails.tablesList}" varStatus="index">
 											 
-												<td><c:forEach var="cObj" items="${DrawingFileTypeDetails.countList}" >
+												<td><c:forEach var="cObj" items="${designFileTypeDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.drawing_file_type eq obj.drawing_file_type }"> 
+																    <c:when test="${cObj.design_file_type eq obj.design_file_type }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -88,11 +88,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c  "> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${DrawingFileTypeDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${designFileTypeDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.drawing_file_type eq obj.drawing_file_type }"> 
-												      	<a onclick="deleteRow('${ oSbj.drawing_file_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.design_file_type eq obj.design_file_type }"> 
+												      	<a onclick="deleteRow('${ oSbj.design_file_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -130,7 +130,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-drawing-file-type" id="addDrawingFileTypeForm" name="addDrawingFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-design-file-type" id="addDrawingFileTypeForm" name="addDrawingFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h4 class="modal-header">Add Drawing File Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h4>
@@ -138,9 +138,9 @@
                     <div class="col m8 s12 offset-m2">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="drawing_file_type_text" type="text" name="drawing_file_type" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="drawing_file_type_text">Drawing File Type</label>
-                                <span id="drawing_file_typeError" class="error-msg" ></span>
+                                <input id="design_file_type_text" type="text" name="design_file_type" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="design_file_type_text">Drawing File Type</label>
+                                <span id="design_file_typeError" class="error-msg" ></span>
                               </div>
                         </div>
                         <div class="row">
@@ -155,7 +155,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/drawing-file-type"
+                                        <a href="<%=request.getContextPath()%>/design-file-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-drawing-file-type" id=updateDrawingFileTypeForm name="updateDrawingFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-design-file-type" id=updateDrawingFileTypeForm name="updateDrawingFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Drawing File Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
@@ -177,10 +177,10 @@
                     <div class="col m8 s12 offset-m2">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="drawing_file_type_new" type="text" name="drawing_file_type_new" class="validate" onkeyup="doValidateUpdate(this.value)">
-                                <input id="drawing_file_type_old" type="hidden" name="drawing_file_type_old"  >
-                                <label for="drawing_file_type_new">Drawing File Type</label>
-                                <span id="drawing_file_type_newError" class="error-msg" ></span>
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
+                                <input id="value_old" type="hidden" name="value_old"  >
+                                <label for="value_new">Drawing File Type</label>
+                                <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
                         <div class="row">
@@ -195,7 +195,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/drawing-file-type"
+                                        <a href="<%=request.getContextPath()%>/design-file-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@
  <!-- footer  -->
 <%--   <jsp:include page="../layout/footer.jsp"></jsp:include>  --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="drawing_file_type" id="drawing_file_type" />
+    	<input type="hidden" name="design_file_type" id="design_file_type" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -233,7 +233,7 @@
         $(document).ready(function () {
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
-			var table = $('#drawing_file_type_table').DataTable({
+			var table = $('#design_file_type_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -275,12 +275,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#drawing_file_typeError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#design_file_typeError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#drawing_file_typeError').text('');
+     			   $('#design_file_typeError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -294,7 +294,7 @@
      	   var value = value.trim();
      	   var validate = $('.findLengths').length;
      	   var count  = 0;
-     	   var valueOld = $('#drawing_file_type_old').val();
+     	   var valueOld = $('#value_old').val();
      	   var ek = $('.findLengths').map((_,el) => el.value).get();
      	   value = value.toLowerCase();
      	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
@@ -303,12 +303,12 @@
      		   var findVal = ek[count];
      		   if(findVal != null){ findVal = findVal.toLowerCase();}
      		   if(findVal == value){
-     			   $('#drawing_file_type_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttnUpdate').prop('disabled', true);
      			   updateFlag = false;
      			   return false;
      		   }else{
-     			   $('#drawing_file_type_newError').text('');
+     			   $('#value_newError').text('');
      			   $('#bttnUpdate').prop('disabled', false);
      			   updateFlag = true;
      		   }
@@ -318,7 +318,7 @@
         }
         
         function removeErrorMsg(){
-   		 $('#drawing_file_type_newError').text('');
+   		 $('#value_newError').text('');
    		 $('#bttnUpdate').prop('disabled', false);
    		 updateFlag = true;
    		}
@@ -349,33 +349,33 @@
       
        var validator = $('#addDrawingFileTypeForm').validate({
       	 rules: {
-      		 	"drawing_file_type": {
+      		 	"design_file_type": {
   			 		  required: true
       			 }
   			},messages: {
-  		 		 "drawing_file_type": {
+  		 		 "design_file_type": {
   			 		  required: 'Required'
   			 	 }
   	        },errorPlacement:function(error, element){
-  	        	 if(element.attr("id") == "drawing_file_type_text" ){
-  				     document.getElementById("drawing_file_typeError").innerHTML="";
-  			 	     error.appendTo('#drawing_file_typeError');
+  	        	 if(element.attr("id") == "design_file_type_text" ){
+  				     document.getElementById("design_file_typeError").innerHTML="";
+  			 	     error.appendTo('#design_file_typeError');
   			   }
   	        }
        });
        var validator1 = $('#updateDrawingFileTypeForm').validate({
         	 rules: {
-        		 	"drawing_file_type_new": {
+        		 	"value_new": {
     			 		  required: true
         			 }
     			},messages: {
-    		 		 "drawing_file_type_new": {
+    		 		 "value_new": {
     			 		  required: 'Required'
     			 	 }
     	        },errorPlacement:function(error, element){
-    	        	 if(element.attr("id") == "drawing_file_type_new" ){
-    				     document.getElementById("drawing_file_type_newError").innerHTML="";
-    			 	     error.appendTo('#drawing_file_type_newError');
+    	        	 if(element.attr("id") == "value_new" ){
+    				     document.getElementById("value_newError").innerHTML="";
+    			 	     error.appendTo('#value_newError');
     			   }
     	        }
          });
@@ -387,14 +387,14 @@
   	   });
        
        function updateRow(no) {
-           var drawing_file_type = $('#drawing_file_typeId'+no).val();
-           $('#drawing_file_type_old').val($.trim(drawing_file_type))
+           var design_file_type = $('#design_file_typeId'+no).val();
+           $('#value_old').val($.trim(design_file_type))
            $('#onlyUpdateModal').modal('open');
-           $('#onlyUpdateModal #drawing_file_type_new').val($.trim(drawing_file_type)).focus();
+           $('#onlyUpdateModal #value_new').val($.trim(design_file_type)).focus();
        }
        
        function deleteRow(val){
-       	$("#drawing_file_type").val(val);
+       	$("#design_file_type").val(val);
        	showCancelMessage();
   	    }
        	
@@ -414,7 +414,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-drawing-file-type');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-design-file-type');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

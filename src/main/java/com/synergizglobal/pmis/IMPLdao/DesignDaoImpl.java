@@ -748,8 +748,7 @@ public class DesignDaoImpl implements DesignDao{
 							String file_insert_qry = "INSERT into  design_files ( design_id_fk,design_file_type_fk,name, attachment) VALUES (:design_id,:design_file_type_fk,:name,:attachment)";
 							MultipartFile designFiles = obj.getDesignDocumentFiles()[i];
 							if (((null != designFiles && !designFiles.isEmpty()) || !StringUtils.isEmpty(obj.getDesignDocumentFileNames())) && !StringUtils.isEmpty(obj.getDesign_file_typess().length > 0)
-									&& !StringUtils.isEmpty(obj.getDesignDocumentNames())
-									&& !StringUtils.isEmpty(obj.getDesignDocumentFileNames()[i]))  {
+									&& !StringUtils.isEmpty(obj.getDesignDocumentNames()))  {
 									String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
 									String fileName = designFiles.getOriginalFilename();
 									DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 

@@ -8,13 +8,11 @@ import com.synergizglobal.pmis.model.User;
 
 public interface LoginService {
 
-	public User validateUser(User user) throws SQLException,NoKeyException;
+	public User validateUser(User user, String single_login_session_id) throws SQLException,NoKeyException;
 	
 	public String changePassword(User user) throws Exception;
 
 	public boolean addUserLogoutDateTime(User uObj) throws SQLException;
-
-	public boolean updateSingleLoginSessionId(String single_login_session_id, String user_id) throws SQLException;
 
 	public boolean logoutFromAllDevices(User obj) throws SQLException;
 

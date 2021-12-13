@@ -25,8 +25,8 @@ public class LoginServiceImpl implements LoginService {
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public User validateUser(User user) throws SQLException,NoKeyException {
-		return loginDao.validateUser(user);
+	public User validateUser(User user, String single_login_session_id) throws SQLException,NoKeyException {
+		return loginDao.validateUser(user,single_login_session_id);
 	}
 	
 	/**
@@ -44,11 +44,6 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public boolean addUserLogoutDateTime(User uObj) throws SQLException {
 		return loginDao.addUserLogoutDateTime(uObj);
-	}
-
-	@Override
-	public boolean updateSingleLoginSessionId(String single_login_session_id, String user_id) throws SQLException {
-		return loginDao.updateSingleLoginSessionId(single_login_session_id,user_id);
 	}
 
 	@Override

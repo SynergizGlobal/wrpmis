@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.LoginDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.RandomGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
 import com.synergizglobal.pmis.model.User;
@@ -36,7 +37,7 @@ public class LoginDaoImpl implements LoginDao{
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public User validateUser(User user) throws SQLException,NoKeyException {
+	public User validateUser(User user,String single_login_session_id) throws SQLException,NoKeyException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -78,7 +79,17 @@ public class LoginDaoImpl implements LoginDao{
 				userDetails.setRemarks(rs.getString("remarks"));
 				userDetails.setUser_image(rs.getString("user_image"));
 				userDetails.setUser_type_fk(rs.getString("user_type_fk"));
-				userDetails.setSingle_login_session_id(rs.getString("single_login_session_id"));
+				String login_session_id = rs.getString("single_login_session_id");
+				
+				if(!StringUtils.isEmpty(login_session_id) && !login_session_id.equals(single_login_session_id)) {	
+					login_session_id = RandomGenerator.generateAlphaNumericRandom(45); 
+					updateSingleLoginSessionId(login_session_id,userDetails.getUser_id(),con);
+				}else if(StringUtils.isEmpty(login_session_id)) {
+					login_session_id = RandomGenerator.generateAlphaNumericRandom(45); 
+					updateSingleLoginSessionId(login_session_id,userDetails.getUser_id(),con);
+				}
+
+				userDetails.setSingle_login_session_id(login_session_id);
 				
 				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk"))) {
 					userDetails.setSystem_ipa(user.getSystem_ipa());
@@ -239,15 +250,11 @@ public class LoginDaoImpl implements LoginDao{
 		return flag;
 	}
 
-	@Override
-	public boolean updateSingleLoginSessionId(String single_login_session_id, String user_id) throws SQLException {
-		Connection con = null;
+	public boolean updateSingleLoginSessionId(String single_login_session_id, String user_id, Connection con) throws SQLException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		boolean flag = false;
 		try{  
-			con = dataSource.getConnection();
-			
 			String updateQry = "UPDATE user set single_login_session_id = ? WHERE user_id = ?";
 			stmt = con.prepareStatement(updateQry);
 			stmt.setString(1, single_login_session_id);
@@ -259,7 +266,7 @@ public class LoginDaoImpl implements LoginDao{
 		}catch(Exception e){ 
 			throw new SQLException(e.getMessage());
 		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
 		return flag;
 	}

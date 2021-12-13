@@ -1,15 +1,8 @@
 package com.synergizglobal.pmis.controller;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,7 +16,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,18 +30,12 @@ import com.synergizglobal.pmis.Iservice.UserService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.common.RandomGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
-import com.synergizglobal.pmis.model.Contract;
-import com.synergizglobal.pmis.model.FOB;
-import com.synergizglobal.pmis.model.FOBGallery;
 import com.synergizglobal.pmis.model.Form;
 import com.synergizglobal.pmis.model.User;
-import com.synergizglobal.pmis.model.UserActivityReport;
 @Controller
 public class LoginController {
 	
@@ -114,53 +100,20 @@ public class LoginController {
 			
 			String single_login_session_id = (String) session.getAttribute("SINGLE_LOGIN_SESSION_ID");
 			if(!StringUtils.isEmpty(user.getUser_id()) && !StringUtils.isEmpty(user.getPassword())){
-				userDetails = loginService.validateUser(user);
+				userDetails = loginService.validateUser(user,single_login_session_id);
 				if(!StringUtils.isEmpty(userDetails)) {
-					if(!StringUtils.isEmpty(userDetails.getSingle_login_session_id()) && !StringUtils.isEmpty(single_login_session_id) && userDetails.getSingle_login_session_id().equals(single_login_session_id)) {
-						model.setViewName("redirect:/home");
-						session.setAttribute("user", userDetails);
-						session.setAttribute("USER_ID", userDetails.getUser_id());
-						session.setAttribute("USER_NAME", userDetails.getUser_name());
-						session.setAttribute("USER_ROLE_NAME", userDetails.getUser_role_name_fk());
-						session.setAttribute("USER_ROLE_CODE", userDetails.getUser_role_code());
-						session.setAttribute("USER_TYPE", userDetails.getUser_type_fk());
-						session.setAttribute("USER_DESIGNATION", userDetails.getDesignation());
-						session.setAttribute("USER_LOGIN_DETAILS_ID", userDetails.getUser_login_details_id());
-					}else if(!StringUtils.isEmpty(userDetails.getSingle_login_session_id()) && !userDetails.getSingle_login_session_id().equals(single_login_session_id)) {	
-						model.setViewName("redirect:/home");
-						session.setAttribute("user", userDetails);
-						session.setAttribute("USER_ID", userDetails.getUser_id());
-						session.setAttribute("USER_NAME", userDetails.getUser_name());
-						session.setAttribute("USER_ROLE_NAME", userDetails.getUser_role_name_fk());
-						session.setAttribute("USER_ROLE_CODE", userDetails.getUser_role_code());
-						session.setAttribute("USER_TYPE", userDetails.getUser_type_fk());
-						session.setAttribute("USER_DESIGNATION", userDetails.getDesignation());
-						
-						session.setAttribute("USER_LOGIN_DETAILS_ID", userDetails.getUser_login_details_id());
-						
-						single_login_session_id = RandomGenerator.generateAlphaNumericRandom(45); 
-						boolean flag = loginService.updateSingleLoginSessionId(single_login_session_id,userDetails.getUser_id());
-						if(flag) {
-							session.setAttribute("SINGLE_LOGIN_SESSION_ID", single_login_session_id);
-						}
-						
-					}else if(StringUtils.isEmpty(userDetails.getSingle_login_session_id())) {
-						model.setViewName("redirect:/home");
-						
-						session.setAttribute("user", userDetails);
-						session.setAttribute("USER_ID", userDetails.getUser_id());
-						session.setAttribute("USER_NAME", userDetails.getUser_name());
-						session.setAttribute("USER_ROLE_NAME", userDetails.getUser_role_name_fk());
-						session.setAttribute("USER_ROLE_CODE", userDetails.getUser_role_code());
-						session.setAttribute("USER_TYPE", userDetails.getUser_type_fk());
-						session.setAttribute("USER_DESIGNATION", userDetails.getDesignation());
-						
-						single_login_session_id = RandomGenerator.generateAlphaNumericRandom(45); 
-						boolean flag = loginService.updateSingleLoginSessionId(single_login_session_id,userDetails.getUser_id());
-						if(flag) {
-							session.setAttribute("SINGLE_LOGIN_SESSION_ID", single_login_session_id);
-						}
-					}
+					model.setViewName("redirect:/home");
+					session.setAttribute("user", userDetails);
+					session.setAttribute("USER_ID", userDetails.getUser_id());
+					session.setAttribute("USER_NAME", userDetails.getUser_name());
+					session.setAttribute("USER_ROLE_NAME", userDetails.getUser_role_name_fk());
+					session.setAttribute("USER_ROLE_CODE", userDetails.getUser_role_code());
+					session.setAttribute("USER_TYPE", userDetails.getUser_type_fk());
+					session.setAttribute("USER_DESIGNATION", userDetails.getDesignation());
+					
+					session.setAttribute("USER_LOGIN_DETAILS_ID", userDetails.getUser_login_details_id());
+
+					session.setAttribute("SINGLE_LOGIN_SESSION_ID", userDetails.getSingle_login_session_id());
 				}else{
 					model.addObject("message", invalidUserName);
 					model.setViewName(PageConstants.login);
@@ -194,11 +147,11 @@ public class LoginController {
 			
 			User userDetails = (User)session.getAttribute("user");
 			
-			boolean flag1 = loginService.addUserLogoutDateTime(userDetails);
+			boolean flag = loginService.addUserLogoutDateTime(userDetails);
 			
 			session.invalidate(); 
 			
-			boolean flag = loginService.logoutFromAllDevices(userDetails);
+			flag = loginService.logoutFromAllDevices(userDetails);
 			
 			model.addObject("success",logOutMessage);
 		} catch (Exception e) {

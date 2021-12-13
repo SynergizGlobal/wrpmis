@@ -70,27 +70,47 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 					&& !requestURI.equals("/pmis/access-denied") && !request.getRequestURI().equals("/access-denied")){
 			    User userData = (User) request.getSession().getAttribute("user");
 			    if(userData == null){
-			    	String URL = "/pmis/login";
 			    	if(request.getRequestURI().contains("/pmis/")){
-			    		response.sendRedirect(URL);
+			    		response.sendRedirect("/pmis/login");
 			    	}else{
 			    		response.sendRedirect("/login");
 			    	}
 				    return false;
-				} /*else {
-					boolean flag = service.checkURLAccessPermission(userData,requestURI);
-					if(flag) {
-						return true;
-					}else {
-						String URL = "/pmis/access-denied";
-					   	if(requestURI.contains("/pmis/")){
-					   		response.sendRedirect(URL);
-					   	}else{
-					   		response.sendRedirect("/access-denied");
-					   	}
+				} else {
+					/************************************************************************************************/
+					String single_login_session_id = (String)request.getSession().getAttribute("SINGLE_LOGIN_SESSION_ID");
+					String single_session_id = loginService.getSingleLoginSessionId(userData);
+					if(!StringUtils.isEmpty(single_login_session_id) && StringUtils.isEmpty(single_session_id)){
+						request.getSession().invalidate();
+						if(request.getRequestURI().contains("/pmis/")){
+				    		response.sendRedirect("/pmis/login");
+				    	}else{
+				    		response.sendRedirect("/login");
+				    	}
 						return false;
+					}else if(!StringUtils.isEmpty(single_login_session_id) && !single_login_session_id.equals(single_session_id)){
+						request.getSession().invalidate();
+						if(request.getRequestURI().contains("/pmis/")){
+				    		response.sendRedirect("/pmis/someone-login");
+				    	}else{
+				    		response.sendRedirect("/someone-login");
+				    	}
+						return false;
+					}else {
+						/*boolean flag = service.checkURLAccessPermission(userData,requestURI);
+						if(flag) {
+							return true;
+						}else {
+							if(requestURI.contains("/pmis/")){
+						   		response.sendRedirect("/pmis/access-denied");
+						   	}else{
+						   		response.sendRedirect("/access-denied");
+						   	}
+							return false;
+						}*/
 					}
-					}*/
+					/************************************************************************************************/
+				}
 			}
 		} catch (Exception e) {
 			logger.error("preHandle : " + e.getMessage());
@@ -104,21 +124,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
             HttpServletResponse response, Object handler,
             ModelAndView model) throws Exception {
 		try {
-			String requestURI = request.getRequestURI();
-			//System.out.println("requestURI : "+requestURI);
 			User userDetails = (User)request.getSession().getAttribute("user");
-			String single_login_session_id = (String)request.getSession().getAttribute("SINGLE_LOGIN_SESSION_ID");
-			
 			if(!StringUtils.isEmpty(userDetails)) {	
-				boolean flag = service.addUserLastActiveDateTime(userDetails);					
-				String single_session_id = loginService.getSingleLoginSessionId(userDetails);
-				if(!StringUtils.isEmpty(single_login_session_id) && StringUtils.isEmpty(single_session_id)){
-					request.getSession().invalidate();
-					model.setViewName("redirect:/login");
-				}else if(!StringUtils.isEmpty(single_login_session_id) && !single_login_session_id.equals(single_session_id)){
-					request.getSession().invalidate();
-					model.setViewName("redirect:/someone-login");
-				}
+				boolean flag = service.addUserLastActiveDateTime(userDetails);
 				
 				String base = "web";
 				
@@ -153,17 +161,11 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				List<Alerts> alertTypes = alertsService.getAlertTypes(aObj);
 				model.addObject("alertTypes", alertTypes);
 				
-				/*Map<String,List<Alerts>> alerts = alertsService.getAlertsForHeaderNotifications(aObj);
-				model.addObject("alerts", alerts);*/
-				
 				Messages mObj = new Messages();
 				mObj.setUser_id_fk(userDetails.getUser_id());
 				
 				List<Messages> messageTypes = service.getMessageTypes(mObj);
 				model.addObject("messageTypes", messageTypes);
-				
-				/*List<Messages> messages = service.getMessages(mObj);
-				model.addObject("messages", messages);*/
 			}
 			UserManuals userManual = new UserManuals();
 			userManual.setStatus("Active");

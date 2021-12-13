@@ -88,7 +88,7 @@ public class RESTfullController {
 		try{
 			
 			if(!StringUtils.isEmpty(user.getUser_id()) && !StringUtils.isEmpty(user.getPassword())){
-				userDetails = loginService.validateUser(user);
+				userDetails = loginService.validateUser(user,null);
 				if(!StringUtils.isEmpty(userDetails)){ 
 					response.setSuccess(true);
 					response.setResult(userDetails);

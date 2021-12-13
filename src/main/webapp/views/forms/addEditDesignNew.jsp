@@ -133,7 +133,9 @@
 			    top: 0;
 			    right: 26px;
 			}			
-			
+			#revTable .select2-container{
+				width:-webkit-fill-available !important;
+			}
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td::before {
 			    vertical-align: middle;
 			}
@@ -237,7 +239,20 @@
         	max-width: 200px;
         	width:200px !important;
         }
+        .right.mob-center{
+			position:absolute;
+			right:3rem;
+		}
 		@media only screen and (max-width: 769px){
+			.right.mob-center{
+		    	position:relative;
+				right:inherit;
+				float: none !important;
+				display:block;
+				margin-left:auto;
+				margin-right:auto;
+				margin-top:5px;
+			}
 			.filevalue {
 			    width: 200%;
 			    white-space: break-spaces;
@@ -249,6 +264,9 @@
 				margin-top: -20px !important;
 	    		margin-bottom: -4px !important;
     		}
+		}
+		.pos-rel{
+			position:relative;
 		}
     </style>
 </head>
@@ -520,9 +538,18 @@
                       </div>
                             <!-- insurance show hide div  -->
                            <c:if test="${action eq 'edit'}"> 
-                           <div class="container container-no-margin">
+                            <div class="container container-no-margin"> 
                            	<div class="row fixed-width section scrollspy" id="statusDetails">
-                                <h5 class="center-align">Drawing Status</h5>
+                                <h5 class="center-align pos-rel">Drawing Status
+                                	<span class="right mob-center">
+                             			<p>
+									      <label>
+									        <input type="checkbox" class="filled-in" checked id="drawing_show_latest" name="drawing_show_latest"/>
+									        <span>Show Latest</span>
+									      </label>
+							   			</p>
+	                               	</span>
+                                </h5>
                                 <div class="table-inside">
                                     <table id="statusTable" class="mdl-data-table mobile_responsible_table">
                                     	<thead>
@@ -540,7 +567,7 @@
                                         <c:choose>
 	                                        <c:when test="${not empty designDetails.designStatusList && fn:length(designDetails.designStatusList) gt 0 }">
 	                                        	<c:forEach var="statObj" items="${designDetails.designStatusList }" varStatus="index">  
-		                                            <tr id="StatusRow${index.count }">   
+		                                            <tr id="StatusRow${index.count }" class="drawing-rows">   
 												        <td data-head="Stage" class="input-field">
 													        <select id="stage${index.count }" name="stage_fks" class="searchable validate-dropdown">
 						                                        <option value="" >Select</option>
@@ -585,7 +612,7 @@
 											    </c:forEach>
                                          	</c:when>
                                            	<c:otherwise>
-                                           		<tr id="StatusRow0">
+                                           		<tr id="StatusRow0" class="drawing-rows">
 											        <td data-head="Stage" class="input-field">
 												        <select id="stage0" name="stage_fks" class="searchable validate-dropdown">
 					                                        <option value="" >Select</option>	
@@ -622,6 +649,7 @@
 											        	<input id="submitted_date0" name="submitted_dates" type="text" class="validate datepicker" value="" placeholder="Submitted Date">
 			                                    		<button type="button" id="submitted_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											        </td>
+											        
 											        <td class="mobile_btn_close">
 	                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeStatusRow('${index.count }');"> <i
 	                                                            class="fa fa-close"></i></a>
@@ -654,9 +682,18 @@
                                     </c:choose> 
                                 </div>
                             </div>
-                           
+                            
                              <div class="row fixed-width section scrollspy" id="revisionDetails">
-                                <h5 class="center-align">Revision Details</h5>
+                                <h5 class="center-align pos-rel">Revision Details 
+                                	<span class="right mob-center">
+                             			<p>
+									      <label>
+									        <input type="checkbox" class="filled-in" checked id="rev_show_current" name="rev_show_current"/>
+									        <span>Show Current</span>
+									      </label>
+							   			</p>
+	                               	</span>
+	                             </h5>
                                 <div class="table-inside">
                                     <table id="revTable" class="mdl-data-table mobile_responsible_table">
                                         <thead>
@@ -674,7 +711,7 @@
                                         <c:choose>
 	                                        <c:when test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
 	                                        	<c:forEach var="revObj" items="${designDetails.designRevisions }" varStatus="index">  
-		                                            <tr id="revisionRow${index.count }">                                                
+		                                            <tr id="revisionRow${index.count }" class="revision-rows">                                                
 		                                                <td data-head="Revision" class="input-field">
 		                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate"
 		                                                        placeholder="Revision" value="${revObj.revision }">                                                        
@@ -717,7 +754,7 @@
 	                                           </c:forEach> 
                                            </c:when>
 	                                       <c:otherwise>
-	                                        	<tr id="revisionRow0">                                                
+	                                        	<tr id="revisionRow0" class="revision-rows">                                                
 	                                                <td data-head="Revision" class="input-field">
 	                                                    <input id="revisions0" name="revisions" type="text" class="validate"
 	                                                        placeholder="Revision">                                                        
@@ -1067,8 +1104,8 @@
 	    	if (document.getElementById(itemId).checked) {
 	    		$("#"+itemId+"s").val("Yes")
 	    	}
-	    });
-	    
+	    });	    
+	           
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
          	$('.searchable').select2();
@@ -1079,14 +1116,44 @@
             getHodList();
             getDyHodList();
 			
-           /*  $( ".revision_status_checkbox" ).each(function( index,val ) {
-            	var that=this;
-            	  console.log( index + ": " + $( that ).prop('checked') );
-            	  $(that).change(function() {
-                      if(that.checked) {
-                      }
-                  });
-            	}); */
+            //revision detail rows show hide based on show current 
+            $("#rev_show_current").click(function(){
+            	if($('input[name="rev_show_current"]').is(':checked')){
+              	  	$(".revision-rows").hide();
+              	  	$('.revision_status_checkbox[type="checkbox"]').each(function(){
+              	  		if($(this).is(':checked')){
+              	  			$('#revisionRow'+$(this).attr('id').split('_checkbox')[1]).show();
+              	  		}
+              	  	});
+              	}else{
+              		$(".revision-rows").show();
+              	}
+            });
+            if($('input[name="rev_show_current"]').is(':checked')){
+          	  	$(".revision-rows").hide();
+          	  	$('.revision_status_checkbox[type="checkbox"]').each(function(){
+        	  		if($(this).is(':checked')){
+        	  			$('#revisionRow'+$(this).attr('id').split('_checkbox')[1]).show();
+        	  		}
+        	  	});
+          	}else{
+          		$(".revision-rows").show();
+          	}
+            
+            $("#drawing_show_latest").click(function(){
+            	if($('input[name="drawing_show_latest"]').is(':checked')){
+              	  	$(".drawing-rows").hide();        	  		
+            	  	$('#StatusRow1').show();        	  	
+              	}else{
+              		$(".drawing-rows").show();
+              	}
+            });
+            if($('input[name="drawing_show_latest"]').is(':checked')){
+          	  	$(".drawing-rows").hide();        	  		
+        	  	$('#StatusRow1').show();        	  	
+          	}else{
+          		$(".drawing-rows").show();
+          	}
           
             
             $('input[name=is_there_issue]').change(function () {
@@ -1642,7 +1709,7 @@
 		
 		      var rowNo = $("#rowNo").val();
 		      var rNo = Number(rowNo)+1;
-		      var html ='<tr id="revisionRow'+rNo+'"> '
+		      var html ='<tr id="revisionRow'+rNo+'" class="revision-rows"> '
 				      +'<td data-head="Revision" class="input-field"> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
 				      +'<td data-head="Revision Date" class="input-field"><input id="revision_date'+rNo+'" name="revision_dates" type="text" class="validate datepicker" placeholder="Revision Date"><button type="button" id="revision_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
 				     // +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_revieweds'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
@@ -1673,7 +1740,7 @@
 					
 			      var rowNo = $("#statusRowNo").val();
 			      var rNo = Number(rowNo)+1;
-			      var html ='<tr id="StatusRow'+rNo+'"> '
+			      var html ='<tr id="StatusRow'+rNo+'" class="drawing-rows"> '
 			      			+'<td data-head="Stage" class="input-field">	 <select id="stage'+rNo+'" name="stage_fks" class="searchable validate-dropdown">'
 			      			+'<option value="" >Select</option>'
 			      			 <c:forEach var="obj" items="${stage }">

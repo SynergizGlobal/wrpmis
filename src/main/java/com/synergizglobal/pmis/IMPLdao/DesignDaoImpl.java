@@ -749,8 +749,7 @@ public class DesignDaoImpl implements DesignDao{
 							MultipartFile designFiles = obj.getDesignDocumentFiles()[i];
 							if (((null != designFiles && !designFiles.isEmpty()) || !StringUtils.isEmpty(obj.getDesignDocumentFileNames())) && !StringUtils.isEmpty(obj.getDesign_file_typess().length > 0)
 									&& !StringUtils.isEmpty(obj.getDesignDocumentNames())
-									&& !StringUtils.isEmpty(obj.getDesignDocumentFileNames()[i]) 
-									&& !StringUtils.isEmpty(obj.getDesignDocumentNames()[i]))  {
+									&& !StringUtils.isEmpty(obj.getDesignDocumentFileNames()[i]))  {
 									String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
 									String fileName = designFiles.getOriginalFilename();
 									DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 

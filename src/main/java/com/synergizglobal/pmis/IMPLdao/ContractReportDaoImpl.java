@@ -524,7 +524,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					+ "left join project p on w.project_id_fk = p.project_id "  
 					+ "left join user u on c.hod_user_id_fk = u.user_id "
 					+ "left join user us on c.dy_hod_user_id_fk = us.user_id "
-					+ "left join department dt on c.department_fk = dt.department "
+					+ "left join department dt on u.department_fk = dt.department "
 					+ "where c.contract_id is not null ";
 			
 			int arrSize = 0;
@@ -1815,7 +1815,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		Contract contract = null;
 		try{
 			con = dataSource.getConnection();
-			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,u.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 									",scope_of_contract,cast((estimated_cost * estimated_cost_units) as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,cast((awarded_cost * awarded_cost_units) as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast((completed_cost * completed_cost_units) as CHAR) as completed_cost,"
 									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,c.status,bg_required,insurance_required,department_name,"
@@ -1826,7 +1826,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 									"left join project p on w.project_id_fk = p.project_id " + 
 									"left join user u on c.hod_user_id_fk = u.user_id "+
 									"left join user us on c.dy_hod_user_id_fk = us.user_id "
-									+"left join department dt on c.department_fk = dt.department "
+									+"left join department dt on u.department_fk = dt.department "
 									+ "where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
 			stmt.setString(1, obj.getContract_id());
@@ -2104,7 +2104,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		Contract contract = null;
 		try{ 
 			con = dataSource.getConnection();
-			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,u.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 									",scope_of_contract,cast((estimated_cost * estimated_cost_units) as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast((awarded_cost * awarded_cost_units) as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast((completed_cost * completed_cost_units) as CHAR) as completed_cost,"
 									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required " + 
@@ -2114,7 +2114,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 									"left join project p on w.project_id_fk = p.project_id " + 
 									"left join user u on c.hod_user_id_fk = u.user_id "+
 									"left join user us on c.dy_hod_user_id_fk = us.user_id "
-									+"left join department dt on c.department_fk = dt.department "
+									+"left join department dt on u.department_fk = dt.department "
 									+ "where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
 			stmt.setString(1, obj.getContract_id());

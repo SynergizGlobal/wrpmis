@@ -127,17 +127,6 @@ public class LoginController {
 						session.setAttribute("USER_DESIGNATION", userDetails.getDesignation());
 						session.setAttribute("USER_LOGIN_DETAILS_ID", userDetails.getUser_login_details_id());
 					}else if(!StringUtils.isEmpty(userDetails.getSingle_login_session_id()) && !userDetails.getSingle_login_session_id().equals(single_login_session_id)) {	
-						/*model.addObject("error", alreadyLoggedInSomeOtherDeviceOrBrowser);
-						session.setAttribute("user", userDetails);
-						session.setAttribute("USER_ID", userDetails.getUser_id());
-						session.setAttribute("USER_NAME", userDetails.getUser_name());
-						session.setAttribute("USER_ROLE_NAME", userDetails.getUser_role_name_fk());
-						session.setAttribute("USER_ROLE_CODE", userDetails.getUser_role_code());
-						session.setAttribute("USER_TYPE", userDetails.getUser_type_fk());
-						session.setAttribute("USER_DESIGNATION", userDetails.getDesignation());*/
-						
-						//model.setViewName(PageConstants2.alreadyLoggedIn);
-						
 						model.setViewName("redirect:/home");
 						session.setAttribute("user", userDetails);
 						session.setAttribute("USER_ID", userDetails.getUser_id());

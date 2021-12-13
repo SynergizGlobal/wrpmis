@@ -289,17 +289,18 @@ public class ContractDaoImpl implements ContractDao {
 			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),contract.getContract_id_code(),con);
 			contract.setContract_id(contract_id);
 			String ContractQry = "INSERT INTO contract "
-							+"(contract_id,work_id_fk,department_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
+							+"(contract_id,work_id_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
 							+ "estimated_cost,contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,"
-							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,remarks,estimated_cost_units,awarded_cost_units,status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated)"
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,remarks,estimated_cost_units,awarded_cost_units,"
+							+ "status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated)"
+							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
 			int q = 1;
 		    int r =0;
 			stmt.setString(q++,contract_id); 
 			stmt.setString(q++,contract.getWork_id_fk()); 
-			stmt.setString(q++,contract.getDepartment_fk()); 
+			//stmt.setString(q++,contract.getDepartment_fk()); 
 			stmt.setString(q++,contract.getContract_name()); 
 			stmt.setString(q++,contract.getContract_short_name()); 
 			stmt.setString(q++,contract.getContractor_id_fk()); 
@@ -604,7 +605,7 @@ public class ContractDaoImpl implements ContractDao {
 				if(!StringUtils.isEmpty(contract.getMilestone_ids()) && contract.getMilestone_ids().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						 int k = 1;
-						 if( contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_ids()[i])) {
+						 if( contract.getMilestone_names().length > 0 && !StringUtils.isEmpty(contract.getMilestone_names()[i])) {
 						 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
 						    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
 							stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));

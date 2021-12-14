@@ -189,6 +189,8 @@ public class PageConstants {
 	
 	public static final String generalStatus = "referenceForms/generalStatus";
 	
+	public static final String customReport = "/forms/customReport";
+	
 	public static final String insuranceType = "referenceForms/insuranceType";
 	
 	public static final String drawingType = "referenceForms/drawingType";

@@ -541,6 +541,7 @@
                             <div class="container container-no-margin"> 
                            	<div class="row fixed-width section scrollspy" id="statusDetails">
                                 <h5 class="center-align pos-rel">Drawing Status
+                                	<c:if test="${not empty designDetails.designStatusList && fn:length(designDetails.designStatusList) gt 0 }">
                                 	<span class="right mob-center">
                              			<p>
 									      <label>
@@ -548,7 +549,8 @@
 									        <span>Show Latest</span>
 									      </label>
 							   			</p>
-	                               	</span>
+	                               	</span>                                	
+                                	</c:if>
                                 </h5>
                                 <div class="table-inside">
                                     <table id="statusTable" class="mdl-data-table mobile_responsible_table">
@@ -685,6 +687,7 @@
                             
                              <div class="row fixed-width section scrollspy" id="revisionDetails">
                                 <h5 class="center-align pos-rel">Revision Details 
+                                <c:if test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
                                 	<span class="right mob-center">
                              			<p>
 									      <label>
@@ -692,7 +695,8 @@
 									        <span>Show Current</span>
 									      </label>
 							   			</p>
-	                               	</span>
+	                               	</span>                                
+                                </c:if>
 	                             </h5>
                                 <div class="table-inside">
                                     <table id="revTable" class="mdl-data-table mobile_responsible_table">
@@ -1130,7 +1134,9 @@
               	}
             });
             if($('input[name="rev_show_current"]').is(':checked')){
-          	  	$(".revision-rows").hide();
+            	if($('.revision_status_checkbox[type="checkbox"]').length >1){
+	          	  	$(".revision-rows").hide();            		
+            	}
           	  	$('.revision_status_checkbox[type="checkbox"]').each(function(){
         	  		if($(this).is(':checked')){
         	  			$('#revisionRow'+$(this).attr('id').split('_checkbox')[1]).show();
@@ -1142,18 +1148,40 @@
             
             $("#drawing_show_latest").click(function(){
             	if($('input[name="drawing_show_latest"]').is(':checked')){
-              	  	$(".drawing-rows").hide();        	  		
-            	  	$('#StatusRow1').show();        	  	
+              	  	$(".drawing-rows").hide();        	  
+              	  	var dates=[]; var plain_dates=[];
+            	  	$('[name="submitted_dates"]').each(function(){
+            	  		var dt=$(this).val().split('-');
+            	  		dates.push(new Date(dt[2],dt[1]-1,dt[0]));
+            	  		plain_dates.push($(this).val());
+            	  	});
+            	  	const maxDate = new Date(Math.max.apply(Math, dates));
+					var plain_maxDate=maxDate.getDate()  + "-" + (maxDate.getMonth()+1) + "-" + maxDate.getFullYear();
+					if( plain_dates.indexOf(plain_maxDate) >= 0){
+						$('#StatusRow'+plain_dates.indexOf(plain_maxDate)).show();
+					}              	  	     	  	
               	}else{
               		$(".drawing-rows").show();
               	}
             });
             if($('input[name="drawing_show_latest"]').is(':checked')){
-          	  	$(".drawing-rows").hide();        	  		
-        	  	$('#StatusRow1').show();        	  	
+            	if($('[name="submitted_dates"]').length>1){
+	            	$(".drawing-rows").hide();
+            	}
+          	  	var dates=[]; var plain_dates=[];
+        	  	$('[name="submitted_dates"]').each(function(){
+        	  		var dt=$(this).val().split('-');
+        	  		dates.push(new Date(dt[2],dt[1]-1,dt[0]));
+        	  		plain_dates.push($(this).val());
+        	  	});
+        	  	const maxDate = new Date(Math.max.apply(Math, dates));
+				var plain_maxDate=maxDate.getDate()  + "-" + (maxDate.getMonth()+1) + "-" + maxDate.getFullYear();
+				if( plain_dates.indexOf(plain_maxDate) >= 0){
+					$('#StatusRow'+plain_dates.indexOf(plain_maxDate)).show();
+				}      	  	
           	}else{
           		$(".drawing-rows").show();
-          	}
+          	} 
           
             
             $('input[name=is_there_issue]').change(function () {

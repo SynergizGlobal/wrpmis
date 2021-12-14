@@ -1158,7 +1158,8 @@
             	  	const maxDate = new Date(Math.max.apply(Math, dates));
 					var plain_maxDate=maxDate.getDate()  + "-" + (maxDate.getMonth()+1) + "-" + maxDate.getFullYear();
 					if( plain_dates.indexOf(plain_maxDate) >= 0){
-						$('#StatusRow'+plain_dates.indexOf(plain_maxDate)).show();
+						var rNo = plain_dates.indexOf(plain_maxDate)+1;
+						$('#StatusRow'+rNo).show();
 					}              	  	     	  	
               	}else{
               		$(".drawing-rows").show();

@@ -771,15 +771,12 @@ public class DesignController {
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
 		        
-		        
 	            XSSFRow headingRow = sheet.createRow(0);
-	            String headerString = "Design ID^Work^Contract^HOD^Dy HOD^Prepared by ID^Consultant Contract ID^Proof Consultant Contract ID^Submited to Proof Consultant^Approval by Proof Consultant^Structure Type"
-	            		+ "^Component^Title^Drawing Type^Contractor Drawing No^MRVC Drawing No^Division Drawing No^HQ Drawing No^Planned Start^"
-	            		+ "Planned finish^Revision^Consultant Submission^MRVC Reviewed^Divisional Submission^Submitted to Division^Divisional Approval^HQ Submission^Submitted to HQ^"
-	            		+ "Query Raised by Division^Query Replied to Division^Query Raised by HQ^Query Replied to HQ^crs Sanction^Submitted for Crs Sanction^Query Raised for Crs Sanction^Query Replied for Crs Sanction^Crs Sanction Approved^"
-	            		+ "HQ Approval^GFC Released^As Built Status^As Built Date^Remarks";
-	            
-	            String[] firstHeaderStringArr = headerString.split("\\^");
+	        	String headerString = "Work ID,Contract ID,Approving Railway,Department,HOD,Dy HOD,Structure Type,Structure ID,Prepared By,Consultant  Contract ID,"
+	    				+ "Proof Consultant Contract ID,Drawing Type,Drawing Title,Approval Authority,Required Date,Contractor Drawing No,MRVC Drawing No,Division Drawing No,"
+	    				+ "HQ Drawing No,Stage,Submitted By,Submitted To,Purpose of Submission,Submission Date,GFC Released,Remarks" + 
+	    				"";
+	            String[] firstHeaderStringArr = headerString.split("\\,");
 	            
 	            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
 		        	Cell cell = headingRow.createCell(i);
@@ -791,46 +788,30 @@ public class DesignController {
 	            for (Design obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
 	                int c = 0;
-	                
+	            
 	                Cell cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getDesign_id());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_name());
+					cell.setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_short_name());
 					
 	                cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getContract_id_fk()+" - "+ obj.getContract_name());
+					cell.setCellValue(obj.getContract_id_fk()+" - "+ obj.getContract_short_name());
+				    
+	                cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getApproving_railway());
+					
+	                cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getDepartment_name());
+				
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getHod_designation());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getHod());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getDy_hod());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getPrepared_by_id_fk());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getConsultant_contract_id_fk());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getProof_consultant_contract_id_fk());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getSubmited_to_proof_consultant_fk());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getApproval_by_proof_consultant_fk());
+					cell.setCellValue(obj.getDy_hod_designation());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -838,7 +819,24 @@ public class DesignController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getComponent());
+					cell.setCellValue(obj.getStructure_id_fk());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getPrepared_by_id_fk());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getConsult_contarct());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getProof_consult_contarct());
+
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getDrawing_type_fk());
+					
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -846,7 +844,11 @@ public class DesignController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getDrawing_type_fk());
+					cell.setCellValue(obj.getApproval_authority_fk());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRequired_date());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -866,102 +868,32 @@ public class DesignController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getPlanned_start());
+					cell.setCellValue(obj.getStage_fk());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getPlanned_finish());
+					cell.setCellValue(obj.getSubmitted_by());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getRevision());
+					cell.setCellValue(obj.getSubmitted_to());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getConsultant_submission());
+					cell.setCellValue(obj.getSubmission_purpose());
 	                
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getMrvc_reviewed());
-	                
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getDivisional_submission_fk());
-	                
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getSubmitted_to_division());
-	                
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getDivisional_approval());
-	                
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getHq_submission_fk());
-	                
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getSubmitted_to_hq());
-	                
-					 //
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getQuery_raised_by_division());
-					 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getQuery_replied_to_division());
-					 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getQuery_raised_by_hq());
-					 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getQuery_replied_to_hq());
-					 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getCrs_sanction_fk());
-					 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getSubmitted_for_crs_sanction());
-					 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getQuery_raised_for_crs_sanction());
-					 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getQuery_replied_for_crs_sanction());
-					 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getCrs_sanction_approved());
-	                
-					//
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getHq_approval());
+					cell.setCellValue(obj.getSubmitted_date());
 	                
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getGfc_released());
-	                 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getAs_built_status());
-	                 
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getAs_built_date());
-	                 
+	                
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getRemarks());
+	                
 	                
 	                rowNo++;
 	            }

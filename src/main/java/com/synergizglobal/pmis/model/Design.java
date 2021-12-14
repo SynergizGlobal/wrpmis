@@ -8,14 +8,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Design {
 	
-	private String design_id, contract_id_fk, department_id_fk,department_name, work_name,hod, dy_hod,designation, prepared_by_id_fk, consultant_contract_id_fk,
+	private String design_id, contract_id_fk, department_id_fk,department_name, work_name,hod, dy_hod,designation,hod_designation,dy_hod_designation, prepared_by_id_fk, consultant_contract_id_fk,
 	proof_consultant_contract_id_fk,contract_name, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
 	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision,clearance_to_consultant, consultant_submission,work_id_fk,department_fk,work_short_name,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,
 	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
 	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq,
 	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,
-	 project_id,work_id,project_name,contract_id,required_date,revision_status,status,uploaded_by_user_id_fk,design_data_id, railway_id,uploaded_file, user_id,uploaded_on,user_role_code,user_name;
+	 project_id,work_id,consult_contarct,proof_consult_contarct,project_name,contract_id,required_date,revision_status,status,uploaded_by_user_id_fk,design_data_id, railway_id,uploaded_file, user_id,uploaded_on,user_role_code,user_name;
 	
 	private String id, design_file_id,design_id_fk,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current;
 	private String []ids, design_id_fks, design_file_ids,stage_fks,designDocumentFileNames,designDocumentNames, submitted_bys, submitted_tos, submitted_dates, submssion_purposes,design_file_type_fks,currents;
@@ -30,6 +30,38 @@ public class Design {
 	private List<MultipartFile> designFiles;
 	private List<Design> designFilesList;
 	private String[] designFileNames;
+
+	public String getConsult_contarct() {
+		return consult_contarct;
+	}
+
+	public void setConsult_contarct(String consult_contarct) {
+		this.consult_contarct = consult_contarct;
+	}
+
+	public String getProof_consult_contarct() {
+		return proof_consult_contarct;
+	}
+
+	public void setProof_consult_contarct(String proof_consult_contarct) {
+		this.proof_consult_contarct = proof_consult_contarct;
+	}
+
+	public String getHod_designation() {
+		return hod_designation;
+	}
+
+	public void setHod_designation(String hod_designation) {
+		this.hod_designation = hod_designation;
+	}
+
+	public String getDy_hod_designation() {
+		return dy_hod_designation;
+	}
+
+	public void setDy_hod_designation(String dy_hod_designation) {
+		this.dy_hod_designation = dy_hod_designation;
+	}
 
 	public String[] getRevision_dates() {
 		return revision_dates;

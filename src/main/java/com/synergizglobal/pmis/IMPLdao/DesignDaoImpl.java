@@ -58,18 +58,39 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getDesigns(Design obj)throws Exception{
 		List<Design> objsList = null;
 		try {
-			String qry ="select design_id,c.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
+			String qry ="select design_id,c.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,DATE_FORMAT(d.query_replied_to_hq,'%d-%m-%Y') AS query_replied_to_hq,"
 					+ "DATE_FORMAT(d.query_raised_by_hq,'%d-%m-%Y') AS query_raised_by_hq,DATE_FORMAT(d.query_replied_to_division,'%d-%m-%Y') AS query_replied_to_division,DATE_FORMAT(d.query_raised_by_division,'%d-%m-%Y') AS query_raised_by_division" + 
 					",d.hq_drawing_no,d.drawing_title,DATE_FORMAT(d.planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(d.planned_finish,'%d-%m-%Y') AS planned_finish,d.revision,clearance_to_consultant,DATE_FORMAT(d.submitted_to_division,'%d-%m-%Y') AS submitted_to_division,"
 					+ "DATE_FORMAT(d.submitted_to_hq,'%d-%m-%Y') AS submitted_to_hq,crs_sanction_fk,DATE_FORMAT(d.consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(d.mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,DATE_FORMAT(d.divisional_approval,'%d-%m-%Y') AS divisional_approval,"
 					+ "DATE_FORMAT(d.submitted_for_crs_sanction,'%d-%m-%Y') AS submitted_for_crs_sanction,DATE_FORMAT(d.query_raised_for_crs_sanction,'%d-%m-%Y') AS query_raised_for_crs_sanction,"
 					+ "DATE_FORMAT(d.query_replied_for_crs_sanction,'%d-%m-%Y') AS query_replied_for_crs_sanction,DATE_FORMAT(d.crs_sanction_approved,'%d-%m-%Y') AS crs_sanction_approved," + 
-					 "DATE_FORMAT(d.hq_approval,'%d-%m-%Y') AS hq_approval,DATE_FORMAT(d.required_date,'%d-%m-%Y') AS required_date, DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.as_built_status,DATE_FORMAT(d.as_built_date,'%d-%m-%Y') AS as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
+					 "DATE_FORMAT(d.hq_approval,'%d-%m-%Y') AS hq_approval,DATE_FORMAT(d.required_date,'%d-%m-%Y') AS required_date, DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.as_built_status,DATE_FORMAT(d.as_built_date,'%d-%m-%Y') AS as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk,"
+					 + "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
+					 "then  (SELECT submssion_purpose FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc) " + 
+					 "else (SELECT submssion_purpose FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submission_purpose," + 
+					 "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
+					 "then  (SELECT stage_fk FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc)" + 
+					 " else (SELECT stage_fk FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as stage_fk," + 
+					 "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
+					 "then  (SELECT submitted_by FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc)" + 
+					 " else (SELECT submitted_by FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submitted_by," + 
+					 "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
+					 "then  (SELECT submitted_to FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc) " + 
+					 "else (SELECT submitted_to FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submitted_to ,"
+					 + "DATE_FORMAT(max(ds.submitted_date) ,'%d-%m-%Y') AS submitted_date, DATE_FORMAT(required_date ,'%d-%m-%Y') AS required_date ,"
+					 + "u.user_name,u.designation as hod_designation,u1.user_name,u1.designation as dy_hod_designation,dt.department_name ,"
+					 + "c1.contract_short_name as consult_contarct, c2.contract_short_name as proof_consult_contarct  "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+"LEFT OUTER JOIN contract c1 ON d.consultant_contract_id_fk = c1.contract_id "
+					+"LEFT OUTER JOIN contract c2 ON d.proof_consultant_contract_id_fk = c2.contract_id "
 					+"LEFT OUTER JOIN work w  ON c.work_id_fk  =  w.work_id " 
 					+"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
+					+"LEFT OUTER JOIN user u  ON d.hod  =  u.user_id " 
+					+"LEFT OUTER JOIN user u1  ON d.dy_hod  =  u1.user_id " 
+					+"LEFT OUTER JOIN department dt  ON d.department_id_fk  =  dt.department " 
+					+ " left join design_status ds on d.design_id = ds.design_id_fk "
 					+ " where design_id is not null";
 				
 			int arrSize = 0;
@@ -97,7 +118,7 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and drawing_type_fk = ?";
 				arrSize++;
 			}
-			//qry = qry + " limit 10";
+			qry = qry + " group by design_id ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

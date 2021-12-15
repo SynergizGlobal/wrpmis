@@ -271,9 +271,12 @@
      	   var validate = $('.findLengths').length;
      	   var count  = 0;
      	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   if(validate == 0){validate = 1;}
      	   while(count < validate){
      		   var findVal = ek[count];
-     		   findVal = findVal.toLowerCase();
+     		   if(findVal != undefined && findVal != ''){
+     			  findVal = findVal.toLowerCase();
+     		   }
      		   if(findVal == value){
      			   $('#design_file_typeError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);

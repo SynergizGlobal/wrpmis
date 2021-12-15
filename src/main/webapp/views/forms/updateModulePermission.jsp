@@ -104,7 +104,7 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="<%=request.getContextPath() %>/update-access-form" id="modulePermissionForm" name="modulePermissionForm" method="post" class="form-horizontal" role="form" >
+                    <form action="<%=request.getContextPath() %>/update-module-permission-form" id="modulePermissionForm" name="modulePermissionForm" method="post" class="form-horizontal" role="form" >
                     	<input type="hidden" name ="form_id" value="${formDetails.form_id }" />
                         <div class="container">                            
                             <div class="row">                              
@@ -189,7 +189,7 @@
                                 </div>
                                 <div class="col s6 m6 l6 mt-brdr center-align">
                                     <div class=" m-1">
-                                        <a href="<%=request.getContextPath()%>/access-forms" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/module-permissions" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                                  

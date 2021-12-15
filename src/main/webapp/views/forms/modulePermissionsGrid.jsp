@@ -123,16 +123,9 @@
 									<tbody>
 										 <%-- <c:forEach var="obj" items=""> --%>
 											<tr>
-												<td></td>
-												<td></td>												
-												<td class="last-column"><a href="<%=request.getContextPath() %>/add-project-form"
-													class="btn waves-effect waves-light bg-m t-c mob-btn"><i
-														class="fa fa-pencil"></i> </a> 
-											</tr>
-											<tr>
-												<td></td>
-												<td></td>												
-												<td class="last-column"><a href="javascript:void(0);"
+												<td>dummy11</td>
+												<td>dummy12</td>												
+												<td class="last-column"><a href="<%=request.getContextPath() %>/get-module-permission"
 													class="btn waves-effect waves-light bg-m t-c mob-btn"><i
 														class="fa fa-pencil"></i> </a> 
 											</tr>

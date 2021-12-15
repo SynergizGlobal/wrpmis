@@ -6,7 +6,7 @@ import com.synergizglobal.pmis.reference.model.TrainingType;
 
 public interface FOBFileTypeService {
 
-	List<TrainingType> getfobFileType(TrainingType obj) throws Exception;
+	TrainingType getfobFileType(TrainingType obj) throws Exception;
 
 	boolean addFOBFileType(TrainingType obj) throws Exception;
 

@@ -24,17 +24,94 @@ public class FOBFileTypeDaoImpl implements FOBFileTypeDao{
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
-	public List<TrainingType> getfobFileType(TrainingType obj) throws Exception {
+	public TrainingType getfobFileType(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
+		List<TrainingType> objsList1 = null;
+		TrainingType sObj =null;
 		try {
-			String qry ="select fob_file_type from fob_file_type ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+			String qry ="select `fob_file_type` from fob_file_type ";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+			obj.setdList1(objsList);
+			
+			List<TrainingType> tablesList = getTablesList(obj);
+			obj.setTablesList(tablesList);
+			if(tablesList.size() > 0) {
+				List<TrainingType> list = getDataDetails( obj);
+				obj.setdList(list);
+				String qry1 = "";
+				int i = 1;
+				for (TrainingType bObj : obj.getdList()) {
+					
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `fob_file_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					if( list.size() >  i) {
+						qry1 = qry1 + " UNION ";
+						i++;
+					}
+				}
+				objsList1 = jdbcTemplate.query( qry1, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
+				obj.setdList(objsList1);
+				obj.setCountList(objsList1);
+				if(objsList1.size() > 0) {
+					Object[] pValues  = new Object[objsList1.size()];
+					  String qry2 = "select `fob_file_type` from fob_file_type where `fob_file_type` NOT IN (?";
+	
+						int j =0, p=1;
+						for (TrainingType aObj : obj.getdList()) {
+							pValues[j++] = aObj.getFob_file_type();
+							if( objsList1.size() >  p) {
+								qry2 = qry2 + ",?";
+								p++;
+							}
+						}
+						qry2 = qry2 + ")";
+						objsList1 = jdbcTemplate.query( qry2,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
+						obj.setdList(objsList1);
+						
+				}else {
+					 obj.setdList(objsList);
+				}
+			}else {
+				obj.setdList(objsList);
+			}
 		}catch(Exception e){ 
-		throw new Exception(e);
+			e.printStackTrace();
+			throw new Exception(e);
 		}
-		return objsList;
+		return obj;
 	}
 
+	private List<TrainingType> getTablesList(TrainingType obj) throws Exception {
+		List<TrainingType> tablesList = null;
+		try {
+			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'fob_file_type' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+			
+			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return tablesList;
+	}
+
+
+	private List<TrainingType> getDataDetails(TrainingType obj) throws Exception {
+		List<TrainingType> list = null;
+		try {
+			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'fob_file_type' and TABLE_SCHEMA = 'pmis'";
+			
+			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return list;
+	}
+
+
+	
 	@Override
 	public boolean addFOBFileType(TrainingType obj) throws Exception {
 		boolean flag = false;
@@ -58,13 +135,31 @@ public class FOBFileTypeDaoImpl implements FOBFileTypeDao{
 	@Override
 	public boolean updateFOBFileType(TrainingType obj) throws Exception {
 		boolean flag = false;
+		int count = 0;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "UPDATE fob_file_type set "
-					+ "fob_file_type= :value_new  where fob_file_type = :value_old";
-			
+			List<TrainingType> tablesList = getTablesList(obj);
+			List<TrainingType> list = getDataDetails(obj);
+			obj.setdList(list);
+
+			String disableQry = "SET foreign_key_checks = 0 ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			namedParamJdbcTemplate.update(disableQry, paramSource);	
+			
+			String  updatereferenceTableQry = "UPDATE fob_file_type SET `fob_file_type`= :value_new WHERE `fob_file_type`= :value_old " ;
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
+			
+			for (TrainingType bObj : obj.getdList()) {
+				
+				String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:value_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+				
+				 paramSource = new BeanPropertySqlParameterSource(obj);		 
+				 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+			}
+			String  enableQry =	"SET foreign_key_checks = 1";
+			paramSource = new BeanPropertySqlParameterSource(obj);	
+			namedParamJdbcTemplate.update(enableQry, paramSource);
 			if(count > 0) {
 				flag = true;
 			}
@@ -89,6 +184,7 @@ public class FOBFileTypeDaoImpl implements FOBFileTypeDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
+			e.printStackTrace();
 		throw new Exception(e);
 		}
 		return flag;

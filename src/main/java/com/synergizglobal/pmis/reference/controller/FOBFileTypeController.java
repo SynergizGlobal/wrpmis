@@ -40,7 +40,7 @@ public class FOBFileTypeController {
 		ModelAndView model = new ModelAndView(PageConstants.fobFileType);
 		try {
 			
-			List<TrainingType> fobFileType = service.getfobFileType(obj);
+			TrainingType fobFileType = service.getfobFileType(obj);
 			model.addObject("fobFileType",fobFileType);
 		}catch (Exception e) {
 			e.printStackTrace();

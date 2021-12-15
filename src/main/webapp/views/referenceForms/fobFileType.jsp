@@ -57,20 +57,55 @@
                                 <table id="fob_file_type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Fob File Type</th>                                           
+                                            <th>Fob File Type</th>  
+                                              <c:forEach var="tObj" items="${fobFileType.tablesList}" >
+	                                            	<c:forEach var="TObj" items="${tObj.tName }" >
+	                                            	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
+	                                            	 	<th>${mTObj } </th>
+                                           			</c:forEach>
+	                                            </c:forEach>                                         
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                    <tbody>
-										<c:forEach var="obj" items="${fobFileType}" varStatus="index">
-											<tr>
-											<td>
-											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
-												<input type="hidden" id="fob_file_type${index.count}" value="${obj.fob_file_type }" class="findLengths"//>
-												${obj.fob_file_type }</td>
-										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.fob_file_type }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
-									    </c:forEach>
- 										
+									<c:forEach var="obj" items="${fobFileType.dList1}" varStatus="indexs">
+													<tr><td>
+														<input type="hidden" id="id${indexs.count}" name="id" value="${obj.fob_file_type }"  class="findLengths" />
+														${obj.fob_file_type }</td>
+													<c:forEach var="tObj" items="${fobFileType.tablesList}" varStatus="index">
+														<td><c:forEach var="cObj" items="${fobFileType.countList}" >
+														<c:choose> 
+															    <c:when test="${tObj.tName eq cObj.tName }"> 
+															    
+															    		<c:choose>  
+																		    <c:when test="${cObj.fob_file_type eq obj.fob_file_type }"> 
+																		      	 ( ${cObj.count } )   
+																		    </c:when>  
+																		    <c:otherwise>  
+																		    </c:otherwise>   
+																	</c:choose>
+																</c:when>
+																<c:otherwise> 
+															   </c:otherwise>
+														</c:choose>
+														</c:forEach></td>
+		                                            </c:forEach>
+													<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-pencil" ></i></a>
+												 	<c:forEach var="oSbj"  items="${fobFileType.dList}" varStatus="indexx"> 
+														 
+														<c:choose>  
+														    <c:when test="${oSbj.fob_file_type eq obj.fob_file_type }"> 
+														      	<a onclick="deleteRow('${ oSbj.fob_file_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+														      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
+														      	</a>
+														    </c:when>  
+														    <c:otherwise>  
+														    </c:otherwise>   
+														</c:choose>  
+														
+		 											 </c:forEach>
+		 											</td></tr>												  
+		 										  </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -357,7 +392,7 @@
      	     });
 
            function updateRow(no) {
-       	      var fob_file_type = $('#fob_file_type'+no).val();
+       	      var fob_file_type = $('#id'+no).val();
        	      var id = $('#id'+no).val();
        	      $('#value_old').val($.trim(fob_file_type))
        	      $('#id').val($.trim(id))

@@ -15,7 +15,7 @@ public class FOBFileTypeServiceImpl implements FOBFileTypeService{
 	FOBFileTypeDao dao;
 
 	@Override
-	public List<TrainingType> getfobFileType(TrainingType obj) throws Exception {
+	public TrainingType getfobFileType(TrainingType obj) throws Exception {
 		return dao.getfobFileType(obj);
 	}
 

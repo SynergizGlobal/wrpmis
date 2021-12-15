@@ -772,7 +772,7 @@ public class DesignController {
 		        
 		        
 	            XSSFRow headingRow = sheet.createRow(0);
-	        	String headerString = "Work ID,Contract ID,Approving Railway,Department,HOD,Dy HOD,Structure Type,Structure ID,Prepared By,Consultant  Contract ID,"
+	        	String headerString = "Work,Contract,Approving Railway,Department,HOD,Dy HOD,Structure Type,Structure ID,Prepared By,Consultant  Contract ID,"
 	    				+ "Proof Consultant Contract ID,Drawing Type,Drawing Title,Approval Authority,Required Date,Contractor Drawing No,MRVC Drawing No,Division Drawing No,"
 	    				+ "HQ Drawing No,Stage,Submitted By,Submitted To,Purpose of Submission,Submission Date,GFC Released,Remarks" + 
 	    				"";

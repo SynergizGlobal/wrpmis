@@ -425,26 +425,26 @@
                               <!--   </div>
                             
                             <div class="row"> -->       
-                             <c:if test="${action eq 'add'}">                           
+                            <%--  <c:if test="${action eq 'add'}">   --%>                         
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Contract <span class="required">*</span></p>
+                                    <p class="searchable_label">Contract </p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
-                                     	onchange="resetWorksAndProjectsDropdowns();">
+                                     	<c:if test="${action eq 'add'}"> onchange="resetWorksAndProjectsDropdowns();"</c:if> >
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
-                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id}">${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id}" <c:if test="${designDetails.contract_id eq obj.contract_id}">selected</c:if>>${obj.contract_id} <c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                </c:if>
-                                 <c:if test="${action eq 'edit'}">
+                               <%--  </c:if> --%>
+                              <%--    <c:if test="${action eq 'edit'}">
                                 	<div class="col s6 m4 l4 input-field"> 
 	                                    <input type="text" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
 									    <label for="contract_id_fk"> Contract <span class="required">*</span></label>
 									    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}" readonly />
 	                                </div>
-                                </c:if>
+                                </c:if> --%>
                                 <div class="col s6 m4 l4 input-field min4">
                                     <p class="searchable_label">Consultant</p>
                                     <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable validate-dropdown">
@@ -510,7 +510,7 @@
                             	<h5 class="center-align">Drawing Details</h5>
                                 <div class="col s12 m12 input-field">
                                     <textarea id="drawing_title" name="drawing_title" class="pmis-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
-                                    <label for="drawing_title">Drawing Title</label>
+                                    <label for="drawing_title">Drawing Title<span class="required">*</span></label>
                                      <span id="drawing_titleError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field">
@@ -1408,7 +1408,7 @@
        				 	  },"work_id_fk": {
     				 		required: true
     				 	  },"contract_id_fk": {
-    				 		required: true
+    				 		required: false
     				 	  },"department_id_fk": {
     				 		required: true
     				 	  },"consultant_contract_id_fk": {

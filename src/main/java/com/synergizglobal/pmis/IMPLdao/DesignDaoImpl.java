@@ -723,7 +723,7 @@ public class DesignDaoImpl implements DesignDao{
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-			String qry = "UPDATE design SET department_id_fk=:department_id_fk,hod=:hod,dy_hod=:dy_hod,prepared_by_id_fk=:prepared_by_id_fk,consultant_contract_id_fk=:consultant_contract_id_fk,proof_consultant_contract_id_fk=:proof_consultant_contract_id_fk,structure_type_fk=:structure_type_fk"
+			String qry = "UPDATE design SET contract_id_fk= :contract_id_fk,department_id_fk=:department_id_fk,hod=:hod,dy_hod=:dy_hod,prepared_by_id_fk=:prepared_by_id_fk,consultant_contract_id_fk=:consultant_contract_id_fk,proof_consultant_contract_id_fk=:proof_consultant_contract_id_fk,structure_type_fk=:structure_type_fk"
 					+ ",component=:component,drawing_type_fk=:drawing_type_fk,contractor_drawing_no=:contractor_drawing_no,mrvc_drawing_no=:mrvc_drawing_no,division_drawing_no=:division_drawing_no,hq_drawing_no=:hq_drawing_no,drawing_title=:drawing_title,planned_start=:planned_start,planned_finish=:planned_finish,"
 					+ "revision=:revision,clearance_to_consultant=:clearance_to_consultant,consultant_submission=:consultant_submission,mrvc_reviewed=:mrvc_reviewed,divisional_approval=:divisional_approval,hq_approval=:hq_approval,gfc_released=:gfc_released,as_built_status=:as_built_status,as_built_date=:as_built_date,remarks=:remarks,attachment=:attachment,"
 					+ "divisional_submission_fk=:divisional_submission_fk,hq_submission_fk=:hq_submission_fk,submitted_to_division=:submitted_to_division,submitted_to_hq=:submitted_to_hq,  "

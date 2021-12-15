@@ -1148,7 +1148,9 @@
             
             $("#drawing_show_latest").click(function(){
             	if($('input[name="drawing_show_latest"]').is(':checked')){
-              	  	$(".drawing-rows").hide();        	  
+            		if($('[name="submitted_dates"]').length>1){
+    	            	$(".drawing-rows").hide();
+                	}        	  
               	  	var dates=[]; var plain_dates=[];
             	  	$('[name="submitted_dates"]').each(function(){
             	  		var dt=$(this).val().split('-');

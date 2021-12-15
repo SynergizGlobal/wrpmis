@@ -22,6 +22,8 @@ public class PageConstants {
 	public static final String project = "forms/project";
 	public static final String addUpdateProject = "forms/addUpdateProject";
 	
+	public static final String modulePermission = "forms/modulePermissionsGrid";
+	public static final String updateModulePermission = "forms/updateModulePermission";
 
 	public static final String issuesGrid = "forms/issuesGrid";
 	public static final String addIssueForm = "forms/addIssueForm";

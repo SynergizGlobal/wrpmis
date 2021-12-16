@@ -1107,6 +1107,7 @@ public class DesignController {
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 					//System.out.println(uploadFilesSheet.getLastRowNum());
 					for(int i = 2; i <= designsDrawingsSheet.getLastRowNum();i++){
+						int v = designsDrawingsSheet.getLastRowNum();
 						XSSFRow row = designsDrawingsSheet.getRow(i);
 						// Sets the Read data to the model class
 						// Cell cell = row.getCell(0);
@@ -1163,8 +1164,10 @@ public class DesignController {
 							
 							val = formatter.formatCellValue(row.getCell(14)).trim();
 							if(!StringUtils.isEmpty(val)) { 
-								LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
-								val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+								if(val.contains("/")) {
+									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
+									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+								}
 								design.setRequired_date(val);}
 							
 							val = formatter.formatCellValue(row.getCell(15)).trim();
@@ -1195,14 +1198,18 @@ public class DesignController {
 							
 							val = formatter.formatCellValue(row.getCell(23)).trim();
 							if(!StringUtils.isEmpty(val)) { 
-								LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
-								val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+								if(val.contains("/")) {
+									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
+									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+								}
 								design.setSubmitted_date(val);}
 							
 							val = formatter.formatCellValue(row.getCell(24)).trim();
 							if(!StringUtils.isEmpty(val)) { 
-								LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
-								val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+								if(val.contains("/")) {
+									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
+									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+								}
 								design.setGfc_released(val);}
 							
 							val = formatter.formatCellValue(row.getCell(25)).trim();
@@ -1238,34 +1245,34 @@ public class DesignController {
 						List<Design> pObjList = new ArrayList<Design>();
 						
 						if(!StringUtils.isEmpty(design.getMrvc_drawing_no())) {
-							XSSFSheet designRevisionsSheet = workbook.getSheetAt(2);
-							for(int j = 2; j <= designRevisionsSheet.getLastRowNum();j++){
-								XSSFRow row2 = designRevisionsSheet.getRow(j);
-								// Sets the Read data to the model class
-								Design pObj = new Design();
-								if(!StringUtils.isEmpty(row2)) {
-									val = formatter.formatCellValue(row2.getCell(0)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setMrvc_drawing_no(val);}
-									
-									val = formatter.formatCellValue(row2.getCell(1)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setRevision(val);}
-									
-									val = formatter.formatCellValue(row2.getCell(2)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setRevision_date(val);}
-									
-									val = formatter.formatCellValue(row2.getCell(3)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setRevision_status_fk(val);}
-									
-									val = formatter.formatCellValue(row2.getCell(4)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setRemarks(val);}
-									
-									pObj.setRevision_date(DateParser.parse(pObj.getRevision_date()));
-									
-								}
-								if(!StringUtils.isEmpty(pObj) && !StringUtils.isEmpty(pObj.getMrvc_drawing_no())
-										&& pObj.getMrvc_drawing_no().equals(design.getMrvc_drawing_no()))
-								pObjList.add(pObj);
-							}
+							/*		XSSFSheet designRevisionsSheet = workbook.getSheetAt(2);
+									for(int j = 2; j <= designRevisionsSheet.getLastRowNum();j++){
+										XSSFRow row2 = designRevisionsSheet.getRow(j);
+										// Sets the Read data to the model class
+										Design pObj = new Design();
+										if(!StringUtils.isEmpty(row2)) {
+											val = formatter.formatCellValue(row2.getCell(0)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setMrvc_drawing_no(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(1)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setRevision(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(2)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setRevision_date(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(3)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setRevision_status_fk(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(4)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setRemarks(val);}
+											
+											pObj.setRevision_date(DateParser.parse(pObj.getRevision_date()));
+											
+										}
+										if(!StringUtils.isEmpty(pObj) && !StringUtils.isEmpty(pObj.getMrvc_drawing_no())
+												&& pObj.getMrvc_drawing_no().equals(design.getMrvc_drawing_no()))
+										pObjList.add(pObj);
+									}*/
 							design.setDesignRevisions(pObjList);
 						}
 						

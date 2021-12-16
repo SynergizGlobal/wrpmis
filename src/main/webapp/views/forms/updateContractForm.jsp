@@ -2941,7 +2941,7 @@
         		$("#"+this.id).attr("disabled",false);
         	});	
         	
-        	var rowCount = $('#departmentTableBody tr').length;
+        	/* var rowCount = $('#departmentTableBody tr').length;
         	var c = $('[name=responsible_people_id_fks]').length;
   			for(var i=1; i<= (rowCount); i++){ 
   				var resp_Person = $("#responsible_people_id_fks"+i).val();
@@ -2962,7 +2962,7 @@
 				 y1.type= "hidden";
 				 
 		         $.validator.addMethod("dateBefore1", function(value, element) {}, "");	
-  			}
+  			} */
 			 
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	
@@ -2970,7 +2970,7 @@
 	  			var estimated_cost = $('#estimated_cost').val();
 	  			var awarded_cost = $('#awarded_cost').val();
 	  			var completed_cost = $('#completed_cost').val();
-	  			if(estimated_cost == ""){
+	  			/* if(estimated_cost == ""){
 	  				$('#estimated_cost_units').val("");
 	  			}
 	  			if(awarded_cost == ""){
@@ -2978,7 +2978,7 @@
 	  			}
 	  			if(completed_cost == ""){
 	  				$('#completed_cost_units').val("");
-	  			}
+	  			} */
 	  			//var bg_required = $("input[name=bg_required]:checked").val();
 	  			//var insurance_required = $("input[name=insurance_required]:checked").val();
 	  			var contract_status_fk = $("#contract_status_fk").val();
@@ -3922,7 +3922,7 @@
 				var idNo = (this.id).replace('bg_values','');
 				var bg_value_units = $("#bg_values_units"+idNo).val();
 				var bg_values = $("#bg_values"+idNo).val();
-				if($.trim(bg_values) == ""){$("#bg_values_units"+idNo).val("");}
+				//if($.trim(bg_values) == ""){$("#bg_values_units"+idNo).val("");}
 				if(idNo === ""){
 	       				idNo = 0;
 	       		}
@@ -3982,7 +3982,7 @@
 	       		var idNo = (this.id).replace('insurance_values','');
 	       		var insurance_value_units = $("#insurance_values_units"+idNo).val();
 	       		var insurance_values = $("#insurance_values"+idNo).val();
-				if($.trim(insurance_values) == ""){$("#insurance_values_units"+idNo).val("");}
+				//if($.trim(insurance_values) == ""){$("#insurance_values_units"+idNo).val("");}
 	       		if(idNo === ""){
 	       				idNo = 0;
 	       		}
@@ -3998,7 +3998,7 @@
 	       		var idNo = (this.id).replace('revised_amounts','');
 	       		var revised_amount_units = $("#revised_amounts_units"+idNo).val();
 	       		var revised_amounts = $("#revised_amounts"+idNo).val();
-				if($.trim(revised_amounts) == ""){$("#revised_amounts_units"+idNo).val("");}
+				//if($.trim(revised_amounts) == ""){$("#revised_amounts_units"+idNo).val("");}
 	       		if(idNo === ""){
 	       				idNo = 0;
 	       		}

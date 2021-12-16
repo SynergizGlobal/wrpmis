@@ -1831,14 +1831,13 @@ public class DesignDaoImpl implements DesignDao{
 						stmt.addBatch();
 				}
 				stmt.executeBatch();
+				DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 				
 			}
 			count = designsList.size();
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
-		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}
 		return count;
 	}

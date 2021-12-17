@@ -310,12 +310,14 @@
 									<table id="datatable-design" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th class="fw-200">Contract</th>
+<!-- 												<th class="fw-200">Contract</th>
+ -->												<th>Structure <br>Type</th>
+												<th>Structure</th>
+
 												<th class="fw-300">Title</th>
-												<th>Structure <br>Type</th>
 												<th>Drawing <br>Type</th>
-												<th>Contractor <br>Drawing No </th>
-												<th>MRVC <br>Drawing No	</th>
+<!-- 												<th>Contractor <br>Drawing No </th>
+ -->												<th>MRVC <br>Drawing No	</th>
 												<th>Division <br>Drawing No	</th>
 												<th>HQ Drawing No</th>
 												<th class="no-sort">Action</th>
@@ -838,24 +840,28 @@
 											"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getDesignsList?"+myParams,
 													
 						        "aoColumns": [
+						        	{ "mData": function(data,type,row){
+						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return data.structure_type_fk; }
+						            } },
 						        	
-						            { "mData": function(data,type,row){
+						        /*     { "mData": function(data,type,row){
 						            	var contract_short_name = '';
 				                        if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
 				                     	if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contract_short_name; }
-			            			} },   				            
+			            			} }, */   	
+			            			 { "mData": function(data,type,row){
+							            	if($.trim(data.structure_id_fk) == ''){ return '-'; }else{ return data.structure_id_fk; }
+							            } },
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.drawing_title) == ''){ return '-'; }else{ return data.drawing_title; }
 						            } },
-						         	{ "mData": function(data,type,row){
-						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return data.structure_type_fk; }
-						            } },
+						         	
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.drawing_type_fk) == ''){ return '-'; }else{ return data.drawing_type_fk; }
 						            } },
-						         	{ "mData": function(data,type,row){
+						         	/* { "mData": function(data,type,row){
 						            	if($.trim(data.contractor_drawing_no) == ''){ return '-'; }else{ return data.contractor_drawing_no; }
-						            } },
+						            } }, */
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.mrvc_drawing_no) == ''){ return '-'; }else{ return data.mrvc_drawing_no; }
 						            } },

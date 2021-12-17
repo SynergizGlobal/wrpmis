@@ -1769,6 +1769,11 @@ public class DesignDaoImpl implements DesignDao{
 					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,"
 					+ ":crs_sanction_approved,:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date)";
 			
+			String updateQry = "UPDATE design set contract_id_fk= :contract_id_fk, approving_railway= :approving_railway, department_id_fk= :department_id_fk,hod= :hod,"
+					+ "dy_hod= :dy_hod,structure_type_fk= :structure_type_fk,structure_id_fk= :structure_id_fk,prepared_by_id_fk= :prepared_by_id_fk ,consultant_contract_id_fk= :consultant_contract_id_fk,"
+					+ "proof_consultant_contract_id_fk= :proof_consultant_contract_id_fk,drawing_type_fk= :drawing_type_fk,drawing_title= :drawing_title,approval_authority_fk= :approval_authority_fk,"
+					+ "required_date=:required_date,contractor_drawing_no= :contractor_drawing_no,mrvc_drawing_no= :mrvc_drawing_no,division_drawing_no= :division_drawing_no,"
+					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks where design_id= :design_id ";
 			for (Design obj : designsList) {
 				/*String department = null;
 				if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) { 
@@ -1797,41 +1802,53 @@ public class DesignDaoImpl implements DesignDao{
 					jdbcTemplate.update( dtQry, new Object[] {obj.getDrawing_type_fk(),obj.getDrawing_type_fk()});
 				}
 				
-				
-				SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
-			    KeyHolder keyHolder = new GeneratedKeyHolder();
-			    count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
-			    //return keyHolder.getKey().intValue();
-
-				//BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-				//int count = namedParamJdbcTemplate.update(qry, paramSource);		
-			    String designId = null;
-				if(count > 0) {
-					 designId = String.valueOf(keyHolder.getKey().intValue());
-					 flag = true;
+				String designId = getDesignId(obj);
+				if(!StringUtils.isEmpty(designId)) {
+					obj.setDesign_id(designId);
+					SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				    count = namedParamJdbcTemplate.update(updateQry, paramSource);
+				    if(count > 0) {
+						 flag = true;
+						 String deleteQryForDesignStatus = "DELETE from design_status where design_id_fk = :design_id";		 
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						 count = namedParamJdbcTemplate.update(deleteQryForDesignStatus, paramSource);
+					}
+				}else {
+					SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				    KeyHolder keyHolder = new GeneratedKeyHolder();
+				    count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
+				    designId = null;
+					if(count > 0) {
+						 designId = String.valueOf(keyHolder.getKey().intValue());
+						 obj.setDesign_id(designId);
+						 flag = true;
+					}
 				}
-				obj.setDesign_id(designId);
 				
-				con = dataSource.getConnection();
-				String qryDesignRevision = "INSERT INTO design_status (design_id_fk, stage_fk, submitted_by, submitted_to, submitted_date, submssion_purpose) VALUES(?,?,?,?,?,?)";
-				stmt = con.prepareStatement(qryDesignRevision); 				
-				String stage_fk = obj.getStage_fk();
-				String submitted_date = obj.getSubmitted_date();
-				String submitted_by = obj.getSubmitted_by();
-				String submitted_to = obj.getSubmitted_to();
-				String submssion_purpose = obj.getSubmission_purpose();
-				if( !StringUtils.isEmpty(stage_fk)) {
-						int k = 1;
-						stmt.setString(k++, obj.getDesign_id());
-						stmt.setString(k++,!StringUtils.isEmpty(stage_fk)?stage_fk:null);
-						stmt.setString(k++,!StringUtils.isEmpty(submitted_by)?submitted_by:null);
-						stmt.setString(k++,!StringUtils.isEmpty(submitted_to)?submitted_to:null);
-						stmt.setString(k++,DateParser.parse(!StringUtils.isEmpty(submitted_date)?submitted_date:null));
-						stmt.setString(k++,!StringUtils.isEmpty(submssion_purpose)?submssion_purpose:null);
-						stmt.addBatch();
+				
+				if(flag) {
+					con = dataSource.getConnection();
+					String qryDesignRevision = "INSERT INTO design_status (design_id_fk, stage_fk, submitted_by, submitted_to, submitted_date, submssion_purpose) VALUES(?,?,?,?,?,?)";
+					stmt = con.prepareStatement(qryDesignRevision); 				
+					String stage_fk = obj.getStage_fk();
+					String submitted_date = obj.getSubmitted_date();
+					String submitted_by = obj.getSubmitted_by();
+					String submitted_to = obj.getSubmitted_to();
+					String submssion_purpose = obj.getSubmission_purpose();
+					if( !StringUtils.isEmpty(stage_fk)) {
+							int k = 1;
+							stmt.setString(k++, obj.getDesign_id());
+							stmt.setString(k++,!StringUtils.isEmpty(stage_fk)?stage_fk:null);
+							stmt.setString(k++,!StringUtils.isEmpty(submitted_by)?submitted_by:null);
+							stmt.setString(k++,!StringUtils.isEmpty(submitted_to)?submitted_to:null);
+							stmt.setString(k++,DateParser.parse(!StringUtils.isEmpty(submitted_date)?submitted_date:null));
+							stmt.setString(k++,!StringUtils.isEmpty(submssion_purpose)?submssion_purpose:null);
+							stmt.addBatch();
+					}
+					stmt.executeBatch();
+					DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 				}
-				stmt.executeBatch();
-				DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
+			
 				 
 			}
 			count = designsList.size();
@@ -1840,6 +1857,21 @@ public class DesignDaoImpl implements DesignDao{
 			throw new Exception(e);
 		}
 		return count;
+	}
+
+	private String getDesignId(Design obj){
+		Design dObj = null;
+		String designId = null;
+		try {
+			String qry ="select design_id from design where work_id_fk = ? and mrvc_drawing_no = ? " ;
+			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {obj.getWork_id_fk(),obj.getMrvc_drawing_no()}, new BeanPropertyRowMapper<Design>(Design.class));
+			designId = dObj.getDesign_id();
+			return designId;
+		}
+		catch(Exception e){ 
+			designId = null;
+			return designId;
+		}
 	}
 
 	private String getDyHod(String dy_hod) throws Exception {

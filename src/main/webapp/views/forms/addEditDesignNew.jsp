@@ -520,7 +520,7 @@
                                 </div>
                                 <div class="col s6 m3 input-field">
                                      <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate" value="${designDetails.mrvc_drawing_no }">
-                                     <label for="mrvc_drawing_no">MRVC Drawing No </label>
+                                     <label for="mrvc_drawing_no">MRVC Drawing No <span class="required">*</span></label>
                                      <span id="mrvc_drawing_noError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field">
@@ -1450,8 +1450,10 @@
     				 		required: true
     				 	  },"approving_railway": {
     				 		required: true
+    				 	  },"mrvc_drawing_no": {
+    				 		required: true
     				 	  }
-    				 				
+    				 	 		
     			 	},
     			   messages: {
 	   				     "project_id_fk": {
@@ -1459,6 +1461,8 @@
 	      			 	 },"work_id_fk": {
 	   			 			required: 'Required'
 	   			 	  	 },"contract_id_fk": {
+	   			 			required: 'Required'
+	   			 	  	 },"mrvc_drawing_no": {
 	   			 			required: 'Required'
 	   			 	  	 },"department_id_fk": {
 	   			 			required: 'Required'
@@ -1491,7 +1495,10 @@
     				    if (element.attr("id") == "project_id_fk" ){
      			 		     document.getElementById("project_id_fkError").innerHTML="";
      			 			 error.appendTo('#project_id_fkError');
-     			 	    }else if (element.attr("id") == "work_id_fk" ){
+     			 	    }else if (element.attr("id") == "mrvc_drawing_no" ){
+   			 		     document.getElementById("mrvc_drawing_noError").innerHTML="";
+			 			 error.appendTo('#mrvc_drawing_noError');
+			 	    	}else if (element.attr("id") == "work_id_fk" ){
     			 		     document.getElementById("work_id_fkError").innerHTML="";
     			 			 error.appendTo('#work_id_fkError');
     			 	    }else if (element.attr("id") == "approving_railway" ){

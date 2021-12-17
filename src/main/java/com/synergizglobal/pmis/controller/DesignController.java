@@ -1038,8 +1038,13 @@ public class DesignController {
 						}
 						
 						int count = uploadDesigns(design,userId,userName);
-						attributes.addFlashAttribute("success", count + " Designs added successfully.");	
-						msg = count + " Designs added successfully.";
+						if(count > 0) {
+							attributes.addFlashAttribute("success", count + " Designs added successfully.");	
+							msg = count + " Designs added successfully.";
+						}else {
+							attributes.addFlashAttribute("success"," No records found.");	
+							msg = " No records found.";
+						}
 						design.setUploaded_by_user_id_fk(userId);
 						design.setStatus("Success");
 						design.setRemarks(msg);

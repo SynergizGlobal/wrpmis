@@ -115,15 +115,27 @@ public class LoginDaoImpl implements LoginDao{
 		ResultSet rs = null;
 		String user_login_details_id = null;
 		try {			
+			
+			String updateQry = "UPDATE user_login_details SET logout_date_time = CURRENT_TIMESTAMP,logout_type_fk = ? "
+					+ "WHERE logout_date_time is null and user_id_fk = ? ";
+			stmt = con.prepareStatement(updateQry);
+			int p = 1;
+			stmt.setString(p++,"Forced");	
+			stmt.setString(p++,uObj.getUser_id());
+			int c = stmt.executeUpdate();
+			
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+			
+			
 			String insertQry = "INSERT INTO user_login_details (user_id_fk,login_date_time,last_active_date_time,system_ipa,public_ipa)"  
 					+ " VALUES (?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)";
 			stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
-			int p = 1;
+			p = 1;
 			stmt.setString(p++,uObj.getUser_id());
 			stmt.setString(p++,uObj.getSystem_ipa());
 			stmt.setString(p++,uObj.getPublic_ipa());
 			
-			int c = stmt.executeUpdate();
+			c = stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			if (c > 0) {
 				if(rs.next()) {

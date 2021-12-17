@@ -1832,7 +1832,7 @@ public class DesignDaoImpl implements DesignDao{
 				}
 				stmt.executeBatch();
 				DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
-				
+				 
 			}
 			count = designsList.size();
 		}catch(Exception e){ 

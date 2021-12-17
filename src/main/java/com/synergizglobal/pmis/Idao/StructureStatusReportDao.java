@@ -45,4 +45,6 @@ public interface StructureStatusReportDao {
 
 	List<ActivitiesProgressReport> getStructureRemarks(ActivitiesProgressReport obj) throws Exception;
 
+	List<ActivitiesProgressReport> getAllContractDetails(ActivitiesProgressReport obj) throws Exception;
+
 }

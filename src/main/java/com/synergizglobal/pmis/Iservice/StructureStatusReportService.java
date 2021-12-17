@@ -27,6 +27,8 @@ public interface StructureStatusReportService {
 	List<ActivitiesProgressReport> getContractorsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception;
 	
 	List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception;
+	List<ActivitiesProgressReport> getAllContractDetails(ActivitiesProgressReport obj) throws Exception;
+	
 	List<ActivitiesProgressReport> getStructureRemarks(ActivitiesProgressReport obj) throws Exception;
 	String getActivitiesRemarks(String structure, String from_date) throws Exception;
 	String getContractorName(String contract_id) throws Exception;

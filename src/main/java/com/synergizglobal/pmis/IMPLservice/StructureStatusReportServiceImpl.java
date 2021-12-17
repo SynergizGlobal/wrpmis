@@ -102,7 +102,11 @@ public class StructureStatusReportServiceImpl implements StructureStatusReportSe
 	@Override
 	public List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception {
 		return dao.getContarctDetaisl(obj);
-	}	
+	}
+	@Override
+	public List<ActivitiesProgressReport> getAllContractDetails(ActivitiesProgressReport obj) throws Exception {
+		return dao.getAllContractDetails(obj);
+	}		
 	
 	@Override
 	public List<ActivitiesProgressReport> getStructureRemarks(ActivitiesProgressReport obj) throws Exception {

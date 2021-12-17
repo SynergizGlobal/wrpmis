@@ -577,9 +577,12 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 	public String getEmailIdsOfHodDyHodManagement() throws Exception {
 		String email_ids = null;
 		try {
-			String qry = "select group_concat(email_id) from user where user_type_fk in ('HOD','DyHOD','Management') and email_id is not null and email_id <> ''";
+			String qry = "select email_id from user where user_type_fk in ('HOD','DyHOD','Management') and email_id is not null and email_id <> ''";
 			
-			email_ids = jdbcTemplate.queryForObject( qry, String.class);	
+			List<String> list = jdbcTemplate.queryForList( qry, String.class);	
+			if(!StringUtils.isEmpty(list) && list.size() > 0) {
+				email_ids = String.join(",", list);
+			}
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

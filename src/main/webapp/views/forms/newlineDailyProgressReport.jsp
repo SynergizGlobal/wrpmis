@@ -67,7 +67,7 @@
 								</div>	
 								<div class="col s6 m3 l4 input-field">
 									<p class="searchable_label">Contract</p>
-									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getFobList('');getContractorsList(''); getHodList('');getDyhodList('');resetFilterDropDowns();">
+									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="addInQueContract(this.value);resetWorksAndProjectsDropdowns('');getFobList('');getContractorsList(''); getHodList('');getDyhodList('');resetFilterDropDowns();">
 										<option value="">Select</option>	
 										<c:forEach var="obj" items="${contarctsList }">
 	                                      	   <option workId="${obj.work_id}" value= "${obj.contract_id}" >${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
@@ -352,6 +352,31 @@
             	filtersMap["dyhod"] = dyhod;
           	}
         }
+        
+        
+        function resetWorksAndProjectsDropdowns(contract){
+    		$(".page-loader-1").show();
+   		
+    		
+    		var projectId = '';
+    		var workId = ''
+    			var contract_id_fk = $("#contract_id").val();
+    			if(contract_id_fk == ""){
+    				contract_id_fk = contract;
+    			}
+    			if($.trim(contract_id_fk) != ''){        			
+    				workId = $("#contract_id").find('option:selected').attr("name");
+    				if(workId == null){
+    					workId =  contract_id_fk.substring(0, 6); 
+    				}
+    				projectId = workId.substring(0, 3);    
+    				$("#project_id").val(projectId);
+    				$("#contract_id").val(contract_id_fk);
+    				$("#work_id").val(workId);
+    			}
+
+    			
+    	}        
         
        
         /*   function resetContractorDropDowns(){        	

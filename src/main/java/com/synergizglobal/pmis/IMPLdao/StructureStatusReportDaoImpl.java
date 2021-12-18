@@ -840,7 +840,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 							arrSize++;
 						}
 						
-						progressQry = progressQry + " group by a.activity_name";
+						progressQry = progressQry + " group by ap.activity_id_fk";
 						
 						pValues = new Object[arrSize];
 						

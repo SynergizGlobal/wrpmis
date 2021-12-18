@@ -797,7 +797,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 							arrSize++;
 						}
 						
-						progressQry = progressQry + " group by a.activity_name";
+						progressQry = progressQry + " group by ap.activity_id_fk";
 						
 						pValues = new Object[arrSize];
 						

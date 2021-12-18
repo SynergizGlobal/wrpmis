@@ -678,7 +678,17 @@ public class StructureStatusReportController {
 	        
 	        if(StringUtils.isEmpty(obj.getProject_id()) && StringUtils.isEmpty(obj.getWork_id()) && StringUtils.isEmpty(obj.getContract_id())){
 	        	List<ActivitiesProgressReport> contractsDetails = service.getContarctDetaisl(obj);
-	        	for(ActivitiesProgressReport cObj : contractsDetails) {
+	        	List<ActivitiesProgressReport> allContractsDetails=null;
+		    	   if(contractsDetails.size()!=1)
+		    	   {
+		    		   allContractsDetails = service.getAllContractDetails(obj);
+		    	   }
+		    	   else
+		    	   {
+		    		   allContractsDetails = service.getContarctDetaisl(obj);
+		    	   }
+	        	
+	        	for(ActivitiesProgressReport cObj : allContractsDetails) {
 	            cObj.setFrom_date(DateParser.parse(from_date)); cObj.setTo_date(DateParser.parse(to_date));
 		        Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> reportData = service.getActivitiesReportData(cObj);
 		        if(!reportData.isEmpty()) {
@@ -1097,6 +1107,7 @@ public class StructureStatusReportController {
 			            
 			        }
 		        }else {
+		        	
 		        		 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(cObj.getContract_short_name()));
 					     workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
 					     XSSFRow dateRow = dprSheet.createRow(0);
@@ -1508,12 +1519,16 @@ public class StructureStatusReportController {
 									cell.setCellValue(headerStringArr[i]);
 								}
 						        
+						        int iterate=0;
 						        Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>>   reportData = service.getActivitiesReportData(cObj);
 						        if(!reportData.isEmpty()) 
 						        {
 						        	List<String> checkStructureType = new ArrayList<>();
 							        for (Map.Entry<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> entry : reportData.entrySet()) 
 							        {  
+							        	iterate++;
+							        	if(iterate<=1)
+							        	{
 							        	Map<String,List<ActivitiesProgressReport>> dprDataList = entry.getValue();
 							        	if(dprDataList != null && dprDataList.size() > 0)
 							        	{
@@ -1686,6 +1701,7 @@ public class StructureStatusReportController {
 												}	
 												dprSheet.addMergedRegion(new CellRangeAddress(tempRowNoRemarks,tempRowNoRemarks, 0,6	));
 											}
+							        	}
 							        	}
 							        }		
 						        }
@@ -2990,6 +3006,9 @@ public class StructureStatusReportController {
 										List<String> checkStructureType = new ArrayList<>();
 								        for (Map.Entry<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> entry : reportData.entrySet()) 
 								        {  
+								        	iterateLoop++;
+								        	if(iterateLoop<=1)
+								        	{
 								        	Map<String,List<ActivitiesProgressReport>> dprDataList = entry.getValue();
 								        	if(dprDataList != null && dprDataList.size() > 0)
 								        	{
@@ -3107,6 +3126,7 @@ public class StructureStatusReportController {
 											        }
 											        
 												}
+								        	}
 								        	}
 								        }		
 							        }

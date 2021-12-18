@@ -175,11 +175,13 @@
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs">
-                                <li class="tab col s4"><a class="active" href="javascript:void(0);" onclick="setActivityProgressStatus('Pending')">Pending</a></li>
-                                <li class="tab col s4"><a class="l-r-brdr" href="javascript:void(0);" onclick="setActivityProgressStatus('Approved')">Approved</a></li>
-                                <li class="tab col s4"><a href="javascript:void(0);" onclick="setActivityProgressStatus('Rejected')">Rejected</a></li>
+                                <li class="tab col s4"><a id="tab1" class="active" href="javascript:void(0);" onclick="setActivityProgressStatus('Pending')">Pending</a></li>
+                                <li class="tab col s4"><a id="tab2" class="l-r-brdr" href="javascript:void(0);" onclick="setActivityProgressStatus('Approved')">Approved</a></li>
+                                <li class="tab col s4"><a id="tab3" href="javascript:void(0);" onclick="setActivityProgressStatus('Rejected')">Rejected</a></li>
                             </ul>
                             <input type="hidden" id="approval_status_fk" name="approval_status_fk" value="Pending"/>
+                            <input type="hidden" id="hdntab" name="hdntab" value="0"/>
+                            
                         </div>
                         <div  class="col s12">
                                             <div id="pending_div" class="row no-mar" style="display: none;">
@@ -512,6 +514,22 @@
                 }
              
             	getActivities();
+            	
+           		if(window.localStorage.getItem("tabname")=="1")
+           		{
+           			setActivityProgressStatus('Approved');
+           			$("#tab1").removeClass("active");
+           			$("#tab3").removeClass("active");
+           			$("#tab2").removeClass("l-r-brdr");
+           			$("#tab2").addClass("active");
+           		}
+           		else if(window.localStorage.getItem("tabname")=="2")
+           		{
+           			setActivityProgressStatus('Rejected');
+           			$("#tab1").removeClass("active");
+           			$("#tab2").removeClass("active");
+           			$("#tab3").addClass("active");           			
+           		}           		
                
             });
             
@@ -523,6 +541,29 @@
          		}else if(approval_status_fk == 'Rejected'){
          			tab = "rejected_";
          		}
+            	 
+	         		if(approval_status_fk=="Pending")
+	           		{
+	         			$("#tab1").addClass("active");
+	           			$("#tab3").removeClass("l-r-brdr");
+	           			$("#tab3").removeClass("active");
+	           			$("#tab2").removeClass("l-r-brdr");
+	           			$("#tab2").removeClass("active");
+	           		}           	 
+	         		else if(approval_status_fk=="Approved")
+               		{
+               			$("#tab1").removeClass("active");
+               			$("#tab3").removeClass("active");
+               			$("#tab2").removeClass("l-r-brdr");
+               			$("#tab2").addClass("active");
+               		}
+               		else if(approval_status_fk=="Rejected")
+               		{
+               			$("#tab1").removeClass("active");
+               			$("#tab2").removeClass("active");
+               			$("#tab3").addClass("active");           			
+               		}              	 
+            	 
             	$("#approval_status_fk").val(approval_status_fk);
             	$("#"+tab+"work_id_fk").val("");
             	$("#"+tab+"contract_id_fk").val("");
@@ -618,6 +659,17 @@
             	//getActivities();
             	var table = $('#datatable-table-pending').DataTable(); 
             	table.draw( true );
+            	if(tab=="approved_")
+            		{
+            			$("#hdntab").val("1");
+            		}
+            	else if(tab=="rejected_")
+        		{
+        			$("#hdntab").val("2");
+        		} 
+            	
+            	window.localStorage.setItem("tabname",$("#hdntab").val());  
+            	
             }
             
             function addInQueStructure(structure){

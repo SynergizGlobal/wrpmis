@@ -334,7 +334,7 @@
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
-      			 if(flag){
+      			 if(validator.form()){
         				document.getElementById("addReportTypeForm").submit();	
         			 }
         			 $(".page-loader").hide();

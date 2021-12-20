@@ -467,7 +467,7 @@ public class DesignDaoImpl implements DesignDao{
 				dObj.setDesignStatusList(objList);
 			}
 			
-		}catch(Exception e){ 
+		}catch(Exception e){  
 			throw new Exception(e);
 		}
 		return dObj;

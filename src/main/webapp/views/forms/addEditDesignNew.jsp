@@ -1237,7 +1237,7 @@
             if($.trim(hq_submission_fk) == 'Yes' ){
             	$('.hq_submission_fk').css("display", "block");
             }
-            
+             
             var crs_sanction_fk = "${designDetails.crs_sanction_fk}";
             if($.trim(crs_sanction_fk) == 'Yes' ){
             	$('.crs_sanction_fk').css("display", "block");

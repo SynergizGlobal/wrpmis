@@ -1242,16 +1242,17 @@
             if($.trim(crs_sanction_fk) == 'Yes' ){
             	$('.crs_sanction_fk').css("display", "block");
             }
-            
+        /*     
             var projectId = "${designDetails.project_id_fk}";
             if($.trim(projectId) != ''){
             	getWorksList(projectId);
             }
             var work_id_fk = "${designDetails.work_id_fk}";
             if($.trim(work_id_fk) != ''){
-            	getContractsList(work_id_fk);
-            }
-            
+            	getWorksList(work_id_fk);
+            } */
+          
+           getContractsList();
         });
 
       
@@ -1288,8 +1289,8 @@
         }
         function getContractsList(work_id_fk) {
         	$(".page-loader").show();
+            work_id_fk = $("#work_id_fk").val();
             $("#contract_id_fk option:not(:first)").remove();
-            if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
                 	url: "<%=request.getContextPath()%>/ajax/getContractsListForDesignForm",
@@ -1311,9 +1312,7 @@
                         $(".page-loader").hide();
                     }
                 });
-            }else{
-            	$(".page-loader").hide();
-            }
+           
         }
         
         function resetWorksAndProjectsDropdowns(){

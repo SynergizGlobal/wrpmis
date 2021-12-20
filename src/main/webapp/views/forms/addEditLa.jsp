@@ -315,7 +315,7 @@
                                 	<span id="jm_fee_amount_unitsError" class="error-msg" ></span>
                                	</div> --%>
                                	<!-- <div class="col m2 hide-on-small-only"></div> -->
-                               	<div class="col s6 m4 l4 input-field">
+                               	<div class="col s6 m4 l4 input-field"> 
                                     <input id="chainage_from" name="chainage_from" type="text" class="validate" value="${LADetails.chainage_from }">
                                     <label for="chainage_from">Chainage From</label>
                                 </div>                               

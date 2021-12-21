@@ -768,8 +768,9 @@ public class DesignDaoImpl implements DesignDao{
 							
 							String file_insert_qry = "INSERT into  design_files ( design_id_fk,design_file_type_fk,name, attachment) VALUES (:design_id,:design_file_type_fk,:name,:attachment)";
 							MultipartFile designFiles = obj.getDesignDocumentFiles()[i];
-							if (((null != designFiles && !designFiles.isEmpty()) || !StringUtils.isEmpty(obj.getDesignDocumentFileNames())) && !StringUtils.isEmpty(obj.getDesign_file_typess().length > 0)
-									&& !StringUtils.isEmpty(obj.getDesignDocumentNames()))  {
+							if (((null != designFiles && !designFiles.isEmpty()) || !StringUtils.isEmpty(obj.getDesignDocumentFileNames())) 
+									&& !StringUtils.isEmpty(obj.getDesign_file_typess().length > 0) && !StringUtils.isEmpty(obj.getDesign_file_typess()[i])
+									&& !StringUtils.isEmpty(obj.getDesignDocumentNames()) && !StringUtils.isEmpty(obj.getDesignDocumentNames()[i]))  {
 									String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
 									String fileName = designFiles.getOriginalFilename();
 									DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
@@ -1592,7 +1593,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "SELECT design_data_id, uploaded_file, dd.status, dd.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
 					+ "from design_data dd " 
 					+ "LEFT JOIN user u ON dd.uploaded_by_user_id_fk = u.user_id "
-					+ "where design_data_id is not null";
+					+ "where design_data_id is not null order by uploaded_on desc ";
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
 

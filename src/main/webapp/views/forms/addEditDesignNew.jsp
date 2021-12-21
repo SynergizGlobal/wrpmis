@@ -27,7 +27,7 @@
         .mdl-data-table{
         	border:1px solid #ccc;	
         }
-
+  		.error-msg label{color:red!important;}   
 		.p-sticky{
 			position:sticky;
 		}
@@ -853,19 +853,23 @@
 						                                    				<option value="${obj.design_file_type }"<c:if test="${docObj.design_file_type_fk eq obj.design_file_type}">selected</c:if>>${obj.design_file_type }</option>
 						                                  				  </c:forEach>
 					                               					  </select>
+					                               					  <span id="design_file_typess${index.count }Error" class="error-msg" ></span>
 															    </td>
 			                                                    <td data-head="Name" class="input-field"> <input id="designDocumentNames${index.count }" name="designDocumentNames" type="text" class="validate"
 			                                                            placeholder="Name" value="${docObj.name }">
+			                                                            <span id="designDocumentNames${index.count }Error" class="error-msg" ></span>
 			                                                    </td>
 			                                                    <td data-head="Attachment" class="input-field center-align">
 			                                                        <span class="normal-btn">
 			                                                            <input type="file" id="designDocumentFiles${index.count }" name="designDocumentFiles"
 			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
+			                                                               
 			                                                            <label for="designDocumentFiles${index.count }" class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
 			                                                            <input type="hidden" id="designDocumentFileNames${index.count }" name="designDocumentFileNames" value="${docObj.attachment }">
 			                                                             <span id="designDocumentFileName${index.count }" class="filevalue"></span>
 			                                                          </span>
+			                                                           <span id="designDocumentFiles${index.count }Error" class="error-msg" ></span>
 			                                                    </td>
 			                                                    <td>
 			                                                     		<input type="hidden" id="design_file_ids${index.count }" name="design_file_ids" value="${docObj.design_file_id }"/>
@@ -890,19 +894,23 @@
 						                                    				<option value="${obj.design_file_type }">${obj.design_file_type }</option>
 						                                  			  </c:forEach>
 				                               					  </select>
+				                               					   <span id="design_file_typess0Error" class="error-msg" ></span>
 															    </td>
 		                                                    <td data-head="Name " class="input-field"> <input id="designDocumentNames0" name="designDocumentNames" type="text" class="validate"
 		                                                            placeholder="Name">
+		                                                            <span id="designDocumentNames0Error" class="error-msg" ></span>
 		                                                    </td>
 		                                                    <td data-head="Attachment" class="input-field center-align">
 		                                                        <span class="normal-btn">
 		                                                            <input type="file" id="designDocumentFiles0" name="designDocumentFiles"
 		                                                                style="display:none" onchange="getFileName('0')"/>
+		                                                              
 		                                                            <label for="designDocumentFiles0" class="btn bg-m"><i
 		                                                                    class="fa fa-paperclip"></i></label>
 		                                                            <input type="hidden" id="designDocumentFileNames0" name="designDocumentFileNames" value="">
 		                                                            <span id="designDocumentFileName0" class="filevalue"></span>
 		                                                        </span>
+		                                                          <span id="designDocumentFiles0Error" class="error-msg" ></span>
 		                                                    </td>
 		                                                    <td><input type="hidden" id="design_file_ids0" name="design_file_ids" value= ""/>
 		                                                    </td>
@@ -1393,7 +1401,13 @@
 	  			$('form input[name=submitted_tos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submitted_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submssion_purposes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			document.getElementById("designForm").submit();		
+	  			var flag = validateDesign();
+	        	if(flag){
+	        		document.getElementById("designForm").submit();		
+    	 		}else{
+    	        	$(".page-loader").hide();
+    	 		}
+	  			
     		}
 		}
     	   
@@ -1565,7 +1579,7 @@
                          jQuery('html, body').animate({
                              scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
                          }, 1000);
-                     }
+                     }validateDesign();
                  },submitHandler: function(form) {
     			    // do other things for a valid form
     			    //form.submit();
@@ -1825,15 +1839,15 @@
 					          			  <c:forEach var="obj" items="${designFileType}">
 								  				+ '<option value="${obj.design_file_type }">${obj.design_file_type}</option>'
 					           			  </c:forEach>
-									+ '</select></td>'
-								 +'<td data-head="Name " class="input-field"> <input id="designDocumentNames'+rNo+'" name="designDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
+									+ '</select><span id="design_file_typess'+rNo+'Error" class="error-msg" ></span></td>'
+								 +'<td data-head="Name " class="input-field"> <input id="designDocumentNames'+rNo+'" name="designDocumentNames" type="text" class="validate" placeholder="Name"><span id="designDocumentNames'+rNo+'Error" class="error-msg" ></span> </td>'
 								 +'<td data-head="Attachment" class="input-field center-align">'
 								 +'<span class="normal-btn">'
 								 +'<input type="file" id="designDocumentFiles'+rNo+'" name="designDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
 								 +'<label for="designDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
 								 +'<input type="hidden" id="designDocumentFileNames'+rNo+'" name="designDocumentFileNames">'
 								 +'<span id="designDocumentFileName'+rNo+'" class="filevalue"></span>'
-								 +'</span>'
+								 +'</span> <span id="designDocumentFiles'+rNo+'Error" class="error-msg" ></span>'
 								 +'</td>'
 								 +'<td><input type="hidden" id="design_file_ids'+rNo+'" name="design_file_ids"/></td>';
 								 
@@ -1849,6 +1863,37 @@
 						 $("#documentRowNo").val(rNo);
 						 $('.searchable').select2();
 				         $("#design_file_ids0").val('');
+				         
+				         $('select[name=design_file_typess]').change(function(key, element){
+								$("select[name=design_file_typess]").each(function(){
+									var idNo = (this.id).replace('design_file_types',''); 
+					        		if($.trim(this.value) != ""){ 
+					        			$('#design_file_typess'+idNo+'Error').text('');
+									}
+					            });
+								
+							});
+					        $('[name=designDocumentFiles]').change(function(key, element){
+								$("[name=designDocumentFiles]").each(function(){
+									var idNo = (this.id).replace('designDocumentFiles',''); 
+									var doc = $('#designDocumentFileNames'+idNo).val();
+									if($.trim(doc) != ""){  
+					        			$('#designDocumentFiles'+idNo+'Error').text('');
+									}else if($.trim(doc) == "" && $('#designDocumentFiles'+idNo).val() != ""){
+						 				$('#designDocumentFiles'+idNo+'Error').text('');
+						 			}
+					            });
+								
+							});
+					        $('[name=designDocumentNames]').keyup(function(key, element){
+					 			$("[name=designDocumentNames]").each(function(){
+					 			var idNo = (this.id).replace('designDocumentNames',''); 
+					 			if($.trim(this.value) != "" ){ 
+					       			$('#designDocumentNames'+idNo+'Error').text('');
+					 			}
+					           });
+					 		});
+				         
 				} 
 				function removeDesignDocument(rowNo){
 					$("#designDocumentRow"+rowNo).remove();
@@ -1922,6 +1967,81 @@
 		    		var filename = $('#designDocumentFiles'+rowNo)[0].files[0].name;
 		    	    $('#designDocumentFileName'+rowNo).html(filename);
 		    	}
+		        
+		        function validateDesign(){
+					var flag = true;
+					$("select[name=design_file_typess]").each(function(){
+						var idNo = (this.id).replace('design_file_types','');
+						var design_file_type = $("#design_file_types"+idNo).val();
+						var name = $("#designDocumentNames"+idNo).val();
+						var file = $("#designDocumentFiles"+idNo).val();
+						var doc = $('#designDocumentFileNames'+idNo).val();
+			       		if($.trim(design_file_type) == "" &&  name == "" &&  file == ""){
+			       			flag = true;
+						}else{
+							if(design_file_type == ""){
+								$('#design_file_typess'+idNo+'Error').text('Requried');
+								$('#design_file_types'+idNo).slideDown(100,function(){
+									$(this).focus();
+								});
+							}
+							if(name == ""){
+								$('#designDocumentNames'+idNo+'Error').text('Requried');
+								$('#designDocumentNames'+idNo).slideDown(100,function(){
+									$(this).focus();
+								});
+							}
+							if(doc == "" && file == ""){
+								$('#designDocumentFiles'+idNo+'Error').text('Requried');
+								$('#designDocumentFiles'+idNo+'Error').slideDown(100,function(){
+									$(this).focus();
+								});
+							}
+							
+							flag = false;
+							}
+			       		a = [];
+	     				$('#designDocumentTableBody .error-msg').each(function(){a.push(this.innerHTML)});
+	     				console.log(a)
+	     				var found = a.includes('Requried');
+	     				if (!found){
+	     					flag = true;
+	     				}else{
+	     					flag = false;
+	     				}
+						});
+					return flag;
+					}
+		        
+		        $('select[name=design_file_typess]').change(function(key, element){
+					$("select[name=design_file_typess]").each(function(){
+						var idNo = (this.id).replace('design_file_types',''); 
+		        		if($.trim(this.value) != ""){ 
+		        			$('#design_file_typess'+idNo+'Error').text('');
+						}
+		            });
+					
+				});
+		        $('[name=designDocumentFiles]').change(function(key, element){
+					$("[name=designDocumentFiles]").each(function(){
+						var idNo = (this.id).replace('designDocumentFiles',''); 
+						var doc = $('#designDocumentFileNames'+idNo).val();
+						if($.trim(doc) != ""){  
+		        			$('#designDocumentFiles'+idNo+'Error').text('');
+						}else if($.trim(doc) == "" && $('#designDocumentFiles'+idNo).val() != ""){
+			 				$('#designDocumentFiles'+idNo+'Error').text('');
+			 			}
+		            });
+					
+				});
+		        $('[name=designDocumentNames]').keyup(function(key, element){
+		 			$("[name=designDocumentNames]").each(function(){
+		 			var idNo = (this.id).replace('designDocumentNames',''); 
+		 			if($.trim(this.value) != "" ){ 
+		       			$('#designDocumentNames'+idNo+'Error').text('');
+		 			}
+		           });
+		 		});
     </script>
 
 </body>

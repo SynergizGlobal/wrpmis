@@ -2011,7 +2011,7 @@
 	     				}
 						});
 					return flag;
-					}
+					} 
 		        
 		        $('select[name=design_file_typess]').change(function(key, element){
 					$("select[name=design_file_typess]").each(function(){

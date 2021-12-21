@@ -761,7 +761,7 @@ public class DesignDaoImpl implements DesignDao{
 						obj.setDesignDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesignDocumentNames()));
 						if (docArrSize < obj.getDesignDocumentNames().length) {
 							docArrSize = obj.getDesignDocumentNames().length;
-						}
+						} 
 					}
 					for (int i = 0; i < docArrSize; i++) {
 					   if(!StringUtils.isEmpty(obj.getDesignDocumentFiles()) && obj.getDesignDocumentFiles().length > 0) {

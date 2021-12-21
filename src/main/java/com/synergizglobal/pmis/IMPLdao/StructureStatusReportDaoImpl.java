@@ -159,6 +159,10 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 						contractProgressDatesQry = contractProgressDatesQry + " and a.structure_type_fk = ?";
 						arrSize++;
 					}
+					if(!StringUtils.isEmpty(componentObj) && !StringUtils.isEmpty(componentObj.getFob_id_fk())) {
+						contractProgressDatesQry = contractProgressDatesQry + " and a.structure =?";
+						arrSize++;
+					}						
 					
 					contractProgressDatesQry=contractProgressDatesQry+" ORDER BY component_id,activity_name ASC";
 					pValues = new Object[arrSize];
@@ -171,6 +175,10 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					if(!StringUtils.isEmpty(componentObj) && !StringUtils.isEmpty(componentObj.getStructure_type())) {
 						pValues[i++] = componentObj.getStructure_type();
 					}
+					if(!StringUtils.isEmpty(componentObj) && !StringUtils.isEmpty(componentObj.getFob_id_fk())) {
+						pValues[i++] = componentObj.getFob_id_fk();
+					}						
+					
 					List<ActivitiesProgressReport> contractProgressDatesList = jdbcTemplate.query( contractProgressDatesQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 					

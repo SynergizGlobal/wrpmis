@@ -385,7 +385,7 @@
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                 	<p class="searchable_label">HOD <span class="required">*</span></p>
-                                	<select name="hod" id="hod" class="validate-dropdown searchable" onchange="getDyHodList();"> 
+                                	<select name="hod" id="hod" class="validate-dropdown searchable" > 
                          		  			<option value="">Select</option> 
                                 	</select>
                                 	<span id="hodError" class="error-msg" ></span>

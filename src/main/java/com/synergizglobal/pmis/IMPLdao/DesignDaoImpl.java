@@ -1591,9 +1591,9 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = null;
 		try {
 			String qry = "SELECT design_data_id, uploaded_file, dd.status, dd.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
-					+ "from design_data dd " 
+					+ ",uploaded_on as date from design_data dd " 
 					+ "LEFT JOIN user u ON dd.uploaded_by_user_id_fk = u.user_id "
-					+ "where design_data_id is not null order by uploaded_on desc ";
+					+ "where design_data_id is not null order by date desc ";
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
 

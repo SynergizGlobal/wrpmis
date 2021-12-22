@@ -489,7 +489,7 @@
 		                                            <th></th>
 		                                        </tr>
 		                                    </thead>
-											<tbody id="internalTable11">
+											<tbody id="internalTable1">
 												<tr id="internalTableRow11">
 													<td><input id="structure_id" name="structuress"
 														type="hidden"> <input id="structure_id1_1"
@@ -1375,7 +1375,6 @@
 		} */
 		
 		 function countChange(no){
-			console.log($('#internalTable'+no+' >tr:not(.pos-rel)'))
 			$('#countNo'+no).attr('count',$('#internalTable'+no+' >tr:not(.mob-add-btn.pos-rel)').length);			
 		 }
 		

@@ -317,7 +317,7 @@
                             <div class="row">
 						    	<h5 class="center-align m-b-2">Work Details</h5>
 						    <c:if test="${action eq 'add'}">	
-                                <div class="col s6 m4 l4 input-field ">
+                                <div class="col s12 m4 l4 input-field ">
                                     <p class="searchable_label"> Project</p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
@@ -342,12 +342,12 @@
                              
                             </c:if>
  							<c:if test="${action eq 'edit'}">		                             
-	                                <div class="col s6 m4 l4 input-field ">
+	                                <div class="col s12 m4 l4 input-field ">
 	                                    <input type="text" value="${designDetails.project_id_fk}- ${designDetails.project_name}" readonly />
 								    	<label for="project_id_fk">Project <span class="required">*</span></label>
 								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}" readonly />
 								    </div> 
-	                                <div class="col s6 m4 input-field"> 
+	                                <div class="col s6 m4 l4 input-field"> 
 	                                    <input type="text" value="${designDetails.work_id_fk}- ${designDetails.work_short_name}" readonly />
 	                                	<label for="work_id_fk">Work <span class="required">*</span></label>
 	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}" readonly />
@@ -364,8 +364,9 @@
                                     </select>
                                     <span id="approving_railwayError" class="error-msg" ></span>                                     
                                 </div>
-
-                                <div class="col s6 m4 l4 input-field">
+							</div>
+							<div class="row">
+                                <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label"> Department <span class="required">*</span></p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -392,7 +393,7 @@
                                 </div>
                                  </div>
                                  <div class="row">                       
-                                 <div class="col s6 m4 l4 input-field ">
+                                 <div class="col s12 m4 l4 input-field ">
                                     <p class="searchable_label">Structure <span class="required">*</span></p>
                                     <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
@@ -422,11 +423,11 @@
                                     </select>
                                     <span id="prepared_by_id_fkError" class="error-msg" ></span>
                                 </div>
-                              <!--   </div>
+                              </div>
                             
-                            <div class="row"> -->       
+                            <div class="row">      
                             <%--  <c:if test="${action eq 'add'}">   --%>                         
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Contract </p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	<c:if test="${action eq 'add'}"> onchange="resetWorksAndProjectsDropdowns();"</c:if> >
@@ -480,7 +481,7 @@
                                 </div>
                                 <div class="col s12 m8">
                                 	<div class="row">
-		                                <div class="col s6 m4 l4 input-field">
+		                                <div class="col s6 m6 l4 input-field">
 		                                    <p class="searchable_label mb-8" >Approval Authority<span class="required">*</span></p>
 		                                    <select id="approval_authority_fk" name="approval_authority_fk" class="searchable validate-dropdown">
 		                                        <option value="" selected>Select</option>     
@@ -490,13 +491,13 @@
 		                                    </select>
 		                                    <span id="approval_authority_fkError" class="error-msg" ></span>
 		                                </div>
-		                         		<div class="col s6 m4 l4 input-field">
+		                         		<div class="col s6 m6 l4 input-field">
 		                                    <input id="required_date" name="required_date" type="text" class="validate datepicker" value="${designDetails.required_date }">
 		                                    <label for="required_date" class="fs-sm-8rem fs-9">Required Date </label>
 		                                    <button type="button" id="required_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 		                                    <span id="required_dateError" class="error-msg" ></span>
 		                                </div>
-		                                <div class="col s6 m4 l4 input-field">
+		                                <div class="col s6 m6 l4 input-field">
 		                                    <input id="gfc_release_date" name="gfc_released" type="text" class="validate datepicker" value="${designDetails.gfc_released }">
 		                                    <label for="gfc_release_date" class="fs-sm-8rem fs-9">GFC Release Date </label>
 		                                    <button type="button" id="gfc_release_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>

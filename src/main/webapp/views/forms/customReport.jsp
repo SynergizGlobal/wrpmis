@@ -45,12 +45,17 @@
             margin-top: 1em;
         }
 
-        .heading {
+        .heading
+         {
             text-align: center;
             text-transform: capitalize;
             margin-bottom: 3rem;
             font-weight: 500;
         }
+        
+        select {
+     display: block; 
+}
 
         ul {
             list-style-type: none;
@@ -258,17 +263,17 @@
                     </span>
                 </div>
                 <!-- form start-->
-                <form action="#" id="module-select">
+					<form action="<%=request.getContextPath() %>/generate-custom-report" id="customReportForm" name="customReportForm" method="post" target="_blank">
                     <div class="container">
                         <div class="row no-mar">
                             <div class="col s12 m8 input-field offset-m2">
                                 <div class="dropdown-form">
                                     <p class="searchable_label">Select Module</p>
-                                    <select id="module_id_fk" class="searchable" name="module_id_fk">
-                                        <option value="">Select</option>
-                                        <option value="contract">Contract</option>
-                                        <option value="risk">Risk</option>
-                                        <option value="project">Project</option>
+                                    <select id="module_name_fk" class="searchable" name="module_name_fk" onChange="getModuleColumns();">
+                                       <option value="">All</option>
+                                        <c:forEach var="obj" items="${modulesList }">
+                                     	    <option value= "${ obj.module_name_fk}" <c:if test="${formDetails.module_name_fk eq obj.module_name_fk}">selected</c:if>>${obj.module_name_fk}</option>
+                                         </c:forEach>
                                     </select>
                                 </div>
                             </div>
@@ -278,56 +283,9 @@
                         <div class="col l12 m12 s12">
                             <div class="dropdown-options pdt0">
 
-                                <div class="show-hide" id="contract" style="display: none;">
-                                    <div class="md-sl row">
-                                        <div class="col s6 m4 l2">
-                                            <p class="searchable_label">Project</p>
-                                            <select class="searchable" name="project_id_fk">
-                                                <option value="option-1">CR FOB</option>
-                                                <option value="option-2">Option-2</option>
-                                                <option value="option-3">Option-3</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2">
-                                            <p class="searchable_label">Work</p>
-                                            <select class="searchable" name="work_id_fk" id="work_id_fk">
-                                                <option value="option-1">CR FOB</option>
-                                                <option value="option-2">Option-2</option>
-                                                <option value="option-3">Option-3</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2">
-                                            <p class="searchable_label">Contract</p>
-                                            <select class="searchable" name="contract_id_fk" id="contract_id_fk">
-                                                <option value="option-1">CR FOB lot-I</option>
-                                                <option value="option-2">Option-2</option>
-                                                <option value="option-3">Option-3</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2">
-                                            <p class="searchable_label">HOD</p>
-                                            <select class="searchable" name="hod_id_fk" id="hod_id_fk">
-                                                <option value="option-1">CPM-I</option>
-                                                <option value="option-2">Option-2</option>
-                                                <option value="option-3">Option-3</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2">
-                                            <p class="searchable_label">Dy HOD</p>
-                                            <select class="searchable" name="dyhod_id_fk" id="dyhod_id_fk">
-                                                <option value="option-1">Dy CPM-I</option>
-                                                <option value="option-2">Option-2</option>
-                                                <option value="option-3">Option-3</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2">
-                                            <p class="searchable_label">Department</p>
-                                            <select class="searchable" name="department_id_fk" id="department_id_fk">
-                                                <option value="option-1">Engineering</option>
-                                                <option value="option-2">Option-2</option>
-                                                <option value="option-3">Option-3</option>
-                                            </select>
-                                        </div>
+                                <div class="show-hide" id="Contracts" style="display: none;">
+                                    <div class="md-sl row" id="filtersAppend">
+                                       
                                     </div>
                                     <div class="row">
                                         <div class="col s12 center-align">
@@ -339,29 +297,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="center-align">
-                                            <p>
-                                                <label>
-                                                    <input type="checkbox" class="filled-in" checked />
-                                                    <span>Contract Details</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" class="filled-in" checked />
-                                                    <span>Insurance</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" class="filled-in" checked />
-                                                    <span>Bank Guarantee</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" class="filled-in" checked />
-                                                    <span>Milestones</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" class="filled-in" checked />
-                                                    <span>Revision Details</span>
-                                                </label>
-                                            </p>
+                                        <div class="center-align" id="divGrpHeaders">
                                         </div>
                                     </div>
 
@@ -393,49 +329,8 @@
 
                                                 </div>
                                                 <ul name="left-box" id="left-box" class="multiList">
-                                                    <!-- <li class="optionItem " data-parent="noGrp" data-pos="1">+1</li>
- <li class="optionItem " data-parent="noGrp" data-pos="2">+2</li> -->
-                                                    <li class="optionGroup " id="grp1"><span data-parent="grp1"
-                                                            isSelected="false"><b>Contract
-                                                                Details</b></span>
-                                                        <ul>
-                                                            <li class="optionItem " data-parent="grp1" data-pos="1">
-                                                                Contract
-                                                                ID</li>
-                                                            <li class="optionItem " data-parent="grp1" data-pos="2">
-                                                                Contract
-                                                                Shortname</li>
-                                                            <li class="optionItem " data-parent="grp1" data-pos="3">HOD
-                                                            </li>
-                                                            <li class="optionItem " data-parent="grp1" data-pos="4">Dy
-                                                                HOD</li>
-                                                        </ul>
-                                                    </li>
-                                                    <!-- <li class="optionItem " data-parent="noGrp" data-pos="3">+3</li>
- <li class="optionItem " data-parent="noGrp" data-pos="4">+4</li> -->
-                                                    <li class="optionGroup " id="grp2"><span data-parent="grp2"
-                                                            isSelected="false"><b>Bank
-                                                                Guarentee</b></span>
-                                                        <ul>
-                                                            <li class="optionItem " data-parent="grp2" data-pos="1">Bank
-                                                                Guarentee Value</li>
-                                                            <li class="optionItem " data-parent="grp2" data-pos="2">Bank
-                                                                Guarentee Expiry date</li>
-                                                            <li class="optionItem " data-parent="grp2" data-pos="3">Bank
-                                                                Guarentee Number</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="optionGroup hidden" id="grp3"><span data-parent="grp3"
-                                                            isSelected="false"><b>Insurance</b></span>
-                                                        <ul>
-                                                            <li class="optionItem hidden" data-parent="grp3"
-                                                                data-pos="1">
-                                                                Insurance Value</li>
-                                                            <li class="optionItem hidden" data-parent="grp3"
-                                                                data-pos="2">
-                                                                Insurance Number</li>
-                                                        </ul>
-                                                    </li>
+                                                    
+
                                                 </ul>
                                             </div>
                                             <div class="col m2 s12">
@@ -470,54 +365,7 @@
                                                     </div>
                                                 </div>
                                                 <ul name="right-box" id="right-box" class="multiList">
-                                                    <!-- <li class="optionItem hidden" data-parent="noGrp" data-pos="1">+1</li>
- <li class="optionItem hidden" data-parent="noGrp" data-pos="2">+2</li> -->
-                                                    <li class="optionGroup hidden" id="grp1"><span data-parent="grp1"
-                                                            isSelected="false"><b>Contract
-                                                                Details</b></span>
-                                                        <ul>
-                                                            <li class="optionItem hidden" data-parent="grp1"
-                                                                data-pos="1">
-                                                                Contract ID</li>
-                                                            <li class="optionItem hidden" data-parent="grp1"
-                                                                data-pos="2">
-                                                                Contract Shortname</li>
-                                                            <li class="optionItem hidden" data-parent="grp1"
-                                                                data-pos="3">HOD
-                                                            </li>
-                                                            <li class="optionItem hidden" data-parent="grp1"
-                                                                data-pos="4">Dy
-                                                                HOD</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="optionGroup hidden" id="grp2"><span data-parent="grp2"
-                                                            isSelected="false"><b>Bank
-                                                                Guarentee</b></span>
-                                                        <ul>
-                                                            <li class="optionItem hidden" data-parent="grp2"
-                                                                data-pos="1">Bank
-                                                                Guarentee Value</li>
-                                                            <li class="optionItem hidden" data-parent="grp2"
-                                                                data-pos="2">Bank
-                                                                Guarentee Expiry date</li>
-                                                            <li class="optionItem hidden" data-parent="grp2"
-                                                                data-pos="3">Bank
-                                                                Guarentee Number</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="optionGroup" id="grp3"><span data-parent="grp3"
-                                                            isSelected="false"><b>Insurance</b></span>
-                                                        <ul>
-                                                            <li class="optionItem" data-parent="grp3" data-pos="1">
-                                                                Insurance
-                                                                Value</li>
-                                                            <li class="optionItem" data-parent="grp3" data-pos="2">
-                                                                Insurance
-                                                                Number</li>
-                                                        </ul>
-                                                    </li>
-                                                    <!-- <li class="optionItem hidden" data-parent="noGrp" data-pos="3">+3</li>
- <li class="optionItem hidden" data-parent="noGrp" data-pos="4">+4</li> -->
+                                                   
 
                                                 </ul>
                                             </div>
@@ -528,28 +376,23 @@
 
                                 </div>
                             </div>
-                            <!-- ========================category-2================================ -->
 
-                            <div class="show-hide" id="risk" style="display: none;">
-                                <p>risk div shown</p>
-                            </div>
-
-                            <div class="show-hide" id="project" style="display: none;">
-                                <p>project div shown</p>
-                            </div>
                         </div>
                     </div>
-
+					<input type="hidden" name="grpHead" id="grpHead">
+					<input type="hidden" name="grpHeadColumns" id="grpHeadColumns">
+					<input type="hidden" name="filterColumns" id="filterColumns">
+					
                     <div class="container container-no-margin">
                         <div class="row">
                             <div class="col s6 mt-brdr ">
                                 <div class="center-align m-1">
-                                    <button class="btn waves-effect waves-light bg-m">Generate</button>
+                                    <button type="button" class="btn waves-effect waves-light bg-m" onClick="generateReport();">Generate</button>
                                 </div>
                             </div>
                             <div class="col s6 mt-brdr ">
                                 <div class="center-align m-1">
-                                    <button class="btn waves-effect waves-light bg-s">Reset</button>
+                                    <button type="button" class="btn waves-effect waves-light bg-s">Reset</button>
                                 </div>
                             </div>
                         </div>
@@ -592,7 +435,143 @@
                 $('#' + idName + '-box .optionItem:not(.hidden)').removeClass('selected');
             }
         });
+        var grpHeadArray=new Array();
+        var grpColumnArray=new Array();
+        
+        function generateReport()
+        {
+        	grpHeadArray=[];
+        	grpColumnArray=[];
+        	
+        	$('#right-box li').not('.hidden').map(function() {
+    			var id=$(this).attr("id");
+    			if(id!=undefined)
+   				{
+   					var grpName=$("#"+id+" span").html();
+   					grpName=replaceAll(grpName,"<b>","");
+   					grpName=replaceAll(grpName,"</b>","");
+   					grpHeadArray.push(grpName);
+   				}
 
+        	})   
+        	
+        	$('#right-box li ul li').not('.hidden').map(function() {
+    			var id=$(this).parent().parent().attr('id');
+    			if(id!=undefined)
+   				{
+   					var grpName=$("#"+id+" span").html();
+   					grpName=replaceAll(grpName,"<b>","");
+   					grpName=replaceAll(grpName,"</b>","");
+  					
+	    			var ids=$(this).html();
+	    			grpColumnArray.push(grpName+"-"+ids);
+   				}
+    			
+        	}) 
+        	
+        	var concatfilter="";
+        	
+        	$("#grpHead").val(grpHeadArray);
+        	$("#grpHeadColumns").val(grpColumnArray);
+        	
+        	
+        	
+       		if($("#project_id").val()!="")
+       		{
+       			concatfilter=concatfilter+"a.project_id='"+$("#project_id").val()+"' and ";
+       		}
+       		
+       		if($("#work_id").val()!="")
+       		{
+       			concatfilter=concatfilter+"a.work_id='"+$("#work_id").val()+"' and ";
+       		}  
+       		
+       		if($("#contract_id").val()!="")
+       		{
+       			concatfilter=concatfilter+"a.contract_id='"+$("#contract_id").val()+"' and ";
+       		}
+       		
+       		if($("#hod_user_id_fk").val()!="")
+       		{
+       			concatfilter=concatfilter+"a.hod='"+$("#hod_user_id_fk").val()+"' and ";
+       		}
+       		
+       		if($("#dy_hod_user_id_fk").val()!="")
+       		{
+       			concatfilter=concatfilter+"a.dyhod='"+$("#dy_hod_user_id_fk").val()+"' and ";
+       		}     
+       		
+       		if($("#department").val()!="")
+       		{
+       			concatfilter=concatfilter+"a.department='"+$("#department").val()+"' and ";
+       		} 
+       		concatfilter=concatfilter.slice(0, concatfilter.length-4) ;
+       		
+        	$("#filterColumns").val(concatfilter);
+
+       		
+        	$('#customReportForm').submit();
+        	
+
+        }
+        function replaceAll(str, find, replace) {
+        	  return str.replace(new RegExp(find, 'g'), replace);
+        }
+        
+        
+        
+        function resetWorksAndProjectsDropdowns(contract){
+    		$(".page-loader-1").show();
+   		
+    		
+    		var projectId = '';
+    		var workId = ''
+    			var contract_id_fk = $("#contract_id_fk").val();
+    			if(contract_id_fk == ""){
+    				contract_id_fk = contract;
+    			}
+    			if($.trim(contract_id_fk) != ''){        			
+    				workId = $("#contract_id_fk").find('option:selected').attr("name");
+    				if(workId == null){
+    					workId =  contract_id_fk.substring(0, 6); 
+    				}
+    				projectId = workId.substring(0, 3);    
+    				//workId = workId.substring(3, work_id.length);
+    				$("#project_id").val(projectId);
+    				$("#contract_id_fk").val(contract_id_fk);
+    				
+    			
+    				$("#project_id").select2();
+    				$("#contract_id_fk").select2();
+    			}
+    			
+    			if ($.trim(projectId) != "") {
+    				$("#work_id_fk option:not(:first)").remove();
+    	        var myParams = { project_id_fk: projectId };
+    	        $.ajax({
+    	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateWorksList",
+    	            data: myParams, cache: false,async: false,
+    	            success: function (data) {
+    	                if (data.length > 0) {
+    	                    $.each(data, function (i, val) {
+    	                        var workName = '';
+    	                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
+    	                        if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+    	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
+    	                        } else {
+    	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
+    	                        }
+    	                    });
+    	                }
+    	                $('.searchable').select2();
+    	                $(".page-loader-1").hide();
+    	            }
+    	        });
+    	        $('.searchable').select2();
+    	    }
+    			
+    	}        
+        
         function addSelected() {
             $('#left-box .optionItem.selected:not(.hidden)').each(function () {
                 let item = this;
@@ -612,6 +591,20 @@
                     $('.selectAll[data-id="left"]').prop('checked', false)
                 }
             }
+        	$('#right-box li').not('.hidden').map(function() {
+        		
+    			var id=$(this).attr("id");
+    			if(id!=undefined)
+   				{
+   					var grpName=$("#"+id+" span").html();
+   					grpName=replaceAll(grpName,"<b>","");
+   					grpName=replaceAll(grpName,"</b>","");
+   					var rlp=id.replace("grp","");
+   					$("#chkGrp"+rlp).prop("disabled",true);
+   				}
+    			
+        	})             
+            
         }
         function delSelected() {
             $('#right-box .optionItem.selected:not(.hidden)').each(function () {
@@ -632,6 +625,20 @@
                     $('.selectAll[data-id="right"]').prop('checked', false)
                 }
             }
+        	$('#left-box li').not('.hidden').map(function() {
+    			var id=$(this).attr("id");
+    			if(id!=undefined)
+   				{
+   					var grpName=$("#"+id+" span").html();
+   					grpName=replaceAll(grpName,"<b>","");
+   					grpName=replaceAll(grpName,"</b>","");
+   					var rlp=id.replace("grp","");
+   					$("#chkGrp"+rlp).prop("disabled",false);
+
+   				}
+
+        	})           
+            
         }
 
         $('.search').keyup(function (e) {
@@ -666,10 +673,11 @@
     </script>
 
     <script>
-         $('#module_id_fk').change(function () {
+         $('#module_name_fk').change(function () {
             $('.show-hide').hide();
-            if ($('#module_id_fk').val()) {
-                $('#' + $('#module_id_fk').val()).show();
+            if ($('#module_name_fk').val()) {
+                //$('#' + $('#module_name_fk').val()).show();
+            	$('.show-hide').show();
             }
         });
         $(document).ready(function () {
@@ -677,7 +685,136 @@
             $(".searchable").each(function (index, val) {
                 $(this).select2({ placeholder: $(this).attr('placeholder') });
             });
+            
         });
+        
+        
+        function getModuleFilters()
+        {
+        	var myParams={module_name_fk:$("#module_name_fk").val()};
+        	$.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getModuleFilters",
+                data:myParams,
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) 
+                {
+	               	 var html="";
+	
+	            	 for (var i = 0; i < data.length; i++) 
+	            	 {
+	            		 html+= '<div class="col s6 m4 l2">'+
+	                         '<p class="searchable_label">'+data[i]["filter_name"]+'</p>'+
+	                         '<select class="searchable validate-dropdown" id="'+data[i]["option_id"]+'" name="'+data[i]["option_value"]+'">'+
+	                             '<option value="">Select</option>';
+	                             
+	                             var myParams={module_name_fk:$("#module_name_fk").val(),table_name:data[i]["table_name"]};
+	                         	$.ajax({
+	                                 url: "<%=request.getContextPath()%>/ajax/getModuleFiltersOptionValues",
+	                                 data:myParams,
+	                                 type: 'GET',
+	                                 async: false,
+	                                 dataType: 'json',
+	                                 success: function (response) 
+	                                 {
+			                             for(var k=0;k<response.length;k++)
+			                           	 {
+			                            	 html +='<option value="'+response[k]["option_id"]+'">'+response[k]["option_value"]+'</option>';
+			                           	 }
+	                                 }
+	                         	});
+	                    html+='</select></div>';
+	            	 }	
+	            	 
+	            	 $("#filtersAppend").append(html);
+	            	 
+	            	  $('.searchable').select2();
+	            	 
+	            	 
+                }
+        	});
+        }
+        
+        
+        
+        function getModuleColumns()
+        {
+        	getModuleFilters();
+        	
+	       	 $("#divGrpHeaders").html("");
+	    	 $(".multiList").html("");
+    	 
+        	var myParams={module_name_fk:$("#module_name_fk").val()};
+        	 $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getModuleGroups",
+                 data:myParams,
+                 type: 'GET',
+                 async: false,
+                 dataType: 'json',
+                 success: function (data) 
+                 {
+                	 var html="";
+                	 var appendHeader="<p>";
+                	 
+                	 var hdnHtml="";
+
+                	 for (i = 0; i < data.length; i++) 
+                	 {
+                		 var concat=i+1;
+                		 appendHeader +='<label id="'+data[i]["name"]+'"><input type="checkbox" id="chkGrp'+concat+'" class="filled-in" checked onchange="showColumns('+concat+');"/><span>'+data[i]["name"]+'</span></label>';
+	                	 html +='<li class="optionGroup " id="grp'+concat+'"><span data-parent="grp'+concat+'" isSelected="false"><b>'+data[i]["name"]+'</b></span>';
+	                	 html +="<ul id='columnDiv"+concat+"'>";
+	                	 
+	                	 hdnHtml +='<li class="optionGroup hidden" id="grp'+concat+'"><span data-parent="grp'+concat+'" isSelected="false"><b>'+data[i]["name"]+'</b></span>';
+	                	 hdnHtml +="<ul id='columnDiv"+concat+"'>";
+	                	 
+	                 	 var Params={module_name_fk:$("#module_name_fk").val(),table_name:data[i]["table_name"]};
+		               	 $.ajax({
+		                        url: "<%=request.getContextPath()%>/ajax/getModuleGroupColumns",
+		                        data:Params,
+		                        type: 'GET',
+		                        async: false,
+		                        dataType: 'json',
+		                        success: function (response) 
+		                        {	                	 
+				                	 for (i1 = 0; i1 < response.length; i1++) 
+				                	 {
+				                		 var concatStr=i1+1;
+				                		 html +='<li class="optionItem " data-parent="grp'+concat+'" data-pos="'+concatStr+'">'+response[i1]["column_name"]+'</li>';
+				                		 hdnHtml +='<li class="optionItem hidden" data-parent="grp'+concat+'" data-pos="'+concatStr+'">'+response[i1]["column_name"]+'</li>';
+				                	 }
+		                        }
+		               	 });
+	                	 
+	                	 
+	                	 
+	                	 html +="</ul>";
+	                	 html +="</li>";
+	                	 hdnHtml +="</ul></li>";
+                	 }
+                	 appendHeader +="</p>";
+                	 $("#divGrpHeaders").append(appendHeader);
+                	 $("#left-box").append(html);
+                	 $("#right-box").append(hdnHtml);
+                 }
+             });        	
+        }
+        
+        function showColumns(groupname)
+        {
+        		if($("#chkGrp"+groupname).is(":checked"))
+        		{
+        			$("#grp"+groupname).show();
+        			$("#columnDiv"+groupname).show();
+        		}
+        		else
+       			{
+        			$("#grp"+groupname).hide();
+        			$("#columnDiv"+groupname).hide();
+       			}
+        		
+        }
 
         function clearFilter() {
             $('#project_id_fk,#work_id_fk,#contract_id_fk,#hod_id_fk,#dyhod_id_fk,#department_id_fk').val('');

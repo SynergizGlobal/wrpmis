@@ -326,7 +326,7 @@
                         <c:if test="${action eq 'add'}">
                             <div class="row"> 
                                 <div class="col s6 offset-m2 m4 input-field">
-                                    <p class="searchable_label"> Project</p>
+                                    <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown no-z" id="project_id_fk" name="project_id_fk"  
                                	  		 onchange="getWorksList(this.value);">
                                     		 <option value="" >Select</option>
@@ -337,7 +337,7 @@
                                		 <span id="project_idError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Work </p>
+                                    <p class="searchable_label"> Work <span class="required">*</span></p>
                                      <select class="searchable validate-dropdown no-z" id="work_id_fk" name="work_id_fk"
                                    		  onchange="resetProject();getContractsList(this.value);">  <!-- getContractsList(this.value); -->
                                    		  <option value="" >Select</option>

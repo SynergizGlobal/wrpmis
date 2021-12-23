@@ -1016,8 +1016,7 @@ public class DesignDaoImpl implements DesignDao{
 				
 				
 				if(flag && !StringUtils.isEmpty(obj.getDesignRevisions())) {
-					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,consultant_submission,mrvc_reviewed,divisional_approval,"
-							+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?,?)";
+					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,,revision_status_fk,remarks) VALUES(?,?,?,?,?)";
 					
 					int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 				            new BatchPreparedStatementSetter() {
@@ -1026,10 +1025,10 @@ public class DesignDaoImpl implements DesignDao{
 									try {										
 										String revision = obj.getDesignRevisions().get(i).getRevision();
 										String revision_date = obj.getDesignRevisions().get(i).getRevision_date();
-										String consultant_submission = obj.getDesignRevisions().get(i).getConsultant_submission();
-										String mrvc_reviewed = obj.getDesignRevisions().get(i).getMrvc_reviewed();
-										String divisional_approval = obj.getDesignRevisions().get(i).getDivisional_approval();
-										String hq_approval = obj.getDesignRevisions().get(i).getHq_approval();
+										//String consultant_submission = obj.getDesignRevisions().get(i).getConsultant_submission();
+										//String mrvc_reviewed = obj.getDesignRevisions().get(i).getMrvc_reviewed();
+										//String divisional_approval = obj.getDesignRevisions().get(i).getDivisional_approval();
+										//String hq_approval = obj.getDesignRevisions().get(i).getHq_approval();
 										String revision_status_fk = obj.getDesignRevisions().get(i).getRevision_status_fk();
 										String remarks = obj.getDesignRevisions().get(i).getRemarks();
 										
@@ -1043,10 +1042,10 @@ public class DesignDaoImpl implements DesignDao{
 										ps.setString(k++, obj.getDesign_id());
 										ps.setString(k++,!StringUtils.isEmpty(revision)?revision:null);
 										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(revision_date)?revision_date:null));
-										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(consultant_submission)?consultant_submission:null));
+										/*ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(consultant_submission)?consultant_submission:null));
 										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(mrvc_reviewed)?mrvc_reviewed:null));
 										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(divisional_approval)?divisional_approval:null));
-										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(hq_approval)?hq_approval:null));
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(hq_approval)?hq_approval:null));*/
 										ps.setString(k++,!StringUtils.isEmpty(revision_status_fk)?revision_status_fk:null);
 										ps.setString(k++,!StringUtils.isEmpty(remarks)?remarks:null);
 									

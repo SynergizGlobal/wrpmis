@@ -276,7 +276,7 @@
          
          
          <div class="row">
-        <div class="col s12 m12" style="margin-bottom:3rem;">
+        <div class="col s12 m12" style="margin-bottom:4rem;">
             <div class="card ">
                 <div class="card-content">
                     <div class="center-align">
@@ -539,8 +539,9 @@
                       </div>
                             <!-- insurance show hide div  -->
                            <c:if test="${action eq 'edit'}"> 
-                            <div class="container container-no-margin"> 
-                           	<div class="row fixed-width section scrollspy" id="statusDetails">
+                          <div class="row no-mar"> 
+                          	<div class="col s10 offset-s1">
+                           	<div class="fixed-width section scrollspy" id="statusDetails">
                                 <h5 class="center-align pos-rel">Drawing Status
                                 	<c:if test="${not empty designDetails.designStatusList && fn:length(designDetails.designStatusList) gt 0 }">
                                 	<span class="right mob-center">
@@ -562,6 +563,7 @@
 										        <th class="max-200">Submitted To </th>
 										        <th class="max-200">Purpose of Submission <br>/ Remarks</th>
 										        <th>Submitted Date</th>
+										        <th>Latest</th>
 										        <th>Action</th>
 										    </tr>
 										</thead>
@@ -606,6 +608,17 @@
 												        <td data-head="Submitted Date" class="input-field">
 												        	<input id="submitted_date${index.count }" name="submitted_dates" type="text" class="validate datepicker" value="${statObj.submitted_date}" placeholder="Submitted Date">
 				                                    		<button type="button" id="submitted_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+												        </td>
+												        <td data-head="Latest" class="input-field center-align">
+			                                                <p>
+			                                                 	<label> 
+			                                                	   <input type="checkbox"  id="drawing_status_checkbox${index.count }" name="latest"  value="${revObj.latest}" class="drawing_status_checkbox" 
+			                                                	   <c:if test="${revObj.latest eq 'Yes'}">checked</c:if>/> 
+			                                                			<span></span> 
+			                                                	</label>
+		                                                	</p>
+		                                                	  <input type="hidden" id="drawing_status_checkbox${index.count }s"  name="latests" value="${revObj.latest}" class="drawing_status_checkbox" />		                                                	
+		                                                </td>
 												        </td>
 												        <td class="mobile_btn_close">
 		                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeStatusRow('${index.count }');"> <i
@@ -652,7 +665,15 @@
 											        	<input id="submitted_date0" name="submitted_dates" type="text" class="validate datepicker" value="" placeholder="Submitted Date">
 			                                    		<button type="button" id="submitted_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											        </td>
-											        
+											          <td data-head="Latest" class="input-field center-align">
+			                                                <p>
+			                                                 	<label> 
+			                                                	   <input type="checkbox"  id="drawing_status_checkbox0" name="latest"  value="" class="drawing_status_checkbox" /> 
+			                                                			<span></span> 
+			                                                	</label>
+		                                                	</p>
+		                                                	  <input type="hidden" id="drawing_status_checkbox0s"  name="latests" value="No" class="drawing_status_checkbox" />		                                                	
+		                                                </td>
 											        <td class="mobile_btn_close">
 	                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeStatusRow('${index.count }');"> <i
 	                                                            class="fa fa-close"></i></a>
@@ -685,7 +706,9 @@
                                     </c:choose> 
                                 </div>
                             </div>
-                            
+                           </div>
+                          </div>  
+                            <div class="container container-no-margin"> 
                              <div class="row fixed-width section scrollspy" id="revisionDetails">
                                 <h5 class="center-align pos-rel">Revision Details 
                                 <c:if test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
@@ -1117,7 +1140,18 @@
 	    	if (document.getElementById(itemId).checked) {
 	    		$("#"+itemId+"s").val("Yes")
 	    	}
-	    });	    
+	    });	 
+	    
+	    $(document).on('change', '.drawing_status_checkbox', function () {
+	    	var that=this;
+	    	var itemId=$( that ).attr('id');
+	    	$(".drawing_status_checkbox").prop("checked",false);
+	    	$(".drawing_status_checkbox").val("No")
+	    	$("#"+itemId).prop("checked",true);
+	    	if (document.getElementById(itemId).checked) {
+	    		$("#"+itemId+"s").val("Yes")
+	    	}
+	    });	 
 	           
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
@@ -1157,6 +1191,31 @@
             
             $("#drawing_show_latest").click(function(){
             	if($('input[name="drawing_show_latest"]').is(':checked')){
+            		$(".drawing-rows").hide();
+              	  	$('.drawing_status_checkbox[type="checkbox"]').each(function(){
+              	  		if($(this).is(':checked')){
+              	  			$('#StatusRow'+$(this).attr('id').split('_checkbox')[1]).show();
+              	  		}
+              	  	});
+              	}else{
+              		$(".drawing-rows").show();
+              	}
+            });
+            if($('input[name="drawing_show_latest"]').is(':checked')){
+            	if($('.drawing_status_checkbox[type="checkbox"]').length >1){
+	          	  	$(".drawing-rows").hide();            		
+            	}
+          	  	$('.drawing_status_checkbox[type="checkbox"]').each(function(){
+        	  		if($(this).is(':checked')){
+        	  			$('#StatusRow'+$(this).attr('id').split('_checkbox')[1]).show();
+        	  		}
+        	  	});
+          	}else{
+          		$(".drawing-rows").show();
+          	}
+            
+          /*   $("#drawing_show_latest").click(function(){
+            	if($('input[name="drawing_show_latest"]').is(':checked')){
             		if($('[name="submitted_dates"]').length>1){
     	            	$(".drawing-rows").hide();
                 	}        	  
@@ -1176,6 +1235,7 @@
               		$(".drawing-rows").show();
               	}
             });
+            
             if($('input[name="drawing_show_latest"]').is(':checked')){
             	if($('[name="submitted_dates"]').length>1){
 	            	$(".drawing-rows").hide();
@@ -1195,7 +1255,7 @@
           	}else{
           		$(".drawing-rows").show();
           	} 
-          
+            */
             
             $('input[name=is_there_issue]').change(function () {
                 var radioval = $('input[name=is_there_issue]:checked').val();
@@ -1817,6 +1877,9 @@
 			      			+' </select> </td>'
 			      			+'<td data-head="Submitted Date" class="input-field"> <input id="submitted_date'+rNo+'" name="submitted_dates" type="text" class="validate datepicker" value="" placeholder="Submitted Date">'
 			      			+'<button type="button" id="submitted_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td> '
+			      			+' <td data-head="Latest" class="input-field center-align"> <p><label> <input type="checkbox"  id="drawing_status_checkbox'+rNo+'" name="latest"  value="" class="drawing_status_checkbox" '
+                        	+'/> <span></span> </label> </p> <input type="hidden" id="drawing_status_checkbox'+rNo+'s"  name="latests" value="No" class="drawing_status_checkbox" />'		                                                	
+                    		+'</td>'
 			      			+'<td class="mobile_btn_close">	 <a  class="btn waves-effect waves-light red t-c " onclick="removeStatusRow('+rNo+');"> <i class="fa fa-close"></i></a>	</td>';
 							
 						  $('#statusTableBody').append(html);

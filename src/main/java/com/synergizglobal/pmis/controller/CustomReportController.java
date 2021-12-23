@@ -233,7 +233,7 @@ public class CustomReportController {
 								String[] hyphonStr=splitStrColumns[j].split("-");
 								append +=hyphonStr[1]+"^";
 								String columnName = hyphonStr[1].replaceAll(" ", "_");
-								appendStr +="IFNULL("+columnName+",'') as "+columnName+""+",";
+								appendStr +="IFNULL(a."+columnName+",'') as "+columnName+""+",";
 				            }
 						}
 						append=append.substring(0, append.length()-1);

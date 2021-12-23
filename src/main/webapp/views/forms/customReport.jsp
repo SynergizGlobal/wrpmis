@@ -286,7 +286,7 @@
                             <h5>
                             	<span class="disp-inb">
                             		<select id="module_name_fk" class="searchable" name="module_name_fk" onChange="getModuleColumns();">
-                                       <option value="">All</option>
+                                       <option value="">Select</option>
                                         <c:forEach var="obj" items="${modulesList }">
                                      	    <option value= "${ obj.module_name_fk}" <c:if test="${formDetails.module_name_fk eq obj.module_name_fk}">selected</c:if>>${obj.module_name_fk}</option>
                                          </c:forEach>

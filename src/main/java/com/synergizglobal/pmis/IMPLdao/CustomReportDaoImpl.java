@@ -278,18 +278,21 @@ public class CustomReportDaoImpl implements CustomReportDao {
 		    
 		    if(checkMasterTable(obj.getName(),obj.getModule_name_fk()).compareTo("Yes")==0)
 		    {
-			    qry ="select "+obj.getColumn_name()+" from "+getTableName(obj.getName(),obj.getModule_name_fk());
+			    qry ="select "+obj.getColumn_name()+" from "+getTableName(obj.getName(),obj.getModule_name_fk())+" as a";
 			    
 			    if(obj.getFilterColumns()!=null)
 			    {
-			    	qry=qry+" a where "+obj.getFilterColumns();
+			    	qry=qry+"  where "+obj.getFilterColumns();
 			    }
 		    }
 		    else
 		    {
-		    	qry ="select "+obj.getColumn_name()+" from "+getMasterTable(obj.getModule_name_fk())+" as a ";
+		    	String replceStr=obj.getColumn_name();
+		    	replceStr = replceStr.replaceAll("a\\.", "b.");
 		    	
-				qry = qry+" left join "+getTableName(obj.getName(),obj.getModule_name_fk())+" b on b."+getForeignKeyChild(obj.getName(),obj.getModule_name_fk())+"=a."+getForeignKeyMaster(obj.getModule_name_fk())+" ";
+		    	qry ="select "+replceStr+" from "+getMasterTable(obj.getModule_name_fk())+" as a ";
+		    	
+				qry = qry+" right join "+getTableName(obj.getName(),obj.getModule_name_fk())+" b on b."+getForeignKeyChild(obj.getName(),obj.getModule_name_fk())+"=a."+getForeignKeyMaster(obj.getModule_name_fk())+" ";
 				
 			    if(obj.getFilterColumns()!=null)
 			    {

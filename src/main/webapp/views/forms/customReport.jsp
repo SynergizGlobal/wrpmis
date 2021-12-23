@@ -478,6 +478,8 @@
         	grpHeadArray=[];
         	grpColumnArray=[];
         	
+
+        	
         	$('#right-box li').not('.hidden').map(function() {
     			var id=$(this).attr("id");
     			if(id!=undefined)
@@ -516,39 +518,41 @@
         	$("#grpHeadColumns").val(grpColumnArray);
         	
         	
-        	
-       		if($("#project_id").val()!="")
-       		{
-       			concatfilter=concatfilter+"a.project_id='"+$("#project_id").val()+"' and ";
-       		}
-       		
-       		if($("#work_id").val()!="")
-       		{
-       			concatfilter=concatfilter+"a.work_id='"+$("#work_id").val()+"' and ";
-       		}  
-       		
-       		if($("#contract_id").val()!="")
-       		{
-       			concatfilter=concatfilter+"a.contract_id='"+$("#contract_id").val()+"' and ";
-       		}
-       		
-       		if($("#hod_user_id_fk").val()!="")
-       		{
-       			concatfilter=concatfilter+"a.hod='"+$("#hod_user_id_fk").val()+"' and ";
-       		}
-       		
-       		if($("#dy_hod_user_id_fk").val()!="")
-       		{
-       			concatfilter=concatfilter+"a.dyhod='"+$("#dy_hod_user_id_fk").val()+"' and ";
-       		}     
-       		
-       		if($("#department").val()!="")
-       		{
-       			concatfilter=concatfilter+"a.department='"+$("#department").val()+"' and ";
-       		} 
-       		concatfilter=concatfilter.slice(0, concatfilter.length-4) ;
-       		
-        	$("#filterColumns").val(concatfilter);
+        	if($("#filtersAppend").html()!="")
+    		{        	
+	       		if($("#project_id").val()!="")
+	       		{
+	       			concatfilter=concatfilter+"a.project_id='"+$("#project_id").val()+"' and ";
+	       		}
+	       		
+	       		if($("#work_id").val()!="")
+	       		{
+	       			concatfilter=concatfilter+"a.work_id='"+$("#work_id").val()+"' and ";
+	       		}  
+	       		
+	       		if($("#contract_id").val()!="")
+	       		{
+	       			concatfilter=concatfilter+"a.contract_id='"+$("#contract_id").val()+"' and ";
+	       		}
+	       		
+	       		if($("#hod_user_id_fk").val()!="")
+	       		{
+	       			concatfilter=concatfilter+"a.hod='"+$("#hod_user_id_fk").val()+"' and ";
+	       		}
+	       		
+	       		if($("#dy_hod_user_id_fk").val()!="")
+	       		{
+	       			concatfilter=concatfilter+"a.dyhod='"+$("#dy_hod_user_id_fk").val()+"' and ";
+	       		}     
+	       		
+	       		if($("#department").val()!="")
+	       		{
+	       			concatfilter=concatfilter+"a.department='"+$("#department").val()+"' and ";
+	       		} 
+	       		concatfilter=concatfilter.slice(0, concatfilter.length-4) ;
+	       		
+	        	$("#filterColumns").val(concatfilter);
+    		}
 
        		
         	$('#customReportForm').submit();
@@ -806,6 +810,7 @@
         
         function getModuleFilters()
         {
+        	$("#filtersAppend").html("");
         	var myParams={module_name_fk:$("#module_name_fk").val()};
         	$.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getModuleFilters",

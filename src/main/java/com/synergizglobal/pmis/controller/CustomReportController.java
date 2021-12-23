@@ -305,7 +305,7 @@ public class CustomReportController {
 		            
 	                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
 	                Date date = new Date();
-	                String fileName = "Contract_"+dateFormat.format(date);
+	                String fileName = customReportColumns.getModule_name_fk()+"_"+dateFormat.format(date);
 	                
 		            try{
 		                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");

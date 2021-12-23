@@ -196,6 +196,7 @@ public class PageConstants {
 	public static final String insuranceType = "referenceForms/insuranceType";
 	
 	public static final String drawingType = "referenceForms/drawingType";
+	public static final String laFileType = "referenceForms/laFileType";
 	
 	public static final String utilityType = "referenceForms/utilityType";
 	public static final String utilityStatus = "referenceForms/utilityStatus";

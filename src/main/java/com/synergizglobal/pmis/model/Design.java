@@ -17,10 +17,10 @@ public class Design {
 	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,
 	 project_id,work_id,consult_contarct,proof_consult_contarct,project_name,contract_id,required_date,revision_status,status,uploaded_by_user_id_fk,design_data_id, railway_id,uploaded_file, user_id,uploaded_on,user_role_code,user_name;
 	
-	private String id, design_file_id,design_id_fk,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current;
+	private String id, design_file_id,design_id_fk,latest,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current;
 	private String []ids, design_id_fks, design_file_ids,stage_fks,designDocumentFileNames,designDocumentNames, submitted_bys, submitted_tos, submitted_dates, submssion_purposes,design_file_type_fks,currents;
 	
-	private String[] revisions,revision_dates, consultant_submissions,design_file_typess, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
+	private String[] revisions,revision_dates,latests, consultant_submissions,design_file_typess, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
 	
 	private MultipartFile designFile;
 	private MultipartFile[] designDocumentFiles;
@@ -30,6 +30,22 @@ public class Design {
 	private List<MultipartFile> designFiles;
 	private List<Design> designFilesList;
 	private String[] designFileNames;
+
+	public String getLatest() {
+		return latest;
+	}
+
+	public void setLatest(String latest) {
+		this.latest = latest;
+	}
+
+	public String[] getLatests() {
+		return latests;
+	}
+
+	public void setLatests(String[] latests) {
+		this.latests = latests;
+	}
 
 	public String getConsult_contarct() {
 		return consult_contarct;

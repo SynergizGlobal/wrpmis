@@ -279,7 +279,7 @@
                                     <span id="sub_category_of_landError" class="error-msg" ></span>
                                 </div>  
                                 <div class="col s12 m4 l4 input-field">
-                                       <input id="required_area" name="required_area" type="text" value=""
+                                       <input id="required_area" name="requried_area" type="text" 
                                            class="validate mt-10">
                                        <label for="required_area"> Required Area</label>
                                 </div>                                

@@ -612,12 +612,12 @@
 												        <td data-head="Latest" class="input-field center-align">
 			                                                <p>
 			                                                 	<label> 
-			                                                	   <input type="checkbox"  id="drawing_status_checkbox${index.count }" name="latest"  value="${revObj.latest}" class="drawing_status_checkbox" 
-			                                                	   <c:if test="${revObj.latest eq 'Yes'}">checked</c:if>/> 
+			                                                	   <input type="checkbox"  id="drawing_status_checkbox${index.count }" name="latest"  value="${statObj.latest}" class="drawing_status_checkbox" 
+			                                                	   <c:if test="${statObj.latest eq 'Yes'}">checked</c:if>/> 
 			                                                			<span></span> 
 			                                                	</label>
 		                                                	</p>
-		                                                	  <input type="hidden" id="drawing_status_checkbox${index.count }s"  name="latests" value="${revObj.latest}" class="drawing_status_checkbox" />		                                                	
+		                                                	  <input type="hidden" id="drawing_status_checkbox${index.count }s"  name="latests" value="${statObj.latest}" class="drawing_status_checkbox" />		                                                	
 		                                                </td>
 												        </td>
 												        <td class="mobile_btn_close">
@@ -672,7 +672,7 @@
 			                                                			<span></span> 
 			                                                	</label>
 		                                                	</p>
-		                                                	  <input type="hidden" id="drawing_status_checkbox0s"  name="latests" value="No" class="drawing_status_checkbox" />		                                                	
+		                                                	  <input type="hidden" id="drawing_status_checkbox0s"  name="latests" value="" class="drawing_status_checkbox" />		                                                	
 		                                                </td>
 											        <td class="mobile_btn_close">
 	                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeStatusRow('${index.count }');"> <i
@@ -1878,7 +1878,7 @@
 			      			+'<td data-head="Submitted Date" class="input-field"> <input id="submitted_date'+rNo+'" name="submitted_dates" type="text" class="validate datepicker" value="" placeholder="Submitted Date">'
 			      			+'<button type="button" id="submitted_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td> '
 			      			+' <td data-head="Latest" class="input-field center-align"> <p><label> <input type="checkbox"  id="drawing_status_checkbox'+rNo+'" name="latest"  value="" class="drawing_status_checkbox" '
-                        	+'/> <span></span> </label> </p> <input type="hidden" id="drawing_status_checkbox'+rNo+'s"  name="latests" value="No" class="drawing_status_checkbox" />'		                                                	
+                        	+'/> <span></span> </label> </p> <input type="hidden" id="drawing_status_checkbox'+rNo+'s"  name="latests" value="" class="drawing_status_checkbox" />'		                                                	
                     		+'</td>'
 			      			+'<td class="mobile_btn_close">	 <a  class="btn waves-effect waves-light red t-c " onclick="removeStatusRow('+rNo+');"> <i class="fa fa-close"></i></a>	</td>';
 							

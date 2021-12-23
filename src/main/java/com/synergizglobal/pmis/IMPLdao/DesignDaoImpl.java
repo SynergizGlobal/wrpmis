@@ -457,12 +457,12 @@ public class DesignDaoImpl implements DesignDao{
 			}
 			
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry2 ="select id, design_file_type_fk,name,design_id_fk, attachment  from design_files where design_id_fk = ?";
+				String qry2 ="select id, design_file_type_fk,name,design_id_fk, attachment  from design_files where design_id_fk = ?"; 
 				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignFilesList(objList);
 			}
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,DATE_FORMAT(submitted_date,'%d-%m-%Y') AS submitted_date, submssion_purpose from design_status where design_id_fk = ? order by DATE(submitted_date) DESC, id DESC ";
+				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,DATE_FORMAT(submitted_date,'%d-%m-%Y') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and latest <> 'No' order by DATE(submitted_date) DESC, id DESC ";
 				List<Design> objList = jdbcTemplate.query( qry3,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignStatusList(objList);
 			}
@@ -878,12 +878,12 @@ public class DesignDaoImpl implements DesignDao{
 						}
 				  });
 				
-				String deleteQryForDesignStatus = "DELETE from design_status where design_id_fk = :design_id";		 
+				String deleteQryForDesignStatus = "DELETE from design_status where design_id_fk = :design_id";	
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQryForDesignStatus, paramSource);
 			
 				String qryDesignStatus = "INSERT INTO design_status (design_id_fk,stage_fk,submitted_by,submitted_to,submitted_date,"
-						+ "submssion_purpose) VALUES(?,?,?,?,?,?)";
+						+ "submssion_purpose,latest) VALUES(?,?,?,?,?,?,?)";
 				
 				int[] statusCounts = jdbcTemplate.batchUpdate(qryDesignStatus,
 			            new BatchPreparedStatementSetter() {
@@ -897,7 +897,7 @@ public class DesignDaoImpl implements DesignDao{
 									ps.setString(k++,(obj.getSubmitted_tos().length > 0 && !StringUtils.isEmpty(obj.getSubmitted_tos()[i]))?obj.getSubmitted_tos()[i]:null);	
 									ps.setString(k++,DateParser.parse((obj.getSubmitted_dates().length > 0 && !StringUtils.isEmpty(obj.getSubmitted_dates()[i]))?obj.getSubmitted_dates()[i]:null));
 									ps.setString(k++,(obj.getSubmssion_purposes().length > 0 && !StringUtils.isEmpty(obj.getSubmssion_purposes()[i]))?obj.getSubmssion_purposes()[i]:null);
-								
+									ps.setString(k++,(obj.getLatests().length > 0 && !StringUtils.isEmpty(obj.getLatests()[i]))?obj.getLatests()[i]:null);
 								} catch (Exception e) {
 									
 								}
@@ -1810,7 +1810,7 @@ public class DesignDaoImpl implements DesignDao{
 				    count = namedParamJdbcTemplate.update(updateQry, paramSource);
 				    if(count > 0) {
 						 flag = true;
-						 String deleteQryForDesignStatus = "DELETE from design_status where design_id_fk = :design_id";		 
+						 String deleteQryForDesignStatus = "UPDATE design_status set latest = 'No' where design_id_fk = :design_id";		 
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						 count = namedParamJdbcTemplate.update(deleteQryForDesignStatus, paramSource);
 					}
@@ -1829,7 +1829,7 @@ public class DesignDaoImpl implements DesignDao{
 				
 				if(flag) {
 					con = dataSource.getConnection();
-					String qryDesignRevision = "INSERT INTO design_status (design_id_fk, stage_fk, submitted_by, submitted_to, submitted_date, submssion_purpose) VALUES(?,?,?,?,?,?)";
+					String qryDesignRevision = "INSERT INTO design_status (design_id_fk, stage_fk, submitted_by, submitted_to, submitted_date, submssion_purpose, latest) VALUES(?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(qryDesignRevision); 				
 					String stage_fk = obj.getStage_fk();
 					String submitted_date = obj.getSubmitted_date();
@@ -1844,6 +1844,7 @@ public class DesignDaoImpl implements DesignDao{
 							stmt.setString(k++,!StringUtils.isEmpty(submitted_to)?submitted_to:null);
 							stmt.setString(k++,DateParser.parse(!StringUtils.isEmpty(submitted_date)?submitted_date:null));
 							stmt.setString(k++,!StringUtils.isEmpty(submssion_purpose)?submssion_purpose:null);
+							stmt.setString(k++,(CommonConstants.YES ));
 							stmt.addBatch();
 					}
 					stmt.executeBatch();

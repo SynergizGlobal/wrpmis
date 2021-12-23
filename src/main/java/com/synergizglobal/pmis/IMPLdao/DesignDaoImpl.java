@@ -452,7 +452,7 @@ public class DesignDaoImpl implements DesignDao{
 				dObj.setDesignFilesList(objList);
 			}
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,DATE_FORMAT(submitted_date,'%d-%m-%Y') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and latest <> 'No' order by DATE(submitted_date) DESC, id DESC ";
+				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,DATE_FORMAT(submitted_date,'%d-%m-%Y') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and (latest is null or latest = 'Yes' ) order by DATE(submitted_date) DESC, id DESC ";
 				List<Design> objList = jdbcTemplate.query( qry3,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignStatusList(objList);
 			}

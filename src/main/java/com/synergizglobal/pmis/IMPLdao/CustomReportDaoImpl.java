@@ -163,7 +163,7 @@ public class CustomReportDaoImpl implements CustomReportDao {
 	
 	@Override
 	public List<CustomReportColumns> getModuleGroupColumns(CustomReportColumns obj) throws Exception {
-		PreparedStatement stmt = null;
+ 		PreparedStatement stmt = null;
 		CustomReportColumns sobj = null;
 	    List<CustomReportColumns> objsList = new ArrayList<CustomReportColumns>();
 		Connection con = null;
@@ -182,7 +182,15 @@ public class CustomReportDaoImpl implements CustomReportDao {
 			      for(int i = 1; i<=count; i++) 
 			      {
 						sobj = new CustomReportColumns();
-		                String columnName = rsMetaData.getColumnName(i).replaceAll("_", " ");
+						String checkQry ="select count(*) from custom_report_required_field where table_fk='"+obj.getTable_name()+"' and filed_name in('"+rsMetaData.getColumnName(i)+"')";
+						int fieldCnt = (int) jdbcTemplate.queryForObject(checkQry, int.class);
+						String columnValue=rsMetaData.getColumnName(i);
+						
+						if(fieldCnt>0)
+						{
+							columnValue=columnValue+" <span class='required'>*</span>";
+						}
+		                String columnName = columnValue.replaceAll("_", " ");
 						sobj.setColumn_name(WordUtils.capitalizeFully(columnName));
 						objsList.add(sobj);
 		

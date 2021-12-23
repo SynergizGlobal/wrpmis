@@ -276,6 +276,7 @@
      <!-- header ends  -->
 
         <div class="">
+		<form action="<%=request.getContextPath() %>/generate-custom-report" id="customReportForm" name="customReportForm" method="post" target="_blank">
 
         <div class="card ">
             <div class="card-content">
@@ -297,7 +298,6 @@
                     </span>
                 </div>
                 <!-- form start-->
-					<form action="<%=request.getContextPath() %>/generate-custom-report" id="customReportForm" name="customReportForm" method="post" target="_blank">
                   <%--   <div class="container">
                         <div class="row no-mar">
                             <div class="col s12 m8 input-field offset-m2">
@@ -431,10 +431,11 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                
             </div>
         </div>
-    </div>
+     </form></div>
+   
     
      <!-- footer  -->
      <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -498,6 +499,12 @@
    					grpName=replaceAll(grpName,"</b>","");
   					
 	    			var ids=$(this).html();
+	    			ids=ids.replace(/<\/?span[^>]*>/g,"");
+	    			ids=ids.replace("*","");
+    			 	 if(/\s+$/.test(ids)) 
+    				 {
+    			 		ids=ids.slice(0, ids.length-1) ;
+    				 }
 	    			grpColumnArray.push(grpName+"-"+ids);
    				}
     			
@@ -620,6 +627,18 @@
                 }
                 $(item).toggleClass('hidden selected');
             });
+            
+			$('#right-box li ul li').map(function() {
+        		
+   				var id=$(this).html();
+   				if(id.indexOf('<span class="required">*</span>')!=-1)
+   				{
+   					var index=$(this).attr('data-pos');
+   					$('#right-box [data-pos="' + index + '"]').removeClass('hidden');
+   					$('#left-box [data-pos="' + index + '"]').addClass('hidden');
+   				}
+        	});            
+            
             if ($('#left-box .optionItem:not(".hidden")').length == 0) {
                 if ($('.selectAll[data-id="left"]').prop('checked')) {
                     $('.selectAll[data-id="left"]').prop('checked', false)

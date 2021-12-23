@@ -59,13 +59,9 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = null;
 		try {
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
-					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,DATE_FORMAT(d.query_replied_to_hq,'%d-%m-%Y') AS query_replied_to_hq,"
-					+ "DATE_FORMAT(d.query_raised_by_hq,'%d-%m-%Y') AS query_raised_by_hq,DATE_FORMAT(d.query_replied_to_division,'%d-%m-%Y') AS query_replied_to_division,DATE_FORMAT(d.query_raised_by_division,'%d-%m-%Y') AS query_raised_by_division" + 
-					",d.hq_drawing_no,d.drawing_title,DATE_FORMAT(d.planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(d.planned_finish,'%d-%m-%Y') AS planned_finish,d.revision,clearance_to_consultant,DATE_FORMAT(d.submitted_to_division,'%d-%m-%Y') AS submitted_to_division,"
-					+ "DATE_FORMAT(d.submitted_to_hq,'%d-%m-%Y') AS submitted_to_hq,crs_sanction_fk,DATE_FORMAT(d.consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(d.mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,DATE_FORMAT(d.divisional_approval,'%d-%m-%Y') AS divisional_approval,"
-					+ "DATE_FORMAT(d.submitted_for_crs_sanction,'%d-%m-%Y') AS submitted_for_crs_sanction,DATE_FORMAT(d.query_raised_for_crs_sanction,'%d-%m-%Y') AS query_raised_for_crs_sanction,"
-					+ "DATE_FORMAT(d.query_replied_for_crs_sanction,'%d-%m-%Y') AS query_replied_for_crs_sanction,DATE_FORMAT(d.crs_sanction_approved,'%d-%m-%Y') AS crs_sanction_approved," + 
-					 "DATE_FORMAT(d.hq_approval,'%d-%m-%Y') AS hq_approval,DATE_FORMAT(d.required_date,'%d-%m-%Y') AS required_date, DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.as_built_status,DATE_FORMAT(d.as_built_date,'%d-%m-%Y') AS as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk,"
+					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,"
+					+",d.hq_drawing_no,d.drawing_title,"+
+					 "DATE_FORMAT(d.required_date,'%d-%m-%Y') AS required_date, DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,"
 					 + "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
 					 "then  (SELECT submssion_purpose FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc) " + 
 					 "else (SELECT submssion_purpose FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submission_purpose," + 
@@ -154,10 +150,9 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = null;
 		try {
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,w.work_name,d.structure_id_fk,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
-					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
-					",d.hq_drawing_no,d.drawing_title,DATE_FORMAT(d.planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(d.planned_finish,'%d-%m-%Y') AS planned_finish,d.revision,clearance_to_consultant,"
-					+ "DATE_FORMAT(d.consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(d.mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,DATE_FORMAT(d.divisional_approval,'%d-%m-%Y') AS divisional_approval," + 
-					"DATE_FORMAT(d.hq_approval,'%d-%m-%Y') AS hq_approval,DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.as_built_status,DATE_FORMAT(d.as_built_date,'%d-%m-%Y') AS as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
+					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
+					",d.hq_drawing_no,d.drawing_title"
+					+",DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks   "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
@@ -433,15 +428,10 @@ public class DesignDaoImpl implements DesignDao{
 		Design dObj = null;
 		try {
 			String qry ="select design_id,approving_railway,approval_authority_fk,structure_id_fk,DATE_FORMAT(d.required_date,'%d-%m-%Y') AS required_date,d.work_id_fk,w.project_id_fk,p.project_name,c.contract_short_name,w.work_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
-					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
-					",d.hq_drawing_no,d.drawing_title,DATE_FORMAT(d.planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(d.planned_finish,'%d-%m-%Y') AS planned_finish,d.revision,clearance_to_consultant,"
-					+ "DATE_FORMAT(d.consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(d.mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,DATE_FORMAT(d.divisional_approval,'%d-%m-%Y') AS divisional_approval," + 
-					"DATE_FORMAT(d.hq_approval,'%d-%m-%Y') AS hq_approval,DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.as_built_status,DATE_FORMAT(d.as_built_date,'%d-%m-%Y') AS as_built_date,"
-					+ "d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk,DATE_FORMAT(d.submitted_to_division,'%d-%m-%Y') AS submitted_to_division,DATE_FORMAT(d.submitted_to_hq,'%d-%m-%Y') AS submitted_to_hq "
-					+ ",DATE_FORMAT(d.query_raised_by_division,'%d-%m-%Y') AS query_raised_by_division,DATE_FORMAT(d.query_replied_to_division,'%d-%m-%Y') AS query_replied_to_division,"
-					+ "DATE_FORMAT(d.query_raised_by_hq,'%d-%m-%Y') AS query_raised_by_hq,DATE_FORMAT(d.query_replied_to_hq,'%d-%m-%Y') AS query_replied_to_hq,"
-					+ "DATE_FORMAT(d.submitted_for_crs_sanction,'%d-%m-%Y') AS submitted_for_crs_sanction,crs_sanction_fk,DATE_FORMAT(d.query_raised_for_crs_sanction,'%d-%m-%Y') AS query_raised_for_crs_sanction,"
-					+ "DATE_FORMAT(d.query_replied_for_crs_sanction,'%d-%m-%Y') AS query_replied_for_crs_sanction,DATE_FORMAT(d.crs_sanction_approved,'%d-%m-%Y') AS crs_sanction_approved "
+					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
+					",d.hq_drawing_no,d.drawing_title"+
+					",DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,"
+					+ "d.remarks "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " + 
@@ -481,15 +471,13 @@ public class DesignDaoImpl implements DesignDao{
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
-					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
-					+ "planned_start,planned_finish,revision,clearance_to_consultant,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
-					+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,hq_submission_fk,crs_sanction_fk,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq," + 
-					"query_replied_to_hq,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,approving_railway,approval_authority_fk,structure_id_fk,required_date) "
+					+ "structure_type_fk,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
+					+ "gfc_released,remarks," + 
+					"approving_railway,approval_authority_fk,structure_id_fk,required_date) "
 					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
-					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
-					+ ":revision,:clearance_to_consultant,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,:divisional_submission_fk,:hq_submission_fk,:crs_sanction_fk,:submitted_to_division,:submitted_to_hq,:query_raised_by_division,:query_replied_to_division"
-					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,"
-					+ ":crs_sanction_approved,:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date)";
+					+ ",:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,"
+					+ ":gfc_released,:remarks"
+					+ ",:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date)";
 			
 			SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 		    KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -724,13 +712,9 @@ public class DesignDaoImpl implements DesignDao{
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String qry = "UPDATE design SET contract_id_fk= :contract_id_fk,department_id_fk=:department_id_fk,hod=:hod,dy_hod=:dy_hod,prepared_by_id_fk=:prepared_by_id_fk,consultant_contract_id_fk=:consultant_contract_id_fk,proof_consultant_contract_id_fk=:proof_consultant_contract_id_fk,structure_type_fk=:structure_type_fk"
-					+ ",component=:component,drawing_type_fk=:drawing_type_fk,contractor_drawing_no=:contractor_drawing_no,mrvc_drawing_no=:mrvc_drawing_no,division_drawing_no=:division_drawing_no,hq_drawing_no=:hq_drawing_no,drawing_title=:drawing_title,planned_start=:planned_start,planned_finish=:planned_finish,"
-					+ "revision=:revision,clearance_to_consultant=:clearance_to_consultant,consultant_submission=:consultant_submission,mrvc_reviewed=:mrvc_reviewed,divisional_approval=:divisional_approval,hq_approval=:hq_approval,gfc_released=:gfc_released,as_built_status=:as_built_status,as_built_date=:as_built_date,remarks=:remarks,attachment=:attachment,"
-					+ "divisional_submission_fk=:divisional_submission_fk,hq_submission_fk=:hq_submission_fk,submitted_to_division=:submitted_to_division,submitted_to_hq=:submitted_to_hq,  "
-					+ "query_raised_by_division=:query_raised_by_division,query_replied_to_division=:query_replied_to_division,query_raised_by_hq=:query_raised_by_hq," + 
-					" query_replied_to_hq=:query_replied_to_hq,crs_sanction_fk=:crs_sanction_fk,submitted_for_crs_sanction=:submitted_for_crs_sanction,"
-					+ "query_raised_for_crs_sanction=:query_raised_for_crs_sanction,query_replied_for_crs_sanction=:query_replied_for_crs_sanction,"
-					+ "crs_sanction_approved=:crs_sanction_approved,approving_railway=:approving_railway,approval_authority_fk=:approval_authority_fk,required_date=:required_date,structure_id_fk=:structure_id_fk   "
+					+ ",drawing_type_fk=:drawing_type_fk,contractor_drawing_no=:contractor_drawing_no,mrvc_drawing_no=:mrvc_drawing_no,division_drawing_no=:division_drawing_no,hq_drawing_no=:hq_drawing_no,drawing_title=:drawing_title,"
+					+ "gfc_released=:gfc_released,remarks=:remarks,"
+					+ "approving_railway=:approving_railway,approval_authority_fk=:approval_authority_fk,required_date=:required_date,structure_id_fk=:structure_id_fk   "
 					+ "WHERE design_id = :design_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -981,15 +965,13 @@ public class DesignDaoImpl implements DesignDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
-					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
-					+ "planned_start,planned_finish,revision,clearance_to_consultant,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
-					+ "gfc_released,required_date,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,submitted_to_division,hq_submission_fk,submitted_to_hq,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,query_raised_by_division,query_replied_to_division,query_raised_by_hq," + 
-					"query_replied_to_hq,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,structure_id_fk,approving_railway,approval_authority_fk) "
+					+ "structure_type_fk,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
+					+ "gfc_released,required_date,remarks," + 
+					"structure_id_fk,approving_railway,approval_authority_fk) "
 					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
-					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
-					+ ":revision,:clearance_to_consultant,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:required_date,:as_built_status,:as_built_date,:remarks,:attachment,"
-					+ ":divisional_submission_fk,:submitted_to_division,:hq_submission_fk,:submitted_to_hq,:submited_to_proof_consultant_fk,:approval_by_proof_consultant_fk,:query_raised_by_division,:query_replied_to_division"  
-					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,:crs_sanction_approved,:structure_id_fk,:approving_railway,:approval_authority_fk)";
+					+ ",:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,"
+					+ ":gfc_released,:required_date,:remarks,"
+					+ ":structure_id_fk,:approving_railway,:approval_authority_fk)";
 			
 			for (Design obj : designsList) {
 				/*String department = null;
@@ -1760,15 +1742,13 @@ public class DesignDaoImpl implements DesignDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
-					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
-					+ "planned_start,planned_finish,revision,clearance_to_consultant,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
-					+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,hq_submission_fk,crs_sanction_fk,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq," + 
-					"query_replied_to_hq,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,approving_railway,approval_authority_fk,structure_id_fk,required_date) "
+					+ "structure_type_fk,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
+					+ "gfc_released,remarks," + 
+					"approving_railway,approval_authority_fk,structure_id_fk,required_date) "
 					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
-					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
-					+ ":revision,:clearance_to_consultant,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,:divisional_submission_fk,:hq_submission_fk,:crs_sanction_fk,:submitted_to_division,:submitted_to_hq,:query_raised_by_division,:query_replied_to_division"
-					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,"
-					+ ":crs_sanction_approved,:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date)";
+					+ ",:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,"
+					+ ":gfc_released,:remarks,"
+					+ ":approving_railway,:approval_authority_fk,:structure_id_fk,:required_date)";
 			
 			String updateQry = "UPDATE design set contract_id_fk= :contract_id_fk, approving_railway= :approving_railway, department_id_fk= :department_id_fk,hod= :hod,"
 					+ "dy_hod= :dy_hod,structure_type_fk= :structure_type_fk,structure_id_fk= :structure_id_fk,prepared_by_id_fk= :prepared_by_id_fk ,consultant_contract_id_fk= :consultant_contract_id_fk,"

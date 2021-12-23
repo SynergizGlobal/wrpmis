@@ -100,12 +100,25 @@
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	}
+    	.filevalue {
+            display: block;
+            margin-top: 10px;
+			font-size: .9rem;
+        }
+        td.center-align{
+        	text-align:center !important;
+        }
+        
         @media only screen and (max-width: 768px){
 			.mt-sm-n1rem{
 				margin-top:-1rem !important;
 			}
 			.pt-5 {
 			    padding-top: 0 !important;
+			}
+			.filevalue {
+			    width: 200%;
+			    white-space: break-spaces;
 			}
 		}
 		
@@ -283,7 +296,7 @@
 	                                    <label for="sub_category_of_land" class="fs-sm-8rem"> Sub Category of Land <span class="required">*</span></label>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-                                       <input id="required_area" name="requried_area" type="text" value="${LADetails.requried_area }" readonly
+                                       <input id="required_area" name="requried_area" type="text" value="${LADetails.requried_area }"
                                            class="validate mt-10">
                                        <label for="required_area"> Required Area</label>
                                 	</div> 	                                 

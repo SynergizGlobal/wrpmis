@@ -306,6 +306,9 @@ public class LandAcquisitionController {
 			List<LandAcquisition> unitsList = service.getUnitsList();
 			model.addObject("unitsList", unitsList);
 			
+			List<LandAcquisition> laFileType = service.getLaFileType();
+			model.addObject("laFileType", laFileType);
+			
 		}catch (Exception e) {
 				logger.error("addLandAcquisitionForm : " + e.getMessage());
 		}
@@ -334,9 +337,14 @@ public class LandAcquisitionController {
 			List<LandAcquisition> unitsList = service.getUnitsList();
 			model.addObject("unitsList", unitsList);
 			
+			List<LandAcquisition> laFileType = service.getLaFileType();
+			model.addObject("laFileType", laFileType);
+			
 			LandAcquisition LADetails = service.getLandAcquisitionForm(obj);
 			model.addObject("LADetails", LADetails);
-		
+			
+			
+			
 		}catch (Exception e) {
 				e.printStackTrace();
 				logger.error("getLandAcquisitionForm : " + e.getMessage());
@@ -406,6 +414,45 @@ public class LandAcquisitionController {
 			obj.setSdo_demand_for_payment(DateParser.parse(obj.getSdo_demand_for_payment()));
 			obj.setDate_of_approval_for_payment(DateParser.parse(obj.getDate_of_approval_for_payment()));
 			obj.setPrivate_payment_date(DateParser.parse(obj.getPrivate_payment_date()));
+			
+			obj.setSubmission_of_proposal_to_GM(DateParser.parse(obj.getSubmission_of_proposal_to_GM()));
+			obj.setApproval_of_GM(DateParser.parse(obj.getApproval_of_GM()));
+			obj.setDraft_letter_to_con_for_approval_rp(DateParser.parse(obj.getDraft_letter_to_con_for_approval_rp()));
+			obj.setDate_of_approval_of_construction_rp(DateParser.parse(obj.getDate_of_approval_of_construction_rp()));
+			obj.setDate_of_uploading_of_gazette_notification_rp(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_rp()));
+			obj.setPublication_in_gazette_rp(DateParser.parse(obj.getPublication_in_gazette_rp()));
+			
+			obj.setDate_of_proposal_to_DC_for_nomination(DateParser.parse(obj.getDate_of_proposal_to_DC_for_nomination()));
+			obj.setDate_of_nomination_of_competenta_authority(DateParser.parse(obj.getDate_of_nomination_of_competenta_authority()));
+			obj.setDraft_letter_to_con_for_approval_ca(DateParser.parse(obj.getDraft_letter_to_con_for_approval_ca()));
+			obj.setDate_of_approval_of_construction_ca(DateParser.parse(obj.getDate_of_approval_of_construction_ca()));
+			obj.setDate_of_uploading_of_gazette_notification_ca(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_ca()));
+			obj.setPublication_in_gazette_ca(DateParser.parse(obj.getPublication_in_gazette_ca()));
+			obj.setDate_of_submission_of_draft_notification_to_CALA(DateParser.parse(obj.getDate_of_submission_of_draft_notification_to_CALA()));
+			obj.setApproval_of_CALA_20a(DateParser.parse(obj.getApproval_of_CALA_20a()));
+			obj.setDraft_letter_to_con_for_approval_20a(DateParser.parse(obj.getDraft_letter_to_con_for_approval_20a()));
+			obj.setDate_of_approval_of_construction_20a(DateParser.parse(obj.getDate_of_approval_of_construction_20a()));
+			obj.setDate_of_uploading_of_gazette_notification_20a(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_20a()));
+			obj.setPublication_in_gazette_20a(DateParser.parse(obj.getPublication_in_gazette_20a()));
+			obj.setPublication_in_2_local_news_papers_20a(DateParser.parse(obj.getPublication_in_2_local_news_papers_20a()));
+			obj.setPasting_of_notification_in_villages_20a(DateParser.parse(obj.getPasting_of_notification_in_villages_20a()));
+			obj.setReceipt_of_grievances(DateParser.parse(obj.getReceipt_of_grievances()));
+			obj.setDisposal_of_grievances(DateParser.parse(obj.getDisposal_of_grievances()));
+			obj.setDate_of_submission_of_draft_notification_to_CALA_20e(DateParser.parse(obj.getDate_of_submission_of_draft_notification_to_CALA_20e()));
+			obj.setApproval_of_CALA_20e(DateParser.parse(obj.getApproval_of_CALA_20e()));
+			obj.setDraft_letter_to_con_for_approval_20e(DateParser.parse(obj.getDraft_letter_to_con_for_approval_20e()));
+			obj.setDate_of_approval_of_construction_20e(DateParser.parse(obj.getDate_of_approval_of_construction_20e()));
+			obj.setDate_of_uploading_of_gazette_notification_20e(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_20e()));
+			obj.setPublication_in_gazette_20e(DateParser.parse(obj.getPublication_in_gazette_20e()));
+			obj.setPublication_of_notice_in_2_local_news_papers_20e(DateParser.parse(obj.getPublication_of_notice_in_2_local_news_papers_20e()));
+			obj.setDate_of_submission_of_draft_notification_to_CALA_20f(DateParser.parse(obj.getDate_of_submission_of_draft_notification_to_CALA_20f()));
+			obj.setApproval_of_CALA_20f(DateParser.parse(obj.getApproval_of_CALA_20f()));
+			obj.setDraft_letter_to_con_for_approval_20f(DateParser.parse(obj.getDraft_letter_to_con_for_approval_20f()));
+			obj.setDate_of_approval_of_construction_20f(DateParser.parse(obj.getDate_of_approval_of_construction_20f()));
+			obj.setDate_of_uploading_of_gazette_notification_20f(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_20f()));
+			obj.setPublication_in_gazette_20f(DateParser.parse(obj.getPublication_in_gazette_20f()));
+			obj.setPublication_of_notice_in_2_local_news_papers_20f(DateParser.parse(obj.getPublication_of_notice_in_2_local_news_papers_20f()));
+			
 			
 			boolean flag =  service.addLandAcquisition(obj);
 			if(flag) {
@@ -484,6 +531,43 @@ public class LandAcquisitionController {
 			obj.setDate_of_approval_for_payment(DateParser.parse(obj.getDate_of_approval_for_payment()));
 			obj.setPrivate_payment_date(DateParser.parse(obj.getPrivate_payment_date()));
 			
+			obj.setSubmission_of_proposal_to_GM(DateParser.parse(obj.getSubmission_of_proposal_to_GM()));
+			obj.setApproval_of_GM(DateParser.parse(obj.getApproval_of_GM()));
+			obj.setDraft_letter_to_con_for_approval_rp(DateParser.parse(obj.getDraft_letter_to_con_for_approval_rp()));
+			obj.setDate_of_approval_of_construction_rp(DateParser.parse(obj.getDate_of_approval_of_construction_rp()));
+			obj.setDate_of_uploading_of_gazette_notification_rp(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_rp()));
+			obj.setPublication_in_gazette_rp(DateParser.parse(obj.getPublication_in_gazette_rp()));
+			
+			obj.setDate_of_proposal_to_DC_for_nomination(DateParser.parse(obj.getDate_of_proposal_to_DC_for_nomination()));
+			obj.setDate_of_nomination_of_competenta_authority(DateParser.parse(obj.getDate_of_nomination_of_competenta_authority()));
+			obj.setDraft_letter_to_con_for_approval_ca(DateParser.parse(obj.getDraft_letter_to_con_for_approval_ca()));
+			obj.setDate_of_approval_of_construction_ca(DateParser.parse(obj.getDate_of_approval_of_construction_ca()));
+			obj.setDate_of_uploading_of_gazette_notification_ca(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_ca()));
+			obj.setPublication_in_gazette_ca(DateParser.parse(obj.getPublication_in_gazette_ca()));
+			obj.setDate_of_submission_of_draft_notification_to_CALA(DateParser.parse(obj.getDate_of_submission_of_draft_notification_to_CALA()));
+			obj.setApproval_of_CALA_20a(DateParser.parse(obj.getApproval_of_CALA_20a()));
+			obj.setDraft_letter_to_con_for_approval_20a(DateParser.parse(obj.getDraft_letter_to_con_for_approval_20a()));
+			obj.setDate_of_approval_of_construction_20a(DateParser.parse(obj.getDate_of_approval_of_construction_20a()));
+			obj.setDate_of_uploading_of_gazette_notification_20a(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_20a()));
+			obj.setPublication_in_gazette_20a(DateParser.parse(obj.getPublication_in_gazette_20a()));
+			obj.setPublication_in_2_local_news_papers_20a(DateParser.parse(obj.getPublication_in_2_local_news_papers_20a()));
+			obj.setPasting_of_notification_in_villages_20a(DateParser.parse(obj.getPasting_of_notification_in_villages_20a()));
+			obj.setReceipt_of_grievances(DateParser.parse(obj.getReceipt_of_grievances()));
+			obj.setDisposal_of_grievances(DateParser.parse(obj.getDisposal_of_grievances()));
+			obj.setDate_of_submission_of_draft_notification_to_CALA_20e(DateParser.parse(obj.getDate_of_submission_of_draft_notification_to_CALA_20e()));
+			obj.setApproval_of_CALA_20e(DateParser.parse(obj.getApproval_of_CALA_20e()));
+			obj.setDraft_letter_to_con_for_approval_20e(DateParser.parse(obj.getDraft_letter_to_con_for_approval_20e()));
+			obj.setDate_of_approval_of_construction_20e(DateParser.parse(obj.getDate_of_approval_of_construction_20e()));
+			obj.setDate_of_uploading_of_gazette_notification_20e(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_20e()));
+			obj.setPublication_in_gazette_20e(DateParser.parse(obj.getPublication_in_gazette_20e()));
+			obj.setPublication_of_notice_in_2_local_news_papers_20e(DateParser.parse(obj.getPublication_of_notice_in_2_local_news_papers_20e()));
+			obj.setDate_of_submission_of_draft_notification_to_CALA_20f(DateParser.parse(obj.getDate_of_submission_of_draft_notification_to_CALA_20f()));
+			obj.setApproval_of_CALA_20f(DateParser.parse(obj.getApproval_of_CALA_20f()));
+			obj.setDraft_letter_to_con_for_approval_20f(DateParser.parse(obj.getDraft_letter_to_con_for_approval_20f()));
+			obj.setDate_of_approval_of_construction_20f(DateParser.parse(obj.getDate_of_approval_of_construction_20f()));
+			obj.setDate_of_uploading_of_gazette_notification_20f(DateParser.parse(obj.getDate_of_uploading_of_gazette_notification_20f()));
+			obj.setPublication_in_gazette_20f(DateParser.parse(obj.getPublication_in_gazette_20f()));
+			obj.setPublication_of_notice_in_2_local_news_papers_20f(DateParser.parse(obj.getPublication_of_notice_in_2_local_news_papers_20f()));
 			boolean flag = service.updateLandAcquisition(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Land Acquisition Updated Succesfully.");

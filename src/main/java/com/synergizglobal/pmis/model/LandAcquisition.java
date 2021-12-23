@@ -8,7 +8,7 @@ public class LandAcquisition {
 	
 	private String work_id, la_id, project_id,project_id_fk,project_name,work_id_fk,work_name,work_short_name,survey_number, la_sub_category_fk,la_sub_category,la_category,village_id,status, status_of, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, 
 	jm_start_date, jm_completion_date,is_there_issue,category_id, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,attachment,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name
-	,jm_fee_amount_units,value,unit,
+	,jm_fee_amount_units,value,unit,la_file_type,
 	//gov
 	id, la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,
     area_acquired, remarks,gov_remarks,amount_demanded_units,amount_paid_units,
@@ -29,12 +29,407 @@ public class LandAcquisition {
     //railway
     railway_area_to_be_acquired,railway_remarks,  railway_online_submission,railway_area_acquired,  railway_submission_date_to_DyCFO,  railway_submission_date_to_CCF_Thane, railway_submission_date_to_nodal_officer_CCF_Nagpur, 
     railway_submission_date_to_revenue_secretary_mantralaya, railway_submission_date_to_regional_office_nagpur,  railway_date_of_approval_by_Rregional_Office_agpur,  railway_valuation_by_DyCFO, railway_demanded_amount, railway_approval_for_payment, railway_payment_date, railway_payment_amount, railway_payment_status, railway_possession_date,  railway_possession_status, railway_special_feature, railway_attachment_no
-    ,demanded_amount_units,payment_amount_units_railway;
+    ,demanded_amount_units,payment_amount_units_railway,private_land_process,date_of_submission_of_draft_notification_to_CALA_20ff;
 	
-	private List<MultipartFile> laFiles;
+	
+	//private indian Act
+	private String submission_of_proposal_to_GM,la_file_id, requried_area,approval_of_GM, draft_letter_to_con_for_approval_rp, date_of_approval_of_construction_rp, date_of_uploading_of_gazette_notification_rp, publication_in_gazette_rp, date_of_proposal_to_DC_for_nomination, date_of_nomination_of_competenta_authority, draft_letter_to_con_for_approval_ca, date_of_approval_of_construction_ca, date_of_uploading_of_gazette_notification_ca, publication_in_gazette_ca, date_of_submission_of_draft_notification_to_CALA, approval_of_CALA_20a, draft_letter_to_con_for_approval_20a, date_of_approval_of_construction_20a, date_of_uploading_of_gazette_notification_20a, publication_in_gazette_20a, publication_in_2_local_news_papers_20a, pasting_of_notification_in_villages_20a, receipt_of_grievances, disposal_of_grievances, date_of_submission_of_draft_notification_to_CALA_20e, approval_of_CALA_20e, draft_letter_to_con_for_approval_20e, date_of_approval_of_construction_20e, date_of_uploading_of_gazette_notification_20e, publication_in_gazette_20e, publication_of_notice_in_2_local_news_papers_20e, date_of_submission_of_draft_notification_to_CALA_20f, approval_of_CALA_20f, draft_letter_to_con_for_approval_20f, date_of_approval_of_construction_20f, date_of_uploading_of_gazette_notification_20f, 
+	publication_in_gazette_20f, publication_of_notice_in_2_local_news_papers_20f,la_file_type_fk, name,private_ira_collector;
+	
+	private MultipartFile [] laFiles;
 	private List<LandAcquisition> laFilesList;
-	private String[] laFileNames;
+	private String[] laFileNames,laDocumentFileNames,laDocumentNames,la_file_typess;
 	
+	public String getLa_file_id() {
+		return la_file_id;
+	}
+
+	public void setLa_file_id(String la_file_id) {
+		this.la_file_id = la_file_id;
+	}
+
+	public MultipartFile[] getLaFiles() {
+		return laFiles;
+	}
+
+	public void setLaFiles(MultipartFile[] laFiles) {
+		this.laFiles = laFiles;
+	}
+
+	public String getDate_of_submission_of_draft_notification_to_CALA_20ff() {
+		return date_of_submission_of_draft_notification_to_CALA_20ff;
+	}
+
+	public void setDate_of_submission_of_draft_notification_to_CALA_20ff(
+			String date_of_submission_of_draft_notification_to_CALA_20ff) {
+		this.date_of_submission_of_draft_notification_to_CALA_20ff = date_of_submission_of_draft_notification_to_CALA_20ff;
+	}
+
+	public String getRequried_area() {
+		return requried_area;
+	}
+
+	public void setRequried_area(String requried_area) {
+		this.requried_area = requried_area;
+	}
+
+	public String getPrivate_land_process() {
+		return private_land_process;
+	}
+
+	public void setPrivate_land_process(String private_land_process) {
+		this.private_land_process = private_land_process;
+	}
+
+	public String getLa_file_type() {
+		return la_file_type;
+	}
+
+	public void setLa_file_type(String la_file_type) {
+		this.la_file_type = la_file_type;
+	}
+
+	public String getPrivate_ira_collector() {
+		return private_ira_collector;
+	}
+
+	public void setPrivate_ira_collector(String private_ira_collector) {
+		this.private_ira_collector = private_ira_collector;
+	}
+
+	public String getLa_file_type_fk() {
+		return la_file_type_fk;
+	}
+
+	public void setLa_file_type_fk(String la_file_type_fk) {
+		this.la_file_type_fk = la_file_type_fk;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String[] getLaDocumentFileNames() {
+		return laDocumentFileNames;
+	}
+
+	public void setLaDocumentFileNames(String[] laDocumentFileNames) {
+		this.laDocumentFileNames = laDocumentFileNames;
+	}
+
+	public String[] getLaDocumentNames() {
+		return laDocumentNames;
+	}
+
+	public void setLaDocumentNames(String[] laDocumentNames) {
+		this.laDocumentNames = laDocumentNames;
+	}
+
+	public String[] getLa_file_typess() {
+		return la_file_typess;
+	}
+
+	public void setLa_file_typess(String[] la_file_typess) {
+		this.la_file_typess = la_file_typess;
+	}
+
+	public String getSubmission_of_proposal_to_GM() {
+		return submission_of_proposal_to_GM;
+	}
+
+	public void setSubmission_of_proposal_to_GM(String submission_of_proposal_to_GM) {
+		this.submission_of_proposal_to_GM = submission_of_proposal_to_GM;
+	}
+
+	public String getApproval_of_GM() {
+		return approval_of_GM;
+	}
+
+	public void setApproval_of_GM(String approval_of_GM) {
+		this.approval_of_GM = approval_of_GM;
+	}
+
+	public String getDraft_letter_to_con_for_approval_rp() {
+		return draft_letter_to_con_for_approval_rp;
+	}
+
+	public void setDraft_letter_to_con_for_approval_rp(String draft_letter_to_con_for_approval_rp) {
+		this.draft_letter_to_con_for_approval_rp = draft_letter_to_con_for_approval_rp;
+	}
+
+	public String getDate_of_approval_of_construction_rp() {
+		return date_of_approval_of_construction_rp;
+	}
+
+	public void setDate_of_approval_of_construction_rp(String date_of_approval_of_construction_rp) {
+		this.date_of_approval_of_construction_rp = date_of_approval_of_construction_rp;
+	}
+
+	public String getDate_of_uploading_of_gazette_notification_rp() {
+		return date_of_uploading_of_gazette_notification_rp;
+	}
+
+	public void setDate_of_uploading_of_gazette_notification_rp(String date_of_uploading_of_gazette_notification_rp) {
+		this.date_of_uploading_of_gazette_notification_rp = date_of_uploading_of_gazette_notification_rp;
+	}
+
+	public String getPublication_in_gazette_rp() {
+		return publication_in_gazette_rp;
+	}
+
+	public void setPublication_in_gazette_rp(String publication_in_gazette_rp) {
+		this.publication_in_gazette_rp = publication_in_gazette_rp;
+	}
+
+	public String getDate_of_proposal_to_DC_for_nomination() {
+		return date_of_proposal_to_DC_for_nomination;
+	}
+
+	public void setDate_of_proposal_to_DC_for_nomination(String date_of_proposal_to_DC_for_nomination) {
+		this.date_of_proposal_to_DC_for_nomination = date_of_proposal_to_DC_for_nomination;
+	}
+
+	public String getDate_of_nomination_of_competenta_authority() {
+		return date_of_nomination_of_competenta_authority;
+	}
+
+	public void setDate_of_nomination_of_competenta_authority(String date_of_nomination_of_competenta_authority) {
+		this.date_of_nomination_of_competenta_authority = date_of_nomination_of_competenta_authority;
+	}
+
+	public String getDraft_letter_to_con_for_approval_ca() {
+		return draft_letter_to_con_for_approval_ca;
+	}
+
+	public void setDraft_letter_to_con_for_approval_ca(String draft_letter_to_con_for_approval_ca) {
+		this.draft_letter_to_con_for_approval_ca = draft_letter_to_con_for_approval_ca;
+	}
+
+	public String getDate_of_approval_of_construction_ca() {
+		return date_of_approval_of_construction_ca;
+	}
+
+	public void setDate_of_approval_of_construction_ca(String date_of_approval_of_construction_ca) {
+		this.date_of_approval_of_construction_ca = date_of_approval_of_construction_ca;
+	}
+
+	public String getDate_of_uploading_of_gazette_notification_ca() {
+		return date_of_uploading_of_gazette_notification_ca;
+	}
+
+	public void setDate_of_uploading_of_gazette_notification_ca(String date_of_uploading_of_gazette_notification_ca) {
+		this.date_of_uploading_of_gazette_notification_ca = date_of_uploading_of_gazette_notification_ca;
+	}
+
+	public String getPublication_in_gazette_ca() {
+		return publication_in_gazette_ca;
+	}
+
+	public void setPublication_in_gazette_ca(String publication_in_gazette_ca) {
+		this.publication_in_gazette_ca = publication_in_gazette_ca;
+	}
+
+	public String getDate_of_submission_of_draft_notification_to_CALA() {
+		return date_of_submission_of_draft_notification_to_CALA;
+	}
+
+	public void setDate_of_submission_of_draft_notification_to_CALA(
+			String date_of_submission_of_draft_notification_to_CALA) {
+		this.date_of_submission_of_draft_notification_to_CALA = date_of_submission_of_draft_notification_to_CALA;
+	}
+
+	public String getApproval_of_CALA_20a() {
+		return approval_of_CALA_20a;
+	}
+
+	public void setApproval_of_CALA_20a(String approval_of_CALA_20a) {
+		this.approval_of_CALA_20a = approval_of_CALA_20a;
+	}
+
+	public String getDraft_letter_to_con_for_approval_20a() {
+		return draft_letter_to_con_for_approval_20a;
+	}
+
+	public void setDraft_letter_to_con_for_approval_20a(String draft_letter_to_con_for_approval_20a) {
+		this.draft_letter_to_con_for_approval_20a = draft_letter_to_con_for_approval_20a;
+	}
+
+	public String getDate_of_approval_of_construction_20a() {
+		return date_of_approval_of_construction_20a;
+	}
+
+	public void setDate_of_approval_of_construction_20a(String date_of_approval_of_construction_20a) {
+		this.date_of_approval_of_construction_20a = date_of_approval_of_construction_20a;
+	}
+
+	public String getDate_of_uploading_of_gazette_notification_20a() {
+		return date_of_uploading_of_gazette_notification_20a;
+	}
+
+	public void setDate_of_uploading_of_gazette_notification_20a(String date_of_uploading_of_gazette_notification_20a) {
+		this.date_of_uploading_of_gazette_notification_20a = date_of_uploading_of_gazette_notification_20a;
+	}
+
+	public String getPublication_in_gazette_20a() {
+		return publication_in_gazette_20a;
+	}
+
+	public void setPublication_in_gazette_20a(String publication_in_gazette_20a) {
+		this.publication_in_gazette_20a = publication_in_gazette_20a;
+	}
+
+	public String getPublication_in_2_local_news_papers_20a() {
+		return publication_in_2_local_news_papers_20a;
+	}
+
+	public void setPublication_in_2_local_news_papers_20a(String publication_in_2_local_news_papers_20a) {
+		this.publication_in_2_local_news_papers_20a = publication_in_2_local_news_papers_20a;
+	}
+
+	public String getPasting_of_notification_in_villages_20a() {
+		return pasting_of_notification_in_villages_20a;
+	}
+
+	public void setPasting_of_notification_in_villages_20a(String pasting_of_notification_in_villages_20a) {
+		this.pasting_of_notification_in_villages_20a = pasting_of_notification_in_villages_20a;
+	}
+
+	public String getReceipt_of_grievances() {
+		return receipt_of_grievances;
+	}
+
+	public void setReceipt_of_grievances(String receipt_of_grievances) {
+		this.receipt_of_grievances = receipt_of_grievances;
+	}
+
+	public String getDisposal_of_grievances() {
+		return disposal_of_grievances;
+	}
+
+	public void setDisposal_of_grievances(String disposal_of_grievances) {
+		this.disposal_of_grievances = disposal_of_grievances;
+	}
+
+	public String getDate_of_submission_of_draft_notification_to_CALA_20e() {
+		return date_of_submission_of_draft_notification_to_CALA_20e;
+	}
+
+	public void setDate_of_submission_of_draft_notification_to_CALA_20e(
+			String date_of_submission_of_draft_notification_to_CALA_20e) {
+		this.date_of_submission_of_draft_notification_to_CALA_20e = date_of_submission_of_draft_notification_to_CALA_20e;
+	}
+
+	public String getApproval_of_CALA_20e() {
+		return approval_of_CALA_20e;
+	}
+
+	public void setApproval_of_CALA_20e(String approval_of_CALA_20e) {
+		this.approval_of_CALA_20e = approval_of_CALA_20e;
+	}
+
+	public String getDraft_letter_to_con_for_approval_20e() {
+		return draft_letter_to_con_for_approval_20e;
+	}
+
+	public void setDraft_letter_to_con_for_approval_20e(String draft_letter_to_con_for_approval_20e) {
+		this.draft_letter_to_con_for_approval_20e = draft_letter_to_con_for_approval_20e;
+	}
+
+	public String getDate_of_approval_of_construction_20e() {
+		return date_of_approval_of_construction_20e;
+	}
+
+	public void setDate_of_approval_of_construction_20e(String date_of_approval_of_construction_20e) {
+		this.date_of_approval_of_construction_20e = date_of_approval_of_construction_20e;
+	}
+
+	public String getDate_of_uploading_of_gazette_notification_20e() {
+		return date_of_uploading_of_gazette_notification_20e;
+	}
+
+	public void setDate_of_uploading_of_gazette_notification_20e(String date_of_uploading_of_gazette_notification_20e) {
+		this.date_of_uploading_of_gazette_notification_20e = date_of_uploading_of_gazette_notification_20e;
+	}
+
+	public String getPublication_in_gazette_20e() {
+		return publication_in_gazette_20e;
+	}
+
+	public void setPublication_in_gazette_20e(String publication_in_gazette_20e) {
+		this.publication_in_gazette_20e = publication_in_gazette_20e;
+	}
+
+	public String getPublication_of_notice_in_2_local_news_papers_20e() {
+		return publication_of_notice_in_2_local_news_papers_20e;
+	}
+
+	public void setPublication_of_notice_in_2_local_news_papers_20e(
+			String publication_of_notice_in_2_local_news_papers_20e) {
+		this.publication_of_notice_in_2_local_news_papers_20e = publication_of_notice_in_2_local_news_papers_20e;
+	}
+
+	public String getDate_of_submission_of_draft_notification_to_CALA_20f() {
+		return date_of_submission_of_draft_notification_to_CALA_20f;
+	}
+
+	public void setDate_of_submission_of_draft_notification_to_CALA_20f(
+			String date_of_submission_of_draft_notification_to_CALA_20f) {
+		this.date_of_submission_of_draft_notification_to_CALA_20f = date_of_submission_of_draft_notification_to_CALA_20f;
+	}
+
+	public String getApproval_of_CALA_20f() {
+		return approval_of_CALA_20f;
+	}
+
+	public void setApproval_of_CALA_20f(String approval_of_CALA_20f) {
+		this.approval_of_CALA_20f = approval_of_CALA_20f;
+	}
+
+	public String getDraft_letter_to_con_for_approval_20f() {
+		return draft_letter_to_con_for_approval_20f;
+	}
+
+	public void setDraft_letter_to_con_for_approval_20f(String draft_letter_to_con_for_approval_20f) {
+		this.draft_letter_to_con_for_approval_20f = draft_letter_to_con_for_approval_20f;
+	}
+
+	public String getDate_of_approval_of_construction_20f() {
+		return date_of_approval_of_construction_20f;
+	}
+
+	public void setDate_of_approval_of_construction_20f(String date_of_approval_of_construction_20f) {
+		this.date_of_approval_of_construction_20f = date_of_approval_of_construction_20f;
+	}
+
+	public String getDate_of_uploading_of_gazette_notification_20f() {
+		return date_of_uploading_of_gazette_notification_20f;
+	}
+
+	public void setDate_of_uploading_of_gazette_notification_20f(String date_of_uploading_of_gazette_notification_20f) {
+		this.date_of_uploading_of_gazette_notification_20f = date_of_uploading_of_gazette_notification_20f;
+	}
+
+	public String getPublication_in_gazette_20f() {
+		return publication_in_gazette_20f;
+	}
+
+	public void setPublication_in_gazette_20f(String publication_in_gazette_20f) {
+		this.publication_in_gazette_20f = publication_in_gazette_20f;
+	}
+
+	public String getPublication_of_notice_in_2_local_news_papers_20f() {
+		return publication_of_notice_in_2_local_news_papers_20f;
+	}
+
+	public void setPublication_of_notice_in_2_local_news_papers_20f(
+			String publication_of_notice_in_2_local_news_papers_20f) {
+		this.publication_of_notice_in_2_local_news_papers_20f = publication_of_notice_in_2_local_news_papers_20f;
+	}
+
 	public String getPayment_amount_units_railway() {
 		return payment_amount_units_railway;
 	}
@@ -139,13 +534,7 @@ public class LandAcquisition {
 		this.demanded_amount_units = demanded_amount_units;
 	}
 
-	public List<MultipartFile> getLaFiles() {
-		return laFiles;
-	}
 
-	public void setLaFiles(List<MultipartFile> laFiles) {
-		this.laFiles = laFiles;
-	}
 
 	public List<LandAcquisition> getLaFilesList() {
 		return laFilesList;

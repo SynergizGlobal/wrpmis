@@ -44,6 +44,8 @@ public interface LandAcquisitionService {
 
 	public List<LandAcquisition> getUnitsList() throws Exception;
 
+	public List<LandAcquisition> getLaFileType() throws Exception;
+
 
 	
 

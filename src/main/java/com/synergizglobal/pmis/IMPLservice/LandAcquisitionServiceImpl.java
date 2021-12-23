@@ -111,5 +111,10 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 		return dao.getUnitsList();
 	}
 
+	@Override
+	public List<LandAcquisition> getLaFileType() throws Exception {
+		return dao.getLaFileType();
+	}
+
 
 }

@@ -44,5 +44,7 @@ public interface LandAcquisitionDao {
 
 	public List<LandAcquisition> getUnitsList() throws Exception;
 
+	public List<LandAcquisition> getLaFileType() throws Exception;
+
 
 }

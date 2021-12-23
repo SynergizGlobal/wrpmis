@@ -19,12 +19,14 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 
     <style>
-        label {
+        #divGrpHeaders label {
             font-size: 1rem;
             color: #000;
             margin: 0 1rem;
         }
-
+		#divGrpHeaders label> span{
+			font-size:1.15rem;
+		}		
         .select2 {
             width: 100% !important;
         }
@@ -35,10 +37,6 @@
 
         .filled-in.selectAll {
             display: contents;
-        }
-
-        .l9px {
-            left: -9px !important;
         }
 
         .list_holder {
@@ -53,9 +51,9 @@
             font-weight: 500;
         }
         
-        select {
+/*         select {
      display: block; 
-}
+} */
 
         ul {
             list-style-type: none;
@@ -63,7 +61,7 @@
 
         .optionItem,
         .optionGroup {
-            padding: .5rem 1rem;
+            padding: .1rem 1rem;
         }
 
         .optionItem.selected,
@@ -75,16 +73,22 @@
 
         .optionGroup>span {
             display: block;
+            font-size:1.1rem;
         }
 
         .optionGroup>span+ul:empty {
             display: none;
         }
-
+        .optionGroup >ul{
+        	border-left:1px solid #bbb;
+        }        
+		.multiList li.optionGroup:nth-child(even) {
+		    background-color: #fafafa;
+		}
         .list_holder .multiList {
             padding: .15rem;
             list-style-type: none;
-            height: 50vh;
+            height: 40vh;
             margin: 0 auto;
             overflow: auto;
             background-color: #fff;
@@ -134,8 +138,8 @@
             position: absolute;
         }
 
-        .r-0 {
-            right: 0;
+        .r-75rem {
+            right: 0.75rem;
         }
 
         .bg-m.pos-abs {
@@ -144,6 +148,16 @@
 
         .mb-2px {
             margin-bottom: 2px;
+        }
+        .disp-inb{
+        	display:inline-block;        	
+        }
+        span.disp-inb > .select2.select2-container{
+        	min-width:13rem;
+        }
+        span.disp-inb .selection .select2-selection__rendered{
+        	color:#333 !important;
+        	padding-left:.5rem !important;
         }
 		@media only screen and (max-width:768px) {
 			.list_holder__btns{
@@ -156,7 +170,13 @@
             .button {
                 transform: rotate(90deg);
             }
-
+			span.disp-inb{
+	        	display:block;   
+	        	margin-bottom:.5rem;     	
+	        }
+	        span.disp-inb >.select2.select2-container{
+	        	width:9rem !important;
+	        }
             .list_holder__btns {
                 display: inline-block;
                 text-align: center;
@@ -242,6 +262,10 @@
         .w20em {
             width: 20em;
         }
+       div.mt-brdr {
+	   		margin-top: 5px;
+	   }
+        
     </style>
 </head>
 
@@ -258,13 +282,23 @@
                 <div class="center-align">
                     <span class="card-title headbg">
                         <div class="center-align p-2 bg-m">
-                            <h5>Custom Reports</h5>
+                            <h5>
+                            	<span class="disp-inb">
+                            		<select id="module_name_fk" class="searchable" name="module_name_fk" onChange="getModuleColumns();">
+                                       <option value="">All</option>
+                                        <c:forEach var="obj" items="${modulesList }">
+                                     	    <option value= "${ obj.module_name_fk}" <c:if test="${formDetails.module_name_fk eq obj.module_name_fk}">selected</c:if>>${obj.module_name_fk}</option>
+                                         </c:forEach>
+                                    </select>
+                            	</span>
+                            	Custom Reports
+                            </h5>
                         </div>
                     </span>
                 </div>
                 <!-- form start-->
 					<form action="<%=request.getContextPath() %>/generate-custom-report" id="customReportForm" name="customReportForm" method="post" target="_blank">
-                    <div class="container">
+                  <%--   <div class="container">
                         <div class="row no-mar">
                             <div class="col s12 m8 input-field offset-m2">
                                 <div class="dropdown-form">
@@ -278,16 +312,16 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --%>
                     <div class="row no-mar">
                         <div class="col l12 m12 s12">
                             <div class="dropdown-options pdt0">
 
                                 <div class="show-hide" id="Contracts" style="display: none;">
-                                    <div class="md-sl row" id="filtersAppend">
+                                    <div class="md-sl row no-mar" id="filtersAppend">
                                        
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="margin: 10px 0;">
                                         <div class="col s12 center-align">
                                             <button type="button"
                                                 class="btn bg-m waves-effect waves-light t-c clear-filters"
@@ -296,7 +330,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row no-mar">
                                         <div class="center-align" id="divGrpHeaders">
                                         </div>
                                     </div>
@@ -308,7 +342,7 @@
                                                 <div class="left-div card mb-2px">
                                                     <div class="card-content py-none">
                                                         <div class="row no-mar">
-                                                            <div class="input-field col s1 l9px">
+                                                            <div class="input-field col s1">
                                                                 <p class="pt-1r">
                                                                     <label> <input type="checkbox"
                                                                             class="filled-in selectAll"
@@ -317,10 +351,10 @@
                                                                     </label>
                                                                 </p>
                                                             </div>
-                                                            <div class="input-field col s10">
+                                                            <div class="input-field col s11">
                                                                 <input placeholder="Search Available Fields"
                                                                     data-id="left" type="text" class="validate search">
-                                                                <button type="button" class="btn bg-m pos-abs r-0">
+                                                                <button type="button" class="btn bg-m pos-abs r-75rem">
                                                                     <i class="fa fa-search"></i>
                                                                 </button>
                                                             </div>
@@ -345,7 +379,7 @@
                                                 <div class="right-div card mb-2px">
                                                     <div class="card-content py-none">
                                                         <div class="row no-mar">
-                                                            <div class="input-field col s1 l9px">
+                                                            <div class="input-field col s1">
                                                                 <p class="pt-1r">
                                                                     <label> <input type="checkbox"
                                                                             class="filled-in selectAll"
@@ -354,10 +388,10 @@
                                                                     </label>
                                                                 </p>
                                                             </div>
-                                                            <div class="input-field col s10">
+                                                            <div class="input-field col s11">
                                                                 <input placeholder="Search Selected Fields"
                                                                     data-id="right" type="text" class="validate search">
-                                                                <button type="button" class="btn bg-m pos-abs r-0">
+                                                                <button type="button" class="btn bg-m pos-abs r-75rem">
                                                                     <i class="fa fa-search"></i>
                                                                 </button>
                                                             </div>
@@ -730,12 +764,9 @@
 	            	 $("#filtersAppend").append(html);
 	            	 
 	            	  $('.searchable').select2();
-	            	 
-	            	 
                 }
         	});
         }
-        
         
         
         function getModuleColumns()

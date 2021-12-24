@@ -913,8 +913,30 @@ public class UserDaoImpl implements UserDao{
 				}
 				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
-					qry = qry + " and u.user_type_fk = ? ";
-					arrSize++;
+					if(obj.getUser_type_fk().compareTo("HOD")==0)
+					{
+						qry = qry + " and u.user_type_fk in ('HOD','DyHOD','Officers ( Jr./Sr. Scale )') ";
+					}
+					if(obj.getUser_type_fk().compareTo("DyHOD")==0)
+					{
+						qry = qry + " and u.user_type_fk in ('DyHOD','Officers ( Jr./Sr. Scale )') ";
+					}
+					if(obj.getUser_type_fk().compareTo("Management")==0)
+					{
+						qry = qry + " and u.user_type_fk in ('Management','HOD') ";
+					}
+					if(obj.getUser_type_fk().compareTo("Officers ( Jr./Sr. Scale )")==0)
+					{
+						qry = qry + " and u.user_type_fk in ('Officers ( Jr./Sr. Scale )') ";
+					}
+					if(obj.getUser_type_fk().compareTo("Others")==0)
+					{
+						qry = qry + " and u.user_type_fk in ('Others') ";
+					}
+					if(obj.getUser_type_fk().compareTo("Training")==0)
+					{
+						qry = qry + " and u.user_type_fk in ('Training') ";
+					}						
 				}
 			}
 			
@@ -930,10 +952,6 @@ public class UserDaoImpl implements UserDao{
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 					pValues[i++] = obj.getDepartment_fk();
 				}
-				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
-					pValues[i++] = obj.getUser_type_fk();
-				}	
 			}
 			
 			qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";

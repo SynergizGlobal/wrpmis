@@ -875,9 +875,13 @@
                 	 var appendHeader="<p>";
                 	 
                 	 var hdnHtml="";
+                	 var leftArray=new Array();
+                	 var rightArray=new Array();
 
                 	 for (i = 0; i < data.length; i++) 
                 	 {
+                		 leftArray=[];
+                		 rightArray=[];
                 		 var concat=i+1;
                 		 appendHeader +='<label id="'+data[i]["name"]+'"><input type="checkbox" id="chkGrp'+concat+'" class="filled-in" checked onchange="showColumns('+concat+');"/><span>'+data[i]["name"]+'</span></label>';
 	                	 html +='<li class="optionGroup " id="grp'+concat+'"><span data-parent="grp'+concat+'" isSelected="false"><b>'+data[i]["name"]+'</b></span>';
@@ -894,12 +898,30 @@
 		                        async: false,
 		                        dataType: 'json',
 		                        success: function (response) 
-		                        {	                	 
+		                        {	
+		                        	
+				                	 for (i1 = 0; i1 < response.length; i1++) 
+				                	 {
+				                		 	if(response[i1]["column_name"].indexOf("</span>")!=-1)
+				                			 {
+				                		 		leftArray.push(response[i1]["column_name"]);
+				                			 }
+				                	 }
+				                	 for (i1 = 0; i1 < response.length; i1++) 
+				                	 {
+				                		 	if(response[i1]["column_name"].indexOf("</span>")==-1)
+				                			 {
+				                		 		leftArray.push(response[i1]["column_name"]);
+				                			 }
+				                	 }				                	 
+				                	 
+				                	 
+		                        	
 				                	 for (i1 = 0; i1 < response.length; i1++) 
 				                	 {
 				                		 var concatStr=i1+1;
-				                		 html +='<li class="optionItem " data-parent="grp'+concat+'" data-pos="'+concatStr+'">'+response[i1]["column_name"]+'</li>';
-				                		 hdnHtml +='<li class="optionItem hidden" data-parent="grp'+concat+'" data-pos="'+concatStr+'">'+response[i1]["column_name"]+'</li>';
+				                		 html +='<li class="optionItem " data-parent="grp'+concat+'" data-pos="'+concatStr+'">'+leftArray[i1]+'</li>';
+				                		 hdnHtml +='<li class="optionItem hidden" data-parent="grp'+concat+'" data-pos="'+concatStr+'">'+leftArray[i1]+'</li>';
 				                	 }
 		                        }
 		               	 });

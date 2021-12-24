@@ -426,7 +426,7 @@
                             </div>
                             <div class="col s6 mt-brdr ">
                                 <div class="center-align m-1">
-                                    <button type="button" class="btn waves-effect waves-light bg-s">Reset</button>
+                                    <button type="button" class="btn waves-effect waves-light bg-s" onClick="getModuleColumns();">Reset</button>
                                 </div>
                             </div>
                         </div>

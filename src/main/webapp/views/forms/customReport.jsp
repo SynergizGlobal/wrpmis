@@ -618,11 +618,13 @@
     	}        
         
         function addSelected() {
+        	var lhArray=new Array();
             $('#left-box .optionItem.selected:not(.hidden)').each(function () {
                 let item = this;
                 let pos = $(item).data('pos');
                 let parent = $(item).data('parent');
                 $('#right-box [data-parent="' + parent + '"][data-pos="' + pos + '"]').removeClass('hidden');
+                lhArray.push(parent);
                 if (parent != 'noGrp') {
                     $('#right-box #' + parent).removeClass('hidden');
                     if ($(item).parent().find('li:not(.hidden)').length == 1) {
@@ -642,7 +644,10 @@
    					
    					$('#right-box [data-parent="' + indexParent + '"][data-pos="' + index + '"]').removeClass('hidden');
    					$('#right-box [data-parent="' + indexParent + '"][data-pos="' + index + '"]').prop('disabled',true);
-   					$('#left-box [data-parent="' + indexParent + '"][data-pos="' + index + '"]').addClass('hidden');
+   					if(lhArray.indexOf(indexParent)!=-1)
+   						{
+   							$('#left-box [data-parent="' + indexParent + '"][data-pos="' + index + '"]').addClass('hidden');
+   						}
    				}
         	});            
             

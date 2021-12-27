@@ -604,6 +604,7 @@ public class ContractController {
 			contract.setPbg_release(DateParser.parse(contract.getPbg_release()));
 			contract.setBg_date(DateParser.parse(contract.getBg_date()));
 			contract.setRelease_date(DateParser.parse(contract.getRelease_date()));
+			contract.setPlanned_date_of_award(DateParser.parse(contract.getPlanned_date_of_award()));
 			
 			//contract.setContract_status("Open");
 			//contract.setContract_status_fk("Not Started");
@@ -779,6 +780,7 @@ public class ContractController {
 			contract.setTarget_doc(DateParser.parse(contract.getTarget_doc()));
 			contract.setActual_date_of_commissioning(DateParser.parse(contract.getActual_date_of_commissioning()));
 			contract.setExisting_contract_closure_date(DateParser.parse(contract.getExisting_contract_closure_date()));
+			contract.setPlanned_date_of_award(DateParser.parse(contract.getPlanned_date_of_award()));
 			
 			boolean flag =  contractService.updateContract(contract);
 			if(flag) {

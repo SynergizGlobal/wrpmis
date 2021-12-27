@@ -877,7 +877,7 @@
 	                                </div> 
                                 </div>
                                 <div class="row">
-	                                <div class="col s6 m4 l6 input-field offset-m2">
+	                                <div class="col s6 m4 l6 input-field offset-m2" id="target_doc_div">
 	                                    <input autocomplete="off" name="target_doc" id="target_doc" type="text" class="validate datepicker" value="${contractDeatils.target_doc }"    >
 	                                    <label for="target_doc">Target DOC</label>
 	                                     <button type="button" id="target_doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -891,7 +891,13 @@
 	                                </div>	                              
 	                            </div>
 	                            <div class="row" id="contract_status_fk_div">
-	                              <div class="col s12 m4 l6 input-field offset-m2">
+	                            	<div class="col s6 m4 l6 input-field" id="planned_date_of_award_div">
+	                                    <input id="planned_date_of_award" name="planned_date_of_award" type="text" class="validate datepicker" value="${contractDeatils.planned_date_of_award }">
+	                                    <label for="planned_date_of_award">Planned date of award</label>
+	                                    <span id="planned_date_of_awardError" class="error-msg" ></span>
+	                                    <button type="button" id="planned_date_of_award_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                              	<div class="col s12 m4 l6 input-field offset-m2">
 	                                   <p class="searchable_label">Status of Work <span class="required" id="contract_status_fk_req">*</span></p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails(this.value);">
 	                                        <option value="" selected>Select</option>
@@ -900,7 +906,7 @@
 			                                    </c:forEach>
 	                                    </select>
 	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                              </div>
+	                              	</div>
 	                            </div>
 	                            <div class="row" id="contractClosureRadioBtn" style="display: none;">
 	                            	<div class="col s12 m6 input-field offset-m3">
@@ -2455,6 +2461,11 @@
             		$("#milestoneHideDiv").hide();
             		$("#revisionHideDiv").hide();
             		//$("#keyPersonHideDiv").hide();
+            		$("#target_doc").val('');
+            		$("#target_doc_div").hide();
+            		
+            		$("#planned_date_of_award").val('');
+            		$("#planned_date_of_award_div").hide();
             		
             		$("#bgDetailsTab").hide();
             		$("#insuranceDetailsTab").hide();
@@ -2463,14 +2474,21 @@
             		//$("#keyPersonDetailsTab").hide();
             	}else{
             		var date_of_start = '${contractDeatils.date_of_start}';
-            		$("#date_of_startDiv").val(date_of_start).focus();
+            		$("#date_of_start").val(date_of_start).focus();
             		$("#date_of_startDiv").show();
+            		var target_doc = '${contractDeatils.target_doc}';
+            		$("#target_doc").val(target_doc).focus();
+            		$("#target_doc_div").show();
+            		var planned_date_of_award = '${contractDeatils.planned_date_of_award}';
+            		$("#planned_date_of_award").val(planned_date_of_award).focus();
+            		$("#planned_date_of_award_div").show();
             		
             		$("#bgHideDiv").show();
             		$("#insuranceHideDiv").show();
             		$("#milestoneHideDiv").show();
             		$("#revisionHideDiv").show();
             		$("#keyPersonHideDiv").show();
+            		
             		
             		$("#bgDetailsTab").show();
             		$("#insuranceDetailsTab").show();
@@ -2512,6 +2530,11 @@
             if($.trim(contract_status) == 'No'){
         		$("#date_of_start").val('');
         		$("#date_of_startDiv").hide();
+        		$("#target_doc").val('');
+        		$("#target_doc_div").hide();
+        		$("#planned_date_of_award").val('');
+        		$("#planned_date_of_award_div").hide();
+        		
         		$("#bgHideDiv").hide();
         		$("#insuranceHideDiv").hide();
         		$("#milestoneHideDiv").hide();
@@ -2541,6 +2564,9 @@
         		$("#date_of_startDiv").show();
         		$('#date_of_start').rules('remove','required');
         		$('#date_of_start_req').text('');
+        		
+        		$("#target_doc_div").show();
+        		$("#planned_date_of_award_div").show();
 	    	}else{
         		$('#contractor_id_fk').rules('remove',  'required');
             	$('#contractor_req').text('');

@@ -280,7 +280,7 @@ public class ContractDaoImpl implements ContractDao {
 			
 			if(StringUtils.isEmpty(contract.getContract_status()) || "No".equals(contract.getContract_status())) {
 				contract.setContract_status(null);
-				contract.setContract_status_fk(null);
+				contract.setContract_status_fk("Not Awarded");
 			}
 			if(!StringUtils.isEmpty(contract.getContract_status()) && "Yes".equals(contract.getContract_status())) {
 				contract.setContract_status("Open");
@@ -293,8 +293,8 @@ public class ContractDaoImpl implements ContractDao {
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
 							+ "estimated_cost,contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,"
 							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,remarks,estimated_cost_units,awarded_cost_units,"
-							+ "status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated)"
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated,planned_date_of_award)"
+							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
 			int q = 1;
 		    int r =0;
@@ -336,6 +336,7 @@ public class ContractDaoImpl implements ContractDao {
 			stmt.setString(q++,contract.getRevision_requried());
 			stmt.setString(q++,contract.getContractors_key_requried());
 			stmt.setString(q++,contract.getIs_contract_closure_initiated());
+			stmt.setString(q++,contract.getPlanned_date_of_award());
 
 			count = stmt.executeUpdate();
 			
@@ -962,7 +963,7 @@ public class ContractDaoImpl implements ContractDao {
 									+ "DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 									+ "DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,"
 									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,"
-									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,DATE_FORMAT(actual_date_of_commissioning,'%d-%m-%Y') AS actual_date_of_commissioning,is_contract_closure_initiated " + 
+									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,DATE_FORMAT(actual_date_of_commissioning,'%d-%m-%Y') AS actual_date_of_commissioning,is_contract_closure_initiated,DATE_FORMAT(planned_date_of_award,'%d-%m-%Y') AS planned_date_of_award " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -1032,6 +1033,7 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setContractors_key_requried(resultSet.getString("contractors_key_requried"));
 				contract.setActual_date_of_commissioning(resultSet.getString("actual_date_of_commissioning"));
 				contract.setIs_contract_closure_initiated(resultSet.getString("is_contract_closure_initiated"));
+				contract.setPlanned_date_of_award(resultSet.getString("planned_date_of_award"));
 
 				contract.setBankGauranree(getBankGauranree(contract.getContract_id(),con));	
 				contract.setInsurence(getInsurence(contract.getContract_id(),con));	
@@ -1383,7 +1385,7 @@ public class ContractDaoImpl implements ContractDao {
 			
 			if(StringUtils.isEmpty(contract.getContract_status()) || "No".equals(contract.getContract_status())) {
 				contract.setContract_status(null);
-				contract.setContract_status_fk(null);
+				contract.setContract_status_fk("Not Awarded");
 			}
 			if(!StringUtils.isEmpty(contract.getContract_status()) && "Yes".equals(contract.getContract_status())) {
 				contract.setContract_status("Open");
@@ -1400,7 +1402,7 @@ public class ContractDaoImpl implements ContractDao {
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
 								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ?,target_doc = ?,estimated_cost_units = ?,"
-								+ "awarded_cost_units = ?,completed_cost_units = ?,status = ?,milestone_requried = ?,revision_requried = ?,contractors_key_requried = ?,actual_date_of_commissioning = ?,is_contract_closure_initiated = ? "
+								+ "awarded_cost_units = ?,completed_cost_units = ?,status = ?,milestone_requried = ?,revision_requried = ?,contractors_key_requried = ?,actual_date_of_commissioning = ?,is_contract_closure_initiated = ?,planned_date_of_award = ? "
 								+ "where contract_id = ?";
 				stmt = con.prepareStatement(contractUpdate_Qry);
 				int p = 1;
@@ -1445,6 +1447,7 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getContractors_key_requried()); 
 				stmt.setString(p++,contract.getActual_date_of_commissioning()); 
 				stmt.setString(p++,contract.getIs_contract_closure_initiated()); 
+				stmt.setString(p++,contract.getPlanned_date_of_award()); 
 				stmt.setString(p++,contract.getContract_id());
 				count = stmt.executeUpdate();
 				if(count > 0) {
@@ -1738,7 +1741,10 @@ public class ContractDaoImpl implements ContractDao {
 					}
 					if(!StringUtils.isEmpty(contract.getMilestone_ids()) && contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) { 
 						for (int i = 0; i < arraySize; i++) {
-							String mId = contract.getContract_milestones_ids()[i];
+								String mId = null;
+								if(!StringUtils.isEmpty(contract.getContract_milestones_ids()) && contract.getContract_milestones_ids().length > 0 ) {
+									mId = contract.getContract_milestones_ids()[i];
+								}
 								if(!StringUtils.isEmpty(mId)) {
 									int t = 1;
 									if( contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_ids()[i]) && contract.getMilestone_dates().length > 0 && !StringUtils.isEmpty(contract.getMilestone_dates()[i])) {
@@ -1752,20 +1758,20 @@ public class ContractDaoImpl implements ContractDao {
 										updateStmt.setString(t++,(contract.getContract_milestones_ids().length > 0)?contract.getContract_milestones_ids()[i]:null);
 										updateStmt.addBatch();
 									}
-							}else {
-							 int k = 1;
-							 if( contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_ids()[i]) && contract.getMilestone_dates().length > 0 && !StringUtils.isEmpty(contract.getMilestone_dates()[i])) {
-								 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
-								    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
-									stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
-									stmt.setString(k++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
-									stmt.setString(k++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
-									stmt.setString(k++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
-									stmt.setString(k++,contract.getContract_id());
-									stmt.setString(k++,CommonConstants.ACTIVE);
-									stmt.addBatch();
-							    }
-							}
+								}else {
+									 int k = 1;
+									 if( contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_ids()[i]) && contract.getMilestone_dates().length > 0 && !StringUtils.isEmpty(contract.getMilestone_dates()[i])) {
+									 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
+									    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
+										stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
+										stmt.setString(k++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
+										stmt.setString(k++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
+										stmt.setString(k++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
+										stmt.setString(k++,contract.getContract_id());
+										stmt.setString(k++,CommonConstants.ACTIVE);
+										stmt.addBatch();
+									 }
+								}
 						}
 					}
 					c = stmt.executeBatch();

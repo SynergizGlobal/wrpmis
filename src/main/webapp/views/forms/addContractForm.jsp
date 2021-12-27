@@ -505,84 +505,91 @@
                                    		    </c:forEach>
 	                                	</select>
 	                                </div>
-	                                 <div class="col s6 m4 l6 input-field" id="contract_status_fk_div">
+	                                <div class="col s6 m4 l6 input-field" id="planned_date_of_award_div">
+	                                    <input id="planned_date_of_award" name="planned_date_of_award" type="text" class="validate datepicker">
+	                                    <label for="planned_date_of_award">Planned date of award</label>
+	                                    <span id="planned_date_of_awardError" class="error-msg" ></span>
+	                                    <button type="button" id="planned_date_of_award_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                                
+	                                <div class="col s6 m4 l6 input-field" id="contract_status_fk_div">
 		                                   <!-- <p class="searchable_label">Status of Work <span class="required">*</span></p> -->			                                   
 		                                   <label class="selected" for="contract_status_fk">Status of Work <span class="required">*</span></label>			                                   
 		                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select">
 		                                        <option value="" selected>Select</option>
 		                                            <c:forEach var="obj" items="${contract_Statustype }">
 		                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
-				                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'In Progres'}">selected</c:if>>${obj.contract_status_fk }</option>
+				                                    		<option value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'In Progres'}">selected</c:if>>${obj.contract_status_fk }</option>
 				                                    	</c:if>
 				                                    </c:forEach>
 		                                    </select>
 		                                     <span id="contract_status_fkError" class="error-msg" ></span>
-		                                </div>                  
+		                            </div>                  
 	                        
- 							<div class="table-div">
+ 									<div class="table-div">
 	
-	                    <div class="">
-	                    	<div class=" col m10 s12 l12" style="margin-bottom:30px; padding:0;">
-	                                <div class="row fixed-width">
-	                                    <h5 class="center-align">Documents</h5>
-	                                   	  <div class="table-inside">
-	                                        <table class="mdl-data-table mobile_responsible_table">
-	                                            <thead>
-	                                                <tr>
-	                                                	<th>File Type </th>
-	                                                    <th class="min-200">Name </th>
-	                                                    <th style="text-align:center">Attachment</th>
-	                                                    <th> </th>
-	                                                    <th style="width:8%">Action</th>
-	                                                </tr>
-	                                            </thead>
-	                                            <tbody id="contractDocumentTableBody" >
-	                                                <tr id="contractDocumentRow0">
-	                                                	<td data-head="File Type" class="input-field">
-															<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
-			                                   					 <option value="" >--Select--</option>
-			                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-			                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
-			                                          			  </c:forEach>
-			                               					  </select>
-													    </td>
-	                                                    <td data-head="Name" class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
-	                                                            placeholder="Name">
-	                                                    </td>
-	                                                    <td data-head="Attachment" class="input-field">
-	                                                        <span class="normal-btn">
-	                                                            <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
-	                                                                style="display:none" onchange="getFileName('0')"/>
-	                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
-	                                                                    class="fa fa-paperclip"></i></label>
-	                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
-	                                                        </span>
-	                                                    </td>
-	                                                    <td>
-	                                                       
-	                                                    </td>
-	                                                    <td class="mobile_btn_close">
-	                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
-	                                                                class="fa fa-close"></i></a>
-	                                                    </td>
-	                                                </tr>
-	                                            </tbody>
-	                                        </table>
-	                                        
-	                                        <table class="mdl-data-table table-add bd-none">
-		                                        <tbody id="revTableBody" class="bd-none">                                          
-		                                            <tr class="bd-none">
-														<td colspan="3" class="bd-none">	<a type="button"  class="btn waves-effect waves-light bg-m t-c add-align"  onclick="addContractDocumentRow()"> <i
-		                                                            class="fa fa-plus"></i></a></td>
-		                                              </tr>
-		                                        </tbody>
-		                                     </table>
-		                                   	 <input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
-	                                    </div>
-	                                </div>
-	                            </div>        
-	                    </div>
-						</div>
+			                    		<div class="">
+			                    		<div class=" col m10 s12 l12" style="margin-bottom:30px; padding:0;">
+			                                <div class="row fixed-width">
+			                                    <h5 class="center-align">Documents</h5>
+			                                   	  <div class="table-inside">
+			                                        <table class="mdl-data-table mobile_responsible_table">
+			                                            <thead>
+			                                                <tr>
+			                                                	<th>File Type </th>
+			                                                    <th class="min-200">Name </th>
+			                                                    <th style="text-align:center">Attachment</th>
+			                                                    <th> </th>
+			                                                    <th style="width:8%">Action</th>
+			                                                </tr>
+			                                            </thead>
+			                                            <tbody id="contractDocumentTableBody" >
+			                                                <tr id="contractDocumentRow0">
+			                                                	<td data-head="File Type" class="input-field">
+																	<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
+					                                   					 <option value="" >--Select--</option>
+					                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
+					                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
+					                                          			  </c:forEach>
+					                               					  </select>
+															    </td>
+			                                                    <td data-head="Name" class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
+			                                                            placeholder="Name">
+			                                                    </td>
+			                                                    <td data-head="Attachment" class="input-field">
+			                                                        <span class="normal-btn">
+			                                                            <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
+			                                                                style="display:none" onchange="getFileName('0')"/>
+			                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
+			                                                                    class="fa fa-paperclip"></i></label>
+			                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
+			                                                        </span>
+			                                                    </td>
+			                                                    <td>
+			                                                       
+			                                                    </td>
+			                                                    <td class="mobile_btn_close">
+			                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
+			                                                                class="fa fa-close"></i></a>
+			                                                    </td>
+			                                                </tr>
+			                                            </tbody>
+			                                        </table>
+			                                        
+			                                        <table class="mdl-data-table table-add bd-none">
+				                                        <tbody id="revTableBody" class="bd-none">                                          
+				                                            <tr class="bd-none">
+																<td colspan="3" class="bd-none">	<a type="button"  class="btn waves-effect waves-light bg-m t-c add-align"  onclick="addContractDocumentRow()"> <i
+				                                                            class="fa fa-plus"></i></a></td>
+				                                              </tr>
+				                                        </tbody>
+				                                     </table>
+				                                   	 <input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
+			                                    </div>
+			                                </div>
+			                            </div>        
+			                    </div>
+							</div>
 
                             <div class="row">
                                 <div class="col s6 m4 l6 mt-brdr center-align offset-m2">
@@ -705,6 +712,7 @@
             	$('#estimated_cost').val('').focus();
             	$('#contract_status_fk').val('');
             	$('#estimated_cost_units').val('1').focus();
+            	$('#planned_date_of_award').val('').focus();
             	
             	$('.searchable').select2();
             	
@@ -717,6 +725,7 @@
 	        	$('#estimated_cost_div').hide();
 	        	$('#estimated_cost_units_div').hide();
 	        	$('#contract_status_fk_div').hide();
+	        	$('#planned_date_of_award_div').hide();
 	        	
 	        	$('#contract_type_fk').rules('remove',  'required');
 	        	$('#contract_status_fk').rules('remove',  'required');
@@ -730,6 +739,7 @@
 	        	$('#estimated_cost_div').show();
 	        	$('#estimated_cost_units_div').show();
 	        	$('#contract_status_fk_div').show();
+	        	$('#planned_date_of_award_div').show();
 	        	
 	        	$('#contract_type_fk').rules('add',  { required: true });
 	        	$('#contract_status_fk').rules('add',  { required: true });

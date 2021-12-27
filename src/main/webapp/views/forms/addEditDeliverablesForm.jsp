@@ -70,7 +70,7 @@
                         <input type="hidden" name="id" id="id"  value="${deliverablesDetails.id }"/>
                         <c:if test="${action eq 'add'}">
 	                         <div class="row">
-	                                <div class="col s6 m4 input-field offset-m2">
+	                                <div class="col s6 m4 l4 input-field">
 	                                    <p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 	                               	  		 onchange="getWorksList(this.value);">
@@ -81,7 +81,7 @@
 			                             </select>
 	                               		 <span id="project_idError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l4 input-field">
 	                                    <p class="searchable_label"> Work <span class="required">*</span></p>
 	                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
 	                                   		  onchange="getContractsList(this.value);">
@@ -93,30 +93,8 @@
 	                                   		   
 	                                  <span id="work_id_fkError" class="error-msg" ></span>
 	                                </div>
-	                              </div>
-                              </c:if>
-                              <c:if test="${action eq 'edit'}">	
-	                              <div class="row">                              
-	                                <div class="col s6 m4 input-field offset-m2">
-	                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${deliverablesDetails.project_id_fk}- ${deliverablesDetails.project_name}" readonly />
-										<label for="project_id_fk">Project <span class="required">*</span></label>
-								    </div> 
-	                                <div class="col s6 m4 input-field"> 
-	                                   <input type="text" name="work_id_fk" id="work_id_fk" value="${deliverablesDetails.work_id_fk}- ${deliverablesDetails.work_name}" readonly />
-									    <label for="work_id_fk">Work <span class="required">*</span></label>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                             </div>
-                              </c:if>
-                              <div class="row">
-                                <c:if test="${action eq 'edit'}">	
-                                 	<div class="col s6 m4 input-field offset-m2"> 
-	                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${deliverablesDetails.contract_id_fk} - ${deliverablesDetails.contract_name}" readonly />
-	                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
-                              	    </div>
-                                 </c:if>
-                             	 <c:if test="${action eq 'add'}">	
-	                                 <div class="col s6 m4 input-field offset-m2">
+	                                <c:if test="${action eq 'add'}">	
+	                                 <div class="col s6 m4 l4 input-field">
 	                                    <p class="searchable_label">Contract <span class="required">*</span></p>
 	                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
 	                                       	<option value="">Select</option>
@@ -127,7 +105,33 @@
 	                                   	<span id="contract_id_fkError" class="error-msg" ></span>
 	                                 </div>
                               	 </c:if>
-                                 <div class="col s6 m4 input-field">
+	                              </div>
+                              </c:if>
+                              <c:if test="${action eq 'edit'}">	
+	                              <div class="row">                              
+	                                <div class="col s6 m4 input-field">
+	                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${deliverablesDetails.project_id_fk}- ${deliverablesDetails.project_name}" readonly />
+										<label for="project_id_fk">Project <span class="required">*</span></label>
+								    </div> 
+	                                <div class="col s6 m4 input-field"> 
+	                                   <input type="text" name="work_id_fk" id="work_id_fk" value="${deliverablesDetails.work_id_fk}- ${deliverablesDetails.work_name}" readonly />
+									    <label for="work_id_fk">Work <span class="required">*</span></label>
+	                                </div>
+	                                <div class="col s6 m4 input-field"> 
+	                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${deliverablesDetails.contract_id_fk} - ${deliverablesDetails.contract_name}" readonly />
+	                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
+                              	    </div>
+	                             </div>
+                              </c:if>
+                              <%-- <div class="row">
+                                <c:if test="${action eq 'edit'}">	
+                                 	
+                                 </c:if>
+                             	 
+                                 
+                            </div> --%>
+                            <div class="row">
+                            <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Deliverable Type <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="deliverable_type_fk" id="deliverable_type_fk">
                                         <option value="" >Select</option>
@@ -137,9 +141,7 @@
                                     </select>
                                     <span id="deliverable_type_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Priority </p>
                                     <select class="searchable validate-dropdown" name="project_priority_fk" id="project_priority_fk">
                                         <option value="" >Select</option>
@@ -149,7 +151,7 @@
                                     </select>
                                     <span id="project_priority_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Status </p>
                                     <select class="searchable validate-dropdown" name="status_fk" id="status_fk">
                                         <option value="" >Select</option>
@@ -161,37 +163,38 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m12 l12 input-field">
                                     <textarea id="deliverable_description" name="deliverable_description" class="pmis-textarea"
                                         data-length="1000">${deliverablesDetails.deliverable_description }</textarea>
                                     <label for="deliverable_description">Deliverable Description</label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${deliverablesDetails.target_date }">
                                     <label for="target_date">Target Date</label>
                                     <button type="button" id="target_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
-                                <div class="col s6 m4 input-field ">
+                                <div class="col s6 m4 l4 input-field ">
                                     <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${deliverablesDetails.start_date }">
                                     <label for="start_date">Start Date</label>
                                     <button type="button" id="start_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field">
                                     <input id="finish_date" name="finish_date" type="text" class="validate datepicker" value="${deliverablesDetails.finish_date }">
                                     <label for="finish_date">Finish Date</label>
                                     <button type="button" id="finish_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                             </div>
+                            <div class="row">
+                                
+                            </div>
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
-							<div class="col m8 s12">
+							<div class="col m12 s12">
 							
 							 <c:if test="${action eq 'add'}">
 			                            <div id="selectedFilesInput">
@@ -240,14 +243,13 @@
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
 						<div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${deliverablesDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2">
+                                <div class="col s6 m6 mt-brdr">
                                     <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateDeliverablesFrom();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -257,7 +259,7 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr">
+                                <div class="col s6 m6 mt-brdr">
                                     <div class="center-align m-1">
                                           <a href="<%=request.getContextPath()%>/deliverables" class="btn waves-effect waves-light bg-s white-text">Cancel</a>
                                     </div>
@@ -492,7 +494,7 @@
          }
         
         
-        var validator =	$('#deliverablesForm').validate({
+        var validator =	$('#deliverablesForm').validate({	
 			 errorClass: "my-error-class",
 			 validClass: "my-valid-class",
 			 ignore: ":hidden:not(.validate-dropdown)",

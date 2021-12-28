@@ -1534,13 +1534,97 @@
                                 </div>
                                   <div class="row">
                                      
-                                     <div class="col s12 m4 l4 input-field offset-m2">
+                                     <div class="col s6 m4 l4 input-field">
                                         <input id="total_compensation" name="total_compensation" type="number" value="${LADetails.total_compensation }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="total_compensation">Total Compensation </label>
-                                    </div>                                   
-                                     
-                                </div>
+                                    </div>
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="extra_area" name="extra_area" type="text" value=""
+                                            class="validate">
+                                        <label for="extra_area">Extra Area </label>
+                                    </div>
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="ready_region" name="ready_region" type="text" value=""
+                                            class="validate">
+                                        <label for="ready_region">Ready Region </label>                                   
+                                    </div>
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="contact_dpm" name="contact_dpm" type="text" value=""
+                                            class="validate">
+                                        <label for="contact_dpm">Contact </label>                                   
+                                    </div>
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="class_dpm" name="class_dpm" type="text" value=""
+                                            class="validate">
+                                        <label for="class_dpm">Class </label>                                   
+                                    </div>
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="land_area_ft" name="land_area_ft" type="text" value=""
+                                            class="validate">
+                                        <label for="land_area_ft">Land Area (ft) </label>                                   
+                                    </div>
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="rate_land_dpm" name="rate_land_dpm" type="text" value=""
+                                            class="validate">
+                                        <label for="rate_land_dpm">Rate Land </label>                                   
+                                    </div>
+                                    <div class="col s6 m4 l4 amount-dropdown input-field">
+                                        <i class="material-icons amount-symbol center-align">₹</i>
+                                        <input id="gross_amount_dpm" name="gross_amount_dpm" type="number" value=""
+                                            class="validate">
+                                        <label for="gross_amount_dpm" class="fs-sm-8rem">Gross Amount </label>
+                                        <span id="gross_amount_dpmError" class="error-msg"></span>
+	                                	<span id="gross_amount_dpm_unitsError" class="error-msg right" ></span>                                        
+                                        <select class="validate-dropdown" id="gross_amount_dpm_units" name="gross_amount_dpm_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }" <c:if test="${LADetails.gross_amount_dpm_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+                                    </div> 
+                                    <div class="col s6 m4 l4 amount-dropdown input-field">
+                                        <i class="material-icons amount-symbol center-align">₹</i>
+                                        <input id="diff_gross_amount_dpm" name="diff_gross_amount_dpm" type="number" value=""
+                                            class="validate">
+                                        <label for="diff_gross_amount_dpm" class="fs-sm-8rem">Difference In Gross Amount </label>
+                                        <span id="diff_gross_amount_dpmError" class="error-msg"></span>
+	                                	<span id="diff_gross_amount_dpm_unitsError" class="error-msg right" ></span>                                        
+                                        <select class="validate-dropdown" id="diff_gross_amount_dpm_units" name="diff_gross_amount_dpm_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }" <c:if test="${LADetails.diff_gross_amount_dpm_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    	<div class="col s6 m4 l4 input-field">
+                                        <input id="consent_record_dpm" name="consent_record_dpm" type="text" value=""
+                                            class="validate">
+                                        <label for="consent_record_dpm">Consent Record </label>                                   
+                                    </div>
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="reason_delay_registry_dpm" name="reason_for_delay_in_registry_dpm" type="text" value=""
+                                            class="validate">
+                                        <label for="reason_delay_registry_dpm">Reason For Delay In Registry </label>                                   
+                                    </div> 
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="type_land_dpm" name="type_land_dpm" type="text" value=""
+                                            class="validate">
+                                        <label for="type_land_dpm">Type Land </label>                                   
+                                    </div>
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="plot_area_dpm" name="plot_area_dpm" type="text" value=""
+                                            class="validate">
+                                        <label for="plot_area_dpm">Plot Area </label>                                   
+                                    </div>
+                                    <div class="col s6 m4 l4 input-field">
+                                        <input id="package_dpm" name="package_dpm" type="text" value=""
+                                            class="validate">
+                                        <label for="package_dpm">Package </label>                                   
+                                    </div>
+                                    </div> 
 								</div>
                                 </div>  
                                  <%-- <div class="row">
@@ -2814,6 +2898,7 @@
    	        	var private_agri_tree_rate = $('#private_agri_tree_rate').val();
    	        	var private_forest_tree_rate = $('#private_forest_tree_rate').val();
    	        	var private_payment_amount = $('#private_payment_amount').val();
+   	        	var gross_amount_dpm = $('#gross_amount_dpm').val();
    	        	var railway_demanded_amount = $('#railway_demanded_amount').val();
    	        	var railway_payment_amount = $('#railway_payment_amount').val();
    	        	var jm_fee_amount = $('#jm_fee_amount').val();
@@ -2827,6 +2912,7 @@
 	  			if(private_agri_tree_rate == ""){$('#agriculture_tree_rate_units').val("");}
 	  			if(private_forest_tree_rate == ""){$('#forest_tree_rate_units').val("");}
 	  			if(private_payment_amount == ""){$('#payment_amount_units').val("");}
+	  			if(gross_amount_dpm == ""){$('#gross_amount_dpm_units').val("");}
 	  			if(railway_demanded_amount == ""){$('#demanded_amount_units').val("");}
 	  			if(railway_payment_amount == ""){$('#payment_amount_units_railway').val("");}
 	  			var flag = validateLA();
@@ -2849,6 +2935,7 @@
        	        	var private_agri_tree_rate = $('#private_agri_tree_rate').val();
        	        	var private_forest_tree_rate = $('#private_forest_tree_rate').val();
        	        	var private_payment_amount = $('#private_payment_amount').val();
+       	        	var gross_amount_dpm = $('#gross_amount_dpm').val();
        	        	var railway_demanded_amount = $('#railway_demanded_amount').val();
        	        	var railway_payment_amount = $('#railway_payment_amount').val();
        	        	var jm_fee_amount = $('#jm_fee_amount').val();
@@ -2862,6 +2949,7 @@
     	  			if(private_agri_tree_rate == ""){$('#agriculture_tree_rate_units').val("");}
     	  			if(private_forest_tree_rate == ""){$('#forest_tree_rate_units').val("");}
     	  			if(private_payment_amount == ""){$('#payment_amount_units').val("");}
+    	  			if(gross_amount_dpm == ""){$('#gross_amount_dpm_units').val("");}
     	  			if(railway_demanded_amount == ""){$('#demanded_amount_units').val("");}
     	  			if(railway_payment_amount == ""){$('#payment_amount_units_railway').val("");}
     	  			var flag = validateLA();
@@ -2915,6 +3003,8 @@
 	  			 	  },"private_forest_tree_rate":{
 		  			 	required: false
 	  			 	  },"private_payment_amount":{
+		  			 	required: false
+	  			 	  },"gross_amount_dpm":{
 		  			 	required: false
 	  			 	  },"railway_demanded_amount":{
 		  			 	required: false
@@ -2971,6 +3061,10 @@
         		 	  },"payment_amount_units":{
         		 		 required: function(element){
         		             return $("#private_payment_amount").val()!="";
+        		         }
+        		 	  },"gross_amount_dpm_units":{
+        		 		 required: function(element){
+        		             return $("#gross_amount_dpm").val()!="";
         		         }
         		 	  }
 	  		 	},
@@ -3067,6 +3161,9 @@
 			       }else if(element.attr("id") == "private_payment_amount" ){
 					   document.getElementById("private_payment_amountError").innerHTML="";
 				 	   error.appendTo('#private_payment_amountError');
+			       }else if(element.attr("id") == "gross_amount_dpm" ){
+					   document.getElementById("gross_amount_dpmError").innerHTML="";
+				 	   error.appendTo('#gross_amount_dpmError');
 			       }else if(element.attr("id") == "forest_demanded_amount" ){
 					   document.getElementById("forest_demanded_amountError").innerHTML="";
 				 	   error.appendTo('#forest_demanded_amountError');
@@ -3097,6 +3194,9 @@
 			       }else if (element.attr("id") == "payment_amount_units") {
 			           document.getElementById("payment_amount_unitsError").innerHTML = "";
 			           error.appendTo('#payment_amount_unitsError');
+			       }else if (element.attr("id") == "gross_amount_dpm_units") {
+			           document.getElementById("gross_amount_dpm_unitsError").innerHTML = "";
+			           error.appendTo('#gross_amount_dpm_unitsError');
 			       }else if (element.attr("id") == "demanded_amount_units_forest") {
 			           document.getElementById("forest_demanded_amount_unitsError").innerHTML = "";
 			           error.appendTo('#forest_demanded_amount_unitsError');

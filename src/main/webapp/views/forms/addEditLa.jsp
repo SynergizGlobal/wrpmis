@@ -604,11 +604,11 @@
                                         <button type="button" id="valuation_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
-                                    <%-- <div class="col s12 m4 l4 input-field offset-m2">
+                                    <div class="col s12 m4 l4 input-field offset-m2">
                                        <input id="govt_special_feature" name="special_feature" type="text" value="${LADetails.special_feature }"
                                            class="validate mt-10">
                                        <label for="govt_special_feature"> Special Feature</label>
-                                   </div>  --%>                                     
+                                   </div>                                      
                                 </div>
                               
                             </div>
@@ -802,15 +802,15 @@
 											</c:forEach>
                                         </select>
                                     </div>
-                                    <%-- <div class="col s6 m4 l4 input-field offset-m2">
+                                    <div class="col s6 m4 l4 input-field offset-m2">
                                         <input id="forest_special_feature" name="forest_special_feature" type="text" value="${LADetails.forest_special_feature }"
                                             class="validate mt-10">
                                         <label for="forest_special_feature"> Special Feature </label>
-                                    </div> --%>
+                                    </div>
                                      
                                 </div>
                                 <div class="row">                                     
-                                  	<div class="col s12 m4 l8 input-field offset-m2">
+                                  	<div class="col s12 m4 l4 input-field">
                                         <input id="forest_attachment_no" name="forest_attachment_No" type="text" value="${LADetails.forest_attachment_No }"
                                             class="validate">
                                         <label for="forest_attachment_no">Attachment Number </label>
@@ -1264,14 +1264,14 @@
                                                                          
                                 </div>
                                 <div class="row"> 
-                                	<div class="col s6 m4 l6 input-field offset-m2">
+                                	<div class="col s6 m4 l4 input-field">
                                         <input id="private_possession_date" name="date_of_possession" type="text" value="${LADetails.date_of_possession }"
                                             class="validate datepicker">
                                         <label for="private_possession_date">Date of Possession</label>
                                         <button type="button" id="private_possession_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                    
-                                    <div class="col s6 m4 l6 input-field">
+                                    <div class="col s6 m4 l4 input-field">
                                         <p class="searchable_label">Possession Status</p>
                                         <select class="searchable" id="private_possession_status"
                                             name="private_possession_status_fk">
@@ -1282,11 +1282,11 @@
 											</c:forEach>
                                         </select>
                                     </div>
-                                    <%-- <div class="col s7 m4 l4 input-field">
+                                    <div class="col s6 m4 l4 input-field">
                                         <input id="private_special_feature" name="private_special_feature" type="text" value="${LADetails.private_special_feature }"
                                             class="validate mt-10">
                                         <label for="private_special_feature"> Special Feature </label>
-                                    </div>  --%>                                    
+                                    </div>                                     
                                 </div>                               
                                 <div class="row">                                   
                                                                          
@@ -1539,7 +1539,7 @@
                                             class="validate">
                                         <label for="total_compensation">Total Compensation </label>
                                     </div>
-                                    <div class="col s6 m4 l4 input-field">
+                                    <%-- <div class="col s6 m4 l4 input-field">
                                         <input id="extra_area" name="extra_area" type="text" value=""
                                             class="validate">
                                         <label for="extra_area">Extra Area </label>
@@ -1623,7 +1623,7 @@
                                         <input id="package_dpm" name="package_dpm" type="text" value=""
                                             class="validate">
                                         <label for="package_dpm">Package </label>                                   
-                                    </div>
+                                    </div> --%>
                                     </div> 
 								</div>
                                 </div>  
@@ -2248,11 +2248,11 @@
 											</c:forEach>
                                         </select>
                                     </div>
-                                    <%-- <div class="col s6 m4 l4 input-field offset-m2">
+                                    <div class="col s6 m4 l4 input-field offset-m2">
                                         <input id="railway_special_feature" name="railway_special_feature" type="text" value="${LADetails.railway_special_feature }"
                                             class="validate mt-10">
                                         <label for="railway_special_feature"> Special Feature </label>
-                                    </div>  --%>                                    
+                                    </div>                                     
                               <!--   </div>
                                 <div class="row">     -->                                 
                                   	<div class="col s12 m4 input-field">

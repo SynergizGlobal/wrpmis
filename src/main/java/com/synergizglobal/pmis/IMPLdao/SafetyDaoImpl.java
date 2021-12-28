@@ -311,12 +311,8 @@ public class SafetyDaoImpl implements SafetyDao {
 					responsible_person_user_id = iObj.getResponsible_person_user_id();
 					created_by_user_id = iObj.getCreated_by_user_id_fk();
 				}
-				String redirect_url = null;
-				if ("Closed".equals(iObj.getStatus_fk())) {
-					redirect_url = "/InfoViz/safety/safety-under--revision/";
-				} else {
-					redirect_url = "/InfoViz/safety/safety-under--revision/";
-				}
+				String redirect_url = "/get-safety?safety_id=" + iObj.getSafety_id();
+				
 				String message_type = "Safety";
 				
 				if (safety_status!="Update")
@@ -335,15 +331,6 @@ public class SafetyDaoImpl implements SafetyDao {
 						if (!StringUtils.isEmpty(hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(hod_user_id);
-							msgObj.setMessage(message2);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-						if (!StringUtils.isEmpty(created_by_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(created_by_user_id);
 							msgObj.setMessage(message2);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
@@ -385,15 +372,6 @@ public class SafetyDaoImpl implements SafetyDao {
 						if (!StringUtils.isEmpty(escalated_to_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(escalated_to_user_id);
-							msgObj.setMessage(message2);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-						if (!StringUtils.isEmpty(created_by_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(created_by_user_id);
 							msgObj.setMessage(message2);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
@@ -1392,7 +1370,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getContractsListForSafetyForm(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry ="select c.contract_id as contract_id_fk,c.hod_user_id_fk,c.contract_name,c.contract_short_name,c.work_id_fk "
+			String qry ="select distinct c.contract_id as contract_id_fk,c.hod_user_id_fk,c.contract_name,c.contract_short_name,c.work_id_fk "
 					+ "from contract c "
 					+ "left join contract_executive c1 on c1.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN user u ON c.hod_user_id_fk= u.user_id "

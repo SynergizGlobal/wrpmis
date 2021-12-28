@@ -443,6 +443,8 @@ public class SafetyController {
 			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));
 			obj.setInvestigation_completed(DateParser.parse(obj.getInvestigation_completed()));			
 			obj.setPayment_date(DateParser.parse(obj.getPayment_date()));
+			obj.setCreated_by_user_id_fk(user_Id);
+			
 			boolean flag = safetyService.addSafety(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Safety added successfully");
@@ -559,6 +561,9 @@ public class SafetyController {
 			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));
 			obj.setInvestigation_completed(DateParser.parse(obj.getInvestigation_completed()));			
 			obj.setPayment_date(DateParser.parse(obj.getPayment_date()));
+			obj.setCreated_by_user_id_fk(user_Id);
+
+			
 			boolean flag = safetyService.updateSafety(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Safety updated successfully");

@@ -27,6 +27,18 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
+	public static List<String> getLAFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Work ID,LA_ID,Survey Number,Type of Land,Sub Category of Land,Village ID,Area,Chainage From,Chainage To,Village,"
+				+ "Taluka,Dy SLR,SDO,Collector,Proposal submission Date to collector,JM Fee Letter received Date,JM Fee Amount,JM Fee Paid Date,"
+				+ "JM Start Date,JM Completion Date,JM Sheet Date to SDO,JM Remarks,JM Approval,Issues";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}
+	
 	public static List<String> getP6WbsFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		String columns = "Contract ID,FOB ID,WBS Code, WBS Name, Parent WBS Code, WBS Category";

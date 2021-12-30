@@ -1,14 +1,16 @@
 package com.synergizglobal.pmis.model;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class LandAcquisition {
 	
 	private String work_id, la_id, project_id,project_id_fk,project_name,work_id_fk,work_name,work_short_name,survey_number, la_sub_category_fk,la_sub_category,la_category,village_id,status, status_of, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, 
-	jm_start_date, jm_completion_date,is_there_issue,category_id, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,attachment,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name
-	,jm_fee_amount_units,value,unit,la_file_type,
+	jm_start_date, jm_completion_date,is_there_issue,category_id,category_fk, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,attachment,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name
+	,jm_fee_amount_units,value,unit,la_file_type,la_land_status,
 	//gov
 	id, la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,
     area_acquired, remarks,gov_remarks,amount_demanded_units,amount_paid_units,
@@ -22,7 +24,7 @@ public class LandAcquisition {
     ,payment_amount_units,basic_rate_units,agriculture_tree_rate_units,forest_tree_rate_units
     
     //forest
-    ,forest_area_to_be_acquired,forest_area_acquired, forest_online_submission, forest_submission_date_to_dycfo,  forest_submission_date_to_ccf_thane, forest_submission_date_to_nodal_officer, forest_submission_date_to_revenue_secretary_mantralaya, forest_submission_date_to_regional_office_nagpur, forest_date_of_approval_by_regional_office_nagpur, 
+    ,forest_area_to_be_acquired,forest_area_acquired, forest_online_submission, forest_submission_date_to_dycfo,la_land_status_fk,  forest_submission_date_to_ccf_thane, forest_submission_date_to_nodal_officer, forest_submission_date_to_revenue_secretary_mantralaya, forest_submission_date_to_regional_office_nagpur, forest_date_of_approval_by_regional_office_nagpur, 
     forest_valuation_by_dycfo, forest_demanded_amount, forest_payment_amount,forest_survey_number,forest_remarks,
     forest_approval_for_payment, forest_payment_date, forest_possession_date, forest_possession_status_fk, forest_payment_status_fk, forest_special_feature, forest_attachment_No,
     demanded_amount_units_forest,payment_amount_units_forest,
@@ -35,11 +37,97 @@ public class LandAcquisition {
 	//private indian Act
 	private String submission_of_proposal_to_GM,la_file_id, requried_area,approval_of_GM, draft_letter_to_con_for_approval_rp, date_of_approval_of_construction_rp, date_of_uploading_of_gazette_notification_rp, publication_in_gazette_rp, date_of_proposal_to_DC_for_nomination, date_of_nomination_of_competenta_authority, draft_letter_to_con_for_approval_ca, date_of_approval_of_construction_ca, date_of_uploading_of_gazette_notification_ca, publication_in_gazette_ca, date_of_submission_of_draft_notification_to_CALA, approval_of_CALA_20a, draft_letter_to_con_for_approval_20a, date_of_approval_of_construction_20a, date_of_uploading_of_gazette_notification_20a, publication_in_gazette_20a, publication_in_2_local_news_papers_20a, pasting_of_notification_in_villages_20a, receipt_of_grievances, disposal_of_grievances, date_of_submission_of_draft_notification_to_CALA_20e, approval_of_CALA_20e, draft_letter_to_con_for_approval_20e, date_of_approval_of_construction_20e, date_of_uploading_of_gazette_notification_20e, publication_in_gazette_20e, publication_of_notice_in_2_local_news_papers_20e, date_of_submission_of_draft_notification_to_CALA_20f, approval_of_CALA_20f, draft_letter_to_con_for_approval_20f, date_of_approval_of_construction_20f, date_of_uploading_of_gazette_notification_20f, 
 	publication_in_gazette_20f, publication_of_notice_in_2_local_news_papers_20f,la_file_type_fk, name,private_ira_collector;
-	
+	private MultipartFile laUploadFile;
 	private MultipartFile [] laFiles;
 	private List<LandAcquisition> laFilesList;
+	private List<LandAcquisition> privateIRAList;
+	private List<LandAcquisition> privateLVList;
+	private List<LandAcquisition> privateLAList;
+	private List<LandAcquisition> railwayList;
+	private List<LandAcquisition> forestList;
+	private List<LandAcquisition> govList;
 	private String[] laFileNames,laDocumentFileNames,laDocumentNames,la_file_typess;
 	
+	public String getCategory_fk() {
+		return category_fk;
+	}
+
+	public void setCategory_fk(String category_fk) {
+		this.category_fk = category_fk;
+	}
+
+	public String getLa_land_status_fk() {
+		return la_land_status_fk;
+	}
+
+	public void setLa_land_status_fk(String la_land_status_fk) {
+		this.la_land_status_fk = la_land_status_fk;
+	}
+
+	public String getLa_land_status() {
+		return la_land_status;
+	}
+
+	public void setLa_land_status(String la_land_status) {
+		this.la_land_status = la_land_status;
+	}
+
+	public List<LandAcquisition> getPrivateIRAList() {
+		return privateIRAList;
+	}
+
+	public void setPrivateIRAList(List<LandAcquisition> privateIRAList) {
+		this.privateIRAList = privateIRAList;
+	}
+
+	public List<LandAcquisition> getPrivateLVList() {
+		return privateLVList;
+	}
+
+	public void setPrivateLVList(List<LandAcquisition> privateLVList) {
+		this.privateLVList = privateLVList;
+	}
+
+	public List<LandAcquisition> getPrivateLAList() {
+		return privateLAList;
+	}
+
+	public void setPrivateLAList(List<LandAcquisition> privateLAList) {
+		this.privateLAList = privateLAList;
+	}
+
+	public List<LandAcquisition> getRailwayList() {
+		return railwayList;
+	}
+
+	public void setRailwayList(List<LandAcquisition> railwayList) {
+		this.railwayList = railwayList;
+	}
+
+	public List<LandAcquisition> getForestList() {
+		return forestList;
+	}
+
+	public void setForestList(List<LandAcquisition> forestList) {
+		this.forestList = forestList;
+	}
+
+	public List<LandAcquisition> getGovList() {
+		return govList;
+	}
+
+	public void setGovList(List<LandAcquisition> govList) {
+		this.govList = govList;
+	}
+
+	public MultipartFile getLaUploadFile() {
+		return laUploadFile;
+	}
+
+	public void setLaUploadFile(MultipartFile laUploadFile) {
+		this.laUploadFile = laUploadFile;
+	}
+
 	public String getLa_file_id() {
 		return la_file_id;
 	}
@@ -1782,6 +1870,18 @@ public class LandAcquisition {
 
 	public void setIssues(String issues) {
 		this.issues = issues;
+	}
+	public boolean checkNullOrEmpty() throws IllegalAccessException {
+		boolean flag = true;
+		try {
+			for (Field f : getClass().getDeclaredFields())
+		        if (!StringUtils.isEmpty(f.get(this)))
+		        	flag = false;
+		} catch (Exception e) {
+			
+		}
+	    
+	    return flag;            
 	}
 
 }

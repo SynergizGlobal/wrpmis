@@ -116,5 +116,15 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 		return dao.getLaFileType();
 	}
 
+	@Override
+	public int uploadLAData(List<LandAcquisition> lasList,LandAcquisition la) throws Exception {
+		return dao.uploadLAData(lasList,la);
+	}
+
+	@Override
+	public List<LandAcquisition> getLaLandStatus() throws Exception {
+		return dao.getLaLandStatus();
+	}
+
 
 }

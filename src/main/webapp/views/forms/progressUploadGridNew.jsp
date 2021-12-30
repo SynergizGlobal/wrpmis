@@ -330,7 +330,7 @@
             $("#work_id_upload option:not(:first)").remove();
             var myParams = {};
             $.ajax({
-                url: "<%=request.getContextPath()%>/demo/ajax/getWorksInActivitiesUpload",
+                url: "<%=request.getContextPath()%>/ajax/demo/getWorksInActivitiesUpload",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -354,7 +354,7 @@
             $("#contract_id_fk_upload option:not(:first)").remove();
             var myParams = {work_id : work_id};
      		$.ajax({
-                url: "<%=request.getContextPath()%>/demo/ajax/getContractsInActivitiesUpload",
+                url: "<%=request.getContextPath()%>/ajax/demo/getContractsInActivitiesUpload",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -545,7 +545,7 @@
    			
      		 
    		    /***************************************************************************************************/   
-   		    $.ajax({url : "<%=request.getContextPath()%>/demo/ajax/getActivitiesUploadFilesList",type:"POST",data:myParams,
+   		    $.ajax({url : "<%=request.getContextPath()%>/ajax/demo/getActivitiesUploadFilesList",type:"POST",data:myParams,
    		    	success : function(data){    				
 	    			if(data != null && data != '' && data.length > 0){    					
 	             		$.each(data,function(key,val){
@@ -617,7 +617,7 @@
             if ($.trim(work_id_fk) == "") {
                 $("#work_id_fk option:not(:first)").remove();
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/demo/ajax/getWorksListFilterInActivitiesUpload",
+                    url: "<%=request.getContextPath()%>/ajax/demo/getWorksListFilterInActivitiesUpload",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -651,7 +651,7 @@
             if ($.trim(contract_id_fk) == "") {
                 $("#contract_id_fk option:not(:first)").remove();
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/demo/ajax/getContractsListFilterInActivitiesUpload",
+                    url: "<%=request.getContextPath()%>/ajax/demo/getContractsListFilterInActivitiesUpload",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -685,7 +685,7 @@
             if ($.trim(structure_type_fk) == "") {
                 $("#structure_type_fk option:not(:first)").remove();
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/demo/ajax/getStructureTypesListFilterInActivitiesUpload",
+                    url: "<%=request.getContextPath()%>/ajax/demo/getStructureTypesListFilterInActivitiesUpload",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {

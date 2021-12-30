@@ -123,8 +123,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		int arr[] = new int[2];
 		try {			
 			con = dataSource.getConnection();
-			
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			con.setAutoCommit(false);
 			
 			List<Activity> insertList = new ArrayList<Activity>();
 			List<Activity> updateList = new ArrayList<Activity>();
@@ -140,77 +139,72 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,section,line,structure,component,component_id,`order`,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk) "
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)";
 			
-			int[] insertCounts = jdbcTemplate.batchUpdate(insertQry,
-		            new BatchPreparedStatementSetter() {		                 
-		                @Override
-		                public void setValues(PreparedStatement ps, int i) throws SQLException {
-		                	int p = 1;
-		                    ps.setString(p++, insertList.get(i).getContract_id_fk());
-		                    ps.setString(p++, insertList.get(i).getStructure_type_fk());
-		                    ps.setString(p++, insertList.get(i).getSection());	
-		                    ps.setString(p++, insertList.get(i).getLine());
-		                    ps.setString(p++, insertList.get(i).getStructure());
-		                    
-		                    ps.setString(p++, insertList.get(i).getComponent());
-		                    ps.setString(p++, insertList.get(i).getComponent_id());
-		                    ps.setString(p++, insertList.get(i).getOrder());	
-		                    ps.setString(p++, insertList.get(i).getActivity_name());
-		                    ps.setString(p++, insertList.get(i).getPlanned_start());
-		                    
-		                    ps.setString(p++, insertList.get(i).getPlanned_finish());
-		                    ps.setString(p++, insertList.get(i).getActual_start());
-		                    ps.setString(p++, insertList.get(i).getActual_finish());	
-		                    ps.setString(p++, insertList.get(i).getUnit());
-		                    ps.setString(p++, insertList.get(i).getScope());
-		                    
-		                    ps.setString(p++, !StringUtils.isEmpty(insertList.get(i).getCompleted())?insertList.get(i).getCompleted():"0");
-		                    ps.setString(p++, insertList.get(i).getWeightage());
-		                    ps.setString(p++, insertList.get(i).getComponent_details());	
-		                    ps.setString(p++, insertList.get(i).getRemarks());
-		                    ps.setString(p++, insertList.get(i).getCreated_by_user_id_fk());
-		                }
-		                @Override  
-		                public int getBatchSize() {		                	
-		                    return insertList.size();
-		                }
-		            });
+			stmt = con.prepareStatement(insertQry); 
+			
+			for (int i = 0;i < insertList.size();i++) {
+				int p = 1;
+				stmt.setString(p++, insertList.get(i).getContract_id_fk());
+                stmt.setString(p++, insertList.get(i).getStructure_type_fk());
+                stmt.setString(p++, insertList.get(i).getSection());	
+                stmt.setString(p++, insertList.get(i).getLine());
+                stmt.setString(p++, insertList.get(i).getStructure());
+                
+                stmt.setString(p++, insertList.get(i).getComponent());
+                stmt.setString(p++, insertList.get(i).getComponent_id());
+                stmt.setString(p++, insertList.get(i).getOrder());	
+                stmt.setString(p++, insertList.get(i).getActivity_name());
+                stmt.setString(p++, insertList.get(i).getPlanned_start());
+                
+                stmt.setString(p++, insertList.get(i).getPlanned_finish());
+                stmt.setString(p++, insertList.get(i).getActual_start());
+                stmt.setString(p++, insertList.get(i).getActual_finish());	
+                stmt.setString(p++, insertList.get(i).getUnit());
+                stmt.setString(p++, insertList.get(i).getScope());
+                
+                stmt.setString(p++, !StringUtils.isEmpty(insertList.get(i).getCompleted())?insertList.get(i).getCompleted():"0");
+                stmt.setString(p++, insertList.get(i).getWeightage());
+                stmt.setString(p++, insertList.get(i).getComponent_details());	
+                stmt.setString(p++, insertList.get(i).getRemarks());
+                stmt.setString(p++, insertList.get(i).getCreated_by_user_id_fk());
+                stmt.addBatch();
+			}
+			int[] insertCounts = stmt.executeBatch();
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);			
 			
 			String updateQry = "UPDATE activities SET planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ? "
 					+ "WHERE (contract_id_fk = ? OR contract_id_fk IS NULL OR contract_id_fk = '') and (structure_type_fk = ? OR structure_type_fk IS NULL OR structure_type_fk = '') "
 					+ "and (section = ? OR section IS NULL OR section = '') and (line = ? OR line IS NULL OR line = '') and (structure = ? OR structure IS NULL OR structure = '') and (component = ? OR component IS NULL OR component = '') "
 					+ "and (component_id = ? OR component_id IS NULL OR component_id = '') and (activity_name = ? OR activity_name IS NULL OR activity_name = '') ";
-			int[] updateCounts = jdbcTemplate.batchUpdate(updateQry,
-			        new BatchPreparedStatementSetter() {		                 
-			            @Override
-			            public void setValues(PreparedStatement ps, int i) throws SQLException {
-			            	int p = 1;
-			                ps.setString(p++, updateList.get(i).getPlanned_start());		                    
-			                ps.setString(p++, updateList.get(i).getPlanned_finish());
-			                ps.setString(p++, updateList.get(i).getActual_start());
-			                ps.setString(p++, updateList.get(i).getActual_finish());	
-			                ps.setString(p++, updateList.get(i).getUnit());
-			                ps.setString(p++, updateList.get(i).getScope());
-			                
-			                ps.setString(p++, !StringUtils.isEmpty(updateList.get(i).getCompleted())?updateList.get(i).getCompleted():"0");
-			                ps.setString(p++, updateList.get(i).getWeightage());
-			                ps.setString(p++, updateList.get(i).getComponent_details());	
-			                ps.setString(p++, updateList.get(i).getRemarks());
-			                ps.setString(p++, updateList.get(i).getModified_by_user_id_fk());
-			                
-			                ps.setString(p++, updateList.get(i).getContract_id_fk());
-			                ps.setString(p++, updateList.get(i).getStructure_type_fk());
-			                ps.setString(p++, updateList.get(i).getSection());	
-			                ps.setString(p++, updateList.get(i).getLine());
-			                ps.setString(p++, updateList.get(i).getStructure());		                    
-			                ps.setString(p++, updateList.get(i).getComponent());
-			                ps.setString(p++, updateList.get(i).getComponent_id());		                	
-			                ps.setString(p++, updateList.get(i).getActivity_name());
-			            }
-			            @Override  
-			            public int getBatchSize() {		                	
-			                return updateList.size();
-			            }
-			        });
+			stmt = con.prepareStatement(updateQry); 
+			
+			for (int i = 0;i < updateList.size();i++) {
+				int p = 1;
+				stmt.setString(p++, updateList.get(i).getPlanned_start());		                    
+                stmt.setString(p++, updateList.get(i).getPlanned_finish());
+                stmt.setString(p++, updateList.get(i).getActual_start());
+                stmt.setString(p++, updateList.get(i).getActual_finish());	
+                stmt.setString(p++, updateList.get(i).getUnit());
+                stmt.setString(p++, updateList.get(i).getScope());
+                
+                stmt.setString(p++, !StringUtils.isEmpty(updateList.get(i).getCompleted())?updateList.get(i).getCompleted():"0");
+                stmt.setString(p++, updateList.get(i).getWeightage());
+                stmt.setString(p++, updateList.get(i).getComponent_details());	
+                stmt.setString(p++, updateList.get(i).getRemarks());
+                stmt.setString(p++, updateList.get(i).getModified_by_user_id_fk());
+                
+                stmt.setString(p++, updateList.get(i).getContract_id_fk());
+                stmt.setString(p++, updateList.get(i).getStructure_type_fk());
+                stmt.setString(p++, updateList.get(i).getSection());	
+                stmt.setString(p++, updateList.get(i).getLine());
+                stmt.setString(p++, updateList.get(i).getStructure());		                    
+                stmt.setString(p++, updateList.get(i).getComponent());
+                stmt.setString(p++, updateList.get(i).getComponent_id());		                	
+                stmt.setString(p++, updateList.get(i).getActivity_name());
+                
+				stmt.addBatch();
+			}
+			int[] updateCounts = stmt.executeBatch();
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
@@ -237,9 +231,12 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				
 				if(!StringUtils.isEmpty(activity_id) && total_scope != 0 && completed_scope != 0 && !StringUtils.isEmpty(actual_start_date)) {					
 					aObj.setActivity_id_fk(activity_id);
-					String deleteQry = "DELETE FROM activity_progress where activity_id_fk = :activity_id_fk ";
-					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(aObj);		 
-					int cNo = namedParamJdbcTemplate.update(deleteQry, paramSource);
+					String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
+					stmt = con.prepareStatement(deleteQry);  
+					stmt.setString(1, activity_id);
+					int cNo = stmt.executeUpdate();
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+					
 					if(StringUtils.isEmpty(aObj.getActual_finish())) {
 						aObj.setActual_finish(dateFormat.format(date));
 					}
@@ -280,6 +277,8 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 					
 				}
 			}
+			con.commit();
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 			
 			arr[0] = insertCounts.length;
 		    arr[1] = updateCounts.length;
@@ -297,6 +296,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		    
 		}catch(Exception e){ 
 			e.printStackTrace();
+			con.rollback();
 			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);

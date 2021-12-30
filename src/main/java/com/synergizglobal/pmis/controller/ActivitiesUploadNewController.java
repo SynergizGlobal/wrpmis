@@ -42,7 +42,6 @@ import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.FileFormatModel;
 
 @Controller
-@RequestMapping("/demo")
 public class ActivitiesUploadNewController {
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -75,7 +74,7 @@ public class ActivitiesUploadNewController {
 	@Value("${activity.template.upload.formatError}")
 	public String uploadformatError;
 
-	@RequestMapping(value = "/activities-upload", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/demo/activities-upload", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView activitiesUpload(@ModelAttribute Activity obj, HttpSession session) {
 		ModelAndView model = new ModelAndView(PageConstants2.progressUploadGridNew);
 		try {
@@ -88,7 +87,7 @@ public class ActivitiesUploadNewController {
 	}
 	
 	
-	@RequestMapping(value = "/ajax/getWorksInActivitiesUpload", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/demo/getWorksInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Activity> getWorksInActivitiesUpload(@ModelAttribute Activity obj) {
@@ -102,7 +101,7 @@ public class ActivitiesUploadNewController {
 		return objList;
 	}
 
-	@RequestMapping(value = "/ajax/getContractsInActivitiesUpload", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/demo/getContractsInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Activity> getContractsInActivitiesUpload(@ModelAttribute Activity obj) {
@@ -117,7 +116,7 @@ public class ActivitiesUploadNewController {
 	}
 	
 
-	@RequestMapping(value = "/upload-activities", method = { RequestMethod.POST })
+	@RequestMapping(value = "/demo/upload-activities", method = { RequestMethod.POST })
 	public ModelAndView uploadActivities(@ModelAttribute Activity activity, RedirectAttributes attributes,
 			HttpSession session) {
 		ModelAndView model = new ModelAndView();
@@ -657,7 +656,7 @@ public class ActivitiesUploadNewController {
 	
 	/***************************************************************/
 
-	@RequestMapping(value = "/ajax/getWorksListFilterInActivitiesUpload", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/demo/getWorksListFilterInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Activity> getWorksListFilter(@ModelAttribute Activity obj) {
@@ -671,7 +670,7 @@ public class ActivitiesUploadNewController {
 		return objList;
 	}
 
-	@RequestMapping(value = "/ajax/getContractsListFilterInActivitiesUpload", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/demo/getContractsListFilterInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Activity> getContractsListFilter(@ModelAttribute Activity obj) {
@@ -685,7 +684,7 @@ public class ActivitiesUploadNewController {
 		return objList;
 	}
 
-	@RequestMapping(value = "/ajax/getStructureTypesListFilterInActivitiesUpload", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/demo/getStructureTypesListFilterInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Activity> getStructureTypesListFilter(@ModelAttribute Activity obj) {
@@ -699,7 +698,7 @@ public class ActivitiesUploadNewController {
 		return objList;
 	}
 	
-	@RequestMapping(value = "/ajax/getActivitiesUploadFilesList", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/demo/getActivitiesUploadFilesList", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Activity> getActivitiesUploadFilesList(@ModelAttribute Activity obj) {

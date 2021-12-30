@@ -123,7 +123,10 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
     public void postHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler,
             ModelAndView model) throws Exception {
+		String requestURI = null;
 		try {
+			requestURI = request.getRequestURI();
+			//System.out.println(requestURI);
 			User userDetails = (User)request.getSession().getAttribute("user");
 			if(!StringUtils.isEmpty(userDetails)) {	
 				boolean flag = service.addUserLastActiveDateTime(userDetails);
@@ -174,7 +177,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("postHandle() : "+e.getMessage());
+			logger.error("postHandle() >> URL="+requestURI+" : "+e.getMessage());
 		}
 		
         super.postHandle(request, response, handler, model);

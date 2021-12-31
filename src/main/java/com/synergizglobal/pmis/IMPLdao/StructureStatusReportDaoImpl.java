@@ -45,7 +45,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"left outer join activities a on c.contract_id = a.contract_id_fk " + 
 					"left outer join structure f on f.structure = a.structure " +
 					"left outer join contractor cr on contractor_id_fk = contractor_id " + 
-					"where contract_id is not null and a.structure_type_fk!='FOB' " ;
+					"where contract_id is not null and a.structure_type_fk<>'FOB' " ;
 			int arrSize = 0;
 
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
@@ -93,7 +93,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					+ "from activities a "
 					+"left outer join structure f on f.structure = a.structure " 
 					+ "left join contract c on a.contract_id_fk = c.contract_id "  
-					+ "where a.contract_id_fk = ? and a.structure_type_fk!='FOB' ";
+					+ "where a.contract_id_fk = ? and a.structure_type_fk<>'FOB' ";
 			arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(strType)) {
 				structureQry = structureQry + " and a.structure_type_fk = ?";
@@ -115,7 +115,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 						+ "from activities a "
 						+" left outer join structure f on f.structure = a.structure " 
 						+ "left join contract c on a.contract_id_fk = c.contract_id "  
-						+ "where a.contract_id_fk = ? and a.structure_type_fk!='FOB' ";
+						+ "where a.contract_id_fk = ? and a.structure_type_fk<>'FOB' ";
 				arrSize = 1;
 				if(!StringUtils.isEmpty(componentObj) && !StringUtils.isEmpty(componentObj.getStructure_type())) {
 					progressStructuresQry = progressStructuresQry + " and a.structure_type_fk =?";
@@ -147,7 +147,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 							+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-							+ "where a.scope>0 and a.contract_id_fk = ? and a.structure_type_fk!='FOB' ";
+							+ "where a.scope>0 and a.contract_id_fk = ? and a.structure_type_fk<>'FOB' ";
 					
 					arrSize = 1;
 					
@@ -197,7 +197,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qryDetails = "select structure as fob_id_fk,contract_id_fk as contract_id from activities "
-					+"where contract_id_fk = ? and a.structure_type_fk!='FOB' group by structure";
+					+"where contract_id_fk = ? and a.structure_type_fk<>'FOB' group by structure";
 			
 			objsList = jdbcTemplate.query(qryDetails, new Object[] {obj.getContract_id()}, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 		}catch(Exception e){ 
@@ -217,7 +217,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where project_id is not null and f.structure is not null and f.structure <> '' and project_id <> '' and a.structure_type_fk!='FOB' ";
+					"where project_id is not null and f.structure is not null and f.structure <> '' and project_id <> '' and a.structure_type_fk<>'FOB' ";
 			
 			int arrSize = 0;
 			
@@ -271,7 +271,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where w.work_id is not null and f.structure is not null and f.structure <> '' and w.work_id <> '' and a.structure_type_fk!='FOB' ";
+					"where w.work_id is not null and f.structure is not null and f.structure <> '' and w.work_id <> '' and a.structure_type_fk<>'FOB' ";
 			
 			int arrSize = 0;
 			
@@ -306,7 +306,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.contract_id is not null and f.structure is not null and f.structure <> '' and c.contract_id <> '' and a.structure_type_fk!='FOB' ";
+					"where c.contract_id is not null and f.structure is not null and f.structure <> '' and c.contract_id <> '' and a.structure_type_fk<>'FOB' ";
 			
 			int arrSize = 0;
 			
@@ -350,7 +350,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where f.structure is not null and f.structure <> '' and a.structure_type_fk!='FOB' ";
+					"where f.structure is not null and f.structure <> '' and a.structure_type_fk<>'FOB' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -382,7 +382,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			String qryDetails = "select contract_id_fk as contract_id,c.contract_short_name from activities a "
 					+" left outer join structure f on f.structure = a.structure "
 					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
-					+"where contract_id_fk is not null and contract_id_fk <> '' and a.structure_type_fk!='FOB' group by contract_id";
+					+"where contract_id_fk is not null and contract_id_fk <> '' and a.structure_type_fk<>'FOB' group by contract_id";
 			
 			objsList = jdbcTemplate.query(qryDetails, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 		}catch(Exception e){ 
@@ -401,7 +401,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"LEFT JOIN user u on c.hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' and a.structure_type_fk!='FOB' ";
+					"where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' and a.structure_type_fk<>'FOB' ";
 			
 			
 			int arrSize = 0;
@@ -482,7 +482,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> ''  and a.structure_type_fk!='FOB' ";
+					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> ''  and a.structure_type_fk<>'FOB' ";
 			
 			int arrSize = 0;
 			
@@ -562,7 +562,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"LEFT JOIN contractor ctr on c.contractor_id_fk = ctr.contractor_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.contractor_id_fk is not null and c.contractor_id_fk <> '' and a.structure_type_fk!='FOB' ";
+					"where c.contractor_id_fk is not null and c.contractor_id_fk <> '' and a.structure_type_fk<>'FOB' ";
 			
 			int arrSize = 0;
 			
@@ -644,7 +644,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-					+ "where progress_date is not null and completed_scope is not null and a.structure_type_fk!='FOB' ";
+					+ "where progress_date is not null and completed_scope is not null and a.structure_type_fk<>'FOB' ";
 			
 			int arrSize = 0;
 			
@@ -735,7 +735,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 						+ "left join activities a on ap.activity_id_fk = a.activity_id "
 						+" left outer join structure f on f.structure = a.structure "
 						+ "left join contract c on a.contract_id_fk = c.contract_id "  
-						+ "where completed_scope is not null and a.contract_id_fk = ? and a.structure_type_fk!='FOB' ";
+						+ "where completed_scope is not null and a.contract_id_fk = ? and a.structure_type_fk<>'FOB' ";
 				
 				
 				arrSize = 1;
@@ -784,7 +784,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 							+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-							+ "where completed_scope is not null and a.contract_id_fk = ? and a.structure_type_fk!='FOB' ";
+							+ "where completed_scope is not null and a.contract_id_fk = ? and a.structure_type_fk<>'FOB' ";
 					
 					arrSize = 1;
 					
@@ -830,12 +830,12 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 								"left outer join activities a1 on ap1.activity_id_fk = a1.activity_id " 
 								+" left outer join structure f on f.structure = a1.structure "+
 								"left outer join contract c1 on a1.contract_id_fk = c1.contract_id " + 
-								"where ap1.completed_scope is not null and a1.structure_type_fk!='FOB' and a1.contract_id_fk = ? and a1.structure = ? and ap1.progress_date > ? and ap1.activity_id_fk = ap.activity_id_fk),0)) as cumulative_completed " + 
+								"where ap1.completed_scope is not null and a1.structure_type_fk<>'FOB' and a1.contract_id_fk = ? and a1.structure = ? and ap1.progress_date > ? and ap1.activity_id_fk = ap.activity_id_fk),0)) as cumulative_completed " + 
 								"from activity_progress ap " + 
 								"left outer join activities a on ap.activity_id_fk = a.activity_id " +
 								"left outer join structure f on f.structure = a.structure "+
 								"left outer join contract c on a.contract_id_fk = c.contract_id " + 
-								"where completed_scope is not null and a.contract_id_fk = ? and a.structure = ? and a.structure_type_fk!='FOB' ";
+								"where completed_scope is not null and a.contract_id_fk = ? and a.structure = ? and a.structure_type_fk<>'FOB' ";
 						
 						arrSize = 5;
 						
@@ -1023,7 +1023,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id " +
-					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' and a.structure_type_fk!='FOB' ";
+					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' and a.structure_type_fk<>'FOB' ";
 			
 			int arrSize = 0;
 			
@@ -1111,7 +1111,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id " +
-					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' and a.structure_type_fk!='FOB' ";
+					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' and a.structure_type_fk<>'FOB' ";
 			
 			int arrSize = 0;
 			
@@ -1195,7 +1195,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					+ "left join activities a on ap.contract_id_fk = a.contract_id_fk and a.structure=ap.structure "
 					+" left outer join structure f on f.structure = a.structure "
 					+ "left join contract c on a.contract_id_fk = c.contract_id and c.contract_id=ap.contract_id_fk "  
-					+ " where a.contract_id_fk = ? and a.structure_type_fk!='FOB' ";
+					+ " where a.contract_id_fk = ? and a.structure_type_fk<>'FOB' ";
 			
 			
 			int arrSize = 1;

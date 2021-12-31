@@ -1675,7 +1675,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "left join work w on c.work_id_fk = w.work_id " 
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
-							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' amendment_not_required_in_contract = 'No') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
 					
 					arrSize = 3;
 					if(!StringUtils.isEmpty(alert_type)) {

@@ -323,6 +323,26 @@
 			    font-size: 2.5rem;     
 			}
 		}
+		
+		div[class^=autocomplete]{
+			position: absolute;
+		    z-index: 2;
+		    background-color: #fff;
+		    width: min(200%,180px);
+		    border:1px solid #eee;
+		    padding:.1rem;
+		    overflow:auto;
+		    max-height: 200px;
+		    box-shadow:-2px -2px 5px #efefef;
+		}
+		.autoList{
+			padding:.1rem .3rem;
+			cursor:pointer;
+			border-bottom:1px solid #ececec;
+		}
+		.autoList:hover{
+			background-color:rgba(0,0,0,.05);
+		}
     </style>
 </head>
 
@@ -1204,9 +1224,6 @@
 	
 	<script>
 	
-	
-	
-	
 	function autocomplete(inp, arr) {
 		  /*the autocomplete function takes two arguments,
 		  the text field element and an array of possible autocompleted values:*/
@@ -1230,6 +1247,7 @@
 		        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
 		          /*create a DIV element for each matching element:*/
 		          b = document.createElement("DIV");
+		          b.classList.add('autoList');
 		          /*make the matching letters bold:*/
 		          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
 		          b.innerHTML += arr[i].substr(val.length);
@@ -1817,7 +1835,7 @@
             var rNo = Number(trainNo)+1;
       
             var html = '<tr id="newAttendeesRow'+rNo+'">' +
-            '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate attendees" placeholder="Name"><span id="new_attendeesError'+ rNo +tNo+'" class="error-msg"></span>  </td>' +
+            '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate attendees autocomplete" placeholder="Name"><span id="new_attendeesError'+ rNo +tNo+'" class="error-msg"></span>  </td>' +
             '<td data-head="Department" class="input-field">'+
 		 	   '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+tNo+'" value="'+trainingSessionId+'" />'+
 			   '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo +tNo+'" />'+
@@ -1933,7 +1951,7 @@
            
            
            attendeesArray=[];
-       	attendeesNamesArray=[];
+       	   attendeesNamesArray=[];
 			
 			var k=0;
       	
@@ -1949,7 +1967,7 @@
               					{
 		                			if(attendeesArray.indexOf($(this).val())=="-1")
 		                			{              				
-				    	            		attendeesArray.push($(this).val());
+				    	            		attendeesArray.push($(this).val()); 
 				    	            		attendeesNamesArray.push($('#'+id+' option[value="'+$(this).val()+'"]').text());
 		                			}
               					});              			
@@ -1960,9 +1978,8 @@
        	
     	var concat="new_attendees"+rNo +tNo;
    	
-   		autocomplete(document.getElementById(concat), attendeesNamesArray);	          
-          
-                       
+   		autocomplete(document.getElementById(concat), attendeesNamesArray);	   
+           
         }
         
         function addSessionRow(sessionId) {

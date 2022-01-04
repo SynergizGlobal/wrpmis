@@ -194,7 +194,7 @@
 							<h6 class="mob-mar">Land Acquisition</h6>
 							<div class="col s12 m12 right-align exportButton">
     							<div class="m-n1">
-    								<a href="#" download class="template-btn" title="Download Template">
+    								<a href="/pmis/Land_Aquisition_Templete.xlsx" download class="template-btn" title="Download Template">
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a>
     							 	<a href="javascript:void(0);"

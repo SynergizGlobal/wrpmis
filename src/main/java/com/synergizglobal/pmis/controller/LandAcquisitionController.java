@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -636,9 +639,7 @@ public class LandAcquisitionController {
 					// Creates a worksheet object representing the first sheet
 					int sheetsCount = workbook.getNumberOfSheets();
 					if(sheetsCount > 0) {
-						int sheetNo = 0;
-						if(sheetsCount > 7) {sheetNo = 2;}
-						XSSFSheet laSheet = workbook.getSheetAt(sheetNo);
+						XSSFSheet laSheet = workbook.getSheetAt(2);
 						//System.out.println(uploadFilesSheet.getSheetName());
 						//header row
 						XSSFRow headerRow = laSheet.getRow(1);
@@ -714,9 +715,8 @@ public class LandAcquisitionController {
 				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
 				int sheetsCount = workbook.getNumberOfSheets();
 				if(sheetsCount > 0) {
-					int sheetNo = 0;
-					if(sheetsCount > 7) {sheetNo = 2;}
-					XSSFSheet laSheet = workbook.getSheetAt(sheetNo);
+					
+					XSSFSheet laSheet = workbook.getSheetAt(2);
 					//System.out.println(uploadFilesSheet.getSheetName());
 					//header row
 					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
@@ -744,7 +744,7 @@ public class LandAcquisitionController {
 							
 							
 							val = formatter.formatCellValue(row.getCell(3)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setType_of_land(val);}
+							if(!StringUtils.isEmpty(val)) { la.setCategory_fk(val);}
 							
 							val = formatter.formatCellValue(row.getCell(4)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setLa_sub_category_fk(val);}	
@@ -754,89 +754,135 @@ public class LandAcquisitionController {
 							
 							
 							val = formatter.formatCellValue(row.getCell(6)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setArea_of_plot(val);}	
+							if(!StringUtils.isEmpty(val)) { 
+								double dval1 = row.getCell(6).getNumericCellValue();
+								int ival1 = (int) dval1;
+								val = String.valueOf(dval1);
+								la.setArea_of_plot(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(7)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(7));
+								}
+								la.setArea_to_be_acquired(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(8)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(8));
+								}
+								la.setArea_acquired(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(9)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(9));
+								}
+								la.setLa_land_status_fk(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(10)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setChainage_from(val);}	
 							
 							
-							val = formatter.formatCellValue(row.getCell(8)).trim();
+							val = formatter.formatCellValue(row.getCell(11)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setChainage_to(val);}								
 							
-							val = formatter.formatCellValue(row.getCell(9)).trim();
+							val = formatter.formatCellValue(row.getCell(12)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setVillage(val);}										
 							
-							val = formatter.formatCellValue(row.getCell(10)).trim();
+							val = formatter.formatCellValue(row.getCell(13)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setTaluka(val);}
 							
-							val = formatter.formatCellValue(row.getCell(11)).trim();
+							val = formatter.formatCellValue(row.getCell(14)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setDy_slr(val);}
 							
-							val = formatter.formatCellValue(row.getCell(12)).trim();
+							val = formatter.formatCellValue(row.getCell(15)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setSdo(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(13)).trim();
+							val = formatter.formatCellValue(row.getCell(16)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setCollector(val);}
 							
-							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) { 
-								if(val.contains("/")) {
-									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-								}
-								la.setProposal_submission_date_to_collector(val);}
-							
-							val = formatter.formatCellValue(row.getCell(15)).trim();
-							if(!StringUtils.isEmpty(val)) { 
-								if(val.contains("/")) {
-									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-								}
-								la.setJm_fee_letter_received_date(val);}
-							
-							
-							val = formatter.formatCellValue(row.getCell(16)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setJm_fee_amount(val);}
-						
 							val = formatter.formatCellValue(row.getCell(17)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
-									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+									
+									 
 								}
-								la.setJm_fee_paid_date(val);}								
+								la.setProposal_submission_date_to_collector(val);}
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
-									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+									
+									 
 								}
-								la.setJm_start_date(val);}	
+								la.setJm_fee_letter_received_date(val);}
+							
 							
 							val = formatter.formatCellValue(row.getCell(19)).trim();
-							if(!StringUtils.isEmpty(val)) { 
-								if(val.contains("/")) {
-									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-								}
-								la.setJm_completion_date(val);}	
-							
+							if(!StringUtils.isEmpty(val)) {
+								double dval = row.getCell(19).getNumericCellValue();
+								int ival = (int) dval;
+								val = String.valueOf(ival);
+								la.setJm_fee_amount(val);
+							}
+						
 							val = formatter.formatCellValue(row.getCell(20)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
-									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+									
+									 
+								}
+								la.setJm_fee_paid_date(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(21)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) {
+									
+									 
+								}
+								la.setJm_start_date(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(22)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) {
+									
+									 
+								}
+								la.setJm_completion_date(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(23)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) {
+									
+									 
 								}
 								la.setJm_sheet_date_to_sdo(val);}				
 							
-							val = formatter.formatCellValue(row.getCell(21)).trim();
+							val = formatter.formatCellValue(row.getCell(24)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setJm_remarks(val);}										
 						
-							val = formatter.formatCellValue(row.getCell(22)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setJm_approval(val);}
+							val = formatter.formatCellValue(row.getCell(25)).trim();
+							val = row.getCell(25).getReference();
+							val = row.getCell(25).getStringCellValue();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(25));
+								}
+								la.setJm_approval(val);}
 							
-							val = formatter.formatCellValue(row.getCell(23)).trim();
+							val = formatter.formatCellValue(row.getCell(26)).trim();
+							if(!StringUtils.isEmpty(val)) { la.setSpecial_feature(val);}
+							
+							val = formatter.formatCellValue(row.getCell(27)).trim();
+							if(!StringUtils.isEmpty(val)) { la.setRemarks(val);}
+							
+							val = formatter.formatCellValue(row.getCell(28)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setIssues(val);}
 					
 							la.setProposal_submission_date_to_collector(DateParser.parse(la.getProposal_submission_date_to_collector()));
@@ -846,6 +892,7 @@ public class LandAcquisitionController {
 							la.setJm_completion_date(DateParser.parse(la.getJm_completion_date()));
 							la.setJm_sheet_date_to_sdo(DateParser.parse(la.getJm_sheet_date_to_sdo()));
 						}
+				
 						List<LandAcquisition> pObjList = new ArrayList<LandAcquisition>();
 						List<LandAcquisition> pObjList1 = new ArrayList<LandAcquisition>();
 						List<LandAcquisition> pObjList2 = new ArrayList<LandAcquisition>();
@@ -853,13 +900,12 @@ public class LandAcquisitionController {
 						List<LandAcquisition> fObjList = new ArrayList<LandAcquisition>();
 						List<LandAcquisition> rObjList = new ArrayList<LandAcquisition>();
 						
-						if(!StringUtils.isEmpty(la.getLa_id())) {
-									XSSFSheet laPrivateSheet = workbook.getSheetAt(sheetNo++);
-									XSSFSheet laPrivateLVSheet = workbook.getSheetAt(sheetNo++);
-									XSSFSheet laprivateLASheet = workbook.getSheetAt(sheetNo++);
-									XSSFSheet GovSheet = workbook.getSheetAt(sheetNo++);
-									XSSFSheet forestSheet = workbook.getSheetAt(sheetNo++);
-									XSSFSheet railwaySheet = workbook.getSheetAt(sheetNo++);
+									XSSFSheet laPrivateSheet = workbook.getSheetAt(3);
+									XSSFSheet laPrivateLVSheet = workbook.getSheetAt(4);
+									XSSFSheet laprivateLASheet = workbook.getSheetAt(5);
+									XSSFSheet GovSheet = workbook.getSheetAt(6);
+									XSSFSheet forestSheet = workbook.getSheetAt(7);
+									XSSFSheet railwaySheet = workbook.getSheetAt(8);
 
 									XSSFRow privateIRA = laPrivateSheet.getRow(1);
 									XSSFRow privateLV = laPrivateLVSheet.getRow(1);
@@ -867,438 +913,447 @@ public class LandAcquisitionController {
 									XSSFRow Gov = GovSheet.getRow(1);
 									XSSFRow forest = forestSheet.getRow(1);
 									XSSFRow railway = railwaySheet.getRow(1);
+									//String val = null;
 									if(privateIRA != null){
 										for(int j = 2; j <= laPrivateSheet.getLastRowNum();j++){
 											XSSFRow row2 = laPrivateSheet.getRow(j);
 											LandAcquisition pObj = new LandAcquisition();
-											if(!StringUtils.isEmpty(row2)) {
+											if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(la.getLa_id())) {
 												val = formatter.formatCellValue(row2.getCell(0)).trim();
 												if(!StringUtils.isEmpty(val)) { pObj.setLa_id(val);}
 												
 												val = formatter.formatCellValue(row2.getCell(1)).trim();
 												if(!StringUtils.isEmpty(val)) { pObj.setCollector(val);}
 												//Declaration of Special Railway project 
-												val = formatter.formatCellValue(row.getCell(2)).trim();
+												val = formatter.formatCellValue(row2.getCell(2)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setSubmission_of_proposal_to_GM(val);
 												}	
-												val = formatter.formatCellValue(row.getCell(3)).trim();
+												val = formatter.formatCellValue(row2.getCell(3)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setApproval_of_GM(val);
 												}
-												val = formatter.formatCellValue(row.getCell(4)).trim();
+												val = formatter.formatCellValue(row2.getCell(4)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDraft_letter_to_con_for_approval_rp(val);
 												}
-												val = formatter.formatCellValue(row.getCell(5)).trim();
+												val = formatter.formatCellValue(row2.getCell(5)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_approval_of_construction_rp(val);
 												}
-												val = formatter.formatCellValue(row.getCell(6)).trim();
+												val = formatter.formatCellValue(row2.getCell(6)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_uploading_of_gazette_notification_rp(val);
 												}
-												val = formatter.formatCellValue(row.getCell(7)).trim();
+												val = formatter.formatCellValue(row2.getCell(7)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setPublication_in_gazette_rp(val);
 												}
 												//Nomination of competent Authority	
-												val = formatter.formatCellValue(row.getCell(8)).trim();
+												val = formatter.formatCellValue(row2.getCell(8)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_proposal_to_DC_for_nomination(val);
 												}
-												val = formatter.formatCellValue(row.getCell(9)).trim();
+												val = formatter.formatCellValue(row2.getCell(9)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_nomination_of_competenta_authority(val);
 												}
-												val = formatter.formatCellValue(row.getCell(10)).trim();
+												val = formatter.formatCellValue(row2.getCell(10)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDraft_letter_to_con_for_approval_ca(val);
 												}
-												val = formatter.formatCellValue(row.getCell(11)).trim();
+												val = formatter.formatCellValue(row2.getCell(11)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_approval_of_construction_ca(val);
 												}
-												val = formatter.formatCellValue(row.getCell(12)).trim();
+												val = formatter.formatCellValue(row2.getCell(12)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_uploading_of_gazette_notification_ca(val);
 												}
-												val = formatter.formatCellValue(row.getCell(13)).trim();
+												val = formatter.formatCellValue(row2.getCell(13)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setPublication_in_gazette_ca(val);
 												}
 											//Publication of notification under 20 A 
-												val = formatter.formatCellValue(row.getCell(14)).trim();
+												val = formatter.formatCellValue(row2.getCell(14)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_submission_of_draft_notification_to_CALA(val);
 												}
-												val = formatter.formatCellValue(row.getCell(15)).trim();
+												val = formatter.formatCellValue(row2.getCell(15)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setApproval_of_CALA_20a(val);
 												}
-												val = formatter.formatCellValue(row.getCell(16)).trim();
+												val = formatter.formatCellValue(row2.getCell(16)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDraft_letter_to_con_for_approval_20a(val);
 												}
-												val = formatter.formatCellValue(row.getCell(17)).trim();
+												val = formatter.formatCellValue(row2.getCell(17)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_approval_of_construction_20a(val);
 												}
-												val = formatter.formatCellValue(row.getCell(18)).trim();
+												val = formatter.formatCellValue(row2.getCell(18)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_uploading_of_gazette_notification_20a(val);
 												}
-												val = formatter.formatCellValue(row.getCell(19)).trim();
+												val = formatter.formatCellValue(row2.getCell(19)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setPublication_in_gazette_20a(val);
 												}
-												val = formatter.formatCellValue(row.getCell(20)).trim();
+												val = formatter.formatCellValue(row2.getCell(20)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setPublication_in_2_local_news_papers_20a(val);
 												}
-												val = formatter.formatCellValue(row.getCell(21)).trim();
+												val = formatter.formatCellValue(row2.getCell(21)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setPasting_of_notification_in_villages_20a(val);
 												}
 										    //Grievances Redressal	
-												val = formatter.formatCellValue(row.getCell(22)).trim();
+												val = formatter.formatCellValue(row2.getCell(22)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setReceipt_of_grievances(val);
 												}
-												val = formatter.formatCellValue(row.getCell(23)).trim();
+												val = formatter.formatCellValue(row2.getCell(23)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDisposal_of_grievances(val);
 												}
 											//Acquisition notice under 20E	
-												val = formatter.formatCellValue(row.getCell(24)).trim();
+												val = formatter.formatCellValue(row2.getCell(24)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_submission_of_draft_notification_to_CALA_20e(val);
 												}
-												val = formatter.formatCellValue(row.getCell(25)).trim();
+												val = formatter.formatCellValue(row2.getCell(25)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setApproval_of_CALA_20e(val);
 												}
-												val = formatter.formatCellValue(row.getCell(26)).trim();
+												val = formatter.formatCellValue(row2.getCell(26)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDraft_letter_to_con_for_approval_20e(val);
 												}
-												val = formatter.formatCellValue(row.getCell(27)).trim();
+												val = formatter.formatCellValue(row2.getCell(27)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_approval_of_construction_20e(val);
 												}
-												val = formatter.formatCellValue(row.getCell(28)).trim();
+												val = formatter.formatCellValue(row2.getCell(28)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_uploading_of_gazette_notification_20e(val);
 												}
-												val = formatter.formatCellValue(row.getCell(29)).trim();
+												val = formatter.formatCellValue(row2.getCell(29)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setPublication_in_gazette_20e(val);
 												}
-												val = formatter.formatCellValue(row.getCell(30)).trim();
+												val = formatter.formatCellValue(row2.getCell(30)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setPublication_of_notice_in_2_local_news_papers_20e(val);
 												}
 											//Acquisition notice under 20F						
-												val = formatter.formatCellValue(row.getCell(31)).trim();
+												val = formatter.formatCellValue(row2.getCell(31)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_submission_of_draft_notification_to_CALA_20f(val);
 												}
-												val = formatter.formatCellValue(row.getCell(32)).trim();
+												val = formatter.formatCellValue(row2.getCell(32)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setApproval_of_CALA_20f(val);
 												}
-												val = formatter.formatCellValue(row.getCell(33)).trim();
+												val = formatter.formatCellValue(row2.getCell(33)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDraft_letter_to_con_for_approval_20f(val);
 												}
-												val = formatter.formatCellValue(row.getCell(34)).trim();
+												val = formatter.formatCellValue(row2.getCell(34)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_approval_of_construction_20f(val);
 												}
-												val = formatter.formatCellValue(row.getCell(35)).trim();
+												val = formatter.formatCellValue(row2.getCell(35)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setDate_of_uploading_of_gazette_notification_20f(val);
 												}
-												val = formatter.formatCellValue(row.getCell(36)).trim();
+												val = formatter.formatCellValue(row2.getCell(36)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setPublication_in_gazette_20f(val);
 												}
-												val = formatter.formatCellValue(row.getCell(37)).trim();
+												val = formatter.formatCellValue(row2.getCell(37)).trim();
 												if(!StringUtils.isEmpty(val)) { 
 													if(val.contains("/")) {
-														LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-														val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+														
+														 
 													}
 													pObj.setPublication_of_notice_in_2_local_news_papers_20f(val);
 												}
 											}
 											if(!StringUtils.isEmpty(pObj) && !StringUtils.isEmpty(pObj.getLa_id())
-													&& pObj.getLa_id().equals(la.getLa_id()))
-											pObjList.add(pObj);
+													&& pObj.getLa_id().equals(la.getLa_id())) {
+												pObjList.add(pObj);
+											}
 										}
 								la.setPrivateIRAList(pObjList);
 								}
 								if(privateLA != null){
+									int b  = laprivateLASheet.getLastRowNum();
 									for(int j = 2; j <= laprivateLASheet.getLastRowNum();j++){
 										XSSFRow row2 = laprivateLASheet.getRow(j);
 										LandAcquisition pObj1 = new LandAcquisition();
-										if(!StringUtils.isEmpty(row2)) {
+										if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(la.getLa_id())) {
 											val = formatter.formatCellValue(row2.getCell(0)).trim();
 											if(!StringUtils.isEmpty(val)) { pObj1.setLa_id(val);}
-											
+										
 											val = formatter.formatCellValue(row2.getCell(1)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setSurvey_number(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(2)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setType_of_land(val);}
-
-											val = formatter.formatCellValue(row2.getCell(3)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setSub_category_of_land(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(4)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setVillage_id(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(5)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setArea_to_be_acquired(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(6)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setArea_acquired(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(7)).trim();
 											if(!StringUtils.isEmpty(val)) { pObj1.setName_of_the_owner(val);}
 											
+											val = formatter.formatCellValue(row2.getCell(2)).trim();
+											if(!StringUtils.isEmpty(val)) {
+												double dval = row2.getCell(2).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setBasic_rate(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(3)).trim();
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(3).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setHundred_percent_Solatium(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(4)).trim();
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(4).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setExtra_25_percent(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(5)).trim();
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(5).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setTotal_rate_divide_m2(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(6)).trim();
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(6).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setLand_compensation(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(7)).trim();
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(7).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setAgriculture_tree_nos(val);}
+											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setBasic_rate(val);}
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(8).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setAgriculture_tree_rate(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setHundred_percent_Solatium(val);}
+											if(!StringUtils.isEmpty(val)) {
+												double dval = row2.getCell(9).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setAgriculture_tree_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setExtra_25_percent(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(10)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setTotal_rate_divide_m2(val);}
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(10).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setForest_tree_nos(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setLand_compensation(val);}
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(11).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setForest_tree_rate(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(12)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setAgriculture_tree_nos(val);}
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(12).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setForest_tree_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(13)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setAgriculture_tree_rate(val);}
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(13).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setStructure_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(14)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setAgriculture_tree_compensation(val);}
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(14).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setBorewell_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(15)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setForest_tree_nos(val);}
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(15).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj1.setTotal_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(16)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setForest_tree_rate(val);}
-											
+											if(!StringUtils.isEmpty(val)) {pObj1.setConsent_from_owner(val);}
 											val = formatter.formatCellValue(row2.getCell(17)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setForest_tree_compensation(val);}
+											if(!StringUtils.isEmpty(val)) {pObj1.setLegal_search_report(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(18)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setStructure_compensation(val);}
-											
+											if(!StringUtils.isEmpty(val)) { pObj1.setDate_of_registration(val);}
 											val = formatter.formatCellValue(row2.getCell(19)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setBorewell_compensation(val);}
+											if(!StringUtils.isEmpty(val)) {pObj1.setDate_of_possession(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj1.setTotal_compensation(val);}
+											if(!StringUtils.isEmpty(val)) {pObj1.setPrivate_possession_status_fk(val);}
+							
 											
-											val = formatter.formatCellValue(row2.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj1.setConsent_from_owner(val);}
-											val = formatter.formatCellValue(row2.getCell(22)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj1.setLegal_search_report(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(23)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj1.setDate_of_registration(val);}
-											val = formatter.formatCellValue(row2.getCell(24)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj1.setDate_of_possession(val);}
-											
-											val = formatter.formatCellValue(row.getCell(25)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											pObj1.setPrivate_possession_status_fk(val);}
-											
-											val = formatter.formatCellValue(row.getCell(26)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											pObj1.setPrivate_special_feature(val);}
-											
-											val = formatter.formatCellValue(row.getCell(27)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											pObj1.setRemarks(val);}
-											
-											val = formatter.formatCellValue(row.getCell(28)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											pObj1.setPrivate_attachment_no(val);}
-											
-											val = formatter.formatCellValue(row.getCell(28)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											pObj1.setIssues(val);}
-											
+											pObj1.setDate_of_registration(DateParser.parse(pObj1.getDate_of_registration()));
+											pObj1.setDate_of_possession(DateParser.parse(pObj1.getDate_of_possession()));
+											pObj1.setConsent_from_owner(DateParser.parse(pObj1.getConsent_from_owner()));
+											pObj1.setLegal_search_report(DateParser.parse(pObj1.getLegal_search_report()));
 											pObj1.setForest_tree_survey(DateParser.parse(pObj1.getForest_tree_survey()));
 											pObj1.setForest_tree_valuation(DateParser.parse(pObj1.getForest_tree_valuation()));
 											pObj1.setHorticulture_tree_survey(DateParser.parse(pObj1.getHorticulture_tree_survey()));
@@ -1312,10 +1367,11 @@ public class LandAcquisitionController {
 											pObj1.setSdo_demand_for_payment(DateParser.parse(pObj1.getSdo_demand_for_payment()));
 											pObj1.setDate_of_approval_for_payment(DateParser.parse(pObj1.getDate_of_approval_for_payment()));
 											pObj1.setPrivate_payment_date(DateParser.parse(pObj1.getPrivate_payment_date()));
-										}
+										} 
 										if(!StringUtils.isEmpty(pObj1) && !StringUtils.isEmpty(pObj1.getLa_id())
-												&& pObj1.getLa_id().equals(la.getLa_id()))
+												&& pObj1.getLa_id().equals(la.getLa_id())) {
 											pObjList1.add(pObj1);
+										}
 									}
 							la.setPrivateLAList(pObjList1);
 							}	
@@ -1323,139 +1379,66 @@ public class LandAcquisitionController {
 									for(int j = 2; j <= laPrivateLVSheet.getLastRowNum();j++){
 										XSSFRow row2 = laPrivateLVSheet.getRow(j);
 										LandAcquisition pObj2 = new LandAcquisition();
-										if(!StringUtils.isEmpty(row2)) {
+										if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(la.getLa_id())) {
 											val = formatter.formatCellValue(row2.getCell(0)).trim();
 											if(!StringUtils.isEmpty(val)) { pObj2.setLa_id(val);}
-											
+										
 											val = formatter.formatCellValue(row2.getCell(1)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj2.setSurvey_number(val);}
+											if(!StringUtils.isEmpty(val)) {pObj2.setForest_tree_survey(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj2.setType_of_land(val);}
-
+											if(!StringUtils.isEmpty(val)) {pObj2.setForest_tree_valuation(val);}
+											
 											val = formatter.formatCellValue(row2.getCell(3)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj2.setSub_category_of_land(val);}
+											if(!StringUtils.isEmpty(val)) {pObj2.setHorticulture_tree_survey(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(4)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj2.setVillage_id(val);}
+											if(!StringUtils.isEmpty(val)) {pObj2.setHorticulture_tree_valuation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(5)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setForest_tree_survey(val);}
+											if(!StringUtils.isEmpty(val)) {pObj2.setStructure_survey(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(6)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setForest_tree_valuation(val);}
+											if(!StringUtils.isEmpty(val)) {pObj2.setStructure_valuation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(7)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setHorticulture_tree_survey(val);}
+											if(!StringUtils.isEmpty(val)) {pObj2.setBorewell_survey(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setHorticulture_tree_valuation(val);}
+											if(!StringUtils.isEmpty(val)) {pObj2.setBorewell_valuation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setStructure_survey(val);}
+											if(!StringUtils.isEmpty(val)) {pObj2.setDate_of_rfp_to_adtp(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(10));
 												}
-												pObj2.setStructure_valuation(val);}
+												pObj2.setRfp_to_adtp_status_fk(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setBorewell_survey(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(12)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setBorewell_valuation(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(13)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setDate_of_rfp_to_adtp(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(14)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj2.setRfp_to_adtp_status_fk(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(15)).trim();
 											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
+												
 												pObj2.setDate_of_rate_fixation_of_land(val);}
 											
-											val = formatter.formatCellValue(row2.getCell(16)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setSdo_demand_for_payment(val);}
+											val = formatter.formatCellValue(row2.getCell(12)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj2.setSdo_demand_for_payment(val);}
 											
-											val = formatter.formatCellValue(row2.getCell(17)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setDate_of_approval_for_payment(val);}
+											val = formatter.formatCellValue(row2.getCell(13)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj2.setDate_of_approval_for_payment(val);}
 											
-											val = formatter.formatCellValue(row2.getCell(18)).trim();
-											if(!StringUtils.isEmpty(val)) { pObj2.setPayment_amount(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(19)).trim();
+											val = formatter.formatCellValue(row2.getCell(14)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												pObj2.setPayment_date(val);}
+												double dval = row2.getCell(14).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												pObj2.setPayment_amount(val);}
 											
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											pObj2.setRemarks(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											pObj2.setIssues(val);}
+											val = formatter.formatCellValue(row2.getCell(15)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj2.setPayment_date(val);}
+						
 											
 											pObj2.setForest_tree_survey(DateParser.parse(pObj2.getForest_tree_survey()));
 											pObj2.setForest_tree_valuation(DateParser.parse(pObj2.getForest_tree_valuation()));
@@ -1473,8 +1456,9 @@ public class LandAcquisitionController {
 											
 										}
 										if(!StringUtils.isEmpty(pObj2) && !StringUtils.isEmpty(pObj2.getLa_id())
-												&& pObj2.getLa_id().equals(la.getLa_id()))
+												&& pObj2.getLa_id().equals(la.getLa_id())) {
 											pObjList2.add(pObj2);
+										}
 									}
 							la.setPrivateLVList(pObjList2);
 							}
@@ -1482,82 +1466,76 @@ public class LandAcquisitionController {
 									for(int j = 2; j <= GovSheet.getLastRowNum();j++){
 										XSSFRow row2 = GovSheet.getRow(j);
 										LandAcquisition gov = new LandAcquisition();
-										if(!StringUtils.isEmpty(row2)) {
+										if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(la.getLa_id())) {
 											val = formatter.formatCellValue(row2.getCell(0)).trim();
 											if(!StringUtils.isEmpty(val)) { gov.setLa_id(val);}
-											
+									
 											val = formatter.formatCellValue(row2.getCell(1)).trim();
-											if(!StringUtils.isEmpty(val)) { gov.setSurvey_number(val);}
+											if(!StringUtils.isEmpty(val)) { gov.setProposal_submission(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
-											if(!StringUtils.isEmpty(val)) { gov.setType_of_land(val);}
-
+											if(!StringUtils.isEmpty(val)) {
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(2));
+												}	
+												gov.setProposal_submission_status_fk(val);
+												
+											}
+											
 											val = formatter.formatCellValue(row2.getCell(3)).trim();
-											if(!StringUtils.isEmpty(val)) { gov.setSub_category_of_land(val);}
+											if(!StringUtils.isEmpty(val)) {gov.setValuation_date(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(4)).trim();
-											if(!StringUtils.isEmpty(val)) { gov.setVillage_id(val);}
+											if(!StringUtils.isEmpty(val)) { gov.setLetter_for_payment(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(5)).trim();
-											if(!StringUtils.isEmpty(val)) {gov.setArea_to_be_acquired(val);}
+											if(!StringUtils.isEmpty(val)) {
+												double dval = row2.getCell(5).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												gov.setAmount_demanded(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(6)).trim();
-											if(!StringUtils.isEmpty(val)) {gov.setArea_acquired(val);}
+											if(!StringUtils.isEmpty(val)) {
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(6));
+												}
+												gov.setLfp_status_fk(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(7)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												gov.setProposal_submission(val);}
+											if(!StringUtils.isEmpty(val)) {gov.setApproval_for_payment(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
-											if(!StringUtils.isEmpty(val)) {gov.setProposal_submission_status_fk(val);}
+											if(!StringUtils.isEmpty(val)) {gov.setPayment_date(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
 											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												gov.setValuation_date(val);}
+												double dval = row2.getCell(9).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												gov.setAmount_paid(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+											if(!StringUtils.isEmpty(val)) {
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(10));
 												}
-												gov.setLetter_for_payment(val);}
+												gov.setPayment_status_fk(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
-											if(!StringUtils.isEmpty(val)) {gov.setAmount_demanded(val);}
+											if(!StringUtils.isEmpty(val)) { gov.setPossession_date(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(12)).trim();
-											if(!StringUtils.isEmpty(val)) {gov.setLfp_status_fk(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(13)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(12));
 												}
-												gov.setPossession_date(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(14)).trim();
-											if(!StringUtils.isEmpty(val)) { gov.setPossession_status_fk(val);}
-											
-											val = formatter.formatCellValue(row2.getCell(15)).trim();
-											if(!StringUtils.isEmpty(val)) {gov.setSpecial_feature(val);}
-											
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											gov.setRemarks(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											gov.setIssues(val);}
+												gov.setPossession_status_fk(val);}
+							
 											
 											gov.setProposal_submission(DateParser.parse(gov.getProposal_submission()));
 											gov.setLetter_for_payment(DateParser.parse(gov.getLetter_for_payment()));
@@ -1567,8 +1545,9 @@ public class LandAcquisitionController {
 											gov.setValuation_date(DateParser.parse(gov.getValuation_date()));
 										}
 										if(!StringUtils.isEmpty(gov) && !StringUtils.isEmpty(gov.getLa_id())
-												&& gov.getLa_id().equals(la.getLa_id()))
+												&& gov.getLa_id().equals(la.getLa_id())) {
 											gObjList.add(gov);
+										}
 									}
 							la.setGovList(gObjList);
 							}
@@ -1576,146 +1555,73 @@ public class LandAcquisitionController {
 									for(int j = 2; j <= forestSheet.getLastRowNum();j++){
 										XSSFRow row2 = forestSheet.getRow(j);
 										LandAcquisition fObj = new LandAcquisition();
-										if(!StringUtils.isEmpty(row2)) {
+										if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(la.getLa_id())) {
 											val = formatter.formatCellValue(row2.getCell(0)).trim();
 											if(!StringUtils.isEmpty(val)) { fObj.setLa_id(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(1)).trim();
-											if(!StringUtils.isEmpty(val)) { fObj.setSurvey_number(val);}
+											if(!StringUtils.isEmpty(val)) { fObj.setForest_online_submission(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
-											if(!StringUtils.isEmpty(val)) { fObj.setType_of_land(val);}
-
+											if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_dycfo(val);}
+											
 											val = formatter.formatCellValue(row2.getCell(3)).trim();
-											if(!StringUtils.isEmpty(val)) { fObj.setSub_category_of_land(val);}
+											if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_ccf_thane(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(4)).trim();
-											if(!StringUtils.isEmpty(val)) { fObj.setVillage_id(val);}
+											if(!StringUtils.isEmpty(val)) { 	fObj.setForest_submission_date_to_nodal_officer(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(5)).trim();
-											if(!StringUtils.isEmpty(val)) {fObj.setArea_to_be_acquired(val);}
+											if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_revenue_secretary_mantralaya(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(6)).trim();
-											if(!StringUtils.isEmpty(val)) {fObj.setArea_acquired(val);}
+											if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_regional_office_nagpur(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(7)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												fObj.setForest_online_submission(val);}
+											if(!StringUtils.isEmpty(val)) {fObj.setForest_date_of_approval_by_regional_office_nagpur(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												fObj.setForest_submission_date_to_dycfo(val);}
+											if(!StringUtils.isEmpty(val)) {fObj.setForest_valuation_by_dycfo(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
 											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												fObj.setForest_submission_date_to_ccf_thane(val);}
-											
+												double dval = row2.getCell(9).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												fObj.setForest_demanded_amount(val);}
+
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												fObj.setForest_submission_date_to_nodal_officer(val);}
-											
+											if(!StringUtils.isEmpty(val)) {fObj.setApproval_for_payment(val);}
+
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												fObj.setForest_submission_date_to_revenue_secretary_mantralaya(val);}
-											
+											if(!StringUtils.isEmpty(val)) { fObj.setForest_payment_date(val);}
+
 											val = formatter.formatCellValue(row2.getCell(12)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												fObj.setForest_submission_date_to_regional_office_nagpur(val);}
-											
+											if(!StringUtils.isEmpty(val)) { 
+												double dval = row2.getCell(12).getNumericCellValue();
+												int ival = (int) dval;
+												val = String.valueOf(ival);
+												fObj.setForest_payment_amount(val);}
+
 											val = formatter.formatCellValue(row2.getCell(13)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(13));
 												}
-												fObj.setForest_date_of_approval_by_regional_office_nagpur(val);}
-											
+												fObj.setForest_payment_status_fk(val);}
+
 											val = formatter.formatCellValue(row2.getCell(14)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												fObj.setForest_valuation_by_dycfo(val);}
-											
+											if(!StringUtils.isEmpty(val)) {fObj.setForest_possession_date(val);}
+
 											val = formatter.formatCellValue(row2.getCell(15)).trim();
-											if(!StringUtils.isEmpty(val)) {fObj.setForest_demanded_amount(val);}
-
-											val = formatter.formatCellValue(row.getCell(20)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(15));
 												}
-											fObj.setApproval_for_payment(val);}
+												fObj.setForest_possession_status_fk(val);}
 
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-											fObj.setForest_payment_date(val);}
-
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											fObj.setForest_payment_amount(val);}
-
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											fObj.setForest_payment_status_fk(val);}
-
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-											fObj.setForest_possession_date(val);}
-
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											fObj.setForest_possession_status_fk(val);}
-
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											fObj.setForest_special_feature(val);}
-											
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											fObj.setRemarks(val);}
-											
-											val = formatter.formatCellValue(row.getCell(20)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											fObj.setForest_attachment_No(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											fObj.setIssues(val);}
 											
 											fObj.setForest_online_submission(DateParser.parse(fObj.getForest_online_submission()));
 											fObj.setForest_submission_date_to_dycfo(DateParser.parse(fObj.getForest_submission_date_to_dycfo()));
@@ -1730,8 +1636,9 @@ public class LandAcquisitionController {
 											fObj.setForest_possession_date(DateParser.parse(fObj.getForest_possession_date()));
 										}
 										if(!StringUtils.isEmpty(fObj) && !StringUtils.isEmpty(fObj.getLa_id())
-												&& fObj.getLa_id().equals(la.getLa_id()))
+												&& fObj.getLa_id().equals(la.getLa_id())) {
 											fObjList.add(fObj);
+										}
 									}
 							la.setForestList(fObjList);
 							}
@@ -1739,144 +1646,64 @@ public class LandAcquisitionController {
 									for(int j = 2; j <= railwaySheet.getLastRowNum();j++){
 										XSSFRow row2 = railwaySheet.getRow(j);
 										LandAcquisition railways = new LandAcquisition();
-										if(!StringUtils.isEmpty(row2)) {
+										if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(la.getLa_id())) {
 											val = formatter.formatCellValue(row2.getCell(0)).trim();
 											if(!StringUtils.isEmpty(val)) { railways.setLa_id(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(1)).trim();
-											if(!StringUtils.isEmpty(val)) { railways.setSurvey_number(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_online_submission(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
-											if(!StringUtils.isEmpty(val)) { railways.setType_of_land(val);}
-
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_DyCFO(val);}
+											
 											val = formatter.formatCellValue(row2.getCell(3)).trim();
-											if(!StringUtils.isEmpty(val)) { railways.setSub_category_of_land(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_CCF_Thane(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(4)).trim();
-											if(!StringUtils.isEmpty(val)) { railways.setVillage_id(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_nodal_officer_CCF_Nagpur(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(5)).trim();
-											if(!StringUtils.isEmpty(val)) {railways.setArea_to_be_acquired(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_revenue_secretary_mantralaya(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(6)).trim();
-											if(!StringUtils.isEmpty(val)) {railways.setArea_acquired(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_regional_office_nagpur(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(7)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												railways.setRailway_online_submission(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_date_of_approval_by_Rregional_Office_agpur(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												railways.setRailway_submission_date_to_DyCFO(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_valuation_by_DyCFO(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												railways.setRailway_submission_date_to_CCF_Thane(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_demanded_amount(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												railways.setRailway_submission_date_to_nodal_officer_CCF_Nagpur(val);}
+											if(!StringUtils.isEmpty(val)) { railways.setRailway_approval_for_payment(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												railways.setRailway_submission_date_to_revenue_secretary_mantralaya(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_payment_date(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(12)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												railways.setRailway_submission_date_to_regional_office_nagpur(val);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_payment_amount(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(13)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(13));
 												}
-												railways.setRailway_date_of_approval_by_Rregional_Office_agpur(val);}
+												railways.setRailway_payment_status(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(14)).trim();
-											if(!StringUtils.isEmpty(val)) {
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-												railways.setRailway_valuation_by_DyCFO(val);}
+											if(!StringUtils.isEmpty(val)) { railways.setRailway_possession_date(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(15)).trim();
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_demanded_amount(val);}
-											
-											val = formatter.formatCellValue(row.getCell(20)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-											railways.setRailway_approval_for_payment(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(15));
 												}
-											railways.setRailway_payment_date(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											railways.setRailway_payment_amount(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											railways.setRailway_payment_status(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												if(val.contains("/")) {
-													LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-													val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-												}
-											railways.setRailway_possession_date(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											railways.setRailway_possession_status(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											railways.setRailway_special_feature(val);}
-											
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											railways.setRemarks(val);}
-											
-
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											railways.setAttachment_no(val);}
-
-											val = formatter.formatCellValue(row.getCell(21)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-											railways.setIssues(val);}
-											
+												railways.setRailway_possession_status(val);}
 											
 											railways.setRailway_online_submission(DateParser.parse(railways.getRailway_online_submission()));
 											railways.setRailway_submission_date_to_DyCFO(DateParser.parse(railways.getRailway_submission_date_to_DyCFO()));
@@ -1891,20 +1718,20 @@ public class LandAcquisitionController {
 											railways.setRailway_possession_date(DateParser.parse(railways.getRailway_possession_date()));
 										}
 										if(!StringUtils.isEmpty(railways) && !StringUtils.isEmpty(railways.getLa_id())
-												&& railways.getLa_id().equals(la.getLa_id()))
+												&& railways.getLa_id().equals(la.getLa_id())) {
 											rObjList.add(railways);
+										}
 								
 									}
 							la.setRailwayList(rObjList);
 							}
-						}
 						boolean flag = la.checkNullOrEmpty();
-						
-						if(!flag) {
+
+						if(!flag && !StringUtils.isEmpty(la.getLa_id())) {
 							lasList.add(la);
 						}
+
 					}
-					
 					if(!lasList.isEmpty() && lasList != null){
 						//count  = laService.uploadLAs(lasList);
 						count  = service.uploadLAData(lasList,la);
@@ -1929,5 +1756,41 @@ public class LandAcquisitionController {
 		}
 		
 		return count;
+	}
+	
+	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {
+		String val = null;
+		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); 
+
+		// existing Sheet, Row, and Cell setup
+
+		if (!StringUtils.isEmpty(cell) && cell.getCellType() == CellType.FORMULA) {
+		    switch (evaluator.evaluateFormulaCell(cell)) {
+		        case BOOLEAN:
+		            val = String.valueOf(cell.getBooleanCellValue());
+		            break;
+		        case NUMERIC:
+		        	val = String.valueOf(cell.getNumericCellValue());
+		            break;
+		        case STRING:
+		            val = cell.getStringCellValue();
+		            break;
+		        case BLANK:
+		        	val = cell.getStringCellValue();
+		            break;
+		        case ERROR:
+		            val = cell.getStringCellValue();
+		            break;
+		        case _NONE:
+		            val = cell.getStringCellValue();
+		            break;
+				default:
+					break;
+		    }
+		}else if (!StringUtils.isEmpty(cell)) {
+			DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+			val = formatter.formatCellValue(cell).trim();
+		}
+		return val;
 	}
 }

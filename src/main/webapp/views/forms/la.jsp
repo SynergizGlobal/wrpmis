@@ -194,10 +194,10 @@
 							<h6 class="mob-mar">Land Acquisition</h6>
 							<div class="col s12 m12 right-align exportButton">
     							<div class="m-n1">
-    							<!-- 	<a href="javascript:void(0);"
+    							 	<a href="javascript:void(0);"
 										onclick="openUploadLAModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-arrow-circle-up"></i> Upload</strong></a> -->
+											class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
     								 <a href="<%=request.getContextPath() %>/add-land-acquisition-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add </strong></a>
     							</div>

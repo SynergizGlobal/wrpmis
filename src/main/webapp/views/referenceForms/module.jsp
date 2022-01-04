@@ -60,6 +60,7 @@
                                         <tr>
                                             <th>Module</th>
                                             <th>Incharge</th>
+                                            <th>Status</th>
                                             <c:forEach var="tObj" items="${moduleDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
@@ -79,6 +80,10 @@
 												<td>
 												<input type="hidden" id="incharge_user_id_fk${indexs.count}" value="${obj.incharge_user_id_fk }"/>
 												${obj.module_incharge }
+												</td>
+												<td>
+												<input type="hidden" id="soft_delete_status_fk${indexs.count}" value="${obj.soft_delete_status_fk }"/>
+												${obj.soft_delete_status_fk }
 												</td>
 												<c:forEach var="tObj" items="${moduleDetails.tablesList}" varStatus="index">
 												 
@@ -150,14 +155,11 @@
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m8 s12 offset-m2">
-                       <!--  <div class="row"> -->
                             <div class="input-field col s12 ">
                                 <input id="module_text" name="module_name" type="text" class="validate"  onkeyup="doValidate(this.value)">
                                 <label for="module_text">Module</label>
                                 <span id="module_nameError" class="error-msg" ></span>
-                            </div>                            
-                        <!-- </div>
-                        <div class="row"> -->
+                            </div> 
                         	<div class="input-field col s12">
                         		<p class="searchable_label">Incharge</p>
                                 <select id="incharge_user_id_fk" name="incharge_user_id_fk" class="searchable">
@@ -166,10 +168,17 @@
                                 		<option value="${obj.user_id }">${obj.designation } - ${obj.user_name }</option>
                                 	</c:forEach>
                                 </select>
-                                
                                 <span id="incharge_user_id_fkError" class="error-msg" ></span>
-                          <!--   </div> -->
-                        </div>   
+                        	</div>  
+                        	<div class="input-field col s12">
+                        		<p class="searchable_label">Status</p>
+                                <select id="soft_delete_status_fk" name="soft_delete_status_fk">
+                                	<c:forEach var="obj" items="${statusList}" >
+                                		<option value="${obj.soft_delete_status_fk }">${obj.soft_delete_status_fk }</option>
+                                	</c:forEach>
+                                </select>
+                                <span id="soft_delete_status_fkError" class="error-msg" ></span>
+                        	</div>  
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -222,6 +231,15 @@
                                 <span id="incharge_user_id_fk_updateError" class="error-msg" ></span>
                             </div>
                         </div>   
+                        <div class="input-field col s12">
+                        		<p class="searchable_label">Status</p>
+                                <select id="soft_delete_status_fk_update" name="soft_delete_status_fk">
+                                	<c:forEach var="obj" items="${statusList}" >
+                                		<option value="${obj.soft_delete_status_fk }">${obj.soft_delete_status_fk }</option>
+                                	</c:forEach>
+                                </select>
+                                <span id="soft_delete_status_fkError" class="error-msg" ></span>
+                        	</div> 
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -442,10 +460,15 @@
         function updateRow(no) {
     	      var module_name = $('#module_nameId'+no).val();
     	      var incharge_user_id_fk = $('#incharge_user_id_fk'+no).val();
+    	      var soft_delete_status_fk = $('#soft_delete_status_fk'+no).val();
+    	      if($.trim(soft_delete_status_fk) == ''){
+    	    	  soft_delete_status_fk = 'Inactive';
+    	      }
     	      $('#value_old').val($.trim(module_name))
     	      $('#onlyUpdateModal').modal('open');
     	      $('#onlyUpdateModal #value_new').val($.trim(module_name)).focus();
     	      $('#onlyUpdateModal #incharge_user_id_fk_update').val(incharge_user_id_fk);
+    	      $('#onlyUpdateModal #soft_delete_status_fk_update').val(soft_delete_status_fk);
     	      $('select:not(.searchable)').formSelect();
     	  }
     	  

@@ -46,4 +46,9 @@ public class ModuleServiceImpl implements ModuleService{
 	public boolean deleteModule(TrainingType obj) throws Exception {
 		return dao.deleteModule(obj);
 	}
+
+	@Override
+	public List<TrainingType> getModuleStatusList() throws Exception {
+		return dao.getModuleStatusList();
+	}
 }

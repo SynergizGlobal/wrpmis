@@ -48,6 +48,9 @@ public class ModuleController {
 			List<User> inchargeList = service.getModuleInchargeList();
 			model.addObject("inchargeList", inchargeList);
 			
+			List<TrainingType> statusList = service.getModuleStatusList();
+			model.addObject("statusList", statusList);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("module : " + e.getMessage());

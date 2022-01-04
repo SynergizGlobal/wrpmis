@@ -2,7 +2,7 @@ package com.synergizglobal.pmis.reference.model;
 
 public class Safety {
 	
-	private String structure_type,status,utility_alignment,general_status,contract_status,manual_folders,impact,utility_category,short_description,root_cause,land_type,approval_status,document_type,priority,status_of,risk_priority,project_priority,sub_category,category,p6_wbs_category,module_name;
+	private String structure_type,status,utility_alignment,general_status,contract_status,manual_folders,impact,utility_category,short_description,root_cause,land_type,approval_status,document_type,priority,status_of,risk_priority,project_priority,sub_category,category,p6_wbs_category,module_name,soft_delete_status_fk;
 
 	public String getContract_status() {
 		return contract_status;
@@ -170,6 +170,14 @@ public class Safety {
 
 	public void setStructure_type(String structure_type) {
 		this.structure_type = structure_type;
+	}
+
+	public String getSoft_delete_status_fk() {
+		return soft_delete_status_fk;
+	}
+
+	public void setSoft_delete_status_fk(String soft_delete_status_fk) {
+		this.soft_delete_status_fk = soft_delete_status_fk;
 	}
 
 }

@@ -29,7 +29,7 @@ public class ModuleDaoImpl implements ModuleDao{
 	public List<Safety> getModuleList() throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry ="select module_name,incharge_user_id_fk,user_name as module_incharge "
+			String qry ="select module_name,incharge_user_id_fk,user_name as module_incharge,soft_delete_status_fk "
 					+ "from module m "
 					+ "left join `user` u on incharge_user_id_fk = user_id";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
@@ -57,7 +57,7 @@ public class ModuleDaoImpl implements ModuleDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO module"
-					+ "( module_name,incharge_user_id_fk) VALUES (:module_name,:incharge_user_id_fk)";
+					+ "( module_name,incharge_user_id_fk,soft_delete_status_fk) VALUES (:module_name,:incharge_user_id_fk,:soft_delete_status_fk)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -77,7 +77,7 @@ public class ModuleDaoImpl implements ModuleDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select module_name,incharge_user_id_fk,user_name as module_incharge "
+			String qry ="select module_name,incharge_user_id_fk,user_name as module_incharge,soft_delete_status_fk "
 					+ "from module m "
 					+ "left join `user` u on incharge_user_id_fk = user_id";
 			
@@ -175,7 +175,7 @@ public class ModuleDaoImpl implements ModuleDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE module SET `module_name`= :value_new,incharge_user_id_fk=:incharge_user_id_fk WHERE `module_name`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE module SET `module_name`= :value_new,incharge_user_id_fk=:incharge_user_id_fk,soft_delete_status_fk=:soft_delete_status_fk WHERE `module_name`= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -216,6 +216,18 @@ public class ModuleDaoImpl implements ModuleDao{
 		throw new Exception(e);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<TrainingType> getModuleStatusList() throws Exception {
+		List<TrainingType> objsList = null;
+		try {
+			String qry ="select soft_delete_status as soft_delete_status_fk from soft_delete_status";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
 	}
 
 }

@@ -20,5 +20,7 @@ public interface ModuleService {
 
 	public boolean deleteModule(TrainingType obj) throws Exception;
 
+	public List<TrainingType> getModuleStatusList() throws Exception;
+
 
 }

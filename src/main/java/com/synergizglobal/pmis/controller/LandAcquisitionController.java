@@ -867,8 +867,6 @@ public class LandAcquisitionController {
 							if(!StringUtils.isEmpty(val)) { la.setJm_remarks(val);}										
 						
 							val = formatter.formatCellValue(row.getCell(25)).trim();
-							val = row.getCell(25).getReference();
-							val = row.getCell(25).getStringCellValue();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {

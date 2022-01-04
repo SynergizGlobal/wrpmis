@@ -200,6 +200,8 @@
 											class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
     								 <a href="<%=request.getContextPath() %>/add-land-acquisition-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add </strong></a>
+                                        <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                        <strong><i class="fa fa-cloud-download"></i> Export</strong></a>
     							</div>
     						</div>	
                         </div>

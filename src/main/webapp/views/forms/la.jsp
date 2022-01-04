@@ -194,14 +194,15 @@
 							<h6 class="mob-mar">Land Acquisition</h6>
 							<div class="col s12 m12 right-align exportButton">
     							<div class="m-n1">
+    								<a href="#" download class="template-btn" title="Download Template">
+										<i class="material-icons-outlined">download_for_offline</i>
+									</a>
     							 	<a href="javascript:void(0);"
 										onclick="openUploadLAModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
     								 <a href="<%=request.getContextPath() %>/add-land-acquisition-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add </strong></a>
-                                        <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export</strong></a>
+                                        <strong><i class="fa fa-plus-circle"></i> Add </strong></a>                                        
     							</div>
     						</div>	
                         </div>

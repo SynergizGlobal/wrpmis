@@ -245,7 +245,7 @@
                         targets: 'no-sort', orderable: false,
                       /*   className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [2] },
+                    { "width": "20px", "targets": 'last-column' },
                 ],
                 "scrollCollapse": true,
                 paging: false,

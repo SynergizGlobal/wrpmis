@@ -48,7 +48,7 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Execution Status</a>
                             </div>
                         </div>
                         <div class="row no-mar">

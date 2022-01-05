@@ -152,6 +152,8 @@ public class PageConstants {
 	public static final String structureFormGrid="forms/structureFormGrid";
 	public static final String addEditStructureForm="forms/addEditStructureForm";
 
+	public static final String overviewDashboard="forms/overviewDashboard";
+
 	//******************************************************************************************
 	//REFERENCE FORMS
 	public static final String trainingType = "referenceForms/trainingType";

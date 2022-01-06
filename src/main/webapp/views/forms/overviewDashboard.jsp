@@ -139,11 +139,11 @@
 											 <div class="collapsible-body special-padding">
 			                                    <ul class="collapsible">
 			                                    <c:forEach var="subList" items="${form.formsSubMenu }">
-			                                        <li>
+			                                        <li class="urlValue" id="${subList.link_url }">
 			                                            <div class="collapsible-header">
 			                                            
 											<a
-												href="#" onClick='reloadIframe("${subList.link_url }");'>
+												href="#">
 													<i class="${subList.icon }"></i><span class="nav-label">${subList.name }</span>
 											</a>			                                            
 			                                            
@@ -157,10 +157,10 @@
 								</c:if>	
 								<c:if test="${empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
-											<li><div class="collapsible-header">
+											<li class="urlValue" id="${form.link_url }"><div class="collapsible-header" >
 											
 <a
-												href="#" onClick='reloadIframe("${subList.link_url }");'>
+												href="#" >
 													<i class="${form.icon }"></i><span class="nav-label">${form.name }</span>
 											</a>											
 											
@@ -175,9 +175,8 @@
 	
 	        </div>
 	    	<div class="col s12 m8">
-	    	
-<iframe id="frameAppend" src="" title="" allowtransparency="true" allowfullscreen="true" class="timeline_body">
-</iframe>	    	
+
+<iframe id="frameAppend" frameborder="2" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src=""></iframe>	    	
 	    	</div>
 	    </div>
 	</div>
@@ -279,15 +278,16 @@
 	<script>
 		$(document).ready(function(){
 		    $('.collapsible').collapsible();
+            $(".urlValue").on("click", function () {
+                var pageurl = $(this).attr("id");
+                $("#frameAppend").attr("src", pageurl);
+            });
 		  });
 		
 		function toggleMenu(){
 			$('#2ndModel,.2ndModel').toggleClass('hideText');
 		}
-		function reloadIframe(url)
-		{
-			$("#frameAppend").attr("src",url);
-		}
+		
 	</script>
 	</body>
 	</html>

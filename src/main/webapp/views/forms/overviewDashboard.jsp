@@ -271,7 +271,7 @@
 	</div>
 
 	<!-- footer included -->
-<%-- 	<jsp:include page="../layout/footer.jsp"></jsp:include> --%>
+ 	<jsp:include page="../layout/footer.jsp"></jsp:include> 
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	

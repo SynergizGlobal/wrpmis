@@ -18,7 +18,7 @@
 		.main-menu-collapse{
 			padding:0;
 		}
-		.main-menu-collapse .collapsible{
+		.main-menu-collapse .collapsible,.m-0{
 			margin:0;
 		}
 		.main-menu-collapse .special-padding{	
@@ -43,13 +43,13 @@
 			border-radius:20px;
 			margin-top:1px;
 			margin-bottom:1px;
-			padding:.5rem;
+			padding:.5rem 1rem;
 		}
 		.main-menu li .collapsible-header a{
-		color:#000000;
+			color:#000;
 		}
 		.main-menu li .collapsible-body{
-			/ background-color:#FDDAD9; /
+			/* background-color:#FDDAD9; */
 			
 			/* background-color:#EDF4FD;			
 			border:none; */
@@ -73,7 +73,7 @@
 		    -webkit-font-smoothing: antialiased;
 		    position:absolute;
 		    right:1rem;
-		    top:40%;
+		    top:30%;
 		}
 		.active >.sub-menu:after{
 			content:"\f077";
@@ -95,57 +95,49 @@
 		.hideText{
 			display:inline-block;
 		}
-		.hideText .material-icons{
+		.hideText .material-icons,
+		.hideText .fas,
+		.hideText .fa{
 			margin-right:0;
 		}
+		.timeline_body {
+		    display: block;
+		    margin: 0 auto;
+		    /*border: none;*/
+		    width: 100%;
+		    height: 560px;
+		}
 	</style>
-  <style type="text/css">
-  	.error{color:red;}
-  	.timeline_body {
-	    display: block;
-	    margin: 0 auto;
-	    /*border: none;*/
-	    /*width: 1231px;*/
-	    width: 100%;
-	    height: 560px;
-	}
-	.card .card-content {
-	    padding: 0px;
-	    border-radius: 0 0 2px 2px;
-	}
-  </style>	
 	
 </head>
-<body style="background-color:#ffffff;">
+<body style="background-color:#fff;">
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 	
 	<!-- model 1 which closes entire navigation -->
 	
-	<div class="container">
+	<div class="container" style="margin-top:1rem;">
 	    <div class="row">
-	        <div class="col s12 m4">
-	            <ul class="collapsible">
-	                <li class="active">
-	                    <div class="collapsible-header"><i class="fa fa-bars"></i></div>
-	                    <div class="collapsible-body main-menu-collapse">
-	                        <ul class="collapsible main-menu">
+	        <div class="col s12 m4" id="menu-item-holder">
+	            <!-- <ul class="collapsible m-0">
+	                <li class="active"> -->
+	                    <div class="collapsible-header 2ndModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div>
+	                    <div class=" main-menu-collapse">
+	                        <ul class="collapsible main-menu" id="2ndModel">
 							<c:forEach var="form" items="${overviewDashboardForms }" varStatus="index">
 								<c:if test="${not empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
 											<li><div class="collapsible-header sub-menu"><i class="${form.icon }"></i>
-														${form.name }
+														<span class="showHide">${form.name }</span>
 											</div>
 											 <div class="collapsible-body special-padding">
 			                                    <ul class="collapsible">
 			                                    <c:forEach var="subList" items="${form.formsSubMenu }">
-			                                        <li class="urlValue" id="${subList.link_url }">
-			                                            <div class="collapsible-header">
-			                                            
-											<a
-												href="#">
-													<i class="${subList.icon }"></i><span class="nav-label">${subList.name }</span>
-											</a>			                                            
+			                                        <li>
+			                                            <div class="collapsible-header">			                                            
+															<a href="${subList.link_url }"  target="dashboardOpen">
+																	<i class="${subList.icon }"></i><span class="showHide">${subList.name }</span>
+															</a>			                                           
 			                                            
 			                                            </div>
 			                                        </li>
@@ -157,11 +149,10 @@
 								</c:if>	
 								<c:if test="${empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
-											<li class="urlValue" id="${form.link_url }"><div class="collapsible-header" >
+											<li><div class="collapsible-header">
 											
-<a
-												href="#" >
-													<i class="${form.icon }"></i><span class="nav-label">${form.name }</span>
+												<a href="${subList.link_url }" target="dashboardOpen">
+													<i class="${form.icon }"></i><span class="showHide">${form.name }</span>
 											</a>											
 											
 											</div>
@@ -170,17 +161,16 @@
 	                            </c:forEach>
 	                        </ul>
 	                    </div>
-	                </li>
-	            </ul>
+	               <!--  </li>
+	            </ul> -->
 	
 	        </div>
-	    	<div class="col s12 m8">
-
-<iframe id="frameAppend" frameborder="2" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src=""></iframe>	    	
+	    	<div class="col s12 m8" id="tableau-item-holder">
+	    	 	
+			<iframe name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>
 	    </div>
 	</div>
-
 
 <!-- model 2 which shows icons on navigation -->
 	
@@ -278,16 +268,14 @@
 	<script>
 		$(document).ready(function(){
 		    $('.collapsible').collapsible();
-            $(".urlValue").on("click", function () {
-                var pageurl = $(this).attr("id");
-                $("#frameAppend").attr("src", pageurl);
-            });
 		  });
 		
 		function toggleMenu(){
 			$('#2ndModel,.2ndModel').toggleClass('hideText');
+			$('#tableau-item-holder').toggleClass('m8 m10');
+			$('#menu-item-holder').toggleClass('m4 m2');
 		}
-		
+
 	</script>
 	</body>
 	</html>

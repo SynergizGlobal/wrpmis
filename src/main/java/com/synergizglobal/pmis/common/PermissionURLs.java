@@ -36,6 +36,7 @@ public class PermissionURLs {
 	    "/web-document-types",
 	    "/fobmulti-gallery/{fob_id}", 
 	    "/fob-gallery/{fob_id}", 
+	    "/overview-dashboard",
 	    "/auto-responsibility"
 	);
 }

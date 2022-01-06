@@ -45,6 +45,9 @@
 			margin-bottom:1px;
 			padding:.5rem;
 		}
+		.main-menu li .collapsible-header a{
+		color:#000000;
+		}
 		.main-menu li .collapsible-body{
 			/ background-color:#FDDAD9; /
 			
@@ -97,7 +100,7 @@
 		}
 	</style>
 </head>
-<body>
+<body style="background-color:#ffffff;">
 	<!-- header included -->
 	<%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%>
 	
@@ -105,78 +108,55 @@
 	
 	<div class="container">
 	    <div class="row">
-	        <div class="col s12 m4">
+	        <div class="col s12 m12">
 	            <ul class="collapsible">
 	                <li class="active">
 	                    <div class="collapsible-header"><i class="fa fa-bars"></i></div>
 	                    <div class="collapsible-body main-menu-collapse">
 	                        <ul class="collapsible main-menu">
-	                            <li>
-	                                <div class="collapsible-header sub-menu"><i class="fas fa-file-signature ad-i"></i>Contracts
-	                                </div>
-	                                <div class="collapsible-body special-padding">
-	                                    <ul class="collapsible">
-	                                        <li>
-	                                            <div class="collapsible-header"><i class="material-icons">place</i>Second
-	                                            </div>
-	                                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                                        </li>
-	                                        <li>
-	                                            <div class="collapsible-header sub-menu"><i
-	                                                    class="material-icons">place</i>Second</div>
-	                                            <div class="collapsible-body special-padding">
-	                                                <ul class="collapsible">
-	                                                    <li>
-	                                                        <div class="collapsible-header">Second</div>
-	                                                        <div class="collapsible-body"><span>Lorem ipsum dolor sit
-	                                                                amet.</span></div>
-	                                                    </li>
-	                                                    <li>
-	                                                        <div class="collapsible-header">Second</div>
-	                                                        <div class="collapsible-body">
-	
-	                                                        </div>
-	                                                    </li>
-	                                                    <li>
-	                                                        <div class="collapsible-header">Second</div>
-	                                                        <div class="collapsible-body"><span>Lorem ipsum dolor sit
-	                                                                amet.</span></div>
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                        </li>
-	                                        <li>
-	                                            <div class="collapsible-header"><i class="material-icons">place</i>Second
-	                                            </div>
-	                                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                                        </li>
-	                                    </ul>
-	                                </div>
-	                            </li>
-	                            <li>
-	                                <div class="collapsible-header"><i class="fas fa-exclamation-triangle ad-i"></i>Issues</div>
-	                                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                            </li>
-	                            <li>
-	                                <div class="collapsible-header"><i class="fas fa-vector-square ad-i"></i>Land Acquisition</div>
-	                                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                            </li>
-	                            <li>
-	                                <div class="collapsible-header"><i class="fas fa-shield-alt ad-i"></i>Safety</div>
-	                                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                            </li>
-	                            <li>
-	                                <div class="collapsible-header"><i class="fas fa-vote-yea ad-i"></i>Execution</div>
-	                                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                            </li>
+							<c:forEach var="form" items="${overviewDashboardForms }" varStatus="index">
+								<c:if test="${not empty form.formsSubMenu}">
+										<c:if test="${not empty form.link_url}">
+											<li><div class="collapsible-header sub-menu"><i class="${form.icon }"></i>
+														${form.name }
+											</div>
+											 <div class="collapsible-body special-padding">
+			                                    <ul class="collapsible">
+			                                    <c:forEach var="subList" items="${form.formsSubMenu }">
+			                                        <li>
+			                                            <div class="collapsible-header">
+			                                            
+											<a
+												href="<%=request.getContextPath()%>/${subList.link_url }">
+													<i class="${subList.icon }"></i><span class="nav-label">${subList.name }</span>
+											</a>			                                            
+			                                            
+			                                            </div>
+			                                        </li>
+			                                        </c:forEach>
+			                                    </ul>
+		                                    </div>											
+											 </li>
+										</c:if>
+								</c:if>	
+								<c:if test="${empty form.formsSubMenu}">
+										<c:if test="${not empty form.link_url}">
+											<li><div class="collapsible-header">
+											
+<a
+												href="<%=request.getContextPath()%>/${form.link_url }">
+													<i class="${form.icon }"></i><span class="nav-label">${form.name }</span>
+											</a>											
+											
+											</div>
+										</c:if> 
+								</c:if>                           
+	                            </c:forEach>
 	                        </ul>
 	                    </div>
 	                </li>
 	            </ul>
 	
-	        </div>
-	        <div class="col s12 m8">
-	            <p> content goes here </p>
 	        </div>
 	    </div>
 	</div>

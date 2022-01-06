@@ -99,16 +99,32 @@
 			margin-right:0;
 		}
 	</style>
+  <style type="text/css">
+  	.error{color:red;}
+  	.timeline_body {
+	    display: block;
+	    margin: 0 auto;
+	    /*border: none;*/
+	    /*width: 1231px;*/
+	    width: 100%;
+	    height: 560px;
+	}
+	.card .card-content {
+	    padding: 0px;
+	    border-radius: 0 0 2px 2px;
+	}
+  </style>	
+	
 </head>
 <body style="background-color:#ffffff;">
 	<!-- header included -->
-	<%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%>
+	<jsp:include page="../layout/header.jsp"></jsp:include>
 	
 	<!-- model 1 which closes entire navigation -->
 	
 	<div class="container">
 	    <div class="row">
-	        <div class="col s12 m12">
+	        <div class="col s12 m4">
 	            <ul class="collapsible">
 	                <li class="active">
 	                    <div class="collapsible-header"><i class="fa fa-bars"></i></div>
@@ -127,7 +143,7 @@
 			                                            <div class="collapsible-header">
 			                                            
 											<a
-												href="<%=request.getContextPath()%>/${subList.link_url }">
+												href="#" onClick='reloadIframe("${subList.link_url }");'>
 													<i class="${subList.icon }"></i><span class="nav-label">${subList.name }</span>
 											</a>			                                            
 			                                            
@@ -144,7 +160,7 @@
 											<li><div class="collapsible-header">
 											
 <a
-												href="<%=request.getContextPath()%>/${form.link_url }">
+												href="#" onClick='reloadIframe("${subList.link_url }");'>
 													<i class="${form.icon }"></i><span class="nav-label">${form.name }</span>
 											</a>											
 											
@@ -158,6 +174,11 @@
 	            </ul>
 	
 	        </div>
+	    	<div class="col s12 m8">
+	    	
+<iframe id="frameAppend" src="" title="" allowtransparency="true" allowfullscreen="true" class="timeline_body">
+</iframe>	    	
+	    	</div>
 	    </div>
 	</div>
 
@@ -262,6 +283,10 @@
 		
 		function toggleMenu(){
 			$('#2ndModel,.2ndModel').toggleClass('hideText');
+		}
+		function reloadIframe(url)
+		{
+			$("#frameAppend").attr("src",url);
 		}
 	</script>
 	</body>

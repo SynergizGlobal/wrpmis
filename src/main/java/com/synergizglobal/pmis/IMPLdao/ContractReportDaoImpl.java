@@ -629,7 +629,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "left join user u on c.hod_user_id_fk = u.user_id "
 						+ "left join user us on c.dy_hod_user_id_fk = us.user_id "
 						+ "left join department dt on c.department_fk = dt.department "
-						+ "where contract_id is not null ";
+						+ "where contract_id is not null and status is not null ";
 				
 				arrSize = 0;			
 	

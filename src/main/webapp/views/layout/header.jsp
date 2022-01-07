@@ -136,6 +136,17 @@
     		width: 50%;
 	}
      }
+     
+     .theme-change {
+    position: fixed;
+    z-index: 2;
+    right: -20px;
+    top: 60px;
+    border: 0;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: all 1s ease-in-out;
+}
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />

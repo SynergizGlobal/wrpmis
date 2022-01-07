@@ -14,7 +14,13 @@
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	
 	<style>
-		.ad-i{font-size: 1.3rem;margin-left: .3rem;}
+		.ad-i{
+			font-size: 1.1rem !important;
+			margin-left: .3rem;
+		}
+		.ad-i:before{
+			vertical-align: sub;
+		}
 		.main-menu-collapse{
 			padding:0;
 		}
@@ -40,13 +46,15 @@
 			
 			background-color:transparent;
 			border:2px solid #177dc5;
-			border-radius:20px;
+			border-radius:10px;
 			margin-top:1px;
 			margin-bottom:1px;
-			padding:.5rem 1rem;
+			padding:.35rem .5rem;
 		}
 		.main-menu li .collapsible-header a{
 			color:#000;
+			display:block;
+			width:100%;
 		}
 		.main-menu li .collapsible-body{
 			/* background-color:#FDDAD9; */
@@ -68,12 +76,12 @@
 		.sub-menu:after{
 			content:"\f078";
 			font: normal normal normal 14px/1 FontAwesome;
-			font-size: inherit;
+			font-size: .7rem;
 		    text-rendering: auto;
 		    -webkit-font-smoothing: antialiased;
 		    position:absolute;
 		    right:1rem;
-		    top:30%;
+		    top:38%;
 		}
 		.active >.sub-menu:after{
 			content:"\f077";
@@ -82,8 +90,15 @@
 		
 		
 		
-		.2ndModel{
-			box-shadow :0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2) !important;
+		.secondModel{
+			/* box-shadow :0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2) !important; */
+			justify-content:flex-end;
+		}
+		.collapsible-header{
+			text-align:left !important;
+		}
+		.secondModel .fa{
+			margin:0;
 		}
 		.showHide{
 			display:inline-block;			
@@ -97,8 +112,10 @@
 		}
 		.hideText .material-icons,
 		.hideText .fas,
-		.hideText .fa{
+		.hideText .fa,
+		.hideText .ad-i{
 			margin-right:0;
+			margin-left:0;
 		}
 		.timeline_body {
 		    display: block;
@@ -106,6 +123,19 @@
 		    /*border: none;*/
 		    width: 100%;
 		    height: 560px;
+		    height:85vh;
+		}
+		@media only screen and (max-width:678px){
+			#secondModel {
+				margin-bottom:.5rem;
+			}
+			.main-menu li{
+				display:inline-block;
+				margin-inline:auto;
+			}
+			.ad-i:before{
+				vertical-align: baseline;
+			}
 		}
 	</style>
 	
@@ -116,14 +146,14 @@
 	
 	<!-- model 1 which closes entire navigation -->
 	
-	<div class="container" style="margin-top:1rem;">
+	<div class="" style="margin-top:1rem;">
 	    <div class="row">
-	        <div class="col s12 m4" id="menu-item-holder">
+	        <div class="col s12 m2 center-align" id="menu-item-holder">
 	            <!-- <ul class="collapsible m-0">
 	                <li class="active"> -->
-	                    <div class="collapsible-header 2ndModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div>
+	                    <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div>
 	                    <div class=" main-menu-collapse">
-	                        <ul class="collapsible main-menu" id="2ndModel">
+	                        <ul class="collapsible main-menu" id="secondModel">
 							<c:forEach var="form" items="${overviewDashboardForms }" varStatus="index">
 								<c:if test="${not empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
@@ -165,7 +195,7 @@
 	            </ul> -->
 	
 	        </div>
-	    	<div class="col s12 m8" id="tableau-item-holder">
+	    	<div class="col s12 m10" id="tableau-item-holder">
 	    	 	
 			<iframe name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>
@@ -271,9 +301,9 @@
 		  });
 		
 		function toggleMenu(){
-			$('#2ndModel,.2ndModel').toggleClass('hideText');
-			$('#tableau-item-holder').toggleClass('m8 m10');
-			$('#menu-item-holder').toggleClass('m4 m2');
+			$('#secondModel,.secondModel').toggleClass('hideText');
+			$('#tableau-item-holder').toggleClass('m8 m11');
+			$('#menu-item-holder').toggleClass('m2 m1');
 		}
 
 	</script>

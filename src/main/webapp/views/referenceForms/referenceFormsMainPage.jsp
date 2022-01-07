@@ -31,8 +31,8 @@
         <div class="col s12">
             <div class="module-holder" id="module-holder">
               <c:forEach var="obj" items="${referenceForms}" varStatus="index">
-               <div class="module default" selectActive='${obj.module_fk }'>
-                    <div class="" onclick="getReferencePagesList('${obj.module_fk }');">
+               <div class="module default" selectActive='${obj.module_fk }' onclick="getReferencePagesList('${obj.module_fk }');">
+                    <div class="" >
                     <input type="hidden" name="form_url" id="form_url${index.count }" value="${obj.form_url }"/>
                         <!-- <div class="collapsible-header-icon">Default</div> -->
                         ${obj.module_fk }  

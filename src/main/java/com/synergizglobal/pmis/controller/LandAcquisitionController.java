@@ -29,6 +29,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -381,12 +382,49 @@ public class LandAcquisitionController {
 			
 			LandAcquisition LADetails = service.getLandAcquisitionForm(obj);
 			model.addObject("LADetails", LADetails);
-			
-			
-			
+		
 		}catch (Exception e) {
 				e.printStackTrace();
 				logger.error("getLandAcquisitionForm : " + e.getMessage());
+		}
+		return model;
+	 }
+	
+	@RequestMapping(value = "/get-land-acquisition/{la_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getLandAcquisitionFormForId(@ModelAttribute LandAcquisition obj,@PathVariable("la_id") String la_id  ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.landAcquisitionForm);
+			model.addObject("action", "edit");
+			
+			List<LandAcquisition> statusList = service.getStatusList();
+			model.addObject("statusList", statusList);
+			
+			List<LandAcquisition> landsList = service.getLandsListForLAForm(obj);
+			model.addObject("landsList", landsList);
+			
+			List<LandAcquisition> issueCatogoriesList = service.getIssueCatogoriesList();
+			model.addObject("issueCatogoriesList", issueCatogoriesList);
+			
+			List<LandAcquisition> subCategorysList = service.getSubCategorysListForLAForm(obj);
+			model.addObject("subCategorysList", subCategorysList);
+			
+			List<LandAcquisition> unitsList = service.getUnitsList();
+			model.addObject("unitsList", unitsList);
+			
+			List<LandAcquisition> laFileType = service.getLaFileType();
+			model.addObject("laFileType", laFileType);
+			
+			List<LandAcquisition> laLandStatus = service.getLaLandStatus();
+			model.addObject("laLandStatus", laLandStatus);
+			
+			obj.setLa_id(la_id);
+			LandAcquisition LADetails = service.getLandAcquisitionForm(obj);
+			model.addObject("LADetails", LADetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getLandAcquisitionFormForId : " + e.getMessage());
 		}
 		return model;
 	 }

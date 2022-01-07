@@ -371,7 +371,7 @@
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	
-	<form name="getForm" id="getForm" method="post">
+	<form name="getForm" action="<%=request.getContextPath()%>/get-land-acquisition"  id="getForm" method="post">
     	<input type="hidden" name="la_id" id="la_id" />
     </form>
   
@@ -887,7 +887,7 @@
         
         function getLandAcquisition(la_id){
         	$("#la_id").val(la_id);
-        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-land-acquisition');
+        	<%-- $('#getForm').attr('action', '<%=request.getContextPath()%>/get-land-acquisition'); --%>
         	$('#getForm').submit();
         }
         function deleteLandAcquisition(la_id){

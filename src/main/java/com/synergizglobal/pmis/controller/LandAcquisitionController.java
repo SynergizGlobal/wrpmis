@@ -6,7 +6,9 @@ import java.io.Writer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -1799,34 +1801,39 @@ public class LandAcquisitionController {
 		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); 
 
 		// existing Sheet, Row, and Cell setup
-
-		if (!StringUtils.isEmpty(cell) && cell.getCellType() == CellType.FORMULA) {
-		    switch (evaluator.evaluateFormulaCell(cell)) {
-		        case BOOLEAN:
-		            val = String.valueOf(cell.getBooleanCellValue());
-		            break;
-		        case NUMERIC:
-		        	val = String.valueOf(cell.getNumericCellValue());
-		            break;
-		        case STRING:
-		            val = cell.getStringCellValue();
-		            break;
-		        case BLANK:
-		        	val = cell.getStringCellValue();
-		            break;
-		        case ERROR:
-		            val = cell.getStringCellValue();
-		            break;
-		        case _NONE:
-		            val = cell.getStringCellValue();
-		            break;
-				default:
-					break;
-		    }
-		}else if (!StringUtils.isEmpty(cell)) {
-			DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
-			val = formatter.formatCellValue(cell).trim();
+		//workbook.setForceFormulaRecalculation(true);
+		try {
+			if (!StringUtils.isEmpty(cell) && cell.getCellType() == CellType.FORMULA) {
+			    switch (evaluator.evaluateFormulaCell(cell)) {
+			        case BOOLEAN:
+			            val = String.valueOf(cell.getBooleanCellValue());
+			            break;
+			        case NUMERIC:
+			        	val = String.valueOf(cell.getNumericCellValue());
+			            break;
+			        case STRING:
+			            val = cell.getStringCellValue();
+			            break;
+			        case BLANK:
+			        	val = cell.getStringCellValue();
+			            break;
+			        case ERROR:
+			            val = cell.getStringCellValue();
+			            break;
+			        case _NONE:
+			            val = cell.getStringCellValue();
+			            break;
+					default:
+						break;
+			    }
+			}else if (!StringUtils.isEmpty(cell)) {
+				DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+				val = formatter.formatCellValue(cell).trim();
+			}
+		}catch(Exception e) {
+			 val = cell.getStringCellValue();
 		}
+	
 		return val;
 	}
 }

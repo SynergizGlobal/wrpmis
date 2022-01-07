@@ -363,12 +363,12 @@
                                 </div>        
                                 <div class="col s12 m4 l4 input-field amount-dropdown">
                                     <i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="jm_fee_amount" name="jm_fee_amount" type="number" class="validate" value="${LADetails.jm_fee_amount }" min="0.01" step="0.01">
+                                    <input id="jm_fee_amount" name="jm_fee_amount" type="number" class="validate" value="${LADetails.jm_fee_amount }" min="0" step="0.00001">
                                     <label for="jm_fee_amount"> JM Fee Amount </label>
                                     <span id="jm_fee_amountError" class="error-msg"></span>
                                 	<span id="jm_fee_amount_unitsError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="jm_fee_amount_units" name="jm_fee_amount_units">
-                                		<option value="">Select</option>
+                                		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
 	                                      <option value="${obj.value }"<c:if test="${LADetails.jm_fee_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
@@ -509,13 +509,13 @@
                                 
                                     <div class="col s12 m4 l4 input-field amount-dropdown offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="amount_demanded" name="amount_demanded" type="number" value="${LADetails.amount_demanded }" min="0.01" step="0.01"
+                                        <input id="amount_demanded" name="amount_demanded" type="number" value="${LADetails.amount_demanded }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="amount_demanded" class="fs-sm-67rem">Amount Demanded</label>
                                         <span id="amount_demandedError" class="error-msg"></span>
 	                                	<span id="amount_demanded_unitsError" class="error-msg right" ></span>
                                         <select class="validate-dropdown" id="amount_demanded_units" name="amount_demanded_units">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }"<c:if test="${LADetails.amount_demanded_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -560,13 +560,13 @@
                                     </div> 
                                     <div class="col s12 m4 l4 input-field amount-dropdown offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="govt_amount_paid" name="amount_paid" type="number" value="${LADetails.amount_paid }" min="0.01" step="0.01"
+                                        <input id="govt_amount_paid" name="amount_paid" type="number" value="${LADetails.amount_paid }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="govt_amount_paid"> Amount Paid</label>
                                         <span id="govt_amount_paidError" class="error-msg"></span>
 	                                	<span id="amount_paid_unitsError" class="error-msg right" ></span>
                                         <select class="validate-dropdown" id="amount_paid_units" name="amount_paid_units">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${LADetails.amount_paid_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -698,13 +698,13 @@
                                     </div>                                      
                                     <div class="col s12 m4 l4 input-field amount-dropdown">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="forest_demanded_amount" name="forest_demanded_amount" type="number" value="${LADetails.forest_demanded_amount }" min="0.01" step="0.01"
+                                        <input id="forest_demanded_amount" name="forest_demanded_amount" type="number" value="${LADetails.forest_demanded_amount }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="forest_demanded_amount" class="fs-sm-8rem">Demanded Amount </label>
                                         <span id="forest_demanded_amountError" class="error-msg"></span>
 	                                	<span id="forest_demanded_amount_unitsError" class="error-msg right" ></span>
                                         <select class="validate-dropdown" id="demanded_amount_units_forest" name="demanded_amount_units_forest">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${LADetails.demanded_amount_units_forest eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -722,13 +722,13 @@
                                		</div>    --%>
                                     <div class="col s12 m4 l4 input-field amount-dropdown">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="forest_payment_amount" name="forest_payment_amount" type="number" value="${LADetails.forest_payment_amount }" min="0.01" step="0.01"
+                                        <input id="forest_payment_amount" name="forest_payment_amount" type="number" value="${LADetails.forest_payment_amount }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="forest_payment_amount" class="fs-sm-8rem"> Payment Amount </label>
                                         <span id="forest_payment_amountError" class="error-msg"></span>
 	                                	<span id="forest_payment_amount_unitsError" class="error-msg right" ></span>
                                         <select class="validate-dropdown" id="payment_amount_units_forest" name="payment_amount_units_forest">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${LADetails.payment_amount_units_forest eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -1123,13 +1123,13 @@
                                     </div>                                   
                                      <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="private_basic_rate" name="basic_rate" type="number" min="0.01" step="0.01" value="${LADetails.basic_rate }"
+                                        <input id="private_basic_rate" name="basic_rate" type="number" min="0" step="0.00001" value="${LADetails.basic_rate }"
                                             class="validate">
                                         <label for="private_basic_rate">Basic Rate </label>
                                         <span id="private_basic_rateError" class="error-msg"></span>     
 	                                	<span id="basic_rate_unitsError" class="error-msg right" ></span>                                 
                                         <select class="validate-dropdown" id="basic_rate_units" name="basic_rate_units">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${LADetails.basic_rate_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -1150,13 +1150,13 @@
                                 
                                      <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="private_agri_tree_rate" name="agriculture_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.agriculture_tree_rate }"
+                                        <input id="private_agri_tree_rate" name="agriculture_tree_rate" type="number" min="0" step="0.00001" value="${LADetails.agriculture_tree_rate }"
                                             class="validate">
                                         <label for="private_agri_tree_rate" class="fs-sm-8rem"> Agriculture tree rate </label>
 										<span id="private_agri_tree_rateError" class="error-msg"></span>
 	                                	<span id="agriculture_tree_rate_unitsError" class="error-msg right" ></span>
 										<select class="validate-dropdown" id="agriculture_tree_rate_units" name="agriculture_tree_rate_units">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${LADetails.agriculture_tree_rate_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -1171,13 +1171,13 @@
                                        
                                     <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="private_forest_tree_rate" name="forest_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.forest_tree_rate }"
+                                        <input id="private_forest_tree_rate" name="forest_tree_rate" type="number" min="0" step="0.00001" value="${LADetails.forest_tree_rate }"
                                             class="validate">
                                         <label for="private_forest_tree_rate" class="fs-sm-8rem"> Forest tree rate </label>
                                          <span id="private_forest_tree_rateError" class="error-msg"></span>
 	                                	<span id="forest_tree_rate_unitsError" class="error-msg right" ></span>
                                          <select class="validate-dropdown" id="forest_tree_rate_units" name="forest_tree_rate_units">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${LADetails.forest_tree_rate_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -1424,13 +1424,13 @@
                                      
                                     <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="private_payment_amount" name="payment_amount" type="number" value="${LADetails.payment_amount }" min="0.01" step="0.01"
+                                        <input id="private_payment_amount" name="payment_amount" type="number" value="${LADetails.payment_amount }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="private_payment_amount" class="fs-sm-8rem">Payment Amount </label>
                                         <span id="private_payment_amountError" class="error-msg"></span>
 	                                	<span id="payment_amount_unitsError" class="error-msg right" ></span>                                        
                                         <select class="validate-dropdown" id="payment_amount_units" name="payment_amount_units">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${LADetails.payment_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -1447,18 +1447,18 @@
                                 <div class="row">                                     
                                                                  
                                      <div class="col s6 m4 l4 input-field ">
-                                        <input id="hundred_percent_Solatium" name="hundred_percent_Solatium" type="number" value="${LADetails.hundred_percent_Solatium }" min="0.01" step="0.01"
+                                        <input id="hundred_percent_Solatium" name="hundred_percent_Solatium" type="number" value="${LADetails.hundred_percent_Solatium }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="hundred_percent_Solatium">100 Percent Solatium </label>
                                     </div>
                                     
                                     <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="extra_25_percent" name="extra_25_percent" type="number" value="${LADetails.extra_25_percent }" min="0.01" step="0.01"
+                                        <input id="extra_25_percent" name="extra_25_percent" type="number" value="${LADetails.extra_25_percent }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="extra_25_percent">Extra 25 Percent </label>
                                     </div> 
                                      <div class="col s6 m4 l4 input-field">
-                                        <input id="land_compensation" name="land_compensation" type="number" value="${LADetails.land_compensation }" min="0.01" step="0.01"
+                                        <input id="land_compensation" name="land_compensation" type="number" value="${LADetails.land_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="land_compensation">Land Compensation </label>
                                     </div>
@@ -1476,17 +1476,17 @@
                                  
                                 <div class="row">
                                     <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="agriculture_tree_compensation" name="agriculture_tree_compensation" type="number" value="${LADetails.agriculture_tree_compensation }" min="0.01" step="0.01"
+                                        <input id="agriculture_tree_compensation" name="agriculture_tree_compensation" type="number" value="${LADetails.agriculture_tree_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="agriculture_tree_compensation" class="fs-sm-67rem">Agriculture Tree Compensation </label>
                                     </div>   
                                     <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="total_rate_divide_m2" name="total_rate_divide_m2" type="number" value="${LADetails.total_rate_divide_m2 }" min="0.01" step="0.01"
+                                        <input id="total_rate_divide_m2" name="total_rate_divide_m2" type="number" value="${LADetails.total_rate_divide_m2 }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="total_rate_divide_m2">Total Rate Divide M2 </label>
                                     </div>
                                     <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="forest_tree_compensation" name="forest_tree_compensation" type="number" value="${LADetails.forest_tree_compensation }" min="0.01" step="0.01"
+                                        <input id="forest_tree_compensation" name="forest_tree_compensation" type="number" value="${LADetails.forest_tree_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="forest_tree_compensation" class="fs-sm-67rem">Forest Tree Compensation </label>
                                     </div>                                  
@@ -1494,19 +1494,19 @@
                                  <div class="row">                                     
                                                                   
                                      <div class="col s6 m4 l4 input-field ">
-                                        <input id="structure_compensation" name="structure_compensation" type="number" value="${LADetails.structure_compensation }" min="0.01" step="0.01"
+                                        <input id="structure_compensation" name="structure_compensation" type="number" value="${LADetails.structure_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="structure_compensation" class="fs-sm-8rem">Structure Compensation </label>
                                     </div>  
                                     
                                     <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="borewell_compensation" name="borewell_compensation" type="number" value="${LADetails.borewell_compensation }" min="0.01" step="0.01"
+                                        <input id="borewell_compensation" name="borewell_compensation" type="number" value="${LADetails.borewell_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="borewell_compensation" class="fs-sm-8rem">Borewell Compensation </label>
                                     </div>  
                                            
                                      <div class="col s6 m4 l4 input-field">
-                                        <input id="total_compensation" name="total_compensation" type="number" value="${LADetails.total_compensation }" min="0.01" step="0.01"
+                                        <input id="total_compensation" name="total_compensation" type="number" value="${LADetails.total_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="total_compensation">Total Compensation </label>
                                     </div>                          
@@ -1635,7 +1635,7 @@
                                 <div class="row">                                     
                                     <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="private_basic_rate" name="basic_rate" type="number" min="0.01" step="0.01" value="${LADetails.basic_rate }"
+                                        <input id="private_basic_rate" name="basic_rate" type="number" min="0" step="0.00001" value="${LADetails.basic_rate }"
                                             class="validate">
                                         <label for="private_basic_rate">Basic Rate </label>
                                         <span id="private_basic_rateError" class="error-msg"></span>     
@@ -1680,7 +1680,7 @@
                                         <div class="row"> -->
                                     <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="private_agri_tree_rate" name="agriculture_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.agriculture_tree_rate }"
+                                        <input id="private_agri_tree_rate" name="agriculture_tree_rate" type="number" min="0" step="0.00001" value="${LADetails.agriculture_tree_rate }"
                                             class="validate">
                                         <label for="private_agri_tree_rate" class="fs-sm-8rem"> Agriculture tree rate </label>
 										<span id="private_agri_tree_rateError" class="error-msg"></span>
@@ -1709,7 +1709,7 @@
                                     </div>
                                     <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="private_forest_tree_rate" name="forest_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.forest_tree_rate }"
+                                        <input id="private_forest_tree_rate" name="forest_tree_rate" type="number" min="0" step="0.00001" value="${LADetails.forest_tree_rate }"
                                             class="validate">
                                         <label for="private_forest_tree_rate" class="fs-sm-8rem"> Forest tree rate </label>
                                          <span id="private_forest_tree_rateError" class="error-msg"></span>
@@ -1949,7 +1949,7 @@
                                     </div>
                                     <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="private_payment_amount" name="payment_amount" type="number" value="${LADetails.payment_amount }" min="0.01" step="0.01"
+                                        <input id="private_payment_amount" name="payment_amount" type="number" value="${LADetails.payment_amount }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="private_payment_amount" class="fs-sm-8rem">Payment Amount </label>
                                         <span id="private_payment_amountError" class="error-msg"></span>
@@ -1982,29 +1982,29 @@
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                      <div class="col s6 m4 l4 input-field ">
-                                        <input id="hundred_percent_Solatium" name="hundred_percent_Solatium" type="number" value="${LADetails.hundred_percent_Solatium }" min="0.01" step="0.01"
+                                        <input id="hundred_percent_Solatium" name="hundred_percent_Solatium" type="number" value="${LADetails.hundred_percent_Solatium }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="hundred_percent_Solatium">100 Percent Solatium </label>
                                     </div>
                                     <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="extra_25_percent" name="extra_25_percent" type="number" value="${LADetails.extra_25_percent }" min="0.01" step="0.01"
+                                        <input id="extra_25_percent" name="extra_25_percent" type="number" value="${LADetails.extra_25_percent }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="extra_25_percent">Extra 25 Percent </label>
                                     </div>                                     
                                 </div>
                                  <div class="row">                                     
                                      <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="total_rate_divide_m2" name="total_rate_divide_m2" type="number" value="${LADetails.total_rate_divide_m2 }" min="0.01" step="0.01"
+                                        <input id="total_rate_divide_m2" name="total_rate_divide_m2" type="number" value="${LADetails.total_rate_divide_m2 }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="total_rate_divide_m2">Total Rate Divide M2 </label>
                                     </div>
                                     <div class="col s6 m4 l4 input-field">
-                                        <input id="land_compensation" name="land_compensation" type="number" value="${LADetails.land_compensation }" min="0.01" step="0.01"
+                                        <input id="land_compensation" name="land_compensation" type="number" value="${LADetails.land_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="land_compensation">Land Compensation </label>
                                     </div>
                                     <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="agriculture_tree_compensation" name="agriculture_tree_compensation" type="number" value="${LADetails.agriculture_tree_compensation }" min="0.01" step="0.01"
+                                        <input id="agriculture_tree_compensation" name="agriculture_tree_compensation" type="number" value="${LADetails.agriculture_tree_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="agriculture_tree_compensation" class="fs-sm-67rem">Agriculture Tree Compensation </label>
                                     </div>                                     
@@ -2012,17 +2012,17 @@
                                    
                                 <div class="row"> 
                                 	<div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="forest_tree_compensation" name="forest_tree_compensation" type="number" value="${LADetails.forest_tree_compensation }" min="0.01" step="0.01"
+                                        <input id="forest_tree_compensation" name="forest_tree_compensation" type="number" value="${LADetails.forest_tree_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="forest_tree_compensation" class="fs-sm-67rem">Forest Tree Compensation </label>
                                     </div>                                    
                                      <div class="col s6 m4 l4 input-field ">
-                                        <input id="structure_compensation" name="structure_compensation" type="number" value="${LADetails.structure_compensation }" min="0.01" step="0.01"
+                                        <input id="structure_compensation" name="structure_compensation" type="number" value="${LADetails.structure_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="structure_compensation" class="fs-sm-8rem">Structure Compensation </label>
                                     </div>
                                     <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="borewell_compensation" name="borewell_compensation" type="number" value="${LADetails.borewell_compensation }" min="0.01" step="0.01"
+                                        <input id="borewell_compensation" name="borewell_compensation" type="number" value="${LADetails.borewell_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="borewell_compensation" class="fs-sm-8rem">Borewell Compensation </label>
                                     </div>
@@ -2031,7 +2031,7 @@
                                   <div class="row">
                                      
                                      <div class="col s12 m4 l4 input-field offset-m2">
-                                        <input id="total_compensation" name="total_compensation" type="number" value="${LADetails.total_compensation }" min="0.01" step="0.01"
+                                        <input id="total_compensation" name="total_compensation" type="number" value="${LADetails.total_compensation }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="total_compensation">Total Compensation </label>
                                     </div>                                   
@@ -2135,13 +2135,13 @@
                                     </div>                                     
                                     <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="railway_demanded_amount" name="railway_demanded_amount" type="number" value="${LADetails.railway_demanded_amount }" min="0.01" step="0.01"
+                                        <input id="railway_demanded_amount" name="railway_demanded_amount" type="number" value="${LADetails.railway_demanded_amount }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="railway_demanded_amount" class="fs-sm-8rem">Demanded Amount </label>
                                         <span id="railway_demanded_amountError" class="error-msg"></span>
 	                                	<span id="railway_demanded_amount_unitsError" class="error-msg right" ></span>
                                         <select class="validate-dropdown" id="demanded_amount_units" name="demanded_amount_units">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${LADetails.demanded_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -2172,13 +2172,13 @@
                                 <div class="row">  
                                    <div class="col s12 m4 l4 amount-dropdown input-field ">
                                         <i class="material-icons amount-symbol center-align">₹</i>
-                                        <input id="railway_payment_amount" name="railway_payment_amount" type="number" value="${LADetails.railway_payment_amount }" min="0.01" step="0.01"
+                                        <input id="railway_payment_amount" name="railway_payment_amount" type="number" value="${LADetails.railway_payment_amount }" min="0" step="0.00001"
                                             class="validate">
                                         <label for="railway_payment_amount" class="fs-sm-8rem"> Payment Amount </label>
                                         <span id="railway_payment_amountError" class="error-msg"></span>
 	                                	<span id="railway_payment_amount_unitsError" class="error-msg right" ></span>
                                         <select class=" validate-dropdown" id="payment_amount_units_railway" name="payment_amount_units_railway">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${LADetails.payment_amount_units_railway eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -2587,6 +2587,12 @@
                 }
             })
         }); */
+     	/* $(document).on('blur', 'input[type="number"]', function(){ 
+			if($(this).val() <=0){
+				$(this).val(Math.abs($(this).val()));
+			}
+        }); */
+        
         function selectFile(no){
 		    files = $("#laFiles"+no)[0].files;
 		    var html = "";

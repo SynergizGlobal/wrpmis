@@ -9,7 +9,7 @@ public class Activity {
 	created_date,created_by_user_id_fk,modified_date,modified_by_user_id_fk,activity_id_fk,
 	progress_id,progress_date,completed_scope,attachment_url,work_id_fk,fob_id,user_id,user_name,dyhod_user_id_fk,department_fk,updated_by_user_id_fk,
 	approved_on,rejected_on,approval_status_fk,department_name,user_role_code,updated_on,updated_by,cumulative_completed,actual_for_the_day,
-	total_scope,remaining_scope,approved_or_rejected_by,message_id,updated_scope,designation;
+	total_scope,remaining_scope,approved_or_rejected_by,message_id,updated_scope,designation,from_structure_id,to_structure_id,order_x,order_y;
 	
 	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on;
 	
@@ -553,6 +553,38 @@ public class Activity {
 
 	public void setDesignation(String designation) {
 		this.designation = designation;
+	}
+
+	public String getFrom_structure_id() {
+		return from_structure_id;
+	}
+
+	public void setFrom_structure_id(String from_structure_id) {
+		this.from_structure_id = from_structure_id;
+	}
+
+	public String getTo_structure_id() {
+		return to_structure_id;
+	}
+
+	public void setTo_structure_id(String to_structure_id) {
+		this.to_structure_id = to_structure_id;
+	}
+
+	public String getOrder_x() {
+		return order_x;
+	}
+
+	public void setOrder_x(String order_x) {
+		this.order_x = order_x;
+	}
+
+	public String getOrder_y() {
+		return order_y;
+	}
+
+	public void setOrder_y(String order_y) {
+		this.order_y = order_y;
 	}
 	
 	

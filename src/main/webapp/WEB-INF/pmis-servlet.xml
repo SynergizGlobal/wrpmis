@@ -31,7 +31,6 @@
 			<mvc:exclude-mapping path="/fob-gallery/**" />
 			<mvc:exclude-mapping path="/fobmulti-gallery/**" />
 			<mvc:exclude-mapping path="/forgot-password" />
-			<mvc:exclude-mapping path="/overview-dashboard" />
 			<bean class="com.synergizglobal.pmis.login.filter.AuthenticationInterceptor" />
 		</mvc:interceptor>
 	 </mvc:interceptors>

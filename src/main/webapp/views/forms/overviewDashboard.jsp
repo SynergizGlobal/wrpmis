@@ -70,10 +70,10 @@
 			background-color:transparent;
 		}
 				
-		.sub-menu{		    
+		.over-sub-menu{		    
 		    position:relative;		
 		}
-		.sub-menu:after{
+		.over-sub-menu:after{
 			content:"\f078";
 			font: normal normal normal 14px/1 FontAwesome;
 			font-size: .7rem;
@@ -83,7 +83,7 @@
 		    right:1rem;
 		    top:38%;
 		}
-		.active >.sub-menu:after{
+		.active >.over-sub-menu:after{
 			content:"\f077";
 		}
 		
@@ -104,7 +104,7 @@
 			display:inline-block;			
 		}
 		.hideText .showHide,
-		.hideText .sub-menu:after{
+		.hideText .over-sub-menu:after{
 			display:none;
 		}
 		.hideText{
@@ -157,7 +157,7 @@
 							<c:forEach var="form" items="${overviewDashboardForms }" varStatus="index">
 								<c:if test="${not empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
-											<li><div class="collapsible-header sub-menu"><i class="${form.icon }"></i>
+											<li><div class="collapsible-header over-sub-menu"><i class="${form.icon }"></i>
 														<span class="showHide">${form.name }</span>
 											</div>
 											 <div class="collapsible-body special-padding">
@@ -212,7 +212,7 @@
 	                    <div class=" main-menu-collapse">
 	                        <ul class="collapsible main-menu" id="2ndModel">
 	                            <li>
-	                                <div class="collapsible-header sub-menu"><i class="material-icons">filter_drama</i> 
+	                                <div class="collapsible-header over-sub-menu"><i class="material-icons">filter_drama</i> 
 	                                	<span class="showHide">First</span>
 	                                </div>
 	                                <div class="collapsible-body special-padding">
@@ -224,7 +224,7 @@
 	                                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
 	                                        </li>
 	                                        <li>
-	                                            <div class="collapsible-header sub-menu"><i
+	                                            <div class="collapsible-header over-sub-menu"><i
 	                                                    class="material-icons">place</i><span class="showHide">Second</span></div>
 	                                            <div class="collapsible-body special-padding">
 	                                                <ul class="collapsible">

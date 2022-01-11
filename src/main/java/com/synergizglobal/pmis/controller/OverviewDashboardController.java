@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -53,15 +54,15 @@ public class OverviewDashboardController {
 	   return Character.toUpperCase(line.charAt(0)) + line.substring(1);
 	}	
 	
-	@RequestMapping(value="/GetURL/{param}",method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView loadTableauView(@PathVariable(value = "param") String param,
-			HttpSession session,HttpServletRequest request){
+	@RequestMapping(value = "/ajax/GetURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	public String loadTableauView(String name,HttpSession session){
 		ModelAndView view = new ModelAndView(PageConstants.tableauDashboard);
 		String user_Id = null;String userName = null;
 		String title = "";
+		String tableauUrlView="";
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
-			view.addObject("param", param);
+			view.addObject("param", name);
 			view.addObject("tabActive", "dashboard");
 			
 			User user = (User)session.getAttribute("user");
@@ -71,7 +72,7 @@ public class OverviewDashboardController {
 			
 			TableauDashboard tableauUrl = null;
 			
-			String pageurl=overviewDashboardService.getTableauUrl(param);
+			String pageurl=overviewDashboardService.getTableauUrl(name);
 			
 			tableauUrl = new TableauDashboard();
 			tableauUrl.setTableauUrl(pageurl);			
@@ -98,7 +99,7 @@ public class OverviewDashboardController {
 					baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 				}
 				
-				String tableauUrlView = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+				tableauUrlView = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrlView);
 				vo.setTableauTrustedToken(trustedTokenId);
 			}
@@ -107,7 +108,7 @@ public class OverviewDashboardController {
 			e.printStackTrace();
 			logger.error("tableauView() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
 		}
-		return view;
+		return tableauUrlView;
 	}	
 			
 }

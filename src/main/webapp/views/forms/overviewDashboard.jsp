@@ -306,9 +306,20 @@
 		    
 		    $(".collapsible-header").on("click", function () {
                 var pagename = $(this).attr("id");
-                var url="<%=request.getContextPath()%>/GetURL/"+pagename;
-                $("#dashboardOpen").attr("src",url);
-                
+               
+             	var bool = false;
+             	 $.ajax({
+             		url: "<%=request.getContextPath()%>/ajax/GetURL",
+                   type: 'GET',
+                   data:{name:pagename},
+                   async: false,
+                   dataType: 'json',
+                   success: function (data) 
+                   {
+                	   alert(data);
+                	   $("#dashboardOpen").attr("src",data);
+                   }
+               }); 
             });		    
 		    
 		  });

@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.synergizglobal.pmis.Iservice.OverviewDashboardService;
@@ -55,6 +56,7 @@ public class OverviewDashboardController {
 	}	
 	
 	@RequestMapping(value = "/ajax/GetURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
 	public String loadTableauView(String name,HttpSession session){
 		String user_Id = null;String userName = null;
 		String tableauUrlView="";

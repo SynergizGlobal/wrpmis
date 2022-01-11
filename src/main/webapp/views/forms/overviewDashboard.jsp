@@ -321,6 +321,7 @@
                    dataType: 'json',
                    success: function (data) 
                    {
+                	   alert("Hi");
                 	   alert(data);
                 	   $("#dashboardOpen").attr("src",data);
                    },error: function(xhr){

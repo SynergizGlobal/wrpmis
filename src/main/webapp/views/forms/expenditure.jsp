@@ -202,6 +202,12 @@
 							        class="btn waves-effect waves-light bg-s t-c"> <strong><i
 							            class="fa fa-plus-circle"></i> Add Expenditure</strong></a>
 							</div>
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">${error}</div>
+						</c:if>
 							<div class="col s6 m4 l2 input-field">
 								<p class="searchable_label">Work</p>
 								<select id="work_id_fk" name="work_id_fk"

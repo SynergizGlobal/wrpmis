@@ -69,6 +69,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -855,7 +856,23 @@ public class ContractorController {
 			model.addObject("Specialization", Specialization);
 		}catch (Exception e) {
 				e.printStackTrace();
-				logger.error("Contractor : " + e.getMessage());
+				logger.error("getContractorFormW : " + e.getMessage());
+		}
+		return model;
+	 }
+	@RequestMapping(value = "/get-contractor/{contractor_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getContractorFormWithId(@ModelAttribute Contractor obj,@PathVariable("contractor_id") String contractor_id ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditContractor);
+			model.addObject("action", "edit");
+			Contractor contractorDetails = contractorService.getContractor(obj);
+			model.addObject("contractorDetails", contractorDetails);
+			List<Contractor> Specialization = contractorService.getContractorSpecialization();
+			model.addObject("Specialization", Specialization);
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getContractorFormWithId : " + e.getMessage());
 		}
 		return model;
 	 }

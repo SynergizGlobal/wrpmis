@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -311,6 +312,30 @@ public class DeliverablesController {
 	
 	@RequestMapping(value = "/get-deliverables", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDeliverablesForm(@ModelAttribute Deliverables obj ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditDeliverablesForm);
+			model.addObject("action", "edit");
+			List<Deliverables> statusList = deliverablesService.getStatusList();
+			model.addObject("statusList", statusList);
+			List<Deliverables> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
+			model.addObject("deliverablesTypeList", deliverablesTypeList);
+			List<Deliverables> priorityList = deliverablesService.getPriorityList();
+			model.addObject("priorityList", priorityList);
+			List<Deliverables> projectsList = deliverablesService.getProjectsListForDeliverablesForm(obj);
+			model.addObject("projectsList", projectsList);
+			Deliverables deliverablesDetails = deliverablesService.getDeliverables(obj);
+			model.addObject("deliverablesDetails", deliverablesDetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getDeliverables : " + e.getMessage());
+		}
+		return model;
+	 }
+	
+	@RequestMapping(value = "/get-deliverables/{id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getDeliverablesFormWithId(@ModelAttribute Deliverables obj,@PathVariable("id") String fob_id,HttpSession session,RedirectAttributes id ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDeliverablesForm);

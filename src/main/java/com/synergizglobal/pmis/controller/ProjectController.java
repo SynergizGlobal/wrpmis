@@ -35,6 +35,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -222,7 +223,34 @@ public class ProjectController {
 			model.addObject("projectFileTypes", projectFileTypes);
 			
 		}catch (Exception e) {
-			logger.error("Project : " + e.getMessage());
+			logger.error("getProjectDetails : " + e.getMessage());
+		}
+		return model;
+
+	}
+	
+	@RequestMapping(value = "/get-project/{project_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getProjectDetailsForId(@ModelAttribute Project project,@PathVariable("project_id") String project_id  ){
+		ModelAndView model = new ModelAndView();
+		String projectId = null;
+		try{
+			model.setViewName(PageConstants.addUpdateProject);
+			model.addObject("action", "edit");
+			projectId= project.getProject_id();
+			Project projectDetails = projectService.getProject(projectId, project);
+			model.addObject("projectDetails", projectDetails);
+			
+			/*List <Project> fileNames = projectService.getFileNames(projectId);
+			model.addObject("fileNames", fileNames);*/	
+			
+			List<Year> yearList = projectService.getYearList();
+			model.addObject("yearList", yearList);
+			
+			List<Project> projectFileTypes = projectService.getProjectFileTypes();
+			model.addObject("projectFileTypes", projectFileTypes);
+			
+		}catch (Exception e) {
+			logger.error("getProjectDetailsForId : " + e.getMessage());
 		}
 		return model;
 

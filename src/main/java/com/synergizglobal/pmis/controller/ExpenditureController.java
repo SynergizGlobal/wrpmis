@@ -38,6 +38,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -335,7 +336,7 @@ public class ExpenditureController {
 		return objsList;
 	}
 	
-	@RequestMapping(value = "/get-expenditure", method = {RequestMethod.POST})
+	@RequestMapping(value = "/get-expenditure",method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getExpenditure(@ModelAttribute Expenditure obj){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -352,6 +353,28 @@ public class ExpenditureController {
 		}catch (Exception e) {
 				e.printStackTrace();
 				logger.error("getExpenditure : " + e.getMessage());
+		}
+		return model;
+	 }
+	
+	@RequestMapping(value = "/get-expenditure/{expenditure_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getExpenditureWithId(@ModelAttribute Expenditure obj,@PathVariable("expenditure_id") String expenditure_id ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditExpenditure);
+			model.addObject("action", "edit");
+			List<Project> projectsList = homeService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			List<Expenditure> voucherList = expenditureService.getVoucherList();
+			model.addObject("voucherList", voucherList);
+			List<Expenditure> unitsList = expenditureService.getUnitsList();
+			model.addObject("unitsList", unitsList);
+			obj.setExpenditure_id(expenditure_id);
+			Expenditure expenditureDetails = expenditureService.getExpenditure(obj);
+			model.addObject("expenditureDetails", expenditureDetails);
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getExpenditureWithId : " + e.getMessage());
 		}
 		return model;
 	 }

@@ -37,6 +37,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -493,6 +494,65 @@ public class FOBController {
 		return model;
 	}
 	
+	@RequestMapping(value="/get-fob/{fob_id}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getFOBWithId(@ModelAttribute FOB obj,@PathVariable("fob_id") String fob_id,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		try {
+			String user_id = (String) session.getAttribute("USER_ID"),user_type = (String) session.getAttribute("USER_TYPE");
+			if(!StringUtils.isEmpty(user_type) 
+					&& (user_type.equals(CommonConstants.USER_TYPE_HOD) 
+					|| user_type.equals(CommonConstants.USER_TYPE_DYHOD)) ) {
+				obj.setUser_id(user_id);
+			}
+			
+			model.setViewName(PageConstants2.addEditFob);
+			
+			model.addObject("action", "edit");
+			
+			List<FOB> projectsList = fobService.getProjectsListForFOBForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<FOB> contractsList = fobService.getContractsListForFOBForm(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<FOB> responsiblePeopleList = fobService.getResponsiblePeopleListForFOBForm(obj);
+			model.addObject("responsiblePeopleList", responsiblePeopleList);
+			
+			List<FOB> fobFileTypesList = fobService.getFobFileTypesList(obj);
+			model.addObject("fobFileTypesList", fobFileTypesList);
+			
+			List<String> executionStatusList = homeService.getExecutionStatusList();
+			model.addObject("executionStatusList", executionStatusList);
+			
+			/*List<FOB> fobDetailsList = fobService.getFobDetailsList(obj);
+			model.addObject("fobDetailsList", fobDetailsList);*/
+			
+			List<FOB> fobDetailsLocations = fobService.getFobDetailsLocations(obj);
+			model.addObject("fobDetailsLocations", fobDetailsLocations);
+			
+			List<FOB> fobDetailsTypes = fobService.getFobDetailsTypes(obj);
+			model.addObject("fobDetailsTypes", fobDetailsTypes);
+			
+			List<FOB> unitsList = fobService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			
+			List<FOB> fobFileTypeList = fobService.getFobFileTypeList(obj);
+			model.addObject("fobFileTypeList", fobFileTypeList);
+			
+			FOB fob = fobService.getFOB(obj);
+			model.addObject("fob", fob);
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMessage_id())) {
+				boolean flag = issueService.readIssueMessage(obj.getMessage_id());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", commonError);
+			logger.error("getFOBWithId : " + e.getMessage());
+		}
+		return model;
+	}
 	@RequestMapping(value="/update-fob",method=RequestMethod.POST)
 	public ModelAndView updateFOB(@ModelAttribute FOB obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();

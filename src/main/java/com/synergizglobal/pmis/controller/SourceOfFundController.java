@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -278,7 +279,7 @@ public class SourceOfFundController {
 		return objsList;
 	}
 	
-	@RequestMapping(value = "/get-funds", method = {RequestMethod.POST})
+	@RequestMapping(value = "/get-funds", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getFunds(@ModelAttribute SourceOfFund obj){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -300,6 +301,27 @@ public class SourceOfFundController {
 		return model;
 	 }
 	
+	@RequestMapping(value = "/get-funds/{funds_id}",method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getFundsWithId(@ModelAttribute SourceOfFund obj,@PathVariable("funds_id") String funds_id ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditSourceOfFund);
+			model.addObject("action", "edit");
+			
+			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
+			model.addObject("sourceOfFundList", sourceOfFundList);
+			List<SourceOfFund> railwaysList = sofService.getRailwaysList();
+			model.addObject("railwaysList", railwaysList);
+			List<SourceOfFund> unitsList = sofService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			SourceOfFund fundDetails = sofService.getFunds(obj);
+			model.addObject("fundDetails", fundDetails);
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getFundsWithId : " + e.getMessage());
+		}
+		return model;
+	 }
 	@RequestMapping(value = "/add-funds", method = {RequestMethod.POST})
 	@ResponseBody
 	public ModelAndView addFunds(@ModelAttribute SourceOfFund obj,RedirectAttributes attributes){

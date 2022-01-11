@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -294,6 +295,26 @@ public class BudgetController {
 		}catch (Exception e) {
 				e.printStackTrace();
 				logger.error("getBudget : " + e.getMessage());
+		}
+		return model;
+	 }
+	
+	@RequestMapping(value = "/get-budget/{budget_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getBudgetFormWithId(@ModelAttribute Budget budget,@PathVariable("budget_id") String budget_id ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditBudget);
+			model.addObject("action", "edit");
+			
+			List<Budget> financialYearList = budgetService.getFinancialYearList();
+			model.addObject("financialYearList", financialYearList);
+			
+			Budget budgetDetails = budgetService.getBudget(budget);
+			model.addObject("budgetDetails", budgetDetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getBudgetFormWithId : " + e.getMessage());
 		}
 		return model;
 	 }

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -312,6 +313,28 @@ public class DataGatheringsController {
 	
 	@RequestMapping(value = "/get-data-gathering", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDataGatherigForm(@ModelAttribute DataGathering obj ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditDataGatheringForm);
+			model.addObject("action", "edit");
+			List<DataGathering> statusList = dataGatheringsService.getStatusList();
+			model.addObject("statusList", statusList);
+			
+			List<DataGathering> priorityList = dataGatheringsService.getPriorityList();
+			model.addObject("priorityList", priorityList);
+			
+			DataGathering dataGatheringDetails = dataGatheringsService.getDataGathering(obj);
+			model.addObject("dataGatheringDetails", dataGatheringDetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getDataGathering : " + e.getMessage());
+		}
+		return model;
+	 }
+
+	@RequestMapping(value = "/get-data-gathering/{id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getDataGatherigFormWithId(@ModelAttribute DataGathering obj ,@PathVariable("id") String fob_id,HttpSession session,RedirectAttributes id){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDataGatheringForm);

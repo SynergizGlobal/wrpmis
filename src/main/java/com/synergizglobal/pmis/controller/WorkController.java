@@ -36,6 +36,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -272,11 +273,45 @@ public class WorkController {
 			Work workDetails = workService.getWork(workId, work);
 			model.addObject("workDetails", workDetails);
 		}catch (Exception e) {
-			logger.error("Work : " + e.getMessage());
+			logger.error("getWorkDetails : " + e.getMessage());
 		}
 		return model;
 	}
 	
+	@RequestMapping(value = "/get-work/{work_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getWorkDetailsWithId(@ModelAttribute Work work,Railway rail,@PathVariable("work_id") String work_id ){
+		ModelAndView model = new ModelAndView();
+		String workId = null;
+		try{
+			model.setViewName(PageConstants.addEditWork);
+			model.addObject("action", "edit");
+			
+			List<Project> projectsList = homeService.getProjectsList();
+			model.addObject("projectsList", projectsList);	
+			
+			List<Railway> railwaysList = workService.getRailwayList();
+			model.addObject("railwaysList", railwaysList);
+			
+			List<Railway> excecuteList = workService.getExcecuteList();
+			model.addObject("excecuteList", excecuteList);
+			
+			List<Year> yearList = workService.getYearList();
+			model.addObject("yearList", yearList);
+			
+			List<Work> workFileTypes = workService.getWorkFileTypes();
+			model.addObject("workFileTypes", workFileTypes);
+			
+			List<Work> unitsList = workService.getUnitsList();
+			model.addObject("unitsList", unitsList);
+			
+			workId= work.getWork_id();
+			Work workDetails = workService.getWork(workId, work);
+			model.addObject("workDetails", workDetails);
+		}catch (Exception e) {
+			logger.error("getWorkDetailsWithId : " + e.getMessage());
+		}
+		return model;
+	}
 	
 	@RequestMapping(value = "/add-work-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addWorkForm(){

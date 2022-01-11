@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,7 +42,7 @@ public class ActivitiesBulkUpdateController {
 
 
 	@RequestMapping(value="/activities-bulk-update",method=RequestMethod.GET)
-	public ModelAndView AcivitiesBulkUpload(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
+	public ModelAndView acivitiesBulkUpload(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.activitiesBulkUpdate);
 		try {
 			
@@ -337,6 +338,37 @@ public class ActivitiesBulkUpdateController {
 		}
 		return model;
 	}	
+	
+	
+	@RequestMapping(value="/activities-bulk-update/{activityId}",method=RequestMethod.GET)
+	public ModelAndView getAcivitiesBulkUpdateData(@PathVariable("activityId")String activityId,@ModelAttribute StripChart obj,HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.activitiesBulkUpdate);
+		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			
+			List<StripChart> projectsList = activitiesBulkUpdateService.getAcivitiesBulkUpdateProjectsList(obj);
+			model.addObject("projectsList", projectsList);
+			
+			/*List<StripChart> worksList = activitiesBulkUpdateService.getAcivitiesBulkUpdateWorksList(obj);
+			model.addObject("worksList", worksList);
+			List<StripChart> contractsList = activitiesBulkUpdateService.getAcivitiesBulkUpdateContractsList(obj);
+			model.addObject("contractsList", contractsList);*/
+			
+			obj.setActivity_id(activityId);
+			StripChart activitiesData = activitiesBulkUpdateService.getAcivitiesBulkUpdateData(obj);
+			model.addObject("activitiesData", activitiesData);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAcivitiesBulkUpdateData : " + e.getMessage());
+		}
+		return model;
+	}
 	
 }
 

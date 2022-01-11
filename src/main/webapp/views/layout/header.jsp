@@ -200,12 +200,13 @@
 								</c:if>
 								<c:if test="${not empty  category.tableauSubList}">
 									<li class="sub-menu">
-										<!-- 2nd level Dropdown starts --> <a href="#!"> <span
+										<!-- 2nd level Dropdown starts --> 
+										<a href="#!"> <span
 											style="padding-right: 5px;"
 											class="fa fa-${category.imagePath}"></span> <span
 											class="nav-label">${category.tableauDashboardName
                                                                         }</span>
-									</a>
+										</a>
 										<ul class="third-level-menu">
 											<c:forEach var="subList" items="${category.tableauSubList }">
 												<c:set var="tempsubActivity"
@@ -214,16 +215,47 @@
 												<c:set var="subActivity"
 													value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}">
 												</c:set>
-												<c:set var="subActivityName"
-													value="${ subList.tableauDashboardName}">
-												</c:set>
-												<li><a
+												<%-- <li><a
 													href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
 														<span style="padding-right: 5px;"
 														class="fa fa-${subList.imagePath }"></span> <span
 														class="nav-label">${subList.tableauDashboardName
                                                                                     }</span>
-												</a></li>
+												</a></li> --%>
+												
+												<c:if test="${empty subList.tableauSubListLevel2}">
+													<li>
+													<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
+															<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span> 
+															<span class="nav-label">${subList.tableauDashboardName }</span>
+													</a>
+													</li>
+												</c:if>
+												<c:if test="${not empty  subList.tableauSubListLevel2}">
+													<li class="sub-menu">
+														<a href="#!"> 
+															<span style="padding-right: 5px;" class="fa fa-${subList.imagePath}"></span> 
+															<span class="nav-label">${subList.tableauDashboardName}</span>
+														</a>
+														<ul class="third-level-menu">
+															<c:forEach var="subListLevel2" items="${subList.tableauSubListLevel2 }">
+																<c:set var="tempsubActivityLevel2"
+																	value="${ fn:toLowerCase(subListLevel2.tableauDashboardName.replaceAll(' - ', '_'))}">
+																</c:set>
+																<c:set var="subActivityLevel2"
+																	value="${ fn:toLowerCase(tempsubActivityLevel2.replaceAll(' ', '-'))}">
+																</c:set>
+																<li><a
+																	href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivityLevel2 }">
+																		<span style="padding-right: 5px;"
+																		class="fa fa-${subListLevel2.imagePath }"></span> <span
+																		class="nav-label">${subListLevel2.tableauDashboardName
+				                                                                                    }</span>
+																</a></li>
+															</c:forEach>
+														</ul></li>
+												</c:if>
+												
 											</c:forEach>
 										</ul>
 									</li>
@@ -233,10 +265,8 @@
 							</c:forEach>
 						</ul> <!-- 1st level Dropdown ends --></li>
 
-					<li class="blue darken-1 dropdown"><a href="#"
-						class='head-img'> <span class="material-icons-outlined">dashboard</span>
-							Works
-					</a>
+					<li class="blue darken-1 dropdown"> 
+						<a href="#" class='head-img'> <span class="material-icons-outlined">dashboard</span>Works</a>
 						<ul class="second-level-menu">
 							<c:forEach var="category" items="${dashboardProjectsList }"
 								varStatus="index">
@@ -270,16 +300,48 @@
 												<c:set var="subActivity"
 													value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}">
 												</c:set>
-												<c:set var="subActivityName"
-													value="${ subList.tableauDashboardName}">
-												</c:set>
-												<li><a
-													href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
-														<span style="padding-right: 5px;"
-														class="fa fa-${subList.imagePath }"></span> <span
-														class="nav-label">${subList.tableauDashboardName
-                                                                                    }</span>
-												</a></li>
+												<%-- <li>
+												<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
+														<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span> 
+														<span class="nav-label">${subList.tableauDashboardName }</span>
+												</a>
+												</li> --%>
+												
+												
+												
+												<c:if test="${empty subList.tableauSubListLevel2}">
+													<li>
+													<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
+															<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span> 
+															<span class="nav-label">${subList.tableauDashboardName }</span>
+													</a>
+													</li>
+												</c:if>
+												<c:if test="${not empty  subList.tableauSubListLevel2}">
+													<li class="sub-menu">
+														<a href="#!"> 
+															<span style="padding-right: 5px;" class="fa fa-${subList.imagePath}"></span> 
+															<span class="nav-label">${subList.tableauDashboardName}</span>
+														</a>
+														<ul class="third-level-menu">
+															<c:forEach var="subListLevel2" items="${subList.tableauSubListLevel2 }">
+																<c:set var="tempsubActivityLevel2"
+																	value="${ fn:toLowerCase(subListLevel2.tableauDashboardName.replaceAll(' - ', '_'))}">
+																</c:set>
+																<c:set var="subActivityLevel2"
+																	value="${ fn:toLowerCase(tempsubActivityLevel2.replaceAll(' ', '-'))}">
+																</c:set>
+																<li><a
+																	href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivityLevel2 }">
+																		<span style="padding-right: 5px;"
+																		class="fa fa-${subListLevel2.imagePath }"></span> <span
+																		class="nav-label">${subListLevel2.tableauDashboardName
+				                                                                                    }</span>
+																</a></li>
+															</c:forEach>
+														</ul></li>
+												</c:if>
+												
 											</c:forEach>
 										</ul></li>
 								</c:if>
@@ -288,21 +350,14 @@
 				</c:if>
 
 				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
-					<li class="blue dropdown"><a href="#" class='head-img'> <span
-							class="material-icons-outlined">post_add</span> Update Forms
-					</a> <%-- <ul class="second-level-menu">
-                                                    <c:forEach var="form" items="${forms }">
-                                            <li><a href="${form.webFormUrl }">${form.formName }</a></li>
-                                            </c:forEach>
-                                </ul> --%>
-
+					<li class="blue dropdown">
+						<a href="#" class='head-img'> <span class="material-icons-outlined">post_add</span> Update Forms</a>
 
 						<ul class="second-level-menu">
 							<!-- 1st level Dropdown starts -->
 							
 							<c:forEach var="form" items="${forms }" varStatus="index">
-<%-- 							<c:if test="${(form.formName!='Design & Drawing' && form.formName!='Safety' && form.formName!='Training' && form.formName!='Land Acquisition' && form.formName!='Finance') || (sessionScope.USER_ROLE_NAME eq 'IT Admin') }">
- --%>								<c:if test="${empty form.formsSubMenu}">
+								<c:if test="${empty form.formsSubMenu}">
 									<li><c:if test="${not empty form.webFormUrl}">
 											<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
 												<span class="nav-label">${form.formName }</span>
@@ -310,23 +365,22 @@
 										</c:if></li>
 								</c:if>
 								<c:if test="${not empty form.formsSubMenu}">
-									<li class="sub-menu"><a href="#!"> <span
-											class="nav-label">${form.formName }</span>  
-									</a>
+									<li class="sub-menu">
+										<a href="#!"> <span class="nav-label">${form.formName }</span>  </a>
 									
 										<ul class="third-level-menu">
 											<!-- 2nd level Dropdown starts -->
 											<c:forEach var="subList" items="${form.formsSubMenu }">
 
-												<c:if test="${ empty subList.formsSubMenuLevel2}">
+												<c:if test="${ empty subList.formsSubMenuLevel2 and not empty subList.webFormUrl}">
 													<li><a
 														href="<%=request.getContextPath()%>/${subList.webFormUrl }">
 															<span class="nav-label">${subList.formName }</span>
 													</a></li>
 												</c:if>
 												<c:if test="${not empty subList.formsSubMenuLevel2}">
-													<li class="sub-menu"><a href="#">
-															${subList.formName }</a>
+													<li class="sub-menu">
+														<a href="#">${subList.formName }</a>
 														<ul class="fourth-level-menu">
 															<c:forEach var="subListLevel2"
 																items="${subList.formsSubMenuLevel2}">
@@ -337,10 +391,6 @@
 														</ul></li>
 												</c:if>
 											</c:forEach>
-											<!-- start delete from here after the fourth level menu implemented -->
-
-											<!-- start delete upto here after the fourth level menu implemented -->
-											<!-- 2nd level Dropdown ends -->
 										</ul></li>
 								</c:if>
 								<%-- </c:if> --%>
@@ -371,7 +421,7 @@
 										<ul class="third-level-menu">
 											<!-- 2nd level Dropdown starts -->
 											<c:forEach var="subList" items="${form.formsSubMenu }">
-												<c:if test="${ empty subList.formsSubMenuLevel2}">
+												<c:if test="${ empty subList.formsSubMenuLevel2 and not empty subList.webFormUrl}">
 													<li><a
 														href="<%=request.getContextPath()%>/${subList.webFormUrl }">
 															<span class="nav-label">${subList.formName }</span>

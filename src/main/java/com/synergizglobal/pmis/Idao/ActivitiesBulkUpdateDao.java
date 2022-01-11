@@ -34,4 +34,6 @@ public interface ActivitiesBulkUpdateDao {
 	public boolean insertFOBDailyUpdate(StripChart obj) throws Exception;
 
 	public List<StripChart> getAcivitiesBulkUpdateInProgressStructures(StripChart obj) throws Exception;
+
+	public StripChart getAcivitiesBulkUpdateData(StripChart obj) throws Exception;
 }

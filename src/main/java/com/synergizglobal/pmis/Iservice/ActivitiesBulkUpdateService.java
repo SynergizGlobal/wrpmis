@@ -35,4 +35,6 @@ public interface ActivitiesBulkUpdateService {
 	public boolean updateAcivitiesBulk(StripChart obj) throws Exception;
 	
 	public boolean insertFOBDailyUpdate(StripChart obj) throws Exception;
+
+	public StripChart getAcivitiesBulkUpdateData(StripChart obj) throws Exception;
 }

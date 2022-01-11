@@ -1674,5 +1674,27 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		return dy_hods;
 	}
 
+	@Override
+	public StripChart getAcivitiesBulkUpdateData(StripChart obj) throws Exception {
+		StripChart sObj = null;
+		try {
+			String qry = "select a.activity_id,a.contract_id_fk AS contract_id,a.structure AS strip_chart_structure_id,a.component_id AS strip_chart_component_id,"
+					+ "a.component AS strip_chart_component,a.activity_id AS strip_chart_activity_id,a.activity_name AS strip_chart_activity_name,"
+					+ "a.line AS strip_chart_line,a.structure AS structure_type,a.section AS strip_chart_section_id,"
+					+ "c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
+					+ "from activities a "
+					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "where activity_id = ? ";
+
+			sObj = (StripChart) jdbcTemplate.queryForObject(qry, new Object[] { obj.getActivity_id() },
+					new BeanPropertyRowMapper<StripChart>(StripChart.class));
+
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return sObj;
+	}
+
 }
 

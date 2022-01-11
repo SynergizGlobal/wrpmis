@@ -4,7 +4,7 @@ import java.util.List;
 
 public class TableauDashboard {
 
-	private List<TableauDashboard> tableauSubList;
+	private List<TableauDashboard> tableauSubList,tableauSubListLevel2;
 	private String tableauUrl,tableauDashboardId,tableauDashboardName,imagePath,priority,tableauTrustedToken;
 	
 	/**
@@ -106,6 +106,12 @@ public class TableauDashboard {
 	}
 	public void setTableauTrustedToken(String tableauTrustedToken) {
 		this.tableauTrustedToken = tableauTrustedToken;
+	}
+	public List<TableauDashboard> getTableauSubListLevel2() {
+		return tableauSubListLevel2;
+	}
+	public void setTableauSubListLevel2(List<TableauDashboard> tableauSubListLevel2) {
+		this.tableauSubListLevel2 = tableauSubListLevel2;
 	}
 	
 }

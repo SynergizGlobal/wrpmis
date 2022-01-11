@@ -57,21 +57,13 @@ public class OverviewDashboardController {
 	@RequestMapping(value = "/ajax/GetURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	public String loadTableauView(String name,HttpSession session){
 		String user_Id = null;String userName = null;
-		String title = "";
 		String tableauUrlView="";
+		logger.error("loadTableauView() : Start");
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
-
-			
-			User user = (User)session.getAttribute("user");
-		
-			String line = null;
-			
-			
 			String pageurl=overviewDashboardService.getTableauUrl(name);
-			
-		
-			
+			logger.error("loadTableauView() : url - "+pageurl);
+
 			if(!StringUtils.isEmpty(pageurl)){
 			
 				String server_name = "Syntrack";
@@ -82,6 +74,7 @@ public class OverviewDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				logger.error("loadTableauView() : ticket - "+trustedTokenId);
 				CommonConstants cObj = new CommonConstants();
 				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				String[] url = {};
@@ -94,10 +87,11 @@ public class OverviewDashboardController {
 				}
 				
 				tableauUrlView = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+				logger.error("loadTableauView() : turl - "+tableauUrlView);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("tableauView() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
+			logger.error("loadTableauView() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
 		}
 		return tableauUrlView;
 	}	

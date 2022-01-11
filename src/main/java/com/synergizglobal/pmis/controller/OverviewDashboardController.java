@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -57,7 +58,7 @@ public class OverviewDashboardController {
 	
 	@RequestMapping(value = "/ajax/GetURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public TableauDashboard loadTableauView(@PathVariable("tableauDashboardName") String tableauDashboardName,HttpSession session){
+	public TableauDashboard loadTableauView(@RequestParam("tableauDashboardName") String tableauDashboardName,HttpSession session){
 		String user_Id = null;String userName = null;
 		TableauDashboard obj=new TableauDashboard();
 		String tableauUrlView="";
@@ -75,7 +76,7 @@ public class OverviewDashboardController {
 				}else {
 					server_name = "MRVC";
 				}
-				TableauTrustedTicket tObj = new TableauTrustedTicket();
+				/*TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
 				logger.error("loadTableauView() : ticket - "+trustedTokenId);
 				CommonConstants cObj = new CommonConstants();
@@ -90,7 +91,8 @@ public class OverviewDashboardController {
 				}
 				
 				tableauUrlView = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-				obj.setTableauUrl(tableauUrlView);
+				*/
+				obj.setTableauUrl("http://203.153.40.44:8000/trusted/wzwMeV99SMKQgEWI6uivJw==:-SPnKE_fvmtEcUnPi_OQ5ls5/views/ContractNew/ContractOverview?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link&:refresh=yes&:tabs=no&:toolbar=no");
 				logger.error("loadTableauView() : turl - "+tableauUrlView);
 			}
 		} catch (Exception e) {

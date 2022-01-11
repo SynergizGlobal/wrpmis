@@ -322,7 +322,7 @@
                    {
                 	   alert("Hi");
                 	   alert(data.tableauUrl);
-                	   $("#dashboardOpen").attr("src",data);
+                	   $("#dashboardOpen").attr("src",data.tableauUrl);
                    },error: function(xhr){
                        alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
                    }

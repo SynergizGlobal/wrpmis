@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -339,6 +340,30 @@ public class DocumentController {
 	
 	@RequestMapping(value = "/get-document", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDocument(@ModelAttribute Document obj ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditDocumentForm);
+			model.addObject("action", "edit");
+			
+			List<Document> statusList = documentService.getStatusList();
+			model.addObject("statusList", statusList);
+			List<Document> documentTypeList = documentService.getDocumentTypeList();
+			model.addObject("documentTypeList", documentTypeList);
+			List<Document> priorityList = documentService.getPriorityList();
+			model.addObject("priorityList", priorityList);
+			List<Document> userList = documentService.getUserList();
+			model.addObject("userList", userList);
+			Document documentDetails = documentService.getDocument(obj);
+			model.addObject("documentDetails", documentDetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getDocument : " + e.getMessage());
+		}
+		return model;
+	 }
+	@RequestMapping(value = "/get-document/{document_no}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getDocument(@ModelAttribute Document obj,@PathVariable("document_no") String document_no,HttpSession session,RedirectAttributes attributes ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDocumentForm);

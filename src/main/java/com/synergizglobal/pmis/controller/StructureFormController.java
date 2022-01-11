@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -367,6 +368,57 @@ public class StructureFormController {
 		return model;
 	}	
 	
+	@RequestMapping(value = "/get-structure-form/{structure_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getStructuresForm(@ModelAttribute Structure obj,@PathVariable("structure_id") String structure_id,HttpSession session,RedirectAttributes attributes ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditStructureForm);	
+			model.addObject("action", "edit");	
+			List<Structure> projectsList = structureService.getProjectsListForStructureForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<Structure> worksList = structureService.getWorkListForStructureForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Structure> contractsList = structureService.getContractListForStructureFrom(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<Structure> structuresList = structureService.getStructuresListForStructureFrom(obj);
+			model.addObject("structuresList", structuresList);
+			
+			List<Structure> departmentsList = structureService.getDepartmentsListForStructureFrom(obj);
+			model.addObject("departmentsList", departmentsList);
+		
+			List<Structure> responsiblePeopleList = structureService.getResponsiblePeopleListForStructureForm(obj);
+			model.addObject("responsiblePeopleList", responsiblePeopleList);
+			
+			List<Structure> workStatusList = structureService.getWorkStatusListForStructureForm(obj);
+			model.addObject("workStatusList", workStatusList);
+			
+			List<Structure> unitsList = structureService.getUnitsListForStructureForm(obj);
+			model.addObject("unitsList", unitsList);
+			
+			List<Structure> fileType = structureService.getFileTypeForStructureForm(obj);
+			model.addObject("fileType", fileType);
+			
+			List<String> executionStatusList = homeService.getExecutionStatusList();
+			model.addObject("executionStatusList", executionStatusList);
+			
+			List<Structure> structureDetailsLocations = structureFormService.getStructureDetailsLocations(obj);
+			model.addObject("structureDetailsLocations", structureDetailsLocations);
+			
+			List<Structure> structureDetailsTypes = structureFormService.getStructureDetailsTypes(obj);
+			model.addObject("structureDetailsTypes", structureDetailsTypes);
+			
+			
+			Structure structuresListDetails = structureFormService.getStructuresFormDetails(obj);
+			model.addObject("structuresListDetails", structuresListDetails);
+			
+		}catch (Exception e) {
+			logger.error("getStructuresForm : " + e.getMessage());
+		}
+		return model;
+	}
 	@RequestMapping(value = "/add-structures", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addStructureForm(@ModelAttribute Structure obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();

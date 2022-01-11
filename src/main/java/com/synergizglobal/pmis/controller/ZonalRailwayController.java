@@ -40,6 +40,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -322,6 +323,39 @@ public class ZonalRailwayController {
 	
 	@RequestMapping(value = "/get-zonal-railway", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getZonalRailwayForm(@ModelAttribute ZonalRailway obj ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditZonalRailway);
+			model.addObject("action", "edit");
+			
+			List<ZonalRailway> railwayList = service.getRailwayListForZonalRailwayForm(obj);
+			model.addObject("railwayList", railwayList);
+			
+			List<ZonalRailway> sourceOfFundList = service.getSourceOfFundListForZonalRailwayForm(obj);
+			model.addObject("sourceOfFundList", sourceOfFundList);
+			
+			List<ZonalRailway> statusList = service.getStatusListForZonalRailwayForm(obj);
+			model.addObject("statusList", statusList);
+			
+			List<ZonalRailway> unitsList = service.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			
+			List<ZonalRailway> usersList = service.getUserListForZonalRailwayForm(obj);
+			model.addObject("usersList", usersList);
+			
+			ZonalRailway zonalRailwayDetails = service.getZonalRailway(obj);
+			model.addObject("zonalRailwayDetails", zonalRailwayDetails);
+			
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getZonalRailwayForm : " + e.getMessage());
+		}
+		return model;
+	 }
+	
+	@RequestMapping(value = "/get-zonal-railway/{contract_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getZonalRailwayForm(@ModelAttribute ZonalRailway obj,@PathVariable("contract_id") String contract_id,HttpSession session,RedirectAttributes attributes  ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditZonalRailway);

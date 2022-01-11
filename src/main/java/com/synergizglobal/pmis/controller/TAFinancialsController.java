@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -233,6 +234,28 @@ public class TAFinancialsController {
 	
 	@RequestMapping(value = "/get-ta-financials", method = {RequestMethod.POST})
 	public ModelAndView getTAFinancialsForm(@ModelAttribute TAFinancials obj ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditTaFinancialsForm);
+			model.addObject("action", "edit");
+			List<TAFinancials> worksList = service.getWorksList();
+			model.addObject("worksList", worksList);
+			List<TAFinancials> contractsList = service.getContractsList();
+			model.addObject("contractsList", contractsList);
+			List<TAFinancials> unitsList = service.getUnitsList();
+			model.addObject("unitsList", unitsList);
+			TAFinancials taFinancialDetails = service.getTAFinancials(obj);
+			model.addObject("taFinancialDetails", taFinancialDetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getTAFinancials : " + e.getMessage());
+		}
+		return model;
+	 }
+	
+	@RequestMapping(value = "/get-ta-financials/{ID}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getTAFinancialsForm(@ModelAttribute TAFinancials obj ,@PathVariable("ID") String ID,HttpSession session,RedirectAttributes attributes ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditTaFinancialsForm);

@@ -334,7 +334,7 @@ public class DataGatheringsController {
 	 }
 
 	@RequestMapping(value = "/get-data-gathering/{id}", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getDataGatherigFormWithId(@ModelAttribute DataGathering obj ,@PathVariable("id") String fob_id,HttpSession session,RedirectAttributes id){
+	public ModelAndView getDataGatherigFormWithId(@ModelAttribute DataGathering obj ,@PathVariable("id") String id,HttpSession session,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDataGatheringForm);

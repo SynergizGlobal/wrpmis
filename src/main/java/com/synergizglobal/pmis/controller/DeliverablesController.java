@@ -335,7 +335,7 @@ public class DeliverablesController {
 	 }
 	
 	@RequestMapping(value = "/get-deliverables/{id}", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getDeliverablesFormWithId(@ModelAttribute Deliverables obj,@PathVariable("id") String fob_id,HttpSession session,RedirectAttributes id ){
+	public ModelAndView getDeliverablesFormWithId(@ModelAttribute Deliverables obj,@PathVariable("id") String id,HttpSession session,RedirectAttributes attributes ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDeliverablesForm);

@@ -19,4 +19,9 @@ public class OverviewDashboardServiceImpl implements OverviewDashboardService {
 	public List<OverviewDashboard> getFormsList() throws Exception {
 		return dao.getFormsList();
 	}
+	
+	@Override
+	public String getTableauUrl(String name) throws Exception {
+		return dao.getTableauUrl(name);
+	}	
 }

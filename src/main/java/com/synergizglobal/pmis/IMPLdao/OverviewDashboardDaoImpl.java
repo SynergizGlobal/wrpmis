@@ -98,6 +98,18 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
 		}
 		return objsList;
+	}
+
+	@Override
+	public String getTableauUrl(String name) throws Exception {
+		String link_url="";
+		try {
+			String qry = "SELECT link_url FROM pmis.leftmenu WHERE name= ?";
+			link_url = (String) jdbcTemplate.queryForObject(qry, new Object[] { name }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return link_url;
 	}	
 	
 }

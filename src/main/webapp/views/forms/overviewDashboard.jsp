@@ -157,15 +157,20 @@
 							<c:forEach var="form" items="${overviewDashboardForms }" varStatus="index">
 								<c:if test="${not empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
-											<li><div class="collapsible-header over-sub-menu"><i class="${form.icon }"></i>
-														<span class="showHide">${form.name }</span>
+											<li><div class="collapsible-header over-sub-menu" id="${form.name }">
+											
+												<a href="#">
+														<i class="${form.icon }"></i><span class="showHide">${form.name }</span>
+												</a>	
+											
+
 											</div>
 											 <div class="collapsible-body special-padding">
 			                                    <ul class="collapsible">
 			                                    <c:forEach var="subList" items="${form.formsSubMenu }">
 			                                        <li>
-			                                            <div class="collapsible-header">			                                            
-															<a href="${subList.link_url }"  target="dashboardOpen">
+			                                            <div class="collapsible-header" id="${subList.name }">			                                            
+															<a href="#">
 																	<i class="${subList.icon }"></i><span class="showHide">${subList.name }</span>
 															</a>			                                           
 			                                            
@@ -179,9 +184,9 @@
 								</c:if>	
 								<c:if test="${empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
-											<li><div class="collapsible-header">
+											<li><div class="collapsible-header" id="${form.name }">
 											
-												<a href="${subList.link_url }" target="dashboardOpen">
+												<a href="#">
 													<i class="${form.icon }"></i><span class="showHide">${form.name }</span>
 											</a>											
 											
@@ -197,7 +202,7 @@
 	        </div>
 	    	<div class="col s12 m10" id="tableau-item-holder">
 	    	 	
-			<iframe name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
+			<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>
 	    </div>
 	</div>
@@ -298,6 +303,14 @@
 	<script>
 		$(document).ready(function(){
 		    $('.collapsible').collapsible();
+		    
+		    $(".collapsible-header").on("click", function () {
+                var pagename = $(this).attr("id");
+                var url="<%=request.getContextPath()%>/GetURL/"+pagename;
+                $("#dashboardOpen").attr("src",url);
+                
+            });		    
+		    
 		  });
 		
 		function toggleMenu(){

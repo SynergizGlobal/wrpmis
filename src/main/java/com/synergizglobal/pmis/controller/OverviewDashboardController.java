@@ -76,7 +76,7 @@ public class OverviewDashboardController {
 				}else {
 					server_name = "MRVC";
 				}
-				/*TableauTrustedTicket tObj = new TableauTrustedTicket();
+				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
 				logger.error("loadTableauView() : ticket - "+trustedTokenId);
 				CommonConstants cObj = new CommonConstants();
@@ -91,8 +91,8 @@ public class OverviewDashboardController {
 				}
 				
 				tableauUrlView = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-				*/
-				obj.setTableauUrl("http://203.153.40.44:8000/trusted/wzwMeV99SMKQgEWI6uivJw==:-SPnKE_fvmtEcUnPi_OQ5ls5/views/ContractNew/ContractOverview?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link&:refresh=yes&:tabs=no&:toolbar=no");
+				
+				obj.setTableauUrl(tableauUrlView.toString());
 				logger.error("loadTableauView() : turl - "+tableauUrlView);
 			}
 		} catch (Exception e) {

@@ -57,13 +57,14 @@ public class OverviewDashboardController {
 	
 	@RequestMapping(value = "/ajax/GetURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String loadTableauView(String name,HttpSession session){
+	public TableauDashboard loadTableauView(@PathVariable("tableauDashboardName") String tableauDashboardName,HttpSession session){
 		String user_Id = null;String userName = null;
+		TableauDashboard obj=new TableauDashboard();
 		String tableauUrlView="";
 		logger.error("loadTableauView() : Start");
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
-			String pageurl=overviewDashboardService.getTableauUrl(name);
+			String pageurl=overviewDashboardService.getTableauUrl(tableauDashboardName);
 			logger.error("loadTableauView() : url - "+pageurl);
 
 			if(!StringUtils.isEmpty(pageurl)){
@@ -89,13 +90,14 @@ public class OverviewDashboardController {
 				}
 				
 				tableauUrlView = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+				obj.setTableauUrl(tableauUrlView);
 				logger.error("loadTableauView() : turl - "+tableauUrlView);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("loadTableauView() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
 		}
-		return tableauUrlView;
+		return obj;
 	}	
 			
 }

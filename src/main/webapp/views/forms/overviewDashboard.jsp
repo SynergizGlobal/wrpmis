@@ -314,15 +314,14 @@
                
              	var bool = false;
              	 $.ajax({
-             		url: "<%=request.getContextPath()%>/ajax/GetURL",
+             		url: "<%=request.getContextPath()%>/ajax/GetURL?tableauDashboardName="+pagename,
                    type: 'POST',
-                   data:{name:pagename},
                    async: false,
                    dataType: 'json',
                    success: function (data) 
                    {
                 	   alert("Hi");
-                	   alert(data);
+                	   alert(data.tableauUrl);
                 	   $("#dashboardOpen").attr("src",data);
                    },error: function(xhr){
                        alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);

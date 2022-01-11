@@ -56,32 +56,26 @@ public class OverviewDashboardController {
 	
 	@RequestMapping(value = "/ajax/GetURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	public String loadTableauView(String name,HttpSession session){
-		ModelAndView view = new ModelAndView(PageConstants.tableauDashboard);
 		String user_Id = null;String userName = null;
 		String title = "";
 		String tableauUrlView="";
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
-			view.addObject("param", name);
-			view.addObject("tabActive", "dashboard");
+
 			
 			User user = (User)session.getAttribute("user");
 		
 			String line = null;
-			view.addObject("title", title+"PMIS - Syntrack.");
 			
-			TableauDashboard tableauUrl = null;
 			
 			String pageurl=overviewDashboardService.getTableauUrl(name);
 			
-			tableauUrl = new TableauDashboard();
-			tableauUrl.setTableauUrl(pageurl);			
+		
 			
-			TableauDashboard vo = tableauUrl;
-			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
+			if(!StringUtils.isEmpty(pageurl)){
 			
 				String server_name = "Syntrack";
-				if(vo.getTableauUrl().contains(".com/")) {
+				if(pageurl.contains(".com/")) {
 					server_name = "Syntrack";
 				}else {
 					server_name = "MRVC";
@@ -91,19 +85,16 @@ public class OverviewDashboardController {
 				CommonConstants cObj = new CommonConstants();
 				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				String[] url = {};
-				if(vo.getTableauUrl().contains(".com/")) {
-					url = vo.getTableauUrl().split(".com/");
+				if(pageurl.contains(".com/")) {
+					url = pageurl.split(".com/");
 					baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				}else {
-					url = vo.getTableauUrl().split(":8000/");
+					url = pageurl.split(":8000/");
 					baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 				}
 				
 				tableauUrlView = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-				vo.setTableauUrl(tableauUrlView);
-				vo.setTableauTrustedToken(trustedTokenId);
 			}
-			view.addObject("url", vo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("tableauView() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());

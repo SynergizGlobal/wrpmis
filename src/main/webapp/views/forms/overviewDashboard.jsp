@@ -320,8 +320,6 @@
                    dataType: 'json',
                    success: function (data) 
                    {
-                	   alert("Hi");
-                	   alert(data.tableauUrl);
                 	   $("#dashboardOpen").attr("src",data.tableauUrl);
                    },error: function(xhr){
                        alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);

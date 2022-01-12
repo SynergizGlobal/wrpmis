@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.sql.DataSource;
 
@@ -21,25 +20,16 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Idao.NewActivitiesUpdateDao;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
+import com.synergizglobal.pmis.Idao.NewActivitiesUpdateDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.model.Activity;
-import com.synergizglobal.pmis.model.Contract;
-import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
-import com.synergizglobal.pmis.model.User;
 @Repository
 public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	
@@ -424,7 +414,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "from activities scv "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "where activity_id = ? and structure_type_fk!='FOB' ";
+					+ "where activity_id = ? and structure_type_fk <> 'FOB' ";
 			
 			sObj =  (StripChart) jdbcTemplate.queryForObject( qry, new Object[] {obj.getActivity_id()}, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
@@ -1651,6 +1641,28 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public StripChart getNewAcivitiesUpdateData(StripChart obj) throws Exception {
+		StripChart sObj = null;
+		try {
+			String qry = "select a.activity_id,a.contract_id_fk AS contract_id,a.structure AS strip_chart_structure_id,a.component_id AS strip_chart_component_id,"
+					+ "a.component AS strip_chart_component,a.activity_id AS strip_chart_activity_id,a.activity_name AS strip_chart_activity_name,"
+					+ "a.line AS strip_chart_line,a.structure_type_fk AS structure_type,a.section AS strip_chart_section_id,"
+					+ "c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
+					+ "from activities a "
+					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "where activity_id = ? ";
+
+			sObj = (StripChart) jdbcTemplate.queryForObject(qry, new Object[] { obj.getActivity_id() },
+					new BeanPropertyRowMapper<StripChart>(StripChart.class));
+
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return sObj;
 	}
 
 }

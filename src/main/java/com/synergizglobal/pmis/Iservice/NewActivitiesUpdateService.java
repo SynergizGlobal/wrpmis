@@ -36,4 +36,6 @@ public interface NewActivitiesUpdateService {
 	public boolean updateNewAcivitiesBulk(StripChart obj) throws Exception;
 	
 	public boolean insertFOBDailyUpdate(StripChart obj) throws Exception;
+
+	public StripChart getNewAcivitiesUpdateData(StripChart obj) throws Exception;
 }

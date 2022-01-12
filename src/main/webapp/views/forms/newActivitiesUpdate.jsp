@@ -358,7 +358,7 @@
                                                 onchange="addInQueProject(this.value);getNewActivitiesUpdateWorksList(this.value);onLoadMethod();">
                                                <option value="" ></option> 
                                                 <c:forEach var="obj" items="${projectsList }">
-                                                    <option value="${obj.project_id }"><%-- ${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
+                                                    <option value="${obj.project_id }" <c:if test="${obj.project_id eq activitiesData.project_id }">selected</c:if>>${obj.project_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
@@ -369,7 +369,7 @@
                                                 onchange="addInQueWork(this.value);getNewActivitiesUpdateContractsList(this.value);onLoadMethod();">
                                                  <option value=""></option> 
                                                 <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }"><%-- ${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> --%> ${obj.work_short_name }</option>
+                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq activitiesData.work_id }">selected</c:if>>${obj.work_short_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="work_id_fkError" class="error-msg" ></span>
@@ -380,7 +380,7 @@
                                                 onchange="addInQueContract(this.value);getStructureTypesListFilter(this.value);resetWorksAndProjectsDropdowns(null);onLoadMethod();getNewActivitiesUpdateLines(); getNewActivitiesUpdateSections();">
                                                  <option value=""></option> 
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" ><%-- ${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if >--%>${obj.contract_short_name}</option>
+                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -831,6 +831,12 @@
         $(document).ready(function () {
             $('.searchable').select2();
             
+            var project_id = "${activitiesData.project_id}";
+            if ($.trim(project_id) != '') {
+            	$("#project_id").val(project_id);
+            	$("#project_id").select2();
+            	getNewActivitiesUpdateWorksList(project_id);
+            }
            
     		/*if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
     		{
@@ -844,11 +850,9 @@
     			}  */         
             
             var filters = window.localStorage.getItem("BulkFilters");
-            
-            if($.trim(filters) != '' && $.trim(filters) != null){
-          	  var temp = filters.split('^'); 
-          	  for(var i=0;i< temp.length;i++)
-          	  {
+            if($.trim(filters) != '' && $.trim(filters) != null && $.trim(project_id) == ''){
+          	   var temp = filters.split('^'); 
+          	   for(var i=0;i< temp.length;i++){
     	        	  if($.trim(temp[i]) != '' ){
     	        		  var temp2 = temp[i].split('=');
     		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
@@ -857,15 +861,13 @@
     		        		  getNewActivitiesUpdateContractsList(temp2[1]);
     		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
     		        		  resetWorksAndProjectsDropdowns(temp2[1]);
-    		        	  }
-      	        		  else if($.trim(temp2[0]) == 'structure_type_fk'){
-        		        		getStructureTypesListFilter(temp2[1]);
-        		        	  }      		        	  
-    		        	  else if($.trim(temp2[0]) == 'strip_chart_structure_id_fk'){
+    		        	  }else if($.trim(temp2[0]) == 'structure_type_fk'){
+        		        	  getStructureTypesListFilter(temp2[1]);
+        		        	  structureVal = temp2[1];
+        		          }else if($.trim(temp2[0]) == 'strip_chart_structure_id_fk'){
     		        		  getNewActivitiesUpdateStructures(temp2[1]);
-    		        		  structureVal = temp2[1];
-    		        	  }
-    		        	  else if($.trim(temp2[0]) == 'strip_chart_component'){
+    		        		  //structureVal = temp2[1];
+    		        	  }else if($.trim(temp2[0]) == 'strip_chart_component'){
     		        		  //getComponentsList(temp2[1]);
     		        		  glb=temp2[1];
     		        	  }  
@@ -874,8 +876,8 @@
     		        		  glbID=temp2[1];
     		        	  }      		        	  
     	        	  }
-    	          }
-              }
+    	        }
+             }
             
            // $('#progress_date').datepicker();
            /*  $('#progress_date').datepicker({
@@ -976,52 +978,10 @@
         	window.localStorage.setItem("BulkFilters",'');
         }
         
-        function ClearComponents()
-        {
+        function ClearComponents(){
         	glb="";
         	glbID="";
         }
-        
-    	
-
-        
-        function getStructureTypesListFilter(fob) {
-        	$("#structure_type_fk option:not(:first)").remove();
-        	
-       		var work_id_fk = $("#work_id_fk").val();
-           	var contract_id_fk = $("#contract_id_fk").val();
-           	var structure_type_fk = $("#structure_type_fk").val();
-           	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk} ;
-      	       
-         	$(".page-loader").show();
-
-            if ($.trim(structure_type_fk) == "") {
-                $("#structure_type_fk option:not(:first)").remove();
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStructureTypesInActivitiesUpdate",
-                    data: myParams, cache: false,async: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                           		if(val.structure_type!='FOB')
-                           		{
-	                            	var selectedFlag = (fob == val.structure_type)?'selected':'';
-	                            	$("#structure_type_fk").append('<option value="' + val.structure_type + '"'+selectedFlag+'>' + $.trim(val.structure_type) +'</option>');
-                           		}
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }          
-
 	
 	function getNewActivitiesUpdateWorksList(projectId) { 
 		$(".page-loader-1").show();
@@ -1043,7 +1003,7 @@
 	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
-	                var id2 = "";
+                    var id2 = "${activitiesData.work_id}";
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var workName = '';
@@ -1087,7 +1047,7 @@
 	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
-	            	var id2 = "";                        
+                	var id2 = "${activitiesData.contract_id}";                         
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var contract_name = '';
@@ -1104,7 +1064,7 @@
 	                $(".page-loader").hide();
 	                
 	                if ($.trim(id1) != '' && $.trim(id2) != '') {
-	                	getNewActivitiesUpdateStructures(id2);
+	                	getStructureTypesListFilter(id2);
 	                }
 	            }
 	        });
@@ -1142,29 +1102,30 @@
 			
 			if ($.trim(projectId) != "") {
 				$("#work_id_fk option:not(:first)").remove();
-	        var myParams = { project_id_fk: projectId };
-	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateWorksList",
-	            data: myParams, cache: false,async: false,
-	            success: function (data) {
-	                if (data.length > 0) {
-	                    $.each(data, function (i, val) {
-	                        var workName = '';
-	                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
-	                        if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
-	                            getNewActivitiesUpdateStructures(structureVal);
-	                        } else {
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
-	                        }
-	                    });
-	                }
-	                $('.searchable').select2();
-	                $(".page-loader-1").hide();
-	            }
-	        });
-	        $('.searchable').select2();
-	    }
+		        var myParams = { project_id_fk: projectId };
+		        $.ajax({
+		            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateWorksList",
+		            data: myParams, cache: false,async: false,
+		            success: function (data) {
+		                if (data.length > 0) {
+		                    $.each(data, function (i, val) {
+		                        var workName = '';
+		                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
+		                        if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+		                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
+		                            //getNewActivitiesUpdateStructures(structureVal);
+		                            getStructureTypesListFilter(structureVal);
+		                        } else {
+		                            $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
+		                        }
+		                    });
+		                }
+		                $('.searchable').select2();
+		                $(".page-loader-1").hide();
+		            }
+		        });
+		        $('.searchable').select2();
+		    }
 			
 	}
 	
@@ -1182,6 +1143,54 @@
          $("#legends").hide();  
          $("#table_show").hide(); 
      } 
+    
+     function getStructureTypesListFilter(fob) {
+	    	$("#structure_type_fk option:not(:first)").remove();
+	    	
+	   		var work_id_fk = $("#work_id_fk").val();
+	       	var contract_id_fk = $("#contract_id_fk").val();
+	       	var structure_type_fk = $("#structure_type_fk").val();
+	       	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk} ;
+	  	       
+	     	$(".page-loader").show();
+	        if ($.trim(contract_id_fk) != "") {
+	            $("#structure_type_fk option:not(:first)").remove();
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getStructureTypesInActivitiesUpdate",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                	var id1 = "";
+	                 	var id2 = "${activitiesData.structure_type}";
+	                 	if($.trim(id2) != ''){
+	                 		fob = "${activitiesData.structure_type}";
+	                 	}
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                       		if(val.structure_type != 'FOB'){
+	                            	if(fob == val.structure_type){
+	                            		id1 = val.structure_type;
+	                            		$("#structure_type_fk").append('<option value="' + val.structure_type +'" selected>' + $.trim(val.structure_type) +'</option>');
+	                            	}else{
+	                            		$("#structure_type_fk").append('<option value="' + val.structure_type +'">' + $.trim(val.structure_type) +'</option>');
+	                            	}
+	                       		}
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                    
+	                    if ($.trim(id1) != '' && $.trim(id2) != '') {
+		                	getNewActivitiesUpdateStructures(id2);
+		                }
+	                },error: function (jqXHR, exception) {
+	 	   			  $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	}
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+      }        
 	
 	  function getNewActivitiesUpdateStructures(value) {
       	  $(".page-loader-4").show();
@@ -1193,14 +1202,14 @@
           $("#strip_chart_component option:not(:first)").remove();
           $("#strip_chart_component_id option:not(:first)").remove();
           
-          if ($.trim(contract_id_fk) != "") {
+          if ($.trim(structure_type_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk,structure_type_fk:structure_type_fk };
               $.ajax({
                   url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateStructures",
                   data: myParams, cache: false,async: false,
                   success: function (data) {
-                  	var id1 = "";
-                  	var id2 = "";
+                	  var id1 = "";
+                  	  var id2 = "${activitiesData.strip_chart_structure_id}";
                       if (data.length > 0) {
                           $.each(data, function (i, val) {
 	                            if ($.trim(id2) != '' && val.strip_chart_structure_id_fk == $.trim(id2)) {
@@ -1218,8 +1227,7 @@
                       $('.searchable').select2();
                       $(".page-loader-4").hide();
                       
-                      if (id2!='') 
-                      {
+                      if ($.trim(id1) != '' && $.trim(id2) != ''){
                     	  getComponentsList(id2);
                       }
                   }
@@ -1267,9 +1275,7 @@
 	                    $.each(data, function (i, val) {
 	                        $("#strip_chart_section_name").append('<option value="' + val.strip_chart_section_name + '">' + $.trim(val.strip_chart_section_name) + '</option>');
 	                    });
-	                }
-	                else
-	                {
+	                }else{
 	                	$("#strip_chart_section_nameDiv").hide();
 	                }
 	                
@@ -1296,25 +1302,24 @@
                  url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateComponentsList",
                  data: myParams, cache: false,
                  success: function (data) {
+                	 var id1 = "";
+                 	 var id2 = "${activitiesData.strip_chart_component}";
+                 	 if($.trim(id2) != ''){
+                 		glb = "${activitiesData.strip_chart_component}";
+                 	 }
                      if (data.length > 0) {
-                         $.each(data, function (i, val) 
-                         {
-                        	 if(val.strip_chart_component==glb)
-                        		 {
-                            			$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '" selected>' + $.trim(val.strip_chart_component) + '</option>');
-                        		 }
-                        	 else
-                        		 {
-                     				$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) + '</option>');
-                      		 
-                        		 }
+                         $.each(data, function (i, val){
+                        	 if(val.strip_chart_component == glb){
+                            	$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '" selected>' + $.trim(val.strip_chart_component) + '</option>');
+                        	 }else{
+                     			$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) + '</option>');
+                      		 }
                          });
                      }
                      $('.searchable').select2();
                      $(".page-loader-5").hide();
                      
-                     if (glb!='') 
-                     {
+                     if ($.trim(glb) != ''){
                     	 getComponentIdsList(glb);
                      }                    
                  }
@@ -1325,18 +1330,11 @@
      }
 
 	 function getComponentIdsList(component) {
-
-     	$(".page-loader-3").show();
-     	
-     	
+     	 $(".page-loader-3").show();
        	 var strip_chart_component = $("#strip_chart_component").val();
-    	 
-    	 if ($.trim(strip_chart_structure_id_fk) != "") 
-    	 {
+    	 if ($.trim(strip_chart_structure_id_fk) != ""){
     		 $('#remarks').prop('disabled',false);
-    	 }
-    	 else
-    	 {
+    	 }else{
     		 $('#remarks').prop('disabled',true); 
          }     	
      	
@@ -1356,10 +1354,13 @@
              $.ajax({
                  url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateComponentIdsList",
                  data: myParams, cache: false,async:false,
-                 success: function (data) {
-                 	var id1 = "";
-                 	var id2 = "";
-                     var strip_chart_component = "";
+                 success: function (data) {                     
+                     var id1 = "";
+                 	 var id2 = "${activitiesData.strip_chart_component_id}";
+                     var strip_chart_component = "${activitiesData.strip_chart_component}";
+                     if($.trim(id2) != ''){
+                    	 glbID = "${activitiesData.strip_chart_component_id}";
+                  	 }
                      
                      if (data.length > 0) {
                          $.each(data, function (i, val) {
@@ -1405,7 +1406,12 @@
                          });
                          
                          $('.searchable').select2();
-                         getNewActivitiesUpdateActivitiesList('');
+                         //getNewActivitiesUpdateActivitiesList('');
+                         if($.trim(glbID) != ''){
+                        	 getNewActivitiesUpdateActivitiesList(id2);
+                         }else{
+                        	  getNewActivitiesUpdateActivitiesList('');
+                         }
                      }
                      $("#component_circles").html(html);
                      $("#component_circles_row").show();
@@ -1417,9 +1423,9 @@
                      $(".page-loader-3").hide();
                      
                      
-                     if ($.trim(id1) != '' && $.trim(id2) != '') {
+                     /* if ($.trim(id1) != '' && $.trim(id2) != '') {
                      	getNewActivitiesUpdateActivitiesList(id2);
-                     }
+                     } */
                  }
              });
          }else{
@@ -1468,11 +1474,10 @@
  	        $.ajax({
  	            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesfiltersList",
  	            data: myParams, cache: false,
- 	            success: function (data) {
- 	            	
+ 	            success: function (data) { 	            	
  	                if (data.length > 0) {
+ 	                	$("#filerList").html('');
  	                    $.each(data, function (i, val) {
- 	                    	
  	                    	 var num = $('#table tbody tr').length;
  	                    	 html = '<tr id="row'+num+'">'
  	            	 			/* +'<td>' + $.trim(val.strip_chart_component_id_name) + '<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
@@ -1480,23 +1485,18 @@
  	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>';
  	            	 			
          	 					var disDisabled="";
- 	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
- 	            	 				{
- 	            	 					if($.trim(val.scope)==$.trim(val.completed))
- 	            	 						{
- 	            	 							disDisabled="readonly";
- 	            	 						}
-				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
-				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
-				 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
-		 	            	 						 	            	 			
- 	            	 				}
- 	            	 			else
- 	            	 				{
+ 	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
+ 	            	 					if($.trim(val.scope)==$.trim(val.completed)){
+            	 							disDisabled="readonly";
+            	 						}
+		 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
+		 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
+		 	            	 	}else{
 		 	            	 			html +='<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'
 		 	            	 			+'<td data-head="Planned Finish" class="input-field">' + $.trim(val.planned_finish) + '</td>'
 		 	            	 			//+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>';
- 	            	 			   }
+ 	            	 			}
  	            	 			
  	            	 			html +='<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + Number($.trim(val.scope)) + '" size="6"></span>';
  	            	 			
@@ -1508,8 +1508,7 @@
  	                    		$("#filerList").append(html);	
  	                    		
  	                    		
- 	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
-	            	 				{
+ 	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
 	            	 				
 	 	            	           /*  $('#planned_start'+num).datepicker({
 	 	            	                maxDate: new Date(),
@@ -1625,9 +1624,7 @@
  	                    	 			$('#actualScopesError'+num).html("< or =  '"+actual+"'");
  	                    	 			$('#btn').prop('disabled',true);
  	                    	 			$('#btn1').prop('disabled',true);
- 	                    	 		}
- 	                    	 		
- 	                    	 		else{
+ 	                    	 		}else{
  	                    	 			$('#actualScopesError'+num).html("");
  	                    	 			$('#btn').prop('disabled',false);
  	                    	 			$('#btn1').prop('disabled',false);
@@ -1639,11 +1636,10 @@
                     	 			}
                     	 		})
 							    $("#actualScopes"+num).keyup(function(){
-							    	if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
-							    		{
-									        $('#btn').prop('disabled', this.value == "" ? true : false);  
-									        $('#btn1').prop('disabled', this.value == "" ? true : false); 
-							    		}
+							    	if("${sessionScope.USER_ROLE_NAME}"!='IT Admin'){
+								        $('#btn').prop('disabled', this.value == "" ? true : false);  
+								        $('#btn1').prop('disabled', this.value == "" ? true : false); 
+							    	}
 							    })
  	                     });
  	                }
@@ -1673,24 +1669,19 @@
                      $('#actualScopes'+no).val(remaining);
                     
                  }
-                 
              }
          })           
      }
   
      
      //update button functionality
-     function updateProgress()
-     {
-
+     function updateProgress(){
 			var checkValidate=0;
-     		if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
-    		{
+     		if("${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
 	    		 var num = document.getElementById("table").rows.length;
 	    		 var tbleLen=num-1;
 	    		 
-	    		 for (var i = 0; i < tbleLen; i++) 
-	    		 {
+	    		 for (var i = 0; i < tbleLen; i++){
 	    			 var s1=parseFloat(document.getElementById("scope"+i).value);
 	    			 var s2=parseFloat(document.getElementById("completedScopes"+i).value);
 	    			 
@@ -1698,47 +1689,38 @@
 	    			 var s4=document.getElementById("planned_finish"+i).value;
 	    			 var s5=document.getElementById("actualScopes"+i).value;
 	    			 
-	    			        	if(parseFloat(s1)<parseFloat(s2))
-	    			        	{
-			     		    	 	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
-			    		    	 	return false;
-	    			        	}
-	    			        	if(parseFloat(s1)<parseFloat(s2)+parseFloat(s5))
-	    			        		{
-			     		    	 	alert("Scope Should be greater than or equal to Completed + actual in row "+(i+1));
-			    		    	 	return false;	    			        		
-	    			        		}
-	    		    			 if (process(s4) < process(s3)) 
-					        	{
-			     		    	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));
-			    		    	 	return false;
-					        	} 
-	    		    			if($("#actualScopes"+i).val()!="" && $("#actualScopes"+i).val()!=0)
-    		    				{
-	    		    				checkValidate=1;
-    		    				}	    		    			 
-		    			        
+	 			     if(parseFloat(s1)<parseFloat(s2)){
+	    		    	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
+	   		    	 	return false;
+		        	 }
+		        	 if(parseFloat(s1)<parseFloat(s2)+parseFloat(s5)){
+  		    	 	 	alert("Scope Should be greater than or equal to Completed + actual in row "+(i+1));
+	   		    	 	return false;	    			        		
+		        	 }
+		        	 if (process(s4) < process(s3)){
+  		    	 	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));
+	   		    	 	return false;
+		        	 } 
+	    			 if($("#actualScopes"+i).val()!="" && $("#actualScopes"+i).val()!=0){
+	    				checkValidate=1;
+    				 }	        
 	    		 }
     		}
-    		 if(checkValidate==0 && "${sessionScope.USER_ROLE_NAME}"=='IT Admin')
-    		 {
+    		if(checkValidate==0 && "${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
     			 var y = document.getElementById("progress_date");
     			 y.type= "hidden";    			
-    		 }
-        	 if(validator.form())
-        	 { 
-		        $(".page-loader").show();	   
-		        
+    		}
+        	if(validator.form()){ 
+		        $(".page-loader").show();
 		   		document.getElementById("ActivitiesBulkUpdateForm").submit();
-        	 }
-  			 
+        	}
      }
   
      function process(date){
     	   var parts = date.split("-");
     	   var date = new Date(parts[1] + "-" + parts[0] + "-" + parts[2]);
     	   return date.getTime();
-    	}
+     }
      var validator = $('#ActivitiesBulkUpdateForm').validate({
     	 ignore: ":hidden:not(.validate-dropdown)",
     	 rules: {

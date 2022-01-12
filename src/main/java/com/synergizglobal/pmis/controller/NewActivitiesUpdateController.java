@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,9 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.NewActivitiesUpdateService;
-import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.User;
 
@@ -42,15 +42,17 @@ public class NewActivitiesUpdateController {
 
 
 	@RequestMapping(value="/new-activities-update",method=RequestMethod.GET)
-	public ModelAndView NewAcivitiesUpdate(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
+	public ModelAndView newAcivitiesUpdate(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.newActivitiesUpdate);
 		try {
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setUser_type_fk(uObj.getUser_type_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
-			obj.setUser_id(uObj.getUser_id());
-			obj.setDepartment_fk(uObj.getDepartment_fk());
+			if(!StringUtils.isEmpty(uObj)) {
+				obj.setUser_type_fk(uObj.getUser_type_fk());
+				obj.setUser_role_code(uObj.getUser_role_code());
+				obj.setUser_id(uObj.getUser_id());
+				obj.setDepartment_fk(uObj.getDepartment_fk());
+			}
 			
 			List<StripChart> projectsList = newActivitiesUpdateService.getNewActivitiesUpdateProjectsList(obj);
 			model.addObject("projectsList", projectsList);
@@ -59,6 +61,38 @@ public class NewActivitiesUpdateController {
 			model.addObject("worksList", worksList);
 			List<StripChart> contractsList = newActivitiesUpdateService.getNewActivitiesUpdateContractsList(obj);
 			model.addObject("contractsList", contractsList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("AcivitiesBulkUpload : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/new-activities-update/{activity_id}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView newAcivitiesBulkUpdate(@PathVariable("activity_id")String activity_id,@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.newActivitiesUpdate);
+		try {
+			User uObj = (User) session.getAttribute("user");
+			if(!StringUtils.isEmpty(uObj)) {
+				obj.setUser_type_fk(uObj.getUser_type_fk());
+				obj.setUser_role_code(uObj.getUser_role_code());
+				obj.setUser_id(uObj.getUser_id());
+				obj.setDepartment_fk(uObj.getDepartment_fk());
+			}
+			
+			List<StripChart> projectsList = newActivitiesUpdateService.getNewActivitiesUpdateProjectsList(obj);
+			model.addObject("projectsList", projectsList);
+			
+			/*List<StripChart> worksList = newActivitiesUpdateService.getNewActivitiesUpdateWorksList(obj);
+			model.addObject("worksList", worksList);
+			
+			List<StripChart> contractsList = newActivitiesUpdateService.getNewActivitiesUpdateContractsList(obj);
+			model.addObject("contractsList", contractsList);*/
+			
+			obj.setActivity_id(activity_id);
+			StripChart activitiesData = newActivitiesUpdateService.getNewAcivitiesUpdateData(obj);
+			model.addObject("activitiesData", activitiesData);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("AcivitiesBulkUpload : " + e.getMessage());

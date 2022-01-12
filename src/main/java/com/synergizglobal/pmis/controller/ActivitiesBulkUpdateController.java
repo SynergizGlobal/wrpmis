@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ActivitiesBulkUpdateService;
-import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.User;
@@ -346,11 +346,12 @@ public class ActivitiesBulkUpdateController {
 		try {
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setUser_type_fk(uObj.getUser_type_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
-			obj.setUser_id(uObj.getUser_id());
-			obj.setDepartment_fk(uObj.getDepartment_fk());
-			
+			if(!StringUtils.isEmpty(uObj)) {
+				obj.setUser_type_fk(uObj.getUser_type_fk());
+				obj.setUser_role_code(uObj.getUser_role_code());
+				obj.setUser_id(uObj.getUser_id());
+				obj.setDepartment_fk(uObj.getDepartment_fk());
+			}
 			List<StripChart> projectsList = activitiesBulkUpdateService.getAcivitiesBulkUpdateProjectsList(obj);
 			model.addObject("projectsList", projectsList);
 			

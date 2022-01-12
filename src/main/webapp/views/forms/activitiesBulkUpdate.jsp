@@ -864,7 +864,7 @@
             
             var filters = window.localStorage.getItem("BulkFilters");
             
-            if($.trim(filters) != '' && $.trim(filters) != null){
+            if($.trim(filters) != '' && $.trim(filters) != null && $.trim(project_id) == ''){
           	  var temp = filters.split('^'); 
           	  for(var i=0;i< temp.length;i++)
           	  {
@@ -982,8 +982,7 @@
         	window.localStorage.setItem("BulkFilters",'');
         }
         
-        function clearComponents()
-        {
+        function clearComponents(){
         	glb="";
         	glbID="";
         }
@@ -1428,11 +1427,10 @@
  	        $.ajax({
  	            url: "<%=request.getContextPath()%>/ajax/getActivitiesfiltersList",
  	            data: myParams, cache: false,
- 	            success: function (data) {
- 	            	
+ 	            success: function (data) { 	            	
  	                if (data.length > 0) {
+ 	                	$("#filerList").html('');
  	                    $.each(data, function (i, val) {
- 	                    	
  	                    	 var num = $('#table tbody tr').length;
  	                    	 html = '<tr id="row'+num+'">'
  	            	 			/* +'<td>' + $.trim(val.strip_chart_component_id_name) + '<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
@@ -1640,17 +1638,15 @@
   
      
      //update button functionality
-     function updateProgress()
-     {
+     function updateProgress(){
 
 			var checkValidate=0;
-     		if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
-    		{
+     		if("${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
 	    		 var num = document.getElementById("table").rows.length;
 	    		 var tbleLen=num-1;
 	    		 
-	    		 for (var i = 0; i < tbleLen; i++) 
-	    		 {
+	    		 for (var i = 0; i < tbleLen; i++) {
+	    			 
 	    			 var s1=parseFloat(document.getElementById("scope"+i).value);
 	    			 var s2=parseFloat(document.getElementById("completedScopes"+i).value);
 	    			 
@@ -1658,47 +1654,39 @@
 	    			 var s4=document.getElementById("planned_finish"+i).value;
 	    			 var s5=document.getElementById("actualScopes"+i).value;
 	    			 
-	    			        	if(parseFloat(s1)<parseFloat(s2))
-	    			        	{
-			     		    	 	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
-			    		    	 	return false;
-	    			        	}
-	    			        	if(parseFloat(s1)<parseFloat(s2)+parseFloat(s5))
-	    			        		{
-			     		    	 	alert("Scope Should be greater than or equal to Completed + actual in row "+(i+1));
-			    		    	 	return false;	    			        		
-	    			        		}
-	    		    			 if (process(s4) < process(s3)) 
-					        	{
-			     		    	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));
-			    		    	 	return false;
-					        	} 
-	    		    			if($("#actualScopes"+i).val()!="" && $("#actualScopes"+i).val()!=0)
-    		    				{
-	    		    				checkValidate=1;
-    		    				}	    		    			 
+		        	if(parseFloat(s1)<parseFloat(s2)){
+	  		    	 	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
+	 		    	 	return false;
+		        	}
+		        	if(parseFloat(s1)<parseFloat(s2)+parseFloat(s5)){
+	  		    	 	alert("Scope Should be greater than or equal to Completed + actual in row "+(i+1));
+	 		    	 	return false;	    			        		
+		        	}
+	    			if (process(s4) < process(s3)){
+	  		    	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));
+	 		    	 	return false;
+       				} 
+	    			if($("#actualScopes"+i).val()!="" && $("#actualScopes"+i).val()!=0){
+	    				checkValidate=1;
+    				}	    		    			 
 		    			        
 	    		 }
-    		}
-    		 if(checkValidate==0 && "${sessionScope.USER_ROLE_NAME}"=='IT Admin')
-    		 {
+    		 }
+    		 if(checkValidate==0 && "${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
     			 var y = document.getElementById("progress_date");
     			 y.type= "hidden";    			
     		 }
-        	 if(validator.form())
-        	 { 
-		        $(".page-loader").show();	   
-		        
+        	 if(validator.form()){ 
+		        $(".page-loader").show();
 		   		document.getElementById("ActivitiesBulkUpdateForm").submit();
         	 }
-  			 
      }
   
      function process(date){
     	   var parts = date.split("-");
     	   var date = new Date(parts[1] + "-" + parts[0] + "-" + parts[2]);
     	   return date.getTime();
-    	}
+     }
      var validator = $('#ActivitiesBulkUpdateForm').validate({
     	 ignore: ":hidden:not(.validate-dropdown)",
     	 rules: {

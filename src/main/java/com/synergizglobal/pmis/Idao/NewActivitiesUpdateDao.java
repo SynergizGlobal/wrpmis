@@ -36,4 +36,6 @@ public interface NewActivitiesUpdateDao {
 	public List<StripChart> getNewActivitiesUpdateInProgressStructures(StripChart obj) throws Exception;
 
 	public List<StripChart> getStructureTypesInActivitiesUpdate(StripChart obj) throws Exception;
+
+	public StripChart getNewAcivitiesUpdateData(StripChart obj) throws Exception;
 }

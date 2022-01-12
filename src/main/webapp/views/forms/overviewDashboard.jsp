@@ -10,17 +10,19 @@
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/pmis/resources/css/rits.css">	
+	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	
 	<style>
-		.ad-i{
+		/* .ad-i{
 			font-size: 1.1rem !important;
 			margin-left: .3rem;
 		}
 		.ad-i:before{
 			vertical-align: sub;
-		}
+		} */
 		.main-menu-collapse{
 			padding:0;
 		}
@@ -90,33 +92,33 @@
 		
 		
 		
-		.secondModel{
+		/* .secondModel{
 			/* box-shadow :0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2) !important; */
 			justify-content:flex-end;
-		}
+		} */
 		.collapsible-header{
 			text-align:left !important;
 		}
 		.secondModel .fa{
 			margin:0;
 		}
-		.showHide{
+		/* .showHide{
 			display:inline-block;			
-		}
-		.hideText .showHide,
+		} */
+		/* .hideText .showHide,
 		.hideText .over-sub-menu:after{
 			display:none;
 		}
 		.hideText{
 			display:inline-block;
-		}
-		.hideText .material-icons,
+		} */
+		/* .hideText .material-icons,
 		.hideText .fas,
 		.hideText .fa,
 		.hideText .ad-i{
 			margin-right:0;
 			margin-left:0;
-		}
+		} */
 		.timeline_body {
 		    display: block;
 		    margin: 0 auto;
@@ -126,17 +128,74 @@
 		    height:85vh;
 		}
 		@media only screen and (max-width:678px){
-			#secondModel {
+			/* #secondModel {
 				margin-bottom:.5rem;
-			}
+			} */
 			.main-menu li{
 				display:inline-block;
 				margin-inline:auto;
 			}
-			.ad-i:before{
+			/* .ad-i:before{
 				vertical-align: baseline;
-			}
+			} */
 		}
+	</style>
+    <style>
+		 .main-menu li .collapsible-header,
+		 .filterHolder{
+		    border: 3px solid #4498d3dd;
+		    margin-top:2px;
+		 }
+		 .timeline_body{
+		 	border:3px solid #4498d3dd;
+		 	border-radius:14px;
+		 }
+		 .filterHolder{
+		 	max-width:100%;
+		 	border-radius:10px;
+		 	padding: .3rem .6rem;
+		 }
+		 .filterHolder .select2.select2-container{
+		 	max-width:100% !important;
+		 }
+		 .filterHolder label{
+		 	margin-top:-.4rem;
+		 	display:block;
+		 }
+		 .clearHolder{
+		 	padding: .3rem .6rem;
+		 	text-align:center;
+		 	margin-top:.6rem;
+		 }
+		 .clearHolder .btn{
+		 	background-color: #4498d3;
+		    color: #000;
+		    border-radius: 20px;
+		 }
+		 
+		 @media only screen and (max-width:576px){
+		 	.main-menu:not(.hideText) li .collapsible-header{
+		 		padding-right:2rem;
+		 	}
+		 	.over-sub-menu:after{
+		 		right:.5rem;
+		 	}
+		 	.ad-i:before{
+				vertical-align: sub;
+			}
+		 	.collapsible-header i{
+		 		margin-right:.5rem;
+		 		vertical-align: inherit;
+		 		width:1rem;
+		 	}
+		 	/* .hideText .material-icons,
+			.hideText .fas,
+			.hideText .fa,
+			.hideText .ad-i{
+				margin-right:.5rem;
+				margin-left:.3rem;
+			} */
+		 }
 	</style>
 	
 </head>
@@ -146,32 +205,31 @@
 	
 	<!-- model 1 which closes entire navigation -->
 	
-	<div class="" style="margin-top:1rem;">
+	<div class="" style="margin-top:2rem;">
 	    <div class="row">
-	        <div class="col s12 m2 center-align" id="menu-item-holder">
+	        <div class="col s12 m2 " id="menu-item-holder">
 	            <!-- <ul class="collapsible m-0">
 	                <li class="active"> -->
-	                    <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div>
+	                    <!-- <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div> -->
 	                    <div class=" main-menu-collapse">
-	                        <ul class="collapsible main-menu" id="secondModel">
+	                        <ul class="collapsible main-menu"> <!-- id="secondModel"> -->
 							<c:forEach var="form" items="${overviewDashboardForms }" varStatus="index">
 								<c:if test="${not empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
-											<li><div class="collapsible-header over-sub-menu" id="${form.name }">
+											<li><div class="collapsible-header over-sub-menu" >
 											
 												<a href="#">
-														<i class="${form.icon }"></i><span class="showHide">${form.name }</span>
-												</a>	
-											
+														<%-- <i class="${form.icon }"></i> --%><span class="showHide" id="${form.name }">${form.name }</span>
+												</a>												
 
 											</div>
 											 <div class="collapsible-body special-padding">
 			                                    <ul class="collapsible">
 			                                    <c:forEach var="subList" items="${form.formsSubMenu }">
 			                                        <li>
-			                                            <div class="collapsible-header" id="${subList.name }">			                                            
+			                                            <div class="collapsible-header" >			                                            
 															<a href="#">
-																	<i class="${subList.icon }"></i><span class="showHide">${subList.name }</span>
+																	<%-- <i class="${subList.icon }"></i> --%><span class="showHide" id="${subList.name }">${subList.name }</span>
 															</a>			                                           
 			                                            
 			                                            </div>
@@ -184,10 +242,10 @@
 								</c:if>	
 								<c:if test="${empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
-											<li><div class="collapsible-header" id="${form.name }">
+											<li><div class="collapsible-header" >
 											
 												<a href="#">
-													<i class="${form.icon }"></i><span class="showHide">${form.name }</span>
+													<%-- <i class="${form.icon }"></i> --%><span class="showHide" id="${form.name }">${form.name }</span>
 											</a>											
 											
 											</div>
@@ -200,10 +258,53 @@
 	            </ul> -->
 	
 	        </div>
-	    	<div class="col s12 m10" id="tableau-item-holder">
-	    	 	
+	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
 			<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>
+	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
+		    	<div class="filterHolder">
+		    		<label>Work</label>
+		    		<select class="searchable" name="work_id_fk" id="work_id_fk">
+		    			<option>select</option>
+		    			<option>thane diva</option>
+		    			<option>fob</option>
+		    			<option>wr fob</option>
+		    			<option>cr fob</option>
+		    		</select>
+		    	</div>
+		    	<div class="filterHolder">
+		    		<label>Project</label>
+		    		<select class="searchable" name="project_id_fk" id="project_id_fk">
+		    			<option>select</option>
+		    			<option>thane diva</option>
+		    			<option>fob</option>
+		    			<option>wr fob</option>
+		    			<option>cr fob</option>
+		    		</select>
+		    	</div>
+		    	<div class="filterHolder">
+		    		<label>HOD</label>
+		    		<select class="searchable" name="hod_id_fk" id="hod_id_fk">
+		    			<option>select</option>
+		    			<option>thane diva</option>
+		    			<option>fob</option>
+		    			<option>wr fob</option>
+		    			<option>cr fob</option>
+		    		</select>
+		    	</div>
+		    	<div class="filterHolder">
+		    		<label>Dy HOD</label>
+		    		<select class="searchable" name="dyhod_id_fk" id="dyhod_id_fk">
+		    			<option>select</option>
+		    			<option>thane diva</option>
+		    			<option>fob</option>
+		    			<option>wr fob</option>
+		    			<option>cr fob</option>
+		    		</select>
+		    	</div>
+		    	<div class="clearHolder">
+		    		<button class="btn waves-effect waves-light t-c" onclick="clearFilter();">Clear Filters</button>
+		    	</div>
 	    </div>
 	</div>
 
@@ -308,15 +409,15 @@
 	<script>
 		$(document).ready(function(){
 		    $('.collapsible').collapsible();
+		    $('.searchable').select2();
 		    
-		    $(".collapsible-header").on("click", function () {
-                var pagename = $(this).attr("id");
-               
+		    $(".collapsible-header > a > span").on("click", function () {
+                var pagename = $(this).attr("id");               
              	var bool = false;
              	 $.ajax({
              		url: "<%=request.getContextPath()%>/ajax/GetURL?tableauDashboardName="+pagename,
                    type: 'POST',
-                   async: false,
+                   async: true,
                    dataType: 'json',
                    success: function (data) 
                    {
@@ -329,11 +430,26 @@
 		    
 		  });
 		
-		function toggleMenu(){
-			$('#secondModel,.secondModel').toggleClass('hideText');
-			$('#tableau-item-holder').toggleClass('m8 m11');
-			$('#menu-item-holder').toggleClass('m2 m1');
-		}
+		/*  function toggleMenu(){
+				$('#secondModel,.secondModel').toggleClass('hideText');
+				//$('#tableau-item-holder').toggleClass('m8 m11');
+				$('#menu-item-holder').toggleClass('m2 m1');
+				
+				$('#tableau-item-holder').toggleClass('m8 m10');
+				$('#filter-item-holder').toggleClass('m2 m1');
+			} */
+	        function clearFilter(){
+		        	$("#work_id_fk").val("");
+		        	$("#project_id_fk").val("");
+		        	$("#hod_id_fk").val("");
+		        	$("#dyhod_id_fk").val("");
+		        	
+		        	$('#work_id_fk option:eq(0)').prop('selected',true);
+		        	$('#project_id_fk option:eq(0)').prop('selected',true);
+		        	$('#hod_id_fk option:eq(0)').prop('selected',true);
+		        	$('#dyhod_id_fk option:eq(0)').prop('selected',true);
+		        	$(".searchable").select2();
+		        }
 
 	</script>
 	</body>

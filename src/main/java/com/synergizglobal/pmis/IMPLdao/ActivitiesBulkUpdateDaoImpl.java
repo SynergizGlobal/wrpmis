@@ -1056,7 +1056,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				    	String Prdate=null;
 						if(!StringUtils.isEmpty(obj.getProgress_date())) 
 						{	
-					    	Calendar c3 = Calendar.getInstance();
+					    	/*Calendar c3 = Calendar.getInstance();
 					    	String[] SplitWith3=obj.getProgress_date().split("-");
 					    	
 				            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
@@ -1074,8 +1074,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				            c3.set(Calendar.YEAR, Integer.parseInt(gdate3));		            
 				            
 				            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				            */
 				            
-				            Prdate=df.format(c3.getTime());
+							Prdate=obj.getData_date();
 						}
 						
 						if(Str1.compareTo(String.valueOf(Str))!=0)

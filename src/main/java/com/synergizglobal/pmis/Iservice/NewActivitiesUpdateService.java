@@ -38,4 +38,12 @@ public interface NewActivitiesUpdateService {
 	public boolean insertFOBDailyUpdate(StripChart obj) throws Exception;
 
 	public StripChart getNewAcivitiesUpdateData(StripChart obj) throws Exception;
+	
+	public List<StripChart> getDeleteActivitiesfiltersList(StripChart obj) throws Exception;
+
+	public List<StripChart> getProjectsList(StripChart obj) throws Exception;
+
+	public List<StripChart> getWorksList(StripChart obj) throws Exception;
+
+	public List<StripChart> getContractsList(StripChart obj) throws Exception;	
 }

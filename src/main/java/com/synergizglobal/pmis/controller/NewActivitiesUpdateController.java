@@ -329,5 +329,49 @@ public class NewActivitiesUpdateController {
 		return model;
 	}
 	
+	@RequestMapping(value="/delete-activities",method=RequestMethod.GET)
+	public ModelAndView DeleteActivities(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.deleteActivities);
+		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			
+			List<StripChart> projectsList = newActivitiesUpdateService.getProjectsList(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<StripChart> worksList = newActivitiesUpdateService.getWorksList(obj);
+			model.addObject("worksList", worksList);
+			List<StripChart> contractsList = newActivitiesUpdateService.getContractsList(obj);
+			model.addObject("contractsList", contractsList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("DeleteActivities : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
+
+	@RequestMapping(value = "/ajax/getDeleteActivitiesfiltersList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getDeleteActivitiesfiltersList(@ModelAttribute StripChart obj,HttpSession session){
+		List<StripChart> fileterData = null;
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			fileterData = newActivitiesUpdateService.getDeleteActivitiesfiltersList(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getNewActivitiesfiltersList() : "+e.getMessage());
+		}
+		return fileterData;
+	}	
+	
 }
 

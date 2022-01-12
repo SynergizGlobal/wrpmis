@@ -1001,7 +1001,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				    	String Prdate=null;
 						if(!StringUtils.isEmpty(obj.getProgress_date())) 
 						{	
-					    	Calendar c3 = Calendar.getInstance();
+					    	/*Calendar c3 = Calendar.getInstance();
 					    	String[] SplitWith3=obj.getProgress_date().split("-");
 					    	
 				            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
@@ -1018,9 +1018,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				            
 				            c3.set(Calendar.YEAR, Integer.parseInt(gdate3));		            
 				            
-				            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");*/
 				            
-				            Prdate=df.format(c3.getTime());
+							Prdate=obj.getData_date();
 						}
 						
 						if(Str1.compareTo(String.valueOf(Str))!=0)
@@ -1664,6 +1664,255 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		}
 		return sObj;
 	}
+	
+	@Override
+	public List<StripChart> getProjectsList(StripChart obj) throws Exception { 
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select wr.project_id_fk ,p.project_id,p.project_name "
+					+ "from work wr "
+					+ "left outer join project p on wr.project_id_fk = p.project_id "					
+					+ "where wr.project_id_fk is not null "
+					+ "AND wr.work_id IN ("
+					+"select c.work_id_fk "
+					+ "from contract c "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "WHERE c.contract_id IN ("
+					+ "select a.contract_id_fk "
+					+ "FROM activities a "
+					+ "left outer join contract co on a.contract_id_fk = co.contract_id "	
+					+ "WHERE a.contract_id_fk is not null and a.scope <> IFNULL('Completed',0) ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk) "
+						+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
+						+ ")";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}else {
+				qry = qry + ")";
+			}
+			qry = qry + "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk ORDER BY wr.project_id_fk ASC";	
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
+			}
+	
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getWorksList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select c.work_id_fk,w.work_id,w.work_name ,w.work_short_name "
+					+ "from contract c "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "WHERE c.contract_id IN ("
+					+ "select a.contract_id_fk "
+					+ "from activities a "
+					+ "left outer join contract c on a.contract_id_fk = c.contract_id "					
+					+ "where a.contract_id_fk is not null and a.scope <> IFNULL('Completed',0) " ;
+					
+					int arrSize = 0;
+					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+						qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk) "
+								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk) "
+								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk) "
+								+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
+								+ ")";
+						arrSize++;
+						arrSize++;
+						arrSize++;
+						arrSize++;
+						arrSize++;
+						arrSize++;
+					}else {
+						qry = qry + ")";
+					}
+					
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk ASC";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+	
+	
+ 	
+
+	@Override
+	public List<StripChart> getContractsList(StripChart obj) throws Exception {
+		List<StripChart> objsList = new ArrayList<StripChart>();
+		List<StripChart> objsList1 = null;
+		try {
+			/*String qry = "select distinct a.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
+					+ "from activities a "
+					+ "left outer join contract c on a.contract_id_fk = c.contract_id "*/
+			
+			String qry = "select distinct a.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
+					+ "from activities a "
+					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
+					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
+					+ "where a.contract_id_fk is not null and a.scope <> IFNULL('Completed',0) " ;
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and c1.department_id_fk=? and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from structure_contract_responsible_people where structure_id_fk in(select structure_id_fk from pmis.structure_contract_responsible_people where responsible_people_id_fk = ?))) )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+
+			}
+			
+			
+			qry = qry + " group by a.contract_id_fk ORDER BY a.contract_id_fk ASC ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				
+				pValues[i++] = obj.getDepartment_fk();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+
+				//objsList1 = getExecutivesList(obj);	
+			
+			}
+
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+				
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}	
+	
+	
+	
+	@Override
+	public List<StripChart> getDeleteActivitiesfiltersList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,DATE_FORMAT(planned_start,'%d-%b-%y') AS planned_start "  
+					+",DATE_FORMAT(planned_finish,'%d-%b-%y') AS planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from activities  " 
+					+ " where activity_id is not null ";
+			
+		
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
+				qry = qry + "and component = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
+				qry = qry + "and component_id = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
+				qry = qry + "and activity_id = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				qry = qry + "and structure = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
+				qry = qry + "and structure_type_fk = ?";
+				arrSize++;
+			}			
+			qry = qry + " group by activity_id ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
+				pValues[i++] = obj.getStrip_chart_component();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
+				pValues[i++] = obj.getStrip_chart_component_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
+				pValues[i++] = obj.getStrip_chart_activity_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				pValues[i++] = obj.getStrip_chart_structure_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
+				pValues[i++] = obj.getStructure_type_fk();
+			}			
+			
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}	
 
 }
 

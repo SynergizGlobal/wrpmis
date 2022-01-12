@@ -97,6 +97,27 @@ public class NewActivitiesUpdateServiceImpl implements NewActivitiesUpdateServic
 	@Override
 	public StripChart getNewAcivitiesUpdateData(StripChart obj) throws Exception {
 		return dao.getNewAcivitiesUpdateData(obj);
+	}
+	
+	@Override
+	public List<StripChart> getProjectsList(StripChart obj) throws Exception {
+		return dao.getProjectsList(obj);
+	}
+
+	@Override
+	public List<StripChart> getWorksList(StripChart obj) throws Exception {
+		return dao.getWorksList(obj);
+	}
+
+	@Override
+	public List<StripChart> getContractsList(StripChart obj) throws Exception {
+		return dao.getContractsList(obj);
+	}	
+
+
+	@Override
+	public List<StripChart> getDeleteActivitiesfiltersList(StripChart obj) throws Exception {
+		return dao.getDeleteActivitiesfiltersList(obj);
 	}	
 
 }

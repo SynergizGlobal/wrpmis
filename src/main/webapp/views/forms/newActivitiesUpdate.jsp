@@ -537,6 +537,7 @@
 
                                     <div class="row">
                                         <div class="col m4 s6 input-field left-align">
+                                        <input type="hidden" id="data_date" name="data_date">
                                              <input id="progress_date" name="progress_date" type="text" class="validate datepicker-max-today">
                                              <label for="progress_date">Reporting Date <span class="required">*</span></label>
                                              <button type="button" id="progress_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
@@ -1712,6 +1713,9 @@
     		}
         	if(validator.form()){ 
 		        $(".page-loader").show();
+		        var prdate = new Date(document.getElementById("progress_date").value);
+		        var prdateformat = prdate.getFullYear()+'-'+('0' + (prdate.getMonth()+1)).slice(-2)+'-'+('0' + prdate.getDate()).slice(-2);
+		        document.getElementById("data_date").value=prdateformat;		        
 		   		document.getElementById("ActivitiesBulkUpdateForm").submit();
         	}
      }

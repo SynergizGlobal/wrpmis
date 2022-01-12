@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,6 +77,22 @@ public class RandRController {
 			model.addObject("obj", obj);
 		} catch (Exception e) {
 			logger.info("getRandR : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/get-r-and-r/{randRId}",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getRandRWithId(@ModelAttribute RandR rAr,@PathVariable("randRId") String randRId , HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.updateRandR);
+		try {
+			model.addObject("homeHeader", "yes");
+			List<RandR> statusList = service.getRandRSatausList();
+			model.addObject("statusList", statusList);
+			
+			RandR obj = service.getRandR(randRId);
+			model.addObject("obj", obj);
+		} catch (Exception e) {
+			logger.info("getRandRWithId : " + e.getMessage());
 		}
 		return model;
 	}

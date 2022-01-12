@@ -39,6 +39,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -398,6 +399,46 @@ public class TrainingController {
 		}
 		return model;
 	 }
+	
+	@RequestMapping(value = "/get-training/{training_id}", method = {RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView getTraining(@ModelAttribute Training obj ,@PathVariable("training_id") String training_id,HttpSession session,RedirectAttributes attributes ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.createUpdateTrainingForm);
+			model.addObject("action", "edit");
+			
+			List<Training> statusList = trainingService.getStatusList();
+			model.addObject("statusList", statusList);
+			
+			List<Training> categoriesList = trainingService.getCategoriesList();
+			model.addObject("categoriesList", categoriesList);
+			
+			List<Training> trainingTypesList = trainingService.getTrainingTypesList();
+			model.addObject("trainingTypesList", trainingTypesList);
+			
+			List<Training> departmentsList = trainingService.getDepartmentsList();
+			model.addObject("departmentsList", departmentsList);
+			
+			List<Training> issueCatogoriesList = trainingService.getIssueCatogoriesList();
+			model.addObject("issueCatogoriesList", issueCatogoriesList);
+			
+			Training trainingDetails = trainingService.getTraining(obj);
+			model.addObject("trainingDetails", trainingDetails);
+			
+			List<Training> usersList = trainingService.getUsersList(obj);
+			model.addObject("usersList", usersList);
+			
+			List<Training> attendeesList = trainingService.getAttendeesList(obj);
+			model.addObject("attendeesList", attendeesList);
+			
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getTraining : " + e.getMessage());
+		}
+		return model;
+	 }
+	
 	
 	@RequestMapping(value = "/add-training", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody

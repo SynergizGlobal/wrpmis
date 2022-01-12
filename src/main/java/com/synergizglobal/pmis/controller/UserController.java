@@ -40,6 +40,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -369,6 +370,54 @@ public class UserController {
 		return model;
 	}
 	
+	@RequestMapping(value="/get-user/{user_id}", method = {RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView getUser(@ModelAttribute User obj ,@PathVariable("user_id") String user_id,HttpSession session,RedirectAttributes attributes ) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.addEditUser);
+			
+			model.addObject("action", "edit");
+			
+			List<User> roles = userService.getUserRoles();
+			model.addObject("roles", roles);
+			
+			List<User> types = userService.getUserTypes();
+			model.addObject("types", types);
+			
+			List<User> departments = userService.getUserDepartments();
+			model.addObject("departments", departments);
+			
+			List<User> userAccessTypes = userService.getUserAccessTypes(null);
+			model.addObject("userAccessTypes", userAccessTypes);
+			
+			List<User> pmisKeys = userService.getPmisKeys();
+			model.addObject("pmisKeys", pmisKeys);
+			
+			List<User> contractsForAccess = userService.getContractsForUserAccessTypes(obj);
+			model.addObject("contractsForAccess", contractsForAccess);
+			
+			List<User> departmentsForAccess = userService.getDepartmentsForUserAccessTypes(obj);
+			model.addObject("departmentsForAccess", departmentsForAccess);
+			
+			List<User> modulesForAccess = userService.getModulesForUserAccessTypes(obj);
+			model.addObject("modulesForAccess", modulesForAccess);
+			
+			List<User> worksForAccess = userService.getWorksForUserAccessTypes(obj);
+			model.addObject("worksForAccess", worksForAccess);
+			
+			User user = userService.getUser(obj);			
+			model.addObject("usrObj", user);
+			
+			List<User> reportingToList = userService.getUserReportingToList(user);
+			model.addObject("reportingToList", reportingToList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", commonError);
+			logger.error("getUser : " + e.getMessage());
+		}
+		return model;
+	}
 	@RequestMapping(value="/update-user",method=RequestMethod.POST)
 	public ModelAndView updateUser(@ModelAttribute User obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();

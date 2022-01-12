@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -899,6 +900,31 @@ public class RiskController {
 	
 	@RequestMapping(value = "/get-risk-assessment", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getRiskAssessment(@ModelAttribute Risk obj,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.riskATRUpdateForm);
+			
+			/*List<Risk> assessmentDates = riskService.getRiskAssessmentDates(obj);
+			model.addObject("assessmentDates", assessmentDates);*/
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id()); 
+			obj.setUser_designation(uObj.getDesignation());
+			
+			Risk risk = riskService.getRiskAssessment(obj);
+			model.addObject("risk", risk);
+			
+		}catch (Exception e) {
+				logger.error("getRiskAssessment : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/get-risk-assessment/{risk_revision_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getRiskAssessment(@ModelAttribute Risk obj,@PathVariable("risk_revision_id") String risk_revision_id,HttpSession session,RedirectAttributes attributes ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.riskATRUpdateForm);

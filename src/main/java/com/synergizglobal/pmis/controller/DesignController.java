@@ -40,6 +40,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -326,6 +327,76 @@ public class DesignController {
 	
 	@RequestMapping(value = "/get-design", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDesignNew(@ModelAttribute Design obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.newAddEditDesign);
+			model.addObject("action", "edit");
+			
+			List<Design> projectsList = designService.getProjectsListForDesignForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<Contract> departmentList = contractservice.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+			
+			List<Design> contractList = designService.getContractList();
+			model.addObject("contractList", contractList);
+			
+			List<Design> preparedBy = designService.getPreparedByList();
+			model.addObject("preparedBy", preparedBy);
+			
+			List<Design> approvingRailway = designService.getApprovingRailwayList();
+			model.addObject("approvingRailway", approvingRailway);
+			
+			List<Design> structureTypeList = designService.structureList();
+			model.addObject("structureTypeList", structureTypeList);
+			
+			List<Design> drawingTypeList = designService.drawingTypeList();
+			model.addObject("drawingTypeList", drawingTypeList);
+			
+			List<Design> revisionStatuses = designService.getRevisionStatuses();
+			model.addObject("revisionStatuses", revisionStatuses);
+			
+			List<Design> approvalAuthority = designService.getApprovalAuthority();
+			model.addObject("approvalAuthority", approvalAuthority);
+			
+			List<Design> stage = designService.getStage();
+			model.addObject("stage", stage);
+			
+			List<Design> submitted = designService.getSubmitted();
+			model.addObject("submitted", submitted);
+			
+			List<Design> structureId = designService.getStructureId();
+			model.addObject("structureId", structureId);
+			
+			List<Design> submssionpurpose = designService.getSubmssionpurpose();
+			model.addObject("submssionpurpose", submssionpurpose);
+			
+			List<Design> designFileType = designService.getDesignFileType();
+			model.addObject("designFileType", designFileType);
+		
+			List<Design> asBuiltStatuses = designService.getAsBuiltStatuses();
+			model.addObject("asBuiltStatuses", asBuiltStatuses);
+			
+			Issue iObj = new Issue();
+			List<Issue> issueCategoryList = issueService.getIssuesCategoryList(iObj);	
+			model.addObject("issueCategoryList", issueCategoryList);
+			
+			List<Issue> issuePriorityList = issueService.getIssuesPriorityList();
+			model.addObject("issuePriorityList", issuePriorityList);
+
+			Design designDetails = designService.getDesignDetails(obj);
+			model.addObject("designDetails", designDetails);
+			 
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDesignNew : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/get-design/{design_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getDesignNew(@ModelAttribute Design obj,@PathVariable("design_id") String design_id,HttpSession session,RedirectAttributes attributes ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.newAddEditDesign);

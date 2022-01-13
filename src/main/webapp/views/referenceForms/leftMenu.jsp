@@ -813,13 +813,13 @@
     	    }
     	});
         function updateRow(id,name,parent,order,link,status) {
-	    	 if(link = ''){
+	    	 if(link.length == 0 ||link == 'null'){
 	    		 link = "";
 	    	 }
-	    	 if(order = ''){
-	    		 order = "";
+	    	 if(order.length == 0 ||order == 'null'){
+	    		 order = ""; 
 	    	 }
-	    	 
+	    	  
 	    	  $('#id_old').val($.trim(id))
     	      $('#value_old').val($.trim(name))
     	      $('#onlyUpdateModal').modal('open');

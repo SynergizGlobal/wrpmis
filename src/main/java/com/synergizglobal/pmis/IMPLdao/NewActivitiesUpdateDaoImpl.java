@@ -2005,7 +2005,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "FROM activities s "
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
 					+ "WHERE s.structure is not null and s.structure_type_fk = ? AND s.structure <> '' AND s.contract_id_fk = ? "
-					+ "AND (select count(*) from activities WHERE scope <> IFNULL(completed,0) and structure_type_fk!='FOB' and s.structure_type_fk = ? and contract_id_fk = ? AND structure = s.structure ) > 0 ";
+					+ "AND (select count(*) from activities WHERE scope <> IFNULL(completed,0) and s.structure_type_fk = ? and contract_id_fk = ? AND structure = s.structure ) > 0 ";
 			int arrSize = 4;
 			
 		

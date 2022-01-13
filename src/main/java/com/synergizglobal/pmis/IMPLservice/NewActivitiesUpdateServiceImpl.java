@@ -40,6 +40,11 @@ public class NewActivitiesUpdateServiceImpl implements NewActivitiesUpdateServic
 	}
 	
 	@Override
+	public List<StripChart> getDeleteActivitiesStructures(StripChart obj) throws Exception {
+		return dao.getDeleteActivitiesStructures(obj);
+	}	
+	
+	@Override
 	public List<StripChart> getNewActivitiesUpdateInProgressStructures(StripChart obj) throws Exception {
 		return dao.getNewActivitiesUpdateInProgressStructures(obj);
 	}	
@@ -63,6 +68,16 @@ public class NewActivitiesUpdateServiceImpl implements NewActivitiesUpdateServic
 	public List<StripChart> getNewActivitiesUpdateComponentIds(StripChart obj) throws Exception {
 		return dao.getNewActivitiesUpdateComponentIds(obj);
 	}
+	
+	@Override
+	public List<StripChart> getDeleteActivitiesComponentsList(StripChart obj) throws Exception {
+		return dao.getDeleteActivitiesComponentsList(obj);
+	}
+
+	@Override
+	public List<StripChart> getDeleteActivitiesComponentIds(StripChart obj) throws Exception {
+		return dao.getDeleteActivitiesComponentIds(obj);
+	}	
 
 	@Override
 	public List<StripChart> getAcivitiesBulkActivitiesList(StripChart obj) throws Exception {
@@ -85,6 +100,11 @@ public class NewActivitiesUpdateServiceImpl implements NewActivitiesUpdateServic
 	}
 	
 	@Override
+	public boolean deleteAcivitiesBulk(StripChart obj) throws Exception {
+		return dao.deleteAcivitiesBulk(obj);
+	}	
+	
+	@Override
 	public boolean insertFOBDailyUpdate(StripChart obj) throws Exception {
 		return dao.insertFOBDailyUpdate(obj);
 	}
@@ -93,6 +113,11 @@ public class NewActivitiesUpdateServiceImpl implements NewActivitiesUpdateServic
 	public List<StripChart> getStructureTypesInActivitiesUpdate(StripChart obj) throws Exception {
 		return dao.getStructureTypesInActivitiesUpdate(obj);
 	}
+	
+	@Override
+	public List<StripChart> getStructureTypesInDeleteActivities(StripChart obj) throws Exception {
+		return dao.getStructureTypesInDeleteActivities(obj);
+	}	
 
 	@Override
 	public StripChart getNewAcivitiesUpdateData(StripChart obj) throws Exception {

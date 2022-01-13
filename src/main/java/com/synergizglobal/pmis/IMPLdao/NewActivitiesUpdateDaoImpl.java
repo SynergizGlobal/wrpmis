@@ -21,6 +21,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.mysql.cj.jdbc.CallableStatement;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.NewActivitiesUpdateDao;
 import com.synergizglobal.pmis.common.CommonMethods;
@@ -1642,6 +1643,31 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		}
 		return objsList;
 	}
+	
+
+	@Override
+	public List<StripChart> getStructureTypesInDeleteActivities(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT distinct structure_type_fk as structure_type "
+					+ "FROM activities s "
+					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
+					+ "WHERE s.structure is not null AND s.structure <> '' AND s.contract_id_fk = ? ";
+			int arrSize = 1;
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = obj.getContract_id_fk();
+		
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+	
 
 	@Override
 	public StripChart getNewAcivitiesUpdateData(StripChart obj) throws Exception {
@@ -1691,6 +1717,20 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk) "
 						+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
 						+ ")";
+				
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk) "
+						+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
+						+ ")";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;				
+				
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1712,6 +1752,13 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
+				
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 			
 			}
 	
@@ -1743,12 +1790,27 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk) "
 								+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
 								+ ")";
+						
+						qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+								+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+								+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+								+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk) "
+								+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
+								+ ")";
 						arrSize++;
 						arrSize++;
 						arrSize++;
 						arrSize++;
 						arrSize++;
+						arrSize++;						
+						
 						arrSize++;
+						arrSize++;
+						arrSize++;
+						arrSize++;
+						arrSize++;
+						arrSize++;						
+						
 					}else {
 						qry = qry + ")";
 					}
@@ -1770,6 +1832,13 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
+				
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 			
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -1808,10 +1877,19 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and c1.department_id_fk=? and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
 						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from structure_contract_responsible_people where structure_id_fk in(select structure_id_fk from pmis.structure_contract_responsible_people where responsible_people_id_fk = ?))) )";
+			
+				qry = qry + " and c1.department_id_fk=? and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from fob_contract_responsible_people where fob_id_fk in(select fob_id_fk from pmis.fob_contract_responsible_people where responsible_people_id_fk = ?))) )";
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;	
+				
 				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;				
+				
 
 			}
 			
@@ -1831,6 +1909,11 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
+				
+				pValues[i++] = obj.getDepartment_fk();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 
 				//objsList1 = getExecutivesList(obj);	
 			
@@ -1912,6 +1995,213 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getDeleteActivitiesStructures(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT s.structure as strip_chart_structure_id_fk "
+					+ "FROM activities s "
+					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
+					+ "WHERE s.structure is not null and s.structure_type_fk = ? AND s.structure <> '' AND s.contract_id_fk = ? "
+					+ "AND (select count(*) from activities WHERE scope <> IFNULL(completed,0) and structure_type_fk!='FOB' and s.structure_type_fk = ? and contract_id_fk = ? AND structure = s.structure ) > 0 ";
+			int arrSize = 4;
+			
+		
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and ( "
+						+ "structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk) "
+						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk)) ";
+
+				qry = qry + " and ( "
+						+ "structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			
+			qry = qry + " group by s.structure ";			
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = obj.getStructure_type_fk();
+			pValues[i++] = obj.getContract_id_fk();
+			pValues[i++] = obj.getStructure_type_fk();
+			pValues[i++] = obj.getContract_id_fk();
+			
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
+				
+			}	
+		
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getDeleteActivitiesComponentsList(StripChart obj) throws Exception {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<StripChart> objsList = new ArrayList<StripChart>();
+		StripChart sobj = null;
+		try {
+			connection = dataSource.getConnection();
+			
+			String qry = "select component as strip_chart_component "
+					+ "from activities "
+					+ "where component is not null and component <> '' and contract_id_fk = ? and structure = ?";
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				qry = qry + " and line = ?";
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_name())) {
+				qry = qry + " and section = ?";
+			}	
+			
+			qry = qry + " group by component";
+			
+			statement = connection.prepareStatement(qry);
+			int i = 1;
+			statement.setString(i++,obj.getContract_id_fk());
+			statement.setString(i++,obj.getStrip_chart_structure_id_fk());
+						
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				statement.setString(i++,obj.getStrip_chart_line_id_fk());
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_name())) {
+				statement.setString(i++,obj.getStrip_chart_section_name());
+			}		
+			
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				sobj = new StripChart();
+				sobj.setStrip_chart_component(resultSet.getString("strip_chart_component"));
+				
+				obj.setStrip_chart_component_id(sobj.getStrip_chart_component_id());
+				sobj.setComponent_id_color(getComponentIdColor(obj,connection));
+				objsList.add(sobj);
+			}
+						
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getDeleteActivitiesComponentIds(StripChart obj) throws Exception {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<StripChart> objsList = new ArrayList<StripChart>();
+		StripChart sobj = null;
+		try {
+			connection = dataSource.getConnection();
+			/*String qry = "select actual_finish as actual_finish,actual_start as actual_start,planned_start as planned_start,planned_finish as planned_finish,"
+					+ "component_id as strip_chart_component_id,component_id as strip_chart_component_id,"
+					+ "component as strip_chart_component "
+					+ "from activities "
+					+ "where component_id is not null and contract_id_fk = ? and structure_id_fk = ?";*/
+			
+			String qry = "select distinct component_id as strip_chart_component_id_name,"
+					+ "component as strip_chart_component "
+					+ "from activities "
+					+ "where component_id is not null and component_id <> '' and contract_id_fk = ? and structure = ? and component = ?";
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				qry = qry + " and line = ?";
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_name())) {
+				qry = qry + " and section = ?";
+			}	
+			
+			qry = qry + " group by component_id";
+			
+			statement = connection.prepareStatement(qry);
+			int i = 1;
+			statement.setString(i++,obj.getContract_id_fk());
+			statement.setString(i++,obj.getStrip_chart_structure_id_fk());
+			statement.setString(i++,obj.getStrip_chart_component());
+						
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				statement.setString(i++,obj.getStrip_chart_line_id_fk());
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_name())) {
+				statement.setString(i++,obj.getStrip_chart_section_name());
+			}		
+			
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				sobj = new StripChart();
+				sobj.setStrip_chart_component_id(resultSet.getString("strip_chart_component_id_name"));
+				sobj.setStrip_chart_component(resultSet.getString("strip_chart_component"));
+				
+				obj.setStrip_chart_component_id(sobj.getStrip_chart_component_id());
+				sobj.setComponent_id_color(getComponentIdColor(obj,connection));
+				objsList.add(sobj);
+			}
+						
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return objsList;
+	}
+
+	@Override
+	public boolean deleteAcivitiesBulk(StripChart obj) throws Exception {
+		Connection connection = null;
+		java.sql.CallableStatement statement = null;
+		ResultSet resultSet = null;
+		try{
+				String concat="[";
+				for (int i = 0; i < obj.getActivity_ids().length; i++){				
+					concat=concat+obj.getActivity_ids()[i]+",";
+				}
+				concat=concat.substring(0, concat.length() - 1);  
+				concat=concat+"]";
+				connection = dataSource.getConnection();		
+				statement = connection.prepareCall("{call deleteActivities(?)}");
+				statement.setString(1, concat);
+
+				boolean hadResults = statement.execute();
+				if(hadResults)
+				{
+					return true;
+				}
+		}catch(Exception e){ 
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return false;				
 	}	
 
 }

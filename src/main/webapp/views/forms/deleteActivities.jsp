@@ -245,6 +245,16 @@
 		 .datepicker-max-today~button{
 		    bottom: 1.5rem;
 		} 
+        thead th input[type="checkbox"]+span:not(.lever):before {
+            border: 2px solid #fff;
+        }
+		.dataTables_filter label {
+		    color: transparent;
+		}
+        thead th input[type="checkbox"]:checked+span:not(.lever):before {
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+        }	
 		
 .datepicker-max~button {
     position: absolute;
@@ -438,13 +448,27 @@
 									<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
 									<!-- <span id="actualScopesError" class="error-msg" style="text-align:center"></span> -->
 								</div>
-							
+                                    <div class="row">
+                                        <div class="col s12 m12 right-align">
+                                            <div class=" m-1">
+                                                <button type="button" onclick="deleteActivities();" id="updatebtn" class="btn waves-effect waves-light bg-m" >Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>							
                                 <div class="row fixed-width " id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
                                         <div class="table-inside">
                                             <table class="mdl-data-table mobile_responsible_table" id="table">
                                                 <thead>
                                                     <tr>
-                                                    	<th></th>
+		                                                <th class="no-sort" style=" text-align: left; vertical-align: bottom;">
+		                                                    <p>
+		                                                        <label>
+		                                                            <input type="checkbox" name="pending_select-all"
+		                                                                id="pending_select-all" />
+		                                                            <span></span>
+		                                                        </label>
+		                                                    </p>
+		                                                </th>                                                    	
                                                         <th style="width: 350px">Activity</th>
                                                         <th >&nbsp;Planned Start</th>
                                                         <th>&nbsp;Planned Finish</th>
@@ -579,6 +603,10 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+    
+    $('#btn').addClass('disabled');
+    $('#updatebtn').addClass('disabled');
+    
     	var monthShortCode=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 	    var datePickerSelectAddClass = function () {
 	        var self = this;
@@ -631,7 +659,33 @@
 		         event.stopPropagation();
 		         $('#'+id).focus().click();
 		     });
-		 }); 	    
+		 }); 
+		 
+		 
+         $('#pending_select-all').change(function () {
+             var _this = this;
+             $('input[name="pending_activity_check"]').each(function () {
+                 if ($(_this).is(':checked')) 
+                 {
+                 	$("input:checkbox").each(function () {
+                 		var id=$(this).attr("id");
+                 		var isDisabled =$('#'+id).is(':disabled');
+                 		if(isDisabled == false)
+                 		{
+                     		$(this).prop('checked', true);
+                 		}
+
+                 	});
+                     $('#btn').removeClass('disabled');
+                     $('#updatebtn').removeClass('disabled');
+                 } else 
+                 {
+                     $(this).prop('checked', false);
+                     $('#btn').addClass('disabled');
+                     $('#updatebtn').addClass('disabled');
+                 }
+             });
+         });		 
 	    
 	    
 	    $(document).on('focus', '.datepicker-max-today', function () {        	 
@@ -814,16 +868,13 @@
             if ($.trim(structure_type_fk) == "") {
                 $("#structure_type_fk option:not(:first)").remove();
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStructureTypesInActivitiesUpdate",
+                    url: "<%=request.getContextPath()%>/ajax/getStructureTypesInDeleteActivities",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                           		if(val.structure_type!='FOB')
-                           		{
 	                            	var selectedFlag = (fob == val.structure_type)?'selected':'';
 	                            	$("#structure_type_fk").append('<option value="' + val.structure_type + '"'+selectedFlag+'>' + $.trim(val.structure_type) +'</option>');
-                           		}
                             });
                         }
                         $('.searchable').select2();
@@ -855,7 +906,7 @@
 	    if ($.trim(projectId) != "") {
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateWorksList",
+	            url: "<%=request.getContextPath()%>/ajax/getDeleteActivitiesWorksList",
 	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
@@ -899,7 +950,7 @@
 	    if ($.trim(work_id_fk) != "") {
 	        var myParams = { work_id_fk: work_id_fk };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateContractsList",
+	            url: "<%=request.getContextPath()%>/ajax/getDeleteActivitiesContractsList",
 	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
@@ -960,7 +1011,7 @@
 				$("#work_id_fk option:not(:first)").remove();
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateWorksList",
+	            url: "<%=request.getContextPath()%>/ajax/getDeleteActivitiesWorksList",
 	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	                if (data.length > 0) {
@@ -1007,7 +1058,7 @@
           if ($.trim(contract_id_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk,structure_type_fk:structure_type_fk };
               $.ajax({
-                  url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateStructures",
+                  url: "<%=request.getContextPath()%>/ajax/getDeleteActivitiesStructures",
                   data: myParams, cache: false,async: false,
                   success: function (data) {
                   	var id1 = "";
@@ -1055,7 +1106,7 @@
          
          if ($.trim(structure_id) != "") {
              $.ajax({
-                 url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateComponentsList",
+                 url: "<%=request.getContextPath()%>/ajax/getDeleteActivitiesComponentsList",
                  data: myParams, cache: false,
                  success: function (data) {
                      if (data.length > 0) {
@@ -1107,7 +1158,7 @@
 
          if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" && $.trim(component) ) {                
              $.ajax({
-                 url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateComponentIdsList",
+                 url: "<%=request.getContextPath()%>/ajax/getDeleteActivitiesComponentIdsList",
                  data: myParams, cache: false,async:false,
                  success: function (data) {
                  	var id1 = "";
@@ -1213,7 +1264,7 @@
  	                    $.each(data, function (i, val) {
  	                    	
  	                    	 var num = $('#table tbody tr').length;
- 	                    	 html = '<tr id="row'+num+'"><td><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+num+'" /></td>'
+ 	                    	 html = '<tr id="row'+num+'"><td><p><label><input type="checkbox" class="filled-in"  name="pending_activity_check" class="check" id="pending_activity_check_'+num+'" /><span></span></label></p></td>'
  	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>';
 
 		 	            	 			html +='<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'
@@ -1246,6 +1297,40 @@
 	                    	 			$('#actualScopesError'+num).html("");
                     	 			}
                     	 		})
+        	                    $('#pending_activity_check_'+num).change(function () {
+        	                        var _this = this;
+        	                            if ($('#pending_activity_check_'+num).is(':checked')) 
+        	                            {
+        	                            	$('#pending_activity_check_'+num).prop('checked', true);
+        	                                $('#btn').removeClass('disabled');
+        	                                $('#updatebtn').removeClass('disabled');
+        	                            } 
+        	                            else 
+        	                            {
+
+        	                            	var t=0;
+        	                            	
+        	                            	$('input[name="pending_activity_check"]').each(function () {
+        	                            		if ($(this).is(':checked')) 
+        	                                    {
+            	                                    t++;
+        	                                    } 
+        	                                }); 
+        	                            	
+												if(t>=1)
+												{
+	            	                            	$('#pending_activity_check_'+num).prop('checked', false);
+	            	                                $('#btn').removeClass('disabled');
+	            	                                $('#updatebtn').removeClass('disabled');
+												}
+												else
+												{
+	            	                                $('#btn').addClass('disabled');
+	            	                                $('#updatebtn').addClass('disabled');												
+												}
+        	                            }
+        	                    });                      	 		
+                    	 		
  	                     });
  	                }
  	                $(".page-loader").hide();
@@ -1260,8 +1345,11 @@
      
      function deleteActivities()
      {
+    	 if (confirm("Are you sure you want to delete activities")) 
+    	 {  
     	 	$(".page-loader").show();
 	   		document.getElementById("DeleteActivitiesForm").submit();
+    	 }
  			 
      }
 

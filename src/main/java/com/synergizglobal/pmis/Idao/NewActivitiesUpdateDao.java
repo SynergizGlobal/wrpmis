@@ -46,5 +46,15 @@ public interface NewActivitiesUpdateDao {
 	public List<StripChart> getContractsList(StripChart obj) throws Exception;	
 
 
-	public List<StripChart> getDeleteActivitiesfiltersList(StripChart obj) throws Exception;	
+	public List<StripChart> getDeleteActivitiesfiltersList(StripChart obj) throws Exception;
+
+	public List<StripChart> getStructureTypesInDeleteActivities(StripChart obj) throws Exception;
+
+	public List<StripChart> getDeleteActivitiesStructures(StripChart obj) throws Exception;
+
+	public List<StripChart> getDeleteActivitiesComponentsList(StripChart obj) throws Exception;
+
+	public List<StripChart> getDeleteActivitiesComponentIds(StripChart obj) throws Exception;
+
+	public boolean deleteAcivitiesBulk(StripChart obj) throws Exception;
 }

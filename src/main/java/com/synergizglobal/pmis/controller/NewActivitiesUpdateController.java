@@ -133,6 +133,38 @@ public class NewActivitiesUpdateController {
 		return works;
 	}
 	
+	@RequestMapping(value = "/ajax/getDeleteActivitiesWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getDeleteActivitiesUpdateWorksList(@ModelAttribute StripChart obj,HttpSession session){
+		List<StripChart> works = null;
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			works = newActivitiesUpdateService.getWorksList(obj);			
+		}catch(Exception e){
+			logger.error("getDeleteActivitiesUpdateWorksList() : "+e.getMessage());
+		}
+		return works;
+	}
+	
+	@RequestMapping(value = "/ajax/getDeleteActivitiesContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getDeleteActivitiesUpdateContractsList(@ModelAttribute StripChart obj,HttpSession session){
+		List<StripChart> works = null;
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			works = newActivitiesUpdateService.getContractsList(obj);			
+		}catch(Exception e){
+			logger.error("getDeleteActivitiesUpdateContractsList() : "+e.getMessage());
+		}
+		return works;
+	}
+	
 	@RequestMapping(value = "/ajax/getNewActivitiesUpdateContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getNewActivitiesUpdateContractsList(@ModelAttribute StripChart obj,HttpSession session){
@@ -167,6 +199,22 @@ public class NewActivitiesUpdateController {
 		}
 		return structures;
 	}
+	
+	@RequestMapping(value = "/ajax/getDeleteActivitiesStructures", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getDeleteActivitiesStructures(@ModelAttribute StripChart obj,HttpSession session){
+		List<StripChart> structures = null;
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());				
+			structures = newActivitiesUpdateService.getDeleteActivitiesStructures(obj);			
+		}catch(Exception e){
+			logger.error("getNewActivitiesUpdateStructures() : "+e.getMessage());
+		}
+		return structures;
+	}	
 	
 	
 	@RequestMapping(value = "/ajax/getNewActivitiesUpdateInProgressStructures", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
@@ -235,6 +283,33 @@ public class NewActivitiesUpdateController {
 		return componentIds;
 	}
 	
+	@RequestMapping(value = "/ajax/getDeleteActivitiesComponentsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getDeleteActivitiesComponentsList(@ModelAttribute StripChart obj){
+		List<StripChart> components = null;
+		try{
+			components = newActivitiesUpdateService.getDeleteActivitiesComponentsList(obj);			
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getNewActivitiesUpdateComponentsList() : "+e.getMessage());
+		}
+		return components;
+	}
+	
+	@RequestMapping(value = "/ajax/getDeleteActivitiesComponentIdsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getDeleteActivitiesComponentIdsList(@ModelAttribute StripChart obj){
+		List<StripChart> componentIds = null;
+		try{
+			componentIds = newActivitiesUpdateService.getDeleteActivitiesComponentIds(obj);			
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getNewActivitiesUpdateComponentIds() : "+e.getMessage());
+		}
+		return componentIds;
+	}	
+	
+	
 	@RequestMapping(value = "/ajax/getNewActivitiesUpdateActivitiesList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getAcivitiesBulkActivitiesList(@ModelAttribute StripChart obj){
@@ -293,6 +368,20 @@ public class NewActivitiesUpdateController {
 		return objList;
 	}	
 	
+	@RequestMapping(value = "/ajax/getStructureTypesInDeleteActivities", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStructureTypesInDeleteActivities(@ModelAttribute StripChart obj) {
+		List<StripChart> objList = null;
+		try {
+			objList = newActivitiesUpdateService.getStructureTypesInDeleteActivities(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureTypesInActivitiesUpload : " + e.getMessage());
+		}
+		return objList;
+	}		
+	
 
 	@RequestMapping(value = "/update-new-activities-bulk", method = {RequestMethod.POST})
 	public ModelAndView updateNewAcivitiesBulk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
@@ -328,6 +417,42 @@ public class NewActivitiesUpdateController {
 		}
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/delete-activities-bulk", method = {RequestMethod.POST})
+	public ModelAndView deleteActivitiesBulk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/delete-activities");
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+
+			obj.setCreated_by_user_id_fk(user_Id);
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			//obj.setProgress_date(DateParser.parse(obj.getProgress_date()));
+			boolean flag =  newActivitiesUpdateService.deleteAcivitiesBulk(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Acivities Deleted Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Delete Acivities are failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Delete Acivities are failed. Try again.");
+			logger.error("deleteActivitiesBulk : " + e.getMessage());
+		}
+		return model;
+	}	
 	
 	@RequestMapping(value="/delete-activities",method=RequestMethod.GET)
 	public ModelAndView DeleteActivities(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {

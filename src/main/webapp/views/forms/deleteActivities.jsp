@@ -1275,7 +1275,7 @@
  	            	 			
  	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td data-head="Completed" class="input-field"><span>' + Number($.trim(val.completed)) + '</span>'
- 	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
+ 	            	 			+'<input type="hidden" name="ids"  id="ids'+num+'"  value="" /></td>'
  	            	 			+' <td data-head="Actual" class="input-field">'+$.trim(val.unit_fk)+'</td></tr>';
  	                    		$("#filerList").append(html);	
  	                    		
@@ -1304,6 +1304,7 @@
         	                            	$('#pending_activity_check_'+num).prop('checked', true);
         	                                $('#btn').removeClass('disabled');
         	                                $('#updatebtn').removeClass('disabled');
+        	                                $('#ids'+num).val(1);
         	                            } 
         	                            else 
         	                            {
@@ -1322,11 +1323,13 @@
 	            	                            	$('#pending_activity_check_'+num).prop('checked', false);
 	            	                                $('#btn').removeClass('disabled');
 	            	                                $('#updatebtn').removeClass('disabled');
+	            	                                $('#ids'+num).val(1);
 												}
 												else
 												{
 	            	                                $('#btn').addClass('disabled');
-	            	                                $('#updatebtn').addClass('disabled');												
+	            	                                $('#updatebtn').addClass('disabled');
+	            	                                $('#ids'+num).val(0);
 												}
         	                            }
         	                    });                      	 		

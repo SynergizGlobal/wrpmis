@@ -2183,8 +2183,12 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		ResultSet resultSet = null;
 		try{
 				String concat="[";
-				for (int i = 0; i < obj.getActivity_ids().length; i++){				
-					concat=concat+obj.getActivity_ids()[i]+",";
+				for (int i = 0; i < obj.getActivity_ids().length; i++)
+				{
+					if(obj.getIds()[i].compareTo("1")==0)
+					{
+						concat=concat+obj.getActivity_ids()[i]+",";
+					}
 				}
 				concat=concat.substring(0, concat.length() - 1);  
 				concat=concat+"]";

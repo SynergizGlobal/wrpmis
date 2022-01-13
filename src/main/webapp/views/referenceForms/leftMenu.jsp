@@ -272,7 +272,7 @@
 	                         </div>
 	                         <div class="input-field col s12 m6">
 	                        		<p class="searchable_label">Parent</p>
-	                                <select id="parent_text_update" name="parent_text" class="searchable validate-dropdown">
+	                                <select id="parent_text_update" name="parent_text" class="searchable validate-dropdown req">
 	                                	<option value="">Select</option>	      
 	                                	 <c:forEach var="obj" items="${parentList }">
 		                                      <option value="${obj.parent_id }">${obj.parent_id }</option>
@@ -296,7 +296,7 @@
 	                        	</div>                     	
 	                          <div class="input-field col s6">
 	                        		<p class="searchable_label">Status<span class="required">*</span></p>
-	                                <select id="soft_delete_status_fk_update" name="status" class="searchable validate-dropdown">
+	                                <select id="soft_delete_status_fk_update" name="status" class="searchable validate-dropdown req">
 	                                <option value="">Select</option>
 	                              <%--     <c:choose>
 								          <c:when test="${not empty statusList && fn:length(statusList) gt 0 }">
@@ -830,7 +830,7 @@
     	      $('#onlyUpdateModal #url_text_update').val(link).focus();
     	      //$('#onlyUpdateModal #soft_delete_status_fk_update').val(soft_delete_status_fk);
     	      $('select[name^="status"] option[value="'+ status +'"]').attr("selected","selected");
-    	    	$('.validate-dropdown').select2();
+    	    	$('.req').select2();
     	  }
     	  
     	  function deleteRow(val){

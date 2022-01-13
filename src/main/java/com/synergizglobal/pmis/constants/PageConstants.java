@@ -185,6 +185,8 @@ public class PageConstants {
 	public static final String manualFolders = "referenceForms/manualFolders";
 	
 	public static final String module = "referenceForms/module";
+
+	public static final String leftMenu = "referenceForms/leftMenu";
 	
 	public static final String unitType = "referenceForms/unitType";
 	

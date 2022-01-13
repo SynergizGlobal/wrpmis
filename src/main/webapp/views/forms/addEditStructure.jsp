@@ -202,9 +202,10 @@
 			left:1rem;
 		    position: absolute;
     		top: 0.5rem;
+    		cursor:pointer;
 		}
 		.w-60p .select2-container.select2-container--default{
-			max-width:400px;
+			max-width:300px;
 		}
 		.collapsible-header-holder a.btn.red{
 			position: absolute;
@@ -293,6 +294,9 @@
 		.internal-table input::placeholder{
 			color:#888;
 		}
+		.mb-2i{
+			margin-bottom:2rem !important;
+		}
     </style>
     
 </head>
@@ -302,7 +306,7 @@
     
     <div class="row">
         <div class="col s12 m12">
-            <div class="card ">
+            <div class="card mb-2i">
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
@@ -1293,7 +1297,7 @@
                                      </c:choose>  --%>
                                 <!--  </div> -->
                             </div>
-                        </div>
+                       <!--  </div> -->
                        <!--  intentionally hidden
                        <div class="plus_btn">
 										<a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addStructureRow()"> <i
@@ -1378,10 +1382,14 @@
 			$('#countNo'+no).attr('count',$('#internalTable'+no+' >tr:not(.mob-add-btn.pos-rel)').length);			
 		 }
 		
-		$(document).on('click','.structre_type_text',function(){
-			var self = this;
+		/* $(document).on('click','.structre_type_text',function(){
+			var self = this; 
 			$("#"+$(self).parent().attr('id')+"+.collapsible-header").click();
-		});
+		}); */
+		$(document).on('click','.w-60p',function(){
+			var self = this; 
+			$("#"+$(self).attr('id')+"+.collapsible-header").click();
+		});  
 		
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();

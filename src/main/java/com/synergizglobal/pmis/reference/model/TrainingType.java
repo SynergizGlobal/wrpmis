@@ -20,7 +20,7 @@ public class TrainingType {
 	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, resource_type_fk_new,classification, minimum, maximum,alert_level,alert_type,as_built_status,user_type,
 	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year,
 	risk_work_hod_id, work_id_fk, hod_user_id_fk,designation,work_short_name,work_id_fk_new,hod_user_id_fk_new,sub_work,sub_work_new,
-	 name, order, icon, parent_id, link_url,order_text_update,parent_text,url_text_update,status_fk,order_text,url_text,name_text,
+	 name, order, icon, parent_id, link_url,order_text_update,parent_text,url_text_update,status_fk,order_text,url_text,name_text,statuss,
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
 	, template_name, attachment,captiliszedTableName, resource_type_fk,submission_purpose,design_status_submit,la_file_type, sub_resource_type, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name,soft_delete_status_fk;
     
@@ -28,6 +28,14 @@ public class TrainingType {
 	List<TrainingType> subResourceDeatails;
 	
 	
+	public String getStatuss() {
+		return statuss;
+	}
+
+	public void setStatuss(String statuss) {
+		this.statuss = statuss;
+	}
+
 	public String getOrder_text_update() {
 		return order_text_update;
 	}

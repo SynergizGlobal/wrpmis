@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/referenceformitem.min.css">
+     <style>
+    	 .required{color:red;}
+     </style>
 </head>
 
 <body>
@@ -180,7 +183,7 @@
 	                    	<div class="row no-mar">
 	                            <div class="input-field col s12 m6">
 	                                <input id="name_text" name="name_text" type="text" class="validate"  onkeyup="doValidate(this.value)">
-	                                <label for="name_text">Name</label>
+	                                <label for="name_text">Name<span class="required">*</span></label>
 	                                <span id="nameError" class="error-msg" ></span>
 	                            </div> 
 	                        	<div class="input-field col s12 m6">
@@ -208,7 +211,7 @@
 	                                <span id="order_textError" class="error-msg" ></span>
 	                        	</div>  
 	                        	<div class="input-field col s12 m6">
-	                        		<p class="searchable_label">Status</p>
+	                        		<p class="searchable_label">Status<span class="required">*</span></p>
 	                                <select id="soft_delete_status_fk" name="status" class="searchable validate-dropdown">
 	                                	<option value="">Select</option>
 	                                <%-- 	 <c:choose>
@@ -229,7 +232,7 @@
 	                        <div class="row">
 	                            <div class="col s12 m6">
 	                                <div class="center-align m-1">
-	                                    <button style="width: 100%;" id="bttn"  onclick="addRiskSubArea()"
+	                                    <button style="width: 100%;" id="bttn"  
 	                                        class="btn waves-effect waves-light bg-m">Add</button>
 	                                </div>
 	                            </div>
@@ -264,7 +267,7 @@
 	                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
 	                                <input id="value_old" type="hidden" name="value_old"  >
 	                                  <input id="id_old" type="hidden" name="id"  >
-	                                <label for="value_new">Name</label>
+	                                <label for="value_new">Name<span class="required">*</span></label>
 	                                <span id="value_newError" class="error-msg" ></span>
 	                         </div>
 	                         <div class="input-field col s12 m6">
@@ -292,7 +295,7 @@
 	                                <span id="order_text_updateError" class="error-msg" ></span>
 	                        	</div>                     	
 	                          <div class="input-field col s6">
-	                        		<p class="searchable_label">Status</p>
+	                        		<p class="searchable_label">Status<span class="required">*</span></p>
 	                                <select id="soft_delete_status_fk_update" name="status" class="searchable validate-dropdown">
 	                                <option value="">Select</option>
 	                              <%--     <c:choose>
@@ -308,7 +311,7 @@
 								      </c:choose> --%>
 	                                	
 	                                </select>
-	                                <span id="soft_delete_status_fkError" class="error-msg" ></span>
+	                                <span id="soft_delete_status_fkUpdateError" class="error-msg" ></span>
 	                        	</div>
 	                        </div>   
 	                        <div class="row">
@@ -750,9 +753,10 @@
    				 }
    	        }
          	
-         });
+         }); 
          
          var validator1 =  $('#updateLeftMenuForm').validate({
+        	 ignore: ":hidden:not(.validate-dropdown)",
           	 rules: {
           		 "value_new": {
     			 		  required: true
@@ -789,13 +793,13 @@
     			 	     error.appendTo('#url_textUpdateError');
     				 }else if(element.attr("id") == "order_text_update" ){
     				     document.getElementById("order_text_updateError").innerHTML="";
-    			 	     error.appendTo('#order_text_updateError');
+    			 	     error.appendTo('#order_text_updateError'); 
     				 }else if(element.attr("id") == "soft_delete_status_fk_update" ){
-    				     document.getElementById("soft_delete_status_fkError").innerHTML="";
-    			 	     error.appendTo('#soft_delete_status_fkError');
+    				     document.getElementById("soft_delete_status_fkUpdateError").innerHTML="";
+    			 	     error.appendTo('#soft_delete_status_fkUpdateError');
     				 }
     	        }
-          	
+          	 
           });
            
         $('input').change(function(){
@@ -803,7 +807,7 @@
   	               $(this).valid();
   	           }
   	     });
-        $('select').change(function(){
+        $('.validate-dropdown').change(function(){
     	    if ($(this).val() != ""){
     	        $(this).valid();
     	    }
@@ -826,7 +830,7 @@
     	      $('#onlyUpdateModal #url_text_update').val(link).focus();
     	      //$('#onlyUpdateModal #soft_delete_status_fk_update').val(soft_delete_status_fk);
     	      $('select[name^="status"] option[value="'+ status +'"]').attr("selected","selected");
-    	    	$('.searchable').select2();
+    	    	$('.validate-dropdown').select2();
     	  }
     	  
     	  function deleteRow(val){

@@ -326,7 +326,7 @@
 	                                  <!--   <button
 	                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
 	                                        style="width:100%">Cancel</button> -->
-	                                        <a href="<%=request.getContextPath()%>/left-menu"
+	                                        <a href="<%=request.getContextPath()%>/left-menu" 
 										     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
 	                                </div>
 	                            </div>
@@ -672,9 +672,12 @@
      		   
      		   count++; 
      	   }
+     	
         }
         
     	function removeErrorMsg(){
+    		  var valueOld = $('#value_old').val();
+    		  arr.push(valueOld);
     		 $('#value_newError').text('');
     		 $('#bttnUpdate').prop('disabled', false);
     		 updateFlag = true;

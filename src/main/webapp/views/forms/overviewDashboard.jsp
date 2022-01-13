@@ -68,6 +68,11 @@
 			/* border:2px solid #177dc5;
 			border-radius:20px; */
 		}
+		
+.collapsible-body {
+    border-bottom: 0px solid #ddd;
+    box-sizing: border-box;
+}		
 		.special-padding .collapsible li:not(.active) .collapsible-header{
 			background-color:transparent;
 		}

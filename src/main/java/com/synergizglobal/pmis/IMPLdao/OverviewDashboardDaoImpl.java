@@ -48,7 +48,7 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		OverviewDashboard obj = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry = "select id,name,icon,link_url,parent_id from leftmenu where status='Active' and parent_id=id";
+			String qry = "select id,name,icon,link_url,parent_id from leftmenu where status='Active' and parent_id=id order by `order`";
 			statement = connection.prepareStatement(qry);
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
@@ -78,7 +78,7 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
 		OverviewDashboard obj = null;
 		try {
-			String qry = "select id,name,icon,link_url from leftmenu where status='Active' and parent_id<>id and parent_id=?";
+			String qry = "select id,name,icon,link_url from leftmenu where status='Active' and parent_id<>id and parent_id=? order by `order`";
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, parentId);
 			resultSet = statement.executeQuery();  

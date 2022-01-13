@@ -38,6 +38,25 @@
 							</div>
 						</c:if>
                     <div class="">
+                    	<div class="row no-mar">
+                     	 	<div class="col s12 m3 offset-m1 input-field">
+                                <p class="searchable_label">Parent</p>
+                                <select id="parent_id_fk" name="parent_id_fk"  class="searchable">
+                                    <option value="">Select</option>	                                    
+                                </select>
+                           	</div>
+                     	 	<div class="col s12 m3 input-field">
+                                <p class="searchable_label">Status</p>
+                                <select id="status_id_fk" name="status_id_fk"  class="searchable">
+                                    <option value="">Select</option>	                                    
+                                </select>
+                           	</div>
+                           	<div class="col s12 m4 center-align">
+                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+                                    style="margin-top: 20px;" onclick="clearFilters()">Clear
+                                    Filters</button>
+                            </div>
+                     	</div>
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">

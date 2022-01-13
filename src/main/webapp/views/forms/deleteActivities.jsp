@@ -423,7 +423,7 @@
                                         <div class="col m3 s6 input-field" >
                                             <p class="searchable_label">Structure <span class="required">*</span></p>
                                            <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" data-placeholder="Select"
-                                                class="searchable validate-dropdown" onchange="addInQueStructure(this.value);ClearComponents();getComponentsList(this.value);onLoadMethod();">
+                                                class="searchable validate-dropdown" onchange="addInQueStructure(this.value);ClearComponents();getComponentsList(this.value);getNewActivitiesUpdateActivitiesList(this.value);onLoadMethod();">
                                                 <option value=""></option>
                                             </select>
                                             <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
@@ -468,10 +468,11 @@
 		                                                            <span></span>
 		                                                        </label>
 		                                                    </p>
-		                                                </th>                                                    	
+		                                                </th>
+		                                                <th>Component</th>                                                    	
                                                         <th style="width: 350px">Activity</th>
-                                                        <th >&nbsp;Planned Start</th>
-                                                        <th>&nbsp;Planned Finish</th>
+                                                        <th>Planned Start</th>
+                                                        <th>Planned Finish</th>
                                                         <th>Scope</th>
                                                         <th>Completed</th>
                                                         <th style="width: 100px">Units</th>
@@ -1264,7 +1265,7 @@
  	                    $.each(data, function (i, val) {
  	                    	
  	                    	 var num = $('#table tbody tr').length;
- 	                    	 html = '<tr id="row'+num+'"><td><p><label><input type="checkbox" class="filled-in"  name="pending_activity_check" class="check" id="pending_activity_check_'+num+'" /><span></span></label></p></td>'
+ 	                    	 html = '<tr id="row'+num+'"><td><p><label><input type="checkbox" class="filled-in"  name="pending_activity_check" class="check" id="pending_activity_check_'+num+'" /><span></span></label></p></td><td>' + $.trim(val.strip_chart_component) + '</td>'
  	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>';
 
 		 	            	 			html +='<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'

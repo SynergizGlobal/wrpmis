@@ -96,7 +96,7 @@ public class HomeDaoImpl implements HomeDao {
 			
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
@@ -163,7 +163,7 @@ public class HomeDaoImpl implements HomeDao {
 				}
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
@@ -209,7 +209,7 @@ public class HomeDaoImpl implements HomeDao {
 				dashboardsList.add(tableauDashboard);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
@@ -290,7 +290,7 @@ public class HomeDaoImpl implements HomeDao {
 				
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
@@ -358,7 +358,7 @@ public class HomeDaoImpl implements HomeDao {
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
@@ -410,7 +410,7 @@ public class HomeDaoImpl implements HomeDao {
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
@@ -463,7 +463,7 @@ public class HomeDaoImpl implements HomeDao {
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
@@ -543,7 +543,7 @@ public class HomeDaoImpl implements HomeDao {
 				}
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
@@ -608,7 +608,7 @@ public class HomeDaoImpl implements HomeDao {
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
@@ -626,7 +626,7 @@ public class HomeDaoImpl implements HomeDao {
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -687,7 +687,7 @@ public class HomeDaoImpl implements HomeDao {
 				objsList.add(resultSet.getString("execution_status").trim());
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
@@ -864,7 +864,7 @@ public class HomeDaoImpl implements HomeDao {
 			pValues[i++] = CommonConstants.ACTIVE;
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Work>(Work.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -880,7 +880,7 @@ public class HomeDaoImpl implements HomeDao {
 			pValues[i++] = work.getWork_id();
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Work>(Work.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -896,7 +896,7 @@ public class HomeDaoImpl implements HomeDao {
 			pValues[i++] = obj.getParent_dashboard_id_sr_fk();
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Work>(Work.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -915,7 +915,7 @@ public class HomeDaoImpl implements HomeDao {
 			pValues[i++] = "Admin";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Admin>(Admin.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -941,7 +941,7 @@ public class HomeDaoImpl implements HomeDao {
 			}
 			
 		}catch(SQLException e){ 
-			throw new SQLException(e.getMessage());
+			throw new SQLException(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
@@ -994,7 +994,7 @@ public class HomeDaoImpl implements HomeDao {
 			con.commit();
 		}catch(SQLException e){ 
 			con.rollback();
-			throw new SQLException(e.getMessage());
+			throw new SQLException(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
@@ -1047,7 +1047,7 @@ public class HomeDaoImpl implements HomeDao {
 				}
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1062,7 +1062,7 @@ public class HomeDaoImpl implements HomeDao {
 					+ "group by message_type order by message_type ASC";
 			objsList = jdbcTemplate.query( qry,new Object[] {mObj.getUser_id_fk()}, new BeanPropertyRowMapper<Messages>(Messages.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1085,7 +1085,7 @@ public class HomeDaoImpl implements HomeDao {
 			}
 				
 		}catch(SQLException e){ 
-			throw new SQLException(e.getMessage());
+			throw new SQLException(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, null, null);

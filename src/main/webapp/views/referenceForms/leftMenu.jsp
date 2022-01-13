@@ -854,7 +854,7 @@
     		            if (isConfirm) {
     		               // swal("Deleted!", "Record has been deleted", "success");
     		                $(".page-loader").show();
-    		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-module');
+    		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-left-menu');
     		    	    	$('#getForm').submit();
     		           }else {
     		                swal("Cancelled", "Record is safe :)", "error");

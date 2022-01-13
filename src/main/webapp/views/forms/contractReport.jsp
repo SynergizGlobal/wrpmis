@@ -185,8 +185,8 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
-    var filtersMap = new Object();
-    var idNo = "";
+	    var filtersMap = new Object();
+	    var idNo = "";
         $(document).ready(function(){
         	$('.searchable').select2();
         	
@@ -203,86 +203,76 @@
   	    	  autoSelect:true
   	        });
             
-   		  	var ReportNo = getUrlVars()["id"];
-            	idNo = ReportNo;
-				if(ReportNo==1)
-				{
-					$("#rptName").html("List of Contracts");
-					$("#nextRow").hide();
-					$("#CSdiv").show();					
-					
-				}
-				else if(ReportNo==2)
-				{
-					$("#rptName").html("Contract Detail Report");
-					$("#nextRow").show();
-					$("#dateDiv").hide();
-					$("#contractDiv").show();
-					$("#CSdiv").hide();
+   		  	//var ReportNo = getUrlVars()["id"];
+   		  	var ReportNo = '${report_no}';
+           	idNo = ReportNo;
+			if(ReportNo==1){
+				$("#rptName").html("List of Contracts");
+				$("#nextRow").hide();
+				$("#CSdiv").show();					
+				
+			}else if(ReportNo==2){
+				$("#rptName").html("Contract Detail Report");
+				$("#nextRow").show();
+				$("#dateDiv").hide();
+				$("#contractDiv").show();
+				$("#CSdiv").hide();
 
-				}
-				else if(ReportNo==3)
-				{
-					$("#rptName").html("DOC Report");
-					$("#nextRow").show();
-					$('#toremove').hide();
-					$("#dateDiv").show();
-					$("#contractDiv").hide();
-					$("#CSdiv").hide();
+			}else if(ReportNo==3){
+				$("#rptName").html("DOC Report");
+				$("#nextRow").show();
+				$('#toremove').hide();
+				$("#dateDiv").show();
+				$("#contractDiv").hide();
+				$("#CSdiv").hide();
 
-				}
-				else if(ReportNo==4)
-				{
-					$("#rptName").html("BG Report");
-					$("#nextRow").show();
-					$("#dateDiv").show();
-					$("#contractDiv").hide();
-					$("#CSdiv").hide();
+			}else if(ReportNo==4){
+				$("#rptName").html("BG Report");
+				$("#nextRow").show();
+				$("#dateDiv").show();
+				$("#contractDiv").hide();
+				$("#CSdiv").hide();
 
-				}
-				else if(ReportNo==5)
-				{
-					$("#rptName").html("Insurance Report");
-					$("#nextRow").show();
-					$("#dateDiv").show();
-					$("#contractDiv").hide();
-					$("#CSdiv").hide();
+			}else if(ReportNo==5){
+				$("#rptName").html("Insurance Report");
+				$("#nextRow").show();
+				$("#dateDiv").show();
+				$("#contractDiv").hide();
+				$("#CSdiv").hide();
 
-				}
-				else if(ReportNo==6)
-				{
-					$("#rptName").html("DOC, BG & Insurance Report");
-					$("#nextRow").show();
-					$("#dateDiv").show();
-					$("#contractDiv").hide();
-					$("#CSdiv").hide();
+			}else if(ReportNo==6){
+				$("#rptName").html("DOC, BG & Insurance Report");
+				$("#nextRow").show();
+				$("#dateDiv").show();
+				$("#contractDiv").hide();
+				$("#CSdiv").hide();
 
-				}
-				 var filters = window.localStorage.getItem("contarctReportFilters"+idNo);
-	             
-	             if($.trim(filters) != '' && $.trim(filters) != null){
-	           	  var temp = filters.split('^'); 
-	           	  for(var i=0;i< temp.length;i++){
-	     	        	  if($.trim(temp[i]) != '' ){
-	     	        		  var temp2 = temp[i].split('=');
-	     		        	   if($.trim(temp2[0]) == 'work_id_fk'){
-	     		        		  getWorkFilterList(temp2[1]);
-	     		        	  }else if($.trim(temp2[0]) == 'contract_id'){
-	     		        		 getContractListFilter(temp2[1]);
-	     		        	  }else if($.trim(temp2[0]) == 'contractor_id_fk'){
-	     		        		 getContractorsFilterList(temp2[1]);
-	     		        	  }else if($.trim(temp2[0]) == 'hod_designation'){
-	     		        		 getDesignationFilterList(temp2[1]);
-	     		        	  }else if($.trim(temp2[0]) == 'status'){
-	     		        		 getStatusFilter(temp2[1]);
-	     		        	  }else if($.trim(temp2[0]) == 'contract_status_fk'){
-	     		        		 //getContractStatusFilterList(temp2[1]);
-	     		        		 getStatusofWorkItems(temp2[1]);
-	     		        	  }
-	     	        	  }
-	     	          }
-	               }
-	        	getResetFiltersList();
+			}
+		    var filters = window.localStorage.getItem("contarctReportFilters"+idNo);
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	   if($.trim(temp2[0]) == 'work_id_fk'){
+    		        		  getWorkFilterList(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'contract_id'){
+    		        		 getContractListFilter(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'contractor_id_fk'){
+    		        		 getContractorsFilterList(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'hod_designation'){
+    		        		 getDesignationFilterList(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'status'){
+    		        		 getStatusFilter(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'contract_status_fk'){
+    		        		 //getContractStatusFilterList(temp2[1]);
+    		        		 getStatusofWorkItems(temp2[1]);
+    		        	  }
+    	        	  }
+    	          }
+             }
+	         getResetFiltersList();
 	        	
         });
         function getUrlVars() {
@@ -338,7 +328,7 @@
         	$("#date").val('');
         	$('.searchable').select2();
         	 window.localStorage.setItem("contarctReportFilters"+idNo,'');
-        	 window.location.href= "<%=request.getContextPath()%>/contract-report?id="+idNo;
+        	 window.location.href= "<%=request.getContextPath()%>/contract-report/"+idNo;
         }
         function addInQueWork(work_id_fk){
           	Object.keys(filtersMap).forEach(function (key) {
@@ -658,45 +648,31 @@
         
         function generateContractReport() {
         	//$(".page-loader").show();
-        	if(getUrlVars()["id"]==1)
-        		{
-        			$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-report/"+getUrlVars()["id"]);
-        		}
-        	    else if(getUrlVars()["id"]==2)
-	    		{
-        	    	var contract_id = $("#contract_id").val();
-                	if($.trim(contract_id) != '')
-                	{
-    	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-detail-report/"+getUrlVars()["id"]);
-                    	$("#contractReportForm").submit();
-                	}
-                	else
-                	{
-                		var errorMessage = "Please select contract";
-                		$("#contract_idError").html(errorMessage);
-                		//swal("Required!", errorMessage, "error");
-                	}       	    	
-	    		}  
-        	    else if(getUrlVars()["id"]==3)
-	    		{
-	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-doc-report/"+getUrlVars()["id"]);
-	    		} 
-        	    else if(getUrlVars()["id"]==4)
-	    		{
-	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-bg-report/"+getUrlVars()["id"]);
-	    		} 
-        	    else if(getUrlVars()["id"]==5)
-	    		{
-	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-insurance-report/"+getUrlVars()["id"]);
-	    		} 
-        	    else if(getUrlVars()["id"]==6)
-	    		{
-	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-doc-bg-insurance-report/"+getUrlVars()["id"]);
-	    		}  
-        	if(getUrlVars()["id"]!=2)
-        		{
-        			$("#contractReportForm").submit();
-        		}
+        	var report_no = '${report_no}';
+        	if(report_no == '1'){
+        			$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-report/"+report_no);
+        	}else if(report_no == '2'){
+       	    	var contract_id = $("#contract_id").val();
+               	if($.trim(contract_id) != ''){
+   	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-detail-report/"+report_no);
+                   	$("#contractReportForm").submit();
+               	}else{
+               		var errorMessage = "Please select contract";
+               		$("#contract_idError").html(errorMessage);
+               		//swal("Required!", errorMessage, "error");
+               	}       	    	
+    		}else if(report_no == '3'){
+	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-doc-report/"+report_no);
+    		}else if(report_no == '4'){
+            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-bg-report/"+report_no);
+    		}else if(report_no == '5'){
+            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-insurance-report/"+report_no);
+    		}else if(report_no == '6'){
+            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-doc-bg-insurance-report/"+report_no);
+    		}  
+        	if(report_no != '2'){
+       			$("#contractReportForm").submit();
+       		}
 		}
         function generateBGReport() {
         	//$(".page-loader").show();

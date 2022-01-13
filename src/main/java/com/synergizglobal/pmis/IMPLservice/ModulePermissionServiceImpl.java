@@ -25,7 +25,28 @@ public class ModulePermissionServiceImpl implements ModulePermissionService{
 	}
 
 	@Override
-	public List<ModulePermission> getModulePermissionList(ModulePermission obj) throws Exception {
-		return dao.getModulePermissionList(obj);
+	public List<ModulePermission> getModulesList(ModulePermission obj) throws Exception {
+		return dao.getModulesList(obj);
 	}
+	
+	@Override
+	public List<ModulePermission> getUserRoles(ModulePermission obj) throws Exception {
+		return dao.getUserRoles(obj);
+	}
+
+	@Override
+	public List<ModulePermission> getUserTypes(ModulePermission obj) throws Exception {
+		return dao.getUserTypes(obj);
+	}
+
+	@Override
+	public List<ModulePermission> getUsers(ModulePermission obj) throws Exception {
+		return dao.getUsers(obj);
+	}
+
+	@Override
+	public boolean updateUrlPermissions(ModulePermission obj) throws Exception {
+		return dao.updateUrlPermissions(obj);
+	}
+	
 }

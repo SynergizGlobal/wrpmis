@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBElement;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.util.IOUtils;
 import org.docx4j.Docx4jProperties;
@@ -87,6 +86,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -139,10 +139,24 @@ public class ContractReportController {
 	public ModelAndView contractReport(@ModelAttribute Contract obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView(PageConstants2.contractReport);
 		try{
-			
+			if(!StringUtils.isEmpty(obj)) {
+				model.addObject("report_no", obj.getId());
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("contractReport : " + e.getMessage());
+		}
+		return model;
+    }
+	
+	@RequestMapping(value = "/contract-report/{report_no}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView contractReports(@PathVariable("report_no")String report_no,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView(PageConstants2.contractReport);
+		try{
+			model.addObject("report_no", report_no);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("contractReports : " + e.getMessage());
 		}
 		return model;
      }
@@ -331,7 +345,7 @@ public class ContractReportController {
 	
 	@RequestMapping(value = "/generate-contract-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
+		ModelAndView model = new ModelAndView("redirect:/contract-report/{id}");
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -438,7 +452,7 @@ public class ContractReportController {
 	
 	@RequestMapping(value = "/generate-contract-doc-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractDocReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
+		ModelAndView model = new ModelAndView("redirect:/contract-report/{id}");
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -457,7 +471,7 @@ public class ContractReportController {
 	
 	@RequestMapping(value = "/generate-contract-doc-bg-insurance-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractDocBgInsuranceReport(@PathVariable("id") String id,@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report?id="+id);
+		ModelAndView model = new ModelAndView("redirect:/contract-report/"+id);
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -476,7 +490,7 @@ public class ContractReportController {
 	
 	@RequestMapping(value = "/generate-contract-bg-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractBankGuaranteeReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
+		ModelAndView model = new ModelAndView("redirect:/contract-report/{id}");
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -495,7 +509,7 @@ public class ContractReportController {
 	
 	@RequestMapping(value = "/generate-contract-insurance-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractInsuranceReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
+		ModelAndView model = new ModelAndView("redirect:/contract-report/{id}");
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -514,7 +528,7 @@ public class ContractReportController {
 	
 	@RequestMapping(value = "/generate-contract-detail-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractDetailReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
+		ModelAndView model = new ModelAndView("redirect:/contract-report/{id}");
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");

@@ -55,30 +55,31 @@ public class HomeDaoImpl implements HomeDao {
 		ResultSet resultSet = null;
 		List<TableauDashboard> dashboardsList = new ArrayList<TableauDashboard>();
 		TableauDashboard tableau = null;
-		List<TableauDashboard> tableauSubList = null;
 		try {
 			connection = dataSource.getConnection();
 			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,dashboard_url,tum.priority,icon_path,mobile_view "
 					+ "FROM dashboard tum "
-					+ "WHERE parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? "
+					+ "left join module m on tum.module_name_fk = m.module_name "
+					+ "WHERE m.soft_delete_status_fk = ? AND parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? "
 					+ " and (select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 "
 					+ "order by priority";
 			
 			statement = connection.prepareStatement(qry);
-			statement.setString(1, CommonConstants.ACTIVE);
-			statement.setString(2, dashboardType);
-			statement.setString(3, uObj.getUser_type_fk());
-			statement.setString(4, uObj.getUser_role_name_fk());
-			statement.setString(5, uObj.getUser_id());
+			int p = 1;
+			statement.setString(p++, CommonConstants.ACTIVE);
+			statement.setString(p++, CommonConstants.ACTIVE);
+			statement.setString(p++, dashboardType);
+			statement.setString(p++, uObj.getUser_type_fk());
+			statement.setString(p++, uObj.getUser_role_name_fk());
+			statement.setString(p++, uObj.getUser_id());
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
-				tableauSubList = null;
 				tableau = new TableauDashboard();
 				tableau.setTableauDashboardId(resultSet.getString("dashboard_id"));
 				tableau.setTableauDashboardName(resultSet.getString("dashboard_name"));
 				tableau.setPriority(resultSet.getString("priority"));
 				tableau.setImagePath(resultSet.getString("icon_path"));
-				tableauSubList = getTableauSubList(tableau.getTableauDashboardId(),base,uObj,connection);
+				List<TableauDashboard> tableauSubList = getTableauSubList(tableau.getTableauDashboardId(),base,uObj,connection);
 				if(!tableauSubList.isEmpty() && tableauSubList.size() > 0){
 					tableau.setTableauSubList(tableauSubList);
 				}
@@ -116,7 +117,64 @@ public class HomeDaoImpl implements HomeDao {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		List<TableauDashboard> dashboardsList = new ArrayList<TableauDashboard>();
-		TableauDashboard tableauDashboard = null;
+		
+		try {
+			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.dashboard_url,tum.priority,icon_path,mobile_view  "
+					+ "FROM dashboard tum "
+					+ "WHERE parent_dashboard_id_sr_fk <> tum.dashboard_id and parent_dashboard_id_sr_fk = ? "
+					+ "and tum.soft_delete_status_fk = ? ";
+					
+			if(base.equals("mobile")) {
+				qry = qry + " and UPPER(mobile_view) = ? ";
+			}
+			qry = qry + "and (select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			qry = qry + " order by priority";
+			statement = connection.prepareStatement(qry);
+			int p = 1;
+			statement.setString(p++, parentId);
+			statement.setString(p++, CommonConstants.ACTIVE);
+			if(base.equals("mobile")) {
+				statement.setString(p++, "YES");
+			}	
+			statement.setString(p++, uObj.getUser_type_fk());
+			statement.setString(p++, uObj.getUser_role_name_fk());
+			statement.setString(p++, uObj.getUser_id());
+			
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				TableauDashboard tableauDashboard = new TableauDashboard();
+				tableauDashboard.setTableauDashboardId(resultSet.getString("dashboard_id"));
+				tableauDashboard.setTableauDashboardName(resultSet.getString("dashboard_name"));
+				tableauDashboard.setImagePath(resultSet.getString("icon_path"));
+				tableauDashboard.setPriority(resultSet.getString("priority"));
+
+				List<TableauDashboard> tableauSubListLevel2 = getTableauSubListLevel2(tableauDashboard.getTableauDashboardId(),base,uObj,connection);
+				if(!tableauSubListLevel2.isEmpty() && tableauSubListLevel2.size() > 0){
+					tableauDashboard.setTableauSubListLevel2(tableauSubListLevel2);
+				}
+				
+				String dashboardUrl = resultSet.getString("dashboard_url");
+				String mobile_view = resultSet.getString("mobile_view");
+				
+				if(base.equals("web") && (!StringUtils.isEmpty(dashboardUrl) || (!StringUtils.isEmpty(tableauSubListLevel2) && tableauSubListLevel2.size() > 0 ))) {
+					dashboardsList.add(tableauDashboard);
+				}else if(base.equals("mobile") && !StringUtils.isEmpty(mobile_view) && mobile_view.toUpperCase().equals("YES") && (!StringUtils.isEmpty(dashboardUrl) || (!StringUtils.isEmpty(tableauSubListLevel2) && tableauSubListLevel2.size() > 0 ))){
+					dashboardsList.add(tableauDashboard);
+				}
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+		}
+		return dashboardsList;
+	}
+	
+	private List<TableauDashboard> getTableauSubListLevel2(String parentId, String base, User uObj, Connection connection) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<TableauDashboard> dashboardsList = new ArrayList<TableauDashboard>();
 		
 		try {
 			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path  "
@@ -142,10 +200,12 @@ public class HomeDaoImpl implements HomeDao {
 			
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
-				tableauDashboard = new TableauDashboard();
+				TableauDashboard tableauDashboard = new TableauDashboard();
 				tableauDashboard.setTableauDashboardId(resultSet.getString("dashboard_id"));
 				tableauDashboard.setTableauDashboardName(resultSet.getString("dashboard_name"));
 				tableauDashboard.setImagePath(resultSet.getString("icon_path"));
+				tableauDashboard.setPriority(resultSet.getString("priority"));
+				
 				dashboardsList.add(tableauDashboard);
 			}
 		}catch(Exception e){ 
@@ -156,6 +216,7 @@ public class HomeDaoImpl implements HomeDao {
 		}
 		return dashboardsList;
 	}
+	
 	
 	/**
 	 * This method get the forms list
@@ -174,9 +235,10 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
 			
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,f.soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
-					+ "WHERE parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
+					+ "left join module m on f.module_name_fk = m.module_name "
+					+ "WHERE m.soft_delete_status_fk = ? AND parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
 			
 			
 			/*if(!StringUtils.isEmpty(base) && base.equals("web")) {
@@ -189,15 +251,16 @@ public class HomeDaoImpl implements HomeDao {
 			if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
 			}
+			qry = qry + " and f.url_type = ?";
 			qry = qry + " ORDER BY priority ASC";
 			statement = connection.prepareStatement(qry);
 			int p = 1;
 			statement.setString(p++, CommonConstants.ACTIVE);
-			
+			statement.setString(p++, CommonConstants.ACTIVE);
 			statement.setString(p++, uObj.getUser_type_fk());
 			statement.setString(p++, uObj.getUser_role_name_fk());
 			statement.setString(p++, uObj.getUser_id());
-			
+			statement.setString(p++, "Update Forms");
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new Forms();
@@ -363,7 +426,7 @@ public class HomeDaoImpl implements HomeDao {
 		Forms obj = null;
 		try {
 			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
-					+ "FROM report_form f "
+					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
 			
@@ -373,7 +436,7 @@ public class HomeDaoImpl implements HomeDao {
 				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
 			}
 			
-			qry = qry + "and (select count(*) from report_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 			
 			qry = qry + " ORDER BY priority ASC";
 			statement = connection.prepareStatement(qry);
@@ -425,9 +488,10 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
 			
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
-					+ "FROM report_form f "
-					+ "WHERE parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,f.soft_delete_status_fk,f.display_in_mobile "
+					+ "FROM form f "
+					+ "left join module m on f.module_name_fk = m.module_name "
+					+ "WHERE m.soft_delete_status_fk = ? AND parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
 			
 			
 			/*if(!StringUtils.isEmpty(base) && base.equals("web")) {
@@ -435,18 +499,21 @@ public class HomeDaoImpl implements HomeDao {
 			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
 			}*/
-			qry = qry + "and (select count(*) from report_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 			if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
 			}
+			qry = qry + " and f.url_type = ?";
 			qry = qry + " ORDER BY priority ASC";
 			statement = connection.prepareStatement(qry);
 			int p = 1;
+			statement.setString(p++, CommonConstants.ACTIVE);
 			statement.setString(p++, CommonConstants.ACTIVE);
 			
 			statement.setString(p++, uObj.getUser_type_fk());
 			statement.setString(p++, uObj.getUser_role_name_fk());
 			statement.setString(p++, uObj.getUser_id());
+			statement.setString(p++, "Reports");
 			
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
@@ -500,7 +567,7 @@ public class HomeDaoImpl implements HomeDao {
 		Forms obj = null;
 		try {
 			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
-					+ "FROM report_form f "
+					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
 			
@@ -510,7 +577,7 @@ public class HomeDaoImpl implements HomeDao {
 				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
 			}
 			
-			qry = qry + "and (select count(*) from report_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 			
 			qry = qry + " ORDER BY priority ASC";
 			statement = connection.prepareStatement(qry);
@@ -838,14 +905,17 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Admin> getAdminList(Admin admin) throws Exception {
 		List<Admin> objsList = null;
 		try {
-			String qry ="select admin_form_id, form_name, url, priority, soft_delete_status_fk from admin_form where soft_delete_status_fk = ? order by priority ASC ";
-			int arrSize = 1;
+			String qry ="select form_id as admin_form_id, form_name, web_form_url as url, priority, soft_delete_status_fk "
+					+ "FROM form "
+					+ "WHERE parent_form_id_sr_fk = form_id and soft_delete_status_fk = ? AND url_type = ? order by priority ASC ";
+			int arrSize = 2;
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.ACTIVE;
+			pValues[i++] = "Admin";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Admin>(Admin.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
@@ -1031,12 +1101,13 @@ public class HomeDaoImpl implements HomeDao {
 		boolean flag = false;
 		try {
 			connection = dataSource.getConnection();
+			
+			requestURI = requestURI.replaceAll("/pmis","");
+			
 			List<String> urls = PermissionURLs.urls;
 			if( urls.contains(requestURI) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				return true;
 			}
-
-			requestURI = requestURI.replaceAll("/pmis","");
 			
 			if (!StringUtils.isEmpty(requestURI) && requestURI.endsWith("/"))
 				requestURI = requestURI.substring(0,requestURI.length()-1);
@@ -1053,13 +1124,16 @@ public class HomeDaoImpl implements HomeDao {
 						dashboardName = dashboardName.replaceAll("-", " ").toLowerCase();
 					}
 					
-					String qry = "select count(*) as count from dashboard_access where dashboard_id_fk = (SELECT dashboard_id FROM dashboard WHERE dashboard_url is not null and dashboard_url <> '' and soft_delete_status_fk = ? and LOWER(dashboard_name) = ?) and (access_value = ? or access_value = ? or access_value = ?)";
+					String qry = "select count(*) as count from dashboard_access where dashboard_id_fk = (SELECT dashboard_id FROM dashboard d left join module m on d.module_name_fk = m.module_name WHERE m.soft_delete_status_fk = ? AND dashboard_url is not null and dashboard_url <> '' and d.soft_delete_status_fk = ? and LOWER(dashboard_name) = ?)"
+							+ " and (access_value = ? or access_value = ? or access_value = ?)";
 					statement = connection.prepareStatement(qry); 
-					statement.setString(1, CommonConstants.ACTIVE);
-					statement.setString(2, dashboardName);
-					statement.setString(3, obj.getUser_type_fk());
-					statement.setString(4, obj.getUser_role_name_fk());
-					statement.setString(5, obj.getUser_id());
+					int p = 1;
+					statement.setString(p++, CommonConstants.ACTIVE);
+					statement.setString(p++, CommonConstants.ACTIVE);
+					statement.setString(p++, dashboardName);
+					statement.setString(p++, obj.getUser_type_fk());
+					statement.setString(p++, obj.getUser_role_name_fk());
+					statement.setString(p++, obj.getUser_id());
 					resultSet = statement.executeQuery();
 					if(resultSet.next()) {
 						if((resultSet.getInt("count") > 0)){
@@ -1068,21 +1142,64 @@ public class HomeDaoImpl implements HomeDao {
 					}
 				}
 			}else{
-				if (!StringUtils.isEmpty(requestURI)) {
+				if(!StringUtils.isEmpty(requestURI)) {
 					String tempURL = null;
 					if (!StringUtils.isEmpty(requestURI) && requestURI.startsWith("/"))
 						tempURL = requestURI.substring(1,requestURI.length());
 					else 
 						tempURL = requestURI;
 					
+					if(!StringUtils.isEmpty(tempURL) && tempURL.contains("/")) {
+						String[] params = tempURL.split("/");
+						if(!StringUtils.isEmpty(params) && params.length > 0){
+							String paramFirst = params[0];
+							String paramLast = params[params.length - 1];
+							
+							tempURL = paramFirst + "/";
+							
+							/*if(!StringUtils.isEmpty(paramLast)) {
+								if("activity-progress".equalsIgnoreCase(paramFirst))
+									tempURL = "activity-progress/{activityId}";
+								else if("get-alerts".equalsIgnoreCase(paramFirst))
+									tempURL = "get-alerts/{alert_id}";
+								else if("get-contract".equalsIgnoreCase(paramFirst))
+									tempURL = "get-contract/{contract_id}";
+								else if("get-issue".equalsIgnoreCase(paramFirst))
+									tempURL = "get-issue/{issue_id}";
+								else if("get-issues-details-report".equalsIgnoreCase(paramFirst))
+									tempURL = "get-issues-details-report/{issue_id}";
+								else if("get-safety".equalsIgnoreCase(paramFirst))
+									tempURL = "get-safety/{safety_id}";
+								else if("get-safety-details-report".equalsIgnoreCase(paramFirst))
+									tempURL = "get-safety-details-report/{safety_id}";
+								else if("activities-bulk-update".equalsIgnoreCase(paramFirst))
+									tempURL = "activities-bulk-update/{activityId}";
+								else if("new-activities-update".equalsIgnoreCase(paramFirst))
+									tempURL = "new-activities-update/{activity_id}";
+								else if("get-fob".equalsIgnoreCase(paramFirst))
+									tempURL = "get-fob/{fob_id}";
+								
+							}*/
+							
+						}
+					}
+					
 					/********************************************************************************/
-					String qry = "select count(*) as count from form_access where form_id_fk = (SELECT form_id FROM form WHERE web_form_url is not null and web_form_url <> '' and soft_delete_status_fk = ? and web_form_url = ?) and (access_value = ? or access_value = ? or access_value = ?)";
+					String qry = "select count(*) as count from form_access "
+							+ "where form_id_fk = (SELECT form_id FROM form f "
+							+ "left join module m on f.module_name_fk = m.module_name "
+							+ "WHERE m.soft_delete_status_fk = ? AND f.web_form_url is not null and f.web_form_url <> '' "
+							+ "and f.soft_delete_status_fk = ? and (f.web_form_url = ? or f.web_form_url like ?))"
+							+ " and (access_value = ? or access_value = ? or access_value = ?)";
 					statement = connection.prepareStatement(qry); 
-					statement.setString(1, CommonConstants.ACTIVE);
-					statement.setString(2, tempURL);
-					statement.setString(3, obj.getUser_type_fk());
-					statement.setString(4, obj.getUser_role_name_fk());
-					statement.setString(5, obj.getUser_id());
+					int p = 1;
+					statement.setString(p++, CommonConstants.ACTIVE);
+					statement.setString(p++, CommonConstants.ACTIVE);
+					statement.setString(p++, tempURL);
+					statement.setString(p++, tempURL+"%");
+					statement.setString(p++, obj.getUser_type_fk());
+					statement.setString(p++, obj.getUser_role_name_fk());
+					statement.setString(p++, obj.getUser_id());
 					resultSet = statement.executeQuery();
 					if(resultSet.next()) {
 						if((resultSet.getInt("count") > 0)){
@@ -1091,21 +1208,6 @@ public class HomeDaoImpl implements HomeDao {
 					}
 					DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
 					
-					/********************************************************************************/
-					qry = "select count(*) as count from report_access where form_id_fk = (SELECT form_id FROM report_form WHERE web_form_url is not null and web_form_url <> '' and soft_delete_status_fk = ? and web_form_url = ?) and (access_value = ? or access_value = ? or access_value = ?)";
-					statement = connection.prepareStatement(qry); 
-					statement.setString(1, CommonConstants.ACTIVE);
-					statement.setString(2, tempURL);
-					statement.setString(3, obj.getUser_type_fk());
-					statement.setString(4, obj.getUser_role_name_fk());
-					statement.setString(5, obj.getUser_id());
-					resultSet = statement.executeQuery();
-					if(resultSet.next()) {
-						if((resultSet.getInt("count") > 0)){
-							return true;
-						}
-					}
-					DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
 					/********************************************************************************/
 					
 				}
@@ -1113,8 +1215,7 @@ public class HomeDaoImpl implements HomeDao {
 			
 		}catch(Exception e){ 
 			throw new Exception(e);
-		}
-		finally {
+		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
 		return flag;

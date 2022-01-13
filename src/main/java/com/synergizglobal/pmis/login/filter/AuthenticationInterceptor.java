@@ -97,7 +97,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				    	}
 						return false;
 					}else {
-						/*boolean flag = service.checkURLAccessPermission(userData,requestURI);
+						boolean flag = service.checkURLAccessPermission(userData,requestURI);
 						if(flag) {
 							return true;
 						}else {
@@ -107,7 +107,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 						   		response.sendRedirect("/access-denied");
 						   	}
 							return false;
-						}*/
+						}
 					}
 					/************************************************************************************************/
 				}

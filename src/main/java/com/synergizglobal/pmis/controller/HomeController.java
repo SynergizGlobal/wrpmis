@@ -160,11 +160,13 @@ public class HomeController {
 		Map<String,List<Alerts>> alerts = null;
 		try {
 			User userDetails = (User)session.getAttribute("user");
-			aObj.setUser_id(userDetails.getUser_id());
-			aObj.setEmail_id(userDetails.getEmail_id());
-			aObj.setUser_role_name(userDetails.getUser_role_name_fk());
-			
-			alerts = alertsService.getAlertsForHeaderNotifications(aObj);
+			if(!StringUtils.isEmpty(userDetails)) {
+				aObj.setUser_id(userDetails.getUser_id());
+				aObj.setEmail_id(userDetails.getEmail_id());
+				aObj.setUser_role_name(userDetails.getUser_role_name_fk());
+				
+				alerts = alertsService.getAlertsForHeaderNotifications(aObj);
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getAlertsForHeaderNotifications : " + e.getMessage());
@@ -178,8 +180,10 @@ public class HomeController {
 		List<Messages> messages = null;
 		try {
 			User userDetails = (User)session.getAttribute("user");
-			obj.setUser_id_fk(userDetails.getUser_id());
-			messages = homeService.getMessages(obj);
+			if(!StringUtils.isEmpty(userDetails)) {
+				obj.setUser_id_fk(userDetails.getUser_id());
+				messages = homeService.getMessages(obj);
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getAlertsForHeaderNotifications : " + e.getMessage());
@@ -193,8 +197,10 @@ public class HomeController {
 		List<Messages> messages = null;
 		try {
 			User userDetails = (User)session.getAttribute("user");
-			obj.setUser_id_fk(userDetails.getUser_id());
-			messages = homeService.changeMessagesReadStatus(obj);
+			if(!StringUtils.isEmpty(userDetails)) {
+				obj.setUser_id_fk(userDetails.getUser_id());
+				messages = homeService.changeMessagesReadStatus(obj);
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getAlertsForHeaderNotifications : " + e.getMessage());

@@ -10,6 +10,14 @@ public interface ModulePermissionService {
 
 	boolean updateModulePermission(ModulePermission obj) throws Exception;
 
-	List<ModulePermission> getModulePermissionList(ModulePermission obj) throws Exception;
+	List<ModulePermission> getModulesList(ModulePermission obj) throws Exception;
+	
+	public List<ModulePermission> getUserRoles(ModulePermission obj) throws Exception;
+
+	public List<ModulePermission> getUserTypes(ModulePermission obj) throws Exception;
+
+	public List<ModulePermission> getUsers(ModulePermission obj) throws Exception;
+
+	boolean updateUrlPermissions(ModulePermission obj) throws Exception;
 
 }

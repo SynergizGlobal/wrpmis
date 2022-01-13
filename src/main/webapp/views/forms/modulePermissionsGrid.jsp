@@ -121,15 +121,15 @@
 										</tr>
 									</thead>
 									<tbody>
-										 <%-- <c:forEach var="obj" items=""> --%>
+										 <c:forEach var="obj" items="${modulesList }">
 											<tr>
-												<td>dummy11</td>
-												<td>dummy12</td>												
-												<td class="last-column"><a href="<%=request.getContextPath() %>/get-module-permission"
+												<td>${obj.module_name}</td>
+												<td>${obj.soft_delete_status_fk}</td>												
+												<td class="last-column"><a href="javascript:getModule('${obj.module_name}');"
 													class="btn waves-effect waves-light bg-m t-c mob-btn"><i
-														class="fa fa-pencil"></i> </a> 
+														class="fa fa-pencil"></i> </a> </td>
 											</tr>
-										<%-- </c:forEach> --%>
+										</c:forEach>
 									</tbody>
 								</table>
 						</div>
@@ -138,9 +138,27 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
 	<!-- footer  -->
- <jsp:include page="../layout/footer.jsp"></jsp:include>
+   <jsp:include page="../layout/footer.jsp"></jsp:include>
+   
+   <form action="<%=request.getContextPath() %>/get-module-permission" id="moduleForm" name="moduleForm" method="post">
+   		<input type="hidden" id="module_name_fk" name="module_name_fk" />
+   </form>
 
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -155,9 +173,16 @@
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     
 
-    <script>
-   	    var pageNo = window.localStorage.getItem("projectPageNo");
-        $(document).ready(function () {
+    <script type="text/javascript">
+    	
+    	function getModule(module_name){
+    		$(".page-loader").show();
+			$("#module_name_fk").val(module_name);
+			$("#moduleForm").submit();
+		}
+    
+   	    $(document).ready(function () {
+   	    	$(".page-loader").hide();
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
            
@@ -168,60 +193,54 @@
     		 
 		    table = $('#module_permission_table').DataTable({
 		    	    
-	        		"bStateSave": true,  
-	        		fixedHeader: true,
-	        		"pageLength":25,
-	            	//Default: Page display length
-					"iData" : {
-						"start" : 52
-					},"iDisplayStart" : 0,
-                 "drawCallback" : function() {
- 					var info = table.page.info();
- 					window.localStorage.setItem("projectPageNo", info.page);
- 				},
-	                columnDefs: [
-	                    {
-	                        targets: [0],
-	                        className: 'mdl-data-table__cell--non-numeric',
-	                        targets: 'nosort', orderable: false,
-	                    },
-	                    { "width": "20px", "targets": [2] }, 
-	                    
-	                ],
-	                "sScrollX": "100%",
-	                "sScrollXInner": "100%",
-	                "bScrollCollapse": true,
-	                "bAutoWidth": true,
-	                "ordering": false, //to stop sorting option                
-	                fixedHeader: true, // to change the language of data table	          
-	                initComplete: function () {
-	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });       
-		                    var input = $('.dataTables_filter input')
-							.unbind()
-							.bind('keyup',function(e){
-							    if (e.which == 13){
-							    	self.search(input.val()).draw();
-							    }
-							}), self = this.api(), $searchButton = $(
-							'<i class="fa fa-search" title="Go">')
-							.click(function() {
-								self.search(input.val()).draw();
-							}), $clearButton = $(
-									'<i class="fa fa-close" title="Reset">')
-							.click(function() {
-								input.val('');
-								$searchButton.click();
-							})
-							$('.dataTables_filter').append(
-									'<div class="right-btns"></div>');
-							$('.dataTables_filter div').append(
-									$searchButton, $clearButton);                    
-	                }
-	            });
-		        if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
-	            table = $('#module_permission_table').DataTable();
-	            table.fnPageChange( pageNo );
-	            table.destroy();
+        		"bStateSave": true,  
+        		fixedHeader: true,
+        		"pageLength":25,
+            	//Default: Page display length
+				"iData" : {
+					"start" : 52
+				},
+				"iDisplayStart" : 0,
+                columnDefs: [
+                    {
+                        targets: [0],
+                        className: 'mdl-data-table__cell--non-numeric',
+                        targets: 'nosort', orderable: false,
+                    },
+                    { "width": "20px", "targets": [2] }, 
+                    
+                ],
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
+                "bAutoWidth": true,
+                "ordering": false, //to stop sorting option                
+                fixedHeader: true, // to change the language of data table	          
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });       
+	                    var input = $('.dataTables_filter input')
+						.unbind()
+						.bind('keyup',function(e){
+						    if (e.which == 13){
+						    	self.search(input.val()).draw();
+						    }
+						}), self = this.api(), $searchButton = $(
+						'<i class="fa fa-search" title="Go">')
+						.click(function() {
+							self.search(input.val()).draw();
+						}), $clearButton = $(
+								'<i class="fa fa-close" title="Reset">')
+						.click(function() {
+							input.val('');
+							$searchButton.click();
+						})
+						$('.dataTables_filter').append(
+								'<div class="right-btns"></div>');
+						$('.dataTables_filter div').append(
+								$searchButton, $clearButton);                    
+                }
+            });
+	        
         });
 			 	        	
     </script>

@@ -21,7 +21,6 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.FormsAccessDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
-import com.synergizglobal.pmis.model.Dashboard;
 import com.synergizglobal.pmis.model.Form;
 
 @Repository
@@ -43,9 +42,9 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
 					+ "FROM form f1 "
 					+ "LEFT OUTER JOIN form f2 on f1.parent_form_id_sr_fk = f2.form_id "
-					+ "where f1.form_id is not null ";
-			
-			int arrSize = 3;
+					+ "where f1.parent_form_id_sr_fk is not null";
+			qry = qry + " and f1.url_type = ?";
+			int arrSize = 4;
 			if("MRVC".equals(obj.getUser_type_access())) {
 				qry = qry + " and f1.web_form_url IS NOT NULL and f1.web_form_url <> '' ";
 			}
@@ -63,12 +62,14 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			pValues[i++] = "user_role";
 			pValues[i++] = "user_type";
 			pValues[i++] = "user";
+			pValues[i++] = "Update Forms";
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				pValues[i++] = obj.getModule_name_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
 				pValues[i++] = obj.getSoft_delete_status_fk();
 			}
+			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Form>(Form.class));
 			
 		}catch (Exception e) {
@@ -84,7 +85,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		try { 
 			String qry = "SELECT module_name_fk from form  " + 
 					"where module_name_fk is not null and module_name_fk <> '' ";
-			int arrSize = 0;
+			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ?";
 				arrSize++;
@@ -93,7 +94,8 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 				qry = qry + " and soft_delete_status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY module_name_fk ORDER BY module_name_fk";
+			qry = qry + " and url_type = ?";
+			qry = qry + " GROUP BY module_name_fk ORDER BY module_name_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
@@ -102,6 +104,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
 				pValues[i++] = obj.getSoft_delete_status_fk();
 			}
+			pValues[i++] = "Update Forms";
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Form>(Form.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -116,7 +119,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		try {
 			String qry = "SELECT soft_delete_status_fk from form  " + 
 					"where soft_delete_status_fk is not null and soft_delete_status_fk <> '' ";
-			int arrSize = 0;
+			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ?";
 				arrSize++;
@@ -125,7 +128,8 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 				qry = qry + " and soft_delete_status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY soft_delete_status_fk ";
+			qry = qry + " and url_type = ?";
+			qry = qry + " GROUP BY soft_delete_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
@@ -134,6 +138,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
 				pValues[i++] = obj.getSoft_delete_status_fk();
 			}
+			pValues[i++] = "Update Forms";
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Form>(Form.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -171,8 +176,8 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 	public List<Form> getFolderssListForFormAccess(Form obj) throws Exception {
 		List<Form> objsList = null;
 		try {
-			String qry = "SELECT form_id,form_name FROM form ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));
+			String qry = "SELECT form_id,form_name FROM form where url_type = ?";
+			objsList = jdbcTemplate.query( qry,new Object[]{"Update Forms"}, new BeanPropertyRowMapper<Form>(Form.class));
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
@@ -198,7 +203,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		Form dObj = null;
 		try {
 			String qry ="SELECT f1.form_id,f1.module_name_fk,f1.form_name,f1.parent_form_id_sr_fk,f1.web_form_url,f1.mobile_form_url,f1.priority,f1.soft_delete_status_fk,"
-					+ "f2.form_name as folder_name,f1.display_in_mobile, "
+					+ "f2.form_name as folder_name,f1.display_in_mobile,f1.url_type, "
 					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
 					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
 					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
@@ -240,12 +245,13 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String form_id = getformId(con);
 			obj.setForm_id(form_id);
+			obj.setUrl_type("Update Forms");
 			String insertQry = "INSERT INTO form"
 					+ "( form_id,form_name, module_name_fk, web_form_url,mobile_form_url, "
-					+ "soft_delete_status_fk,display_in_mobile)"
+					+ "soft_delete_status_fk,display_in_mobile,url_type)"
 					+ "VALUES"
 					+ "(:form_id,:form_name,:module_name_fk,:web_form_url,:mobile_form_url,"
-					+ ":soft_delete_status_fk,:display_in_mobile)";
+					+ ":soft_delete_status_fk,:display_in_mobile,:url_type)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {

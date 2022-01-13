@@ -272,7 +272,7 @@
 	                         </div>
 	                         <div class="input-field col s12 m6">
 	                        		<p class="searchable_label">Parent</p>
-	                                <select id="parent_text_update" name="parent_text" class="searchable validate-dropdown req">
+	                                <select id="parent_text_update" name="parent_texts" class="searchable validate-dropdown req">
 	                                	<option value="">Select</option>	      
 	                                	 <c:forEach var="obj" items="${parentList }">
 		                                      <option value="${obj.parent_id }">${obj.parent_id }</option>
@@ -296,7 +296,7 @@
 	                        	</div>                     	
 	                          <div class="input-field col s6">
 	                        		<p class="searchable_label">Status<span class="required">*</span></p>
-	                                <select id="soft_delete_status_fk_update" name="status" class="searchable validate-dropdown req">
+	                                <select id="soft_delete_status_fk_update" name="statuss" class="searchable validate-dropdown req">
 	                                <option value="">Select</option>
 	                              <%--     <c:choose>
 								          <c:when test="${not empty statusList && fn:length(statusList) gt 0 }">
@@ -825,11 +825,11 @@
     	      $('#onlyUpdateModal').modal('open');
     	      $('#onlyUpdateModal #value_new').val($.trim(name)).focus();
     	     // $('#onlyUpdateModal #parent_text_update').val(parent);
-    	      $('select[name^="parent_text"] option[value="'+ parent +'"]').attr("selected","selected");
+    	      $('select[name^="parent_texts"] option[value="'+ parent +'"]').attr("selected","selected");
     	      $('#onlyUpdateModal #order_text_update').val(order).focus();
     	      $('#onlyUpdateModal #url_text_update').val(link).focus();
     	      //$('#onlyUpdateModal #soft_delete_status_fk_update').val(soft_delete_status_fk);
-    	      $('select[name^="status"] option[value="'+ status +'"]').attr("selected","selected");
+    	      $('select[name^="statuss"] option[value="'+ status +'"]').attr("selected","selected");
     	    	$('.req').select2();
     	  }
     	  

@@ -38,7 +38,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 				qry = qry + " and status = ? ";
 				arrSize++;
 			}
-			qry = qry + "  order by `order` desc";
+			qry = qry + "  order by `order` asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
@@ -147,7 +147,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
 			String  updatereferenceTableQry = "UPDATE leftmenu SET `name`= :value_new,`order`= :order_text_update"
-					+ ", parent_id= :parent_text, link_url= :url_text_update, status= :status WHERE `id`= :id " ;
+					+ ", parent_id= :parent_texts, link_url= :url_text_update, status= :statuss WHERE `id`= :id " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			

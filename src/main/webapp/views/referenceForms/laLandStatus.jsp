@@ -50,7 +50,6 @@
                                     <thead>
                                         <tr>
                                             <th>Land Status</th>
-                                            <th>Land Status of</th>
                                             <c:forEach var="tObj" items="${landAcquisitionStatusDetails.tablesList}" >
                                             	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
@@ -60,11 +59,9 @@
                                     <tbody>
 										<c:forEach var="obj" items="${landAcquisitionStatusDetails.dList1}" varStatus="indexs">
 											<tr><td>
-											<input type="hidden" id="statusId${indexs.count}" value="${obj.status }" class="findLengths" /> 
-											${obj.status }</td>
-											<td>
-											<input type="hidden" id="status_ofId${indexs.count}" value="${obj.status_of }" />
-											${obj.status_of }</td>
+											<input type="hidden" id="statusId${indexs.count}" value="${obj.la_land_status }" class="findLengths" /> 
+											${obj.la_land_status }</td>
+									
 										<c:forEach var="tObj" items="${landAcquisitionStatusDetails.tablesList}" varStatus="index">
 												 
 												<td><c:forEach var="cObj" items="${landAcquisitionStatusDetails.countList}" >
@@ -72,10 +69,10 @@
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.status eq obj.status }"> 
+																    <c:when test="${cObj.la_land_status eq obj.la_land_status }"> 
 																      	  ( ${cObj.count } )  
 																    </c:when>  
-																    <c:otherwise>  
+																    <c:otherwise>
 																    </c:otherwise>   
 															</c:choose>
 														</c:when>
@@ -88,8 +85,8 @@
 										 	<c:forEach var="oSbj"  items="${landAcquisitionStatusDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.status eq obj.status }"> 
-												      	<a onclick="deleteRow('${ oSbj.status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.la_land_status eq obj.la_land_status }"> 
+												      	<a onclick="deleteRow('${ oSbj.la_land_status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -134,16 +131,11 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
-                            <div class="input-field col s12 m6">
-                                <input id="status_text" type="text" name="status" class="validate" onkeyup="doValidate(this.value)">
+                            <div class="input-field col s12 m12">
+                                <input id="status_text" type="text" name="la_land_status" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="status_text">Land Status</label>
                                  <span id="statusError" class="error-msg" ></span>
                                 
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <input id="status_of" type="text" name="status_of" class="validate" >
-                                <label for="status_of">Land Status of</label>
-                                <span id="status_ofError" class="error-msg" ></span>
                             </div>
                              <div  style="text-align:center">
                         		 <span id="DivError" class="error-msg" ></span> 
@@ -182,18 +174,12 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
-                         <div class="input-field col s12 m6">
+                         <div class="input-field col s12 m12">
                                 <input id="status_new" type="text" name="status_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="status_old" type="hidden" name="status_old"  >
                                 <label for="status_new">Land Status</label>
                                 <span id="status_newError" class="error-msg" ></span>
                          </div>
-                         <div class="input-field col s12 m6">
-                                <input id="status_of_new" type="text" name="status_of_new" class="validate" >
-                                <input id="status_of_old" type="hidden" name="status_of_old"  >
-                                <label for="status_of">Land Status of</label>
-                                <span id="status_of_newError" class="error-msg" ></span>
-                            </div>
                             <div  style="text-align:center">
                         		 <span id="DivUpdateError" class="error-msg" ></span> 
                        		</div>
@@ -236,7 +222,7 @@
 <%--     <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
     
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="status" id="status" />
+    	<input type="hidden" name="la_land_status" id="status" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -365,24 +351,17 @@
    })
        var validator = $('#addLandStatusForm').validate({
         	 rules: {
-        		 "status": {
-    			 		  required: true
-        		 },"status_of": {
+        		 "la_land_status": {
     			 		  required: true
         		 }
     			},messages: {
-    		 		   "status": {
-    			 		  required: 'Required'
-    			 	  },"status_of": {
+    		 		   "la_land_status": {
     			 		  required: 'Required'
     			 	  }
     	        },errorPlacement:function(error, element){
     	        	 if(element.attr("id") == "status_text" ){
     				     document.getElementById("statusError").innerHTML="";
     			 	     error.appendTo('#statusError');
-    				 }else  if(element.attr("id") == "status_of" ){
-    				     document.getElementById("status_ofError").innerHTML="";
-    			 	     error.appendTo('#status_ofError');
     				 }
     	        }
         });
@@ -391,23 +370,15 @@
       	 rules: {
       		 	"status_new": {
   			 		  required: true
-      			 },"status_of_new": {
-  			 		  required: true
       			 }
-       
   			},messages: {
   		 		 "status_new": {
-  			 		  required: 'Required'
-  			 	 },"status_of_new": {
   			 		  required: 'Required'
   			 	 }
   	        },errorPlacement:function(error, element){
   	        	 if(element.attr("id") == "status_new" ){
   				     document.getElementById("status_newError").innerHTML="";
   			 	     error.appendTo('#status_newError');
-  			   }else if(element.attr("id") == "status_of_new" ){
-  				     document.getElementById("status_of_newError").innerHTML="";
-  			 	     error.appendTo('#status_of_newError');
   			   }
   	        }
       });
@@ -420,12 +391,9 @@
 
         function updateRow(no) {
             var status = $('#statusId'+no).val();
-            var status_of = $('#status_ofId'+no).val();
             $('#status_old').val($.trim(status))
-            $('#status_of_old').val($.trim(status_of))
             $('#onlyUpdateModal').modal('open');
             $('#onlyUpdateModal #status_new').val($.trim(status)).focus();
-            $('#onlyUpdateModal #status_of_new').val($.trim(status_of)).focus();
         }
         
         function deleteRow(val){

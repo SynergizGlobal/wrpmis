@@ -105,10 +105,12 @@
 														</c:forEach>
 													</td>
 	                                            </c:forEach>
-												<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
+												<td class="last-column ">
+												<c:if test="${obj.module_name ne 'Others' }">
+												<a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 											 	<c:forEach var="oSbj"  items="${moduleDetails.dList}" varStatus="indexx"> 
 													<c:choose>  
-													    <c:when test="${oSbj.module_name eq obj.module_name }"> 
+													    <c:when test="${oSbj.module_name eq obj.module_name}"> 
 													      	<a onclick="deleteRow('${ oSbj.module_name }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 													      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 													      	</a>
@@ -118,6 +120,7 @@
 													</c:choose>  
 													
 	 											 </c:forEach>
+	 											 </c:if>
 	 											</td>
 	 										</tr>													   
  										 </c:forEach>

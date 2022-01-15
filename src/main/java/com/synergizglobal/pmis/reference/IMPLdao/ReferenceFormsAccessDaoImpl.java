@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.reference.Idao.ReferenceFormsAccessDao;
 import com.synergizglobal.pmis.reference.model.ReferenceForms;
 
@@ -26,10 +27,13 @@ public class ReferenceFormsAccessDaoImpl implements ReferenceFormsAccessDao{
 	public List<ReferenceForms> getReferenceForms() throws Exception {
 		List<ReferenceForms> objsList = null;
 		try {
-			String qry ="select reference_forms_id, name, form_url, module_fk from reference_forms Group by module_fk";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
+			String qry ="select reference_forms_id, name, form_url, module_fk "
+					+ "from reference_forms rf "
+					+ "LEFT JOIN module m ON module_fk = module_name "
+					+ "WHERE m.soft_delete_status_fk = ? GROUP BY module_fk ";
+			objsList = jdbcTemplate.query( qry,new Object[]{CommonConstants.ACTIVE}, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
 		}catch(Exception e){ 
-		throw new Exception(e);
+			throw new Exception(e);
 		}
 		return objsList;
 	}

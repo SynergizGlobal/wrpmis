@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/referenceformitem.min.css">
+     <style>
+    	 .required{color:red;}
+     </style>
 </head>
 
 <body>
@@ -41,13 +44,13 @@
                     	<div class="row no-mar">
                      	 	<div class="col s12 m3 offset-m1 input-field">
                                 <p class="searchable_label">Parent</p>
-                                <select id="parent_id_fk" name="parent_id_fk"  class="searchable">
+                                <select id="parent_id_fk" name="parent_id"  class="searchable" onchange="addInQueParent(this.value);leftMenuList();">
                                     <option value="">Select</option>	                                    
                                 </select>
                            	</div>
                      	 	<div class="col s12 m3 input-field">
                                 <p class="searchable_label">Status</p>
-                                <select id="status_id_fk" name="status_id_fk"  class="searchable">
+                                <select id="status_id_fk" name="status"  class="searchable" onchange="addInQueStatus(this.value);leftMenuList();">
                                     <option value="">Select</option>	                                    
                                 </select>
                            	</div>
@@ -180,13 +183,16 @@
 	                    	<div class="row no-mar">
 	                            <div class="input-field col s12 m6">
 	                                <input id="name_text" name="name_text" type="text" class="validate"  onkeyup="doValidate(this.value)">
-	                                <label for="name_text">Name</label>
+	                                <label for="name_text">Name<span class="required">*</span></label>
 	                                <span id="nameError" class="error-msg" ></span>
 	                            </div> 
 	                        	<div class="input-field col s12 m6">
 	                        		<p class="searchable_label">Parent</p>
-	                                <select id="parent_text" name="parent_text" class="searchable">
-	                                	<option value="">Select</option>	                                	
+	                                <select id="parent_text" name="parent_text" class="searchable validate-dropdown">
+	                                	<option value="">Select</option>	
+	                                	 <c:forEach var="obj" items="${parentList }">
+		                                      <option value="${obj.id }">${obj.name }</option>
+		                              </c:forEach>                                	
 	                                </select>
 	                                <span id="parent_textError" class="error-msg" ></span>
 	                        	</div>
@@ -200,14 +206,25 @@
 	                        </div>  
 	                        <div class="row no-mar">
 	                        	<div class="input-field col s12 m6">
-	                        		<input id="order_text" name="order_text" type="text" class="validate" >
+	                        		<input id="order_text" name="order_text" type="number" class="validate" >
 	                                <label for="order_text">Order</label>
 	                                <span id="order_textError" class="error-msg" ></span>
 	                        	</div>  
 	                        	<div class="input-field col s12 m6">
-	                        		<p class="searchable_label">Status</p>
-	                                <select id="soft_delete_status_fk" name="soft_delete_status_fk" class="searchable">
+	                        		<p class="searchable_label">Status<span class="required">*</span></p>
+	                                <select id="soft_delete_status_fk" name="status" class="searchable validate-dropdown">
 	                                	<option value="">Select</option>
+	                                <%-- 	 <c:choose>
+								          <c:when test="${not empty statusList && fn:length(statusList) gt 0 }">
+								            <c:forEach var="obj" items="${statusList }">
+		                                      <option value="${obj.status }" >${obj.status }</option>
+		                              		</c:forEach>
+								         </c:when>
+								         <c:otherwise> --%>
+								           <option value="Active">Active</option>
+								           <option value="Inactive">Inactive</option>
+								       <%--   </c:otherwise>
+								      </c:choose> --%>
 	                                </select>
 	                                <span id="soft_delete_status_fkError" class="error-msg" ></span>
 	                        	</div> 
@@ -215,7 +232,7 @@
 	                        <div class="row">
 	                            <div class="col s12 m6">
 	                                <div class="center-align m-1">
-	                                    <button style="width: 100%;" id="bttn" 
+	                                    <button style="width: 100%;" id="bttn"  
 	                                        class="btn waves-effect waves-light bg-m">Add</button>
 	                                </div>
 	                            </div>
@@ -249,13 +266,17 @@
 	                         <div class="input-field col s6">
 	                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
 	                                <input id="value_old" type="hidden" name="value_old"  >
-	                                <label for="value_new">Name</label>
+	                                  <input id="id_old" type="hidden" name="id"  >
+	                                <label for="value_new">Name<span class="required">*</span></label>
 	                                <span id="value_newError" class="error-msg" ></span>
 	                         </div>
 	                         <div class="input-field col s12 m6">
 	                        		<p class="searchable_label">Parent</p>
-	                                <select id="parent_text_update" name="parent_text" class="searchable">
-	                                	<option value="">Select</option>	                                	
+	                                <select id="parent_text_update" name="parent_texts" class="searchable validate-dropdown req">
+	                                	<option value="">Select</option>	      
+	                                	 <c:forEach var="obj" items="${parentList }">
+		                                      <option value="${obj.id }">${obj.name }</option>
+		                              </c:forEach>                          	
 	                                </select>
 	                                <span id="parent_text_updateError" class="error-msg" ></span>
 	                            </div>
@@ -269,18 +290,28 @@
 	                        </div> 
 	                        <div class="row no-mar">     
 	                        	<div class="input-field col s12 m6">
-	                                <input id="order_text_update" name="order_text_update" type="text" class="validate" >
+	                                <input id="order_text_update" name="order_text_update" type="number" class="validate" >
 	                                <label for="order_text_update">Order</label>
 	                                <span id="order_text_updateError" class="error-msg" ></span>
 	                        	</div>                     	
 	                          <div class="input-field col s6">
-	                        		<p class="searchable_label">Status</p>
-	                                <select id="soft_delete_status_fk_update" name="soft_delete_status_fk" class="searchable">
-	                                	<c:forEach var="obj" items="${statusList}" >
-	                                		<option value="${obj.soft_delete_status_fk }">${obj.soft_delete_status_fk }</option>
-	                                	</c:forEach>
+	                        		<p class="searchable_label">Status<span class="required">*</span></p>
+	                                <select id="soft_delete_status_fk_update" name="statuss" class="searchable validate-dropdown req">
+	                                <option value="">Select</option>
+	                              <%--     <c:choose>
+								          <c:when test="${not empty statusList && fn:length(statusList) gt 0 }">
+								            <c:forEach var="obj" items="${statusList }">
+		                                      <option value="${obj.status }" >${obj.status }</option>
+		                              		</c:forEach>
+								         </c:when>
+								         <c:otherwise> --%>
+								           <option value="Active">Active</option>
+								           <option value="Inactive">Inactive</option>
+								       <%--   </c:otherwise>
+								      </c:choose> --%>
+	                                	
 	                                </select>
-	                                <span id="soft_delete_status_fkError" class="error-msg" ></span>
+	                                <span id="soft_delete_status_fkUpdateError" class="error-msg" ></span>
 	                        	</div>
 	                        </div>   
 	                        <div class="row">
@@ -295,7 +326,7 @@
 	                                  <!--   <button
 	                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
 	                                        style="width:100%">Cancel</button> -->
-	                                        <a href="<%=request.getContextPath()%>/left-menu"
+	                                        <a href="<%=request.getContextPath()%>/left-menu" 
 										     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
 	                                </div>
 	                            </div>
@@ -319,35 +350,44 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="name" id="name" />
+    	<input type="hidden" name="id" id="id" />
     </form>
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 <script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
+    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 
     <script>
+    	var filtersMap = new Object();
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
-
-           /*  // adding table data into table start
-            var arr = ['Contract', 'Design', 'Execution Monitoring', 'Finance', 'Issues', 'Land Aquisition', 'R & R', 'Risk', 'Safety', 'Training', 'Unmanned Aerial Vehicle', 'Utility Shifting', 'Work'];
-            var table_text = '';
-            $.each(arr, function (i, val) {
-            	table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light bg-m t-c modal-trigger">' +
-                '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
-            });
-            $('#left_menu_table tbody').append(table_text);
-            // adding table data into table ends */
-
-            var table = $('#left_menu_table').DataTable({
-                columnDefs: [
+            
+     		var filters = window.localStorage.getItem("leftMenuFilters");
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'parent_id_fk' ){
+    		        		  getParentFilter(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'status_id_fk' ){
+    		        		  getStatusFilter(temp2[1]);
+    		        	  }
+    	        	  }
+    	          }
+              }
+        
+     		 var table = $('#left_menu_table').DataTable({
+                columnDefs: [ 
                     {
                         targets: [0],
                         className: 'mdl-data-table__cell--non-numeric',
@@ -374,18 +414,215 @@
                     $('.dataTables_filter > label').append(	$clearButton); 
                 }
             });
+      	leftMenuList();
         });
        
+        
+        
+        function addInQueParent(parent_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('parent_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(parent_id_fk) != ''){
+       	    	filtersMap["parent_id_fk"] = parent_id_fk;
+        	}
+        }  
+        function addInQueStatus(status_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('status_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(status_id_fk) != ''){
+       	    	filtersMap["status_id_fk"] = status_id_fk;
+        	}
+        }
+        function clearFilters() {
+            $('#status_id_fk').val("");     
+            $('#parent_id_fk').val("");     
+            $('.searchable').select2();
+            window.localStorage.setItem("leftMenuFilters",'');
+            window.location.href= "<%=request.getContextPath()%>/left-menu";
+        }
+  	  
+        
+  	  function deleteRow(id){ 
+  	  	$("#id").val(id);
+  	  	showCancelMessage(); 
+  	  }
+  	  	
+  	  function showCancelMessage() {
+  	    	swal({
+  		            title: "Are you sure?",
+  		            text: "You will be able to change the status of record!",
+  		            type: "warning",
+  		            showCancelButton: true, 
+  		            confirmButtonColor: "#DD6B55",
+  		            confirmButtonText: "Yes, delete it!",
+  		            cancelButtonText: "No, cancel it!",
+  		            closeOnConfirm: false,
+  		            closeOnCancel: false
+  		        }, function (isConfirm) {
+  		            if (isConfirm) {
+  		               // swal("Deleted!", "Record has been deleted", "success");
+  		                $(".page-loader").show();
+  		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-left-menu');
+  		    	    	$('#getForm').submit();
+  		           }else {
+  		                swal("Cancelled", "Record is safe :)", "error");
+  		            }
+  		        });
+  	  }
+  	  
+  	  function getParentFilter(parent) {
+        	$(".page-loader").show();
+            var parent_id = $("#parent_id_fk").val();
+            var status = $("#status_id_fk").val();
+    		if ($.trim(parent_id) == "") {
+            	$("#parent_id_fk option:not(:first)").remove();
+            	var myParams = { parent_id: parent_id, status : status};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getParentFilterList",
+                    data: myParams, cache: false,async: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                          	var selectedFlag = (parent == val.parent_id)?'selected':'';
+    	                        $("#parent_id_fk").append('<option value="' + val.parent_id + '"'+selectedFlag+'>'   + val.parent_id +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+  	  
+  	  function getStatusFilter(statusVal) {
+        	$(".page-loader").show();
+            var parent_id = $("#parent_id_fk").val();
+            var status = $("#status_id_fk").val();
+    		if ($.trim(status) == "") {
+            	$("#status_id_fk option:not(:first)").remove();
+            	var myParams = { parent_id: parent_id, status : status};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getStatusFilterList",
+                    data: myParams, cache: false,async: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                          	var selectedFlag = (statusVal == val.status)?'selected':'';
+    	                        $("#status_id_fk").append('<option value="' + val.status + '"'+selectedFlag+'>'   + val.status +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+  	  var arr = [];
+	  function leftMenuList(){
+			$(".page-loader-2").show();
+			getStatusFilter('');
+			getParentFilter('');
+			var parent_id = $("#parent_id_fk").val();
+	        var status = $("#status_id_fk").val();
+			var filters = '';
+	    	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+	    		filters = filters + key +"="+filtersMap[key] + "^";
+	    		window.localStorage.setItem("leftMenuFilters", filters);
+				});
+	      	table = $('#left_menu_table').DataTable();
+	  		table.destroy();
+	  		$.fn.dataTable.moment('DD-MMM-YYYY');
+	  		table = $('#left_menu_table').DataTable({
+	  			"order": [],
+	      		"bStateSave": false,
+	      		fixedHeader: true,
+	              "fnStateSave": function (oSettings, oData) {
+	                  localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	              },
+	              "fnStateLoad": function (oSettings) {
+	                  return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	              },
+	              columnDefs: [
+	                    {
+	                        targets: [0],
+	                        className: 'mdl-data-table__cell--non-numeric',
+	                        targets: 'no-sort', orderable: false,
+	                        /* className: "last-column", targets: [1], */
+	                    },
+	                    { "width": "20px", "targets": 'last-column' },
+	                ],
+	              // "ScrollX": true,
+	              "sScrollX": "100%",
+	               "sScrollXInner": "100%",
+	               paging:false,
+	               "bScrollCollapse": true,
+	               fixedColumns:   {
+	            	    right: 1
+	            	},
+	              initComplete: function () {
+	                  $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
+	                  var input = $('.dataTables_filter input');
+	                  self = this.api();
+	                  $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+	                      .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+	                  $('.dataTables_filter > label').append(	$clearButton); 
+	              }
+	          }).rows().remove().draw();
+	  		
+	  		table.state.clear();		
+	  		var myParams = {parent_id: parent_id, status :status};
+	  		$.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftMenuList",type:"POST",
+	  			data:myParams,async: false,
+	  			success : function(data){    				
+	  				if(data != null && data != '' && data.length > 0){    					
+		             		$.each(data,function(key,val){
+		                        var paras = ''+val.id +','+val.name+','+val.parent_id +','+val.order+','+val.link_url +','+val.status+'';
+		                        var actions = '<a onclick="updateRow(\'' + val.id + '\',\'' + val.name + '\',\'' + val.parent_id + '\',\'' + val.order + '\',\'' + val.link_url + '\',\'' + val.status + '\')" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a><a href="javascript:void(0);" onclick="deleteRow('+val.id +');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>'
+		                        var rowArray = [];    	                 
+		                        arr.push($.trim(val.name));
+		                       	rowArray.push($.trim(val.name));
+		                       	rowArray.push($.trim(val.parent_id));
+		                       	rowArray.push($.trim(val.order));
+		                    	rowArray.push($.trim(val.status));
+		                       	rowArray.push($.trim(actions)); 
+		                       	
+		                        table.row.add(rowArray).draw( true ); 
+		                        		                       
+		    				});
+		             		
+		             		$(".page-loader-2").hide();
+		    			}else{
+		    				$(".page-loader-2").hide();
+		    			}
+	  			
+	  		},error: function (jqXHR, exception) {
+	  			$(".page-loader-2").hide();
+	           	getErrorMessage(jqXHR, exception);
+	       }});
+		  }
         var flag = false; 
         function doValidate(value){
      	   var print_value = value;	
      	   var value = value.trim();
      	   value = value.toLowerCase();
-     	   var validate = $('.findLengths').length;
+     	   var validate = arr.length;
      	   var count  = 0;
-     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	  /*  var ek = $('.findLengths').map((_,el) => el.value).get(); */
      	   while(count < validate){
-     		   var findVal = ek[count];
+     		   var findVal = arr[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
      			   $('#nameError').text(print_value+' alreday exists').css('color', 'red');
@@ -405,15 +642,22 @@
         function doValidateUpdate(value){
      	   var print_value = value;	
      	   var value = value.trim();
-     	   var validate = $('.findLengths').length;
+     	   var validate = arr.length;
      	   var count  = 0;
      	   var valueOld = $('#value_old').val();
-     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   /* var ek = $('.findLengths').map((_,el) => el.value).get(); */
      	   value = value.toLowerCase();
-     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
-     	   delete ek[s];
+     	  /*  var s = Object.keys(ek).find(key => ek[key] === valueOld); */
+     	  if ($.inArray(valueOld, arr) != -1)
+     	 { var v = valueOld.toLowerCase();
+     		 if(v == value){
+     			var index = arr.indexOf(valueOld); // 1
+     			arr.splice(arr.indexOf(valueOld),index);
+     		 }
+     	 }
+     	  
      	   while(count < validate){
-     		   var findVal = ek[count];
+     		   var findVal = arr[count];
      		   if(findVal != null){ findVal = findVal.toLowerCase();}
      		   if(findVal == value){
      			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
@@ -428,9 +672,12 @@
      		   
      		   count++; 
      	   }
+     	
         }
         
     	function removeErrorMsg(){
+    		  var valueOld = $('#value_old').val();
+    		  arr.push(valueOld);
     		 $('#value_newError').text('');
     		 $('#bttnUpdate').prop('disabled', false);
     		 updateFlag = true;
@@ -440,6 +687,9 @@
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
+      			if (arr.length === 0) {
+      				flag = ture;
+      			}
       			 if(flag){
        				document.getElementById("addLeftMenuForm").submit();	
        			 }
@@ -451,6 +701,9 @@
          	 if(validator1.form()){ 
      			$(".page-loader").show();
      			$("#onlyUpdateModal").modal();
+     			if (arr.length === 0) {
+     				updateFlag = ture;
+      			}
      			 if(updateFlag){
        				document.getElementById("updateLeftMenuForm").submit();	
        			 }
@@ -459,39 +712,97 @@
             }
         })
          var validator =  $('#addLeftMenuForm').validate({
+        	 ignore: ":hidden:not(.validate-dropdown)",
          	 rules: {
-         		 "name": {
+         		 "name_text": {
    			 		  required: true
-         		 }
+         		 },"parent_text": {
+   			 		  required: false
+         		 },"url_text": {
+   			 		  required: false
+         		 },"order_text": {
+   			 		  required: false
+         		 },"status": {
+   			 		  required: true
+         		 },
    			},messages: {
-   		 		   "name": {
+   		 		   "name_text": {
+   			 		  required: 'Required'
+   			 	  },"parent_text": {
+   			 		  required: 'Required'
+   			 	  },"url_text": {
+   			 		  required: 'Required'
+   			 	  },"order_text": {
+   			 		  required: 'Required'
+   			 	  },"status": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
    	        	 if(element.attr("id") == "name_text" ){
    				     document.getElementById("nameError").innerHTML="";
    			 	     error.appendTo('#nameError');
+   				 }else if(element.attr("id") == "parent_text" ){
+   				     document.getElementById("parent_textError").innerHTML="";
+   			 	     error.appendTo('#parent_textError');
+   				 }else if(element.attr("id") == "url_text" ){
+   				     document.getElementById("url_textError").innerHTML="";
+   			 	     error.appendTo('#url_textError');
+   				 }else if(element.attr("id") == "order_text" ){
+   				     document.getElementById("order_textError").innerHTML="";
+   			 	     error.appendTo('#order_textError');
+   				 }else if(element.attr("id") == "soft_delete_status_fk" ){
+   				     document.getElementById("soft_delete_status_fkError").innerHTML="";
+   			 	     error.appendTo('#soft_delete_status_fkError');
    				 }
    	        }
          	
-         });
+         }); 
          
          var validator1 =  $('#updateLeftMenuForm').validate({
+        	 ignore: ":hidden:not(.validate-dropdown)",
           	 rules: {
           		 "value_new": {
+    			 		  required: true
+          		 },"parent_text": {
+    			 		  required: false
+          		 },"url_text_update": {
+    			 		  required: false
+          		 },"order_text_update": {
+    			 		  required: false
+          		 },"status": {
     			 		  required: true
           		 }
     			},messages: {
     		 		   "value_new": {
+    			 		  required: 'Required'
+    			 	  },"parent_text": {
+    			 		  required: 'Required'
+    			 	  },"url_text_update": {
+    			 		  required: 'Required'
+    			 	  },"order_text_update": {
+    			 		  required: 'Required'
+    			 	  },"status": {
     			 		  required: 'Required'
     			 	  }
     	        },errorPlacement:function(error, element){
     	        	 if(element.attr("id") == "value_new" ){
     				     document.getElementById("value_newError").innerHTML="";
     			 	     error.appendTo('#value_newError');
+    				 }else if(element.attr("id") == "parent_text_update" ){
+    				     document.getElementById("parent_text_updateError").innerHTML="";
+    			 	     error.appendTo('#parent_text_updateError');
+    				 }else if(element.attr("id") == "url_text_update" ){
+    				     document.getElementById("url_textUpdateError").innerHTML="";
+    			 	     error.appendTo('#url_textUpdateError');
+    				 }else if(element.attr("id") == "order_text_update" ){
+    				     document.getElementById("order_text_updateError").innerHTML="";
+    			 	     error.appendTo('#order_text_updateError'); 
+    				 }else if(element.attr("id") == "soft_delete_status_fk_update" ){
+    				     document.getElementById("soft_delete_status_fkUpdateError").innerHTML="";
+    			 	     error.appendTo('#soft_delete_status_fkUpdateError');
     				 }
     	        }
-          	
+          	 
           });
            
         $('input').change(function(){
@@ -499,26 +810,35 @@
   	               $(this).valid();
   	           }
   	     });
-
-        function updateRow(no) {
-    	      var name = $('#nameId'+no).val();
-    	      var parent_text = $('#parent_text'+no).val();
-    	      var order_text = $('#order_text'+no).val();
-    	      var soft_delete_status_fk = $('#soft_delete_status_fk'+no).val();
-    	      if($.trim(soft_delete_status_fk) == ''){
-    	    	  soft_delete_status_fk = 'Inactive';
-    	      }
+        $('.validate-dropdown').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
+        function updateRow(id,name,parent,order,link,status) {
+	    	 if(link.length == 0 ||link == 'null'){
+	    		 link = "";
+	    	 }
+	    	 if(order.length == 0 ||order == 'null'){
+	    		 order = ""; 
+	    	 }
+	    	  
+	    	  $('#id_old').val($.trim(id))
     	      $('#value_old').val($.trim(name))
     	      $('#onlyUpdateModal').modal('open');
     	      $('#onlyUpdateModal #value_new').val($.trim(name)).focus();
-    	      $('#onlyUpdateModal #parent_text_update').val(parent_text);
-    	      $('#onlyUpdateModal #order_text_update').val(order_text);
-    	      $('#onlyUpdateModal #soft_delete_status_fk_update').val(soft_delete_status_fk);
-    	      $('select:not(.searchable)').formSelect();
+    	     // $('#onlyUpdateModal #parent_text_update').val(parent);
+    	      $("select option:selected").removeAttr("selected");
+    	      $('select[name^="parent_texts"] option[value="'+ parent +'"]').attr("selected","selected");
+    	      $('#onlyUpdateModal #order_text_update').val(order).focus();
+    	      $('#onlyUpdateModal #url_text_update').val(link).focus();
+    	      //$('#onlyUpdateModal #soft_delete_status_fk_update').val(soft_delete_status_fk);
+    	      $('select[name^="statuss"] option[value="'+ status +'"]').attr("selected","selected");
+    	    	$('.req').select2();
     	  }
     	  
     	  function deleteRow(val){
-    	  	$("#name").val(val);
+    	  	$("#id").val(val);
     	  	showCancelMessage();
     	  }
     	  	
@@ -538,7 +858,7 @@
     		            if (isConfirm) {
     		               // swal("Deleted!", "Record has been deleted", "success");
     		                $(".page-loader").show();
-    		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-module');
+    		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-left-menu');
     		    	    	$('#getForm').submit();
     		           }else {
     		                swal("Cancelled", "Record is safe :)", "error");

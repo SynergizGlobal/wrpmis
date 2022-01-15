@@ -237,6 +237,8 @@ public class PageConstants {
 	public static final String laCategory = "referenceForms/laCategory";
 	public static final String laSubCategory = "referenceForms/laSubCategory";
 	
+	public static final String laLandStatus = "referenceForms/laLandStatus";
+	
 	public static final String documentType = "referenceForms/documentType";
 	public static final String documentRevisionStatus = "referenceForms/documentRevisionStatus";
 	

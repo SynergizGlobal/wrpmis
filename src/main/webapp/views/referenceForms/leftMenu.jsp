@@ -191,7 +191,7 @@
 	                                <select id="parent_text" name="parent_text" class="searchable validate-dropdown">
 	                                	<option value="">Select</option>	
 	                                	 <c:forEach var="obj" items="${parentList }">
-		                                      <option value="${obj.parent_id }">${obj.parent_id }</option>
+		                                      <option value="${obj.id }">${obj.name }</option>
 		                              </c:forEach>                                	
 	                                </select>
 	                                <span id="parent_textError" class="error-msg" ></span>
@@ -206,7 +206,7 @@
 	                        </div>  
 	                        <div class="row no-mar">
 	                        	<div class="input-field col s12 m6">
-	                        		<input id="order_text" name="order_text" type="text" class="validate" >
+	                        		<input id="order_text" name="order_text" type="number" class="validate" >
 	                                <label for="order_text">Order</label>
 	                                <span id="order_textError" class="error-msg" ></span>
 	                        	</div>  
@@ -275,7 +275,7 @@
 	                                <select id="parent_text_update" name="parent_texts" class="searchable validate-dropdown req">
 	                                	<option value="">Select</option>	      
 	                                	 <c:forEach var="obj" items="${parentList }">
-		                                      <option value="${obj.parent_id }">${obj.parent_id }</option>
+		                                      <option value="${obj.id }">${obj.name }</option>
 		                              </c:forEach>                          	
 	                                </select>
 	                                <span id="parent_text_updateError" class="error-msg" ></span>
@@ -290,7 +290,7 @@
 	                        </div> 
 	                        <div class="row no-mar">     
 	                        	<div class="input-field col s12 m6">
-	                                <input id="order_text_update" name="order_text_update" type="text" class="validate" >
+	                                <input id="order_text_update" name="order_text_update" type="number" class="validate" >
 	                                <label for="order_text_update">Order</label>
 	                                <span id="order_text_updateError" class="error-msg" ></span>
 	                        	</div>                     	
@@ -828,6 +828,7 @@
     	      $('#onlyUpdateModal').modal('open');
     	      $('#onlyUpdateModal #value_new').val($.trim(name)).focus();
     	     // $('#onlyUpdateModal #parent_text_update').val(parent);
+    	      $("select option:selected").removeAttr("selected");
     	      $('select[name^="parent_texts"] option[value="'+ parent +'"]').attr("selected","selected");
     	      $('#onlyUpdateModal #order_text_update').val(order).focus();
     	      $('#onlyUpdateModal #url_text_update').val(link).focus();

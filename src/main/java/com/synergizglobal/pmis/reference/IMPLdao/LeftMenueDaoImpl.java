@@ -224,7 +224,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getParentList() throws Exception {
 		List<TrainingType> list = null;
 		try {
-			String qry = "SELECT parent_id from  leftmenu group by parent_id";
+			String qry = "SELECT id,name from  leftmenu group by id";
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();

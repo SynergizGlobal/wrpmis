@@ -60,14 +60,9 @@ public class HomeDaoImpl implements HomeDao {
 			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,dashboard_url,tum.priority,icon_path,mobile_view "
 					+ "FROM dashboard tum "
 					+ "left join module m on tum.module_name_fk = m.module_name "
-					+ "WHERE m.soft_delete_status_fk = ? AND parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? ";
-					
-					//qry = qry + " and (select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
-
-					qry = qry + "and (((select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0) OR (dashboard_url is null or dashboard_url = '')) ";
-					
-					
-					qry = qry + "order by priority";
+					+ "WHERE m.soft_delete_status_fk = ? AND parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? "
+					+ " and (select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 "
+					+ "order by priority";
 			
 			statement = connection.prepareStatement(qry);
 			int p = 1;

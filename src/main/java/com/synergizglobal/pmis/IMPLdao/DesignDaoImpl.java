@@ -59,7 +59,7 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = null;
 		try {
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
-					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,"
+					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no"
 					+",d.hq_drawing_no,d.drawing_title,"+
 					 "DATE_FORMAT(d.required_date,'%d-%m-%Y') AS required_date, DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,"
 					 + "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
@@ -1016,7 +1016,7 @@ public class DesignDaoImpl implements DesignDao{
 				
 				
 				if(flag && !StringUtils.isEmpty(obj.getDesignRevisions())) {
-					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,,revision_status_fk,remarks) VALUES(?,?,?,?,?)";
+					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,revision_status_fk,remarks) VALUES(?,?,?,?,?)";
 					
 					int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 				            new BatchPreparedStatementSetter() {

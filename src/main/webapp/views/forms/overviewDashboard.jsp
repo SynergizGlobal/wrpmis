@@ -220,7 +220,6 @@
 	                        <ul class="collapsible main-menu"> <!-- id="secondModel"> -->
 							<c:forEach var="form" items="${overviewDashboardForms }" varStatus="index">
 								<c:if test="${not empty form.formsSubMenu}">
-										<c:if test="${not empty form.link_url}">
 											<li><div class="collapsible-header over-sub-menu" >
 											
 												<a href="#">
@@ -243,7 +242,6 @@
 			                                    </ul>
 		                                    </div>											
 											 </li>
-										</c:if>
 								</c:if>	
 								<c:if test="${empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">

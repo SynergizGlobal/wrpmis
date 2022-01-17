@@ -127,9 +127,7 @@ public class HomeDaoImpl implements HomeDao {
 			if(base.equals("mobile")) {
 				qry = qry + " and UPPER(mobile_view) = ? ";
 			}
-			//qry = qry + "and (select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
-			
-			qry = qry + "and (((select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0) OR (dashboard_url is null or dashboard_url = '')) ";
+			qry = qry + "and (select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 			qry = qry + " order by priority";
 			statement = connection.prepareStatement(qry);
 			int p = 1;
@@ -249,8 +247,7 @@ public class HomeDaoImpl implements HomeDao {
 				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
 			}*/
 			
-			//qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0";
-			qry = qry + "and (((select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0) OR (web_form_url is null or web_form_url = '')) ";
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 			if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
 			}
@@ -327,8 +324,7 @@ public class HomeDaoImpl implements HomeDao {
 				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
 			}*/
 			
-			//qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
-			qry = qry + "and (((select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0) OR (web_form_url is null or web_form_url = '')) ";
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 			if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
 			}
@@ -503,9 +499,7 @@ public class HomeDaoImpl implements HomeDao {
 			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
 			}*/
-			//qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
-			
-			qry = qry + "and (((select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0) OR (web_form_url is null or web_form_url = '')) ";
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 			if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
 			}
@@ -583,8 +577,7 @@ public class HomeDaoImpl implements HomeDao {
 				qry = qry + " and display_in_mobile IS NOT NULL and display_in_mobile <> '' and display_in_mobile = 'Yes' ";
 			}
 			
-			//qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
-			qry = qry + "and (((select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0) OR (web_form_url is null or web_form_url = '')) ";
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 			
 			qry = qry + " ORDER BY priority ASC";
 			statement = connection.prepareStatement(qry);

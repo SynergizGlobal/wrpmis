@@ -454,7 +454,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getStatusList() throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry ="select status,status_of from la_status ";
+			String qry ="select status from la_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));	
 		}catch(Exception e){ 
 		throw new Exception(e); 

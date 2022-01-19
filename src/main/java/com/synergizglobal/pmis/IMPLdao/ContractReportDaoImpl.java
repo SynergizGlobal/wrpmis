@@ -600,10 +600,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				obj.setHod_designation(hodObj.getHod_designation());
 				
-				String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head,"  
+				String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,"  
 						+"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%y') AS doc,doc as doc_date,TRUNCATE(cast((IFNULL(awarded_cost,0)*IFNULL(awarded_cost_units,0)/10000000) as CHAR),2) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%y') AS actual_completion_date,"
 						+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-						+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%m-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required,c.remarks, "
+						+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required, "
 						/*+ "(select revision_number from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revision_number," 
 						+ "(select revision_date from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revision_date," 
 						+ "(select cast(revised_amount as CHAR) as revised_amount from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revised_amount," 
@@ -611,8 +611,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select revised_doc from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revised_doc_temp," 
 						+ "(select remarks from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revision_remarks " */
 						+ "(select revision_number from contract_revision where revision_number is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revision_number," 
-						+ "(select revision_date from contract_revision where revision_date is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revision_date," 
-						+ "(select cast((IFNULL(revised_amount,0)/10000000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and revision_amounts_status = 'Yes' and contract_id_fk = c.contract_id) as  revised_amount,"
+						/*						+ "(select revision_date from contract_revision where revision_date is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revision_date," 
+						*/						+ "(select cast((IFNULL(revised_amount,0)/10000000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and revision_amounts_status = 'Yes' and contract_id_fk = c.contract_id) as  revised_amount,"
 						+ "(select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revised_doc," 
 						+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revised_doc_temp," 
 						+ "(select remarks from contract_revision where action = 'Yes' and contract_id_fk = c.contract_id limit 1) as revision_remarks,"
@@ -822,11 +822,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
-				String qry ="select DISTINCT contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT bg_number order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_number,GROUP_CONCAT(DISTINCT bg_value order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_value,GROUP_CONCAT(bg_valid_upto order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from(select distinct bank_guarantee_id,bg.contract_id_fk,bg_type_fk,issuing_bank,bg_number,TRUNCATE(cast((IFNULL(bg_value,0)*IFNULL(bg_value_units,0)/100000) as CHAR),2) as bg_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS bg_valid_upto,code,DATE_FORMAT(bg_date,'%d-%b-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%b-%Y') AS release_date,"
-						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head," + 
-						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
+				String qry ="select DISTINCT contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT bg_number order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_number,GROUP_CONCAT(DISTINCT bg_value order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_value,GROUP_CONCAT(bg_valid_upto order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from(select distinct bank_guarantee_id,bg.contract_id_fk,bg_type_fk,issuing_bank,bg_number,TRUNCATE(cast((IFNULL(bg_value,0)*IFNULL(bg_value_units,0)/100000) as CHAR),2) as bg_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS bg_valid_upto,DATE_FORMAT(bg_date,'%d-%b-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%b-%Y') AS release_date,"
+						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
+						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
 						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-						+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%b-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required, " + 
+						+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required, " + 
 						"(select DISTINCT remarks from alerts where alert_status='Active' and alert_type_fk = 'Bank Guarantee' and contract_id = c.contract_id and alert_value = (case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 								+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 								+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
@@ -1546,11 +1546,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 								
 				
 				String qry ="select contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT loa_date SEPARATOR '\n' ) as loa_date,GROUP_CONCAT(DISTINCT doc SEPARATOR '\n' ) as doc,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "
-						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head," + 
+						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
 						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,"
-						+conCatQry+ " AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,c.remarks,"
+						+conCatQry+ " AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,"
 						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%b-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-						+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%b-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required, "
+						+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required, "
 						+"(select remarks from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
 
 					+ "(case when (cr1.action = 'Yes' and cr1.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr1.revised_doc,'%d-%b-%Y') )) " 
@@ -1718,11 +1718,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
-				String qry ="select contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT insurance_number order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_number,GROUP_CONCAT(DISTINCT insurance_value order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_value,GROUP_CONCAT(insurance_valid_upto order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from(select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,TRUNCATE(cast((IFNULL(insurance_value,0)*IFNULL(insurance_value_units,0)/100000) as CHAR),2) as insurance_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS insurance_valid_upto,i.remarks as insurence_remark,revision,released_fk,"
-						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head," + 
-						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,c.remarks,"
+				String qry ="select contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT insurance_number order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_number,GROUP_CONCAT(DISTINCT insurance_value order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_value,GROUP_CONCAT(insurance_valid_upto order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from(select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,TRUNCATE(cast((IFNULL(insurance_value,0)*IFNULL(insurance_value_units,0)/100000) as CHAR),2) as insurance_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS insurance_valid_upto,released_fk,"
+						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
+						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,"
 						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%b-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-						+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%b-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required, "
+						+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release ,contract_status_fk,bg_required,insurance_required, "
 						+"(select remarks from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 						+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 						+ "when (i.insurance_type_fk is not null and i.insurance_number is null) then CONCAT(i.insurance_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
@@ -1816,7 +1816,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		try{
 			con = dataSource.getConnection();
 			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,u.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
-									",scope_of_contract,cast((estimated_cost * estimated_cost_units) as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,cast((awarded_cost * awarded_cost_units) as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
+									",scope_of_contract,cast((estimated_cost * estimated_cost_units) as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,cast((awarded_cost * awarded_cost_units) as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
 									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast((completed_cost * completed_cost_units) as CHAR) as completed_cost,"
 									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,c.status,bg_required,insurance_required,department_name,"
 									+ "u.designation as hod_designation,us.designation as dy_hod_designation,revision_requried,milestone_requried " + 
@@ -1870,7 +1870,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				contract.setContract_status_fk(resultSet.getString("contract_status_fk"));
 				contract.setBg_required(resultSet.getString("bg_required"));
 				contract.setInsurance_required(resultSet.getString("insurance_required"));
-				contract.setRemarks(resultSet.getString("remarks"));
+				//contract.setRemarks(resultSet.getString("remarks"));
 				contract.setDepartment_name(resultSet.getString("department_name"));
 				contract.setHod_designation(resultSet.getString("hod_designation"));
 				contract.setDy_hod_designation(resultSet.getString("dy_hod_designation"));
@@ -2028,7 +2028,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		Contract bObj = null;
 		try {
 			con = dataSource.getConnection();
-			String qry ="SELECT code,bg_type_fk,issuing_bank, bg_number,cast((bg_value * bg_value_units) as CHAR) as bg_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto"
+			String qry ="SELECT bg_type_fk,issuing_bank, bg_number,cast((bg_value * bg_value_units) as CHAR) as bg_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto"
 					+ ",DATE_FORMAT(bg_date,'%d-%m-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%m-%Y') AS release_date"
 					+ " from bank_guarantee where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
@@ -2037,7 +2037,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			while(resultSet.next()) {
 				bObj = new Contract();
 				
-				bObj.setCode(resultSet.getString("code"));
+				//bObj.setCode(resultSet.getString("code"));
 				bObj.setBg_type_fk(resultSet.getString("bg_type_fk"));
 				bObj.setIssuing_bank(resultSet.getString("issuing_bank"));
 				bObj.setBg_number(resultSet.getString("bg_number"));
@@ -2069,7 +2069,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		try {
 			con = dataSource.getConnection();
 			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address,insurance_number,cast((insurance_value * insurance_value_units) as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto"
-					+ ",remarks,revision,released_fk as insurance_status from insurance where contract_id_fk = ?";
+					+ ",released_fk as insurance_status from insurance where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, obj.getContract_id());
 			resultSet = stmt.executeQuery();
@@ -2081,8 +2081,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				iObj.setInsurance_number(resultSet.getString("insurance_number"));
 				iObj.setInsurance_value(resultSet.getString("insurance_value"));
 				iObj.setInsurance_valid_upto(resultSet.getString("valid_upto"));
-				iObj.setRemarks(resultSet.getString("remarks"));
-				iObj.setRevision(resultSet.getString("revision"));
+				
 				iObj.setInsurance_status(resultSet.getString("insurance_status"));
 				objsList.add(iObj);
 			}
@@ -2105,7 +2104,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		try{ 
 			con = dataSource.getConnection();
 			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,u.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
-									",scope_of_contract,cast((estimated_cost * estimated_cost_units) as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast((awarded_cost * awarded_cost_units) as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
+									",scope_of_contract,cast((estimated_cost * estimated_cost_units) as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast((awarded_cost * awarded_cost_units) as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
 									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast((completed_cost * completed_cost_units) as CHAR) as completed_cost,"
 									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required " + 
 									"from contract c " + 
@@ -2158,7 +2157,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				contract.setContract_status_fk(resultSet.getString("contract_status_fk"));
 				contract.setBg_required(resultSet.getString("bg_required"));
 				contract.setInsurance_required(resultSet.getString("insurance_required"));
-				contract.setRemarks(resultSet.getString("remarks"));
+				//contract.setRemarks(resultSet.getString("remarks"));
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

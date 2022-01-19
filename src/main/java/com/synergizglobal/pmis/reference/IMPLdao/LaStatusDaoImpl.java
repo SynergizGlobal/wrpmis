@@ -28,7 +28,7 @@ public class LaStatusDaoImpl implements LaStatusDao{
 	public List<Safety> getIaStatusList() throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry ="select status, status_of from la_status ";
+			String qry ="select status from la_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
@@ -42,7 +42,7 @@ public class LaStatusDaoImpl implements LaStatusDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO la_status"
-					+ "( status, status_of) VALUES (:status, :status_of)";
+					+ "( status) VALUES (:status)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -62,7 +62,7 @@ public class LaStatusDaoImpl implements LaStatusDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `status`,status_of from la_status ";
+			String qry ="select `status` from la_status ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -87,7 +87,7 @@ public class LaStatusDaoImpl implements LaStatusDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `status`,status_of from la_status where `status` NOT IN (?";
+					  String qry2 = "select `status` from la_status where `status` NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -166,7 +166,7 @@ public class LaStatusDaoImpl implements LaStatusDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE la_status SET `status`= :status_new,status_of= :status_of_new WHERE `status`= :status_old " ;
+			String  updatereferenceTableQry = "UPDATE la_status SET `status`= :status_new WHERE `status`= :status_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			

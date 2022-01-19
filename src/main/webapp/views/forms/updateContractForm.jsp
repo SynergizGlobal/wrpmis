@@ -1070,7 +1070,7 @@
 	                               			<p>
 	                               				<c:if test="${contractDeatils.bg_required eq 'Yes'}">
 											      <label>
-											        <input type="checkbox" class="filled-in" id="bg_show_released" name="bg_show_released"/>
+											        <input type="checkbox" class="filled-in" checked="checked" id="bg_show_released" name="bg_show_released"/>
 											        <span>Show Released</span>
 											      </label>
 										      	</c:if>
@@ -1333,7 +1333,7 @@
 	                               			<p>
 		                               			<c:if test="${contractDeatils.insurance_required eq 'Yes'}">
 											      <label>
-											        <input type="checkbox" class="filled-in" id="insurance_show_released" name="insurance_show_released"/>
+											        <input type="checkbox" class="filled-in" checked="checked" id="insurance_show_released" name="insurance_show_released"/>
 											        <span>Show Released</span>
 											      </label>
 											    </c:if>
@@ -2346,7 +2346,12 @@
               		$(".bg-rows").show();
               	}
             });
-            
+            if($('input[name="bg_show_released"]').is(':checked')){
+          	  	$(".bg-rows").hide();
+        		$(".bg-released").show();
+          	}else{
+          		$(".bg-rows").show();
+          	}
             $("#insurance_show_released").click(function(){
             	if($('input[name="insurance_show_released"]').is(':checked')){
               	  	$(".insurance-rows").hide();
@@ -2355,7 +2360,12 @@
               		$(".insurance-rows").show();
               	}
             });
-            
+            if($('input[name="insurance_show_released"]').is(':checked')){
+          	  	$(".insurance-rows").hide();
+        		$(".insurance-released").show();
+          	}else{
+          		$(".insurance-rows").show();
+          	}
             $("#rev_show_current").click(function(){
             	if($('input[name="rev_show_current"]').is(':checked')){
               	  	$(".revision-rows").hide();

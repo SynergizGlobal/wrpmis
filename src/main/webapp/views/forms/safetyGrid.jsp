@@ -433,7 +433,7 @@
 
     		getWorksListFilter('');
         	getContractsListFilter('');
-        	getDepartmentsListFilter('');
+        	//getDepartmentsListFilter('');
         	getCategoryListFilter('');
         	getStatusListFilter('');
         	getHODListInSafetyFilter('');

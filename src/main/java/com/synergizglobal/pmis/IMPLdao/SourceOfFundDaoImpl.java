@@ -104,10 +104,10 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO funds"
 					+ "(project_id_fk, source_of_funds_fk, sub_category_railway_id_fk, funding_date, fund_amount, "
-					+ "remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,attachment,fund_amount_units)"
+					+ "remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,fund_amount_units)"
 					+ "VALUES"
 					+ "(:project_id_fk,:source_of_funds_fk,:sub_category_railway_id_fk,:funding_date,:fund_amount,"
-					+ ":remarks,:bank_account,:voucher_type,:voucher_no,:narration,:ledger_account,:attachment,:fund_amount_units)";
+					+ ":remarks,:bank_account,:voucher_type,:voucher_no,:narration,:ledger_account,:fund_amount_units)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -150,7 +150,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		SourceOfFund funds = null;
 		try {
 			String qry = "SELECT funds_id,f.project_id_fk,p.project_name, source_of_funds_fk, sub_category_railway_id_fk, DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date, "+
-					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account, f.attachment,f.fund_amount_units "
+					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account,f.fund_amount_units "
 					+ "from funds f " + 
 					"LEFT JOIN project p on f.project_id_fk = p.project_id " + 
 					"LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds " + 
@@ -189,7 +189,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			String updateQry = "UPDATE funds set "
 					+ "source_of_funds_fk= :source_of_funds_fk, sub_category_railway_id_fk= :sub_category_railway_id_fk, "
 					+ "funding_date= :funding_date, fund_amount= :fund_amount, remarks= :remarks,bank_account= :bank_account, "
-					+ "voucher_type= :voucher_type, voucher_no= :voucher_no, narration = :narration, ledger_account= :ledger_account,attachment= :attachment,fund_amount_units= :fund_amount_units  "
+					+ "voucher_type= :voucher_type, voucher_no= :voucher_no, narration = :narration, ledger_account= :ledger_account,fund_amount_units= :fund_amount_units  "
 					+ "where funds_id= :funds_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			

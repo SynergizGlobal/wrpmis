@@ -56,7 +56,7 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getIssuesList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,title,DATE_FORMAT(date,'%d-%b-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,"
+			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,title,DATE_FORMAT(date,'%d-%b-%Y') AS date,location,reported_by,responsible_person,c.department_fk,"
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%b-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,DATE_FORMAT(assigned_date,'%d-%b-%Y') AS assigned_date,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,other_organization,DATE_FORMAT(created_date,'%d-%b-%Y') AS created_date,DATE_FORMAT(escalation_date,'%d-%b-%Y') AS escalation_date,"
@@ -490,11 +490,11 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 			String qry = "INSERT INTO issue"
-					+ "(contract_id_fk,title,date,location,latitude,longitude,reported_by,responsible_person,"
+					+ "(contract_id_fk,title,date,location,reported_by,responsible_person,"
 					+ "priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,"
 					+ "zonal_railway_fk,other_organization,other_org_resposible_person_name,other_org_resposible_person_designation,escalation_date,created_by_user_id_fk,created_date,description) "
 					+ "VALUES "
-					+ "(:contract_id_fk,:title,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:"
+					+ "(:contract_id_fk,:title,:date,:location,:reported_by,:responsible_person,:"
 					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,"
 					+ ":zonal_railway_fk,:other_organization,:other_org_resposible_person_name,:other_org_resposible_person_designation,:escalation_date,:created_by_user_id_fk,CURRENT_TIMESTAMP,:description)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
@@ -613,7 +613,7 @@ public class IssueDaoImpl implements IssueDao {
 	public Issue getIssue(Issue obj) throws Exception {
 		Issue iObj = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,"
+			String qry = "select issue_id,contract_id_fk,title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,reported_by,responsible_person,c.department_fk,"
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,other_organization,"
 					+ "DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date,DATE_FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"

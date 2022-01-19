@@ -378,7 +378,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 				List<Training> objsList = null;
 				String qryDetails = "select training_session_id,training_id_fk as training_id,session_no,"
-						+" DATE_FORMAT(start_time,'%d-%m-%Y %H:%i:%s') AS start_time,remarks, DATE_FORMAT(end_time,'%d-%m-%Y %H:%i:%s') AS end_time,attachment "
+						+" DATE_FORMAT(start_time,'%d-%m-%Y %H:%i:%s') AS start_time, DATE_FORMAT(end_time,'%d-%m-%Y %H:%i:%s') AS end_time "
 						+ "from training_session "
 						+"where training_id_fk is not null and training_id_fk = ? ";
 				
@@ -1095,9 +1095,8 @@ public class TrainingDaoImpl implements TrainingDao{
 					insertCount++;
 				}
 				if(!StringUtils.isEmpty(obj.getTrainingSessions())) {
-						String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time,"
-								+"remarks) "
-								+"VALUES (?,?,?,?,?)";
+						String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time) "
+								+"VALUES (?,?,?,?)";
 						con = dataSource.getConnection();
 						insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
 						for (int i=0; i<obj.getTrainingSessions().size(); i++) {
@@ -1251,7 +1250,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> sessionsList = null;
 		try {
 			  String qry = "select training_session_id,ts.training_id_fk as training_id,sum(ta.required_fk = ?) as nominated,t.description,sum(ta.participated_fk = ?) as attended,session_no,DATE_FORMAT(start_time,'%d-%m-%Y')  as date,"
-	  					+" time_format(start_time,'%h:%i:%s') as start_time,time_format(end_time,'%h:%i:%s') as end_time,ts.remarks as session_remarks "
+	  					+" time_format(start_time,'%h:%i:%s') as start_time,time_format(end_time,'%h:%i:%s') as end_time  "
 	  					+ "from training_session ts "
 	  					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
 	  					+ "left join training t on ts.training_id_fk = t.training_id "

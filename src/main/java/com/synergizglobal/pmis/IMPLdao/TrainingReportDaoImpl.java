@@ -144,7 +144,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		    
 		    for (Training tObj : objsList) {
-		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,DATE_FORMAT(start_time,'%d-%m-%Y') AS date,DATE_FORMAT(start_time,'%h:%i %p') AS start_time,DATE_FORMAT(end_time,'%h:%i %p') AS end_time,remarks,attachment "
+		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,DATE_FORMAT(start_time,'%d-%m-%Y') AS date,DATE_FORMAT(start_time,'%h:%i %p') AS start_time,DATE_FORMAT(end_time,'%h:%i %p') AS end_time "
 						+ "from training_session "
 						+ "where training_id_fk = ? ORDER BY training_session_id ASC";
 		    	List<Training> sessonObjsList = jdbcTemplate.query( sessionsQry,new Object[] {tObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));
@@ -246,7 +246,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		    
 		    for (Training tObj : objsList) {
-		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,DATE_FORMAT(start_time,'%d-%m-%Y') AS date,DATE_FORMAT(start_time,'%h:%i %p') AS start_time,DATE_FORMAT(end_time,'%h:%i %p') AS end_time,remarks,attachment "
+		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,DATE_FORMAT(start_time,'%d-%m-%Y') AS date,DATE_FORMAT(start_time,'%h:%i %p') AS start_time,DATE_FORMAT(end_time,'%h:%i %p') AS end_time "
 						+ "from training_session "
 						+ "where training_id_fk = ? ORDER BY training_session_id ASC";
 		    	List<Training> sessonObjsList = jdbcTemplate.query( sessionsQry,new Object[] {tObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));

@@ -54,15 +54,15 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getSafetyList(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,s.department_fk,"
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,"
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,status_remark_fk,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
+					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
 					+ "compensation_units,m.unit as compensation_unit from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-					+ "LEFT OUTER JOIN department d ON s.department_fk  = d.department "
+					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
 					+ "LEFT OUTER JOIN money_unit m ON s.compensation_units  = m.value  "
 					+ "where safety_id is not null " ;
 			int arrSize = 0;
@@ -85,7 +85,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
@@ -180,13 +180,13 @@ public class SafetyDaoImpl implements SafetyDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO safety"
-					+ "(contract_id_fk,hod_user_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,category_fk,impact_fk,root_cause_fk,status_fk,"
+					+ "(contract_id_fk,hod_user_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,category_fk,impact_fk,root_cause_fk,status_fk,"
 					+ "closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,investigation_completed,corrective_measure_short_term,"
-					+ "corrective_measure_long_term,compensation,payment_date,remarks,attachment,compensation_units,committee_member_name) "
+					+ "corrective_measure_long_term,compensation,payment_date,remarks,compensation_units,committee_member_name) "
 					+ "VALUES "
-					+ "(:contract_id_fk,:hod_user_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:category_fk,:impact_fk,:root_cause_fk,:status_fk,:"
+					+ "(:contract_id_fk,:hod_user_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:category_fk,:impact_fk,:root_cause_fk,:status_fk,:"
 					+ "closure_date,:lti_hours,:equipment_impact,:people_impact,:work_impact,:committee_formed_fk,:committee_required_fk,:investigation_completed,:corrective_measure_short_term,:"
-					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:attachment,:compensation_units,:committee_member_name)";	
+					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:compensation_units,:committee_member_name)";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 		    int count = template.update(qry, paramSource, keyHolder);
@@ -610,9 +610,9 @@ public class SafetyDaoImpl implements SafetyDao {
 	public Safety getSafety(Safety obj) throws Exception {
 		Safety sobj = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,w.work_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,s.department_fk,"
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,w.work_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,"
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,s.attachment,s.compensation_units,s.committee_member_name,"
+					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,s.compensation_units,s.committee_member_name,"
 					+ "s.status_fk as existing_status_fk  "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
@@ -691,9 +691,9 @@ public class SafetyDaoImpl implements SafetyDao {
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
-			String qry = "UPDATE safety SET contract_id_fk=:contract_id_fk,hod_user_id_fk=:hod_user_id_fk,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,department_fk=:department_fk,category_fk=:category_fk,impact_fk=:impact_fk,root_cause_fk=:root_cause_fk,status_fk=:status_fk,"
+			String qry = "UPDATE safety SET contract_id_fk=:contract_id_fk,hod_user_id_fk=:hod_user_id_fk,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,category_fk=:category_fk,impact_fk=:impact_fk,root_cause_fk=:root_cause_fk,status_fk=:status_fk,"
 					+ "closure_date=:closure_date,lti_hours=:lti_hours,equipment_impact=:equipment_impact,people_impact=:people_impact,work_impact=:work_impact,committee_formed_fk=:committee_formed_fk,committee_required_fk = :committee_required_fk,investigation_completed=:investigation_completed,corrective_measure_short_term=:corrective_measure_short_term,"
-					+ "corrective_measure_long_term=:corrective_measure_long_term,compensation=:compensation,payment_date=:payment_date,remarks=:remarks,attachment=:attachment,compensation_units=:compensation_units,committee_member_name=:committee_member_name  "
+					+ "corrective_measure_long_term=:corrective_measure_long_term,compensation=:compensation,payment_date=:payment_date,remarks=:remarks,compensation_units=:compensation_units,committee_member_name=:committee_member_name  "
 					+ "WHERE safety_id = :safety_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			
@@ -847,7 +847,7 @@ public class SafetyDaoImpl implements SafetyDao {
 						
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
@@ -899,12 +899,12 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getDepartmentsListFilter(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT s.department_fk,department,department_name from safety s "
-					+ "LEFT OUTER JOIN department d ON s.department_fk COLLATE utf8mb4_unicode_ci = d.department "
+			String qry = "SELECT c.department_fk,department,department_name from safety s "
 					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
-					+ "where s.department_fk is not null and s.department_fk <> '' ";
+					+ "where c.department_fk is not null and c.department_fk <> '' ";
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -933,14 +933,14 @@ public class SafetyDaoImpl implements SafetyDao {
 			}			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and s.hod_user_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY s.department_fk";
+			qry = qry + " GROUP BY c.department_fk";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -1018,7 +1018,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}				
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
@@ -1102,7 +1102,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}				
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
@@ -1187,7 +1187,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
@@ -1273,7 +1273,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}				
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
@@ -1442,7 +1442,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "		
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-					+ "LEFT OUTER JOIN department d ON s.department_fk  = d.department "
+					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
 					+ "where safety_id is not null " ;
 			int arrSize = 0;
 			
@@ -1464,7 +1464,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and s.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
@@ -1527,16 +1527,16 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getSafetyList(Safety obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,u2.designation as responsible_person,s.department_fk,"
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,u2.designation as responsible_person,c.department_fk,"
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,status_remark_fk,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
+					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-					+ "LEFT OUTER JOIN department d ON s.department_fk  = d.department "
+					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
 					+ "where safety_id is not null " ;
 			int arrSize = 0;
 			

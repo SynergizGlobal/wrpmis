@@ -58,7 +58,6 @@
                                     <thead>
                                         <tr>
                                             <th> Status</th>
-                                            <th> Status of</th>
                                             <c:forEach var="tObj" items="${landAcquisitionStatusDetails.tablesList}" >
                                             	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
@@ -70,9 +69,6 @@
 											<tr><td>
 											<input type="hidden" id="statusId${indexs.count}" value="${obj.status }" class="findLengths" /> 
 											${obj.status }</td>
-											<td>
-											<input type="hidden" id="status_ofId${indexs.count}" value="${obj.status_of }" />
-											${obj.status_of }</td>
 										<c:forEach var="tObj" items="${landAcquisitionStatusDetails.tablesList}" varStatus="index">
 												 
 												<td><c:forEach var="cObj" items="${landAcquisitionStatusDetails.countList}" >
@@ -142,17 +138,13 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
-                            <div class="input-field col s12 m6">
+                            <div class="input-field col s12 m12">
                                 <input id="status_text" type="text" name="status" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="status_text"> Status</label>
                                  <span id="statusError" class="error-msg" ></span>
                                 
                             </div>
-                            <div class="input-field col s12 m6">
-                                <input id="status_of" type="text" name="status_of" class="validate" >
-                                <label for="status_of"> Status of</label>
-                                <span id="status_ofError" class="error-msg" ></span>
-                            </div>
+                           
                              <div  style="text-align:center">
                         		 <span id="DivError" class="error-msg" ></span> 
                        		   </div>
@@ -191,18 +183,13 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
-                         <div class="input-field col s12 m6">
+                         <div class="input-field col s12 m12">
                                 <input id="status_new" type="text" name="status_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="status_old" type="hidden" name="status_old"  >
                                 <label for="status_new"> Status</label>
                                 <span id="status_newError" class="error-msg" ></span>
                          </div>
-                         <div class="input-field col s12 m6">
-                                <input id="status_of_new" type="text" name="status_of_new" class="validate" >
-                                <input id="status_of_old" type="hidden" name="status_of_old"  >
-                                <label for="status_of"> Status of</label>
-                                <span id="status_of_newError" class="error-msg" ></span>
-                            </div>
+                     
                             <div  style="text-align:center">
                         		 <span id="DivUpdateError" class="error-msg" ></span> 
                        		</div>
@@ -377,22 +364,15 @@
         	 rules: {
         		 "status": {
     			 		  required: true
-        		 },"status_of": {
-    			 		  required: true
         		 }
     			},messages: {
     		 		   "status": {
-    			 		  required: 'Required'
-    			 	  },"status_of": {
     			 		  required: 'Required'
     			 	  }
     	        },errorPlacement:function(error, element){
     	        	 if(element.attr("id") == "status_text" ){
     				     document.getElementById("statusError").innerHTML="";
     			 	     error.appendTo('#statusError');
-    				 }else  if(element.attr("id") == "status_of" ){
-    				     document.getElementById("status_ofError").innerHTML="";
-    			 	     error.appendTo('#status_ofError');
     				 }
     	        }
         });
@@ -401,23 +381,15 @@
       	 rules: {
       		 	"status_new": {
   			 		  required: true
-      			 },"status_of_new": {
-  			 		  required: true
       			 }
-       
   			},messages: {
   		 		 "status_new": {
-  			 		  required: 'Required'
-  			 	 },"status_of_new": {
   			 		  required: 'Required'
   			 	 }
   	        },errorPlacement:function(error, element){
   	        	 if(element.attr("id") == "status_new" ){
   				     document.getElementById("status_newError").innerHTML="";
   			 	     error.appendTo('#status_newError');
-  			   }else if(element.attr("id") == "status_of_new" ){
-  				     document.getElementById("status_of_newError").innerHTML="";
-  			 	     error.appendTo('#status_of_newError');
   			   }
   	        }
       });
@@ -430,12 +402,9 @@
 
         function updateRow(no) {
             var status = $('#statusId'+no).val();
-            var status_of = $('#status_ofId'+no).val();
             $('#status_old').val($.trim(status))
-            $('#status_of_old').val($.trim(status_of))
             $('#onlyUpdateModal').modal('open');
             $('#onlyUpdateModal #status_new').val($.trim(status)).focus();
-            $('#onlyUpdateModal #status_of_new').val($.trim(status_of)).focus();
         }
         
         function deleteRow(val){

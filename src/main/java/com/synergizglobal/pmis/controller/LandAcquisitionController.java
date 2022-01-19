@@ -3,11 +3,15 @@ package com.synergizglobal.pmis.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -795,9 +802,11 @@ public class LandAcquisitionController {
 							
 							val = formatter.formatCellValue(row.getCell(6)).trim();
 							if(!StringUtils.isEmpty(val)) { 
-								double dval1 = row.getCell(6).getNumericCellValue();
-								int ival1 = (int) dval1;
-								val = String.valueOf(dval1);
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(6));
+								}
+							
 								la.setArea_of_plot(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(7)).trim();
@@ -865,9 +874,10 @@ public class LandAcquisitionController {
 							
 							val = formatter.formatCellValue(row.getCell(19)).trim();
 							if(!StringUtils.isEmpty(val)) {
-								double dval = row.getCell(19).getNumericCellValue();
-								int ival = (int) dval;
-								val = String.valueOf(ival);
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(19));
+								}
 								la.setJm_fee_amount(val);
 							}
 						
@@ -1278,100 +1288,119 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
 											if(!StringUtils.isEmpty(val)) {
-												double dval = row2.getCell(2).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(2));
+												}
 												pObj1.setBasic_rate(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(3)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(3).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(3));
+												}
 												pObj1.setHundred_percent_Solatium(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(4)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(4).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(4));
+												}
 												pObj1.setExtra_25_percent(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(5)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(5).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(5));
+												}
+												
 												pObj1.setTotal_rate_divide_m2(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(6)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(6).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(6));
+												}
+										
 												pObj1.setLand_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(7)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(7).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(7));
+												}
+											
 												pObj1.setAgriculture_tree_nos(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(8).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(8));
+												}
+											
 												pObj1.setAgriculture_tree_rate(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
 											if(!StringUtils.isEmpty(val)) {
-												double dval = row2.getCell(9).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(9));
+												}
+											
 												pObj1.setAgriculture_tree_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(10).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(10));
+												}
 												pObj1.setForest_tree_nos(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(11).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(11));
+												}
 												pObj1.setForest_tree_rate(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(12)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(12).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(12));
+												}
 												pObj1.setForest_tree_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(13)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(13).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(13));
+												}
 												pObj1.setStructure_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(14)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(14).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(14));
+												}
 												pObj1.setBorewell_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(15)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(15).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(15));
+												}
 												pObj1.setTotal_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(16)).trim();
@@ -1469,9 +1498,10 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(14)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(14).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(14));
+												}
 												pObj2.setPayment_amount(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(15)).trim();
@@ -1529,9 +1559,12 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(5)).trim();
 											if(!StringUtils.isEmpty(val)) {
-												double dval = row2.getCell(5).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												//System.out.println(val);
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(5));
+												}
+												
 												gov.setAmount_demanded(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(6)).trim();
@@ -1550,9 +1583,10 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
 											if(!StringUtils.isEmpty(val)) {
-												double dval = row2.getCell(9).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(9));
+												}
 												gov.setAmount_paid(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
@@ -1623,9 +1657,10 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
 											if(!StringUtils.isEmpty(val)) {
-												double dval = row2.getCell(9).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(9));
+												}
 												fObj.setForest_demanded_amount(val);}
 
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
@@ -1636,9 +1671,11 @@ public class LandAcquisitionController {
 
 											val = formatter.formatCellValue(row2.getCell(12)).trim();
 											if(!StringUtils.isEmpty(val)) { 
-												double dval = row2.getCell(12).getNumericCellValue();
-												int ival = (int) dval;
-												val = String.valueOf(ival);
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(12));
+												}
+										
 												fObj.setForest_payment_amount(val);}
 
 											val = formatter.formatCellValue(row2.getCell(13)).trim();
@@ -1803,16 +1840,33 @@ public class LandAcquisitionController {
 		// existing Sheet, Row, and Cell setup
 		//workbook.setForceFormulaRecalculation(true);
 		try {
-			if (!StringUtils.isEmpty(cell) && cell.getCellType() == CellType.FORMULA) {
-			    switch (evaluator.evaluateFormulaCell(cell)) {
+			CellType type = cell.getCellType();
+			if (!StringUtils.isEmpty(cell)) {
+			    switch (type) {
 			        case BOOLEAN:
 			            val = String.valueOf(cell.getBooleanCellValue());
 			            break;
 			        case NUMERIC:
 			        	val = String.valueOf(cell.getNumericCellValue());
+			        	if(val.contains("E")){
+			        		val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+			        	}
+			       
 			            break;
 			        case STRING:
-			            val = cell.getStringCellValue();
+			        	try {  
+			        		val = cell.getStringCellValue();
+			        		NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+			        		Number number = format.parse(val);
+			        		int d = number.intValue();
+			        		val = String.valueOf(d);
+			        		if(val.contains("E")){
+			        			val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+			        		}
+			        	  } catch(NumberFormatException e){  
+			        		  val = cell.getStringCellValue();
+			        	  }  
+			            
 			            break;
 			        case BLANK:
 			        	val = cell.getStringCellValue();
@@ -1831,7 +1885,12 @@ public class LandAcquisitionController {
 				val = formatter.formatCellValue(cell).trim();
 			}
 		}catch(Exception e) {
-			 val = cell.getStringCellValue();
+			try {
+				 val = cell.getStringCellValue();
+			}catch(Exception e1) {
+				val = String.valueOf(cell.getNumericCellValue());
+			}
+			
 		}
 	
 		return val;

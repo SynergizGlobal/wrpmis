@@ -1359,6 +1359,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "la_land_status_fk= :la_land_status_fk, special_feature= :special_feature,private_land_process= :private_land_process,area_acquired= :area_acquired,"
 					+ "category_fk= :category_fk,area_to_be_acquired= :area_to_be_acquired,remarks= :remarks    "
 					+ "where la_id= :la_id ";
+		//	int rNo = 0;
 			for (LandAcquisition obj : lasList) {
 				String [] codes = {"Private", "Government", "Railway", "Forest"};
 				if(Arrays.asList(codes).contains(obj.getCategory_fk())) {
@@ -1369,9 +1370,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				
 				if(!StringUtils.isEmpty(la_id)) {
 					obj.setLa_id(la_id);
+					//System.out.println(rNo++);
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(updatetQry, paramSource);
 				}else {
+					//System.out.println(rNo++);
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(insertQry, paramSource);
 				}
@@ -1623,8 +1626,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		LandAcquisition dObj = null;
 		String subCateroryNo = null;
 		try {
-			String qry ="select id from la_sub_category where la_sub_category = ?  and la_category_fk = ?" ;
-			dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry, new Object[] {obj.getLa_sub_category_fk(),obj.getCategory_fk()}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			String qry ="select id from la_sub_category where la_sub_category = ?  " ;
+			dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry, new Object[] {obj.getLa_sub_category_fk()}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 			subCateroryNo = dObj.getId();
 			return subCateroryNo;
 		}catch(Exception e){ 

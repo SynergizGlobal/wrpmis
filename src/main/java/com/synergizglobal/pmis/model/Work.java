@@ -29,6 +29,160 @@ public class Work {
 	private List<Work> workFilesList;
 	private MultipartFile[] workFiles;
 	
+	private List<WorkFeatures> workDetails;
+	private List<WorkFeatures> workSalientFeatures;
+	
+	private List<Work> workDetailsList;
+	private List<Work> workSalientFeaturesList;
+	
+	private String category_fk,description,soft_delete_status_fk,category,title_fk,dashboard_url,title,status;
+	
+	private String[] title_fks,dashboard_urls,statuses,category_fks,descriptions,salient_features_statuses;
+	
+
+	public List<WorkFeatures> getWorkDetails() {
+		return workDetails;
+	}
+
+	public void setWorkDetails(List<WorkFeatures> workDetails) {
+		this.workDetails = workDetails;
+	}
+
+	public List<WorkFeatures> getWorkSalientFeatures() {
+		return workSalientFeatures;
+	}
+
+	public void setWorkSalientFeatures(List<WorkFeatures> workSalientFeatures) {
+		this.workSalientFeatures = workSalientFeatures;
+	}
+
+	public List<Work> getWorkDetailsList() {
+		return workDetailsList;
+	}
+
+	public void setWorkDetailsList(List<Work> workDetailsList) {
+		this.workDetailsList = workDetailsList;
+	}
+
+	public List<Work> getWorkSalientFeaturesList() {
+		return workSalientFeaturesList;
+	}
+
+	public void setWorkSalientFeaturesList(List<Work> workSalientFeaturesList) {
+		this.workSalientFeaturesList = workSalientFeaturesList;
+	}
+
+	public String getCategory_fk() {
+		return category_fk;
+	}
+
+	public void setCategory_fk(String category_fk) {
+		this.category_fk = category_fk;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getSoft_delete_status_fk() {
+		return soft_delete_status_fk;
+	}
+
+	public void setSoft_delete_status_fk(String soft_delete_status_fk) {
+		this.soft_delete_status_fk = soft_delete_status_fk;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getTitle_fk() {
+		return title_fk;
+	}
+
+	public void setTitle_fk(String title_fk) {
+		this.title_fk = title_fk;
+	}
+
+	public String getDashboard_url() {
+		return dashboard_url;
+	}
+
+	public void setDashboard_url(String dashboard_url) {
+		this.dashboard_url = dashboard_url;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String[] getTitle_fks() {
+		return title_fks;
+	}
+
+	public void setTitle_fks(String[] title_fks) {
+		this.title_fks = title_fks;
+	}
+
+	public String[] getDashboard_urls() {
+		return dashboard_urls;
+	}
+
+	public void setDashboard_urls(String[] dashboard_urls) {
+		this.dashboard_urls = dashboard_urls;
+	}
+
+	public String[] getStatuses() {
+		return statuses;
+	}
+
+	public void setStatuses(String[] statuses) {
+		this.statuses = statuses;
+	}
+
+	public String[] getCategory_fks() {
+		return category_fks;
+	}
+
+	public void setCategory_fks(String[] category_fks) {
+		this.category_fks = category_fks;
+	}
+
+	public String[] getDescriptions() {
+		return descriptions;
+	}
+
+	public void setDescriptions(String[] descriptions) {
+		this.descriptions = descriptions;
+	}
+
+	public String[] getSalient_features_statuses() {
+		return salient_features_statuses;
+	}
+
+	public void setSalient_features_statuses(String[] salient_features_statuses) {
+		this.salient_features_statuses = salient_features_statuses;
+	}
 
 	public String getEstimated_cost_unit() {
 		return estimated_cost_unit;

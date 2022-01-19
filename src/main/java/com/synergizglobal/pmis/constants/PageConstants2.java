@@ -63,4 +63,7 @@ public class PageConstants2 {
 	public static final String reportsAccessGridNew = "forms/reportsAccessGridNew";
 	public static final String addEditReportAccessFormNew = "forms/addEditReportAccessFormNew";
 	
+	public static final String NEW_HOME = "new_home";	
+	public static final String NEW_HOME_DETAILS = "new_home_details";
+	
 }

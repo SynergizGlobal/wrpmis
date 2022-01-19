@@ -713,7 +713,7 @@ public class HomeDaoImpl implements HomeDao {
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		List<Work> workDocs = null;
 		try {
-			String projectQry = "select project_id,project_name,plan_head_number,remarks,project_status,attachment,benefits "
+			String projectQry = "select project_id,project_name,plan_head_number,remarks,project_status,benefits "
 					+ "from `project`";
 			
 			/*String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
@@ -743,7 +743,6 @@ public class HomeDaoImpl implements HomeDao {
 					+ "wr.completion_cost as completion_cost,"
 					+ "(SELECT (CASE WHEN MONTH(wr.projected_completion) >= 4 THEN concat(YEAR(wr.projected_completion), '-',SUBSTR(YEAR(wr.projected_completion)+1,3,2)) ELSE concat(YEAR(wr.projected_completion)-1,'-', SUBSTR(YEAR(wr.projected_completion),3,2)) END) AS financial_year) as projected_completion_year," 
 					//+ "wr.projected_completion as projected_completion_year,"
-					+ " wr.attachment as work_attachment,"
 					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost " 
 					+ "from work wr "
 					+ "left join work_railway wy ON wr.work_id = wy.work_id_fk " + 

@@ -52,7 +52,7 @@ public class WorkDaoImpl implements WorkDao {
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`," 
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
+					+ ",w.remarks,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
 					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk "
 					+ "FROM work w "  
 					+"LEFT JOIN project p ON w.project_id_fk = p.project_id ";
@@ -90,7 +90,7 @@ public class WorkDaoImpl implements WorkDao {
 			connection = dataSource.getConnection();
 			String qry ="SELECT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," 
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
+					+ ",w.remarks,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
 					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk "
 					+ "FROM work w " 
 					+ "LEFT JOIN project p ON w.project_id_fk = p.project_id " 
@@ -114,7 +114,7 @@ public class WorkDaoImpl implements WorkDao {
 				work.setYear_of_completion(resultSet.getString("year_of_completion"));
 				work.setCompletion_cost(resultSet.getString("completion_cost"));
 				work.setRemarks(resultSet.getString("remarks"));
-				work.setAttachment(resultSet.getString("attachment"));
+				//work.setAttachment(resultSet.getString("attachment"));
 				work.setProjected_completion(resultSet.getString("projected_completion"));
 				work.setWork_status_fk(resultSet.getString("work_status_fk"));
 				work.setProjected_completion_date(resultSet.getString("projected_completion_date"));
@@ -274,7 +274,7 @@ public class WorkDaoImpl implements WorkDao {
 			con.setAutoCommit(false);
 			String qry = "update work set work_name = ?,project_id_fk = ?,sanctioned_year_fk=?,sanctioned_estimated_cost = ?," + 
 						 "completeion_period_months = ?,sanctioned_completion_cost = ?,anticipated_cost = ?,year_of_completion = ?,"
-						 + "completion_cost = ?,remarks = ?,attachment = ?,projected_completion = ?,work_short_name = ?,projected_completion_date = ? ,work_status_fk = ? "
+						 + "completion_cost = ?,remarks = ?,projected_completion = ?,work_short_name = ?,projected_completion_date = ? ,work_status_fk = ? "
 						 + "where work_id =?";
 		
 			stmt = con.prepareStatement(qry); 
@@ -289,7 +289,7 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(p++,work.getYear_of_completion());
 			stmt.setString(p++,work.getCompletion_cost());
 			stmt.setString(p++,work.getRemarks());
-			stmt.setString(p++,work.getAttachment());
+			//stmt.setString(p++,work.getAttachment());
 			stmt.setString(p++,work.getProjected_completion());
 			stmt.setString(p++,work.getWork_short_name());
 			stmt.setString(p++,work.getProjected_completion_date());
@@ -542,7 +542,7 @@ public class WorkDaoImpl implements WorkDao {
 			con.setAutoCommit(false);
 			String qry ="INSERT into work (work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost," + 
 						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,"
-						+ "remarks,attachment,projected_completion,work_short_name,projected_completion_date )"+
+						+ "remarks,projected_completion,work_short_name,projected_completion_date )"+
 						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry); 
 			int p = 1;
@@ -557,7 +557,7 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(p++,work.getYear_of_completion());
 			stmt.setString(p++,work.getCompletion_cost());
 			stmt.setString(p++,work.getRemarks());
-			stmt.setString(p++,work.getAttachment());
+			//stmt.setString(p++,work.getAttachment());
 			stmt.setString(p++,work.getProjected_completion());
 			stmt.setString(p++,work.getWork_short_name());
 			stmt.setString(p++,work.getProjected_completion_date());
@@ -891,7 +891,7 @@ public class WorkDaoImpl implements WorkDao {
 					"(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`, " + 
 					"(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`, " + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost "  + 
-					",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion, " + 
+					",w.remarks,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion, " + 
 					"DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk "
 					+ "FROM work w  " + 
 					"LEFT JOIN project p ON w.project_id_fk = p.project_id  "+

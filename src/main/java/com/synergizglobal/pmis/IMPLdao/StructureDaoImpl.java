@@ -299,9 +299,9 @@ public class StructureDaoImpl implements StructureDao {
 			throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT s.structure_id,s.status,s.structure,w.work_name,w.work_short_name,w.project_id_fk,s.department_fk,p.project_name,s.work_id_fk,"
+			String qry = "SELECT s.structure_id,s.status,s.structure,w.work_name,w.work_short_name,w.project_id_fk,p.project_name,s.work_id_fk,"
 					+ "GROUP_CONCAT(CONCAT(structure_type_fk, ' - ', count) SEPARATOR ',') as structure_type_fk "
-					+ "FROM ( SELECT structure_id,status,structure,department_fk,contract_id_fk, work_id_fk, structure_type_fk, COUNT(structure_type_fk) AS count FROM structure "
+					+ "FROM ( SELECT structure_id,status,structure, work_id_fk, structure_type_fk, COUNT(structure_type_fk) AS count FROM structure "
 					+ "JOIN work ON work.work_id = structure.work_id_fk where status = 'Active' GROUP BY work_id_fk, structure_type_fk) s "
 					+ "left join work w on s.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci   "
 					+ "left join project p on w.project_id_fk = p.project_id  "
@@ -1490,7 +1490,7 @@ public class StructureDaoImpl implements StructureDao {
 	public List<Structure> getStructureExportList(Structure structure) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT s.structure_id,s.structure,w.work_name,w.work_short_name,dt.department_name,w.project_id_fk,s.department_fk,p.project_name,s.work_id_fk,s.contract_id_fk,c.contract_name,"
+			String qry = "SELECT s.structure_id,s.structure,w.work_name,w.work_short_name,dt.department_name,w.project_id_fk,p.project_name,s.work_id_fk,c.contract_name,"
 					+ "c.contract_short_name, structure_type_fk  " + "FROM structure s "
 					+ "left join contract c on s.contract_id_fk = c.contract_id    "
 					+ "left join work w on s.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci   "

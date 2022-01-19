@@ -50,7 +50,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		List<Deliverables> objsList = null;
 		try {
 			String qry ="select id,project_priority_fk,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type_fk,"
-					+ "deliverable_description, status_fk,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS finish_date,d.remarks,d.attachment"
+					+ "deliverable_description, status_fk,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS finish_date,d.remarks "
 					+ " from deliverables d " + 
 					"LEFT join work w on d.work_id_fk = w.work_id "
 					+"LEFT JOIN project p on w.project_id_fk = p.project_id  "
@@ -331,7 +331,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public Deliverables getDeliverables(Deliverables obj) throws Exception {
 		Deliverables deliverables = null;
 		try {
-			String qry = "select id, project_priority_fk, d.project_id_fk,p.project_name,w.work_name,c.contract_name, d.work_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date, DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS  finish_date, status_fk, d.remarks,d.attachment from deliverables d " + 
+			String qry = "select id, project_priority_fk, d.project_id_fk,p.project_name,w.work_name,c.contract_name, d.work_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date, DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS  finish_date, status_fk, d.remarks from deliverables d " + 
 						 "LEFT JOIN work w on d.work_id_fk = w.work_id "
 						 +"LEFT JOIN project p on d.project_id_fk = p.project_id "
 						 +"LEFT JOIN contract c on d.contract_id_fk = c.contract_id where id is not null ";
@@ -367,9 +367,9 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO deliverables"
-					+ "( project_priority_fk, project_id_fk, work_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description, target_date, start_date, finish_date, status_fk, remarks,attachment)"
+					+ "( project_priority_fk, project_id_fk, work_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description, target_date, start_date, finish_date, status_fk, remarks)"
 					+ "VALUES"
-					+ "(:project_priority_fk, :project_id_fk, :work_id_fk, :contract_id_fk, :deliverable_type_fk, :deliverable_description, :target_date, :start_date, :finish_date, :status_fk,:remarks,:attachment)";
+					+ "(:project_priority_fk, :project_id_fk, :work_id_fk, :contract_id_fk, :deliverable_type_fk, :deliverable_description, :target_date, :start_date, :finish_date, :status_fk,:remarks)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -416,7 +416,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE deliverables set "
-					+ "project_priority_fk= :project_priority_fk,deliverable_type_fk = :deliverable_type_fk,deliverable_description= :deliverable_description,target_date= :target_date, start_date= :start_date, finish_date= :finish_date,status_fk= :status_fk,remarks= :remarks,attachment= :attachment "
+					+ "project_priority_fk= :project_priority_fk,deliverable_type_fk = :deliverable_type_fk,deliverable_description= :deliverable_description,target_date= :target_date, start_date= :start_date, finish_date= :finish_date,status_fk= :status_fk,remarks= :remarks "
 					+ "where id= :id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
@@ -620,7 +620,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		List<Deliverables> objsList = null;
 		try {
 			String qry ="select id,project_priority_fk,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type_fk,"
-					+ "deliverable_description, status_fk,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS finish_date,d.remarks,d.attachment"
+					+ "deliverable_description, status_fk,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS finish_date,d.remarks"
 					+ " from deliverables d " + 
 					"LEFT join work w on d.work_id_fk = w.work_id "
 					+"LEFT JOIN project p on w.project_id_fk = p.project_id  "

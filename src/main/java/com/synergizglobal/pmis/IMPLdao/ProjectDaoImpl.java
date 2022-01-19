@@ -58,7 +58,7 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<Project> getProjectList(Project project) throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry ="SELECT project_id, project_name, plan_head_number, remarks, project_status, attachment, benefits ,"
+			String qry ="SELECT project_id, project_name, plan_head_number, remarks, project_status, benefits ,"
 					+ "(select financial_year_fk from project_pinkbook where project_id_fk = project_id order by project_pinkbook_id asc limit 1) as financial_year_fk,"
 					+ "(select pb_item_no from project_pinkbook where project_id_fk = project_id order by project_pinkbook_id asc limit 1) as pb_item_no "
 					+ "FROM project";
@@ -79,7 +79,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		Project project = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry ="SELECT project_id,project_name,plan_head_number,remarks,project_status,attachment,benefits,"
+			String qry ="SELECT project_id,project_name,plan_head_number,remarks,project_status,benefits,"
 					+ "(select financial_year_fk from project_pinkbook where project_id_fk = ? order by project_pinkbook_id asc limit 1) as financial_year_fk, "
 					+ "(select pb_item_no from project_pinkbook where project_id_fk = ? order by project_pinkbook_id asc limit 1) as pb_item_no "
 					+ "FROM project "
@@ -96,7 +96,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				project.setPlan_head_number(resultSet.getString("plan_head_number"));
 				project.setRemarks(resultSet.getString("remarks"));
 				project.setProject_status(resultSet.getString("project_status"));
-				project.setAttachment(resultSet.getString("attachment"));
+				//project.setAttachment(resultSet.getString("attachment"));
 				project.setBenefits(resultSet.getString("benefits"));
 				
 				if(!StringUtils.isEmpty(resultSet.getString("financial_year_fk"))) {
@@ -328,7 +328,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				
 				String file_ids = "";
 				for (int i = 0; i < arraySize; i++) {
-					if(!StringUtils.isEmpty(project.getProject_file_ids()[i])) {
+					if(!StringUtils.isEmpty(project.getProject_file_ids()) && project.getProject_file_ids().length > 0 && !StringUtils.isEmpty(project.getProject_file_ids()[i])) {
 						file_ids = file_ids + project.getProject_file_ids()[i] + ",";
 					}
 				}
@@ -349,7 +349,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				for (int i = 0; i < arraySize; i++) {
 					MultipartFile multipartFile = project.getProjectFiles()[i];
 					if ((null != multipartFile && !multipartFile.isEmpty())
-							|| !StringUtils.isEmpty(project.getProjectFileNames()[i])) {
+							|| !StringUtils.isEmpty(project.getProjectFileNames()) && project.getProjectFileNames().length > 0 && !StringUtils.isEmpty(project.getProjectFileNames()[i])) {
 						String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH + project.getProject_id() + File.separator;
 						String fileName = project.getProjectFileNames()[i];
 						String file_id = project.getProject_file_ids()[i];

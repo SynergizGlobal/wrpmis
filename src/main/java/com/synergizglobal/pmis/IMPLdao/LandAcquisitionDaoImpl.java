@@ -1353,7 +1353,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ ":la_land_status_fk, :category_fk, :area_to_be_acquired, :remarks)";
 			
 			String updatetQry = "UPDATE la_land_identification SET "
-					+ "survey_number= :survey_number, village_id= :village_id, village= :village, taluka= :taluka, dy_slr= :dy_slr, sdo= :sdo, collector= :collector, proposal_submission_date_to_collector= :proposal_submission_date_to_collector,"
+					+ "survey_number= :survey_number, village_id= :village_id,la_sub_category_fk= :la_sub_category_fk, village= :village, taluka= :taluka, dy_slr= :dy_slr, sdo= :sdo, collector= :collector, proposal_submission_date_to_collector= :proposal_submission_date_to_collector,"
 					+ "area_of_plot= :area_of_plot, jm_fee_amount = :jm_fee_amount, chainage_from= :chainage_from, chainage_to= :chainage_to, jm_fee_letter_received_date= :jm_fee_letter_received_date, jm_fee_paid_date= :jm_fee_paid_date, jm_start_date= :jm_start_date, jm_completion_date= :jm_completion_date, "
 					+ "jm_sheet_date_to_sdo= :jm_sheet_date_to_sdo, jm_remarks= :jm_remarks, jm_approval= :jm_approval, issues= :issues,  jm_fee_amount_units= :jm_fee_amount_units,"
 					+ "la_land_status_fk= :la_land_status_fk, special_feature= :special_feature,private_land_process= :private_land_process,area_acquired= :area_acquired,"
@@ -1626,8 +1626,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		LandAcquisition dObj = null;
 		String subCateroryNo = null;
 		try {
-			String qry ="select id from la_sub_category where la_sub_category = ?  " ;
-			dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry, new Object[] {obj.getLa_sub_category_fk()}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			String qry ="select id from la_sub_category where la_sub_category = ? and la_category_fk = ? " ;
+			dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry, new Object[] {obj.getLa_sub_category_fk(),obj.getCategory_fk()}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 			subCateroryNo = dObj.getId();
 			return subCateroryNo;
 		}catch(Exception e){ 

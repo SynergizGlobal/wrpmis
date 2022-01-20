@@ -27,11 +27,17 @@ public class ReferenceFormsAccessDaoImpl implements ReferenceFormsAccessDao{
 	public List<ReferenceForms> getReferenceForms() throws Exception {
 		List<ReferenceForms> objsList = null;
 		try {
-			String qry ="select reference_forms_id, name, form_url, module_fk "
+			/*String qry ="select reference_forms_id, name, form_url, module_fk "
 					+ "from reference_forms rf "
 					+ "LEFT JOIN module m ON module_fk = module_name "
-					+ "WHERE m.soft_delete_status_fk = ? GROUP BY module_fk ";
-			objsList = jdbcTemplate.query( qry,new Object[]{CommonConstants.ACTIVE}, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
+					+ "WHERE m.soft_delete_status_fk = ? GROUP BY module_fk ";*/
+			
+			String qry ="select form_id as reference_forms_id, form_name as name, web_form_url as form_url, module_name_fk as module_fk "
+					+ "from form f "
+					+ "LEFT JOIN module m ON module_name_fk = module_name "
+					+ "WHERE form_id = parent_form_id_sr_fk AND url_type = ? AND m.soft_delete_status_fk = ? GROUP BY module_name_fk ";
+			
+			objsList = jdbcTemplate.query( qry,new Object[]{"Reference Forms",CommonConstants.ACTIVE}, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}
@@ -42,7 +48,7 @@ public class ReferenceFormsAccessDaoImpl implements ReferenceFormsAccessDao{
 	public List<ReferenceForms> getReferencePagesList(ReferenceForms obj) throws Exception {
 		List<ReferenceForms> objsList = null;
 		try {
-			String qry = "SELECT reference_forms_id, name, form_url, module_fk from reference_forms  " + 
+			/*String qry = "SELECT reference_forms_id, name, form_url, module_fk from reference_forms  " + 
 					"where form_url is not null and form_url <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_fk())) {
@@ -51,6 +57,21 @@ public class ReferenceFormsAccessDaoImpl implements ReferenceFormsAccessDao{
 			}
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_fk())) {
+				pValues[i++] = obj.getModule_fk();
+			}*/
+			
+			String qry = "SELECT form_id as reference_forms_id, form_name as name, web_form_url as form_url, module_name_fk as module_fk "
+					+ "from form "
+					+ "WHERE form_id = parent_form_id_sr_fk AND url_type = ? AND web_form_url is not null AND web_form_url <> '' ";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_fk())) {
+				qry = qry + " and module_name_fk = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = "Reference Forms";
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_fk())) {
 				pValues[i++] = obj.getModule_fk();
 			}

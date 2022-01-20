@@ -2,7 +2,7 @@ package com.synergizglobal.pmis.reference.model;
 
 public class ReferenceForms {
 	
-	private String reference_forms_id, name, form_url, module_fk,module_name;
+	private String reference_forms_id, name, form_url, module_fk,module_name,url_type,soft_delete_status_fk;
 
 	public String getModule_name() {
 		return module_name;
@@ -42,6 +42,22 @@ public class ReferenceForms {
 
 	public void setModule_fk(String module_fk) {
 		this.module_fk = module_fk;
+	}
+
+	public String getUrl_type() {
+		return url_type;
+	}
+
+	public void setUrl_type(String url_type) {
+		this.url_type = url_type;
+	}
+
+	public String getSoft_delete_status_fk() {
+		return soft_delete_status_fk;
+	}
+
+	public void setSoft_delete_status_fk(String soft_delete_status_fk) {
+		this.soft_delete_status_fk = soft_delete_status_fk;
 	}
 
 }

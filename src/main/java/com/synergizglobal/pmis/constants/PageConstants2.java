@@ -66,4 +66,13 @@ public class PageConstants2 {
 	public static final String NEW_HOME = "new_home";	
 	public static final String NEW_HOME_DETAILS = "new_home_details";
 	
+	public static final String salientFeaturesCategory = "referenceForms/salientFeaturesCategory";	
+	public static final String workDetailsTitle = "referenceForms/workDetailsTitle";
+	
+	public static final String workDetails = "forms/workDetails";
+	public static final String addEditWorkDetails = "forms/addEditWorkDetails";
+	
+	public static final String workSalientFeatures = "forms/workSalientFeatures";
+	public static final String addEditWorkSalientFeatures = "forms/addEditWorkSalientFeatures";
+	
 }

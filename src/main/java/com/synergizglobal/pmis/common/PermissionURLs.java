@@ -17,6 +17,8 @@ public class PermissionURLs {
 	    "/home-new",
 	    "/pmis/new-home",
 	    "/new-home",
+	    "/pmis/project-overview",
+	    "/project-overview",
 	    "/pmis/profile",
 	    "/profile",
 	    "/pmis/update-profile",

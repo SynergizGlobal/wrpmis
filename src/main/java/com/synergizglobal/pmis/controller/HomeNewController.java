@@ -37,7 +37,8 @@ Logger logger = Logger.getLogger(HomeController.class);
 	 * @return type of this method is model.
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
-	@RequestMapping(value="/home-new",method=RequestMethod.GET)
+	//@RequestMapping(value="/home-new",method=RequestMethod.GET)
+	@RequestMapping(value="/",method=RequestMethod.GET)
 	public ModelAndView welcome(HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView();
 		try {
@@ -66,7 +67,8 @@ Logger logger = Logger.getLogger(HomeController.class);
 	 * 
 	 */
 	
-	@RequestMapping(value = "/new-home", method = {RequestMethod.GET,RequestMethod.POST})
+	//@RequestMapping(value = "/new-home", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/home", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView home(@ModelAttribute User user,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		String user_Id = null;String userName = null;

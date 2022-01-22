@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.IssueService;
@@ -65,14 +66,12 @@ public class TableauDashboardController {
 	@RequestMapping(value="/InfoViz/{param1}/{param}",method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView tableauView(@PathVariable(value = "param1") String param1,@PathVariable(value = "param") String param,
 			HttpSession session,HttpServletRequest request){
-		ModelAndView view = new ModelAndView(PageConstants.tableauDashboard);
+		ModelAndView view = new ModelAndView();
 		String user_Id = null;String userName = null;
 		String title = "";
 		try{
+			view.setViewName(PageConstants.tableauDashboard);
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
-			view.addObject("active", param);
-			view.addObject("param1", param1);
-			view.addObject("tabActive", "dashboard");
 			
 			User user = (User)session.getAttribute("user");
 			String activityWork = null;
@@ -89,7 +88,7 @@ public class TableauDashboardController {
 				title = title + capitalize(line).toUpperCase() + " - ";
 			}
 			
-			view.addObject("title", title+"PMIS - Syntrack.");
+			
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
@@ -106,6 +105,16 @@ public class TableauDashboardController {
 				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrl);*/
+				
+				if(vo.getTableauUrl().equalsIgnoreCase("overview-dashboard")) {
+					view.setViewName("redirect:/"+vo.getTableauUrl());
+					return view;
+				}else {
+					view.addObject("active", param);
+					view.addObject("param1", param1);
+					view.addObject("tabActive", "dashboard");
+					view.addObject("title", title+"PMIS - Syntrack.");
+				}
 				
 				String server_name = "Syntrack";
 				if(vo.getTableauUrl().contains(".com/")) {

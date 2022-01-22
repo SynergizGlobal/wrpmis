@@ -49,7 +49,7 @@ public class HomeController {
 	 * @return type of this method is model.
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
-	@RequestMapping(value="/",method=RequestMethod.GET)
+	/*@RequestMapping(value="/",method=RequestMethod.GET)
 	public ModelAndView welcome(HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView();
 		try {
@@ -68,7 +68,7 @@ public class HomeController {
 			logger.error("welcome : " + e.getMessage());
 		}
 		return model;
-	}
+	}*/
 	
 	
 	/**
@@ -80,7 +80,7 @@ public class HomeController {
 	 * 
 	 */
 	
-	@RequestMapping(value = "/home", method = {RequestMethod.GET,RequestMethod.POST})
+	/*@RequestMapping(value = "/home", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView home(@ModelAttribute User user,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		String user_Id = null;String userName = null;
@@ -103,7 +103,7 @@ public class HomeController {
 			logger.error("home() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
 		}
 		return model;
-	}
+	}*/
 	
 	@RequestMapping(value="/access-denied",method=RequestMethod.GET)
 	public ModelAndView accessDenied(HttpSession session) throws IOException {

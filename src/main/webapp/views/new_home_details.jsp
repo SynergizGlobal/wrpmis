@@ -29,7 +29,7 @@
     /* 3rd demo start */
     .w25{width: 25% !important;}
     .w75{width: 75% !important;}
-    .line p{font-size: 18px;}
+    .line p{font-size: 16px;}
     .modal{max-height: 73.5%;
     		width: max-content;
 		    max-width: 90%;
@@ -67,7 +67,7 @@
 				  display: inline-block;
 				  width: 210px;
 				  line-height: initial;
-				  font-size: 18px;
+				  font-size: 16px;
 				  
 				}
 				.diamond:before,
@@ -230,7 +230,6 @@
             color: #fff;
             font-weight: bold;
             width: 90%;
-            padding: 10px;
             vertical-align: middle;
             font-size: 18px;
         }

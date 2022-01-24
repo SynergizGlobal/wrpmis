@@ -13,8 +13,26 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
 <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
 <style>
+	.nav-wrapper{z-index: 1000;}
+	.fourth-level-menu>li, .third-level-menu>li, .second-level-menu>li{background-color: #1565c0;}
+	nav ul li:hover >a{background-color: #1976D2;color: #fff;}
+	.second-level-menu li:hover >a{background-color: #1976D2;}
+	.third-level-menu li:hover >a{background-color: #1976d2 !important;color: #fff !important}
+	.search-holder{background-color: #aaa;}
+	.search-holder select option{background-color: #f1f1f1;}
+	.item{background-color: #f1f1f1;}
+	.notifications_group .item.type-1{background-color: #cbcbcb;}
+	.notifications_group .item.type-1:hover{background-color: #1976D2;}
+	.notifications_group .item.type-2{background-color: #d8d8d8;}
+	.notifications_group .item.type-2:hover{background-color: #1976D2;}
+	.notifications_group .item.type-3{background-color: #e4e4e4;}
+	.notifications_group .item.type-3:hover{background-color: #1976d2}
+	.notifications_group .item.type-3:hover >a{background-color: #1976d2}
+	.notifications_group .item:hover{background-color: #1976D2;}
+	.notifications_group .item:hover >a{background-color: #1976D2;color: #fff;}
+	.notification_body{background-color: #f1f1f1;}
 	nav .menu-active, nav .menu-active.blue {
-		background-color: #f56661 !important;
+		background-color: #1976d2 !important;
 		box-shadow: 0 0 5px #bababa inset;
 		transition: all 1s ease-in;
 	}
@@ -136,17 +154,6 @@
     		width: 50%;
 	}
      }
-     
-     .theme-change {
-    position: fixed;
-    z-index: 2;
-    right: -20px;
-    top: 60px;
-    border: 0;
-    cursor: pointer;
-    font-size: 1.5rem;
-    transition: all 1s ease-in-out;
-}
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />
@@ -161,7 +168,7 @@
 
 	<!-- header @navigation starts here -->
 	<nav>
-	<div class="nav-wrapper blue lighten-1">
+	<div class="nav-wrapper blue darken-3">
 		<div class="">
 			<a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img
 				src="/pmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span> <span id="CurrentDate"></span>
@@ -176,7 +183,7 @@
 					href="<%=request.getContextPath() %>/home"><span
 						class="material-icons-outlined">home</span>Home</a></li>
 				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Input User' }">
-					<li class="blue darken-2 dropdown"><a href="#"
+					<li class="blue darken-3 dropdown"><a href="#"
 						class='head-img'> <!-- 1st level Dropdown starts --> <!-- img src="/pmis/resources/images/dashboard-white.png"-->
 							<span class="material-icons-outlined">dashboard</span> Modules
 					</a>
@@ -200,13 +207,12 @@
 								</c:if>
 								<c:if test="${not empty  category.tableauSubList}">
 									<li class="sub-menu">
-										<!-- 2nd level Dropdown starts --> 
-										<a href="#!"> <span
+										<!-- 2nd level Dropdown starts --> <a href="#!"> <span
 											style="padding-right: 5px;"
 											class="fa fa-${category.imagePath}"></span> <span
 											class="nav-label">${category.tableauDashboardName
                                                                         }</span>
-										</a>
+									</a>
 										<ul class="third-level-menu">
 											<c:forEach var="subList" items="${category.tableauSubList }">
 												<c:set var="tempsubActivity"
@@ -215,47 +221,16 @@
 												<c:set var="subActivity"
 													value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}">
 												</c:set>
-												<%-- <li><a
+												<c:set var="subActivityName"
+													value="${ subList.tableauDashboardName}">
+												</c:set>
+												<li><a
 													href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
 														<span style="padding-right: 5px;"
 														class="fa fa-${subList.imagePath }"></span> <span
 														class="nav-label">${subList.tableauDashboardName
                                                                                     }</span>
-												</a></li> --%>
-												
-												<c:if test="${empty subList.tableauSubListLevel2}">
-													<li>
-													<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
-															<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span> 
-															<span class="nav-label">${subList.tableauDashboardName }</span>
-													</a>
-													</li>
-												</c:if>
-												<c:if test="${not empty  subList.tableauSubListLevel2}">
-													<li class="sub-menu">
-														<a href="#!"> 
-															<span style="padding-right: 5px;" class="fa fa-${subList.imagePath}"></span> 
-															<span class="nav-label">${subList.tableauDashboardName}</span>
-														</a>
-														<ul class="third-level-menu">
-															<c:forEach var="subListLevel2" items="${subList.tableauSubListLevel2 }">
-																<c:set var="tempsubActivityLevel2"
-																	value="${ fn:toLowerCase(subListLevel2.tableauDashboardName.replaceAll(' - ', '_'))}">
-																</c:set>
-																<c:set var="subActivityLevel2"
-																	value="${ fn:toLowerCase(tempsubActivityLevel2.replaceAll(' ', '-'))}">
-																</c:set>
-																<li><a
-																	href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivityLevel2 }">
-																		<span style="padding-right: 5px;"
-																		class="fa fa-${subListLevel2.imagePath }"></span> <span
-																		class="nav-label">${subListLevel2.tableauDashboardName
-				                                                                                    }</span>
-																</a></li>
-															</c:forEach>
-														</ul></li>
-												</c:if>
-												
+												</a></li>
 											</c:forEach>
 										</ul>
 									</li>
@@ -265,8 +240,10 @@
 							</c:forEach>
 						</ul> <!-- 1st level Dropdown ends --></li>
 
-					<li class="blue darken-1 dropdown"> 
-						<a href="#" class='head-img'> <span class="material-icons-outlined">dashboard</span>Works</a>
+					<li class="blue darken-3 dropdown"><a href="#"
+						class='head-img'> <span class="material-icons-outlined">dashboard</span>
+							Works
+					</a>
 						<ul class="second-level-menu">
 							<c:forEach var="category" items="${dashboardProjectsList }"
 								varStatus="index">
@@ -300,48 +277,16 @@
 												<c:set var="subActivity"
 													value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}">
 												</c:set>
-												<%-- <li>
-												<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
-														<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span> 
-														<span class="nav-label">${subList.tableauDashboardName }</span>
-												</a>
-												</li> --%>
-												
-												
-												
-												<c:if test="${empty subList.tableauSubListLevel2}">
-													<li>
-													<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
-															<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span> 
-															<span class="nav-label">${subList.tableauDashboardName }</span>
-													</a>
-													</li>
-												</c:if>
-												<c:if test="${not empty  subList.tableauSubListLevel2}">
-													<li class="sub-menu">
-														<a href="#!"> 
-															<span style="padding-right: 5px;" class="fa fa-${subList.imagePath}"></span> 
-															<span class="nav-label">${subList.tableauDashboardName}</span>
-														</a>
-														<ul class="third-level-menu">
-															<c:forEach var="subListLevel2" items="${subList.tableauSubListLevel2 }">
-																<c:set var="tempsubActivityLevel2"
-																	value="${ fn:toLowerCase(subListLevel2.tableauDashboardName.replaceAll(' - ', '_'))}">
-																</c:set>
-																<c:set var="subActivityLevel2"
-																	value="${ fn:toLowerCase(tempsubActivityLevel2.replaceAll(' ', '-'))}">
-																</c:set>
-																<li><a
-																	href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivityLevel2 }">
-																		<span style="padding-right: 5px;"
-																		class="fa fa-${subListLevel2.imagePath }"></span> <span
-																		class="nav-label">${subListLevel2.tableauDashboardName
-				                                                                                    }</span>
-																</a></li>
-															</c:forEach>
-														</ul></li>
-												</c:if>
-												
+												<c:set var="subActivityName"
+													value="${ subList.tableauDashboardName}">
+												</c:set>
+												<li><a
+													href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
+														<span style="padding-right: 5px;"
+														class="fa fa-${subList.imagePath }"></span> <span
+														class="nav-label">${subList.tableauDashboardName
+                                                                                    }</span>
+												</a></li>
 											</c:forEach>
 										</ul></li>
 								</c:if>
@@ -350,14 +295,21 @@
 				</c:if>
 
 				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
-					<li class="blue dropdown">
-						<a href="#" class='head-img'> <span class="material-icons-outlined">post_add</span> Update Forms</a>
+					<li class="blue darken-3 dropdown"><a href="#" class='head-img'> <span
+							class="material-icons-outlined">post_add</span> Update Forms
+					</a> <%-- <ul class="second-level-menu">
+                                                    <c:forEach var="form" items="${forms }">
+                                            <li><a href="${form.webFormUrl }">${form.formName }</a></li>
+                                            </c:forEach>
+                                </ul> --%>
+
 
 						<ul class="second-level-menu">
 							<!-- 1st level Dropdown starts -->
 							
 							<c:forEach var="form" items="${forms }" varStatus="index">
-								<c:if test="${empty form.formsSubMenu}">
+<%-- 							<c:if test="${(form.formName!='Design & Drawing' && form.formName!='Safety' && form.formName!='Training' && form.formName!='Land Acquisition' && form.formName!='Finance') || (sessionScope.USER_ROLE_NAME eq 'IT Admin') }">
+ --%>								<c:if test="${empty form.formsSubMenu}">
 									<li><c:if test="${not empty form.webFormUrl}">
 											<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
 												<span class="nav-label">${form.formName }</span>
@@ -365,22 +317,27 @@
 										</c:if></li>
 								</c:if>
 								<c:if test="${not empty form.formsSubMenu}">
-									<li class="sub-menu">
-										<a href="#!"> <span class="nav-label">${form.formName }</span>  </a>
+									<li class="sub-menu"><a href="#!"> <span
+											class="nav-label">${form.formName }</span>  
+									</a>
 									
 										<ul class="third-level-menu">
 											<!-- 2nd level Dropdown starts -->
 											<c:forEach var="subList" items="${form.formsSubMenu }">
-
-												<c:if test="${ empty subList.formsSubMenuLevel2 and not empty subList.webFormUrl}">
+												<!-- <li>
+	      									<a href="${subList.webFormUrl }">
+	      										<span class="nav-label">${subList.formName }</span>
+	          								</a>
+	              						</li> -->
+												<c:if test="${ empty subList.formsSubMenuLevel2}">
 													<li><a
 														href="<%=request.getContextPath()%>/${subList.webFormUrl }">
 															<span class="nav-label">${subList.formName }</span>
 													</a></li>
 												</c:if>
 												<c:if test="${not empty subList.formsSubMenuLevel2}">
-													<li class="sub-menu">
-														<a href="#">${subList.formName }</a>
+													<li class="sub-menu"><a href="#">
+															${subList.formName }</a>
 														<ul class="fourth-level-menu">
 															<c:forEach var="subListLevel2"
 																items="${subList.formsSubMenuLevel2}">
@@ -391,6 +348,10 @@
 														</ul></li>
 												</c:if>
 											</c:forEach>
+											<!-- start delete from here after the fourth level menu implemented -->
+
+											<!-- start delete upto here after the fourth level menu implemented -->
+											<!-- 2nd level Dropdown ends -->
 										</ul></li>
 								</c:if>
 								<%-- </c:if> --%>
@@ -400,7 +361,7 @@
 				</c:if>
 
 				<c:if test="${not empty reportForms}">
-					<li class="blue lighten-1 dropdown"><a href="#"
+					<li class="blue darken-3 dropdown"><a href="#"
 						class='head-img'> <span class="material-icons-outlined">assignment</span>
 							Reports
 					</a>
@@ -421,24 +382,11 @@
 										<ul class="third-level-menu">
 											<!-- 2nd level Dropdown starts -->
 											<c:forEach var="subList" items="${form.formsSubMenu }">
-												<c:if test="${ empty subList.formsSubMenuLevel2 and not empty subList.webFormUrl}">
-													<li><a
-														href="<%=request.getContextPath()%>/${subList.webFormUrl }">
-															<span class="nav-label">${subList.formName }</span>
-													</a></li>
-												</c:if>
-												<c:if test="${not empty subList.formsSubMenuLevel2}">
-													<li class="sub-menu"><a href="#">
-															${subList.formName }</a>
-														<ul class="fourth-level-menu">
-															<c:forEach var="subListLevel2"
-																items="${subList.formsSubMenuLevel2}">
-																<li><a
-																	href="<%=request.getContextPath()%>/${subListLevel2.webFormUrl }">
-																		${subListLevel2.formName } </a></li>
-															</c:forEach>
-														</ul></li>
-												</c:if>											
+												<li><a
+													href="<%=request.getContextPath()%>/${subList.webFormUrl }">
+														<span class="nav-label">${subList.formName
+                                                                            }</span>
+												</a></li>
 											</c:forEach>
 											<!-- 2nd level Dropdown ends -->
 										</ul></li>
@@ -456,7 +404,7 @@
                                             class='head-img'>
                                             <span class="material-icons-outlined">assignment</span> Manuals</a>
                                         </li> --%>
-				<li class="blue darken-2"><a href="javascript:void(0);"
+				<li class="blue darken-3"><a href="javascript:void(0);"
 					class='head-img'> <span class="material-icons-outlined">description</span>
 						Documents
 				</a>
@@ -478,7 +426,7 @@
                                                 class='head-img'>
                                                 <span class="material-icons-outlined">link</span> Quick Links</a>
                                             </li>--%>
-				<li class="blue darken-1"><a href="javascript:void(0);"
+				<li class="blue darken-3"><a href="javascript:void(0);"
 					class='head-img'> <span class="material-icons-outlined">link</span> Quick
 						Links
 				</a>
@@ -490,7 +438,7 @@
 						</c:forEach>
 					</ul></li>
 				<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
-					<li class="blue"><a href="javascript:void(0);"
+					<li class="blue darken-3"><a href="javascript:void(0);"
 						class='head-img'> <span class="material-icons-outlined">list_alt</span> Admin
 					</a>
 						<ul class="second-level-menu">
@@ -529,7 +477,7 @@
 
                                                 </li> --%>
 
-				<li class="blue lighten-1">
+				<li class="blue darken-3">
 					<!-- Notification code starts --> <a
 					class='notification dropdown-trigger' data-target='dropdown1'>
 						<span class="material-icons-outlined">notifications</span> <span
@@ -621,7 +569,7 @@
 					</div>
 				</li>
 
-				<li class="blue ">
+				<li class="blue darken-3 ">
 					<!-- messages code starts --> <a
 					class='notification dropdown-trigger' data-target='messages1'  >
 						<span class="material-icons-outlined">chat_bubble_outlined</span>
@@ -676,7 +624,7 @@
 					</div>
 				</li>
 
-				<li class="blueblue lighten-1 dropdown"><a href="#"
+				<li class="blue darken-3 dropdown"><a href="#"
 					class='head-img'> <img
 						src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image}"
 						class="profile-img"

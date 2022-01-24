@@ -67,7 +67,7 @@
 				  display: inline-block;
 				  width: 210px;
 				  line-height: initial;
-				  font-size: 16px;
+				  font-size: 18px;
 				  
 				}
 				.diamond:before,
@@ -232,6 +232,7 @@
             width: 90%;
             padding: 10px;
             vertical-align: middle;
+            font-size: 18px;
         }
 		/* .heading h3:before,
 			.heading h3:after {
@@ -503,7 +504,7 @@
         }
         @media(max-width: 1366px) {
             .heading h3 {
-                font-size: 24px;
+                font-size: 18px;
             }
         }
         .modal-header{margin: 0 !important;}

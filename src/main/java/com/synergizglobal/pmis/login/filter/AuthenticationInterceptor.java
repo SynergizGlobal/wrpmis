@@ -1,4 +1,5 @@
 package com.synergizglobal.pmis.login.filter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -60,9 +61,10 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	UserManualsService userManualsService;
 	
 	@Override
-	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) {
+	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws IOException {
+		String requestURI = null;
 		try {
-			String requestURI = request.getRequestURI();
+			requestURI = request.getRequestURI();
 			// Avoid a redirect loop for some urls
 			if( !requestURI.equals("/pmis/") && !requestURI.equals("/pmis/login") 
 					&& !requestURI.equals("/") && !requestURI.equals("/login") 
@@ -114,6 +116,12 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 			}
 		} catch (Exception e) {
 			logger.error("preHandle : " + e.getMessage());
+			if(requestURI.contains("/pmis/")){
+		   		response.sendRedirect("/pmis/access-denied");
+		   	}else{
+		   		response.sendRedirect("/access-denied");
+		   	}
+			return false;
 		}
 		
 		return true;
@@ -176,7 +184,6 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 			model.addObject("userManuals", userManuals);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("postHandle() >> URL="+requestURI+" : "+e.getMessage());
 		}
 		

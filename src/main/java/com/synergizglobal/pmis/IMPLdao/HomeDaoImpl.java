@@ -1154,6 +1154,7 @@ public class HomeDaoImpl implements HomeDao {
 				}
 			}else{
 				if(!StringUtils.isEmpty(requestURI)) {
+					String tempQry = "="; 
 					String tempURL = null;
 					if (!StringUtils.isEmpty(requestURI) && requestURI.startsWith("/"))
 						tempURL = requestURI.substring(1,requestURI.length());
@@ -1166,7 +1167,8 @@ public class HomeDaoImpl implements HomeDao {
 							String paramFirst = params[0];
 							String paramLast = params[params.length - 1];
 							
-							tempURL = paramFirst + "/";
+							tempQry = "LIKE";
+							tempURL = paramFirst + "/%";
 							
 							/*if(!StringUtils.isEmpty(paramLast)) {
 								if("activity-progress".equalsIgnoreCase(paramFirst))
@@ -1196,18 +1198,20 @@ public class HomeDaoImpl implements HomeDao {
 					}
 					
 					/********************************************************************************/
+					
 					String qry = "select count(*) as count from form_access "
 							+ "where form_id_fk = (SELECT form_id FROM form f "
 							+ "left join module m on f.module_name_fk = m.module_name "
 							+ "WHERE m.soft_delete_status_fk = ? AND f.web_form_url is not null and f.web_form_url <> '' "
-							+ "and f.soft_delete_status_fk = ? and (f.web_form_url = ? or f.web_form_url like ?))"
+							+ "and f.soft_delete_status_fk = ? and (f.web_form_url "
+							+ tempQry
+							+ " ?) limit 1)"
 							+ " and (access_value = ? or access_value = ? or access_value = ?)";
 					statement = connection.prepareStatement(qry); 
 					int p = 1;
 					statement.setString(p++, CommonConstants.ACTIVE);
 					statement.setString(p++, CommonConstants.ACTIVE);
 					statement.setString(p++, tempURL);
-					statement.setString(p++, tempURL+"%");
 					statement.setString(p++, obj.getUser_type_fk());
 					statement.setString(p++, obj.getUser_role_name_fk());
 					statement.setString(p++, obj.getUser_id());

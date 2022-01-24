@@ -2510,8 +2510,8 @@
             	if($.trim(contract_status) == 'Yes'){
             		$('#contractor_id_fk').rules('add',  { required: true });
                 	$('#contractor_req').text('*');
-                	$('#doc').rules('add',  { required: true });
-            		$('#doc_req').text('*');
+                	/* $('#doc').rules('add',  { required: true });
+            		$('#doc_req').text('*'); */
             		
             		$('#loa_letter_number').rules('add',  { required: true });
                 	$('#loa_letter_number_req').text('*');
@@ -2560,8 +2560,8 @@
             if($.trim(contract_status) == 'Yes'){
 	    		$('#contractor_id_fk').rules('add',  { required: true });
         		$('#contractor_req').text('*');
-        		$('#doc').rules('add',  { required: true });
-        		$('#doc_req').text('*');
+        		/* $('#doc').rules('add',  { required: true });
+        		$('#doc_req').text('*'); */
         		
         		$('#loa_letter_number').rules('add',  { required: true });
             	$('#loa_letter_number_req').text('*');
@@ -3131,7 +3131,7 @@
         	 		    required: true
         	 	   	  },"doc": {
         		 		required: false,
-   				 		dateBefore1:"#date_of_start"
+   				 		//dateBefore1:"#date_of_start"
         		 	  },"target_doc":{
         		 		 required: false,
     				 	 dateAfterDoc:"#doc"
@@ -3470,7 +3470,7 @@
             	return true;
             }
             
-        }, "Planned Doc date must be after Date of start");
+        }, "Original Doc must be after Date of start");
         
         $.validator.addMethod("dateAfterDoc", function(value, element) {
             var fromDateString = $('#loa_date').val();

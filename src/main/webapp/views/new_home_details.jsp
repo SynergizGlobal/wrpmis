@@ -688,11 +688,11 @@
                         <div class="projects-filter-work">
                             <div class="card main-clr" id="projectDetailsDiv">
                                 <div class="card-content" style="cursor: pointer;">
-                                    <div class="line">
+                                    <!-- <div class="line">
                                         <p class="alignleft w150">Year of Inclusion</p>
                                         <p class="aligncenter">:</p>
                                         <p class="alignleft pdlr20px"></p>
-                                    </div>
+                                    </div> -->
                                     <div class="line">
                                         <p class="alignleft w150">Sanctioned Year</p>
                                         <p class="aligncenter">:</p>

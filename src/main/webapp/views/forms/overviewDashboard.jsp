@@ -76,11 +76,11 @@
 		.special-padding .collapsible li:not(.active) .collapsible-header{
 			background-color:transparent;
 		}
-				
+/*				
 		.over-sub-menu{		    
 		    position:relative;		
 		}
-		.over-sub-menu:after{
+ 		.over-sub-menu:after{
 			content:"\f078";
 			font: normal normal normal 14px/1 FontAwesome;
 			font-size: .7rem;
@@ -89,10 +89,10 @@
 		    position:absolute;
 		    right:1rem;
 		    top:38%;
-		}
-		.active >.over-sub-menu:after{
+		} */
+/* 		.active >.over-sub-menu:after{
 			content:"\f077";
-		}
+		} */
 		
 		
 		
@@ -182,9 +182,9 @@
 		 	.main-menu:not(.hideText) li .collapsible-header{
 		 		padding-right:2rem;
 		 	}
-		 	.over-sub-menu:after{
+/* 		 	.over-sub-menu:after{
 		 		right:.5rem;
-		 	}
+		 	} */
 		 	.ad-i:before{
 				vertical-align: sub;
 			}
@@ -220,10 +220,10 @@
 	                        <ul class="collapsible main-menu"> <!-- id="secondModel"> -->
 							<c:forEach var="form" items="${overviewDashboardForms }" varStatus="index">
 								<c:if test="${not empty form.formsSubMenu}">
-											<li><div class="collapsible-header over-sub-menu" >
+											<li><div class="collapsible-header over-sub-menu" id="${form.name }">
 											
 												<a href="#">
-														<%-- <i class="${form.icon }"></i> --%><span class="showHide" id="${form.name }">${form.name }</span>
+														<%-- <i class="${form.icon }"></i> --%><span class="showHide">${form.name }</span>
 												</a>												
 
 											</div>
@@ -231,7 +231,7 @@
 			                                    <ul class="collapsible">
 			                                    <c:forEach var="subList" items="${form.formsSubMenu }">
 			                                        <li>
-			                                            <div class="collapsible-header" >			                                            
+			                                            <div class="collapsible-header" id="${subList.name }">			                                            
 															<a href="#">
 																	<%-- <i class="${subList.icon }"></i> --%><span class="showHide" id="${subList.name }">${subList.name }</span>
 															</a>			                                           
@@ -245,7 +245,7 @@
 								</c:if>	
 								<c:if test="${empty form.formsSubMenu}">
 										<c:if test="${not empty form.link_url}">
-											<li><div class="collapsible-header" >
+											<li><div class="collapsible-header" id="${form.name }">
 											
 												<a href="#">
 													<%-- <i class="${form.icon }"></i> --%><span class="showHide" id="${form.name }">${form.name }</span>
@@ -409,26 +409,41 @@
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script type="text/javascript" src="https://infoviz.syntrackpro.com/javascripts/api/tableau-2.min.js"></script>
+
+  
 	<script>
+	
+	  
+	  function onLoadPage(pageName)
+	  {
+	                var pagename = pageName;
+	                pagename=pagename.replaceAll("&",'_');
+	             	var bool = false;
+	             	 $.ajax({
+	             		url: "<%=request.getContextPath()%>/ajax/GetURL?tableauDashboardName="+pagename,
+	                   type: 'POST',
+	                   async: true,
+	                   dataType: 'json',
+	                   success: function (data) 
+	                   {
+	                	   $("#dashboardOpen").attr("src",data.tableauUrl);
+	                   },error: function(xhr){
+	                       alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+	                   }
+	  });
+	  }
+	
 		$(document).ready(function(){
 		    $('.collapsible').collapsible();
 		    $('.searchable').select2();
 		    
-		    $(".collapsible-header > a > span").on("click", function () {
-                var pagename = $(this).attr("id");               
-             	var bool = false;
-             	 $.ajax({
-             		url: "<%=request.getContextPath()%>/ajax/GetURL?tableauDashboardName="+pagename,
-                   type: 'POST',
-                   async: true,
-                   dataType: 'json',
-                   success: function (data) 
-                   {
-                	   $("#dashboardOpen").attr("src",data.tableauUrl);
-                   },error: function(xhr){
-                       alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-                   }
-               }); 
+		    onLoadPage("Project Overview");
+		    
+		    $(".collapsible-header").on("click", function () {
+		    	
+		    	var pagename = $(this).attr("id");
+		    	
+				onLoadPage(pagename);
             });		    
 		    
 		  });

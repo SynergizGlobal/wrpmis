@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,14 +13,18 @@ import org.springframework.http.MediaType;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.synergizglobal.pmis.Iservice.OverviewDashboardService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -42,7 +47,8 @@ public class OverviewDashboardController {
 	public ModelAndView welcome(HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView();
 		try {
-				List<OverviewDashboard> forms = overviewDashboardService.getFormsList();
+			int ParentId=0;
+				List<OverviewDashboard> forms = overviewDashboardService.getFormsList(ParentId);
 				model.addObject("overviewDashboardForms", forms);
 			    model.setViewName(PageConstants.overviewDashboard);
 		} catch (Exception e) {
@@ -55,6 +61,34 @@ public class OverviewDashboardController {
 	private String capitalize(final String line) {
 	   return Character.toUpperCase(line.charAt(0)) + line.substring(1);
 	}	
+
+	@RequestMapping(value = "/ajax/saveLeftNavData", method = {RequestMethod.POST})
+	@ResponseBody
+	public boolean insertLeaveResponsibility(@ModelAttribute OverviewDashboard overviewDashboard,HttpSession session,RedirectAttributes attributes) {	
+		boolean flag=false;
+		try{
+			flag =  overviewDashboardService.saveLeftNavData(overviewDashboard);
+		}catch (Exception e) 
+		{
+			attributes.addFlashAttribute("error","OverviewDashboard Updating LeftNavData is failed. Try again.");
+			logger.error("OverviewDashboard LeftNavData : " + e.getMessage());
+		}
+		return flag;
+	}	
+	
+	@RequestMapping(value = "/ajax/getLeftNavNodes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<OverviewDashboard> getLeftNavNodes(@ModelAttribute OverviewDashboard obj,HttpSession session) {
+		List<OverviewDashboard> OverviewDashboard = null;
+		try {
+			int ParentId=0;
+			OverviewDashboard = overviewDashboardService.getFormsList(ParentId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getLeftNavNodes : " + e.getMessage());
+		}
+		return OverviewDashboard;
+	}		
 	
 	@RequestMapping(value = "/ajax/GetURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -65,6 +99,7 @@ public class OverviewDashboardController {
 		logger.error("loadTableauView() : Start");
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			tableauDashboardName=tableauDashboardName.replaceAll("_", "&");
 			String pageurl=overviewDashboardService.getTableauUrl(tableauDashboardName);
 			logger.error("loadTableauView() : url - "+pageurl);
 

@@ -16,12 +16,17 @@ public class OverviewDashboardServiceImpl implements OverviewDashboardService {
 	OverviewDashboardDao dao;
 
 	@Override
-	public List<OverviewDashboard> getFormsList() throws Exception {
-		return dao.getFormsList();
+	public List<OverviewDashboard> getFormsList(int ParentId) throws Exception {
+		return dao.getFormsList(ParentId);
 	}
 	
 	@Override
 	public String getTableauUrl(String name) throws Exception {
 		return dao.getTableauUrl(name);
+	}
+	
+	@Override
+	public boolean saveLeftNavData(OverviewDashboard obj)  throws Exception {
+		return dao.saveLeftNavData(obj);
 	}	
 }

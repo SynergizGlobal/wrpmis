@@ -6,7 +6,9 @@ import com.synergizglobal.pmis.model.OverviewDashboard;
 
 public interface OverviewDashboardDao {
 
-	public List<OverviewDashboard> getFormsList() throws Exception;
+	public List<OverviewDashboard> getFormsList(int ParentId) throws Exception;
 
 	public String getTableauUrl(String name) throws Exception;
+
+	public boolean saveLeftNavData(OverviewDashboard obj) throws Exception;
 }

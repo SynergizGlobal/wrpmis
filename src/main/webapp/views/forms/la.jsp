@@ -202,7 +202,10 @@
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
     								 <a href="<%=request.getContextPath() %>/add-land-acquisition-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add </strong></a>                                        
+                                        <strong><i class="fa fa-plus-circle"></i> Add </strong></a>   
+                                     <a href="javascript:void(0);"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export</strong></a>                                     
     							</div>
     						</div>	
                         </div>
@@ -289,8 +292,8 @@
 <!-- update popup starts -->
 	<div id="upload_template" class="modal">
 		<div class="modal-content">
-			<div class="center-align p-2 bg-m modal-title">
-				<h6>Upload Land Acquisition Data</h6>
+			<div class="center-align p-2 bg-m modal-title headbg">
+				<h6>Upload Land Acquisition Data </h6>
 			</div>
 			<!-- form start-->
 			<div class="container">

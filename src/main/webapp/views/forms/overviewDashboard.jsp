@@ -216,46 +216,7 @@
 	            <!-- <ul class="collapsible m-0">
 	                <li class="active"> -->
 	                    <!-- <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div> -->
-	                    <div class=" main-menu-collapse">
-	                        <ul class="collapsible main-menu"> <!-- id="secondModel"> -->
-							<c:forEach var="form" items="${overviewDashboardForms }" varStatus="index">
-								<c:if test="${not empty form.formsSubMenu}">
-											<li><div class="collapsible-header over-sub-menu" id="${form.name }">
-											
-												<a href="#">
-														<%-- <i class="${form.icon }"></i> --%><span class="showHide">${form.name }</span>
-												</a>												
-
-											</div>
-											 <div class="collapsible-body special-padding">
-			                                    <ul class="collapsible">
-			                                    <c:forEach var="subList" items="${form.formsSubMenu }">
-			                                        <li>
-			                                            <div class="collapsible-header" id="${subList.name }">			                                            
-															<a href="#">
-																	<%-- <i class="${subList.icon }"></i> --%><span class="showHide" id="${subList.name }">${subList.name }</span>
-															</a>			                                           
-			                                            
-			                                            </div>
-			                                        </li>
-			                                        </c:forEach>
-			                                    </ul>
-		                                    </div>											
-											 </li>
-								</c:if>	
-								<c:if test="${empty form.formsSubMenu}">
-										<c:if test="${not empty form.link_url}">
-											<li><div class="collapsible-header" id="${form.name }">
-											
-												<a href="#">
-													<%-- <i class="${form.icon }"></i> --%><span class="showHide" id="${form.name }">${form.name }</span>
-											</a>											
-											
-											</div>
-										</c:if> 
-								</c:if>                           
-	                            </c:forEach>
-	                        </ul>
+	                    <div class=" main-menu-collapse" id="nestable">
 	                    </div>
 	               <!--  </li>
 	            </ul> -->
@@ -413,11 +374,48 @@
   
 	<script>
 	
-	  
+	
+	$.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavNodes",
+		type:"POST",
+		cache: false,async:false,
+		success : function(data)
+		{    
+			$('#nestable').append(getData(data)); 
+		}
+	});	
+	
+	
+	function getData(Data)
+	{
+		var html= '<ul class="collapsible main-menu">';
+		
+		$.each( Data, function( index, value ){
+			var nameStr=value.name;
+				nameStr=nameStr.replaceAll("&","_");
+				nameStr=nameStr.replaceAll(" ","--");
+			 html=html+'<li><div class="collapsible-header over-sub-menu" id="'+nameStr+'">';
+			html=html+'<a href="#" id='+value.id+'><span class="showHide" id="'+nameStr+'">'+value.name+'</span></a></div>';
+			if(value.formsSubMenu!="" && value.formsSubMenu!=null && value.formsSubMenu!=undefined)
+				{
+					html= html+'<div class="collapsible-body special-padding">';
+					html=html+''+getData(value.formsSubMenu);
+					html=html+'</div>';
+				}
+			html=html+'</li>'; 
+		});
+		html=html+'</ol>';
+	    return html;	
+	}	
+	
+	
 	  function onLoadPage(pageName)
 	  {
+		  
+          $('.collapsible-header').css("background-color", "#ffffff");
+          $('.collapsible-header#'+pageName+'').css("background-color", "#e3f2fd");
+		  
 	                var pagename = pageName;
-	                pagename=pagename.replaceAll("&",'_');
+               
 	             	var bool = false;
 	             	 $.ajax({
 	             		url: "<%=request.getContextPath()%>/ajax/GetURL?tableauDashboardName="+pagename,
@@ -442,7 +440,6 @@
 		    $(".collapsible-header").on("click", function () {
 		    	
 		    	var pagename = $(this).attr("id");
-		    	
 				onLoadPage(pagename);
             });		    
 		    

@@ -100,6 +100,7 @@ public class OverviewDashboardController {
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			tableauDashboardName=tableauDashboardName.replaceAll("_", "&");
+			tableauDashboardName=tableauDashboardName.replaceAll("--", " ");
 			String pageurl=overviewDashboardService.getTableauUrl(tableauDashboardName);
 			logger.error("loadTableauView() : url - "+pageurl);
 

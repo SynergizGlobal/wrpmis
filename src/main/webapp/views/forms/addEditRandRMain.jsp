@@ -326,13 +326,13 @@
  							<c:if test="${action eq 'edit'}">		                             
 	                                <div class="col s6 m4 l4 input-field ">
 	                                    <input type="text" value="" readonly />
-								    	<label for="project_id_fk">Project <span class="required">*</span></label>
-								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}" readonly />
+								    	<label for="project_id_fk">Project </label>
+								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="" readonly />
 								    </div> 
 	                                <div class="col s12 m8 l8 input-field"> 
 	                                    <input type="text" value="" readonly />
-	                                	<label for="work_id_fk">Work <span class="required">*</span></label>
-	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}" readonly />
+	                                	<label for="work_id_fk">Work </label>
+	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="" readonly />
 	                                </div>
 	                           
                               </c:if>
@@ -411,14 +411,17 @@
                                     <span id="required_dateError" class="error-msg" ></span>
 	                             </div>
                                 <div class="col s6 m2 input-field">
-                                    <p class="searchable_label mb-8">Year of Construction <!-- <span class="required">*</span> --></p>
+                                   <%--  <p class="searchable_label mb-8">Year of Construction</p>
                                     <select id="construction_year" name="construction_year" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
-                               			<%-- <c:forEach var="obj" items="${drawingTypeList}">
+                               			<c:forEach var="obj" items="${drawingTypeList}">
                 						    <option value="${obj.drawing_type_fk }" <c:if test="${designDetails.drawing_type_fk eq obj.drawing_type_fk }">selected</c:if>>${obj.drawing_type_fk}</option>
-                                      	</c:forEach> --%>
+                                      	</c:forEach>
                                     </select>
-                                    <span id="construction_yearError" class="error-msg" ></span>
+                                    <span id="construction_yearError" class="error-msg" ></span> --%>
+                                    <input id="construction_year" name="construction_year" type="number" class="validate" value="">
+	                                <label for="construction_year">Year of Construction </label>
+	                                <span id="construction_yearError" class="error-msg" ></span>
                                  </div>		                         		
                                 <div class="col s6 m4 input-field">
                                     <input id="owner_name" name="owner_name" type="text" class="validate " value="">
@@ -862,14 +865,17 @@
 				                             <span id="name_of_activityError" class="error-msg" ></span>
 		                                 </div>
 		                                 <div class="col s6 m4 l2 input-field">
-		                                    <p class="searchable_label mb-8">Year of Establishment</p>
+		                                    <%-- <p class="searchable_label mb-8">Year of Establishment</p>
 		                                    <select class="searchable validate-dropdown" name="year_of_establishment" id="year_of_establishment">
 		                                        <option value="" selected>Select</option>
-		                                         <%-- <c:forEach var="obj" items="${preparedBy }">
+		                                         <c:forEach var="obj" items="${preparedBy }">
 		                                      	    <option value= "${ obj.prepared_by_id_fk}" <c:if test="${designDetails.prepared_by_id_fk eq obj.prepared_by_id_fk}">selected</c:if>>${obj.prepared_by_id_fk}</option>
-		                                          </c:forEach> --%>
+		                                          </c:forEach>
 		                                    </select>
-		                                    <span id="year_of_establishmentError" class="error-msg" ></span>
+		                                    <span id="year_of_establishmentError" class="error-msg" ></span> --%>
+		                                    <input id="year_of_establishment" name="year_of_establishment" type="number" class="validate" value="">
+			                                <label for="year_of_establishment">Year of Establishment </label>
+			                                <span id="year_of_establishmentError" class="error-msg" ></span>
 		                                </div>
 		                                <div class="col s6 m4 l2 input-field">
 	                                       <input id="carpet_area" name="carpet_area" type="number" class="validate" value="">
@@ -1089,7 +1095,7 @@
                                 </div>
                                 <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/design" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath() %>/r-and-r" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>

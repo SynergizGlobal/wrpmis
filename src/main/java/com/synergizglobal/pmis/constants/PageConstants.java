@@ -102,6 +102,9 @@ public class PageConstants {
 
 	public static final String RandRMain = "forms/RandRMain";
 	public static final String addEditRandRMain = "forms/addEditRandRMain";
+	
+	public static final String bsesGrid="/forms/RandRBses";
+	public static final String addEditBses="/forms/addEditRandRBses";
 
 	/****************************** We can Remove below****************************************/	
 	public static final String riskGrid = "forms/riskGrid";

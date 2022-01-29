@@ -100,12 +100,16 @@ public class PageConstants {
 	public static final String updateRandR = "forms/updateRandR";
 	public static final String progressUpdateReport = "forms/progressUpdateReport";
 
+	public static final String RandRMain = "forms/RandRMain";
+	public static final String addEditRandRMain = "forms/addEditRandRMain";
+
 	/****************************** We can Remove below****************************************/	
 	public static final String riskGrid = "forms/riskGrid";
 	public static final String addEditRiskForm = "forms/addEditRiskForm";
 	
 	public static final String updateRiskGrid = "forms/updateRiskGrid";
 	public static final String uploadDownloadRiskGrid = "forms/uploadDownloadRiskGrid";	
+	
 	/**********************************************************************/
 	
 	public static final String safetyInstruction = "forms/safetyInstruction";

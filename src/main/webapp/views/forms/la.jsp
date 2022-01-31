@@ -203,7 +203,7 @@
 											class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
     								 <a href="<%=request.getContextPath() %>/add-land-acquisition-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add </strong></a>   
-                                     <a href="javascript:void(0);"
+                                     <a href="javascript:void(0);" onclick="exportLA();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-download"></i> Export</strong></a>                                     
     							</div>
@@ -221,13 +221,13 @@
 						    </div>
 						</div>
                         <div class="row no-mar" >
-                            <div class="col s6 m4 l2 input-field">
-                                <p class="searchable_label">Select Project</p>
-                                <select id="project_id_fk" class="searchable" name="project_id_fk" onchange="addInQueProject(this.value);getLandAcquisitionList();">
-                                    <option value="" >Select Project</option>
+                           <!--  <div class="col s6 m4 l2 input-field">
+                                <p class="searchable_label">Select Status</p>
+                                <select id="la_land_status_fk" class="searchable" name="la_land_status_fk" onchange="addInQueStatus(this.value);getLandAcquisitionList();">
+                                    <option value="" >Select Status</option>
                                    
                                 </select>
-                            </div>
+                            </div> -->
                              <div class="col s6 m4 l2 input-field">
                                 <p class="searchable_label">Select Work</p>
                                 <select id="work_id_fk" class="searchable" name="work_id_fk" onchange="addInQueWork(this.value);getLandAcquisitionList();">
@@ -256,6 +256,13 @@
                                    
                                 </select>
                             </div>
+                             <div class="col s6 m4 l2 input-field">
+                                <p class="searchable_label">Select Land Status</p>
+                                <select id="la_land_status_fk" class="searchable" name="la_land_status_fk" onchange="addInQueStatus(this.value);getLandAcquisitionList();">
+                                    <option value="" >Select Status</option>
+                                   
+                                </select>
+                            </div>
                             <div class="col s12 m4 l2 center-align input-field">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                     style="margin-top: 10px;" onclick="clearFilters()">Clear
@@ -273,7 +280,7 @@
                                             <th> Village</th>
                                             <th> Type of Land</th>
                                             <th> Sub Category <br>of Land</th>
-                                            <th> Area of Plot</th>                                           
+                                            <th> Area of Plot (Ha)</th>                                           
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -377,7 +384,14 @@
 	<form name="getForm" action="<%=request.getContextPath()%>/get-land-acquisition"  id="getForm" method="post">
     	<input type="hidden" name="la_id" id="la_id" />
     </form>
-  
+   <form action="<%=request.getContextPath() %>/export-land-acquisition" name="exportLandAcquisitionForm" id="exportLandAcquisitionForm" target="_blank" method="post">	
+       
+         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+         <input type="hidden" name="la_land_status_fk" id="exportLa_land_status_fk" />
+         <input type="hidden" name="village" id="exportVillage" />
+         <input type="hidden" name="type_of_land" id="exportType_of_land" />
+         <input type="hidden" name="sub_category_of_land" id="exportSub_category_of_land" />
+	</form>
     <script>
     
     	var filtersMap = new Object();
@@ -405,8 +419,8 @@
           	  for(var i=0;i< temp.length;i++){
   	        	  if($.trim(temp[i]) != '' ){
   	        		  var temp2 = temp[i].split('=');
-  		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
-  		        		getProjectsFilterList(temp2[1]);
+  		        	  if($.trim(temp2[0]) == 'la_land_status_fk' ){
+  		        		getStatussFilterList(temp2[1]);
   		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
   		        		getWorksFilterList(temp2[1]);
   		        	  }else if($.trim(temp2[0]) == 'village'){
@@ -432,7 +446,7 @@
         });
 
         function clearFilters() {
-        	$("#project_id_fk").val("");
+        	$("#la_land_status_fk").val("");
             $('#work_id_fk').val("");
             $('#village').val("");
             $('#type_of_land').val("");
@@ -444,12 +458,12 @@
         	table.draw( true );
             //getLandAcquisitionList();
         }
-        function addInQueProject(project_id_fk){
+        function addInQueStatus(la_land_status_fk){
         	Object.keys(filtersMap).forEach(function (key) {
-	   			if(key.match('project_id_fk')) delete filtersMap[key];
+	   			if(key.match('la_land_status_fk')) delete filtersMap[key];
 	   		});
-        	if($.trim(project_id_fk) != ''){
-       	    	filtersMap["project_id_fk"] = project_id_fk;
+        	if($.trim(la_land_status_fk) != ''){
+       	    	filtersMap["la_land_status_fk"] = la_land_status_fk;
         	}
         }
         
@@ -492,13 +506,13 @@
         function getLandAcquisitionList(){
         	$(".page-loader-2").show();
 
-        	getProjectsFilterList('');
+        	getStatussFilterList('');
         	getWorksFilterList('');
          	getvillagesFilterList('');
          	getTypesOfLandsFilterList('');
          	getSubCatogoryFilterList('');
          	
-        	var project_id_fk = $("#project_id_fk").val();
+        	var la_land_status_fk = $("#la_land_status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
@@ -515,7 +529,7 @@
 			
 			$.fn.dataTable.moment('DD-MMM-YYYY');
 			var rowLen = 0;
-			var myParams = "project_id_fk="+ project_id_fk+"&work_id_fk="+ work_id_fk+"&village="+ village+"&type_of_land="+ type_of_land+"&sub_category_of_land="+ sub_category_of_land ;
+			var myParams = "la_land_status_fk="+ la_land_status_fk+"&work_id_fk="+ work_id_fk+"&village="+ village+"&type_of_land="+ type_of_land+"&sub_category_of_land="+ sub_category_of_land ;
   		 
 		    /***************************************************************************************************/   
 		        
@@ -647,12 +661,12 @@
         
         function getLandAcquisitionList2(){
         	$(".page-loader-2").show();
-        	var project_id_fk = $("#project_id_fk").val();
+        	var la_land_status_fk = $("#la_land_status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
-        	getProjectsFilterList();
+        	getStatussFilterList();
         	getWorksFilterList();
          	getvillagesFilterList();
          	getTypesOfLandsFilterList();
@@ -688,7 +702,7 @@
             }).rows().remove().draw();
     		
     		table.state.clear();		
-    	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+    	 	var myParams = {la_land_status_fk : la_land_status_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
     	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-land-acquisition",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
@@ -723,26 +737,24 @@
          }});
        }
         
-        function getProjectsFilterList(project) {
+        function getStatussFilterList(landStatus) {
         	$(".page-loader").show();
-        	var project_id_fk = $("#project_id_fk").val();
+        	var la_land_status_fk = $("#la_land_status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
-            if ($.trim(project_id_fk) == "") {
-            	$("#project_id_fk option:not(:first)").remove();
-        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+            if ($.trim(la_land_status_fk) == "") {
+            	$("#la_land_status_fk option:not(:first)").remove();
+        	 	var myParams = {la_land_status_fk : la_land_status_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInLandAcquisition",
+                    url: "<%=request.getContextPath()%>/ajax/getStatussFilterListInLandAcquisition",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	 var projectName = '';
-                                 if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-                                 var selectedFlag = (project == val.project_id_fk)?'selected':'';
-    	                         $("#project_id_fk").append('<option value="' + val.project_id_fk + '"'+selectedFlag+'>' + $.trim(val.project_id_fk)   + projectName +'</option>');
+                                 var selectedFlag = (landStatus == val.la_land_status_fk)?'selected':'';
+    	                         $("#la_land_status_fk").append('<option value="' + val.la_land_status_fk + '"'+selectedFlag+'>' + $.trim(val.la_land_status_fk)  +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -759,14 +771,14 @@
         
         function getWorksFilterList(work) {
         	$(".page-loader").show();
-        	var project_id_fk = $("#project_id_fk").val();
+        	var la_land_status_fk = $("#la_land_status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
             if ($.trim(work_id_fk) == "") {
             	$("#work_id_fk option:not(:first)").remove();
-        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+        	 	var myParams = {la_land_status_fk : la_land_status_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInLandAcquisition",
                     data: myParams, cache: false,async: false,
@@ -793,14 +805,14 @@
         
         function getvillagesFilterList(village_name) {
         	$(".page-loader").show();
-        	var project_id_fk = $("#project_id_fk").val();
+        	var la_land_status_fk = $("#la_land_status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
             if ($.trim(village) == "") {
             	$("#village option:not(:first)").remove();
-        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+        	 	var myParams = {la_land_status_fk : la_land_status_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getVillagesFilterListInLandAcquisition",
                     data: myParams, cache: false,async: false,
@@ -825,14 +837,14 @@
         
         function getTypesOfLandsFilterList(type) {
         	$(".page-loader").show();
-        	var project_id_fk = $("#project_id_fk").val();
+        	var la_land_status_fk = $("#la_land_status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
             if ($.trim(type_of_land) == "") {
             	$("#type_of_land option:not(:first)").remove();
-        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+        	 	var myParams = {la_land_status_fk : la_land_status_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getTypesOfLandsFilterListInLandAcquisition",
                     data: myParams, cache: false,async: false,
@@ -857,14 +869,14 @@
         
         function getSubCatogoryFilterList(subCategory) {
         	$(".page-loader").show();
-        	var project_id_fk = $("#project_id_fk").val();
+        	var la_land_status_fk = $("#la_land_status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
             if ($.trim(sub_category_of_land) == "") {
             	$("#sub_category_of_land option:not(:first)").remove();
-        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+        	 	var myParams = {la_land_status_fk : la_land_status_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getSubCategoryFilterListInLandAcquisition",
                     data: myParams, cache: false,
@@ -942,6 +954,21 @@
                     swal("Cancelled", "Record is safe :)", "error");
                 }
             });
+        }
+        
+        function exportLA(){
+        	var la_land_status_fk = $("#la_land_status_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var village = $("#village").val();
+        	var type_of_land = $("#type_of_land").val();
+        	var sub_category_of_land = $("#sub_category_of_land").val();
+        	
+        	 $("#exportLa_land_status_fk").val(la_land_status_fk);
+          	 $("#exportWork_id_fk").val(work_id_fk);
+        	 $("#exportVillage").val(village);
+        	 $("#exportType_of_land").val(type_of_land);
+        	 $("#exportSub_category_of_land").val(sub_category_of_land);
+          	 $("#exportLandAcquisitionForm").submit();
         }
     </script>
 </body>

@@ -64,8 +64,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+"where la_id is not null  ";
 			int arrSize = 0;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and w.project_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				qry = qry + " and la_land_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -105,8 +105,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				pValues[i++] = obj.getLa_land_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -156,8 +156,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+"where la_id is not null  ";
 			int arrSize = 0;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and w.project_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				qry = qry + " and la_land_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -191,8 +191,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				pValues[i++] = obj.getLa_land_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -237,8 +237,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+"left join la_category c on sc.la_category_fk = c.la_category "+
 					"where li.work_id_fk is not null and li.work_id_fk <> '' ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and w.project_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				qry = qry + " and la_land_status_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -260,8 +260,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			qry = qry + "GROUP BY li.work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				pValues[i++] = obj.getLa_land_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -293,8 +293,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+"left join la_category c on sc.la_category_fk = c.la_category "+
 					"where village is not null and village <> '' ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and w.project_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				qry = qry + " and la_land_status_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -316,8 +316,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			qry = qry + "GROUP BY village ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				pValues[i++] = obj.getLa_land_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -349,8 +349,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+"left join la_category c on sc.la_category_fk = c.la_category "+
 					"where c.la_category is not null and c.la_category <> '' ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and w.project_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				qry = qry + " and la_land_status_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -372,8 +372,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			qry = qry + "GROUP BY la_category ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				pValues[i++] = obj.getLa_land_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -405,8 +405,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+"left join la_category c on sc.la_category_fk = c.la_category "+
 					"where la_sub_category is not null and la_sub_category <> '' ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and w.project_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				qry = qry + " and la_land_status_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -428,8 +428,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			qry = qry + "GROUP BY la_sub_category ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				pValues[i++] = obj.getLa_land_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -499,8 +499,9 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "DATE_FORMAT(publication_in_gazette_rp ,'%d-%m-%Y') AS publication_in_gazette_rp,DATE_FORMAT(date_of_proposal_to_DC_for_nomination ,'%d-%m-%Y') AS  date_of_proposal_to_DC_for_nomination, DATE_FORMAT(date_of_nomination_of_competenta_authority ,'%d-%m-%Y') AS date_of_nomination_of_competenta_authority, DATE_FORMAT(draft_letter_to_con_for_approval_ca ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_ca, DATE_FORMAT(date_of_approval_of_construction_ca ,'%d-%m-%Y') AS date_of_approval_of_construction_ca, "
 					+ "DATE_FORMAT(date_of_uploading_of_gazette_notification_ca ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_ca, DATE_FORMAT(publication_in_gazette_ca ,'%d-%m-%Y') AS publication_in_gazette_ca, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA,DATE_FORMAT(approval_of_CALA_20a ,'%d-%m-%Y') AS approval_of_CALA_20a,DATE_FORMAT(draft_letter_to_con_for_approval_20a ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20a,"
 					+ "DATE_FORMAT(date_of_approval_of_construction_20a ,'%d-%m-%Y') AS date_of_approval_of_construction_20a,DATE_FORMAT(date_of_uploading_of_gazette_notification_20a ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20a,DATE_FORMAT(publication_in_gazette_20a ,'%d-%m-%Y') AS publication_in_gazette_20a,DATE_FORMAT(publication_in_2_local_news_papers_20a ,'%d-%m-%Y') AS publication_in_2_local_news_papers_20a,DATE_FORMAT(pasting_of_notification_in_villages_20a ,'%d-%m-%Y') AS pasting_of_notification_in_villages_20a,"
-					+ " receipt_of_grievances, disposal_of_grievances, date_of_submission_of_draft_notification_to_CALA_20e, approval_of_CALA_20e, draft_letter_to_con_for_approval_20e, date_of_approval_of_construction_20e, date_of_uploading_of_gazette_notification_20e, publication_in_gazette_20e, publication_of_notice_in_2_local_news_papers_20e, date_of_submission_of_draft_notification_to_CALA_20f,"
-					+ "DATE_FORMAT(approval_of_CALA_20f ,'%d-%m-%Y') AS approval_of_CALA_20f,DATE_FORMAT(draft_letter_to_con_for_approval_20f ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20f,DATE_FORMAT(date_of_approval_of_construction_20f ,'%d-%m-%Y') AS date_of_approval_of_construction_20f,DATE_FORMAT(date_of_uploading_of_gazette_notification_20f ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20f,DATE_FORMAT(publication_in_gazette_20f ,'%d-%m-%Y') AS publication_in_gazette_20f,"
+					+ "DATE_FORMAT(receipt_of_grievances ,'%d-%m-%Y') AS  receipt_of_grievances, DATE_FORMAT(disposal_of_grievances ,'%d-%m-%Y') AS disposal_of_grievances, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20e ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20e, DATE_FORMAT(approval_of_CALA_20e ,'%d-%m-%Y') AS  approval_of_CALA_20e,DATE_FORMAT(draft_letter_to_con_for_approval_20e ,'%d-%m-%Y') AS  draft_letter_to_con_for_approval_20e,"  
+					+"DATE_FORMAT(date_of_approval_of_construction_20e ,'%d-%m-%Y') AS  date_of_approval_of_construction_20e,DATE_FORMAT(date_of_uploading_of_gazette_notification_20e ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20e,DATE_FORMAT(publication_in_gazette_20e ,'%d-%m-%Y') AS  publication_in_gazette_20e,DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20e ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20e,DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20f ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20f," 
+					+"DATE_FORMAT(approval_of_CALA_20f ,'%d-%m-%Y') AS approval_of_CALA_20f,DATE_FORMAT(draft_letter_to_con_for_approval_20f ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20f,DATE_FORMAT(date_of_approval_of_construction_20f ,'%d-%m-%Y') AS date_of_approval_of_construction_20f,DATE_FORMAT(date_of_uploading_of_gazette_notification_20f ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20f,DATE_FORMAT(publication_in_gazette_20f ,'%d-%m-%Y') AS publication_in_gazette_20f,"
 					+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f "
 					+"from la_land_identification li "
 					+"left join la_government_land_acquisition lg on li.la_id = lg.la_id_fk " 
@@ -1252,19 +1253,19 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	}
 
 	@Override
-	public List<LandAcquisition> getLandAcquisitionProjectsList(LandAcquisition obj) throws Exception {
+	public List<LandAcquisition> getLandAcquisitionStatusList(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry = "SELECT w.project_id_fk,p.project_name from la_land_identification li " + 
+			String qry = "SELECT la_land_status_fk from la_land_identification li " + 
 					"LEFT JOIN work w on li.work_id_fk = w.work_id "+
 					"left join project p on w.project_id_fk = p.project_id "
 					+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
 					+"left join la_category c on sc.la_category_fk = c.la_category "+
-					"where li.work_id_fk is not null and li.work_id_fk <> '' ";
+					"where li.la_land_status_fk is not null and li.la_land_status_fk <> '' ";
 			
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and w.project_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				qry = qry + " and la_land_status_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1283,12 +1284,12 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				qry = qry + " and la_sub_category = ?";
 				arrSize++;
 			}	
-			qry = qry + "GROUP BY w.project_id_fk ";
+			qry = qry + "GROUP BY la_land_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				pValues[i++] = obj.getLa_land_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -1665,6 +1666,198 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj) throws Exception {
+		List<LandAcquisition> objsList = null;
+		try {
+			String qry ="select la_id,li.remarks,cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,IFNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk, work_id_fk,w.project_id_fk,p.project_name,w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo, li.collector, DATE_FORMAT(proposal_submission_date_to_collector,'%d-%m-%Y') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, jm_fee_amount,jm_fee_amount_units, " + 
+					"li.special_feature,cast(li.area_acquired as CHAR) as area_acquired,li.private_land_process,cast(chainage_from as CHAR) as chainage_from,cast(chainage_to as CHAR) as chainage_to, DATE_FORMAT(jm_fee_letter_received_date,'%d-%m-%Y') AS jm_fee_letter_received_date,DATE_FORMAT(jm_fee_paid_date,'%d-%m-%Y') AS jm_fee_paid_date,DATE_FORMAT(jm_start_date,'%d-%m-%Y') AS  jm_start_date,DATE_FORMAT(jm_completion_date,'%d-%m-%Y') AS jm_completion_date, DATE_FORMAT(jm_sheet_date_to_sdo,'%d-%m-%Y') AS jm_sheet_date_to_sdo, jm_remarks, jm_approval, li.issues " + 
+					" from la_land_identification li " + 
+					"left join work w on li.work_id_fk = w.work_id "+
+					"left join project p on w.project_id_fk = p.project_id "
+					+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
+					+"left join la_category c on sc.la_category_fk = c.la_category "
+					+"where la_id is not null  ";
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				qry = qry + " and la_land_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and li.work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
+				qry = qry + " and village = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
+				qry = qry + " and c.la_category = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
+				qry = qry + " and sc.la_sub_category = ?";
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
+				pValues[i++] = obj.getLa_land_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
+				pValues[i++] = obj.getVillage();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
+				pValues[i++] = obj.getType_of_land();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
+				pValues[i++] = obj.getSub_category_of_land();
+			}
+		
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<LandAcquisition> geprivateIRAList(String la_id) throws Exception {
+		List<LandAcquisition> objList = null;
+		try {
+			String qry = "select la_id_fk,ira.collector as private_ira_collector, DATE_FORMAT(submission_of_proposal_to_GM ,'%d-%m-%Y') AS submission_of_proposal_to_GM,DATE_FORMAT(approval_of_GM ,'%d-%m-%Y') AS  approval_of_GM,DATE_FORMAT(draft_letter_to_con_for_approval_rp ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_rp,DATE_FORMAT(date_of_approval_of_construction_rp ,'%d-%m-%Y') AS  date_of_approval_of_construction_rp,DATE_FORMAT(date_of_uploading_of_gazette_notification_rp ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_rp," + 
+					"DATE_FORMAT(publication_in_gazette_rp ,'%d-%m-%Y') AS publication_in_gazette_rp,DATE_FORMAT(date_of_proposal_to_DC_for_nomination ,'%d-%m-%Y') AS  date_of_proposal_to_DC_for_nomination, DATE_FORMAT(date_of_nomination_of_competenta_authority ,'%d-%m-%Y') AS date_of_nomination_of_competenta_authority, DATE_FORMAT(draft_letter_to_con_for_approval_ca ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_ca, DATE_FORMAT(date_of_approval_of_construction_ca ,'%d-%m-%Y') AS date_of_approval_of_construction_ca, " + 
+					"DATE_FORMAT(date_of_uploading_of_gazette_notification_ca ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_ca, DATE_FORMAT(publication_in_gazette_ca ,'%d-%m-%Y') AS publication_in_gazette_ca, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA,DATE_FORMAT(approval_of_CALA_20a ,'%d-%m-%Y') AS approval_of_CALA_20a,DATE_FORMAT(draft_letter_to_con_for_approval_20a ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20a," + 
+					"DATE_FORMAT(date_of_approval_of_construction_20a ,'%d-%m-%Y') AS date_of_approval_of_construction_20a,DATE_FORMAT(date_of_uploading_of_gazette_notification_20a ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20a,DATE_FORMAT(publication_in_gazette_20a ,'%d-%m-%Y') AS publication_in_gazette_20a,DATE_FORMAT(publication_in_2_local_news_papers_20a ,'%d-%m-%Y') AS publication_in_2_local_news_papers_20a,DATE_FORMAT(pasting_of_notification_in_villages_20a ,'%d-%m-%Y') AS pasting_of_notification_in_villages_20a," + 
+					"DATE_FORMAT(receipt_of_grievances ,'%d-%m-%Y') AS  receipt_of_grievances, DATE_FORMAT(disposal_of_grievances ,'%d-%m-%Y') AS disposal_of_grievances, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20e ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20e, DATE_FORMAT(approval_of_CALA_20e ,'%d-%m-%Y') AS  approval_of_CALA_20e,DATE_FORMAT(draft_letter_to_con_for_approval_20e ,'%d-%m-%Y') AS  draft_letter_to_con_for_approval_20e,"
+					+ "DATE_FORMAT(date_of_approval_of_construction_20e ,'%d-%m-%Y') AS  date_of_approval_of_construction_20e,DATE_FORMAT(date_of_uploading_of_gazette_notification_20e ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20e,DATE_FORMAT(publication_in_gazette_20e ,'%d-%m-%Y') AS  publication_in_gazette_20e,DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20e ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20e,DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20f ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20f," + 
+					"DATE_FORMAT(approval_of_CALA_20f ,'%d-%m-%Y') AS approval_of_CALA_20f,DATE_FORMAT(draft_letter_to_con_for_approval_20f ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20f,DATE_FORMAT(date_of_approval_of_construction_20f ,'%d-%m-%Y') AS date_of_approval_of_construction_20f,DATE_FORMAT(date_of_uploading_of_gazette_notification_20f ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20f,DATE_FORMAT(publication_in_gazette_20f ,'%d-%m-%Y') AS publication_in_gazette_20f," + 
+					"DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f " + 
+					"from la_private_ira ira " + 
+					"left join la_land_identification li on ira.la_id_fk = li.la_id  " + 
+					"where la_id_fk = ? ";
+			
+			objList = jdbcTemplate.query( qry, new Object[] {la_id}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
+	}
+
+	@Override
+	public List<LandAcquisition> getPrivateValList(String la_id) throws Exception {
+		List<LandAcquisition> objList = null;
+		try {
+			String qry = "select la_id_fk,lpv.payment_amount_units,DATE_FORMAT(lpv.forest_tree_survey ,'%d-%m-%Y') AS forest_tree_survey,DATE_FORMAT(lpv.forest_tree_valuation ,'%d-%m-%Y') AS forest_tree_valuation, lpv.forest_tree_valuation_status_fk,DATE_FORMAT(lpv.horticulture_tree_survey ,'%d-%m-%Y') AS horticulture_tree_survey,DATE_FORMAT(lpv.horticulture_tree_valuation ,'%d-%m-%Y') AS horticulture_tree_valuation," + 
+					"DATE_FORMAT(lpv.structure_survey ,'%d-%m-%Y') AS structure_survey,DATE_FORMAT(lpv.structure_valuation ,'%d-%m-%Y') AS structure_valuation,DATE_FORMAT(lpv.borewell_survey ,'%d-%m-%Y') AS borewell_survey,DATE_FORMAT(lpv.borewell_valuation ,'%d-%m-%Y') AS borewell_valuation, lpv.horticulture_tree_valuation_status_fk, lpv.structure_valuation_status_fk," + 
+					"lpv.borewell_valuation_status_fk, lpv.rfp_to_adtp_status_fk, DATE_FORMAT(lpv.date_of_rfp_to_adtp ,'%d-%m-%Y') AS date_of_rfp_to_adtp,DATE_FORMAT(lpv.date_of_rate_fixation_of_land ,'%d-%m-%Y') AS date_of_rate_fixation_of_land, DATE_FORMAT(lpv.sdo_demand_for_payment ,'%d-%m-%Y') AS sdo_demand_for_payment,DATE_FORMAT(lpv.date_of_approval_for_payment ,'%d-%m-%Y') AS date_of_approval_for_payment," + 
+					"cast(lpv.payment_amount as CHAR) as payment_amount, DATE_FORMAT(lpv.payment_date ,'%d-%m-%Y') AS private_payment_date  " + 
+					" from la_private_land_valuation lpv " + 
+					"left join la_land_identification li on lpv.la_id_fk = li.la_id  " + 
+					"where la_id_fk = ? ";
+			
+			objList = jdbcTemplate.query( qry, new Object[] {la_id}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
+	}
+
+	@Override
+	public List<LandAcquisition> getPrivateLandList(String la_id) throws Exception {
+		List<LandAcquisition> objList = null;
+		try {
+			String qry = "select la_id_fk,lpa.basic_rate_units,lpa.agriculture_tree_rate_units,lpa.forest_tree_rate_units, lpa.name_of_the_owner, lpa.basic_rate, lpa.agriculture_tree_nos, lpa.agriculture_tree_rate, lpa.forest_tree_nos," + 
+					"lpa.forest_tree_rate,DATE_FORMAT(lpa.consent_from_owner,'%d-%m-%Y') AS consent_from_owner, DATE_FORMAT(lpa.legal_search_report,'%d-%m-%Y') AS legal_search_report, DATE_FORMAT(lpa.date_of_registration,'%d-%m-%Y') AS date_of_registration, DATE_FORMAT(lpa.date_of_possession,'%d-%m-%Y') AS date_of_possession, lpa.possession_status_fk as private_possession_status_fk," + 
+					"cast(lpa.hundred_percent_Solatium as CHAR) as hundred_percent_Solatium,cast(lpa.extra_25_percent as CHAR) as extra_25_percent, cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation," + 
+					"cast(lpa.agriculture_tree_compensation as CHAR) as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,cast(lpa.structure_compensation as CHAR) as structure_compensation,cast(lpa.borewell_compensation as CHAR) as borewell_compensation,cast(lpa.total_compensation as CHAR) as total_compensation" + 
+					" from la_private_land_acquisition lpa " + 
+					"left join la_land_identification li on lpa.la_id_fk = li.la_id  " + 
+					"where la_id_fk = ? ";
+			
+			objList = jdbcTemplate.query( qry, new Object[] {la_id}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
+	}
+
+	@Override
+	public List<LandAcquisition> getGovList(String la_id) throws Exception {
+		List<LandAcquisition> objList = null;
+		try {
+			String qry = "select la_id_fk,lg.id, lg.la_id_fk,DATE_FORMAT(lg.proposal_submission,'%d-%m-%Y') AS proposal_submission, lg.proposal_submission_status_fk, DATE_FORMAT(lg.valuation_date,'%d-%m-%Y') AS valuation_date, DATE_FORMAT(lg.letter_for_payment,'%d-%m-%Y') AS letter_for_payment," + 
+					"lg.amount_demanded,cast(lg.lfp_status_fk as CHAR) as lfp_status_fk,DATE_FORMAT(lg.approval_for_payment,'%d-%m-%Y') AS approval_for_payment,DATE_FORMAT(lg.payment_date,'%d-%m-%Y') AS payment_date, lg.amount_paid, lg.payment_status_fk, DATE_FORMAT(lg.possession_date,'%d-%m-%Y') AS possession_date," + 
+					"lg.possession_status_fk " + 
+					" from la_government_land_acquisition lg " + 
+					"left join la_land_identification li on lg.la_id_fk = li.la_id  " + 
+					"where la_id_fk = ? ";
+			
+			objList = jdbcTemplate.query( qry, new Object[] {la_id}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
+	}
+
+	@Override
+	public List<LandAcquisition> getForestList(String la_id) throws Exception {
+		List<LandAcquisition> objList = null;
+		try {
+			String qry = "select la_id_fk, DATE_FORMAT(lf.on_line_submission,'%d-%m-%Y') AS forest_online_submission, DATE_FORMAT(lf.submission_date_to_dycfo,'%d-%m-%Y') AS forest_submission_date_to_dycfo, DATE_FORMAT(lf.submission_date_to_ccf_thane,'%d-%m-%Y') AS forest_submission_date_to_ccf_thane, " + 
+					"DATE_FORMAT(lf.submission_date_to_nodal_officer,'%d-%m-%Y') AS forest_submission_date_to_nodal_officer, DATE_FORMAT(lf.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS forest_submission_date_to_revenue_secretary_mantralaya, DATE_FORMAT(lf.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS forest_submission_date_to_regional_office_nagpur," + 
+					" DATE_FORMAT(lf.date_of_approval_by_regional_office_nagpur,'%d-%m-%Y') AS forest_date_of_approval_by_regional_office_nagpur, DATE_FORMAT(lf.valuation_by_dycfo,'%d-%m-%Y') AS forest_valuation_by_dycfo,cast(lf.demanded_amount as CHAR) as forest_demanded_amount,cast(lf.payment_amount  as CHAR) as forest_payment_amount, DATE_FORMAT(lf.approval_for_payment,'%d-%m-%Y') AS forest_approval_for_payment" + 
+					", DATE_FORMAT(lf.payment_date,'%d-%m-%Y') AS forest_payment_date,DATE_FORMAT(lf.possession_date,'%d-%m-%Y') AS forest_possession_date,lf.possession_status_fk as forest_possession_status_fk," + 
+					"lf.payment_status_fk as forest_payment_status_fk" + 
+					" from la_forest_land_acquisition lf " + 
+					"left join la_land_identification li on lf.la_id_fk = li.la_id  " + 
+					"where la_id_fk = ? ";
+			
+			objList = jdbcTemplate.query( qry, new Object[] {la_id}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
+	}
+
+	@Override
+	public List<LandAcquisition> getRailwayList(String la_id) throws Exception {
+		List<LandAcquisition> objList = null;
+		try {
+			String qry = "select la_id_fk,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,DATE_FORMAT(lr.online_submission,'%d-%m-%Y') AS railway_online_submission," + 
+					"DATE_FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, DATE_FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, DATE_FORMAT(lr.`submission_date_to_nodal_officer/CCF Nagpur`,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, " + 
+					" DATE_FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS railway_submission_date_to_revenue_secretary_mantralaya, DATE_FORMAT(lr.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS railway_submission_date_to_regional_office_nagpur, DATE_FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'%d-%m-%Y') AS railway_date_of_approval_by_Rregional_Office_agpur," + 
+					"DATE_FORMAT(lr.valuation_by_DyCFO ,'%d-%m-%Y') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, DATE_FORMAT(lr.approval_for_payment,'%d-%m-%Y') AS railway_approval_for_payment, DATE_FORMAT(lr.payment_date,'%d-%m-%Y') AS railway_payment_date,cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, DATE_FORMAT(lr.possession_date,'%d-%m-%Y') AS railway_possession_date, lr.possession_status as railway_possession_status" + 
+					" from la_railway_land_acquisition lr " + 
+					"left join la_land_identification li on lr.la_id_fk = li.la_id  " + 
+					"where la_id_fk = ? ";
+			
+			objList = jdbcTemplate.query( qry, new Object[] {la_id}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
 	}
 
 	

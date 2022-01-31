@@ -97,8 +97,8 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	}
 
 	@Override
-	public List<LandAcquisition> getLandAcquisitionProjectsList(LandAcquisition obj) throws Exception {
-		return dao.getLandAcquisitionProjectsList(obj);
+	public List<LandAcquisition> getLandAcquisitionStatusList(LandAcquisition obj) throws Exception {
+		return dao.getLandAcquisitionStatusList(obj);
 	}
 
 	@Override
@@ -124,6 +124,41 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	@Override
 	public List<LandAcquisition> getLaLandStatus() throws Exception {
 		return dao.getLaLandStatus();
+	}
+
+	@Override
+	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition dObj) throws Exception {
+		return dao.getLandAcquisitionList(dObj);
+	}
+
+	@Override
+	public List<LandAcquisition> geprivateIRAList(String la_id) throws Exception {
+		return dao.geprivateIRAList(la_id);
+	}
+
+	@Override
+	public List<LandAcquisition> getPrivateValList(String la_id) throws Exception {
+		return dao.getPrivateValList(la_id);
+	}
+
+	@Override
+	public List<LandAcquisition> getPrivateLandList(String la_id) throws Exception {
+		return dao.getPrivateLandList(la_id);
+	}
+
+	@Override
+	public List<LandAcquisition> getGovList(String la_id) throws Exception {
+		return dao.getGovList(la_id);
+	}
+
+	@Override
+	public List<LandAcquisition> getForestList(String la_id) throws Exception {
+		return dao.getForestList(la_id);
+	}
+
+	@Override
+	public List<LandAcquisition> getRailwayList(String la_id) throws Exception {
+		return dao.getRailwayList(la_id);
 	}
 
 

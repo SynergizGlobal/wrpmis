@@ -280,7 +280,7 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
                                 <h6>
-                               	    <c:if test="${action eq 'edit'}">Update R & R</c:if>
+                               	    <c:if test="${action eq 'edit'}">Update R & R ()</c:if>
 									<c:if test="${action eq 'add'}"> Add R & R</c:if>
                                 </h6>
                             </div>
@@ -302,7 +302,7 @@
                             <div class="row">
 						    <c:if test="${action eq 'add'}">	
                                 <div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label"> Project</p>
+                                    <p class="searchable_label mb-8"> Project</p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  >
                                          <option value="" >Select</option>
                                          <%-- <c:forEach var="obj" items="${projectsList }">
@@ -311,8 +311,8 @@
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m8 l8 input-field">
-                                    <p class="searchable_label"> Work </p>
+                                <div class="col s12 m4 l4 input-field">
+                                    <p class="searchable_label mb-8"> Work </p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" >
                                         <option value="" >Select</option>
                                         <%-- <c:forEach var="obj" items="${worksList }">
@@ -321,7 +321,11 @@
                                     </select>
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                             
+                             <div class="col s12 m4 l4 input-field">
+                             		<input type="text" id="randr_id_fk" name="randr_id_fk" class="validate" />
+								    <label for="randr_id_fk">R & R Id </label>
+								    <span id="randr_id_fkError" class="error-msg" ></span>
+                             </div>
                             </c:if>
  							<c:if test="${action eq 'edit'}">		                             
 	                                <div class="col s6 m4 l4 input-field ">

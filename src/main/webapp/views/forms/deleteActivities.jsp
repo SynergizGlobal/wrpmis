@@ -675,15 +675,18 @@
                  		{
                      		$(this).prop('checked', true);
                  		}
+                       
 
                  	});
                      $('#btn').removeClass('disabled');
                      $('#updatebtn').removeClass('disabled');
+                     $('.ids').val(1);
                  } else 
                  {
                      $(this).prop('checked', false);
                      $('#btn').addClass('disabled');
                      $('#updatebtn').addClass('disabled');
+                     $('.ids').val(0);
                  }
              });
          });		 
@@ -1276,7 +1279,7 @@
  	            	 			
  	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td data-head="Completed" class="input-field"><span>' + Number($.trim(val.completed)) + '</span>'
- 	            	 			+'<input type="hidden" name="ids"  id="ids'+num+'"  value="" /></td>'
+ 	            	 			+'<input type="hidden" name="ids"  id="ids'+num+'"  value="" class="ids" /></td>'
  	            	 			+' <td data-head="Actual" class="input-field">'+$.trim(val.unit_fk)+'</td></tr>';
  	                    		$("#filerList").append(html);	
  	                    		

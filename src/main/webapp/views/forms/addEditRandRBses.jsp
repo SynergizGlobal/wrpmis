@@ -23,7 +23,10 @@
         	border:1px solid #ccc;	
         }
   		.error-msg label{color:red!important;}   
-		
+		h6{
+			margin:1rem 0;
+			font-weight:600;
+		}
 		span.required {
 		    font-size: inherit;
 		}
@@ -63,12 +66,7 @@
         	margin-left:10px;
         	vertical-align:inherit;
         }
-        #revTable .select2-container{
-	        max-width:150px;
-	        width: 150px !important;
-	        text-align:left;
-	        margin-top:10px;
-        }        
+             
          
         .my-error-class {
    			 color:red;
@@ -102,17 +100,17 @@
 			min-height:4rem ;
 		}
 		.fs11px{font-size: 11px !important;}
+		.filevalue {
+            display: block;
+            margin-top: 10px;
+        }
 		@media only screen and (max-width: 768px){
 			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
-			#revisionsTableBody tr .input-field .datepicker~button ,
-			 #statusTable tr .input-field .datepicker~button{
-			    position: relative;
-			    top: 0;
-			    right: 26px;
-			}			
-			#revTable .select2-container{
-				width:-webkit-fill-available !important;
+			 .filevalue {
+			    width: 200%;
+			    white-space: break-spaces;
 			}
+			
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td::before {
 			    vertical-align: middle;
 			}
@@ -175,6 +173,25 @@
 				margin-top: -14px !important;
 			} 
 		}
+		.internal-table .btn,
+		.internal-table-add-btn .btn{
+			padding:0 8px;
+			line-height:2rem;
+			height:2rem;
+			cursor:pointer;
+			z-index:1 !important;
+		}
+		.internal-table .btn >.fa,
+		.internal-table-add-btn .btn >.fa{
+			font-size:1rem;
+		}
+		.internal-table tr{
+			border:none;
+		}
+		.internal-table td{
+			padding-top:0;
+			padding-bottom:0;
+		}
 		@media only screen and (max-width: 767px){
 			.input-field.min4{
 				min-height:1px ;
@@ -188,6 +205,27 @@
 				    margin-bottom: 0;
 	    			margin-top: 8px;
 				}
+				.normal-btn{
+			        display: block;
+			        text-align: center;
+			    }  
+			    td[data-head="Attachment"] {
+				    max-width: 30%;
+				    width: 30% !important;
+				}
+				td[data-head="Date of Nomination"] {
+				    max-width: 200px;
+				    width: 20% !important;
+				}
+				td[data-head="Date of Nomination"] .datepicker~button{
+				    bottom:1.5rem;
+				}
+				.internal-table-add-btn{
+					position:absolute;
+					right:.65rem;
+					bottom:2.5rem;
+				}
+				
 			}
 			
 		@media only screen and (max-width: 769px) and (min-width: 500px){
@@ -206,7 +244,6 @@
 		.waves-effect.bg-m.t-c{
 			z-index:0;
 		}
-		
 		.filevalue {
             display: block;
             margin-top: 10px;
@@ -230,10 +267,7 @@
 				margin-right:auto;
 				margin-top:5px;
 			}
-			.filevalue {
-			    width: 200%;
-			    white-space: break-spaces;
-			}
+			
 			td[data-head="Status"]>p{
 				display:inline-block;
 			}
@@ -298,7 +332,7 @@
 						   <input type="hidden" id="design_id" name="design_id" value="${designDetails.design_id }">
 						  
 						    <div class="container container-no-margin">
-                            <div class="row section">
+                            <div class="row" style="margin-top:1rem;">
 						    <c:if test="${action eq 'add'}">	
                                 <div class="col s6 m4 l4 input-field ">
                                     <p class="searchable_label"> Project</p>
@@ -306,7 +340,7 @@
                                          <option value="" >Select</option>
                                          <%-- <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${ obj.project_id}" <c:if test="${designDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-                                         </c:forEach> --%>
+                                         </c:forEach> --%>	
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
@@ -344,7 +378,7 @@
 	                                </div>
 	                           		<div class="col s12 m4 l4 input-field"> 
 	                                    <input type="text" value="" readonly />
-	                                	<label for="contract_fk">Work </label>
+	                                	<label for="contract_fk">Contract </label>
 	                                	<input type="hidden" name="contract_fk" id="contract_fk" value="" readonly />
 	                                </div>
                               </c:if>
@@ -354,8 +388,243 @@
                                     <textarea id="agency_name" name="agency_name" class="pmis-textarea" data-length="1000"></textarea>
                                     <label for="agency_name">Agency Name</label>
                                 </div>
+							</div>  
+							<div class="row">
+								 <div class="col s12 m4 input-field">
+                                     <p class="center-align" style="margin-top:1rem;">
+									      <label>
+									        <input type="checkbox" class="filled-in" checked="checked" id="submission_to_mrvc" name="submission_to_mrvc"/>
+									        <span>Report Submission to MRVC</span>
+									      </label>
+								    </p>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                     <p class="center-align" style="margin-top:1rem;">
+									      <label>
+									        <input type="checkbox" class="filled-in" checked="checked" id="submission_to_mmrda" name="submission_to_mmrda"/>
+									        <span>Report Submission to MMRDA </span>
+									      </label>
+								    </p>
+                                </div>
 							</div>
-                           
+						</div>
+													
+								<div class="col s12">
+										<div class="row fixed-width">
+									       <h6 class="center-align">Committee Details</span></h6>
+									        <div class="table-inside">
+									            <table id="committeeDetailsTable" class="mdl-data-table mobile_responsible_table" >
+									                <thead>
+									                    <tr>
+									                        <th>Date of Nomination </th>
+															<th>Details of Committee </th>
+															<th>Remarks </th>
+															<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"><th style="width:8%">Action</th></c:if>
+									                    </tr>
+									                </thead>
+									                <tbody id="committeeDetailsTableBody">
+									                <c:choose>
+				                                        <c:when test="${not empty contractDeatils.departmentList }" >				                                          
+				                                		  <c:forEach var="departmentObj" items="${contractDeatils.departmentList }" varStatus="index"> 				                                		      
+											                  <tr id="committeeDetailsRow${index.count }">
+											                        <td data-head="Date of Nomination" class="input-field">
+											                              <input id="nomination_date${index.count }" name="nomination_dates" type="text" class="validate datepicker" placeholder="Date of Nomination">
+										                                  <button type="button" id="nomination_date${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+										                                  <span id="nomination_date${index.count}Error" class="error-msg" ></span>
+											                        </td>
+											                        <td>
+											                        
+											                        </td>
+											                        <td data-head="Remarks" class="input-field">
+											                            <textarea id="committee_remarks${index.count }" name ="committee_remarkss" class="pmis-textarea" placeholder="Remarks"></textarea>
+									                                    <span id="committee_remarks${index.count }Error" class="error-msg"></span>
+											                        </td>
+											                        <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
+												                        <td class="mobile_btn_close">
+												                            <a onclick="removeCommitteeDetailsRow('${index.count }');"
+												                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+												                        </td>
+											                        </c:if>
+											                    </tr>											                  
+									                	</c:forEach>
+                                           			</c:when>
+                                             		<c:otherwise>
+									                    <tr id="committeeDetailsRow0">
+									                        <td data-head="Date of Nomination" class="input-field">
+									                              <input id="nomination_date0" name="nomination_dates" type="text" class="validate datepicker" placeholder="Date of Nomination">
+								                                  <button type="button" id="nomination_date0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+								                                  <span id="nomination_date0Error" class="error-msg" ></span>
+									                        </td>
+									                        <td>
+									                        	<div class="internal-table-add-btn">
+									                        		<a class="btn waves-effect waves-light bg-m t-c" onclick="addInternalBodyRow('0')"> <i class="fa fa-plus"></i></a>
+									                        		<input type="hidden" id="internalRow0" value="0">
+									                        	</div>
+									                        	<table>
+									                        	<tbody id="committeeDetailsInternalBody0" class="internal-table">
+									                        		<tr id="committeeDetailsInternalRow0">
+									                        			<td>
+									                        				<textarea id="committee_details0x0" name ="committee_detailss" class="pmis-textarea" placeholder="Details"></textarea>
+									                        			</td>
+									                        			<td>
+									                        				<a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('0x0')"> <i class="fa fa-close"></i></a>
+									                        			</td>
+									                        		</tr>
+									                        	</tbody>
+									                        	</table>
+									                        </td>
+									                        <td data-head="Remarks" class="input-field">
+									                            <textarea id="committee_remarks0" name ="committee_remarkss" class="pmis-textarea" placeholder="Remarks"></textarea>
+							                                    <span id="committee_remarks0Error" class="error-msg"></span>
+									                        </td>
+									                        <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
+										                        <td class="mobile_btn_close">
+										                            <a onclick="removeCommitteeDetailsRow('0');"
+										                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+										                        </td>
+									                        </c:if>
+									                    </tr>
+									              </c:otherwise>
+                                            	</c:choose>
+									                </tbody>
+									            </table>
+									            <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
+									            <table  class="mdl-data-table" style="margin-bottom: 30px">
+			                                        <tbody>                                          
+			                                            <tr>
+			                                   				<td colspan="3"  ><a class="btn waves-effect waves-light bg-m t-c "  onclick="addCommitteeDetailsRow()"> <i class="fa fa-plus"></i></a></td>
+			                                             </tr>
+			                                        </tbody>
+			                                    </table> 
+			                                    </c:if>
+			                                    <c:choose>
+				                                    <c:when test="${not empty contractDeatils.departmentList && fn:length(contractDeatils.departmentList) gt 0 }">
+				                                		<input type="hidden" id="committeeDetailsRowNo"  name="committeeDetailsRowNo" value="${fn:length(contractDeatils.departmentList) }" />
+				                                	</c:when>
+				                                 	<c:otherwise>
+				                                 		<input type="hidden" id="committeeDetailsRowNo"  name="committeeDetailsRowNo" value="0" />
+				                                 	</c:otherwise>
+				                                 </c:choose>
+							                                    
+									        </div>
+									    </div>
+									</div>
+							
+							<div class="container container-no-margin">
+	                            <div class="col s12">
+	                                <div class="row fixed-width">
+	                                    <!-- <h5 class="center-align"><span class="div-header">Attachments</span></h5>  -->
+	                                    <h6 class="center-align">Attachments</span></h6> 
+	                                    <div class="table-inside">
+	                                        <table class="mdl-data-table mobile_responsible_table">
+	                                            <thead>
+	                                                <tr>
+	                                                	<th>File Type </th>
+	                                                    <th>Name </th>
+	                                                    <th style="text-align:center;">Attachment</th>
+	                                                    <th> </th>
+	                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+	                                                    	<th style="width:8%">Action</th>
+	                                                    </c:if>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody id="attachmentsTableBody" >
+	                                             <c:choose>
+			                                        <c:when test="${not empty contractDeatils.contractDocuments  && fn:length(contractDeatils.contractDocuments ) gt 0 }">			                                          
+				                                        <c:forEach var="docObj" items="${contractDeatils.contractDocuments }" varStatus="index">  
+			                                                <tr id="attachmentRow${index.count }">
+			                                                	<td data-head="File Type " class="input-field">
+																	<select  name="attachment_file_types"  id="attachment_file_types${index.count }"  class="validate-dropdown searchable">
+					                                   					 <option value="" >Select</option>
+					                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
+					                    					  				 <option value="${obj.contract_file_type }" <c:if test="${docObj.contract_file_type_fk eq obj.contract_file_type}">selected</c:if>>${obj.contract_file_type}</option>
+					                                          			  </c:forEach>
+					                               					  </select>
+															    </td>
+			                                                    <td data-head="Name " class="input-field"> <input id="attachmentNames${index.count }" name="attachmentNames" type="text" class="validate"
+			                                                            placeholder="Name" value="${docObj.name }">
+			                                                    </td>
+			                                                    <td data-head="Attachment" class="input-field">
+			                                                        <span class="normal-btn">
+			                                                            <input type="file" id="attachmentFiles${index.count }" name="attachmentFiles"
+			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
+			                                                            <label for="attachmentFiles${index.count }" class="btn bg-m"><i
+			                                                                    class="fa fa-paperclip"></i></label>
+			                                                            <input type="hidden" id="attachmentFileNames${index.count }" name="attachmentFileNames" value="${docObj.attachment }">
+			                                                             <span id="attachmentFileName${index.count }" class="filevalue"></span>
+			                                                          </span>
+			                                                    </td>
+			                                                    <td>
+			                                                     		<input type="hidden" id="attach_file_ids${index.count }" name="attach_file_ids" value="${docObj.contract_file_id }"/>
+			                                                      		<a href="<%=CommonConstants2.CONTRACT_FILES%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                        
+			                                                    </td>
+			                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+				                                                    <td class="mobile_btn_close">
+				                                                        <a href="javascript:void(0);" onclick="removeAttachmentRow('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+				                                                                class="fa fa-close"></i></a>
+				                                                    </td>
+			                                                    </c:if>
+			                                                </tr> 
+	                                                	</c:forEach>
+	                                           		</c:when>
+	                                             	<c:otherwise>
+	                                             		<tr id="attachmentRow0">
+	                                             			<td data-head="File Type " class="input-field">																		
+																<select  name="attachment_file_types"  id="attachment_file_types0"  class="validate-dropdown searchable">
+				                                   					 <option value="" >Select</option>
+				                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
+				                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
+				                                          			  </c:forEach>
+				                               					  </select>
+															    </td>
+		                                                    <td data-head="Name " class="input-field"> <input id="attachmentNames0" name="attachmentNames" type="text" class="validate"
+		                                                            placeholder="Name">
+		                                                    </td>
+		                                                    <td data-head="Attachment" class="input-field">
+		                                                        <span class="normal-btn">
+		                                                            <input type="file" id="attachmentFiles0" name="attachmentFiles"
+		                                                                style="display:none" onchange="getFileName('0')"/>
+		                                                            <label for="attachmentFiles0" class="btn bg-m"><i
+		                                                                    class="fa fa-paperclip"></i></label>
+		                                                            <input type="hidden" id="attachmentFileNames0" name="attachmentFileNames" value="">
+		                                                            <span id="attachmentFileName0" class="filevalue"></span>
+		                                                        </span>
+		                                                    </td>
+		                                                    <td><input type="hidden" id="attach_file_ids0" name="attach_file_ids" value= ""/>
+		                                                    </td>
+		                                                    
+		                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+			                                                    <td class="mobile_btn_close">
+			                                                        <a href="javascript:void(0);" onclick="removeAttachmentRow('0');" class="btn waves-effect waves-light red t-c "> <i
+			                                                                class="fa fa-close"></i></a>
+			                                                    </td>
+		                                                    </c:if>
+		                                                </tr>
+	                                             	</c:otherwise>
+                                            	</c:choose> 
+	                                            </tbody>
+	                                        </table>
+	                                        
+	                                        <table class="mdl-data-table">
+		                                        <tbody>                                          
+		                                            <tr>
+														<td colspan="3" > <a type="button"  class="btn waves-effect waves-light bg-m t-c"  onclick="addAttachmentRow()"> <i
+		                                                            class="fa fa-plus"></i></a></td>
+		                                              </tr>
+		                                        </tbody>
+		                                     </table>
+		                                   	 <c:choose>
+		                                        <c:when test="${not empty contractDeatils.contractDocuments && fn:length(contractDeatils.contractDocuments) gt 0 }">
+		                                    		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="${fn:length(contractDeatils.contractDocuments) }" />
+		                                    	</c:when>
+		                                     	<c:otherwise>
+		                                     		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="0" />
+		                                     	</c:otherwise>
+		                                     </c:choose> 
+	                                    </div>
+	                                </div>
+	                            </div>                         
                                                    
                             <div class="row">
                                 <div class="col s12 m12 input-field">
@@ -379,11 +648,9 @@
                                         <a href="<%=request.getContextPath() %>/bses" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
-                            </div>
-                           
-                    
-                    <!-- form ends  -->
+                            </div>                           
                 </div>
+                    <!-- form ends  -->
                         </form>
 			</div>
           </div>
@@ -428,6 +695,99 @@
     	
    });
 
+	function addAttachmentRow(){		
+		 var rowNo = $("#attachmentRowNo").val();
+		 var rNo = Number(rowNo)+1;
+		 var total = 0;
+		 var html = '<tr id="attachmentRow'+rNo+'">'
+					 +'<td data-head="File Type " class="input-field">'
+							+'<select  name="attachment_file_types"  id="attachment_file_types'+rNo+'"  class="validate-dropdown searchable">'
+		    					+ '<option value="" >Select</option>'
+		          			 /*  <c:forEach var="obj" items="${contractFileTypeList}">
+					  				+ '<option value="${obj.contract_file_type }">${obj.contract_file_type}</option>'
+		           			  </c:forEach> */
+						+ '</select></td>'
+					 +'<td data-head="Name " class="input-field"> <input id="attachmentNames'+rNo+'" name="attachmentNames" type="text" class="validate" placeholder="Name"> </td>'
+					 +'<td data-head="Attachment" class="input-field">'
+					 +'<span class="normal-btn">'
+					 +'<input type="file" id="attachmentFiles'+rNo+'" name="attachmentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
+					 +'<label for="attachmentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+					 +'<input type="hidden" id="attachmentFileNames'+rNo+'" name="attachmentFileNames">'
+					 +'<span id="attachmentFileName'+rNo+'" class="filevalue"></span>'
+					 +'</span>'
+					 +'</td>'
+					 +'<td><input type="hidden" id="attach_file_ids'+rNo+'" name="attach_file_ids"/></td>';
+					 
+					 var user_role_name = '${sessionScope.USER_ROLE_NAME}';
+					 if(user_role_name == 'IT Admin'){
+						 html = html +'<td class="mobile_btn_close">'
+						 +'<a href="javascript:void(0);" onclick="removeAttachmentRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
+						 +'</td>';
+					 }
+					 html = html +'</tr>';
+		
+			 $('#attachmentsTableBody').append(html);
+			 $("#attachmentRowNo").val(rNo);
+			 $('.searchable').select2();
+	         $("#attach_file_ids0").val('');
+	} 
+	
+	function removeAttachmentRow(rowNo){
+		$("#attachmentRow"+rowNo).remove();
+	}
+
+	function getFileName(rowNo){
+		var filename = $('#attachmentFiles'+rowNo)[0].files[0].name;
+	    $('#attachmentFileName'+rowNo).html(filename);
+	    $('#attachmentFileNames'+rowNo).val(filename);
+	}
+	
+	
+	function addCommitteeDetailsRow(){
+    	 var rowNo = $("#committeeDetailsRowNo").val();
+		 var rNo = Number(rowNo)+1;
+		 var no = 0;
+		 var html = '<tr id="committeeDetailsRow'+rNo+'"> '
+		 			+'<td data-head="Date of Nomination" class="input-field"> <input id="nomination_date'+rNo+'" name="nomination_dates" type="text" class="validate datepicker" '
+		 			+'placeholder="Date of Nomination"> <button type="button" id="nomination_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> '											                              
+        			+'<span id="nomination_date'+rNo+'Error" class="error-msg" ></span>   </td>'
+   					+'<td><div class="internal-table-add-btn"> <a class="btn waves-effect waves-light bg-m t-c" onclick="addInternalBodyRow('+rNo+')"> <i class="fa fa-plus"></i></a>'
+            		+'<input type="hidden" id="internalRow'+rNo+'" value="0"></div> <table> <tbody id="committeeDetailsInternalBody'+rNo+'" class="internal-table">'
+            		+'<tr id="committeeDetailsInternalRow'+rNo+'x0"> <td>	<textarea id="committee_details'+rNo+'x0" name ="committee_detailss" class="pmis-textarea" placeholder="Details"></textarea> </td>'
+            		+'<td> <a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('+rNo+'x0)"> <i class="fa fa-close"></i></a> </td> </tr> </tbody> </table> </td>'
+   					+'<td data-head="Remarks" class="input-field"> <textarea id="committee_remarks'+rNo+'" name ="committee_remarkss" class="pmis-textarea" placeholder="Remarks"></textarea>'
+   					+'<span id="committee_remarks'+rNo+'Error" class="error-msg"></span>  </td>'
+   				<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
+      				+'<td class="mobile_btn_close"> <a onclick="removeCommitteeDetailsRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td>'
+   				</c:if>
+					+'</tr>';
+		
+			 $('#committeeDetailsTableBody').append(html); 
+			 $("#committeeDetailsRowNo").val(rNo);
+			 $('.searchable').select2();
+    }
+    
+    function removeCommitteeDetailsRow(rowNo){
+    	$("#committeeDetailsRow"+rowNo).remove();
+    }
+    
+	function addInternalBodyRow(No){
+    	 var rowNo = $("#internalRow"+No).val();
+		 var rNo = Number(rowNo)+1;
+		 var no = 0;
+		 var html = '<tr id="committeeDetailsInternalRow'+No+'x'+rNo+'"> '
+		 			+'<td> <textarea id="committee_details'+No+'x'+rNo+'" name ="committee_detailss" class="pmis-textarea" placeholder="Details"></textarea> </td>'
+		 			+'<td><a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow(\''+No+'x'+rNo+'\')"> <i class="fa fa-close"></i></a></td>'
+					+'</tr>';
+		
+			 $('#committeeDetailsInternalBody'+No).append(html); 
+			 $("#internalRow"+No).val(rNo);
+			 $('.searchable').select2();
+    }
+    
+    function removeInternalBodyRow(rowNo){ 
+    	$("#committeeDetailsInternalRow"+rowNo).remove();
+    }
 
    </script>
 

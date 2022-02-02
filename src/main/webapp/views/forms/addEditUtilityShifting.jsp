@@ -301,202 +301,205 @@
                     <!-- form start-->
                    
                         <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-randr" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/updateUtilityShifting" id="utilityshiftingform" name="utilityshiftingform" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-randr" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/addUtilityShifting" id="utilityshiftingform" name="utilityshiftingform" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
 						  						  
 						    <div class="container container-no-margin">
                             <div class="row" style="margin-top:1rem;">
 						    <c:if test="${action eq 'add'}">	
-                                <div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label"> Project</p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  >
-                                         <option value="" >Select</option>
-                                         <%-- <c:forEach var="obj" items="${projectsList }">
-                                      	   <option value= "${ obj.project_id}" <c:if test="${designDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-                                         </c:forEach> --%>	
-                                    </select>
+                                <div class="col s6 m4 l4 input-field">
+                                <p class="searchable_label"> Project <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
+                                        onchange="getWorksList(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${projectsList }">
+                                            <option value="${obj.project_id_fk }" >${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                        </c:forEach>
+                                    </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label"> Work </p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" >
-                                        <option value="" >Select</option>
-                                        <%-- <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach> --%>
+                                <p class="searchable_label"> Work <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+                                        onchange="getContractsList(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${worksList }">
+                                      	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                         </c:forEach>
                                     </select>
-                                      <span id="work_id_fkError" class="error-msg" ></span>
+                                    <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                             	<div class="col s12 m4 l4 input-field">
-                                    <p class="searchable_label"> Contract </p>
-                                    <select class="searchable validate-dropdown" id="contract_fk" name="contract_fk" >
-                                        <option value="" >Select</option>
-                                        <%-- <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach> --%>
+                                <div class="col s6 m4 l4 input-field offset-m2">
+                                	<p class="searchable_label"> Contract <span class="required">*</span></p>
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${contractsList }">
+                                      	   <option workId="${obj.work_id_fk }" hod_user_id="${obj.hod_user_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                         </c:forEach>
                                     </select>
-                                      <span id="contract_fkError" class="error-msg" ></span>
+                                    <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                             </c:if>
  							<c:if test="${action eq 'edit'}">		                             
 	                                <div class="col s6 m4 l4 input-field ">
-	                                    <input type="text" value="" readonly />
+	                                    <input type="text"  value="${utilityShifting.project_name }"  readonly />
 								    	<label for="project_id_fk">Project </label>
-								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="" readonly />
+								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${utilityShifting.project_name }" readonly />
+								    	<input type="hidden" name="id" id="id" value="${utilityShifting.id }" readonly />
 								    </div> 
 	                                <div class="col s6 m4 l4 input-field"> 
-	                                    <input type="text" value="" readonly />
+	                                    <input type="text" value="${utilityShifting.work_id_fk }" readonly />
 	                                	<label for="work_id_fk">Work </label>
-	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="" readonly />
+	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${utilityShifting.work_id_fk }" readonly />
 	                                </div>
 	                           		<div class="col s12 m4 l4 input-field"> 
-	                                    <input type="text" value="" readonly />
+	                                    <input type="text" value="${utilityShifting.contract_id_fk }" readonly />
 	                                	<label for="contract_fk">Contract </label>
-	                                	<input type="hidden" name="contract_fk" id="contract_fk" value="" readonly />
+	                                	<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${utilityShifting.contract_id_fk }" readonly />
 	                                </div>
                               </c:if>
 							</div>
 							
 							<div class="row">
 								 <div class="col s12 m4 input-field">
-                                     <input id="identification_date" name="identification_date" type="text" class="validate datepicker">                                     
-                                     <label for="identification_date">Identification Date</label>
-	                                 <button type="button" id="identification_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
-	                                 <span id="identification_dateError" class="error-msg" ></span>
+                                     <input id="identification" name="identification" type="text" class="validate datepicker" value="${utilityShifting.identification }">                                     
+                                     <label for="identification">Identification Date<span class="required">*</span></label>
+	                                 <button type="button" id="identification_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+	                                 <span id="identificationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                     <input id="location_name" name="location_name" type="text" class="validate">                                     
-                                     <label for="location_name">Location Name</label>
+                                     <input id="location_name" name="location_name" type="text" class="validate" value="${utilityShifting.location_name }">                                     
+                                     <label for="location_name">Location Name<span class="required">*</span></label>
 	                                 <span id="location_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="reference_number" name="reference_number" type="text" class="validate">                                     
-                                     <label for="reference_number">Reference Number </label>
+                                    <input id="reference_number" name="reference_number" type="text" class="validate" value="${utilityShifting.reference_number }">                                     
+                                     <label for="reference_number">Reference Number<span class="required">*</span> </label>
 	                                 <span id="reference_numberError" class="error-msg" ></span>
                                 </div>
 							</div>
 							<div class="row">
 								 <div class="col s12 m4 input-field">
-                                     <input id="chainage" name="chainage" type="text" class="validate">                                     
-                                     <label for="chainage">Chainage</label>
-	                                 <span id="chainageError" class="error-msg" ></span>
+                                     <input id="latitude" name="latitude" type="text" class="validate" value="${utilityShifting.latitude }">                                     
+                                     <label for="latitude">Chainage<span class="required">*</span></label>
+	                                 <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                     <input id="utility_description" name="utility_description" type="text" class="validate">                                     
-                                     <label for="utility_description">Utility Description</label>
+                                     <input id="utility_description" name="utility_description" type="text" class="validate" value="${utilityShifting.utility_description }">                                     
+                                     <label for="utility_description">Utility Description<span class="required">*</span></label>
 	                                 <span id="utility_descriptionError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="owner" name="owner" type="text" class="validate">                                     
-                                     <label for="owner">Owner </label>
-	                                 <span id="ownerError" class="error-msg" ></span>
+                                    <input id="owner_name" name="owner_name" type="text" class="validate" value="${utilityShifting.owner_name }">                                     
+                                     <label for="owner_name">Owner <span class="required">*</span></label>
+	                                 <span id="owner_nameError" class="error-msg" ></span>
                                 </div>
 							</div>
 							<div class="row">
 								<div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label"> Utility Type </p>
-                                    <select class="searchable validate-dropdown" id="utility_type_fk" name="utility_type_fk"  >
+                                    <p class="searchable_label"> Utility Type <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="utility_type_fk" name="utility_type_fk">
                                          <option value="" >Select</option>
-                                         <%-- <c:forEach var="obj" items="${projectsList }">
-                                      	   <option value= "${ obj.project_id}" <c:if test="${designDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-                                         </c:forEach> --%>	
+                                        <c:forEach var="obj" items="${utilityTypeList }">
+                                      	   <option value= "${ obj.utility_type_fk}" <c:if test="${obj.utility_type_fk eq utilityShifting.utility_type_fk }">selected</c:if>>${obj.utility_type_fk}</option>
+                                         </c:forEach>
                                     </select>
                                     <span id="utility_type_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label"> Category </p>
-                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk" >
+                                    <p class="searchable_label"> Category <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="utility_category_fk" name="utility_category_fk" >
                                         <option value="" >Select</option>
-                                        <%-- <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach> --%>
+                                        <c:forEach var="obj" items="${utilityCategoryList }">
+                                      	   <option value= "${ obj.utility_category_fk}" <c:if test="${obj.utility_category_fk eq utilityShifting.utility_category_fk }">selected</c:if>>${obj.utility_category_fk}</option>
+                                         </c:forEach>
                                     </select>
-                                      <span id="category_fkError" class="error-msg" ></span>
+                                      <span id="utility_category_fkError" class="error-msg" ></span>
                                 </div>
                              	<div class="col s12 m4 l4 input-field">
-                                    <p class="searchable_label"> Execution Agency </p>
+                                    <p class="searchable_label"> Execution Agency <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="execution_agency_fk" name="execution_agency_fk" >
                                         <option value="" >Select</option>
-                                        <%-- <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach> --%>
+                                        <c:forEach var="obj" items="${utilityExecutionAgencyList }">
+                                      	   <option value= "${ obj.execution_agency_fk}" <c:if test="${obj.execution_agency_fk eq utilityShifting.execution_agency_fk }">selected</c:if>>${obj.execution_agency_fk}</option>
+                                         </c:forEach>
                                     </select>
                                       <span id="execution_agency_fkError" class="error-msg" ></span>
                                 </div>
 							</div>
 							<div class="row">
 								<div class="col s6 m4 l3 input-field ">
-                                    <p class="searchable_label mb-8"> Impacted Contract </p>
-                                    <select class="searchable validate-dropdown" id="impacted_contract_fk" name="impacted_contract_fk"  >
-                                         <option value="" >Select</option>
-                                         <%-- <c:forEach var="obj" items="${projectsList }">
-                                      	   <option value= "${ obj.project_id}" <c:if test="${designDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-                                         </c:forEach> --%>	
+                                    <p class="searchable_label mb-8"> Impacted Contract <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="impacted_contract_id_fk" name="impacted_contract_id_fk"  >
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${contractsList }">
+                                      	   <option  value= "${ obj.contract_id_fk}" <c:if test="${obj.contract_id_fk eq utilityShifting.impacted_contract_id_fk }">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                         </c:forEach>
                                     </select>
-                                    <span id="impacted_contract_fkError" class="error-msg" ></span>
+                                    <span id="impacted_contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l3 input-field">
-                                    <p class="searchable_label mb-8"> requirement stage </p>
+                                    <p class="searchable_label mb-8"> Requirement stage <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="requirement_stage_fk" name="requirement_stage_fk" >
                                         <option value="" >Select</option>
-                                        <%-- <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach> --%>
+                                        <c:forEach var="obj" items="${requirementStageList }">
+                                      	   <option value= "${ obj.requirement_stage_fk}" <c:if test="${obj.requirement_stage_fk eq utilityShifting.requirement_stage_fk }">selected</c:if>>${obj.requirement_stage_fk}</option>
+                                         </c:forEach>
                                     </select>
                                       <span id="requirement_stage_fkError" class="error-msg" ></span>
                                 </div>
                              	<div class="col s12 m4 l3 input-field">
-                                     <input id="planned_completion_date" name="planned_completion_date" type="text" class="validate datepicker">                                     
-                                     <label for="planned_completion_date">Planned Completion </label>
+                                     <input id="planned_completion_date" name="planned_completion_date" type="text" class="validate datepicker" value="${utilityShifting.planned_completion_date }">                                     
+                                     <label for="planned_completion_date">Planned Completion <span class="required">*</span></label>
 	                                 <button type="button" id="planned_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="planned_completion_dateError" class="error-msg" ></span>
                                 </div>
                              	<div class="col s12 m4 l3 input-field">
-                                     <input id="shifting_completed_date" name="shifting_completed_date" type="text" class="validate datepicker">                                     
-                                     <label for="shifting_completed_date">Shifting Completed </label>
-	                                 <button type="button" id="shifting_completed_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
-	                                 <span id="shifting_completed_dateError" class="error-msg" ></span>
+                                     <input id="shifting_completion_date" name="shifting_completion_date" type="text" class="validate datepicker" value="${utilityShifting.shifting_completion_date }">                                     
+                                     <label for="shifting_completion_date">Shifting Completed <span class="required">*</span></label>
+	                                 <button type="button" id="shifting_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+	                                 <span id="shifting_completion_dateError" class="error-msg" ></span>
                                 </div>
 							</div>
 							<div class="row">
                              	<div class="col s12 m4 l3 input-field">
-                                     <input id="start_date" name="start_date" type="text" class="validate datepicker">                                     
-                                     <label for="start_date">Start Date </label>
+                                     <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${utilityShifting.start_date }">                                     
+                                     <label for="start_date">Start Date <span class="required">*</span></label>
 	                                 <button type="button" id="start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="start_dateError" class="error-msg" ></span>
                                 </div>
 								<div class="col s6 m4 l2 input-field">
-                                     <input id="scope" name="scope" type="number" class="validate">                                     
-                                     <label for="scope">Scope </label>
+                                     <input id="scope" name="scope" type="number" class="validate" value="${utilityShifting.scope }">                                     
+                                     <label for="scope">Scope <span class="required">*</span></label>
 	                                 <span id="scopeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
-                                     <input id="completed" name="completed" type="number" class="validate">                                     
-                                     <label for="completed">Completed </label>
+                                     <input id="completed" name="completed" type="number" class="validate" value="${utilityShifting.completed }">                                     
+                                     <label for="completed">Completed <span class="required">*</span></label>
 	                                 <span id="completedError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
-                                    <p class="searchable_label mb-8"> Unit </p>
+                                    <p class="searchable_label mb-8"> Unit <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="unit_fk" name="unit_fk" >
                                         <option value="" >Select</option>
-                                        <%-- <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach> --%>
+                                        <c:forEach var="obj" items="${unitList }">
+                                      	   <option value= "${ obj.unit_fk}" <c:if test="${obj.unit_fk eq utilityShifting.unit_fk }">selected</c:if>>${obj.unit_fk}</option>
+                                         </c:forEach>
                                     </select>
                                       <span id="unit_fkError" class="error-msg" ></span>
                                 </div>
                              	<div class="col s12 m4 l3 input-field">
-                                    <p class="searchable_label mb-8"> Status </p>
-                                    <select class="searchable validate-dropdown" id="status_fk" name="status_fk" >
+                                    <p class="searchable_label mb-8"> Status <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="shifting_status_fk" name="shifting_status_fk" >
                                         <option value="" >Select</option>
-                                        <%-- <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach> --%>
+                                        <c:forEach var="obj" items="${statusList }">
+                                      	   <option value= "${ obj.shifting_status_fk}" <c:if test="${obj.shifting_status_fk eq utilityShifting.shifting_status_fk }">selected</c:if>>${obj.shifting_status_fk}</option>
+                                         </c:forEach>
                                     </select>
-                                      <span id="status_fkError" class="error-msg" ></span>
+                                      <span id="shifting_status_fkError" class="error-msg" ></span>
                                 </div>
 							</div>
 							
@@ -514,16 +517,16 @@
 									                </thead>
 									                <tbody id="progressDetailsTableBody">
 									                <c:choose>
-				                                        <c:when test="${not empty contractDeatils.departmentList }" >				                                          
-				                                		  <c:forEach var="departmentObj" items="${contractDeatils.departmentList }" varStatus="index"> 				                                		      
+				                                        <c:when test="${not empty utilityShifting.utilityShiftingProgressDetailsList }" >				                                          
+				                                		  <c:forEach var="pObj" items="${utilityShifting.utilityShiftingProgressDetailsList }" varStatus="index"> 				                                		      
 											                  <tr id="progressDetailsRow${index.count }">
 											                        <td data-head="Progress Date" class="input-field">
-											                              <input id="progress_date${index.count }" name="progress_dates" type="text" class="validate datepicker" placeholder="Progress Date">
+											                              <input id="progress_date${index.count }" name="progress_dates" type="text" class="validate datepicker" placeholder="Progress Date" value="${pObj.progress_date }">
 										                                  <button type="button" id="progress_date${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 										                                  <span id="progress_date${index.count}Error" class="error-msg" ></span>
 											                        </td>
 											                        <td data-head="Progress of Work" class="input-field">
-											                            <textarea id="progress_of_work${index.count }" name ="progress_of_works" class="pmis-textarea" placeholder="Progress of Work"></textarea>
+											                            <textarea id="progress_of_work${index.count }" name ="progress_of_works" class="pmis-textarea" placeholder="Progress of Work">${pObj.progress_of_work }</textarea>
 									                                    <span id="progress_of_work${index.count }Error" class="error-msg"></span>
 											                        </td>
 											                        <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
@@ -567,8 +570,8 @@
 			                                    </table> 
 			                                    </c:if>
 			                                    <c:choose>
-				                                    <c:when test="${not empty contractDeatils.departmentList && fn:length(contractDeatils.departmentList) gt 0 }">
-				                                		<input type="hidden" id="progressDetailsRowNo"  name="progressDetailsRowNo" value="${fn:length(contractDeatils.departmentList) }" />
+				                                    <c:when test="${not empty utilityShifting.utilityShiftingProgressDetailsList && fn:length(utilityShifting.utilityShiftingProgressDetailsList) gt 0 }">
+				                                		<input type="hidden" id="progressDetailsRowNo"  name="progressDetailsRowNo" value="${fn:length(utilityShifting.utilityShiftingProgressDetailsList) }" />
 				                                	</c:when>
 				                                 	<c:otherwise>
 				                                 		<input type="hidden" id="progressDetailsRowNo"  name="progressDetailsRowNo" value="0" />
@@ -599,14 +602,14 @@
 	                                            </thead>
 	                                            <tbody id="attachmentsTableBody" >
 	                                             <c:choose>
-			                                        <c:when test="${not empty contractDeatils.contractDocuments  && fn:length(contractDeatils.contractDocuments ) gt 0 }">			                                          
-				                                        <c:forEach var="docObj" items="${contractDeatils.contractDocuments }" varStatus="index">  
+			                                        <c:when test="${not empty utilityShifting.utilityShiftingFilesList  && fn:length(utilityShifting.utilityShiftingFilesList ) gt 0 }">			                                          
+				                                        <c:forEach var="docObj" items="${utilityShifting.utilityShiftingFilesList }" varStatus="index">  
 			                                                <tr id="attachmentRow${index.count }">
 			                                                	<td data-head="File Type " class="input-field">
 																	<select  name="attachment_file_types"  id="attachment_file_types${index.count }"  class="validate-dropdown searchable">
 					                                   					 <option value="" >Select</option>
-					                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-					                    					  				 <option value="${obj.contract_file_type }" <c:if test="${docObj.contract_file_type_fk eq obj.contract_file_type}">selected</c:if>>${obj.contract_file_type}</option>
+					                                         			  <c:forEach var="obj" items="${utilityshiftingfiletypeList}">
+					                    					  				 <option value="${obj.utility_shifting_file_type }" <c:if test="${docObj.utility_shifting_file_type eq obj.utility_shifting_file_type}">selected</c:if>>${obj.utility_shifting_file_type}</option>
 					                                          			  </c:forEach>
 					                               					  </select>
 															    </td>
@@ -615,17 +618,17 @@
 			                                                    </td>
 			                                                    <td data-head="Attachment" class="input-field">
 			                                                        <span class="normal-btn">
-			                                                            <input type="file" id="attachmentFiles${index.count }" name="attachmentFiles"
+			                                                            <input type="file" id="utilityShiftingFiles${index.count }" name="utilityShiftingFiles"
 			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
-			                                                            <label for="attachmentFiles${index.count }" class="btn bg-m"><i
+			                                                            <label for="utilityShiftingFiles${index.count }" class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
 			                                                            <input type="hidden" id="attachmentFileNames${index.count }" name="attachmentFileNames" value="${docObj.attachment }">
 			                                                             <span id="attachmentFileName${index.count }" class="filevalue"></span>
 			                                                          </span>
 			                                                    </td>
 			                                                    <td>
-			                                                     		<input type="hidden" id="attach_file_ids${index.count }" name="attach_file_ids" value="${docObj.contract_file_id }"/>
-			                                                      		<a href="<%=CommonConstants2.CONTRACT_FILES%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                     		<input type="hidden" id="attach_file_ids${index.count }" name="attach_file_ids" value="${docObj.utility_shifting_id }"/>
+			                                                      		<a href="<%=CommonConstants2.UTILITY_SHIFTING_FILES%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 			                                                        
 			                                                    </td>
 			                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
@@ -642,8 +645,8 @@
 	                                             			<td data-head="File Type " class="input-field">																		
 																<select  name="attachment_file_types"  id="attachment_file_types0"  class="validate-dropdown searchable">
 				                                   					 <option value="" >Select</option>
-				                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-				                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
+				                                         			  <c:forEach var="obj" items="${utilityshiftingfiletypeList}">
+				                    					  				 <option value="${obj.utility_shifting_file_type }">${obj.utility_shifting_file_type}</option>
 				                                          			  </c:forEach>
 				                               					  </select>
 															    </td>
@@ -652,9 +655,9 @@
 		                                                    </td>
 		                                                    <td data-head="Attachment" class="input-field">
 		                                                        <span class="normal-btn">
-		                                                            <input type="file" id="attachmentFiles0" name="attachmentFiles"
+		                                                            <input type="file" id="utilityShiftingFiles0" name="utilityShiftingFiles"
 		                                                                style="display:none" onchange="getFileName('0')"/>
-		                                                            <label for="attachmentFiles0" class="btn bg-m"><i
+		                                                            <label for="utilityShiftingFiles0" class="btn bg-m"><i
 		                                                                    class="fa fa-paperclip"></i></label>
 		                                                            <input type="hidden" id="attachmentFileNames0" name="attachmentFileNames" value="">
 		                                                            <span id="attachmentFileName0" class="filevalue"></span>
@@ -697,7 +700,7 @@
                                                    
                             <div class="row">
                                 <div class="col s12 m12 input-field">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${designDetails.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${utilityShifting.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>
@@ -705,10 +708,10 @@
                                 <div class="col s6 offset-m2 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                        <c:if test="${action eq 'edit'}">
-	                                       <button type="button" onclick="" class="btn waves-effect waves-light bg-m">Update</button>
+	                                       <button type="button" class="btn waves-effect waves-light bg-m" onclick="addUtilityShifting();">Update</button>
 	                                    </c:if>
 	                                    <c:if test="${action eq 'add'}">
-	                                        <button type="button" onclick="" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+	                                        <button type="button" class="btn waves-effect waves-light bg-m" style="min-width:90px" onclick="addUtilityShifting();">Add</button>
 	                                    </c:if>
                                     </div>
                                 </div>
@@ -772,15 +775,15 @@
 					 +'<td data-head="File Type " class="input-field">'
 							+'<select  name="attachment_file_types"  id="attachment_file_types'+rNo+'"  class="validate-dropdown searchable">'
 		    					+ '<option value="" >Select</option>'
-		          			 /*  <c:forEach var="obj" items="${contractFileTypeList}">
-					  				+ '<option value="${obj.contract_file_type }">${obj.contract_file_type}</option>'
-		           			  </c:forEach> */
+		          			   <c:forEach var="obj" items="${utilityshiftingfiletypeList}">
+					  				+ '<option value="${obj.utility_shifting_file_type }">${obj.utility_shifting_file_type}</option>'
+		           			  </c:forEach> 
 						+ '</select></td>'
 					 +'<td data-head="Name " class="input-field"> <input id="attachmentNames'+rNo+'" name="attachmentNames" type="text" class="validate" placeholder="Name"> </td>'
 					 +'<td data-head="Attachment" class="input-field">'
 					 +'<span class="normal-btn">'
-					 +'<input type="file" id="attachmentFiles'+rNo+'" name="attachmentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
-					 +'<label for="attachmentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+					 +'<input type="file" id="utilityShiftingFiles'+rNo+'" name="utilityShiftingFiles" style="display:none" onchange="getFileName('+rNo+')" />'
+					 +'<label for="utilityShiftingFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
 					 +'<input type="hidden" id="attachmentFileNames'+rNo+'" name="attachmentFileNames">'
 					 +'<span id="attachmentFileName'+rNo+'" class="filevalue"></span>'
 					 +'</span>'
@@ -806,9 +809,9 @@
 	}
 
 	function getFileName(rowNo){
-		var filename = $('#attachmentFiles'+rowNo)[0].files[0].name;
+		var filename = $('#utilityShiftingFiles'+rowNo)[0].files[0].name;
 	    $('#attachmentFileName'+rowNo).html(filename);
-	    $('#attachmentFileNames'+rowNo).val(filename);
+	    $('#attachmentNames'+rowNo).val(filename);
 	}
 	
 	
@@ -835,6 +838,296 @@
     function removeProgressDetailsRow(rowNo){
     	$("#progressDetailsRow"+rowNo).remove();
     }
+    
+    function getWorksList(projectId) {
+    	$(".page-loader").show();
+        $("#work_id_fk option:not(:first)").remove();
+        $("#contract_id_fk option:not(:first)").remove();
+
+        if ($.trim(projectId) != "") {
+            var myParams = { project_id_fk: projectId };
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getWorkListForSafetyForm",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                            var workShortName = '';
+                            if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+        }else{
+        	$(".page-loader").hide();
+        }
+    }
+
+    //geting contracts list    
+    function getContractsList(work_id_fk) {
+    	$(".page-loader").show();
+        $("#contract_id_fk option:not(:first)").remove();
+        
+        if ($.trim(work_id_fk) != "") {
+            var myParams = { work_id_fk: work_id_fk };
+            $.ajax({
+            	url: "<%=request.getContextPath()%>/ajax/getContractsListForSafetyForm",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	var contract_short_name = '';
+                            if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+                            $("#contract_id_fk").append('<option  workId="'+val.work_id_fk +'" hod_user_id="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+        }else{
+        	$(".page-loader").hide();
+        }
+    }   
+    
+    function resetWorksAndProjectsDropdowns(){
+    	$(".page-loader").show();        	
+    	var projectId = '';
+    	var workId = ''
+   		var contract_id_fk = $("#contract_id_fk").val();
+   		if($.trim(contract_id_fk) != ''){        			
+   			
+        	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+        	projectId = workId.substring(0, 3);    
+   			//workId = workId.substring(3, work_id.length);
+   			$("#project_id_fk").val(projectId);
+   			$("#project_id_fk").select2();
+   		}
+   		
+   		if ($.trim(projectId) != "") {
+   			$("#work_id_fk option:not(:first)").remove();
+            var myParams = { project_id_fk: projectId };
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getWorkListForSafetyForm",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                            var workName = '';
+                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                            if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                            } else {
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                            }
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+            $('.searchable').select2();
+        }       		
+    }        
+    
+    $('form').on('reset', function () {
+        $(".searchable").trigger("change");
+    });
+    
+    function addUtilityShifting(){
+		if(validator.form()){ // validation perform
+			$(".page-loader").show();
+			var compensation = $('#compensation').val();
+  			if(compensation == ""){
+  				$('#compensation_units').val("");
+  			}
+			document.getElementById("utilityshiftingform").submit();			
+	 	}
+	}
+	
+	//Wait for the DOM to be ready
+	
+	// to validate apartment form inputs thruogh jquery.
+	   
+	    var validator = $('#utilityshiftingform').validate({
+	    	ignore: ":hidden:not(.validate-dropdown)",
+			   rules: {
+    				  "project_id_fk": {
+   				 		required: true
+   				 	  },"work_id_fk": {
+				 		required: true
+				 	  },"contract_id_fk": {
+				 		required: true
+				 	  },"identification": {
+				 		required: true
+				 	  },"location_name": {
+				 		required: true
+				 	  },"reference_number": {
+				 		required: true
+				 	  },"latitude": {
+				 		required: true
+				 	  },"utility_description": {
+			 		    required: true,
+			 	   	  },"owner_name": {
+			 		    required: true,
+			 	   	  },"utility_type_fk": {
+				 		required: true
+				 	  },"utility_category_fk": {
+			 		    required: true
+			 	   	  },"execution_agency_fk": {
+				 		required: true
+				 	  },"impacted_contract_id_fk": {
+				 		required: true
+				 	  },"requirement_stage_fk": {
+				 		required: true
+				 	  },"planned_completion_date": {
+				 		required: true
+				 	  },"shifting_completion_date": {
+				 		required: true
+				 	  },"start_date":{	
+				 		 required: true
+				 	  },"scope": {
+			 		    required: true,
+			 	   	  },"completed": {
+				 		required: true
+				 	  },"unit_fk": {
+			 		    required: true
+			 	   	  },"shifting_status_fk": {
+				 		required: true
+				 	  }
+				 				
+			 	},
+			   messages: {
+       				  "project_id_fk": {
+     				 	required: 'Required'
+     				  },"work_id_fk": {
+  				 		required: 'Required'
+  				 	  },"contract_id_fk": {
+  				 		required: 'Required'
+  				 	  },"identification": {
+  				 		required: 'Required'
+  				 	  },"location_name": {
+  				 		required: 'Required'
+  				 	  },"reference_number": {
+  				 		required: 'Required'
+  				 	  },"latitude": {
+  				 		required: 'Required'
+  				 	  },"utility_description": {
+  			 		    required: 'Required',
+  			 	   	  },"owner_name": {
+  			 		    required: 'Required',
+  			 	   	  },"utility_type_fk": {
+  				 		required: 'Required'
+  				 	  },"utility_category_fk": {
+  			 		    required: 'Required'
+  			 	   	  },"execution_agency_fk": {
+  				 		required: 'Required'
+  				 	  },"impacted_contract_id_fk": {
+  				 		required: 'Required'
+  				 	  },"requirement_stage_fk": {
+  				 		required: 'Required'
+  				 	  },"planned_completion_date": {
+  				 		required: 'Required'
+  				 	  },"shifting_completion_date": {
+  				 		required: 'Required'
+  				 	  },"start_date":{	
+  				 		 required: 'Required'
+  				 	  },"scope": {
+  			 		    required: 'Required',
+  			 	   	  },"completed": {
+  				 		required: 'Required'
+  				 	  },"unit_fk": {
+  			 		    required: 'Required'
+  			 	   	  },"shifting_status_fk": {
+  				 		required: 'Required'
+  				 	  }  			 				      
+		    },
+			  errorPlacement:
+			 	function(error, element){
+    				if (element.attr("id") == "project_id_fk" ){
+ 			 		     document.getElementById("project_id_fkError").innerHTML="";
+ 			 			 error.appendTo('#project_id_fkError');
+ 			 	    }else if (element.attr("id") == "work_id_fk" ){
+			 		     document.getElementById("work_id_fkError").innerHTML="";
+			 			 error.appendTo('#work_id_fkError');
+			 	    }else if (element.attr("id") == "contract_id_fk" ){
+			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
+			 			 error.appendTo('#contract_id_fkError');
+			 	    }else if (element.attr("id") == "identification" ){
+   			 	    	 document.getElementById("identificationError").innerHTML="";
+			 			 error.appendTo('#identificationError');
+			 	    }else if (element.attr("id") == "location_name" ){
+			 		     document.getElementById("location_nameError").innerHTML="";
+			 			 error.appendTo('#location_nameError');
+			 	    }else if (element.attr("id") == "reference_number" ){
+			 		     document.getElementById("reference_numberError").innerHTML="";
+			 			 error.appendTo('#reference_numberError');
+			 	    }else if (element.attr("id") == "latitude" ){
+			 		     document.getElementById("latitudeError").innerHTML="";
+			 			 error.appendTo('#latitudeError');
+			 	    }else if (element.attr("id") == "utility_description" ){
+			 		     document.getElementById("utility_descriptionError").innerHTML="";
+			 			 error.appendTo('#utility_descriptionError');
+			 	    }else if (element.attr("id") == "owner_name" ){
+   			 		     document.getElementById("owner_nameError").innerHTML="";
+			 			 error.appendTo('#owner_nameError');
+			 	    }else if (element.attr("id") == "title" ){
+			 		     document.getElementById("titleError").innerHTML="";
+			 			 error.appendTo('#titleError');
+			 	    }else if (element.attr("name") == "utility_type_fk" ){
+			 		     document.getElementById("utility_type_fkError").innerHTML="";
+			 			 error.appendTo('#utility_type_fkError');
+			 	    }else if (element.attr("id") == "utility_category_fk" ){
+			 		     document.getElementById("utility_category_fkError").innerHTML="";
+			 			 error.appendTo('#utility_category_fkError');
+			 	    }else if (element.attr("id") == "execution_agency_fk" ){
+			 	    	     document.getElementById("execution_agency_fkError").innerHTML="";
+			 			     error.appendTo('#execution_agency_fkError');
+  			 	    }else if (element.attr("id") == "impacted_contract_id_fk" ){
+  			 		     document.getElementById("impacted_contract_id_fkError").innerHTML="";
+  			 			 error.appendTo('#impacted_contract_id_fkError');
+  			 	    }else if (element.attr("id") == "requirement_stage_fk" ){
+  			 		     document.getElementById("requirement_stage_fkError").innerHTML="";
+  			 			 error.appendTo('#requirement_stage_fkError');
+  			 	    }else if (element.attr("id") == "planned_completion_date" ){
+  			 		     document.getElementById("planned_completion_dateError").innerHTML="";
+  			 			 error.appendTo('#planned_completion_dateError');
+  			 	    }else if (element.attr("id") == "shifting_completion_date" ){
+  			 		     document.getElementById("shifting_completion_dateError").innerHTML="";
+  			 			 error.appendTo('#shifting_completion_dateError');
+  			 	    }else if (element.attr("id") == "start_date" ){
+  			 		     document.getElementById("start_dateError").innerHTML="";
+  			 			 error.appendTo('#start_dateError');
+  			 	    }else if (element.attr("id") == "scope" ){
+  			 		     document.getElementById("scopeError").innerHTML="";
+  			 			 error.appendTo('#scopeError');
+  			 	    }else if (element.attr("name") == "completed" ){
+  			 		     document.getElementById("completedError").innerHTML="";
+  			 			 error.appendTo('#completedError');
+  			 	    }else if (element.attr("id") == "unit_fk" ){
+  			 		     document.getElementById("unit_fkError").innerHTML="";
+  			 			 error.appendTo('#unit_fkError');
+  			 	    }else if (element.attr("id") == "shifting_status_fk" ){
+  			 		     document.getElementById("shifting_status_fkError").innerHTML="";
+  			 			 error.appendTo('#shifting_status_fkError');
+  			 	    }
+			 },invalidHandler: function (form, validator) {
+                 var errors = validator.numberOfInvalids();
+                 if (errors) {
+                     var position = validator.errorList[0].element;
+                     jQuery('html, body').animate({
+                         scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                     }, 1000);
+                 }
+             },submitHandler: function(form) {
+			    // do other things for a valid form
+			    //form.submit();
+			    //return true;
+			  }
+		});
 
    </script>
 

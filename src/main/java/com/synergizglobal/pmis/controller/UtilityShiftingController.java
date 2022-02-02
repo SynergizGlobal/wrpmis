@@ -220,7 +220,8 @@ public class UtilityShiftingController {
 			
 			obj.setStart_date(DateParser.parse(obj.getStart_date()));			
 			obj.setShifting_completion_date(DateParser.parse(obj.getShifting_completion_date()));
-			obj.setPlanned_completion_date(DateParser.parse(obj.getPlanned_completion_date()));				
+			obj.setPlanned_completion_date(DateParser.parse(obj.getPlanned_completion_date()));
+			obj.setIdentification(DateParser.parse(obj.getIdentification()));
 			
 			
 			boolean flag = utilityShiftingService.addUtilityShifting(obj);
@@ -461,6 +462,12 @@ public class UtilityShiftingController {
 			userName = (String) session.getAttribute("USER_NAME");
 			
 			User user = (User)session.getAttribute("user");
+			
+	
+			obj.setStart_date(DateParser.parse(obj.getStart_date()));			
+			obj.setShifting_completion_date(DateParser.parse(obj.getShifting_completion_date()));
+			obj.setPlanned_completion_date(DateParser.parse(obj.getPlanned_completion_date()));
+			obj.setIdentification(DateParser.parse(obj.getIdentification()));
 
 			
 			boolean flag = utilityShiftingService.updateUtilityShifting(obj);

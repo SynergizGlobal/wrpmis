@@ -971,7 +971,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 							UtilityShifting fileObj11 = new UtilityShifting();
 							fileObj11.setName(AttachmentNames[m]);
 							fileObj11.setAttachment(fileName_new);
-							fileObj11.setUtility_shifting_id(obj.getUtility_shifting_id());
+							fileObj11.setUtility_shifting_id(obj.getId());
 							fileObj11.setUtility_shifting_file_type(Attachmentfiletypes[m]);
 							paramSource = new BeanPropertySqlParameterSource(fileObj11);	
 							template.update(fileQry, paramSource);
@@ -994,7 +994,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public UtilityShifting getUtilityShifting(UtilityShifting obj) throws Exception {
 		UtilityShifting sobj = null;
 		try {
-			String qry = "SELECT s.*,p.project_name,w.work_short_name,c.contract_short_name "
+			String qry = "SELECT s.*,DATE_FORMAT(identification,'%d-%m-%Y') as identification,DATE_FORMAT(start_date,'%d-%m-%Y') as start_date,"
+					+ "DATE_FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date,DATE_FORMAT(shifting_completion_date,'%d-%m-%Y') as shifting_completion_date,"
+					+ "p.project_name,w.work_short_name,c.contract_short_name "
 					+ "from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
@@ -1047,12 +1049,12 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			sobj = (UtilityShifting)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));	
 			
 			if(!StringUtils.isEmpty(sobj)) {				
-				String filesQry ="select id, utility_shifting_id,name, attachment from utility_shifting_files where utility_shifting_id = ? ";					
+				String filesQry ="select id, utility_shifting_id,name, attachment,utility_shifting_file_type_fk as utility_shifting_file_type from utility_shifting_files where utility_shifting_id = ? ";					
 				List<UtilityShifting> objsList = jdbcTemplate.query( filesQry,new Object[] {obj.getId()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));					
 				if(!StringUtils.isEmpty(objsList)) {
 					sobj.setUtilityShiftingFilesList(objsList);
 				}
-				String filesCMQry ="select id, progress_date, progress_of_work from utility_shifting_progress where utility_shifting_id = ? ";					
+				String filesCMQry ="select id, DATE_FORMAT(progress_date,'%d-%m-%Y') as progress_date, progress_of_work from utility_shifting_progress where utility_shifting_id = ? ";					
 				List<UtilityShifting> objsCMList = jdbcTemplate.query( filesCMQry,new Object[] {obj.getId()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));					
 				if(!StringUtils.isEmpty(objsCMList)) {
 					sobj.setUtilityShiftingProgressDetailsList(objsCMList);

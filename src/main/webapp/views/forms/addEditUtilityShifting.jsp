@@ -366,7 +366,7 @@
 							<div class="row">
 								 <div class="col s12 m4 input-field">
                                      <input id="identification" name="identification" type="text" class="validate datepicker" value="${utilityShifting.identification }">                                     
-                                     <label for="identification">Identification Date<span class="required">*</span></label>
+                                     <label for="identification">Identification Date</label>
 	                                 <button type="button" id="identification_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="identificationError" class="error-msg" ></span>
                                 </div>
@@ -384,7 +384,7 @@
 							<div class="row">
 								 <div class="col s12 m4 input-field">
                                      <input id="latitude" name="latitude" type="text" class="validate" value="${utilityShifting.latitude }">                                     
-                                     <label for="latitude">Chainage<span class="required">*</span></label>
+                                     <label for="latitude">Chainage</label>
 	                                 <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
@@ -453,13 +453,13 @@
                                 </div>
                              	<div class="col s12 m4 l3 input-field">
                                      <input id="planned_completion_date" name="planned_completion_date" type="text" class="validate datepicker" value="${utilityShifting.planned_completion_date }">                                     
-                                     <label for="planned_completion_date">Planned Completion <span class="required">*</span></label>
+                                     <label for="planned_completion_date">Planned Completion </label>
 	                                 <button type="button" id="planned_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="planned_completion_dateError" class="error-msg" ></span>
                                 </div>
                              	<div class="col s12 m4 l3 input-field">
                                      <input id="shifting_completion_date" name="shifting_completion_date" type="text" class="validate datepicker" value="${utilityShifting.shifting_completion_date }">                                     
-                                     <label for="shifting_completion_date">Shifting Completed <span class="required">*</span></label>
+                                     <label for="shifting_completion_date">Shifting Completed </label>
 	                                 <button type="button" id="shifting_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="shifting_completion_dateError" class="error-msg" ></span>
                                 </div>
@@ -467,18 +467,18 @@
 							<div class="row">
                              	<div class="col s12 m4 l3 input-field">
                                      <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${utilityShifting.start_date }">                                     
-                                     <label for="start_date">Start Date <span class="required">*</span></label>
+                                     <label for="start_date">Start Date </label>
 	                                 <button type="button" id="start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="start_dateError" class="error-msg" ></span>
                                 </div>
 								<div class="col s6 m4 l2 input-field">
-                                     <input id="scope" name="scope" type="number" class="validate" value="${utilityShifting.scope }">                                     
+                                     <input id="scope" name="scope" type="number" class="validate" value="${utilityShifting.scope }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
                                      <label for="scope">Scope <span class="required">*</span></label>
 	                                 <span id="scopeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
-                                     <input id="completed" name="completed" type="number" class="validate" value="${utilityShifting.completed }">                                     
-                                     <label for="completed">Completed <span class="required">*</span></label>
+                                     <input id="completed" name="completed" type="number" class="validate" value="${utilityShifting.completed }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
+                                     <label for="completed">Completed </label>
 	                                 <span id="completedError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
@@ -766,7 +766,28 @@
     	$(".datepicker").datepicker();
     	
    });
+   
+   function restrictAlphabets(e) {
+       var x = e.which || e.keycode;
+       if ((x >= 48 && x <= 57))
+           return true;
+       else
+           return false;
+   }  
 
+   function scopeValidation()
+   {
+		 var s1=parseFloat(document.getElementById("scope").value);
+		 var s2=parseFloat(document.getElementById("completed").value);
+    	if(parseFloat(s1)<parseFloat(s2))
+    	{
+	    	 	alert("Scope Should be greater than or equal to Completed.");
+	    	 	document.getElementById("completed").value="";
+	    	 	return false;
+    	} 	   
+   }
+   
+   
 	function addAttachmentRow(){		
 		 var rowNo = $("#attachmentRowNo").val();
 		 var rNo = Number(rowNo)+1;
@@ -962,13 +983,13 @@
 				 	  },"contract_id_fk": {
 				 		required: true
 				 	  },"identification": {
-				 		required: true
+				 		required: false
 				 	  },"location_name": {
 				 		required: true
 				 	  },"reference_number": {
 				 		required: true
 				 	  },"latitude": {
-				 		required: true
+				 		required: false
 				 	  },"utility_description": {
 			 		    required: true,
 			 	   	  },"owner_name": {
@@ -984,15 +1005,15 @@
 				 	  },"requirement_stage_fk": {
 				 		required: true
 				 	  },"planned_completion_date": {
-				 		required: true
+				 		required: false
 				 	  },"shifting_completion_date": {
-				 		required: true
+				 		required: false
 				 	  },"start_date":{	
-				 		 required: true
+				 		 required: false
 				 	  },"scope": {
 			 		    required: true,
 			 	   	  },"completed": {
-				 		required: true
+				 		required: false
 				 	  },"unit_fk": {
 			 		    required: true
 			 	   	  },"shifting_status_fk": {

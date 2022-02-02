@@ -322,9 +322,9 @@
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                              <div class="col s12 m4 l4 input-field">
-                             		<input type="text" id="rr_id" name="rr_id" class="validate" />
+                             		<input type="text" id="rr_id" name="rr_id" class="validate" onkeyup="checkRRId()"/>
 								    <label for="rr_id">R & R Id <span class="required">*</span></label>
-								    <span id="rr_idError" class="error-msg" ></span>
+								    <span id="rr_idError" class="error-msg" style="font-size:13px"; ></span>
                              </div>
                             </c:if>
  							<c:if test="${action eq 'edit'}">		
@@ -1105,7 +1105,7 @@
 	                                       <button type="button" onclick="updateRR();" class="btn waves-effect waves-light bg-m">Update</button>
 	                                    </c:if>
 	                                    <c:if test="${action eq 'add'}">
-	                                        <button type="button" onclick="addRR();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+	                                        <button type="button" id="disabled" onclick="addRR();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
 	                                    </c:if>
                                     </div>
                                 </div> 
@@ -1230,6 +1230,38 @@
 		}
 	
    });
+   
+   function checkRRId(){
+	   
+	   var arr = '${rrId}';
+	   var rrId = $('#rr_id').val();
+	   if ($.trim(rrId) != "") {
+           var myParams = {};
+           $.ajax({
+               url: "<%=request.getContextPath()%>/ajax/getRRIdListForRRForm",
+               data: myParams, cache: false,
+               success: function (data) {
+                   if (data.length > 0) {
+                       $.each(data, function (i, val) {
+                           if ($.trim(rr_id) != '' && val.rr_id == $.trim(rrId)) {
+                        	   $("#rr_idError").text(rrId +" Already Exixts!").addClass('my-error-class');
+                        	   $('#disabled').prop('disabled', true);
+                        	   return false;
+                           } else {
+                        	   $("#rr_idError").text("");
+                        	   $('#disabled').prop('disabled', false);
+                           }
+                       });
+                   }
+                   $('.searchable').select2();
+                   $(".page-loader").hide();
+               }
+           });
+       }else{
+       	$(".page-loader").hide();
+       }
+	   
+   }
    function addEmployeeDetailRow(){
 	    var rowNo = $("#employeeDetailRowNo").val();
 	    var rNo = Number(rowNo)+1;
@@ -1351,6 +1383,7 @@
        	projectId = workId.substring(0, 3); 
   			$("#project_id_fk").val(projectId);
   			$("#project_id_fk").select2();
+  			$("#project_id_fkError").text("");
   		}
   		
    }

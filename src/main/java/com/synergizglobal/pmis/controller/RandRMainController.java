@@ -231,7 +231,18 @@ public class RandRMainController {
 		}
 		return objList;
 	}
-	
+	@RequestMapping(value = "/ajax/getRRIdListForRRForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<RandRMain> getRRIdListForRRForm(@ModelAttribute RandRMain obj) {
+		List<RandRMain> objList = null;
+		try {
+			objList = service.getRRIdListForRRForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatusFilterListInRR : " + e.getMessage());
+		}
+		return objList;
+	}
 	@RequestMapping(value = "/add-randr-main", method = {RequestMethod.GET})
 	public ModelAndView addRRForm(@ModelAttribute RandRMain obj){
 		ModelAndView model = new ModelAndView();
@@ -243,6 +254,9 @@ public class RandRMainController {
 			
 			List<RandRMain> worksList = service.getWorkListForRRForm(obj);
 			model.addObject("worksList", worksList);
+			
+			List<RandRMain> rrId = service.getRRIdListForRRForm(obj);
+			model.addObject("rrId", rrId);
 			
 			List<RandRMain> docType = service.getDocTypeListForRRForm(obj);
 			model.addObject("docType", docType);

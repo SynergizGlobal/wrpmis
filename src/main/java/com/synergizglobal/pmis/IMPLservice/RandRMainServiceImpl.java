@@ -161,4 +161,9 @@ public class RandRMainServiceImpl implements RandRMainService{
 		return dao.updateRR(obj);
 	}
 
+	@Override
+	public List<RandRMain> getRRIdListForRRForm(RandRMain obj) throws Exception {
+		return dao.getRRIdListForRRForm(obj);
+	}
+
 }

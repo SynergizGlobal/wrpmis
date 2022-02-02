@@ -1385,6 +1385,18 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			return rr_id;
 		}
 	}
+
+	@Override
+	public List<RandRMain> getRRIdListForRRForm(RandRMain obj) throws Exception {
+		List<RandRMain> objsList = null;
+		try {
+			String qry = "select rr_id  from rr ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
 	
 	
 	

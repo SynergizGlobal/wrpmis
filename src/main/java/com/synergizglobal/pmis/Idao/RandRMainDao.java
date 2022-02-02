@@ -64,4 +64,6 @@ public interface RandRMainDao {
 
 	boolean updateRR(RandRMain obj) throws Exception;
 
+	List<RandRMain> getRRIdListForRRForm(RandRMain obj) throws Exception;
+
 }

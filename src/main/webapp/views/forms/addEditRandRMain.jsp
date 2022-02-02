@@ -1217,13 +1217,15 @@
     	$('#family_size,#family_income_amount,#family_income_amount_units').change(function(){
     		var family_size = Number($('#family_size').val());
     		var family_income = Number($('#family_income_amount').val());
-    		var income_units = $('#family_income_amount_units').val();
-    		var percapita_income = Math.round((family_income / family_size) * 100)/100
-    		$('#percapita_per_month').text(	percapita_income+' '+income_units	);
+    		var income_units = $('#family_income_amount_units option:selected').text();
+    		if(family_size != "" && family_income != "" && income_units != ""){
+    			var percapita_income = Math.round((family_income / family_size) * 100)/100
+        		$('#percapita_per_month').text(	percapita_income+' '+income_units	);
+    		}
     	});
     	var family_size = Number($('#family_size').val());
 		var family_income = Number($('#family_income_amount').val());
-		var income_units = $('#family_income_amount_units').val();
+		var income_units = $('#family_income_amount_units option:selected').text();
 		if(family_size != "" && family_income != "" && income_units != ""){
 			var percapita_income = Math.round((family_income / family_size) * 100)/100
 			$('#percapita_per_month').text(	percapita_income+' '+income_units	);

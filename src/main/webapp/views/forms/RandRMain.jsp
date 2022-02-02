@@ -152,7 +152,7 @@
 										onclick="openUploadDesignsModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-arrow-circle-up"></i> Upload</strong></a>
-									<a href="<%=request.getContextPath()%>/add-randr-form"
+									<a href="<%=request.getContextPath()%>/add-randr-main"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
 									<a href="javascript:void(0);" onclick="exportDesign();"
@@ -178,38 +178,38 @@
 									</div>
 									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Work</p>
-										<select id="work_id_fk" name="work_id_fk" class="searchable">
+										<select id="work_id_fk" name="work_id_fk" class="searchable" onchange="addInQueWork(this.value);getRRList();">
 											<option value="">Select</option>											
 										</select>
 									</div>
 									
 									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Location</p>
-										<select id="location_fk" name="location_fk" class="searchable">
+										<select id="location_name" name="location_name" class="searchable" onchange="addInQueLocation(this.value);getRRList();">
 											<option value="">Select</option>											
 										</select>
 									</div>
 									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Phase</p>
-										<select id="phase_fk" name="phase_fk" class="searchable">
+										<select id="phase" name="phase" class="searchable" onchange="addInQuePhase(this.value);getRRList();">
 											<option value="">Select</option>											
 										</select>
 									</div>
 									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Structure</p>
-										<select id="structure_type_fk" name="structure_type_fk" class="searchable">
+										<select id="structure_id" name="structure_id" class="searchable" onchange="addInQueStructure(this.value);getRRList();">
 											<option value="">Select</option>											
 										</select>
 									</div>
 									<div class="col s6 m4 l1 input-field">
 										<p class="searchable_label">Type of Use</p>
-										<select id="type_of_use" name="type_of_use" class="searchable">
+										<select id="type_of_use" name="type_of_use" class="searchable" onchange="addInQueTypeofUse(this.value);getRRList();">
 											<option value="">Select</option>
 										</select>
 									</div>
 									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Status</p>
-										<select id="status_fk" name="status_fk" class="searchable">
+										<select id="boundary_wall_status" name="boundary_wall_status" class="searchable" onchange="addInQueStatus(this.value);getRRList();">
 											<option value="">Select</option>											
 										</select>
 									</div>
@@ -236,24 +236,13 @@
 												<th>phase</th>
  												<th>structure </th>
 												<th>type of use</th>
-												<th>stage</th>
+												<!-- <th>stage</th> -->
 												<th>status</th>
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr>
+											
 										</tbody>
 									</table>
 							</div>
@@ -336,15 +325,15 @@
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
 	 <form action="<%=request.getContextPath()%>/get-randr" id="getForm" name="getForm" method="post" >
-  		<input type="hidden" name="randr_id" id="randr_id"/>
+  		<input type="hidden" name="rr_id" id="rr_id"/>
     </form>
     
   <form action="<%=request.getContextPath()%>/export-randr" name="exportRandRForm" id="exportRandRForm" target="_blank" method="post">	
-        <input type="hidden" name="location_fk" id="exportLocation_fk" />
+        <input type="hidden" name="location_name" id="exportLocation_fk" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-        <input type="hidden" name="phase_fk" id="exportPhase_fk" />
-        <input type="hidden" name="status_fk" id="exportStatus_fk" />
-        <input type="hidden" name="structure_type_fk" id="exportStructure_type_fk" />
+        <input type="hidden" name="phase" id="exportPhase_fk" />
+        <input type="hidden" name="boundary_wall_status" id="exportStatus_fk" />
+        <input type="hidden" name="structure_id" id="exportStructure_type_fk" />
         <input type="hidden" name="type_of_fk" id="exportType_of_fk" />
 	</form>
 	
@@ -375,40 +364,492 @@
 			$('.modal').modal();
 			$('select:not(.searchable)').formSelect();
 			$('.searchable').select2();
-			
-			var filters = window.localStorage.getItem("RandRFilters");
-	                   
 			$('.close-message').delay(3000).fadeOut('slow');
+			var filters = window.localStorage.getItem("RandRFilters");
+		    if($.trim(filters) != '' && $.trim(filters) != null){
+		      	  var temp = filters.split('^'); 
+		      	  for(var i=0;i< temp.length;i++){
+			        	  if($.trim(temp[i]) != '' ){
+			        		  var temp2 = temp[i].split('=');
+				        	  if($.trim(temp2[0]) == 'work_id_fk' ){
+				        		  getWorksFilterList(temp2[1]);
+				        	  }else if($.trim(temp2[0]) == 'location_name'){
+				        		  getLocationsFilterList(temp2[1]);
+				        	  }else if($.trim(temp2[0]) == 'phase'){
+				        		  getPhasesFilterList(temp2[1]);
+				        	  }else if($.trim(temp2[0]) == 'structure_id'){
+				        		  getStructuresFilterList(temp2[1]);
+				        	  }else if($.trim(temp2[0]) == 'type_of_use'){
+				        		  getTypeofUseFilterList(temp2[1]);
+				        	  }else if($.trim(temp2[0]) == 'boundary_wall_status'){
+				        		  getStatussFilterList(temp2[1]);
+				        	  }
+			        	  }
+			          }
+		          }
+			
 
-		     $('#datatable-randr').DataTable({
-	                columnDefs: [
-	                    {
-	                        targets: [0],
-	                        className: 'mdl-data-table__cell--non-numeric',
-	                        targets: 'no-sort', orderable: false,
-	                    },
-	                    //{ "width": "10px", "targets": [2] },
-	                ],
-	                "sScrollX": "100%",
-	                "sScrollXInner": "100%",
-	                "bScrollCollapse": true,
-	                "bAutoWidth": true,
-	                "ordering": false, //to stop sorting option                
-	                fixedHeader: true, // to change the language of data table	          
-	                initComplete: function () {
-	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	                }
-	            });			
+		     getRRList();
 		});
+		 function addInQueLocation(location_name){
+		    	Object.keys(filtersMap).forEach(function (key) {
+		   			if(key.match('location_name')) delete filtersMap[key];
+		   		});
+		    	if($.trim(location_name) != ''){
+		   	    	filtersMap["location_name"] = location_name;
+		    	}
+		    }
+		    
+		    function addInQuePhase(phase){
+		      	Object.keys(filtersMap).forEach(function (key) {
+			   		if(key.match('phase')) delete filtersMap[key];
+		   	   	});
+		      	if($.trim(phase) != ''){
+		        	filtersMap["phase"] = phase;
+		      	}
+		    }
+		    function addInQueStructure(structure_id){
+		      	Object.keys(filtersMap).forEach(function (key) {
+			   		if(key.match('structure_id')) delete filtersMap[key];
+		   	   	});
+		      	if($.trim(structure_id) != ''){
+		        	filtersMap["structure_id"] = structure_id;
+		      	}
+		    }
+		    function addInQueTypeofUse(type_of_use){
+		      	Object.keys(filtersMap).forEach(function (key) {
+			   		if(key.match('type_of_use')) delete filtersMap[key];
+		   	   	});
+		      	if($.trim(type_of_use) != ''){
+		        	filtersMap["type_of_use"] = type_of_use;
+		      	}
+		    }
+		    function addInQueStatus(boundary_wall_status){
+		      	Object.keys(filtersMap).forEach(function (key) {
+			   		if(key.match('boundary_wall_status')) delete filtersMap[key];
+		   	   	});
+		      	if($.trim(boundary_wall_status) != ''){
+		        	filtersMap["boundary_wall_status"] = boundary_wall_status;
+		      	}
+		    }
+		    function addInQueWork(work_id_fk){
+		      	Object.keys(filtersMap).forEach(function (key) {
+			   		if(key.match('work_id_fk')) delete filtersMap[key];
+		   	   	});
+		      	if($.trim(work_id_fk) != ''){
+		        	filtersMap["work_id_fk"] = work_id_fk;
+		      	}
+		    }
+	    var queue = 1;
+	    function getRRList() {
+			$(".page-loader-2").show();
 
+			getWorksFilterList('');
+	     	getLocationsFilterList('');
+	     	getPhasesFilterList('');
+	     	getStructuresFilterList('');
+	     	getTypeofUseFilterList('');
+	     	getStatussFilterList('');
+	     	
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var location_name = $("#location_name").val();
+	    	var phase = $("#phase").val();
+	    	var structure_id = $("#structure_id").val();
+	    	var type_of_use = $("#type_of_use").val();
+	    	var boundary_wall_status = $("#boundary_wall_status").val();
+
+	    	var filters = '';
+	    	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+	    		filters = filters + key +"="+filtersMap[key] + "^";
+	    		window.localStorage.setItem("RandRFilters", filters);
+				});
+	    	   	table = $('#datatable-randr').DataTable();
+	    		table.destroy();
+				var i = 0;
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	    		var rowLen = 0;
+	    		var myParams =  "work_id_fk="
+	    				+ work_id_fk + "&location_name="+ location_name+ "&phase="+ phase+ "&structure_id="+ structure_id+ "&type_of_use="+ type_of_use+ "&boundary_wall_status="+ boundary_wall_status;
+
+	    		/***************************************************************************************************/
+
+	    		$("#datatable-randr").DataTable({
+	    			
+	    							"bProcessing" : true,
+	    							"bServerSide" : true,
+	    							"sort" : "position",
+	    							//bStateSave variable you can use to save state on client cookies: set value "true" 
+	    							"bStateSave" : false,
+	    							 stateSave: true,
+	    							 "fnStateSave": function (oSettings, oData) {
+	    							 	localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	    							},
+	    							 "fnStateLoad": function (oSettings) {
+	    								return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	    							 },
+	    							//Default: Page display length
+	    							"iDisplayLength" : 10,
+	    							"iData" : {
+	    								"start" : 52
+	    							},
+	    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+	    							"iDisplayStart" : 0,
+	    							"fnDrawCallback" : function() {
+	    								//Get page numer on client. Please note: number start from 0 So
+	    								//for the first page you will see 0 second page 1 third page 2...
+	    								//Un-comment below alert to see page number
+	    								//alert("Current page number: "+this.fnPagingInfo().iPage);
+	    							},
+	    							//"sDom": 'l<"toolbar">frtip',
+	    							"initComplete" : function() {
+	    								$('.dataTables_filter input[type="search"]')
+	    										.attr('placeholder', 'Search')
+	    										.css({
+	    											'width' : '350px ',
+	    											'display' : 'inline-block'
+	    										});
+
+	    								var input = $('.dataTables_filter input')
+	    										.unbind()
+	    										.bind('keyup',function(e){
+	    										    if (e.which == 13){
+	    										    	self.search(input.val()).draw();
+	    										    }
+	    										}), self = this.api(), $searchButton = $(
+	    										'<i class="fa fa-search" title="Go" >')
+	    								//.text('Go')
+	    								.click(function() {
+	    									self.search(input.val()).draw();
+	    								}), $clearButton = $(
+	    										'<i class="fa fa-close" title="Reset">')
+	    								//.text('X')
+	    								.click(function() {
+	    									input.val('');
+	    									$searchButton.click();
+	    								})
+	    								$('.dataTables_filter').append(
+	    										'<div class="right-btns"></div>');
+	    								$('.dataTables_filter div').append(
+	    										$searchButton, $clearButton);
+	    								rowLen = $('#datatable-randr tbody tr:visible').length
+	    								if(rowLen <= 1 &&  queue == 1){									
+	    									$('#datatable-randr').dataTable().api().draw(); 
+	    									getRRList();
+	    									queue++;
+	    							    } 
+	    								/* var input = $('.dataTables_filter input').unbind(),
+	    								self = this.api(),
+	    								$searchButton = $('<i class="fa fa-search">')
+	    								           //.text('Go')
+	    								           .click(function() {			   	                    	 
+	    								              self.search(input.val()).draw();
+	    								           })			   	        
+	    								  $('.dataTables_filter label').append($searchButton); */
+	    							}
+	    							,
+	    							columnDefs : [ {
+	    								"targets" : 'no-sort',
+	    								"orderable" : false,
+	    							}
+	    			                ],
+	    							"sScrollX" : "100%",
+	    							"sScrollXInner" : "100%",
+	    							"ordering":false,
+	    							"bScrollCollapse" : true,
+	    							"language" : {
+	    								"info" : "_START_ - _END_ of _TOTAL_",
+	    								paginate : {
+	    									next : '<i class="fa fa-angle-right"></i>', 
+	    									previous : '<i class="fa fa-angle-left"></i>'  
+	    								}
+	    							},
+	    							
+	    							"bDestroy" : true,
+	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-rAndr?"+myParams,
+	    		        "aoColumns": [
+	    		        	
+	      		            { "mData": function(data,type,row){
+	                             if($.trim(data.rr_id) == ''){ return '-'; }else{ return data.rr_id; }
+	      		            } },
+	      		         	{ "mData": function(data,type,row){
+	                             if($.trim(data.occupier_name_during_verification) == ''){ return '-'; }else{ return data.occupier_name_during_verification ; }
+	      		            } },
+	      		       
+	    		            { "mData": function(data,type,row){ 
+	    		            	if($.trim(data.location_name) == ''){ return '-'; }else{ return data.location_name; }
+	    		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		            	if($.trim(data.sub_location_name) == ''){ return '-'; }else{ return data.sub_location_name; }
+	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.phase) == ''){ return '-'; }else{ return data.phase; }
+	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.structure_id) == ''){ return '-'; }else{ return data.structure_id; } 
+	    		            }},
+	    		         	{ "mData": function(data,type,row){
+	    		            	if($.trim(data.type_of_use) == ''){ return '-'; }else{ return data.type_of_use; }
+	    		            } },
+	    		           /*  { "mData": function(data,type,row){
+	    		            	if($.trim(data.stage) == ''){ return '-'; }else{ return data.stage; }
+	    		            } }, */
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.boundary_wall_status) == ''){ return '-'; }else{ return data.boundary_wall_status; }
+	    		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		         		var rr_id = "'"+data.rr_id+"'";
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getRandR('+rr_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+	    		            	return actions;
+	    		            } }
+	    		            
+	    		        ]
+	    		    });
+	    	
+	    	
+		  $(".page-loader-2").hide();  		     
+	  	
+	 }
+	    function getStatussFilterList(status) {
+	    	$(".page-loader").show();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var location_name = $("#location_name").val();
+	    	var phase = $("#phase").val();
+	    	var structure_id = $("#structure_id").val();
+	    	var type_of_use = $("#type_of_use").val();
+	    	var boundary_wall_status = $("#boundary_wall_status").val();
+
+	        if ($.trim(boundary_wall_status) == "") {
+	        	$("#boundary_wall_status option:not(:first)").remove();
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInRR",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                             var selectedFlag = (status == val.boundary_wall_status)?'selected':'';
+		                         $("#boundary_wall_status").append('<option value="' + val.boundary_wall_status + '"'+selectedFlag+'>' + $.trim(val.boundary_wall_status)  +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }
+	    function getLocationsFilterList(location) {
+	    	$(".page-loader").show();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var location_name = $("#location_name").val();
+	    	var phase = $("#phase").val();
+	    	var structure_id = $("#structure_id").val();
+	    	var type_of_use = $("#type_of_use").val();
+	    	var boundary_wall_status = $("#boundary_wall_status").val();
+
+	        if ($.trim(location_name) == "") {
+	        	$("#location_name option:not(:first)").remove();
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getLocationsFilterListInRR",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                             var selectedFlag = (location == val.location_name)?'selected':'';
+		                         $("#location_name").append('<option value="' + val.location_name + '"'+selectedFlag+'>' + $.trim(val.location_name)  +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }
+	    function getTypeofUseFilterList(type) {
+	    	$(".page-loader").show();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var location_name = $("#location_name").val();
+	    	var phase = $("#phase").val();
+	    	var structure_id = $("#structure_id").val();
+	    	var type_of_use = $("#type_of_use").val();
+	    	var boundary_wall_status = $("#boundary_wall_status").val();
+
+	        if ($.trim(type_of_use) == "") {
+	        	$("#type_of_use option:not(:first)").remove();
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getTypeofUseFilterListInRR",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                             var selectedFlag = (type == val.type_of_use)?'selected':'';
+		                         $("#type_of_use").append('<option value="' + val.type_of_use + '"'+selectedFlag+'>' + $.trim(val.type_of_use)  +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }
+	    function getStructuresFilterList(structure) {
+	    	$(".page-loader").show();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var location_name = $("#location_name").val();
+	    	var phase = $("#phase").val();
+	    	var structure_id = $("#structure_id").val();
+	    	var type_of_use = $("#type_of_use").val();
+	    	var boundary_wall_status = $("#boundary_wall_status").val();
+
+	        if ($.trim(structure_id) == "") {
+	        	$("#structure_id option:not(:first)").remove();
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getStructuresFilterListInRR",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                             var selectedFlag = (structure == val.structure_id)?'selected':'';
+		                         $("#structure_id").append('<option value="' + val.structure_id + '"'+selectedFlag+'>' + $.trim(val.structure_id)  +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }
+	    function getPhasesFilterList(phaseVal) {
+	    	$(".page-loader").show();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var location_name = $("#location_name").val();
+	    	var phase = $("#phase").val();
+	    	var structure_id = $("#structure_id").val();
+	    	var type_of_use = $("#type_of_use").val();
+	    	var boundary_wall_status = $("#boundary_wall_status").val();
+
+	        if ($.trim(phase) == "") {
+	        	$("#phase option:not(:first)").remove();
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getPhasesFilterListInRR",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                             var selectedFlag = (phaseVal == val.phase)?'selected':'';
+		                         $("#phase").append('<option value="' + val.phase + '"'+selectedFlag+'>' + $.trim(val.phase)  +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }
+	    function getWorksFilterList(work) {
+	    	$(".page-loader").show();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var location_name = $("#location_name").val();
+	    	var phase = $("#phase").val();
+	    	var structure_id = $("#structure_id").val();
+	    	var type_of_use = $("#type_of_use").val();
+	    	var boundary_wall_status = $("#boundary_wall_status").val();
+
+	        if ($.trim(work_id_fk) == "") {
+	        	$("#work_id_fk option:not(:first)").remove();
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInRR",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	 var workShortName = '';
+	                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+	                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
+		                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }
+	    function getRandR(rr_id){
+	    	$("#rr_id").val(rr_id);
+	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-rr');
+	    	$('#getForm').submit();
+	    }
+	  	//This function is used to get error message for all ajax calls
+	    function getErrorMessage(jqXHR, exception) {
+	    	    var msg = '';
+	    	    if (jqXHR.status === 0) {
+	    	        msg = 'Not connect.\n Verify Network.';
+	    	    } else if (jqXHR.status == 404) {
+	    	        msg = 'Requested page not found. [404]';
+	    	    } else if (jqXHR.status == 500) {
+	    	        msg = 'Internal Server Error [500].';
+	    	    } else if (exception === 'parsererror') {
+	    	        msg = 'Requested JSON parse failed.';
+	    	    } else if (exception === 'timeout') {
+	    	        msg = 'Time out error.';
+	    	    } else if (exception === 'abort') {
+	    	        msg = 'Ajax request aborted.';
+	    	    } else {
+	    	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+	    	    }
+	    	    console.log(msg);
+	     }
+	    
+	    
 		function clearFilter() {
 			$("#work_id_fk").val('');
-			$("#location_fk").val('');
-			$("#phase_fk").val('');
-			$("#structure_type_fk").val('');
-			$("#type_of_use_fk").val('');
-			$("#status_fk").val('');
+			$("#location_name").val('');
+			$("#phase").val('');
+			$("#structure_id").val('');
+			$("#type_of_use").val('');
+			$("#boundary_wall_status").val('');
 			$('.searchable').select2();
+			window.localStorage.setItem("RandRFilters",'');
+	    	window.location.href= "<%=request.getContextPath()%>/randr-main";
+	    	//getBudgetList(); 
+	    	var table = $('#datatable-randr').DataTable();
+	    	table.draw( true );
 		}
             
     </script>

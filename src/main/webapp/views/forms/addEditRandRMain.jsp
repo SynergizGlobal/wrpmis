@@ -1246,7 +1246,7 @@
                    if (data.length > 0) {
                        $.each(data, function (i, val) {
                            if ($.trim(rr_id) != '' && val.rr_id == $.trim(rrId)) {
-                        	   $("#rr_idError").text(rrId +" Already Exixts!").addClass('my-error-class');
+                        	   $("#rr_idError").text(rrId +" Already Exists!").addClass('my-error-class');
                         	   $('#disabled').prop('disabled', true);
                         	   return false;
                            } else {

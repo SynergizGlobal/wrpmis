@@ -302,7 +302,7 @@
                             <div class="row">
 						    <c:if test="${action eq 'add'}">	
                                 <div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label mb-8"> Project</p>
+                                    <p class="searchable_label mb-8"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  onchange="getWorksList(this.value);" >
                                          <option value="" >Select</option>
                                           <c:forEach var="obj" items="${projectsList }">
@@ -312,7 +312,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
-                                    <p class="searchable_label mb-8"> Work </p>
+                                    <p class="searchable_label mb-8"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetProjectsDropdowns(this.value);">
                                         <option value="" >Select</option>
                                          <c:forEach var="obj" items="${worksList }">
@@ -322,9 +322,9 @@
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                              <div class="col s12 m4 l4 input-field">
-                             		<input type="text" id="randr_id_fk" name="rr_id" class="validate" />
-								    <label for="randr_id_fk">R & R Id </label>
-								    <span id="randr_id_fkError" class="error-msg" ></span>
+                             		<input type="text" id="rr_id" name="rr_id" class="validate" />
+								    <label for="rr_id">R & R Id <span class="required">*</span></label>
+								    <span id="rr_idError" class="error-msg" ></span>
                              </div>
                             </c:if>
  							<c:if test="${action eq 'edit'}">		
@@ -1417,14 +1417,18 @@
  			 		  required: true
  			 	  },"work_id": {
  			 		  required: true
- 			 	  }	
+ 			 	  }	,"rr_id"	:{
+ 			 		  required:true
+ 			 	  }
  		 	},
  		    messages: {
  		 		   "project_id_fk": {
  			 		  required: 'Required'
  			 	  },"work_id": {
  			 		  required: 'Required'
- 			 	  }		
+ 			 	  }	,"rr_id"	:{
+ 			 		  required:'Required'
+ 			 	  }
 	   		},
 	   		errorPlacement:function(error, element){
 	   		 	  if(element.attr("id") == "project_id_fk" ){
@@ -1433,10 +1437,23 @@
 				 }else if(element.attr("id") == "work_id" ){
 				     document.getElementById("work_id_fkError").innerHTML="";
 			 	     error.appendTo('#work_id_fkError');
+				 }else if(element.attr("id") == "rr_id" ){
+				     document.getElementById("rr_idError").innerHTML="";
+			 	     error.appendTo('#rr_idError');
 				 }else{
 					 error.insertAfter(element);
 		        } 
-	   		},submitHandler:function(form){
+	   		 	  
+	   		},invalidHandler: function (form, validator) {
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                    var position = validator.errorList[0].element;
+                    jQuery('html, body').animate({
+                        scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                    }, 1000);
+                }
+            },
+	   		submitHandler:function(form){
 		    	//form.submit();
 		    }
 		});   

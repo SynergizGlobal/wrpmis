@@ -898,7 +898,7 @@
 		                                	<span id="monthly_turnover_amount_unitsError" class="error-msg right" ></span>
 		                                    <select class="validate-dropdown" id="monthly_turnover_amount_units" name="monthly_turnover_amount_units">
 		                                    	 <c:forEach var="obj" items="${units }">
-		                                      	   <option value= "${ obj.value}" <c:if test="${rrDetails.value eq obj.value}">selected</c:if>> ${obj.unit }</option>
+		                                      	   <option value= "${ obj.value}" <c:if test="${rrDetails.monthly_turnover_amount_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
 		                                         </c:forEach>
 		                                	</select>
 		                                </div>

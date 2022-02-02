@@ -851,6 +851,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and rr_id = ?";
 				arrSize++;
 			}
+			qry = qry + " group by rr_id";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(rr) && !StringUtils.isEmpty(rr.getRr_id())) {

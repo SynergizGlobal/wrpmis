@@ -145,19 +145,19 @@
 								<div class="col s12 m12 right-align exportButton" >
 								
 								<div class="m-n1">
-									<a href="/pmis/Designs_Drawings.xlsx" download class="template-btn" title="Download Template">
+									<!-- <a href="/pmis/Designs_Drawings.xlsx" download class="template-btn" title="Download Template">
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a>
 									<a href="javascript:void(0);"
 										onclick="openUploadDesignsModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-arrow-circle-up"></i> Upload</strong></a>
+											class="fa fa-arrow-circle-up"></i> Upload</strong></a> -->
 									<a href="<%=request.getContextPath()%>/add-randr-main"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
-									<a href="javascript:void(0);" onclick="exportDesign();"
+									<!-- <a href="javascript:void(0);" onclick="exportDesign();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export</strong></a>
+											class="fa fa-cloud-download"></i> Export</strong></a> -->
 								</div>
 							</div>
 							</div>

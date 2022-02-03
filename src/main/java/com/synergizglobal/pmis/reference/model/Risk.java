@@ -3,7 +3,15 @@ package com.synergizglobal.pmis.reference.model;
 public class Risk {
 	
 	private String risk_classification_id, notification_type, financial_year,sub_area,area_short_name, risk_area_fk,id, type_fk, category,notification_type_icon,
-	 resource_type_fk, sub_resource_type,classification, minimum, maximum,area, item_no,revision_status,report_type,railway_id, railway_name;
+	 resource_type_fk, sub_resource_type,classification, minimum, maximum,area, item_no,revision_status,report_type,railway_id, railway_name, rr_location;
+
+	public String getRr_location() {
+		return rr_location;
+	}
+
+	public void setRr_location(String rr_location) {
+		this.rr_location = rr_location;
+	}
 
 	public String getResource_type_fk() {
 		return resource_type_fk;

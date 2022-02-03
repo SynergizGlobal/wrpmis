@@ -330,6 +330,8 @@ public class PageConstants {
 	public static final String drawingFileType = "referenceForms/DrawingFileType"; 
 
 	public static final String rrVerificationBy = "referenceForms/rrVerificationBy"; 
+
+	public static final String rrLocation = "referenceForms/rrLocation"; 
 	
 }
 

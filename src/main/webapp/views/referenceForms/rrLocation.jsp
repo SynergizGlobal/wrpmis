@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RR Verification By</title>
+    <title>RR Location</title>
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
@@ -24,7 +24,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Verification By</h6>
+                            <h6>Location</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -41,16 +41,16 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Verification By</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Location</a>
                             </div>
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="rr_verification_by_table" class="mdl-data-table">
+                                <table id="rr_location_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th> Verification By</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                            <th> Location</th>
+                                             <c:forEach var="tObj" items="${rrLocationDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,18 +60,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${rrLocationDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_verification_by }"  class="findLengths" />
-												${obj.rr_verification_by }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_location }"  class="findLengths" />
+												${obj.rr_location }</td>
+											<c:forEach var="tObj" items="${rrLocationDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${rrLocationDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.rr_verification_by eq obj.rr_verification_by }"> 
+																    <c:when test="${cObj.rr_location eq obj.rr_location }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -84,11 +84,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${rrLocationDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.rr_verification_by eq obj.rr_verification_by }"> 
-												      	<a onclick="deleteRow('${ oSbj.rr_verification_by }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.rr_location eq obj.rr_location }"> 
+												      	<a onclick="deleteRow('${ oSbj.rr_location }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -126,24 +126,23 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-rr-verification-by" id="addVerificationByForm" name="addVerificationByForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-rr-location" id="addLocationForm" name="addLocationForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h6 class="modal-header">Add Verification By <span class="right modal-action modal-close"><span
+                <h6 class="modal-header">Add Location <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                    <div class="col m8 s12 offset-m2">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="rr_verification_by" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="rr_verificationby_text"> Verification By</label>
-                                <span id="verificationbyError" class="error-msg" ></span>
+                                <input id="rr_location_text" type="text" name="rr_location" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="rr_location_text"> Location</label>
+                                <span id="locationError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addRRVerificationBy()" id="bttn"
+                                    <button style="width: 100%;" onclick="addRRLocation()" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add</button>
                                 </div>
                             </div>
@@ -153,13 +152,12 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-verification-by"
+                                        <a href="<%=request.getContextPath()%>/rr-location"
 									 class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -168,9 +166,9 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-rr-verification-by" id=updateVerificationByForm name="updateVerificationByForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-rr-location" id=updateLocationForm name="updateLocationForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h6 class="modal-header bg-m">Update  Verification By <span class="right modal-action modal-close"><span
+                <h6 class="modal-header bg-m">Update  Location <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m8 s12 offset-m2">
@@ -178,14 +176,14 @@
                          <div class="input-field col s12 m12">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new"> Verification By</label>
+                                <label for="value_new"> Location</label>
                                 <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateVerificationBy()" id="bttnUpdate"
+                                    <button style="width: 100%;" onclick="updateLocation()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -194,7 +192,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-verification-by"
+                                        <a href="<%=request.getContextPath()%>/rr-location"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -219,7 +217,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="rr_verification_by" id="verification_by" />
+    	<input type="hidden" name="rr_location" id="location" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -243,10 +241,10 @@
                 table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
                     '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
             });
-            $('#rr_verification_by_table tbody').append(table_text);
+            $('#rr_location_table tbody').append(table_text);
             // adding table data into table ends */
 
-            var table = $('#rr_verification_by_table').DataTable({
+            var table = $('#rr_location_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -288,12 +286,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#verificationbyError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#locationError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#verificationbyError').text('');
+     			   $('#locationError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -335,39 +333,39 @@
      		 $('#bttnUpdate').prop('disabled', false);
      		 updateFlag = true;
      	}
-        function addVerificationBy(){
+        function addLocation(){
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
-      			document.getElementById("addVerificationByForm").submit();	
+      			document.getElementById("addLocationForm").submit();	
              }
          }
-        function updateVerificationBy(){
+        function updateLocation(){
           	 if(validator1.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
-       			document.getElementById("updateVerificationByForm").submit();	
+       			document.getElementById("updateLocationForm").submit();	
            }
        }
-         var validator =  $('#addVerificationByForm').validate({
+         var validator =  $('#addLocationForm').validate({
          	 rules: {
-         		 "rr_verification_by": {
+         		 "rr_location": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "rr_verification_by": {
+   		 		   "rr_location": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "rr_verificationby_text" ){
-   				     document.getElementById("verificationbyError").innerHTML="";
-   			 	     error.appendTo('#verificationbyError');
+   	        	 if(element.attr("id") == "rr_location_text" ){
+   				     document.getElementById("locationError").innerHTML="";
+   			 	     error.appendTo('#locationError');
    				 }
    	        }
          	
          });
         
-         var validator1 = $('#updateVerificationByForm').validate({
+         var validator1 = $('#updateLocationForm').validate({
         	 rules: {
         		 	"value_new": {
     			 		  required: true
@@ -392,14 +390,14 @@
 
 
       function updateRow(no) {
-          var rr_verification_by = $('#statusId'+no).val();
-          $('#value_old').val($.trim(rr_verification_by))
+          var rr_location = $('#statusId'+no).val();
+          $('#value_old').val($.trim(rr_location))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(rr_verification_by)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(rr_location)).focus();
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#location").val(val);
       	showCancelMessage();
     	    }
       	
@@ -419,7 +417,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-rr-verification-by');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-rr-location');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

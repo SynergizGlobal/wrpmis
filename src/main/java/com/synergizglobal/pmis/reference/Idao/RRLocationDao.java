@@ -1,15 +1,15 @@
 package com.synergizglobal.pmis.reference.Idao;
 
-import com.synergizglobal.pmis.reference.model.Risk;
+import com.synergizglobal.pmis.reference.model.TrainingType;
 
 public interface RRLocationDao {
 
-	Risk getRRLocationDetails(Risk obj);
+	TrainingType getRRLocationDetails(TrainingType obj) throws Exception;
 
-	boolean addRRLocation(Risk obj);
+	boolean addRRLocation(TrainingType obj) throws Exception;
 
-	boolean deleteRRLocation(Risk obj);
+	boolean deleteRRLocation(TrainingType obj) throws Exception;
 
-	boolean updateRRLocation(Risk obj);
+	boolean updateRRLocation(TrainingType obj) throws Exception;
 
 }

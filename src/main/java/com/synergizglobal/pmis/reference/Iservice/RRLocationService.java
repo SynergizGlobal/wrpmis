@@ -1,15 +1,15 @@
 package com.synergizglobal.pmis.reference.Iservice;
 
-import com.synergizglobal.pmis.reference.model.Risk;
+import com.synergizglobal.pmis.reference.model.TrainingType;
 
 public interface RRLocationService {
 
-	Risk getRRLocationDetails(Risk obj) throws Exception;
+	TrainingType getRRLocationDetails(TrainingType obj) throws Exception;
 
-	boolean addRRLocation(Risk obj) throws Exception;
+	boolean addRRLocation(TrainingType obj) throws Exception;
 
-	boolean deleteRRLocation(Risk obj) throws Exception;
+	boolean deleteRRLocation(TrainingType obj) throws Exception;
 
-	boolean updateRRLocation(Risk obj) throws Exception;
+	boolean updateRRLocation(TrainingType obj) throws Exception;
 
 }

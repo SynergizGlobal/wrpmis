@@ -22,7 +22,7 @@ import com.synergizglobal.pmis.reference.model.Safety;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.reference.Iservice.RRLocationService;
-import com.synergizglobal.pmis.reference.model.Risk;
+import com.synergizglobal.pmis.reference.model.TrainingType;
 
 @Controller
 public class RRLocationController {
@@ -38,11 +38,11 @@ public class RRLocationController {
 	RRLocationService service;
 	
 	@RequestMapping(value="/rr-location",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView rrLocation(HttpSession session,@ModelAttribute Risk obj){
+	public ModelAndView rrLocation(HttpSession session,@ModelAttribute TrainingType obj){
 		ModelAndView model = new ModelAndView(PageConstants.rrLocation);
 		try {
 			
-			Risk rrLocationDetails = service.getRRLocationDetails(obj);
+			TrainingType rrLocationDetails = service.getRRLocationDetails(obj);
 			model.addObject("rrLocationDetails",rrLocationDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -54,7 +54,7 @@ public class RRLocationController {
 	
 	@RequestMapping(value = "/add-rr-location", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addRRLocation(@ModelAttribute Risk obj,RedirectAttributes attributes){
+	public ModelAndView addRRLocation(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/rr-location");
@@ -73,7 +73,7 @@ public class RRLocationController {
 	}
 	@RequestMapping(value = "/update-rr-location", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView updateRRLocation(@ModelAttribute Risk obj,RedirectAttributes attributes){
+	public ModelAndView updateRRLocation(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/rr-location");
@@ -93,7 +93,7 @@ public class RRLocationController {
 	
 	@RequestMapping(value = "/delete-rr-location", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView deleteRRLocation(@ModelAttribute Risk obj,RedirectAttributes attributes){
+	public ModelAndView deleteRRLocation(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/rr-location");

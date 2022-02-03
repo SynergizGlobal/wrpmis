@@ -23,8 +23,16 @@ public class TrainingType {
 	 name, order, icon, parent_id, link_url,order_text_update,parent_text,url_text_update,status_fk,order_text,url_text,name_text,statuss,parent_texts,
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
 	, template_name, attachment,captiliszedTableName, resource_type_fk,submission_purpose,design_status_submit,la_file_type, sub_resource_type, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name,
-	soft_delete_status_fk,rr_verification_by;
+	soft_delete_status_fk,rr_verification_by, rr_location;
     
+	public String getRr_location() {
+		return rr_location;
+	}
+
+	public void setRr_location(String rr_location) {
+		this.rr_location = rr_location;
+	}
+
 	List<TrainingType> tableHistoryList;
 	List<TrainingType> subResourceDeatails;
 	

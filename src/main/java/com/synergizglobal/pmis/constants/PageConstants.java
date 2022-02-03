@@ -334,6 +334,8 @@ public class PageConstants {
 	public static final String rrLocation = "referenceForms/rrLocation"; 
 
 	public static final String rrBoundarywallStatus = "referenceForms/rrBoundaryWallStatus"; 
+
+	public static final String rrBsesFileType = "referenceForms/bsesFileType"; 
 	
 }
 

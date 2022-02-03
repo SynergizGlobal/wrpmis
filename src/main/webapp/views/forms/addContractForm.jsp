@@ -722,10 +722,10 @@
 	        	$('#loa_date_div').hide();
 	        	$('#ca_no_div').hide();
 	        	$('#ca_date_div').hide();
-	        	$('#estimated_cost_div').hide();
-	        	$('#estimated_cost_units_div').hide();
+	        	//$('#estimated_cost_div').hide();
+	        	//$('#estimated_cost_units_div').hide();
 	        	$('#contract_status_fk_div').hide();
-	        	$('#planned_date_of_award_div').hide();
+	        	//$('#planned_date_of_award_div').hide();
 	        	
 	        	$('#contract_type_fk').rules('remove',  'required');
 	        	$('#contract_status_fk').rules('remove',  'required');

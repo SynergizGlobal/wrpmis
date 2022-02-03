@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +33,7 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
+import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.RRPaginationObject;
 import com.synergizglobal.pmis.model.RandRMain;
 
@@ -377,7 +379,70 @@ public class RandRMainController {
 		}
 		return model;
 	 }
-	
+	@RequestMapping(value = "/get-rr/{rr_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getRandRMainFormForId(@ModelAttribute RandRMain rr,@PathVariable("rr_id") String rr_id  ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditRandRMain);
+			model.addObject("action", "edit");
+			
+			List<RandRMain> docType = service.getDocTypeListForRRForm(rr);
+			model.addObject("docType", docType);
+			
+			List<RandRMain> phase = service.getPhaseListForRRForm(rr);
+			model.addObject("phase", phase);
+			
+			List<RandRMain> structure = service.getStructureListForRRForm(rr);
+			model.addObject("structure", structure);
+			
+			List<RandRMain> location = service.getLocationListForRRForm(rr);
+			model.addObject("location", location);
+			
+			List<RandRMain> subLocation = service.getSubLocationListForRRForm(rr);
+			model.addObject("subLocation", subLocation);
+			
+			List<RandRMain> typeofUse = service.getTypeofUseListForRRForm(rr);
+			model.addObject("typeofUse", typeofUse);
+			
+			List<RandRMain> verificationBy = service.getVerificationByListForRRForm(rr);
+			model.addObject("verificationBy", verificationBy);
+			
+			List<RandRMain> units = service.getUnitsListForRRForm(rr);
+			model.addObject("units", units);
+			
+			List<RandRMain> status = service.getStatusListForRRForm(rr);
+			model.addObject("status", status);
+			
+			List<RandRMain> occupancyStatus = service.getOccupancyStatusListForRRForm(rr);
+			model.addObject("occupancyStatus", occupancyStatus);
+			
+			List<RandRMain> gender = service.getGenderListForRRForm(rr);
+			model.addObject("gender", gender);
+			
+			List<RandRMain> tenureStatus = service.getTenureStatusListForRRForm(rr);
+			model.addObject("tenureStatus", tenureStatus);
+			
+			List<RandRMain> caste = service.getCasteListForRRForm(rr);
+			model.addObject("caste", caste);
+			
+			List<RandRMain> motherTongue = service.getMotherTongueListForRRForm(rr);
+			model.addObject("motherTongue", motherTongue);
+			
+			List<RandRMain> typeofFamily = service.getTypeofFamilyListForRRForm(rr);
+			model.addObject("typeofFamily", typeofFamily);
+			
+			List<RandRMain> maritualStatus = service.getMaritualStatusListForRRForm(rr);
+			model.addObject("maritualStatus", maritualStatus);
+			
+			RandRMain rrDetails = service.getRandRMainForm(rr);
+			model.addObject("rrDetails", rrDetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getRandRMainFormForId : " + e.getMessage());
+		}
+		return model;
+	 }
 	@RequestMapping(value = "/add-rr", method = {RequestMethod.POST})
 	public ModelAndView addRR(@ModelAttribute RandRMain obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();

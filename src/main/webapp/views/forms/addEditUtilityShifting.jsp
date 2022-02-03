@@ -311,7 +311,7 @@
                             <div class="row" style="margin-top:1rem;">
 						    <c:if test="${action eq 'add'}">	
                                 <div class="col s6 m4 l4 input-field">
-                                <p class="searchable_label"> Project <span class="required">*</span></p>
+                                <p class="searchable_label"> Project </p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -333,7 +333,7 @@
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field offset-m2">
-                                	<p class="searchable_label"> Contract <span class="required">*</span></p>
+                                	<p class="searchable_label"> Contract </p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
@@ -432,7 +432,7 @@
 							</div>
 							<div class="row">
 								<div class="col s6 m4 l3 input-field ">
-                                    <p class="searchable_label mb-8"> Impacted Contract <span class="required">*</span></p>
+                                    <p class="searchable_label mb-8"> Impacted Contract </p>
                                     <select class="searchable validate-dropdown" id="impacted_contract_id_fk" name="impacted_contract_id_fk"  >
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
@@ -442,7 +442,7 @@
                                     <span id="impacted_contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l3 input-field">
-                                    <p class="searchable_label mb-8"> Requirement stage <span class="required">*</span></p>
+                                    <p class="searchable_label mb-8"> Requirement stage </p>
                                     <select class="searchable validate-dropdown" id="requirement_stage_fk" name="requirement_stage_fk" >
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${requirementStageList }">
@@ -482,7 +482,7 @@
 	                                 <span id="completedError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
-                                    <p class="searchable_label mb-8"> Unit <span class="required">*</span></p>
+                                    <p class="searchable_label mb-8"> Unit </p>
                                     <select class="searchable validate-dropdown" id="unit_fk" name="unit_fk" >
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${unitList }">
@@ -492,7 +492,7 @@
                                       <span id="unit_fkError" class="error-msg" ></span>
                                 </div>
                              	<div class="col s12 m4 l3 input-field">
-                                    <p class="searchable_label mb-8"> Status <span class="required">*</span></p>
+                                    <p class="searchable_label mb-8"> Status </p>
                                     <select class="searchable validate-dropdown" id="shifting_status_fk" name="shifting_status_fk" >
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${statusList }">
@@ -977,11 +977,11 @@
 	    	ignore: ":hidden:not(.validate-dropdown)",
 			   rules: {
     				  "project_id_fk": {
-   				 		required: true
+   				 		required: false
    				 	  },"work_id_fk": {
 				 		required: true
 				 	  },"contract_id_fk": {
-				 		required: true
+				 		required: false
 				 	  },"identification": {
 				 		required: false
 				 	  },"location_name": {
@@ -1001,9 +1001,9 @@
 			 	   	  },"execution_agency_fk": {
 				 		required: true
 				 	  },"impacted_contract_id_fk": {
-				 		required: true
+				 		required: false
 				 	  },"requirement_stage_fk": {
-				 		required: true
+				 		required: false
 				 	  },"planned_completion_date": {
 				 		required: false
 				 	  },"shifting_completion_date": {
@@ -1015,9 +1015,9 @@
 			 	   	  },"completed": {
 				 		required: false
 				 	  },"unit_fk": {
-			 		    required: true
+			 		    required: false
 			 	   	  },"shifting_status_fk": {
-				 		required: true
+				 		required: false
 				 	  }
 				 				
 			 	},

@@ -1070,7 +1070,7 @@
 	                               			<p>
 	                               				<c:if test="${contractDeatils.bg_required eq 'Yes'}">
 											      <label>
-											        <input type="checkbox" class="filled-in" checked="checked" id="bg_show_released" name="bg_show_released"/>
+											        <input type="checkbox" class="filled-in" id="bg_show_released" name="bg_show_released"/>
 											        <span>Show Released</span>
 											      </label>
 										      	</c:if>
@@ -1333,7 +1333,7 @@
 	                               			<p>
 		                               			<c:if test="${contractDeatils.insurance_required eq 'Yes'}">
 											      <label>
-											        <input type="checkbox" class="filled-in" checked="checked" id="insurance_show_released" name="insurance_show_released"/>
+											        <input type="checkbox" class="filled-in" id="insurance_show_released" name="insurance_show_released"/>
 											        <span>Show Released</span>
 											      </label>
 											    </c:if>
@@ -2340,31 +2340,39 @@
             $("#bg_show_released").click(function(){
             	//alert($('input[name="bg_show_released"]').is(':checked'));
             	if($('input[name="bg_show_released"]').is(':checked')){
-              	  	$(".bg-rows").hide();
+              	  	//$(".bg-rows").hide();
+              	  	$(".bg-rows").show();
             		$(".bg-released").show();
               	}else{
               		$(".bg-rows").show();
+              		$(".bg-released").hide();
               	}
             });
             if($('input[name="bg_show_released"]').is(':checked')){
-          	  	$(".bg-rows").hide();
+            	//$(".bg-rows").hide();
+          	  	$(".bg-rows").show();
         		$(".bg-released").show();
           	}else{
           		$(".bg-rows").show();
+          		$(".bg-released").hide();
           	}
             $("#insurance_show_released").click(function(){
             	if($('input[name="insurance_show_released"]').is(':checked')){
-              	  	$(".insurance-rows").hide();
+              	  	//$(".insurance-rows").hide();
+              	  	$(".insurance-rows").show();
             		$(".insurance-released").show();
               	}else{
               		$(".insurance-rows").show();
+              		$(".insurance-released").hide();
               	}
             });
             if($('input[name="insurance_show_released"]').is(':checked')){
-          	  	$(".insurance-rows").hide();
+            	//$(".insurance-rows").hide();
+          	  	$(".insurance-rows").show();
         		$(".insurance-released").show();
           	}else{
           		$(".insurance-rows").show();
+          		$(".insurance-released").hide();
           	}
             $("#rev_show_current").click(function(){
             	if($('input[name="rev_show_current"]').is(':checked')){
@@ -3495,15 +3503,23 @@
         	} 
             var today_date = new Date(yyyy,mm-1,dd);
             
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            /* if($.trim(fromDateString) != '' && $.trim(value) != ''){
             	return (Date.parse(toDate) >= Date.parse(fromDate) && Date.parse(toDate) >= Date.parse(today_date));
             }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
                 return Date.parse(toDate) >= Date.parse(today_date);
             }else{
             	return true;
+            } */
+            
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return (Date.parse(toDate) >= Date.parse(fromDate));
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
             }
             
-        }, "Target DOC must be after LOA Date or Today");
+        }, "Target DOC must be after LOA Date");
         
     	
     	$.validator.addMethod("dateBefore2", function(value, element) {

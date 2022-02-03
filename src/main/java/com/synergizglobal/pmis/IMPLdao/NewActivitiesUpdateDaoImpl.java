@@ -1361,7 +1361,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		            String Str2[]=obj.getScope().split(",");
 		            Float Str=Float.parseFloat(Str2[i]);		            
 		            
-					if(Float.parseFloat(StrVar2[i])>=completed && date2.compareTo(date1)>=0 && ((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") ) )
+					if(Float.parseFloat(StrVar2[i])>=completed && date2.compareTo(date1)>=0 && ((Str1.compareTo(String.valueOf(Str))!=0) || ( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) ) )
 					{
 						//String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
 						

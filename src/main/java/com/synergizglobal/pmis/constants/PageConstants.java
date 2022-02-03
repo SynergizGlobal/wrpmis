@@ -232,6 +232,8 @@ public class PageConstants {
 	public static final String rrLandType = "referenceForms/rrLandType";
 	public static final String rrDocumentType = "referenceForms/rrDocumentType";
 	public static final String rrApprovalStatus = "referenceForms/rrApprovalStatus";
+
+	public static final String rrDocType = "referenceForms/rrDocType";
 	
 	public static final String revisionStatus = "referenceForms/revisionStatus";
 	
@@ -326,6 +328,8 @@ public class PageConstants {
 	public static final String purposeOfSubmission = "referenceForms/purposeOfSubmission"; 
 
 	public static final String drawingFileType = "referenceForms/DrawingFileType"; 
+
+	public static final String rrVerificationBy = "referenceForms/rrVerificationBy"; 
 	
 }
 

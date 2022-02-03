@@ -58,7 +58,7 @@
                                     <thead>
                                         <tr>
                                             <th> Verification By</th>
-                                             <c:forEach var="tObj" items="${rrStatusDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -68,18 +68,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrStatusDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.status }" />
-												${obj.status }</td>
-											<c:forEach var="tObj" items="${rrStatusDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_verification_by }"  class="findLengths" />
+												${obj.rr_verification_by }</td>
+											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrStatusDetails.countList}" >
+												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.status eq obj.status }"> 
+																    <c:when test="${cObj.rr_verification_by eq obj.rr_verification_by }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -92,11 +92,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrStatusDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.status eq obj.status }"> 
-												      	<a onclick="deleteRow('${ oSbj.status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.rr_verification_by eq obj.rr_verification_by }"> 
+												      	<a onclick="deleteRow('${ oSbj.rr_verification_by }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -143,15 +143,15 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="status" class="validate">
-                                <label for="rr_verificationby_text"> Verfication By</label>
+                                <input id="rr_verificationby_text" type="text" name="rr_verification_by" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="rr_verificationby_text"> Verification By</label>
                                 <span id="verificationbyError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addRRStatus()"
+                                    <button style="width: 100%;" onclick="addRRVerificationBy()" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add</button>
                                 </div>
                             </div>
@@ -178,22 +178,22 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-rr-verification-by" id=updateVerificationByForm name="updateVerificationByForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h6 class="modal-header bg-m">Update  Status <span class="right modal-action modal-close"><span
+                <h6 class="modal-header bg-m">Update  Verification By <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m8 s12 offset-m2">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="status_new" type="text" name="status_new" class="validate">
-                                <input id="verification_old" type="hidden" name="verification_old"  >
-                                <label for="status_new"> Status</label>
-                                <span id="status_newError" class="error-msg" ></span>
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
+                                <input id="value_old" type="hidden" name="value_old"  >
+                                <label for="value_new"> Verification By</label>
+                                <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateVerificationBy()"
+                                    <button style="width: 100%;" onclick="updateVerificationBy()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -227,7 +227,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="status" id="status" />
+    	<input type="hidden" name="rr_verification_by" id="verification_by" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -262,7 +262,7 @@
                         targets: 'no-sort', orderable: false,
                         /* className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [2] },
+                   /*  { "width": "20px", "targets": [2] }, */
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
@@ -284,7 +284,65 @@
             });
         });
       
-
+        var flag = false; 
+        function doValidate(value){
+           var print_value = value;
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#verificationbyError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#verificationbyError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+           var print_value = value;
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        
+        function removeErrorMsg(){
+     		 $('#value_newError').text('');
+     		 $('#bttnUpdate').prop('disabled', false);
+     		 updateFlag = true;
+     	}
         function addVerificationBy(){
           	 if(validator.form()){ 
       			$(".page-loader").show();
@@ -301,11 +359,11 @@
        }
          var validator =  $('#addVerificationByForm').validate({
          	 rules: {
-         		 "status": {
+         		 "rr_verification_by": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "status": {
+   		 		   "rr_verification_by": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
@@ -319,37 +377,37 @@
         
          var validator1 = $('#updateVerificationByForm').validate({
         	 rules: {
-        		 	"status_new": {
+        		 	"value_new": {
     			 		  required: true
         			 }
     			},messages: {
-    		 		 "status_new": {
+    		 		 "value_new": {
     			 		  required: 'Required'
     			 	 }
     	        },errorPlacement:function(error, element){
-    	        	 if(element.attr("id") == "status_new" ){
-    				     document.getElementById("status_newError").innerHTML="";
-    			 	     error.appendTo('#status_newError');
+    	        	 if(element.attr("id") == "value_new" ){
+    				     document.getElementById("value_newError").innerHTML="";
+    			 	     error.appendTo('#value_newError');
     			   }
     	        }
         });
       
       $('input').change(function(){
-    	           if ($(this).val() != ""){
-    	               $(this).valid();
-    	           }
+  	           if ($(this).val() != ""){
+  	               $(this).valid();
+  	           }
     	   });
 
 
       function updateRow(no) {
-          var status = $('#statusId'+no).val();
-          $('#verification_old').val($.trim(status))
+          var rr_verification_by = $('#statusId'+no).val();
+          $('#value_old').val($.trim(rr_verification_by))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #status_new').val($.trim(status)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(rr_verification_by)).focus();
       }
       
       function deleteRow(val){
-      	$("#status").val(val);
+      	$("#verification_by").val(val);
       	showCancelMessage();
     	    }
       	

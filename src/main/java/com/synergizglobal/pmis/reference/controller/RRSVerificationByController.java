@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.reference.Iservice.RRSVerificationByService;
 import com.synergizglobal.pmis.reference.Iservice.RRStatusService;
 import com.synergizglobal.pmis.reference.model.Safety;
 import com.synergizglobal.pmis.reference.model.TrainingType;
@@ -30,22 +31,21 @@ public class RRSVerificationByController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	Logger logger = Logger.getLogger(RRStatusController.class);
+	Logger logger = Logger.getLogger(RRSVerificationByController.class);
 	
 	@Autowired
-	RRStatusService service;
+	RRSVerificationByService service;
 	
 	@RequestMapping(value="/rr-verification-by",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView rrStatus(HttpSession session,@ModelAttribute TrainingType obj){
+	public ModelAndView rrSVerificationBy(HttpSession session,@ModelAttribute TrainingType obj){
 		ModelAndView model = new ModelAndView(PageConstants.rrVerificationBy);
 		try {
-			List<Safety> RRStatusList = service.getRRStatusList();
-			model.addObject("RRStatusList", RRStatusList);
-			TrainingType rrStatusDetails = service.getRRStatusDetails(obj);
-			model.addObject("rrStatusDetails",rrStatusDetails);
+			
+			TrainingType rrSVerificationByDetails = service.getRRStatusDetails(obj);
+			model.addObject("rrSVerificationByDetails",rrSVerificationByDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("RRStatus : " + e.getMessage());
+			logger.error("RRSVerificationBy : " + e.getMessage());
 		}
 		return model;
 	}
@@ -53,59 +53,59 @@ public class RRSVerificationByController {
 	
 	@RequestMapping(value = "/add-rr-verification-by", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addRRStatus(@ModelAttribute Safety obj,RedirectAttributes attributes){
+	public ModelAndView addRRSVerificationBy(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/rr-verification-by");
-			boolean flag =  service.addRRStatus(obj);
+			boolean flag =  service.addRRSVerificationBy(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Status Added Succesfully.");
+				attributes.addFlashAttribute("success", "Verification By Added Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Adding Status is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding Verification By is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Status is failed. Try again.");
-			logger.error("addRRStatus : " + e.getMessage());
+			attributes.addFlashAttribute("error","Adding Verification By is failed. Try again.");
+			logger.error("addRRSVerificationBy : " + e.getMessage());
 		}
 		return model;
 	}
 	@RequestMapping(value = "/update-rr-verification-by", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView updateRRStatus(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+	public ModelAndView updateRRSVerificationBy(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/rr-verification-by");
-			boolean flag =  service.updateRRStatus(obj);
+			boolean flag =  service.updateRRSVerificationBy(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Status Updated Succesfully.");
+				attributes.addFlashAttribute("success", "Verification By Updated Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Updating Status is failed. Try again.");
+				attributes.addFlashAttribute("error","Updating Verification By is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Updating Status is failed. Try again.");
-			logger.error("updateRRStatus : " + e.getMessage());
+			attributes.addFlashAttribute("error","Updating Verification By is failed. Try again.");
+			logger.error("updateRRSVerificationBy : " + e.getMessage());
 		}
 		return model;
 	}
 	
 	@RequestMapping(value = "/delete-rr-verification-by", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView deleteRRStatus(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+	public ModelAndView deleteRRSVerificationBy(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/rr-verification-by");
-			boolean flag =  service.deleteRRStatus(obj);
+			boolean flag =  service.deleteRRSVerificationBy(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Status Deleted Succesfully.");
+				attributes.addFlashAttribute("success", "Verification By Deleted Succesfully.");
 			}
 			else {
 				attributes.addFlashAttribute("error","Something went Wrong. Try again.");
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Something went Wrong. Try again.");
-			logger.error("deleteRRStatus : " + e.getMessage());
+			logger.error("deleteRRSVerificationBy : " + e.getMessage());
 		}
 		return model;
 	}

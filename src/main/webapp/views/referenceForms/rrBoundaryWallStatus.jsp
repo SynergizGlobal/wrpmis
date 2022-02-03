@@ -50,7 +50,7 @@
                                     <thead>
                                         <tr>
                                             <th> Boundary Wall Status</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${rrBoundarywallStatusDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,18 +60,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${rrBoundarywallStatusDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_boundary_wall_status }"  class="findLengths" />
-												${obj.rr_boundary_wall_status }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_boundarywall_Status }"  class="findLengths" />
+												${obj.rr_boundarywall_Status }</td>
+											<c:forEach var="tObj" items="${rrBoundarywallStatusDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${rrBoundarywallStatusDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.rr_boundary_wall_status eq obj.rr_boundary_wall_status }"> 
+																    <c:when test="${cObj.rr_boundarywall_Status eq obj.rr_boundarywall_Status }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -84,11 +84,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${rrBoundarywallStatusDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.rr_boundary_wall_status eq obj.rr_boundary_wall_status }"> 
-												      	<a onclick="deleteRow('${ oSbj.rr_boundary_wall_status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.rr_boundarywall_Status eq obj.rr_boundarywall_Status }"> 
+												      	<a onclick="deleteRow('${ oSbj.rr_boundarywall_Status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -135,9 +135,9 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="rr_boundary_wall_status" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="rr_verificationby_text"> Boundary Wall Status</label>
-                                <span id="verificationbyError" class="error-msg" ></span>
+                                <input id="rr_boundary_wall_status_text" type="text" name="rr_boundarywall_Status" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="rr_boundary_wall_status_text"> Boundary Wall Status</label>
+                                <span id="rr_boundary_wall_statusError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -185,7 +185,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateVerificationBy()" id="bttnUpdate"
+                                    <button style="width: 100%;" onclick="updateBoundaryWallStatus()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="rr_boundary_wall_status" id="rr_boundary_wall_status" />
+    	<input type="hidden" name="rr_boundarywall_Status" id="rr_boundarywall_Status1" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -288,12 +288,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#verificationbyError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#rr_boundary_wall_statusError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#verificationbyError').text('');
+     			   $('#rr_boundary_wall_statusError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -335,14 +335,14 @@
      		 $('#bttnUpdate').prop('disabled', false);
      		 updateFlag = true;
      	}
-        function addVerificationBy(){
+        function addBoundaryWallStatus(){
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
       			document.getElementById("addBoundaryWallStatusForm").submit();	
              }
          }
-        function updateVerificationBy(){
+        function updateBoundaryWallStatus(){
           	 if(validator1.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
@@ -351,17 +351,17 @@
        }
          var validator =  $('#addBoundaryWallStatusForm').validate({
          	 rules: {
-         		 "rr-boundary_wall_status": {
+         		 "rr_boundarywall_Status": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "rr-boundary_wall_status": {
+   		 		   "rr_boundarywall_Status": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "rr_verificationby_text" ){
-   				     document.getElementById("verificationbyError").innerHTML="";
-   			 	     error.appendTo('#verificationbyError');
+   	        	 if(element.attr("id") == "rr_boundary_wall_status_text" ){
+   				     document.getElementById("rr_boundary_wall_statusError").innerHTML="";
+   			 	     error.appendTo('#rr_boundary_wall_statusError');
    				 }
    	        }
          	
@@ -392,14 +392,14 @@
 
 
       function updateRow(no) {
-          var rr_boundary_wall_status = $('#statusId'+no).val();
-          $('#value_old').val($.trim(rr-boundary_wall_status))
+          var rr_boundarywall_Status = $('#statusId'+no).val();
+          $('#value_old').val($.trim(rr_boundarywall_Status))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(rr-boundary_wall_status)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(rr_boundarywall_Status)).focus();
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#rr_boundarywall_Status1").val(val);
       	showCancelMessage();
     	    }
       	

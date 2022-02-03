@@ -332,6 +332,8 @@ public class PageConstants {
 	public static final String rrVerificationBy = "referenceForms/rrVerificationBy"; 
 
 	public static final String rrLocation = "referenceForms/rrLocation"; 
+
+	public static final String rrBoundarywallStatus = "referenceForms/rrBoundaryWallStatus"; 
 	
 }
 

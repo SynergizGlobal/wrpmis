@@ -748,13 +748,20 @@
   <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
   <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
   <script type="text/javascript">
-  	function getProjectOverview(project_id){
+  	
+  	$(document).ready(function () {
+  		var procedureResult = '${procedureResult}';
+  		if($.trim(procedureResult) != ''){
+  			alert(procedureResult);
+  		}
+  		
+  		$('#mapmodal').modal({ dismissible: true });
+  	});
+  	
+	function getProjectOverview(project_id){
   		$("#project_id_overview").val(project_id);
   		$("#projectOverviewForm").submit();
   	}
-  	$(document).ready(function () {
-  		$('#mapmodal').modal({ dismissible: true });
-  		});
   </script>
 </body>
 

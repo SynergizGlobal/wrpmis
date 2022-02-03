@@ -155,4 +155,9 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.readIssueAlert(alerts_user_id);
 	}
 
+	@Override
+	public boolean runPlannedNormalDistributionDay() throws Exception {
+		return dao.runPlannedNormalDistributionDay();
+	}
+
 }

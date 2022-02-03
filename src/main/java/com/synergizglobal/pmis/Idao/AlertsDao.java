@@ -62,5 +62,7 @@ public interface AlertsDao {
 	List<Alerts> getAlertTypesListInAlertsReport(Alerts obj) throws Exception;
 
 	boolean readIssueAlert(String alerts_user_id) throws Exception;
+
+	boolean runPlannedNormalDistributionDay() throws Exception;
 	
 }

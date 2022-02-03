@@ -825,7 +825,7 @@
 	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 	</div>	 --%> 
                                 	
-                                	<div class="col s12 m4 l6 input-field amount-dropdown" id="estimated_cost_div">
+                                	<%-- <div class="col s12 m4 l6 input-field amount-dropdown" id="estimated_cost_div">
 	                                    <i class="material-icons amount-symbol cost">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate" value="${contractDeatils.estimated_cost }">
 	                                    <label for="estimated_cost">Detailed Estimated cost</label>
@@ -837,7 +837,7 @@
                                   			   <option value="${obj.value }" <c:if test="${contractDeatils.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                    		    </c:forEach>
 	                                	</select>
-	                                </div>                        
+	                                </div> --%>                        
                                 </div>      
 	                           	<div class="row">
 	                                <div class="col s12 m4 l6 input-field offset-m2" id="doc_div">
@@ -891,12 +891,27 @@
 	                                </div>	                              
 	                            </div>
 	                            <div class="row" id="contract_status_fk_div">
+	                            	<div class="col s12 m4 l6 input-field amount-dropdown" id="estimated_cost_div">
+	                                    <i class="material-icons amount-symbol cost">₹</i>
+	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate" value="${contractDeatils.estimated_cost }">
+	                                    <label for="estimated_cost">Detailed Estimated cost</label>
+	                                    <span id="estimated_costError" class="error-msg" ></span>
+	                                	<span id="estimated_cost_unitsError" class="error-msg right" ></span>
+	                                    <select class=" validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
+	                                    	<!-- <option value="">Units</option> -->
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		    </c:forEach>
+	                                	</select>
+	                                </div>
+	                                
 	                            	<div class="col s6 m4 l6 input-field" id="planned_date_of_award_div">
 	                                    <input id="planned_date_of_award" name="planned_date_of_award" type="text" class="validate datepicker" value="${contractDeatils.planned_date_of_award }">
 	                                    <label for="planned_date_of_award">Planned date of award</label>
 	                                    <span id="planned_date_of_awardError" class="error-msg" ></span>
 	                                    <button type="button" id="planned_date_of_award_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
+	                                
 	                              	<div class="col s12 m4 l6 input-field offset-m2">
 	                                   <p class="searchable_label">Status of Work <span class="required" id="contract_status_fk_req">*</span></p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails(this.value);">
@@ -2482,8 +2497,8 @@
             		$("#target_doc").val('');
             		$("#target_doc_div").hide();
             		
-            		$("#planned_date_of_award").val('');
-            		$("#planned_date_of_award_div").hide();
+            		//$("#planned_date_of_award").val('');
+            		$("#planned_date_of_award_div").show();
             		
             		$("#bgDetailsTab").hide();
             		$("#insuranceDetailsTab").hide();
@@ -2550,8 +2565,8 @@
         		$("#date_of_startDiv").hide();
         		$("#target_doc").val('');
         		$("#target_doc_div").hide();
-        		$("#planned_date_of_award").val('');
-        		$("#planned_date_of_award_div").hide();
+        		//$("#planned_date_of_award").val('');
+        		$("#planned_date_of_award_div").show();
         		
         		$("#bgHideDiv").hide();
         		$("#insuranceHideDiv").hide();
@@ -4200,12 +4215,12 @@
 	        	$('#loa_date_div').hide();
 	        	$('#ca_no_div').hide();
 	        	$('#ca_date_div').hide();
-	        	$('#estimated_cost_div').hide();
-	        	$('#estimated_cost_units_div').hide();
+	        	//$('#estimated_cost_div').hide();
+	        	//$('#estimated_cost_units_div').hide();
 	        	$('#awarded_cost_div').hide();
 	        	$('#awarded_cost_units_div').hide();
 	        	$('#doc_div').hide();
-	        	$('#contract_status_fk_div').hide();
+	        	//$('#contract_status_fk_div').hide();
 	        	
 	        	$('#contract_type_fk').rules('remove',  'required');
 	        	$('#contract_status_fk').rules('remove',  'required');

@@ -39,7 +39,6 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FormHistory;
-import com.synergizglobal.pmis.model.Issue;
 @Repository
 public class AlertsDaoImpl implements AlertsDao{
 	
@@ -2879,17 +2878,17 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			connection = dataSource.getConnection();
 			
-			String qry1 = "call 1_project_months()";			
+			/*String qry1 = "call 1_project_months()";			
 			stmt = connection.prepareCall(qry1);			
 			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);*/
 			
 			String qry2 = "call 2_planned_normal_distribution_day()";			
 			stmt = connection.prepareCall(qry2);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			
-			String qry3 = "call 3_actual_normal_distribution_day()";			
+			/*String qry3 = "call 3_actual_normal_distribution_day()";			
 			stmt = connection.prepareCall(qry3);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
@@ -2897,7 +2896,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			String qry4 = "call 4_progress_monthly_summary_bell()";			
 			stmt = connection.prepareCall(qry4);			
 			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);*/
 			
 			String qry5 = "call create_calendar_dates()";			
 			stmt = connection.prepareCall(qry5);			
@@ -3922,6 +3921,27 @@ public class AlertsDaoImpl implements AlertsDao{
 		} catch (Exception e) {
 			transactionManager.rollback(status);
 			throw new Exception(e);
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean runPlannedNormalDistributionDay() throws Exception {
+		Connection connection = null;
+		CallableStatement stmt = null;
+		ResultSet resultSet = null;
+		boolean flag = false;
+		try {
+			connection = dataSource.getConnection();
+			String qry2 = "call 2_planned_normal_distribution_day()";			
+			stmt = connection.prepareCall(qry2);			
+			stmt.executeQuery();  
+			flag = true;
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
 		}
 		return flag;
 	}

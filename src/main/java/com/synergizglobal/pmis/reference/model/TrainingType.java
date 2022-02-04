@@ -23,8 +23,41 @@ public class TrainingType {
 	 name, order, icon, parent_id, link_url,order_text_update,parent_text,url_text_update,status_fk,order_text,url_text,name_text,statuss,parent_texts,
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
 	, template_name, attachment,captiliszedTableName, resource_type_fk,submission_purpose,design_status_submit,la_file_type, sub_resource_type, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name,
-	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type;
+	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type, rr_occupancy_status, rr_tenure_status, caste, mother_tongue, rr_type_of_family;
     
+
+	public String getRr_occupancy_status() {
+		return rr_occupancy_status;
+	}
+
+	public void setRr_occupancy_status(String rr_occupancy_status) {
+		this.rr_occupancy_status = rr_occupancy_status;
+	}
+
+	public String getRr_tenure_status() {
+		return rr_tenure_status;
+	}
+
+	public void setRr_tenure_status(String rr_tenure_status) {
+		this.rr_tenure_status = rr_tenure_status;
+	}
+
+	public String getCaste() {
+		return caste;
+	}
+
+	public void setCaste(String caste) {
+		this.caste = caste;
+	}
+
+	public String getMother_tongue() {
+		return mother_tongue;
+	}
+
+	public void setMother_tongue(String mother_tongue) {
+		this.mother_tongue = mother_tongue;
+	}
+
 	public String getBses_file_type() {
 		return bses_file_type;
 	}

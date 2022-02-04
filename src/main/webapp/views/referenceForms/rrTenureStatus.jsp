@@ -50,7 +50,7 @@
                                     <thead>
                                         <tr>
                                             <th> Tenure Status</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${TenureStatusDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,13 +60,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${TenureStatusDetails.dList1}" varStatus="indexs">
 											<tr><td>
 												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_tenure_status }"  class="findLengths" />
 												${obj.rr_tenure_status }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+											<c:forEach var="tObj" items="${TenureStatusDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${TenureStatusDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
@@ -84,7 +84,7 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${TenureStatusDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
 												    <c:when test="${oSbj.rr_tenure_status eq obj.rr_tenure_status }"> 
@@ -399,7 +399,7 @@
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#rr_tenure_status").val(val);
       	showCancelMessage();
     	    }
       	

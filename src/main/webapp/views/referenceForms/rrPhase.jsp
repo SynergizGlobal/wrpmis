@@ -46,11 +46,11 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="rr_phase_table" class="mdl-data-table">
+                                <table id="phase_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th> Phase</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${rrPhaseDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,18 +60,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${rrPhaseDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_phase }"  class="findLengths" />
-												${obj.rr_phase }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.phase }"  class="findLengths" />
+												${obj.phase }</td>
+											<c:forEach var="tObj" items="${rrPhaseDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${rrPhaseDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.rr_phase eq obj.rr_phase }"> 
+																    <c:when test="${cObj.phase eq obj.phase }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -84,11 +84,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${rrPhaseDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.rr_phase eq obj.rr_phase }"> 
-												      	<a onclick="deleteRow('${ oSbj.rr_phase }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.phase eq obj.phase }"> 
+												      	<a onclick="deleteRow('${ oSbj.phase }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -135,15 +135,15 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="rr_phase" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="rr_verificationby_text"> Phase</label>
-                                <span id="verificationbyError" class="error-msg" ></span>
+                                <input id="phase_text" type="text" name="phase" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="phase_text"> Phase</label>
+                                <span id="rrPhaseError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addRRVerificationBy()" id="bttn"
+                                    <button style="width: 100%;" onclick="addPhase()" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add</button>
                                 </div>
                             </div>
@@ -185,7 +185,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateVerificationBy()" id="bttnUpdate"
+                                    <button style="width: 100%;" onclick="updatePhase()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -206,25 +206,16 @@
 
         </form>
     </div>
-   <!--  <div id="errorModal" class="modal">
-        <div class="modal-content">
-            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h6>
-            <div class="row center-align" style="margin-bottom: 0;">
-                <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
-            </div>
-
-        </div>
-    </div> -->
+  
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="rr_phase" id="rr_phase" />
+    	<input type="hidden" name="phase" id="phase1" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
+	<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -243,10 +234,10 @@
                 table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
                     '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
             });
-            $('#rr_phase_table tbody').append(table_text);
+            $('#phase_table tbody').append(table_text);
             // adding table data into table ends */
 
-            var table = $('#rr_phase_table').DataTable({
+            var table = $('#phase_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -288,12 +279,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#verificationbyError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#rrPhaseError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#verificationbyError').text('');
+     			   $('#rrPhaseError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -335,14 +326,14 @@
      		 $('#bttnUpdate').prop('disabled', false);
      		 updateFlag = true;
      	}
-        function addVerificationBy(){
+        function addPhase(){
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
       			document.getElementById("addPhaseForm").submit();	
              }
          }
-        function updateVerificationBy(){
+        function updatePhase(){
           	 if(validator1.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
@@ -351,17 +342,17 @@
        }
          var validator =  $('#addPhaseForm').validate({
          	 rules: {
-         		 "rr_phase": {
+         		 "phase": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "rr_phase": {
+   		 		   "phase": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "rr_verificationby_text" ){
-   				     document.getElementById("verificationbyError").innerHTML="";
-   			 	     error.appendTo('#verificationbyError');
+   	        	 if(element.attr("id") == "phase_text" ){
+   				     document.getElementById("rrPhaseError").innerHTML="";
+   			 	     error.appendTo('#rrPhaseError');
    				 }
    	        }
          	
@@ -392,14 +383,14 @@
 
 
       function updateRow(no) {
-          var rr_phase = $('#statusId'+no).val();
-          $('#value_old').val($.trim(rr_phase))
+          var phase = $('#statusId'+no).val();
+          $('#value_old').val($.trim(phase))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(rr_phase)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(phase)).focus();
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#phase1").val(val);
       	showCancelMessage();
     	    }
       	

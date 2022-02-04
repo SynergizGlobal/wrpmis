@@ -341,11 +341,19 @@ public class PageConstants {
 
 	public static final String rrCaste = "referenceForms/rrCaste"; 
 	
-	public static final String rrMotherToungue= "referenceForms/rrMotherToungue"; 
+	public static final String rrMotherToungue= "referenceForms/rrMotherTongue"; 
 	
 	public static final String rrTypeOfFamily = "referenceForms/rrTypeOfFamily"; 
 
 	public static final String rrTenureStatus = "referenceForms/rrTenureStatus"; 
+	
+	public static final String rrMaritialStatus= "referenceForms/rrMaritialStatus"; 
+	
+	public static final String rrPhase = "referenceForms/rrPhase"; 
+
+	public static final String rrTTypeOfuse = "referenceForms/rrTTypeOfuse"; 
+	
+	public static final String rrSubLocation = "referenceForms/rrSubLocation";
 	
 }
 

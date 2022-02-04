@@ -11,12 +11,10 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.synergizglobal.pmis.reference.Idao.RRDocumentTypeDao;
-import com.synergizglobal.pmis.reference.model.Safety;
+import com.synergizglobal.pmis.reference.Idao.MotherTongueDao;
 import com.synergizglobal.pmis.reference.model.TrainingType;
-
 @Repository
-public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
+public class MotherTongueDaoImpl implements MotherTongueDao{
 	@Autowired
 	DataSource dataSource;
 	
@@ -24,44 +22,12 @@ public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
-	public List<Safety> getRRDocumentTypeList() throws Exception {
-		List<Safety> objsList = null;
-		try {
-			String qry ="select document_type from rr_doc_type ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
-		}catch(Exception e){ 
-		throw new Exception(e);
-		}
-		return objsList;
-	}
-
-	@Override
-	public boolean addRRDocumentType(Safety obj) throws Exception {
-		boolean flag = false;
-		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO rr_doc_type"
-					+ "( document_type) VALUES (:document_type)";
-			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
-			if(count > 0) {
-				flag = true;
-			}
-		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e);
-		}
-		return flag;
-	}
-
-	@Override
-	public TrainingType getRRDocumentTypeDetails(TrainingType obj) throws Exception {
+	public TrainingType getMotherTongueDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select document_type from rr_doc_type ";
+			String qry ="select `mother_tongue` from mother_tongue ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -75,7 +41,7 @@ public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `document_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `mother_tongue`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -86,11 +52,11 @@ public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select document_type from rr_doc_type where `document_type` NOT IN (?";
+					  String qry2 = "select `mother_tongue` from mother_tongue where `mother_tongue` NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
-							pValues[j++] = aObj.getDocument_type();
+							pValues[j++] = aObj.getAlert_level();
 							if( objsList1.size() >  p) {
 								qry2 = qry2 + ",?";
 								p++;
@@ -112,12 +78,11 @@ public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
 		}
 		return obj;
 	}
-	
 	private List<TrainingType> getTablesList(TrainingType obj) throws Exception {
 		List<TrainingType> tablesList = null;
 		try {
 			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'rr_doc_type' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'mother_tongue' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -132,7 +97,7 @@ public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
 		List<TrainingType> list = null;
 		try {
 			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'rr_doc_type' and TABLE_SCHEMA = 'pmis' ";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'mother_tongue' and TABLE_SCHEMA = 'pmis'";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -141,10 +106,28 @@ public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
 		}
 		return list;
 	}
-
+	@Override
+	public boolean addMotherTongue(TrainingType obj) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String insertQry = "INSERT INTO mother_tongue"
+					+ "( mother_tongue) VALUES (:mother_tongue)";
+			
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return flag;
+	}
 
 	@Override
-	public boolean updateRRDocumentType(TrainingType obj) throws Exception {
+	public boolean updateMotherTongue(TrainingType obj) throws Exception {
 		boolean flag = false;
 		int count = 0;
 		try {
@@ -157,7 +140,7 @@ public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE rr_doc_type SET `document_type`= :value_new WHERE `document_type`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE mother_tongue SET `mother_tongue`= :value_new WHERE `mother_tongue`= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -182,13 +165,13 @@ public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
 	}
 
 	@Override
-	public boolean deleteRRDocumentType(TrainingType obj) throws Exception {
+	public boolean deleteMotherTongue(TrainingType obj) throws Exception {
 		boolean flag = false;
 		int count = 0;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from rr_doc_type WHERE `document_type`= :document_type; ";
+			String deleteQry ="DELETE from mother_tongue WHERE `mother_tongue`= :mother_tongue; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -199,5 +182,4 @@ public class RRDocumentTypeDaoImpl implements RRDocumentTypeDao{
 		}
 		return flag;
 	}
-
 }

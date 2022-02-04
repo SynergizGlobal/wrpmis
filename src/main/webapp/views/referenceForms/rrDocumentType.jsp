@@ -259,7 +259,7 @@
                         targets: 'no-sort', orderable: false,
                         /* className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [2] },
+                   /*  { "width": "20px", "targets": [2] }, */
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,

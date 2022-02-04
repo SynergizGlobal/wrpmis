@@ -50,7 +50,7 @@
                                     <thead>
                                         <tr>
                                             <th> Mother Tongue</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${motherTongueDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,18 +60,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${motherTongueDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_mother_tongue }"  class="findLengths" />
-												${obj.rr_mother_tongue }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.mother_tongue }"  class="findLengths" />
+												${obj.mother_tongue }</td>
+											<c:forEach var="tObj" items="${motherTongueDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${motherTongueDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.rr_mother_tongue eq obj.rr_mother_tongue }"> 
+																    <c:when test="${cObj.mother_tongue eq obj.mother_tongue }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -84,11 +84,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${motherTongueDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.rr_mother_tongue eq obj.rr_mother_tongue }"> 
-												      	<a onclick="deleteRow('${ oSbj.rr_mother_tongue }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.mother_tongue eq obj.mother_tongue }"> 
+												      	<a onclick="deleteRow('${ oSbj.mother_tongue }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -126,7 +126,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-rr-mother-tongue" id="addMotherTongueForm" name="addMotherTongueForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-mother-tongue" id="addMotherTongueForm" name="addMotherTongueForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add Mother Tongue <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -135,7 +135,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="rr_mother_tongue" class="validate" onkeyup="doValidate(this.value)">
+                                <input id="rr_verificationby_text" type="text" name="mother_tongue" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="rr_verificationby_text"> Mother Tongue</label>
                                 <span id="verificationbyError" class="error-msg" ></span>
                             </div>
@@ -153,7 +153,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-mother-tongue"
+                                        <a href="<%=request.getContextPath()%>/mother-tongue"
 									 class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-rr-mother-tongue" id=updateMotherTongueForm name="updateMotherTongueForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-mother-tongue" id=updateMotherTongueForm name="updateMotherTongueForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header bg-m">Update Mother Tongue <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -194,7 +194,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-mother-tongue"
+                                        <a href="<%=request.getContextPath()%>/mother-tongue"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="rr_mother_tongue" id="rr_mother_tongue" />
+    	<input type="hidden" name="mother_tongue" id="mother_tongue1" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -351,11 +351,11 @@
        }
          var validator =  $('#addMotherTongueForm').validate({
          	 rules: {
-         		 "rr_mother_tongue": {
+         		 "mother_tongue": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "rr_mother_tongue": {
+   		 		   "mother_tongue": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
@@ -392,14 +392,14 @@
 
 
       function updateRow(no) {
-          var rr_mother_tongue = $('#statusId'+no).val();
-          $('#value_old').val($.trim(rr_mother_tongue))
+          var mother_tongue = $('#statusId'+no).val();
+          $('#value_old').val($.trim(mother_tongue))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(rr_mother_tongue)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(mother_tongue)).focus();
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#mother_tongue1").val(val);
       	showCancelMessage();
     	    }
       	
@@ -419,7 +419,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-rr-mother-tongue');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-mother-tongue');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

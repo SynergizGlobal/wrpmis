@@ -347,7 +347,7 @@ public class PageConstants {
 
 	public static final String rrTenureStatus = "referenceForms/rrTenureStatus"; 
 	
-	public static final String rrMaritialStatus= "referenceForms/rrMaritialStatus"; 
+	public static final String rrMaritalStatus= "referenceForms/rrMaritalStatus"; 
 	
 	public static final String rrPhase = "referenceForms/rrPhase"; 
 

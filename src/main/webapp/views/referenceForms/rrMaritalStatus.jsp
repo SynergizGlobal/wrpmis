@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RR Maritual Status</title>
+    <title>RR Marital Status</title>
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
@@ -24,7 +24,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Maritual Status</h6>
+                            <h6>Marital Status</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -41,16 +41,16 @@
                         <div class="row no-mar">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add  Maritual Status</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Marital Status</a>
                             </div>
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="rr_maritual_status_table" class="mdl-data-table">
+                                <table id="marital_status_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th> Maritual Status</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                            <th> Marital Status</th>
+                                             <c:forEach var="tObj" items="${rrMaritalStatus.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,18 +60,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${rrMaritalStatus.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_maritual_status }"  class="findLengths" />
-												${obj.rr_maritual_status }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.marital_status }"  class="findLengths" />
+												${obj.marital_status }</td>
+											<c:forEach var="tObj" items="${rrMaritalStatus.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${rrMaritalStatus.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.rr_maritual_status eq obj.rr_maritual_status }"> 
+																    <c:when test="${cObj.marital_status eq obj.marital_status }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -84,11 +84,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${rrMaritalStatus.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.rr_maritual_status eq obj.rr_maritual_status }"> 
-												      	<a onclick="deleteRow('${ oSbj.rr_maritual_status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.marital_status eq obj.marital_status }"> 
+												      	<a onclick="deleteRow('${ oSbj.marital_status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -126,18 +126,17 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-rr-maritual-status" id="addMaritualStatusForm" name="addMaritualStatusForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-rr-marital-status" id="addMaritalStatusForm" name="addMaritalStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h6 class="modal-header">Add Maritual Status <span class="right modal-action modal-close"><span
+                <h6 class="modal-header">Add Marital Status <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                    <div class="col m8 s12 offset-m2">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="rr_maritual_status" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="rr_verificationby_text"> Maritual Status</label>
-                                <span id="verificationbyError" class="error-msg" ></span>
+                                <input id="marital_status_text" type="text" name="marital_status" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="marital_status_text"> Marital Status</label>
+                                <span id="marital_status_textError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -153,13 +152,12 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-maritual-status"
+                                        <a href="<%=request.getContextPath()%>/rr-marital-status"
 									 class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -168,9 +166,9 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-rr-maritual-status" id=updateMaritualStatusForm name="updateMaritualStatusForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-rr-marital-status" id=updateMaritalStatusForm name="updateMaritalStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h6 class="modal-header bg-m">Update Maritual Status <span class="right modal-action modal-close"><span
+                <h6 class="modal-header bg-m">Update Marital Status <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m8 s12 offset-m2">
@@ -178,14 +176,14 @@
                          <div class="input-field col s12 m12">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new"> Maritual Status</label>
+                                <label for="value_new"> Marital Status</label>
                                 <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateVerificationBy()" id="bttnUpdate"
+                                    <button style="width: 100%;" onclick="updateMaritalStatus()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -194,7 +192,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-maritual-status"
+                                        <a href="<%=request.getContextPath()%>/rr-marital-status"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -206,25 +204,16 @@
 
         </form>
     </div>
-   <!--  <div id="errorModal" class="modal">
-        <div class="modal-content">
-            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h6>
-            <div class="row center-align" style="margin-bottom: 0;">
-                <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
-            </div>
 
-        </div>
-    </div> -->
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="rr_maritual_status" id="rr_maritual_status" />
+    	<input type="hidden" name="marital_status" id="marital_status" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
+	<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -236,17 +225,7 @@
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
 
-          /*   // adding table data into table start
-            var arr = [''];
-            var table_text = '';
-            $.each(arr, function (i, val) {
-                table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
-                    '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
-            });
-            $('#rr_maritual_status_table tbody').append(table_text);
-            // adding table data into table ends */
-
-            var table = $('#rr_maritual_status_table').DataTable({
+            var table = $('#marital_status_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -288,12 +267,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#verificationbyError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#marital_status_textError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#verificationbyError').text('');
+     			   $('#marital_status_textError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -335,39 +314,39 @@
      		 $('#bttnUpdate').prop('disabled', false);
      		 updateFlag = true;
      	}
-        function addVerificationBy(){
+        function addMaritalStatus(){
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
-      			document.getElementById("addMaritualStatusForm").submit();	
+      			document.getElementById("addMaritalStatusForm").submit();	
              }
          }
-        function updateVerificationBy(){
+        function updateMaritalStatus(){
           	 if(validator1.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
-       			document.getElementById("updateMaritualStatusForm").submit();	
+       			document.getElementById("updateMaritalStatusForm").submit();	
            }
        }
-         var validator =  $('#addMaritualStatusForm').validate({
+         var validator =  $('#addMaritalStatusForm').validate({
          	 rules: {
-         		 "rr_maritual_status": {
+         		 "marital_status": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "rr_maritual_status": {
+   		 		   "marital_status": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "rr_verificationby_text" ){
-   				     document.getElementById("verificationbyError").innerHTML="";
-   			 	     error.appendTo('#verificationbyError');
+   	        	 if(element.attr("id") == "marital_status_text" ){
+   				     document.getElementById("marital_status_textError").innerHTML="";
+   			 	     error.appendTo('#marital_status_textError');
    				 }
    	        }
          	
          });
         
-         var validator1 = $('#updateMaritualStatusForm').validate({
+         var validator1 = $('#updateMaritalStatusForm').validate({
         	 rules: {
         		 	"value_new": {
     			 		  required: true
@@ -392,14 +371,14 @@
 
 
       function updateRow(no) {
-          var rr_maritual_status = $('#statusId'+no).val();
-          $('#value_old').val($.trim(rr_maritual_status))
+          var marital_status = $('#statusId'+no).val();
+          $('#value_old').val($.trim(marital_status))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(rr_maritual_status)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(marital_status)).focus();
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#marital_status").val(val);
       	showCancelMessage();
     	    }
       	
@@ -419,7 +398,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-rr-maritual-status');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-rr-marital-status');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

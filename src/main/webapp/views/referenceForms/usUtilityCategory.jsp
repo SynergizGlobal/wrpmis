@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>US Utility Category</title>
+    <title>Utility Category</title>
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
@@ -46,11 +46,11 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="us_utility_category_table" class="mdl-data-table">
+                                <table id="us_category_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th> Utility Category</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${UtilityCategoryDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,18 +60,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${UtilityCategoryDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.us_utility_category }"  class="findLengths" />
-												${obj.us_utility_category }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.us_category }"  class="findLengths" />
+												${obj.us_category }</td>
+											<c:forEach var="tObj" items="${UtilityCategoryDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${UtilityCategoryDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.us_utility_category eq obj.us_utility_category }"> 
+																    <c:when test="${cObj.us_category eq obj.us_category }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -84,11 +84,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${UtilityCategoryDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.us_utility_category eq obj.us_utility_category }"> 
-												      	<a onclick="deleteRow('${ oSbj.us_utility_category }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.us_category eq obj.us_category }"> 
+												      	<a onclick="deleteRow('${ oSbj.us_category }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -126,7 +126,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-us-utility-category" id="addUtilityCategoryForm" name="addUtilityCategoryForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-us-category" id="addUsCategoryForm" name="addUsCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add Utility Category <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -135,9 +135,9 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="us_utility_category" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="rr_verificationby_text"> Utility Category</label>
-                                <span id="verificationbyError" class="error-msg" ></span>
+                                <input id="us_category_text" type="text" name="us_category" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="us_category_text"> Utility Category</label>
+                                <span id="us_categoryError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -153,7 +153,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/us-utility-category"
+                                        <a href="<%=request.getContextPath()%>/us-category"
 									 class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-us-utility-category" id=updateUtilityCategoryForm name="updateUtilityCategoryForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-us-category" id=updateUsCategoryForm name="updateUsCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header bg-m">Update Utility Category <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -185,7 +185,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateVerificationBy()" id="bttnUpdate"
+                                    <button style="width: 100%;" onclick="updateUsCategory()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/us-utility-category"
+                                        <a href="<%=request.getContextPath()%>/us-category"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -206,25 +206,16 @@
 
         </form>
     </div>
-   <!--  <div id="errorModal" class="modal">
-        <div class="modal-content">
-            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h6>
-            <div class="row center-align" style="margin-bottom: 0;">
-                <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
-            </div>
-
-        </div>
-    </div> -->
+  
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="us_utility_category" id="us_utility_category" />
+    	<input type="hidden" name="us_category" id="us_category" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
+	<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -243,10 +234,10 @@
                 table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
                     '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
             });
-            $('#us_utility_category_table tbody').append(table_text);
+            $('#us_category_table tbody').append(table_text);
             // adding table data into table ends */
 
-            var table = $('#us_utility_category_table').DataTable({
+            var table = $('#us_category_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -288,12 +279,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#verificationbyError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#us_categoryError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#verificationbyError').text('');
+     			   $('#us_categoryError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -335,39 +326,39 @@
      		 $('#bttnUpdate').prop('disabled', false);
      		 updateFlag = true;
      	}
-        function addVerificationBy(){
+        function addUsCategory(){
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
-      			document.getElementById("addUtilityCategoryForm").submit();	
+      			document.getElementById("addUsCategoryForm").submit();	
              }
          }
-        function updateVerificationBy(){
+        function updateUsCategory(){
           	 if(validator1.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
-       			document.getElementById("updateUtilityCategoryForm").submit();	
+       			document.getElementById("updateUsCategoryForm").submit();	
            }
        }
-         var validator =  $('#addUtilityCategoryForm').validate({
+         var validator =  $('#addUsCategoryForm').validate({
          	 rules: {
-         		 "us_utility_category": {
+         		 "us_category": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "us_utility_category": {
+   		 		   "us_category": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "rr_verificationby_text" ){
-   				     document.getElementById("verificationbyError").innerHTML="";
-   			 	     error.appendTo('#verificationbyError');
+   	        	 if(element.attr("id") == "us_category_text" ){
+   				     document.getElementById("us_categoryError").innerHTML="";
+   			 	     error.appendTo('#us_categoryError');
    				 }
    	        }
          	
          });
         
-         var validator1 = $('#updateUtilityCategoryForm').validate({
+         var validator1 = $('#updateUsCategoryForm').validate({
         	 rules: {
         		 	"value_new": {
     			 		  required: true
@@ -392,14 +383,14 @@
 
 
       function updateRow(no) {
-          var us_utility_category = $('#statusId'+no).val();
-          $('#value_old').val($.trim(us_utility_category))
+          var us_category = $('#statusId'+no).val();
+          $('#value_old').val($.trim(us_category))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(us_utility_category)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(us_category)).focus();
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#us_category").val(val);
       	showCancelMessage();
     	    }
       	
@@ -419,7 +410,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-us-utility-category');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-us-category');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

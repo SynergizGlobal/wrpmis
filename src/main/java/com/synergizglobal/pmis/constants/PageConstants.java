@@ -351,7 +351,7 @@ public class PageConstants {
 	
 	public static final String rrPhase = "referenceForms/rrPhase"; 
 
-	public static final String rrTTypeOfuse = "referenceForms/rrTTypeOfuse"; 
+	public static final String rrTypeOfUse = "referenceForms/rrTypeOfUse"; 
 	
 	public static final String rrSubLocation = "referenceForms/rrSubLocation";
 	

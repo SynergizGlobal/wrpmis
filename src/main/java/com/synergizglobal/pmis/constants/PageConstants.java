@@ -336,6 +336,16 @@ public class PageConstants {
 	public static final String rrBoundarywallStatus = "referenceForms/rrBoundaryWallStatus"; 
 
 	public static final String rrBsesFileType = "referenceForms/bsesFileType"; 
+
+	public static final String rrOccupancyStatus = "referenceForms/rrOccupancyStatus"; 
+
+	public static final String rrCaste = "referenceForms/rrCaste"; 
+	
+	public static final String rrMotherToungue= "referenceForms/rrMotherToungue"; 
+	
+	public static final String rrTypeOfFamily = "referenceForms/rrTypeOfFamily"; 
+
+	public static final String rrTenureStatus = "referenceForms/rrTenureStatus"; 
 	
 }
 

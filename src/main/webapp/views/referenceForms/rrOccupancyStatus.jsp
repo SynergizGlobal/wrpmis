@@ -50,7 +50,7 @@
                                     <thead>
                                         <tr>
                                             <th> Occupancy Status</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${rrOccupancyStatus.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,13 +60,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${rrOccupancyStatus.dList1}" varStatus="indexs">
 											<tr><td>
 												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_occupancy_status }"  class="findLengths" />
 												${obj.rr_occupancy_status }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+											<c:forEach var="tObj" items="${rrOccupancyStatus.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${rrOccupancyStatus.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
@@ -84,7 +84,7 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${rrOccupancyStatus.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
 												    <c:when test="${oSbj.rr_occupancy_status eq obj.rr_occupancy_status }"> 
@@ -135,9 +135,9 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="rr_occupancy_status" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="rr_verificationby_text"> Occupancy Status</label>
-                                <span id="verificationbyError" class="error-msg" ></span>
+                                <input id="occupancy_status_text" type="text" name="rr_occupancy_status" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="occupancy_status_text"> Occupancy Status</label>
+                                <span id="occupancyStatusError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -185,7 +185,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateVerificationBy()" id="bttnUpdate"
+                                    <button style="width: 100%;" onclick="updateOccupancyStatus()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -288,12 +288,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#verificationbyError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#occupancyStatusError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#verificationbyError').text('');
+     			   $('#occupancyStatusError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -335,14 +335,14 @@
      		 $('#bttnUpdate').prop('disabled', false);
      		 updateFlag = true;
      	}
-        function addVerificationBy(){
+        function addOccupancyStatus(){
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
       			document.getElementById("addOccupancyStatusForm").submit();	
              }
          }
-        function updateVerificationBy(){
+        function updateOccupancyStatus(){
           	 if(validator1.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
@@ -359,9 +359,9 @@
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "rr_verificationby_text" ){
-   				     document.getElementById("verificationbyError").innerHTML="";
-   			 	     error.appendTo('#verificationbyError');
+   	        	 if(element.attr("id") == "occupancy_status_text" ){
+   				     document.getElementById("occupancyStatusError").innerHTML="";
+   			 	     error.appendTo('#occupancyStatusError');
    				 }
    	        }
          	
@@ -399,7 +399,7 @@
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#rr_occupancy_status").val(val);
       	showCancelMessage();
     	    }
       	

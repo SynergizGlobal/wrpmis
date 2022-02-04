@@ -50,7 +50,7 @@
                                     <thead>
                                         <tr>
                                             <th> Type Of Use</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${rrTypeOfUseDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,13 +60,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${rrTypeOfUseDetails.dList1}" varStatus="indexs">
 											<tr><td>
 												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_type_of_use }"  class="findLengths" />
 												${obj.rr_type_of_use }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+											<c:forEach var="tObj" items="${rrTypeOfUseDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${rrTypeOfUseDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
@@ -84,7 +84,7 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${rrTypeOfUseDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
 												    <c:when test="${oSbj.rr_type_of_use eq obj.rr_type_of_use }"> 
@@ -135,15 +135,15 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="rr_type_of_use" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="rr_verificationby_text"> Type Of Use</label>
-                                <span id="verificationbyError" class="error-msg" ></span>
+                                <input id="rr_type_of_use_text" type="text" name="rr_type_of_use" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="rr_type_of_use_text"> Type Of Use</label>
+                                <span id="typeOfUseError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addRRVerificationBy()" id="bttn"
+                                    <button style="width: 100%;" onclick="addTypeOfUse()" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add</button>
                                 </div>
                             </div>
@@ -185,7 +185,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateVerificationBy()" id="bttnUpdate"
+                                    <button style="width: 100%;" onclick="updateTypeOfUse()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -206,16 +206,7 @@
 
         </form>
     </div>
-   <!--  <div id="errorModal" class="modal">
-        <div class="modal-content">
-            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h6>
-            <div class="row center-align" style="margin-bottom: 0;">
-                <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
-            </div>
-
-        </div>
-    </div> -->
+  
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
@@ -224,7 +215,7 @@
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
+	<script src="/pmis/resources/js/dataTables.fixedColumns.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -288,12 +279,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#verificationbyError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#typeOfUseError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#verificationbyError').text('');
+     			   $('#typeOfUseError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -335,14 +326,14 @@
      		 $('#bttnUpdate').prop('disabled', false);
      		 updateFlag = true;
      	}
-        function addVerificationBy(){
+        function addTypeOfUse(){
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
       			document.getElementById("addTypeOfUseForm").submit();	
              }
          }
-        function updateVerificationBy(){
+        function updateTypeOfUse(){
           	 if(validator1.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
@@ -359,9 +350,9 @@
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "rr_verificationby_text" ){
-   				     document.getElementById("verificationbyError").innerHTML="";
-   			 	     error.appendTo('#verificationbyError');
+   	        	 if(element.attr("id") == "rr_type_of_use_text" ){
+   				     document.getElementById("typeOfUseError").innerHTML="";
+   			 	     error.appendTo('#typeOfUseError');
    				 }
    	        }
          	
@@ -399,7 +390,7 @@
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#rr_type_of_use").val(val);
       	showCancelMessage();
     	    }
       	

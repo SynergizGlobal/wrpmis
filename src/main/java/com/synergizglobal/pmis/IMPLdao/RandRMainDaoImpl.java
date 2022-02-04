@@ -822,7 +822,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getMaritualStatusListForRRForm(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "select maritua_status   from maritua_status ";
+			String qry = "select marital_status as maritua_status   from marital_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);

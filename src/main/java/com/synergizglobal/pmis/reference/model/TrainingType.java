@@ -23,8 +23,57 @@ public class TrainingType {
 	 name, order, icon, parent_id, link_url,order_text_update,parent_text,url_text_update,status_fk,order_text,url_text,name_text,statuss,parent_texts,
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
 	, template_name, attachment,captiliszedTableName, resource_type_fk,submission_purpose,design_status_submit,la_file_type, sub_resource_type, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name,
-	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type, rr_occupancy_status, rr_tenure_status, caste, mother_tongue, rr_type_of_family;
+	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type, rr_occupancy_status, rr_tenure_status, caste, mother_tongue, rr_type_of_family,marital_status
+	,phase,rr_type_of_use, rr_location_fk, rr_sub_location;
     
+
+	public String getRr_type_of_family() {
+		return rr_type_of_family;
+	}
+
+	public void setRr_type_of_family(String rr_type_of_family) {
+		this.rr_type_of_family = rr_type_of_family;
+	}
+
+	public String getMarital_status() {
+		return marital_status;
+	}
+
+	public void setMarital_status(String marital_status) {
+		this.marital_status = marital_status;
+	}
+
+	public String getPhase() {
+		return phase;
+	}
+
+	public void setPhase(String phase) {
+		this.phase = phase;
+	}
+
+	public String getRr_type_of_use() {
+		return rr_type_of_use;
+	}
+
+	public void setRr_type_of_use(String rr_type_of_use) {
+		this.rr_type_of_use = rr_type_of_use;
+	}
+
+	public String getRr_location_fk() {
+		return rr_location_fk;
+	}
+
+	public void setRr_location_fk(String rr_location_fk) {
+		this.rr_location_fk = rr_location_fk;
+	}
+
+	public String getRr_sub_location() {
+		return rr_sub_location;
+	}
+
+	public void setRr_sub_location(String rr_sub_location) {
+		this.rr_sub_location = rr_sub_location;
+	}
 
 	public String getRr_occupancy_status() {
 		return rr_occupancy_status;

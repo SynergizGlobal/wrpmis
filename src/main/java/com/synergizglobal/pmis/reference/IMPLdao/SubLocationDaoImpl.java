@@ -11,10 +11,13 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.synergizglobal.pmis.reference.Idao.MotherTongueDao;
+import com.synergizglobal.pmis.reference.Idao.SubLocationDao;
+import com.synergizglobal.pmis.reference.model.Risk;
 import com.synergizglobal.pmis.reference.model.TrainingType;
+import com.synergizglobal.pmis.reference.model.TrainingType;
+
 @Repository
-public class MotherTongueDaoImpl implements MotherTongueDao{
+public class SubLocationDaoImpl implements SubLocationDao{
 	@Autowired
 	DataSource dataSource;
 	
@@ -22,12 +25,36 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
-	public TrainingType getMotherTongueDetails(TrainingType obj) throws Exception {
+	public List<TrainingType> getSubLocationsList() throws Exception {
+		List<TrainingType> objsList = null;
+		try {
+			String qry ="select id, rr_location_fk, rr_sub_location from rr_sub_location ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+		}catch(Exception e){ 
+		throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<TrainingType> getLocationList() throws Exception {
+		List<TrainingType> objsList = null;
+		try {
+			String qry ="select rr_location from rr_location ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+		}catch(Exception e){ 
+		throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public TrainingType getSubLocationDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `mother_tongue` from mother_tongue ";
+			String qry ="select rr_sub_location,rr_location_fk from rr_sub_location order by rr_location_fk ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -41,7 +68,7 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `mother_tongue`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `rr_sub_location`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -52,11 +79,11 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `mother_tongue` from mother_tongue where `mother_tongue` NOT IN (?";
+					  String qry2 = "select rr_sub_location,rr_location_fk from rr_sub_location where `rr_sub_location` NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
-							pValues[j++] = aObj.getMother_tongue();
+							pValues[j++] = aObj.getRr_sub_location();
 							if( objsList1.size() >  p) {
 								qry2 = qry2 + ",?";
 								p++;
@@ -65,7 +92,6 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 						qry2 = qry2 + ")";
 						objsList1 = jdbcTemplate.query( qry2,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
 						obj.setdList(objsList1);
-						
 				}else {
 					 obj.setdList(objsList);
 				}
@@ -78,11 +104,12 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 		}
 		return obj;
 	}
+
 	private List<TrainingType> getTablesList(TrainingType obj) throws Exception {
 		List<TrainingType> tablesList = null;
 		try {
 			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'mother_tongue' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'rr_sub_location;' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -97,7 +124,7 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 		List<TrainingType> list = null;
 		try {
 			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'mother_tongue' and TABLE_SCHEMA = 'pmis'";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'rr_sub_location;' and COLUMN_NAME <> 'user_role_fk' and TABLE_SCHEMA = 'pmis' ";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -106,13 +133,14 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 		}
 		return list;
 	}
+
 	@Override
-	public boolean addMotherTongue(TrainingType obj) throws Exception {
+	public boolean addSubLocation(TrainingType obj) throws Exception {
 		boolean flag = false;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO mother_tongue"
-					+ "( mother_tongue) VALUES (:mother_tongue)";
+			String insertQry = "INSERT INTO rr_sub_location"
+					+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk, :rr_sub_location)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -127,7 +155,7 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 	}
 
 	@Override
-	public boolean updateMotherTongue(TrainingType obj) throws Exception {
+	public boolean updateSubLocation(TrainingType obj) throws Exception {
 		boolean flag = false;
 		int count = 0;
 		try {
@@ -140,7 +168,7 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE mother_tongue SET `mother_tongue`= :value_new WHERE `mother_tongue`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE rr_sub_location SET `rr_sub_location`= :value_new,rr_location_fk= :rr_location_fk_new WHERE `rr_sub_location`= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -165,13 +193,13 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 	}
 
 	@Override
-	public boolean deleteMotherTongue(TrainingType obj) throws Exception {
+	public boolean deleteSubLocation(TrainingType obj) throws Exception {
 		boolean flag = false;
 		int count = 0;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from mother_tongue WHERE `mother_tongue`= :mother_tongue; ";
+			String deleteQry ="DELETE from rr_sub_location WHERE `rr_sub_location`= :rr_sub_location; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

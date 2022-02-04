@@ -41,15 +41,11 @@ public class RandRBsesController {
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
 	
-	@RequestMapping(value="/randr-bses",method=RequestMethod.GET)
+	@RequestMapping(value="/rr-bses",method=RequestMethod.GET)
 	public ModelAndView rAndR(HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.bsesGrid);
 		try {
-			List<RandR> randRList = service.getRandRList();
-			model.addObject("randRList", randRList);
 			
-			List<RandR> statusList = service.getRandRSatausList();
-			model.addObject("statusList", statusList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.info("rAndR : " + e.getMessage());

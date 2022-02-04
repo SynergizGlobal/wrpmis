@@ -24,8 +24,24 @@ public class TrainingType {
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
 	, template_name, attachment,captiliszedTableName, resource_type_fk,submission_purpose,design_status_submit,la_file_type, sub_resource_type, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name,
 	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type, rr_occupancy_status, rr_tenure_status, caste, mother_tongue, rr_type_of_family,marital_status
-	,phase,rr_type_of_use, rr_location_fk, rr_sub_location;
+	,phase,rr_type_of_use, rr_location_fk, rr_sub_location,rr_location_fk_old,rr_location_fk_new;
     
+
+	public String getRr_location_fk_old() {
+		return rr_location_fk_old;
+	}
+
+	public void setRr_location_fk_old(String rr_location_fk_old) {
+		this.rr_location_fk_old = rr_location_fk_old;
+	}
+
+	public String getRr_location_fk_new() {
+		return rr_location_fk_new;
+	}
+
+	public void setRr_location_fk_new(String rr_location_fk_new) {
+		this.rr_location_fk_new = rr_location_fk_new;
+	}
 
 	public String getRr_type_of_family() {
 		return rr_type_of_family;

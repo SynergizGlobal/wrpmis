@@ -46,11 +46,11 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="rr_caste_table" class="mdl-data-table">
+                                <table id="caste_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th> Caste</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${casteDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,18 +60,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${casteDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_caste }"  class="findLengths" />
-												${obj.rr_caste }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.caste }"  class="findLengths" />
+												${obj.caste }</td>
+											<c:forEach var="tObj" items="${casteDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${casteDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.rr_caste eq obj.rr_caste }"> 
+																    <c:when test="${cObj.caste eq obj.caste }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -84,11 +84,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${casteDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.rr_caste eq obj.rr_caste }"> 
-												      	<a onclick="deleteRow('${ oSbj.rr_caste }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.caste eq obj.caste }"> 
+												      	<a onclick="deleteRow('${ oSbj.caste }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -126,7 +126,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-rr-caste" id="addCasteForm" name="addCasteForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-caste" id="addCasteForm" name="addCasteForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add Caste <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -135,7 +135,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="rr_verificationby_text" type="text" name="rr_caste" class="validate" onkeyup="doValidate(this.value)">
+                                <input id="rr_verificationby_text" type="text" name="caste" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="rr_verificationby_text"> Caste</label>
                                 <span id="verificationbyError" class="error-msg" ></span>
                             </div>
@@ -153,7 +153,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-caste"
+                                        <a href="<%=request.getContextPath()%>/caste"
 									 class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-rr-caste" id=updateCaste name="updateCaste" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-caste" id=updateCaste name="updateCaste" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header bg-m">Update Caste <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -194,7 +194,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-caste"
+                                        <a href="<%=request.getContextPath()%>/caste"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="rr_caste" id="rr_caste" />
+    	<input type="hidden" name="caste" id="caste1" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -243,10 +243,10 @@
                 table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
                     '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
             });
-            $('#rr_caste_table tbody').append(table_text);
+            $('#caste_table tbody').append(table_text);
             // adding table data into table ends */
 
-            var table = $('#rr_caste_table').DataTable({
+            var table = $('#caste_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -351,11 +351,11 @@
        }
          var validator =  $('#addCasteForm').validate({
          	 rules: {
-         		 "rr_caste": {
+         		 "caste": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "rr_caste": {
+   		 		   "caste": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
@@ -392,14 +392,14 @@
 
 
       function updateRow(no) {
-          var rr_caste = $('#statusId'+no).val();
-          $('#value_old').val($.trim(rr_caste))
+          var caste = $('#statusId'+no).val();
+          $('#value_old').val($.trim(caste))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(rr_caste)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(caste)).focus();
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#caste1").val(val);
       	showCancelMessage();
     	    }
       	
@@ -419,7 +419,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-rr-caste');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-caste');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

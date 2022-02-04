@@ -50,7 +50,7 @@
                                     <thead>
                                         <tr>
                                             <th> Type Of Family</th>
-                                             <c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${typeOfFamilyDetails.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,13 +60,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${rrSVerificationByDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${typeOfFamilyDetails.dList1}" varStatus="indexs">
 											<tr><td>
 												<input type="hidden" id="statusId${indexs.count}" value="${obj.rr_type_of_family }"  class="findLengths" />
 												${obj.rr_type_of_family }</td>
-											<c:forEach var="tObj" items="${rrSVerificationByDetails.tablesList}" varStatus="index">
+											<c:forEach var="tObj" items="${typeOfFamilyDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSVerificationByDetails.countList}" >
+												<td><c:forEach var="cObj" items="${typeOfFamilyDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
@@ -84,7 +84,7 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSVerificationByDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${typeOfFamilyDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
 												    <c:when test="${oSbj.rr_type_of_family eq obj.rr_type_of_family }"> 
@@ -126,7 +126,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-rr-type-of-family" id="addTypeOfFamilyForm" name="addTypeOfFamilyForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-type-of-family" id="addTypeOfFamilyForm" name="addTypeOfFamilyForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add Type Of Family <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -153,7 +153,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-type-of-family"
+                                        <a href="<%=request.getContextPath()%>/type-of-family"
 									 class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-rr-type-of-family" id=updateTypeOfFamilyForm name="updateTypeOfFamilyForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-type-of-family" id=updateTypeOfFamilyForm name="updateTypeOfFamilyForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header bg-m">Update Type Of Family <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -194,7 +194,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-type-of-family"
+                                        <a href="<%=request.getContextPath()%>/type-of-family"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="rr_type_of_family" id="rr_type_of_family" />
+    	<input type="hidden" name="rr_type_of_family" id="rr_type_of_family1" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -399,7 +399,7 @@
       }
       
       function deleteRow(val){
-      	$("#verification_by").val(val);
+      	$("#rr_type_of_family1").val(val);
       	showCancelMessage();
     	    }
       	
@@ -419,7 +419,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-rr-type-of-family');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-type-of-family');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

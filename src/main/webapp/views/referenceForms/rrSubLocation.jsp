@@ -49,34 +49,31 @@
                                 <table id="rr_sublocation_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                        	<th>ID</th>
                                             <th>Location</th>
                                             <th>Sub Location</th>
-                                            <c:forEach var="tObj" items="${rrSubLocationDetails.tablesList}" >
+                                            <c:forEach var="tObj" items="${subLocationDetails.tablesList}" >
                                             	 <th>${tObj.captiliszedTableName }</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="obj" items="${rrSubLocationDetails.dList1}" varStatus="indexs">
-											<tr><td>
-												<input type="hidden" id="id${indexs.count}" value="${obj.id }" />
-												${obj.id }</td>
+                                    <c:forEach var="obj" items="${subLocationDetails.dList1}" varStatus="indexs">
+											<tr>
 											<td>
 												<input type="hidden" id="rr_location_fkId${indexs.count}" value="${obj.rr_location_fk }" /> 
 												${obj.rr_location_fk }</td>
 											<td>
 												<input type="hidden" id="rr_sub_locationId${indexs.count}" value="${obj.rr_sub_location }" /> 
 												${obj.rr_sub_location }</td>
-											<c:forEach var="tObj" items="${rrSubLocationDetails.tablesList}" varStatus="index">
+											<c:forEach var="tObj" items="${subLocationDetails.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${rrSubLocationDetails.countList}" >
+												<td><c:forEach var="cObj" items="${subLocationDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.rr_location eq obj.id }"> 
+																    <c:when test="${cObj.rr_sub_location eq obj.rr_sub_location }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -89,11 +86,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${rrSubLocationDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${subLocationDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.id eq obj.id }"> 
-												      	<a onclick="deleteRow('${ oSbj.id }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.rr_sub_location eq obj.rr_sub_location }"> 
+												      	<a onclick="deleteRow('${ oSbj.rr_sub_location }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -130,7 +127,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-rr-sub-location" id="addRrSubLocationForm" name="addRrSubLocationForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-sub-location" id="addRrSubLocationForm" name="addRrSubLocationForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add  Sub Location <span
                         class="right modal-action modal-close"><span class="material-icons">close</span></span></h6>
@@ -142,7 +139,7 @@
                                 <p class="searchable_label"> Location</p>
                                 <select name="rr_location_fk" id="rr_location_fk" class="searchable validate-dropdown">
                                     <option value="">Select </option>
-                                     <c:forEach var="obj" items="${RrLocationsList }">
+                                     <c:forEach var="obj" items="${locationList }">
 		                                      <option value="${obj.rr_location }">${obj.rr_location }</option>
 		                              </c:forEach>
                                 </select>
@@ -163,7 +160,7 @@
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
                                   
-                                         <a href="<%=request.getContextPath()%>/rr-sub-location"
+                                         <a href="<%=request.getContextPath()%>/sub-location"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -177,7 +174,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-rr-sub-location" id=updateRrSubLocationForm name="updateRrSubLocationForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-sub-location" id=updateRrSubLocationForm name="updateRrSubLocationForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header bg-m">Update  Status <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -190,17 +187,17 @@
                                 <input id="rr_location_fk_old" type="hidden" name="rr_location_fk_old"  >
                                 <select name="rr_location_fk_new" id="rr_location_fk_new" class="searchable validate-dropdown">
                                     <option value="">Select </option>
-                                     <c:forEach var="obj" items="${RrLocationsList }">
+                                     <c:forEach var="obj" items="${locationList }">
 		                                      <option value="${obj.rr_location }">${obj.rr_location }</option>
 		                              </c:forEach>
                                 </select>
                                 <span id="rr_location_fk_newError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="rr_sub_location_new" name="rr_sub_location_new" type="text" class="validate">
-                                <input id="rr_sub_location_old" type="hidden" name="rr_sub_location_old"  >
+                                <input id="value_new" name="value_new" type="text" class="validate">
+                                <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="rr_sub_location"> Sub Location </label>
-                                <span id="rr_sub_location_newError" class="error-msg" ></span>
+                                <span id="value_newError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -215,7 +212,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-sub-location"
+                                        <a href="<%=request.getContextPath()%>/sub-location"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -231,7 +228,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="id" id="id" />
+    	<input type="hidden" name="rr_sub_location" id="id" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -326,22 +323,22 @@
          	 rules: {
          		 	"rr_location_fk_new": {
      			 		  required: true
-         			 },"rr_sub_location_new": {
+         			 },"value_new": {
      			 		  required: true
          			 }
      			},messages: {
      		 		 "rr_location_fk_new": {
      			 		  required: 'Required'
-     			 	 }, "rr_sub_location_new": {
+     			 	 }, "value_new": {
      			 		  required: 'Required'
      			 	 }
      	        },errorPlacement:function(error, element){
      	        	 if(element.attr("id") == "rr_location_fk_new" ){
      				     document.getElementById("rr_location_fk_newError").innerHTML="";
      			 	     error.appendTo('#rr_location_fk_newError');
-     			   }else if(element.attr("id") == "rr_sub_location_new" ){
-     				     document.getElementById("rr_sub_location_newError").innerHTML="";
-     			 	     error.appendTo('#rr_sub_location_newError');
+     			   }else if(element.attr("id") == "value_new" ){
+     				     document.getElementById("value_newError").innerHTML="";
+     			 	     error.appendTo('#value_newError');
      			   }
      	        }
           });
@@ -361,11 +358,11 @@
     	  var id = $('#id'+no).val();
           var rr_sub_location = $('#rr_sub_locationId'+no).val();
           var rr_location_fk = $('#rr_location_fkId'+no).val();
-          $('#rr_sub_location_old').val($.trim(rr_sub_location));
+          $('#value_old').val($.trim(rr_sub_location));
           $('#rr_location_fk_old').val($.trim(rr_location_fk));
           $('#ids').val($.trim(id));
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #rr_sub_location_new').val($.trim(rr_sub_location)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(rr_sub_location)).focus();
           $('#onlyUpdateModal #rr_location_fk_new').val($.trim(rr_location_fk)).focus(); 
           $('select[name^="rr_location_fk_new"] option[value="'+ rr_location_fk +'"]').attr("selected","selected");
           $('.searchable').select2();
@@ -392,7 +389,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-rr-sub-location');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-sub-location');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

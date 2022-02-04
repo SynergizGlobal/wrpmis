@@ -109,24 +109,24 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">								
 								<h6 class="left-align mob-mar center-align">R & R BSES</h6>
-								<%-- <div class="col s12 m12 right-align exportButton" >
+								 <div class="col s12 m12 right-align exportButton" >
 								
 								<div class="m-n1">
-									<a href="/pmis/#.xlsx" download class="template-btn" title="Download Template">
+								<%--	<a href="/pmis/#.xlsx" download class="template-btn" title="Download Template">
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a>
 									<a href="javascript:void(0);"
 										onclick="openUploadBsesModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-arrow-circle-up"></i> Upload</strong></a>
-									<a href="<%=request.getContextPath()%>/add-randr-form"
+											class="fa fa-arrow-circle-up"></i> Upload</strong></a>--%>
+									<a href="<%=request.getContextPath()%>//bses-add-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
-									<a href="javascript:void(0);" onclick="exportDesign();"
+									<!-- <a href="javascript:void(0);" onclick="exportDesign();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export</strong></a>
+											class="fa fa-cloud-download"></i> Export</strong></a> -->
 								</div>
-							</div> --%>
+							</div> 
 							</div>
 						</span>
 						<c:if test="${not empty success }">
@@ -136,27 +136,27 @@
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
 						<div class="row no-mar">
-							<div class="col s12 m12 l8 offset-l2">
+							<div class="col s12 m12 l12 offset-l2">
 								<div class="row">
 									<div class="col s6 m4 l3 input-field">
 										<p class="searchable_label">Work</p>
-										<select id="work_id_fk" name="work_id_fk" class="searchable">
+										<select id="work_id_fk" name="work_id_fk" class="searchable" onchange="addInQueWork(this.value);getBSESList();">
 											<option value="">Select</option>											
 										</select>
 									</div>
 									<div class="col s6 m4 l3 input-field">
 										<p class="searchable_label">BSES Agency</p>
-										<select id="bses_agency" name="bses_agency" class="searchable">
+										<select id="agency_name" name="agency_name" class="searchable" onchange="addInQueAgency(this.value);getBSESList();">
 											<option value="">Select</option>
 										</select>
 									</div>
-									<div class="col s6 m4 l3 input-field">
+									<!-- <div class="col s6 m4 l3 input-field">
 										<p class="searchable_label">Status</p>
-										<select id="status_fk" name="status_fk" class="searchable">
+										<select id="status_fk" name="status_fk" class="searchable" onchange="addInQueStatus(this.value);getBSESList();">
 											<option value="">Select</option>											
 										</select>
-									</div>
-									<div class="col s12 m4 l3 input-field center-align">
+									</div> -->
+									<div class="col s8 m4 l2 input-field center-align"> 
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
 											style="width: 100%;"
@@ -181,15 +181,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												
-											</tr>
+											
 										</tbody>
 									</table>
 							</div>
@@ -313,62 +305,49 @@
 			$('.searchable').select2();
 			
 			var filters = window.localStorage.getItem("BsesFilters");
-	                   
+		    if($.trim(filters) != '' && $.trim(filters) != null){
+		      	  var temp = filters.split('^'); 
+		      	  for(var i=0;i< temp.length;i++){
+			        	  if($.trim(temp[i]) != '' ){
+			        		  var temp2 = temp[i].split('=');
+				        	  if($.trim(temp2[0]) == 'work_id_fk' ){
+				        		  getWorksFilterList(temp2[1]);
+				        	  }else if($.trim(temp2[0]) == 'agency_name'){
+				        		  getAgencyNameFilterList(temp2[1]);
+				        	  }
+			          }
+		          }     
+		    }
 			$('.close-message').delay(3000).fadeOut('slow');
-
-		     $('#datatable-bses').DataTable({
-	                columnDefs: [
-	                    {
-	                        targets: [0],
-	                        className: 'mdl-data-table__cell--non-numeric',
-	                        targets: 'no-sort', orderable: false,
-	                    },
-	                    //{ "width": "10px", "targets": [2] },
-	                ],
-	                "sScrollX": "100%",
-	                "sScrollXInner": "100%",
-	                "bScrollCollapse": true,
-	                "bAutoWidth": true,
-	                "ordering": false, //to stop sorting option                
-	                fixedHeader: true, // to change the language of data table	          
-	                "initComplete" : function() {
-						$('.dataTables_filter input[type="search"]')
-								.attr('placeholder', 'Search')
-								.css({
-									'width' : '350px ',
-									'display' : 'inline-block'
-								});
-
-						var input = $('.dataTables_filter input')
-								.unbind()
-								.bind('keyup',function(e){
-								    if (e.which == 13){
-								    	self.search(input.val()).draw();
-								    }
-								}), self = this.api(), $searchButton = $(
-								'<i class="fa fa-search" title="Go" id="save_post">')
-						//.text('Go')
-						.click(function() {
-							self.search(input.val()).draw();
-						}), $clearButton = $(
-								'<i class="fa fa-close" title="Reset">')
-						//.text('X')
-						.click(function() {
-							input.val('');
-							$searchButton.click();
-						})
-						$('.dataTables_filter').append(
-								'<div class="right-btns"></div>');
-						$('.dataTables_filter div').append(
-								$searchButton, $clearButton); 						
-					},
-	            });			
+		   
+		     getBSESList();
 		});
-
+		  function addInQueAgency(boundary_wall_status){
+		      	Object.keys(filtersMap).forEach(function (key) {
+			   		if(key.match('agency_name')) delete filtersMap[key];
+		   	   	});
+		      	if($.trim(agency_name) != ''){
+		        	filtersMap["agency_name"] = agency_name;
+		      	}
+		    }
+		    function addInQueWork(work_id_fk){
+		      	Object.keys(filtersMap).forEach(function (key) {
+			   		if(key.match('work_id_fk')) delete filtersMap[key];
+		   	   	});
+		      	if($.trim(work_id_fk) != ''){
+		        	filtersMap["work_id_fk"] = work_id_fk;
+		      	}
+		    }
+		function getBSESList(){
+			
+			
+		}
+		
+		
 		function clearFilter() {
 			$("#work_id_fk").val('');
-			$("#bses_agency").val('');
-			$("#status_fk").val('');
+			$("#agency_name").val('');
+			//$("#status_fk").val('');
 			$('.searchable').select2();
 		}
             

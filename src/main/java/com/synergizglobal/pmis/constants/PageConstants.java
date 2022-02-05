@@ -219,6 +219,7 @@ public class PageConstants {
 	public static final String utilityExecutionAgency = "referenceForms/usUtilityExecutionAgency";
 	public static final String utilityAlignment = "referenceForms/utilityAlignment";
 	public static final String utilityCategory = "referenceForms/usUtilityCategory";
+	public static final String utilityShiftingFileType = "referenceForms/usUtilityShiftingFileType";
 	
 	public static final String userRole = "referenceForms/userRole";
 	public static final String userAccessType = "referenceForms/userAccessType";

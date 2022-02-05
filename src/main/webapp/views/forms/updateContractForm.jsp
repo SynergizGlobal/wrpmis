@@ -4200,8 +4200,8 @@
             	$('#ca_no').val('').focus();
             	$('#ca_date').val('').focus();
             	$('#doc').val('').focus();
-            	$('#estimated_cost').val('').focus();
-            	$('#estimated_cost_units').val('1').focus();
+            	//$('#estimated_cost').val('').focus();
+            	//$('#estimated_cost_units').val('1').focus();
             	$('#awarded_cost').val('').focus();
             	$('#awarded_cost_units').val('1').focus();
             	$('#contract_status_fk').val('');

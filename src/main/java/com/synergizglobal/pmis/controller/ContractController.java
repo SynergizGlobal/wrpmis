@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -857,7 +858,7 @@ public class ContractController {
 	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Contract Type^Scope of Contract"
 	            		+ "^Estimated Cost\n(Rs in Lakhs)^Awarded Cost\n(Rs in Lakhs)^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
 	            		+ "Actual Completion Date^Final Taking over by Client^Date of issue of Completion Certificate^Date of Payment of Final bill^Date of release of Final Retention / BG^Completion  Cost\n(Rs in Lakhs)^"
-	            		+ "End date of Defect Liability Period^Date of release of PBG^Date of Contract Closure^Contract Status^Status of Work^Bank Guarantee Requried^Insurance Requried^Tally Head";
+	            		+ "End date of Defect Liability Period^Date of release of PBG^Date of Contract Closure^Contract Status^Status of Work^Bank Guarantee Requried^Insurance Requried^Tally Head^Planned Date of Award";
 	            
 	            String[] headerStringArr = headerString.split("\\^");
 	            
@@ -922,14 +923,23 @@ public class ContractController {
 					if(!StringUtils.isEmpty(obj.getEstimated_cost_units())) {
 						estimated_cost_units = obj.getEstimated_cost_units();
 					}
-					String estimated_cost_value = "";
+					
+					
+					
+					Double estimated_cost_value = null;
 					if(!StringUtils.isEmpty(estimated_cost) && !StringUtils.isEmpty(estimated_cost_units)) {
 						double val = (Double.parseDouble(estimated_cost)*Double.parseDouble(estimated_cost_units))/100000;
-						estimated_cost_value = numberFormatter.format(val);
+						estimated_cost_value = Double.parseDouble(numberFormatter.format(val));
 					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(rightStyle);
-					cell.setCellValue(estimated_cost_value);
+					if(!StringUtils.isEmpty(estimated_cost_value)) {
+						cell.setCellValue(estimated_cost_value);
+					}else {
+						cell.setCellValue("");
+					}
+					
+					
 					
 					String awarded_cost = "";
 					String awarded_cost_units = "";
@@ -939,14 +949,18 @@ public class ContractController {
 					if(!StringUtils.isEmpty(obj.getAwarded_cost_units())) {
 						awarded_cost_units = obj.getAwarded_cost_units();
 					}
-					String awarded_cost_value = "";
+					Double awarded_cost_value = null;
 					if(!StringUtils.isEmpty(awarded_cost) && !StringUtils.isEmpty(awarded_cost_units)) {
 						double val = (Double.parseDouble(awarded_cost)*Double.parseDouble(awarded_cost_units))/100000;
-						awarded_cost_value = numberFormatter.format(val);
+						awarded_cost_value = Double.parseDouble(numberFormatter.format(val));
 					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(rightStyle);
-					cell.setCellValue(awarded_cost_value);
+					if(!StringUtils.isEmpty(awarded_cost_value)) {
+						cell.setCellValue(awarded_cost_value);
+					}else {
+						cell.setCellValue("");
+					}
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1000,15 +1014,19 @@ public class ContractController {
 					if(!StringUtils.isEmpty(obj.getCompleted_cost_units())) {
 						completed_cost_units = obj.getCompleted_cost_units();
 					}
-					String completed_cost_value = "";
+					Double completed_cost_value = null;
 					if(!StringUtils.isEmpty(completed_cost) && !StringUtils.isEmpty(completed_cost_units)) {
 						double val = (Double.parseDouble(completed_cost)*Double.parseDouble(completed_cost_units))/100000;
-						completed_cost_value = numberFormatter.format(val);
+						completed_cost_value = Double.parseDouble(numberFormatter.format(val));
 					}
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(rightStyle);
-					cell.setCellValue(completed_cost_value);
+					if(!StringUtils.isEmpty(completed_cost_value)) {
+						cell.setCellValue(completed_cost_value);
+					}else {
+						cell.setCellValue("");
+					}
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(centerStyle);
@@ -1041,6 +1059,10 @@ public class ContractController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getTally_head());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getPlanned_date_of_award());
 	                
 	                rowNo++;
 	            }
@@ -1087,15 +1109,18 @@ public class ContractController {
 					if(!StringUtils.isEmpty(obj.getRevised_amount_units())) {
 						revised_amount_units = obj.getRevised_amount_units();
 					}
-					String revised_amount_value = "";
+					Double revised_amount_value = null;
 					if(!StringUtils.isEmpty(revised_amount) && !StringUtils.isEmpty(revised_amount_units)) {
 						double val = (Double.parseDouble(revised_amount)*Double.parseDouble(revised_amount_units))/100000;
-						revised_amount_value = numberFormatter.format(val);
+						revised_amount_value = Double.parseDouble(numberFormatter.format(val));
 					}
-					
 					cell = row.createCell(c++);
 					cell.setCellStyle(rightStyle);
-					cell.setCellValue(revised_amount_value);
+					if(!StringUtils.isEmpty(revised_amount_value)) {
+						cell.setCellValue(revised_amount_value);
+					}else {
+						cell.setCellValue("");
+					}
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(centerStyle);
@@ -1169,14 +1194,18 @@ public class ContractController {
 					if(!StringUtils.isEmpty(obj.getBg_value_units())) {
 						bg_value_units = obj.getBg_value_units();
 					}
+					Double bg_value_value = null;
 					if(!StringUtils.isEmpty(bg_value) && !StringUtils.isEmpty(bg_value_units)) {
 						double val = (Double.parseDouble(bg_value)*Double.parseDouble(bg_value_units))/100000;
-						bg_value = numberFormatter.format(val);
+						bg_value_value = Double.parseDouble(numberFormatter.format(val));
 					}
-					
 					cell = row.createCell(c++);
 					cell.setCellStyle(rightStyle);
-					cell.setCellValue(bg_value);
+					if(!StringUtils.isEmpty(bg_value_value)) {
+						cell.setCellValue(bg_value_value);
+					}else {
+						cell.setCellValue("");
+					}
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(centerStyle);
@@ -1247,15 +1276,18 @@ public class ContractController {
 					if(!StringUtils.isEmpty(obj.getInsurance_value_units())) {
 						insurance_value_units = obj.getInsurance_value_units();
 					}
-					
+					Double insurance_value_value = null;
 					if(!StringUtils.isEmpty(insurance_value) && !StringUtils.isEmpty(insurance_value_units)) {
 						double val = (Double.parseDouble(insurance_value)*Double.parseDouble(insurance_value_units))/100000;
-						insurance_value = numberFormatter.format(val);
+						insurance_value_value = Double.parseDouble(numberFormatter.format(val));
 					}
-					
 					cell = row.createCell(c++);
 					cell.setCellStyle(rightStyle);
-					cell.setCellValue(insurance_value);
+					if(!StringUtils.isEmpty(insurance_value_value)) {
+						cell.setCellValue(insurance_value_value);
+					}else {
+						cell.setCellValue("");
+					}
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(centerStyle);

@@ -18,11 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.reference.Iservice.UtilityRequirementStageService;
-import com.synergizglobal.pmis.reference.model.TrainingType;
+import com.synergizglobal.pmis.reference.model.Safety;
 import com.synergizglobal.pmis.constants.PageConstants;
 
 @Controller
 public class UtilityRequirementStageController {
+
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -34,14 +35,14 @@ public class UtilityRequirementStageController {
 	UtilityRequirementStageService service;
 	
 	@RequestMapping(value="/utility-requirement-stage",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView utilityRequirementStage(HttpSession session){
+	public ModelAndView UtilityRequirementStage(HttpSession session,@ModelAttribute Safety obj){
 		ModelAndView model = new ModelAndView(PageConstants.utilityRequirementStage);
 		try {
-			List<TrainingType> utilityRequirementStageList = service.getUtilityRequirementStagesList();
-			model.addObject("utilityRequirementStageList", utilityRequirementStageList);
+			Safety  UtilityRequirementStageList = service.getUtilityRequirementStagesList(obj);
+			model.addObject("utilityRequirementStageList",  UtilityRequirementStageList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("utilityRequirementStage : " + e.getMessage());
+			logger.error(" UtilityRequirementStage : " + e.getMessage());
 		}
 		return model;
 	}
@@ -49,24 +50,72 @@ public class UtilityRequirementStageController {
 	
 	@RequestMapping(value = "/add-utility-requirement-stage", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addUtilityRequirementStage(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+	public ModelAndView addUtilityRequirementStage(@ModelAttribute Safety obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/utility-requirement-stage");
 			boolean flag =  service.addUtilityRequirementStage(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Utility Requirement Stage Added Succesfully.");
+				attributes.addFlashAttribute("success", " Utility Requirement Stage Added Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Adding Utility Requirement Stage is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding  Utility Requirement Stage is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Utility Requirement Stage is failed. Try again.");
-			logger.error("addUtilityRequirementStage : " + e.getMessage());
+			attributes.addFlashAttribute("error","Adding  Utility Requirement Stage is failed. Try again.");
+			logger.error("add UtilityRequirementStage : " + e.getMessage());
 		}
 		return model;
 	}
 	
+	
+	@RequestMapping(value = "/update-utility-requirement-stage", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateUtilityRequirementStage(@ModelAttribute Safety obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/utility-requirement-stage");
+			boolean flag =  service.updateUtilityRequirementStage(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Utility Requirement Stage Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Utility Requirement Stage is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Utility Requirement Stage is failed. Try again.");
+			logger.error("updateUtilityRequirementStage : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete-utility-requirement-stage", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView deleteUtilityRequirementStage(@ModelAttribute Safety obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/utility-requirement-stage");
+			boolean flag =  service.deleteUtilityRequirementStage(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Utility Requirement Stage Deleted Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			logger.error("deleteUtilityRequirementStage : " + e.getMessage());
+		}
+		return model;
+	}	
+	
 }
+
+
+
+
+
+
+
 
 

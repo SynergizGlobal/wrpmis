@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.reference.Idao.UtilityExecutionAgencyDao;
 import com.synergizglobal.pmis.reference.Iservice.UtilityExecutionAgencyService;
-import com.synergizglobal.pmis.reference.model.TrainingType;
+import com.synergizglobal.pmis.reference.model.Safety;
 
 @Service
 public class UtilityExecutionAgencyServiceImpl implements UtilityExecutionAgencyService{
@@ -16,12 +16,24 @@ public class UtilityExecutionAgencyServiceImpl implements UtilityExecutionAgency
 	UtilityExecutionAgencyDao dao;
 
 	@Override
-	public List<TrainingType> getUtilityExecutionAgencysList() throws Exception {
-		return dao.getUtilityExecutionAgencysList();
+	public Safety getUtilityExecutionAgencysList(Safety obj) throws Exception {
+		return dao.getUtilityExecutionAgencysList(obj);
 	}
+	@Override
+	public List<Safety> getUtilityExecutionAgencysList() throws Exception {
+		return dao.getUtilityExecutionAgencysList();
+	}	
 
 	@Override
-	public boolean addUtilityExecutionAgency(TrainingType obj) throws Exception {
+	public boolean addUtilityExecutionAgency(Safety obj) throws Exception {
 		return dao.addUtilityExecutionAgency(obj);
+	}
+	@Override
+	public boolean updateUtilityExecutionAgency(Safety obj) throws Exception {
+		return dao.updateUtilityExecutionAgency(obj);
+	}
+	@Override
+	public boolean deleteUtilityExecutionAgency(Safety obj) throws Exception {
+		return dao.deleteUtilityExecutionAgency(obj);
 	}
 }

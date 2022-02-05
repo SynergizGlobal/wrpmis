@@ -46,11 +46,11 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="us_utility_status_table" class="mdl-data-table">
+                                <table id="status_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th> Utility Status</th>
-                                             <c:forEach var="tObj" items="${UtilityCategoryDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${utilityStatusList.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,18 +60,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${UtilityCategoryDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${utilityStatusList.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.us_utility_status }"  class="findLengths" />
-												${obj.us_utility_status }</td>
-											<c:forEach var="tObj" items="${UtilityCategoryDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.status }"  class="findLengths" />
+												${obj.status }</td>
+											<c:forEach var="tObj" items="${utilityStatusList.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${UtilityCategoryDetails.countList}" >
+												<td><c:forEach var="cObj" items="${utilityStatusList.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.us_utility_status eq obj.us_utility_status }"> 
+																    <c:when test="${cObj.status eq obj.status }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -84,11 +84,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${UtilityCategoryDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${utilityStatusList.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.us_utility_status eq obj.us_utility_status }"> 
-												      	<a onclick="deleteRow('${ oSbj.us_utility_status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.status eq obj.status }"> 
+												      	<a onclick="deleteRow('${ oSbj.status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -126,7 +126,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-us_utility_status" id="addUsUtilityStatusForm" name="addUsUtilityStatusForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-utility-status" id="addUsUtilityStatusForm" name="addUsUtilityStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add Utility Status <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -135,9 +135,9 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="us_utility_status_text" type="text" name="us_utility_status" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="us_utility_status_text"> Utility Status</label>
-                                <span id="us_utility_statusError" class="error-msg" ></span>
+                                <input id="status_text" type="text" name="status" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="status_text"> Utility Status</label>
+                                <span id="statusError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -153,7 +153,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/us_utility_status"
+                                        <a href="<%=request.getContextPath()%>/status"
 									 class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-us_utility_status" id=updateUsUtilityStatusForm name="updateUsUtilityStatusForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-utility-status" id=updateUsUtilityStatusForm name="updateUsUtilityStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header bg-m">Update Utility Status <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -185,7 +185,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateUsCategory()" id="bttnUpdate"
+                                    <button style="width: 100%;" onclick="updateUsStatus()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/us_utility_status"
+                                        <a href="<%=request.getContextPath()%>/status"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="us_utility_status" id="us_utility_status" />
+    	<input type="hidden" name="status" id="status" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -234,10 +234,10 @@
                 table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
                     '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
             });
-            $('#us_utility_status_table tbody').append(table_text);
+            $('#status_table tbody').append(table_text);
             // adding table data into table ends */
 
-            var table = $('#us_utility_status_table').DataTable({
+            var table = $('#status_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -279,12 +279,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#us_utility_statusError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#statusError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#us_utility_statusError').text('');
+     			   $('#statusError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -333,7 +333,7 @@
       			document.getElementById("addUsUtilityStatusForm").submit();	
              }
          }
-        function updateUsCategory(){
+        function updateUsStatus(){
           	 if(validator1.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
@@ -342,17 +342,17 @@
        }
          var validator =  $('#addUsUtilityStatusForm').validate({
          	 rules: {
-         		 "us_utility_status": {
+         		 "status": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "us_utility_status": {
+   		 		   "status": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "us_utility_status_text" ){
-   				     document.getElementById("us_utility_statusError").innerHTML="";
-   			 	     error.appendTo('#us_utility_statusError');
+   	        	 if(element.attr("id") == "status_text" ){
+   				     document.getElementById("statusError").innerHTML="";
+   			 	     error.appendTo('#statusError');
    				 }
    	        }
          	
@@ -383,14 +383,14 @@
 
 
       function updateRow(no) {
-          var us_utility_status = $('#statusId'+no).val();
-          $('#value_old').val($.trim(us_utility_status))
+          var status = $('#statusId'+no).val();
+          $('#value_old').val($.trim(status))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(us_utility_status)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(status)).focus();
       }
       
       function deleteRow(val){
-      	$("#us_utility_status").val(val);
+      	$("#status").val(val);
       	showCancelMessage();
     	    }
       	
@@ -410,7 +410,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-us_utility_status');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-utility-status');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

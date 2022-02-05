@@ -2,11 +2,14 @@ package com.synergizglobal.pmis.reference.Iservice;
 
 import java.util.List;
 
-import com.synergizglobal.pmis.reference.model.TrainingType;
+import com.synergizglobal.pmis.reference.model.Safety;
 
 public interface UtilityTypeService {
 
-	public List<TrainingType> getUtilityTypesList() throws Exception;
+	public List<Safety> getUtilityTypesList() throws Exception;
+	public Safety getUtilityTypesList(Safety obj) throws Exception;
 
-	public boolean addUtilityType(TrainingType obj) throws Exception;
+	public boolean addUtilityType(Safety obj) throws Exception;
+	public boolean updateUtilityType(Safety obj) throws Exception;
+	public boolean deleteUtilityType(Safety obj) throws Exception;
 }

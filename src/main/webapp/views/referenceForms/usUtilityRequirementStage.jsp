@@ -46,11 +46,11 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="us_utility_requirement_stage_table" class="mdl-data-table">
+                                <table id="requirement_stage_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th> Utility Requirement Stage</th>
-                                             <c:forEach var="tObj" items="${UtilityCategoryDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${utilityRequirementStageList.tablesList}" >
                                             	<c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
                                             	 	<th>${mTObj } </th>
@@ -60,18 +60,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${UtilityCategoryDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${utilityRequirementStageList.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.us_utility_requirement_stage }"  class="findLengths" />
-												${obj.us_utility_requirement_stage }</td>
-											<c:forEach var="tObj" items="${UtilityCategoryDetails.tablesList}" varStatus="index">
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.requirement_stage }"  class="findLengths" />
+												${obj.requirement_stage }</td>
+											<c:forEach var="tObj" items="${utilityRequirementStageList.tablesList}" varStatus="index">
 												 
-												<td><c:forEach var="cObj" items="${UtilityCategoryDetails.countList}" >
+												<td><c:forEach var="cObj" items="${utilityRequirementStageList.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.us_utility_requirement_stage eq obj.us_utility_requirement_stage }"> 
+																    <c:when test="${cObj.requirement_stage eq obj.requirement_stage }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -84,11 +84,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${UtilityCategoryDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${utilityRequirementStageList.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.us_utility_requirement_stage eq obj.us_utility_requirement_stage }"> 
-												      	<a onclick="deleteRow('${ oSbj.us_utility_requirement_stage }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.requirement_stage eq obj.requirement_stage }"> 
+												      	<a onclick="deleteRow('${ oSbj.requirement_stage }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -126,7 +126,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-us-utility-requirement-stage" id="addUsUtilityRequirementStageForm" name="addUsUtilityRequirementStageForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-utility-requirement-stage" id="addUsUtilityRequirementStageForm" name="addUsUtilityRequirementStageForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add Utility Requirement Stage <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -135,9 +135,9 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="us_utility_requirement_stage_text" type="text" name="us_utility_requirement_stage" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="us_utility_requirement_stage_text"> Utility Requirement Stage</label>
-                                <span id="us_utility_requirement_stageError" class="error-msg" ></span>
+                                <input id="requirement_stage_text" type="text" name="requirement_stage" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="requirement_stage_text"> Utility Requirement Stage</label>
+                                <span id="requirement_stageError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -168,7 +168,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-us-utility-requirement-stage" id=updateUsUtilityRequirementStageForm name="updateUsUtilityRequirementStageForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-utility-requirement-stage" id=updateUsUtilityRequirementStageForm name="updateUsUtilityRequirementStageForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header bg-m">Update Utility Requirement Stage <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -210,7 +210,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="us_utility_requirement_stage" id="us_utility_requirement_stage" />
+    	<input type="hidden" name="requirement_stage" id="requirement_stage" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -234,10 +234,10 @@
                 table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
                     '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
             });
-            $('#us_utility_requirement_stage_table tbody').append(table_text);
+            $('#requirement_stage_table tbody').append(table_text);
             // adding table data into table ends */
 
-            var table = $('#us_utility_requirement_stage_table').DataTable({
+            var table = $('#requirement_stage_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -279,12 +279,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#us_utility_requirement_stageError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#requirement_stageError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#us_utility_requirement_stageError').text('');
+     			   $('#requirement_stageError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -342,17 +342,17 @@
        }
          var validator =  $('#addUsUtilityRequirementStageForm').validate({
          	 rules: {
-         		 "us_utility_requirement_stage": {
+         		 "requirement_stage": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "us_utility_requirement_stage": {
+   		 		   "requirement_stage": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "us_utility_requirement_stage_text" ){
-   				     document.getElementById("us_utility_requirement_stageError").innerHTML="";
-   			 	     error.appendTo('#us_utility_requirement_stageError');
+   	        	 if(element.attr("id") == "requirement_stage_text" ){
+   				     document.getElementById("requirement_stageError").innerHTML="";
+   			 	     error.appendTo('#requirement_stageError');
    				 }
    	        }
          	
@@ -383,14 +383,14 @@
 
 
       function updateRow(no) {
-          var us_utility_requirement_stage = $('#statusId'+no).val();
-          $('#value_old').val($.trim(us_utility_requirement_stage))
+          var requirement_stage = $('#statusId'+no).val();
+          $('#value_old').val($.trim(requirement_stage))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(us_utility_requirement_stage)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(requirement_stage)).focus();
       }
       
       function deleteRow(val){
-      	$("#us_utility_requirement_stage").val(val);
+      	$("#requirement_stage").val(val);
       	showCancelMessage();
     	    }
       	
@@ -410,7 +410,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-us-utility-requirement-stage');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-utility-requirement-stage');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

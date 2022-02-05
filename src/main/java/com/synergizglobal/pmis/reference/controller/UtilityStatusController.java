@@ -35,14 +35,14 @@ public class UtilityStatusController {
 	UtilityStatusService service;
 	
 	@RequestMapping(value="/utility-status",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView utilityStatus(HttpSession session){
+	public ModelAndView UtilityStatus(HttpSession session,@ModelAttribute Safety obj){
 		ModelAndView model = new ModelAndView(PageConstants.utilityStatus);
 		try {
-			List<Safety> utilityStatusList = service.getUtilityStatusList();
-			model.addObject("utilityStatusList", utilityStatusList);
+			Safety  UtilityStatusList = service.getUtilityStatusList(obj);
+			model.addObject("utilityStatusList",  UtilityStatusList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("utilityStatus : " + e.getMessage());
+			logger.error(" UtilityStatus : " + e.getMessage());
 		}
 		return model;
 	}
@@ -56,16 +56,66 @@ public class UtilityStatusController {
 			model.setViewName("redirect:/utility-status");
 			boolean flag =  service.addUtilityStatus(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Utility Status Added Succesfully.");
+				attributes.addFlashAttribute("success", " Utility Status Added Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Adding Utility Status is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding  Utility Status is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Utility Status is failed. Try again.");
-			logger.error("addUtilityStatus : " + e.getMessage());
+			attributes.addFlashAttribute("error","Adding  Utility Status is failed. Try again.");
+			logger.error("add UtilityStatus : " + e.getMessage());
 		}
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/update-utility-status", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateUtilityStatus(@ModelAttribute Safety obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/utility-status");
+			boolean flag =  service.updateUtilityStatus(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Utility Status Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Utility Status is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Utility Status is failed. Try again.");
+			logger.error("updateUtilityStatus : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete-utility-status", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView deleteUtilityStatus(@ModelAttribute Safety obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/utility-status");
+			boolean flag =  service.deleteUtilityStatus(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Utility Status Deleted Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			logger.error("deleteUtilityStatus : " + e.getMessage());
+		}
+		return model;
+	}	
+	
 }
+
+
+
+
+
+
+
+
 

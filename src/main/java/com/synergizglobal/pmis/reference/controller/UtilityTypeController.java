@@ -18,11 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.reference.Iservice.UtilityTypeService;
-import com.synergizglobal.pmis.reference.model.TrainingType;
+import com.synergizglobal.pmis.reference.model.Safety;
 import com.synergizglobal.pmis.constants.PageConstants;
 
 @Controller
 public class UtilityTypeController {
+
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -31,17 +32,17 @@ public class UtilityTypeController {
 	Logger logger = Logger.getLogger(UtilityTypeController.class);
 	
 	@Autowired
-	 UtilityTypeService service;
+	UtilityTypeService service;
 	
 	@RequestMapping(value="/utility-type",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView utilityType(HttpSession session){
+	public ModelAndView UtilityType(HttpSession session,@ModelAttribute Safety obj){
 		ModelAndView model = new ModelAndView(PageConstants.utilityType);
 		try {
-			List<TrainingType> utilityTypeList = service.getUtilityTypesList();
-			model.addObject("utilityTypeList", utilityTypeList);
+			Safety usUtilityTypeDetails = service.getUtilityTypesList(obj);
+			model.addObject("usUtilityTypeDetails",  usUtilityTypeDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("utilityType : " + e.getMessage());
+			logger.error(" UtilityType : " + e.getMessage());
 		}
 		return model;
 	}
@@ -49,24 +50,72 @@ public class UtilityTypeController {
 	
 	@RequestMapping(value = "/add-utility-type", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addUtilityType(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+	public ModelAndView addUtilityType(@ModelAttribute Safety obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/utility-type");
 			boolean flag =  service.addUtilityType(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Utility Type Added Succesfully.");
+				attributes.addFlashAttribute("success", " Utility Type Added Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Adding Utility Type is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding  Utility Type is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Utility Type is failed. Try again.");
-			logger.error("addUtilityType : " + e.getMessage());
+			attributes.addFlashAttribute("error","Adding  Utility Type is failed. Try again.");
+			logger.error("add UtilityType : " + e.getMessage());
 		}
 		return model;
 	}
 	
+	
+	@RequestMapping(value = "/update-utility-type", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateUtilityType(@ModelAttribute Safety obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/utility-type");
+			boolean flag =  service.updateUtilityType(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Utility Type Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Utility Type is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Utility Type is failed. Try again.");
+			logger.error("updateUtilityType : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete-utility-type", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView deleteUtilityType(@ModelAttribute Safety obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/utility-type");
+			boolean flag =  service.deleteUtilityType(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Utility Type Deleted Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			logger.error("deleteUtilityType : " + e.getMessage());
+		}
+		return model;
+	}	
+	
 }
+
+
+
+
+
+
+
 
 

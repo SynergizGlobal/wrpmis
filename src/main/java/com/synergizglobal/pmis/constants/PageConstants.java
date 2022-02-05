@@ -213,12 +213,12 @@ public class PageConstants {
 	public static final String drawingType = "referenceForms/drawingType";
 	public static final String laFileType = "referenceForms/laFileType";
 	
-	public static final String utilityType = "referenceForms/utilityType";
-	public static final String utilityStatus = "referenceForms/utilityStatus";
-	public static final String utilityRequirementStage = "referenceForms/utilityRequirementStage";
-	public static final String utilityExecutionAgency = "referenceForms/utilityExecutionAgency";
+	public static final String utilityType = "referenceForms/usUtilityType";
+	public static final String utilityStatus = "referenceForms/usUtilityStatus";
+	public static final String utilityRequirementStage = "referenceForms/usUtilityRequirementStage";
+	public static final String utilityExecutionAgency = "referenceForms/usUtilityExecutionAgency";
 	public static final String utilityAlignment = "referenceForms/utilityAlignment";
-	public static final String utilityCategory = "referenceForms/utilityCategory";
+	public static final String utilityCategory = "referenceForms/usUtilityCategory";
 	
 	public static final String userRole = "referenceForms/userRole";
 	public static final String userAccessType = "referenceForms/userAccessType";

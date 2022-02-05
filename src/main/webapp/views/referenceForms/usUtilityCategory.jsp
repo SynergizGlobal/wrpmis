@@ -46,7 +46,7 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="us_category_table" class="mdl-data-table">
+                                <table id="utility_category_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th> Utility Category</th>
@@ -62,8 +62,8 @@
                                     <tbody>
 										<c:forEach var="obj" items="${UtilityCategoryDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.us_category }"  class="findLengths" />
-												${obj.us_category }</td>
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.utility_category }"  class="findLengths" />
+												${obj.utility_category }</td>
 											<c:forEach var="tObj" items="${UtilityCategoryDetails.tablesList}" varStatus="index">
 												 
 												<td><c:forEach var="cObj" items="${UtilityCategoryDetails.countList}" >
@@ -71,7 +71,7 @@
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.us_category eq obj.us_category }"> 
+																    <c:when test="${cObj.utility_category eq obj.utility_category }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -87,8 +87,8 @@
 										 	<c:forEach var="oSbj"  items="${UtilityCategoryDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.us_category eq obj.us_category }"> 
-												      	<a onclick="deleteRow('${ oSbj.us_category }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.utility_category eq obj.utility_category }"> 
+												      	<a onclick="deleteRow('${ oSbj.utility_category }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -126,7 +126,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-us-category" id="addUsCategoryForm" name="addUsCategoryForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-utility-category" id="addUsCategoryForm" name="addUsCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add Utility Category <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -135,9 +135,9 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="us_category_text" type="text" name="us_category" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="us_category_text"> Utility Category</label>
-                                <span id="us_categoryError" class="error-msg" ></span>
+                                <input id="utility_category_text" type="text" name="utility_category" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="utility_category_text"> Utility Category</label>
+                                <span id="utility_categoryError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -168,7 +168,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-us-category" id=updateUsCategoryForm name="updateUsCategoryForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-utility-category" id=updateUsCategoryForm name="updateUsCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header bg-m">Update Utility Category <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -210,7 +210,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="us_category" id="us_category" />
+    	<input type="hidden" name="utility_category" id="utility_category" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -234,10 +234,10 @@
                 table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
                     '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
             });
-            $('#us_category_table tbody').append(table_text);
+            $('#utility_category_table tbody').append(table_text);
             // adding table data into table ends */
 
-            var table = $('#us_category_table').DataTable({
+            var table = $('#utility_category_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -279,12 +279,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#us_categoryError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#utility_categoryError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#us_categoryError').text('');
+     			   $('#utility_categoryError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -342,17 +342,17 @@
        }
          var validator =  $('#addUsCategoryForm').validate({
          	 rules: {
-         		 "us_category": {
+         		 "utility_category": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "us_category": {
+   		 		   "utility_category": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "us_category_text" ){
-   				     document.getElementById("us_categoryError").innerHTML="";
-   			 	     error.appendTo('#us_categoryError');
+   	        	 if(element.attr("id") == "utility_category_text" ){
+   				     document.getElementById("utility_categoryError").innerHTML="";
+   			 	     error.appendTo('#utility_categoryError');
    				 }
    	        }
          	
@@ -383,14 +383,14 @@
 
 
       function updateRow(no) {
-          var us_category = $('#statusId'+no).val();
-          $('#value_old').val($.trim(us_category))
+          var utility_category = $('#statusId'+no).val();
+          $('#value_old').val($.trim(utility_category))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(us_category)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(utility_category)).focus();
       }
       
       function deleteRow(val){
-      	$("#us_category").val(val);
+      	$("#utility_category").val(val);
       	showCancelMessage();
     	    }
       	
@@ -410,7 +410,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-us-category');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-utility-category');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

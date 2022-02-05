@@ -1,9 +1,16 @@
 package com.synergizglobal.pmis.reference.model;
 
+import java.util.List;
+
 public class Safety {
 	
 	private String structure_type,status,utility_alignment,general_status,la_land_status,contract_status,manual_folders,impact,utility_category,short_description,root_cause,land_type,approval_status,document_type,priority,status_of,risk_priority,project_priority,sub_category,category,p6_wbs_category,module_name,soft_delete_status_fk;
-
+	private String Table_name,column_name,execution_agency,utility_type,utility_status,requirement_stage,tName,count,value_new,value_old;
+	private List<Safety> dList;
+	private List<Safety> dList1;
+	private List<Safety> tablesList;
+	private List<Safety> countList;
+	
 	public String getLa_land_status() {
 		return la_land_status;
 	}
@@ -186,6 +193,118 @@ public class Safety {
 
 	public void setSoft_delete_status_fk(String soft_delete_status_fk) {
 		this.soft_delete_status_fk = soft_delete_status_fk;
+	}
+
+	public List<Safety> getdList() {
+		return dList;
+	}
+
+	public void setdList(List<Safety> dList) {
+		this.dList = dList;
+	}
+
+	public List<Safety> getdList1() {
+		return dList1;
+	}
+
+	public void setdList1(List<Safety> dList1) {
+		this.dList1 = dList1;
+	}
+
+	public List<Safety> getTablesList() {
+		return tablesList;
+	}
+
+	public void setTablesList(List<Safety> tablesList) {
+		this.tablesList = tablesList;
+	}
+
+	public List<Safety> getCountList() {
+		return countList;
+	}
+
+	public void setCountList(List<Safety> countList) {
+		this.countList = countList;
+	}
+
+	public String getTable_name() {
+		return Table_name;
+	}
+
+	public void setTable_name(String table_name) {
+		Table_name = table_name;
+	}
+
+	public String getColumn_name() {
+		return column_name;
+	}
+
+	public void setColumn_name(String column_name) {
+		this.column_name = column_name;
+	}
+
+	public String getExecution_agency() {
+		return execution_agency;
+	}
+
+	public void setExecution_agency(String execution_agency) {
+		this.execution_agency = execution_agency;
+	}
+
+	public String getUtility_type() {
+		return utility_type;
+	}
+
+	public void setUtility_type(String utility_type) {
+		this.utility_type = utility_type;
+	}
+
+	public String getUtility_status() {
+		return utility_status;
+	}
+
+	public void setUtility_status(String utility_status) {
+		this.utility_status = utility_status;
+	}
+
+	public String getRequirement_stage() {
+		return requirement_stage;
+	}
+
+	public void setRequirement_stage(String requirement_stage) {
+		this.requirement_stage = requirement_stage;
+	}
+
+	public String gettName() {
+		return tName;
+	}
+
+	public void settName(String tName) {
+		this.tName = tName;
+	}
+
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
+	public String getValue_new() {
+		return value_new;
+	}
+
+	public void setValue_new(String value_new) {
+		this.value_new = value_new;
+	}
+
+	public String getValue_old() {
+		return value_old;
+	}
+
+	public void setValue_old(String value_old) {
+		this.value_old = value_old;
 	}
 
 }

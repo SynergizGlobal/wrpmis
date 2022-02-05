@@ -126,7 +126,7 @@
 
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-us-utility-type" id="addUsUtilityTypeForm" name="addUsUtilityTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-utility-type" id="addUsUtilityTypeForm" name="addUsUtilityTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -166,7 +166,7 @@
     </div>
     
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-us-utility-type" id=updateUsUtilityTypeForm name="updateUsUtilityTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-utility-type" id=updateUsUtilityTypeForm name="updateUsUtilityTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header bg-m">Update Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
@@ -399,7 +399,7 @@
     	            if (isConfirm) {
     	               // swal("Deleted!", "Record has been deleted", "success");
     	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-us-utility-type');
+    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-utility-type');
     	    	    	$('#getForm').submit();
     	           }else {
     	                swal("Cancelled", "Record is safe :)", "error");

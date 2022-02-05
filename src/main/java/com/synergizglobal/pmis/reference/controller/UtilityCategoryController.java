@@ -35,11 +35,11 @@ public class UtilityCategoryController {
 	UtilityCategoryService service;
 	
 	@RequestMapping(value="/utility-category",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView utilityCategory(HttpSession session){
+	public ModelAndView utilityCategory(HttpSession session,@ModelAttribute Safety obj){
 		ModelAndView model = new ModelAndView(PageConstants.utilityCategory);
 		try {
-			List<Safety>  utilityCategoryList = service.getUtilityCategorysList();
-			model.addObject("utilityCategoryList",  utilityCategoryList);
+			Safety  UtilityCategoryDetails = service.getUtilityCategorysList(obj);
+			model.addObject("UtilityCategoryDetails",  UtilityCategoryDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error(" utilityCategory : " + e.getMessage());
@@ -67,6 +67,47 @@ public class UtilityCategoryController {
 		}
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/update-utility-category", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateUtilityCategory(@ModelAttribute Safety obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/utility-category");
+			boolean flag =  service.updateUtilityCategory(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Utility Category Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Utility Category is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Utility Category is failed. Try again.");
+			logger.error("updateUtilityCategory : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete-utility-category", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView deleteUtilityCategory(@ModelAttribute Safety obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/utility-category");
+			boolean flag =  service.deleteUtilityCategory(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Utility Category Deleted Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			logger.error("deleteUtilityCategory : " + e.getMessage());
+		}
+		return model;
+	}	
 	
 }
 

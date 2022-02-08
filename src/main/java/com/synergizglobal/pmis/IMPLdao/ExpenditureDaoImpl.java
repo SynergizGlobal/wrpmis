@@ -202,7 +202,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	public List<Expenditure> getVoucherList() throws Exception {
 		List<Expenditure> objsList = null;
 		try {
-			String qry =" SELECT financial_year from financial_year  ";
+			String qry =" SELECT financial_year from financial_year  order by financial_year desc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);

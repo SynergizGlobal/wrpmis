@@ -463,9 +463,9 @@ public class ExpenditureController {
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
 		        XSSFRow headingRow = sheet.createRow(0);
-		        String headerString = "Expenditure ID^Work^Contract^Ledger Account^Date^Contractor Name^Vocher Type^Vocher No^Narration^Net Paid^Units^Gross Work Done^Units"
-	            		+ "^SD Payable^Units^Contractor Income Tax^Units^CGST TDS^Units^SGST TDS^Units^IGST TDS^Units^VAT WCT^Units^Mob Advance^Units^Interest on Mob Advance^Units^"
-	            		+ "Amount Withheld^Units^Remarks";
+		        String headerString = "Expenditure ID^Work^Contract^Ledger Account^Date^Contractor Name^Vocher Type^Vocher No^Narration^Net Paid^Gross Work Done"
+	            		+ "^SD Payable^Contractor Income Tax^CGST TDS^SGST TDS^IGST TDS^VAT WCT^Mob Advance^Interest on Mob Advance^"
+	            		+ "Amount Withheld^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -518,91 +518,59 @@ public class ExpenditureController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getNet_paid());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getNet_paid())?eObj.getNet_paid():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getNet_paid_units())?eObj.getNet_paid_units():"1")+" (in Rs)");
+						
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getUnit());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getGross_work_done())?eObj.getGross_work_done():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getGross_work_done_units())?eObj.getGross_work_done_units():"1")+" (in Rs)");
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getGross_work_done());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getSd_payable())?eObj.getSd_payable():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getSd_payable_units())?eObj.getSd_payable_units():"1")+" (in Rs)");
+						
+
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getGross_units());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getContractor_income_tax())?eObj.getContractor_income_tax():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getContractor_income_tax_units())?eObj.getContractor_income_tax_units():"1")+" (in Rs)");
+						
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getSd_payable());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getCgst_tds())?eObj.getCgst_tds():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getCgst_tds_units())?eObj.getCgst_tds_units():"1")+" (in Rs)");
+						
+
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getSd_units());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getSgst_tds())?eObj.getSgst_tds():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getSgst_tds_units())?eObj.getSgst_tds_units():"1")+" (in Rs)");
+						
+
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getContractor_income_tax());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getIgst_tds())?eObj.getIgst_tds():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getIgst_tds_units())?eObj.getIgst_tds_units():"1")+" (in Rs)");
+						
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getContractor_income_units());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct())?eObj.getVat_wct():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct_units())?eObj.getVat_wct_units():"1")+" (in Rs)");
+						
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getCgst_tds());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getMob_advance())?eObj.getMob_advance():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getMob_advance_units())?eObj.getMob_advance_units():"1")+" (in Rs)");
+						
+					
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getInterest_on_mob_adv())?eObj.getInterest_on_mob_adv():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getInterest_on_mob_adv_units())?eObj.getInterest_on_mob_adv_units():"1")+" (in Rs)");
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getCgst_units());
+						cell.setCellValue(Double.parseDouble(!StringUtils.isEmpty(eObj.getAmount_withheld())?eObj.getAmount_withheld():"1")*Double.parseDouble(!StringUtils.isEmpty(eObj.getAmount_withheld_units())?eObj.getAmount_withheld_units():"1")+" (in Rs)");
 						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getSgst_tds());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getSgst_units());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getIgst_tds());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getIgst_units());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getVat_wct());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getVat_units());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getMob_advance());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getMob_units());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getInterest_on_mob_adv());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getInterest_units());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getAmount_withheld());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getWithheld_units());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -782,12 +750,7 @@ public class ExpenditureController {
 						expenditure = new Expenditure();
 						String val = null;
 						if(!StringUtils.isEmpty(row)) {								
-							val = formatter.formatCellValue(row.getCell(0)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setProject_id_fk(val);}
-							
-							val = formatter.formatCellValue(row.getCell(1)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setWork_id_fk(val);}
-							
+						
 							val = formatter.formatCellValue(row.getCell(2)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setContract_id_fk(val);}
 							

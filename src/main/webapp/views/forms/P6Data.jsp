@@ -156,11 +156,10 @@
 				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
 				                                </div>
 				                                <div class="col s12 m6 input-field" id="fobDropDownUpload" style="display: none;">
-				                                    <p  class="searchable_label">FOB <span class="required">*</span></p>
+				                                    <p  class="searchable_label">FOB </p>
 				                                     <select id="fob_id_fkUpload" name="fob_id_fk"  class="browser-default searchable">
 				                                            <option value="" >Select</option>
 				                                     </select>
-				                                     <span id="fob_id_fkUploadError" class="error-msg" ></span>
 				                                </div>
 				                            </div>
 				                            <div class="row">
@@ -536,8 +535,6 @@
 	  		    rules: {
 	  		 		  "contract_id_fk": {
 	  			 		required: true
-	  			 	  },"fob_id_fk": {
-	  			 		required: true
 	  			 	  },"data_date": {
 	  		 		    required: true
 	  			 	  },"p6dataFile": {
@@ -547,8 +544,6 @@
 	  		    messages: {
 	  		 		 "contract_id_fk": {
 	  				 	required: 'This field is required',
-	  			 	  },"fob_id_fk": {
-	  			 		required: ' This field is required'
 	  			 	  },"data_date": {
 	  		 			required: ' This field is required'
 	  		 	  	  },"p6dataFile": {
@@ -559,10 +554,7 @@
 		   		 	if (element.attr("id") == "contract_id_fkUpload" ){
 						document.getElementById("contract_id_fkUploadError").innerHTML="";
 				 		error.appendTo('#contract_id_fkUploadError');
-					} else if(element.attr("id") == "fob_id_fkUpload" ){
-					    document.getElementById("fob_id_fkUploadError").innerHTML="";
-				 	    error.appendTo('#fob_id_fkUploadError');
-					} else if(element.attr("id") == "data_dateUpload" ){
+					}else if(element.attr("id") == "data_dateUpload" ){
 						document.getElementById("data_dateUploadError").innerHTML="";
 					 	error.appendTo('#data_dateUploadError');
 					} else if(element.attr("id") == "p6dataFileUpload" ){
@@ -583,8 +575,6 @@
 	  		    rules: {
 	  		 		  "contract_id_fk": {
 	  			 		required: true
-	  			 	  },"fob_id_fk": {
-	  			 		required: true
 	  			 	  },"data_date": {
 	  		 		    required: true
 	  			 	  },"p6dataFile": {
@@ -594,8 +584,6 @@
 	  		    messages: {
 	  		 		 "contract_id_fk": {
 	  				 	required: 'This field is required',
-	  			 	  },"fob_id_fk": {
-	  			 		required: ' This field is required'
 	  			 	  },"data_date": {
 	  		 			required: ' This field is required'
 	  		 	  	  },"p6dataFile": {
@@ -606,9 +594,6 @@
 		   		 	if (element.attr("id") == "contract_id_fkUpdate" ){
 						document.getElementById("contract_id_fkUpdateError").innerHTML="";
 				 		error.appendTo('#contract_id_fkUpdateError');
-					} else if(element.attr("id") == "fob_id_fkUpdate" ){
-					    document.getElementById("fob_id_fkUpdateError").innerHTML="";
-				 	    error.appendTo('#fob_id_fkUpdateError');
 					} else if(element.attr("id") == "data_dateUpdate" ){
 						document.getElementById("data_dateUpdateError").innerHTML="";
 					 	error.appendTo('#data_dateUpdateError');

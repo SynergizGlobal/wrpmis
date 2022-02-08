@@ -245,13 +245,16 @@ public class P6DataController {
 						if(wbsList.size() == 0 ){
 							fob_mismatch = "Sheet is empty.";
 						}
-						for(P6Data list : wbsList) {
-							
-							if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_wbs_code())) {
-								fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
-								break;
+						if(!StringUtils.isEmpty(p6data.getFob_id_fk()))
+						{
+							for(P6Data list : wbsList) {
+								
+								if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_wbs_code())) {
+									fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
+									break;
+								}
+								i++;
 							}
-							i++;
 						}
 					}
 					
@@ -449,13 +452,16 @@ public class P6DataController {
 							if(activitiesList.size() == 0 ){
 								fob_mismatch = "Sheet is empty.";
 							}
-							for(P6Data list : activitiesList) {
-								
-								if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_task_code())) {
-									fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
-									break;
+							if(!StringUtils.isEmpty(p6data.getFob_id_fk()))
+							{
+								for(P6Data list : activitiesList) {
+									
+									if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_task_code())) {
+										fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
+										break;
+									}
+									i++;
 								}
-								i++;
 							}
 						}
 						

@@ -923,6 +923,14 @@
 	                                     <span id="contract_status_fkError" class="error-msg" ></span>
 	                              	</div>
 	                            </div>
+	                            <div class="row">
+	                                <div class="col s12 m8 l12 input-field offset-m2">
+	                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000" 
+	                                    >${contractDeatils.remarks }</textarea>
+	                                    <label for="remarks">Remarks</label>
+	                                    <span id="remarksError" class="error-msg"></span>
+	                                </div>
+	                            </div>
 	                            <div class="row" id="contractClosureRadioBtn" style="display: none;">
 	                            	<div class="col s12 m6 input-field offset-m3">
 			                   			<div class="col l8 m12">
@@ -1045,14 +1053,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <input type="hidden" id="existing_contract_closure_date" name="existing_contract_closure_date" value="${contractDeatils.contract_closure_date }" />
 	                            </div>
-	                           <!--  <div class="row">
-	                                <div class="col s12 m8 l12 input-field offset-m2">
-	                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000" 
-	                                    >${contractDeatils.remarks }</textarea>
-	                                    <label for="remarks">Remarks</label>
-	                                    <span id="remarksError" class="error-msg"></span>
-	                                </div>
-	                            </div> -->
+	                            
 	                            <%-- <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}">
@@ -2710,7 +2711,7 @@
             	
             });
             
-            if(closureRadioVal == 'Yes' || closureRadioVal == 'Closed'){
+            if((closureRadioVal == 'Yes' || closureRadioVal == 'Closed') && contract_status_fk == 'Completed'){
          	   $("#contractClosureDetails").show();
      		   $('#closureTab').show();
             }else{

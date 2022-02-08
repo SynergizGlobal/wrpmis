@@ -524,7 +524,15 @@
 				                                    </c:forEach>
 		                                    </select>
 		                                     <span id="contract_status_fkError" class="error-msg" ></span>
-		                            </div>                  
+		                            </div>   
+		                            
+		                            <div class="row">
+		                                <div class="col s12 m8 l12 input-field offset-m2">
+		                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000" ></textarea>
+		                                    <label for="remarks">Remarks</label>
+		                                    <span id="remarksError" class="error-msg"></span>
+		                                </div>
+		                            </div>               
 	                        
  									<div class="table-div">
 	
@@ -1016,6 +1024,8 @@
 		   	 	  		required: true
 		   		 	  },"contract_status":{
 		   	 	  		required: true
+		   		 	  },"remarks":{
+		   		 		required: false
 		   		 	  }		
 		   	 	},
 		   	   messages: {
@@ -1050,6 +1060,8 @@
 		   	 	  		required: 'Required'
 		   		 	  },"contract_status":{
         		 		 required: 'Required'
+		   		 	  },"remarks":{
+		   		 		 required: 'Required'
 		   		 	  }	
 		   	 				      
 		       },
@@ -1097,6 +1109,9 @@
 			   	 	    }else if (element.attr("name") == "contract_status" ){
 			  	 		     document.getElementById("contract_statusError").innerHTML="";
 				 			 error.appendTo('#contract_statusError');
+				 		}else if (element.attr("id") == "remarks" ){
+			  	 		     document.getElementById("remarksError").innerHTML="";
+				 			 error.appendTo('#remarksError');
 				 		}
 			   	 },invalidHandler: function (form, validator) {
 			         var errors = validator.numberOfInvalids();

@@ -856,9 +856,9 @@ public class ContractController {
 		        
 	            XSSFRow headingRow = contractsSheet.createRow(0);
 	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Contract Type^Scope of Contract"
-	            		+ "^Estimated Cost\n(Rs in Lakhs)^Awarded Cost\n(Rs in Lakhs)^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
+	            		+ "^Estimated Cost\n(Rs in Lakhs)^Planned Date of Award^Awarded Cost\n(Rs in Lakhs)^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
 	            		+ "Actual Completion Date^Final Taking over by Client^Date of issue of Completion Certificate^Date of Payment of Final bill^Date of release of Final Retention / BG^Completion  Cost\n(Rs in Lakhs)^"
-	            		+ "End date of Defect Liability Period^Date of release of PBG^Date of Contract Closure^Contract Status^Status of Work^Bank Guarantee Requried^Insurance Requried^Tally Head^Planned Date of Award";
+	            		+ "End date of Defect Liability Period^Date of release of PBG^Date of Contract Closure^Contract Status^Status of Work^Bank Guarantee Requried^Insurance Requried^Tally Head";
 	            
 	            String[] headerStringArr = headerString.split("\\^");
 	            
@@ -939,7 +939,9 @@ public class ContractController {
 						cell.setCellValue("");
 					}
 					
-					
+					cell = row.createCell(c++);
+					cell.setCellStyle(centerStyle);
+					cell.setCellValue(obj.getPlanned_date_of_award());
 					
 					String awarded_cost = "";
 					String awarded_cost_units = "";
@@ -1059,10 +1061,6 @@ public class ContractController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getTally_head());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getPlanned_date_of_award());
 	                
 	                rowNo++;
 	            }

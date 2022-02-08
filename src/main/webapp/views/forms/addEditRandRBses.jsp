@@ -323,69 +323,68 @@
                     <!-- form start-->
                    
                         <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-randr" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/update-rr-bses" id="RRbsesForm" name="RRbsesForm" method="post"   enctype="multipart/form-data">
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-randr" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/add-rr-bses" id="RRbsesForm" name="RRbsesForm" method="post"  enctype="multipart/form-data" >
 						  </c:if>
-						  
-						   <input type="hidden" id="design_id" name="design_id" value="${designDetails.design_id }">
+						  <input type="hidden" name="bses_id" id="bses_id" value="${rrBsesDeatils.bses_id }"  />
 						  
 						    <div class="container container-no-margin">
                             <div class="row" style="margin-top:1rem;">
 						    <c:if test="${action eq 'add'}">	
                                 <div class="col s6 m4 l4 input-field ">
                                     <p class="searchable_label"> Project</p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  >
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"   onchange="getWorksList(this.value);">
                                          <option value="" >Select</option>
-                                         <%-- <c:forEach var="obj" items="${projectsList }">
-                                      	   <option value= "${ obj.project_id}" <c:if test="${designDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-                                         </c:forEach> --%>	
-                                    </select>
+                                          <c:forEach var="obj" items="${projectsList }">
+                                      	   <option value= "${ obj.project_id}">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                         </c:forEach> 
+                                         </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Work </p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" >
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getContractsList(this.value);resetProjectsDropdowns(this.value);">
                                         <option value="" >Select</option>
-                                        <%-- <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach> --%>
+                                        <c:forEach var="obj" items="${workList }">
+                                      	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                         </c:forEach> 
                                     </select>
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                              	<div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label"> Contract </p>
-                                    <select class="searchable validate-dropdown" id="contract_fk" name="contract_fk" >
+                                    <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="" >Select</option>
-                                        <%-- <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach> --%>
+                                       <c:forEach var="obj" items="${contractList }">
+                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id}">${obj.contract_id} <c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                         </c:forEach>
                                     </select>
                                       <span id="contract_fkError" class="error-msg" ></span>
                                 </div>
                             </c:if>
  							<c:if test="${action eq 'edit'}">		                             
 	                                <div class="col s6 m4 l4 input-field ">
-	                                    <input type="text" value="" readonly />
 								    	<label for="project_id_fk">Project </label>
-								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="" readonly />
+								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${rrBsesDeatils.project_id_fk }"  />
+								    	<input type="text"  value="${rrBsesDeatils.project_id_fk } -  ${rrBsesDeatils.project_name }" readonly />
 								    </div> 
 	                                <div class="col s6 m4 l4 input-field"> 
-	                                    <input type="text" value="" readonly />
 	                                	<label for="work_id_fk">Work </label>
-	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="" readonly />
+	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${rrBsesDeatils.work_id_fk }"  />
+	                                	<input type="text" value="${rrBsesDeatils.work_id_fk } - ${rrBsesDeatils.work_short_name }" readonly />
 	                                </div>
 	                           		<div class="col s12 m4 l4 input-field"> 
-	                                    <input type="text" value="" readonly />
-	                                	<label for="contract_fk">Contract </label>
-	                                	<input type="hidden" name="contract_fk" id="contract_fk" value="" readonly />
+	                                	<label for="contract_id_fk">Contract </label>
+	                                	<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${rrBsesDeatils.contract_id_fk }"  />
+	                                	<input type="text" value="${rrBsesDeatils.contract_id_fk } - ${rrBsesDeatils.contract_short_name }" readonly />
 	                                </div>
                               </c:if>
 							</div>
 							<div class="row">
 								 <div class="col s12 m12 input-field">
-                                    <textarea id="agency_name" name="agency_name" class="pmis-textarea" data-length="1000"></textarea>
+                                    <textarea id="agency_name" name="agency_name" class="pmis-textarea" data-length="1000">${rrBsesDeatils.agency_name }</textarea>
                                     <label for="agency_name">Agency Name</label>
                                 </div>
 							</div>  
@@ -393,7 +392,9 @@
 								 <div class="col s12 m4 input-field">
                                      <p class="center-align" style="margin-top:1rem;">
 									      <label>
-									        <input type="checkbox" class="filled-in" checked="checked" id="submission_to_mrvc" name="submission_to_mrvc"/>
+									        <input type="hidden"   id="report_submission_to_mrvcs" name="report_submission_to_mrvc" 
+									        value ="${rrBsesDeatils.report_submission_to_mrvc}"/>
+									         <input type="checkbox" class="filled-in"  <c:if test="${rrBsesDeatils.report_submission_to_mrvc eq 'Yes'}">  checked</c:if> id="report_submission_to_mrvc" />
 									        <span>Report Submission to MRVC</span>
 									      </label>
 								    </p>
@@ -401,13 +402,16 @@
                                 <div class="col s12 m4 input-field">
                                      <p class="center-align" style="margin-top:1rem;">
 									      <label>
-									        <input type="checkbox" class="filled-in" checked="checked" id="submission_to_mmrda" name="submission_to_mmrda"/>
+									        <input type="hidden"   id="submission_to_mmrdas" name="report_submission_to_mmrda" 
+									        value ="${rrBsesDeatils.report_submission_to_mmrda}"/>
+									         <input type="checkbox" class="filled-in"  <c:if test="${rrBsesDeatils.report_submission_to_mmrda eq 'Yes'}">  checked</c:if> id="report_submission_to_mmrda" />
 									        <span>Report Submission to MMRDA </span>
 									      </label>
-								    </p>
+								    </p>   
                                 </div>
 							</div>
 						</div>
+					
 													
 								<div class="col s12">
 										<div class="row fixed-width">
@@ -424,19 +428,69 @@
 									                </thead>
 									                <tbody id="committeeDetailsTableBody">
 									                <c:choose>
-				                                        <c:when test="${not empty contractDeatils.departmentList }" >				                                          
-				                                		  <c:forEach var="departmentObj" items="${contractDeatils.departmentList }" varStatus="index"> 				                                		      
+				                                        <c:when test="${not empty rrBsesDeatils.detailsList }" >				                                          
+				                                		  <c:forEach var="dObj" items="${rrBsesDeatils.detailsList }" varStatus="index"> 	
+				                                		 		                                		      
 											                  <tr id="committeeDetailsRow${index.count }">
 											                        <td data-head="Date of Nomination" class="input-field">
-											                              <input id="nomination_date${index.count }" name="nomination_dates" type="text" class="validate datepicker" placeholder="Date of Nomination">
+											                              <input id="nomination_date${index.count }" name="date_of_nominations" type="text" value="${dObj.date_of_nomination }" class="validate datepicker" placeholder="Date of Nomination">
 										                                  <button type="button" id="nomination_date${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 										                                  <span id="nomination_date${index.count}Error" class="error-msg" ></span>
 											                        </td>
-											                        <td>
-											                        
-											                        </td>
+											                         <td>
+											                        	<div class="internal-table-add-btn">
+											                        		<a class="btn waves-effect waves-light bg-m t-c" onclick="addInternalBodyRow('${index.count}')"> <i class="fa fa-plus"></i></a>
+											                        		
+											                        	</div>
+											                        	<table>
+											                        	<tbody id="committeeDetailsInternalBody${index.count}" class="internal-table">
+											                        	<input type="hidden" id="details${index.count}" name ="detailss" />	 
+											                        	 <c:choose>
+									                                        <c:when test="${not empty dObj.comiteDetailsList }" >				                                          
+									                                		  <c:forEach var="fObj" items="${dObj.comiteDetailsList }" varStatus="indexx"> 
+									                                		   
+												                        		<tr id="committeeDetailsInternalRow${index.count}">
+												                        			<td>
+												                        				
+												                        				<input type="hidden" id="internalRow${index.count}" value="${fn:length(dObj.comiteDetailsList) }">
+												                        				<textarea id="committee_details${indexx.count}${index.count}"  onkeyup="getRowsCount('${index.count}');" name ="details" class="pmis-textarea" placeholder="Details">${fObj.details }</textarea>
+												                        			</td>
+												                        			<td>
+												                        				<a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('${indexx.count}');deleteRowsCount('${index.count}');"> <i class="fa fa-close"></i></a>
+												                        			</td>
+												                        		</tr>
+												                        		<script>
+												                        			   var len = $("#committeeDetailsInternalBody${indexx.count} tr").length
+												                        			   var vals = [];
+												                        			   $('#committeeDetailsInternalBody${indexx.count} textarea[name="details"]').each(function(i,val){vals.push($(this).val());   });
+												                        			   vals = vals.join(',_,');
+												                        			   vals = vals.replace(/,_,\s*$/, '');
+												                        			   $("#details${indexx.count}").val(vals);
+												                        		  
+												                        		</script>
+												                        		</c:forEach>
+							                                           		   </c:when>
+							                                             	 <c:otherwise>
+							                                             	 	<tr id="committeeDetailsInternalRow${index.count}">
+												                        			<td>
+												                        				<input type="hidden" id="internalRow${index.count}" value="0">
+												                        				
+												                        				<textarea id="committee_details${index.count}" onkeyup="getRowsCount('${index.count}');" name ="details" class="pmis-textarea" placeholder="Details"></textarea>
+												                        			</td>
+												                        			<td>
+												                        				<a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('${index.count}');deleteRowsCount('${index.count}');"> <i class="fa fa-close"></i></a>
+												                        			</td>
+												                        		</tr>
+							                                             	</c:otherwise>
+                                            							  </c:choose>
+											                        	</tbody>
+											                        	</table>
+											                        	
+										
+	           
+									                        	</td>
 											                        <td data-head="Remarks" class="input-field">
-											                            <textarea id="committee_remarks${index.count }" name ="committee_remarkss" class="pmis-textarea" placeholder="Remarks"></textarea>
+											                            <textarea id="committee_remarks${index.count }" name ="committee_details_remarkss" class="pmis-textarea" placeholder="Remarks">${dObj.committee_details_remarks }</textarea>
 									                                    <span id="committee_remarks${index.count }Error" class="error-msg"></span>
 											                        </td>
 											                        <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
@@ -451,7 +505,7 @@
                                              		<c:otherwise>
 									                    <tr id="committeeDetailsRow0">
 									                        <td data-head="Date of Nomination" class="input-field">
-									                              <input id="nomination_date0" name="nomination_dates" type="text" class="validate datepicker" placeholder="Date of Nomination">
+									                              <input id="nomination_date0" name="date_of_nominations" type="text" class="validate datepicker" placeholder="Date of Nomination">
 								                                  <button type="button" id="nomination_date0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 								                                  <span id="nomination_date0Error" class="error-msg" ></span>
 									                        </td>
@@ -462,19 +516,21 @@
 									                        	</div>
 									                        	<table>
 									                        	<tbody id="committeeDetailsInternalBody0" class="internal-table">
+									                        	<input type="hidden" id="details0" name ="detailss" />
 									                        		<tr id="committeeDetailsInternalRow0">
 									                        			<td>
-									                        				<textarea id="committee_details0x0" name ="committee_detailss" class="pmis-textarea" placeholder="Details"></textarea>
+									                        				
+									                        				<textarea id="committee_details00" name ="details" onkeyup="getRowsCount('0');" class="pmis-textarea" placeholder="Details"></textarea>
 									                        			</td>
 									                        			<td>
-									                        				<a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('0x0')"> <i class="fa fa-close"></i></a>
+									                        				<a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('0');deleteRowsCount('0');"> <i class="fa fa-close"></i></a>
 									                        			</td>
 									                        		</tr>
 									                        	</tbody>
 									                        	</table>
 									                        </td>
 									                        <td data-head="Remarks" class="input-field">
-									                            <textarea id="committee_remarks0" name ="committee_remarkss" class="pmis-textarea" placeholder="Remarks"></textarea>
+									                            <textarea id="committee_remarks0" name ="committee_details_remarkss" class="pmis-textarea" placeholder="Remarks"></textarea>
 							                                    <span id="committee_remarks0Error" class="error-msg"></span>
 									                        </td>
 									                        <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
@@ -498,8 +554,8 @@
 			                                    </table> 
 			                                    </c:if>
 			                                    <c:choose>
-				                                    <c:when test="${not empty contractDeatils.departmentList && fn:length(contractDeatils.departmentList) gt 0 }">
-				                                		<input type="hidden" id="committeeDetailsRowNo"  name="committeeDetailsRowNo" value="${fn:length(contractDeatils.departmentList) }" />
+				                                    <c:when test="${not empty rrBsesDeatils.detailsList && fn:length(rrBsesDeatils.detailsList) gt 0 }">
+				                                		<input type="hidden" id="committeeDetailsRowNo"  name="committeeDetailsRowNo" value="${fn:length(rrBsesDeatils.detailsList) }" />
 				                                	</c:when>
 				                                 	<c:otherwise>
 				                                 		<input type="hidden" id="committeeDetailsRowNo"  name="committeeDetailsRowNo" value="0" />
@@ -530,33 +586,33 @@
 	                                            </thead>
 	                                            <tbody id="attachmentsTableBody" >
 	                                             <c:choose>
-			                                        <c:when test="${not empty contractDeatils.contractDocuments  && fn:length(contractDeatils.contractDocuments ) gt 0 }">			                                          
-				                                        <c:forEach var="docObj" items="${contractDeatils.contractDocuments }" varStatus="index">  
+			                                        <c:when test="${not empty rrBsesDeatils.filesList  && fn:length(rrBsesDeatils.filesList ) gt 0 }">			                                          
+				                                        <c:forEach var="docObj" items="${rrBsesDeatils.filesList }" varStatus="index">  
 			                                                <tr id="attachmentRow${index.count }">
 			                                                	<td data-head="File Type " class="input-field">
-																	<select  name="attachment_file_types"  id="attachment_file_types${index.count }"  class="validate-dropdown searchable">
+																	<select  name="bses_file_type_fks"  id="bses_file_type_fks${index.count }"  class="validate-dropdown searchable">
 					                                   					 <option value="" >Select</option>
-					                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-					                    					  				 <option value="${obj.contract_file_type }" <c:if test="${docObj.contract_file_type_fk eq obj.contract_file_type}">selected</c:if>>${obj.contract_file_type}</option>
+					                                         			  <c:forEach var="obj" items="${fileTypeList}">
+					                    					  				 <option value="${obj.bses_file_type }" <c:if test="${docObj.bses_file_type_fk eq obj.bses_file_type}">selected</c:if>>${obj.bses_file_type}</option>
 					                                          			  </c:forEach>
 					                               					  </select>
 															    </td>
-			                                                    <td data-head="Name " class="input-field"> <input id="attachmentNames${index.count }" name="attachmentNames" type="text" class="validate"
+			                                                    <td data-head="Name " class="input-field"> <input id="names${index.count }" name="names" type="text" class="validate"
 			                                                            placeholder="Name" value="${docObj.name }">
 			                                                    </td>
 			                                                    <td data-head="Attachment" class="input-field">
 			                                                        <span class="normal-btn">
-			                                                            <input type="file" id="attachmentFiles${index.count }" name="attachmentFiles"
+			                                                            <input type="file" id="rrFiles${index.count }" name="rrFiles"
 			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
-			                                                            <label for="attachmentFiles${index.count }" class="btn bg-m"><i
+			                                                            <label for="rrFiles${index.count }" class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
 			                                                            <input type="hidden" id="attachmentFileNames${index.count }" name="attachmentFileNames" value="${docObj.attachment }">
 			                                                             <span id="attachmentFileName${index.count }" class="filevalue"></span>
 			                                                          </span>
 			                                                    </td>
 			                                                    <td>
-			                                                     		<input type="hidden" id="attach_file_ids${index.count }" name="attach_file_ids" value="${docObj.contract_file_id }"/>
-			                                                      		<a href="<%=CommonConstants2.CONTRACT_FILES%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                     		<%-- <input type="hidden" id="attach_file_ids${index.count }" name="attach_file_ids" value="${docObj.id }"/> --%>
+			                                                      		<a href="<%=CommonConstants2.RRBSES_FILE_SAVING_PATH%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 			                                                        
 			                                                    </td>
 			                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
@@ -571,21 +627,21 @@
 	                                             	<c:otherwise>
 	                                             		<tr id="attachmentRow0">
 	                                             			<td data-head="File Type " class="input-field">																		
-																<select  name="attachment_file_types"  id="attachment_file_types0"  class="validate-dropdown searchable">
+																<select  name="bses_file_type_fks"  id="bses_file_types0"  class="validate-dropdown searchable">
 				                                   					 <option value="" >Select</option>
-				                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-				                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
+				                                         			  <c:forEach var="obj" items="${fileTypeList}">
+				                    					  				 <option value="${obj.bses_file_type }">${obj.bses_file_type}</option>
 				                                          			  </c:forEach>
 				                               					  </select>
 															    </td>
-		                                                    <td data-head="Name " class="input-field"> <input id="attachmentNames0" name="attachmentNames" type="text" class="validate"
+		                                                    <td data-head="Name " class="input-field"> <input id="attachmentNames0" name="names" type="text" class="validate"
 		                                                            placeholder="Name">
 		                                                    </td>
 		                                                    <td data-head="Attachment" class="input-field">
 		                                                        <span class="normal-btn">
-		                                                            <input type="file" id="attachmentFiles0" name="attachmentFiles"
+		                                                            <input type="file" id="rrFiles0" name="rrFiles"
 		                                                                style="display:none" onchange="getFileName('0')"/>
-		                                                            <label for="attachmentFiles0" class="btn bg-m"><i
+		                                                            <label for="rrFiles0" class="btn bg-m"><i
 		                                                                    class="fa fa-paperclip"></i></label>
 		                                                            <input type="hidden" id="attachmentFileNames0" name="attachmentFileNames" value="">
 		                                                            <span id="attachmentFileName0" class="filevalue"></span>
@@ -615,8 +671,8 @@
 		                                        </tbody>
 		                                     </table>
 		                                   	 <c:choose>
-		                                        <c:when test="${not empty contractDeatils.contractDocuments && fn:length(contractDeatils.contractDocuments) gt 0 }">
-		                                    		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="${fn:length(contractDeatils.contractDocuments) }" />
+		                                        <c:when test="${not empty rrBsesDeatils.filesList && fn:length(rrBsesDeatils.filesList) gt 0 }">
+		                                    		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="${fn:length(rrBsesDeatils.filesList) }" />
 		                                    	</c:when>
 		                                     	<c:otherwise>
 		                                     		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="0" />
@@ -628,7 +684,7 @@
                                                    
                             <div class="row">
                                 <div class="col s12 m12 input-field">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${designDetails.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${rrBsesDeatils.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>
@@ -636,10 +692,10 @@
                                 <div class="col s6 offset-m2 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                        <c:if test="${action eq 'edit'}">
-	                                       <button type="button" onclick="" class="btn waves-effect waves-light bg-m">Update</button>
+	                                       <button type="button" onclick="updateRRBsesForm();" class="btn waves-effect waves-light bg-m">Update</button>
 	                                    </c:if>
 	                                    <c:if test="${action eq 'add'}">
-	                                        <button type="button" onclick="" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+	                                        <button type="button" onclick="addRRBsesForm();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
 	                                    </c:if>
                                     </div>
                                 </div>
@@ -692,26 +748,46 @@
         $('select:not(.searchable)').formSelect();
     	$('.searchable').select2();
     	$(".datepicker").datepicker();
-    	
+    	var submission_to_mmrdas =  $('#submission_to_mmrdas').val();
+    	var report_submission_to_mrvcs =  $('#report_submission_to_mrvcs').val();
+    	if(submission_to_mmrdas == ''){ $("#submission_to_mmrdas").val('No')}
+    	if(report_submission_to_mrvcs == ''){$("#report_submission_to_mrvcs").val('No')}
    });
-
+	 $('#report_submission_to_mmrda').on('change', function(e){
+         if($(this).prop('checked'))
+         { 
+             $('#submission_to_mmrdas').val('Yes');
+         }else{
+          	  $("#submission_to_mmrdas").val('No')
+        	  $("#report_submission_to_mmrda").prop('checked',false).removeAttr('checked');
+          }
+   });
+   $('#report_submission_to_mrvc').on('change', function(e){
+         if($(this).prop('checked'))
+         { 
+             $('#report_submission_to_mrvcs').val('Yes');
+         }else{
+          	  $("#report_submission_to_mrvcs").val('No')
+        	  $("#report_submission_to_mrvc").prop('checked',false).removeAttr('checked');
+          }
+   });
 	function addAttachmentRow(){		
 		 var rowNo = $("#attachmentRowNo").val();
 		 var rNo = Number(rowNo)+1;
 		 var total = 0;
 		 var html = '<tr id="attachmentRow'+rNo+'">'
 					 +'<td data-head="File Type " class="input-field">'
-							+'<select  name="attachment_file_types"  id="attachment_file_types'+rNo+'"  class="validate-dropdown searchable">'
+							+'<select  name="bses_file_type_fks"  id="bses_file_type_fks'+rNo+'"  class="validate-dropdown searchable">'
 		    					+ '<option value="" >Select</option>'
-		          			 /*  <c:forEach var="obj" items="${contractFileTypeList}">
-					  				+ '<option value="${obj.contract_file_type }">${obj.contract_file_type}</option>'
-		           			  </c:forEach> */
+		          			<c:forEach var="obj" items="${fileTypeList}">
+					  				+ '<option value="${obj.bses_file_type }">${obj.bses_file_type}</option>'
+		           			  </c:forEach> 
 						+ '</select></td>'
-					 +'<td data-head="Name " class="input-field"> <input id="attachmentNames'+rNo+'" name="attachmentNames" type="text" class="validate" placeholder="Name"> </td>'
+					 +'<td data-head="Name " class="input-field"> <input id="names'+rNo+'" name="names" type="text" class="validate" placeholder="Name"> </td>'
 					 +'<td data-head="Attachment" class="input-field">'
 					 +'<span class="normal-btn">'
-					 +'<input type="file" id="attachmentFiles'+rNo+'" name="attachmentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
-					 +'<label for="attachmentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+					 +'<input type="file" id="rrFiles'+rNo+'" name="rrFiles" style="display:none" onchange="getFileName('+rNo+')" />'
+					 +'<label for="rrFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
 					 +'<input type="hidden" id="attachmentFileNames'+rNo+'" name="attachmentFileNames">'
 					 +'<span id="attachmentFileName'+rNo+'" class="filevalue"></span>'
 					 +'</span>'
@@ -737,7 +813,7 @@
 	}
 
 	function getFileName(rowNo){
-		var filename = $('#attachmentFiles'+rowNo)[0].files[0].name;
+		var filename = $('#rrFiles'+rowNo)[0].files[0].name;
 	    $('#attachmentFileName'+rowNo).html(filename);
 	    $('#attachmentFileNames'+rowNo).val(filename);
 	}
@@ -748,14 +824,14 @@
 		 var rNo = Number(rowNo)+1;
 		 var no = 0;
 		 var html = '<tr id="committeeDetailsRow'+rNo+'"> '
-		 			+'<td data-head="Date of Nomination" class="input-field"> <input id="nomination_date'+rNo+'" name="nomination_dates" type="text" class="validate datepicker" '
+		 			+'<td data-head="Date of Nomination" class="input-field"> <input id="nomination_date'+rNo+'" name="date_of_nominations" type="text" class="validate datepicker" '
 		 			+'placeholder="Date of Nomination"> <button type="button" id="nomination_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> '											                              
         			+'<span id="nomination_date'+rNo+'Error" class="error-msg" ></span>   </td>'
    					+'<td><div class="internal-table-add-btn"> <a class="btn waves-effect waves-light bg-m t-c" onclick="addInternalBodyRow('+rNo+')"> <i class="fa fa-plus"></i></a>'
             		+'<input type="hidden" id="internalRow'+rNo+'" value="0"></div> <table> <tbody id="committeeDetailsInternalBody'+rNo+'" class="internal-table">'
-            		+'<tr id="committeeDetailsInternalRow'+rNo+'x0"> <td>	<textarea id="committee_details'+rNo+'x0" name ="committee_detailss" class="pmis-textarea" placeholder="Details"></textarea> </td>'
-            		+'<td> <a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('+rNo+'x0)"> <i class="fa fa-close"></i></a> </td> </tr> </tbody> </table> </td>'
-   					+'<td data-head="Remarks" class="input-field"> <textarea id="committee_remarks'+rNo+'" name ="committee_remarkss" class="pmis-textarea" placeholder="Remarks"></textarea>'
+            		+'<input type="hidden" id="details'+rNo+'" name ="detailss" /><tr id="committeeDetailsInternalRow'+rNo+'"> <td>	<textarea id="committee_details'+rNo+'" name ="details" onkeyup="getRowsCount('+rNo+');"class="pmis-textarea" placeholder="Details"></textarea> </td>'
+            		+'<td> <a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('+rNo+');deleteRowsCount('+rNo+');"> <i class="fa fa-close"></i></a> </td> </tr> </tbody> </table> </td>'
+   					+'<td data-head="Remarks" class="input-field"> <textarea id="committee_remarks'+rNo+'" name ="committee_details_remarkss" class="pmis-textarea" placeholder="Remarks"></textarea>'
    					+'<span id="committee_remarks'+rNo+'Error" class="error-msg"></span>  </td>'
    				<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
       				+'<td class="mobile_btn_close"> <a onclick="removeCommitteeDetailsRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td>'
@@ -775,9 +851,9 @@
     	 var rowNo = $("#internalRow"+No).val();
 		 var rNo = Number(rowNo)+1;
 		 var no = 0;
-		 var html = '<tr id="committeeDetailsInternalRow'+No+'x'+rNo+'"> '
-		 			+'<td> <textarea id="committee_details'+No+'x'+rNo+'" name ="committee_detailss" class="pmis-textarea" placeholder="Details"></textarea> </td>'
-		 			+'<td><a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow(\''+No+'x'+rNo+'\')"> <i class="fa fa-close"></i></a></td>'
+		 var html = '<tr id="committeeDetailsInternalRow'+rNo+'"> '
+		 			+'<td> <textarea id="committee_details'+rNo+'" name ="details" onkeyup="getRowsCount('+No+');" class="pmis-textarea" placeholder="Details"></textarea> </td>'
+		 			+'<td><a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('+rNo+');deleteRowsCount('+No+');"> <i class="fa fa-close"></i></a></td>'
 					+'</tr>';
 		
 			 $('#committeeDetailsInternalBody'+No).append(html); 
@@ -788,7 +864,199 @@
     function removeInternalBodyRow(rowNo){ 
     	$("#committeeDetailsInternalRow"+rowNo).remove();
     }
+    function getWorksList(projectId) {
+    	$(".page-loader").show();
+        $("#work_id_fk option:not(:first)").remove();
+        $("#contract_id_fk option:not(:first)").remove();
+        if ($.trim(projectId) != "") {
+            var myParams = { project_id_fk: projectId };
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getWorkListForRRBsesForm",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                            var workName = '';
+                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+        }else{
+        	$(".page-loader").hide();
+        }
+    }
+    function getContractsList(work_id_fk) {
+    	$(".page-loader").show();
+        work_id_fk = $("#work_id_fk").val();
+        $("#contract_id_fk option:not(:first)").remove();
+            var myParams = { work_id_fk: work_id_fk };
+            $.ajax({
+            	url: "<%=request.getContextPath()%>/ajax/getContractsListForRRBsesForm",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	var contract_name = '';
+                            if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
+                            var contract_id_fk = "${rrBsesDeatils.contract_id_fk }";
+                            if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
+                            	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                            } else {
+                            	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                            }
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+       
+    }
+    function resetProjectsDropdowns(workId){
+       	var projectId = '';
+       	if($.trim(workId) != ''){  
+           	projectId = workId.substring(0, 3); 
+      			$("#project_id_fk").val(projectId);
+      			$("#project_id_fk").select2();
+      			$("#project_id_fkError").text("");
+      		}
+      		
+       }
+    function resetWorksAndProjectsDropdowns(){
+    	$(".page-loader").show();        	
+    	var projectId = '';
+    	var workId = ''
+   		var contract_id_fk = $("#contract_id_fk").val();
+   		if($.trim(contract_id_fk) != ''){  
+        	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+        	projectId = workId.substring(0, 3);    
+   			//workId = workId.substring(3, work_id_fk.length);
+   			$("#project_id_fk").val(projectId);
+   			$("#project_id_fk").select2();
+   		}
+   		
+   		if ($.trim(projectId) != "") {
+   			$("#work_id_fk option:not(:first)").remove();
+            var myParams = { project_id_fk: projectId };
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getWorkListForRRBsesForm",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                            var workName = '';
+                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                            if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                            } else {
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                            }
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+            $('.searchable').select2();
+        }
+   		
+    }
+    
+    function updateRRBsesForm(){
+    	 if(validator.form()){ // validation perform
+    	       	$(".page-loader").show();	
+    	       	$('form input[name=date_of_nominations]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+    	 			$('form input[name=committee_details_remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+    	 			$('form input[name=bses_file_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+    	  			document.getElementById("RRbsesForm").submit();			
+    		 	 }
+    }
+    
+  function addRRBsesForm(){
+	   	 if(validator.form()){ // validation perform
+ 	       	$(".page-loader").show();	
+ 	       	$('form input[name=date_of_nominations]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+ 	 			$('form input[name=committee_details_remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+ 	 			$('form input[name=bses_file_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+ 	  			document.getElementById("RRbsesForm").submit();			
+ 		 	 }
+ }
+    
+  var validator =	$('#RRbsesForm').validate({
+		 errorClass: "my-error-class",
+		 validClass: "my-valid-class",
+		 ignore: ":hidden:not(.validate-dropdown)",
+		    rules: {
+		 		   "project_id_fk": {
+			 		  required: true
+			 	  },"work_id_fk": {
+			 		  required: true
+			 	  }	
+		 	},
+		    messages: {
+		 		   "project_id_fk": {
+			 		  required: 'Required'
+			 	  },"work_id_fk": {
+			 		  required: 'Required'
+			 	  }	
+	   		},
+	   		errorPlacement:function(error, element){
+	   		 	  if(element.attr("id") == "project_id_fk" ){
+				     document.getElementById("project_id_fkError").innerHTML="";
+			 	     error.appendTo('#project_id_fkError');
+				 }else if(element.attr("id") == "work_id_fk" ){
+				     document.getElementById("work_id_fkError").innerHTML="";
+			 	     error.appendTo('#work_id_fkError');
+				 }else{
+					 error.insertAfter(element);
+		        } 
+	   		 	  
+	   		},invalidHandler: function (form, validator) {
+             var errors = validator.numberOfInvalids();
+             if (errors) {
+                 var position = validator.errorList[0].element;
+                 jQuery('html, body').animate({
+                     scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                 }, 1000);
+             }
+         },
+	   		submitHandler:function(form){
+		    	//form.submit();
+		    }
+		});   
 
+   $('select').change(function(){
+       if ($(this).val() != ""){
+           $(this).valid();
+       }
+   });
+
+   $('input').change(function(){
+       if ($(this).val() != ""){
+           $(this).valid();
+       }
+   });
+   function getRowsCount(count){
+	   var len = $("#committeeDetailsInternalBody"+count+" tr").length
+	   var vals = [];
+	   $('#committeeDetailsInternalBody'+count+' textarea[name="details"]').each(function(i,val){vals.push($(this).val());   });
+	   vals = vals.join(',_,');
+	   vals = vals.replace(/,_,\s*$/, '');
+	   $('#details'+count).val(vals);
+   }
+   function deleteRowsCount(count){
+	   var len = $("#committeeDetailsInternalBody"+count+" tr").length
+	   var vals = [];
+	   $('#committeeDetailsInternalBody'+count+' textarea[name="details"]').each(function(i,val){vals.push($(this).val());   });
+	   vals = vals.join(',_,');
+	   vals = vals.replace(/,_,\s*$/, '');
+	   $('#details'+count).val(vals);
+	   
+   }
    </script>
 
 </body>

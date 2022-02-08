@@ -44,6 +44,7 @@ public class CommonConstants2 {
 	public final static String PMIS_MANUALS = "/pmis/PMIS_MANUALS/";
 	public final static String STRUCTURE_FILES = "/pmis/STRUCTURE_FILES/";
 	public final static String UTILITY_SHIFTING_FILES = "/pmis/UTILITY_SHIFTING_FILES/";
+	public final static String RRBSES_FILES = "/pmis/RRBSES_FILES/";
 	
 	
 	
@@ -71,6 +72,8 @@ public class CommonConstants2 {
 	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
 	public final static String PMIS_MANUAL_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/PMIS_MANUALS/";
 	 
+	public static final String RRBSES_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"RRBSES_FILES"+File.separator;
+
 	/*********** Syntrack AWS ****************************************************/	
 	/*public final static String USER_LOGIN_REPORT_MAIL = "raviteja.reddy@synergizglobal.com";
 	public final static String ALERTS_EMAIL = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";
@@ -90,6 +93,7 @@ public class CommonConstants2 {
 	public final static String PMIS_MANUAL_SAVING_PATH = "usr/share/nginx/html/pmis/PMIS_MANUALS/";
 	public final static String STRUCTURE_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/STRUCTURE_FILES/";
 	public static final String UTILITY_SHIFTING_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/UTILITY_SHIFTING_FILES/";
+	public static final String RRBSES_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/RRBSES_FILES/";
 
 	*/
 	
@@ -113,6 +117,7 @@ public class CommonConstants2 {
 	public final static String PMIS_MANUAL_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/PMIS_MANUALS/";
 	public final static String STRUCTURE_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/STRUCTURE_FILES/";
 	public static final String UTILITY_SHIFTING_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/UTILITY_SHIFTING_FILES/";
+	public static final String RRBSES_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/RRBSES_FILES/";
 
 	*/
 	

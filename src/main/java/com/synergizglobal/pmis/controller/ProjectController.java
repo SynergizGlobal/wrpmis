@@ -458,8 +458,15 @@ public class ProjectController {
 							String string = obj.getPb_item_no();
 							if(!(StringUtils.isEmpty(string)) && string.contains("-")) {
 								String[] parts = string.split("-");
-								railway = parts[0]; 
-								pbItemNo = parts[1]; 
+								int p = parts.length;
+								int y =0;
+								if(p>1) {
+									railway = parts[y++]; 
+									pbItemNo = parts[y++];
+								}else {
+									railway = parts[y++]; 
+								}
+								 
 							}else {
 								pbItemNo = string;
 							}

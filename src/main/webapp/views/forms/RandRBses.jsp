@@ -176,7 +176,7 @@
 												<th>work</th>
 												<th>bses Agency</th>
 												<th>contract</th>
-												<th>status</th>
+												<!-- <th>status</th> -->
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -263,17 +263,14 @@
 	<!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-	 <form action="<%=request.getContextPath()%>/get-randr" id="getForm" name="getForm" method="post" >
-  		<input type="hidden" name="randr_id" id="randr_id"/>
+	 <form action="<%=request.getContextPath()%>/get-rr-bses" id="getForm" name="getForm" method="post" >
+  		<input type="hidden" name="bses_id" id="bses_id"/>
     </form>
     
-  <form action="<%=request.getContextPath()%>/export-randr" name="exportRandRForm" id="exportRandRForm" target="_blank" method="post">	
-        <input type="hidden" name="location_fk" id="exportLocation_fk" />
+  <form action="<%=request.getContextPath()%>/export-rr-bses" name="exportRandRForm" id="exportRandRForm" target="_blank" method="post">	
+        <input type="hidden" name="agency_name" id="exportAgency_name" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-        <input type="hidden" name="phase_fk" id="exportPhase_fk" />
-        <input type="hidden" name="status_fk" id="exportStatus_fk" />
-        <input type="hidden" name="structure_type_fk" id="exportStructure_type_fk" />
-        <input type="hidden" name="type_of_fk" id="exportType_of_fk" />
+        
 	</form>
 	
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -322,7 +319,7 @@
 		   
 		     getBSESList();
 		});
-		  function addInQueAgency(boundary_wall_status){
+		  function addInQueAgency(agency_name){
 		      	Object.keys(filtersMap).forEach(function (key) {
 			   		if(key.match('agency_name')) delete filtersMap[key];
 		   	   	});
@@ -338,17 +335,252 @@
 		        	filtersMap["work_id_fk"] = work_id_fk;
 		      	}
 		    }
+		 var queue = 1;
 		function getBSESList(){
-			
+			$(".page-loader-2").show();
+
+			getWorksFilterList('');
+			getAgencyNameFilterList('');
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var agency_name = $("#agency_name").val();
+	    	
+	    	var filters = '';
+	    	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+	    		filters = filters + key +"="+filtersMap[key] + "^";
+	    		window.localStorage.setItem("BsesFilters", filters);
+				});
+	    	   	table = $('#datatable-bses').DataTable();
+	    		table.destroy();
+				var i = 0;
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	    		var rowLen = 0;
+	    		var myParams =  "work_id_fk="
+	    				+ work_id_fk + "&agency_name="+ agency_name;
+
+	    		/***************************************************************************************************/
+
+	    		$("#datatable-bses").DataTable({
+	    			
+	    							"bProcessing" : true,
+	    							"bServerSide" : true,
+	    							"sort" : "position",
+	    							//bStateSave variable you can use to save state on client cookies: set value "true" 
+	    							"bStateSave" : false,
+	    							 stateSave: true,
+	    							 "fnStateSave": function (oSettings, oData) {
+	    							 	localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	    							},
+	    							 "fnStateLoad": function (oSettings) {
+	    								return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	    							 },
+	    							//Default: Page display length
+	    							"iDisplayLength" : 10,
+	    							"iData" : {
+	    								"start" : 52
+	    							},
+	    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+	    							"iDisplayStart" : 0,
+	    							"fnDrawCallback" : function() {
+	    								//Get page numer on client. Please note: number start from 0 So
+	    								//for the first page you will see 0 second page 1 third page 2...
+	    								//Un-comment below alert to see page number
+	    								//alert("Current page number: "+this.fnPagingInfo().iPage);
+	    							},
+	    							//"sDom": 'l<"toolbar">frtip',
+	    							"initComplete" : function() {
+	    								$('.dataTables_filter input[type="search"]')
+	    										.attr('placeholder', 'Search')
+	    										.css({
+	    											'width' : '350px ',
+	    											'display' : 'inline-block'
+	    										});
+
+	    								var input = $('.dataTables_filter input')
+	    										.unbind()
+	    										.bind('keyup',function(e){
+	    										    if (e.which == 13){
+	    										    	self.search(input.val()).draw();
+	    										    }
+	    										}), self = this.api(), $searchButton = $(
+	    										'<i class="fa fa-search" title="Go" >')
+	    								//.text('Go')
+	    								.click(function() {
+	    									self.search(input.val()).draw();
+	    								}), $clearButton = $(
+	    										'<i class="fa fa-close" title="Reset">')
+	    								//.text('X')
+	    								.click(function() {
+	    									input.val('');
+	    									$searchButton.click();
+	    								})
+	    								$('.dataTables_filter').append(
+	    										'<div class="right-btns"></div>');
+	    								$('.dataTables_filter div').append(
+	    										$searchButton, $clearButton);
+	    								rowLen = $('#datatable-bses tbody tr:visible').length
+	    								if(rowLen <= 1 &&  queue == 1){									
+	    									$('#datatable-bses').dataTable().api().draw(); 
+	    									getBSESList();
+	    									queue++;
+	    							    } 
+	    								/* var input = $('.dataTables_filter input').unbind(),
+	    								self = this.api(),
+	    								$searchButton = $('<i class="fa fa-search">')
+	    								           //.text('Go')
+	    								           .click(function() {			   	                    	 
+	    								              self.search(input.val()).draw();
+	    								           })			   	        
+	    								  $('.dataTables_filter label').append($searchButton); */
+	    							}
+	    							,
+	    							columnDefs : [ {
+	    								"targets" : 'no-sort',
+	    								"orderable" : false,
+	    							}
+	    			                ],
+	    							"sScrollX" : "100%",
+	    							"sScrollXInner" : "100%",
+	    							"ordering":false,
+	    							"bScrollCollapse" : true,
+	    							"language" : {
+	    								"info" : "_START_ - _END_ of _TOTAL_",
+	    								paginate : {
+	    									next : '<i class="fa fa-angle-right"></i>', 
+	    									previous : '<i class="fa fa-angle-left"></i>'  
+	    								}
+	    							},
+	    							
+	    							"bDestroy" : true,
+	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-rr-bses?"+myParams,
+	    		        "aoColumns": [
+	    		        	
+	      		            { "mData": function(data,type,row){
+	                             if($.trim(data.bses_id) == ''){ return '-'; }else{ return data.bses_id; }
+	      		            } },
+	      		         	{ "mData": function(data,type,row){
+	      		         		var work_short_name = '';
+	                             if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+	                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+	      		            } },
+	      		       
+	    		            { "mData": function(data,type,row){ 
+	    		            	if($.trim(data.agency_name) == ''){ return '-'; }else{ return data.agency_name; }
+	    		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		         		var contract_short_name = '';
+	                             if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
+	                             if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk +contract_short_name; }
+	    		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		         		var bses_id = "'"+data.bses_id+"'";
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getRandR('+bses_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+	    		            	return actions;
+	    		            } }
+	    		            
+	    		        ]
+	    		    });
+	    	
+	    	
+		  $(".page-loader-2").hide();  	
 			
 		}
-		
-		
+		function getRandR(bses_id){
+	    	$("#bses_id").val(bses_id);
+	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-rr-bses');
+	    	$('#getForm').submit();
+	    }
+	  	//This function is used to get error message for all ajax calls
+	    function getErrorMessage(jqXHR, exception) {
+	    	    var msg = '';
+	    	    if (jqXHR.status === 0) {
+	    	        msg = 'Not connect.\n Verify Network.';
+	    	    } else if (jqXHR.status == 404) {
+	    	        msg = 'Requested page not found. [404]';
+	    	    } else if (jqXHR.status == 500) {
+	    	        msg = 'Internal Server Error [500].';
+	    	    } else if (exception === 'parsererror') {
+	    	        msg = 'Requested JSON parse failed.';
+	    	    } else if (exception === 'timeout') {
+	    	        msg = 'Time out error.';
+	    	    } else if (exception === 'abort') {
+	    	        msg = 'Ajax request aborted.';
+	    	    } else {
+	    	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+	    	    }
+	    	    console.log(msg);
+	     }
+	    
+	    function getWorksFilterList(work) {
+	    	$(".page-loader").show();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var agency_name = $("#agency_name").val();
+	    	
+	        if ($.trim(work_id_fk) == "") {
+	        	$("#work_id_fk option:not(:first)").remove();
+	        	var myParams = {agency_name : agency_name,work_id_fk: work_id_fk};
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInRRBses",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	 var workShortName = '';
+	                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+	                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
+		                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }
+	        
+	        function getAgencyNameFilterList(agency) {
+		    	$(".page-loader").show();
+		    	var work_id_fk = $("#work_id_fk").val();
+		    	var agency_name = $("#agency_name").val();
+		        if ($.trim(agency_name) == "") {
+		        	$("#agency_name option:not(:first)").remove();
+		        	var myParams = {agency_name : agency_name,work_id_fk: work_id_fk};
+		            $.ajax({
+		                url: "<%=request.getContextPath()%>/ajax/getAgencyNameFilterListInRRBses",
+		                data: myParams, cache: false,async: false,
+		                success: function (data) {
+		                    if (data.length > 0) {
+		                        $.each(data, function (i, val) {
+		                             var selectedFlag = (agency == val.agency_name)?'selected':'';
+			                         $("#agency_name").append('<option value="' + val.agency_name + '"'+selectedFlag+'>' + $.trim(val.agency_name) +'</option>');
+		                        });
+		                    }
+		                    $('.searchable').select2();
+		                    $(".page-loader").hide();
+		                },error: function (jqXHR, exception) { 
+		 	   			      $(".page-loader").hide();
+			   	          	  getErrorMessage(jqXHR, exception);
+			   	     	  }
+		            });
+		        }else{
+		        	  $(".page-loader").hide();
+		        }
+	        }
+		        
 		function clearFilter() {
 			$("#work_id_fk").val('');
 			$("#agency_name").val('');
 			//$("#status_fk").val('');
 			$('.searchable').select2();
+			window.localStorage.setItem("BsesFilters",'');
+	    	window.location.href= "<%=request.getContextPath()%>/rr-bses";
+	    	var table = $('#datatable-bses').DataTable();
+	    	table.draw( true );
 		}
             
     </script>

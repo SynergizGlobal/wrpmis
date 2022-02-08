@@ -122,7 +122,7 @@
 										onclick="openUploadBsesModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-arrow-circle-up"></i> Upload</strong></a>--%>
-									<a href="<%=request.getContextPath()%>/bses-add-form"
+									<a href="<%=request.getContextPath()%>/rr-bses-add-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
 									<!-- <a href="javascript:void(0);" onclick="exportDesign();"

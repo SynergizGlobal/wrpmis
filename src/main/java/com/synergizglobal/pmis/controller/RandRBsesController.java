@@ -229,7 +229,7 @@ public class RandRBsesController {
 		return objsList;
 	}
 	
-	@RequestMapping(value="/bses-add-form",method=RequestMethod.GET)
+	@RequestMapping(value="/rr-bses-add-form",method=RequestMethod.GET)
 	public ModelAndView rAndRAddForm(HttpSession session,@ModelAttribute RRBses obj) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.addEditBses);
 		model.addObject("action", "add");

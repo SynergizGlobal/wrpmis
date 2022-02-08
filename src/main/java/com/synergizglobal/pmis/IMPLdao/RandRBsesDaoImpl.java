@@ -409,8 +409,9 @@ public class RandRBsesDaoImpl implements RandRBsesDao{
 					for (int i = 0; i < docArrSize; i++) {
 						if (!StringUtils.isEmpty(obj.getRrFiles()) && obj.getRrFiles().length > 0) {
 							MultipartFile multipartFile = obj.getRrFiles()[i];
-							if (((null != multipartFile && !multipartFile.isEmpty()) || (!StringUtils.isEmpty(obj.getAttachmentFileNames()[i]))) 
-									&& !StringUtils.isEmpty(obj.getBses_file_type_fks()[i]) && !StringUtils.isEmpty(obj.getNames()[i]))  {
+							if (((null != multipartFile && !multipartFile.isEmpty()) || (obj.getAttachmentFileNames().length > 0 )) 
+									&& obj.getBses_file_type_fks().length > 0 && obj.getNames().length > 0 && !StringUtils.isEmpty(obj.getBses_file_type_fks()[i]) 
+									&& !StringUtils.isEmpty(obj.getAttachmentFileNames()[i])  && !StringUtils.isEmpty(obj.getNames()[i]))  {
 								String saveDirectory =  CommonConstants2.RRBSES_FILE_SAVING_PATH ;
 								String fileName = null;
 								try {
@@ -566,7 +567,9 @@ public class RandRBsesDaoImpl implements RandRBsesDao{
 					for (int i = 0; i < docArrSize; i++) {
 						if (!StringUtils.isEmpty(obj.getRrFiles()) && obj.getRrFiles().length > 0) {
 							MultipartFile multipartFile = obj.getRrFiles()[i];
-							if ((null != multipartFile && !multipartFile.isEmpty()) && !StringUtils.isEmpty(obj.getBses_file_type_fks()[i]) && !StringUtils.isEmpty(obj.getNames()[i]))  {
+							if ((null != multipartFile && !multipartFile.isEmpty()) 
+									&& obj.getBses_file_type_fks().length > 0  && obj.getNames().length > 0 
+									&& !StringUtils.isEmpty(obj.getBses_file_type_fks()[i]) && !StringUtils.isEmpty(obj.getNames()[i]))  {
 								String saveDirectory =  CommonConstants2.RRBSES_FILE_SAVING_PATH ;
 								String fileName = obj.getRrFiles()[i].getOriginalFilename();
 								if (null != multipartFile && !multipartFile.isEmpty()) {
@@ -606,10 +609,16 @@ public class RandRBsesDaoImpl implements RandRBsesDao{
 						String qry3 = "INSERT into bses_committee_details (bses_id_fk, date_of_nomination, committee_details_remarks) VALUES (:bses_id,:date_of_nomination,:committee_details_remarks)";
 						
 						for (int a = 0; a < arrSize; a++){
+							String remarks = null;
+							try {
+								remarks = obj.getCommittee_details_remarkss()[a];
+							}catch(Exception e) {
+								remarks = null;
+							}
 							RRBses fileObj1 = new RRBses();
 							fileObj1.setBses_id(obj.getBses_id());
 							fileObj1.setDate_of_nomination(DateParser.parse(obj.getDate_of_nominations()[a]));
-							fileObj1.setCommittee_details_remarks(obj.getCommittee_details_remarkss()[a]);
+							fileObj1.setCommittee_details_remarks(remarks);
 							paramSource = new BeanPropertySqlParameterSource(fileObj1);
 							keyHolder = new GeneratedKeyHolder();
 							count = namedParamJdbcTemplate.update(qry3, paramSource, keyHolder);	

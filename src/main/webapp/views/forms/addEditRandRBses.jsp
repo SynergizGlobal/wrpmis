@@ -464,14 +464,14 @@
 									                                        <c:when test="${not empty dObj.comiteDetailsList }" >				                                          
 									                                		  <c:forEach var="fObj" items="${dObj.comiteDetailsList }" varStatus="indexx"> 
 									                                		   
-												                        		<tr id="committeeDetailsInternalRow${index.count}">
+												                        		<tr id="committeeDetailsInternalRow${indexx.count}${index.count}">
 												                        			<td>
 												                        				
 												                        				<input type="hidden" id="internalRow${index.count}" value="${fn:length(dObj.comiteDetailsList) }">
 												                        				<textarea id="committee_details${indexx.count}${index.count}"  onkeyup="getRowsCount('${index.count}');" name ="details" class="pmis-textarea" placeholder="Details">${fObj.details }</textarea>
 												                        			</td>
 												                        			<td>
-												                        				<a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('${indexx.count}');deleteRowsCount('${index.count}');"> <i class="fa fa-close"></i></a>
+												                        				<a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('${indexx.count}${index.count}');deleteRowsCount('${index.count}');"> <i class="fa fa-close"></i></a>
 												                        			</td>
 												                        		</tr>
 												                        		<script>
@@ -716,7 +716,7 @@
                                 </div>
                                 <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/bses" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath() %>/rr-bses" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>                           
@@ -838,14 +838,15 @@
     	 var rowNo = $("#committeeDetailsRowNo").val();
 		 var rNo = Number(rowNo)+1;
 		 var no = 0;
+		 var x = Math.floor(Math.random() * (100 - 500 + 1) + 500)
 		 var html = '<tr id="committeeDetailsRow'+rNo+'"> '
 		 			+'<td data-head="Date of Nomination" class="input-field"> <input id="nomination_date'+rNo+'" name="date_of_nominations" type="text" class="validate datepicker" '
 		 			+'placeholder="Date of Nomination"> <button type="button" id="nomination_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> '											                              
         			+'<span id="nomination_date'+rNo+'Error" class="error-msg" ></span>   </td>'
    					+'<td><div class="internal-table-add-btn"> <a class="btn waves-effect waves-light bg-m t-c" onclick="addInternalBodyRow('+rNo+')"> <i class="fa fa-plus"></i></a>'
             		+'<input type="hidden" id="internalRow'+rNo+'" value="0"></div> <table> <tbody id="committeeDetailsInternalBody'+rNo+'" class="internal-table">'
-            		+'<input type="hidden" id="details'+rNo+'" name ="detailss" /><tr id="committeeDetailsInternalRow'+rNo+'"> <td>	<textarea id="committee_details'+rNo+'" name ="details" onkeyup="getRowsCount('+rNo+');"class="pmis-textarea" placeholder="Details"></textarea> </td>'
-            		+'<td> <a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('+rNo+');deleteRowsCount('+rNo+');"> <i class="fa fa-close"></i></a> </td> </tr> </tbody> </table> </td>'
+            		+'<input type="hidden" id="details'+rNo+'" name ="detailss" /><tr id="committeeDetailsInternalRow'+rNo+x+'"> <td>	<textarea id="committee_details'+rNo+'" name ="details" onkeyup="getRowsCount('+rNo+');"class="pmis-textarea" placeholder="Details"></textarea> </td>'
+            		+'<td> <a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('+rNo+x+');deleteRowsCount('+rNo+');"> <i class="fa fa-close"></i></a> </td> </tr> </tbody> </table> </td>'
    					+'<td data-head="Remarks" class="input-field"> <textarea id="committee_remarks'+rNo+'" name ="committee_details_remarkss" class="pmis-textarea" placeholder="Remarks"></textarea>'
    					+'<span id="committee_remarks'+rNo+'Error" class="error-msg"></span>  </td>'
    				<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
@@ -866,9 +867,10 @@
     	 var rowNo = $("#internalRow"+No).val();
 		 var rNo = Number(rowNo)+1;
 		 var no = 0;
-		 var html = '<tr id="committeeDetailsInternalRow'+rNo+'"> '
+		 var x = Math.floor(Math.random() * (100 - 500 + 1) + 5000)
+		 var html = '<tr id="committeeDetailsInternalRow'+rNo+x+'"> '
 		 			+'<td> <textarea id="committee_details'+rNo+'" name ="details" onkeyup="getRowsCount('+No+');" class="pmis-textarea" placeholder="Details"></textarea> </td>'
-		 			+'<td><a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('+rNo+');deleteRowsCount('+No+');"> <i class="fa fa-close"></i></a></td>'
+		 			+'<td><a class="btn waves-effect waves-light red t-c" onclick="removeInternalBodyRow('+rNo+x+');deleteRowsCount('+No+');"> <i class="fa fa-close"></i></a></td>'
 					+'</tr>';
 		
 			 $('#committeeDetailsInternalBody'+No).append(html); 

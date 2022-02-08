@@ -476,11 +476,12 @@ public class ExpenditureController {
 		        
 		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectionValueStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
 		        XSSFRow headingRow = sheet.createRow(0);
-		        String headerString = "Expenditure ID^Work^Contract^Ledger Account^Date^Contractor Name^Vocher Type^Vocher No^Narration^Net Paid^Gross Work Done"
-	            		+ "^SD Payable^Contractor Income Tax^CGST TDS^SGST TDS^IGST TDS^VAT WCT^Mob Advance^Interest on Mob Advance^"
-	            		+ "Amount Withheld^Remarks";
+		        String headerString = "Expenditure ID^Work^Contract^Ledger Account^Date^Contractor Name^Vocher Type^Vocher No^Narration^Net Paid - (in Rs)^Gross Work Done - (in Rs)"
+	            		+ "^SD Payable - (in Rs)^Contractor Income Tax - (in Rs)^CGST TDS - (in Rs)^SGST TDS - (in Rs)^IGST TDS - (in Rs)^VAT WCT - (in Rs)^Mob Advance - (in Rs)^Interest on Mob Advance - (in Rs)^"
+	            		+ "Amount Withheld - (in Rs)^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -532,63 +533,63 @@ public class ExpenditureController {
 						cell.setCellValue(eObj.getNarration());
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str1=Double.parseDouble(!StringUtils.isEmpty(eObj.getNet_paid())?eObj.getNet_paid():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getNet_paid_units())?eObj.getNet_paid_units():"0")+" (in Rs)";
-						if(Str1.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str1);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str1=Double.parseDouble(!StringUtils.isEmpty(eObj.getNet_paid())?eObj.getNet_paid():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getNet_paid_units())?eObj.getNet_paid_units():"0");
+						if(Str1!=0.0){cell.setCellValue(Str1);}else {cell.setCellValue("");}
 						
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str2=Double.parseDouble(!StringUtils.isEmpty(eObj.getGross_work_done())?eObj.getGross_work_done():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getGross_work_done_units())?eObj.getGross_work_done_units():"0")+" (in Rs)";
-						if(Str2.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str2);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str2=Double.parseDouble(!StringUtils.isEmpty(eObj.getGross_work_done())?eObj.getGross_work_done():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getGross_work_done_units())?eObj.getGross_work_done_units():"0");
+						if(Str2!=0.0){cell.setCellValue(Str2);}else {cell.setCellValue("");}
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str3=Double.parseDouble(!StringUtils.isEmpty(eObj.getSd_payable())?eObj.getSd_payable():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getSd_payable_units())?eObj.getSd_payable_units():"0")+" (in Rs)";
-						if(Str3.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str3);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str3=Double.parseDouble(!StringUtils.isEmpty(eObj.getSd_payable())?eObj.getSd_payable():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getSd_payable_units())?eObj.getSd_payable_units():"0");
+						if(Str3!=0.0){cell.setCellValue(Str3);}else {cell.setCellValue("");}
 
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str4=Double.parseDouble(!StringUtils.isEmpty(eObj.getContractor_income_tax())?eObj.getContractor_income_tax():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getContractor_income_tax_units())?eObj.getContractor_income_tax_units():"0")+" (in Rs)";
-						if(Str4.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str4);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str4=Double.parseDouble(!StringUtils.isEmpty(eObj.getContractor_income_tax())?eObj.getContractor_income_tax():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getContractor_income_tax_units())?eObj.getContractor_income_tax_units():"0");
+						if(Str4!=0.0){cell.setCellValue(Str4);}else {cell.setCellValue("");}
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str5=Double.parseDouble(!StringUtils.isEmpty(eObj.getCgst_tds())?eObj.getCgst_tds():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getCgst_tds_units())?eObj.getCgst_tds_units():"0")+" (in Rs)";
-						if(Str5.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str5);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str5=Double.parseDouble(!StringUtils.isEmpty(eObj.getCgst_tds())?eObj.getCgst_tds():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getCgst_tds_units())?eObj.getCgst_tds_units():"0");
+						if(Str5!=0.0){cell.setCellValue(Str5);}else {cell.setCellValue("");}
 
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str6=Double.parseDouble(!StringUtils.isEmpty(eObj.getSgst_tds())?eObj.getSgst_tds():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getSgst_tds_units())?eObj.getSgst_tds_units():"0")+" (in Rs)";
-						if(Str6.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str6);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str6=Double.parseDouble(!StringUtils.isEmpty(eObj.getSgst_tds())?eObj.getSgst_tds():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getSgst_tds_units())?eObj.getSgst_tds_units():"0");
+						if(Str6!=0.0){cell.setCellValue(Str6);}else {cell.setCellValue("");}
 
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str7=Double.parseDouble(!StringUtils.isEmpty(eObj.getIgst_tds())?eObj.getIgst_tds():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getIgst_tds_units())?eObj.getIgst_tds_units():"0")+" (in Rs)";
-						if(Str7.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str7);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str7=Double.parseDouble(!StringUtils.isEmpty(eObj.getIgst_tds())?eObj.getIgst_tds():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getIgst_tds_units())?eObj.getIgst_tds_units():"0");
+						if(Str7!=0.0){cell.setCellValue(Str7);}else {cell.setCellValue("");}
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str8=Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct())?eObj.getVat_wct():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct_units())?eObj.getVat_wct_units():"0")+" (in Rs)";
-						if(Str8.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str8);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str8=Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct())?eObj.getVat_wct():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct_units())?eObj.getVat_wct_units():"0");
+						if(Str8!=0.0){cell.setCellValue(Str8);}else {cell.setCellValue("");}
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str9=Double.parseDouble(!StringUtils.isEmpty(eObj.getMob_advance())?eObj.getMob_advance():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getMob_advance_units())?eObj.getMob_advance_units():"0")+" (in Rs)";
-						if(Str9.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str9);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str9=Double.parseDouble(!StringUtils.isEmpty(eObj.getMob_advance())?eObj.getMob_advance():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getMob_advance_units())?eObj.getMob_advance_units():"0");
+						if(Str9!=0.0){cell.setCellValue(Str9);}else {cell.setCellValue("");}
 					
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str10=Double.parseDouble(!StringUtils.isEmpty(eObj.getInterest_on_mob_adv())?eObj.getInterest_on_mob_adv():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getInterest_on_mob_adv_units())?eObj.getInterest_on_mob_adv_units():"0")+" (in Rs)";
-						if(Str10.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str10);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str10=Double.parseDouble(!StringUtils.isEmpty(eObj.getInterest_on_mob_adv())?eObj.getInterest_on_mob_adv():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getInterest_on_mob_adv_units())?eObj.getInterest_on_mob_adv_units():"0");
+						if(Str10!=0.0){cell.setCellValue(Str10);}else {cell.setCellValue("");}
 						
 						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						String Str11=Double.parseDouble(!StringUtils.isEmpty(eObj.getAmount_withheld())?eObj.getAmount_withheld():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getAmount_withheld_units())?eObj.getAmount_withheld_units():"0")+" (in Rs)";
-						if(Str11.compareTo("0.0 (in Rs)")!=0){cell.setCellValue(Str11);}else {cell.setCellValue("");}
+						cell.setCellStyle(sectionValueStyle);
+						double Str11=Double.parseDouble(!StringUtils.isEmpty(eObj.getAmount_withheld())?eObj.getAmount_withheld():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getAmount_withheld_units())?eObj.getAmount_withheld_units():"0");
+						if(Str11!=0.0){cell.setCellValue(Str11);}else {cell.setCellValue("");}
 						
 						
 						cell = row.createCell(c++);

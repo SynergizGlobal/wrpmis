@@ -48,10 +48,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.synergizglobal.pmis.Iservice.ContractorService;
 import com.synergizglobal.pmis.Iservice.ExpenditureService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.ExpenditurePaginationObject;
 import com.synergizglobal.pmis.model.FileFormatModel;
@@ -70,6 +72,9 @@ public class ExpenditureController {
 	
 	@Autowired
 	ExpenditureService expenditureService;
+	
+	@Autowired
+	ContractorService contractorService;	
 	
 	@Autowired
 	HomeService homeService;
@@ -290,6 +295,10 @@ public class ExpenditureController {
 			
 			List<Expenditure> unitsList = expenditureService.getUnitsList();
 			model.addObject("unitsList", unitsList);
+
+			List<Contractor> contractorsList = contractorService.getContractorsList();
+			model.addObject("contractorsList", contractorsList);
+			
 			
 		}catch (Exception e) {
 				logger.error("Expenditure : " + e.getMessage());
@@ -348,6 +357,10 @@ public class ExpenditureController {
 			model.addObject("voucherList", voucherList);
 			List<Expenditure> unitsList = expenditureService.getUnitsList();
 			model.addObject("unitsList", unitsList);
+
+			List<Contractor> contractorsList = contractorService.getContractorsList();
+			model.addObject("contractorsList", contractorsList);
+			
 			Expenditure expenditureDetails = expenditureService.getExpenditure(obj);
 			model.addObject("expenditureDetails", expenditureDetails);
 		}catch (Exception e) {
@@ -369,6 +382,8 @@ public class ExpenditureController {
 			model.addObject("voucherList", voucherList);
 			List<Expenditure> unitsList = expenditureService.getUnitsList();
 			model.addObject("unitsList", unitsList);
+			List<Contractor> contractorsList = contractorService.getContractorsList();
+			model.addObject("contractorsList", contractorsList);			
 			obj.setExpenditure_id(expenditure_id);
 			Expenditure expenditureDetails = expenditureService.getExpenditure(obj);
 			model.addObject("expenditureDetails", expenditureDetails);

@@ -186,8 +186,13 @@
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="contractor_name" name="contractor_name" type="text" class="validate pdtb8px" >
-                                    <label for="contractor_name" class="fs-sm-8rem">Contractor Name <span class="required">*</span></label>
+                                    <p class="searchable_label">Contractor <span class="required">*</span></p>
+                                    <select id="contractor_name" name="contractor_name" class="searchable validate-dropdown">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${contractorsList }">
+                                      	   <option value= "${ obj.contractor_name}">${obj.contractor_name}</option>
+                                         </c:forEach>
+                                    </select>
                                     <span id="contractor_nameError" class="error-msg" ></span>
                                 </div>
                             

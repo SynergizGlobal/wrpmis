@@ -5,7 +5,7 @@ import java.util.List;
 public class Safety {
 	
 	private String structure_type,status,utility_alignment,general_status,la_land_status,contract_status,manual_folders,impact,utility_category,short_description,root_cause,land_type,approval_status,document_type,priority,status_of,risk_priority,project_priority,sub_category,category,p6_wbs_category,module_name,soft_delete_status_fk;
-	private String Table_name,column_name,execution_agency,utility_type,utility_status,requirement_stage,tName,count,value_new,value_old;
+	private String Table_name,column_name,execution_agency,utility_type,utility_status,requirement_stage,tName,count,value_new,value_old,utility_shifting_file_type;
 	private List<Safety> dList;
 	private List<Safety> dList1;
 	private List<Safety> tablesList;
@@ -305,6 +305,14 @@ public class Safety {
 
 	public void setValue_old(String value_old) {
 		this.value_old = value_old;
+	}
+
+	public String getUtility_shifting_file_type() {
+		return utility_shifting_file_type;
+	}
+
+	public void setUtility_shifting_file_type(String utility_shifting_file_type) {
+		this.utility_shifting_file_type = utility_shifting_file_type;
 	}
 
 }

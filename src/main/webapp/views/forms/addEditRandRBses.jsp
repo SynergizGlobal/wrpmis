@@ -334,7 +334,7 @@
                             <div class="row" style="margin-top:1rem;">
 						    <c:if test="${action eq 'add'}">	
                                 <div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label"> Project</p>
+                                    <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"   onchange="getWorksList(this.value);">
                                          <option value="" >Select</option>
                                           <c:forEach var="obj" items="${projectsList }">
@@ -344,7 +344,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label"> Work </p>
+                                    <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getContractsList(this.value);resetProjectsDropdowns(this.value);">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${workList }">
@@ -364,7 +364,7 @@
                                       <span id="contract_fkError" class="error-msg" ></span>
                                 </div>
                             </c:if>
- 							<c:if test="${action eq 'edit'}">		                             
+ 							<c:if test="${action eq 'edit'}">				                                        		                             
 	                                <div class="col s6 m4 l4 input-field ">
 								    	<label for="project_id_fk">Project </label>
 								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${rrBsesDeatils.project_id_fk }"  />
@@ -376,9 +376,24 @@
 	                                	<input type="text" value="${rrBsesDeatils.work_id_fk } - ${rrBsesDeatils.work_short_name }" readonly />
 	                                </div>
 	                           		<div class="col s12 m4 l4 input-field"> 
-	                                	<label for="contract_id_fk">Contract </label>
-	                                	<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${rrBsesDeatils.contract_id_fk }"  />
-	                                	<input type="text" value="${rrBsesDeatils.contract_id_fk } - ${rrBsesDeatils.contract_short_name }" readonly />
+	                                	 <c:choose>
+				                             <c:when test="${not empty rrBsesDeatils.contract_id_fk  }" >	
+			                                	<label for="contract_id_fk">Contract </label>
+				                             	<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${rrBsesDeatils.contract_id_fk }"  />
+	                                			<input type="text" value="${rrBsesDeatils.contract_id_fk } - ${rrBsesDeatils.contract_short_name }" readonly />
+				                             </c:when>
+				                             <c:otherwise>	  
+				                             	<p class="searchable_label mb-8"> Contract </p>
+			                                    <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk">
+			                                        <option value="" >Select</option>
+			                                       <c:forEach var="obj" items="${contractList }">
+			                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id}">${obj.contract_id} <c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+			                                         </c:forEach>
+			                                    </select>
+			                                    <span id="contract_fkError" class="error-msg" ></span>                 
+				                             </c:otherwise>
+			                             </c:choose>
+	                                	
 	                                </div>
                               </c:if>
 							</div>
@@ -612,7 +627,7 @@
 			                                                    </td>
 			                                                    <td>
 			                                                     		<%-- <input type="hidden" id="attach_file_ids${index.count }" name="attach_file_ids" value="${docObj.id }"/> --%>
-			                                                      		<a href="<%=CommonConstants2.RRBSES_FILE_SAVING_PATH%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                      		<a href="<%=CommonConstants2.RRBSES_FILES%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 			                                                        
 			                                                    </td>
 			                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 

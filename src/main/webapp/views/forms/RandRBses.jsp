@@ -38,7 +38,10 @@
          .row.no-mar{
          	margin-bottom:0;
          }
-
+			
+		.m-n1 {
+		    margin: -2rem auto 0;
+		}
       @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -60,7 +63,7 @@
 	        	position:absolute;
 	        	right:5px;
 	        	top:30px;
-	        }
+	        }	       
 	      
 		}
 		#datatable-bses_mob td > .btn.t-c{
@@ -80,7 +83,7 @@
 
 	@media only screen and (max-width: 767px){
 		.mob-mar{
-			text-align: center;
+			text-align: left;
 		    margin-top: -1rem;
 		    margin-bottom: 2.2rem;
 		}
@@ -107,8 +110,8 @@
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title headbg">
-							<div class="center-align bg-m p-2 m-b-5">								
-								<h6 class="left-align mob-mar center-align">R & R BSES</h6>
+							<div class="center-align bg-m p-2 m-b-2">								
+								<h6 class="mob-mar ">R & R BSES</h6>
 								 <div class="col s12 m12 right-align exportButton" >
 								
 								<div class="m-n1">
@@ -119,7 +122,7 @@
 										onclick="openUploadBsesModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-arrow-circle-up"></i> Upload</strong></a>--%>
-									<a href="<%=request.getContextPath()%>//bses-add-form"
+									<a href="<%=request.getContextPath()%>/bses-add-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
 									<!-- <a href="javascript:void(0);" onclick="exportDesign();"
@@ -136,7 +139,7 @@
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
 						<div class="row no-mar">
-							<div class="col s12 m12 l12 offset-l2">
+							<div class="col s12 m12 l10 offset-l2">
 								<div class="row">
 									<div class="col s6 m4 l3 input-field">
 										<p class="searchable_label">Work</p>
@@ -437,6 +440,7 @@
 	    							columnDefs : [ {
 	    								"targets" : 'no-sort',
 	    								"orderable" : false,
+	    								 /* "width": "20px", "targets": [4] ,  */
 	    							}
 	    			                ],
 	    							"sScrollX" : "100%",

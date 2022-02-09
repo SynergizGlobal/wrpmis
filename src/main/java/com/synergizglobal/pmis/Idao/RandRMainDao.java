@@ -66,4 +66,15 @@ public interface RandRMainDao {
 
 	List<RandRMain> getRRIdListForRRForm(RandRMain obj) throws Exception;
 
+	List<RandRMain> getRandRMainList(RandRMain obj) throws Exception;
+
+	List<RandRMain> gecommercialList(String rr_id) throws Exception;
+
+
+	List<RandRMain> getComDetailsListList(String rr_id) throws Exception;
+
+	List<RandRMain> getResidentialList(String rr_id) throws Exception;
+
+	List<RandRMain> getRDetailsList(String rr_id) throws Exception;
+
 }

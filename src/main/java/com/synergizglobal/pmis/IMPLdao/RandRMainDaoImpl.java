@@ -678,8 +678,20 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getLocationListForRRForm(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "select rr_location as location_name from rr_location ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
+			String qry = "select rr_location as location_name from rr_location l "
+					+ "left join rr_sub_location s on rr_location = rr_location_fk where rr_location is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_location_name())) {
+				qry = qry + "and s.rr_sub_location = ?";
+				arrSize++;
+			}
+			qry = qry + " group by rr_location ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_location_name())) {
+				pValues[i++] = obj.getSub_location_name();
+			}	
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}
@@ -690,8 +702,19 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getSubLocationListForRRForm(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "select rr_sub_location as sub_location_name from rr_sub_location ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
+			String qry = "select rr_sub_location as sub_location_name from rr_sub_location where rr_sub_location is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
+				qry = qry + "and rr_location_fk = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
+				pValues[i++] = obj.getLocation_name();
+			}	
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+				
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}
@@ -1393,6 +1416,187 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			String qry = "select rr_id  from rr ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
 		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<RandRMain> getRandRMainList(RandRMain obj) throws Exception {
+		List<RandRMain> objsList = null;
+		try {
+			String qry ="select rr_id, r.work_id as work_id_fk, identification_no ,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall," + 
+					"  type_of_structure_floor, carpet_area, DATE_FORMAT(year_of_construction ,'%d-%m-%Y') AS year_of_construction, name_of_the_owner, type_of_use,"
+					+ " document_type, document_no, DATE_FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,"
+					+ "DATE_FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,"
+					+ "DATE_FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc,cast(estimation_amount as CHAR) as  estimation_amount, m1.unit as estimation_amount_units, "
+					+ "DATE_FORMAT(estimate_approval_date ,'%d-%m-%Y') AS estimate_approval_date,DATE_FORMAT(letter_to_mmrda ,'%d-%m-%Y') AS letter_to_mmrda, "
+					+ "cast(estimates_by_mmrda as CHAR) as estimates_by_mmrda, m.unit as estimated_by_mmrda_amount_units, DATE_FORMAT(payment_to_mmrda ,'%d-%m-%Y') AS payment_to_mmrda, "
+					+ "DATE_FORMAT(alternate_housing_allotment ,'%d-%m-%Y') AS alternate_housing_allotment,"
+					+ "DATE_FORMAT(relocation ,'%d-%m-%Y') AS relocation,DATE_FORMAT(encroachment_removal ,'%d-%m-%Y') AS encroachment_removal,"
+					+ "DATE_FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,"
+					+ "DATE_FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification, r.remarks from rr r " + 
+					" LEFT JOIN work w on r.work_id = w.work_id " + 
+					"left join project p on w.project_id_fk = p.project_id  " + 
+					"left join money_unit m on r.estimated_by_mmrda_amount_units = m.value  " + 
+					"left join money_unit m1 on r.estimation_amount_units = m1.value  " + 
+					" WHERE rr_id is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and r.work_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
+				qry = qry + " and location_name = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
+				qry = qry + " and phase = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
+				qry = qry + " and structure_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
+				qry = qry + " and boundary_wall_status = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
+				qry = qry + " and type_of_use = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
+				pValues[i++] = obj.getLocation_name();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
+				pValues[i++] = obj.getPhase();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
+				pValues[i++] = obj.getStructure_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
+				pValues[i++] = obj.getBoundary_wall_status();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
+				pValues[i++] = obj.getType_of_use();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<RandRMain> gecommercialList(String rr_id) throws Exception {
+		List<RandRMain> objsList = null;
+		try {
+			String qry ="select rc.id, rr_id_fk, name_of_activity, year_of_establishment,"
+					+ " rc.carpet_area as com_carpet_area,cast(monthly_turnover_amount as CHAR) as monthly_turnover_amount, m.unit as monthly_turnover_amount_units, number_of_employees, rc.remarks as com_remarks from rr_commercial_details rc "
+					+ "LEFT JOIN rr r on rc.rr_id_fk = r.rr_id "
+					+"left join money_unit m on rc.monthly_turnover_amount_units = m.value  "
+					+ "WHERE rr_id_fk is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(rr_id) ) {
+				qry = qry + " and rr_id_fk  = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(rr_id)) {
+				pValues[i++] = rr_id;
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<RandRMain> getComDetailsListList(String rr_id) throws Exception {
+		List<RandRMain> objsList = null;
+		try {
+			String qry ="select rc.id, rr_id_fk, employee_name, employee_age, employee_gender, employee_literacy, employee_attended, "
+					+ "employee_travel_time, cast(employee_salary as CHAR) as employee_salary,m.unit as  employee_salary_units, employee_nature_of_work  from rr_commercial_employee_details rc "
+					+ "LEFT JOIN rr r on rc.rr_id_fk = r.rr_id "
+					+"left join money_unit m on rc.employee_salary_units = m.value  "
+					+ "WHERE rr_id_fk is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(rr_id) ) {
+				qry = qry + " and rr_id_fk  = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(rr_id)) {
+				pValues[i++] = rr_id;
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<RandRMain> getResidentialList(String rr_id) throws Exception {
+		List<RandRMain> objsList = null;
+		try {
+			String qry ="select rc.id, rr_id_fk, occupancy_status, gender, tenure_status, caste, mother_tongue, type_of_family, "
+					+ "family_size, number_of_married_couple,cast(family_income_amount as CHAR) as family_income_amount,m.unit as family_income_amount_units, vulnerable_category from rr_residential_details rc "
+					+ "LEFT JOIN rr r on rc.rr_id_fk = r.rr_id "
+					+"left join money_unit m on rc.family_income_amount_units = m.value  "
+					+ "WHERE rr_id_fk is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(rr_id) ) {
+				qry = qry + " and rr_id_fk  = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(rr_id)) {
+				pValues[i++] = rr_id;
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<RandRMain> getRDetailsList(String rr_id) throws Exception {
+		List<RandRMain> objsList = null;
+		try {
+			String qry ="select rc.id, rr_id_fk, residential_name, residential_relation_with_head, residential_age, residential_gender, residential_maritual_status, residential_education,"
+					+ " residential_employment,cast(residential_salary as CHAR) as residential_salary,m.unit as  residential_salary_units from rr_residential_family_details rc "
+					+ "LEFT JOIN rr r on rc.rr_id_fk = r.rr_id "
+					+"left join money_unit m on rc.residential_salary_units = m.value  "
+					+ "WHERE rr_id_fk is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(rr_id) ) {
+				qry = qry + " and rr_id_fk  = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(rr_id)) {
+				pValues[i++] = rr_id;
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return objsList;

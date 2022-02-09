@@ -166,4 +166,29 @@ public class RandRMainServiceImpl implements RandRMainService{
 		return dao.getRRIdListForRRForm(obj);
 	}
 
+	@Override
+	public List<RandRMain> getRandRMainList(RandRMain obj) throws Exception {
+		return dao.getRandRMainList(obj);
+	}
+
+	@Override
+	public List<RandRMain> gecommercialList(String rr_id) throws Exception {
+		return dao.gecommercialList(rr_id);
+	}
+
+	@Override
+	public List<RandRMain> getComDetailsListList(String rr_id) throws Exception {
+		return dao.getComDetailsListList(rr_id);
+	}
+
+	@Override
+	public List<RandRMain> getResidentialList(String rr_id) throws Exception {
+		return dao.getResidentialList(rr_id);
+	}
+
+	@Override
+	public List<RandRMain> getRDetailsList(String rr_id) throws Exception {
+		return dao.getRDetailsList(rr_id);
+	}
+
 }

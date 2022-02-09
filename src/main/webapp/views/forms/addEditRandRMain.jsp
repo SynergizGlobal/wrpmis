@@ -377,7 +377,7 @@
                              <div class="row">                       
                                  <div class="col s12 m4 l4 input-field ">
                                  	<p class="searchable_label">Location <!-- <span class="required">*</span> --></p>
-                                    <select class="searchable validate-dropdown" name="location_name" id="location_name">
+                                    <select class="searchable validate-dropdown" name="location_name" id="location_name" onchange="getSubLocationList();">
                                         <option value="" selected>Select</option>
                                           <c:forEach var="obj" items="${location }">
                                       	   <option value= "${ obj.location_name}" <c:if test="${rrDetails.location_name eq obj.location_name}">selected</c:if>> ${obj.location_name }</option>
@@ -387,7 +387,7 @@
                                 </div>
                                  <div class="col s6 m4 l4 input-field ">
                                      <p class="searchable_label">Sub Location <!-- <span class="required">*</span> --></p>
-                                    <select class="searchable validate-dropdown" name="sub_location_name" id="sub_location_name">
+                                    <select class="searchable validate-dropdown" name="sub_location_name" id="sub_location_name" > <!-- onchange="getLocationList();" -->
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${subLocation }">
                                       	   <option value= "${ obj.sub_location_name}" <c:if test="${fn:trim(rrDetails.sub_location_name) eq fn:trim(obj.sub_location_name)}">selected</c:if>> ${obj.sub_location_name }</option>
@@ -1230,11 +1230,63 @@
 			var percapita_income = Math.round((family_income / family_size) * 100)/100
 			$('#percapita_per_month').text(	percapita_income+' '+income_units	);
 		}
-	
+		getSubLocationList();
    });
-   
+           
+   function getSubLocationList(){
+ 	   $(".page-loader").show();
+ 	   var location_name = ($('#location_name').val());
+ 	   var sub_location_name = ($('#sub_location_name').val());
+ 	   $("#sub_location_name option:not(:first)").remove();
+      /*  if ($.trim(sub_location_name) == "") { */
+           var myParams = { location_name: location_name };
+           $.ajax({
+               url: "<%=request.getContextPath()%>/ajax/getSubLocationListInRR",
+               data: myParams, cache: false,
+               success: function (data) {
+                   if (data.length > 0) {
+                       $.each(data, function (i, val) {
+                            var sub_location = "${rrDetails.sub_location_name}";
+	                           if ($.trim(sub_location) != '' && val.sub_location_name == $.trim(sub_location)) {
+                                  $("#sub_location_name").append('<option value="' + val.sub_location_name + '" selected>' + $.trim(val.sub_location_name) + '</option>');
+                              } else {
+                                  $("#sub_location_name").append('<option value="' + val.sub_location_name + '">' + $.trim(val.sub_location_name) + '</option>');
+                              }
+                       });
+                   }
+                   $('.searchable').select2();
+                   $(".page-loader").hide();
+               }
+           });
+      /*  }else{
+       	$(".page-loader").hide();
+       } */
+   }
+  <%--  function getLocationList(){
+ 	   $(".page-loader").show();
+ 	   var location_name = ($('#location_name').val());
+	   var sub_location_name = ($('#sub_location_name').val());
+       if ($.trim(location_name) == "") {
+    	   $("#location_name option:not(:first)").remove();
+           var myParams = { sub_location_name: sub_location_name };
+           $.ajax({
+               url: "<%=request.getContextPath()%>/ajax/getLocationListInRR",
+               data: myParams, cache: false,
+               success: function (data) {
+                   if (data.length > 0) {
+                       $.each(data, function (i, val) {
+                            $("#location_name").append('<option value="' + val.location_name + '">' + $.trim(val.location_name) + '</option>');
+                       });
+                   }
+                   $('.searchable').select2();
+                   $(".page-loader").hide();
+               }
+           });
+       }else{
+       	$(".page-loader").hide();
+       }
+   } --%>
    function checkRRId(){
-	   
 	   var arr = '${rrId}';
 	   var rrId = $('#rr_id').val();
 	   if ($.trim(rrId) != "") {

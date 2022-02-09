@@ -55,7 +55,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry ="select la_id,survey_number,li.remarks,li.area_to_be_acquired,li.category_fk as type_of_land,li.la_land_status_fk,li.work_id_fk,w.work_name,w.project_id_fk,p.project_name,IFNULL(li.category_fk,c.la_category) as type_of_land ,sc.la_sub_category as sub_category_of_land, w.work_short_name,village_id,la_sub_category_fk,village,cast(area_of_plot as CHAR) as area_of_plot " + 
+			String qry ="select la_id,survey_number,li.remarks,li.area_to_be_acquired,li.category_fk as type_of_land,li.la_land_status_fk,li.work_id_fk,w.work_name,w.project_id_fk,p.project_name,IFNULL(li.category_fk,c.la_category) as type_of_land ,sc.la_sub_category as sub_category_of_land, w.work_short_name,village_id,la_sub_category_fk,village,cast(area_of_plot as CHAR) as area_of_plot,modified_by,DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date " + 
 					" from la_land_identification li " + 
 					"left join work w on li.work_id_fk = w.work_id "+
 					"left join project p on w.project_id_fk = p.project_id "
@@ -945,7 +945,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "area_of_plot= :area_of_plot, jm_fee_amount = :jm_fee_amount, chainage_from= :chainage_from, chainage_to= :chainage_to, jm_fee_letter_received_date= :jm_fee_letter_received_date, jm_fee_paid_date= :jm_fee_paid_date, jm_start_date= :jm_start_date, jm_completion_date= :jm_completion_date, "
 					+ "jm_sheet_date_to_sdo= :jm_sheet_date_to_sdo, jm_remarks= :jm_remarks, jm_approval= :jm_approval, issues= :issues, jm_fee_amount_units= :jm_fee_amount_units,"
 					+ "la_land_status_fk= :la_land_status_fk, special_feature= :special_feature,private_land_process= :private_land_process,area_acquired= :area_acquired,"
-					+ "category_fk= :category_fk,area_to_be_acquired= :area_to_be_acquired,remarks= :remarks    "
+					+ "category_fk= :category_fk,area_to_be_acquired= :area_to_be_acquired,remarks= :remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP    "
 					+ "where la_id= :la_id ";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -1358,7 +1358,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "area_of_plot= :area_of_plot, jm_fee_amount = :jm_fee_amount, chainage_from= :chainage_from, chainage_to= :chainage_to, jm_fee_letter_received_date= :jm_fee_letter_received_date, jm_fee_paid_date= :jm_fee_paid_date, jm_start_date= :jm_start_date, jm_completion_date= :jm_completion_date, "
 					+ "jm_sheet_date_to_sdo= :jm_sheet_date_to_sdo, jm_remarks= :jm_remarks, jm_approval= :jm_approval, issues= :issues,  jm_fee_amount_units= :jm_fee_amount_units,"
 					+ "la_land_status_fk= :la_land_status_fk, special_feature= :special_feature,private_land_process= :private_land_process,area_acquired= :area_acquired,"
-					+ "category_fk= :category_fk,area_to_be_acquired= :area_to_be_acquired,remarks= :remarks    "
+					+ "category_fk= :category_fk,area_to_be_acquired= :area_to_be_acquired,remarks= :remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP    "
 					+ "where la_id= :la_id ";
 		//	int rNo = 0;
 			for (LandAcquisition obj : lasList) {
@@ -1413,7 +1413,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 							+ "publication_in_gazette_20f= :publication_in_gazette_20f, publication_of_notice_in_2_local_news_papers_20f= :publication_of_notice_in_2_local_news_papers_20f "
 							+ "where la_id_fk= :la_id";
 					
-					String upLandQry = "UPDATE la_land_identification set private_land_process = 'Private IRA' where la_id= :la_id";
+					String upLandQry = "UPDATE la_land_identification set private_land_process = 'Private IRA',modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP where la_id= :la_id";
 					
 					for (LandAcquisition obj1 : obj.getPrivateIRAList()) {
 						String table_name1 = "la_private_ira";
@@ -1456,7 +1456,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					 		+ "total_compensation= :total_compensation,basic_rate_units= :basic_rate_units,agriculture_tree_rate_units= :agriculture_tree_rate_units,forest_tree_rate_units= :forest_tree_rate_units  "
 					 		+ "where la_id_fk= :la_id";
 					
-					String upLandQry = "UPDATE la_land_identification set private_land_process = 'Private DPM' where la_id= :la_id";
+					String upLandQry = "UPDATE la_land_identification set private_land_process = 'Private DPM',modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP where la_id= :la_id";
 					for (LandAcquisition obj2 : obj.getPrivateLAList()) {
 						String table_name2 = "la_private_land_acquisition";
 						String la_id2 = checkLAIdMethod(obj2,table_name2);

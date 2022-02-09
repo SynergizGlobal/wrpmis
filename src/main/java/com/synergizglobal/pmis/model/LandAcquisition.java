@@ -10,7 +10,7 @@ public class LandAcquisition {
 	
 	private String work_id, la_id, project_id,project_id_fk,project_name,work_id_fk,work_name,work_short_name,survey_number, la_sub_category_fk,la_sub_category,la_category,village_id,status, status_of, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, 
 	jm_start_date, jm_completion_date,is_there_issue,category_id,category_fk, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,attachment,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name
-	,jm_fee_amount_units,value,unit,la_file_type,la_land_status,
+	,jm_fee_amount_units,value,unit,la_file_type,la_land_status,modified_by,modified_date,
 	//gov
 	id, la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,
     area_acquired, remarks,gov_remarks,amount_demanded_units,amount_paid_units,
@@ -1882,6 +1882,22 @@ public class LandAcquisition {
 		}
 	    
 	    return flag;            
+	}
+
+	public String getModified_by() {
+		return modified_by;
+	}
+
+	public void setModified_by(String modified_by) {
+		this.modified_by = modified_by;
+	}
+
+	public String getModified_date() {
+		return modified_date;
+	}
+
+	public void setModified_date(String modified_date) {
+		this.modified_date = modified_date;
 	}
 
 }

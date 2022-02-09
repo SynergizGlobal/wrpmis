@@ -280,7 +280,8 @@
                                             <th> Village</th>
                                             <th> Type of Land</th>
                                             <th> Sub Category <br>of Land</th>
-                                            <th> Area of Plot (Ha)</th>                                           
+                                            <th> Area of Plot (Ha)</th>
+                                            <th>Last Update</th>                                           
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -644,6 +645,9 @@
 			            { "mData": function(data,type,row){
 			            	if($.trim(data.area_of_plot) == ''){ return '-'; }else{ return data.area_of_plot; }
 			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }
+			            } },			            
 			         
 			         	{ "mData": function(data,type,row){
 			         		var la_id = "'"+data.la_id+"'";

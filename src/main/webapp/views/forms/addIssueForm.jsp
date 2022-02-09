@@ -436,6 +436,22 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
+	
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+    
+    	var cid = getUrlVars()["id"];
+	    if(cid!="")
+	    {
+	    	$("#contract_id_fk").val(cid);
+	    	resetWorksAndProjectsDropdowns();getIssueCategoryList();getIssueTitlesList();
+	    }
+	    
 		var datePickerSelectAddClass = function () {
 		    var self = this;
 		    setTimeout(function () {

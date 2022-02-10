@@ -9,7 +9,7 @@ public class UtilityShifting {
 	utility_type_fk, utility_category_fk, owner_name, execution_agency_fk, contract_id_fk, start_date, scope, completed,
 	shifting_status_fk, shifting_completion_date, remarks, latitude, longitude, impacted_contract_id_fk, requirement_stage_fk, planned_completion_date,
 	contract_id,contract_name,work_name,project_id_fk,project_name,department_fk,Status_fk,work_short_name,contract_short_name,
-	category_fk,user_role_code,hod_user_id_fk,unit_fk,attachment,progress_date,progress_of_work,name,utility_shifting_file_type;
+	category_fk,user_role_code,hod_user_id_fk,unit_fk,attachment,progress_date,progress_of_work,name,utility_shifting_file_type,created_by_user_id_fk,modified_by,modified_date;
 	
 	private String []  progress_dates, progress_of_works,attachment_file_types,attachmentNames;
 	
@@ -402,6 +402,30 @@ public class UtilityShifting {
 
 	public void setAttachmentNames(String [] attachmentNames) {
 		this.attachmentNames = attachmentNames;
+	}
+
+	public String getModified_by() {
+		return modified_by;
+	}
+
+	public void setModified_by(String modified_by) {
+		this.modified_by = modified_by;
+	}
+
+	public String getModified_date() {
+		return modified_date;
+	}
+
+	public void setModified_date(String modified_date) {
+		this.modified_date = modified_date;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
 	}
 	
 	

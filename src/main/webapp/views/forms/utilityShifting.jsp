@@ -199,6 +199,7 @@
 												<th>Owner</th>
 												<th>Execution agency</th>
 												<th>Status</th>
+												<th>Last Update</th>
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -209,6 +210,7 @@
 												<td></td>
 												<td></td>
 												<td></td>												
+												<td></td>
 												<td></td>
 												<td></td>
 												<td></td>
@@ -695,6 +697,9 @@
     		            } },
     		            { "mData": function(data,type,row){
     		            	if($.trim(data.shifting_status_fk) == ''){ return '-'; }else{ return data.shifting_status_fk; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }
     		            } },
     		         	{ "mData": function(data,type,row){
     		         		var id = "'"+data.id+"'";

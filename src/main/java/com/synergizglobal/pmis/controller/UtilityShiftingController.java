@@ -468,7 +468,7 @@ public class UtilityShiftingController {
 			obj.setShifting_completion_date(DateParser.parse(obj.getShifting_completion_date()));
 			obj.setPlanned_completion_date(DateParser.parse(obj.getPlanned_completion_date()));
 			obj.setIdentification(DateParser.parse(obj.getIdentification()));
-
+			obj.setCreated_by_user_id_fk(user_Id);
 			
 			boolean flag = utilityShiftingService.updateUtilityShifting(obj);
 			if(flag) {

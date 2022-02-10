@@ -285,7 +285,8 @@
 	                                            <th>Location</th>
 	                                            <th>Responsible <br> Person </th>
 	                                            <th>Department</th>
-	                                            <th>Issue Status </th>                                           
+	                                            <th>Issue Status </th> 
+	                                            <th>Last Update</th>                                          
 	                                            <th class="nosort">Action</th>
 	                                        </tr>
 	                                    </thead>
@@ -577,6 +578,7 @@
     	                   	rowArray.push($.trim(val.department_name));
     	                   	/* rowArray.push($.trim(val.category_fk)); */
     	                   	rowArray.push($.trim(val.status_fk));
+    	                   	rowArray.push($.trim(val.modified_date));
     	                   	
     	                   	rowArray.push($.trim(actions));   	                   	
     	                   	

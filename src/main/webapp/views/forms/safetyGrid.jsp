@@ -262,7 +262,8 @@
                                             <th>Person Responsible<br> in MRVC</th>
                                             <th>Department </th>
                                             <th>Category </th>                                           
-                                            <th>Status </th>                                           
+                                            <th>Status </th>
+                                            <th>Last Update </th>                                           
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -577,6 +578,9 @@
     		            { "mData": function(data,type,row){
     		            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
     		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }
+    		            } },    		            
     		         	{ "mData": function(data,type,row){
     		         		var safety_id = "'"+data.safety_id+"'";
     	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';

@@ -10,18 +10,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Issue Contract Category</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <%--<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">--%>
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/referenceformitem.min.css">
-    <%--<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">    
-    <link rel="stylesheet" href="/pmis/resources/css/rightColumnFixed.css">--%>
+    <style>
+    	.select2-container--default .select2-results>.select2-results__options {
+		    max-height: 300px !important;
+		    overflow-y: auto;
+		}
+    </style>
 </head>
 
 <body>
@@ -112,8 +110,7 @@
                 <h6 class="modal-header">Add Contract Category <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                    <div class="col m8 s12 offset-m2">
                         <div class="row">
                      
                             <div class="input-field col s12 m6">
@@ -160,7 +157,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -173,8 +169,7 @@
                 <h6 class="modal-header bg-m">Update Contract Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                    <div class="col m8 s12 offset-m2">
                         <div class="row">
                             <input type="hidden" id="id" name="id"  />
                             <input type="hidden" id="no" name="no"  />
@@ -224,23 +219,13 @@
                         </div>
                         
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
 
         </form>
     </div>
-   <!--  <div id="errorModal" class="modal">
-        <div class="modal-content">
-            <h6 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h6>
-            <div class="row center-align" style="margin-bottom: 0;">
-                <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
-            </div>
 
-        </div>
-    </div> -->
     <!-- footer  -->
 <%--     <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
  	<form name="getForm" id="getForm" method="post">

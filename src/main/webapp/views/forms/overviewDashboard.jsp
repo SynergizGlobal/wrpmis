@@ -201,13 +201,20 @@
 				margin-left:.3rem;
 			} */
 		 }
+		 
+	 
 	</style>
 	
 </head>
 <body style="background-color:#fff;">
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
-	
+
+<style>
+.brand-logo img{
+    width: 3rem! important;
+}
+	</style>	
 	<!-- model 1 which closes entire navigation -->
 	
 	<div class="" style="margin-top:2rem;">
@@ -373,6 +380,9 @@
 
   
 	<script>
+	
+	$("#CurrentDate").hide();
+	$(".brand-logo.fs").html('<img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span>');
 	
 	
 	$.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavNodes",

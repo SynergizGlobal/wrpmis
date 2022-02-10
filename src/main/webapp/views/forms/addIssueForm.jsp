@@ -547,7 +547,7 @@
         	var categoryid = getUrlVars()["category"];
     	    if(categoryid!="")
     	    {
-    	    	$("#category_fk").val("Approval");
+    	    	$("#category_fk").val(categoryid);
     	    }
     	    
     	    

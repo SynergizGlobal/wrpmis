@@ -451,6 +451,9 @@
 	    	resetWorksAndProjectsDropdowns();getIssueCategoryList();getIssueTitlesList();
 	    }
 	    
+
+
+	    
 		var datePickerSelectAddClass = function () {
 		    var self = this;
 		    setTimeout(function () {
@@ -540,6 +543,14 @@
         }
 	
         $(document).ready(function () {
+        	
+        	var categoryid = getUrlVars()["category"];
+    	    if(categoryid!="")
+    	    {
+    	    	$("#category_fk").val("Approval");
+    	    }
+    	    
+    	    
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('#corrective_measure').characterCounter();

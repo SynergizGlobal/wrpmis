@@ -152,7 +152,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,w.work_name,d.structure_id_fk,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"
-					+",DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks   "
+					+",DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,modified_by,DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date   "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
@@ -714,7 +714,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "UPDATE design SET contract_id_fk= :contract_id_fk,department_id_fk=:department_id_fk,hod=:hod,dy_hod=:dy_hod,prepared_by_id_fk=:prepared_by_id_fk,consultant_contract_id_fk=:consultant_contract_id_fk,proof_consultant_contract_id_fk=:proof_consultant_contract_id_fk,structure_type_fk=:structure_type_fk"
 					+ ",drawing_type_fk=:drawing_type_fk,contractor_drawing_no=:contractor_drawing_no,mrvc_drawing_no=:mrvc_drawing_no,division_drawing_no=:division_drawing_no,hq_drawing_no=:hq_drawing_no,drawing_title=:drawing_title,"
 					+ "gfc_released=:gfc_released,remarks=:remarks,"
-					+ "approving_railway=:approving_railway,approval_authority_fk=:approval_authority_fk,required_date=:required_date,structure_id_fk=:structure_id_fk   "
+					+ "approving_railway=:approving_railway,approval_authority_fk=:approval_authority_fk,required_date=:required_date,structure_id_fk=:structure_id_fk,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP   "
 					+ "WHERE design_id = :design_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -1753,7 +1753,7 @@ public class DesignDaoImpl implements DesignDao{
 					+ "dy_hod= :dy_hod,structure_type_fk= :structure_type_fk,structure_id_fk= :structure_id_fk,prepared_by_id_fk= :prepared_by_id_fk ,consultant_contract_id_fk= :consultant_contract_id_fk,"
 					+ "proof_consultant_contract_id_fk= :proof_consultant_contract_id_fk,drawing_type_fk= :drawing_type_fk,drawing_title= :drawing_title,approval_authority_fk= :approval_authority_fk,"
 					+ "required_date=:required_date,contractor_drawing_no= :contractor_drawing_no,mrvc_drawing_no= :mrvc_drawing_no,division_drawing_no= :division_drawing_no,"
-					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks where design_id= :design_id ";
+					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP where design_id= :design_id ";
 			for (Design obj : designsList) {
 				/*String department = null;
 				if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) { 

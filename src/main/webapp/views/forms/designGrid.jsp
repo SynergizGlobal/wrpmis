@@ -320,6 +320,7 @@
  -->												<th>MRVC <br>Drawing No	</th>
 												<th>Division <br>Drawing No	</th>
 												<th>HQ Drawing No</th>
+												<th>Last Update</th>
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -870,6 +871,9 @@
 						            } },
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.hq_drawing_no) == ''){ return '-'; }else{ return data.hq_drawing_no; }
+						            } },
+						            { "mData": function(data,type,row){
+						            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }
 						            } },
 						         	{ "mData": function(data,type,row){
 						         		var design_id = "'"+data.design_id+"'";

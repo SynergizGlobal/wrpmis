@@ -146,16 +146,6 @@
                                     </select>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
-                                <p class="searchable_label">Issue Priority <span class="required">*</span></p> 
-                                   <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${issuesPriorityList }">
-                                            <option value="${obj.priority }" >${obj.priority}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="priority_fkError" class="error-msg" ></span>
-                                </div>
                                 <div class="col s12 m4 l4 input-field">
                                     <!-- <input id="title" name="title" type="text" class="validate">
                                     <label for="title">Short Description <span class="required">*</span></label>
@@ -174,9 +164,18 @@
                                          </c:forEach>
                                     </select>
                                     <span id="titleError" class="error-msg" ></span>
-                                    
-                                    
                                 </div>
+                                <div class="col s6 m4 l4 input-field">
+                                	<p class="searchable_label">Issue Priority <span class="required">*</span></p> 
+                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${issuesPriorityList }">
+                                            <option value="${obj.priority }" >${obj.priority}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="priority_fkError" class="error-msg" ></span>
+                                </div>
+                                
                                  
                             </div>
                             <div class="row">

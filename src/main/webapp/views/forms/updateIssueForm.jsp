@@ -178,9 +178,14 @@
                                     <label for="category_fk"> Issue Category <span class="required">*</span></label>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
+                                <div class="col s12 m4	 l4 input-field offset-m2">
+                                     <textarea id="title" name="title" class="pmis-textarea textarea-no-height" data-length="1000" readonly>${issue.title }</textarea>
+                                     <label for="title">Short Description <span class="required">*</span></label>
+                                    <span id="titleError" class="error-msg" ></span>
+                                </div>
                                 <div class="col s6 m4 l4 input-field">
-                                <p class="searchable_label">Issue Priority <span class="required">*</span></p> 
-                                   <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
+                                	<p class="searchable_label">Issue Priority <span class="required">*</span></p> 
+                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesPriorityList }">
                                             <option value="${obj.priority }" <c:if test="${issue.priority_fk eq obj.priority}">selected</c:if>>${obj.priority}</option>
@@ -189,11 +194,6 @@
                                     <%-- <input id="priority_fk" name="priority_fk" type="text" class="" value="${issue.priority_fk }" readonly>
                                     <label for="priority_fk"> Issue Priority <span class="required">*</span></label>   --%>                               
                                     <span id="priority_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4	 l4 input-field offset-m2">
-                                     <textarea id="title" name="title" class="pmis-textarea textarea-no-height" data-length="1000" readonly>${issue.title }</textarea>
-                                     <label for="title">Short Description <span class="required">*</span></label>
-                                    <span id="titleError" class="error-msg" ></span>
                                 </div>
                                  
                             </div>

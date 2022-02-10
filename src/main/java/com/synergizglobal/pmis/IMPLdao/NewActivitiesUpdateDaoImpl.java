@@ -1365,7 +1365,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					{
 						//String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
 						
-						String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) ";
+						String updateQry = "UPDATE  activities set modified_by_user_id_fk=?,modified_date=CURRENT_TIMESTAMP,completed = IFNULL(NULLIF(completed, '' ), 0) ";
 						
 						
 						if(!StringUtils.isEmpty(obj.getProgress_date())) 
@@ -1406,7 +1406,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						updateStmt = con.prepareStatement(updateQry);
 							
 						int k = 1;
-						//updateStmt.setString(k++, String.valueOf(actual) );	
+						//updateStmt.setString(k++, String.valueOf(actual) );
+						updateStmt.setString(k++, obj.getCreated_by_user_id_fk() );	
+						
 
 						
 						if(!StringUtils.isEmpty(obj.getProgress_date())) 
@@ -1483,7 +1485,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						if(Float.parseFloat(StrVar2[i])>=completed && ((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") ) )
 						{
 						
-							String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) ";
+							String updateQry = "UPDATE  activities set modified_by_user_id_fk=?,modified_date=CURRENT_TIMESTAMP,completed = IFNULL(NULLIF(completed, '' ), 0) ";
 							
 							
 							if(!StringUtils.isEmpty(obj.getProgress_date())) 
@@ -1504,6 +1506,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							updateStmt = con.prepareStatement(updateQry);
 								
 							int k = 1;
+							updateStmt.setString(k++, obj.getCreated_by_user_id_fk() );	
 							
 							if(!StringUtils.isEmpty(obj.getProgress_date())) 
 							{	

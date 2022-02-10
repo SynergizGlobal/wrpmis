@@ -406,7 +406,7 @@
                                         </div>
                                        
                                         <div class="col m3 s6 input-field">
-                                            <p class="searchable_label">Component</p>
+                                            <p class="searchable_label">Component<span class="required">*</span></p>
                                              <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component" name="strip_chart_component" onchange="addInQueComponent(this.value);getComponentIdsList(this.value);onLoadMethod();">
                                                 <option value=""></option>
                                             </select>

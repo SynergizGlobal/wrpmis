@@ -426,7 +426,8 @@ public class ProjectDaoImpl implements ProjectDao {
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(project.getCreated_by_user_id_fk());
 				formHistory.setUser(project.getDesignation()+" - "+project.getUser_name());
-				formHistory.setModule_name("Project");
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Update Project");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Project "+project.getProject_name() + " updated");
 				
@@ -615,7 +616,8 @@ public class ProjectDaoImpl implements ProjectDao {
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(project.getCreated_by_user_id_fk());
 				formHistory.setUser(project.getDesignation()+" - "+project.getUser_name());
-				formHistory.setModule_name("Project");
+				formHistory.setModule_name_fk("Works");
+				formHistory.setModule_name("Add Project");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New Project "+project.getProject_name() + " created");
 				

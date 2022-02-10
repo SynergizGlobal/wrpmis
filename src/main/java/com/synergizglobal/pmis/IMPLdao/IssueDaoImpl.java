@@ -542,7 +542,8 @@ public class IssueDaoImpl implements IssueDao {
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-				formHistory.setModule_name("Issue");
+				formHistory.setModule_name_fk("Issues");
+				formHistory.setForm_name("Add Issue");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("Added issue: "+obj.getTitle());
 				formHistory.setWork(obj.getWork_id_fk());
@@ -813,7 +814,8 @@ public class IssueDaoImpl implements IssueDao {
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-				formHistory.setModule_name("Issue");
+				formHistory.setModule_name_fk("Issues");
+				formHistory.setForm_name("Update Issue");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Updated issue: "+obj.getTitle());
 				formHistory.setWork(obj.getWork_id_fk());

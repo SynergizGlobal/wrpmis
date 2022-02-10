@@ -276,7 +276,8 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 		    FormHistory formHistory = new FormHistory();
 			formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 			formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-			formHistory.setModule_name("Upload Activities");
+			formHistory.setModule_name_fk("Execution &  Monitoring");
+			formHistory.setForm_name("Upload Activities");
 			formHistory.setForm_action_type("Upload");
 			formHistory.setForm_details(insertCounts.length +" activities inserted and "+updateCounts.length+" activities updated");
 			formHistory.setWork(obj.getWork_id());

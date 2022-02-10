@@ -2609,7 +2609,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-				formHistory.setModule_name("Alerts");
+				formHistory.setModule_name_fk("Others");
+				formHistory.setForm_name("Alerts");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Updated alert remarks: "+obj.getRemarks());
 				formHistory.setWork(obj.getWork_id());

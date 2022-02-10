@@ -84,10 +84,10 @@
                                   
                                    	<div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
                                     <p class="searchable_label" style="text-align:left">Update Form</p>
-                                    <select class="searchable validate-dropdown" id="module_name" name="module_name" onchange="addInQueModule(this.value);getUserActivityReport();">
+                                    <select class="searchable validate-dropdown" id="module_name_fk" name="module_name_fk" onchange="addInQueModule(this.value);getUserActivityReport();">
                                         <option value="">Select </option>
                                          <c:forEach var="obj" items="${modulelist }">
-                                      	   <option value= "${obj.module_name}">${obj.module_name}</option>
+                                      	   <option value= "${obj.module_name_fk}">${obj.module_name_fk}</option>
                                          </c:forEach>
                                     </select>
                                     <span id="hodError" class="error-msg" ></span>
@@ -219,7 +219,7 @@
           	  for(var i=0;i< temp.length;i++){
     	        	  if($.trim(temp[i]) != '' ){
     	        		  var temp2 = temp[i].split('=');
-    		        	  if($.trim(temp2[0]) == 'module_name' ){
+    		        	  if($.trim(temp2[0]) == 'module_name_fk' ){
     		        		  getModuleList(temp2[1]);
     		        	  }else if($.trim(temp2[0]) == 'work'){
     		        		  getWorksList(temp2[1]);
@@ -240,12 +240,12 @@
             	filtersMap["work"] = work;
           	}
         } 
-        function addInQueModule(module_name){
+        function addInQueModule(module_name_fk){
         	Object.keys(filtersMap).forEach(function (key) {
-       			if(key.match('module_name')) delete filtersMap[key];
+       			if(key.match('module_name_fk')) delete filtersMap[key];
        		});
-        	if($.trim(module_name) != ''){
-       	    	filtersMap["module_name"] = module_name;
+        	if($.trim(module_name_fk) != ''){
+       	    	filtersMap["module_name_fk"] = module_name_fk;
         	}
         }
         
@@ -271,7 +271,7 @@
         	{
         		// validation perform
 	        	$(".page-loader").show();
-	            var module_name = $("#module_name").val();
+	            var module_name_fk = $("#module_name_fk").val();
 	            var work = $("#work").val();
 	            var contract = $("#contract").val();
 	            var user = $("#user").val();
@@ -281,7 +281,7 @@
 	            	{
 	            		to_date=$("#from_date").val();
 	            	}
-	                var myParams = { module_name: module_name, user : user,contract : contract, work: work,from_date : from_date,to_date : to_date };
+	                var myParams = { module_name_fk: module_name_fk, user : user,contract : contract, work: work,from_date : from_date,to_date : to_date };
 	                $.ajax({
 	                    url: "<%=request.getContextPath()%>/ajax/getUserActivityReportFormData",
 	                    data: myParams, cache: false,
@@ -317,13 +317,13 @@
         function getWorksList(workVal) {
         	$(".page-loader").show();
           
-            var module_name = $("#module_name").val();
+            var module_name_fk = $("#module_name_fk").val();
             var work = $("#work").val();
             var contract = $("#contract").val();
             var user = $("#user").val();
             if ($.trim(work) == "") { 
            	    $("#work option:not(:first)").remove();
-                var myParams = { module_name: module_name, user : user,contract : contract };
+                var myParams = { module_name_fk: module_name_fk, user : user,contract : contract };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListForUserActivityReportForm",
                     data: myParams, cache: false,async: false,
@@ -346,12 +346,12 @@
         function getModuleList(module) {
         	$(".page-loader").show();
         
-            var module_name = $("#module_name").val();
+            var module_name_fk = $("#module_name_fk").val();
             var work = $("#work").val();
             var contract = $("#contract").val();
             var user = $("#user").val();
-            if ($.trim(module_name) == "" ) {
-            	$("#module_name option:not(:first)").remove();
+            if ($.trim(module_name_fk) == "" ) {
+            	$("#module_name_fk option:not(:first)").remove();
                
                 var myParams = { work: work, user : user,contract : contract };
                 $.ajax({
@@ -360,8 +360,8 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var selectedFlag = (module == val.module_name)?'selected':'';
-                                $("#module_name").append('<option value="' + val.module_name + '"'+selectedFlag+'>' + $.trim(val.module_name) + '</option>');
+                                var selectedFlag = (module == val.module_name_fk)?'selected':'';
+                                $("#module_name_fk").append('<option value="' + val.module_name_fk + '"'+selectedFlag+'>' + $.trim(val.module_name_fk) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -375,13 +375,13 @@
         function getUserList(userVal){
 			$(".page-loader").show();
         	
-            var module_name = $("#module_name").val();
+            var module_name_fk = $("#module_name_fk").val();
             var work = $("#work").val();
             var contract = $("#contract").val();
             var user = $("#user").val();
             if ($.trim(user) == "" ) {
                 $("#user option:not(:first)").remove();
-                var myParams = { work: work, module_name : module_name ,contract :contract};
+                var myParams = { work: work, module_name_fk : module_name_fk ,contract :contract};
                 $.ajax({
                 	url: "<%=request.getContextPath()%>/ajax/getUsersListForUserActivityReportForm", 
                     data: myParams, cache: false,async: false,
@@ -403,13 +403,13 @@
         function getContractsList(contarctVal) {
         	$(".page-loader").show();
         	
-            var module_name = $("#module_name").val();
+            var module_name_fk = $("#module_name_fk").val();
             var contract = $("#contract").val();
             var work = $("#work").val();
             var user = $("#user").val();
             if ($.trim(contract) == "" ) {
             	$("#contract option:not(:first)").remove();
-                var myParams = { work: work, user : user,module_name : module_name };
+                var myParams = { work: work, user : user,module_name_fk : module_name_fk };
                 $.ajax({
                 	url: "<%=request.getContextPath()%>/ajax/getContractsListForUserActivityReportForm",
                     data: myParams, cache: false,async: false,
@@ -435,7 +435,7 @@
              getUserList('');
              getModuleList('');
              
-        	 var module_name = $("#module_name").val();
+        	 var module_name_fk = $("#module_name_fk").val();
              var work = $("#work").val();
              var user = $("#user").val();
              var contract = $("#contract").val();
@@ -552,7 +552,7 @@
     	});
 
         function clearFilter(){
-    		$('#module_name').val('');
+    		$('#module_name_fk').val('');
     		$('#work').val('');
     		$('#user').val('');
     		$('#contract').val('');

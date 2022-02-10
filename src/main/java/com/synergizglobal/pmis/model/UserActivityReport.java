@@ -5,12 +5,38 @@ import java.util.List;
 public class UserActivityReport {
 
 	private String form_history_id, module_name, work, contract, form_action_type, form_details, created_by_user_id_fk, 
-	user,user_id,time,from_date,to_date, created_date,user_type_fk,user_role_code,date;
+	user,user_id,time,from_date,to_date, created_date,user_type_fk,user_role_code,date,inactive_since;
 
 	List<UserActivityReport> datesList;
 	List<UserActivityReport> userActivitiesList;
 	List<UserActivityReport> usersList;
 	
+	private String work_id,work_name,work_short_name,module_name_fk,form_name;
+	
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
+
+	public String getWork_name() {
+		return work_name;
+	}
+
+	public void setWork_name(String work_name) {
+		this.work_name = work_name;
+	}
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
 	public String getDate() {
 		return date;
 	}
@@ -162,6 +188,30 @@ public class UserActivityReport {
 
 	public void setCreated_date(String created_date) {
 		this.created_date = created_date;
+	}
+
+	public String getInactive_since() {
+		return inactive_since;
+	}
+
+	public void setInactive_since(String inactive_since) {
+		this.inactive_since = inactive_since;
+	}
+
+	public String getModule_name_fk() {
+		return module_name_fk;
+	}
+
+	public void setModule_name_fk(String module_name_fk) {
+		this.module_name_fk = module_name_fk;
+	}
+
+	public String getForm_name() {
+		return form_name;
+	}
+
+	public void setForm_name(String form_name) {
+		this.form_name = form_name;
 	}
 	
 }

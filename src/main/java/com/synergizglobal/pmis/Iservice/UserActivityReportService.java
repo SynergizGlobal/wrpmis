@@ -18,4 +18,10 @@ public interface UserActivityReportService {
 
 	List<UserActivityReport> getUserActivityReportFormData(UserActivityReport obj) throws Exception;
 
+	List<UserActivityReport> getWorksListForUserInactiveReportForm(UserActivityReport obj) throws Exception;
+
+	List<UserActivityReport> getModulesListForUserInactiveReportForm(UserActivityReport obj) throws Exception;
+
+	List<UserActivityReport> checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception;
+
 }

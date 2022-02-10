@@ -317,7 +317,8 @@ public class P6DataDaoImpl implements P6DataDao {
 			FormHistory formHistory = new FormHistory();
 			formHistory.setCreated_by_user_id_fk(pobj.getCreated_by_user_id_fk());
 			formHistory.setUser(pobj.getDesignation()+" - "+pobj.getUser_name());
-			formHistory.setModule_name("P6 Data");
+			formHistory.setModule_name_fk("Execution &  Monitoring");
+			formHistory.setForm_name("P6 Data");
 			formHistory.setForm_action_type("Update");
 			formHistory.setForm_details("Data date updated and "+ count + " activities updated");
 			//formHistory.setWork(pobj.getWork_id_fk());
@@ -507,7 +508,8 @@ public class P6DataDaoImpl implements P6DataDao {
 			FormHistory formHistory = new FormHistory();
 			formHistory.setCreated_by_user_id_fk(pobj.getCreated_by_user_id_fk());
 			formHistory.setUser(pobj.getDesignation()+" - "+pobj.getUser_name());
-			formHistory.setModule_name("P6 Data");
+			formHistory.setModule_name_fk("Execution &  Monitoring");
+			formHistory.setForm_name("P6 Data");
 			formHistory.setForm_action_type("Add");
 			formHistory.setForm_details("Data date updated and "+ counts + " WBS, activities added");
 			//formHistory.setWork(pobj.getWork_id_fk());

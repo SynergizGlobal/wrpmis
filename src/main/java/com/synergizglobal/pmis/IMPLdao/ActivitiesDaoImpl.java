@@ -789,7 +789,8 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			FormHistory formHistory = new FormHistory();
 			formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 			formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-			formHistory.setModule_name("Activities Update");
+			formHistory.setModule_name_fk("Execution &  Monitoring");
+			formHistory.setForm_name("Activities Update");
 			formHistory.setForm_action_type("Update");
 			formHistory.setForm_details("1 activitity updated for "+obj.getStrip_chart_structure_id_fk());
 			formHistory.setWork(obj.getWork_id_fk());

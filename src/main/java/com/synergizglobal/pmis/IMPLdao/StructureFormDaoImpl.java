@@ -731,15 +731,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					}*/
 					/********************************************************************************/
 				
-				/*	FormHistory formHistory = new FormHistory();
-					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
-					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-					formHistory.setModule_name("FOB");
-					formHistory.setForm_action_type("Add");
-					formHistory.setForm_details("FOB "+obj.getStructure_name() + " created");
-					formHistory.setWork(obj.getWork_id_fk());
-					
-					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);*/
+				
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -1026,15 +1018,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					}*/
 					/********************************************************************************/
 				
-				/*	FormHistory formHistory = new FormHistory();
-					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
-					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-					formHistory.setModule_name("FOB");
-					formHistory.setForm_action_type("Add");
-					formHistory.setForm_details("FOB "+obj.getStructure_name() + " created");
-					formHistory.setWork(obj.getWork_id_fk());
-					
-					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);*/
+				
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

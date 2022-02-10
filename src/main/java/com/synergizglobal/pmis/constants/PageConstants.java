@@ -156,6 +156,7 @@ public class PageConstants {
 	public static final String addEditAdminForm = "forms/addEditAdminForm";
 	
 	public static final String userActivityReport = "forms/userActivityReport";
+	public static final String userInactiveReport = "forms/userInactiveReport";
 
 	public static final String structureGrid="forms/structureGrid";
 	public static final String addEditStructure="forms/addEditStructure";

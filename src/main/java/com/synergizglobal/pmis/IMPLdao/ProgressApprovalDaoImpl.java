@@ -736,7 +736,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						FormHistory formHistory = new FormHistory();
 						formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 						formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-						formHistory.setModule_name("Validate Data");
+						formHistory.setModule_name_fk("Execution &  Monitoring");
+						formHistory.setForm_name("Validate Data");
 						formHistory.setForm_action_type("Approved");
 						formHistory.setForm_details("1 activity progress updated for "+obj.getStructure());
 						formHistory.setWork(obj.getWork_id_fk());
@@ -787,7 +788,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-				formHistory.setModule_name("Validate Data");
+				formHistory.setModule_name_fk("Execution &  Monitoring");
+				formHistory.setForm_name("Validate Data");
 				formHistory.setForm_action_type("Rejected");
 				formHistory.setForm_details("1 activity progress rejected for "+obj.getStructure());
 				formHistory.setWork(obj.getWork_id_fk());
@@ -1032,7 +1034,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					FormHistory formHistory = new FormHistory();
 					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-					formHistory.setModule_name("Validate Data");
+					formHistory.setModule_name_fk("Execution &  Monitoring");
+					formHistory.setForm_name("Validate Data");
 					formHistory.setForm_action_type("Approved");
 					formHistory.setForm_details(successCount + " activities progress approved for "+obj.getStructure());
 					formHistory.setWork(obj.getWork_id_fk());
@@ -1109,7 +1112,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					FormHistory formHistory = new FormHistory();
 					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-					formHistory.setModule_name("Validate Data");
+					formHistory.setModule_name_fk("Execution &  Monitoring");
+					formHistory.setForm_name("Validate Data");
 					formHistory.setForm_action_type("Rejected");
 					formHistory.setForm_details(c + " activities progress rejected for "+obj.getStructure());
 					formHistory.setWork(obj.getWork_id_fk());

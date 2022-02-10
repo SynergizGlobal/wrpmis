@@ -43,4 +43,19 @@ public class UserActivityReportServiceImpl implements UserActivityReportService{
 	public List<UserActivityReport> getUserActivityReportFormData(UserActivityReport obj) throws Exception {
 		return dao.getUserActivityReportFormData(obj);
 	}
+
+	@Override
+	public List<UserActivityReport> getWorksListForUserInactiveReportForm(UserActivityReport obj) throws Exception {
+		return dao.getWorksListForUserInactiveReportForm(obj);
+	}
+
+	@Override
+	public List<UserActivityReport> getModulesListForUserInactiveReportForm(UserActivityReport obj) throws Exception {
+		return dao.getModulesListForUserInactiveReportForm(obj);
+	}
+
+	@Override
+	public List<UserActivityReport> checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception {
+		return dao.checkInactiveUsersExistsOrNot(obj);
+	}
 }

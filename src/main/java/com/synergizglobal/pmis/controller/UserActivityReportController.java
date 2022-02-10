@@ -403,7 +403,7 @@ public class UserActivityReportController {
 				cell.setCellStyle(indexWhiteStyle);
 				cell.setCellValue("");
 				dprSheet.addMergedRegion(new CellRangeAddress(7, 7, 0,1));
-				String updateform = reportData.getModule_name();
+				String updateform = reportData.getForm_name();
 				if(StringUtils.isEmpty(updateform)) {
 					updateform = "All";
 				}
@@ -424,12 +424,7 @@ public class UserActivityReportController {
 	        
 	        	 for (UserActivityReport zObj : reportData.getUsersList()) {  
 	        		 UserName = zObj.getUser();
-		        
-			        
-		
-					/*************************************************************************/		
-					 	
-					
+					/*************************************************************************/	
 						int rowNo = 8;
 						
 						if(rowNum==8)
@@ -514,7 +509,7 @@ public class UserActivityReportController {
 							
 										cell = row.createCell(c++);
 										cell.setCellStyle(activityNameStyle);
-										cell.setCellValue(dObj.getModule_name());
+										cell.setCellValue(dObj.getForm_name());
 									
 									    cell = row.createCell(c++);
 										cell.setCellStyle(activityNameStyle);
@@ -556,12 +551,7 @@ public class UserActivityReportController {
 						    dprSheet.setColumnWidth(6, 25 * 120);
 						}
 			        	 rowNum=rowNo;
-
-					
 	        	 }
-	        	 
-	        	 
-	        	 
 	        	 
 	        	 XSSFSheet dprSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Updated by Synergiz"));
 	       		 	
@@ -716,7 +706,7 @@ public class UserActivityReportController {
 					cell1.setCellStyle(indexWhiteStyle);
 					cell1.setCellValue("");
 					dprSheet1.addMergedRegion(new CellRangeAddress(7, 7, 0,1));
-					String updateform1 = reportData.getModule_name();
+					String updateform1 = reportData.getForm_name();
 					if(StringUtils.isEmpty(updateform1)) {
 						updateform1 = "All";
 					}
@@ -827,7 +817,7 @@ public class UserActivityReportController {
 								
 											cell1 = row.createCell(c++);
 											cell1.setCellStyle(activityNameStyle);
-											cell1.setCellValue(dObj.getModule_name());
+											cell1.setCellValue(dObj.getForm_name());
 										
 										    cell1 = row.createCell(c++);
 											cell1.setCellStyle(activityNameStyle);
@@ -871,22 +861,7 @@ public class UserActivityReportController {
 				        	 rowNum1=rowNo1;
 
 						
-		        	 }
-		        	 	        	 
-	        	 
-	        	 
-	        	
-	        	 
-	        	        	 
-	        	 
-	        	 
-
-	        	 
-
-	       		 	        	 
-	        	       	 
-	        	 
-	        	 
+		        	 }	        	 
 	        	 
 	        	 
 	        }
@@ -981,5 +956,65 @@ public class UserActivityReportController {
 		style.setFont(font);
 
 		return style;
+	}
+	
+	/******************************************************************************/
+	
+	@RequestMapping(value = "/user-inactive-report", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView userInactiveReport(@ModelAttribute UserActivityReport obj, RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView(PageConstants.userInactiveReport);
+		try {
+			List<UserActivityReport> worksList = service.getWorksListForUserInactiveReportForm(obj);
+			model.addObject("worksList", worksList);
+
+			List<UserActivityReport> modulelist = service.getModulesListForUserInactiveReportForm(obj);
+			model.addObject("modulelist", modulelist);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("userInactiveReport : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksListForUserInactiveReportForm", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<UserActivityReport> getWorksListForUserInactiveReportForm(@ModelAttribute UserActivityReport obj) {
+		List<UserActivityReport> objList = null;
+		try {
+			objList = service.getWorksListForUserInactiveReportForm(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListForUserInactiveReportForm : " + e.getMessage());
+		}
+		return objList;
+	}
+
+	@RequestMapping(value = "/ajax/getModulesListForUserInactiveReportForm", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<UserActivityReport> getModulesListForUserInactiveReportForm(@ModelAttribute UserActivityReport obj) {
+		List<UserActivityReport> objList = null;
+		try {
+			objList = service.getModulesListForUserInactiveReportForm(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getModulesListForUserInactiveReportForm : " + e.getMessage());
+		}
+		return objList;
+	}
+
+	@RequestMapping(value = "/ajax/getCountOfInactiveUsers", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<UserActivityReport> checkInactiveUsersExistsOrNot(@ModelAttribute UserActivityReport obj) {
+		List<UserActivityReport> objList = null;
+		try {
+			objList = service.checkInactiveUsersExistsOrNot(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("checkInactiveUsersExistsOrNot : " + e.getMessage());
+		}
+		return objList;
 	}
 }

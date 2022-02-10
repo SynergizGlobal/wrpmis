@@ -305,6 +305,7 @@
 										<th class="no-sort">Department</th>
 										<th class="no-sort fw-150">HOD</th>
 										<th class="no-sort fw-150">Dy HOD</th>
+										<th>Last Update</th>
 										<th class="no-sort">Action</th>
 									</tr>
 								</thead>
@@ -592,6 +593,7 @@
 	                   	rowArray.push($.trim(val.department_name));
 	                   	rowArray.push($.trim(val.designation));
 	                   	rowArray.push($.trim(val.dy_hod_designation));
+	                   	rowArray.push($.trim(val.modified_date));
 	                   	rowArray.push($.trim(actions));   	                   	
 	                   	
 	                    table.row.add(rowArray).draw( true );

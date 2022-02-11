@@ -403,7 +403,7 @@ public class UserActivityReportController {
 				cell.setCellStyle(indexWhiteStyle);
 				cell.setCellValue("");
 				dprSheet.addMergedRegion(new CellRangeAddress(7, 7, 0,1));
-				String updateform = reportData.getForm_name();
+				String updateform = reportData.getModule_name_fk();
 				if(StringUtils.isEmpty(updateform)) {
 					updateform = "All";
 				}
@@ -1004,11 +1004,11 @@ public class UserActivityReportController {
 		return objList;
 	}
 
-	@RequestMapping(value = "/ajax/getCountOfInactiveUsers", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/checkInactiveUsersExistsOrNot", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<UserActivityReport> checkInactiveUsersExistsOrNot(@ModelAttribute UserActivityReport obj) {
-		List<UserActivityReport> objList = null;
+	public List<String> checkInactiveUsersExistsOrNot(@ModelAttribute UserActivityReport obj) {
+		List<String> objList = null;
 		try {
 			objList = service.checkInactiveUsersExistsOrNot(obj);
 		} catch (Exception e) {

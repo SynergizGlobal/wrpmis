@@ -51,7 +51,7 @@
                            	<div class="row">
                                  <div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
                                     <p class="searchable_label" style="text-align:left">Module</p>
-                                    <select class="searchable validate-dropdown" id="module_name" name="module_name" onchange="addInQueModule(this.value);getUserInactiveReportFilters();">
+                                    <select class="searchable validate-dropdown" id="module_name_fk" name="module_name_fk" onchange="addInQueModule(this.value);getUserInactiveReportFilters();">
                                         <option value="">Select </option>
                                          <c:forEach var="obj" items="${modulelist }">
                                       	   <option value= "${obj.module_name}">${obj.module_name}</option>
@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">Work</p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" work_id_fk="work" onchange="addInQueWork(this.value);getUserInactiveReportFilters();">
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getUserInactiveReportFilters();">
                                         <option value="">Select </option>
                                           <c:forEach var="obj" items="${worksList }">
                                       	   <option value= "${obj.work_id}">${obj.work_short_name}</option>
@@ -70,7 +70,7 @@
                                     <span id="sub_workError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field ">                                    
-                                    <input id="inactive_since" type="number" name="inactive_since" class="validate">
+                                    <input type="number" id="inactive_since" name="inactive_since" class="validate">
                                     <label for="inactive_since" class="fs-sm-8rem">Inactive since(Days) <span class="required">*</span></label>
                                     <span id="inactive_sinceError" class="error-msg" ></span>
                                 </div>
@@ -78,7 +78,7 @@
                             <div class="row">	                                	
                                 <div class="col s12 m4 l3 input-field center-align offset-l3 offset-m2">
                                     <button type="button" class="btn bg-m waves-effe ct waves-light t-c clear-filters"
-                                        style="margin-top: 6px;min-width:160px%; font-weight: 600;" onclick="testingExistingData();">Generate Report</button>
+                                        style="margin-top: 6px;min-width:160px; font-weight: 600;" onclick="checkInactiveUsersExistsOrNot();">Generate Report</button>
                                 </div>
                                 <div class="col s12 m4 l3 input-field left-align ">
                                     <button class="btn bg-s waves-effect waves-light t-c" type="button"
@@ -176,19 +176,20 @@
         	}
         }
         
-        function testingExistingData() {
+        function checkInactiveUsersExistsOrNot() {
         	if(validator.form()){
         		// validation perform
 	        	$(".page-loader").show();
-	            var module_name = $("#module_name").val();
+	            var module_name_fk = $("#module_name_fk").val();
 	            var work_id_fk = $("#work_id_fk").val();
 	            var inactive_since = $("#inactive_since").val();
-                var myParams = { module_name: module_name,work_id_fk: work_id_fk, inactive_since : inactive_since};
+                var myParams = { module_name_fk: module_name_fk,work_id_fk: work_id_fk, inactive_since : inactive_since};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getUserInactiveReportFormData",
+                    url: "<%=request.getContextPath()%>/ajax/checkInactiveUsersExistsOrNot",
                     data: myParams, cache: false,
                     success: function (data) {
-                        if(data.length > 0) {      	        	
+                        if(data.length > 0) {      
+                        	alert(data.length);
                 	        document.getElementById("userInactiveReportForm").submit();
                         }else{
                         	showNoDataMessage()
@@ -211,11 +212,11 @@
       	    }
         function getWorksList(workVal) {
         	$(".page-loader").show();          
-            var module_name = $("#module_name").val();
+            var module_name_fk = $("#module_name_fk").val();
             var work_id_fk = $("#work_id_fk").val();
             if ($.trim(work_id_fk) == "") { 
            	    $("#work_id_fk option:not(:first)").remove();
-                var myParams = { module_name: module_name };
+                var myParams = { module_name_fk: module_name_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListForUserInactiveReportForm",
                     data: myParams, cache: false,async: false,
@@ -237,11 +238,10 @@
         
         function getModuleList(module) {
         	$(".page-loader").show();
-        
-            var module_name = $("#module_name").val();
+            var module_name_fk = $("#module_name_fk").val();
             var work_id_fk = $("#work_id_fk").val();
-            if ($.trim(module_name) == "" ) {
-            	$("#module_name option:not(:first)").remove();
+            if ($.trim(module_name_fk) == "" ) {
+            	$("#module_name_fk option:not(:first)").remove();
                
                 var myParams = { work_id_fk: work_id_fk};
                 $.ajax({
@@ -250,8 +250,8 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var selectedFlag = (module == val.module_name)?'selected':'';
-                                $("#module_name").append('<option value="' + val.module_name + '"'+selectedFlag+'>' + $.trim(val.module_name) + '</option>');
+                                var selectedFlag = (module == val.module_name_fk)?'selected':'';
+                                $("#module_name_fk").append('<option value="' + val.module_name + '"'+selectedFlag+'>' + $.trim(val.module_name) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -267,7 +267,7 @@
         	 getWorksList('');
              getModuleList('');
              
-        	 var module_name = $("#module_name").val();
+        	 var module_name_fk = $("#module_name_fk").val();
              var work_id_fk = $("#work_id_fk").val();
              var inactive_since = $("#inactive_since").val();
               
@@ -319,7 +319,7 @@
     	});
 
         function clearFilter(){
-    		$('#module_name').val('');
+    		$('#module_name_fk').val('');
     		$('#work_id_fk').val('');
     		$('#inactive_since').val('');
     		$('.searchable').select2();

@@ -5,7 +5,7 @@ import java.util.List;
 public class UserActivityReport {
 
 	private String form_history_id, module_name, work, contract, form_action_type, form_details, created_by_user_id_fk, 
-	user,user_id,time,from_date,to_date, created_date,user_type_fk,user_role_code,date,inactive_since;
+	user,user_id,time,from_date,to_date, created_date,user_type_fk,user_role_code,date,inactive_since,work_id_fk,user_id_fk,user_name;
 
 	List<UserActivityReport> datesList;
 	List<UserActivityReport> userActivitiesList;
@@ -212,6 +212,30 @@ public class UserActivityReport {
 
 	public void setForm_name(String form_name) {
 		this.form_name = form_name;
+	}
+
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
+	}
+
+	public String getUser_id_fk() {
+		return user_id_fk;
+	}
+
+	public void setUser_id_fk(String user_id_fk) {
+		this.user_id_fk = user_id_fk;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 	
 }

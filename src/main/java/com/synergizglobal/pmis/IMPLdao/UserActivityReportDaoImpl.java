@@ -1,6 +1,9 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -11,8 +14,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.UserActivityReportDao;
-import com.synergizglobal.pmis.model.ActivitiesProgressReport;
-import com.synergizglobal.pmis.model.ContractResource;
 import com.synergizglobal.pmis.model.UserActivityReport;
 @Repository
 public class UserActivityReportDaoImpl implements UserActivityReportDao{
@@ -417,38 +418,57 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 	}
 
 	@Override
-	public List<UserActivityReport> checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception {
-		List<UserActivityReport> objtList = null;
+	public List<String> checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception {
+		List<String> objtList = null;
 		try {
-		
-			String qry = "SELECT form_history_id, module_name_fk, work, u.user_name,contract, form_action_type, form_details, created_by_user_id_fk, user,DATE_FORMAT(created_date,'%H:%i ') time"
-					+ " FROM forms_history " + 
-					"left join user u on created_by_user_id_fk = u.user_id  "
-					+ "where DATE(created_date) between ? and ?  ";
-			int arrSize = 2;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
-				qry = qry + " and module_name_fk = ? ";
-				arrSize++;
+			
+			if(!StringUtils.isEmpty(obj) && "Contracts".equals(obj.getModule_name_fk()) ) {
+				List<String> list = new ArrayList<String>();
+				
+				String qry = "SELECT hod_user_id_fk as user_id_fk FROM pmis.contract where hod_user_id_fk IS NOT NULL AND status = ? group by hod_user_id_fk";
+				List<String> hodList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
+				if(!StringUtils.isEmpty(hodList) && hodList.size() > 0) {
+					list.addAll(hodList);
+				}
+				
+				qry = "SELECT dy_hod_user_id_fk as user_id_fk FROM pmis.contract where dy_hod_user_id_fk IS NOT NULL AND status = ? group by dy_hod_user_id_fk";
+				List<String> dyhodList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
+				if(!StringUtils.isEmpty(dyhodList) && dyhodList.size() > 0) {
+					list.addAll(dyhodList);
+				}
+				
+				qry = "SELECT executive_user_id_fk as user_id_fk FROM contract_executive ce "
+					+ "left join contract c on ce.contract_id_fk = c.contract_id "
+					+ "where executive_user_id_fk IS NOT NULL AND c.status = ? group by executive_user_id_fk";
+				List<String> executivesList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
+				if(!StringUtils.isEmpty(executivesList) && executivesList.size() > 0) {
+					list.addAll(executivesList);
+				}
+				if(!StringUtils.isEmpty(list) && list.size() > 0) {
+					objtList = list.stream().distinct().collect(Collectors.toList());
+				}
+				if(!StringUtils.isEmpty(objtList) && objtList.size() > 0) {
+					qry = "SELECT form_history_id FROM forms_history WHERE module_name_fk = ? AND created_by_user_id_fk IN(";
+					int arrSize = 1;
+					String atP = "";
+					for (String user_id : objtList) {
+						qry = qry + (atP.contains("?")?",":"")+"?";
+						atP = atP + "?";
+						arrSize++;
+					}
+					qry = qry + ")";
+					Object[] pValues = new Object[arrSize];
+					int i = 0;
+					pValues[i++] = obj.getModule_name_fk();
+					for (String user_id : objtList) {
+						pValues[i++] = user_id;
+					}
+					List<String> historyList = jdbcTemplate.queryForList( qry,pValues,(String.class));
+					return historyList;
+				}
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork())) {
-				qry = qry + " and work = ?";
-				arrSize++;
-			}
-			qry = qry + " order by time asc ";
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			pValues[i++] = obj.getFrom_date();
-			pValues[i++] = obj.getTo_date();
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
-				pValues[i++] = obj.getModule_name_fk();
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork())) {
-				pValues[i++] = obj.getWork();
-			}
-			objtList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 			
 		}catch (Exception e) {
-			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return objtList;

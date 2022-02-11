@@ -34,6 +34,8 @@ public class PageConstants {
 	public static final String contractGrid = "forms/contractGrid";
 	public static final String ContractList = "forms/ContractList";
 	
+	public static final String contractDetail = "forms/contractDetailsGrid";
+	
 	public static final String addContractForm = "forms/addContractForm";
 	public static final String addContract = "forms/addContract";
 	public static final String updateContractForm = "forms/updateContractForm";

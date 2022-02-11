@@ -107,9 +107,9 @@
 								<h6 class="mob-mar">Contract Details</h6>	
 								<div class="col s12 m12 right-align exportButton">
     								<div class="m-n1">
-    									<a href="javascript:exportContractDetails();"
-											class="btn waves-effect waves-light bg-s t-c"> <strong><i
-												class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong></a>										
+    									<a href="javascript:exportContractDetails();" class="btn waves-effect waves-light bg-s t-c"> 
+    									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
+    									</a>										
     								</div>
     							</div>	
 							</div>

@@ -187,12 +187,12 @@
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/checkInactiveUsersExistsOrNot",
                     data: myParams, cache: false,
-                    success: function (data) {
-                        if(data.length > 0) {      
-                        	alert(data.length);
+                    success: function (data) {   
+                    	alert(data);
+                        if(data > 0) {   
                 	        document.getElementById("userInactiveReportForm").submit();
                         }else{
-                        	showNoDataMessage()
+                        	showNoDataMessage();
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();

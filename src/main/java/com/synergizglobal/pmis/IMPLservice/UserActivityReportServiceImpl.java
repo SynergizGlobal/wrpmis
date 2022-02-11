@@ -55,7 +55,7 @@ public class UserActivityReportServiceImpl implements UserActivityReportService{
 	}
 
 	@Override
-	public List<String> checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception {
+	public int checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception {
 		return dao.checkInactiveUsersExistsOrNot(obj);
 	}
 }

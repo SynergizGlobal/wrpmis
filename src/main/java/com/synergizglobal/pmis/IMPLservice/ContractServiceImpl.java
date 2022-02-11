@@ -173,5 +173,14 @@ public class ContractServiceImpl implements ContractService{
 		return contractDao.contractListForExport(contract);
 	}
 	
+	@Override
+	public List<Contract> detailsOfContracts(Contract obj) throws Exception {
+		return contractDao.detailsOfContracts(obj);
+	}
+	
+	@Override
+	public List<Contract> getDepartmentsFilterListInContract(Contract obj) throws Exception {
+		return contractDao.getDepartmentsFilterListInContract(obj);
+	}
 
 }

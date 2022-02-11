@@ -799,7 +799,7 @@ public class ContractController {
 	
 	
 	@RequestMapping(value = "/export-contract", method = {RequestMethod.GET,RequestMethod.POST})
-	public void exportSafety(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contract contract,RedirectAttributes attributes){
+	public void exportContract(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contract contract,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.contractGrid);
 		try {
 			String userId = (String) session.getAttribute("USER_ID");
@@ -1441,6 +1441,211 @@ public class ContractController {
         style.setFont(font); 
         
         return style;
+	}
+	
+	/**********************************************************************************/
+	
+	@RequestMapping(value="/details-of-contracts",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView detailsOfContracts(@ModelAttribute Contract obj){
+		ModelAndView model = new ModelAndView(PageConstants.detailsOfContracts);
+		List<Contract> contracts = null;
+		try {
+			contracts = contractService.detailsOfContracts(obj);
+			model.addObject("contracts", contracts);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("detailsOfContracts : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getDetailsOfContracts", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDetailsOfContracts(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> contracts = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contracts = contractService.detailsOfContracts(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDetailsOfContracts : " + e.getMessage());
+		}
+		return contracts;
+	}
+	
+
+	
+	@RequestMapping(value = "/ajax/getDepartmentsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDepartmentsFilterListInContract(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> dataList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			dataList = contractService.getDepartmentsFilterListInContract(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDepartmentsFilterListInContract : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
+	@RequestMapping(value = "/export-details-of-contract", method = {RequestMethod.GET,RequestMethod.POST})
+	public void exportDetailsOfContracts(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contract contract,RedirectAttributes attributes){
+		ModelAndView view = new ModelAndView(PageConstants.contractGrid);
+		try {
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userRoleCode = (String) session.getAttribute("USER_ROLE_CODE");
+			contract.setUser_id(userId);
+			contract.setUser_role_code(userRoleCode);
+			view.setViewName("redirect:/contract");
+			
+			List<Contract> dataList = contractService.detailsOfContracts(contract);  
+			
+			
+			if(dataList != null && dataList.size() > 0){
+	            XSSFWorkbook  workBook = new XSSFWorkbook ();
+	            XSSFSheet contractsSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Contract"));
+	            
+		        workBook.setSheetOrder(contractsSheet.getSheetName(), 0);
+		        
+		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+		        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+		        
+		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectioncostStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectionunitsStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle centerStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle rightStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        
+	            XSSFRow headingRow = contractsSheet.createRow(0);
+	            String headerString = "SNO^Contract^Contract Value^Expenditure^LOA Date^Physical Progress^Completetion Date^Remarks";
+	            
+	            String[] headerStringArr = headerString.split("\\^");
+	            
+	            for (int i = 0; i < headerStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue(headerStringArr[i]);
+				}
+	            
+	            NumberFormat numberFormatter = new DecimalFormat("#0.00");
+	            
+	            short rowNo = 1;
+	            int sNo = 1;
+	            for (Contract obj : dataList) {
+	                XSSFRow row = contractsSheet.createRow(rowNo);
+	                int c = 0;
+	                
+	                Cell cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(sNo++);
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_short_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(("Open".equals(obj.getContract_status())?obj.getEstimated_cost():obj.getAwarded_cost()));
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getCumulative_expenditure());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getPhysical_progress());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(("Open".equals(obj.getContract_status())?obj.getPlanned_date_of_award():obj.getLoa_date()));
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getActual_completion_date());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRemarks());
+	                
+	                rowNo++;
+	            }
+	            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
+	            	contractsSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            
+	            /*******************************************************************************************/
+	            
+	            
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+                Date date = new Date();
+                String fileName = "Details_Of_Contracts"+dateFormat.format(date);
+                
+	            try{
+	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+	                workBook.write(fos);
+	                fos.flush();*/
+	            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			    //copies all bytes from a file to an output stream
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    //flushes output stream
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                attributes.addFlashAttribute("success",dataExportSucess);
+	            	//response.setContentType("application/vnd.ms-excel");
+	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+	            	// ...
+	            	// Now populate workbook the usual way.
+	            	// ...
+	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+	            	//workbook.close();
+	            }catch(FileNotFoundException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportError);
+	            }
+	         }else{
+	        	 attributes.addFlashAttribute("error",dataExportNoData);
+	         }
+		}catch(Exception e){	
+			e.printStackTrace();
+			logger.error("exportContract : "+e.getMessage());
+			attributes.addFlashAttribute("error", commonError);			
+		}
+		//return view;
 	}
 	
 }

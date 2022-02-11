@@ -83,6 +83,8 @@ public interface ContractService {
 
 	public List<Contract> contractListForExport(Contract contract) throws Exception;
 
+	public List<Contract> detailsOfContracts(Contract obj) throws Exception;
 
+	public List<Contract> getDepartmentsFilterListInContract(Contract obj) throws Exception;
 
 }

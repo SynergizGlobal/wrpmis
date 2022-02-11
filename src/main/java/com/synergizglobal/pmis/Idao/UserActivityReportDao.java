@@ -22,6 +22,6 @@ public interface UserActivityReportDao {
 
 	List<UserActivityReport> getModulesListForUserInactiveReportForm(UserActivityReport obj) throws Exception;
 
-	List<String> checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception;
+	public int checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception;
 
 }

@@ -2702,7 +2702,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				obj.setAlert_level(alertLevel.getAlert_level());
 				
 				
-				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
+				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
 						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url ";
 				
 						if(!"IT Admin".equals(obj.getUser_role_name())) {

@@ -46,7 +46,7 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="utility_shifting_file_type_table" class="mdl-data-table">
+                                <table id="us_utility_shifting_file_type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th> Utility Shifting File Type</th>
@@ -62,8 +62,8 @@
                                     <tbody>
 										<c:forEach var="obj" items="${utilityShiftingFileTypeList.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="statusId${indexs.count}" value="${obj.utility_shifting_file_type }"  class="findLengths" />
-												${obj.utility_shifting_file_type }</td>
+												<input type="hidden" id="statusId${indexs.count}" value="${obj.us_utility_shifting_file_type }"  class="findLengths" />
+												${obj.us_utility_shifting_file_type }</td>
 											<c:forEach var="tObj" items="${utilityShiftingFileTypeList.tablesList}" varStatus="index">
 												 
 												<td><c:forEach var="cObj" items="${utilityShiftingFileTypeList.countList}" >
@@ -71,7 +71,7 @@
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.utility_shifting_file_type eq obj.utility_shifting_file_type }"> 
+																    <c:when test="${cObj.us_utility_shifting_file_type eq obj.us_utility_shifting_file_type }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -87,8 +87,8 @@
 										 	<c:forEach var="oSbj"  items="${utilityShiftingFileTypeList.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.utility_shifting_file_type eq obj.utility_shifting_file_type }"> 
-												      	<a onclick="deleteRow('${ oSbj.utility_shifting_file_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.us_utility_shifting_file_type eq obj.us_utility_shifting_file_type }"> 
+												      	<a onclick="deleteRow('${ oSbj.us_utility_shifting_file_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -135,9 +135,9 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="utility_shifting_file_type_text" type="text" name="utility_shifting_file_type" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="utility_shifting_file_type_text"> Utility Shifting File Type</label>
-                                <span id="utility_shifting_file_typeError" class="error-msg" ></span>
+                                <input id="us_utility_shifting_file_type_text" type="text" name="utility_shifting_file_type" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="us_utility_shifting_file_type_text"> Utility Shifting File Type</label>
+                                <span id="us_utility_shifting_file_typeError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -210,7 +210,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="utility_shifting_file_type" id="utility_shifting_file_type" />
+    	<input type="hidden" name="us_utility_shifting_file_type" id="us_utility_shifting_file_type" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -234,10 +234,10 @@
                 table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
                     '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
             });
-            $('#utility_shifting_file_type_table tbody').append(table_text);
+            $('#us_utility_shifting_file_type_table tbody').append(table_text);
             // adding table data into table ends */
 
-            var table = $('#utility_shifting_file_type_table').DataTable({
+            var table = $('#us_utility_shifting_file_type_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -279,12 +279,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#utility_shifting_file_typeError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#us_utility_shifting_file_typeError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#utility_shifting_file_typeError').text('');
+     			   $('#us_utility_shifting_file_typeError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -342,17 +342,17 @@
        }
          var validator =  $('#addUsUtilityShiftingFileTypeForm').validate({
          	 rules: {
-         		 "utility_shifting_file_type": {
+         		 "us_utility_shifting_file_type": {
    			 		  required: true
          		 }
    			},messages: {
-   		 		   "utility_shifting_file_type": {
+   		 		   "us_utility_shifting_file_type": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "utility_shifting_file_type_text" ){
-   				     document.getElementById("utility_shifting_file_typeError").innerHTML="";
-   			 	     error.appendTo('#utility_shifting_file_typeError');
+   	        	 if(element.attr("id") == "us_utility_shifting_file_type_text" ){
+   				     document.getElementById("us_utility_shifting_file_typeError").innerHTML="";
+   			 	     error.appendTo('#us_utility_shifting_file_typeError');
    				 }
    	        }
          	
@@ -383,14 +383,14 @@
 
 
       function updateRow(no) {
-          var utility_shifting_file_type = $('#statusId'+no).val();
-          $('#value_old').val($.trim(utility_shifting_file_type))
+          var us_utility_shifting_file_type = $('#statusId'+no).val();
+          $('#value_old').val($.trim(us_utility_shifting_file_type))
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(utility_shifting_file_type)).focus();
+          $('#onlyUpdateModal #value_new').val($.trim(us_utility_shifting_file_type)).focus();
       }
       
       function deleteRow(val){
-      	$("#utility_shifting_file_type").val(val);
+      	$("#us_utility_shifting_file_type").val(val);
       	showCancelMessage();
     	    }
       	

@@ -504,7 +504,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		List<RandRMain> objsList = null;
 		try {
 			String qry ="select rr_id, r.work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor, carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, estimate_approval_date, letter_to_mmrda, estimates_by_mmrda, payment_to_mmrda, alternate_housing_allotment,"
-					+ " relocation, encroachment_removal, boundary_wall_status, boundary_wall_doc, handed_over_to_execution, occupier_name_during_verification from rr r "
+					+ " relocation, encroachment_removal, boundary_wall_status, boundary_wall_doc, handed_over_to_execution, occupier_name_during_verification,modified_by,DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date from rr r "
 					+ "LEFT JOIN work w on r.work_id = w.work_id "
 					+ "WHERE rr_id is not null ";
 			
@@ -1151,7 +1151,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ ", letter_to_mmrda= :letter_to_mmrda, estimate_approval_date= :estimate_approval_date,estimates_by_mmrda= :estimates_by_mmrda,"
 					+ "payment_to_mmrda= :payment_to_mmrda,alternate_housing_allotment= :alternate_housing_allotment,relocation= :relocation,encroachment_removal= :encroachment_removal"
 					+ ",boundary_wall_status= :boundary_wall_status,boundary_wall_doc= :boundary_wall_doc,handed_over_to_execution= :handed_over_to_execution"
-					+ ",occupier_name_during_verification= :occupier_name_during_verification, remarks= :remarks, estimation_amount_units= :estimation_amount_units, estimated_by_mmrda_amount_units= :estimated_by_mmrda_amount_units  "
+					+ ",occupier_name_during_verification= :occupier_name_during_verification, remarks= :remarks, estimation_amount_units= :estimation_amount_units, estimated_by_mmrda_amount_units= :estimated_by_mmrda_amount_units,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP  "
 					+ " WHERE   rr_id= :rr_id ";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 

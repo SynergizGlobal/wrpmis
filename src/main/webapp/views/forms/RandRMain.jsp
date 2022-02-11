@@ -238,6 +238,7 @@
 												<th>type of use</th>
 												<!-- <th>stage</th> -->
 												<th>status</th>
+												<th>Last Update</th>
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -597,6 +598,9 @@
 	    		            { "mData": function(data,type,row){
 	    		            	if($.trim(data.boundary_wall_status) == ''){ return '-'; }else{ return data.boundary_wall_status; }
 	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }
+	    		            } },	    		            
 	    		         	{ "mData": function(data,type,row){
 	    		         		var rr_id = "'"+data.rr_id+"'";
 	    	                    var actions = '<a href="javascript:void(0);"  onclick="getRandR('+rr_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';

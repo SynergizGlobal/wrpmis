@@ -537,7 +537,7 @@ public class RandRMainController {
 	}
 	
 	@RequestMapping(value = "/update-rr", method = {RequestMethod.POST})
-	public ModelAndView updateRR(@ModelAttribute RandRMain obj,RedirectAttributes attributes){
+	public ModelAndView updateRR(@ModelAttribute RandRMain obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/randr-main");
@@ -553,6 +553,9 @@ public class RandRMainController {
 			obj.setHanded_over_to_execution(DateParser.parse(obj.getHanded_over_to_execution()));
 			obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
 			obj.setRelocation(DateParser.parse(obj.getRelocation()));
+			String user_Id = (String) session.getAttribute("USER_ID");
+		
+			obj.setCreated_by_user_id_fk(user_Id);
 			boolean flag =  service.updateRR(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "R and R Updated Succesfully.");

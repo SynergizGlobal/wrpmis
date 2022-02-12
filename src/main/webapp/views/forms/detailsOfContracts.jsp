@@ -89,6 +89,15 @@
 	    .v-align-mid::before{
 	    	vertical-align:middle;
 	    }
+	    
+	    .hide-column {
+		    display : none;
+		}
+		
+		.fw-230{
+        	width:230px;
+        	min-width:230px;
+        }
     </style>
 </head>
 
@@ -165,6 +174,7 @@
 								<thead>
 									<tr>
 										<th>S.No</th>
+										<th>Contract Status</th>
 										<th>Contract</th>
 										<th>Contract Value</th>
 										<th>Expenditure</th>
@@ -176,6 +186,7 @@
 								</thead>
 								<tbody>
 									<tr>
+										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>
@@ -341,23 +352,23 @@
 		
 		$.fn.dataTable.moment('DD-MMM-YYYY');
 		table = $('#datatable-contract-details').DataTable({
+			//"paging":   false,
+	        //"ordering": false,
+	        //"info":     false,
 			"bStateSave": true,  
      		fixedHeader: true,
-           
-         	//Default: Page display length
-				"iDisplayLength" : 10,
-				"iData" : {
-					"start" : 52
-				},"iDisplayStart" : 0,
-				"drawCallback" : function() {
-					var info = table.page.info();
-					window.localStorage.setItem("contractDetailPageNo", info.page);
-				},
+			"iDisplayLength" : 10,
+			"iData" : {
+				"start" : 52
+			},"iDisplayStart" : 0,
+			"drawCallback" : function() {
+				var info = table.page.info();
+				window.localStorage.setItem("contractDetailPageNo", info.page);
+			},
             columnDefs: [
-                {
-                    targets: [0, 1, 2],
-                    className: 'mdl-data-table__cell--non-numeric'
-                },
+                {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
+                {targets: [1],className: 'hide-column'},
+                {targets: [2],className: 'fw-230'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,
@@ -389,7 +400,21 @@
 					})
 					$('.dataTables_filter').append( '<div class="right-btns"></div>');
 					$('.dataTables_filter div').append( $searchButton, $clearButton); 					
-				}
+				},
+			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+			        if (aData[1] == "Completed") {
+			          $('td', nRow).css('background-color', 'Green');
+			          $('td', nRow).css('color', 'White');
+			        }else if (aData[1] == "In Progress") {
+			          $('td', nRow).css('background-color', 'Yellow');
+			          $('td', nRow).css('color', 'Black');
+			        }else if (aData[1] == "Not Awarded") {
+			          $('td', nRow).css('background-color', 'Gray');
+			          $('td', nRow).css('color', 'White');
+			        }else{
+			          $('td', nRow).css('background-color', 'White');
+			        }
+			      }
         }).rows().remove().draw();
 		
 		
@@ -409,15 +434,16 @@
                         }
                         
                         var contract_value = val.awarded_cost;
-                        if ($.trim(val.contract_status) == 'Open'){
+                        if ($.trim(val.contract_status_fk) == 'Not Awarded'){
                         	contract_value = $.trim(val.estimated_cost) 
                         }
                         var loa_date = val.loa_date;
-                        if ($.trim(val.contract_status) == 'Open'){
+                        if ($.trim(val.contract_status_fk) == 'Not Awarded'){
                         	loa_date = $.trim(val.planned_date_of_award) 
                         }
                         
 	                   	rowArray.push($.trim(key+1));
+	                   	rowArray.push($.trim(val.contract_status_fk));
 	                   	rowArray.push($.trim(conractName));
 	                   	rowArray.push($.trim(contract_value));
 	                   	rowArray.push($.trim(val.cumulative_expenditure));
@@ -429,9 +455,9 @@
 	                    table.row.add(rowArray).draw( true );
 	                    
 					});
-	         		if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+	         		/* if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
 	                var oTable = $('#datatable-contract-details').dataTable();
-	                oTable.fnPageChange( pageNo );
+	                oTable.fnPageChange( pageNo ); */
 	         		$(".page-loader-2").hide();
 				}else{
 					$(".page-loader-2").hide();

@@ -1448,10 +1448,8 @@ public class ContractController {
 	@RequestMapping(value="/details-of-contracts",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView detailsOfContracts(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView(PageConstants.detailsOfContracts);
-		List<Contract> contracts = null;
 		try {
-			contracts = contractService.detailsOfContracts(obj);
-			model.addObject("contracts", contracts);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("detailsOfContracts : " + e.getMessage());
@@ -1520,15 +1518,19 @@ public class ContractController {
 		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
 		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+		        byte[] grayRGB = new byte[]{(byte)217, (byte)217, (byte)217};
 		        
-		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+		        
+		        boolean isWrapText = true;boolean isBoldText = false;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
 		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        
+		        CellStyle grayStyle = cellFormating(workBook,grayRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isBoldText = true;fontSize = 12;
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
 		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -1546,7 +1548,7 @@ public class ContractController {
 	            
 	            for (int i = 0; i < headerStringArr.length; i++) {		        	
 		        	Cell cell = headingRow.createCell(i);
-			        cell.setCellStyle(greenStyle);
+			        cell.setCellStyle(whiteStyle);
 					cell.setCellValue(headerStringArr[i]);
 				}
 	            
@@ -1557,37 +1559,45 @@ public class ContractController {
 	            for (Contract obj : dataList) {
 	                XSSFRow row = contractsSheet.createRow(rowNo);
 	                int c = 0;
+	                CellStyle bgColor = sectionStyle;
+	                if("Completed".equals(obj.getContract_status_fk())) {
+	                	bgColor = greenStyle;
+	                }else if("In Progress".equals(obj.getContract_status_fk())){
+	                	bgColor = yellowStyle;
+	                }else if("Not Awarded".equals(obj.getContract_status_fk())){
+	                	bgColor = grayStyle;
+	                }
 	                
 	                Cell cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(bgColor);
 					cell.setCellValue(sNo++);
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(bgColor);
 					cell.setCellValue(obj.getContract_short_name());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(("Open".equals(obj.getContract_status())?obj.getEstimated_cost():obj.getAwarded_cost()));
+					cell.setCellStyle(bgColor);
+					cell.setCellValue(("Not Awarded".equals(obj.getContract_status_fk())?obj.getEstimated_cost():obj.getAwarded_cost()));
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(bgColor);
 					cell.setCellValue(obj.getCumulative_expenditure());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(bgColor);
 					cell.setCellValue(obj.getPhysical_progress());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(("Open".equals(obj.getContract_status())?obj.getPlanned_date_of_award():obj.getLoa_date()));
+					cell.setCellStyle(bgColor);
+					cell.setCellValue(("Not Awarded".equals(obj.getContract_status_fk())?obj.getPlanned_date_of_award():obj.getLoa_date()));
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(bgColor);
 					cell.setCellValue(obj.getActual_completion_date());
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
+					cell.setCellStyle(bgColor);
 					cell.setCellValue(obj.getRemarks());
 	                
 	                rowNo++;

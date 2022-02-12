@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,9 +46,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.UserActivityReportService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.UserActivityReport;
 import com.synergizglobal.pmis.model.User;
-import com.synergizglobal.pmis.model.UserActivityReport;
 import com.synergizglobal.pmis.model.UserActivityReport;
 
 @Controller
@@ -216,21 +215,14 @@ public class UserActivityReportController {
 	        
 	        
 	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
-	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle greenStyle1 = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
-	        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        
 	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle cellStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle centerStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-
-	        CellStyle componentStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	       
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
-	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle activityNameStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        
@@ -960,9 +952,9 @@ public class UserActivityReportController {
 	
 	/******************************************************************************/
 	
-	@RequestMapping(value = "/user-inactive-report", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView userInactiveReport(@ModelAttribute UserActivityReport obj, RedirectAttributes attributes) {
-		ModelAndView model = new ModelAndView(PageConstants.userInactiveReport);
+	@RequestMapping(value = "/inactive-users-report", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView inactiveUsersReport(@ModelAttribute UserActivityReport obj, RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView(PageConstants.inactiveUsersReport);
 		try {
 			List<UserActivityReport> worksList = service.getWorksListForUserInactiveReportForm(obj);
 			model.addObject("worksList", worksList);
@@ -971,7 +963,7 @@ public class UserActivityReportController {
 			model.addObject("modulelist", modulelist);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("userInactiveReport : " + e.getMessage());
+			logger.error("inactiveUsersReport : " + e.getMessage());
 		}
 		return model;
 	}
@@ -1017,4 +1009,265 @@ public class UserActivityReportController {
 		}
 		return count;
 	}
+	
+	
+	@RequestMapping(value = "/generate-inactive-users-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public void generateInactiveUsersReport(@ModelAttribute UserActivityReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY hh:mm a"); 
+			String report_created_date = df.format(new Date());
+			
+			UserActivityReport reportData = service.getInactiveUsersReportData(obj);
+			
+			XSSFWorkbook  workBook = new XSSFWorkbook();
+			
+			/***************************************************************************/
+	        
+			byte[] blueRGB = new byte[]{(byte)180, (byte)198, (byte)231};
+			byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        byte[] brownRGB = new byte[]{(byte)244, (byte)176, (byte)132};
+	        byte[] lightPinkRGB = new byte[]{(byte)252, (byte)228, (byte)214};
+	        
+	        
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
+	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle brownStyle = cellFormating(workBook,brownRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle lightPinkStyle = cellFormating(workBook,lightPinkRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        
+	        CellStyle leftWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle centerStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
+	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        /********************************************************/
+	        if(!(StringUtils.isEmpty(reportData))){
+       		 	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Inactive Users"));
+		        XSSFRow dateRow = dprSheet.createRow(0);
+		        Cell cell = dateRow.createCell(0);
+				cell.setCellStyle(whiteStyle);
+				cell.setCellValue("Inactive Users Report On :" + report_created_date);
+				
+				cell = dateRow.createCell(1);
+		        cell.setCellStyle(leftWhiteStyle);
+		        cell.setCellValue("");
+		        
+		        cell = dateRow.createCell(2);
+		        cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("");
+			    dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,2));	
+			   
+			   
+			    XSSFRow mainHeadingRow = dprSheet.createRow(2);
+		        
+		        cell = mainHeadingRow.createCell(0);
+		        cell.setCellStyle(greenStyle);
+		        cell.setCellValue("Inactive Users Report");
+		        
+		        cell = mainHeadingRow.createCell(1);
+		        cell.setCellStyle(leftWhiteStyle);
+		        cell.setCellValue("");
+		        
+		        cell = mainHeadingRow.createCell(2);
+		        cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("");
+				
+		        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 0,2));
+				/********************************************************/	
+		        
+		        /********************************************************/	
+		        XSSFRow deatilsRow = dprSheet.createRow(3);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("Inactive since days");
+				
+				
+				cell = deatilsRow.createCell(1);
+		        cell.setCellStyle(leftWhiteStyle);
+		        cell.setCellValue(obj.getInactive_since());
+		        
+		        cell = deatilsRow.createCell(2);
+		        cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("");
+				
+				dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 1,2));
+				/********************************************************/
+		        
+				/********************************************************/	
+		        deatilsRow = dprSheet.createRow(4);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("Work");
+				
+				cell = deatilsRow.createCell(1);
+				cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue((!StringUtils.isEmpty(obj.getWork_short_name()))?obj.getWork_short_name():"All");
+				
+				cell = deatilsRow.createCell(2);
+				cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("");
+				dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 1,2));
+		        
+				/********************************************************/
+		        
+				/********************************************************/	
+		        deatilsRow = dprSheet.createRow(5);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("Module");
+				
+				cell = deatilsRow.createCell(1);
+				cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue((!StringUtils.isEmpty(obj.getModule_name_fk()))?obj.getModule_name_fk():"All");
+				
+				cell = deatilsRow.createCell(2);
+				cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("");
+				
+				dprSheet.addMergedRegion(new CellRangeAddress(5,5, 1,2));
+				
+				 /********************************************************/	
+		        deatilsRow = dprSheet.createRow(8);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(brownStyle);
+				cell.setCellValue("Work : "+obj.getWork_short_name());
+				
+				
+				cell = deatilsRow.createCell(1);
+		        cell.setCellStyle(brownStyle);
+		        cell.setCellValue("");
+		        
+		        cell = deatilsRow.createCell(2);
+		        cell.setCellStyle(brownStyle);
+				cell.setCellValue("");
+				
+				dprSheet.addMergedRegion(new CellRangeAddress(8, 8, 0,2));
+				/********************************************************/
+				
+				/********************************************************/	
+		        deatilsRow = dprSheet.createRow(9);
+		        
+		        cell = deatilsRow.createCell(0);
+		        cell.setCellStyle(lightPinkStyle);
+				cell.setCellValue("PMIS User");
+				
+				cell = deatilsRow.createCell(1);
+				cell.setCellStyle(lightPinkStyle);
+				cell.setCellValue("Contract");
+				
+				cell = deatilsRow.createCell(2);
+				cell.setCellStyle(lightPinkStyle);
+				cell.setCellValue("Last Updated Date");
+		        
+				/********************************************************/
+				
+				if(!StringUtils.isEmpty(reportData.getInactiveUsers())) {
+					Map<String, List<UserActivityReport>> mObj = reportData.getInactiveUsers();
+					int row = 10;
+					for (Map.Entry<String, List<UserActivityReport>> entry : mObj.entrySet()) {
+						deatilsRow = dprSheet.createRow(row);
+					        
+				        cell = deatilsRow.createCell(0);
+				        cell.setCellStyle(blueStyle);
+						cell.setCellValue("Module - "+entry.getKey());
+						
+						
+						cell = deatilsRow.createCell(1);
+				        cell.setCellStyle(leftWhiteStyle);
+				        cell.setCellValue("");
+				        
+				        cell = deatilsRow.createCell(2);
+				        cell.setCellStyle(leftWhiteStyle);
+						cell.setCellValue("");
+						
+						dprSheet.addMergedRegion(new CellRangeAddress(row, row, 0,2));
+						
+						row++;
+						
+						List<UserActivityReport> values = entry.getValue();
+						for (UserActivityReport inactiveUsrObj : values) {
+							deatilsRow = dprSheet.createRow(row);
+					        
+					        cell = deatilsRow.createCell(0);
+					        cell.setCellStyle(leftWhiteStyle);
+							cell.setCellValue(inactiveUsrObj.getUser());
+							
+							
+							cell = deatilsRow.createCell(1);
+					        cell.setCellStyle(leftWhiteStyle);
+					        cell.setCellValue(inactiveUsrObj.getContract());
+					        
+					        cell = deatilsRow.createCell(2);
+					        cell.setCellStyle(leftWhiteStyle);
+							cell.setCellValue(inactiveUsrObj.getLast_updated_date());
+							row++;
+						}
+						row++;
+					}
+				}
+				
+				dprSheet.setColumnWidth(0, 40 * 150);
+				dprSheet.setColumnWidth(1, 40 * 150);
+				dprSheet.setColumnWidth(2, 40 * 150);
+			    
+	            /*******************************************************************************/
+	            
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            Date date = new Date();
+	            String fileName = "Inactive_Users_Report_"+dateFormat.format(date);
+	            
+	            try{
+	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+	                workBook.write(fos);
+	                fos.flush();*/
+	            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			    //copies all bytes from a file to an output stream
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    //flushes output stream
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                //attributes.addFlashAttribute("success",dataExportSucess);
+	            	//response.setContentType("application/vnd.ms-excel");
+	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+	            	// ...
+	            	// Now populate workbook the usual way.
+	            	// ...
+	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+	            	//workbook.close();
+	            }catch(FileNotFoundException e){
+	                e.printStackTrace();
+	                logger.error("generateInactiveUsersReport : " + e.getMessage());
+	                //attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                e.printStackTrace();
+	                logger.error("generateInactiveUsersReport : " + e.getMessage());
+	                //attributes.addFlashAttribute("error",dataExportError);
+	            }
+	        }
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateInactiveUsersReport : " + e.getMessage());
+		}
+    }
 }

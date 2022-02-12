@@ -46,7 +46,7 @@
 							
                     <div class="">
                     	<div class="center-align m-1 close-message">${error}</div>
-			            <form action="<%=request.getContextPath() %>/generate-user-inactive-report" id="userInactiveReportForm" name="userInactiveReportForm" method="post" target="_blank">	                              
+			            <form action="<%=request.getContextPath() %>/generate-inactive-users-report" id="userInactiveReportForm" name="userInactiveReportForm" method="post" target="_blank">	                              
                        		 
                            	<div class="row">
                                  <div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
@@ -67,13 +67,15 @@
                                       	   <option value= "${obj.work_id}">${obj.work_short_name}</option>
                                          </c:forEach>
                                     </select>
-                                    <span id="sub_workError" class="error-msg" ></span>
+                                    <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field ">                                    
                                     <input type="number" id="inactive_since" name="inactive_since" class="validate">
                                     <label for="inactive_since" class="fs-sm-8rem">Inactive since(Days) <span class="required">*</span></label>
                                     <span id="inactive_sinceError" class="error-msg" ></span>
                                 </div>
+                                
+                                <input type="hidden" id="work_short_name" name="work_short_name" />
                             </div>
                             <div class="row">	                                	
                                 <div class="col s12 m4 l3 input-field center-align offset-l3 offset-m2">
@@ -183,12 +185,15 @@
 	            var module_name_fk = $("#module_name_fk").val();
 	            var work_id_fk = $("#work_id_fk").val();
 	            var inactive_since = $("#inactive_since").val();
+	            
+	            var work_short_name = $('#work_id_fk option:selected').text();
+	            $("#work_short_name").val(work_short_name);
+	            
                 var myParams = { module_name_fk: module_name_fk,work_id_fk: work_id_fk, inactive_since : inactive_since};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/checkInactiveUsersExistsOrNot",
                     data: myParams, cache: false,
-                    success: function (data) {   
-                    	alert(data);
+                    success: function (data) {
                         if(data > 0) {   
                 	        document.getElementById("userInactiveReportForm").submit();
                         }else{
@@ -203,7 +208,7 @@
         function showNoDataMessage() {
           	swal({
       	            title: "Status",
-      	            text: "No updates in this period!",
+      	            text: "There is no inactive users!",
       	            type: "info",
       	            confirmButtonColor: "#DD6B55",
       	            cancelButtonText: "ok",
@@ -284,17 +289,24 @@
 	  		    rules: {
 	  		 		  "inactive_since": {
 	  			 		required: true
+	  			 	  },"work_id_fk": {
+	  			 		required: true
 	  			 	  }
 	  		 	},
 	  		    messages: {
 	  		 		 "inactive_since": {
-	  			 		required: ' This field is required'
+	  			 		required: 'This field is required'
+	  			 	  },"work_id_fk": {
+	  			 		required: 'This field is required'
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
 		   		 	if(element.attr("id") == "inactive_since" ){
 						   document.getElementById("inactive_sinceError").innerHTML="";
 					 	   error.appendTo('#inactive_sinceError');
+					}else if(element.attr("id") == "work_id_fk" ){
+						   document.getElementById("work_id_fkError").innerHTML="";
+					 	   error.appendTo('#work_id_fkError');
 					}else{
 	 					error.insertAfter(element);
 			       }
@@ -324,7 +336,7 @@
     		$('#inactive_since').val('');
     		$('.searchable').select2();
     		window.localStorage.setItem("userInactiveReportFilters",'');
-    		window.location.href= "<%=request.getContextPath()%>/user-inactive-report";
+    		window.location.href= "<%=request.getContextPath()%>/inactive-users-report";
     	}
     </script>
 

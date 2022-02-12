@@ -72,23 +72,23 @@
 			
 		} 
 				
-	.m-n1 {
-        margin: -2rem auto 0;
-    }
-
-    @media only screen and (max-width: 767px) {
-        .mob-mar {
-            text-align: left;
-        }
-
-        .exportButton .btn {
-            padding-left: 6px;
-            padding-right: 6px;
-        }
-    }
-    .v-align-mid::before{
-    	vertical-align:middle;
-    }
+		.m-n1 {
+	        margin: -2rem auto 0;
+	    }
+	
+	    @media only screen and (max-width: 767px) {
+	        .mob-mar {
+	            text-align: left;
+	        }
+	
+	        .exportButton .btn {
+	            padding-left: 6px;
+	            padding-right: 6px;
+	        }
+	    }
+	    .v-align-mid::before{
+	    	vertical-align:middle;
+	    }
     </style>
 </head>
 
@@ -427,6 +427,7 @@
 	                   	rowArray.push($.trim(val.remarks));   	                   	
 	                   	
 	                    table.row.add(rowArray).draw( true );
+	                    
 					});
 	         		if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
 	                var oTable = $('#datatable-contract-details').dataTable();

@@ -1,17 +1,20 @@
 package com.synergizglobal.pmis.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class UserActivityReport {
 
 	private String form_history_id, module_name, work, contract, form_action_type, form_details, created_by_user_id_fk, 
 	user,user_id,time,from_date,to_date, created_date,user_type_fk,user_role_code,date,inactive_since,work_id_fk,user_id_fk,user_name;
 
-	List<UserActivityReport> datesList;
-	List<UserActivityReport> userActivitiesList;
-	List<UserActivityReport> usersList;
+	private List<UserActivityReport> datesList;
+	private List<UserActivityReport> userActivitiesList;
+	private List<UserActivityReport> usersList;
 	
-	private String work_id,work_name,work_short_name,module_name_fk,form_name;
+	private Map<String,List<UserActivityReport>> inactiveUsers;
+	
+	private String work_id,work_name,work_short_name,module_name_fk,form_name,last_updated_date;
 	
 	public String getWork_id() {
 		return work_id;
@@ -236,6 +239,22 @@ public class UserActivityReport {
 
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
+	}
+
+	public Map<String,List<UserActivityReport>> getInactiveUsers() {
+		return inactiveUsers;
+	}
+
+	public void setInactiveUsers(Map<String,List<UserActivityReport>> inactiveUsers) {
+		this.inactiveUsers = inactiveUsers;
+	}
+
+	public String getLast_updated_date() {
+		return last_updated_date;
+	}
+
+	public void setLast_updated_date(String last_updated_date) {
+		this.last_updated_date = last_updated_date;
 	}
 	
 }

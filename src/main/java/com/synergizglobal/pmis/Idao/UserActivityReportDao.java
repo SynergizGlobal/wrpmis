@@ -24,4 +24,6 @@ public interface UserActivityReportDao {
 
 	public int checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception;
 
+	UserActivityReport getInactiveUsersReportData(UserActivityReport obj) throws Exception;
+
 }

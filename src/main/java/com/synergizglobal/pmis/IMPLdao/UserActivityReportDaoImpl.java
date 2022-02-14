@@ -534,7 +534,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 						list = list.stream().distinct().collect(Collectors.toList());
 					}
 					if(!StringUtils.isEmpty(list) && list.size() > 0) {
-						obj.setModule_name_fk(module.getModule_name());
+						obj.setModule_name(module.getModule_name());
 						List<UserActivityReport> inactiveUsersList = getInactiveUsers(obj,list);
 						if(!StringUtils.isEmpty(inactiveUsersList) && inactiveUsersList.size() > 0) {
 							inactiveUsers.put(module.getModule_name(), inactiveUsersList);
@@ -561,7 +561,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 						list = list.stream().distinct().collect(Collectors.toList());
 					}
 					if(!StringUtils.isEmpty(list) && list.size() > 0) {
-						obj.setModule_name_fk(module.getModule_name());
+						obj.setModule_name(module.getModule_name());
 						List<UserActivityReport> inactiveUsersList = getInactiveUsers(obj,list);
 						if(!StringUtils.isEmpty(inactiveUsersList) && inactiveUsersList.size() > 0) {
 							inactiveUsers.put(module.getModule_name(), inactiveUsersList);
@@ -602,7 +602,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = obj.getInactive_since();
-			pValues[i++] = obj.getModule_name_fk();
+			pValues[i++] = obj.getModule_name();
 			for (String user_id : list) {
 				pValues[i++] = user_id;
 			}

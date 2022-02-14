@@ -3933,7 +3933,7 @@ public class ContractDaoImpl implements ContractDao {
 					"(SELECT cast(SUM(gross_work_done) as CHAR) FROM expenditure e WHERE e.contract_id_fk = c.contract_id) AS cumulative_expenditure,"+
 					"DATE_FORMAT(planned_date_of_award,'%d-%m-%Y') as planned_date_of_award, " + 
 					"DATE_FORMAT(loa_date,'%d-%m-%Y') as loa_date, " + 
-					"(SELECT sum(work_per) FROM pmis.activities_scurve where contract_id = c.contract_id) as physical_progress, " + 
+					"(SELECT sum(contract_per) FROM activities_scurve where contract_id = c.contract_id AND category = ?) as physical_progress, " + 
 					"IFNULL((SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1),DATE_FORMAT(actual_completion_date,'%d-%m-%Y')) as actual_completion_date, " + 
 					"c.remarks " + 
 					"FROM contract c " + 
@@ -3944,7 +3944,7 @@ public class ContractDaoImpl implements ContractDao {
 					"LEFT join money_unit mu3 ON c.completed_cost_units = mu3.value " + 
 					"WHERE contract_id IS NOT NULL ";
 			
-			int arrSize = 0;
+			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and c.department_fk = ?";
 				arrSize++;
@@ -3959,6 +3959,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			pValues[i++] = "Actual";
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}

@@ -1460,7 +1460,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				for (Alerts lObj : alert_levels) {
 					
-					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
+					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
 							+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
@@ -1666,7 +1666,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				for (Alerts lObj : alert_levels) {
 					
-					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
+					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
 							+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
@@ -1757,7 +1757,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			if(userIdList != null && userIdList.size() > 0) {
 				for (Alerts uObj : userIdList) {
-					String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,"
+					String qry = "select alert_id,alert_level,alert_type_fk,a.created_date,alert_status,alert_value,count,"
 							+ "(CASE "
 							+ "WHEN a.hod_email is null THEN u.designation "
 							+ "ELSE a.hod_email "
@@ -1984,7 +1984,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				List<Alerts> alert_levels = jdbcTemplate.query( aLevelQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 				
 				for (Alerts lObj : alert_levels) {	
-					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
+					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
 							+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join contract c on a.contract_id = c.contract_id " 
@@ -2096,7 +2096,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			EMailSender emailSender = new EMailSender();
 			
-			String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,u.designation as hod,"
+			String qry = "select alert_id,alert_level,alert_type_fk,a.created_date,alert_status,alert_value,count,u.designation as hod,"
 					+ "IFNULL(a.remarks,'') as remarks,redirect_url " 
 					+ "from alerts a "  
 					+ "left join risk_work_hod rwh on ((rwh.sub_work = REPLACE(a.redirect_url,'/risk-assessment?sub_work=','')) "
@@ -2198,7 +2198,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getAlerts(Alerts obj) throws Exception {
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
 					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url "
 					+ "from alerts a "; 
 					if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3035,7 +3035,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getAlertsList(Alerts obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
 					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url,amendment_not_required_in_contract  "
 					+ "from alerts a "; 
 					if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -3339,7 +3339,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			for (Alerts lObj : alert_levelsList) {
 				
-				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
+				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
 						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 						+ "from alerts a " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
@@ -3541,7 +3541,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			List<Alerts> hodObjsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			for (Alerts hodObj : hodObjsList) {			
-				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
+				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
 						+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url,"
 						+ "a.details,DATE_FORMAT(a.valid_upto,'%d-%m-%y') as validity "
 						+ "from alerts a "; 

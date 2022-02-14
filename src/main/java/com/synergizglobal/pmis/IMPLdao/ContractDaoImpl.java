@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -3922,6 +3924,7 @@ public class ContractDaoImpl implements ContractDao {
 	@Override
 	public List<Contract> detailsOfContracts(Contract obj) throws Exception {
 		List<Contract> objsList = null;
+		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String qry = "select w.work_name,w.work_short_name,dt.department_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,c.department_fk, " + 
 					"c.status as contract_status, contract_status_fk,estimated_cost_units,awarded_cost_units,completed_cost_units,mu1.unit as estimated_cost_unit,mu2.unit as awarded_cost_unit,mu3.unit as completed_cost_unit, " + 
@@ -3967,6 +3970,32 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
+			for (Contract cObj : objsList) {
+				String awarded_cost = cObj.getAwarded_cost();
+				if("Not Awarded".equals(cObj.getContract_status_fk())) {
+					awarded_cost = cObj.getEstimated_cost();
+				}
+				String awarded_cost_value = "";
+				if(!StringUtils.isEmpty(awarded_cost)) {
+					double val = (Double.parseDouble(awarded_cost))/10000000;
+					awarded_cost_value = numberFormatter.format(val);
+				}
+				cObj.setAwarded_cost(awarded_cost_value);
+				
+				String cumulative_expenditure_value = "";
+				if(!StringUtils.isEmpty(cObj.getCumulative_expenditure())) {
+					double val = (Double.parseDouble(cObj.getCumulative_expenditure()))/10000000;
+					cumulative_expenditure_value = numberFormatter.format(val);
+				}
+				cObj.setCumulative_expenditure(cumulative_expenditure_value);
+				
+				String physical_progress_value = "";
+				if(!StringUtils.isEmpty(cObj.getPhysical_progress())) {
+					double val = (Double.parseDouble(cObj.getPhysical_progress()))*100;
+					physical_progress_value = numberFormatter.format(val);
+				}
+				cObj.setPhysical_progress(physical_progress_value);
+			}
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

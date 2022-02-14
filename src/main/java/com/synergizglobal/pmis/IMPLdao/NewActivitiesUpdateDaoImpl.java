@@ -1365,7 +1365,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					{
 						//String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
 						
-						String updateQry = "UPDATE  activities set modified_by_user_id_fk=?,modified_date=CURRENT_TIMESTAMP,completed = IFNULL(NULLIF(completed, '' ), 0) ";
+						String updateQry = "UPDATE  activities set modified_by_user_id_fk=?,modified_date=?,completed = IFNULL(NULLIF(completed, '' ), 0) ";
 						
 						
 						if(!StringUtils.isEmpty(obj.getProgress_date())) 
@@ -1408,6 +1408,33 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						int k = 1;
 						//updateStmt.setString(k++, String.valueOf(actual) );
 						updateStmt.setString(k++, obj.getCreated_by_user_id_fk() );	
+						if(!StringUtils.isEmpty(obj.getProgress_date())) 
+						{
+					    	Calendar c4 = Calendar.getInstance();
+					    	String[] SplitWith4=obj.getProgress_date().split("-");
+							
+				            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+				            c4.setTime(PrFormat.parse(SplitWith4[1]));
+				            c4.set(Calendar.DATE, Integer.parseInt(SplitWith4[0]));
+				            
+							DateFormat dfm = new SimpleDateFormat("dd-MM-yy");
+							DateFormat rdfm = new SimpleDateFormat("YYYY");
+							Date Cdfm=dfm.parse(SplitWith4[0]+'-'+c4.get(Calendar.MONTH)+'-'+SplitWith4[2]);	
+							
+				            String gdate=rdfm.format(Cdfm);
+				            
+				            c4.set(Calendar.YEAR, Integer.parseInt(gdate));		            
+				            
+				            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				            
+				            String Prdate=df.format(c4.getTime());
+				            
+							updateStmt.setString(k++, Prdate );
+						}
+						else
+						{
+							updateStmt.setString(k++, null );
+						}						
 						
 
 						
@@ -1485,7 +1512,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						if(Float.parseFloat(StrVar2[i])>=completed && ((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") ) )
 						{
 						
-							String updateQry = "UPDATE  activities set modified_by_user_id_fk=?,modified_date=CURRENT_TIMESTAMP,completed = IFNULL(NULLIF(completed, '' ), 0) ";
+							String updateQry = "UPDATE  activities set modified_by_user_id_fk=?,modified_date=?,completed = IFNULL(NULLIF(completed, '' ), 0) ";
 							
 							
 							if(!StringUtils.isEmpty(obj.getProgress_date())) 
@@ -1507,6 +1534,34 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 								
 							int k = 1;
 							updateStmt.setString(k++, obj.getCreated_by_user_id_fk() );	
+							if(!StringUtils.isEmpty(obj.getProgress_date())) 
+							{
+								
+						    	Calendar c4 = Calendar.getInstance();
+						    	String[] SplitWith4=obj.getProgress_date().split("-");
+								
+					            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+					            c4.setTime(PrFormat.parse(SplitWith4[1]));
+					            c4.set(Calendar.DATE, Integer.parseInt(SplitWith4[0]));
+					            
+								DateFormat dfm = new SimpleDateFormat("dd-MM-yy");
+								DateFormat rdfm = new SimpleDateFormat("YYYY");
+								Date Cdfm=dfm.parse(SplitWith4[0]+'-'+c4.get(Calendar.MONTH)+'-'+SplitWith4[2]);	
+								
+					            String gdate=rdfm.format(Cdfm);
+					            
+					            c4.set(Calendar.YEAR, Integer.parseInt(gdate));		            
+					            
+					            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					            
+					            String Prdate=df.format(c4.getTime());
+					            
+								updateStmt.setString(k++, Prdate );
+							}
+							else
+							{
+								updateStmt.setString(k++, null );
+							}
 							
 							if(!StringUtils.isEmpty(obj.getProgress_date())) 
 							{	

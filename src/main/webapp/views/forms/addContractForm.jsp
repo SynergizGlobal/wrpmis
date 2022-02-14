@@ -489,7 +489,7 @@
 	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker">
 	                                    <label for="loa_date">LOA Date</label>
 	                                     <span id="loa_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="loa_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                            </div>
 	                            <div class="row">
@@ -509,7 +509,7 @@
 	                                    <input id="planned_date_of_award" name="planned_date_of_award" type="text" class="validate datepicker">
 	                                    <label for="planned_date_of_award">Planned date of award</label>
 	                                    <span id="planned_date_of_awardError" class="error-msg" ></span>
-	                                    <button type="button" id="planned_date_of_award_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="planned_date_of_award_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                
 	                                <div class="col s6 m4 l6 input-field" id="contract_status_fk_div">

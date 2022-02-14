@@ -16,12 +16,16 @@
 	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
-	<!-- <link rel="stylesheet" href="/pmis/resources/css/fob.css"> -->
+	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+    
 	 <style>
+	 	.input-field>label{
+	 		top: 7px;
+	 	}
         .fixed-width {
             width: 100%;
             margin-left :auto !important;
@@ -913,6 +917,7 @@
 	<script src="/pmis/resources/js/datepickerDepedency.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	
 	<script type="text/javascript">
       
   /*   let date_pickers = document.querySelectorAll('.datepicker');

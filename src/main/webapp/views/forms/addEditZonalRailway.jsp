@@ -443,27 +443,27 @@
                                                 class="validate datepicker">
                                             <label for="actual_start">Actual Start</label>
                                             <button type="button" id="actual_start_icon"
-                                                class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                                class="datepicker"><i class="fa fa-calendar"></i></button>
                                         </div> 
                                         <div class="col s6 m4 l4 input-field">
                                             <input id="expected_finish" name="expected_finish" type="text"  value="${zonalRailwayDetails.expected_finish }"
                                                 class="validate datepicker">
                                             <label for="expected_finish" class="fs-sm-67rem">Target For Completion</label>
                                             <button type="button" id="expected_finish_icon"
-                                                class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                                class="datepicker"><i class="fa fa-calendar"></i></button>
                                         </div>
                                         <div class="col s6 m4 l4 input-field">
                                             <input id="actual_finish" name="actual_finish" type="text"  value="${zonalRailwayDetails.actual_finish }"
                                                 class="validate datepicker">
                                             <label for="actual_finish">Actual Finish</label>
                                             <button type="button" id="actual_finish_icon"
-                                                class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                                class="datepicker"><i class="fa fa-calendar"></i></button>
                                         </div>
                                         <div class="col s6 m4 l4 input-field">
 								<input id="asOnDate" type="text" class="validate datepicker"
 									value="${zonalRailwayDetails.as_on_date }" name="as_on_date">
 								<label for="asOnDate">As on Date</label>
-								<button type="button" id="asOnDate_icon" class="datepicker-button">
+								<button type="button" id="asOnDate_icon" class="datepicker">
 									<i class="fa fa-calendar"></i>
 								</button>
 							</div>  

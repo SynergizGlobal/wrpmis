@@ -18,7 +18,27 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
-    <style>         
+    <style>   
+    	thead tr th{
+    		padding-left:15px !important;
+    		padding-right: 40px !important;
+    	}
+    	th.sorting_asc::after, th.sorting_asc::before{ 
+    		content:"" !important;
+    	} 
+    	td:last-child, td:last-of-type{
+    		white-space: initial;
+    	}   
+    	.w300{
+    		width: 350px !important;
+    	}  
+    	.mdl-data-table td:first-of-type, .mdl-data-table th:first-of-type {
+    		padding-left: 10px;
+		}
+		thead>tr>th.sorting{
+			padding-left: 7px;
+			padding-right: 35px !important;
+		}
         .input-field .searchable_label{
         	font-size:0.85rem;
         }
@@ -75,7 +95,12 @@
 		.m-n1 {
 	        margin: -2rem auto 0;
 	    }
-	
+		@media(max-width: 1366px){
+			thead tr th{
+				padding-left: 6px !important;
+			}
+		}
+		
 	    @media only screen and (max-width: 767px) {
 	        .mob-mar {
 	            text-align: left;
@@ -95,8 +120,8 @@
 		}
 		
 		.fw-230{
-        	width:230px !important;
-        	min-width:230px !important;
+        	width:20% !important;
+        	/* min-width:230px !important; */
         }
         
         .fw-250{
@@ -271,7 +296,7 @@
 								<tbody>
 									<tr>
 										<td></td>
-										<td></td>
+										<td></td>	
 										<td></td>
 										<td></td>
 										<td></td>
@@ -440,7 +465,7 @@
 		$.fn.dataTable.moment('DD-MMM-YYYY');
 		table = $('#datatable-contract-details').DataTable({
 			//"paging":   false,
-	        //"ordering": false,
+	        "ordering": false,
 	        //"info":     false,
 			"bStateSave": true,  
      		fixedHeader: true,
@@ -455,8 +480,7 @@
             columnDefs: [
                 {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
                 {targets: [1],className: 'hide-column'},
-                {targets: [2],className: 'fw-230'},
-                {targets: [8],className: 'fw-250'},
+                {targets: [2, 8],className: 'fw-230'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,

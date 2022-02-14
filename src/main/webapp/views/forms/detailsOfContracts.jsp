@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contract Details Grid- Update Forms - PMIS</title>
+    <title>Details of Contracts - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
-    <style>        
+    <style>         
         .input-field .searchable_label{
         	font-size:0.85rem;
         }
@@ -95,9 +95,77 @@
 		}
 		
 		.fw-230{
-        	width:230px;
-        	min-width:230px;
+        	width:230px !important;
+        	min-width:230px !important;
         }
+        
+        .fw-250{
+        	width:250px !important;
+        	min-width:250px !important;
+        }
+        
+        
+
+		.legends {
+            padding: 2px;
+        }
+
+        .box,
+        .description {
+            display: inline-block;
+            margin-left: 3px;
+            margin-right: 3px;
+            vertical-align: middle;
+        }
+
+        .box {
+            width: 20px;
+            height: 20px;
+            border-radius:50%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .box.not-started {
+            background-color: #808080;
+        }
+
+        .box.in-progress {
+            background-color: #FFFF00;
+        }
+
+        .box.completed {
+            background-color: #05a705;
+        }
+
+        .box.delayed {
+            background-color: #f00;
+        }
+
+        @media only screen and (max-width: 768px) {
+           .fixed-width .table-inside {
+	    		overflow: hidden;
+			}
+        }
+        @media only screen and (max-width: 700px) {
+            .legends .col {
+                text-align: left;
+            }
+        }
+        @media(max-width: 575px){
+        .row .col{margin: 10px auto}
+        }
+       
+        fieldset.brdr {
+        	padding-bottom: 1rem !important;
+		    border: 1px solid #ccc;
+		    margin-bottom: -68px;
+		    margin-top: 39px;
+        }
+        fieldset.brdr legend{		    
+		    padding: 0 5px;
+	    }
+	    
     </style>
 </head>
 
@@ -168,17 +236,33 @@
 					</div>
 
 					<div class="row">
+						<div class="col m12 l4 offset-l4 s12">
+						 	<fieldset class="p-2 brdr" >
+							 	   <legend> Legend </legend>  										
+                                   <div class="col m4 s4 center-align">
+                                       <span class="box not-started"></span>
+                                       <span class="description">Not Started</span>
+                                   </div>
+                                   <div class="col m4 s4 center-align">
+                                       <span class="box in-progress"></span>
+                                       <span class="description">In Progress</span>
+                                   </div>
+                                   <div class="col m4 s4 center-align">
+                                       <span class="box completed"></span>
+                                       <span class="description">Completed</span>
+                                   </div>
+                              </fieldset>
+						</div>
 						<div class="col m12 s12">
-
 							<table id="datatable-contract-details" class="mdl-data-table">
 								<thead>
 									<tr>
 										<th>S.No</th>
 										<th>Contract Status</th>
 										<th>Contract</th>
-										<th>Contract Value</th>
-										<th>Expenditure</th>
-										<th>Physical Progress</th>
+										<th>Contract Value(In Cr)</th>
+										<th>Expenditure(In Cr)</th>
+										<th>Physical Progress(%)</th>
 										<th>LOA Date</th>
 										<th>Completion Date</th>
 										<th>Remarks</th>
@@ -337,6 +421,9 @@
     	getWorkFilterList('');
     	    	
     	var work_id_fk = $("#work_id_fk").val();
+    	if($.trim(work_id_fk) == '' ){
+    		work_id_fk = 'P04W01';
+    	}
     	var department_fk = $("#department_fk").val();
     	var contract_status_fk = $("#contract_status_fk").val();
 
@@ -369,6 +456,7 @@
                 {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
                 {targets: [1],className: 'hide-column'},
                 {targets: [2],className: 'fw-230'},
+                {targets: [8],className: 'fw-250'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,
@@ -403,13 +491,13 @@
 				},
 			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			        if (aData[1] == "Completed") {
-			          $('td', nRow).css('background-color', 'Green');
+			          $('td', nRow).css('background-color', '#05a705');
 			          $('td', nRow).css('color', 'White');
 			        }else if (aData[1] == "In Progress") {
-			          $('td', nRow).css('background-color', 'Yellow');
+			          $('td', nRow).css('background-color', '#FFFF00');
 			          $('td', nRow).css('color', 'Black');
 			        }else if (aData[1] == "Not Awarded") {
-			          $('td', nRow).css('background-color', 'Gray');
+			          $('td', nRow).css('background-color', '#808080');
 			          $('td', nRow).css('color', 'White');
 			        }else{
 			          $('td', nRow).css('background-color', 'White');
@@ -425,17 +513,10 @@
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	                    var rowArray = []; 
-	                	/* var workName = '';
-                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) } */
                         
                         var conractName = val.contract_id;
                         if ($.trim(val.contract_short_name) != ''){
                         	conractName = $.trim(val.contract_short_name) 
-                        }
-                        
-                        var contract_value = val.awarded_cost;
-                        if ($.trim(val.contract_status_fk) == 'Not Awarded'){
-                        	contract_value = $.trim(val.estimated_cost) 
                         }
                         var loa_date = val.loa_date;
                         if ($.trim(val.contract_status_fk) == 'Not Awarded'){
@@ -445,7 +526,7 @@
 	                   	rowArray.push($.trim(key+1));
 	                   	rowArray.push($.trim(val.contract_status_fk));
 	                   	rowArray.push($.trim(conractName));
-	                   	rowArray.push($.trim(contract_value));
+	                   	rowArray.push($.trim(val.awarded_cost));
 	                   	rowArray.push($.trim(val.cumulative_expenditure));
 	                   	rowArray.push($.trim(val.physical_progress));
 	                   	rowArray.push($.trim(loa_date));
@@ -472,6 +553,9 @@
 	function getDepartmentFilterList(department){
 	    	$(".page-loader").show();
 	    	var work_id_fk = $("#work_id_fk").val();
+	    	if($.trim(work_id_fk) == '' ){
+	    		work_id_fk = 'P04W01';
+	    	}
 	    	var department_fk = $("#department_fk").val();
 	    	var contract_status_fk = $("#contract_status_fk").val();
 	        if ($.trim(department_fk) == "") {
@@ -502,6 +586,9 @@
 	 function getContractStatusFilterList(contractStatus){
 		 	$(".page-loader").show();
 		 	var work_id_fk = $("#work_id_fk").val();
+		 	if($.trim(work_id_fk) == '' ){
+	    		work_id_fk = 'P04W01';
+	    	}
 	    	var department_fk = $("#department_fk").val();
 	    	var contract_status_fk = $("#contract_status_fk").val();
 		    if ($.trim(contract_status_fk) == "") {
@@ -533,10 +620,14 @@
 	 	$(".page-loader").show();
 	 	
     	var work_id_fk = $("#work_id_fk").val();
+    	
     	var department_fk = $("#department_fk").val();
     	var contract_status_fk = $("#contract_status_fk").val();
     	
 	    if ($.trim(work_id_fk) == "") {
+	    	if($.trim(work_id_fk) == '' ){
+	    		work_id_fk = 'P04W01';
+	    	}
 	    	$("#work_id_fk option:not(:first)").remove();
 		 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_status_fk : contract_status_fk};
             $.ajax({
@@ -548,6 +639,9 @@
                         	 var workShortName = '';
                              if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
                              var selectedFlag = (work == val.work_id_fk)?'selected':'';
+                             if(data.length == 1 ){
+                            	 selectedFlag = 'selected';
+                             }
 	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
                         });
                     }

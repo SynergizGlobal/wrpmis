@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -58,7 +57,6 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.ContractPaginationObject;
-import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Insurence;
 import com.synergizglobal.pmis.model.User;
 
@@ -1514,7 +1512,7 @@ public class ContractController {
 		        workBook.setSheetOrder(contractsSheet.getSheetName(), 0);
 		        
 		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
-		        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+		        byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)0};
 		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
 		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
@@ -1542,7 +1540,7 @@ public class ContractController {
 		        
 		        
 	            XSSFRow headingRow = contractsSheet.createRow(0);
-	            String headerString = "SNO^Contract^Contract Value^Expenditure^LOA Date^Physical Progress^Completetion Date^Remarks";
+	            String headerString = "SNO^Contract^Contract Value(In Cr)^Expenditure(In Cr)^Physical Progress(%)^LOA Date^Completetion Date^Remarks";
 	            
 	            String[] headerStringArr = headerString.split("\\^");
 	            
@@ -1578,7 +1576,7 @@ public class ContractController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(bgColor);
-					cell.setCellValue(("Not Awarded".equals(obj.getContract_status_fk())?obj.getEstimated_cost():obj.getAwarded_cost()));
+					cell.setCellValue(obj.getAwarded_cost());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(bgColor);
@@ -1586,7 +1584,7 @@ public class ContractController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(bgColor);
-					cell.setCellValue(obj.getPhysical_progress());
+					cell.setCellValue(obj.getPhysical_progress());					
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(bgColor);
@@ -1603,7 +1601,7 @@ public class ContractController {
 	                rowNo++;
 	            }
 	            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
-	            	contractsSheet.setColumnWidth(columnIndex, 25 * 200);
+	            	contractsSheet.setColumnWidth(columnIndex, 25 * 250);
 				}
 	            
 	            /*******************************************************************************************/

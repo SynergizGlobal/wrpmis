@@ -1319,7 +1319,7 @@
     });
     
     function addStructure(){
-    	$(".page-loader").show();
+    	
 		if(validator.form()){ // validation perform
 			//var contract_name = $( "#contract_id_fk option:selected" ).text();
 		
@@ -1337,10 +1337,9 @@
   			if(validator.form()){
   				$('form input[name=structure_detail_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
   	  			$('form input[name=structure_detail_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-  	  	
+  	  			$(".page-loader").show();
   	  			document.getElementById("structuresForm").submit();	
  			}
- 			$(".page-loader").hide();
 	 	}
 	}
 	

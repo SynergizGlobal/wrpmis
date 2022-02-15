@@ -269,7 +269,7 @@
                             
 	                         <div class="row " id="fobResponsiblePeopleDetails">
 	                            <div class="row"> 
-	                            	<div class="col m10 l12 offset-m1 s12">
+	                            	<div class="col m12 s12">
 										<div class="row fixed-width">
 									       <h5 class="center-align"><span class="div-header">Contracts</span></h5> 
 									        <div class="table-inside">
@@ -467,7 +467,7 @@
                             </c:if>
                             
                             <div class="row">
-                                <div class="col s6 m4 l6 input-field " id="construction_start_dateDiv" style="display: none;">
+                                <div class="col s6 m4 l6 input-field offset-m2" id="construction_start_dateDiv" style="display: none;">
                                     <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }" <c:if test="${not empty fob.construction_start_date}">disabled</c:if>>
                                     <label for="construction_start_date" class="fs-sm-8rem">Construction Start Date </label>
                                     <button type="button" id="construction_start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -591,7 +591,7 @@
 								<div class="col m10 l12 offset-m1 s12">
 									<div class="row fixed-width">
                              			<h5 class="center-align"><span class="div-header">Documents</span></h5> 
-										<!-- <div class="table-inside"> -->
+										 <div class="table-inside">
 											<table class="mdl-data-table update-table mobile_responsible_table" id="gallery_table">
 												<thead>
 													<tr>
@@ -721,7 +721,7 @@
 													<input type="hidden" id="rowNo" name="rowNo" value="0" />
 												</c:otherwise>
 											</c:choose>
-										<!-- </div> -->
+									 	</div>
 									</div>
 								</div>
 							</div>        
@@ -878,12 +878,11 @@
 	                                    </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 l6 mt-brdr">
+                                <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/fob" class="btn waves-effect waves-light bg-s" >Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </form>
                     </div>

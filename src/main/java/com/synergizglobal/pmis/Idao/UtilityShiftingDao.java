@@ -49,4 +49,8 @@ public interface UtilityShiftingDao {
 
 	List<UtilityShifting> getUtilityTypeListForUtilityShifting(UtilityShifting obj) throws Exception;
 
+	List<UtilityShifting> getRDetailsList(String utility_shifting_id) throws Exception;
+
+	List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj) throws Exception;
+
 }

@@ -40,6 +40,8 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.Messages;
+import com.synergizglobal.pmis.model.UtilityShifting;
+import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.Safety;
 
 @Repository
@@ -1073,6 +1075,95 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			String qry = "SELECT utility_shifting_file_type FROM utility_shifting_file_type order by utility_shifting_file_type";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));			
 		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<UtilityShifting> getRDetailsList(String utility_shifting_id) throws Exception {
+		List<UtilityShifting> objsList = null;
+		try {
+			String qry ="select rc.id, DATE_FORMAT(progress_date ,'%d-%m-%Y') AS progress_date, progress_of_work, r.utility_shifting_id as utility_shifting_id  from utility_shifting_progress rc "
+					+ "LEFT JOIN utility_shifting r on rc.utility_shifting_id = r.id "
+					+ "WHERE rc.utility_shifting_id is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(utility_shifting_id) ) {
+				qry = qry + " and rc.utility_shifting_id  = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(utility_shifting_id)) {
+				pValues[i++] = utility_shifting_id;
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj) throws Exception {
+		List<UtilityShifting> objsList = null;
+		try {
+			String qry = "SELECT id, utility_shifting_id, s.work_id_fk,w.work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,DATE_FORMAT(s.identification ,'%d-%m-%Y') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
+					+ "utility_category_fk, s.owner_name, execution_agency_fk, contract_id_fk,  DATE_FORMAT(s.start_date ,'%d-%m-%Y') AS start_date, s.scope, s.completed, s.shifting_status_fk, DATE_FORMAT(shifting_completion_date ,'%d-%m-%Y') AS shifting_completion_date, "
+					+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, DATE_FORMAT(s.planned_completion_date ,'%d-%m-%Y') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
+					+ " s.modified_date from utility_shifting s "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
+					+ "where utility_shifting_id is not null " ;
+			int arrSize = 0;
+		
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and s.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
+				qry = qry + " and location_name = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUtility_category_fk())) {
+				qry = qry + " and utility_category_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUtility_type_fk())) {
+				qry = qry + " and utility_type_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getShifting_status_fk())) {
+				qry = qry + " and shifting_status_fk =?";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
+				pValues[i++] = obj.getLocation_name();
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUtility_category_fk())) {
+				pValues[i++] = obj.getUtility_category_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUtility_type_fk())) {
+				pValues[i++] = obj.getUtility_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getShifting_status_fk())) {
+				pValues[i++] = obj.getShifting_status_fk();
+			}
+		
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return objsList;

@@ -44,6 +44,10 @@ public interface UtilityShiftingService {
 	
 	int getTotalRecords(UtilityShifting obj, String searchParameter) throws Exception;
 
-	List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj, int startIndex, int offset, String searchParameter) throws Exception;	
+	List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj, int startIndex, int offset, String searchParameter) throws Exception;
+
+	List<UtilityShifting> getRDetailsList(String utility_shifting_id) throws Exception;
+
+	List<UtilityShifting> getUtilityShiftingList(UtilityShifting dObj) throws Exception;
 	
 }

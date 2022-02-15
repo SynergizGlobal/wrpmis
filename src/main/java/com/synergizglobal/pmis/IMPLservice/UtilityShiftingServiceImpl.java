@@ -119,5 +119,15 @@ public class UtilityShiftingServiceImpl implements UtilityShiftingService {
 	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj, int startIndex, int offset, String searchParameter) throws Exception {
 		return utilityShiftingDao.getUtilityShiftingList(obj,startIndex,offset,searchParameter);
 	}
+
+	@Override
+	public List<UtilityShifting> getRDetailsList(String utility_shifting_id) throws Exception {
+		return utilityShiftingDao.getRDetailsList(utility_shifting_id);
+	}
+
+	@Override
+	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj) throws Exception {
+		return utilityShiftingDao.getUtilityShiftingList(obj);
+	}
 	
 }

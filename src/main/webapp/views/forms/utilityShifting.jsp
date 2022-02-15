@@ -131,8 +131,8 @@
 							    <div class="m-n1">
 							    	 <a href="<%=request.getContextPath()%>/add-utility-shifting" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add</strong></a>
-<!--                                      <a href="javascript:void(0);" onclick="exportUtilityShifting();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export</strong></a> -->
+                                    <a href="javascript:void(0);" onclick="exportUtilityShifting();" class="btn waves-effect waves-light bg-s t-c">
+                                        <strong><i class="fa fa-cloud-download"></i> Export</strong></a> 
                                  </div>
                             </div>
                         </div>

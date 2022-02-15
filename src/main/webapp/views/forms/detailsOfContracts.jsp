@@ -118,6 +118,9 @@
 	    .hide-column {
 		    display : none;
 		}
+	    .center-column {
+		    text-align:center;
+		}
 		
 		.fw-230{
         	width:20% !important;
@@ -266,7 +269,7 @@
 							 	   <legend> Legend </legend>  										
                                    <div class="col m4 s4 center-align">
                                        <span class="box not-started"></span>
-                                       <span class="description">Not Started</span>
+                                       <span class="description">Not Awarded</span>
                                    </div>
                                    <div class="col m4 s4 center-align">
                                        <span class="box in-progress"></span>
@@ -480,6 +483,7 @@
             columnDefs: [
                 {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
                 {targets: [1],className: 'hide-column'},
+                {targets: [3,4,5],className: 'center-column'},
                 {targets: [2, 8],className: 'fw-230'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],

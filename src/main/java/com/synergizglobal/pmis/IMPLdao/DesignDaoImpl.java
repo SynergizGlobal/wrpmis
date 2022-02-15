@@ -152,7 +152,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,w.work_name,d.structure_id_fk,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"
-					+",DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,modified_by,DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date   "
+					+",DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,d.modified_by,DATE_FORMAT(d.modified_date,'%d-%m-%Y') as modified_date   "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 

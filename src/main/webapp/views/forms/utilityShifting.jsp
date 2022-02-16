@@ -138,6 +138,16 @@
                         </div>
                     </span>
                        						<div class="row no-mar">
+ 									   <div class="row clearfix">
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+												<c:if test="${not empty success }">
+													<div class="center-align m-1 close-message">${success}</div>
+												</c:if>
+												<c:if test="${not empty error }">
+													<div class="center-align m-1 close-message">${error}</div>
+												</c:if>
+											</div>
+										</div>                      						
 							<div class="col s12 m12">
 								<div class="row">
 									<div class="col s12 hide-on-large-only mb-md-2 center-align">

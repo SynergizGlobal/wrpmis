@@ -119,7 +119,7 @@
 		    display : none;
 		}
 	    .center-column {
-		    text-align:center!important;
+		    text-align:center !important;
 		}
 		
 		.fw-230{

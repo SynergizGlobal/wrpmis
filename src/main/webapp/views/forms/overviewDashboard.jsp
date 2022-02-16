@@ -182,9 +182,7 @@
 		 	.main-menu:not(.hideText) li .collapsible-header{
 		 		padding-right:2rem;
 		 	}
-/* 		 	.over-sub-menu:after{
-		 		right:.5rem;
-		 	} */
+
 		 	.ad-i:before{
 				vertical-align: sub;
 			}
@@ -193,16 +191,10 @@
 		 		vertical-align: inherit;
 		 		width:1rem;
 		 	}
-		 	/* .hideText .material-icons,
-			.hideText .fas,
-			.hideText .fa,
-			.hideText .ad-i{
-				margin-right:.5rem;
-				margin-left:.3rem;
-			} */
+		 
 		 }
 		 
-	 
+		 
 	</style>
 	
 </head>
@@ -210,10 +202,14 @@
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 
-<style>
-.brand-logo img{
-    width: 3rem! important;
-}
+	<style>
+		.brand-logo img{
+		    width: 3rem! important;
+		}
+		 #CurrentDate{
+		 	left:3.4rem !important;
+		 	font-size:.75rem !important;
+		}
 	</style>	
 	<!-- model 1 which closes entire navigation -->
 	
@@ -381,8 +377,8 @@
   
 	<script>
 	
-	$("#CurrentDate").hide();
-	$(".brand-logo.fs").html('<img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span>');
+	$(".brand-logo.fs").html('<img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span><span id="CurrentDate"></span>');  			
+	document.getElementById("CurrentDate").innerHTML=todayDate;
 	
 	
 	$.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavNodes",

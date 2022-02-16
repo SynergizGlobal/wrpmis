@@ -66,13 +66,13 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			String qry = "SELECT work_id as work_id_fk,w.work_short_name " + "from utility_shifting i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
-					+ "where c.work_id_fk is not null and c.work_id_fk <> '' ";
+					+ "where i.work_id_fk is not null and i.work_id_fk <> '' ";
 
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and i.work_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -92,7 +92,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY c.work_id_fk ";
+			qry = qry + " GROUP BY i.work_id_fk ";
 
 			Object[] pValues = new Object[arrSize];
 
@@ -126,7 +126,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		try {
 			String qry = "SELECT count(*) as total_records from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN work w ON s.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "where utility_shifting_id is not null " ;
 			int arrSize = 0;
@@ -211,7 +211,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			String qry = "SELECT *,s.modified_by,DATE_FORMAT(s.modified_date,'%d-%m-%Y') as modified_date "
 					+ "from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN work w ON s.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "where utility_shifting_id is not null " ;
 			int arrSize = 0;
@@ -302,13 +302,13 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			String qry = "SELECT location_name " + "from utility_shifting i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
-					+ "where c.work_id_fk is not null and c.work_id_fk <> '' ";
+					+ "where i.work_id_fk is not null and i.work_id_fk <> '' ";
 
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and i.work_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -363,13 +363,13 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			String qry = "SELECT utility_category_fk " + "from utility_shifting i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
-					+ "where c.work_id_fk is not null and c.work_id_fk <> '' ";
+					+ "where i.work_id_fk is not null and i.work_id_fk <> '' ";
 
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and i.work_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -424,13 +424,13 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			String qry = "SELECT utility_type_fk " + "from utility_shifting i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
-					+ "where c.work_id_fk is not null and c.work_id_fk <> '' ";
+					+ "where i.work_id_fk is not null and i.work_id_fk <> '' ";
 
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and i.work_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -485,13 +485,13 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			String qry = "SELECT shifting_status_fk " + "from utility_shifting i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
-					+ "where c.work_id_fk is not null and c.work_id_fk <> '' ";
+					+ "where i.work_id_fk is not null and i.work_id_fk <> '' ";
 
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and i.work_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -591,7 +591,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getContractsListForUtilityShifting(UtilityShifting obj) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry ="select distinct c.contract_id as contract_id_fk,c.hod_user_id_fk,c.contract_name,c.contract_short_name,c.work_id_fk "
+			String qry ="select distinct c.contract_id as contract_id_fk,c.hod_user_id_fk,c.contract_name,c.contract_short_name,i.work_id_fk "
 					+ "from contract c "
 					+ "left join contract_executive c1 on c1.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN user u ON c.hod_user_id_fk= u.user_id "
@@ -599,7 +599,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and i.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
@@ -1001,7 +1001,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "p.project_name,w.work_short_name,c.contract_short_name "
 					+ "from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN work w ON s.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "where id =? " ;
 			
@@ -1114,7 +1114,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, DATE_FORMAT(s.planned_completion_date ,'%d-%m-%Y') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
 					+ " s.modified_date from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN work w ON s.work_id_fk = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
 					+ "where utility_shifting_id is not null " ;
 			int arrSize = 0;

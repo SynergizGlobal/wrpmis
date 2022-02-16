@@ -19,21 +19,37 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>   
+    	.dataTables_wrapper .mdl-grid .mdl-cell.mdl-cell--6-col:first-of-type{
+    		    vertical-align: middle !important;
+			    display: flex !important;
+			    align-items: center !important;
+			    margin-top: -2px !important;
+    	}
+    	.con-center{
+	    	display: flex;
+		    vertical-align: middle;
+		    align-items: center;
+    	}
     	thead tr th{
     		padding-left:15px !important;
-    		padding-right: 40px !important;
+    		padding-right: 6px !important;
     	}
     	th.sorting_asc::after, th.sorting_asc::before{ 
     		content:"" !important;
+    		padding-left: 7px !important;
     	} 
     	td:last-child, td:last-of-type{
     		white-space: initial;
-    	}   
+    	}  
+    	.w100{
+    		width: 115px !important;
+    		padding-left: 25px !important;
+    	} 
     	.w300{
     		width: 350px !important;
     	}  
     	.mdl-data-table td:first-of-type, .mdl-data-table th:first-of-type {
-    		padding-left: 10px;
+    		padding-left: 7px !important;
 		}
 		thead>tr>th.sorting{
 			padding-left: 7px;
@@ -68,6 +84,9 @@
          		padding:12px 10px !important;
          	}
          }
+         @media(max-width: 1024px){
+         	.ms-w280{width: 280px !important;}
+         }
            @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -99,6 +118,9 @@
 			thead tr th{
 				padding-left: 6px !important;
 			}
+			.w100{
+    		padding-left: 20px !important;
+    		}
 		}
 		
 	    @media only screen and (max-width: 767px) {
@@ -118,9 +140,10 @@
 	    .hide-column {
 		    display : none;
 		}
-	    .center-column {
+	   	.center-column, .mdl-data-table tbody tr td:first-of-type{
 		    text-align:center !important;
 		}
+		
 		
 		.fw-230{
         	width:20% !important;
@@ -169,7 +192,9 @@
         .box.delayed {
             background-color: #f00;
         }
-
+		@media(max-width: 1024px){
+			.con-center{display: block;}
+		}
         @media only screen and (max-width: 768px) {
            .fixed-width .table-inside {
 	    		overflow: hidden;
@@ -185,15 +210,15 @@
         }
        
         fieldset.brdr {
-        	padding-bottom: 1rem !important;
-		    border: 1px solid #ccc;
+        	/* padding-bottom: 1rem !important;
+		    border: 0px solid #ccc; */
 		    margin-bottom: -68px;
 		    margin-top: 39px;
         }
         fieldset.brdr legend{		    
 		    padding: 0 5px;
 	    }
-	    
+	
     </style>
 </head>
 
@@ -264,18 +289,18 @@
 					</div>
 
 					<div class="row">
-						<div class="col m12 l4 offset-l4 s12">
+						<div class="col m12 l5 offset-l3 s12">
 						 	<fieldset class="p-2 brdr" >
-							 	   <legend> Legend </legend>  										
-                                   <div class="col m4 s4 center-align">
+							 	   <!-- <legend> Legend </legend>  --> 										
+                                   <div class="col m4 s4 center-align con-center">
                                        <span class="box not-started"></span>
                                        <span class="description">Not Awarded</span>
                                    </div>
-                                   <div class="col m4 s4 center-align">
+                                   <div class="col m4 s4 center-align con-center">
                                        <span class="box in-progress"></span>
                                        <span class="description">In Progress</span>
                                    </div>
-                                   <div class="col m4 s4 center-align">
+                                   <div class="col m4 s4 center-align con-center">
                                        <span class="box completed"></span>
                                        <span class="description">Completed</span>
                                    </div>
@@ -291,7 +316,7 @@
 										<th>Contract Value(Cr)</th>
 										<th>Expenditure(Cr)</th>
 										<th>Physical Progress</th>
-										<th>LOA Date</th>
+										<th class="w100">LOA Date</th>
 										<th>Completion Date</th>
 										<th>Remarks</th>
 									</tr>
@@ -483,7 +508,7 @@
             columnDefs: [
                 {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
                 {targets: [1],className: 'hide-column'},
-                {targets: [3,4,5],className: 'center-column'},
+                {targets: [0, 3, 4, 5, 7],className: 'center-column'},
                 {targets: [2, 8],className: 'fw-230'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
@@ -495,6 +520,7 @@
             "initComplete" : function() {
 					$('.dataTables_filter input[type="search"]')
 							.attr('placeholder', 'Search')
+							.addClass('ms-w280')
 							.css({
 								'width' : '350px ',
 								'display' : 'inline-block'

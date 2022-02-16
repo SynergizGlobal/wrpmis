@@ -15,7 +15,7 @@ public class UserActivityReport {
 	private Map<String,List<UserActivityReport>> inactiveUsers;
 	
 	private String work_id,work_name,work_short_name,module_name_fk,form_name,last_updated_date,
-	contract_id,contract_id_fk,contract_short_name,contract_name,user_inactive;
+	contract_id,contract_id_fk,contract_short_name,contract_name, user_inactive;
 	
 	public String getContract_id() {
 		return contract_id;

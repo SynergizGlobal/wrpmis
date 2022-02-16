@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Iservice.P6DataService;
+import com.synergizglobal.pmis.Iservice.P6NewDataService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
@@ -35,17 +35,17 @@ import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.P6Data;
 
 @Controller
-public class P6DataController {
+public class P6NewDataController {
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	Logger logger = Logger.getLogger(P6DataController.class);
+	Logger logger = Logger.getLogger(P6NewDataController.class);
 
 	
 	@Autowired
-	P6DataService p6dataService;
+	P6NewDataService p6newdataService;
 	
 
 	@Value("${template.upload.common.error}")
@@ -54,26 +54,26 @@ public class P6DataController {
 	@Value("${template.upload.formatError}")
 	public String uploadformatError;
 	
-	@RequestMapping(value="/p6-data",method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/p6-new-data",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView P6Data(@ModelAttribute P6Data obj,HttpSession session){
-		ModelAndView model = new ModelAndView(PageConstants.P6Data);
+		ModelAndView model = new ModelAndView(PageConstants.P6NewData);
 		try {
-			List<P6Data> contractsList = p6dataService.getContractsList(obj);
+			List<P6Data> contractsList = p6newdataService.getContractsList(obj);
 			model.addObject("contractsList", contractsList);
 			
-			List<P6Data> fobList = p6dataService.getFobList(obj);
+			List<P6Data> fobList = p6newdataService.getFobList(obj);
 			model.addObject("fobList", fobList);
 			
-			/*List<P6Data> contractsListFilter = p6dataService.getContractsListFilter(obj);
+			/*List<P6Data> contractsListFilter = p6newdataService.getContractsListFilter(obj);
 			model.addObject("contractsListFilter", contractsListFilter);
 			
-			List<P6Data> fobListFilter = p6dataService.getFobListFilter(obj);
+			List<P6Data> fobListFilter = p6newdataService.getFobListFilter(obj);
 			model.addObject("fobListFilter", fobListFilter);
 			
-			List<P6Data> uploadTypes = p6dataService.getUploadTypesFilter(obj);
+			List<P6Data> uploadTypes = p6newdataService.getUploadTypesFilter(obj);
 			model.addObject("uploadTypes", uploadTypes);
 			
-			List<P6Data> statusList = p6dataService.getStatusListFilter(obj);
+			List<P6Data> statusList = p6newdataService.getStatusListFilter(obj);
 			model.addObject("statusList", statusList);*/
 			
 		}catch (Exception e) {
@@ -83,12 +83,12 @@ public class P6DataController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractsListFilterInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractsListFilterInP6New", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<P6Data> getContractsListFilterInP6(@ModelAttribute P6Data obj) {
 		List<P6Data> objList = null;
 		try {
-			objList = p6dataService.getContractsListFilter(obj);
+			objList = p6newdataService.getContractsListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getContractsListFilterInP6 : " + e.getMessage());
@@ -96,12 +96,12 @@ public class P6DataController {
 		return objList;
 	}
 	
-	@RequestMapping(value = "/ajax/getFobListFilterInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getFobListFilterInP6New", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<P6Data> getFobListFilterInP6(@ModelAttribute P6Data obj) {
 		List<P6Data> objList = null;
 		try {
-			objList = p6dataService.getFobListFilter(obj);
+			objList = p6newdataService.getFobListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getFobListFilterInP6 : " + e.getMessage());
@@ -109,12 +109,12 @@ public class P6DataController {
 		return objList;
 	}
 	
-	@RequestMapping(value = "/ajax/getUploadTypesFilterInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getUploadTypesFilterInP6New", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<P6Data> getUploadTypesFilterInP6(@ModelAttribute P6Data obj) {
 		List<P6Data> objList = null;
 		try {
-			objList = p6dataService.getUploadTypesFilter(obj);
+			objList = p6newdataService.getUploadTypesFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getUploadTypesFilterInP6 : " + e.getMessage());
@@ -124,12 +124,12 @@ public class P6DataController {
 	
 
 	
-	@RequestMapping(value = "/ajax/getStatusListFilterInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getStatusListFilterInP6New", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<P6Data> getStatusListFilterInP6(@ModelAttribute P6Data obj) {
 		List<P6Data> objList = null;
 		try {
-			objList = p6dataService.getStatusListFilter(obj);
+			objList = p6newdataService.getStatusListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getStatusListFilterInP6 : " + e.getMessage());
@@ -137,25 +137,25 @@ public class P6DataController {
 		return objList;
 	}
 	
-	@RequestMapping(value = "/ajax/getP6ActivityData", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getP6NewActivityData", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<P6Data> getP6ActivityData(@ModelAttribute P6Data obj) {
+	public List<P6Data> getP6NewActivityData(@ModelAttribute P6Data obj) {
 		List<P6Data> objList = null;
 		try {
-			objList = p6dataService.getActivityDataList(obj);
+			objList = p6newdataService.getActivityDataList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getP6ActivityData : " + e.getMessage());
+			logger.error("getP6NewActivityData : " + e.getMessage());
 		}
 		return objList;
 	}
 	
-	@RequestMapping(value = "/ajax/getFobListInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getFobListInP6New", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<P6Data> getFobListInP6(@ModelAttribute P6Data obj) {
 		List<P6Data> objList = null;
 		try {
-			objList = p6dataService.getFobList(obj);
+			objList = p6newdataService.getFobList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getFobListInP6 : " + e.getMessage());
@@ -163,7 +163,7 @@ public class P6DataController {
 		return objList;
 	}
 	
-	@RequestMapping(value = "/upload-p6-data", method = {RequestMethod.POST})
+	@RequestMapping(value = "/upload-p6-new-data", method = {RequestMethod.POST})
 	public ModelAndView uploadP6Baseline(@ModelAttribute P6Data p6data,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		XSSFWorkbook workbook = null;
@@ -173,7 +173,7 @@ public class P6DataController {
 		List<P6Data> wbsList = new ArrayList<P6Data>();
 		List<P6Data> activitiesList = new ArrayList<P6Data>();
 		try {
-			model.setViewName("redirect:/p6-data");
+			model.setViewName("redirect:/p6-new-data");
 			
 			String userId = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
@@ -219,7 +219,7 @@ public class P6DataController {
 						uploadFilesSheet1 = workbook.getSheetAt(3);
 						XSSFRow headerRow1 = uploadFilesSheet1.getRow(1);
 						if(headerRow1 != null){
-							List<String> fileFormat1 = FileFormatModel.getP6ActivitiesFileFormat();;	
+							List<String> fileFormat1 = FileFormatModel.getP6ActivitiesFileFormat();	
 							int noOfColumns1 = headerRow1.getLastCellNum();
 							if(noOfColumns1 == fileFormat1.size()){
 								for (int i = 0; i < fileFormat1.size();i++) {
@@ -245,13 +245,16 @@ public class P6DataController {
 						if(wbsList.size() == 0 ){
 							fob_mismatch = "Sheet is empty.";
 						}
-						for(P6Data list : wbsList) {
-							
-							if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_wbs_code())) {
-								fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
-								break;
+						if(!StringUtils.isEmpty(p6data.getFob_id_fk()))
+						{
+							for(P6Data list : wbsList) {
+								
+								if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_wbs_code())) {
+									fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
+									break;
+								}
+								i++;
 							}
-							i++;
 						}
 					}
 					
@@ -268,7 +271,7 @@ public class P6DataController {
 			p6data.setData_date(DateParser.parse(p6data.getData_date()));
 			p6data.setUpload_type("Baseline");
 			if(StringUtils.isEmpty(fob_mismatch)){
-				String counts = p6dataService.uploadP6WBSActivities(wbsList,activitiesList,p6data);
+				String counts = p6newdataService.uploadP6WBSActivities(wbsList,activitiesList,p6data);
 				attributes.addFlashAttribute("success", "Data date updated and "+ counts + " WBS , Activities records added successfully.");	
 			}else {
 				attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
@@ -388,15 +391,15 @@ public class P6DataController {
 		return pObjList;
 	}
 
-	@RequestMapping(value = "/update-p6-activities", method = {RequestMethod.POST})
-	public ModelAndView updateP6Activities(@ModelAttribute P6Data p6data,RedirectAttributes attributes,HttpSession session){
+	@RequestMapping(value = "/update-p6-new-activities", method = {RequestMethod.POST})
+	public ModelAndView updateP6NewActivities(@ModelAttribute P6Data p6data,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		XSSFWorkbook workbook = null;
 		String fob_mismatch = null;
 		XSSFSheet uploadFilesSheet = null;
 		List<P6Data> activitiesList = new ArrayList<P6Data>();
 		try {
-			model.setViewName("redirect:/p6-data");
+			model.setViewName("redirect:/p6-new-data");
 			
 			String userId = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
@@ -445,17 +448,20 @@ public class P6DataController {
 							
 							p6data.setP6_file_path(fileName);
 							int i= 2;
-							activitiesList = updateP6Activities(p6data,workbook);
+							activitiesList = updateP6NewActivities(p6data,workbook);
 							if(activitiesList.size() == 0 ){
 								fob_mismatch = "Sheet is empty.";
 							}
-							for(P6Data list : activitiesList) {
-								
-								if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_task_code())) {
-									fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
-									break;
+							if(!StringUtils.isEmpty(p6data.getFob_id_fk()))
+							{
+								for(P6Data list : activitiesList) {
+									
+									if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_task_code())) {
+										fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
+										break;
+									}
+									i++;
 								}
-								i++;
 							}
 						}
 						
@@ -471,7 +477,7 @@ public class P6DataController {
 			p6data.setData_date(DateParser.parse(p6data.getData_date()));
 			p6data.setUpload_type("Update");
 			if(StringUtils.isEmpty(fob_mismatch)){
-				int count  = p6dataService.updateP6Activities(activitiesList,p6data);
+				int count  = p6newdataService.updateP6Activities(activitiesList,p6data);
 				attributes.addFlashAttribute("success", "Data date updated and "+ count + " Activities updated successfully.");	
 				
 			}else {
@@ -481,12 +487,12 @@ public class P6DataController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
-			logger.fatal("updateP6Activities() : "+e.getMessage());
+			logger.fatal("updateP6NewActivities() : "+e.getMessage());
 		}
 		return model;
 	}
 
-	private List<P6Data> updateP6Activities(P6Data uObj,XSSFWorkbook workbook) throws Exception {
+	private List<P6Data> updateP6NewActivities(P6Data uObj,XSSFWorkbook workbook) throws Exception {
 		P6Data p6data = null;
 		List<P6Data> p6dataList = new ArrayList<P6Data>();		
 		XSSFSheet uploadFilesSheet = null;
@@ -526,7 +532,7 @@ public class P6DataController {
 				
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("updateP6Activities() : "+e.getMessage());
+			logger.error("updateP6NewActivities() : "+e.getMessage());
 			throw new Exception(e);	
 		}		
 		return p6dataList;

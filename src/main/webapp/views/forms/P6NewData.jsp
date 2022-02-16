@@ -121,7 +121,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> P6 Data </h6>
+                            <h6> P6 New Data </h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -143,7 +143,7 @@
 			                    <div class="tab col s12 head" >Add Baseline</div>   
 				                  <div class="" id="baseline" style="background-color:#fafafa">
 				                   <!--  <div style="margin-top:20px"> -->
-				                        <form action="<%=request.getContextPath() %>/upload-p6-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
+				                        <form action="<%=request.getContextPath() %>/upload-p6-new-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label"> Contract <span class="required">*</span></p>
@@ -156,11 +156,10 @@
 				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
 				                                </div>
 				                                <div class="col s12 m6 input-field" id="fobDropDownUpload" style="display: none;">
-				                                    <p  class="searchable_label">FOB <span class="required">*</span></p>
+				                                    <p  class="searchable_label">FOB </p>
 				                                     <select id="fob_id_fkUpload" name="fob_id_fk"  class="browser-default searchable">
 				                                            <option value="" >Select</option>
 				                                     </select>
-				                                     <span id="fob_id_fkUploadError" class="error-msg" ></span>
 				                                </div>
 				                            </div>
 				                            <div class="row">
@@ -211,7 +210,7 @@
 				                <div class="tab col s12 head existing" >Update Existing</div>   
 			                    <div class="" id="existing" style="background-color:#f0f8ff">
 				                   <!--  <div style="margin-top:20px"> -->
-				                        <form action="<%=request.getContextPath() %>/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
+				                        <form action="<%=request.getContextPath() %>/update-p6-new-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>
@@ -291,7 +290,7 @@
                                 <div class="row no-mar">
                                     <div class="col s6 m4 l2 offset-l1 input-field">
                                       <p class="searchable_label">Contract</p>
-                                        <select id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getP6ActivityDataList();" class="searchable">
+                                        <select id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getP6NewActivityDataList();" class="searchable">
                                             <option value="">Select</option>
                                             <%-- <c:forEach var="obj" items="${contractsListFilter }">
                                             	<option value="${obj.contract_id }">${obj.contract_name }</option>
@@ -300,7 +299,7 @@
                                     </div>
                                     <div class="col s6 m4 l2 input-field">
                                       <p class="searchable_label">FOB </p>
-                                        <select id="fob_id" name="fob_id" onchange="addInQueFOB(this.value);getP6ActivityDataList();" class="searchable">
+                                        <select id="fob_id" name="fob_id" onchange="addInQueFOB(this.value);getP6NewActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
                                             <%-- <c:forEach var="obj" items="${fobListFilter }">
                                             	<option value="${obj.fob_id }">${obj.fob_name }</option>
@@ -309,7 +308,7 @@
                                     </div>
                                     <div class="col s6 m4 l2 input-field">
                                     	<p class="searchable_label">Data Type</p>
-                                        <select id="upload_type" name="upload_type" onchange="addInQueDataType(this.value);getP6ActivityDataList();" class="searchable">
+                                        <select id="upload_type" name="upload_type" onchange="addInQueDataType(this.value);getP6NewActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
                                             <%-- <c:forEach var="obj" items="${uploadTypes }">
                                             	<option value="${obj.upload_type }">${obj.upload_type }</option>
@@ -318,7 +317,7 @@
                                     </div>              
                                     <div class="col s6 m4 l2 input-field">
                                     	<p class="searchable_label">Status</p>
-                                        <select id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getP6ActivityDataList();" class="searchable">
+                                        <select id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getP6NewActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
                                             <%-- <c:forEach var="obj" items="${statusList }">
                                             	<option value="${obj.soft_delete_status_fk }">${obj.soft_delete_status_fk }</option>
@@ -336,7 +335,7 @@
                         
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="datatable-p6-data" class="mdl-data-table">
+                                <table id="datatable-p6-new-data" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th class="no-sort">Contract ID</th>
@@ -476,7 +475,7 @@
                 $('#data_dateUpload').click();
             });
 
-            getP6ActivityDataList();
+            getP6NewActivityDataList();
            
         });
         
@@ -487,7 +486,7 @@
             if ($.trim(contract_id_fk) != "") {
                 var myParams = { contract_id_fk: contract_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getFobListInP6",
+                    url: "<%=request.getContextPath()%>/ajax/getFobListInP6New",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -536,8 +535,6 @@
 	  		    rules: {
 	  		 		  "contract_id_fk": {
 	  			 		required: true
-	  			 	  },"fob_id_fk": {
-	  			 		required: true
 	  			 	  },"data_date": {
 	  		 		    required: true
 	  			 	  },"p6dataFile": {
@@ -547,8 +544,6 @@
 	  		    messages: {
 	  		 		 "contract_id_fk": {
 	  				 	required: 'This field is required',
-	  			 	  },"fob_id_fk": {
-	  			 		required: ' This field is required'
 	  			 	  },"data_date": {
 	  		 			required: ' This field is required'
 	  		 	  	  },"p6dataFile": {
@@ -559,10 +554,7 @@
 		   		 	if (element.attr("id") == "contract_id_fkUpload" ){
 						document.getElementById("contract_id_fkUploadError").innerHTML="";
 				 		error.appendTo('#contract_id_fkUploadError');
-					} else if(element.attr("id") == "fob_id_fkUpload" ){
-					    document.getElementById("fob_id_fkUploadError").innerHTML="";
-				 	    error.appendTo('#fob_id_fkUploadError');
-					} else if(element.attr("id") == "data_dateUpload" ){
+					}else if(element.attr("id") == "data_dateUpload" ){
 						document.getElementById("data_dateUploadError").innerHTML="";
 					 	error.appendTo('#data_dateUploadError');
 					} else if(element.attr("id") == "p6dataFileUpload" ){
@@ -583,8 +575,6 @@
 	  		    rules: {
 	  		 		  "contract_id_fk": {
 	  			 		required: true
-	  			 	  },"fob_id_fk": {
-	  			 		required: true
 	  			 	  },"data_date": {
 	  		 		    required: true
 	  			 	  },"p6dataFile": {
@@ -594,8 +584,6 @@
 	  		    messages: {
 	  		 		 "contract_id_fk": {
 	  				 	required: 'This field is required',
-	  			 	  },"fob_id_fk": {
-	  			 		required: ' This field is required'
 	  			 	  },"data_date": {
 	  		 			required: ' This field is required'
 	  		 	  	  },"p6dataFile": {
@@ -606,9 +594,6 @@
 		   		 	if (element.attr("id") == "contract_id_fkUpdate" ){
 						document.getElementById("contract_id_fkUpdateError").innerHTML="";
 				 		error.appendTo('#contract_id_fkUpdateError');
-					} else if(element.attr("id") == "fob_id_fkUpdate" ){
-					    document.getElementById("fob_id_fkUpdateError").innerHTML="";
-				 	    error.appendTo('#fob_id_fkUpdateError');
 					} else if(element.attr("id") == "data_dateUpdate" ){
 						document.getElementById("data_dateUpdateError").innerHTML="";
 					 	error.appendTo('#data_dateUpdateError');
@@ -646,10 +631,10 @@
 	       	$("#upload_type").val("");
 	       	$("#status_fk").val("");        	
 	       	$(".searchable").select2();
-	       	//getP6ActivityDataList();
+	       	//getP6NewActivityDataList();
 	       	window.localStorage.setItem("p6Filters",'');
-        	window.location.href="<%=request.getContextPath()%>/p6-data"
-        	var table = $('#datatable-p6-data').DataTable();
+        	window.location.href="<%=request.getContextPath()%>/p6-new-data"
+        	var table = $('#datatable-p6-new-data').DataTable();
         	table.draw( true );
        }
        
@@ -688,7 +673,7 @@
       	    	filtersMap["contract_id"] = contract_id;
        	}
        }
-       function getP6ActivityDataList(){
+       function getP6NewActivityDataList(){
 	       	$(".page-loader").show();
 	       	
 	    	getContractsListFilter('');
@@ -707,10 +692,10 @@
         		window.localStorage.setItem("p6Filters", filters);
    			});
 	        	
-	        table = $('#datatable-p6-data').DataTable();	   		 
+	        table = $('#datatable-p6-new-data').DataTable();	   		 
 	   		table.destroy();	   		
 	   		$.fn.dataTable.moment('DD-MMM-YYYY');
-	   		table = $('#datatable-p6-data').DataTable({
+	   		table = $('#datatable-p6-new-data').DataTable({
 	   			"bStateSave": true,  
          		fixedHeader: true,
                
@@ -766,7 +751,7 @@
 	   		table.state.clear();		
 	   	 
 	   	 	var myParams = {contract_id_fk : contract_id_fk, fob_id_fk : fob_id_fk, upload_type : upload_type, status_fk : status_fk };
-	   		$.ajax({url : "<%=request.getContextPath()%>/ajax/getP6ActivityData",type:"POST",data:myParams,success : function(data){    				
+	   		$.ajax({url : "<%=request.getContextPath()%>/ajax/getP6NewActivityData",type:"POST",data:myParams,success : function(data){    				
 	   				if(data != null && data != '' && data.length > 0){    					
 	   	         		$.each(data,function(key,val){
 	   	         			var rowArray = [];    	                  
@@ -793,7 +778,7 @@
 	   	                    		                       
 	   					});
 		   	         	if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
-		   	            var oTable = $('#datatable-p6-data').dataTable();
+		   	            var oTable = $('#datatable-p6-new-data').dataTable();
 		   	            oTable.fnPageChange( pageNo );
 	   	         		$(".page-loader").hide();
 	   				}else{
@@ -839,7 +824,7 @@
                $("#contract_id option:not(:first)").remove();
                var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
                $.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInP6",
+                   url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInP6New",
                    data: myParams, cache: false,async: false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -874,7 +859,7 @@
                $("#fob_id option:not(:first)").remove();
                var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
                $.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getFobListFilterInP6",
+                   url: "<%=request.getContextPath()%>/ajax/getFobListFilterInP6New",
                    data: myParams, cache: false,async: false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -909,7 +894,7 @@
                $("#upload_type option:not(:first)").remove();
                var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
                $.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getUploadTypesFilterInP6",
+                   url: "<%=request.getContextPath()%>/ajax/getUploadTypesFilterInP6New",
                    data: myParams, cache: false,async: false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -942,7 +927,7 @@
                $("#status_fk option:not(:first)").remove();
                var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
                $.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInP6",
+                   url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInP6New",
                    data: myParams, cache: false,async: false,
                    success: function (data) {
                        if (data.length > 0) {

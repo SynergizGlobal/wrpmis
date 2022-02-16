@@ -436,7 +436,7 @@
                                      <input id="planned_completion_date" name="planned_completion_date" type="text" class="validate datepicker" value="${utilityShifting.planned_completion_date }">                                     
                                      <label for="planned_completion_date">Planned Completion </label>
 	                                 <button type="button" id="planned_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
-	                                 <span id="planned_completion_dateError" class="error-msg" ></span>
+	                                 <span id="planned_completion_dateError" class="error-msg" ></span> 
                                 </div>
                              	<div class="col s12 m4 l3 input-field">
                                      <input id="shifting_completion_date" name="shifting_completion_date" type="text" class="validate datepicker" value="${utilityShifting.shifting_completion_date }">                                     

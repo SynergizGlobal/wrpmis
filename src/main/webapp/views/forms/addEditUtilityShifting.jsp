@@ -319,6 +319,7 @@
                                         </c:forEach>
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
+                                    <input type="hidden" name="id" id="id" value="${utilityShifting.id }" readonly />
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                 <p class="searchable_label"> Work <span class="required">*</span></p>

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UtilityShifting {
-	private String id, utility_shifting_id, work_id_fk, identification, location_name, reference_number, utility_description,
+	private String id, utility_shifting_id,user_id,user_name,designation, work_id_fk, identification, location_name, reference_number, utility_description,
 	utility_type_fk, utility_category_fk, owner_name, execution_agency_fk, contract_id_fk, start_date, scope, completed,
 	shifting_status_fk, shifting_completion_date, remarks, latitude, longitude, impacted_contract_id_fk, requirement_stage_fk, planned_completion_date,
 	contract_id,contract_name,work_name,project_id_fk,project_name,department_fk,Status_fk,work_short_name,contract_short_name,
@@ -19,6 +19,30 @@ public class UtilityShifting {
 	private List<UtilityShifting> utilityShiftingFilesList;
 	private List<UtilityShifting> utilityShiftingProgressDetailsList;
 	
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
 	public String getId() {
 		return id;

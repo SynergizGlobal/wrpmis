@@ -319,7 +319,6 @@
                                         </c:forEach>
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
-                                    <input type="hidden" name="id" id="id" value="${utilityShifting.id }" readonly />
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                 <p class="searchable_label"> Work <span class="required">*</span></p>
@@ -343,6 +342,8 @@
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
 							</div>
+							<input type="hidden" name="utility_shifting_id" id="utility_shifting_id" value="${utilityShifting.utility_shifting_id }"  />
+							  <input type="hidden" name="id" id="id" value="${utilityShifting.id }"  />
 							
 							<div class="row">
 								 <div class="col s12 m4 input-field">
@@ -398,7 +399,7 @@
                                       	   <option value= "${ obj.utility_category_fk}" <c:if test="${obj.utility_category_fk eq utilityShifting.utility_category_fk }">selected</c:if>>${obj.utility_category_fk}</option>
                                          </c:forEach>
                                     </select>
-                                      <span id="utility_category_fkError" class="error-msg" ></span>
+                                      <span id="utility_category_fkError" class="error-msg" ></span> 
                                 </div>
                              	<div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label"> Execution Agency <span class="required">*</span></p>

@@ -243,13 +243,17 @@ public class UtilityShiftingController {
 	public ModelAndView addUtilityShifting(@ModelAttribute UtilityShifting obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		
-		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/utilityshifting");
 			
-			user_Id = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			User user = (User)session.getAttribute("user");
 			
 			obj.setStart_date(DateParser.parse(obj.getStart_date()));			
@@ -488,12 +492,18 @@ public class UtilityShiftingController {
 	@RequestMapping(value="/updateUtilityShifting",method=RequestMethod.POST)
 	public ModelAndView updateUtilityShifting(@ModelAttribute UtilityShifting obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/utilityshifting");
 
-			user_Id = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
+
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			
 			User user = (User)session.getAttribute("user");
 			

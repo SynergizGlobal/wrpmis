@@ -182,11 +182,11 @@
         }
 
         .box.in-progress {
-            background-color: #FFFF00;
+            background-color: #ffee58;
         }
 
         .box.completed {
-            background-color: #05a705;
+            background-color: #86dc3d;
         }
 
         .box.delayed {
@@ -545,10 +545,10 @@
 				},
 			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			        if (aData[1] == "Completed") {
-			          $('td', nRow).css('background-color', '#05a705');
+			          $('td', nRow).css('background-color', '#86dc3d');
 			          $('td', nRow).css('color', 'White');
 			        }else if (aData[1] == "In Progress") {
-			          $('td', nRow).css('background-color', '#FFFF00');
+			          $('td', nRow).css('background-color', '#ffee58');
 			          $('td', nRow).css('color', 'Black');
 			        }else if (aData[1] == "Not Awarded") {
 			          $('td', nRow).css('background-color', '#808080');

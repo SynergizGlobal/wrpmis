@@ -119,7 +119,7 @@
 		    display : none;
 		}
 	    .center-column {
-		    text-align:center;
+		    text-align:center!important;
 		}
 		
 		.fw-230{
@@ -288,9 +288,9 @@
 										<th>S.No</th>
 										<th>Contract Status</th>
 										<th>Contract</th>
-										<th>Contract Value(In Cr)</th>
-										<th>Expenditure(In Cr)</th>
-										<th>Physical Progress(%)</th>
+										<th>Contract Value(Cr)</th>
+										<th>Expenditure(Cr)</th>
+										<th>Physical Progress</th>
 										<th>LOA Date</th>
 										<th>Completion Date</th>
 										<th>Remarks</th>

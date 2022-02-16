@@ -1540,7 +1540,7 @@ public class ContractController {
 		        
 		        
 	            XSSFRow headingRow = contractsSheet.createRow(0);
-	            String headerString = "SNO^Contract^Contract Value(In Cr)^Expenditure(In Cr)^Physical Progress(%)^LOA Date^Completetion Date^Remarks";
+	            String headerString = "SNO^Contract^Contract Value(Cr)^Expenditure(Cr)^Physical Progress^LOA Date^Completetion Date^Remarks";
 	            
 	            String[] headerStringArr = headerString.split("\\^");
 	            

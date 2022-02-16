@@ -3957,6 +3957,7 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
+			qry = qry + " ORDER BY c.contract_id ASC";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = "Actual";
@@ -3993,7 +3994,7 @@ public class ContractDaoImpl implements ContractDao {
 				String physical_progress_value = "";
 				if(!StringUtils.isEmpty(cObj.getPhysical_progress())) {
 					double val = (Double.parseDouble(cObj.getPhysical_progress()))*100;
-					physical_progress_value = numberFormatter.format(val);
+					physical_progress_value = numberFormatter.format(val) + " %";
 				}
 				cObj.setPhysical_progress(physical_progress_value);
 			}

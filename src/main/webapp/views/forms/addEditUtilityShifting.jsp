@@ -309,14 +309,13 @@
 						  						  
 						    <div class="container container-no-margin">
                             <div class="row" style="margin-top:1rem;">
-						    <c:if test="${action eq 'add'}">	
                                 <div class="col s6 m4 l4 input-field">
                                 <p class="searchable_label"> Project </p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id_fk }" >${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                            <option value="${obj.project_id_fk }" <c:if test="${obj.project_id_fk eq utilityShifting.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
@@ -327,7 +326,7 @@
                                         onchange="getContractsList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                      	   <option value= "${ obj.work_id_fk}" <c:if test="${obj.work_id_fk eq utilityShifting.work_id_fk}">selected</c:if>>${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
@@ -337,30 +336,11 @@
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
-                                      	   <option workId="${obj.work_id_fk }" hod_user_id="${obj.hod_user_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	   <option workId="${obj.work_id_fk }" hod_user_id="${obj.hod_user_id_fk }" value= "${ obj.contract_id_fk}" <c:if test="${obj.contract_id_fk eq utilityShifting.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                            </c:if>
- 							<c:if test="${action eq 'edit'}">		                             
-	                                <div class="col s6 m4 l4 input-field ">
-	                                    <input type="text"  value="${utilityShifting.project_name }"  readonly />
-								    	<label for="project_id_fk">Project </label>
-								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${utilityShifting.project_name }" readonly />
-								    	<input type="hidden" name="id" id="id" value="${utilityShifting.id }" readonly />
-								    </div> 
-	                                <div class="col s6 m4 l4 input-field"> 
-	                                    <input type="text" value="${utilityShifting.work_id_fk }" readonly />
-	                                	<label for="work_id_fk">Work </label>
-	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${utilityShifting.work_id_fk }" readonly />
-	                                </div>
-	                           		<div class="col s12 m4 l4 input-field"> 
-	                                    <input type="text" value="${utilityShifting.contract_id_fk }" readonly />
-	                                	<label for="contract_fk">Contract </label>
-	                                	<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${utilityShifting.contract_id_fk }" readonly />
-	                                </div>
-                              </c:if>
 							</div>
 							
 							<div class="row">

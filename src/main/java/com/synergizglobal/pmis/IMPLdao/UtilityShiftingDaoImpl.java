@@ -591,7 +591,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getContractsListForUtilityShifting(UtilityShifting obj) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry ="select distinct c.contract_id as contract_id_fk,c.hod_user_id_fk,c.contract_name,c.contract_short_name,i.work_id_fk "
+			String qry ="select distinct c.contract_id as contract_id_fk,c.hod_user_id_fk,c.contract_name,c.contract_short_name,c.work_id_fk "
 					+ "from contract c "
 					+ "left join contract_executive c1 on c1.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN user u ON c.hod_user_id_fk= u.user_id "
@@ -998,7 +998,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		try {
 			String qry = "SELECT s.*,DATE_FORMAT(identification,'%d-%m-%Y') as identification,DATE_FORMAT(start_date,'%d-%m-%Y') as start_date,"
 					+ "DATE_FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date,DATE_FORMAT(shifting_completion_date,'%d-%m-%Y') as shifting_completion_date,"
-					+ "p.project_name,w.work_short_name,c.contract_short_name "
+					+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk "
 					+ "from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON s.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "

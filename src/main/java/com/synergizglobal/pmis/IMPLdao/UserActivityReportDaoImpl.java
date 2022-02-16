@@ -420,83 +420,19 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 
 	@Override
 	public int checkInactiveUsersExistsOrNot(UserActivityReport obj) throws Exception {
-		List<String> list = new ArrayList<String>();
-		List<String> objList =  new ArrayList<String>();
 		int count = 0;
 		try {
-			List<UserActivityReport> modules = getModulesListForUserInactiveReportForm(obj);
-			
-			for (UserActivityReport module : modules) {
-				if("Contracts".equals(module.getModule_name()) ) {
-					String qry = "SELECT hod_user_id_fk as user_id_fk FROM pmis.contract where hod_user_id_fk IS NOT NULL AND status = ? group by hod_user_id_fk";
-					List<String> hodList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
-					if(!StringUtils.isEmpty(hodList) && hodList.size() > 0) {
-						list.addAll(hodList);
-					}
-					
-					qry = "SELECT dy_hod_user_id_fk as user_id_fk FROM pmis.contract where dy_hod_user_id_fk IS NOT NULL AND status = ? group by dy_hod_user_id_fk";
-					List<String> dyhodList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
-					if(!StringUtils.isEmpty(dyhodList) && dyhodList.size() > 0) {
-						list.addAll(dyhodList);
-					}
-					
-					qry = "SELECT executive_user_id_fk as user_id_fk FROM contract_executive ce "
-						+ "left join contract c on ce.contract_id_fk = c.contract_id "
-						+ "where executive_user_id_fk IS NOT NULL AND c.status = ? group by executive_user_id_fk";
-					List<String> executivesList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
-					if(!StringUtils.isEmpty(executivesList) && executivesList.size() > 0) {
-						list.addAll(executivesList);
-					}
+			UserActivityReport inactiveUsers = getInactiveUsersReportData(obj);
+			if(!StringUtils.isEmpty(inactiveUsers.getInactiveUsers())) {
+				Map<String, List<UserActivityReport>> mObj = inactiveUsers.getInactiveUsers();
+				for (Map.Entry<String, List<UserActivityReport>> entry : mObj.entrySet()) {
+					List<UserActivityReport> list = entry.getValue();
 					if(!StringUtils.isEmpty(list) && list.size() > 0) {
-						list = list.stream().distinct().collect(Collectors.toList());
-					}
-					if(!StringUtils.isEmpty(list) && list.size() > 0) {
-						obj.setModule_name_fk(module.getModule_name());
-						count = getInactiveUsersCount(obj,list);
-						if(count > 0) {
-							return count;
-						}
+						count = count + list.size();
 					}
 				}
 			}
 		}catch (Exception e) {
-			throw new Exception(e);
-		}
-		return count;
-	}
-
-	private int getInactiveUsersCount(UserActivityReport obj, List<String> list) throws Exception {
-		int count = 0;
-		try {
-			String qry = "SELECT created_by_user_id_fk FROM forms_history WHERE (created_date BETWEEN NOW() - INTERVAL ? DAY AND NOW()) AND module_name_fk = ? AND created_by_user_id_fk NOT IN(";
-			int arrSize = 2;
-			String atP = "";
-			for (String user_id : list) {
-				qry = qry + (atP.contains("?")?",":"")+"?";
-				atP = atP + "?";
-				arrSize++;
-			}
-			qry = qry + ") ";
-			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "AND (select work_short_name from work where work_id = ?)";
-				arrSize++;
-			}
-			qry = qry + " GROUP BY created_by_user_id_fk";
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			pValues[i++] = obj.getInactive_since();
-			pValues[i++] = obj.getModule_name_fk();
-			for (String user_id : list) {
-				pValues[i++] = user_id;
-			}
-			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
-			List<String> historyList = jdbcTemplate.queryForList( qry,pValues,(String.class));
-			if(!StringUtils.isEmpty(historyList) && historyList.size() > 0) {
-				count = historyList.size();
-			}
-		} catch (Exception e) {
 			throw new Exception(e);
 		}
 		return count;
@@ -509,60 +445,117 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 			List<UserActivityReport> modules = getModulesListForUserInactiveReportForm(obj);
 			Map<String,List<UserActivityReport>> inactiveUsers = new LinkedHashMap<String, List<UserActivityReport>>();
 			for (UserActivityReport module : modules) {
-				List<String> list = new ArrayList<String>();
+				List<String> userIdsList = new ArrayList<String>();
+				List<UserActivityReport> list = new ArrayList<UserActivityReport>();
 				if("Contracts".equals(module.getModule_name()) ) {
-					String qry = "SELECT hod_user_id_fk as user_id_fk FROM contract where hod_user_id_fk IS NOT NULL AND status = ? group by hod_user_id_fk";
-					List<String> hodList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
+					/*String qry = "SELECT hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name FROM contract where hod_user_id_fk IS NOT NULL AND status = ? group by hod_user_id_fk";
+					List<UserActivityReport> hodList = jdbcTemplate.query( qry,new Object[]{"Open"},new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 					if(!StringUtils.isEmpty(hodList) && hodList.size() > 0) {
 						list.addAll(hodList);
 					}
 					
-					qry = "SELECT dy_hod_user_id_fk as user_id_fk FROM contract where dy_hod_user_id_fk IS NOT NULL AND status = ? group by dy_hod_user_id_fk";
-					List<String> dyhodList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
+					qry = "SELECT dy_hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name FROM contract where dy_hod_user_id_fk IS NOT NULL AND status = ? group by dy_hod_user_id_fk";
+					List<UserActivityReport> dyhodList = jdbcTemplate.query( qry,new Object[]{"Open"},new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 					if(!StringUtils.isEmpty(dyhodList) && dyhodList.size() > 0) {
 						list.addAll(dyhodList);
 					}
 					
-					qry = "SELECT executive_user_id_fk as user_id_fk FROM contract_executive ce "
+					qry = "SELECT executive_user_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
+							+ "FROM contract_executive ce "
 						+ "left join contract c on ce.contract_id_fk = c.contract_id "
-						+ "where executive_user_id_fk IS NOT NULL AND c.status = ? group by executive_user_id_fk";
-					List<String> executivesList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
+						+ "where executive_user_id_fk IS NOT NULL AND c.status = ? group by executive_user_id_fk";*/
+					
+					String qry = "SELECT user,user_id_fk,contract_id,contract_name,contract_short_name "
+							+ "FROM "
+							+ "(SELECT CONCAT(u.designation,' - ',u.user_name) as user,hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name "
+							+ "FROM contract c "
+							+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+							+ "where hod_user_id_fk IS NOT NULL AND status = ? group by hod_user_id_fk "
+							+ "UNION ALL "
+							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as user,dy_hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name "
+							+ "FROM contract c "
+							+ "LEFT JOIN user u ON dy_hod_user_id_fk = user_id "
+							+ "where dy_hod_user_id_fk IS NOT NULL AND status = ? group by dy_hod_user_id_fk "
+							+ "UNION ALL "
+							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as user,executive_user_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
+							+ "FROM contract_executive ce "
+							+ "LEFT JOIN user u ON executive_user_id_fk = user_id "
+							+ "LEFT JOIN contract c on ce.contract_id_fk = c.contract_id "
+							+ "where executive_user_id_fk IS NOT NULL AND c.status = ? group by executive_user_id_fk "
+							+ ") t "
+							+ "GROUP BY user_id_fk,contract_id ";
+					
+					List<UserActivityReport> executivesList = jdbcTemplate.query( qry,new Object[]{"Open","Open","Open"},new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 					if(!StringUtils.isEmpty(executivesList) && executivesList.size() > 0) {
 						list.addAll(executivesList);
 					}
-					if(!StringUtils.isEmpty(list) && list.size() > 0) {
+					/*if(!StringUtils.isEmpty(list) && list.size() > 0) {
 						list = list.stream().distinct().collect(Collectors.toList());
-					}
+					}*/
 					if(!StringUtils.isEmpty(list) && list.size() > 0) {
 						obj.setModule_name(module.getModule_name());
-						List<UserActivityReport> inactiveUsersList = getInactiveUsers(obj,list);
+						List<UserActivityReport> inactiveUsersList = new ArrayList<UserActivityReport>();
+						for (UserActivityReport userObj : list) {
+							UserActivityReport inactiveUser = getInactiveUser(obj,userObj.getUser_id_fk());
+							if(!StringUtils.isEmpty(inactiveUser) && "YES".equals(inactiveUser.getUser_inactive()) ) {
+								userObj.setLast_updated_date(inactiveUser.getLast_updated_date());
+								inactiveUsersList.add(userObj);
+							}
+						}
 						if(!StringUtils.isEmpty(inactiveUsersList) && inactiveUsersList.size() > 0) {
 							inactiveUsers.put(module.getModule_name(), inactiveUsersList);
 						}
 					}
 				}else if("Execution &  Monitoring".equals(module.getModule_name()) ) {
-					String qry = "SELECT responsible_people_id_fk as user_id_fk FROM fob_contract_responsible_people fcr "
+					/*String qry = "SELECT responsible_people_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
+							+ "FROM fob_contract_responsible_people fcr "
 						+ "left join contract c on fcr.contract_id_fk = c.contract_id "
 						+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? group by responsible_people_id_fk";
-					List<String> responsiblePeopleList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
+					List<UserActivityReport> responsiblePeopleList = jdbcTemplate.query( qry,new Object[]{"Open"},new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 					if(!StringUtils.isEmpty(responsiblePeopleList) && responsiblePeopleList.size() > 0) {
 						list.addAll(responsiblePeopleList);
 					}
 					
-					qry = "SELECT responsible_people_id_fk as user_id_fk FROM structure_contract_responsible_people scr "
+					qry = "SELECT responsible_people_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
+							+ "FROM structure_contract_responsible_people scr "
 						+ "left join contract c on scr.contract_id_fk = c.contract_id "
-						+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? group by responsible_people_id_fk";
-					List<String> structureContractRespList = jdbcTemplate.queryForList( qry,new Object[]{"Open"},(String.class));
+						+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? group by responsible_people_id_fk";*/
+					
+					String qry = "SELECT user,user_id_fk,contract_id,contract_name,contract_short_name "
+							+ "FROM "
+							+ "(SELECT CONCAT(u.designation,' - ',u.user_name) as user, responsible_people_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
+							+ "FROM fob_contract_responsible_people fcr "
+							+ "LEFT JOIN user u ON responsible_people_id_fk = user_id "
+							+ "LEFT JOIN contract c on fcr.contract_id_fk = c.contract_id "
+							+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? group by responsible_people_id_fk "
+							+ "UNION ALL "
+							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as user,responsible_people_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
+							+ "FROM structure_contract_responsible_people scr "
+							+ "LEFT JOIN user u ON responsible_people_id_fk = user_id "
+							+ "LEFT JOIN contract c on scr.contract_id_fk = c.contract_id "
+							+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? group by responsible_people_id_fk"
+							+ ") t "
+							+ "GROUP BY user_id_fk,contract_id ";
+					
+					List<UserActivityReport> structureContractRespList = jdbcTemplate.query( qry,new Object[]{"Open","Open"},new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 					if(!StringUtils.isEmpty(structureContractRespList) && structureContractRespList.size() > 0) {
 						list.addAll(structureContractRespList);
 					}
 					
-					if(!StringUtils.isEmpty(list) && list.size() > 0) {
+					/*if(!StringUtils.isEmpty(list) && list.size() > 0) {
 						list = list.stream().distinct().collect(Collectors.toList());
-					}
+					}*/
 					if(!StringUtils.isEmpty(list) && list.size() > 0) {
 						obj.setModule_name(module.getModule_name());
-						List<UserActivityReport> inactiveUsersList = getInactiveUsers(obj,list);
+						List<UserActivityReport> inactiveUsersList = new ArrayList<UserActivityReport>();
+						for (UserActivityReport userObj : list) {
+							UserActivityReport inactiveUser = getInactiveUser(obj,userObj.getUser_id_fk());
+							if(!StringUtils.isEmpty(inactiveUser) && "YES".equals(inactiveUser.getUser_inactive()) ) {
+								userObj.setLast_updated_date(inactiveUser.getLast_updated_date());
+								inactiveUsersList.add(userObj);
+							}
+						}
+						
 						if(!StringUtils.isEmpty(inactiveUsersList) && inactiveUsersList.size() > 0) {
 							inactiveUsers.put(module.getModule_name(), inactiveUsersList);
 						}
@@ -576,44 +569,74 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 		return reportObj;
 	}
 
-	private List<UserActivityReport> getInactiveUsers(UserActivityReport obj, List<String> list) throws Exception {
-		List<UserActivityReport> inactiveUsers = new ArrayList<UserActivityReport>();
+	private UserActivityReport getInactiveUser(UserActivityReport obj, String user_id) throws Exception {
+		UserActivityReport inactiveUser = null;
 		try {
 			String qry = "SELECT form_history_id,module_name_fk,form_name,work,contract,form_action_type,"
-					+ "form_details,created_by_user_id_fk,user,created_date,"
-					+ "(SELECT DATE_FORMAT(MAX(created_date),'%d-%b-%Y %h:%i %p') FROM forms_history fh2 WHERE fh2.created_by_user_id_fk = fh.created_by_user_id_fk AND fh2.module_name_fk = fh.module_name_fk AND fh2.work = fh.work) AS last_updated_date "
+					+ "form_details,created_by_user_id_fk,user,created_date "
 					+ "FROM forms_history fh "
-					+ "WHERE (created_date BETWEEN NOW() - INTERVAL ? DAY AND NOW()) "
+					+ "WHERE (DATE_FORMAT(created_date,'%Y-%m-%d') BETWEEN DATE_FORMAT((NOW() - INTERVAL ? DAY),'%Y-%m-%d') AND DATE_FORMAT(NOW(),'%Y-%m-%d')) "
 					+ "AND module_name_fk = ? "
-					+ "AND created_by_user_id_fk NOT IN(";
-			int arrSize = 2;
-			String atP = "";
-			for (String user_id : list) {
-				qry = qry + (atP.contains("?")?",":"")+"?";
-				atP = atP + "?";
-				arrSize++;
-			}
-			qry = qry + ") ";
+					+ "AND created_by_user_id_fk = ?";
+			
+			int arrSize = 3;
+			
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "AND (select work_short_name from work where work_id = ?)";
+				qry = qry + "AND fh.work COLLATE utf8mb4_unicode_ci = (select work_short_name from work where work_id = ?)";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY created_by_user_id_fk";
+			qry = qry + " ORDER BY created_date DESC limit 1";
+			//qry = qry + " GROUP BY u.user_id";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = obj.getInactive_since();
 			pValues[i++] = obj.getModule_name();
-			for (String user_id : list) {
-				pValues[i++] = user_id;
-			}
+			pValues[i++] = user_id;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
-			inactiveUsers = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
+			List<UserActivityReport> inactiveUsers = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
+			UserActivityReport tempObj = null;
+			for (UserActivityReport userActivityReport : inactiveUsers) {
+				tempObj = userActivityReport;
+			}
+			
+			if(StringUtils.isEmpty(tempObj)){
+				inactiveUser = new UserActivityReport();
+				qry = "SELECT DATE_FORMAT(MAX(created_date),'%d-%b-%Y %h:%i %p') AS last_updated_date "
+						+ "FROM forms_history fh "
+						+ "WHERE module_name_fk = ? "
+						+ "AND created_by_user_id_fk = ?";
+				
+				arrSize = 2;
+				
+				if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + "AND fh.work COLLATE utf8mb4_unicode_ci = (select work_short_name from work where work_id = ?)";
+					arrSize++;
+				}
+				//qry = qry + " GROUP BY u.user_id";
+				pValues = new Object[arrSize];
+				i = 0;
+				pValues[i++] = obj.getModule_name();
+				pValues[i++] = user_id;
+				if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+				inactiveUsers = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
+				for (UserActivityReport userActivityReport : inactiveUsers) {
+					inactiveUser = userActivityReport;
+				}
+				inactiveUser.setUser_inactive("YES");
+			}
+			/*******************************************************************************/
+			
+			
+			
+			/********************************************************************************/
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
-		return inactiveUsers;
+		return inactiveUser;
 	}
 	
 	

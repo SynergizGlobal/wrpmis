@@ -1207,7 +1207,7 @@ public class UserActivityReportController {
 							
 							cell = deatilsRow.createCell(1);
 					        cell.setCellStyle(leftWhiteStyle);
-					        cell.setCellValue(inactiveUsrObj.getContract());
+					        cell.setCellValue(inactiveUsrObj.getContract_short_name());
 					        
 					        cell = deatilsRow.createCell(2);
 					        cell.setCellStyle(leftWhiteStyle);

@@ -14,8 +14,41 @@ public class UserActivityReport {
 	
 	private Map<String,List<UserActivityReport>> inactiveUsers;
 	
-	private String work_id,work_name,work_short_name,module_name_fk,form_name,last_updated_date;
+	private String work_id,work_name,work_short_name,module_name_fk,form_name,last_updated_date,
+	contract_id,contract_id_fk,contract_short_name,contract_name,user_inactive;
 	
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
+
+	public String getContract_id_fk() {
+		return contract_id_fk;
+	}
+
+	public void setContract_id_fk(String contract_id_fk) {
+		this.contract_id_fk = contract_id_fk;
+	}
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
+	}
+
+	public String getContract_name() {
+		return contract_name;
+	}
+
+	public void setContract_name(String contract_name) {
+		this.contract_name = contract_name;
+	}
+
 	public String getWork_id() {
 		return work_id;
 	}
@@ -255,6 +288,14 @@ public class UserActivityReport {
 
 	public void setLast_updated_date(String last_updated_date) {
 		this.last_updated_date = last_updated_date;
+	}
+
+	public String getUser_inactive() {
+		return user_inactive;
+	}
+
+	public void setUser_inactive(String user_inactive) {
+		this.user_inactive = user_inactive;
 	}
 	
 }

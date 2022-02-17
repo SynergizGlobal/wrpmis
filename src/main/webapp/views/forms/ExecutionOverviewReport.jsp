@@ -392,7 +392,7 @@
            } 
     	   $('.close-message').delay(3000).fadeOut('slow');
     	
-    	  // getExecutionOverviewReportList();
+    	   getExecutionOverviewReportList();
     	
     });
     
@@ -485,36 +485,26 @@
 		table.state.clear();		
 	 
 	 	var myParams = { work_id_fk : work_id_fk,department_fk : department_fk,contract_id_fk: contract_id_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/getDetailsOfContracts",type:"POST",data:myParams,async: true,success : function(data){    				
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getExecutionOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	                    var rowArray = []; 
                         
-                        var conractName = val.contract_id;
-                        if ($.trim(val.contract_short_name) != ''){
-                        	conractName = $.trim(val.contract_short_name) 
-                        }
-                        var loa_date = val.loa_date;
-                        if ($.trim(val.contract_id_fk) == 'Not Awarded'){
-                        	loa_date = $.trim(val.planned_date_of_award) 
-                        }
                         
 	                   	rowArray.push($.trim(key+1));
-	                   	rowArray.push($.trim(val.contract_id_fk));
-	                   	rowArray.push($.trim(conractName));
-	                   	rowArray.push($.trim(val.awarded_cost));
-	                   	rowArray.push($.trim(val.cumulative_expenditure));
-	                   	rowArray.push($.trim(val.physical_progress));
-	                   	rowArray.push($.trim(loa_date));
-	                   	rowArray.push($.trim(val.actual_completion_date));
+	                   	rowArray.push($.trim(val.structure_type_fk));
+	                   	rowArray.push($.trim(val.strip_chart_structure_id));
+	                   	rowArray.push($.trim(val.unit_fk));
+	                   	rowArray.push($.trim(val.scope));
+	                   	rowArray.push($.trim(val.completed));
+	                   	rowArray.push($.trim(val.pending));
+	                   	rowArray.push($.trim(val.modified_date));
 	                   	rowArray.push($.trim(val.remarks));   	                   	
 	                   	
 	                    table.row.add(rowArray).draw( true );
 	                    
 					});
-	         		/* if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
-	                var oTable = $('#datatable-execution-overview-report').dataTable();
-	                oTable.fnPageChange( pageNo ); */
+
 	         		$(".page-loader-2").hide();
 				}else{
 					$(".page-loader-2").hide();
@@ -525,8 +515,122 @@
 	         	getErrorMessage(jqXHR, exception);
 	     }});
     } 
-        
+       
+	 function getWorkFilterList(work){
+		 	$(".page-loader").show();
+		 	
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	
+	    	var department_fk = $("#department_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	
+		    if ($.trim(work_id_fk) == "") {
+		    	$("#work_id_fk option:not(:first)").remove();
+			 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInEOR",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	 var workShortName = '';
+	                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+	                             var selectedFlag = (work == val.work_id)?'selected':'';
+	                             if(data.length == 1 ){
+	                            	 selectedFlag = 'selected';
+	                             }
+		                         $("#work_id_fk").append('<option value="' + val.work_id + '"'+selectedFlag+'>' + $.trim(val.work_id)   + workShortName +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }   
+    
+	 function getDepartmentFilterList(department){
+		 	$(".page-loader").show();
+		 	
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	
+	    	var department_fk = $("#department_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	
+		    if ($.trim(department_fk) == "") {
+		    	$("#department_fk option:not(:first)").remove();
+			 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getDepartmentFilterListInEOR",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	 var departmentHOD = '';
+	                             if ($.trim(val.department_name) != '') { departmentHOD =  $.trim(val.department_name) }
+	                             var selectedFlag = (department == val.department)?'selected':'';
+	                             if(data.length == 1 ){
+	                            	 selectedFlag = 'selected';
+	                             }
+		                         $("#department_fk").append('<option value="' + val.department + '"'+selectedFlag+'>' + $.trim(val.department)   + departmentHOD +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }   
+ 
 	 
+	 function getContractIdFilterList(ContractId){
+		 	$(".page-loader").show();
+		 	
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	
+	    	var department_fk = $("#department_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	
+		    if ($.trim(contract_id_fk) == "") {
+		    	$("#contract_id_fk option:not(:first)").remove();
+			 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getContractIdFilterListInEOR",
+	                data: myParams, cache: false,async: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	 var contractShortName = '';
+	                             if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
+	                             var selectedFlag = (contractShortName == val.contract_id)?'selected':'';
+	                             if(data.length == 1 ){
+	                            	 selectedFlag = 'selected';
+	                             }
+		                         $("#contract_id_fk").append('<option value="' + val.contract_id + '"'+selectedFlag+'>' + $.trim(val.contract_id)   + contractShortName +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }   
+ 	 
   	//This function is used to get error message for all ajax calls
     function getErrorMessage(jqXHR, exception) {
     	    var msg = '';

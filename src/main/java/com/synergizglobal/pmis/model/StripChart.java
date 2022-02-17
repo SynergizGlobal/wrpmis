@@ -13,7 +13,7 @@ public class StripChart {
 	progress,progress_date,component_id_color,remaining,issue_description,issue_priority_id,issue_category_id,is_there_issue,attachment_url,created_by_user_id_fk,
 	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name,data_date,milestone_fk,reported_by
 	,user_role_code,
-	user_type_fk,user_id,user_name,designation,structure_type_fk;
+	user_type_fk,user_id,user_name,designation,structure_type_fk,pending;
 
 	private MultipartFile stripChartFile,uploadFile;
 	
@@ -709,6 +709,14 @@ public class StripChart {
 
 	public void setStructure_type_fk(String structure_type_fk) {
 		this.structure_type_fk = structure_type_fk;
+	}
+
+	public String getPending() {
+		return pending;
+	}
+
+	public void setPending(String pending) {
+		this.pending = pending;
 	}
 	
 }

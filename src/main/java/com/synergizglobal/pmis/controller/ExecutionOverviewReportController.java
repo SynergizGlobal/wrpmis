@@ -260,7 +260,15 @@ public class ExecutionOverviewReportController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj1.getStructure_type_fk());
+					if(list.contains(obj1.getStructure_type_fk())==false)
+					{
+						cell.setCellValue(obj1.getStructure_type_fk());
+						list.add(obj1.getStructure_type_fk());
+					}
+					else
+					{
+						cell.setCellValue("");
+					}
 					
 					
 					cell = row.createCell(c++);
@@ -287,23 +295,30 @@ public class ExecutionOverviewReportController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj1.getModified_date());	
 					
-					/*
-					 * if(list.contains(obj1.getStructure_type_fk())==false) {
-					 * list.add(obj1.getStructure_type_fk()); start=rowNo; end=rowNo+1;
-					 * endArray.add(Integer.toString(end));
-					 * 
-					 * } else { if(loop==0) { start=rowNo;
-					 * 
-					 * startArray.add(Integer.toString(start)); loop++; } }
-					 */
+					/*if(list.contains(obj1.getStructure_type_fk())==false)
+					{
+						list.add(obj1.getStructure_type_fk());
+						start=rowNo;
+						end=rowNo+1;
+						endArray.add(Integer.toString(end));
+						
+					}
+					else
+					{
+						if(loop==0)
+						{
+							start=rowNo;
+							
+							startArray.add(Integer.toString(start));
+							loop++;
+						}
+					}*/
 	                rowNo++;
 	            }
-				/*
-				 * for(int i=0; i<startArray.size(); i++) {
-				 * executionOverviewReportSheet.addMergedRegion(new
-				 * CellRangeAddress(Integer.parseInt(startArray.get(i)),
-				 * Integer.parseInt(endArray.get(i)), 1,1)); }
-				 */
+				/*for(int i=0; i<startArray.size(); i++)
+				{
+						executionOverviewReportSheet.addMergedRegion(new CellRangeAddress(Integer.parseInt(startArray.get(i)), Integer.parseInt(endArray.get(i)), 1,1));
+				}*/
 				  
 	            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
 	            	executionOverviewReportSheet.setColumnWidth(columnIndex, 25 * 250);

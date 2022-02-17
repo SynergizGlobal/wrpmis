@@ -330,12 +330,12 @@
  							<c:if test="${action eq 'edit'}">		
  							 <input type="hidden" id="rr_id" name="rr_id" value="${rrDetails.rr_id }">                             
 	                                <div class="col s6 m4 l4 input-field ">
-								    	<label for="project_id_fk">Project </label>
+								    	<label for="project_id_fk">Project <span class="required">*</span></label>
 								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${rrDetails.project_id_fk }"  />
 								    	<input type="text"  value="${rrDetails.project_id_fk } -  ${rrDetails.project_name }" readonly />
 								    </div> 
 	                                <div class="col s12 m8 l8 input-field"> 
-	                                	<label for="work_id">Work </label>
+	                                	<label for="work_id">Work <span class="required">*</span></label>
 	                                	<input type="hidden" name="work_id" id="work_id" value="${rrDetails.work_id }"  />
 	                                	<input type="text" value="${rrDetails.work_id } - ${rrDetails.work_short_name }" readonly />
 	                                </div>
@@ -343,18 +343,13 @@
                               </c:if>
 							</div>
 							<div class="row">
-                                 <div class="col s6 m2 input-field">
+                                 <div class="col s6 m4 l4 input-field">
                                      <input id="id_no" name="identification_no" type="text" class="validate" value="${rrDetails.identification_no }">
-		                             <label for="id_no">Id No </label>
+		                             <label for="id_no">Id No <span class="required">*</span></label>
 		                             <span id="id_noError" class="error-msg" ></span>
-                                 </div>
-                                 <div class="col s6 m2 input-field">
-                                     <input id="map_no" name="map_sr_no" type="text" class="validate" value="${rrDetails.map_sr_no }">
-		                             <label for="map_no" >Map S.No </label>
-		                             <span id="map_noError" class="error-msg" ></span>
-                                 </div>
+                                 </div>                                 
                                  <div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label mb-8"> Phase</p>
+                                    <p class="searchable_label mb-8"> Phase <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="phase" name="phase"  >
                                          <option value="" >Select</option>
                                          <c:forEach var="obj" items="${phase }">
@@ -364,7 +359,7 @@
                                     <span id="phaseError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label mb-8"> Structure</p>
+                                    <p class="searchable_label mb-8"> Structure <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="structure" name="structure_id"  >
                                          <option value="" >Select</option>
                                          <c:forEach var="obj" items="${structure }">
@@ -376,7 +371,7 @@
                              </div>
                              <div class="row">                       
                                  <div class="col s12 m4 l4 input-field ">
-                                 	<p class="searchable_label">Location <!-- <span class="required">*</span> --></p>
+                                 	<p class="searchable_label">Location <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="location_name" id="location_name" onchange="getSubLocationList();">
                                         <option value="" selected>Select</option>
                                           <c:forEach var="obj" items="${location }">
@@ -386,7 +381,7 @@
                                     <span id="locationError" class="error-msg" ></span>                                     
                                 </div>
                                  <div class="col s6 m4 l4 input-field ">
-                                     <p class="searchable_label">Sub Location <!-- <span class="required">*</span> --></p>
+                                     <p class="searchable_label">Sub Location <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="sub_location_name" id="sub_location_name" > <!-- onchange="getLocationList();" -->
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${subLocation }">
@@ -396,7 +391,7 @@
                                     <span id="sub_locationError" class="error-msg" ></span>                                     
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Type of Use <!-- <span class="required">*</span> --></p>
+                                    <p class="searchable_label">Type of Use <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="type_of_use" id="type_of_use">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${typeofUse }">
@@ -405,51 +400,9 @@
                                     </select>
                                     <span id="type_of_useError" class="error-msg" ></span>
                                 </div>
-                             </div>
-                            
+                             </div>   
                              <div class="row">
-                                 <div class="col s6 m2 input-field">
-                                    <input id="carpet_area" name="carpet_area" type="text" class="validate" value="${rrDetails.carpet_area }">
-                                    <label for="carpet_area" class="fs-sm-8rem fs-9">Carpet Area (sft)</label>
-                                    <span id="carpet_areaError" class="error-msg" ></span>
-	                             </div>
-                                <div class="col s6 m2 input-field">
-	                                <input id="year_of_construction" name="year_of_construction" type="text" class="validate datepicker" value="${rrDetails.year_of_construction }">
-                                     <button type="button" id="verification_date_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
-		                             <label for="year_of_construction">Year of Construction </label>
-	                                <span id="construction_yearError" class="error-msg" ></span>
-                                 </div>		                         		
-                                <div class="col s6 m4 input-field">
-                                    <input id="owner_name" name="name_of_the_owner" type="text" class="validate " value="${rrDetails.name_of_the_owner }">
-                                    <label for="owner_name" class="fs-sm-8rem fs-9">Owner Name </label>
-                                    <span id="owner_nameError" class="error-msg" ></span>
-                                </div>  
-                                <div class="col s6 m4 input-field">
-                                    <input id="occupier_name" name="occupier_name_during_verification" type="text" class="validate " value="${rrDetails.occupier_name_during_verification }">
-                                    <label for="occupier_name" class="fs-sm-8rem fs-9">Occupier Name </label>
-                                    <span id="occupier_nameError" class="error-msg" ></span>
-                                </div>  
-                            </div>
-						</div>
-                            <div class="row ">
-                            	<h6 class="center-align">Identification Details</h6>
-                                <div class="col s6 m2 input-field">
-                                    <p class="searchable_label mb-8">Document Type <!-- <span class="required">*</span> --></p>
-                                    <select class="searchable validate-dropdown" name="document_type" id="doc_type">
-                                        <option value="" selected>Select</option>
-                                         <c:forEach var="obj" items="${docType }">
-                                      	   <option value= "${ obj.document_type}" <c:if test="${rrDetails.document_type eq obj.document_type}">selected</c:if>> ${obj.document_type }</option>
-                                         </c:forEach>
-                                    </select>
-                                    <span id="doc_typeError" class="error-msg" ></span>
-                                </div>                               
-                                <div class="col s6 m2 input-field">
-                                     <input id="document_no" name="document_no" type="text" class="validate" value="${rrDetails.document_no }">
-		                             <label for="document_no" >Document No </label>
-		                             <span id="document_noError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
+                             	<div class="col s6 m4 input-field">
                                      <input id="verification_date" name="physical_verification" type="text" class="validate datepicker" value="${rrDetails.physical_verification }">
                                      <button type="button" id="verification_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
@@ -466,86 +419,22 @@
                                     </select>
                                     <span id="verification_byError" class="error-msg" ></span>
                                 </div>
-                               
-                            </div> 
-                            <div class="row">
-                            	 <div class="col s6 m4 l3 input-field">
-                                     <input id="approval_by_committee" name="approval_by_committee" type="text" class="validate datepicker" value="${rrDetails.approval_by_committee }">
-                                     <button type="button" id="approval_by_committee_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
-		                             <label for="approval_by_committee">Approval By Committee </label>
-		                             <span id="approval_by_committeeError" class="error-msg" ></span>
-                                </div>
-                                 <div class="col s6 m4 l3 input-field">
-                                     <input id="approval_by_mrvc" name="rr_approval_status_by_mrvc" type="text" class="validate datepicker" value="${rrDetails.rr_approval_status_by_mrvc }">
-                                     <button type="button" id="approval_by_mrvc_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
-		                             <label for="approval_by_mrvc">Approval by MRVC</label>
-		                             <span id="approval_by_mrvcError" class="error-msg" ></span>
-                                </div>
-                                 <div class="col s6 m4 l3 input-field">
-                                     <input id="estimate_approval" name="estimate_approval_date" type="text" class="validate datepicker" value="${rrDetails.estimate_approval_date }">
-                                     <button type="button" id="estimate_approval_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
-		                             <label for="estimate_approval">Estimate Approval</label>
-		                             <span id="estimate_approvalError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 l3 input-field amount-dropdown">
-                                    <i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="estimation_amount" name="estimation_amount" type="number" class="validate" value="${rrDetails.estimation_amount }" min="0" step="0.00001">
-                                    <label for="estimation_amount">Estimation Amount</label>
-                                    <span id="estimation_amountError" class="error-msg"></span>
-                                	<span id="estimation_amount_unitsError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="estimation_amount_units" name="estimation_amount_units">
-                                		 <c:forEach var="obj" items="${units }">
-                                      	   <option value= "${ obj.value}" <c:if test="${rrDetails.estimation_amount_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
-                                         </c:forEach>
-                                	</select>
-                                </div> 
-                            </div>
-                            <div class="row">
-                            	<div class="col s6 m4 l4 input-field">
+                                <div class="col s6 m4 input-field">
                                      <input id="letter_to_mmrda" name="letter_to_mmrda" type="text" class="validate datepicker" value="${rrDetails.letter_to_mmrda }">
                                      <button type="button" id="letter_to_mmrda_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
 		                             <label for="letter_to_mmrda">Letter to MMRDA</label>
 		                             <span id="letter_to_mmrdaError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field amount-dropdown">
-                                    <i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="estimated_by_mmrda_amount" name="estimates_by_mmrda" type="number" class="validate" value="${rrDetails.estimates_by_mmrda }" min="0" step="0.00001">
-                                    <label for="estimated_by_mmrda_amount">Estimate by MMRDA</label>
-                                    <span id="estimated_by_mmrda_amountError" class="error-msg"></span>
-                                	<span id="estimated_by_mmrda_amount_unitsError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="estimated_by_mmrda_amount_units" name="estimated_by_mmrda_amount_units">
-                                    	 <c:forEach var="obj" items="${units }">
-                                      	   <option value= "${ obj.value}" <c:if test="${rrDetails.estimated_by_mmrda_amount_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
-                                         </c:forEach>
-                                	</select>
-                                </div> 
-                                <div class="col s6 m4 l4 input-field">
-                                     <input id="payment_to_mmrda" name="payment_to_mmrda" type="text" class="validate datepicker" value="${rrDetails.payment_to_mmrda }">
-                                     <button type="button" id="payment_to_mmrda_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
-		                             <label for="payment_to_mmrda">Payment to MMRDA</label>
-		                             <span id="payment_to_mmrdaError" class="error-msg" ></span>
-                                </div>
-                            </div>
-                            <div class="row"> 
+                             </div>  
+                              <div class="row"> 
                             	<div class="col s6 m4 l4 input-field">
                                      <input id="alternate_housing_allotment" name="alternate_housing_allotment" type="text" class="validate datepicker" value="${rrDetails.alternate_housing_allotment }">
                                      <button type="button" id="alternate_housing_allotment_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
 		                             <label for="alternate_housing_allotment">Alternate Housing Allotment</label>
 		                             <span id="alternate_housing_allotmentError" class="error-msg" ></span>
-                                </div>
-                            	<div class="col s6 m4 l4 input-field">
-                                     <input id="relocation" name="relocation" type="text" class="validate datepicker" value="${rrDetails.relocation }">
-                                     <button type="button" id="relocation_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
-		                             <label for="relocation">Relocation</label>
-		                             <span id="relocationError" class="error-msg" ></span>
-                                </div>
+                                </div>                            	
                             	<div class="col s6 m4 l4 input-field">
                                      <input id="encroachment_removal" name="encroachment_removal" type="text" class="validate datepicker" value="${rrDetails.encroachment_removal }">
                                      <button type="button" id="encroachment_removal_icon" class="datepicker-button"><i
@@ -553,8 +442,6 @@
 		                             <label for="encroachment_removal">Encroachment Removal</label>
 		                             <span id="encroachment_removalError" class="error-msg" ></span>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label mb-8">Boundary Wall Status <!-- <span class="required">*</span> --></p>
                                     <select class="searchable validate-dropdown" name="boundary_wall_status" id="boundary_wall_status">
@@ -565,6 +452,8 @@
                                     </select>
                                     <span id="boundary_wall_statusError" class="error-msg" ></span>
                                 </div>
+                            </div>                       
+                         	 <div class="row">
                             	<div class="col s12 m4 input-field">
                                      <input id="boundary_wall_doc" name="boundary_wall_doc" type="text" class="validate datepicker" value="${rrDetails.boundary_wall_doc }">
                                      <button type="button" id="boundary_wall_doc_icon" class="datepicker-button"><i
@@ -589,6 +478,119 @@
                                 </div>
                                                           
                             </div>
+						</div>
+                            <div class="row ">
+                            	<h6 class="center-align">Identification Details</h6>
+                                 <div class="col s6 m2 input-field">
+                                    <input id="carpet_area" name="carpet_area" type="text" class="validate" value="${rrDetails.carpet_area }">
+                                    <label for="carpet_area" class="fs-sm-8rem fs-9">Carpet Area (sft)</label>
+                                    <span id="carpet_areaError" class="error-msg" ></span>
+	                             </div>
+                                <div class="col s6 m2 input-field">
+	                                <input id="year_of_construction" name="year_of_construction" type="text" class="validate datepicker" value="${rrDetails.year_of_construction }">
+                                     <button type="button" id="verification_date_icon" class="datepicker-button"><i
+                                            class="fa fa-calendar"></i></button>
+		                             <label for="year_of_construction">Year of Construction </label>
+	                                <span id="construction_yearError" class="error-msg" ></span>
+                                 </div>		                         		
+                                <div class="col s6 m4 input-field">
+                                    <input id="owner_name" name="name_of_the_owner" type="text" class="validate " value="${rrDetails.name_of_the_owner }">
+                                    <label for="owner_name" class="fs-sm-8rem fs-9">Owner Name </label>
+                                    <span id="owner_nameError" class="error-msg" ></span>
+                                </div>  
+                                <div class="col s6 m4 input-field">
+                                    <input id="occupier_name" name="occupier_name_during_verification" type="text" class="validate " value="${rrDetails.occupier_name_during_verification }">
+                                    <label for="occupier_name" class="fs-sm-8rem fs-9">Occupier Name </label>
+                                    <span id="occupier_nameError" class="error-msg" ></span>
+                                </div>  
+                             </div>
+                            <div class="row ">
+                                <div class="col s6 m2 input-field">
+                                    <p class="searchable_label mb-8">Document Type <!-- <span class="required">*</span> --></p>
+                                    <select class="searchable validate-dropdown" name="document_type" id="doc_type">
+                                        <option value="" selected>Select</option>
+                                         <c:forEach var="obj" items="${docType }">
+                                      	   <option value= "${ obj.document_type}" <c:if test="${rrDetails.document_type eq obj.document_type}">selected</c:if>> ${obj.document_type }</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="doc_typeError" class="error-msg" ></span>
+                                </div>                               
+                                <div class="col s6 m2 input-field">
+                                     <input id="document_no" name="document_no" type="text" class="validate" value="${rrDetails.document_no }">
+		                             <label for="document_no" >Document No </label>
+		                             <span id="document_noError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 input-field">
+                                     <input id="map_no" name="map_sr_no" type="text" class="validate" value="${rrDetails.map_sr_no }">
+		                             <label for="map_no" >Map S.No </label>
+		                             <span id="map_noError" class="error-msg" ></span>
+                                 </div>
+                            	 <div class="col s6 m4 l4 input-field">
+                                     <input id="approval_by_committee" name="approval_by_committee" type="text" class="validate datepicker" value="${rrDetails.approval_by_committee }">
+                                     <button type="button" id="approval_by_committee_icon" class="datepicker-button"><i
+                                            class="fa fa-calendar"></i></button>
+		                             <label for="approval_by_committee">Approval By Committee </label>
+		                             <span id="approval_by_committeeError" class="error-msg" ></span>
+                                </div>                                                          
+                            </div> 
+                            <div class="row">
+                                 <div class="col s6 m4 l4 input-field">
+                                     <input id="approval_by_mrvc" name="rr_approval_status_by_mrvc" type="text" class="validate datepicker" value="${rrDetails.rr_approval_status_by_mrvc }">
+                                     <button type="button" id="approval_by_mrvc_icon" class="datepicker-button"><i
+                                            class="fa fa-calendar"></i></button>
+		                             <label for="approval_by_mrvc">Approval by MRVC</label>
+		                             <span id="approval_by_mrvcError" class="error-msg" ></span>
+                                </div>
+                                 <div class="col s6 m4 l4 input-field">
+                                     <input id="estimate_approval" name="estimate_approval_date" type="text" class="validate datepicker" value="${rrDetails.estimate_approval_date }">
+                                     <button type="button" id="estimate_approval_icon" class="datepicker-button"><i
+                                            class="fa fa-calendar"></i></button>
+		                             <label for="estimate_approval">Estimate Approval</label>
+		                             <span id="estimate_approvalError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field amount-dropdown">
+                                    <i class="material-icons amount-symbol center-align">₹</i>
+                                    <input id="estimation_amount" name="estimation_amount" type="number" class="validate" value="${rrDetails.estimation_amount }" min="0" step="0.00001">
+                                    <label for="estimation_amount">Estimation Amount</label>
+                                    <span id="estimation_amountError" class="error-msg"></span>
+                                	<span id="estimation_amount_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="estimation_amount_units" name="estimation_amount_units">
+                                		 <c:forEach var="obj" items="${units }">
+                                      	   <option value= "${ obj.value}" <c:if test="${rrDetails.estimation_amount_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
+                                         </c:forEach>
+                                	</select>
+                                </div> 
+                            </div>
+                            <div class="row">
+                            	
+                                <div class="col s6 m4 l4 input-field amount-dropdown">
+                                    <i class="material-icons amount-symbol center-align">₹</i>
+                                    <input id="estimated_by_mmrda_amount" name="estimates_by_mmrda" type="number" class="validate" value="${rrDetails.estimates_by_mmrda }" min="0" step="0.00001">
+                                    <label for="estimated_by_mmrda_amount">Estimate by MMRDA</label>
+                                    <span id="estimated_by_mmrda_amountError" class="error-msg"></span>
+                                	<span id="estimated_by_mmrda_amount_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="estimated_by_mmrda_amount_units" name="estimated_by_mmrda_amount_units">
+                                    	 <c:forEach var="obj" items="${units }">
+                                      	   <option value= "${ obj.value}" <c:if test="${rrDetails.estimated_by_mmrda_amount_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
+                                         </c:forEach>
+                                	</select>
+                                </div> 
+                                <div class="col s6 m4 l4 input-field">
+                                     <input id="payment_to_mmrda" name="payment_to_mmrda" type="text" class="validate datepicker" value="${rrDetails.payment_to_mmrda }">
+                                     <button type="button" id="payment_to_mmrda_icon" class="datepicker-button"><i
+                                            class="fa fa-calendar"></i></button>
+		                             <label for="payment_to_mmrda">Payment to MMRDA</label>
+		                             <span id="payment_to_mmrdaError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field">
+                                     <input id="relocation" name="relocation" type="text" class="validate datepicker" value="${rrDetails.relocation }">
+                                     <button type="button" id="relocation_icon" class="datepicker-button"><i
+                                            class="fa fa-calendar"></i></button>
+		                             <label for="relocation">Relocation</label>
+		                             <span id="relocationError" class="error-msg" ></span>
+                                </div>
+                            </div>                           
+                           
                          </div>
                             <div class="row" id="residential_details" style="display:none;">
                             	<div class="container container-no-margin">                            		
@@ -1506,7 +1508,17 @@
  			 		  required: true
  			 	  }	,"rr_id"	:{
  			 		  required:true
- 			 	  }
+ 			 	  }	,"phase"	:{
+ 			 		  required:true
+ 			 	  }	,"structure":{
+ 			 		  required:true
+ 			 	  }	, "location_name": {
+			          required: true
+			      }	, "sub_location_name": {
+			          required: true
+			      }	, "type_of_use"	: {
+			          required: true
+			      }
  		 	},
  		    messages: {
  		 		   "project_id_fk": {
@@ -1515,7 +1527,17 @@
  			 		  required: 'Required'
  			 	  }	,"rr_id"	:{
  			 		  required:'Required'
- 			 	  }
+ 			 	  },"phase"	:{
+ 			 		  required:'Required'
+ 			 	  },"structure"	:{
+ 			 		  required:'Required'
+ 			 	  }, "location_name": {
+ 			          required: 'Required'
+ 			      }, "sub_location_name": {
+ 			          required: 'Required'
+ 			      }, "type_of_use"	: {
+ 			          required: 'Required'
+ 			      }
 	   		},
 	   		errorPlacement:function(error, element){
 	   		 	  if(element.attr("id") == "project_id_fk" ){
@@ -1527,6 +1549,21 @@
 				 }else if(element.attr("id") == "rr_id" ){
 				     document.getElementById("rr_idError").innerHTML="";
 			 	     error.appendTo('#rr_idError');
+				 }else if(element.attr("id") == "phase" ){
+				     document.getElementById("phaseError").innerHTML="";
+			 	     error.appendTo('#phaseError');
+				 }else if(element.attr("id") == "location_name" ){
+				     document.getElementById("locationError").innerHTML="";
+			 	     error.appendTo('#locationError');
+				 }else if(element.attr("id") == "structure" ){
+				     document.getElementById("structureError").innerHTML="";
+			 	     error.appendTo('#structureError');
+				 }else if(element.attr("id") == "sub_location_name" ){
+				     document.getElementById("sub_locationError").innerHTML="";
+			 	     error.appendTo('#sub_locationError');
+				 }else if(element.attr("id") == "type_of_use" ){
+				     document.getElementById("type_of_useError").innerHTML="";
+			 	     error.appendTo('#type_of_useError');
 				 }else{
 					 error.insertAfter(element);
 		        } 

@@ -185,6 +185,7 @@ public class ExecutionOverviewReportController {
 	public void exportDetailsOfContracts(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute StripChart obj,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.ExecutionOverviewReport);
 		try {
+			
 			String userId = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
 			String userRoleCode = (String) session.getAttribute("USER_ROLE_CODE");

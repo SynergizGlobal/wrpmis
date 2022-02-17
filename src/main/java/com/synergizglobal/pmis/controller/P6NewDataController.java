@@ -305,19 +305,19 @@ public class P6NewDataController {
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
 						p6data.setContract_id_fk(formatter.formatCellValue(row.getCell(0)).trim());
+					/*if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
+						p6data.setFob_id_fk(formatter.formatCellValue(row.getCell(1)).trim());*/
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
-						p6data.setFob_id_fk(formatter.formatCellValue(row.getCell(1)).trim());
+						p6data.setP6_wbs_code(formatter.formatCellValue(row.getCell(1)).trim());
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
-						p6data.setP6_wbs_code(formatter.formatCellValue(row.getCell(2)).trim());
+						p6data.setP6_wbs_name(formatter.formatCellValue(row.getCell(2)).trim());
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
-						p6data.setP6_wbs_name(formatter.formatCellValue(row.getCell(3)).trim());
+						p6data.setP6_wbs_parent_code(formatter.formatCellValue(row.getCell(3)).trim());
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
-						p6data.setP6_wbs_parent_code(formatter.formatCellValue(row.getCell(4)).trim());
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
-						p6data.setP6_wbs_category_fk(formatter.formatCellValue(row.getCell(5)).trim());
+						p6data.setP6_wbs_category_fk(formatter.formatCellValue(row.getCell(4)).trim());
 					
 					
-					if(!StringUtils.isEmpty(p6data) && !StringUtils.isEmpty(p6data.getContract_id_fk()) && !StringUtils.isEmpty(p6data.getFob_id_fk()) && !StringUtils.isEmpty(p6data.getP6_wbs_code())) {
+					if(!StringUtils.isEmpty(p6data) && !StringUtils.isEmpty(p6data.getContract_id_fk()) && !StringUtils.isEmpty(p6data.getP6_wbs_code())) {
 						wbsList.add(p6data);
 					}
 					

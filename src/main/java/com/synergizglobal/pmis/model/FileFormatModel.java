@@ -42,7 +42,8 @@ public class FileFormatModel {
 	
 	public static List<String> getP6WbsFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Contract ID,FOB ID,WBS Code, WBS Name, Parent WBS Code, WBS Category";
+		//String columns = "Contract ID,FOB ID,WBS Code, WBS Name, Parent WBS Code, WBS Category";
+		String columns = "Contract ID,WBS Code, WBS Name, Parent WBS Code, WBS Category";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

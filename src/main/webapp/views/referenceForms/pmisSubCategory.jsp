@@ -414,7 +414,7 @@
    	  function showCancelMessage() {
    	    	swal({
    		            title: "Are you sure?",
-   		            text: "You will be able to change the status of record!",
+   		            text: "You will be changing the status of the record!",
    		            type: "warning",
    		            showCancelButton: true, 
    		            confirmButtonColor: "#DD6B55",

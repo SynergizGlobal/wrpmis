@@ -50,17 +50,7 @@
                        		 
                            	<div class="row">
                                  <div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
-                                    <p class="searchable_label" style="text-align:left">Module</p>
-                                    <select class="searchable validate-dropdown" id="module_name_fk" name="module_name_fk" onchange="addInQueModule(this.value);getUserInactiveReportFilters();">
-                                        <option value="">Select </option>
-                                         <c:forEach var="obj" items="${modulelist }">
-                                      	   <option value= "${obj.module_name}">${obj.module_name}</option>
-                                         </c:forEach>
-                                    </select>
-                                    <span id="hodError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 l2 input-field">
-                                    <p class="searchable_label" style="text-align:left">Work</p>
+                                 	<p class="searchable_label" style="text-align:left">Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getUserInactiveReportFilters();">
                                         <option value="">Select </option>
                                           <c:forEach var="obj" items="${worksList }">
@@ -73,6 +63,16 @@
                                     <input type="number" id="inactive_since" name="inactive_since" class="validate">
                                     <label for="inactive_since" class="fs-sm-8rem">Inactive since(Days) <span class="required">*</span></label>
                                     <span id="inactive_sinceError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l2 input-field">
+                                    <p class="searchable_label" style="text-align:left">Module</p>
+                                    <select class="searchable validate-dropdown" id="module_name_fk" name="module_name_fk" onchange="addInQueModule(this.value);getUserInactiveReportFilters();">
+                                        <option value="">Select </option>
+                                         <c:forEach var="obj" items="${modulelist }">
+                                      	   <option value= "${obj.module_name}">${obj.module_name}</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="hodError" class="error-msg" ></span>
                                 </div>
                                 
                                 <input type="hidden" id="work_short_name" name="work_short_name" />

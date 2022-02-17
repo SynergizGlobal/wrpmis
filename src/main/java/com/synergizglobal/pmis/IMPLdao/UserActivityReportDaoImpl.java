@@ -398,7 +398,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 	public List<UserActivityReport> getModulesListForUserInactiveReportForm(UserActivityReport obj) throws Exception {
 		List<UserActivityReport> objsList = null;
 		try {
-			String qry = "SELECT module_name from module where module_name IN('Contracts','Design','Execution &  Monitoring','Issues','Risk','Safety') ";
+			String qry = "SELECT module_name from module where module_name IN('Contracts','Execution &  Monitoring') ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
@@ -593,12 +593,12 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 					+ "FROM forms_history fh "
 					+ "WHERE (DATE_FORMAT(created_date,'%Y-%m-%d') BETWEEN DATE_FORMAT((NOW() - INTERVAL ? DAY),'%Y-%m-%d') AND DATE_FORMAT(NOW(),'%Y-%m-%d')) "
 					+ "AND module_name_fk = ? "
-					+ "AND created_by_user_id_fk = ?";
+					+ "AND created_by_user_id_fk = ? ";
 			
 			int arrSize = 3;
 			
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "AND fh.work COLLATE utf8mb4_unicode_ci = (select work_short_name from work where work_id = ?)";
+				qry = qry + " AND fh.work COLLATE utf8mb4_unicode_ci = (select work_short_name from work where work_id = ?)";
 				arrSize++;
 			}
 			qry = qry + " ORDER BY created_date DESC limit 1";
@@ -619,15 +619,15 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 			
 			if(StringUtils.isEmpty(tempObj)){
 				inactiveUser = new UserActivityReport();
-				qry = "SELECT DATE_FORMAT(MAX(created_date),'%d-%b-%Y %h:%i %p') AS last_updated_date "
+				qry = "SELECT DATE_FORMAT(MAX(created_date),'%d-%b-%Y') AS last_updated_date "
 						+ "FROM forms_history fh "
 						+ "WHERE module_name_fk = ? "
-						+ "AND created_by_user_id_fk = ?";
+						+ "AND created_by_user_id_fk = ? ";
 				
 				arrSize = 2;
 				
 				if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + "AND fh.work COLLATE utf8mb4_unicode_ci = (select work_short_name from work where work_id = ?)";
+					qry = qry + " AND fh.work COLLATE utf8mb4_unicode_ci = (select work_short_name from work where work_id = ?)";
 					arrSize++;
 				}
 				//qry = qry + " GROUP BY u.user_id";

@@ -201,15 +201,18 @@
 	                       	 	<div class="row">
 		                       		  <div class="col s6 m4 l4 input-field offset-m2">
 		                                    <input type="text" value="${expenditureDetails.project_id_fk} - ${expenditureDetails.project_name}" readonly id="project-text"/>
+		                                     <input type="hidden" value="${expenditureDetails.project_id_fk}" name="project_id_fk" />
 		                                    <label for="project-text">Project <span class="required">*</span></label>
 									  </div> 
 									  <div class="col s6 m4 l4 input-field"> 
 		                                    <input type="text" value="${expenditureDetails.work_id_fk} - ${expenditureDetails.work_name}" readonly id="work-text"/>
+		                                    <input type="hidden" value="${expenditureDetails.work_id_fk}" name="work_id_fk"  />
 		                                    <label for="work-text">Work <span class="required">*</span></label>		                                    
 		                              </div>
 	                             
 		                       		  <div class="col s6 m4 l4 input-field offset-m2">
 	                              			<input type="text" value="${expenditureDetails.contract_id_fk} - ${expenditureDetails.contract_name}" readonly id="Contract-text"/>
+	                              			<input type="hidden" value="${expenditureDetails.contract_id_fk}" name="contract_id_fk"  />
 	                              			<label for="Contract-text">Contract <span class="required">*</span></label>	                              			
 									  </div> 
 									  <div class="col s6 m4 l4 input-field"> 

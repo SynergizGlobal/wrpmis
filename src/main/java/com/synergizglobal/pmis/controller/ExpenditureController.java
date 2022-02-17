@@ -48,6 +48,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.ContractorService;
 import com.synergizglobal.pmis.Iservice.ExpenditureService;
 import com.synergizglobal.pmis.Iservice.HomeService;
@@ -57,6 +58,7 @@ import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.ExpenditurePaginationObject;
 import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Project;
 
 @Controller
@@ -69,7 +71,8 @@ public class ExpenditureController {
     }
 	
 	Logger logger = Logger.getLogger(ExpenditureController.class);
-	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Autowired
 	ExpenditureService expenditureService;
 	
@@ -396,10 +399,18 @@ public class ExpenditureController {
 	
 	@RequestMapping(value = "/add-expenditure", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addExpenditure(@ModelAttribute Expenditure obj,RedirectAttributes attributes){
+	public ModelAndView addExpenditure(@ModelAttribute Expenditure obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/expenditure");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setDate(DateParser.parse(obj.getDate()));
 			boolean flag =  expenditureService.addExpenditure(obj);
 			if(flag) {
@@ -416,10 +427,18 @@ public class ExpenditureController {
 	}
 	
 	@RequestMapping(value = "/update-expenditure", method = {RequestMethod.POST})
-	public ModelAndView updateExpenditure(@ModelAttribute Expenditure obj,RedirectAttributes attributes){
+	public ModelAndView updateExpenditure(@ModelAttribute Expenditure obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/expenditure");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setDate(DateParser.parse(obj.getDate()));
 			boolean flag =  expenditureService.updateExpenditure(obj);
 			if(flag) {
@@ -682,10 +701,15 @@ public class ExpenditureController {
 	@RequestMapping(value = "/upload-expenditures", method = {RequestMethod.POST})
 	public ModelAndView uploadRisk(@ModelAttribute Expenditure expenditure,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String userId = null;String userName = null;
 		try {
-			userId = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			expenditure.setCreated_by_user_id_fk(user_Id);
+			expenditure.setUser_id(user_Id);
+			expenditure.setUser_name(userName);
+			expenditure.setDesignation(userDesignation);
 			model.setViewName("redirect:/expenditure");
 			
 			if(!StringUtils.isEmpty(expenditure.getExpenditureFile())){
@@ -723,9 +747,21 @@ public class ExpenditureController {
 	                		return model;
 						}
 						
-						int count = uploadExpenditures(expenditure,userId,userName);
+						int count = uploadExpenditures(expenditure,user_Id,userName);
 					
-						attributes.addFlashAttribute("success", + count + " Expenditures uploaded successfully.");	
+						attributes.addFlashAttribute("success", + count + " Expenditures uploaded successfully.");
+						FormHistory formHistory = new FormHistory();
+						formHistory.setCreated_by_user_id_fk(expenditure.getCreated_by_user_id_fk());
+						formHistory.setUser(expenditure.getDesignation()+" - "+expenditure.getUser_name());
+						formHistory.setModule_name_fk("Finance");
+						formHistory.setForm_name("Upload Expenditure");
+						formHistory.setForm_action_type("Upload");
+						formHistory.setForm_details( count + " Expenditures uploaded successfully.");
+						formHistory.setWork(expenditure.getWork_id_fk());
+						formHistory.setContract(expenditure.getContract_id_fk());
+						
+						boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+						/********************************************************************************/
 						
 					}
 					workbook.close();
@@ -752,6 +788,7 @@ public class ExpenditureController {
 			MultipartFile excelfile = obj.getExpenditureFile();
 			// Creates a workbook object from the uploaded excelfile
 			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				
 				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
 				int sheetsCount = workbook.getNumberOfSheets();
 				if(sheetsCount > 0) {

@@ -12,10 +12,42 @@ public class Expenditure {
 	narration, net_paid, gross_work_done, sd_payable, contractor_income_tax, cgst_tds, sgst_tds, vat_wct, mob_advance 
 	,interest_on_mob_adv, amount_withheld, remarks,financial_year,financial_year_fk,project_id_fk,project_name,work_short_name,contract_short_name,project_id,
 	net_paid_units,gross_work_done_units,sd_payable_units,contractor_income_tax_units,cgst_tds_units,sgst_tds_units,igst_tds_units,vat_wct_units,mob_advance_units,interest_on_mob_adv_units,amount_withheld_units,
-	sd_units,gross_units,contractor_income_units,cgst_units,sgst_units,igst_units,vat_units,mob_units,interest_units,withheld_units;
+	sd_units,gross_units,contractor_income_units,cgst_units,sgst_units,igst_units,vat_units,mob_units,interest_units,withheld_units,created_by_user_id_fk,user_id,designation,user_name;
 
 	private MultipartFile expenditureFile;
 	
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
 	public String getSd_units() {
 		return sd_units;
 	}

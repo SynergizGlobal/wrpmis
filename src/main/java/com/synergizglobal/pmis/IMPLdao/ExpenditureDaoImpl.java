@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ExpenditureDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.Expenditure;
+import com.synergizglobal.pmis.model.FormHistory;
 
 @Repository
 public class ExpenditureDaoImpl implements ExpenditureDao{
@@ -29,7 +32,8 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
-
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 
 	@Override
 	public List<Expenditure> getExpendituresList(Expenditure obj, int startIndex, int offset, String searchParameter) throws Exception {
@@ -288,6 +292,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		Connection con = null;
 		PreparedStatement stmt = null;
 		int count = 0;
+		ResultSet rs = null;
 		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
@@ -299,7 +304,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					+ "VALUES"
 					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			int p =1;
-			stmt = con.prepareStatement(insertQry); 
+			stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS); 
 			stmt.setString(p++,obj.getContract_id_fk());
 			stmt.setString(p++,obj.getLedger_account());
 			stmt.setString(p++,obj.getDate());
@@ -334,8 +339,26 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			stmt.setString(p++,obj.getAmount_withheld_units());
 			
 			count = stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys();
 			if(count > 0) {
 				flag = true;
+				String eId = null;
+				if (rs.next()) {
+					eId = rs.getString(1);
+					obj.setExpenditure_id(eId);
+				}
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Finance");
+				formHistory.setForm_name("Add Expenditure");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Expenditure "+obj.getExpenditure_id() + " Added");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 			
 		}catch(Exception e){ 
@@ -398,6 +421,18 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			
 			if(count > 0) {
 				flag = true;
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Finance");
+				formHistory.setForm_name("Update Expenditure");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Expenditure "+obj.getExpenditure_id() + " Updated");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

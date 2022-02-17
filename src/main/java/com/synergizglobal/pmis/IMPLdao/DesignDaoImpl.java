@@ -31,6 +31,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
@@ -40,6 +41,7 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Risk;
 
 @Repository
@@ -53,6 +55,9 @@ public class DesignDaoImpl implements DesignDao{
 	
 	@Autowired
 	DataSourceTransactionManager transactionManager;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	
 	@Override
 	public List<Design> getDesigns(Design obj)throws Exception{
@@ -483,10 +488,12 @@ public class DesignDaoImpl implements DesignDao{
 		    KeyHolder keyHolder = new GeneratedKeyHolder();
 		    int count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
 		    //return keyHolder.getKey().intValue();
-
+		    String designId = null;
+		    designId = String.valueOf(keyHolder.getKey().intValue());
+			 obj.setDesign_id(designId);
 			//BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			//int count = namedParamJdbcTemplate.update(qry, paramSource);		
-		    String designId = null;
+		  
 			/*			if(count > 0) {
 							 designId = String.valueOf(keyHolder.getKey().intValue());
 							 obj.setDesign_id(designId);
@@ -692,6 +699,18 @@ public class DesignDaoImpl implements DesignDao{
 				}else{
 					issueId = null;
 				}
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Others");
+				formHistory.setForm_name("Add Design");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Design "+obj.getDesign_id() + " Added");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 
 			transactionManager.commit(status);
@@ -946,6 +965,19 @@ public class DesignDaoImpl implements DesignDao{
 				}else{
 					issueId = null;
 				}
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Others");
+				formHistory.setForm_name("Update Design");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Design "+obj.getDesign_id() + " Updated");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
+				
 			}
 
 			transactionManager.commit(status);

@@ -445,8 +445,14 @@ public class TrainingController {
 	public ModelAndView addTraining(@ModelAttribute Training obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try {			
-			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
 			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			model.setViewName("redirect:/training");
 			
 			obj.setStart_time(DateParser.parseDateTime(obj.getStart_time()));
@@ -471,8 +477,14 @@ public class TrainingController {
 	public ModelAndView updateTraining(@ModelAttribute Training obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
-			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
 			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			model.setViewName("redirect:/training");
 			obj.setStart_time(DateParser.parseDateTime(obj.getStart_time()));
 			obj.setEnd_time(DateParser.parseDateTime(obj.getEnd_time()));

@@ -506,10 +506,20 @@ public class RandRMainController {
 		return model;
 	 }
 	@RequestMapping(value = "/add-rr", method = {RequestMethod.POST})
-	public ModelAndView addRR(@ModelAttribute RandRMain obj,RedirectAttributes attributes){
+	public ModelAndView addRR(@ModelAttribute RandRMain obj,HttpSession session,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/randr-main");
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			obj.setPhysical_verification(DateParser.parse(obj.getPhysical_verification()));
 			obj.setApproval_by_committee(DateParser.parse(obj.getApproval_by_committee()));
 			obj.setRr_approval_status_by_mrvc(DateParser.parse(obj.getRr_approval_status_by_mrvc()));
@@ -541,6 +551,15 @@ public class RandRMainController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/randr-main");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			obj.setPhysical_verification(DateParser.parse(obj.getPhysical_verification()));
 			obj.setApproval_by_committee(DateParser.parse(obj.getApproval_by_committee()));
 			obj.setRr_approval_status_by_mrvc(DateParser.parse(obj.getRr_approval_status_by_mrvc()));
@@ -553,9 +572,7 @@ public class RandRMainController {
 			obj.setHanded_over_to_execution(DateParser.parse(obj.getHanded_over_to_execution()));
 			obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
 			obj.setRelocation(DateParser.parse(obj.getRelocation()));
-			String user_Id = (String) session.getAttribute("USER_ID");
-		
-			obj.setCreated_by_user_id_fk(user_Id);
+			
 			boolean flag =  service.updateRR(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "R and R Updated Succesfully.");

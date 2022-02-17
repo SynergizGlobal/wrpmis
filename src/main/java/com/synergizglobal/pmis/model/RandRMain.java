@@ -11,7 +11,7 @@ year_of_establishment, monthly_turnover_amount, monthly_turnover_amount_units, n
 number_of_married_couple, family_income_amount, vulnerable_category,project_id_fk,project_name,structure,
 residential_name, residential_relation_with_head, residential_age, rr_location_fk,maritua_status, rr_sub_location,rr_tenure_status,residential_gender, 
 residential_maritual_status, residential_education, residential_employment, residential_salary, unit, value,com_carpet_area,com_remarks,estimated_by_mmrda_amount_units,estimation_amount_units,
-residential_salary_units,created_by_user_id_fk,modified_by,modified_date;
+residential_salary_units,created_by_user_id_fk,modified_by,modified_date,user_id,user_name,designation;
 
 private List<RandRMain> residentialList,commercialList;
 
@@ -19,6 +19,30 @@ private String [] values,genders,ids, rr_id_fks, employee_names, employee_ages, 
 , employee_salarys, employee_salary_unitss, employee_nature_of_works,
 residential_names, residential_relation_with_heads, residential_ages, residential_genders, residential_maritual_statuss,employee_attendeds, residential_educations, residential_employments
 , residential_salarys, residential_salary_unitss;
+
+public String getUser_id() {
+	return user_id;
+}
+
+public void setUser_id(String user_id) {
+	this.user_id = user_id;
+}
+
+public String getUser_name() {
+	return user_name;
+}
+
+public void setUser_name(String user_name) {
+	this.user_name = user_name;
+}
+
+public String getDesignation() {
+	return designation;
+}
+
+public void setDesignation(String designation) {
+	this.designation = designation;
+}
 
 public String getEstimated_by_mmrda_amount_units() {
 	return estimated_by_mmrda_amount_units;

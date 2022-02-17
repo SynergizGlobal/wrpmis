@@ -23,11 +23,13 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.RandRMainDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
@@ -43,7 +45,8 @@ public class RandRMainDaoImpl implements RandRMainDao{
 
 	@Autowired
 	DataSourceTransactionManager transactionManager;
-	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Override
 	public List<RandRMain> getWorksFilterListInRR(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
@@ -1117,7 +1120,18 @@ public class RandRMainDaoImpl implements RandRMainDao{
 							}
 					}
 				}
-			
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("R & R");
+				formHistory.setForm_name("Add R & R");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("R & R "+obj.getRr_id() + " Added");
+				formHistory.setWork(obj.getWork_id());
+				//formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 			//transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -1382,7 +1396,18 @@ public class RandRMainDaoImpl implements RandRMainDao{
 							}
 					}
 				}
-			
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("R & R");
+				formHistory.setForm_name("Update R & R");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("R & R "+obj.getRr_id() + " Updated");
+				formHistory.setWork(obj.getWork_id());
+				//formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 			//transactionManager.commit(status);
 		}catch(Exception e){ 

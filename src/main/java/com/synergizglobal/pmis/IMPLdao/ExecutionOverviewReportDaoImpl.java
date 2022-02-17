@@ -57,7 +57,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct work_id,work_short_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where structure_type!='FOB' ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -110,7 +110,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct d.department,concat(department_name,' / ',hod) as department_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) left join department d on d.department_name=c.department where structure_type!='FOB' ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) left join department d on d.department_name=c.department where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -163,7 +163,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct contract_id,contract_short_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where structure_type!='FOB' ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";

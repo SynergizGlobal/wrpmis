@@ -17,9 +17,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ContractorDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Contractor;
+import com.synergizglobal.pmis.model.FormHistory;
 
 @Repository
 public class ContractorDaoImpl implements ContractorDao {
@@ -29,7 +31,8 @@ public class ContractorDaoImpl implements ContractorDao {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
-
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Override
 	public List<Contractor> getContractorsList() throws Exception {
 		List<Contractor> objsList = null;
@@ -95,6 +98,18 @@ public class ContractorDaoImpl implements ContractorDao {
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Contracts");
+				formHistory.setForm_name("Add Contractor ");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Contractor  "+obj.getContractor_id() + " Added");
+				//formHistory.setWork(obj.getWork_id_fk());
+				//formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 			
 		}catch(Exception e){ 
@@ -144,6 +159,18 @@ public class ContractorDaoImpl implements ContractorDao {
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Contracts");
+				formHistory.setForm_name("Update Contractor ");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Contractor  "+obj.getContractor_id() + " Updated");
+				//formHistory.setWork(obj.getWork_id_fk());
+				//formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

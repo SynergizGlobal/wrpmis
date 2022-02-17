@@ -878,10 +878,18 @@ public class ContractorController {
 	 }
 	
 	@RequestMapping(value = "/add-contractor", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addContractor(@ModelAttribute Contractor obj,RedirectAttributes attributes){
+	public ModelAndView addContractor(@ModelAttribute Contractor obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/contractor");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			boolean flag =  contractorService.addContractor(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Contractor Added Succesfully.");
@@ -896,10 +904,19 @@ public class ContractorController {
 	}
 	
 	@RequestMapping(value = "/update-contractor", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView updateContractor(@ModelAttribute Contractor obj,RedirectAttributes attributes){
+	public ModelAndView updateContractor(@ModelAttribute Contractor obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/contractor");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			boolean flag =  contractorService.updateContractor(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Contractor Updated Succesfully.");

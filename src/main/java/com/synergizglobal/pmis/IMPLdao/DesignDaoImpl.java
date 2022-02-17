@@ -702,7 +702,7 @@ public class DesignDaoImpl implements DesignDao{
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-				formHistory.setModule_name_fk("Others");
+				formHistory.setModule_name_fk("Design");
 				formHistory.setForm_name("Add Design");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("Design "+obj.getDesign_id() + " Added");
@@ -968,7 +968,7 @@ public class DesignDaoImpl implements DesignDao{
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-				formHistory.setModule_name_fk("Others");
+				formHistory.setModule_name_fk("Design");
 				formHistory.setForm_name("Update Design");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Design "+obj.getDesign_id() + " Updated");

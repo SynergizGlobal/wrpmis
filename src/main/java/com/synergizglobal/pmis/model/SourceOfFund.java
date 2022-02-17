@@ -8,13 +8,45 @@ public class SourceOfFund {
 	
 	private String funds_id, work_id_fk,work_id,project_id,project_id_fk,work_name,project_name, source_of_funds_fk, sub_category_railway_id_fk,railway_name, funding_date,
 					fund_amount, remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,railway_id,attachment,work_short_name,
-					contract_id,contract_name,contract_short_name,unit, value,fund_amount_units,amount_unit;
+					contract_id,contract_name,contract_short_name,unit, value,fund_amount_units,amount_unit,created_by_user_id_fk,user_id,designation,user_name;
 
 	private List<MultipartFile> fundFiles;
 	private List<SourceOfFund> fundFilesList;
 	private String[] fundFileNames;
 	
 
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
 
 	public String getAmount_unit() {
 		return amount_unit;

@@ -20,12 +20,14 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.SourceOfFundDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Deliverables;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.SourceOfFund;
 
 @Repository
@@ -40,7 +42,8 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 
 	@Autowired
 	DataSourceTransactionManager transactionManager;
-	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Override
 	public List<SourceOfFund> getRailwaysList() throws Exception {
 		List<SourceOfFund> objsList = null;
@@ -134,6 +137,18 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 						}
 					}
 				}	
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Finance");
+				formHistory.setForm_name("Add Source of Fund");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Source of Fund "+obj.getFunds_id() + " Added");
+				//formHistory.setWork(obj.getWork_id_fk());
+				//formHistory.setContract(budget.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 			
 			transactionManager.commit(status);
@@ -235,6 +250,18 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 						}
 					}
 				}
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Finance");
+				formHistory.setForm_name("Update Source of Fund");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Source of Fund "+obj.getFunds_id() + " Updated");
+				//formHistory.setWork(obj.getWork_id_fk());
+				//formHistory.setContract(budget.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

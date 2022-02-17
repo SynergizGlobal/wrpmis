@@ -19,11 +19,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.BudgetDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.Training;
 
@@ -37,6 +39,8 @@ public class BudgetDaoImpl implements BudgetDao {
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
 	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	
 	@Override
 	public List<Budget> budgetList(Budget obj) throws Exception {
@@ -247,8 +251,21 @@ public class BudgetDaoImpl implements BudgetDao {
 										}
 								int[] insertCount1 = insertStmt1.executeBatch();
 						}	
+						
 					}	
 			  }
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(budget.getCreated_by_user_id_fk());
+				formHistory.setUser(budget.getDesignation()+" - "+budget.getUser_name());
+				formHistory.setModule_name_fk("Finance");
+				formHistory.setForm_name("Add Budget");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Budget "+budget.getWork_id_fk() + " Added");
+				formHistory.setWork(budget.getWork_id_fk());
+				//formHistory.setContract(budget.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 		}
 		   con.commit();
 		}catch(Exception e){ 
@@ -406,8 +423,21 @@ public class BudgetDaoImpl implements BudgetDao {
 										}
 								int[] insertCount1 = insertStmt1.executeBatch();
 						}	
+						
 					}	
 			  }
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(budget.getCreated_by_user_id_fk());
+				formHistory.setUser(budget.getDesignation()+" - "+budget.getUser_name());
+				formHistory.setModule_name_fk("Finance");
+				formHistory.setForm_name("Update Budget");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Budget "+budget.getWork_id_fk() + " Updated");
+				formHistory.setWork(budget.getWork_id_fk());
+				//formHistory.setContract(budget.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 		}
 
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt1, null);

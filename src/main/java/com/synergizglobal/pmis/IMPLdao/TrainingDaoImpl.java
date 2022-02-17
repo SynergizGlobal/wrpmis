@@ -823,7 +823,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			FormHistory formHistory = new FormHistory();
 			formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 			formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-			formHistory.setModule_name_fk("Others");
+			formHistory.setModule_name_fk("Training");
 			formHistory.setForm_name("Update Training");
 			formHistory.setForm_action_type("Update");
 			formHistory.setForm_details("Training "+obj.getTraining_id() + " Updated");
@@ -1048,7 +1048,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-				formHistory.setModule_name_fk("Others");
+				formHistory.setModule_name_fk("Training");
 				formHistory.setForm_name("Add Training");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("Training "+obj.getTraining_id() + " Added");

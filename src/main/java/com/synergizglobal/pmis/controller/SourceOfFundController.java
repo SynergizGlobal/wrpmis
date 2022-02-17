@@ -324,11 +324,18 @@ public class SourceOfFundController {
 	 }
 	@RequestMapping(value = "/add-funds", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addFunds(@ModelAttribute SourceOfFund obj,RedirectAttributes attributes){
+	public ModelAndView addFunds(@ModelAttribute SourceOfFund obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/source-of-funds");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setFunding_date(DateParser.parse(obj.getFunding_date()));
 			boolean flag =  sofService.addFunds(obj);
 			if(flag) {
@@ -346,11 +353,19 @@ public class SourceOfFundController {
 	
 
 	@RequestMapping(value = "/update-funds", method = {RequestMethod.POST})
-	public ModelAndView updateFunds(@ModelAttribute SourceOfFund obj,RedirectAttributes attributes){
+	public ModelAndView updateFunds(@ModelAttribute SourceOfFund obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/source-of-funds");
-			 
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			obj.setFunding_date(DateParser.parse(obj.getFunding_date()));
 			obj.setFunding_date(DateParser.parse(obj.getFunding_date()));
 			boolean flag =  sofService.updateFunds(obj);
 			if(flag) {

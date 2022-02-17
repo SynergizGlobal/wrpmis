@@ -860,7 +860,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					FormHistory formHistory = new FormHistory();
 					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-					formHistory.setModule_name_fk("Others");
+					formHistory.setModule_name_fk("Utility Shifting");
 					formHistory.setForm_name("Add Utility Shifting");
 					formHistory.setForm_action_type("Add");
 					formHistory.setForm_details("Utility Shifting "+USID + " Added");
@@ -995,7 +995,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					FormHistory formHistory = new FormHistory();
 					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-					formHistory.setModule_name_fk("Others");
+					formHistory.setModule_name_fk("Utility Shifting");
 					formHistory.setForm_name("Update Utility Shifting");
 					formHistory.setForm_action_type("Update");
 					formHistory.setForm_details("Utility Shifting "+obj.getUtility_shifting_id() + " Updated");

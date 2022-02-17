@@ -320,10 +320,18 @@ public class BudgetController {
 	 }
 	
 	@RequestMapping(value = "/add-budget", method = {RequestMethod.POST})
-	public ModelAndView addBudget(@ModelAttribute Budget budget,RedirectAttributes attributes){
+	public ModelAndView addBudget(@ModelAttribute Budget budget,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/budget");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			budget.setCreated_by_user_id_fk(user_Id);
+			budget.setUser_id(user_Id);
+			budget.setUser_name(userName);
+			budget.setDesignation(userDesignation);
 			boolean flag =  budgetService.addBudget(budget);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Budget Added Succesfully.");
@@ -339,10 +347,18 @@ public class BudgetController {
 	}
 	
 	@RequestMapping(value = "/update-budget", method = {RequestMethod.POST})
-	public ModelAndView updateBudget(@ModelAttribute Budget budget,RedirectAttributes attributes){
+	public ModelAndView updateBudget(@ModelAttribute Budget budget,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/budget");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			budget.setCreated_by_user_id_fk(user_Id);
+			budget.setUser_id(user_Id);
+			budget.setUser_name(userName);
+			budget.setDesignation(userDesignation);
 			boolean flag =  budgetService.updateBudget(budget);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Budget Updated Succesfully.");

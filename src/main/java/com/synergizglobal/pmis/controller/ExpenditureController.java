@@ -793,41 +793,41 @@ public class ExpenditureController {
 							if(!StringUtils.isEmpty(val)) { expenditure.setNarration(val);}
 							
 							val = formatter.formatCellValue(row.getCell(9)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setNet_paid(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setNet_paid(val);expenditure.setNet_paid_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(10)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setGross_work_done(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setGross_work_done(val);expenditure.setGross_work_done_units("1");}
 							
 							
 							val = formatter.formatCellValue(row.getCell(11)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setSd_payable(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setSd_payable(val);expenditure.setSd_payable_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(12)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setContractor_income_tax(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setContractor_income_tax(val);expenditure.setContractor_income_tax_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(13)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setCgst_tds(val);}	
+							if(!StringUtils.isEmpty(val)) { expenditure.setCgst_tds(val);expenditure.setCgst_tds_units("1");}	
 							
 							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setSgst_tds(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setSgst_tds(val);expenditure.setSgst_tds_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(15)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setIgst_tds(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setIgst_tds(val);expenditure.setIgst_tds_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(16)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setMob_advance(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setMob_advance(val);expenditure.setMob_advance_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(17)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setInterest_on_mob_adv(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setInterest_on_mob_adv(val);expenditure.setInterest_on_mob_adv_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setVat_wct(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setVat_wct(val);expenditure.setVat_wct_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(19)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setAmount_withheld(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setAmount_withheld(val);expenditure.setAmount_withheld_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(20)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setRemarks(val);;}
+							if(!StringUtils.isEmpty(val)) { expenditure.setRemarks(val);}
 							
 							expenditure.setDate(DateParser.parse(expenditure.getDate()));
 						

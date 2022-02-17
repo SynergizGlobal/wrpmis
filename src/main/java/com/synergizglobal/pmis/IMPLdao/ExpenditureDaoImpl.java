@@ -783,10 +783,12 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String insertQry = "insert into  expenditure  "
-					+ "(contract_id_fk, ledger_account, date, contractor_name, voucher_type, voucher_no, narration, net_paid, gross_work_done, sd_payable,"
-					+ " contractor_income_tax, cgst_tds, sgst_tds, igst_tds, vat_wct, mob_advance, `interest on_mob_adv`, amount_withheld, remarks) "
-					+ "VALUES(:contract_id_fk, :ledger_account, :date, :contractor_name, :voucher_type, :voucher_no, :narration, :net_paid, :gross_work_done, :sd_payable," + 
-					":contractor_income_tax, :cgst_tds, :sgst_tds, :igst_tds, :vat_wct,:mob_advance, :interest_on_mob_adv, :amount_withheld, :remarks) ";
+					+ "(contract_id_fk, ledger_account, date, contractor_name, voucher_type, voucher_no, narration,"
+					+ "net_paid, gross_work_done, sd_payable,contractor_income_tax, cgst_tds, sgst_tds, igst_tds, vat_wct, mob_advance, `interest on_mob_adv`, amount_withheld, remarks,"
+					+ "net_paid_units,gross_work_done_units, sd_payable_units,contractor_income_tax_units, cgst_tds_units, sgst_tds_units, igst_tds_units, vat_wct_units, mob_advance_units, interest_on_mob_adv_units, amount_withheld_units) "
+					+ "VALUES(:contract_id_fk, :ledger_account, :date, :contractor_name, :voucher_type, :voucher_no, :narration, :net_paid, :gross_work_done, :sd_payable,"
+					+ ":contractor_income_tax, :cgst_tds, :sgst_tds, :igst_tds, :vat_wct,:mob_advance, :interest_on_mob_adv, :amount_withheld, :remarks,"
+					+ ":net_paid_units,:gross_work_done_units, :sd_payable_units,:contractor_income_tax_units, :cgst_tds_units, :sgst_tds_units, :igst_tds_units, :vat_wct_units, :mob_advance_units, :interest_on_mob_adv_units, :amount_withheld_units) ";
 			for (Expenditure obj : expendituresList) {
 				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 				KeyHolder keyHolder = new GeneratedKeyHolder();

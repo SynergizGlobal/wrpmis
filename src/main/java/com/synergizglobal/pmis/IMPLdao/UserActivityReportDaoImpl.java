@@ -470,22 +470,30 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 							+ "(SELECT CONCAT(u.designation,' - ',u.user_name) as user,hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name "
 							+ "FROM contract c "
 							+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
-							+ "where hod_user_id_fk IS NOT NULL AND status = ? group by hod_user_id_fk "
+							+ "where hod_user_id_fk IS NOT NULL AND status = ? AND c.work_id_fk = ? group by hod_user_id_fk "
 							+ "UNION ALL "
 							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as user,dy_hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name "
 							+ "FROM contract c "
 							+ "LEFT JOIN user u ON dy_hod_user_id_fk = user_id "
-							+ "where dy_hod_user_id_fk IS NOT NULL AND status = ? group by dy_hod_user_id_fk "
+							+ "where dy_hod_user_id_fk IS NOT NULL AND status = ? AND c.work_id_fk = ? group by dy_hod_user_id_fk "
 							+ "UNION ALL "
 							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as user,executive_user_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
 							+ "FROM contract_executive ce "
 							+ "LEFT JOIN user u ON executive_user_id_fk = user_id "
 							+ "LEFT JOIN contract c on ce.contract_id_fk = c.contract_id "
-							+ "where executive_user_id_fk IS NOT NULL AND c.status = ? group by executive_user_id_fk "
+							+ "where executive_user_id_fk IS NOT NULL AND c.status = ? AND c.work_id_fk = ? group by executive_user_id_fk "
 							+ ") t "
 							+ "GROUP BY user_id_fk,contract_id ";
-					
-					List<UserActivityReport> executivesList = jdbcTemplate.query( qry,new Object[]{"Open","Open","Open"},new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
+					int arrSize = 6;
+					Object[] pValues = new Object[arrSize];
+					int i = 0;
+					pValues[i++] = "Open";
+					pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = "Open";
+					pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = "Open";
+					pValues[i++] = obj.getWork_id_fk();
+					List<UserActivityReport> executivesList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 					if(!StringUtils.isEmpty(executivesList) && executivesList.size() > 0) {
 						list.addAll(executivesList);
 					}
@@ -527,17 +535,25 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 							+ "FROM fob_contract_responsible_people fcr "
 							+ "LEFT JOIN user u ON responsible_people_id_fk = user_id "
 							+ "LEFT JOIN contract c on fcr.contract_id_fk = c.contract_id "
-							+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? group by responsible_people_id_fk "
+							+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? AND c.work_id_fk = ? group by responsible_people_id_fk "
 							+ "UNION ALL "
 							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as user,responsible_people_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
 							+ "FROM structure_contract_responsible_people scr "
 							+ "LEFT JOIN user u ON responsible_people_id_fk = user_id "
 							+ "LEFT JOIN contract c on scr.contract_id_fk = c.contract_id "
-							+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? group by responsible_people_id_fk"
+							+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? AND c.work_id_fk = ? group by responsible_people_id_fk"
 							+ ") t "
 							+ "GROUP BY user_id_fk,contract_id ";
 					
-					List<UserActivityReport> structureContractRespList = jdbcTemplate.query( qry,new Object[]{"Open","Open"},new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
+					int arrSize = 4;
+					Object[] pValues = new Object[arrSize];
+					int i = 0;
+					pValues[i++] = "Open";
+					pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = "Open";
+					pValues[i++] = obj.getWork_id_fk();
+					
+					List<UserActivityReport> structureContractRespList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 					if(!StringUtils.isEmpty(structureContractRespList) && structureContractRespList.size() > 0) {
 						list.addAll(structureContractRespList);
 					}

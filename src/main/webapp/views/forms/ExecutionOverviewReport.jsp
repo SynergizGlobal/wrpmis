@@ -186,7 +186,7 @@
 								<h6 class="mob-mar">Execution Overview Report </h6>	
 								<div class="col s12 m12 right-align exportButton">
     								<div class="m-n1">
-    									<a href="javascript:exportContractDetails();" class="btn waves-effect waves-light bg-s t-c"> 
+    									<a href="javascript:exportExecutionOverviewReport();" class="btn waves-effect waves-light bg-s t-c"> 
     									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
     									</a>										
     								</div>
@@ -208,19 +208,19 @@
 								<div class="row no-mar">
 									<div class="col s6 m4 l3 input-field">
 										<p class="searchable_label">Work ID</p>
-										<select id="work_id_fk" name="work_id_fk" class="searchable">
+										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>										
 										</select> 
 									</div>		
 									<div class="col s6 m4 l3 input-field">
 										<p class="searchable_label">Department / HOD</p>
-										<select id="department_fk" name="department_fk" class="searchable">
+										<select id="department_fk" name="department_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>
 										</select>
 									</div>
 									<div class="col s6 m4 l3 input-field">
 										<p class="searchable_label">Contract ID</p>
-										<select id="contract_id_fk" name="contract_id_fk" class="searchable">
+										<select id="contract_id_fk" name="contract_id_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>
 										</select>
 									</div>
@@ -236,8 +236,15 @@
 
 					<div class="row">
 						
-						<div class="col m12 s12">
-							<table id="datatable-execution-overview-report" class="mdl-data-table">
+						<div class="col m12 s12" id="divCollapase">
+						
+	
+	
+							<ul class="collapsible">
+
+						    </ul>					
+						
+							<!-- <table id="datatable-execution-overview-report" class="mdl-data-table">
 								<thead>
 									<tr>
 										<th>S No</th>
@@ -262,7 +269,7 @@
 										<td></td>
 									</tr>
 								</tbody>
-							</table>
+							</table> -->
 						</div>
 					</div>
 				</div>
@@ -303,11 +310,7 @@
 
 		<!-- footer  -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include>
- 	
-	<form action="<%=request.getContextPath()%>/get-contract" id="getForm" name="getForm" method="post" >
-  		<input type="hidden" name="contract_id" id="contract_id"/>
-    </form>
-    <form action="<%=request.getContextPath() %>/export-details-of-contract" name="exportExecutionOverviewReport" id="exportExecutionOverviewReport" target="_blank" method="post">	
+    <form action="<%=request.getContextPath() %>/export-execution-overview-report" name="exportExecutionOverviewReport" id="exportExecutionOverviewReport" target="_blank" method="post">	
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
@@ -326,11 +329,12 @@
     var filtersMap = new Object();
     var pageNo = window.localStorage.getItem("executionOverviewReportPageNo");
     $(document).ready(function () {
+    	$('.collapsible').collapsible();
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
-           
+            
      /*--------    can remove from here after linked to backend   -----------*/
-           $('#datatable-execution-overview-report').DataTable({
+        /*   $('#datatable-execution-overview-report').DataTable({
                columnDefs: [
                    {
                        targets: [0],
@@ -369,7 +373,7 @@
 					$('.dataTables_filter').append( '<div class="right-btns"></div>');
 					$('.dataTables_filter div').append( $searchButton, $clearButton); 					
 				}
-           });
+           }); */
            
            /*--------   can remove upto here after linked to backend   -----------*/      
      
@@ -405,116 +409,85 @@
     	
     	window.localStorage.setItem("executionOverviewReprtFilter",'');
     	window.location.href= "<%=request.getContextPath()%>/execution-overview-report";
-    	
-    	var table = $('#datatable-execution-overview-report').DataTable();
-    	table.draw( true );
+
     }
         
     function getExecutionOverviewReportList(){
     	$(".page-loader-2").show();
+    	$('#divCollapase ul').html("");
     	getDepartmentFilterList('');
     	getContractIdFilterList('');
     	getWorkFilterList('');
     	    	
     	var work_id_fk = $("#work_id_fk").val();
-    	if($.trim(work_id_fk) == '' ){
-    		work_id_fk = 'P04W01';
-    	}
     	var department_fk = $("#department_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
 
     	var filters = '';
     	Object.keys(filtersMap).forEach(function (key) {
-    		//alert(filtersMap[key]);
     		filters = filters + key +"="+filtersMap[key] + "^";
     		window.localStorage.setItem("executionOverviewReprtFilter", filters);
 		});
-     	table = $('#datatable-execution-overview-report').DataTable();
-		 
-		table.destroy();
-		
-		$.fn.dataTable.moment('DD-MMM-YYYY');
-		table = $('#datatable-execution-overview-report').DataTable({
-			//"paging":   false,
-	        "ordering": false,
-	        //"info":     false,
-			"bStateSave": true,  
-     		fixedHeader: true,
-			"iDisplayLength" : 10,
-			"iData" : {
-				"start" : 52
-			},"iDisplayStart" : 0,
-			"drawCallback" : function() {
-				var info = table.page.info();
-				window.localStorage.setItem("contractDetailPageNo", info.page);
-			},
-            columnDefs: [
-                { orderable: false, 'aTargets': ['nosort'] }
-            ],
-            "sScrollX": "100%",
-            "sScrollXInner": "100%",
-            "bScrollCollapse": true,
-            "initComplete" : function() {
-					$('.dataTables_filter input[type="search"]')
-							.attr('placeholder', 'Search')
-							.css({
-								'width' : '350px ',
-								'display' : 'inline-block'
-							});
-					var input = $('.dataTables_filter input')
-							.unbind()
-							.bind('keyup',function(e){
-						    if (e.which == 13){
-						    	self.search(input.val()).draw();
-						    }
-						}), self = this.api(), $searchButton = $('<i class="fa fa-search" title="Go" >')
-					.click(function() {
-						self.search(input.val()).draw();
-					}), 
-					$clearButton = $('<i class="fa fa-close" title="Reset">')
-					.click(function() {
-						input.val('');
-						$searchButton.click();
-					})
-					$('.dataTables_filter').append( '<div class="right-btns"></div>');
-					$('.dataTables_filter div').append( $searchButton, $clearButton); 					
-				}
-        }).rows().remove().draw();
-		
-		
-		table.state.clear();		
+
+		var StructureTypeArray=new Array(); 
 	 
 	 	var myParams = { work_id_fk : work_id_fk,department_fk : department_fk,contract_id_fk: contract_id_fk};
 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getExecutionOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){    				
-				if(data != null && data != '' && data.length > 0){    					
-	         		$.each(data,function(key,val){
-	                    var rowArray = []; 
-                        
-                        
-	                   	rowArray.push($.trim(key+1));
-	                   	rowArray.push($.trim(val.structure_type_fk));
-	                   	rowArray.push($.trim(val.strip_chart_structure_id));
-	                   	rowArray.push($.trim(val.unit_fk));
-	                   	rowArray.push($.trim(val.scope));
-	                   	rowArray.push($.trim(val.completed));
-	                   	rowArray.push($.trim(val.pending));
-	                   	rowArray.push($.trim(val.modified_date));
-	                   	rowArray.push($.trim(val.remarks));   	                   	
-	                   	
-	                    table.row.add(rowArray).draw( true );
-	                    
-					});
-
-	         		$(".page-loader-2").hide();
-				}else{
-					$(".page-loader-2").hide();
-				}
+				if(data != null && data != '' && data.length > 0){  
+					var CheckLp=1;
+	         		$.each(data,function(key,val)
+	         				{
+	         			
+		                   		if(StructureTypeArray.indexOf(val.structure_type_fk)==-1)
+		                   		{   
+		                   				StructureTypeArray.push(val.structure_type_fk);
+					         			var html="<li>";
+					                    html=html+'<div class="collapsible-header"  style="background-color:#007A7A;color:#ffffff;"><span>'+CheckLp+'</span><span style="margin-right:70px;"></span><span>'+val.structure_type_fk+'</span></div>';
+					                    html=html+'<div class="collapsible-body"><span>';
 				
-			},error: function (jqXHR, exception) {
-				$(".page-loader-2").hide();
-	         	getErrorMessage(jqXHR, exception);
-	     }});
-    } 
+				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+
+										'<thead>'+
+											'<tr>'+
+												'<th>Description</th>'+
+												'<th>Unit</th>'+
+												'<th>Scope</th>'+
+												'<th>Completed</th>'+
+												'<th>Pending</th>'+
+												'<th>Last Updated on</th>'+
+											'</tr>'+
+										'</thead>'+
+										'<tbody>';
+				    	         		$.each(data,function(key1,val1)
+				    	         				{
+				    	         					if(val.structure_type_fk==val1.structure_type_fk)
+				    	         						{
+						    	         					html=html+'<tr>';
+						    	         						html=html+'<td>'+$.trim(val1.strip_chart_structure_id)+'</td>';
+						    	         						html=html+'<td>'+val1.unit_fk+'</td>';
+						    	         						html=html+'<td>'+val1.scope+'</td>';
+						    	         						html=html+'<td>'+val1.completed+'</td>';
+						    	         						html=html+'<td>'+val1.pending+'</td>';
+						    	         						html=html+'<td>'+val1.modified_date+'</td>';
+						    	         					html=html+'</tr>';
+				    	         						}
+				    	         				});
+				    	         		html=html+'</tbody></table></span></div>';
+				    	         		$('.collapsible').append(html);
+				    	         		CheckLp++;
+		                   		}
+		                   		
+		                   		
+							});
+	         		
+	         		$(".page-loader-2").hide();
+
+	         			
+				}
+	         		
+			}
+		});
+    }
+
        
 	 function getWorkFilterList(work){
 		 	$(".page-loader").show();
@@ -573,11 +546,11 @@
 	                        $.each(data, function (i, val) {
 	                        	 var departmentHOD = '';
 	                             if ($.trim(val.department_name) != '') { departmentHOD =  $.trim(val.department_name) }
-	                             var selectedFlag = (department == val.department)?'selected':'';
+	                             var selectedFlag = (department == val.department_name)?'selected':'';
 	                             if(data.length == 1 ){
 	                            	 selectedFlag = 'selected';
 	                             }
-		                         $("#department_fk").append('<option value="' + val.department + '"'+selectedFlag+'>' + $.trim(val.department)   + departmentHOD +'</option>');
+		                         $("#department_fk").append('<option value="' + val.department_name + '"'+selectedFlag+'>' + $.trim(val.department)   + departmentHOD +'</option>');
 	                        });
 	                    }
 	                    $('.searchable').select2();
@@ -652,7 +625,7 @@
     	    console.log(msg);
      }
     
-    function exportContractDetails(){
+    function exportExecutionOverviewReport(){
     	 var department_fk = $("#department_fk").val();
      	 var work_id_fk = $("#work_id_fk").val();
      	 var contract_id_fk = $("#contract_id_fk").val();

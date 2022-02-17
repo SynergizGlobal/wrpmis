@@ -57,18 +57,19 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct work_id,work_short_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`)))";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where structure_type!='FOB' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ? ";
+				qry = qry + " and c.department = ?  and c.hod=?";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and c.contract_id_fk = ? ";
+				qry = qry + " and c.contract_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -78,14 +79,15 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + " GROUP BY work_id ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
+				String Str[]=obj.getDepartment_fk().split("/");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
@@ -94,9 +96,6 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
@@ -111,18 +110,19 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct d.department,concat(department_name,' / ',hod) as department_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) left join department d on d.department_name=c.department ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) left join department d on d.department_name=c.department where structure_type!='FOB' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ? ";
+				qry = qry + " and c.department = ?  and c.hod=?";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and c.contract_id_fk = ? ";
+				qry = qry + " and c.contract_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -132,14 +132,15 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + " GROUP BY work_id ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
+				String Str[]=obj.getDepartment_fk().split("/");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
@@ -148,9 +149,6 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
@@ -165,18 +163,19 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct contract_id,contract_short_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`)))";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where structure_type!='FOB' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ? ";
+				qry = qry + " and c.department = ?  and c.hod=?";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and c.contract_id_fk = ? ";
+				qry = qry + " and c.contract_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -186,14 +185,15 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + " GROUP BY work_id ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
+				String Str[]=obj.getDepartment_fk().split("/");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
@@ -202,9 +202,6 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
@@ -218,17 +215,75 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getExecutionOverviewReportList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT          a.contract_id_fk AS contract_id,         a.structure_type AS structure_type_fk,         a.structure AS strip_chart_structure_id,         c.work_id AS work_id,(select unit from activities a1 where a1.structure=a.structure LIMIT 1) as unit_fk,         (select concat(scope,'%') from activities a1 where a1.structure=a.structure LIMIT 1) as scope,c.department AS department,                  ifnull((SUM(a.actual) / (SELECT                  SUM(d.baseline_weight)             FROM                 activities_structure_department_weight d             WHERE                 (d.structure = a.structure)             GROUP BY d.structure))*100,'0%') AS completed,concat(ifnull((select scope from activities a1 where a1.structure=a.structure LIMIT 1),0)-ifnull(((SUM(a.actual)\r\n"
-					+ " / (SELECT  \r\n"
-					+ "					                SUM(d.baseline_weight) \r\n"
-					+ "					            FROM \r\n"
-					+ "					                activities_structure_department_weight d \r\n"
-					+ "					            WHERE \r\n"
-					+ "					                (d.structure = a.structure) \r\n"
-					+ "					            GROUP BY d.structure))*100),0),'%') as pending,(select DATE_FORMAT(modified_date,'%d-%m-%Y')  from activities a1 where a1.structure=a.structure order by modified_date asc  limit 1 ) as modified_date              FROM         (activities_actual a         LEFT JOIN contract_details c ON ((a.contract_id_fk = c.contract_id)))                  where structure_type!='FOB'     GROUP BY a.contract_id_fk , a.structure              ORDER BY structure_type,structure ASC ";
-			
+			String qry = "select * from (SELECT \r\n"
+					+ "        `a`.`contract_id_fk` AS `contract_id`,\r\n"
+					+ "        `a`.`structure_type` AS `structure_type_fk`,\r\n"
+					+ "        `a`.`structure` AS `strip_chart_structure_id`,hod,\r\n"
+					+ "        '%' as unit_fk,\r\n"
+					+ "        '100%' as Scope,\r\n"
+					+ "        `c`.`work_id` AS `work_id`,\r\n"
+					+ "        `c`.`department` AS `department`,\r\n"
+					+ "        ifnull((select DATE_FORMAT(modified_date,'%d-%m-%Y')  from activities a1 where a1.structure=a.structure order by modified_date asc  limit 1 ),'') as modified_date,\r\n"
+					+ "        \r\n"
+					+ "        \r\n"
+					+ "       ifnull(ROUND( (SUM(`a`.`actual`) / (SELECT \r\n"
+					+ "                SUM(`d`.`baseline_weight`)\r\n"
+					+ "            FROM\r\n"
+					+ "                `activities_structure_department_weight` `d`\r\n"
+					+ "            WHERE\r\n"
+					+ "                (`d`.`structure` = `a`.`structure`)\r\n"
+					+ "            GROUP BY `d`.`structure`))*100,2),0) AS `completed`,\r\n"
+					+ "            \r\n"
+					+ "            ifnull(ROUND(100-(SUM(`a`.`actual`) / (SELECT \r\n"
+					+ "                SUM(`d`.`baseline_weight`)\r\n"
+					+ "            FROM\r\n"
+					+ "                `activities_structure_department_weight` `d`\r\n"
+					+ "            WHERE\r\n"
+					+ "                (`d`.`structure` = `a`.`structure`)\r\n"
+					+ "            GROUP BY `d`.`structure`))*100,2),0) AS `pending`\r\n"
+					+ "       \r\n"
+					+ "    FROM\r\n"
+					+ "        (`activities_actual` `a`\r\n"
+					+ "        LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`)))\r\n"
+					+ "    GROUP BY `a`.`contract_id_fk` , `a`.`structure` order by structure_type_fk,strip_chart_structure_id) as eor where 0=0  ";
 
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department = ?  and hod=?";
+				arrSize++;
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + " and structure_type_fk = ? ";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				String Str[]=obj.getDepartment_fk().split("/");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				pValues[i++] = obj.getStructure_type_fk();
+			}			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 
 		}catch(Exception e){ 
 			throw new Exception(e);

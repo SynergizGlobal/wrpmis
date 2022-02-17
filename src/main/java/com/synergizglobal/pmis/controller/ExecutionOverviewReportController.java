@@ -43,7 +43,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ExecutionOverviewReportService;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.User;
 
@@ -182,7 +181,7 @@ public class ExecutionOverviewReportController {
 	}	
 	
 	@RequestMapping(value = "/export-execution-overview-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public void exportDetailsOfContracts(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute StripChart obj,RedirectAttributes attributes){
+	public void exportDetailsOfExecutionOverviewReport(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute StripChart obj,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.ExecutionOverviewReport);
 		try {
 			
@@ -213,7 +212,7 @@ public class ExecutionOverviewReportController {
 		        boolean isWrapText = true;boolean isBoldText = false;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
 		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,true,isItalicText,12,fontName);
 		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle grayStyle = cellFormating(workBook,grayRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -223,6 +222,7 @@ public class ExecutionOverviewReportController {
 		        
 		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectionPercentStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle sectioncostStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle sectionunitsStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
@@ -237,90 +237,84 @@ public class ExecutionOverviewReportController {
 	            
 	            for (int i = 0; i < headerStringArr.length; i++) {		        	
 		        	Cell cell = headingRow.createCell(i);
-			        cell.setCellStyle(whiteStyle);
+			        cell.setCellStyle(greenStyle);
 					cell.setCellValue(headerStringArr[i]);
 				}
             
 	            short rowNo = 1;
 	            int sNo = 1;
 	            ArrayList<String> list = new ArrayList<String>();
-	            ArrayList<String> startArray = new ArrayList<String>();
-	            ArrayList<String> endArray = new ArrayList<String>();
-	            int start=0;
-	            int end=0;
-	            int loop=0;
-	            int Incre=0;
+
 	            for (StripChart obj1 : dataList) 
 	            {
-	                XSSFRow row = executionOverviewReportSheet.createRow(rowNo);
-	                int c = 0;
-                
-	                Cell cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(sNo++);
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
 					if(list.contains(obj1.getStructure_type_fk())==false)
 					{
-						cell.setCellValue(obj1.getStructure_type_fk());
 						list.add(obj1.getStructure_type_fk());
 					}
-					else
-					{
-						cell.setCellValue("");
-					}
-					
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj1.getStrip_chart_structure_id());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj1.getUnit_fk());					
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj1.getScope());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj1.getCompleted());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj1.getPending());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj1.getModified_date());	
-					
-					/*if(list.contains(obj1.getStructure_type_fk())==false)
-					{
-						list.add(obj1.getStructure_type_fk());
-						start=rowNo;
-						end=rowNo+1;
-						endArray.add(Integer.toString(end));
-						
-					}
-					else
-					{
-						if(loop==0)
-						{
-							start=rowNo;
-							
-							startArray.add(Integer.toString(start));
-							loop++;
-						}
-					}*/
-	                rowNo++;
 	            }
-				/*for(int i=0; i<startArray.size(); i++)
-				{
-						executionOverviewReportSheet.addMergedRegion(new CellRangeAddress(Integer.parseInt(startArray.get(i)), Integer.parseInt(endArray.get(i)), 1,1));
-				}*/
-				  
+				for (int i2 = 0; i2 < list.size(); i2++) 
+				{	
+		            int start=0;
+		            int end=0;
+		            int loop=0;
+		            
+		            for (StripChart obj1 : dataList) 
+		            {
+		            	if(list.get(i2).compareTo(obj1.getStructure_type_fk())==0)
+		            	{
+		            		if(loop==0)
+		            		{
+		            			start=rowNo;
+		            			
+		            			loop++;
+		            		}
+		            		end=rowNo+1;
+			                XSSFRow row = executionOverviewReportSheet.createRow(rowNo);
+			                int c = 0;
+		                
+			                Cell cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(sNo++);
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj1.getStructure_type_fk());
+							
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj1.getStrip_chart_structure_id());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionPercentStyle);
+							cell.setCellValue(obj1.getUnit_fk());					
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionPercentStyle);
+							cell.setCellValue(obj1.getScope());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionPercentStyle);
+							cell.setCellValue(obj1.getCompleted());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionPercentStyle);
+							cell.setCellValue(obj1.getPending());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj1.getModified_date());	
+	
+			                rowNo++;
+		            	}
+		            }
+		            if(end!=start+1)
+		            {
+						executionOverviewReportSheet.addMergedRegion(new CellRangeAddress(start,end-1, 1,1));
+		            }
+		            
+				}
+			  
 	            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
 	            	executionOverviewReportSheet.setColumnWidth(columnIndex, 25 * 250);
 				}
@@ -357,7 +351,7 @@ public class ExecutionOverviewReportController {
 	         }
 		}catch(Exception e){	
 			e.printStackTrace();
-			logger.error("exportContract : "+e.getMessage());
+			logger.error("exportExecutionOverviewReport : "+e.getMessage());
 			attributes.addFlashAttribute("error", commonError);			
 		}
 	}	

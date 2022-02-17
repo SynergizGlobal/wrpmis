@@ -770,63 +770,63 @@ public class ExpenditureController {
 						expenditure = new Expenditure();
 						String val = null;
 						if(!StringUtils.isEmpty(row)) {								
-						
-							val = formatter.formatCellValue(row.getCell(2)).trim();
+						  
+							val = formatter.formatCellValue(row.getCell(0)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setContract_id_fk(val);}
 							
-							val = formatter.formatCellValue(row.getCell(3)).trim();
+							val = formatter.formatCellValue(row.getCell(1)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setContractor_name(val);}
 							
-							val = formatter.formatCellValue(row.getCell(4)).trim();
+							val = formatter.formatCellValue(row.getCell(2)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setLedger_account(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(5)).trim();
+							val = formatter.formatCellValue(row.getCell(3)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setDate(val);}					
 							
-							val = formatter.formatCellValue(row.getCell(6)).trim();
+							val = formatter.formatCellValue(row.getCell(4)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setVoucher_type(val);}								
 							
-							val = formatter.formatCellValue(row.getCell(7)).trim();
+							val = formatter.formatCellValue(row.getCell(5)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setVoucher_no(val);}										
 							
-							val = formatter.formatCellValue(row.getCell(8)).trim();
+							val = formatter.formatCellValue(row.getCell(6)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setNarration(val);}
 							
-							val = formatter.formatCellValue(row.getCell(9)).trim();
+							val = formatter.formatCellValue(row.getCell(7)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setNet_paid(val);expenditure.setNet_paid_units("1");}
 							
-							val = formatter.formatCellValue(row.getCell(10)).trim();
+							val = formatter.formatCellValue(row.getCell(8)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setGross_work_done(val);expenditure.setGross_work_done_units("1");}
 							
 							
-							val = formatter.formatCellValue(row.getCell(11)).trim();
+							val = formatter.formatCellValue(row.getCell(9)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setSd_payable(val);expenditure.setSd_payable_units("1");}
 							
-							val = formatter.formatCellValue(row.getCell(12)).trim();
+							val = formatter.formatCellValue(row.getCell(10)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setContractor_income_tax(val);expenditure.setContractor_income_tax_units("1");}
 							
-							val = formatter.formatCellValue(row.getCell(13)).trim();
+							val = formatter.formatCellValue(row.getCell(11)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setCgst_tds(val);expenditure.setCgst_tds_units("1");}	
 							
-							val = formatter.formatCellValue(row.getCell(14)).trim();
+							val = formatter.formatCellValue(row.getCell(12)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setSgst_tds(val);expenditure.setSgst_tds_units("1");}
 							
-							val = formatter.formatCellValue(row.getCell(15)).trim();
+							val = formatter.formatCellValue(row.getCell(13)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setIgst_tds(val);expenditure.setIgst_tds_units("1");}
 							
-							val = formatter.formatCellValue(row.getCell(16)).trim();
+							val = formatter.formatCellValue(row.getCell(14)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setMob_advance(val);expenditure.setMob_advance_units("1");}
 							
-							val = formatter.formatCellValue(row.getCell(17)).trim();
+							val = formatter.formatCellValue(row.getCell(15)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setInterest_on_mob_adv(val);expenditure.setInterest_on_mob_adv_units("1");}
 							
-							val = formatter.formatCellValue(row.getCell(18)).trim();
+							val = formatter.formatCellValue(row.getCell(16)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setVat_wct(val);expenditure.setVat_wct_units("1");}
 							
-							val = formatter.formatCellValue(row.getCell(19)).trim();
+							val = formatter.formatCellValue(row.getCell(17)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setAmount_withheld(val);expenditure.setAmount_withheld_units("1");}
 							
-							val = formatter.formatCellValue(row.getCell(20)).trim();
+							val = formatter.formatCellValue(row.getCell(18)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setRemarks(val);}
 							
 							expenditure.setDate(DateParser.parse(expenditure.getDate()));

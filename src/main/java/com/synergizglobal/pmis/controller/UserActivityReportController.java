@@ -1065,7 +1065,12 @@ public class UserActivityReportController {
 		        cell = dateRow.createCell(2);
 		        cell.setCellStyle(leftWhiteStyle);
 				cell.setCellValue("");
-			    dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,2));	
+				
+				cell = dateRow.createCell(3);
+		        cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("");
+				
+			    dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,3));	
 			   
 			   
 			    XSSFRow mainHeadingRow = dprSheet.createRow(2);
@@ -1082,7 +1087,11 @@ public class UserActivityReportController {
 		        cell.setCellStyle(leftWhiteStyle);
 				cell.setCellValue("");
 				
-		        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 0,2));
+				cell = mainHeadingRow.createCell(3);
+		        cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue("");
+				
+		        dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 0,3));
 				/********************************************************/	
 		        
 		        /********************************************************/	
@@ -1094,12 +1103,18 @@ public class UserActivityReportController {
 				
 				cell = deatilsRow.createCell(1);
 				cell.setCellStyle(leftWhiteStyle);
-				cell.setCellValue((!StringUtils.isEmpty(obj.getWork_short_name()))?obj.getWork_short_name():"All");
+				cell.setCellValue("");
 				
 				cell = deatilsRow.createCell(2);
 				cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue((!StringUtils.isEmpty(obj.getWork_short_name()))?obj.getWork_short_name():"All");
+				
+				cell = deatilsRow.createCell(3);
+		        cell.setCellStyle(leftWhiteStyle);
 				cell.setCellValue("");
-				dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 1,2));
+				
+				dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 0,1));
+				dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 2,3));
 		        
 				/********************************************************/
 		        
@@ -1113,13 +1128,18 @@ public class UserActivityReportController {
 				
 				cell = deatilsRow.createCell(1);
 		        cell.setCellStyle(numberStyle);
-		        cell.setCellValue(obj.getInactive_since());
+		        cell.setCellValue("");
 		        
 		        cell = deatilsRow.createCell(2);
 		        cell.setCellStyle(numberStyle);
+				cell.setCellValue(obj.getInactive_since());
+				
+				cell = deatilsRow.createCell(3);
+		        cell.setCellStyle(numberStyle);
 				cell.setCellValue("");
 				
-				dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 1,2));
+				dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 0,1));
+				dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 2,3));
 				/********************************************************/
 				
 		        
@@ -1132,13 +1152,18 @@ public class UserActivityReportController {
 				
 				cell = deatilsRow.createCell(1);
 				cell.setCellStyle(leftWhiteStyle);
-				cell.setCellValue((!StringUtils.isEmpty(obj.getModule_name_fk()))?obj.getModule_name_fk():"All");
+				cell.setCellValue("");
 				
 				cell = deatilsRow.createCell(2);
 				cell.setCellStyle(leftWhiteStyle);
+				cell.setCellValue((!StringUtils.isEmpty(obj.getModule_name_fk()))?obj.getModule_name_fk():"All");
+				
+				cell = deatilsRow.createCell(3);
+				cell.setCellStyle(leftWhiteStyle);
 				cell.setCellValue("");
 				
-				dprSheet.addMergedRegion(new CellRangeAddress(5,5, 1,2));
+				dprSheet.addMergedRegion(new CellRangeAddress(5, 5, 0,1));
+				dprSheet.addMergedRegion(new CellRangeAddress(5, 5, 2,3));
 				
 				 /********************************************************/	
 		        deatilsRow = dprSheet.createRow(8);
@@ -1156,7 +1181,11 @@ public class UserActivityReportController {
 		        cell.setCellStyle(brownStyle);
 				cell.setCellValue("");
 				
-				dprSheet.addMergedRegion(new CellRangeAddress(8, 8, 0,2));
+				cell = deatilsRow.createCell(3);
+		        cell.setCellStyle(brownStyle);
+				cell.setCellValue("");
+				
+				dprSheet.addMergedRegion(new CellRangeAddress(8, 8, 0,3));
 				/********************************************************/
 				
 				/********************************************************/	
@@ -1164,13 +1193,17 @@ public class UserActivityReportController {
 		        
 		        cell = deatilsRow.createCell(0);
 		        cell.setCellStyle(lightPinkStyle);
+				cell.setCellValue("SNO");
+				
+		        cell = deatilsRow.createCell(1);
+		        cell.setCellStyle(lightPinkStyle);
 				cell.setCellValue("PMIS User");
 				
-				cell = deatilsRow.createCell(1);
+				cell = deatilsRow.createCell(2);
 				cell.setCellStyle(lightPinkStyle);
 				cell.setCellValue("Contract");
 				
-				cell = deatilsRow.createCell(2);
+				cell = deatilsRow.createCell(3);
 				cell.setCellStyle(lightPinkStyle);
 				cell.setCellValue("Last Updated");
 		        
@@ -1195,24 +1228,33 @@ public class UserActivityReportController {
 				        cell.setCellStyle(leftWhiteStyle);
 						cell.setCellValue("");
 						
-						dprSheet.addMergedRegion(new CellRangeAddress(row, row, 0,2));
+						cell = deatilsRow.createCell(3);
+				        cell.setCellStyle(leftWhiteStyle);
+						cell.setCellValue("");
+						
+						dprSheet.addMergedRegion(new CellRangeAddress(row, row, 0,3));
 						
 						row++;
 						
+						int sno = 1;
 						List<UserActivityReport> values = entry.getValue();
 						for (UserActivityReport inactiveUsrObj : values) {
 							deatilsRow = dprSheet.createRow(row);
 					        
-					        cell = deatilsRow.createCell(0);
+							cell = deatilsRow.createCell(0);
+					        cell.setCellStyle(centerStyle);
+							cell.setCellValue(sno++);
+							
+					        cell = deatilsRow.createCell(1);
 					        cell.setCellStyle(leftWhiteStyle);
 							cell.setCellValue(inactiveUsrObj.getUser());
 							
 							
-							cell = deatilsRow.createCell(1);
+							cell = deatilsRow.createCell(2);
 					        cell.setCellStyle(leftWhiteStyle);
 					        cell.setCellValue(inactiveUsrObj.getContract_short_name());
 					        
-					        cell = deatilsRow.createCell(2);
+					        cell = deatilsRow.createCell(3);
 					        cell.setCellStyle(centerStyle);
 							cell.setCellValue(inactiveUsrObj.getLast_updated_date());
 							row++;
@@ -1221,9 +1263,10 @@ public class UserActivityReportController {
 					}
 				}
 				
-				dprSheet.setColumnWidth(0, 40 * 180);
-				dprSheet.setColumnWidth(1, 40 * 290);
-				dprSheet.setColumnWidth(2, 40 * 80);
+				dprSheet.setColumnWidth(0, 40 * 40);
+				dprSheet.setColumnWidth(1, 40 * 170);
+				dprSheet.setColumnWidth(2, 40 * 270);
+				dprSheet.setColumnWidth(3, 40 * 80);
 			    
 	            /*******************************************************************************/
 	            

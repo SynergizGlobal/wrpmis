@@ -8,7 +8,7 @@ public class RRBses {
 
 	private String bses_id, work_id_fk, contract_id_fk, agency_name,project_id,contract_id,project_id_fk,project_name,work_short_name,work_name,contract_name,contract_short_name, report_submission_to_mrvc, report_submission_to_mmrda,
 	remarks,committee_details_id, bses_id_fk, date_of_nomination, committee_details_remarks,id, committee_details_id_fk,bses_file_type,
-	 bses_file_type_fk, name, attachment, created_date,details;
+	 bses_file_type_fk, name, attachment, created_date,details,modified_by,modified_date,created_by_user_id_fk,user_id,user_name,designation;
 	
 	private String [] committee_details_ids, bses_id_fks, date_of_nominations, committee_details_remarkss,bses_file_types,attachmentFileNames,
 	ids, bses_file_type_fks, names, attachments, created_dates,committee_details_id_fks, detailss;
@@ -16,6 +16,54 @@ public class RRBses {
 	private List<RRBses> detailsList;
 	private List<RRBses> comiteDetailsList;
 	private List<RRBses> filesList;
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getModified_by() {
+		return modified_by;
+	}
+
+	public void setModified_by(String modified_by) {
+		this.modified_by = modified_by;
+	}
+
+	public String getModified_date() {
+		return modified_date;
+	}
+
+	public void setModified_date(String modified_date) {
+		this.modified_date = modified_date;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
 	public MultipartFile[] getRrFiles() {
 		return rrFiles;

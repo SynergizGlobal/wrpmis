@@ -457,9 +457,16 @@ public class LandAcquisitionController {
 	public ModelAndView addLandAcquisition(@ModelAttribute LandAcquisition obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
-			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
-			obj.setCreated_by_user_id_fk(user_Id);
 			model.setViewName("redirect:/land-acquisition");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			obj.setProposal_submission_date_to_collector(DateParser.parse(obj.getProposal_submission_date_to_collector()));
 			obj.setJm_fee_letter_received_date(DateParser.parse(obj.getJm_fee_letter_received_date()));
 			obj.setJm_fee_paid_date(DateParser.parse(obj.getJm_fee_paid_date()));
@@ -573,9 +580,16 @@ public class LandAcquisitionController {
 	public ModelAndView updateLandAcquisition(@ModelAttribute LandAcquisition obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
-			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
-			obj.setCreated_by_user_id_fk(user_Id);
+		
 			model.setViewName("redirect:/land-acquisition");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setProposal_submission_date_to_collector(DateParser.parse(obj.getProposal_submission_date_to_collector()));
 			obj.setJm_fee_letter_received_date(DateParser.parse(obj.getJm_fee_letter_received_date()));
 			obj.setJm_fee_paid_date(DateParser.parse(obj.getJm_fee_paid_date()));

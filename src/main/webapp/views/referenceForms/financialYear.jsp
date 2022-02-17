@@ -58,9 +58,9 @@
                                     <thead>
                                         <tr>
                                             <th>Financial Year</th>
-                                            <%--  <c:forEach var="tObj" items="${financialYearDetails.tablesList}" >
+                                            <c:forEach var="tObj" items="${financialYearDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
-                                            </c:forEach> --%>
+                                            </c:forEach> 
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -70,7 +70,7 @@
 												<input type="hidden" id="financialYearId${indexs.count}" value="${obj.financial_year }"  class="findLengths"/>
 												${obj.financial_year }</td>
 											<c:forEach var="tObj" items="${financialYearDetails.tablesList}" varStatus="index">
-												<%-- <td><c:forEach var="cObj" items="${financialYearDetails.countList}" >
+												 <td><c:forEach var="cObj" items="${financialYearDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
@@ -85,22 +85,22 @@
 														<c:otherwise> 
 													   </c:otherwise>
 												</c:choose>
-												</c:forEach></td> --%>
+												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c"> <i class="fa fa-pencil" ></i></a>
-										 	<%--<c:forEach var="oSbj"  items="${financialYearDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${financialYearDetails.dList}" varStatus="indexx"> 
 												 
 											 	<c:choose>  
-												    <c:when test="${oSbj.financial_year eq obj.financial_year }">  --%>
+												    <c:when test="${oSbj.financial_year eq obj.financial_year }"> 
 												      	<a onclick="deleteRow('${ obj.financial_year }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
-												   <%--  </c:when>  
+												   </c:when>  
 												    <c:otherwise>  
 												    </c:otherwise>   
 												</c:choose>   
 												
- 											 </c:forEach>--%>
+ 											 </c:forEach>
  											</td></tr>												  
  										  </c:forEach>
                                     </tbody>

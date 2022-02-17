@@ -309,10 +309,19 @@ public class RandRBsesController {
 	 }
 	
 	@RequestMapping(value = "/add-rr-bses", method = {RequestMethod.POST})
-	public ModelAndView addRRBses(@ModelAttribute RRBses obj,RedirectAttributes attributes){
+	public ModelAndView addRRBses(@ModelAttribute RRBses obj,HttpSession session,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/rr-bses");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			obj.setDate_of_nomination(DateParser.parse(obj.getDate_of_nomination()));
 			boolean flag =  service.addRRBses(obj);
 			if(flag) {
@@ -328,10 +337,18 @@ public class RandRBsesController {
 	}
 	
 	@RequestMapping(value = "/update-rr-bses", method = {RequestMethod.POST})
-	public ModelAndView updateRRBses(@ModelAttribute RRBses obj,RedirectAttributes attributes){
+	public ModelAndView updateRRBses(@ModelAttribute RRBses obj,HttpSession session,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/rr-bses");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setDate_of_nomination(DateParser.parse(obj.getDate_of_nomination()));
 			boolean flag =  service.updateRRBses(obj);
 			if(flag) {

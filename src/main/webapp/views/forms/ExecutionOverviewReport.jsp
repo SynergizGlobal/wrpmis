@@ -465,8 +465,8 @@
 						    	         						html=html+'<td>'+$.trim(val1.strip_chart_structure_id)+'</td>';
 						    	         						html=html+'<td>'+val1.unit_fk+'</td>';
 						    	         						html=html+'<td>'+val1.scope+'</td>';
-						    	         						html=html+'<td>'+val1.completed+'</td>';
-						    	         						html=html+'<td>'+val1.pending+'</td>';
+						    	         						html=html+'<td>'+val1.completed+'%</td>';
+						    	         						html=html+'<td>'+val1.pending+'%</td>';
 						    	         						html=html+'<td></td>';
 						    	         					html=html+'</tr>';
 				    	         						}

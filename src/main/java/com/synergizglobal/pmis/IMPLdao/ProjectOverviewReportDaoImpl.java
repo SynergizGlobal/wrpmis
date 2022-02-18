@@ -175,7 +175,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and department = ?";
+				qry = qry + " and d1.department = ?";
 				arrSize++;
 			}
 	

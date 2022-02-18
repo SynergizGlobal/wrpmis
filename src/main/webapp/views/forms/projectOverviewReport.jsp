@@ -504,7 +504,22 @@
 	                   		{   
 	                   				DepartmentArray.push(val.department_name);
 				         			var html="<li>";
-				                    html=html+'<div class="collapsible-header"  style="background-color:#007A7A;color:#ffffff;"><span>'+CheckLp+'</span>';
+				         			if(val.department_name=="Engineering")
+				         				{
+				                   			html=html+'<div class="collapsible-header"  style="background-color:#ffc000;color:#ffffff;"><span>'+CheckLp+'</span>';
+				         				}
+				         			if(val.department_name=="Electrical")
+			         				{
+			                   			html=html+'<div class="collapsible-header"  style="background-color:#2F75B5;color:#ffffff;"><span>'+CheckLp+'</span>';
+			         				}
+				         			if(val.department_name=="Signalling & Telecom")
+			         				{
+			                   			html=html+'<div class="collapsible-header"  style="background-color:#548235;color:#ffffff;"><span>'+CheckLp+'</span>';
+			         				}
+				         			if(val.department_name=="Non Bank Funds")
+			         				{
+			                   			html=html+'<div class="collapsible-header"  style="background-color:#7e7579;color:#ffffff;"><span>'+CheckLp+'</span>';
+			         				}				         			
 				                    html=html+'<span style="margin-right:90px;"></span><span>'+val.department_name+'</span>';
 				                    
 				                    if(val.department_name=="Engineering")

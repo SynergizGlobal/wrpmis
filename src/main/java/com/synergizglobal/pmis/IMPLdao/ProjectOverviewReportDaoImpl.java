@@ -153,7 +153,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 			String qry = "select * from (SELECT distinct contract_short_name,\r\n"
 					+ "                    case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end as awarded_cost,\r\n"
 					+ "                    SUM((e.gross_work_done * e.gross_work_done_units)) cumulative_expenditure,w.work_id,\r\n"
-					+ "                    SUM((e1.gross_work_done * e1.gross_work_done_units)) actual_financial_progress,case when c.contract_id='P04W01EN19' or c.contract_id='P04W01EN20' then 'Non Bank Funds' else d1.department end department,\r\n"
+					+ "                    SUM((e1.gross_work_done * e1.gross_work_done_units)) actual_financial_progress,case when c.contract_id='P04W01EN19' or c.contract_id='P04W01EN20' then 'NBF' else d1.department end department,\r\n"
 					+ "                    (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end)-(SUM((e.gross_work_done * e.gross_work_done_units))) AS actual_physical_progress,case when c.contract_id='P04W01EN19' or c.contract_id='P04W01EN20' then 'Non Bank Funds' else d1.department_name end department_name \r\n"
 					+ "					from contract c \r\n"
 					+ "					LEFT JOIN work w on c.work_id_fk = w.work_id\r\n"

@@ -885,8 +885,8 @@ public class ContractDaoImpl implements ContractDao {
 				formHistory.setForm_name("Add Contract");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New Contract "+contract.getContract_short_name()+" created");
-				formHistory.setWork(contract.getWork_id_fk());
-				formHistory.setContract(contract.getContract_id());
+				formHistory.setWork_id_fk(contract.getWork_id_fk());
+				formHistory.setContract_id_fk(contract.getContract_id());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/
@@ -2198,8 +2198,8 @@ public class ContractDaoImpl implements ContractDao {
 					formHistory.setForm_name("Update Contract");
 					formHistory.setForm_action_type("Update");
 					formHistory.setForm_details("Contract "+contract.getContract_short_name() + " updated");
-					formHistory.setWork(contract.getWork_id_fk());
-					formHistory.setContract(contract.getContract_id());
+					formHistory.setWork_id_fk(contract.getWork_id_fk());
+					formHistory.setContract_id_fk(contract.getContract_id());
 					
 					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				}

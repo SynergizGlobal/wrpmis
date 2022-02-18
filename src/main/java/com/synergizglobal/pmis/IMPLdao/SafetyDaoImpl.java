@@ -249,8 +249,8 @@ public class SafetyDaoImpl implements SafetyDao {
 				formHistory.setForm_name("Add Safety ");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New Safety  "+obj.getSafety_id() + " Created");
-				formHistory.setWork(obj.getWork_id_fk());
-				formHistory.setContract(obj.getContract_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/
@@ -803,8 +803,8 @@ public class SafetyDaoImpl implements SafetyDao {
 				formHistory.setForm_name("Update Safety ");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Safety  "+obj.getSafety_id() + " Updated");
-				formHistory.setWork(obj.getWork_id_fk());
-				formHistory.setContract(obj.getContract_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/

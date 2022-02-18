@@ -740,8 +740,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						formHistory.setForm_name("Validate Data");
 						formHistory.setForm_action_type("Approved");
 						formHistory.setForm_details("1 activity progress updated for "+obj.getStructure());
-						formHistory.setWork(obj.getWork_id_fk());
-						formHistory.setContract(obj.getContract_id_fk());
+						formHistory.setWork_id_fk(obj.getWork_id_fk());
+						formHistory.setContract_id_fk(obj.getContract_id_fk());
 						
 						boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 					}else {
@@ -792,8 +792,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				formHistory.setForm_name("Validate Data");
 				formHistory.setForm_action_type("Rejected");
 				formHistory.setForm_details("1 activity progress rejected for "+obj.getStructure());
-				formHistory.setWork(obj.getWork_id_fk());
-				formHistory.setContract(obj.getContract_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}else {
@@ -1038,8 +1038,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					formHistory.setForm_name("Validate Data");
 					formHistory.setForm_action_type("Approved");
 					formHistory.setForm_details(successCount + " activities progress approved for "+obj.getStructure());
-					formHistory.setWork(obj.getWork_id_fk());
-					formHistory.setContract(obj.getContract_id_fk());
+					formHistory.setWork_id_fk(obj.getWork_id_fk());
+					formHistory.setContract_id_fk(obj.getContract_id_fk());
 					
 					boolean history_flag = formsHistoryDao.saveValidityFormHistory(formHistory);
 				}
@@ -1116,8 +1116,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					formHistory.setForm_name("Validate Data");
 					formHistory.setForm_action_type("Rejected");
 					formHistory.setForm_details(c + " activities progress rejected for "+obj.getStructure());
-					formHistory.setWork(obj.getWork_id_fk());
-					formHistory.setContract(obj.getContract_id_fk());
+					formHistory.setWork_id_fk(obj.getWork_id_fk());
+					formHistory.setContract_id_fk(obj.getContract_id_fk());
 					
 					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 					

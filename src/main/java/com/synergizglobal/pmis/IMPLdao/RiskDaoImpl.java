@@ -253,7 +253,7 @@ public class RiskDaoImpl implements RiskDao{
 				formHistory.setForm_name("Assess Risk");
 				formHistory.setForm_action_type("Assess Risk");
 				formHistory.setForm_details("Risk Assessment uploaded for "+risk.getSub_work());
-				formHistory.setWork(risk.getWork_id_fk());
+				formHistory.setWork_id_fk(risk.getWork_id_fk());
 				formHistory.setSub_work(risk.getSub_work());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
@@ -824,7 +824,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 				formHistory.setForm_name("Update ATR");
 				formHistory.setForm_action_type("Update ATR");
 				formHistory.setForm_details("Updated ATR under "+obj.getSub_work());
-				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
 				formHistory.setSub_work(obj.getSub_work());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);

@@ -2613,8 +2613,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				formHistory.setForm_name("Alerts");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Updated alert remarks: "+obj.getRemarks());
-				formHistory.setWork(obj.getWork_id());
-				formHistory.setContract(obj.getContract_id());
+				formHistory.setWork_id_fk(obj.getWork_id());
+				formHistory.setContract_id_fk(obj.getContract_id());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}

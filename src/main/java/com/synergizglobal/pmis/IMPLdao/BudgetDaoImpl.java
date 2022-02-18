@@ -260,8 +260,8 @@ public class BudgetDaoImpl implements BudgetDao {
 				formHistory.setModule_name_fk("Finance");
 				formHistory.setForm_name("Add Budget");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("New Budget "+budget.getWork_id_fk() + " Created");
-				formHistory.setWork(budget.getWork_id_fk());
+				formHistory.setForm_details("New Budget for "+budget.getWork_id_fk() + " Created");
+				formHistory.setWork_id_fk(budget.getWork_id_fk());
 				//formHistory.setContract(budget.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
@@ -432,8 +432,8 @@ public class BudgetDaoImpl implements BudgetDao {
 				formHistory.setModule_name_fk("Finance");
 				formHistory.setForm_name("Update Budget");
 				formHistory.setForm_action_type("Update");
-				formHistory.setForm_details("Budget "+budget.getWork_id_fk() + " Updated");
-				formHistory.setWork(budget.getWork_id_fk());
+				formHistory.setForm_details("Budget for "+budget.getWork_id_fk() + " Updated");
+				formHistory.setWork_id_fk(budget.getWork_id_fk());
 				//formHistory.setContract(budget.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);

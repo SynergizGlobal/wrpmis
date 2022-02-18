@@ -179,8 +179,8 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 				formHistory.setForm_name("Update Progress Form");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Progress Form Updated");
-				formHistory.setWork(obj.getWork_id_fk());
-				formHistory.setContract(obj.getContract_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/

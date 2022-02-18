@@ -322,7 +322,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			formHistory.setForm_action_type("Update");
 			formHistory.setForm_details("Data date updated and "+ count + " activities updated");
 			//formHistory.setWork(pobj.getWork_id_fk());
-			formHistory.setContract(pobj.getContract_id_fk());
+			formHistory.setContract_id_fk(pobj.getContract_id_fk());
 			
 			boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			
@@ -513,7 +513,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			formHistory.setForm_action_type("Add");
 			formHistory.setForm_details("Data date updated and "+ counts + " WBS, activities added");
 			//formHistory.setWork(pobj.getWork_id_fk());
-			formHistory.setContract(pobj.getContract_id_fk());
+			formHistory.setContract_id_fk(pobj.getContract_id_fk());
 			
 			boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 		}catch(Exception e){ 

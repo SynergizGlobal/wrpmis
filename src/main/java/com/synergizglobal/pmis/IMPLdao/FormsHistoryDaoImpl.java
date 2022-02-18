@@ -24,11 +24,17 @@ public class FormsHistoryDaoImpl implements FormsHistoryDao{
 	public boolean saveFormHistory(FormHistory obj) throws Exception {
 		boolean flag = false;
 		try {
+			String qry = "";
+			if(obj.getModule_name_fk().equalsIgnoreCase("Risk")) {
+				qry = ":sub_work";
+			}else {
+				qry = "IFNULL((select work_short_name from work where work_id=:work_id_fk),:sub_work)";
+			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO forms_history"
 					+ "(module_name_fk,form_name,work_id_fk,contract_id_fk,work,contract,form_action_type,form_details,created_by_user_id_fk,user)"
 					+ "VALUES"
-					+ "(:module_name_fk,:form_name,:work,:contract,IFNULL((select work_short_name from work where work_id=:work),:sub_work),(select contract_short_name from contract where contract_id=:contract),:form_action_type,:form_details,:created_by_user_id_fk,:user)";
+					+ "(:module_name_fk,:form_name,:work_id_fk,:contract_id_fk,"+qry+",(select contract_short_name from contract where contract_id=:contract_id_fk),:form_action_type,:form_details,:created_by_user_id_fk,:user)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {
@@ -64,25 +70,5 @@ public class FormsHistoryDaoImpl implements FormsHistoryDao{
 		return flag;
 	}
 
-	@Override
-	public boolean saveFormHistoryForWork(FormHistory obj) throws Exception {
-		boolean flag = false;
-		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO forms_history"
-					+ "(module_name_fk,form_name,work_id_fk,contract_id_fk,work,contract,form_action_type,form_details,created_by_user_id_fk,user)"
-					+ "VALUES"
-					+ "(:module_name_fk,:form_name,:work,:contract,:work_name,(select contract_short_name from contract where contract_id=:contract),:form_action_type,:form_details,:created_by_user_id_fk,:user)";
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
-			if(count > 0) {
-				flag = true;
-			}
-			
-		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e);
-		}
-		return flag;
-	}	
+	
 }

@@ -793,8 +793,8 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			formHistory.setForm_name("Activities Update");
 			formHistory.setForm_action_type("Update");
 			formHistory.setForm_details("1 activitity updated for "+obj.getStrip_chart_structure_id_fk());
-			formHistory.setWork(obj.getWork_id_fk());
-			formHistory.setContract(obj.getContract_id_fk());
+			formHistory.setWork_id_fk(obj.getWork_id_fk());
+			formHistory.setContract_id_fk(obj.getContract_id_fk());
 			
 			boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);			
 			

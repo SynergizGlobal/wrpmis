@@ -305,20 +305,6 @@ public class WorkDaoImpl implements WorkDao {
 			int count = stmt.executeUpdate();
 			if(count > 0){
 				flag = true; 
-				FormHistory formHistory = new FormHistory();
-				formHistory.setCreated_by_user_id_fk(work.getUser_id());
-				formHistory.setUser(work.getDesignation()+" - "+work.getUser_name());
-				formHistory.setModule_name_fk("Works");
-				formHistory.setForm_name("Update Work");
-				formHistory.setForm_action_type("Update");
-				formHistory.setForm_details("Work "+work.getWork_id() + " Updated");
-				formHistory.setWork(work.getWork_id());
-				formHistory.setWork_name(work.getWork_short_name());
-				
-				//formHistory.setContract(obj.getContract_id_fk());
-				
-				boolean history_flag = formsHistoryDao.saveFormHistoryForWork(formHistory);
-				/********************************************************************************/
 			}
 			if(stmt != null){stmt.close();}
 			
@@ -537,6 +523,22 @@ public class WorkDaoImpl implements WorkDao {
 			
 			}
 			con.commit();
+			if(flag) {
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(work.getUser_id());
+				formHistory.setUser(work.getDesignation()+" - "+work.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Update Work");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Work "+work.getWork_id() + " Updated");
+				formHistory.setWork_id_fk(work.getWork_id());
+				formHistory.setWork_name(work.getWork_short_name());
+				
+				//formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
+			}
 		}catch(Exception e){ 
 			con.rollback();
 			e.printStackTrace();
@@ -739,6 +741,10 @@ public class WorkDaoImpl implements WorkDao {
 					msgObj.setMessage(message);
 					messagesDao.addMessages(msgObj,template);
 				}
+				
+			}
+			con.commit();
+			if(flag) {
 				/********************************************************************************/
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(work.getUser_id());
@@ -747,14 +753,13 @@ public class WorkDaoImpl implements WorkDao {
 				formHistory.setForm_name("Add Work");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New Work "+workId + " Created");
-				formHistory.setWork(workId);
+				formHistory.setWork_id_fk(workId);
 				formHistory.setWork_name(work.getWork_short_name());
 				//formHistory.setContract(obj.getContract_id_fk());
 				
-				boolean history_flag = formsHistoryDao.saveFormHistoryForWork(formHistory);
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/
 			}
-			con.commit();
 		}catch(Exception e){ 
 			con.rollback();
 			e.printStackTrace();

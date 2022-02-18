@@ -521,8 +521,8 @@ public class RandRBsesDaoImpl implements RandRBsesDao{
 					formHistory.setForm_name("Update RR Bses");
 					formHistory.setForm_action_type("Update");
 					formHistory.setForm_details("RR Bses "+obj.getBses_id() + " Updated");
-					formHistory.setWork(obj.getWork_id_fk());
-					formHistory.setContract(obj.getContract_id_fk());
+					formHistory.setWork_id_fk(obj.getWork_id_fk());
+					formHistory.setContract_id_fk(obj.getContract_id_fk());
 					
 					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 					/********************************************************************************/
@@ -684,8 +684,8 @@ public class RandRBsesDaoImpl implements RandRBsesDao{
 					formHistory.setForm_name("Add RR Bses");
 					formHistory.setForm_action_type("Add");
 					formHistory.setForm_details("New RR Bses "+obj.getBses_id() + " Created");
-					formHistory.setWork(obj.getWork_id_fk());
-					formHistory.setContract(obj.getContract_id_fk());
+					formHistory.setWork_id_fk(obj.getWork_id_fk());
+					formHistory.setContract_id_fk(obj.getContract_id_fk());
 					
 					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 					/********************************************************************************/

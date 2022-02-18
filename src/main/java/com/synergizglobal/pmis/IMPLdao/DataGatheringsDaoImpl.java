@@ -272,8 +272,8 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				formHistory.setForm_name("Add Data Gathering");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New Data Gathering "+obj.getId() + " Created");
-				formHistory.setWork(obj.getWork_id_fk());
-				formHistory.setContract(obj.getContract_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/
@@ -304,8 +304,8 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				formHistory.setForm_name("Update Data Gathering");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Data Gathering "+obj.getId() + " Updated");
-				formHistory.setWork(obj.getWork_id_fk());
-				formHistory.setContract(obj.getContract_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/

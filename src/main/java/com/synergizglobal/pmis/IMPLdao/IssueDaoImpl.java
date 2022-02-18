@@ -547,8 +547,8 @@ public class IssueDaoImpl implements IssueDao {
 				formHistory.setForm_name("Add Issue");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("Added issue: "+obj.getTitle());
-				formHistory.setWork(obj.getWork_id_fk());
-				formHistory.setContract(obj.getContract_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				
@@ -819,8 +819,8 @@ public class IssueDaoImpl implements IssueDao {
 				formHistory.setForm_name("Update Issue");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Updated issue: "+obj.getTitle());
-				formHistory.setWork(obj.getWork_id_fk());
-				formHistory.setContract(obj.getContract_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				int count_old = 0,count_new = 0;

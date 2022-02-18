@@ -1127,7 +1127,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				formHistory.setForm_name("Add R & R");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New R & R "+obj.getRr_id() + " Created");
-				formHistory.setWork(obj.getWork_id());
+				formHistory.setWork_id_fk(obj.getWork_id());
 				//formHistory.setContract(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
@@ -1403,7 +1403,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				formHistory.setForm_name("Update R & R");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("R & R "+obj.getRr_id() + " Updated");
-				formHistory.setWork(obj.getWork_id());
+				formHistory.setWork_id_fk(obj.getWork_id());
 				//formHistory.setContract(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);

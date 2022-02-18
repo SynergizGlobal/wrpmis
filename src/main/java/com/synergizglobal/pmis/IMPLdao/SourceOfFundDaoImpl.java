@@ -144,7 +144,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 				formHistory.setForm_name("Add Source of Fund");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New Source of Fund "+obj.getFunds_id() + " Created");
-				//formHistory.setWork(obj.getWork_id_fk());
+				//formHistory.setWork_id_fk(obj.getWork_id_fk());
 				//formHistory.setContract(budget.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
@@ -257,7 +257,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 				formHistory.setForm_name("Update Source of Fund");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Source of Fund "+obj.getFunds_id() + " Updated");
-				//formHistory.setWork(obj.getWork_id_fk());
+				//formHistory.setWork_id_fk(obj.getWork_id_fk());
 				//formHistory.setContract(budget.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);

@@ -789,7 +789,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				formHistory.setForm_name("Add Zonal Railway");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New Zonal Railway "+obj.getContract_id() + " Created");
-				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
 				//formHistory.setContract(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
@@ -1012,7 +1012,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				formHistory.setForm_name("Update Zonal Railway");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Zonal Railway "+obj.getContract_id() + " Updated");
-				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
 				//formHistory.setContract(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);

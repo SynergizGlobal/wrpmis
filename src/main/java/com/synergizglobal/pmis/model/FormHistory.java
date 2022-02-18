@@ -1,7 +1,23 @@
 package com.synergizglobal.pmis.model;
 
 public class FormHistory {
-	private String form_history_id,module_name_fk,form_name,module_name,work_name,work,contract,form_action_type,form_details,created_by_user_id_fk,user,created_date,sub_work;
+	private String form_history_id,work_id_fk,contract_id_fk,module_name_fk,form_name,module_name,work_name,work,contract,form_action_type,form_details,created_by_user_id_fk,user,created_date,sub_work;
+
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
+	}
+
+	public String getContract_id_fk() {
+		return contract_id_fk;
+	}
+
+	public void setContract_id_fk(String contract_id_fk) {
+		this.contract_id_fk = contract_id_fk;
+	}
 
 	public String getWork_name() {
 		return work_name;

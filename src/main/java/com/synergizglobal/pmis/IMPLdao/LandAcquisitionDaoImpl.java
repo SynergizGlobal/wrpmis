@@ -759,7 +759,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				formHistory.setForm_name("Add Land Acquisition");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New Land Acquisition "+obj.getLa_id() + " Created");
-				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
 				//formHistory.setContract(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
@@ -1266,7 +1266,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				formHistory.setForm_name("Update Land Acquisition");
 				formHistory.setForm_action_type("Update");
 				formHistory.setForm_details("Land Acquisition "+obj.getLa_id() + " Updated");
-				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
 				//formHistory.setContract(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);

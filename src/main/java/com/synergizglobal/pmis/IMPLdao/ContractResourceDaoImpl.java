@@ -328,8 +328,8 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 				formHistory.setForm_name("Contract Resources");
 				formHistory.setForm_action_type("Add");
 				formHistory.setForm_details("New Contract Resources created");
-				formHistory.setWork(obj.getWork_id_fk());
-				formHistory.setContract(obj.getContract_id_fk());
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}

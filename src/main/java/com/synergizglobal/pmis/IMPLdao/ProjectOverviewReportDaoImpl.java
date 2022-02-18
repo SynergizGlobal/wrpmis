@@ -150,10 +150,10 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "SELECT distinct contract_short_name,\r\n"
+			String qry = "select * from (SELECT distinct contract_short_name,\r\n"
 					+ "                    case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end as awarded_cost,\r\n"
-					+ "                    SUM((e.gross_work_done * e.gross_work_done_units)) cumulative_expenditure,\r\n"
-					+ "                    SUM((e1.gross_work_done * e1.gross_work_done_units)) actual_financial_progress,\r\n"
+					+ "                    SUM((e.gross_work_done * e.gross_work_done_units)) cumulative_expenditure,w.work_id,\r\n"
+					+ "                    SUM((e1.gross_work_done * e1.gross_work_done_units)) actual_financial_progress,case when c.contract_id='P04W01EN19' or c.contract_id='P04W01EN20' then 'Non Bank Funds' else d1.department end department,\r\n"
 					+ "                    (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end)-(SUM((e.gross_work_done * e.gross_work_done_units))) AS actual_physical_progress,case when c.contract_id='P04W01EN19' or c.contract_id='P04W01EN20' then 'Non Bank Funds' else d1.department_name end department_name \r\n"
 					+ "					from contract c \r\n"
 					+ "					LEFT JOIN work w on c.work_id_fk = w.work_id\r\n"
@@ -168,7 +168,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 					+ "LEFT join money_unit mu1 ON c.estimated_cost_units = mu1.value " 
 					+ "LEFT join money_unit mu2 ON c.awarded_cost_units = mu2.value " 
 					+ "LEFT join money_unit mu3 ON c.completed_cost_units = mu3.value " 
-					+ "	where work_id_fk is not null and work_id_fk <> '' and work_id_fk in('P04w01') and c.contract_id not in('P04W01EN02','P04W01EN03') ";
+					+ "	where work_id_fk is not null and work_id_fk <> '' and work_id_fk in('P04w01') and c.contract_id not in('P04W01EN02','P04W01EN03') group by contract_id ) as a where 0=0 ";
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -176,11 +176,11 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and d1.department = ?";
+				qry = qry + " and department = ?";
 				arrSize++;
 			}
 	
-			qry=qry+" group by contract_id ORDER BY FIELD(d1.department_name,'Engineering','Electrical','Signalling & Telecom') ";
+			qry=qry+"  ORDER BY FIELD(department_name,'Engineering','Electrical','Signalling & Telecom','Non Bank Funds') ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

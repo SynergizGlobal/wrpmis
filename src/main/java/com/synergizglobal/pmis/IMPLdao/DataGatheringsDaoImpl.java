@@ -10,11 +10,15 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DataGatheringsDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.model.DataGathering;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.DataGathering;
 
 @Repository
@@ -26,7 +30,8 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
-
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Override
 	public List<DataGathering> getDataGatheringsList(DataGathering obj) throws Exception {
 		List<DataGathering> objsList = null;
@@ -252,10 +257,26 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 					+ "VALUES"
 					+ "(:contract_id_fk,:DGwork_id_fk,:target_date,:start_date,:finish_date,:status_fk,:description,:remarks)";
 			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+			int count = namedParamJdbcTemplate.update(insertQry, paramSource, keyHolder);			
 			if(count > 0) {
+			    String  Id = null;
+			    Id = String.valueOf(keyHolder.getKey().intValue());
+				obj.setId(Id);
 				flag = true;
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Add Data Gathering");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Data Gathering "+obj.getId() + " Added");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -276,6 +297,18 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Update Data Gathering");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Data Gathering "+obj.getId() + " Updated");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

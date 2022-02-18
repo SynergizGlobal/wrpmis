@@ -103,22 +103,25 @@
                                         	 </c:forEach>
 	                                  	</select>
 	                                   	<span id="contract_id_fkError" class="error-msg" ></span>
-	                                 </div>
+	                                 </div> 
                               	 </c:if>
 	                              </div>
                               </c:if>
                               <c:if test="${action eq 'edit'}">	
 	                              <div class="row">                              
 	                                <div class="col s6 m4 input-field">
-	                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${deliverablesDetails.project_id_fk}- ${deliverablesDetails.project_name}" readonly />
+	                                    <input type="text"  id="project_id_fk" value="${deliverablesDetails.project_id_fk}- ${deliverablesDetails.project_name}" readonly />
+	                                    <input type="hidden" name="project_id_fk"  value="${deliverablesDetails.project_id_fk}" readonly />
 										<label for="project_id_fk">Project <span class="required">*</span></label>
 								    </div> 
 	                                <div class="col s6 m4 input-field"> 
-	                                   <input type="text" name="work_id_fk" id="work_id_fk" value="${deliverablesDetails.work_id_fk}- ${deliverablesDetails.work_name}" readonly />
+	                                   <input type="text"  id="work_id_fk" value="${deliverablesDetails.work_id_fk}- ${deliverablesDetails.work_name}" readonly />
+	                                     <input type="hidden" name="work_id_fk"  value="${deliverablesDetails.work_id_fk}" readonly />
 									    <label for="work_id_fk">Work <span class="required">*</span></label>
 	                                </div>
 	                                <div class="col s6 m4 input-field"> 
-	                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${deliverablesDetails.contract_id_fk} - ${deliverablesDetails.contract_name}" readonly />
+	                              	    <input type="text"  id="contract_id_fk" value="${deliverablesDetails.contract_id_fk} - ${deliverablesDetails.contract_name}" readonly />
+	                              	     <input type="hidden" name="contract_id_fk"  value="${deliverablesDetails.contract_id_fk}" readonly />
 	                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
                               	    </div>
 	                             </div>

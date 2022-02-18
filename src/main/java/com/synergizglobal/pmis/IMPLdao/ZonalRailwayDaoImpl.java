@@ -19,6 +19,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.ZonalRailwayDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
@@ -27,6 +28,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.ZonalRailway;
@@ -41,7 +43,8 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	
 	@Autowired
 	DataSourceTransactionManager transactionManager;
-
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 
 	@Override
 	public List<ZonalRailway> getZonalsList(ZonalRailway obj, int startIndex, int offset,String searchParameter) throws Exception {
@@ -778,6 +781,19 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				  int[] insertCount = insertStmt2.executeBatch();
 			  }
 				if(insertStmt2 != null){insertStmt2.close();}
+				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Add Zonal Railway");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Zonal Railway "+obj.getContract_id() + " Added");
+				formHistory.setWork(obj.getWork_id_fk());
+				//formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			 }
 			  con.commit();
 			}catch(Exception e){ 
@@ -989,6 +1005,18 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				}
 				DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 				con.commit();
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Update Zonal Railway");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Zonal Railway "+obj.getContract_id() + " Updated");
+				formHistory.setWork(obj.getWork_id_fk());
+				//formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 	   }catch(Exception e){ 
 			con.rollback();

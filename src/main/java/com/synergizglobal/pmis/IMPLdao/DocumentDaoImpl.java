@@ -17,12 +17,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.DocumentDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Training;
 
 
@@ -34,7 +36,8 @@ public class DocumentDaoImpl implements DocumentDao{
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
-
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Override
 	public List<Document> getDocumentsList(Document obj) throws Exception {
 		List<Document> objsList = null;
@@ -553,6 +556,18 @@ public class DocumentDaoImpl implements DocumentDao{
 				}
 				int[] insertCount = insertStmt.executeBatch();
 			  }
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Add Document");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Document "+obj.getDocument_no() + " Added");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 		  }
 		  con.commit();
 		}catch(Exception e){ 
@@ -711,6 +726,18 @@ public class DocumentDaoImpl implements DocumentDao{
 		
 			if(updateCount.length > 0 || insertCount.length > 0) {
 				flag = true;
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Update Document");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Document "+obj.getDocument_no() + " Updated");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);

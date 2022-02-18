@@ -146,16 +146,19 @@
 						 <div class="row">
 							   <div class="col s6 m4 input-field offset-m2">
                                     <input type="text"  value="${dataGatheringDetails.project_id_fk}- ${dataGatheringDetails.project_name}" readonly />
+                                      <input type="hidden"  value="${dataGatheringDetails.project_id_fk}" name="project_id_fk" />
 									<label for="project_id_fk">Project <span class="required">*</span></label>
 							  </div> 
                                <div class="col s6 m4 input-field"> 
                                   <input type="text"  value="${dataGatheringDetails.work_id_fk}- ${dataGatheringDetails.work_short_name}" readonly />
+                                   <input type="hidden"  value="${dataGatheringDetails.work_id_fk}" name="work_id_fk" />
 							      <label for="work_id_fk">Work <span class="required">*</span></label>
                                </div>
 	                        </div>
 	                        <div class="row">
 	                             <div class="col s12 m8 input-field offset-m2"> 
                               	    <input type="text"  value="${dataGatheringDetails.contract_id_fk} - ${dataGatheringDetails.contract_short_name}" readonly />
+                              	     <input type="hidden"  value="${dataGatheringDetails.contract_id_fk}" name="contract_id_fk" />
                                  	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
                                 </div>
                             </div>

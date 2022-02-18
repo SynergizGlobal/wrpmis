@@ -157,11 +157,13 @@
                              <div class="row">
                               
                                 <div class="col s6 m4 input-field offset-m2">
-                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${documentDetails.project_id_fk}- ${documentDetails.project_name}" readonly />
+                                    <input type="text"  id="project_id_fk" value="${documentDetails.project_id_fk}- ${documentDetails.project_name}" readonly />
+                                     <input type="hidden" name="project_id_fk"  value="${documentDetails.project_id_fk}"  />
 									<label for="project_id_fk">Project <span class="required">*</span></label>     
 							    </div> 
-                                <div class="col s6 m4 input-field"> 
-                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${documentDetails.work_id_fk}- ${documentDetails.work_short_name}" readonly />
+                                <div class="col s6 m4 input-field">  
+                                    <input type="text"  id="work_id_fk" value="${documentDetails.work_id_fk}- ${documentDetails.work_short_name}" readonly />
+								    <input type="hidden" name="work_id_fk"  value="${documentDetails.work_id_fk}"  />
 								    <label for="work_id_fk">Work <span class="required">*</span></label>     
                                 </div>
                             </div>
@@ -169,7 +171,8 @@
                             <div class="row">
                                 <c:if test="${action eq 'edit'}">	
                                  <div class="col s6 m4 input-field offset-m2"> 
-                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${documentDetails.contract_id_fk} - ${documentDetails.contract_short_name}" readonly />
+                              	    <input type="text" id="contract_id_fk" value="${documentDetails.contract_id_fk} - ${documentDetails.contract_short_name}" readonly />
+                                 	 <input type="hidden" name="contract_id_fk"  value="${documentDetails.contract_id_fk}"  />
                                  	<label for="contract_id_fk">Contract <span class="required">*</span></label>           
                               	    </div>
                                  </c:if>

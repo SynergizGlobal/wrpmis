@@ -357,10 +357,18 @@ public class DataGatheringsController {
 	
 	@RequestMapping(value = "/add-data-gathering", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addDataGathering(@ModelAttribute DataGathering obj,RedirectAttributes attributes){
+	public ModelAndView addDataGathering(@ModelAttribute DataGathering obj,RedirectAttributes attributes,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/data-gathering");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			//obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));
 			obj.setStart_date(DateParser.parse(obj.getStart_date()));
 			obj.setFinish_date(DateParser.parse(obj.getFinish_date()));
@@ -381,10 +389,18 @@ public class DataGatheringsController {
 	
 	
 	@RequestMapping(value = "/update-data-gathering", method = {RequestMethod.POST})
-	public ModelAndView updateDataGathering(@ModelAttribute DataGathering obj,RedirectAttributes attributes){
+	public ModelAndView updateDataGathering(@ModelAttribute DataGathering obj,RedirectAttributes attributes,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/data-gathering");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			//obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));
 			obj.setStart_date(DateParser.parse(obj.getStart_date()));
 			obj.setFinish_date(DateParser.parse(obj.getFinish_date()));

@@ -388,10 +388,18 @@ public class ZonalRailwayController {
 	 }
 	
 	@RequestMapping(value = "/add-zonal-railway", method = {RequestMethod.POST})
-	public ModelAndView addZonalRailway(@ModelAttribute ZonalRailway obj,RedirectAttributes attributes){
+	public ModelAndView addZonalRailway(@ModelAttribute ZonalRailway obj,RedirectAttributes attributes,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/zonal-railway");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			//obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setAs_on_date(DateParser.parse(obj.getAs_on_date()));
 			obj.setActual_start(DateParser.parse(obj.getActual_start()));
 			obj.setExpected_finish(DateParser.parse(obj.getExpected_finish()));
@@ -412,10 +420,18 @@ public class ZonalRailwayController {
 	}
 	
 	@RequestMapping(value = "/update-zonal-railway", method = {RequestMethod.POST})
-	public ModelAndView updateZonalRailway(@ModelAttribute ZonalRailway obj,RedirectAttributes attributes){
+	public ModelAndView updateZonalRailway(@ModelAttribute ZonalRailway obj,RedirectAttributes attributes,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/zonal-railway");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			//obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setAs_on_date(DateParser.parse(obj.getAs_on_date()));
 			obj.setActual_start(DateParser.parse(obj.getActual_start()));
 			obj.setExpected_finish(DateParser.parse(obj.getExpected_finish()));

@@ -3,7 +3,32 @@ package com.synergizglobal.pmis.model;
 public class DataGathering {
 	
 	private String id, project_priority_fk, work_id_fk,work_name,work_short_name, target_date, start_date, finish_date, status_fk, remarks,
-	 project_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description,project_name,contract_name,contract_short_name,DGwork_id_fk,description,DGwork_name;
+	 project_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description,project_name,contract_name,contract_short_name,DGwork_id_fk,description,DGwork_name
+	 ,user_id, user_name, designation;
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
 	public String getDescription() {
 		return description;

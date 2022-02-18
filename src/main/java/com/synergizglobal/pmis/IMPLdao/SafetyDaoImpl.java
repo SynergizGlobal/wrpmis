@@ -25,6 +25,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.SafetyDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.EMailSender;
@@ -32,6 +33,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Safety;
@@ -49,7 +51,8 @@ public class SafetyDaoImpl implements SafetyDao {
 	
 	@Autowired
 	DataSourceTransactionManager transactionManager;
-	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Override
 	public List<Safety> getSafetyList(Safety obj) throws Exception {
 		List<Safety> objsList = null;
@@ -239,6 +242,18 @@ public class SafetyDaoImpl implements SafetyDao {
 						}
 					}*/						
 				}
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Safety");
+				formHistory.setForm_name("Add Safety ");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Safety  "+obj.getSafety_id() + " Added");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -781,6 +796,18 @@ public class SafetyDaoImpl implements SafetyDao {
 					sendEmailWithSafetyStatusAlert(safety_id, "Update", reported_by_email_id, existing_status_fk,existing_responsible_person, existing_escalated_to);
 				}
 				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Safety");
+				formHistory.setForm_name("Update Safety ");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Safety  "+obj.getSafety_id() + " Updated");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -1529,7 +1556,7 @@ public class SafetyDaoImpl implements SafetyDao {
 		try {
 			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,u2.designation as responsible_person,c.department_fk,"
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,modified_by,DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date  "
+					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,s.modified_by,DATE_FORMAT(s.modified_date,'%d-%m-%Y') as modified_date  "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
@@ -1638,6 +1665,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return objsList;

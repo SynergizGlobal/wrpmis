@@ -730,7 +730,18 @@ public class StructureFormDaoImpl implements StructureFormDao{
 						messagesDao.addMessages(msgObj,namedParamJdbcTemplate);
 					}*/
 					/********************************************************************************/
-				
+					FormHistory formHistory = new FormHistory();
+					formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+					formHistory.setModule_name_fk("Works");
+					formHistory.setForm_name("Add Structure Form");
+					formHistory.setForm_action_type("Add");
+					formHistory.setForm_details("Structure for "+obj.getWork_id_fk() + " Added");
+					formHistory.setWork(obj.getWork_id_fk());
+					//formHistory.setContract(obj.getContract_id_fk());
+					
+					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+					/********************************************************************************/
 				
 			}
 			transactionManager.commit(status);
@@ -1018,7 +1029,18 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					}*/
 					/********************************************************************************/
 				
-				
+					FormHistory formHistory = new FormHistory();
+					formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+					formHistory.setModule_name_fk("Works");
+					formHistory.setForm_name("Update Structure Form");
+					formHistory.setForm_action_type("Update");
+					formHistory.setForm_details("Structure for "+obj.getWork_id_fk() + " Updated");
+					formHistory.setWork(obj.getWork_id_fk());
+					//formHistory.setContract(obj.getContract_id_fk());
+					
+					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+					/********************************************************************************/
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

@@ -748,20 +748,22 @@ public class ExpenditureController {
 						}
 						
 						int count = uploadExpenditures(expenditure,user_Id,userName);
-					
-						attributes.addFlashAttribute("success", + count + " Expenditures uploaded successfully.");
-						FormHistory formHistory = new FormHistory();
-						formHistory.setCreated_by_user_id_fk(expenditure.getCreated_by_user_id_fk());
-						formHistory.setUser(expenditure.getDesignation()+" - "+expenditure.getUser_name());
-						formHistory.setModule_name_fk("Finance");
-						formHistory.setForm_name("Upload Expenditure");
-						formHistory.setForm_action_type("Upload");
-						formHistory.setForm_details( count + " Expenditures uploaded successfully.");
-						formHistory.setWork(expenditure.getWork_id_fk());
-						formHistory.setContract(expenditure.getContract_id_fk());
-						
-						boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
-						/********************************************************************************/
+						if(count > 0) {
+							attributes.addFlashAttribute("success", + count + " Expenditures uploaded successfully.");
+							FormHistory formHistory = new FormHistory();
+							formHistory.setCreated_by_user_id_fk(expenditure.getCreated_by_user_id_fk());
+							formHistory.setUser(expenditure.getDesignation()+" - "+expenditure.getUser_name());
+							formHistory.setModule_name_fk("Finance");
+							formHistory.setForm_name("Upload Expenditure");
+							formHistory.setForm_action_type("Upload");
+							formHistory.setForm_details( count + " Expenditures uploaded successfully.");
+							formHistory.setWork(expenditure.getWork_id_fk());
+							formHistory.setContract(expenditure.getContract_id_fk());
+							
+							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+							/********************************************************************************/
+							
+						}
 						
 					}
 					workbook.close();

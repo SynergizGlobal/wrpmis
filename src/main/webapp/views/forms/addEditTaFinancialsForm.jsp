@@ -209,7 +209,8 @@
                        		<c:if test="${action eq 'edit'}">	
                        		 <div class="row no-mar" >
                        		  <div class="col s6 m4 input-field offset-m2">
-                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_short_name}" readonly />
+                                    <input type="text"  id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_short_name}" readonly />
+                                     <input type="hidden" name="work_id_fk"  value="${taFinancialDetails.work_id_fk}"  /> 
                                     <label for="work_id_fk"> Work <span class="required">*</span></label>
 							  </div> 
 							  <div class="col s6 m4 input-field"> 

@@ -111,17 +111,17 @@
 	                              <div class="row">                              
 	                                <div class="col s6 m4 input-field">
 	                                    <input type="text"  id="project_id_fk" value="${deliverablesDetails.project_id_fk}- ${deliverablesDetails.project_name}" readonly />
-	                                    <input type="hidden" name="project_id_fk"  value="${deliverablesDetails.project_id_fk}" readonly />
+	                                    <input type="hidden" name="project_id_fk"  value="${deliverablesDetails.project_id_fk}"  />
 										<label for="project_id_fk">Project <span class="required">*</span></label>
 								    </div> 
 	                                <div class="col s6 m4 input-field"> 
 	                                   <input type="text"  id="work_id_fk" value="${deliverablesDetails.work_id_fk}- ${deliverablesDetails.work_name}" readonly />
-	                                     <input type="hidden" name="work_id_fk"  value="${deliverablesDetails.work_id_fk}" readonly />
+	                                     <input type="hidden" name="work_id_fk"  value="${deliverablesDetails.work_id_fk}"  />
 									    <label for="work_id_fk">Work <span class="required">*</span></label>
 	                                </div>
 	                                <div class="col s6 m4 input-field"> 
 	                              	    <input type="text"  id="contract_id_fk" value="${deliverablesDetails.contract_id_fk} - ${deliverablesDetails.contract_name}" readonly />
-	                              	     <input type="hidden" name="contract_id_fk"  value="${deliverablesDetails.contract_id_fk}" readonly />
+	                              	     <input type="hidden" name="contract_id_fk"  value="${deliverablesDetails.contract_id_fk}"  />
 	                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
                               	    </div>
 	                             </div>

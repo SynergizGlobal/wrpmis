@@ -29,6 +29,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.StructureDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
@@ -38,6 +39,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Structure;
 
 @Repository
@@ -51,7 +53,8 @@ public class StructureDaoImpl implements StructureDao {
 
 	@Autowired
 	DataSourceTransactionManager transactionManager;
-
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Override
 	public List<Structure> getProjectsListFilter(Structure obj) throws Exception {
 		List<Structure> objsList = null;
@@ -901,6 +904,18 @@ public class StructureDaoImpl implements StructureDao {
 				}
 				if (insertCount.length > 0) {
 					flag = true;
+					FormHistory formHistory = new FormHistory();
+					formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+					formHistory.setModule_name_fk("Works");
+					formHistory.setForm_name("Add Structure");
+					formHistory.setForm_action_type("Add");
+					formHistory.setForm_details("Structure for "+obj.getWork_id_fk() + " Added");
+					formHistory.setWork(obj.getWork_id_fk());
+					//formHistory.setContract(obj.getContract_id_fk());
+					
+					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+					/********************************************************************************/
 				}
 			}
 			con.commit();
@@ -1325,6 +1340,18 @@ public class StructureDaoImpl implements StructureDao {
 				int result = updateCount.length + insertCount.length;
 				if (result > 0) {
 					flag = true;
+					FormHistory formHistory = new FormHistory();
+					formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+					formHistory.setModule_name_fk("Works");
+					formHistory.setForm_name("Update Structure");
+					formHistory.setForm_action_type("Update");
+					formHistory.setForm_details("Structure for "+obj.getWork_id_fk() + " Updated");
+					formHistory.setWork(obj.getWork_id_fk());
+					//formHistory.setContract(obj.getContract_id_fk());
+					
+					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+					/********************************************************************************/
 				}
 			}
 			con.commit();

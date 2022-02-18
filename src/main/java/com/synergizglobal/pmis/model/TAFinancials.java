@@ -5,12 +5,37 @@ import java.util.List;
 public class TAFinancials {
 	
 	private String work_id_fk, ID,project_id_fk, work_name,contract_name,contract_id_fk,contract_short_name, unit, value,work_short_name,financial_id, 
-	contract_id,month, planned, actual, ta_contract_id_fk,payment_received, planned_unit,actual_unit,payment_unit;
+	contract_id,month, planned, actual, ta_contract_id_fk,payment_received, planned_unit,actual_unit,payment_unit,
+	designation,user_id,user_name;
 
 	private String[] IDs, months, planneds, actuals, payment_receiveds, planned_units, actual_units, payment_received_units;
 	
 	private List<TAFinancials> taFinancials;
 
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
 
 	public String getUnit() {
 		return unit;

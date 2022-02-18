@@ -340,11 +340,18 @@ public class WorkController {
 	
 	
 	@RequestMapping(value = "/update-work", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView updateWork(@ModelAttribute Work work,RedirectAttributes attributes){
+	public ModelAndView updateWork(@ModelAttribute Work work,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/work");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
+			//obj.setCreated_by_user_id_fk(user_Id);
+			work.setUser_id(user_Id);
+			work.setUser_name(userName);
+			work.setDesignation(userDesignation);
 			work.setProjected_completion(DateParser.parse(work.getProjected_completion()));
 			work.setProjected_completion_date(DateParser.parse(work.getProjected_completion_date()));
 			/*
@@ -372,10 +379,20 @@ public class WorkController {
 	
 	@RequestMapping(value = "/add-work", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addWork(@ModelAttribute Work work,RedirectAttributes attributes){
+	public ModelAndView addWork(@ModelAttribute Work work,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/work");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			//obj.setCreated_by_user_id_fk(user_Id);
+			work.setUser_id(user_Id);
+			work.setUser_name(userName);
+			work.setDesignation(userDesignation);
+			work.setProjected_completion(DateParser.parse(work.getProjected_completion()));
+			work.setProjected_completion_date(DateParser.parse(work.getProjected_completion_date()));
 			work.setProjected_completion(DateParser.parse(work.getProjected_completion()));
 			work.setProjected_completion_date(DateParser.parse(work.getProjected_completion_date()));
 			/*MultipartFile file = work.getWorkFile();

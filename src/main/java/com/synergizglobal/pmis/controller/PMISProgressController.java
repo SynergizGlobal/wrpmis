@@ -120,8 +120,14 @@ public class PMISProgressController {
 		String userId = null;
 		try{
 			model.setViewName("redirect:/pmis-progress-form");
-			//userId = (String) session.getAttribute("USER_ID");
-			//obj.setCreated_by_user_id_fk(userId);
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			//obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setActual_start(DateParser.parse(obj.getActual_start()));
 			obj.setActual_finish(DateParser.parse(obj.getActual_finish()));
 			boolean flag =  service.updateProgressForm(obj);

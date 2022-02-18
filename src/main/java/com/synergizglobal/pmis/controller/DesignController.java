@@ -50,6 +50,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.Iservice.DesignService;
 import com.synergizglobal.pmis.Iservice.HomeService;
@@ -61,6 +62,7 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.User;
@@ -88,7 +90,8 @@ public class DesignController {
 	WorkService workService;
 	@Autowired
 	IssueService issueService;
-	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Value("${common.error.message}")
 	public String commonError;
 	
@@ -1068,11 +1071,16 @@ public class DesignController {
 	@RequestMapping(value = "/upload-designs", method = {RequestMethod.POST})
 	public ModelAndView uploadDesigns(@ModelAttribute Design design,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String userId = null;String userName = null;
-		String msg = "";
+		String msg = "";String userId = null;
 		try {
-			userId = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
+			 userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			design.setCreated_by_user_id_fk(userId);
+			design.setUser_id(userId);
+			design.setUser_name(userName);
+			design.setDesignation(userDesignation);
 			model.setViewName("redirect:/design");
 			
 			if(!StringUtils.isEmpty(design.getDesignFile())){
@@ -1124,6 +1132,19 @@ public class DesignController {
 						if(count > 0) {
 							attributes.addFlashAttribute("success", count + " Designs added successfully.");	
 							msg = count + " Designs added successfully.";
+							
+							FormHistory formHistory = new FormHistory();
+							formHistory.setCreated_by_user_id_fk(design.getCreated_by_user_id_fk());
+							formHistory.setUser(design.getDesignation()+" - "+design.getUser_name());
+							formHistory.setModule_name_fk("Design");
+							formHistory.setForm_name("Upload Design");
+							formHistory.setForm_action_type("Upload");
+							formHistory.setForm_details( msg);
+							formHistory.setWork(design.getWork_id_fk());
+							//formHistory.setContract(obj.getContract_id_fk());
+							
+							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+							/********************************************************************************/
 						}else {
 							attributes.addFlashAttribute("success"," No records found.");	
 							msg = " No records found.";

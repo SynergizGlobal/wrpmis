@@ -12,12 +12,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.PMISProgressDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Repository
@@ -28,7 +30,8 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
-
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Override
 	public List<StripChart> getMileStoneFilterList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
@@ -169,6 +172,18 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 			int[] c = stmt.executeBatch();
 			if(c.length > 0) {
 				flag = true;
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Update Progress Form");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Progress Form Updated");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				/********************************************************************************/
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

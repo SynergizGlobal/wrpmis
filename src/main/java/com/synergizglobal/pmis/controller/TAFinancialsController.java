@@ -277,10 +277,18 @@ public class TAFinancialsController {
 	 }
 	
 	@RequestMapping(value = "/add-ta-financials", method = {RequestMethod.POST})
-	public ModelAndView addTAFinancials(@ModelAttribute TAFinancials obj,RedirectAttributes attributes){
+	public ModelAndView addTAFinancials(@ModelAttribute TAFinancials obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/ta-financials");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			//obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setMonth(DateParser.parse(obj.getMonth()));
 			boolean flag = service.addTAFinancials(obj);
 			if(flag) {
@@ -297,10 +305,18 @@ public class TAFinancialsController {
 	}
 	
 	@RequestMapping(value = "/update-ta-financials", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView updateTAFinancials(@ModelAttribute TAFinancials obj,RedirectAttributes attributes){
+	public ModelAndView updateTAFinancials(@ModelAttribute TAFinancials obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/ta-financials");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			//obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			obj.setMonth(DateParser.parse(obj.getMonth()));
 			boolean flag =  service.updateTAFinancials(obj);
 			if(flag) {

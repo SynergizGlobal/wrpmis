@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.WorkDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
@@ -26,6 +27,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Railway;
@@ -43,7 +45,8 @@ public class WorkDaoImpl implements WorkDao {
 	
 	@Autowired
 	MessagesDao messagesDao;
-	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Override
 	public List<Work> getWorkList(Work obj) throws Exception{
 		List<Work> objsList = null;
@@ -302,6 +305,20 @@ public class WorkDaoImpl implements WorkDao {
 			int count = stmt.executeUpdate();
 			if(count > 0){
 				flag = true; 
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(work.getUser_id());
+				formHistory.setUser(work.getDesignation()+" - "+work.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Update Work");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Work "+work.getWork_id() + " Updated");
+				formHistory.setWork(work.getWork_id());
+				formHistory.setWork_name(work.getWork_short_name());
+				
+				//formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistoryForWork(formHistory);
+				/********************************************************************************/
 			}
 			if(stmt != null){stmt.close();}
 			
@@ -517,6 +534,7 @@ public class WorkDaoImpl implements WorkDao {
 					}
 				}
 				/********************************************************************************/
+			
 			}
 			con.commit();
 		}catch(Exception e){ 
@@ -543,7 +561,7 @@ public class WorkDaoImpl implements WorkDao {
 			String qry ="INSERT into work (work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost," + 
 						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,"
 						+ "remarks,projected_completion,work_short_name,projected_completion_date )"+
-						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry); 
 			int p = 1;
 			stmt.setString(p++,workId ); 
@@ -721,6 +739,19 @@ public class WorkDaoImpl implements WorkDao {
 					msgObj.setMessage(message);
 					messagesDao.addMessages(msgObj,template);
 				}
+				/********************************************************************************/
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(work.getUser_id());
+				formHistory.setUser(work.getDesignation()+" - "+work.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Add Work");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Work "+workId + " Added");
+				formHistory.setWork(workId);
+				formHistory.setWork_name(work.getWork_short_name());
+				//formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistoryForWork(formHistory);
 				/********************************************************************************/
 			}
 			con.commit();

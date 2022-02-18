@@ -62,5 +62,27 @@ public class FormsHistoryDaoImpl implements FormsHistoryDao{
 			throw new Exception(e);
 		}
 		return flag;
+	}
+
+	@Override
+	public boolean saveFormHistoryForWork(FormHistory obj) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String insertQry = "INSERT INTO forms_history"
+					+ "(module_name_fk,form_name,work_id_fk,contract_id_fk,work,contract,form_action_type,form_details,created_by_user_id_fk,user)"
+					+ "VALUES"
+					+ "(:module_name_fk,:form_name,:work,:contract,:work_name,(select contract_short_name from contract where contract_id=:contract),:form_action_type,:form_details,:created_by_user_id_fk,:user)";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return flag;
 	}	
 }

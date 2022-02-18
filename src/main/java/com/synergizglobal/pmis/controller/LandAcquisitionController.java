@@ -63,6 +63,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.LandAcquisitionService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
@@ -70,6 +71,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.LandAquisationPaginationObject;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Risk;
@@ -88,7 +90,8 @@ public class LandAcquisitionController {
 	
 	@Autowired
 	LandAcquisitionService service;
-	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Value("${common.error.message}")
 	public String commonError;
 	
@@ -700,11 +703,16 @@ public class LandAcquisitionController {
 	@RequestMapping(value = "/upload-la", method = {RequestMethod.POST})
 	public ModelAndView uploadLA(@ModelAttribute LandAcquisition obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String userId = null;String userName = null;
 		String msg = "";
 		try {
-			userId = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(userId);
+			obj.setUser_id(userId);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			model.setViewName("redirect:/land-acquisition");
 			
 			if(!StringUtils.isEmpty(obj.getLaUploadFile())){
@@ -744,8 +752,25 @@ public class LandAcquisitionController {
 						
 						int count = uploadLA(obj,userId,userName);
 						if(count > 0) {
+							
+							
+						}
+						if(count > 0) {
 							attributes.addFlashAttribute("success", count + " Land Acquisition added successfully.");	
 							msg = count + " Land Acquisition added successfully.";
+							
+							FormHistory formHistory = new FormHistory();
+							formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+							formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+							formHistory.setModule_name_fk("Land Acquisition");
+							formHistory.setForm_name("Upload Land Acquisition");
+							formHistory.setForm_action_type("Upload");
+							formHistory.setForm_details( msg);
+							formHistory.setWork(obj.getWork_id_fk());
+							//formHistory.setContract(obj.getContract_id_fk());
+							
+							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+							/********************************************************************************/
 						}else {
 							attributes.addFlashAttribute("success"," No records found.");	
 							msg = " No records found.";

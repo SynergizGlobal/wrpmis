@@ -546,7 +546,7 @@
 			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			        if (aData[1] == "Completed") {
 			          $('td', nRow).css('background-color', '#86dc3d');
-			          $('td', nRow).css('color', 'White');
+			          $('td', nRow).css('color', 'Black');
 			        }else if (aData[1] == "In Progress") {
 			          $('td', nRow).css('background-color', '#ffee58');
 			          $('td', nRow).css('color', 'Black');

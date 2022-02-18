@@ -453,7 +453,7 @@
 												'<th>Scope</th>'+
 												'<th>Completed</th>'+
 												'<th>Pending</th>'+
-												'<th>Last Updated on</th>'+
+												'<th>Last Updated on</th><th>Remarks</th>'+
 											'</tr>'+
 										'</thead>'+
 										'<tbody>';
@@ -468,6 +468,7 @@
 						    	         						html=html+'<td>'+val1.completed+'%</td>';
 						    	         						html=html+'<td>'+val1.pending+'%</td>';
 						    	         						html=html+'<td>'+val1.modified_date+'</td>';
+						    	         						html=html+'<td>'+val1.remarks+'</td>';
 						    	         					html=html+'</tr>';
 				    	         						}
 				    	         				});

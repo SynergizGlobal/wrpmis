@@ -171,6 +171,11 @@
         .box.sandt {
             background-color: #548235;
         }
+        
+        .box.nbf {
+            background-color: #7e7579;
+        }
+        
 
 		@media(max-width: 1024px){
 			.con-center{display: block;}
@@ -263,18 +268,22 @@
 						<div class="col m12 l5 offset-l3 s12">
 						 	<fieldset class="p-2 brdr" >
 							 	   <!-- <legend> Legend </legend>  --> 										
-                                   <div class="col m4 s4 center-align con-center">
+                                   <div class="col m3 s3 center-align con-center">
                                        <span class="box engineering"></span>
                                        <span class="description">Engineering</span>
                                    </div>
-                                   <div class="col m4 s4 center-align con-center">
+                                   <div class="col m3 s3 center-align con-center">
                                        <span class="box electrical"></span>
                                        <span class="description">Electrical</span>
                                    </div>
-                                   <div class="col m4 s4 center-align con-center">
+                                   <div class="col m3 s3 center-align con-center">
                                        <span class="box sandt"></span>
-                                       <span class="description">Signalling & Telecom</span>
+                                       <span class="description">S & T</span>
                                    </div>
+                                   <div class="col m3 s3 center-align con-center">
+                                       <span class="box nbf"></span>
+                                       <span class="description">Non Bank Funds</span>
+                                   </div>                                   
                               </fieldset>
 						</div>
 						<div class="col m12 s12">

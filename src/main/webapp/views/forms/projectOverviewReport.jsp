@@ -286,7 +286,23 @@
                                    </div>                                   
                               </fieldset>
 						</div>
-						<div class="col m12 s12" id="divCollapase">
+					</div>
+
+					<div class="row" style="margin-top:70px;">
+					
+							<table id="datatable-project-overview-details" class="mdl-data-table" style="width:99.5%;float:right;">
+								<thead>
+									<tr>										
+										<th style="width:100px;">S No</th>
+										<th style="width:750px;">Department</th>
+										<th>Total Awarded Cost</th>
+										<th>Total Expenditure till Date (CR)</th>
+										<th>Total Expenditure this FY (CR)</th>
+										<th>Total Pending Amount (CR)</th>
+									</tr>
+								</thead>
+							</table>				
+					  <div class="col m12 s12" id="divCollapase">
 						
 	
 	
@@ -439,14 +455,98 @@
 			
 			if(data != null && data != '' && data.length > 0){  
 				var CheckLp=1;
+				var sumVal1=0,sumVal11=0,sumVal111=0,sumVal1111=0;
+				var sumVal2=0,sumVal22=0,sumVal222=0,sumVal2222=0;
+				var sumVal3=0,sumVal33=0,sumVal333=0,sumVal3333=0;
+				var sumVal4=0,sumVal44=0,sumVal444=0,sumVal4444=0;
+				
          		$.each(data,function(key,val)
          				{
-         			
+							var a1=0,a2=0,a3=0,a4=0;
+							if(val.awarded_cost!="" && val.awarded_cost!=undefined && val.awarded_cost!=null){a1=val.awarded_cost;}else{a1=0;}
+							if(val.cumulative_expenditure!="" && val.cumulative_expenditure!=undefined && val.cumulative_expenditure!=null){a2=val.cumulative_expenditure;}else{a2=0;}
+							if(val.actual_financial_progress!="" && val.actual_financial_progress!=undefined && val.actual_financial_progress!=null){a3=val.actual_financial_progress;}else{a3=0;}
+							if(val.actual_physical_progress!="" && val.actual_physical_progress!=undefined && val.actual_physical_progress!=null){a4=val.actual_physical_progress;}else{a4=0;}
+							
+         						if(val.department_name=="Engineering")
+         						{
+         									sumVal1=parseFloat(sumVal1)+parseFloat(a1);
+         									sumVal2=parseFloat(sumVal2)+parseFloat(a2);
+           									sumVal3=parseFloat(sumVal3)+parseFloat(a3);
+         									sumVal4=parseFloat(sumVal4)+parseFloat(a4);   
+         						}
+         						else if(val.department_name=="Electrical")
+       							{
+     									sumVal11=parseFloat(sumVal11)+parseFloat(a1);
+     									sumVal22=parseFloat(sumVal22)+parseFloat(a2);
+       									sumVal33=parseFloat(sumVal33)+parseFloat(a3);
+     									sumVal44=parseFloat(sumVal44)+parseFloat(a4);       									
+       							}
+         						else if(val.department_name=="Signalling & Telecom")
+     							{
+     									sumVal111=parseFloat(sumVal111)+parseFloat(a1);
+     									sumVal222=parseFloat(sumVal222)+parseFloat(a2);
+       									sumVal333=parseFloat(sumVal333)+parseFloat(a3);
+     									sumVal444=parseFloat(sumVal444)+parseFloat(a4);  
+     							}
+         						else if(val.department_name=="Non Bank Funds")
+     							{
+      									sumVal1111=parseFloat(sumVal1111)+parseFloat(a1);
+      									sumVal2222=parseFloat(sumVal2222)+parseFloat(a2);
+        								sumVal3333=parseFloat(sumVal3333)+parseFloat(a3);
+      									sumVal4444=parseFloat(sumVal4444)+parseFloat(a4);           									
+     							}  
+         				});
+
+         		$.each(data,function(key,val)
+         				{
 	                   		if(DepartmentArray.indexOf(val.department_name)==-1)
 	                   		{   
 	                   				DepartmentArray.push(val.department_name);
 				         			var html="<li>";
-				                    html=html+'<div class="collapsible-header"  style="background-color:#007A7A;color:#ffffff;"><span>'+CheckLp+'</span><span style="margin-right:70px;"></span><span>'+val.department_name+'</span></div>';
+				                    html=html+'<div class="collapsible-header"  style="background-color:#007A7A;color:#ffffff;"><span>'+CheckLp+'</span>';
+				                    html=html+'<span style="margin-right:90px;"></span><span>'+val.department_name+'</span>';
+				                    
+				                    if(val.department_name=="Engineering")
+				                    	{
+						                    html=html+'<span style="margin-right:670px;"></span><span>'+sumVal1.toFixed(2)+'</span>';
+						                    html=html+'<span style="margin-right:150px;"></span><span>'+sumVal2.toFixed(2)+'</span>';
+						                    html=html+'<span style="margin-right:250px;"></span><span>'+sumVal3.toFixed(2)+'</span>';
+						                    html=html+'<span style="margin-right:200px;"></span><span>'+sumVal4.toFixed(2)+'</span>';
+				                    	}
+	         						else if(val.department_name=="Electrical")
+	       							{
+
+						                    html=html+'<span style="margin-right:700px;"></span><span>'+sumVal11.toFixed(2)+'</span>';
+						                    html=html+'<span style="margin-right:180px;"></span><span>'+sumVal22.toFixed(2)+'</span>';
+						                    html=html+'<span style="margin-right:270px;"></span><span>'+sumVal33.toFixed(2)+'</span>';
+						                    html=html+'<span style="margin-right:220px;"></span><span>'+sumVal44.toFixed(2)+'</span>';      									
+	       								
+	 							
+	       							}
+	         						else if(val.department_name=="Signalling & Telecom")
+	     							{
+
+						                    html=html+'<span style="margin-right:620px;"></span><span>'+sumVal111.toFixed(2)+'</span>';
+						                    html=html+'<span style="margin-right:180px;"></span><span>'+sumVal222.toFixed(2)+'</span>';
+						                    html=html+'<span style="margin-right:270px;"></span><span>'+sumVal333.toFixed(2)+'</span>';
+						                    html=html+'<span style="margin-right:220px;"></span><span>'+sumVal444.toFixed(2)+'</span>';
+	       								
+	          							
+	     							}
+	         						else if(val.department_name=="Non Bank Funds")
+	     							{
+
+							                    html=html+'<span style="margin-right:700px;"></span><span>'+sumVal1111.toFixed(2)+'</span>';
+							                    html=html+'<span style="margin-right:180px;"></span><span>'+sumVal2222.toFixed(2)+'</span>';
+							                    html=html+'<span style="margin-right:270px;"></span><span>'+sumVal3333.toFixed(2)+'</span>';
+							                    html=html+'<span style="margin-right:220px;"></span><span>'+sumVal4444.toFixed(2)+'</span>';         									
+	         								
+	     							}				                    
+				                    
+				                    
+				                    
+				                    html=html+'</div>';
 				                    html=html+'<div class="collapsible-body"><span>';
 			
 			                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+

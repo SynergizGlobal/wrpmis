@@ -143,7 +143,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 				formHistory.setModule_name_fk("Finance");
 				formHistory.setForm_name("Add Source of Fund");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Source of Fund "+obj.getFunds_id() + " Added");
+				formHistory.setForm_details("New Source of Fund "+obj.getFunds_id() + " Created");
 				//formHistory.setWork(obj.getWork_id_fk());
 				//formHistory.setContract(budget.getContract_id_fk());
 				

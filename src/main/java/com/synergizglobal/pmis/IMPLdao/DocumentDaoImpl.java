@@ -562,7 +562,7 @@ public class DocumentDaoImpl implements DocumentDao{
 				formHistory.setModule_name_fk("Works");
 				formHistory.setForm_name("Add Document");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Document "+obj.getDocument_no() + " Added");
+				formHistory.setForm_details("New Document "+obj.getDocument_no() + " Created");
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				

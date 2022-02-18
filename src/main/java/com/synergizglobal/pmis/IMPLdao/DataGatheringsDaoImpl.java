@@ -271,7 +271,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				formHistory.setModule_name_fk("Works");
 				formHistory.setForm_name("Add Data Gathering");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Data Gathering "+obj.getId() + " Added");
+				formHistory.setForm_details("New Data Gathering "+obj.getId() + " Created");
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				

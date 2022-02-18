@@ -410,7 +410,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				formHistory.setModule_name_fk("Works");
 				formHistory.setForm_name("Add Deliverable");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Deliverable "+obj.getId() + " Added");
+				formHistory.setForm_details("New Deliverable "+obj.getId() + " Created");
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				

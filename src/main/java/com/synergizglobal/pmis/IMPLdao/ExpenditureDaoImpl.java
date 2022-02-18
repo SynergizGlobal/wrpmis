@@ -353,7 +353,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				formHistory.setModule_name_fk("Finance");
 				formHistory.setForm_name("Add Expenditure");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Expenditure "+obj.getExpenditure_id() + " Added");
+				formHistory.setForm_details("New Expenditure "+obj.getExpenditure_id() + " Created");
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				

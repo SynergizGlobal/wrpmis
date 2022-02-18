@@ -788,7 +788,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				formHistory.setModule_name_fk("Works");
 				formHistory.setForm_name("Add Zonal Railway");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Zonal Railway "+obj.getContract_id() + " Added");
+				formHistory.setForm_details("New Zonal Railway "+obj.getContract_id() + " Created");
 				formHistory.setWork(obj.getWork_id_fk());
 				//formHistory.setContract(obj.getContract_id_fk());
 				

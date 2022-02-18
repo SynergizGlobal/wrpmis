@@ -1051,7 +1051,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				formHistory.setModule_name_fk("Training");
 				formHistory.setForm_name("Add Training");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Training "+obj.getTraining_id() + " Added");
+				formHistory.setForm_details("New Training "+obj.getTraining_id() + " Created");
 				//formHistory.setWork(obj.getWork_id_fk());
 				//formHistory.setContract(obj.getContract_id_fk());
 				

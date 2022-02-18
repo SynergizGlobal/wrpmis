@@ -1126,7 +1126,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				formHistory.setModule_name_fk("R & R");
 				formHistory.setForm_name("Add R & R");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("R & R "+obj.getRr_id() + " Added");
+				formHistory.setForm_details("New R & R "+obj.getRr_id() + " Created");
 				formHistory.setWork(obj.getWork_id());
 				//formHistory.setContract(obj.getContract_id_fk());
 				

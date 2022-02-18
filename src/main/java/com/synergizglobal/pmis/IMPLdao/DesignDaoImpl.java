@@ -705,7 +705,7 @@ public class DesignDaoImpl implements DesignDao{
 				formHistory.setModule_name_fk("Design");
 				formHistory.setForm_name("Add Design");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Design "+obj.getDesign_id() + " Added");
+				formHistory.setForm_details("New Design "+obj.getDesign_id() + " Created");
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				

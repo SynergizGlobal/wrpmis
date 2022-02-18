@@ -746,7 +746,7 @@ public class WorkDaoImpl implements WorkDao {
 				formHistory.setModule_name_fk("Works");
 				formHistory.setForm_name("Add Work");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Work "+workId + " Added");
+				formHistory.setForm_details("New Work "+workId + " Created");
 				formHistory.setWork(workId);
 				formHistory.setWork_name(work.getWork_short_name());
 				//formHistory.setContract(obj.getContract_id_fk());

@@ -863,7 +863,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					formHistory.setModule_name_fk("Utility Shifting");
 					formHistory.setForm_name("Add Utility Shifting");
 					formHistory.setForm_action_type("Add");
-					formHistory.setForm_details("Utility Shifting "+USID + " Added");
+					formHistory.setForm_details("New Utility Shifting "+USID + " Created");
 					formHistory.setWork(obj.getWork_id_fk());
 					formHistory.setContract(obj.getContract_id_fk());
 					

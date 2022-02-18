@@ -248,7 +248,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				formHistory.setModule_name_fk("Safety");
 				formHistory.setForm_name("Add Safety ");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Safety  "+obj.getSafety_id() + " Added");
+				formHistory.setForm_details("New Safety  "+obj.getSafety_id() + " Created");
 				formHistory.setWork(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				

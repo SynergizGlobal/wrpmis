@@ -736,7 +736,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					formHistory.setModule_name_fk("Works");
 					formHistory.setForm_name("Add Structure Form");
 					formHistory.setForm_action_type("Add");
-					formHistory.setForm_details("Structure for "+obj.getWork_id_fk() + " Added");
+					formHistory.setForm_details("New Structure for "+obj.getWork_id_fk() + " Created");
 					formHistory.setWork(obj.getWork_id_fk());
 					//formHistory.setContract(obj.getContract_id_fk());
 					

@@ -683,7 +683,7 @@ public class RandRBsesDaoImpl implements RandRBsesDao{
 					formHistory.setModule_name_fk("R & R");
 					formHistory.setForm_name("Add RR Bses");
 					formHistory.setForm_action_type("Add");
-					formHistory.setForm_details("RR Bses "+obj.getBses_id() + " Added");
+					formHistory.setForm_details("New RR Bses "+obj.getBses_id() + " Created");
 					formHistory.setWork(obj.getWork_id_fk());
 					formHistory.setContract(obj.getContract_id_fk());
 					

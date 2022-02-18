@@ -104,7 +104,7 @@ public class ContractorDaoImpl implements ContractorDao {
 				formHistory.setModule_name_fk("Contracts");
 				formHistory.setForm_name("Add Contractor ");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Contractor  "+obj.getContractor_id() + " Added");
+				formHistory.setForm_details("New Contractor  "+obj.getContractor_id() + " Created");
 				//formHistory.setWork(obj.getWork_id_fk());
 				//formHistory.setContract(obj.getContract_id_fk());
 				

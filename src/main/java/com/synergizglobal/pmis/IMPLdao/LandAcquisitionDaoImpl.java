@@ -758,7 +758,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				formHistory.setModule_name_fk("Land Acquisition");
 				formHistory.setForm_name("Add Land Acquisition");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Land Acquisition "+obj.getLa_id() + " Added");
+				formHistory.setForm_details("New Land Acquisition "+obj.getLa_id() + " Created");
 				formHistory.setWork(obj.getWork_id_fk());
 				//formHistory.setContract(obj.getContract_id_fk());
 				

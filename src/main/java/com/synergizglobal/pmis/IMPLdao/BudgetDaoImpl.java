@@ -260,7 +260,7 @@ public class BudgetDaoImpl implements BudgetDao {
 				formHistory.setModule_name_fk("Finance");
 				formHistory.setForm_name("Add Budget");
 				formHistory.setForm_action_type("Add");
-				formHistory.setForm_details("Budget "+budget.getWork_id_fk() + " Added");
+				formHistory.setForm_details("New Budget "+budget.getWork_id_fk() + " Created");
 				formHistory.setWork(budget.getWork_id_fk());
 				//formHistory.setContract(budget.getContract_id_fk());
 				

@@ -62,7 +62,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"left join department d on d.department=c.department_fk "+
-					"where work_id_fk is not null and work_id_fk <> '' ";
+					"where work_id_fk is not null and work_id_fk <> '' and work_id_fk in('P04w01') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -107,7 +107,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 			String qry = "SELECT distinct department_fk,department_name "
 					+ "from contract c "
 					+"left join department dt on c.department_fk = dt.department "
-					+"where department_fk is not null and department_fk <> '' ";
+					+"where department_fk is not null and department_fk <> '' and work_id_fk in('P04w01') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -153,18 +153,20 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 					+ "                    case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end as awarded_cost,\r\n"
 					+ "                    SUM((e.gross_work_done * e.gross_work_done_units)) cumulative_expenditure,\r\n"
 					+ "                    SUM((e1.gross_work_done * e1.gross_work_done_units)) actual_financial_progress,\r\n"
-					+ "                    (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end)-(SUM((e.gross_work_done * e.gross_work_done_units))) AS actual_physical_progress,department_name \r\n"
+					+ "                    (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end)-(SUM((e.gross_work_done * e.gross_work_done_units))) AS actual_physical_progress,d1.department_name \r\n"
 					+ "					from contract c \r\n"
 					+ "					LEFT JOIN work w on c.work_id_fk = w.work_id\r\n"
 					+ "					LEFT JOIN project p on w.project_id_fk = p.project_id\r\n"
 					+ "					left join department d on d.department=c.department_fk\r\n"
+					+ "	LEFT JOIN user u ON c.hod_user_id_fk = u.user_id " 
+					+ "	left join department d1 on d1.department=u.department_fk " 					
 					+ "                    left join contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes'\r\n"
 					+ "                    left join expenditure e on e.contract_id_fk= c.contract_id\r\n"
 					+ "                    left join expenditure e1 on e1.contract_id_fk= c.contract_id and e1.voucher_type=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END)\r\n"
 					+ "LEFT join money_unit mu1 ON c.estimated_cost_units = mu1.value " 
 					+ "LEFT join money_unit mu2 ON c.awarded_cost_units = mu2.value " 
 					+ "LEFT join money_unit mu3 ON c.completed_cost_units = mu3.value " 
-					+ "	where work_id_fk is not null and work_id_fk <> '' ";
+					+ "	where work_id_fk is not null and work_id_fk <> '' and work_id_fk in('P04w01') ";
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -176,7 +178,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 				arrSize++;
 			}
 	
-			qry=qry+" group by contract_id";
+			qry=qry+" group by contract_id ORDER BY FIELD(d1.department_name,'Engineering','Electrical','Signalling & Telecom') ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

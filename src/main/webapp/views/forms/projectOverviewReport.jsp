@@ -537,10 +537,10 @@
 	         						else if(val.department_name=="Non Bank Funds")
 	     							{
 
-							                    html=html+'<span style="margin-right:700px;"></span><span>'+sumVal1111.toFixed(2)+'</span>';
-							                    html=html+'<span style="margin-right:180px;"></span><span>'+sumVal2222.toFixed(2)+'</span>';
-							                    html=html+'<span style="margin-right:270px;"></span><span>'+sumVal3333.toFixed(2)+'</span>';
-							                    html=html+'<span style="margin-right:220px;"></span><span>'+sumVal4444.toFixed(2)+'</span>';         									
+							                    html=html+'<span style="margin-right:650px;"></span><span>'+sumVal1111.toFixed(2)+'</span>';
+							                    html=html+'<span style="margin-right:170px;"></span><span>'+sumVal2222.toFixed(2)+'</span>';
+							                    html=html+'<span style="margin-right:240px;"></span><span>'+sumVal3333.toFixed(2)+'</span>';
+							                    html=html+'<span style="margin-right:190px;"></span><span>'+sumVal4444.toFixed(2)+'</span>';         									
 	         								
 	     							}				                    
 				                    

@@ -467,7 +467,7 @@
 						    	         						html=html+'<td>'+val1.scope+'</td>';
 						    	         						html=html+'<td>'+val1.completed+'%</td>';
 						    	         						html=html+'<td>'+val1.pending+'%</td>';
-						    	         						html=html+'<td></td>';
+						    	         						html=html+'<td>'+val1.modified_date+'</td>';
 						    	         					html=html+'</tr>';
 				    	         						}
 				    	         				});

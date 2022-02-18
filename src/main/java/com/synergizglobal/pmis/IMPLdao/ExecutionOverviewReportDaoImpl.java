@@ -223,7 +223,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					+ "        '100%' as Scope,\r\n"
 					+ "        `c`.`work_id` AS `work_id`,\r\n"
 					+ "        `c`.`department` AS `department`,\r\n"
-					+ "        ifnull((select DATE_FORMAT(modified_date,'%d-%m-%Y')  from activities a1 where a1.structure=a.structure order by modified_date asc  limit 1 ),'') as modified_date,\r\n"
+					+ "        ifnull((select DATE_FORMAT(MAX(modified_date),'%d-%b-%y') from activities a1 where a1.structure=a.structure),'') as modified_date,\r\n"
 					+ "        \r\n"
 					+ "        \r\n"
 					+ "       ifnull(ROUND( (SUM(`a`.`actual`) / (SELECT \r\n"

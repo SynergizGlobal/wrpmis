@@ -3938,7 +3938,8 @@ public class ContractDaoImpl implements ContractDao {
 					"c.remarks " + 
 					"FROM contract c " + 
 					"LEFT join work w ON c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
-					"LEFT join department dt ON c.department_fk = dt.department " + 
+					"left join user u on c.hod_user_id_fk = u.user_id " +
+					"left join department dt on u.department_fk = dt.department " +
 					"LEFT join money_unit mu1 ON c.estimated_cost_units = mu1.value " + 
 					"LEFT join money_unit mu2 ON c.awarded_cost_units = mu2.value " + 
 					"LEFT join money_unit mu3 ON c.completed_cost_units = mu3.value " + 
@@ -3946,7 +3947,7 @@ public class ContractDaoImpl implements ContractDao {
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and u.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -3957,7 +3958,7 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY c.contract_id ASC";
+			qry = qry + " ORDER BY FIELD(u.department_fk,'Engg','Elec','S&T'),FIELD(c.contract_status_fk,'In Progress','Not Awarded','Completed')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = "Actual";
@@ -4008,24 +4009,26 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getDepartmentsFilterListInContract(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT department_fk,department_name "
+			String qry = "SELECT u.department_fk,dt.department_name "
 					+ "from contract c "
-					+"left join department dt on c.department_fk = dt.department "
-					+"where department_fk is not null and department_fk <> '' ";
+					+"left join user u on c.hod_user_id_fk = u.user_id "
+					+"left join department dt on u.department_fk = dt.department "
+					+"where u.department_fk is not null and u.department_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ? ";
+				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY c.department_fk ";
+			qry = qry + " GROUP BY u.department_fk "
+					  + " ORDER BY FIELD(u.department_fk,'Engg','Elec','S&T')";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

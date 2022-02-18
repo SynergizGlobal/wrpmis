@@ -492,6 +492,7 @@
 		
 		$.fn.dataTable.moment('DD-MMM-YYYY');
 		table = $('#datatable-contract-details').DataTable({
+			"order": [],
 			//"paging":   false,
 	        "ordering": false,
 	        //"info":     false,

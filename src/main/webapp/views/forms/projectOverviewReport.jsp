@@ -239,13 +239,13 @@
 								<div class="row no-mar">
 									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Work</p>
-										<select id="work_id_fk" name="work_id_fk" class="searchable">
+										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getProjectOverviewDetailList();">
 											<option value="">Select</option>										
 										</select> 
 									</div>										
 									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Department</p>
-										<select id="department_fk" name="department_fk" class="searchable">
+										<select id="department_fk" name="department_fk" class="searchable" onChange="getProjectOverviewDetailList();">
 											<option value="">Select</option>
 										</select>
 									</div>
@@ -273,7 +273,7 @@
                                    </div>
                                    <div class="col m4 s4 center-align con-center">
                                        <span class="box sandt"></span>
-                                       <span class="description">S&T</span>
+                                       <span class="description">Signalling & Telecom</span>
                                    </div>
                               </fieldset>
 						</div>
@@ -287,12 +287,14 @@
 										<th>Expenditure till Date (CR)</th>
 										<th>Expenditure this FY (CR)</th>
 										<th>Pending Amount (CR)</th>
+										<th>Department Name</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<td></td>
 										<td></td>	
+										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>
@@ -344,9 +346,8 @@
 	<form action="<%=request.getContextPath()%>/get-contract" id="getForm" name="getForm" method="post" >
   		<input type="hidden" name="contract_id" id="contract_id"/>
     </form>
-    <form action="<%=request.getContextPath() %>/export-details-of-contract" name="exportProjectOverviewDetailForm" id="exportProjectOverviewDetailForm" target="_blank" method="post">	
+    <form action="<%=request.getContextPath() %>/export-project-overview-report" name="exportProjectOverviewDetailForm" id="exportProjectOverviewDetailForm" target="_blank" method="post">	
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
-        <input type="hidden" name="contract_status_fk" id="exportContract_status_fk" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
 	</form>
 
@@ -365,53 +366,7 @@
     $(document).ready(function () {
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
-           
-          /*  can delete after integrated with backend  */
-           $('#datatable-project-overview-details').DataTable({
-               columnDefs: [
-                   {
-                       targets: [0],
-                       className: 'mdl-data-table__cell--non-numeric',
-                       targets: 'no-sort', orderable: false,
-                   },
-                   { "width": "20px", "targets": [5] },
-               ],
-               "sScrollX": "100%",
-               "ordering": false,
-               "sScrollXInner": "100%",
-               "bScrollCollapse": true,
-               fixedHeader: true,
-               "initComplete" : function() {
-					$('.dataTables_filter input[type="search"]')
-							.attr('placeholder', 'Search')
-							.addClass('ms-w280')
-							.css({
-								'width' : '350px ',
-								'display' : 'inline-block'
-							});
-					var input = $('.dataTables_filter input')
-							.unbind()
-							.bind('keyup',function(e){
-						    if (e.which == 13){
-						    	self.search(input.val()).draw();
-						    }
-						}), self = this.api(), $searchButton = $('<i class="fa fa-search" title="Go" >')
-					.click(function() {
-						self.search(input.val()).draw();
-					}), 
-					$clearButton = $('<i class="fa fa-close" title="Reset">')
-					.click(function() {
-						input.val('');
-						$searchButton.click();
-					})
-					$('.dataTables_filter').append( '<div class="right-btns"></div>');
-					$('.dataTables_filter div').append( $searchButton, $clearButton); 					
-				},
-           });
-           
-           /*  can delete after integrated with backend  */
-           
-           
+
            var filters = window.localStorage.getItem("projectOverviewDetailsFilters");
          
            if($.trim(filters) != '' && $.trim(filters) != null){
@@ -423,15 +378,13 @@
 		        		  getWorkFilterList(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'department_fk'){
 		        		  getDepartmentFilterList(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'contract_status_fk'){
-		        		  getContractStatusFilterList(temp2[1]);
 		        	  }
 	        	  }
 	          }
            } 
     	   $('.close-message').delay(3000).fadeOut('slow');
     	
-    	   //getProjectOverviewDetailList();
+    	   getProjectOverviewDetailList();
     	
     });
     
@@ -468,14 +421,11 @@
   
    
     function getProjectOverviewDetailList(){
-    	$(".page-loader-2").show();
+    	//$(".page-loader-2").show();
     	getDepartmentFilterList('');
     	getWorkFilterList('');
     	    	
     	var work_id_fk = $("#work_id_fk").val();
-    	if($.trim(work_id_fk) == '' ){
-    		work_id_fk = 'P04W01';
-    	}
     	var department_fk = $("#department_fk").val();
 
     	var filters = '';
@@ -503,10 +453,10 @@
 				window.localStorage.setItem("projectOverviewDetailsPageNo", info.page);
 			},
             columnDefs: [
-                {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
-                {targets: [1],className: 'hide-column'},
-                {targets: [0, 3, 4, 5, 7],className: 'center-column'},
-                {targets: [2, 8],className: 'fw-230'},
+                {targets: [0],className: 'mdl-data-table__cell--non-numeric'},
+                {targets: [2, 3, 4, 5],className: 'center-column'},
+                {targets: [1],className: 'w300'},
+                {targets: [6],className: 'hide-column'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             "sScrollX": "100%",
@@ -539,13 +489,13 @@
 					$('.dataTables_filter div').append( $searchButton, $clearButton); 					
 				},
 			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-			        if (aData[1] == "Engineering") {
+			        if (aData[6] == "Engineering") {
 			          $('td', nRow).css('background-color', '#ffc000');
 			          $('td', nRow).css('color', 'black');
-			        }else if (aData[1] == "Electrical") {
+			        }else if (aData[6] == "Electrical") {
 			          $('td', nRow).css('background-color', '#2F75B5');
 			          $('td', nRow).css('color', 'Black');
-			        }else if (aData[1] == "S&T") {
+			        }else if (aData[6] == "Signalling & Telecom") {
 			          $('td', nRow).css('background-color', '#548235');
 			          $('td', nRow).css('color', 'White');
 			        }else{
@@ -558,33 +508,25 @@
 		table.state.clear();		
 	 
 	 	var myParams = { work_id_fk : work_id_fk,department_fk : department_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/getDetailsOfContracts",type:"POST",data:myParams,async: true,success : function(data){    				
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getProjectOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){   
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	                    var rowArray = []; 
                         
-                        var conractName = val.contract_id;
-                        if ($.trim(val.contract_short_name) != ''){
-                        	conractName = $.trim(val.contract_short_name) 
-                        }
-                        var loa_date = val.loa_date;
-                        if ($.trim(val.contract_status_fk) == 'Not Awarded'){
-                        	loa_date = $.trim(val.planned_date_of_award) 
-                        }
-                        
 	                   	rowArray.push($.trim(key+1));
-	                   	rowArray.push($.trim(val.contract_status_fk));
-	                   	rowArray.push($.trim(conractName));
+	                   	rowArray.push($.trim(val.contract_short_name));
 	                   	rowArray.push($.trim(val.awarded_cost));
 	                   	rowArray.push($.trim(val.cumulative_expenditure));
-	                   	rowArray.push($.trim(val.physical_progress));
+	                   	rowArray.push($.trim(val.actual_financial_progress));
+	                   	rowArray.push($.trim(val.actual_physical_progress));
+	                   	rowArray.push($.trim(val.department_name));
 	                   	             		                   	
 	                    table.row.add(rowArray).draw( true );
 	                    
 					});
-	         		$(".page-loader-2").hide();
+	         		//$(".page-loader-2").hide();
 				}else{
-					$(".page-loader-2").hide();
+					//$(".page-loader-2").hide();
 				}
 				
 			},error: function (jqXHR, exception) {
@@ -596,16 +538,13 @@
 	function getDepartmentFilterList(department){
 	    	$(".page-loader").show();
 	    	var work_id_fk = $("#work_id_fk").val();
-	    	if($.trim(work_id_fk) == '' ){
-	    		work_id_fk = 'P04W01';
-	    	}
 	    	var department_fk = $("#department_fk").val();
-	    	var contract_status_fk = $("#contract_status_fk").val();
+	    	
 	        if ($.trim(department_fk) == "") {
 	        	$("#department_fk option:not(:first)").remove();
-	    	 	var myParams = { department_fk : department_fk, work_id_fk : work_id_fk, contract_status_fk : contract_status_fk};
+	    	 	var myParams = { department_fk : department_fk, work_id_fk : work_id_fk};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getDepartmentsFilterListInContract",
+	                url: "<%=request.getContextPath()%>/ajax/getDepartmentFilterListInPOR",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -635,13 +574,10 @@
     	var department_fk = $("#department_fk").val();
     	
 	    if ($.trim(work_id_fk) == "") {
-	    	if($.trim(work_id_fk) == '' ){
-	    		work_id_fk = 'P04W01';
-	    	}
 	    	$("#work_id_fk option:not(:first)").remove();
 		 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInContract",
+                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInPOR",
                 data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -694,7 +630,6 @@
      	 
      	 $("#exportWork_id_fk").val(work_id_fk);
      	 $("#exportDepartment_fk").val(department_fk);
-     	 $("#exportContract_status_fk").val(contract_status_fk);
      	
      	 $("#exportProjectOverviewDetailForm").submit();
   	}

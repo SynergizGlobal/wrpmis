@@ -498,7 +498,11 @@
 			        }else if (aData[6] == "Signalling & Telecom") {
 			          $('td', nRow).css('background-color', '#548235');
 			          $('td', nRow).css('color', 'White');
-			        }else{
+			        }else if (aData[6] == "Non Bank Funds") {
+				          $('td', nRow).css('background-color', '#7e7579');
+				          $('td', nRow).css('color', 'White');
+				        }
+			        else{
 			          $('td', nRow).css('background-color', 'White');
 			        }
 			      }

@@ -286,31 +286,14 @@
                                    </div>                                   
                               </fieldset>
 						</div>
-						<div class="col m12 s12">
-							<table id="datatable-project-overview-details" class="mdl-data-table">
-								<thead>
-									<tr>										
-										<th>S No</th>
-										<th>Particular</th>
-										<th>Awarded Cost</th>
-										<th>Expenditure till Date (CR)</th>
-										<th>Expenditure this FY (CR)</th>
-										<th>Pending Amount (CR)</th>
-										<th>Department Name</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td></td>
-										<td></td>	
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>									
-									</tr>
-								</tbody>
-							</table>
+						<div class="col m12 s12" id="divCollapase">
+						
+	
+	
+							<ul class="collapsible">
+
+						    </ul>
+							
 						</div>
 					</div>
 				</div>
@@ -373,6 +356,7 @@
     var filtersMap = new Object();
     var pageNo = window.localStorage.getItem("projectOverviewPageNo");
     $(document).ready(function () {
+    	$('.collapsible').collapsible();
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
 
@@ -430,7 +414,8 @@
   
    
     function getProjectOverviewDetailList(){
-    	//$(".page-loader-2").show();
+    	$(".page-loader-2").show();
+    	$('#divCollapase ul').html("");
     	getDepartmentFilterList('');
     	getWorkFilterList('');
     	    	
@@ -442,111 +427,71 @@
     		filters = filters + key +"="+filtersMap[key] + "^";
     		window.localStorage.setItem("projectOverviewDetailsFilters", filters);
 		});
-     	table = $('#datatable-project-overview-details').DataTable();
-		 
-		table.destroy();
+     		
 		
-		$.fn.dataTable.moment('DD-MMM-YYYY');
-		table = $('#datatable-project-overview-details').DataTable({
-			//"paging":   false,
-	        "ordering": false,
-	        //"info":     false,
-			"bStateSave": true,  
-     		fixedHeader: true,
-			"iDisplayLength" : 10,
-			"iData" : {
-				"start" : 52
-			},"iDisplayStart" : 0,
-			"drawCallback" : function() {
-				var info = table.page.info();
-				window.localStorage.setItem("projectOverviewDetailsPageNo", info.page);
-			},
-            columnDefs: [
-                {targets: [0],className: 'mdl-data-table__cell--non-numeric'},
-                {targets: [2, 3, 4, 5],className: 'center-column'},
-                {targets: [1],className: 'w300'},
-                {targets: [6],className: 'hide-column'},
-                { orderable: false, 'aTargets': ['nosort'] }
-            ],
-            "sScrollX": "100%",
-            "sScrollXInner": "100%",
-            "bScrollCollapse": true,
-            "initComplete" : function() {
-					$('.dataTables_filter input[type="search"]')
-							.attr('placeholder', 'Search')
-							.addClass('ms-w280')
-							.css({
-								'width' : '350px ',
-								'display' : 'inline-block'
-							});
-					var input = $('.dataTables_filter input')
-							.unbind()
-							.bind('keyup',function(e){
-						    if (e.which == 13){
-						    	self.search(input.val()).draw();
-						    }
-						}), self = this.api(), $searchButton = $('<i class="fa fa-search" title="Go" >')
-					.click(function() {
-						self.search(input.val()).draw();
-					}), 
-					$clearButton = $('<i class="fa fa-close" title="Reset">')
-					.click(function() {
-						input.val('');
-						$searchButton.click();
-					})
-					$('.dataTables_filter').append( '<div class="right-btns"></div>');
-					$('.dataTables_filter div').append( $searchButton, $clearButton); 					
-				},
-			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-			        if (aData[6] == "Engineering") {
-			          $('td', nRow).css('background-color', '#ffc000');
-			          $('td', nRow).css('color', 'black');
-			        }else if (aData[6] == "Electrical") {
-			          $('td', nRow).css('background-color', '#2F75B5');
-			          $('td', nRow).css('color', 'Black');
-			        }else if (aData[6] == "Signalling & Telecom") {
-			          $('td', nRow).css('background-color', '#548235');
-			          $('td', nRow).css('color', 'White');
-			        }else if (aData[6] == "Non Bank Funds") {
-				          $('td', nRow).css('background-color', '#7e7579');
-				          $('td', nRow).css('color', 'White');
-				        }
-			        else{
-			          $('td', nRow).css('background-color', 'White');
-			        }
-			      }
-        }).rows().remove().draw();
-		
-		
-		table.state.clear();		
+		var DepartmentArray=new Array(); 
+
 	 
 	 	var myParams = { work_id_fk : work_id_fk,department_fk : department_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/getProjectOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){   
-				if(data != null && data != '' && data.length > 0){    					
-	         		$.each(data,function(key,val){
-	                    var rowArray = []; 
-                        
-	                   	rowArray.push($.trim(key+1));
-	                   	rowArray.push($.trim(val.contract_short_name));
-	                   	rowArray.push($.trim(val.awarded_cost));
-	                   	rowArray.push($.trim(val.cumulative_expenditure));
-	                   	rowArray.push($.trim(val.actual_financial_progress));
-	                   	rowArray.push($.trim(val.actual_physical_progress));
-	                   	rowArray.push($.trim(val.department_name));
-	                   	             		                   	
-	                    table.row.add(rowArray).draw( true );
-	                    
-					});
-	         		//$(".page-loader-2").hide();
-				}else{
-					//$(".page-loader-2").hide();
-				}
-				
-			},error: function (jqXHR, exception) {
-				$(".page-loader-2").hide();
-	         	getErrorMessage(jqXHR, exception);
-	     }});
-    } 
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getProjectOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){ 
+			
+
+			
+			if(data != null && data != '' && data.length > 0){  
+				var CheckLp=1;
+         		$.each(data,function(key,val)
+         				{
+         			
+	                   		if(DepartmentArray.indexOf(val.department_name)==-1)
+	                   		{   
+	                   				DepartmentArray.push(val.department_name);
+				         			var html="<li>";
+				                    html=html+'<div class="collapsible-header"  style="background-color:#007A7A;color:#ffffff;"><span>'+CheckLp+'</span><span style="margin-right:70px;"></span><span>'+val.department_name+'</span></div>';
+				                    html=html+'<div class="collapsible-body"><span>';
+			
+			                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+
+									'<thead>'+
+										'<tr>'+
+											'<th>S. No.</th>'+
+											'<th>Particular</th>'+
+											'<th>Awarded Cost</th>'+
+											'<th>Expenditure till Date (CR)</th>'+
+											'<th>Expenditure this FY (CR)</th>'+
+											'<th>Pending Amount (CR)</th>'+
+										'</tr>'+
+									'</thead>'+
+									'<tbody>';
+			    	         		$.each(data,function(key1,val1)
+			    	         				{
+			    	         					if(val.department_name==val1.department_name)
+			    	         						{
+					    	         					html=html+'<tr>';
+					    	         						html=html+'<td>'+$.trim(key1+1-key)+'</td>';
+					    	         						html=html+'<td>'+val1.contract_short_name+'</td>';
+					    	         						html=html+'<td>'+val1.awarded_cost+'</td>';
+					    	         						html=html+'<td>'+val1.cumulative_expenditure+'</td>';
+					    	         						html=html+'<td>'+val1.actual_financial_progress+'</td>';
+					    	         						html=html+'<td>'+val1.actual_physical_progress+'</td>';
+					    	         					html=html+'</tr>';
+			    	         						}
+			    	         				});
+			    	         		html=html+'</tbody></table></span></div>';
+			    	         		$('.collapsible').append(html);
+			    	         		CheckLp++;
+			    	         		
+	                   		}
+	                   		
+	                   		
+						});
+         		
+         		$(".page-loader-2").hide();
+
+     			
+			}
+         		
+		}
+	});
+}
         
 	function getDepartmentFilterList(department){
 	    	$(".page-loader").show();

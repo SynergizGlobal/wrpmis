@@ -587,7 +587,7 @@
 	                        $.each(data, function (i, val) {
 	                        	 var contractShortName = '';
 	                             if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
-	                             var selectedFlag = (contractShortName == val.contract_id)?'selected':'';
+	                             var selectedFlag = ("P04W01EN04" == val.contract_id)?'selected':'';
 	                             if(data.length == 1 ){
 	                            	 selectedFlag = 'selected';
 	                             }

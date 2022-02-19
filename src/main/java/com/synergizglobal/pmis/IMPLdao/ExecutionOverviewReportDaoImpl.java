@@ -57,7 +57,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct work_id,work_short_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where 0=0 ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where work_id in('P04w01') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -110,7 +110,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct d.department,concat(department_name,' / ',hod) as department_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) left join department d on d.department_name=c.department where 0=0 ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) left join department d on d.department_name=c.department where work_id in('P04w01') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -163,7 +163,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct contract_id,contract_short_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where 0=0 ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where work_id in('P04w01') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -216,7 +216,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select * from (SELECT \r\n"
-					+ "        `a`.`contract_id_fk` AS `contract_id`,\r\n"
+					+ "        distinct `a`.`contract_id_fk` AS `contract_id`,\r\n"
 					+ "        `a`.`structure_type` AS `structure_type_fk`,\r\n"
 					+ "        `a`.`structure` AS `strip_chart_structure_id`,hod,\r\n"
 					+ "        '%' as unit_fk,\r\n"
@@ -243,7 +243,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					+ "    FROM\r\n"
 					+ "        (`activities_actual` `a`\r\n"
 					+ "        LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`)))\r\n"
-					+ "    GROUP BY `a`.`contract_id_fk` , `a`.`structure` order by structure_type_fk,strip_chart_structure_id) as eor where 0=0  ";
+					+ "    where work_id in('P04w01') GROUP BY `a`.`contract_id_fk` , `a`.`structure` order by structure_type_fk,strip_chart_structure_id) as eor where 0=0  ";
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

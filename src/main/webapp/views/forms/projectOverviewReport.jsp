@@ -547,31 +547,31 @@
 				         			var html="<li>", class_name='', internal_text='';
 				         			if(val.department_name=="Engineering") {
 				         				class_name="engineering";
-				         				internal_text=internal_text+'<span class="fw-10p">'+sumVal1.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal2.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal3.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-10p">'+sumVal4.toFixed(2)+'</span>';
+				         				internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal1.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal2.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal3.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal4.toFixed(2)+'</span>';
 				         			}
 									if(val.department_name=="Electrical") {
 				         				class_name="electrical";
-				         				internal_text=internal_text+'<span class="fw-10p">'+sumVal11.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal22.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal33.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-10p">'+sumVal44.toFixed(2)+'</span>';  
+				         				internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal11.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal22.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal33.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal44.toFixed(2)+'</span>';  
 			         				}
 				         			if(val.department_name=="Signalling & Telecom") {
 				         				class_name="sandt";
-				         				internal_text=internal_text+'<span class="fw-10p">'+sumVal111.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal222.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal333.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-10p">'+sumVal444.toFixed(2)+'</span>'; 
+				         				internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal111.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal222.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal333.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal444.toFixed(2)+'</span>'; 
 			         				}
 				         			if(val.department_name=="Non Bank Funds") {
 				         				class_name="nbf";	
-				         				internal_text=internal_text+'<span class="fw-10p">'+sumVal1111.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal2222.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal3333.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span class="fw-10p">'+sumVal4444.toFixed(2)+'</span>'; 
+				         				internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal1111.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal2222.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal3333.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal4444.toFixed(2)+'</span>'; 
 			         				}				         			
 				         			
 				                    html=html+'<div class="collapsible-header white-text '+class_name+'"><span class="fw-5p">'+CheckLp+'</span><span class="fw-43p">'
@@ -580,28 +580,28 @@
 				                    html=html+'<div class="collapsible-body"><span>';	
 				                    
 			                    	html=html+'<table id="datatable-execution-overview-report'+CheckLp+'" class="mdl-data-table">'+
-									'<thead>'+
+/* 									'<thead>'+
 										'<tr>'+
 											'<th class="fw-5p">S. No.</th>'+
 											'<th class="fw-42p">Particular</th>'+
-											'<th class="fw-10p">Awarded Cost</th>'+
-											'<th class="fw-15p">Expenditure till Date (CR)</th>'+
-											'<th class="fw-15p">Expenditure this FY (CR)</th>'+
-											'<th class="fw-10p">Pending Amount (CR)</th>'+
+											'<th class="fw-10p" style="text-align:center;">Awarded Cost</th>'+
+											'<th class="fw-15p" style="text-align:center;">Expenditure till Date (CR)</th>'+
+											'<th class="fw-15p" style="text-align:center;">Expenditure this FY (CR)</th>'+
+											'<th class="fw-10p" style="text-align:center;">Pending Amount (CR)</th>'+
 										'</tr>'+
-									'</thead>'+
+									'</thead>'+ */
 									'<tbody>';
 			    	         		$.each(data,function(key1,val1)
 			    	         				{
 			    	         					if(val.department_name==val1.department_name)
 			    	         						{
 					    	         					html=html+'<tr>';
-					    	         						html=html+'<td>'+$.trim(key1+1-key)+'</td>';
-					    	         						html=html+'<td>'+val1.contract_short_name+'</td>';
-					    	         						html=html+'<td>'+val1.awarded_cost+'</td>';
-					    	         						html=html+'<td>'+val1.cumulative_expenditure+'</td>';
-					    	         						html=html+'<td>'+val1.actual_financial_progress+'</td>';
-					    	         						html=html+'<td>'+val1.actual_physical_progress+'</td>';
+					    	         						html=html+'<td class="fw-5p">'+$.trim(key1+1-key)+'</td>';
+					    	         						html=html+'<td class="fw-42p">'+val1.contract_short_name+'</td>';
+					    	         						html=html+'<td class="fw-10p" style="text-align:center;">'+val1.awarded_cost+'</td>';
+					    	         						html=html+'<td class="fw-15p" style="text-align:center;">'+val1.cumulative_expenditure+'</td>';
+					    	         						html=html+'<td class="fw-15p" style="text-align:center;">'+val1.actual_financial_progress+'</td>';
+					    	         						html=html+'<td class="fw-10p" style="text-align:center;">'+val1.actual_physical_progress+'</td>';
 					    	         					html=html+'</tr>';
 			    	         						}
 			    	         				});

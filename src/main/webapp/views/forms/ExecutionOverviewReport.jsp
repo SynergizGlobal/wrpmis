@@ -386,6 +386,7 @@
 	         			
 		         				var val1=0;
 		         				var val2=0;
+		         				var cnt=0;
 		         				
 		                   		if(CalStructureTypeValuesArray.indexOf(val.structure_type_fk)==-1)
 		                   		{   
@@ -402,15 +403,19 @@
 				    	         								val2=parseFloat(val2)+parseFloat(a1);
 				    	         						}
 				    	         				});
-			    	         		
+				    	         		cnt++;
 				    	         		
-		                   		}	         			
+		                   		}	
+		                   		val1=parseFloat(val1)/parseFloat(cnt);
+		                   		val2=parseFloat(val2)/parseFloat(cnt);
+		                   		console.log(val1);
+		                   		console.log(val2);
 	         			
 		                   		if(StructureTypeArray.indexOf(val.structure_type_fk)==-1)
 		                   		{   
 		                   				StructureTypeArray.push(val.structure_type_fk);
 					         			var html="<li>";
-					                    html=html+'<div class="collapsible-header"  style="padding:0rem;background-color:#007A7A;color:#ffffff;"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100%</th><th style="width:17%">'+val1+'</th><th style="width:11.7%">'+val2+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-header"  style="padding:0rem;background-color:#007A7A;color:#ffffff;"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100%</th><th style="width:17%">'+val1.tofixed(2)+'</th><th style="width:11.7%">'+val2.tofixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
 					                    html=html+'<div class="collapsible-body">';
 				
 				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+

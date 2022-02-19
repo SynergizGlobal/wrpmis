@@ -384,8 +384,8 @@
 	         		$.each(data,function(key,val)
 	         				{
 	         			
-		         				var val1=0;
-		         				var val2=0;
+		         				var cval1=0;
+		         				var pval2=0;
 		         				var cnt=0;
 		         				
 		                   		if(CalStructureTypeValuesArray.indexOf(val.structure_type_fk)==-1)
@@ -399,23 +399,22 @@
 				    	         								{a1=val1.pending;}
 				    	         								if(val1.completed!="" && val1.completed!=null && val1.completed!=undefined)
 				    	         								{a2=val1.completed;}
-				    	         								val1=parseFloat(val1)+parseFloat(a2);
-				    	         								val2=parseFloat(val2)+parseFloat(a1);
+				    	         								cval1=parseFloat(cval1)+parseFloat(a2);
+				    	         								pval2=parseFloat(pval2)+parseFloat(a1);
+				    	         								cnt++;
 				    	         						}
 				    	         				});
-				    	         		cnt++;
+				    	         		
 				    	         		
 		                   		}	
-		                   		val1=parseFloat(val1)/parseFloat(cnt);
-		                   		val2=parseFloat(val2)/parseFloat(cnt);
-		                   		console.log(val1);
-		                   		console.log(val2);
+		                   		cval1=cval1/cnt;
+		                   		pval2=pval2/cnt;
 	         			
 		                   		if(StructureTypeArray.indexOf(val.structure_type_fk)==-1)
 		                   		{   
 		                   				StructureTypeArray.push(val.structure_type_fk);
 					         			var html="<li>";
-					                    html=html+'<div class="collapsible-header"  style="padding:0rem;background-color:#007A7A;color:#ffffff;"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100%</th><th style="width:17%">'+val1.toFixed(2)+'</th><th style="width:11.7%">'+val2.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-header"  style="padding:0rem;background-color:#007A7A;color:#ffffff;"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100%</th><th style="width:17%">'+cval1.toFixed(2)+'</th><th style="width:11.7%">'+pval2.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
 					                    html=html+'<div class="collapsible-body">';
 				
 				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+
@@ -439,7 +438,6 @@
 				    	         		html=html+'</tbody></table></div>';
 				    	         		$('.collapsible').append(html);
 				    	         		CheckLp++;
-				    	         		console.log("swathi1234");
 				    	         		
 		                   		}
 							});

@@ -241,7 +241,7 @@
 										<th style="width:16.5%;padding-left: 0px !important;">Structure Type</th>
 										<th style="width:12%;">Unit</th>
 										<th style="width:15%;">Scope</th>
-										<th style="width:16.5%;">Completed</th>
+										<th style="width:17.4%;">Completed</th>
 										<th style="width:12%;">Pending</th>
 										<th>Last Updated on</th>
 										<th>Remarks</th>
@@ -362,7 +362,9 @@
     	$('#divCollapase ul').html("");
     	getDepartmentFilterList('');
     	getContractIdFilterList('');
+    	
     	getWorkFilterList('');
+    	
     	    	
     	var work_id_fk = $("#work_id_fk").val();
     	var department_fk = $("#department_fk").val();
@@ -414,7 +416,7 @@
 		                   		{   
 		                   				StructureTypeArray.push(val.structure_type_fk);
 					         			var html="<li>";
-					                    html=html+'<div class="collapsible-header"  style="padding:0rem;background-color:#007A7A;color:#ffffff;"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100%</th><th style="width:17%">'+cval1.toFixed(2)+'</th><th style="width:11.7%">'+pval2.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-header"  style="padding:0rem;background-color:#007A7A;color:#ffffff;"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100</th><th style="width:17%">'+cval1.toFixed(2)+'</th><th style="width:11.7%">'+pval2.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
 					                    html=html+'<div class="collapsible-body">';
 				
 				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+
@@ -516,7 +518,7 @@
 	                        $.each(data, function (i, val) {
 	                        	 var departmentHOD = '';
 	                             if ($.trim(val.department_name) != '') { departmentHOD =  $.trim(val.department_name) }
-	                             var selectedFlag = (department == val.department_name)?'selected':'';
+	                             var selectedFlag = ("Engineering / CPM II" == val.department_name)?'selected':'';
 	                             if(data.length == 1 ){
 	                            	 selectedFlag = 'selected';
 	                             }

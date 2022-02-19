@@ -30,6 +30,23 @@
 		    vertical-align: middle;
 		    align-items: center;
     	}
+    	.con-center div:not(:first-of-type) {
+		    margin-left: auto;
+		}
+    	.con-center.p-2 {
+		    margin-top: 1.5rem;
+		    margin-bottom: 1.5rem;
+		    float: none;
+		}
+		.table-like-heading{
+			background-color:#007a7a; 
+			height:4rem; 			
+			box-shadow:0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+		}
+		.table-like-heading span{
+			display:inline-block;
+			vertical-align:middle;
+		}
     	thead tr th{
     		padding-left:15px !important;
     		padding-right: 6px !important;
@@ -160,23 +177,49 @@
             border: 1px solid #ccc;
         }
 
-        .box.engineering {
+        .box.engineering,
+        .engineering {
             background-color: #ffc000;
         }
 
-        .box.electrical {
+        .box.electrical,
+        .electrical {
             background-color: #2F75B5;
         }
 
-        .box.sandt {
+        .box.sandt,
+        .sandt {
             background-color: #548235;
         }
         
-        .box.nbf {
+        .box.nbf,
+        .nbf {
             background-color: #7e7579;
         }
-        
-
+        .fw-5p{
+        	min-width:5.5%;
+        	width:5.5%;
+        }
+        .fw-10p{
+        	min-width:10%;
+        	width:10%;
+        }
+        .fw-15p{
+        	min-width:15%;
+        	width:15%;
+        }
+        .fw-42p{
+        	min-width:42%;
+        	width:42%;
+        }
+        .fw-43p{
+        	min-width:43%;
+        	width:43%;
+        }
+        .fw-44p{
+        	min-width:44%;
+        	width:44%;
+        }
 		@media(max-width: 1024px){
 			.con-center{display: block;}
 		}
@@ -264,23 +307,22 @@
 						</div>
 					</div>
 
-					<div class="row">
+					<div class="row no-mar">
 						<div class="col m12 l5 offset-l3 s12">
-						 	<fieldset class="p-2 brdr" >
-							 	   <!-- <legend> Legend </legend>  --> 										
-                                   <div class="col m3 s3 center-align con-center">
+						 	<fieldset class="p-2 con-center" >
+                                   <div class="">
                                        <span class="box engineering"></span>
                                        <span class="description">Engineering</span>
                                    </div>
-                                   <div class="col m3 s3 center-align con-center">
+                                   <div class="">
                                        <span class="box electrical"></span>
                                        <span class="description">Electrical</span>
                                    </div>
-                                   <div class="col m3 s3 center-align con-center">
+                                   <div class="">
                                        <span class="box sandt"></span>
                                        <span class="description">S & T</span>
                                    </div>
-                                   <div class="col m3 s3 center-align con-center">
+                                   <div class="">
                                        <span class="box nbf"></span>
                                        <span class="description">Non Bank Funds</span>
                                    </div>                                   
@@ -288,24 +330,23 @@
 						</div>
 					</div>
 
-					<div class="row" style="margin-top:70px;">
-					
-							<table id="datatable-project-overview-details" class="mdl-data-table" style="width:99.5%;float:right;">
+					<div class="row">
+						<div class="col m12 s12">
+							<table id="datatable-project-overview-details" class="mdl-data-table">
 								<thead>
 									<tr>										
-										<th style="width:100px;">S No</th>
-										<th style="width:750px;">Department</th>
-										<th>Total Awarded Cost</th>
-										<th>Total Expenditure till Date (CR)</th>
-										<th>Total Expenditure this FY (CR)</th>
-										<th>Total Pending Amount (CR)</th>
+										<th class="fw-5p">S No</th>
+										<th class="fw-44p">Department</th>
+										<th class="fw-10p">Total Awarded Cost</th>
+										<th class="fw-15p">Total Expenditure till Date (CR)</th>
+										<th class="fw-15p">Total Expenditure this FY (CR)</th>
+										<th class="fw-10p">Total Pending Amount (CR)</th>
 									</tr>
 								</thead>
-							</table>				
+								</table>							
+						</div>
 					  <div class="col m12 s12" id="divCollapase">
 						
-	
-	
 							<ul class="collapsible">
 
 						    </ul>
@@ -461,7 +502,7 @@
 				var sumVal4=0,sumVal44=0,sumVal444=0,sumVal4444=0;
 				
          		$.each(data,function(key,val)
-         				{
+         				{	
 							var a1=0,a2=0,a3=0,a4=0;
 							if(val.awarded_cost!="" && val.awarded_cost!=undefined && val.awarded_cost!=null){a1=val.awarded_cost;}else{a1=0;}
 							if(val.cumulative_expenditure!="" && val.cumulative_expenditure!=undefined && val.cumulative_expenditure!=null){a2=val.cumulative_expenditure;}else{a2=0;}
@@ -470,10 +511,10 @@
 							
          						if(val.department_name=="Engineering")
          						{
-         									sumVal1=parseFloat(sumVal1)+parseFloat(a1);
-         									sumVal2=parseFloat(sumVal2)+parseFloat(a2);
-           									sumVal3=parseFloat(sumVal3)+parseFloat(a3);
-         									sumVal4=parseFloat(sumVal4)+parseFloat(a4);   
+       									sumVal1=parseFloat(sumVal1)+parseFloat(a1);
+       									sumVal2=parseFloat(sumVal2)+parseFloat(a2);
+         								sumVal3=parseFloat(sumVal3)+parseFloat(a3);
+       									sumVal4=parseFloat(sumVal4)+parseFloat(a4);   
          						}
          						else if(val.department_name=="Electrical")
        							{
@@ -503,76 +544,50 @@
 	                   		if(DepartmentArray.indexOf(val.department_name)==-1)
 	                   		{   
 	                   				DepartmentArray.push(val.department_name);
-				         			var html="<li>";
-				         			if(val.department_name=="Engineering")
-				         				{
-				                   			html=html+'<div class="collapsible-header"  style="background-color:#ffc000;color:#ffffff;"><span>'+CheckLp+'</span>';
-				         				}
-				         			if(val.department_name=="Electrical")
-			         				{
-			                   			html=html+'<div class="collapsible-header"  style="background-color:#2F75B5;color:#ffffff;"><span>'+CheckLp+'</span>';
+				         			var html="<li>", class_name='', internal_text='';
+				         			if(val.department_name=="Engineering") {
+				         				class_name="engineering";
+				         				internal_text=internal_text+'<span class="fw-10p">'+sumVal1.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal2.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal3.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-10p">'+sumVal4.toFixed(2)+'</span>';
+				         			}
+									if(val.department_name=="Electrical") {
+				         				class_name="electrical";
+				         				internal_text=internal_text+'<span class="fw-10p">'+sumVal11.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal22.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal33.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-10p">'+sumVal44.toFixed(2)+'</span>';  
 			         				}
-				         			if(val.department_name=="Signalling & Telecom")
-			         				{
-			                   			html=html+'<div class="collapsible-header"  style="background-color:#548235;color:#ffffff;"><span>'+CheckLp+'</span>';
+				         			if(val.department_name=="Signalling & Telecom") {
+				         				class_name="sandt";
+				         				internal_text=internal_text+'<span class="fw-10p">'+sumVal111.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal222.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal333.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-10p">'+sumVal444.toFixed(2)+'</span>'; 
 			         				}
-				         			if(val.department_name=="Non Bank Funds")
-			         				{
-			                   			html=html+'<div class="collapsible-header"  style="background-color:#7e7579;color:#ffffff;"><span>'+CheckLp+'</span>';
+				         			if(val.department_name=="Non Bank Funds") {
+				         				class_name="nbf";	
+				         				internal_text=internal_text+'<span class="fw-10p">'+sumVal1111.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal2222.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-15p">'+sumVal3333.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="fw-10p">'+sumVal4444.toFixed(2)+'</span>'; 
 			         				}				         			
-				                    html=html+'<span style="margin-right:90px;"></span><span>'+val.department_name+'</span>';
+				         			
+				                    html=html+'<div class="collapsible-header white-text '+class_name+'"><span class="fw-5p">'+CheckLp+'</span><span class="fw-43p">'
+				                    	 +val.department_name+'</span>'+internal_text+'</div>';
+				                    	 
+				                    html=html+'<div class="collapsible-body"><span>';	
 				                    
-				                    if(val.department_name=="Engineering")
-				                    	{
-						                    html=html+'<span style="margin-right:670px;"></span><span>'+sumVal1.toFixed(2)+'</span>';
-						                    html=html+'<span style="margin-right:150px;"></span><span>'+sumVal2.toFixed(2)+'</span>';
-						                    html=html+'<span style="margin-right:250px;"></span><span>'+sumVal3.toFixed(2)+'</span>';
-						                    html=html+'<span style="margin-right:200px;"></span><span>'+sumVal4.toFixed(2)+'</span>';
-				                    	}
-	         						else if(val.department_name=="Electrical")
-	       							{
-
-						                    html=html+'<span style="margin-right:700px;"></span><span>'+sumVal11.toFixed(2)+'</span>';
-						                    html=html+'<span style="margin-right:180px;"></span><span>'+sumVal22.toFixed(2)+'</span>';
-						                    html=html+'<span style="margin-right:270px;"></span><span>'+sumVal33.toFixed(2)+'</span>';
-						                    html=html+'<span style="margin-right:220px;"></span><span>'+sumVal44.toFixed(2)+'</span>';      									
-	       								
-	 							
-	       							}
-	         						else if(val.department_name=="Signalling & Telecom")
-	     							{
-
-						                    html=html+'<span style="margin-right:620px;"></span><span>'+sumVal111.toFixed(2)+'</span>';
-						                    html=html+'<span style="margin-right:180px;"></span><span>'+sumVal222.toFixed(2)+'</span>';
-						                    html=html+'<span style="margin-right:270px;"></span><span>'+sumVal333.toFixed(2)+'</span>';
-						                    html=html+'<span style="margin-right:220px;"></span><span>'+sumVal444.toFixed(2)+'</span>';
-	       								
-	          							
-	     							}
-	         						else if(val.department_name=="Non Bank Funds")
-	     							{
-
-							                    html=html+'<span style="margin-right:650px;"></span><span>'+sumVal1111.toFixed(2)+'</span>';
-							                    html=html+'<span style="margin-right:170px;"></span><span>'+sumVal2222.toFixed(2)+'</span>';
-							                    html=html+'<span style="margin-right:240px;"></span><span>'+sumVal3333.toFixed(2)+'</span>';
-							                    html=html+'<span style="margin-right:190px;"></span><span>'+sumVal4444.toFixed(2)+'</span>';         									
-	         								
-	     							}				                    
-				                    
-				                    
-				                    
-				                    html=html+'</div>';
-				                    html=html+'<div class="collapsible-body"><span>';
-			
-			                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+
+			                    	html=html+'<table id="datatable-execution-overview-report'+CheckLp+'" class="mdl-data-table">'+
 									'<thead>'+
 										'<tr>'+
-											'<th>S. No.</th>'+
-											'<th>Particular</th>'+
-											'<th>Awarded Cost</th>'+
-											'<th>Expenditure till Date (CR)</th>'+
-											'<th>Expenditure this FY (CR)</th>'+
-											'<th>Pending Amount (CR)</th>'+
+											'<th class="fw-5p">S. No.</th>'+
+											'<th class="fw-42p">Particular</th>'+
+											'<th class="fw-10p">Awarded Cost</th>'+
+											'<th class="fw-15p">Expenditure till Date (CR)</th>'+
+											'<th class="fw-15p">Expenditure this FY (CR)</th>'+
+											'<th class="fw-10p">Pending Amount (CR)</th>'+
 										'</tr>'+
 									'</thead>'+
 									'<tbody>';

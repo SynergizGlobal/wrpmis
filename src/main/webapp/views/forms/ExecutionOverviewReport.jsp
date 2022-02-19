@@ -233,7 +233,22 @@
 							</div>
 						</div>
 					</div>
-
+					<div claass="row">
+					<table id="datatable-execution-overview-report" class="mdl-data-table">
+								<thead>
+									<tr>
+										<th style="width:0.5%">S No</th>
+										<th style="width:16.5%;padding-left: 0px !important;">Structure Type</th>
+										<th style="width:12%;">Unit</th>
+										<th style="width:15%;">Scope</th>
+										<th style="width:16.5%;">Completed</th>
+										<th style="width:12%;">Pending</th>
+										<th>Last Updated on</th>
+										<th>Remarks</th>
+									</tr>
+								</thead>
+					</table>
+					</div>
 					<div class="row">
 						
 						<div class="col m12 s12" id="divCollapase">
@@ -243,33 +258,6 @@
 							<ul class="collapsible">
 
 						    </ul>					
-						
-							<!-- <table id="datatable-execution-overview-report" class="mdl-data-table">
-								<thead>
-									<tr>
-										<th>S No</th>
-										<th>Structure Type</th>
-										<th>Description</th>
-										<th>Unit</th>
-										<th>Scope</th>
-										<th>Completed</th>
-										<th>Pending</th>
-										<th>Last Updated on</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td></td>
-										<td></td>	
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-									</tr>
-								</tbody>
-							</table> -->
 						</div>
 					</div>
 				</div>
@@ -333,49 +321,6 @@
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
             
-     /*--------    can remove from here after linked to backend   -----------*/
-        /*   $('#datatable-execution-overview-report').DataTable({
-               columnDefs: [
-                   {
-                       targets: [0],
-                       className: 'mdl-data-table__cell--non-numeric',
-                       targets: 'no-sort', orderable: false,
-                   },
-                   { "width": "20px", "targets": [7] },
-               ],
-               "sScrollX": "100%",
-               "sScrollXInner": "100%",
-               "ordering": false,
-               "bScrollCollapse": true,
-               fixedHeader: true,
-               "initComplete" : function() {
-					$('.dataTables_filter input[type="search"]')
-							.attr('placeholder', 'Search')
-							.css({
-								'width' : '350px ',
-								'display' : 'inline-block'
-							});
-					var input = $('.dataTables_filter input')
-							.unbind()
-							.bind('keyup',function(e){
-						    if (e.which == 13){
-						    	self.search(input.val()).draw();
-						    }
-						}), self = this.api(), $searchButton = $('<i class="fa fa-search" title="Go" >')
-					.click(function() {
-						self.search(input.val()).draw();
-					}), 
-					$clearButton = $('<i class="fa fa-close" title="Reset">')
-					.click(function() {
-						input.val('');
-						$searchButton.click();
-					})
-					$('.dataTables_filter').append( '<div class="right-btns"></div>');
-					$('.dataTables_filter div').append( $searchButton, $clearButton); 					
-				}
-           }); */
-           
-           /*--------   can remove upto here after linked to backend   -----------*/      
      
            var filters = window.localStorage.getItem("executionOverviewReprtFilter");
          
@@ -430,6 +375,7 @@
 		});
 
 		var StructureTypeArray=new Array(); 
+		var CalStructureTypeValuesArray=new Array();
 	 
 	 	var myParams = { work_id_fk : work_id_fk,department_fk : department_fk,contract_id_fk: contract_id_fk};
 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getExecutionOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){    				
@@ -438,48 +384,67 @@
 	         		$.each(data,function(key,val)
 	         				{
 	         			
+		         				var val1=0;
+		         				var val2=0;
+		         				
+		                   		if(CalStructureTypeValuesArray.indexOf(val.structure_type_fk)==-1)
+		                   		{   
+		                   				CalStructureTypeValuesArray.push(val.structure_type_fk);
+				    	         		$.each(data,function(key1,val1){
+				    	         					if(val.structure_type_fk==val1.structure_type_fk)
+				    	         						{
+				    	         								var a1=0,a2=0;
+				    	         								if(val1.pending!="" && val1.pending!=null && val1.pending!=undefined)
+				    	         								{a1=val1.pending;}
+				    	         								if(val1.completed!="" && val1.completed!=null && val1.completed!=undefined)
+				    	         								{a2=val1.completed;}
+				    	         								val1=parseFloat(val1)+parseFloat(a2);
+				    	         								val2=parseFloat(val2)+parseFloat(a1);
+				    	         						}
+				    	         				});
+			    	         		
+				    	         		
+		                   		}	         			
+	         			
 		                   		if(StructureTypeArray.indexOf(val.structure_type_fk)==-1)
 		                   		{   
 		                   				StructureTypeArray.push(val.structure_type_fk);
 					         			var html="<li>";
-					                    html=html+'<div class="collapsible-header"  style="background-color:#007A7A;color:#ffffff;"><span>'+CheckLp+'</span><span style="margin-right:70px;"></span><span>'+val.structure_type_fk+'</span></div>';
-					                    html=html+'<div class="collapsible-body"><span>';
+					                    html=html+'<div class="collapsible-header"  style="padding:0rem;background-color:#007A7A;color:#ffffff;"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100%</th><th style="width:17%">'+val1+'</th><th style="width:11.7%">'+val2+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-body">';
 				
 				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+
-										'<thead>'+
-											'<tr>'+
-												'<th>Description</th>'+
-												'<th>Unit</th>'+
-												'<th>Scope</th>'+
-												'<th>Completed</th>'+
-												'<th>Pending</th>'+
-												'<th>Last Updated on</th><th>Remarks</th>'+
-											'</tr>'+
-										'</thead>'+
+
 										'<tbody>';
 				    	         		$.each(data,function(key1,val1)
 				    	         				{
 				    	         					if(val.structure_type_fk==val1.structure_type_fk)
 				    	         						{
 						    	         					html=html+'<tr>';
-						    	         						html=html+'<td>'+$.trim(val1.strip_chart_structure_id)+'</td>';
-						    	         						html=html+'<td>'+val1.unit_fk+'</td>';
-						    	         						html=html+'<td>'+val1.scope+'</td>';
-						    	         						html=html+'<td>'+val1.completed+'%</td>';
+						    	         						html=html+'<td style="width:21%">'+$.trim(val1.strip_chart_structure_id)+'</td>';
+						    	         						html=html+'<td style="width:12.2%">'+val1.unit_fk+'</td>';
+						    	         						html=html+'<td style="width:16.5%">'+val1.scope+'</td>';
+						    	         						html=html+'<td style="width:17%">'+val1.completed+'%</td>';
 						    	         						html=html+'<td>'+val1.pending+'%</td>';
 						    	         						html=html+'<td>'+val1.modified_date+'</td>';
 						    	         						html=html+'<td>'+val1.remarks+'</td>';
 						    	         					html=html+'</tr>';
 				    	         						}
 				    	         				});
-				    	         		html=html+'</tbody></table></span></div>';
+				    	         		html=html+'</tbody></table></div>';
 				    	         		$('.collapsible').append(html);
 				    	         		CheckLp++;
+				    	         		console.log("swathi1234");
 				    	         		
 		                   		}
-		                   		
-		                   		
 							});
+
+	         		
+	         				$.each(data,function(key,val)
+	         				{
+
+
+							});	         		
 	         		
 	         		$(".page-loader-2").hide();
 

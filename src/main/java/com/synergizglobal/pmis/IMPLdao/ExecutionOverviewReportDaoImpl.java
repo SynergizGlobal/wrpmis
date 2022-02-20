@@ -215,36 +215,39 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getExecutionOverviewReportList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select * from (SELECT \r\n"
-					+ "        distinct `a`.`contract_id_fk` AS `contract_id`,\r\n"
-					+ "        `a`.`structure_type` AS `structure_type_fk`,\r\n"
-					+ "        `a`.`structure` AS `strip_chart_structure_id`,hod,\r\n"
-					+ "        '%' as unit_fk,\r\n"
-					+ "        '100%' as Scope,\r\n"
-					+ "        `c`.`work_id` AS `work_id`,\r\n"
-					+ "        `c`.`department` AS `department`,\r\n"
-					+ "        ifnull((select DATE_FORMAT(MAX(modified_date),'%d-%b-%y') from activities a1 where a1.structure=a.structure),'') as modified_date,ifnull((select remarks from activities a1 where a1.structure=a.structure and a1.remarks is not null limit 1),'') as remarks, \r\n"
-					+ "       ifnull(ROUND( (SUM(`a`.`actual`) / (SELECT \r\n"
+			String qry = "select * from (select distinct contract_id,structure_type_fk,structure as strip_chart_structure_id,'%' as unit_fk,\r\n"
+					+ "    '100%' as Scope,work_id_fk as work_id,d.department_name as department,\r\n"
+					+ "    ifnull((select DATE_FORMAT(MAX(modified_date),'%d-%b-%y') from activities a1 where a1.structure=a.structure),'') as modified_date,\r\n"
+					+ "    ifnull((select remarks from activities a1 where a1.structure=a.structure and a1.remarks is not null limit 1),'') as remarks,u.designation as hod,\r\n"
+					+ "\r\n"
+					+ "\r\n"
+					+ "        ifnull(ROUND( SUM( (`a`.`weightage` * `p`.`completed_scope`) / `a`.`scope`)  / (SELECT \r\n"
 					+ "                SUM(`d`.`baseline_weight`)\r\n"
 					+ "            FROM\r\n"
 					+ "                `activities_structure_department_weight` `d`\r\n"
 					+ "            WHERE\r\n"
 					+ "                (`d`.`structure` = `a`.`structure`)\r\n"
-					+ "            GROUP BY `d`.`structure`))*100,2),0) AS `completed`,\r\n"
-					+ "            \r\n"
-					+ "            ifnull(ROUND(100-(SUM(`a`.`actual`) / (SELECT \r\n"
+					+ "            GROUP BY `d`.`structure`)*100,2),0) AS `completed`,\r\n"
+					+ "	ifnull(ROUND(100-( SUM( (`a`.`weightage` * `p`.`completed_scope`) / `a`.`scope`)  / (SELECT \r\n"
 					+ "                SUM(`d`.`baseline_weight`)\r\n"
 					+ "            FROM\r\n"
 					+ "                `activities_structure_department_weight` `d`\r\n"
 					+ "            WHERE\r\n"
 					+ "                (`d`.`structure` = `a`.`structure`)\r\n"
-					+ "            GROUP BY `d`.`structure`))*100,2),0) AS `pending`\r\n"
-					+ "       \r\n"
-					+ "    FROM\r\n"
-					+ "        (`activities_actual` `a`\r\n"
-					+ "        LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`)))\r\n"
-					+ "    where work_id in('P04w01') GROUP BY `a`.`contract_id_fk` , `a`.`structure` order by structure_type_fk,strip_chart_structure_id) as eor where 0=0  ";
+					+ "            GROUP BY `d`.`structure`)*100),2),0) as pending\r\n"
+					+ "    \r\n"
+					+ "    from activities a\r\n"
+					+ "    \r\n"
+					+ "    left join activity_progress p on `p`.`activity_id_fk` = `a`.`activity_id`\r\n"
+					+ "    \r\n"
+					+ "    inner join contract c on c.contract_id=a.contract_id_fk \r\n"
+					+ "    left join user u on u.user_id=c.hod_user_id_fk\r\n"
+					+ "    \r\n"
+					+ "     left join department d on d.department=c.department_fk\r\n"
+					+ "    \r\n"
+					+ "    where work_id_fk in('P04w01') group by contract_id,structure order by structure_type_fk,structure) as eor where 0=0 ";
 
+			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id = ?";

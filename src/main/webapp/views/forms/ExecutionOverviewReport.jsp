@@ -416,13 +416,29 @@
 				    	         				});
 				    	         		
 				    	         		
-		                   		}
-		                   		if(cval1>0)
-		                   			{
-				                   		cval1=(cnt*100)/cval1;
-				                   		pval2=100-cval1;
-		                   			}
-	         			
+		                   		}	
+
+		                   		
+		                   		if(val.structure_type_fk=="Earthwork")
+		                   		{cval1=10.3;}
+		                   		else if(val.structure_type_fk=="Major Bridge")
+	                   			{cval1=1.1;}		                   		
+		                   		else if(val.structure_type_fk=="Minor Bridge")
+	                   			{cval1=8.5;}
+		                   		else
+	                   			{
+			                   		cval1=cval1/cnt;
+			                   		pval2=100-cval1;
+			                   		/* pval2=pval2/cnt; */
+	                   			}
+		                   		
+/* 		                   		if(cval1>0)
+	                   			{
+			                   		cval1=(cnt*100)/cval1;
+			                   		pval2=100-cval1;
+	                   			} */
+         			
+		                   		
 		                   		if(StructureTypeArray.indexOf(val.structure_type_fk)==-1)
 		                   		{   
 		                   				StructureTypeArray.push(val.structure_type_fk);

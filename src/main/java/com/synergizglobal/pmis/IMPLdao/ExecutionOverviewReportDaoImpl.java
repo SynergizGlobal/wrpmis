@@ -245,7 +245,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					+ "    \r\n"
 					+ "     left join department d on d.department=c.department_fk\r\n"
 					+ "    \r\n"
-					+ "    where work_id_fk in('P04w01') group by contract_id,structure order by structure_type_fk,structure) as eor where 0=0 ";
+					+ "    where work_id_fk in('P04w01') group by contract_id,structure order by FIELD(structure_type_fk,'Earthwork', 'Major Bridge', 'Minor Bridge', 'RUB', 'Drain', 'Ballast'),structure) as eor where 0=0 ";
 
 			
 			int arrSize = 0;

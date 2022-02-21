@@ -256,7 +256,7 @@
 	                            <div class="row"> 
 	                            	<div class="col m10 l12 offset-m1 s12">
 										<div class="row fixed-width">
-									       <h5 class="center-align"><span class="div-header">Contracts</span></h5> 
+									       <h5 class="center-align"><span class="div-header">Contract - Execution Executives</span></h5> 
 									        <div class="table-inside">
 									            <table id="structureContractResponsibleTableBody" class="mdl-data-table mobile_responsible_table" >
 									                <thead>

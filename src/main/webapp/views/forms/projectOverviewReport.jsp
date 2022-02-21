@@ -552,6 +552,7 @@
 	                   			
 			             		if(loop==0)
 		             			{
+			             			
 			             			conHtm=conHtm+'<table id="datatable-project-overview-details" style="color:#ffffff;background-color:#4498d3dd !important">'+
 													'<thead>'+
 														'<tr>'	+									

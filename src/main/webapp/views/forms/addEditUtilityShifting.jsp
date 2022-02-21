@@ -699,7 +699,7 @@
                                 </div>
                                 <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/bses" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath() %>/utilityshifting" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>                           

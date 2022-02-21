@@ -33,10 +33,11 @@ public class DateParser {
             put("^\\d{4}-\\d{1,2}-\\d{1,2}$", "yyyy-MM-dd");
             //put("^\\d{1,2}/\\d{1,2}/\\d{4}$", "MM/dd/yyyy");
             put("^\\d{1,2}/\\d{1,2}/\\d{4}$", "dd/MM/yyyy");
-            put("^\\d{1,2}/\\d{1,2}/\\d{2,4}$", "d/m/yy");
+            put("^\\d{1,2}/\\d{1,2}/\\d{2,4}$", "d/M/yy");
             put("^\\d{1,2}-[a-z]{3}-\\d{4}$", "dd-MMM-yyyy");
             put("^\\d{4}/\\d{1,2}/\\d{1,2}$", "yyyy/MM/dd");
             put("^\\d{1,2}\\s[a-z]{3}\\s\\d{4}$", "dd MMM yyyy");
+            put("^\\d{1,2}-\\s[a-z]{3}-\\s\\d{4}$", "dd-MMM-yyyy");
             put("^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}$", "dd MMMM yyyy");
             put("^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}$", "dd-MM-yyyy HH:mm");
             put("^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}$", "yyyy-MM-dd HH:mm");

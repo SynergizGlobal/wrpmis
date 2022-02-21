@@ -456,9 +456,9 @@
 				    	         						{
 						    	         					html=html+'<tr>';
 						    	         						html=html+'<td style="width:21%">'+$.trim(val1.strip_chart_structure_id)+'</td>';
-						    	         						html=html+'<td style="width:12.2%">'+val1.unit_fk+'</td>';
-						    	         						html=html+'<td style="width:16.5%">'+val1.scope.replace('%','')+'</td>';
-						    	         						html=html+'<td style="width:17%">'+val1.completed+'</td>';
+						    	         						html=html+'<td style="width:11.9%">'+val1.unit_fk+'</td>';
+						    	         						html=html+'<td style="width:16.7%">'+val1.scope.replace('%','')+'</td>';
+						    	         						html=html+'<td style="width:17.5%">'+val1.completed+'</td>';
 						    	         						html=html+'<td>'+val1.pending+'</td>';
 						    	         						html=html+'<td>'+val1.modified_date+'</td>';
 						    	         						html=html+'<td>'+val1.remarks+'</td>';

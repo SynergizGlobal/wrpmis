@@ -335,9 +335,9 @@
 							<table id="datatable-project-overview-details" class="mdl-data-table">
 								<thead>
 									<tr>										
-										<th class="fw-5p">S No</th>
-										<th class="fw-44p">Department</th>
-										<th class="fw-10p">Total Awarded Cost</th>
+										<th class="fw-5p">S. No.</th>
+										<th class="min-width:45%;width:45%;">Description</th>
+										<th class="fw-10p">Sanctioned Cost (CR)</th>
 										<th class="fw-15p">Total Expenditure till Date (CR)</th>
 										<th class="fw-15p">Total Expenditure this FY (CR)</th>
 										<th class="fw-10p">Total Pending Amount (CR)</th>
@@ -500,9 +500,12 @@
 				var sumVal2=0,sumVal22=0,sumVal222=0,sumVal2222=0;
 				var sumVal3=0,sumVal33=0,sumVal333=0,sumVal3333=0;
 				var sumVal4=0,sumVal44=0,sumVal444=0,sumVal4444=0;
-				
+				var cumVal=0,cumVal1=0,cumVal2=0,cumVal3=0;
+				var conHtm="";
+
          		$.each(data,function(key,val)
          				{	
+         					loop=0;
 							var a1=0,a2=0,a3=0,a4=0;
 							if(val.awarded_cost!="" && val.awarded_cost!=undefined && val.awarded_cost!=null){a1=val.awarded_cost;}else{a1=0;}
 							if(val.cumulative_expenditure!="" && val.cumulative_expenditure!=undefined && val.cumulative_expenditure!=null){a2=val.cumulative_expenditure;}else{a2=0;}
@@ -538,19 +541,40 @@
       									sumVal4444=parseFloat(sumVal4444)+parseFloat(a4);           									
      							}  
          				});
-
+         		
+					
          		$.each(data,function(key,val)
          				{
+
+         			
 	                   		if(DepartmentArray.indexOf(val.department_name)==-1)
-	                   		{   
+	                   		{  
+	                   			
+			             		if(loop==0)
+		             			{
+			             			conHtm=conHtm+'<table id="datatable-project-overview-details" style="color:#ffffff;background-color:#4498d3dd !important">'+
+													'<thead>'+
+														'<tr>'	+									
+															'<th style="min-width:50.6%;width:50.6%;" colspan="2">Virar-Dahanu Road New Line Work</th>'+
+															'<th style="min-width:12.5%;width:12.5%;text-align:left;" class="scVal"></th>'+
+															'<th class="fw-15p scVal1"></th>'+
+															'<th style="min-width:12%;width:12%;" class="scVal2"></th>'+
+															'<th class="fw-10p scVal3"></th>'+
+														'</tr>'+
+													'</thead>'+
+												'</table>';
+             						loop++;
+		             			}
+			             		
 	                   				DepartmentArray.push(val.department_name);
-				         			var html="<li>", class_name='', internal_text='';
+				         			var html=conHtm+"<li>", class_name='', internal_text='';
 				         			if(val.department_name=="Engineering") {
 				         				class_name="engineering";
 				         				internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal1.toFixed(2)+'</span>';
 					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal2.toFixed(2)+'</span>';
 					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal3.toFixed(2)+'</span>';
 					                    internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal4.toFixed(2)+'</span>';
+
 				         			}
 									if(val.department_name=="Electrical") {
 				         				class_name="electrical";
@@ -572,7 +596,15 @@
 					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal2222.toFixed(2)+'</span>';
 					                    internal_text=internal_text+'<span class="fw-15p" style="text-align:center;">'+sumVal3333.toFixed(2)+'</span>';
 					                    internal_text=internal_text+'<span class="fw-10p" style="text-align:center;">'+sumVal4444.toFixed(2)+'</span>'; 
-			         				}				         			
+			         				}	
+				         			
+				         			
+				         				cumVal=sumVal1+sumVal11+sumVal111+sumVal1111;
+										cumVal1=sumVal2+sumVal22+sumVal222+sumVal2222;
+				         				cumVal2=sumVal3+sumVal33+sumVal333+sumVal3333;
+				         				cumVal3=sumVal4+sumVal44+sumVal444+sumVal4444;
+			         								         			
+				         			
 				         			
 				                    html=html+'<div class="collapsible-header white-text '+class_name+'"><span class="fw-5p">'+CheckLp+'</span><span class="fw-43p">'
 				                    	 +val.department_name+'</span>'+internal_text+'</div>';
@@ -580,16 +612,6 @@
 				                    html=html+'<div class="collapsible-body"><span>';	
 				                    
 			                    	html=html+'<table id="datatable-execution-overview-report'+CheckLp+'" class="mdl-data-table">'+
-/* 									'<thead>'+
-										'<tr>'+
-											'<th class="fw-5p">S. No.</th>'+
-											'<th class="fw-42p">Particular</th>'+
-											'<th class="fw-10p" style="text-align:center;">Awarded Cost</th>'+
-											'<th class="fw-15p" style="text-align:center;">Expenditure till Date (CR)</th>'+
-											'<th class="fw-15p" style="text-align:center;">Expenditure this FY (CR)</th>'+
-											'<th class="fw-10p" style="text-align:center;">Pending Amount (CR)</th>'+
-										'</tr>'+
-									'</thead>'+ */
 									'<tbody>';
 			    	         		$.each(data,function(key1,val1)
 			    	         				{
@@ -608,6 +630,13 @@
 			    	         		html=html+'</tbody></table></span></div>';
 			    	         		$('.collapsible').append(html);
 			    	         		CheckLp++;
+			    	         		conHtm="";
+			    	         		
+									$(".scVal").html(cumVal.toFixed(2));
+									$(".scVal1").html(cumVal1.toFixed(2));
+									$(".scVal2").html(cumVal2.toFixed(2));
+									$(".scVal3").html(cumVal3.toFixed(2));
+									
 			    	         		
 	                   		}
 	                   		

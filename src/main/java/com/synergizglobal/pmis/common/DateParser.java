@@ -29,7 +29,7 @@ public class DateParser {
             put("^\\d{8}\\s\\d{4}$", "yyyyMMdd HHmm");
             put("^\\d{14}$", "yyyyMMddHHmmss");
             put("^\\d{8}\\s\\d{6}$", "yyyyMMdd HHmmss");
-            put("^\\d{1,2}-\\d{1,2}-\\d{4}$", "dd-MM-yyyy");
+            put("^\\d{1,2}-\\d{1,2}-\\d{4}$", "dd-MM-yyyy"); 
             put("^\\d{4}-\\d{1,2}-\\d{1,2}$", "yyyy-MM-dd");
             //put("^\\d{1,2}/\\d{1,2}/\\d{4}$", "MM/dd/yyyy");
             put("^\\d{1,2}/\\d{1,2}/\\d{4}$", "dd/MM/yyyy");

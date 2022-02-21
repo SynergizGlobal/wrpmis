@@ -151,7 +151,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String qry = "select * from (SELECT distinct contract_short_name,\r\n"
-					+ "                    case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end as awarded_cost,\r\n"
+					+ "                    case when (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) is null then (estimated_cost*estimated_cost_units) else (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) end as awarded_cost,\r\n"
 					+ "                    SUM((e.gross_work_done * e.gross_work_done_units)) cumulative_expenditure,w.work_id,\r\n"
 					+ "                    (select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1\r\n"
 					+ "where contract_id_fk=c.contract_id \r\n"

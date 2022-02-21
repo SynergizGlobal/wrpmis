@@ -167,7 +167,15 @@
         @media(max-width: 575px){
         .row .col{margin: 10px auto}
         }
-       	    
+       	 
+    .collapsible-header {
+        background-color: #cce3de;
+        padding:0;
+    }
+        
+    .collapsible-body {
+        background-color: #E3F0EF;
+    }   
     </style>
 </head>
 
@@ -417,7 +425,7 @@
 		                   				StructureTypeArray.push(val.structure_type_fk);
 					         			var html="<li>";
 					         			var lmVal=parseFloat(100)-cval1;
-					                    html=html+'<div class="collapsible-header"  style="padding:0rem;background-color:#007A7A;color:#ffffff;"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100</th><th style="width:17%">'+cval1.toFixed(2)+'</th><th style="width:11.7%">'+lmVal.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-header"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100</th><th style="width:17%">'+cval1.toFixed(2)+'</th><th style="width:11.7%">'+lmVal.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
 					                    html=html+'<div class="collapsible-body">';
 				
 				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+

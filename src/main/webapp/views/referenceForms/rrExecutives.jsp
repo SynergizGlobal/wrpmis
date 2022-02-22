@@ -13,7 +13,14 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/referenceformitem.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/referenceformitem.min.css">\
+    <style>
+    	.my-error{
+    		text-transform: uppercase;
+    		font-size: 1rem;
+    		color:red;
+    	}
+    </style>
 </head>
 
 <body>
@@ -97,13 +104,13 @@
 		 <form action="<%=request.getContextPath() %>/add-rr-executives" id="addRrExecutivesForm" name="addRrExecutivesForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add  Executives <span
-                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h6>
+                        class="right modal-action modal-close" onclick="resetFields('add')"><span class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col s12">
                         <div class="row no-mar">
                              <div class="table-inside">
-                              <div>
-					        	<span id="mainErrorAdd" style="align: center;" class="my-error right"></span>
+                              <div class="center-align">
+					        	<span id="mainErrorAdd" class="my-error center-align"></span>
 					        </div>
 					            <table id="addExecutivesTable" class="mdl-data-table mobile_responsible_table" >
 					                <thead>
@@ -129,10 +136,10 @@
 					                              <span id="workError0" class="my-error"></span>
 					                        </td>
 					                        <td data-head="Responsible Executives" class="input-field h-auto">
-					                        <input type="hidden"  id="executive_user_id_fk0" name="executive_user_id_fks" />
+					                        <input type="hidden" id="executive_user_id_fk0" name="executive_user_id_fks" />
 					                            <select class="searchable validate-dropdown" name="executive_user_id_fk" onchange="getRowsCount('0');"
 					                                id="responsible_executives_id_fks0" multiple="multiple" >
-					                                <option value="" >Select</option>			
+					                                <option >Select</option>			
 					                                  <c:forEach var="obj" items="${usersDetails}" >
 					                                		  <option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>
 					                                	
@@ -168,7 +175,7 @@
 					        
                         </div>
                         
-                        <div class="row">
+                        <div class="row" style="margin-top:1.5rem;">
                         	<div class="col s12 m8 offset-m2">
                         		<div class="row">
                         			 <div class="col s12 m6">
@@ -198,13 +205,13 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-rr-executives" id=updateRrExecutivesForm name="updateRrExecutivesForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h6 class="modal-header bg-m">Update  Status <span class="right modal-action modal-close"><span
+                <h6 class="modal-header bg-m">Update Executive <span class="right modal-action modal-close" onclick="resetFields('update')"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m12 s12">
                         <div class="table-inside">
-                        	<div>
-					        	 <span id="mainError" style="align: center;" class="my-error right"></span>
+                        	<div class="center-align">
+					        	 <span id="mainError" class="my-error my-error"></span>
 					        </div>
 					            <table id="updateExecutivesTable" class="mdl-data-table mobile_responsible_table" >
 					                <thead>
@@ -235,7 +242,7 @@
 					                         <input type="hidden"  id="u_executive_user_id_fk0" name="executive_user_id_fks" />
 					                            <select class="searchable validate-dropdown" name="executive_user_id_fk" onchange="getRowsCountU('0');"
 					                                id="u_responsible_executives_id_fks0" multiple="multiple" >
-					                                <option value="" >Select</option>	
+					                                <option >Select</option>	
 					                                <c:forEach var="obj" items="${usersDetails}" >
 					                                		  <option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>
 					                                	
@@ -268,23 +275,26 @@
                                                   
 					        </div>
 					        
-					       
-                        <div class="row">
-                            <div class="col s12 m6">
-                                <div class="center-align m-1">
-                                    <button type="button" style="width: 100%;" onclick="updateRrExecutives()"
-                                        class="btn waves-effect waves-light bg-m">Update</button>
-                                </div>
-                            </div>
-                             <div class="col s12 m6">
-                                <div class="center-align m-1">
-                                  <!--   <button
-                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
-                                        style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/rr-executives"
-									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
-                                </div>
-                            </div>
+					     <div class="row" style="margin-top:1.5rem;">
+                        	<div class="col s12 m8 offset-m2">   
+		                        <div class="row">
+		                            <div class="col s12 m6">
+		                                <div class="center-align m-1">
+		                                    <button type="button" style="width: 100%;" onclick="updateRrExecutives()"
+		                                        class="btn waves-effect waves-light bg-m">Update</button>
+		                                </div>
+		                            </div>
+		                             <div class="col s12 m6">
+		                                <div class="center-align m-1">
+		                                  <!--   <button
+		                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
+		                                        style="width:100%">Cancel</button> -->
+		                                        <a href="<%=request.getContextPath()%>/rr-executives"
+											     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
+		                                </div>
+		                            </div>
+		                        </div>
+                        	</div>
                         </div>
                     </div>
                 </div>
@@ -447,7 +457,8 @@
           //$('#onlyUpdateModal #value_new').val($.trim(rr_sub_location)).focus();
           $('#onlyUpdateModal #work_id_fk'+no).val($.trim(work_id_fk)).focus(); 
           $('#onlyUpdateModal #u_responsible_executives_id_fks'+no).val($.trim(user_id)).focus(); 
-          $('select[name^="work_id_fks"] option[value="'+ work_id_fk +'"]').attr("selected","selected");
+          /* $('select[name^="work_id_fks"] option[value="'+ work_id_fk +'"]').attr("selected","selected"); */
+          $('#u_work_id_fk0 option[value="'+ work_id_fk +'"]').attr("selected","selected");
           if(user_id != ''){
         	  $("#u_responsible_executives_id_fks0 option:selected").removeAttr("selected");
         	  $('#u_executive_user_id_fk0').val(user_id);
@@ -505,7 +516,7 @@
 	    	         <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">  */ 
 	    	         ' <input type="hidden"  id="executive_user_id_fk'+rNo+'" name="executive_user_id_fks" />'+ 
 	    	          '<select  class="searchable validate-dropdown"  name="executive_user_id_fk" id="responsible_executives_id_fks'+rNo+'"  multiple="multiple"  onchange="getRowsCount('+rNo+');">'+
-	    	          '<option value="" disabled="disabled">Select</option>'+
+	    	          '<option disabled="disabled">Select</option>'+
 	    	          <c:forEach var="obj" items="${usersDetails}">
 	    			  			 '<option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>'+
 	    	          </c:forEach> 
@@ -569,7 +580,7 @@
 	    	         ' <input type="hidden"  id="u_responsible_executives_id_fk'+rNo+'" name="executive_user_id_fks" />'+ */
 	    	         ' <input type="hidden"  id="u_executive_user_id_fk'+rNo+'" name="executive_user_id_fks" />'+ 
 	    	          '<select  class="searchable validate-dropdown"  name="executive_user_id_fk" id="u_responsible_executives_id_fks'+rNo+'"  multiple="multiple" onchange="getRowsCountU('+rNo+');">'+
-	    	          '<option value="" disabled="disabled">Select</option>'+
+	    	          '<option disabled="disabled">Select</option>'+
 	    	          <c:forEach var="obj" items="${usersDetails}">
 	    			  			 '<option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>'+
 	    	          </c:forEach> 
@@ -666,6 +677,37 @@
 			
 			return flag;
 		}
+       
+       function resetFields(flag){
+    	   var naming='';
+    	   if(flag=='add'){
+    		    naming='addExecutivesBody';
+				$('#'+naming+' [name="work_id_fks"]').each(function(i,val){
+					$(val).val('');
+				});
+				$('#'+naming+' [name="executive_user_id_fk"]').each(function(i,val){
+					$(val).val(null);
+				});
+				$('.searchable:not(.units)').select2(); 
+    	   }    	   
+    	   if(flag=='update'){
+    		   naming='updateExecutivesBody';
+    		   $('#'+naming+' [name="work_id_fks"]').each(function(i,val){
+					$(val).val('');
+			   });
+    		   $('#u_work_id_fk0').val($('#work_id_fk_old').val());
+    		   $('#'+naming+' tr:not("#UexecutiveRow0")').remove();
+    		   /* $('#'+naming+' [name="executive_user_id_fk"]').each(function(i,val){
+					$(val).val(null);
+				}); 
+    		   var executive=$('#u_executive_user_id_fk0').val().split(',');
+    		    $(executive).each(function(i,val){
+	    		   var a=$('#u_responsible_executives_id_fks0 option[value="'+val+'"]').attr('selected','selected');    
+    		   }); */
+    	   }   
+    	   $('.searchable:not(.units)').select2();  
+
+       }
     </script>
 
     </body>

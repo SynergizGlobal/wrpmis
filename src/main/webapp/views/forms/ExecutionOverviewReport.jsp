@@ -422,7 +422,16 @@
 		                   		if(val.structure_type_fk=="Earthwork")
 		                   		{cval1=10.3;}
 		                   		else if(val.structure_type_fk=="Major Bridge")
-	                   			{cval1=1.1;}		                   		
+	                   			{
+		                   				if($("#contract_id_fk").val()=="P04W01EN04")
+		                   				{
+		                   					cval1=1.1;
+		                   				}
+		                   				else
+		                   					{
+		                   						cval1=0;
+		                   					}
+		                   		}		                   		
 		                   		else if(val.structure_type_fk=="Minor Bridge")
 	                   			{cval1=8.5;}
 		                   		else
@@ -471,13 +480,7 @@
 				    	         		
 		                   		}
 							});
-
-	         		
-	         				$.each(data,function(key,val)
-	         				{
-
-
-							});	         		
+      		
 	         		
 	         		$(".page-loader-2").hide();
 

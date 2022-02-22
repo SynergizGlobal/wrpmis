@@ -80,7 +80,7 @@ public class LandResponsibleExecutivesDaoImpl implements LandResponsibleExecutiv
 			}
 			for (int i = 0; i < executivesArrSize; i++){
 				List<String> executives = null;
-				if(!StringUtils.isEmpty(obj.getExecutive_user_id_fks()[i])){
+				if(!StringUtils.isEmpty(obj.getExecutive_user_id_fks()[i]) && !StringUtils.isEmpty(obj.getWork_id_fks()[i])){
 					if(obj.getExecutive_user_id_fks()[i].contains(",")) {
 						executives = new ArrayList<String>(Arrays.asList(obj.getExecutive_user_id_fks()[i].split(",")));
 					}else {

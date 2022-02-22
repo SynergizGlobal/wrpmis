@@ -15,7 +15,13 @@
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/referenceformitem.min.css">
 </head>
-
+<style>
+    	.my-error{
+    		text-transform: uppercase;
+    		font-size: 1rem;
+    		color:red;
+    	}
+    </style>
 <body>
 
     <div class="row">
@@ -97,13 +103,13 @@
 		 <form action="<%=request.getContextPath() %>/add-utility-shifting-executives" id="addRrExecutivesForm" name="addRrExecutivesForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h6 class="modal-header">Add Executives <span
-                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h6>
+                        class="right modal-action modal-close" onclick="resetFields('add')"><span class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col s12">
                         <div class="row no-mar">
                              <div class="table-inside">
-                              <div>
-					        	<span id="mainErrorAdd" style="align: center;" class="my-error right"></span>
+                              <div class="center-align">
+					        	<span id="mainErrorAdd" style="align: center;" class="my-error"></span>
 					        </div>
 					            <table id="addExecutivesTable" class="mdl-data-table mobile_responsible_table" >
 					                <thead>
@@ -132,7 +138,7 @@
 					                        <input type="hidden"  id="executive_user_id_fk0" name="executive_user_id_fks" />
 					                            <select class="searchable validate-dropdown" name="executive_user_id_fk" onchange="getRowsCount('0');"
 					                                id="responsible_executives_id_fks0" multiple="multiple" >
-					                                <option value="" >Select</option>			
+					                                <option  >Select</option>			
 					                                  <c:forEach var="obj" items="${usersDetails}" >
 					                                		  <option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>
 					                                	
@@ -198,12 +204,12 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-utility-shifting-executives" id=updateRrExecutivesForm name="updateRrExecutivesForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h6 class="modal-header bg-m">Update Executives <span class="right modal-action modal-close"><span
+                <h6 class="modal-header bg-m">Update Executives <span class="right modal-action modal-close" onclick="resetFields('update')"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m12 s12">
                         <div class="table-inside">
-                        	<div>
+                        	<div class="center-align">
 					        	 <span id="mainError" style="align: center;" class="my-error right"></span>
 					        </div>
 					            <table id="updateExecutivesTable" class="mdl-data-table mobile_responsible_table" >
@@ -235,7 +241,7 @@
 					                         <input type="hidden"  id="u_executive_user_id_fk0" name="executive_user_id_fks" />
 					                            <select class="searchable validate-dropdown" name="executive_user_id_fk" onchange="getRowsCountU('0');"
 					                                id="u_responsible_executives_id_fks0" multiple="multiple" >
-					                                <option value="" >Select</option>	
+					                                <option  >Select</option>	
 					                                <c:forEach var="obj" items="${usersDetails}" >
 					                                		  <option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>
 					                                	
@@ -506,7 +512,7 @@
 	    	         <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">  */ 
 	    	         ' <input type="hidden"  id="executive_user_id_fk'+rNo+'" name="executive_user_id_fks" />'+ 
 	    	          '<select  class="searchable validate-dropdown"  name="executive_user_id_fk" id="responsible_executives_id_fks'+rNo+'"  multiple="multiple"  onchange="getRowsCount('+rNo+');">'+
-	    	          '<option value="" disabled="disabled">Select</option>'+
+	    	          '<option >Select</option>'+
 	    	          <c:forEach var="obj" items="${usersDetails}">
 	    			  			 '<option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>'+
 	    	          </c:forEach> 
@@ -570,7 +576,7 @@
 	    	         ' <input type="hidden"  id="u_responsible_executives_id_fk'+rNo+'" name="executive_user_id_fks" />'+ */
 	    	         ' <input type="hidden"  id="u_executive_user_id_fk'+rNo+'" name="executive_user_id_fks" />'+ 
 	    	          '<select  class="searchable validate-dropdown"  name="executive_user_id_fk" id="u_responsible_executives_id_fks'+rNo+'"  multiple="multiple" onchange="getRowsCountU('+rNo+');">'+
-	    	          '<option value="" disabled="disabled">Select</option>'+
+	    	          '<option >Select</option>'+
 	    	          <c:forEach var="obj" items="${usersDetails}">
 	    			  			 '<option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>'+
 	    	          </c:forEach> 
@@ -667,6 +673,36 @@
 			
 			return flag;
 		}
+       function resetFields(flag){
+    	   var naming='';
+    	   if(flag=='add'){
+    		    naming='addExecutivesBody';
+				$('#'+naming+' [name="work_id_fks"]').each(function(i,val){
+					$(val).val('');
+				});
+				$('#'+naming+' [name="executive_user_id_fk"]').each(function(i,val){
+					$(val).val(null);
+				});
+				$('.searchable:not(.units)').select2(); 
+    	   }    	   
+    	   if(flag=='update'){
+    		   naming='updateExecutivesBody';
+    		   $('#'+naming+' [name="work_id_fks"]').each(function(i,val){
+					$(val).val('');
+			   });
+    		   $('#u_work_id_fk0').val($('#work_id_fk_old').val());
+    		   $('#'+naming+' tr:not("#UexecutiveRow0")').remove();
+    		   /* $('#'+naming+' [name="executive_user_id_fk"]').each(function(i,val){
+					$(val).val(null);
+				}); 
+    		   var executive=$('#u_executive_user_id_fk0').val().split(',');
+    		    $(executive).each(function(i,val){
+	    		   var a=$('#u_responsible_executives_id_fks0 option[value="'+val+'"]').attr('selected','selected');    
+    		   }); */
+    	   }   
+    	   $('.searchable:not(.units)').select2();  
+
+       }
     </script>
 
     </body>

@@ -367,6 +367,10 @@ public class PageConstants {
 	public static final String rrSubLocation = "referenceForms/rrSubLocation";
 
 	public static final String rrExecutives = "referenceForms/rrExecutives";
+	
+	public static final String landExecutives = "referenceForms/landExecutives";
+	
+	public static final String UtilityExecutives = "referenceForms/utilityExecutives";
 
 	public static final String usUtilityType = "referenceForms/usUtilityType";
 	

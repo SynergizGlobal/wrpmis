@@ -27,4 +27,9 @@ public class UtilityResponsibleExecutivesServiceImpl implements UtilityResponsib
 	public boolean updateUtilityShiftingExecutives(TrainingType obj) throws Exception {
 		return dao.updateUtilityShiftingExecutives(obj);
 	}
+
+	@Override
+	public List<TrainingType> getWorkDetails(TrainingType obj) throws Exception {
+		return dao.getWorkDetails(obj);
+	}
 }

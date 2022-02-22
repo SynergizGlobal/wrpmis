@@ -29,4 +29,9 @@ public class LandResponsibleExecutivesServiceImpl implements LandResponsibleExec
 	public boolean updateLandAcquisitionExecutives(TrainingType obj) throws Exception {
 		return dao.updateLandAcquisitionExecutives(obj);
 	}
+
+	@Override
+	public List<TrainingType> getWorkDetails(TrainingType obj) throws Exception {
+		return dao.getWorkDetails(obj);
+	}
 }

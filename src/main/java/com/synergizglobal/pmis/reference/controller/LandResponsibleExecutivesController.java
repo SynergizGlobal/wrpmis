@@ -45,7 +45,7 @@ public class LandResponsibleExecutivesController {
 			List<TrainingType> executivesDetails = mainService.getExecutivesDetails(obj);
 			model.addObject("executivesDetails",executivesDetails);
 			
-			List<TrainingType> workDetails = service.getWorkDetails(obj);
+			List<TrainingType> workDetails = mainService.getWorkDetails(obj);
 			model.addObject("workDetails",workDetails);
 			
 			List<TrainingType> usersDetails = service.getUsersDetails(obj);

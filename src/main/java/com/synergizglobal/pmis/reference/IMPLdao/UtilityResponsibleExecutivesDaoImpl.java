@@ -175,6 +175,20 @@ public class UtilityResponsibleExecutivesDaoImpl implements UtilityResponsibleEx
 		} 
 		return flag;
 	}
+	@Override
+	public List<TrainingType> getWorkDetails(TrainingType obj) throws Exception {
+		List<TrainingType> objList = null;
+		try {
+			String qry = "SELECT  work_id_fk, w.work_short_name FROM utility_shifting us "
+					+ "left join  work w on us.work_id_fk = w.work_id group by work_id_fk ";
+			
+			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
+	}
 	
 	
 }

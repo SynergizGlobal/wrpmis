@@ -213,7 +213,8 @@ public class RrResponsibleExecutivesDaoImpl implements RrResponsibleExecutivesDa
 	public List<TrainingType> getWorkDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT  work_id as work_id_fk, work_short_name FROM work ";
+			String qry = "SELECT  r.work_id as work_id_fk, w.work_short_name FROM rr r "
+					+ "left join work w on r.work_id = w.work_id group by r.work_id  ";
 			
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 

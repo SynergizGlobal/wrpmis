@@ -12,4 +12,6 @@ public interface LandResponsibleExecutivesService {
 
 	boolean updateLandAcquisitionExecutives(TrainingType obj) throws Exception;
 
+	List<TrainingType> getWorkDetails(TrainingType obj) throws Exception;
+
 }

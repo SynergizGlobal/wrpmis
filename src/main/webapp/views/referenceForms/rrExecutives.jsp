@@ -51,53 +51,20 @@
                                         <tr>
                                             <th>Work</th>
                                             <th>Executives</th>
-                                            <c:forEach var="tObj" items="${subLocationDetails.tablesList}" >
-                                            	 <th>${tObj.captiliszedTableName }</th>
-                                            </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="obj" items="${subLocationDetails.dList1}" varStatus="indexs">
+                                    <c:forEach var="obj" items="${executivesDetails}" varStatus="indexs">
 											<tr>
 											<td>
-												<input type="hidden" id="rr_location_fkId${indexs.count}" value="${obj.rr_location_fk }" /> 
-												${obj.rr_location_fk }</td>
+												<input type="hidden" id="rr_work_id_fk${indexs.count}" value="${obj.work_id_fk }" /> 
+												${obj.work_short_name }</td>
 											<td>
-												<input type="hidden" id="rr_sub_locationId${indexs.count}" value="${obj.rr_sub_location }" /> 
-												${obj.rr_sub_location }</td>
-											<c:forEach var="tObj" items="${subLocationDetails.tablesList}" varStatus="index">
-												 
-												<td><c:forEach var="cObj" items="${subLocationDetails.countList}" >
-												<c:choose> 
-													    <c:when test="${tObj.tName eq cObj.tName }"> 
-													    
-													    		<c:choose>  
-																    <c:when test="${cObj.rr_sub_location eq obj.rr_sub_location }"> 
-																      	 ( ${cObj.count } )   
-																    </c:when>  
-																    <c:otherwise>  
-																    </c:otherwise>   
-															</c:choose>
-														</c:when>
-														<c:otherwise> 
-													   </c:otherwise>
-												</c:choose>
-												</c:forEach></td>
-                                            </c:forEach>
+												<input type="hidden" id="rr_user_id${indexs.count}" value="${obj.user_id }" /> 
+												${obj.user_name }</td>
+									
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${subLocationDetails.dList}" varStatus="indexx"> 
-												 
-												<c:choose>  
-												    <c:when test="${oSbj.rr_sub_location eq obj.rr_sub_location }"> 
-												      	<a onclick="deleteRow('${ oSbj.rr_sub_location }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
-												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
-												      	</a>
-												    </c:when>  
-												    <c:otherwise>  
-												    </c:otherwise>   
-												</c:choose>  
- 											 </c:forEach>
  											</td></tr>											 
  									   </c:forEach>
                                     </tbody>
@@ -135,35 +102,48 @@
                     <div class="col s12">
                         <div class="row no-mar">
                              <div class="table-inside">
+                              <div>
+					        	<span id="mainErrorAdd" style="align: center;" class="my-error right"></span>
+					        </div>
 					            <table id="addExecutivesTable" class="mdl-data-table mobile_responsible_table" >
 					                <thead>
 					                    <tr>
 					                        <th>Work</th>
 											<th>Responsible Executives </th>
-											<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"><th style="width:10%;">Action</th></c:if>
+											<%-- <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"> --%>
+											<th style="width:10%;">Action</th>
+											<%-- </c:if> --%>
 					                    </tr>
 					                </thead>
 					                
 								    <tbody id="addExecutivesBody">									               
 					                    <tr id="AexecutiveRow0">
 					                        <td data-head="Work" class="input-field">
-					                             <select class="searchable validate-dropdown dept" name="work_id_fks" id="work_id_fk0" >
-					                                	<option value="" >Select</option>  																         
+					                             <select class="searchable validate-dropdown work" name="work_id_fks" id="work_id_fk0" >
+					                                	<option value="" >Select</option>  	
+					                                	<c:forEach var="obj" items="${workDetails}" >
+					                                		  <option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+					                                	
+					                                	</c:forEach>														         
 					                              </select>
 					                              <span id="workError0" class="my-error"></span>
 					                        </td>
 					                        <td data-head="Responsible Executives" class="input-field h-auto">
-					                        <input type="hidden"  id="responsible_executives_id_fk0" name="responsible_executives_id_fks" />
-					                            <select class="searchable validate-dropdown" name="excecutives"
+					                        <input type="hidden"  id="executive_user_id_fk0" name="executive_user_id_fks" />
+					                            <select class="searchable validate-dropdown" name="executive_user_id_fk" onchange="getRowsCount('0');"
 					                                id="responsible_executives_id_fks0" multiple="multiple" >
-					                                <option value="" >Select</option>														 			 		                             	
+					                                <option value="" >Select</option>			
+					                                  <c:forEach var="obj" items="${usersDetails}" >
+					                                		  <option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>
+					                                	
+					                                	</c:forEach>											 			 		                             	
 					                            </select>
 					                            <span id="executiveError0" class="my-error"></span>
 					                        </td>
 			                				<c:choose>
 		                                        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}" >										                        
 							                        <td class="mobile_btn_close">
-							                            <a onclick="deleteAExecutiveRow('0');"
+							                            <a onclick="deleteAExecutiveRow('0');deleteRowsCount('0');"
 							                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 							                        </td>
 									            </c:when>   
@@ -184,13 +164,16 @@
                                    </c:if>
                                                   
 					        </div>
+					       
+					        
                         </div>
+                        
                         <div class="row">
                         	<div class="col s12 m8 offset-m2">
                         		<div class="row">
                         			 <div class="col s12 m6">
 		                                <div class="center-align m-1">
-		                                    <button style="width: 100%;" onclick="addRrExecutives()" class="btn waves-effect waves-light bg-m">Add </button>
+		                                    <button style="width: 100%;" type="button" onclick="addRrExecutives()" class="btn waves-effect waves-light bg-m">Add </button>
 		                                </div>
 		                            </div>
 		                            <div class="col s12 m6">
@@ -220,35 +203,50 @@
                 <div class="row">
                     <div class="col m12 s12">
                         <div class="table-inside">
+                        	<div>
+					        	 <span id="mainError" style="align: center;" class="my-error right"></span>
+					        </div>
 					            <table id="updateExecutivesTable" class="mdl-data-table mobile_responsible_table" >
 					                <thead>
 					                    <tr>
 					                        <th>Work</th>
 											<th>Responsible Executives </th>
-											<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"><th style="width:10%;">Action</th></c:if>
+											<%-- <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"> --%>
+											<th style="width:10%;">Action</th>
+											<%-- </c:if> --%>
 					                    </tr>
 					                </thead>
 					                
 								    <tbody id="updateExecutivesBody">									               
 					                    <tr id="UexecutiveRow0">
 					                        <td data-head="Work" class="input-field">
-					                             <select class="searchable validate-dropdown dept" name="work_id_fks" id="u_work_id_fk0" >
-					                                	<option value="" >Select</option>  																         
+					                        
+					                         <input type="hidden"  id="work_id_fk_old" name="work_id_fk_old" />
+					                             <select class="searchable validate-dropdown work2" name="work_id_fks" id="u_work_id_fk0" >
+					                                	<option value="" >Select</option>  
+					                                	<c:forEach var="obj" items="${workDetails}" >
+					                                		  <option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+					                                	
+					                                	</c:forEach>																	         
 					                              </select>
 					                              <span id="u_workError0" class="my-error"></span>
 					                        </td>
 					                        <td data-head="Responsible Executives" class="input-field h-auto">
-					                        <input type="hidden"  id="u_responsible_executives_id_fk0" name="responsible_executives_id_fks" />
-					                            <select class="searchable validate-dropdown" name="excecutives"
+					                         <input type="hidden"  id="u_executive_user_id_fk0" name="executive_user_id_fks" />
+					                            <select class="searchable validate-dropdown" name="executive_user_id_fk" onchange="getRowsCountU('0');"
 					                                id="u_responsible_executives_id_fks0" multiple="multiple" >
-					                                <option value="" >Select</option>														 			 		                             	
+					                                <option value="" >Select</option>	
+					                                <c:forEach var="obj" items="${usersDetails}" >
+					                                		  <option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>
+					                                	
+					                                	</c:forEach>														 			 		                             	
 					                            </select>
 					                            <span id="u_executiveError0" class="my-error"></span>
 					                        </td>
 			                				<c:choose>
 		                                        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}" >										                        
 							                        <td class="mobile_btn_close">
-							                            <a onclick="deleteUExecutiveRow('0');"
+							                            <a onclick="deleteUExecutiveRow('0');deleteRowsCountU('0');"
 							                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 							                        </td>
 									            </c:when>   
@@ -262,17 +260,19 @@
 					            <table  class="mdl-data-table">
                                        <tbody>                                          
                                            <tr >
-                                  				<td colspan="3"><a class="btn waves-effect waves-light bg-m "  onclick="addUExecutiveRow()"> <i class="fa fa-plus"></i></a></td>
+                                  				<td colspan="3"><a class="btn waves-effect waves-light bg-m "  onclick="updateUExecutiveRow()"> <i class="fa fa-plus"></i></a></td>
                                             </tr>
                                        </tbody>
                                    </table> 
                                    </c:if>
                                                   
 					        </div>
+					        
+					       
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateRrExecutives()"
+                                    <button type="button" style="width: 100%;" onclick="updateRrExecutives()"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -346,19 +346,35 @@
         });
 
         function addRrExecutives(){
-         	 if(validator.form()){ 
+         	 //if(validator.form()){   
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("addRrExecutivesForm").submit();	
-          }
+     			var flag = validateRRAdd();
+	        	if(flag){
+	        		document.getElementById("addRrExecutivesForm").submit();	
+	        	}else{
+	        		 $('#addUpdateModal').modal('open');
+	        		 $('#mainErrorAdd').text('select atleast one row!');
+	        		 $(".page-loader").hide();
+	        	}
+     			
+          //}
        }
         
         function updateRrExecutives(){
-        	 if(validator1.form()){ 
+        	 //if(validator1.form()){ 
     			$(".page-loader").show();
     			$("#onlyUpdateModal").modal();
-    			document.getElementById("updateRrExecutivesForm").submit();	
-         }
+    			var flag = validateRRUpdate();
+    			if(flag){
+    				document.getElementById("updateRrExecutivesForm").submit();	
+    			}else{
+	        		 $('#onlyUpdateModal').modal('open');
+	        		 $('#mainError').text('select atleast one row!');
+	        		 $(".page-loader").hide();
+	        	}
+    			
+         //}
       }
       
     /*    var validator = $('#addRrExecutivesForm').validate({
@@ -423,48 +439,41 @@
           }
       });
       function updateRow(no) {
-    	  var id = $('#id'+no).val();
-          var rr_sub_location = $('#rr_sub_locationId'+no).val();
-          var rr_location_fk = $('#rr_location_fkId'+no).val();
-          $('#value_old').val($.trim(rr_sub_location));
-          $('#rr_location_fk_old').val($.trim(rr_location_fk));
-          $('#ids').val($.trim(id));
+
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(rr_sub_location)).focus();
-          $('#onlyUpdateModal #rr_location_fk_new').val($.trim(rr_location_fk)).focus(); 
-          $('select[name^="rr_location_fk_new"] option[value="'+ rr_location_fk +'"]').attr("selected","selected");
+          var work_id_fk = $('#rr_work_id_fk'+no).val();
+         $('#work_id_fk_old').val(work_id_fk);
+          var user_id = $('#rr_user_id'+no).val();
+          //$('#onlyUpdateModal #value_new').val($.trim(rr_sub_location)).focus();
+          $('#onlyUpdateModal #work_id_fk'+no).val($.trim(work_id_fk)).focus(); 
+          $('#onlyUpdateModal #u_responsible_executives_id_fks'+no).val($.trim(user_id)).focus(); 
+          $('select[name^="work_id_fks"] option[value="'+ work_id_fk +'"]').attr("selected","selected");
+          if(user_id != ''){
+        	  $("#u_responsible_executives_id_fks0 option:selected").removeAttr("selected");
+        	  $('#u_executive_user_id_fk0').val(user_id);
+        	  var len = $("#updateExecutivesBody tr").length
+       /*  	  if(len > 1){
+        		  var arr = []; 
+        		  for(var i = 0; i < len; i++){
+        			  arr[i] =  $('#u_executive_user_id_fk'+i).val();
+        			  var array = arr[i].split(",").map(item => item.trim());
+                      for(var j=0; j< array.length; j++){ 
+                    	    $('#u_responsible_executives_id_fks'+i+' option[value='+array[j]+']').attr("selected", "selected");
+                    	}
+        		  }
+        		  
+        	  }else{ */
+        		  var array = user_id.split(",").map(item => item.trim());
+                  for(var i=0; i< array.length; i++){ 
+                	   // $('select[name^="executive_user_id_fk"] option[value='+array[i]+']').attr("selected", "selected");
+                	    $('#u_responsible_executives_id_fks0 option[value='+array[i]+']').attr("selected", "selected");
+                	} 
+        	  //}
+        	 
+          }
           $('.searchable').select2();
       }
-      
-      function deleteRow(val){
-      	$("#id").val(val);
-      	showCancelMessage(); 
-      }
-      	
-      
-      function showCancelMessage() {
-        	swal({
-    	            title: "Are you sure?",
-    	            text: "You will be changing the status of the record!",
-    	            type: "warning",
-    	            showCancelButton: true, 
-    	            confirmButtonColor: "#DD6B55",
-    	            confirmButtonText: "Yes, delete it!",
-    	            cancelButtonText: "No, cancel it!",
-    	            closeOnConfirm: false,
-    	            closeOnCancel: false
-    	        }, function (isConfirm) {
-    	            if (isConfirm) {
-    	               // swal("Deleted!", "Record has been deleted", "success");
-    	                $(".page-loader").show();
-    	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-rr-executives');
-    	    	    	$('#getForm').submit();
-    	           }else {
-    	                swal("Cancelled", "Record is safe :)", "error");
-    	            }
-    	        });
-    	    }
-          
+
       function addAExecutiveRow(){
     	   	 var rowNo = $("#addExecutivesBody tr:last-of-type").attr('id').split('executiveRow')[1];
     			 var rNo = Number(rowNo)+1;
@@ -472,51 +481,51 @@
     					 
     			 var html = '<tr id="AexecutiveRow'+rNo+'">'
     				   +'<td data-head="Department" class="input-field">'+
-    				   <c:choose>
-    			        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                 
-    			         '<select  class="searchable validate-dropdown" name="work_id_fk" id="work_id_fk'+rNo+'"> '
+    				 /*   <c:choose>
+    			        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">   */                               
+    			         '<select  class="searchable validate-dropdown work" name="work_id_fks" id="work_id_fk'+rNo+'"> '
     	         		 +'<option value="">Select</option>'+
-    	                 <c:forEach var="obj" items="${contractsList}">
-    				 		'<option workId="${obj.work_id_fk }" value="${obj.work_id_fk }" >${obj.contract_short_name }</option>'+
+    	                 <c:forEach var="obj" items="${workDetails}">
+    				 		'<option  value="${obj.work_id_fk }" >${obj.work_id_fk } - ${obj.work_short_name }</option>'+
     	                 </c:forEach>
 		    	         '</select>'+
-		    	         </c:when>
+		    	        /*  </c:when>
 		    	         <c:otherwise>
-		    	         '<select  class="searchable validate-dropdown" name="work_id_fk" id="work_id_fk'+rNo+'" >'+
+		    	         '<select  class="searchable validate-dropdown" name="work_id_fks" id="work_id_fk'+rNo+'" >'+
 		    	         		 '<option value="">Select</option>'+
-		    	                 <c:forEach var="obj" items="${contractsList}">
-		    				 		'<option workId="${obj.work_id_fk }" value="${obj.work_id_fk }">${obj.contract_short_name }</option>'
+		    	                 <c:forEach var="obj" items="${usersDetails}">
+		    				 		'<option  value="${obj.work_id_fk }">${obj.work_id_fk } - ${obj.contract_short_name }</option>'
 		    	                 </c:forEach>
 		    	         +'</select>' +                               
 		    	         </c:otherwise>
-		    	         </c:choose>			   
+		    	         </c:choose>			   */ 
 		    	         '</td>'
     				   +'<td data-head="Responsible Executives" class="input-field h-auto">'+    				   
-	    		    <c:choose>
-	    	         <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">   
-	    	         ' <input type="hidden"  id="responsible_executives_id_fk'+rNo+'" name="responsible_executives_id_fks" />'+
-	    	          '<select  class="searchable validate-dropdown"  name="excecutives" id="responsible_executives_id_fks'+rNo+'"  multiple="multiple">'+
+	    		   /*  <c:choose>
+	    	         <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">  */ 
+	    	         ' <input type="hidden"  id="executive_user_id_fk'+rNo+'" name="executive_user_id_fks" />'+ 
+	    	          '<select  class="searchable validate-dropdown"  name="executive_user_id_fk" id="responsible_executives_id_fks'+rNo+'"  multiple="multiple"  onchange="getRowsCount('+rNo+');">'+
 	    	          '<option value="" disabled="disabled">Select</option>'+
-	    	          <c:forEach var="obj" items="${responsiblePeopleList}">
+	    	          <c:forEach var="obj" items="${usersDetails}">
 	    			  			 '<option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>'+
 	    	          </c:forEach> 
 	    	        '</select>'+
-	    	         </c:when>
+	    	        /*  </c:when>
 	    	         <c:otherwise>
-	    	         ' <input type="hidden"  id="responsible_executives_id_fk'+rNo+'" name="responsible_executives_id_fks" />'+
-	    			 '<select  class="searchable validate-dropdown"  name="excecutives" id="responsible_executives_id_fks'+rNo+'" multiple="multiple" >'+
+	    	         ' <input type="hidden"  id="responsible_executives_id_fk'+rNo+'" name="executive_user_id_fks" />'+
+	    			 '<select  class="searchable validate-dropdown"  name="executive_user_id_fks" id="executive_user_id_fks'+rNo+'" multiple="multiple" >'+
 	    	                                          
 	    	          '<option value="" disabled="disabled">Select</option>'+
-	    	           <c:forEach var="obj" items="${responsiblePeopleList}">
+	    	           <c:forEach var="obj" items="${usersDetails}">
 	    			  			 '<option value="${obj.user_id }" > ${obj.designation} - ${obj.user_name}</option>'+
 	    	          </c:forEach> 
 	    	         '</select>'+  
 	    	         
 	    	          </c:otherwise>
-	    	         </c:choose>   			   
+	    	         </c:choose>   			 */   
     				   
     				   		'</td>'
-    				   +'<td class="mobile_btn_close"> <a onclick="deleteAExecutiveRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
+    				   +'<td class="mobile_btn_close"> <a onclick="deleteAExecutiveRow('+rNo+');deleteRowsCount('+rNo+')" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
     				   +'</tr>';
     			
     				 $('#addExecutivesBody').append(html); 
@@ -535,51 +544,52 @@
     					 
     			 var html = '<tr id="UexecutiveRow'+rNo+'">'
     				   +'<td data-head="Department" class="input-field">'+
-    				   <c:choose>
-    			        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                 
-    			         '<select  class="searchable validate-dropdown" name="work_id_fk" id="u_work_id_fk'+rNo+'"> '
+    				   /* <c:choose>
+    			        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">   */                               
+    			         '<select  class="searchable validate-dropdown work2" name="work_id_fks" id="u_work_id_fk'+rNo+'"> '
     	         		 +'<option value="">Select</option>'+
-    	                 <c:forEach var="obj" items="${contractsList}">
-    				 		'<option workId="${obj.work_id_fk }" value="${obj.work_id_fk }" >${obj.contract_short_name }</option>'+
+    	                 <c:forEach var="obj" items="${workDetails}">
+    				 		'<option  value="${obj.work_id_fk }" >${obj.work_id_fk } - ${obj.work_short_name }</option>'+
     	                 </c:forEach>
 		    	         '</select>'+
-		    	         </c:when>
+		    	        /*  </c:when>
 		    	         <c:otherwise>
-		    	         '<select  class="searchable validate-dropdown" name="work_id_fk" id="u_work_id_fk'+rNo+'" >'+
+		    	         '<select  class="searchable validate-dropdown" name="work_id_fks" id="u_work_id_fk'+rNo+'" >'+
 		    	         		 '<option value="">Select</option>'+
-		    	                 <c:forEach var="obj" items="${contractsList}">
-		    				 		'<option workId="${obj.work_id_fk }" value="${obj.work_id_fk }">${obj.contract_short_name }</option>'
+		    	                 <c:forEach var="obj" items="${usersDetails}">
+		    				 		'<option  value="${obj.work_id_fk }">${obj.designation } - ${obj.user_name }</option>'
 		    	                 </c:forEach>
 		    	         +'</select>' +                               
 		    	         </c:otherwise>
-		    	         </c:choose>			   
+		    	         </c:choose>	 */		   
 		    	         '</td>'
     				   +'<td data-head="Responsible Executives" class="input-field h-auto">'+    				   
-	    		    <c:choose>
+	    		   /*  <c:choose>
 	    	         <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">   
-	    	         ' <input type="hidden"  id="u_responsible_executives_id_fk'+rNo+'" name="responsible_executives_id_fks" />'+
-	    	          '<select  class="searchable validate-dropdown"  name="excecutives" id="u_responsible_executives_id_fks'+rNo+'"  multiple="multiple">'+
+	    	         ' <input type="hidden"  id="u_responsible_executives_id_fk'+rNo+'" name="executive_user_id_fks" />'+ */
+	    	         ' <input type="hidden"  id="u_executive_user_id_fk'+rNo+'" name="executive_user_id_fks" />'+ 
+	    	          '<select  class="searchable validate-dropdown"  name="executive_user_id_fk" id="u_responsible_executives_id_fks'+rNo+'"  multiple="multiple" onchange="getRowsCountU('+rNo+');">'+
 	    	          '<option value="" disabled="disabled">Select</option>'+
-	    	          <c:forEach var="obj" items="${responsiblePeopleList}">
+	    	          <c:forEach var="obj" items="${usersDetails}">
 	    			  			 '<option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>'+
 	    	          </c:forEach> 
 	    	        '</select>'+
-	    	         </c:when>
-	    	         <c:otherwise>
-	    	         ' <input type="hidden"  id="u_responsible_executives_id_fk'+rNo+'" name="responsible_executives_id_fks" />'+
-	    			 '<select  class="searchable validate-dropdown"  name="excecutives" id="u_responsible_executives_id_fks'+rNo+'" multiple="multiple" >'+
+	    	        /*   </c:when>
+	    	        <c:otherwise>
+	    	         ' <input type="hidden"  id="u_responsible_executives_id_fk'+rNo+'" name="executive_user_id_fks" />'+
+	    			 '<select  class="searchable validate-dropdown"  name="executive_user_id_fks" id="u_responsible_executives_id_fks'+rNo+'" multiple="multiple" >'+
 	    	                                          
 	    	          '<option value="" disabled="disabled">Select</option>'+
-	    	           <c:forEach var="obj" items="${responsiblePeopleList}">
+	    	           <c:forEach var="obj" items="${usersDetails}">
 	    			  			 '<option value="${obj.user_id }" > ${obj.designation} - ${obj.user_name}</option>'+
 	    	          </c:forEach> 
 	    	         '</select>'+  
 	    	         
 	    	          </c:otherwise>
-	    	         </c:choose>   			   
+	    	         </c:choose>  */  			   
     				   
     				   		'</td>'
-    				   +'<td class="mobile_btn_close"> <a onclick="deleteUExecutiveRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
+    				   +'<td class="mobile_btn_close"> <a onclick="deleteUExecutiveRow('+rNo+');deleteRowsCountU('+rNo+')" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
     				   +'</tr>';
     			
     				 $('#updateExecutivesBody').append(html); 
@@ -591,6 +601,71 @@
    	    function deleteUExecutiveRow(rowNo){
    	    	$("#UexecutiveRow"+rowNo).remove();
    	    }
+   	    
+   	 function getRowsCount(count){
+  	   var len = $("#addExecutivesBody tr").length
+  	   var vals = [];
+  	   $('#addExecutivesBody #responsible_executives_id_fks'+count).each(function(i,val){vals.push($(this).val());   });
+  	   vals = vals.join(',_,');
+  	   vals = vals.replace(/,_,\s*$/, '');
+  	   $('#executive_user_id_fk'+count).val(vals);
+     }
+     function deleteRowsCount(count){
+  	   var len = $("#addExecutivesBody tr").length
+  	   var vals = [];
+  	   $('#addExecutivesBody #responsible_executives_id_fks'+count).each(function(i,val){vals.push($(this).val());   });
+  	   vals = vals.join(',_,');
+  	   vals = vals.replace(/,_,\s*$/, '');
+  	   $('#executive_user_id_fk'+count).val(vals);
+  	   
+     }
+     function getRowsCountU(count){
+    	   var len = $("#updateExecutivesBody tr").length
+    	   var vals = [];
+    	   $('#updateExecutivesBody #u_responsible_executives_id_fks'+count).each(function(i,val){vals.push($(this).val());   });
+    	   vals = vals.join(',');
+    	   vals = vals.replace(/,\s*$/, '');
+    	   $('#u_executive_user_id_fk'+count).val(vals);
+       }
+       function deleteRowsCountU(count){
+    	   var len = $("#updateExecutivesBody tr").length
+    	   var vals = [];
+    	   $('#updateExecutivesBody #u_responsible_executives_id_fks'+count).each(function(i,val){vals.push($(this).val());   });
+    	   vals = vals.join(',');
+    	   vals = vals.replace(/,\s*$/, '');
+    	   $('#u_executive_user_id_fk'+count).val(vals);
+    	   
+       }
+       function validateRRUpdate(){
+			var flag = false;
+			$(".work2").each(function(){
+				var idNo = (this.id).replace('u_work_id_fk','');
+				var u_work_id_fk = $("#u_work_id_fk"+idNo).val();
+				var u_responsible_executives_id_fks = $("#u_responsible_executives_id_fks"+idNo).val();
+				if($.trim(u_work_id_fk) != "" && $.trim(u_responsible_executives_id_fks) != ""){
+					flag = true;
+					return flag;
+					}
+				
+			});
+			
+			return flag;
+		}
+       function validateRRAdd(){
+			var flag = false;
+			$(".work").each(function(){
+				var idNo = (this.id).replace('work_id_fk','');
+				var u_work_id_fk = $("#work_id_fk"+idNo).val();
+				var u_responsible_executives_id_fks = $("#responsible_executives_id_fks"+idNo).val();
+				if($.trim(u_work_id_fk) != "" && $.trim(u_responsible_executives_id_fks) != ""){
+					
+					flag = true;
+					return flag;
+				}
+			});
+			
+			return flag;
+		}
     </script>
 
     </body>

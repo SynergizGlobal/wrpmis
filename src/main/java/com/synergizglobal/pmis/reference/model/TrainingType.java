@@ -9,7 +9,7 @@ public class TrainingType {
 	
 	private String training_type,binary,dashboard_type,id, la_sub_category,bg_type_old,bg_type_fk, la_category_fk,la_category,contractor_specialization,user_role_name,bg_type,status,contract_type,department,deliverable_type, department_name, contract_id_code,document_type, user_role_code,user_access_type,soft_delete_status,source_of_funds, user_access_table,requirement_stage,unit_type,execution_agency,old_training_type,new_training_type,insurance_type,training_status,training_category,drawing_type,utility_type;
 
-	private String Table_name,column_name,constraint_name,user_name,la_land_status,approval_authority,resource_type,area_short_name,area_short_name_new,referenced_table_name,risk_work_completed,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
+	private String Table_name,column_name,constraint_name,user_name,work_id_fk_old,la_land_status,approval_authority,resource_type,area_short_name,area_short_name_new,referenced_table_name,risk_work_completed,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
 	
 	private String structure_file_type,design_file_type,department_new,stage,department_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
 	,contractor_specialization_new,contract_type_old,contract_type_new,dashboard_type_old,dashboard_type_new,status_old,status_new,deliverable_type_old,
@@ -24,8 +24,76 @@ public class TrainingType {
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
 	, template_name, attachment,captiliszedTableName, resource_type_fk,submission_purpose,design_status_submit,la_file_type, sub_resource_type, uploaded_on, uploaded_by,contract_status,contract_status_new,commonAttachment,short_name,
 	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type, rr_occupancy_status, rr_tenure_status, caste, mother_tongue, rr_type_of_family,marital_status
-	,phase,rr_type_of_use, rr_location_fk, rr_sub_location,rr_location_fk_old,rr_location_fk_new;
+	,phase,rr_type_of_use, rr_location_fk, rr_sub_location,rr_location_fk_old,rr_location_fk_new,executive_user_id_fk,user_id;
     
+	private String [] work_id_fks,executive_user_id_fks;
+	List<TrainingType> rrExecutivesList;
+	List<TrainingType> landExecutivesList;
+	List<TrainingType> utilityExecutivesList;
+	
+	public String getWork_id_fk_old() {
+		return work_id_fk_old;
+	}
+
+	public void setWork_id_fk_old(String work_id_fk_old) {
+		this.work_id_fk_old = work_id_fk_old;
+	}
+
+	public String[] getWork_id_fks() {
+		return work_id_fks;
+	}
+
+	public void setWork_id_fks(String[] work_id_fks) {
+		this.work_id_fks = work_id_fks;
+	}
+
+	public String[] getExecutive_user_id_fks() {
+		return executive_user_id_fks;
+	}
+
+	public void setExecutive_user_id_fks(String[] executive_user_id_fks) {
+		this.executive_user_id_fks = executive_user_id_fks;
+	}
+
+	public List<TrainingType> getRrExecutivesList() {
+		return rrExecutivesList;
+	}
+
+	public void setRrExecutivesList(List<TrainingType> rrExecutivesList) {
+		this.rrExecutivesList = rrExecutivesList;
+	}
+
+	public List<TrainingType> getLandExecutivesList() {
+		return landExecutivesList;
+	}
+
+	public void setLandExecutivesList(List<TrainingType> landExecutivesList) {
+		this.landExecutivesList = landExecutivesList;
+	}
+
+	public List<TrainingType> getUtilityExecutivesList() {
+		return utilityExecutivesList;
+	}
+
+	public void setUtilityExecutivesList(List<TrainingType> utilityExecutivesList) {
+		this.utilityExecutivesList = utilityExecutivesList;
+	}
+
+	public String getExecutive_user_id_fk() {
+		return executive_user_id_fk;
+	}
+
+	public void setExecutive_user_id_fk(String executive_user_id_fk) {
+		this.executive_user_id_fk = executive_user_id_fk;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 
 	public String getRr_location_fk_old() {
 		return rr_location_fk_old;

@@ -65,13 +65,13 @@ public class LandResponsibleExecutivesController {
 			model.setViewName("redirect:/land-executives");
 			boolean flag =  mainService.addLandAcquisitionExecutives(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Land Acquisition Executives Added Succesfully.");
+				attributes.addFlashAttribute("success", "Executives Added Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Adding Land Acquisition Executives is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding Executives is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Land Acquisition Executives is failed. Try again.");
+			attributes.addFlashAttribute("error","Adding Executives is failed. Try again.");
 			logger.error("addLandAcquisitionExecutives : " + e.getMessage());
 		}
 		return model;
@@ -84,13 +84,13 @@ public class LandResponsibleExecutivesController {
 			model.setViewName("redirect:/land-executives");
 			boolean flag =  mainService.updateLandAcquisitionExecutives(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Land Acquisition Executives Updated Succesfully.");
+				attributes.addFlashAttribute("success", "Executives Updated Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Land Acquisition Updating Executives is failed. Try again.");
+				attributes.addFlashAttribute("error","Updating Executives is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Updating Land Acquisition Executives is failed. Try again.");
+			attributes.addFlashAttribute("error","Updating Executives is failed. Try again.");
 			logger.error("updateLandAcquisitionExecutives : " + e.getMessage());
 		}
 		return model;

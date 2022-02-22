@@ -65,13 +65,13 @@ public class UtilityResponsibleExecutivesController {
 			model.setViewName("redirect:/utility-shifting-executives");
 			boolean flag =  mainService.addUtilityShiftingExecutives(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Utility Shifting Executives Added Succesfully.");
+				attributes.addFlashAttribute("success", "Executives Added Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Adding Utility Shifting Executives is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding Executives is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Utility Shifting Executives is failed. Try again.");
+			attributes.addFlashAttribute("error","Adding Executives is failed. Try again.");
 			logger.error("addUtilityUtilityisitionExecutives : " + e.getMessage());
 		}
 		return model;
@@ -84,13 +84,13 @@ public class UtilityResponsibleExecutivesController {
 			model.setViewName("redirect:/utility-shifting-executives");
 			boolean flag =  mainService.updateUtilityShiftingExecutives(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Utility Shifting Executives Updated Succesfully.");
+				attributes.addFlashAttribute("success", "Executives Updated Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Utility Shifting Updating Executives is failed. Try again.");
+				attributes.addFlashAttribute("error","Updating Executives is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Updating Utility Shifting Executives is failed. Try again.");
+			attributes.addFlashAttribute("error","Updating Executives is failed. Try again.");
 			logger.error("updateUtilityShiftingExecutives : " + e.getMessage());
 		}
 		return model;

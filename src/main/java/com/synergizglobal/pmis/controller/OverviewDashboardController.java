@@ -96,13 +96,11 @@ public class OverviewDashboardController {
 		String user_Id = null;String userName = null;
 		TableauDashboard obj=new TableauDashboard();
 		String tableauUrlView="";
-		logger.error("loadTableauView() : Start");
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			tableauDashboardName=tableauDashboardName.replaceAll("_", "&");
 			tableauDashboardName=tableauDashboardName.replaceAll("--", " ");
 			String pageurl=overviewDashboardService.getTableauUrl(tableauDashboardName);
-			logger.error("loadTableauView() : url - "+pageurl);
 
 			if(!StringUtils.isEmpty(pageurl)){
 			
@@ -114,7 +112,6 @@ public class OverviewDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				logger.error("loadTableauView() : ticket - "+trustedTokenId);
 				CommonConstants cObj = new CommonConstants();
 				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				String[] url = {};
@@ -129,7 +126,6 @@ public class OverviewDashboardController {
 				tableauUrlView = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				
 				obj.setTableauUrl(tableauUrlView.toString());
-				logger.error("loadTableauView() : turl - "+tableauUrlView);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

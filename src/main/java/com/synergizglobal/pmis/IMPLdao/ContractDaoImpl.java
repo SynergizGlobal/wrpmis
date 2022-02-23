@@ -3934,7 +3934,7 @@ public class ContractDaoImpl implements ContractDao {
 					"DATE_FORMAT(planned_date_of_award,'%d-%m-%Y') as planned_date_of_award, " + 
 					"DATE_FORMAT(loa_date,'%d-%m-%Y') as loa_date, " + 
 					"(SELECT sum(contract_per) FROM activities_scurve where contract_id = c.contract_id AND category = ?) as physical_progress, " + 
-					"IFNULL((SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1),DATE_FORMAT(actual_completion_date,'%d-%m-%Y')) as actual_completion_date, " + 
+					"IFNULL((SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1),(case when (SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1) is null then DATE_FORMAT(doc,'%d-%m-%Y') else (SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1) end )) as actual_completion_date, " + 
 					"c.remarks " + 
 					"FROM contract c " + 
 					"LEFT join work w ON c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 

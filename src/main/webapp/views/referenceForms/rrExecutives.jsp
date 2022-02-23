@@ -20,6 +20,10 @@
     		font-size: 1rem;
     		color:red;
     	}
+    	#addExecutivesBody td[data-head="Work"] .select2-container,
+    	#updateExecutivesBody td[data-head="Work"] .select2-container{
+    		max-width:350px !important;    		
+    	} 
     </style>
 </head>
 

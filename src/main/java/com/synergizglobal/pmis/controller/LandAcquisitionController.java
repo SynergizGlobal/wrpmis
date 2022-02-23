@@ -76,6 +76,7 @@ import com.synergizglobal.pmis.model.LandAquisationPaginationObject;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.TAFinancials;
+import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.LandAcquisition;
 
 @Controller
@@ -174,17 +175,17 @@ public class LandAcquisitionController {
 			if (pageNumber == 1) {
 				startIndex = 0;
 				offset = pageDisplayLength;
-				dataList = createPaginationData(startIndex, offset, obj, searchParameter);
+				dataList = createPaginationData(startIndex, offset, obj, searchParameter, session);
 			} else {
 				startIndex = (pageNumber * offset) - offset;
 				offset = pageDisplayLength;
-				dataList = createPaginationData(startIndex, offset, obj, searchParameter);
+				dataList = createPaginationData(startIndex, offset, obj, searchParameter, session);
 			}
 
 			//Search functionality: Returns filtered list based on search parameter
 			//lasList = getListBasedOnSearchParameter(searchParameter,lasList);
 
-			int totalRecords = getTotalRecords(obj, searchParameter);
+			int totalRecords = getTotalRecords(obj, searchParameter, session);
 
 			LandAquisationPaginationObject personJsonObject = new LandAquisationPaginationObject();
 			//Set Total display record
@@ -209,9 +210,13 @@ public class LandAcquisitionController {
 	 * @param activity 
 	 * @return
 	 */
-	public int getTotalRecords(LandAcquisition obj, String searchParameter) {
+	public int getTotalRecords(LandAcquisition obj, String searchParameter,HttpSession session) {
 		int totalRecords = 0;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			totalRecords = service.getTotalRecords(obj, searchParameter);
 		} catch (Exception e) {
 			logger.error("getTotalRecords : " + e.getMessage());
@@ -226,9 +231,13 @@ public class LandAcquisitionController {
 	 * @param clientId 
 	 * @return
 	 */
-	public List<LandAcquisition> createPaginationData(int startIndex, int offset, LandAcquisition obj, String searchParameter) {
+	public List<LandAcquisition> createPaginationData(int startIndex, int offset, LandAcquisition obj, String searchParameter,HttpSession session) {
 		List<LandAcquisition> earthWorkList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			earthWorkList = service.getLandAcquisitionList(obj, startIndex, offset, searchParameter);
 		} catch (Exception e) {
 			logger.error("createPaginationData : " + e.getMessage());
@@ -238,9 +247,13 @@ public class LandAcquisitionController {
 	
 	@RequestMapping(value = "/ajax/getStatussFilterListInLandAcquisition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getProjectsList(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getProjectsList(@ModelAttribute LandAcquisition obj,HttpSession session) {
 		List<LandAcquisition> projectsList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			projectsList = service.getLandAcquisitionStatusList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -251,9 +264,13 @@ public class LandAcquisitionController {
 	
 	@RequestMapping(value = "/ajax/getWorksFilterListInLandAcquisition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getWorksList(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getWorksList(@ModelAttribute LandAcquisition obj,HttpSession session) {
 		List<LandAcquisition> worksList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			worksList = service.getLandAcquisitionWorksList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -264,9 +281,13 @@ public class LandAcquisitionController {
 	
 	@RequestMapping(value = "/ajax/getVillagesFilterListInLandAcquisition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getVillagesList(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getVillagesList(@ModelAttribute LandAcquisition obj,HttpSession session) {
 		List<LandAcquisition> villagesList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			villagesList = service.getLandAcquisitionVillagesList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -277,9 +298,13 @@ public class LandAcquisitionController {
 	
 	@RequestMapping(value = "/ajax/getTypesOfLandsFilterListInLandAcquisition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getTypesOfLandsList(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getTypesOfLandsList(@ModelAttribute LandAcquisition obj,HttpSession session) {
 		List<LandAcquisition> typesOfLandsList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			typesOfLandsList = service.getLandAcquisitionTypesOfLandsList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -290,9 +315,13 @@ public class LandAcquisitionController {
 	
 	@RequestMapping(value = "/ajax/getSubCategoryFilterListInLandAcquisition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getSubCategorysList(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getSubCategorysList(@ModelAttribute LandAcquisition obj,HttpSession session) {
 		List<LandAcquisition> subCategoryList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			subCategoryList = service.getLandAcquisitionSubCategoryList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();

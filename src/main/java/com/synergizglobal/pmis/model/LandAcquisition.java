@@ -13,7 +13,7 @@ public class LandAcquisition {
 	,jm_fee_amount_units,value,unit,la_file_type,la_land_status,modified_by,modified_date,created_by_user_id_fk,user_id,user_name,designation,
 	//gov
 	id, la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,
-    area_acquired, remarks,gov_remarks,amount_demanded_units,amount_paid_units,
+    area_acquired, remarks,gov_remarks,amount_demanded_units,amount_paid_units,user_type_fk,user_role_code,
     
     //private
     name_of_the_owner,private_area_to_be_acquired,private_area_acquired, basic_rate,private_attachment_no, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos, forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, 
@@ -48,6 +48,22 @@ public class LandAcquisition {
 	private List<LandAcquisition> govList;
 	private String[] laFileNames,laDocumentFileNames,laDocumentNames,la_file_typess;
 	
+	public String getUser_type_fk() {
+		return user_type_fk;
+	}
+
+	public void setUser_type_fk(String user_type_fk) {
+		this.user_type_fk = user_type_fk;
+	}
+
+	public String getUser_role_code() {
+		return user_role_code;
+	}
+
+	public void setUser_role_code(String user_role_code) {
+		this.user_role_code = user_role_code;
+	}
+
 	public String getUser_id() {
 		return user_id;
 	}

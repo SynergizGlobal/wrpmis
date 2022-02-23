@@ -52,7 +52,8 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		List<RandRMain> objsList = null;
 		try {
 			String qry = "SELECT r.work_id as work_id_fk,w.work_name,w.work_short_name from rr r " + 
-					"LEFT JOIN work w on r.work_id = w.work_id "+
+					"LEFT JOIN work w on r.work_id = w.work_id "
+					+ "left join rr_executives re on r.work_id = re.work_id_fk " +
 					"where r.work_id is not null and r.work_id <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -79,6 +80,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and type_of_use = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and re.executive_user_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY r.work_id ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -101,6 +106,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				pValues[i++] = obj.getType_of_use();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -114,6 +122,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		try {
 			String qry = "SELECT r.boundary_wall_status from rr r " + 
 					"LEFT JOIN work w on r.work_id = w.work_id "+
+					"left join rr_executives re on r.work_id = re.work_id_fk  "+
 					"where r.boundary_wall_status is not null and r.boundary_wall_status <> '' ";
 			int arrSize = 0;
 			
@@ -141,6 +150,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and type_of_use = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and re.executive_user_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY r.boundary_wall_status ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -163,6 +176,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				pValues[i++] = obj.getType_of_use();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -176,6 +192,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		try {
 			String qry = "SELECT r.location_name from rr r " + 
 					"LEFT JOIN work w on r.work_id = w.work_id "+
+					"left join rr_executives re on r.work_id = re.work_id_fk  "+
 					"where r.location_name is not null and r.location_name <> '' ";
 			int arrSize = 0;
 			
@@ -203,6 +220,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and type_of_use = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and re.executive_user_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY r.location_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -225,6 +246,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				pValues[i++] = obj.getType_of_use();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -238,6 +262,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		try {
 			String qry = "SELECT r.type_of_use from rr r " + 
 					"LEFT JOIN work w on r.work_id = w.work_id "+
+					"left join rr_executives re on r.work_id = re.work_id_fk  "+
 					"where r.type_of_use is not null and r.type_of_use <> '' ";
 			int arrSize = 0;
 			
@@ -265,6 +290,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and type_of_use = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and re.executive_user_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY r.type_of_use ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -287,6 +316,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				pValues[i++] = obj.getType_of_use();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -300,6 +332,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		try {
 			String qry = "SELECT r.structure_id from rr r " + 
 					"LEFT JOIN work w on r.work_id = w.work_id "+
+					"left join rr_executives re on r.work_id = re.work_id_fk  "+
 					"where r.structure_id is not null and r.structure_id <> '' ";
 			int arrSize = 0;
 			
@@ -327,6 +360,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and type_of_use = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and re.executive_user_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY r.structure_id ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -349,6 +386,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				pValues[i++] = obj.getType_of_use();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -362,6 +402,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		try {
 			String qry = "SELECT r.phase from rr r " + 
 					"LEFT JOIN work w on r.work_id = w.work_id "+
+					"left join rr_executives re on r.work_id = re.work_id_fk  "+
 					"where r.phase is not null and r.phase <> '' ";
 			int arrSize = 0;
 			
@@ -389,6 +430,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and type_of_use = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and re.executive_user_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY r.phase ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -411,6 +456,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				pValues[i++] = obj.getType_of_use();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -422,8 +470,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public int getTotalRecords(RandRMain obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
 		try {
-			String qry ="select count(*) as total_records from rr r "
+			String qry ="select count(distinct rr_id) as total_records from rr r "
 					+ "LEFT JOIN work w on r.work_id = w.work_id "
+					+ "left join rr_executives re on r.work_id = re.work_id_fk  "
 					+ "where rr_id is not null  ";
 			int arrSize = 0;
 
@@ -449,6 +498,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				qry = qry + " and type_of_use = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and re.executive_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
@@ -483,6 +536,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				pValues[i++] = obj.getType_of_use();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -509,6 +565,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			String qry ="select rr_id, r.work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor, carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, estimate_approval_date, letter_to_mmrda, estimates_by_mmrda, payment_to_mmrda, alternate_housing_allotment,"
 					+ " relocation, encroachment_removal, boundary_wall_status, boundary_wall_doc, handed_over_to_execution, occupier_name_during_verification,modified_by,DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date from rr r "
 					+ "LEFT JOIN work w on r.work_id = w.work_id "
+					+ "left join rr_executives re on r.work_id = re.work_id_fk  "
 					+ "WHERE rr_id is not null ";
 			
 			int arrSize = 0;
@@ -535,6 +592,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				qry = qry + " and type_of_use = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and re.executive_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
@@ -573,6 +634,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				pValues[i++] = obj.getType_of_use();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";

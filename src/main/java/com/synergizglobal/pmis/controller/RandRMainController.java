@@ -50,6 +50,7 @@ import com.synergizglobal.pmis.Iservice.RandRMainService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.RandRMain;
+import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
@@ -101,9 +102,13 @@ public class RandRMainController {
 	}
 	@RequestMapping(value = "/ajax/getWorksFilterListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<RandRMain> getWorksList(@ModelAttribute RandRMain obj) {
+	public List<RandRMain> getWorksList(@ModelAttribute RandRMain obj, HttpSession session) {
 		List<RandRMain> worksList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			worksList = service.getWorksFilterListInRR(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -114,9 +119,13 @@ public class RandRMainController {
 	
 	@RequestMapping(value = "/ajax/getPhasesFilterListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<RandRMain> getPhasesFilterListInRR(@ModelAttribute RandRMain obj) {
+	public List<RandRMain> getPhasesFilterListInRR(@ModelAttribute RandRMain obj, HttpSession session) {
 		List<RandRMain> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = service.getPhasesFilterListInRR(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -126,9 +135,13 @@ public class RandRMainController {
 	}
 	@RequestMapping(value = "/ajax/getStructuresFilterListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<RandRMain> getStructuresFilterListInRR(@ModelAttribute RandRMain obj) {
+	public List<RandRMain> getStructuresFilterListInRR(@ModelAttribute RandRMain obj, HttpSession session) {
 		List<RandRMain> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = service.getStructuresFilterListInRR(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -138,9 +151,13 @@ public class RandRMainController {
 	}
 	@RequestMapping(value = "/ajax/getTypeofUseFilterListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<RandRMain> getTypeofUseFilterListInRR(@ModelAttribute RandRMain obj) {
+	public List<RandRMain> getTypeofUseFilterListInRR(@ModelAttribute RandRMain obj, HttpSession session) {
 		List<RandRMain> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = service.getTypeofUseFilterListInRR(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -150,9 +167,13 @@ public class RandRMainController {
 	}
 	@RequestMapping(value = "/ajax/getLocationsFilterListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<RandRMain> getLocationsFilterListInRR(@ModelAttribute RandRMain obj) {
+	public List<RandRMain> getLocationsFilterListInRR(@ModelAttribute RandRMain obj, HttpSession session) {
 		List<RandRMain> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = service.getLocationsFilterListInRR(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -162,9 +183,13 @@ public class RandRMainController {
 	}
 	@RequestMapping(value = "/ajax/getStatusFilterListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<RandRMain> getStatusFilterListInRR(@ModelAttribute RandRMain obj) {
+	public List<RandRMain> getStatusFilterListInRR(@ModelAttribute RandRMain obj, HttpSession session) {
 		List<RandRMain> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = service.getStatusFilterListInRR(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -184,7 +209,9 @@ public class RandRMainController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
-
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			
 			pw = response.getWriter();
 			//Fetch the page number from client
 			Integer pageNumber = 0;
@@ -210,17 +237,17 @@ public class RandRMainController {
 			if (pageNumber == 1) {
 				startIndex = 0;
 				offset = pageDisplayLength;
-				budgetList = createPaginationData(startIndex, offset, obj, searchParameter);
+				budgetList = createPaginationData(startIndex, offset, obj, searchParameter, session);
 			} else {
 				startIndex = (pageNumber * offset) - offset;
 				offset = pageDisplayLength;
-				budgetList = createPaginationData(startIndex, offset, obj, searchParameter);
+				budgetList = createPaginationData(startIndex, offset, obj, searchParameter, session);
 			}
 
 			//Search functionality: Returns filtered list based on search parameter
 			//budgetList = getListBasedOnSearchParameter(searchParameter,budgetList);
 
-			int totalRecords = getTotalRecords(obj, searchParameter);
+			int totalRecords = getTotalRecords(obj, searchParameter, session);
 
 			RRPaginationObject personJsonObject = new RRPaginationObject();
 			//Set Total display record
@@ -245,9 +272,13 @@ public class RandRMainController {
 	 * @param activity 
 	 * @return
 	 */
-	public int getTotalRecords(RandRMain obj, String searchParameter) {
+	public int getTotalRecords(RandRMain obj, String searchParameter,HttpSession session) {
 		int totalRecords = 0;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			totalRecords = service.getTotalRecords(obj, searchParameter);
 		} catch (Exception e) {
 			logger.error("getTotalRecords : " + e.getMessage());
@@ -262,9 +293,13 @@ public class RandRMainController {
 	 * @param clientId 
 	 * @return
 	 */
-	public List<RandRMain> createPaginationData(int startIndex, int offset, RandRMain obj, String searchParameter) {
+	public List<RandRMain> createPaginationData(int startIndex, int offset, RandRMain obj, String searchParameter,HttpSession session) {
 		List<RandRMain> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = service.getRRList(obj, startIndex, offset, searchParameter);
 		} catch (Exception e) {
 			logger.error("createPaginationData : " + e.getMessage());

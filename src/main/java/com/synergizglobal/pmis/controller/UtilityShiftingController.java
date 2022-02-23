@@ -109,8 +109,10 @@ public class UtilityShiftingController {
 		try {
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
 			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			
 			objList = utilityShiftingService.getWorksListFilter(obj);
 		} catch (Exception e) {
@@ -126,9 +128,10 @@ public class UtilityShiftingController {
 		try {
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_type_fk(uObj.getUser_type_fk());
 			
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = utilityShiftingService.getLocationListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,8 +146,10 @@ public class UtilityShiftingController {
 		try {
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
 			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			
 			objList = utilityShiftingService.getUtilityCategoryListFilter(obj);
 		} catch (Exception e) {
@@ -160,9 +165,10 @@ public class UtilityShiftingController {
 		try {
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_type_fk(uObj.getUser_type_fk());
 			
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = utilityShiftingService.getUtilityTypeListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -177,8 +183,10 @@ public class UtilityShiftingController {
 		try {
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
 			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			
 			objList = utilityShiftingService.getUtilityStatusListFilter(obj);
 		} catch (Exception e) {
@@ -201,7 +209,7 @@ public class UtilityShiftingController {
 			model.addObject("worksList", worksList);
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());			
+						
 			
 			List<UtilityShifting> contractsList = utilityShiftingService.getContractsListForUtilityShifting(obj);
 			model.addObject("contractsList", contractsList);
@@ -324,7 +332,7 @@ public class UtilityShiftingController {
 			//Search functionality: Returns filtered list based on search parameter
 			//UtilityShiftingList = getListBasedOnSearchParameter(searchParameter,UtilityShiftingList);
 
-			int totalRecords = getTotalRecords(obj, searchParameter);
+			int totalRecords = getTotalRecords(obj, searchParameter, session);
 
 			UtilityShiftingPaginationObject personJsonObject = new UtilityShiftingPaginationObject();
 			//Set Total display record
@@ -349,9 +357,14 @@ public class UtilityShiftingController {
 	 * @param activity 
 	 * @return
 	 */
-	public int getTotalRecords(UtilityShifting obj, String searchParameter) {
+	public int getTotalRecords(UtilityShifting obj, String searchParameter,HttpSession session) {
 		int totalRecords = 0;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			totalRecords = utilityShiftingService.getTotalRecords(obj, searchParameter);
 		} catch (Exception e) {
 			logger.error("getTotalRecords : " + e.getMessage());
@@ -371,8 +384,10 @@ public class UtilityShiftingController {
 		try {
 
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
 			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			
 			objList = utilityShiftingService.getUtilityShiftingList(obj, startIndex, offset, searchParameter);
 		} catch (Exception e) {
@@ -396,7 +411,7 @@ public class UtilityShiftingController {
 			model.addObject("worksList", worksList);
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());			
+						
 			
 			List<UtilityShifting> contractsList = utilityShiftingService.getContractsListForUtilityShifting(obj);
 			model.addObject("contractsList", contractsList);
@@ -450,7 +465,7 @@ public class UtilityShiftingController {
 			model.addObject("worksList", worksList);
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());			
+						
 			
 			List<UtilityShifting> contractsList = utilityShiftingService.getContractsListForUtilityShifting(obj);
 			model.addObject("contractsList", contractsList);

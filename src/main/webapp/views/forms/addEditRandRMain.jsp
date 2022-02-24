@@ -69,7 +69,15 @@
 	        text-align:left;
 	        margin-top:10px;
         }        
-         
+         .datepicker-max-today ~button{
+			    position: absolute;
+			    right: 15px;
+			    top: 15px;
+			    border: 0;
+			    opacity: 0.7;
+			    cursor: pointer;
+			    background-color: transparent;
+		}
         .my-error-class {
    			 color:red;
 		}
@@ -288,8 +296,10 @@
                     </div>
                     <!-- form start-->
                    
-                        <c:if test="${action eq 'edit'}">				                
+                        <c:if test="${action eq 'edit'}">	<c:if test="${sessionScope.USER_ID eq rrDetails.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
+                        			                
 			                	<form action="<%=request.getContextPath() %>/update-rr" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                          </c:if>
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
 			                	<form action="<%=request.getContextPath() %>/add-rr" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
@@ -406,7 +416,7 @@
                                      <input id="verification_date" name="physical_verification" type="text" class="validate datepicker" value="${rrDetails.physical_verification }">
                                      <button type="button" id="verification_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
-		                             <label for="verification_date">Physical Verification Date</label>
+		                             <label for="verification_date">Physical Verification Date<span class="required" id="verification_date_req"></span></label>
 		                             <span id="verification_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
@@ -432,7 +442,7 @@
                                      <input id="alternate_housing_allotment" name="alternate_housing_allotment" type="text" class="validate datepicker" value="${rrDetails.alternate_housing_allotment }">
                                      <button type="button" id="alternate_housing_allotment_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
-		                             <label for="alternate_housing_allotment">Alternate Housing Allotment</label>
+		                             <label for="alternate_housing_allotment">Alternate Housing Allotment<span class="required" id="alternate_housing_allotment_req"></span></label>
 		                             <span id="alternate_housing_allotmentError" class="error-msg" ></span>
                                 </div>                            	
                             	<div class="col s6 m4 l4 input-field">
@@ -470,8 +480,8 @@
 									        <span>Handover to Execution</span>
 									      </label>
 								    </p> --%>
-								     <input id="handover_to_execution" name="handed_over_to_execution" type="text" class="validate datepicker" value="${rrDetails.handed_over_to_execution }">
-                                     <button type="button" id="handover_to_execution_icon" class="datepicker-button"><i
+								     <input id="handover_to_execution" name="handed_over_to_execution" type="text" class="validate datepicker-max-today" value="${rrDetails.handed_over_to_execution }">
+                                     <button type="button" id="handover_to_execution_icon" class="datepicker-max-today-button"><i
                                             class="fa fa-calendar"></i></button>
 		                             <label for="handover_to_execution">Handover to Execution</label>
 		                             <span id="handover_to_executionError" class="error-msg" ></span>
@@ -1101,21 +1111,30 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom:20px;">
-                                <div class="col s6 offset-m2 m4 l6 mt-brdr">
-                                    <div class="center-align m-1">
-                                       <c:if test="${action eq 'edit'}">
-	                                       <button type="button" onclick="updateRR();" class="btn waves-effect waves-light bg-m">Update</button>
-	                                    </c:if>
-	                                    <c:if test="${action eq 'add'}">
-	                                        <button type="button" id="disabled" onclick="addRR();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
-	                                    </c:if>
-                                    </div>
-                                </div> 
-                                <div class="col s6 m4 l6 mt-brdr">
-                                    <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/randr-main" class="btn waves-effect waves-light bg-s">Cancel</a>
-                                    </div>
-                                </div>
+	                            <c:if test="${sessionScope.USER_ID ne rrDetails.executive_user_id_fk and sessionScope.USER_ROLE_NAME ne 'IT Admin'}">
+		                            <div class="col s12 offset-m2 m4 l12 mt-brdr">
+		                             <div class="center-align m-1">
+		                            	<a style="color:red;line-height:36px">Not Authorized to Edit</a>
+		                            	</div>
+		                            </div>
+	                            </c:if>
+	                            <c:if test="${sessionScope.USER_ID eq rrDetails.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
+	                                <div class="col s6 offset-m2 m4 l6 mt-brdr">
+	                                    <div class="center-align m-1">
+	                                       <c:if test="${action eq 'edit'}">
+		                                       <button type="button" onclick="updateRR();" class="btn waves-effect waves-light bg-m">Update</button>
+		                                    </c:if>
+		                                    <c:if test="${action eq 'add'}">
+		                                        <button type="button" id="disabled" onclick="addRR();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+		                                    </c:if>
+	                                    </div>
+	                                </div> 
+	                                <div class="col s6 m4 l6 mt-brdr">
+	                                    <div class="center-align m-1">
+	                                        <a href="<%=request.getContextPath() %>/randr-main" class="btn waves-effect waves-light bg-s">Cancel</a>
+	                                    </div>
+	                                </div>
+	                                </c:if>
                             </div>
                            
                         </form>
@@ -1158,10 +1177,40 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
    <script>
+   $(document).on('focus', '.datepicker-max-today', function () {        	 
+		var id = $(this).attr('id');
+			var dt = this.value.split(/[^0-9]/);
+		    this.value = "";
+		    var options = {
+		    	maxDate: new Date(),
+		        format: 'dd-mm-yyyy',
+		        autoClose: true,
+		        onOpen: datePickerSelectAddClass,
+		        showClearBtn: true,
+		        onClose: function () {
+		            if (!$(this.el).val()) {
+		                $(this.el).siblings('label').removeClass('active');
+		            }
+		        }
+		    };
+		    if (dt.length > 1) {
+		        options.setDefaultDate = true,
+		        options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+		    }
+		    M.Datepicker.init(this, options);		       
+	 });
+	 $(document).on('focus', '.datepicker-max-today-button', function () { 
+		 var id = $(this).attr('id').split('_i')[0];
+	     $('#'+id+'_icon').click(function () {
+	         event.stopPropagation();
+	         $('#'+id).focus().click();
+	     });
+	 });         
+	 
    $(document).ready(function () {
         $('select:not(.searchable)').formSelect();
     	$('.searchable').select2();
-    	$(".datepicker").datepicker();
+    	//$(".datepicker").datepicker();
     	
     	$('#type_of_use').change(function(){
     		if($('#type_of_use').val()=='Residential'){
@@ -1518,7 +1567,13 @@
 			          required: true
 			      }	, "type_of_use"	: {
 			          required: true
-			      }
+			      },"letter_to_mmrda": { 
+     		 		 required: false,
+				 	 dateBeforeLTM:"#verification_date"
+    		 	  },"handed_over_to_execution": { 
+     		 		 required: false,
+				 	 dateBeforeHOE:"#verification_date"
+    		 	  }
  		 	},
  		    messages: {
  		 		   "project_id_fk": {
@@ -1537,7 +1592,11 @@
  			          required: 'Required'
  			      }, "type_of_use"	: {
  			          required: 'Required'
- 			      }
+ 			      },"letter_to_mmrda": {
+     			 		required: 'Required'
+   			 	  },"handed_over_to_execution": {
+     			 		required: 'Required'
+   			 	  }
 	   		},
 	   		errorPlacement:function(error, element){
 	   		 	  if(element.attr("id") == "project_id_fk" ){
@@ -1564,6 +1623,12 @@
 				 }else if(element.attr("id") == "type_of_use" ){
 				     document.getElementById("type_of_useError").innerHTML="";
 			 	     error.appendTo('#type_of_useError');
+				 }else if(element.attr("id") == "letter_to_mmrda" ){
+				     document.getElementById("letter_to_mmrdaError").innerHTML="";
+			 	     error.appendTo('#letter_to_mmrdaError');
+				 }else if(element.attr("id") == "handover_to_execution" ){
+				     document.getElementById("handover_to_executionError").innerHTML="";
+			 	     error.appendTo('#handover_to_executionError');
 				 }else{
 					 error.insertAfter(element);
 		        } 
@@ -1581,7 +1646,15 @@
 		    	//form.submit();
 		    }
 		});   
- 
+  	 $.validator.addMethod("dateFormat",
+   	    function(value, element) {
+   	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+   	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+   	    	//return dtRegex.test(value);
+   	    },
+   	    //"Date format (Aug 02,2020)"
+   	    "Date format (DD-MM-YYYY)"
+   	);
       $('select').change(function(){
           if ($(this).val() != ""){
               $(this).valid();
@@ -1593,6 +1666,120 @@
               $(this).valid();
           }
       });
+      $('#verification_date').change(function(){
+    	  var fromDateString = $('#verification_date').val();
+    	  var toDateString = [];var i =0;var len=1;var j =0;var n = 0;
+    	  var errorMsg = [];var errText = [];
+    	  if($('#handover_to_execution').val() != '' && $('#letter_to_mmrda').val() == ''){
+    		  toDateString[i] = $('#handover_to_execution').val();
+    		  errorMsg[j] = '#handover_to_executionError';
+    		  errText[n] = "Handover to Execution must be after Physical Verification Date";
+    	  }else if ($('#letter_to_mmrda').val() != '' && $('#handover_to_execution').val() == ''){
+    		  toDateString[i] = $('#letter_to_mmrda').val();
+    		  errorMsg[j] = '#letter_to_mmrdaError';
+    		  errText[n] = "Letter To MMRDA must be after Physical Verification Date";
+    	  }else{
+    		  toDateString[i++] = $('#handover_to_execution').val();
+    		  toDateString[i++] = $('#letter_to_mmrda').val();
+    		  errorMsg[j++] = '#handover_to_executionError';
+    		  errorMsg[j++] = '#letter_to_mmrdaError';
+    		  errText[n++] = "Handover to Execution must be after Physical Verification Date";
+    		  errText[n++] = "Letter To MMRDA must be after Physical Verification Date";
+    	  }
+    	  if(toDateString.length > 1){
+    		  len = 2
+    	  }
+    	  for(var k=0; k< len; k++){
+   		    var fromDateParts = fromDateString.split("-");
+   	          // month is 0-based, that's why we need dataParts[1] - 1
+   	          var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+   	          var toDateParts = toDateString[k].split("-");
+   	          // month is 0-based, that's why we need dataParts[1] - 1
+   	          var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+   	          if($.trim(fromDateString) != '' && $.trim(toDateString[k]) != ''){
+   	        	  if(Date.parse(fromDate) <= Date.parse(toDate)){
+   	        		 $(errorMsg[k]).text('');
+   	        	  }else if(Date.parse(toDate) <= Date.parse(fromDate)){
+   	   	        	 $(errorMsg[k]).text(errText[k]);
+   	   	          }else if($.trim(fromDateString) == '' && $.trim(toDateString[k]) != ''){
+   	   	        	 $(errorMsg[k]).text('');
+    	   	   	  }else{
+   	   	        	 $(errorMsg[k]).text('');
+   	   	          } 
+   	          }
+    	  }
+      
+      });
+      $.validator.addMethod("dateBeforeLTM", function(value, element) {
+          var fromDateString = $('#verification_date').val();
+          var fromDateParts = fromDateString.split("-");
+          // month is 0-based, that's why we need dataParts[1] - 1
+          var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+          var toDateParts = value.split("-");
+          // month is 0-based, that's why we need dataParts[1] - 1
+          var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+          if($.trim(fromDateString) != '' && $.trim(value) != ''){
+          	return Date.parse(fromDate) <= Date.parse(toDate);
+          }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+          	return true;
+          }else{
+          	return true;
+          }
+      }, "Letter To MMRDA must be after Physical Verification Date");
+      
+      $.validator.addMethod("dateBeforeHOE", function(value, element) {
+          var fromDateString = $('#verification_date').val();
+          var fromDateParts = fromDateString.split("-");
+          // month is 0-based, that's why we need dataParts[1] - 1
+          var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+          var toDateParts = value.split("-");
+          // month is 0-based, that's why we need dataParts[1] - 1
+          var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+          if($.trim(fromDateString) != '' && $.trim(value) != ''){
+          	return Date.parse(fromDate) <= Date.parse(toDate);
+          }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+          	return true;
+          }else{
+          	return true;
+          }
+      }, "Handover to Execution must be after Physical Verification Date");
+      
+      $('#encroachment_removal,#alternate_housing_allotment').change(function(){
+    	  var alternate_housing_allotment = $('#alternate_housing_allotment').val();
+    	  if($.trim(alternate_housing_allotment) == ''){                	
+    	      	$('#alternate_housing_allotment').rules("add", {
+		    	      	     required : true,
+		    	      	     messages : { required : '' }
+		    	      	  });
+    	      	$('#alternate_housing_allotment_req').text('*');
+    	      	$('#alternate_housing_allotmentError').text('Required');
+    	      }else{
+    	      	$('#alternate_housing_allotment').rules('remove',  'required');
+    	      	$('#alternate_housing_allotment_req').text('');
+    	      	$('#alternate_housing_allotmentError').text('');
+    	      }
+      });
+      
+      $('#handover_to_execution,#verification_date').change(function(){
+    	  var verification_date = $('#verification_date').val();
+    	  var handover_to_execution = $('#handover_to_execution').val();
+    	  if($.trim(verification_date) == '' && handover_to_execution != ''){                	
+    	      	$('#verification_date').rules("add", {
+		    	      	     required : true,
+		    	      	     messages : { required : '' }
+		    	      	  });
+    	      	$('#verification_date_req').text('*');
+    	      	$('#verification_dateError').text('Required');
+    	      }else{
+    	      	$('#verification_date').rules('remove',  'required');
+    	      	$('#verification_date_req').text('');
+    	      	$('#verification_dateError').text('');
+    	      }
+      });
+     
    </script>
 
 </body>

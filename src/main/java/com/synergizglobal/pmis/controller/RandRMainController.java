@@ -477,11 +477,16 @@ public class RandRMainController {
 		return model;
 	 }
 	@RequestMapping(value = "/get-rr/{rr_id}", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getRandRMainFormForId(@ModelAttribute RandRMain rr,@PathVariable("rr_id") String rr_id  ){
+	public ModelAndView getRandRMainFormForId(@ModelAttribute RandRMain rr,@PathVariable("rr_id") String rr_id  ,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditRandRMain);
 			model.addObject("action", "edit");
+			
+			User uObj = (User) session.getAttribute("user");
+			rr.setUser_type_fk(uObj.getUser_type_fk());
+			rr.setUser_role_code(uObj.getUser_role_code());
+			rr.setUser_id(uObj.getUser_id());
 			
 			List<RandRMain> docType = service.getDocTypeListForRRForm(rr);
 			model.addObject("docType", docType);

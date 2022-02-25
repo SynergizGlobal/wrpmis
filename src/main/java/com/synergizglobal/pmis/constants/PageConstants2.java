@@ -75,4 +75,6 @@ public class PageConstants2 {
 	public static final String workSalientFeatures = "forms/workSalientFeatures";
 	public static final String addEditWorkSalientFeatures = "forms/addEditWorkSalientFeatures";
 	
+	public static final String alertConditions = "forms/alertConditions";
+	
 }

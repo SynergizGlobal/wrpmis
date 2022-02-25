@@ -59,9 +59,10 @@
 				  padding: 0 20px;
 				  background: #fff !important;
 				  margin: 40px auto;
-				  position: relative;
-				  height: 70px;
-				  border-radius: 0 !important;
+				  /* position: relative;*/
+ 				  height: 85px;
+				  /* border-radius: 0 !important; */
+				  border-radius: 40px;
 				}
 				.diamond span {
 				  display: inline-block;
@@ -89,11 +90,11 @@
 				
 				.diamond:hover {
 				  background: rgba(21, 101, 192, 0.8) !important;
-				  filter: drop-shadow(-2px -2px 2px #42A5F5) drop-shadow(3px 3px 5px #42A5F5);
+/* 				  filter: drop-shadow(-2px -2px 2px #42A5F5) drop-shadow(3px 3px 5px #42A5F5);
 		            filter: drop-shadow(-2px -2px 2px #9ED1FA) drop-shadow(2px 2px 3px #9ED1FA);
-		            transform: scale(1.1);
+		            transform: scale(1.1);*/
 		            transition: all 0.2s;
-		            transition-duration: 0.2s;
+		            transition-duration: 0.2s; 
 		            color: #fff;
 				}
 				.diamond:hover:before {
@@ -663,9 +664,8 @@
                 </div>
                 <div class="col s12 m2 right">
                     <div class="card-title title-btn" id="projectBackBtn"> &nbsp;
-                        <a href="<%=request.getContextPath()%>/" class="right btn">
-                            <span class="material-icons">keyboard_backspace</span>
-                        </a>
+ 						<a class="btn " data-position="bottom" href="<%=request.getContextPath()%>/" class="btn tooltipped right btn" style="float:right;">Back</a>  
+                                               
                     </div>
                     <div class="card-title title-btn hidden" id="workBackBtn"> &nbsp;
                         <a href="<%=request.getContextPath()%>/" class="right btn">
@@ -767,7 +767,7 @@
                                         <p class="alignleft pdlr20px">
                                             <c:if
                                                 test="${projectOverview.project_status eq 'Closed' }">
-                                                100% </c:if>
+                                                Completed </c:if>
                                             <c:if
                                                 test="${projectOverview.project_status eq 'Open' }">
                                             </c:if>
@@ -779,7 +779,7 @@
                                         <p class="alignleft pdlr20px">
                                             <c:if
                                                 test="${projectOverview.project_status eq 'Closed' }">
-                                                100% </c:if>
+                                                Completed </c:if>
                                             <c:if
                                                 test="${projectOverview.project_status eq 'Open' }">
                                             </c:if>

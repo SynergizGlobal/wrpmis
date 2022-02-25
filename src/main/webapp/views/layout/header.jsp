@@ -99,7 +99,7 @@
 		}
      /*  textarea auto height code ends here */
      	.brand-logo{width: 15%;}
-     	.brand-logo img{width: 33% !important;}
+     	.brand-logo img{width: 3rem! important;}
      
      .markread{float: right;
 			    background-color: rgba(255, 255, 255, 0.6);
@@ -123,14 +123,12 @@
      		right:15px;
      	}
      	.brand-logo img{
-     		top: 0;
-		    left: -3%;
-		    width: 33%;
+     		width: 3rem! important;
      	}
      }
      @media(max-width: 768px){
      	.brand-logo{width: 32%;}
-     	.brand-logo img{width: 25% !important}
+     	.brand-logo img{width: 3rem! important;}
      }
      @media(max-width: 575px){
      .brand-logo.fs {
@@ -148,6 +146,12 @@
     font-size: 1.5rem;
     transition: all 1s ease-in-out;
 }
+
+		 #CurrentDate{
+		 	left:3.4rem !important;
+		 	font-size:.75rem !important;
+		}
+		
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />

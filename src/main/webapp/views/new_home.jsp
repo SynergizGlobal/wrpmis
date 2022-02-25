@@ -44,7 +44,7 @@
 				  padding: 0 20px;
 				  background: #fff;
 				  margin: 40px auto;
-				  position: relative;
+				  /* position: relative; */
 				  height: 70px;
 				  width: 210px;
 				}
@@ -73,9 +73,9 @@
 				
 				.diamond:hover {
 				  background: rgba(21, 101, 192, 0.8);
-				  filter: drop-shadow(-2px -2px 2px #42A5F5) drop-shadow(3px 3px 5px #42A5F5);
+				  /* filter: drop-shadow(-2px -2px 2px #42A5F5) drop-shadow(3px 3px 5px #42A5F5);
 		            filter: drop-shadow(-2px -2px 2px #9ED1FA) drop-shadow(2px 2px 3px #9ED1FA);
-		            transform: scale(1.1);
+		            transform: scale(1.1); */
 		            transition: all 0.2s;
 		            transition-duration: 0.2s;
 		            color: #fff;
@@ -263,11 +263,20 @@
         }
 
         .btn-menu a li {
-            position: relative;
+            /* position: relative; */
             display: block;
             margin-bottom: 5px;
             padding: 10px;
             text-align: center;
+             border-radius: 50%;
+            
+  background-color: transparent;
+    border-radius: 10%;
+   padding: 14px 8px;
+    
+    
+ /*    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%); */
+               
 
         }
 

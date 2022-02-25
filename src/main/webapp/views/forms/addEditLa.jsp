@@ -161,8 +161,10 @@
                     </div>
                     <!-- form start-->
                     <div class="container container-no-margin">
-                        <c:if test="${action eq 'edit'}">				                
-				                 	<form action="<%=request.getContextPath() %>/update-land-acquisition" id="landAcquisitionForm" name="landAcquisitionForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                        <c:if test="${action eq 'edit'}">		
+                        	<c:if test="${sessionScope.USER_ID eq LADetails.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
+				                 <form action="<%=request.getContextPath() %>/update-land-acquisition" id="landAcquisitionForm" name="landAcquisitionForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                            </c:if>		                
 	                 </c:if>
 				     <c:if test="${action eq 'add'}">				                
 				                	<form action="<%=request.getContextPath() %>/add-land-acquisition" id="landAcquisitionForm" name="landAcquisitionForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
@@ -2537,7 +2539,14 @@
                             </div>
  							</c:if> --%>
                             <div class="row">                                
-                              
+                               <c:if test="${sessionScope.USER_ID ne LADetails.executive_user_id_fk and sessionScope.USER_ROLE_NAME ne 'IT Admin'}">
+		                            <div class="col s12 offset-m2 m4 l12 mt-brdr">
+		                             <div class="center-align m-1">
+		                            	<a style="color:red;line-height:36px">Not Authorized to Edit</a>
+		                            	</div>
+		                            </div>
+	                            </c:if>
+	                            <c:if test="${sessionScope.USER_ID eq LADetails.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
                                 <div class="col s6 m4 l6 mt-brdr center-align offset-m2">
 	                                <div class="m-1">
 	                                     <c:if test="${action eq 'edit'}">
@@ -2548,12 +2557,13 @@
 										 </c:if>                                
 	                                </div>
                                 </div>
-                                
-                                <div class="col s6 m4 l6 mt-brdr center-align">
+                                 <div class="col s6 m4 l6 mt-brdr center-align">
                                 	<div class="m-1">
                                      	<a href="<%=request.getContextPath()%>/land-acquisition" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
+                                </c:if>
+                               
                                  
                             </div>
                         </form>

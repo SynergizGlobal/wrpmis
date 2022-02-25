@@ -296,10 +296,11 @@
                     </div>
                     <!-- form start-->
                    
-                        <c:if test="${action eq 'edit'}">	<c:if test="${sessionScope.USER_ID eq rrDetails.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
+                           <c:if test="${action eq 'edit'}">	
+                        	 <c:if test="${sessionScope.USER_ID eq rrDetails.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
                         			                
 			                	<form action="<%=request.getContextPath() %>/update-rr" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
-                          </c:if>
+                            </c:if>
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
 			                	<form action="<%=request.getContextPath() %>/add-rr" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">

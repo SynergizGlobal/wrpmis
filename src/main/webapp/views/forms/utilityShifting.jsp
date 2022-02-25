@@ -254,7 +254,7 @@
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 	
 	<form action="<%=request.getContextPath()%>/get-utility-shifting" id="getForm" name="getForm" method="post">
-  		<input type="hidden" name="id" id="id"/>
+  		<input type="hidden" name="utility_shifting_id" id="utility_shifting_id"/>
     </form>
   
   
@@ -712,8 +712,8 @@
     		            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }
     		            } },
     		         	{ "mData": function(data,type,row){
-    		         		var id = "'"+data.id+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getUtilityShifting('+id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';
+    		         		var utility_shifting_id = "'"+data.utility_shifting_id+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getUtilityShifting('+utility_shifting_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';
     		            	return actions;
     		            } }
     		            
@@ -748,8 +748,8 @@
       	
        
         
-        function getUtilityShifting(id) {
-    		$("#id").val(id);
+        function getUtilityShifting(utility_shifting_id) {
+    		$("#utility_shifting_id").val(utility_shifting_id);
     		$("#getForm").submit();
     	}
         

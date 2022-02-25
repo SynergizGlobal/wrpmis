@@ -9,7 +9,7 @@ public class UtilityShifting {
 	utility_type_fk, utility_category_fk, owner_name, execution_agency_fk, contract_id_fk, start_date, scope, completed,
 	shifting_status_fk, shifting_completion_date, remarks, latitude, longitude, impacted_contract_id_fk, requirement_stage_fk, planned_completion_date,
 	contract_id,contract_name,work_name,project_id_fk,project_name,department_fk,Status_fk,work_short_name,contract_short_name,user_type_fk,
-	category_fk,user_role_code,hod_user_id_fk,unit_fk,attachment,progress_date,progress_of_work,name,utility_shifting_file_type,created_by_user_id_fk,modified_by,modified_date;
+	category_fk,user_role_code,hod_user_id_fk,unit_fk,attachment,progress_date,progress_of_work,executive_user_id_fk,name,utility_shifting_file_type,created_by_user_id_fk,modified_by,modified_date;
 	
 	private String []  progress_dates, progress_of_works,attachment_file_types,attachmentNames;
 	
@@ -19,6 +19,14 @@ public class UtilityShifting {
 	private List<UtilityShifting> utilityShiftingFilesList;
 	private List<UtilityShifting> utilityShiftingProgressDetailsList;
 	
+
+	public String getExecutive_user_id_fk() {
+		return executive_user_id_fk;
+	}
+
+	public void setExecutive_user_id_fk(String executive_user_id_fk) {
+		this.executive_user_id_fk = executive_user_id_fk;
+	}
 
 	public String getUser_type_fk() {
 		return user_type_fk;

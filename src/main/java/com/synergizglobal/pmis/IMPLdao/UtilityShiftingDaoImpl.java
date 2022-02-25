@@ -131,7 +131,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public int getTotalRecords(UtilityShifting obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
 		try {
-			String qry = "SELECT count(*) as total_records from utility_shifting s "
+			String qry = "SELECT count(DISTINCT utility_shifting_id) as total_records from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON s.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "left join utility_shifting_executives us on s.work_id_fk COLLATE utf8mb4_unicode_ci= us.work_id_fk  "
@@ -267,11 +267,10 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " order by utility_shifting_id ASC limit ?,?";
+				qry = qry + " GROUP BY utility_shifting_id  order by utility_shifting_id ASC limit ?,?";
 				arrSize++;
 				arrSize++;
 			}			
-			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -309,6 +308,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));	
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return objsList;
@@ -1069,7 +1069,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public UtilityShifting getUtilityShifting(UtilityShifting obj) throws Exception {
 		UtilityShifting sobj = null;
 		try {
-			String qry = "SELECT s.*,DATE_FORMAT(identification,'%d-%m-%Y') as identification,DATE_FORMAT(start_date,'%d-%m-%Y') as start_date,"
+			String qry = "SELECT s.*,(select executive_user_id_fk from utility_shifting_executives re where s.work_id_fk = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk,DATE_FORMAT(identification,'%d-%m-%Y') as identification,DATE_FORMAT(start_date,'%d-%m-%Y') as start_date,"
 					+ "DATE_FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date,DATE_FORMAT(shifting_completion_date,'%d-%m-%Y') as shifting_completion_date,"
 					+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk "
 					+ "from utility_shifting s "
@@ -1077,9 +1077,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "LEFT OUTER JOIN work w ON s.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-					+ "where id =? " ;
+					+ "where utility_shifting_id =? " ;
 			
-			int arrSize = 1;
+			int arrSize = 2;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -1102,11 +1102,12 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				qry = qry + " and shifting_status_fk ?";
 				arrSize++;
 			}
-			
+			qry = qry + " group by utility_shifting_id";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			pValues[i++] = obj.getId();
+			pValues[i++] = obj.getUser_id();
+			pValues[i++] = obj.getUtility_shifting_id();
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -1137,6 +1138,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				}				
 			}	
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return sobj;

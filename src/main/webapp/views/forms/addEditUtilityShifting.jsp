@@ -300,8 +300,10 @@
                     </div>
                     <!-- form start-->
                    
-                        <c:if test="${action eq 'edit'}">				                
+                        <c:if test="${action eq 'edit'}">	
+                       		 <c:if test="${sessionScope.USER_ID eq utilityShifting.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
 			                	<form action="<%=request.getContextPath() %>/updateUtilityShifting" id="utilityshiftingform" name="utilityshiftingform" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                            </c:if>				                
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
 			                	<form action="<%=request.getContextPath() %>/addUtilityShifting" id="utilityshiftingform" name="utilityshiftingform" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
@@ -687,6 +689,14 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom:20px;">
+                            <c:if test="${sessionScope.USER_ID ne utilityShifting.executive_user_id_fk and sessionScope.USER_ROLE_NAME ne 'IT Admin'}">
+		                            <div class="col s12 offset-m2 m4 l12 mt-brdr">
+		                             <div class="center-align m-1">
+		                            	<a style="color:red;line-height:36px">Not Authorized to Edit</a>
+		                            	</div>
+		                            </div>
+	                            </c:if>
+	                            <c:if test="${sessionScope.USER_ID eq utilityShifting.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
                                 <div class="col s6 offset-m2 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                        <c:if test="${action eq 'edit'}">
@@ -697,11 +707,13 @@
 	                                    </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 l6 mt-brdr">
+                                  <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath() %>/utilityshifting" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
+                                </c:if>
+                              
                             </div>                           
                 </div>
                     <!-- form ends  -->

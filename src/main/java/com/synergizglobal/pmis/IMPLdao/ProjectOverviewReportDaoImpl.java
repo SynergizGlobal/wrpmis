@@ -159,7 +159,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 					+ ")\r\n"
 					+ " ,0) as actual_financial_progress,case when c.contract_id='P04W01EN19' or c.contract_id='P04W01EN20' then 'NBF' else d1.department end department,\r\n"
 					+ "                    ifnull((case when (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) is null then (estimated_cost*estimated_cost_units) else (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) end),0)-ifnull((SUM((e.gross_work_done * e.gross_work_done_units))),0) AS actual_physical_progress,case when c.contract_id='P04W01EN19' or c.contract_id='P04W01EN20' then 'Non Bank Funds' else d1.department_name end department_name \r\n"
-					+ "					from contract c \r\n"
+					+ "					,contract_status_fk from contract c \r\n"
 					+ "					LEFT JOIN work w on c.work_id_fk = w.work_id\r\n"
 					+ "					LEFT JOIN project p on w.project_id_fk = p.project_id\r\n"
 					+ "					left join department d on d.department=c.department_fk\r\n"

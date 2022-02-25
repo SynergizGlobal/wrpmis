@@ -618,7 +618,12 @@
 			    	         				{
 			    	         					if(val.department_name==val1.department_name)
 			    	         						{
-					    	         					html=html+'<tr>';
+			    	         							var contractstatuscolor="style='background-color:#8fcb95;'";
+			    	         							if(val1.contract_status_fk=="Not Awarded")
+			    	         							{
+			    	         								contractstatuscolor="style='background-color:#f9d4ca;'";
+			    	         							}
+					    	         					html=html+'<tr '+contractstatuscolor+'>';
 					    	         						html=html+'<td class="fw-5p">'+$.trim(key1+1-key)+'</td>';
 					    	         						html=html+'<td class="fw-42p">'+val1.contract_short_name+'</td>';
 					    	         						html=html+'<td class="fw-10p" style="text-align:center;">'+val1.awarded_cost+'</td>';

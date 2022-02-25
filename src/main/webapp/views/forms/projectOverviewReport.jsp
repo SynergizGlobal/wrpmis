@@ -556,11 +556,11 @@
 			             			conHtm=conHtm+'<table id="datatable-project-overview-details" style="color:#ffffff;background-color:#4498d3dd !important">'+
 													'<thead>'+
 														'<tr>'	+									
-															'<th style="min-width:50.6%;width:50.6%;" colspan="2">Virar-Dahanu Road New Line Work</th>'+
-															'<th style="min-width:12.5%;width:12.5%;text-align:left;" class="scVal"></th>'+
-															'<th class="fw-15p scVal1"></th>'+
-															'<th style="min-width:12%;width:12%;" class="scVal2"></th>'+
-															'<th class="fw-10p scVal3"></th>'+
+															'<th style="min-width:47%;width:47%;padding-left: 6px !important;" colspan="2">Virar-Dahanu Road New Line Work</th>'+
+															'<th class="scVal" style="min-width:10%;width:10%;text-align:center;padding-left: 0px !important;"></th>'+
+															'<th class="scVal1" style="min-width:15%;width:15%;text-align:center;padding-right: 50px !important;"></th>'+
+															'<th class="scVal2" style="min-width:15%;width:15%;text-align:center;padding-right: 80px !important;"></th>'+
+															'<th class="scVal3" style="min-width:10%;width:10%;text-align:center;padding-right: 80px !important;"></th>'+
 														'</tr>'+
 													'</thead>'+
 												'</table>';
@@ -618,10 +618,10 @@
 			    	         				{
 			    	         					if(val.department_name==val1.department_name)
 			    	         						{
-			    	         							var contractstatuscolor="style='background-color:#8fcb95;'";
+			    	         							var contractstatuscolor="style='background-color:#8fcb95;color:#ffffff;'";
 			    	         							if(val1.contract_status_fk=="Not Awarded")
 			    	         							{
-			    	         								contractstatuscolor="style='background-color:#f9d4ca;'";
+			    	         								contractstatuscolor="style='background-color:#f9d4ca;color:#ffffff;'";
 			    	         							}
 					    	         					html=html+'<tr '+contractstatuscolor+'>';
 					    	         						html=html+'<td class="fw-5p">'+$.trim(key1+1-key)+'</td>';

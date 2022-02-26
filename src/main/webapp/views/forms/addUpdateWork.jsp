@@ -22,7 +22,9 @@
  	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
-    	.mt3em{margin-top: 3.5em !important;}
+    	/* .select2-container .select2-selection--multiple{height: 5em;} */
+    	/* .l20px{margin-left: 20px !important;}
+    	.mt3em{margin-top: 2.5em !important;} */
     	.ptb5px{padding: 5px 0;}
     	.h46px{height: 46px !important;}
         #example3 input[type="text"]::-webkit-input-placeholder,
@@ -48,9 +50,11 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:18%;}
     	}
-    	@media(max-width: 800px){
+    	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
+    	.mt3em{margin-top: 0 !important;}
+    	.mt1em{margin-top: 1.5em !important;}
     	}
         @media(max-width: 1380px){
 			.fs7rem{font-size: .7rem !important;}
@@ -61,6 +65,7 @@
 	        }
         }
         @media(max-width: 575px){
+        
         .fs9px{font-size: 9px !important;}
         }
         .my-error {
@@ -352,13 +357,15 @@
 		                               </div> 
 		                               <input type="hidden" name ="project_name" id="project_name"/>
 		                                <div class="col s12 m12 l9 input-field">
-	                                    <textarea id="work_name" class="pmis-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
+	                                    <textarea id="work_name" class="pmis-textarea h46px" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
 	                                    <label for="work_name">Work Name <span class="required">*</span></label>
 	                                     <span id="work_nameError"></span>
 	                                  </div>
 			                           </c:if>
+			                           </div>
+			                           <div class="row">
 		                               <c:if test="${action eq 'edit'}">
-			                               <div class="col s12 m6 l3 input-field">
+			                               <div class="col s12 m12 l3 input-field">
 												<input type="text" class="form-control" value="${workDetails.project_name}" readonly >  
 												<label >Project<span class="required">*</span>:</label>			                                    
 			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDetails.project_id_fk}"/>
@@ -380,7 +387,7 @@
                                      <span id="work_short_nameError"></span>
                                 </div>
 	                            <div class="col s12 m12 l6 input-field offset-m2">
-                                   <p class="searchable_label">Work Type <span class="required"></span></p>
+                                   <p class="searchable_label ptb5px">Work Type <span class="required"></span></p>
                                     <select id="work_type_fk" name="work_type_fk"  class="select searchable validate-dropdown">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${workTypeList }">
@@ -396,7 +403,7 @@
                                     <label for="work_short_name">Work Short Name<span class="required">*</span></label>
                                      <span id="work_short_nameError"></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field"> 
+                                <div class="col s12 m12 l4 input-field"> 
 	                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
 	                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
 	                                        <option value="">Select</option>
@@ -431,7 +438,7 @@
                                
                           	</div>
                           	<div class="row">
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <div class="col s6 m4 l3 input-field offset-m2">
                        				<p class="searchable_label ptb5px">Sanctioned Year</p>
                                     <select class="searchable" id="sanctioned_year_fk" name="sanctioned_year_fk">
                                         <option value="">Select</option>
@@ -441,7 +448,7 @@
                                     </select>
                                     <span id="sanctioned_yearError"></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field amount-dropdown">
+                                <div class="col s6 m4 l3 input-field amount-dropdown mt1em">
                        				<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_estimated_cost" class="active fs-sm-8rem fs-md-9r fs7rem">Sanctioned Estimated Cost (in Cr)</label>
@@ -465,7 +472,7 @@
                                 	<span id="sanctioned_estimated_cost_unitError" class="error-msg" ></span>
                                 	<!-- <label for="sanctioned_estimated_cost_unit">Units</label> -->
                                 </div> --%>
-                                 <div class="col s12 m8 l4 input-field offset-m2 amount-dropdown">
+                                 <div class="col s12 m8 l3 input-field offset-m2 amount-dropdown">
                                   	<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_completion_cost" class="fs-sm-67rem fs-md-9r fs7rem"> Sanctioned Completion Cost (in Cr)</label>
@@ -488,7 +495,19 @@
                                 	</select>
                                 	<span id="sanctioned_completion_cost_unitError" class="error-msg" ></span>
                                 </div> --%>
-                                                                
+                                <div class="col s12 m8 l3 input-field offset-m2 amount-dropdown"> 
+                                  	<i class="material-icons amount-symbol cost">₹</i>
+                                    <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
+                                    <label for="anticipated_cost" class="l20px fs-sm-67rem fs-md-9r fs7rem">Anticipated cost (in Cr)</label>
+                                    <span id="anticipated_costError"></span>
+                                	<%-- <span id="anticipated_cost_unitError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="anticipated_cost_unit" name="anticipated_cost_unit">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${workDetails.anticipated_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		 </c:forEach>
+                                	</select> --%>
+                                </div>                                
                             </div>
                             
                             <div class="row">
@@ -515,7 +534,7 @@
                             
                             
                             <div class="row">
-                                <div class="col s12 m4 l4 input-field offset-m2">
+                                <div class="col s12 m4 l6 input-field offset-m2">
                                 <p class="searchable_label">Railway Agency</p>
                                  <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" multiple="multiple" >
                                   		 <option value="" disabled="disabled">Select</option>
@@ -531,9 +550,9 @@
                                   </select>
                                   <span id="railway_id_fkError"></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field">
+                                <div class="col s12 m4 l6 input-field">
                                 <p class="searchable_label">Executed By</p>
-                                  <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple" >
+                                  <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple">
                                    <option value="" disabled="disabled">Select</option>
                                    <c:forEach var="obj" items="${railwaysList}">
                                    		<c:if test="${obj.railway_id ne 'Con' and obj.railway_id ne 'Others'}">
@@ -547,19 +566,19 @@
                                   </select>
                                      <span id="executed_by_id_fkError"></span>
                                 </div>
-                                   <div class="col s12 m4 l4 input-field offset-m2 amount-dropdown mt3em"> 
+                                   <%-- <div class="col s12 m8 l4 input-field offset-m2 amount-dropdown"> 
                                   	<i class="material-icons amount-symbol cost">₹</i>
-                                    <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
-                                    <label for="anticipated_cost">Anticipated cost (in Cr)</label>
+                                    <input id="anticipated_cost" type="number" class="validate pmis-textarea" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
+                                    <label for="anticipated_cost" class="l20px">Anticipated cost (in Cr)</label>
                                     <span id="anticipated_costError"></span>
-                                	<%-- <span id="anticipated_cost_unitError" class="error-msg right" ></span>
+                                	<span id="anticipated_cost_unitError" class="error-msg right" ></span>
                                     <select class="validate-dropdown" id="anticipated_cost_unit" name="anticipated_cost_unit">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
                                   			   <option value="${obj.value }" <c:if test="${workDetails.anticipated_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
                                    		 </c:forEach>
-                                	</select> --%>
-                                </div>
+                                	</select>
+                                </div> --%>
                                 <%-- <c:if test="${action eq 'edit'}">
 	                                <div class="col s12 m4 l4 input-field offset-m2">
 	                                   <p class="searchable_label">Work Status <span class="required">*</span></p>

@@ -506,9 +506,9 @@ public class ActivitiesUploadNewController {
 										
 										
 										
-										if(count != 2) {
-											planned_start = getCellDataType(workbook,row.getCell(13));
-										}	
+										/*
+										 * if(count != 2) { planned_start = getCellDataType(workbook,row.getCell(13)); }
+										 */
 										int checkFormat=0;
 										if(!StringUtils.isEmpty(planned_start)) {
 											String[] PS=planned_start.split("/");
@@ -525,9 +525,10 @@ public class ActivitiesUploadNewController {
 										
 										tempVal = formatter.formatCellValue(row.getCell(12)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										if(count != 2) {
-											planned_finish = getCellDataType(workbook,row.getCell(14));
-										}
+										/*
+										 * if(count != 2) { planned_finish = getCellDataType(workbook,row.getCell(14));
+										 * }
+										 */
 										
 										if(!StringUtils.isEmpty(planned_finish)) {
 											String[] PF=planned_finish.split("/");
@@ -544,9 +545,9 @@ public class ActivitiesUploadNewController {
 										
 										tempVal = formatter.formatCellValue(row.getCell(13)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										if(count != 2) {
-											actual_start = getCellDataType(workbook,row.getCell(15));
-										}	
+										/*
+										 * if(count != 2) { actual_start = getCellDataType(workbook,row.getCell(15)); }
+										 */
 										if(!StringUtils.isEmpty(actual_start)) { 
 											String[] AS=actual_start.split("/");
 											if(AS[2].length()>3)
@@ -562,9 +563,9 @@ public class ActivitiesUploadNewController {
 										
 										tempVal = formatter.formatCellValue(row.getCell(14)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										if(count != 2) {
-											actual_finish = getCellDataType(workbook,row.getCell(16));
-										}	
+										/*
+										 * if(count != 2) { actual_finish = getCellDataType(workbook,row.getCell(16)); }
+										 */	
 										if(!StringUtils.isEmpty(actual_finish)) { 
 											String[] AF=actual_finish.split("/");
 											if(AF[2].length()>3)

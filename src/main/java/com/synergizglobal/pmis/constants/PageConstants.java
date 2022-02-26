@@ -376,6 +376,8 @@ public class PageConstants {
 	
 	public static final String usUtilityCategory = "referenceForms/usUtilityCategory";
 	
+	public static final String workType = "referenceForms/workType";
+	
 	public static final String usUtilityExecutionAgency = "referenceForms/usUtilityExecutionAgency";
 	
 }

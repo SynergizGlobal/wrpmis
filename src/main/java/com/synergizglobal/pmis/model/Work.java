@@ -12,7 +12,7 @@ public class Work {
 	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id,
 	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date,work_file_id,work_file_type,work_file_type_fk,work_status_fk,existing_work_status_fk,
 	sanctioned_estimated_cost_unit,sanctioned_completion_cost_unit,anticipated_cost_unit,completion_cost_unit,latest_revised_cost_unit,unit,value,
-	estimated_cost_unit,sanctioned_cost_unit,anticipated_unit,completion_unti,revision_unit,user_name,designation,user_id;
+	estimated_cost_unit,sanctioned_cost_unit,anticipated_unit,completion_unti,revision_unit,user_name,designation,user_id,work_type_fk;
 
 
 
@@ -39,6 +39,14 @@ public class Work {
 	
 	private String[] title_fks,dashboard_urls,statuses,category_fks,descriptions,salient_features_statuses;
 	
+
+	public String getWork_type_fk() {
+		return work_type_fk;
+	}
+
+	public void setWork_type_fk(String work_type_fk) {
+		this.work_type_fk = work_type_fk;
+	}
 
 	public String getUser_name() {
 		return user_name;

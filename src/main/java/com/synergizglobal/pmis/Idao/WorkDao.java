@@ -43,4 +43,6 @@ public interface WorkDao {
 
 	public List<Work> getUnitsList() throws Exception;
 
+	public List<Work> getWorkTypeList() throws Exception;
+
 }

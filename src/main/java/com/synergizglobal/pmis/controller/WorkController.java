@@ -269,6 +269,9 @@ public class WorkController {
 			List<Work> unitsList = workService.getUnitsList();
 			model.addObject("unitsList", unitsList);
 			
+			List<Work> workTypeList = workService.getWorkTypeList();
+			model.addObject("workTypeList", workTypeList);
+			
 			workId= work.getWork_id();
 			Work workDetails = workService.getWork(workId, work);
 			model.addObject("workDetails", workDetails);
@@ -303,6 +306,9 @@ public class WorkController {
 			
 			List<Work> unitsList = workService.getUnitsList();
 			model.addObject("unitsList", unitsList);
+
+			List<Work> workTypeList = workService.getWorkTypeList();
+			model.addObject("workTypeList", workTypeList);
 			
 			workId= work.getWork_id();
 			Work workDetails = workService.getWork(workId, work);
@@ -332,6 +338,9 @@ public class WorkController {
 			List<Work> workFileTypes = workService.getWorkFileTypes();
 			model.addObject("workFileTypes", workFileTypes);
 
+			List<Work> workTypeList = workService.getWorkTypeList();
+			model.addObject("workTypeList", workTypeList);
+			
 		}catch (Exception e) {
 				logger.error("Work : " + e.getMessage());
 			}

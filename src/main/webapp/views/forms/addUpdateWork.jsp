@@ -338,7 +338,7 @@
                                 <div class="col s12 m8 l12 offset-m2">
 	                                 <div class="row">
 	                                 	<c:if test="${action eq 'add'}">
-	                                 	<div class="col s12 m6 l12 input-field">
+	                                 	<div class="col s12 m6 l3 input-field">
 		                                   <p class="searchable_label">Project : <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   		  <option value="">select</option>
@@ -349,31 +349,71 @@
 		                                    <span id="project_id_fkError"></span>
 		                               </div> 
 		                               <input type="hidden" name ="project_name" id="project_name"/>
-		                               </c:if>
+		                                <div class="col s12 m12 l9 input-field">
+	                                    <textarea id="work_name" class="pmis-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
+	                                    <label for="work_name">Work Name <span class="required">*</span></label>
+	                                     <span id="work_nameError"></span>
+	                                  </div>
+			                           </c:if>
 		                               <c:if test="${action eq 'edit'}">
-			                               <div class="col s12 m6 l12 input-field">
+			                               <div class="col s12 m6 l3 input-field">
 												<input type="text" class="form-control" value="${workDetails.project_name}" readonly >  
 												<label >Project<span class="required">*</span>:</label>			                                    
 			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDetails.project_id_fk}"/>
 			                               </div>
 			                                 <input id="work_id" type="hidden" class="form-control" name="work_id" value="${workDetails.work_id }" >  
-			                            <!-- <div class="col s6 m6 input-field">
-	                                   		    <input id="work_id" type="text" class="form-control" name="work_id" value="${workDetails.work_id }" readonly >  
-	                                     	    <label>Work ID :</label>
-		                               		</div> -->
-		                               </c:if>
-		                               
-		                           <div class="col s12 m12 l12 input-field">
-                                    <textarea id="work_name" class="pmis-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
-                                    <label for="work_name">Work Name <span class="required">*</span></label>
-                                     <span id="work_nameError"></span>
-                                  </div>
-                                <div class="col s12 m12 l12 input-field">
+			                           
+		                              <div class="col s12 m12 l9 input-field">
+	                                    <textarea id="work_name" class="pmis-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
+	                                    <label for="work_name">Work Name <span class="required">*</span></label>
+	                                     <span id="work_nameError"></span>
+	                                  </div>
+		                           </c:if>
+		                        
+		                         <c:if test="${action eq 'add'}">
+		                          <div class="col s12 m12 l6 input-field">
                                     <input id="work_short_name" type="text" class="validate pdtb6" name="work_short_name" value="${workDetails.work_short_name }">
                                     <label for="work_short_name">Work Short Name<span class="required">*</span></label>
                                      <span id="work_short_nameError"></span>
                                 </div>
-		                                                                    
+	                            <div class="col s12 m12 l6 input-field offset-m2">
+                                   <p class="searchable_label">Work Type <span class="required"></span></p>
+                                    <select id="work_type_fk" name="work_type_fk"  class="select searchable validate-dropdown">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${workTypeList }">
+                                  			   <option value="${obj.work_type_fk }" >${obj.work_type_fk }</option>
+                                   		 </c:forEach>
+                                    </select>
+                                    <span id="work_type_fkError" class="error-msg" ></span>
+                                </div> 
+		                          </c:if>
+		                     <c:if test="${action eq 'edit'}">
+		                           <div class="col s12 m12 l4 input-field">
+                                    <input id="work_short_name" type="text" class="validate pdtb6" name="work_short_name" value="${workDetails.work_short_name }">
+                                    <label for="work_short_name">Work Short Name<span class="required">*</span></label>
+                                     <span id="work_short_nameError"></span>
+                                </div>
+                                <div class="col s12 m4 l4 input-field offset-m2"> 
+	                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
+	                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span id="work_status_fkError" class="error-msg" ></span>
+	                                </div> 
+	                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${workDetails.work_status_fk }"/> 
+	                                
+	                             <div class="col s12 m12 l4 input-field offset-m2">
+                                   <p class="searchable_label">Work Type <span class="required"></span></p>
+                                    <select id="work_type_fk" name="work_type_fk"  class="select searchable validate-dropdown">
+                                        <option value="">Select</option>
+                                         <c:forEach var="obj" items="${workTypeList }">
+                                  			   <option value="${obj.work_type_fk }" <c:if test="${workDetails.work_type_fk eq obj.work_type_fk}">selected</c:if>>${obj.work_type_fk }</option>
+                                   		 </c:forEach>
+                                    </select>
+                                    <span id="work_type_fkError" class="error-msg" ></span>
+                                </div> 
+		                      </c:if>
+                                                            
 		                               <%-- <div class="col s12 m4 input-field">
 			                               <input type="text" class="validate" id="pink_book_item_number" name="pink_book_item_number" value="${workDetails.pink_book_item_number }">
 		                                   <label for="pb_item_no">PB Item No</label>
@@ -504,19 +544,7 @@
                                   </select>
                                      <span id="executed_by_id_fkError"></span>
                                 </div>
-                                <c:if test="${action eq 'edit'}">
-	                                <div class="col s12 m4 l4 input-field offset-m2">
-	                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
-	                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
-	                                        <option value="">Select</option>
-	                                    </select>
-	                                    <span id="work_status_fkError" class="error-msg" ></span>
-	                                </div> 
-	                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${workDetails.work_status_fk }"/> 
-                                </c:if>
-                            </div>
-                            <div class="row">                              
-                                <div class="col s12 m4 l4 input-field offset-m2 amount-dropdown"> 
+                                   <div class="col s12 m4 l4 input-field offset-m2 amount-dropdown"> 
                                   	<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
                                     <label for="anticipated_cost">Anticipated cost (in Cr)</label>
@@ -529,6 +557,19 @@
                                    		 </c:forEach>
                                 	</select> --%>
                                 </div>
+                                <%-- <c:if test="${action eq 'edit'}">
+	                                <div class="col s12 m4 l4 input-field offset-m2">
+	                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
+	                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span id="work_status_fkError" class="error-msg" ></span>
+	                                </div> 
+	                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${workDetails.work_status_fk }"/> 
+                                </c:if> --%>
+                            </div>
+                            <div class="row">                              
+                             
                                 <%-- <div class="col s4 m1 l1 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units validate-dropdown" id="anticipated_cost_unit" name="anticipated_cost_unit">
@@ -1273,7 +1314,9 @@
 	        		 		 required: function(element){
 	        		             return $("#completion_cost").val()!="";
 	        		         }
-	        		 	  }		
+	        		 	  },"work_status_fk": {
+		  			 		required: true
+		  			 	  }			
 		  		 	},
 		  		    messages: {
 		  		 		 "project_id_fk": {
@@ -1311,6 +1354,8 @@
 		  		 	  	 },"anticipated_cost_unit": {
 		  		 			required: 'Required'
 		  		 		 },"completion_cost_unit": {
+		  		 			required: 'Required'
+		  		 	  	 },"work_status_fk": {
 		  		 			required: 'Required'
 		  		 	  	 }
 			   		},
@@ -1369,6 +1414,9 @@
 						 }else if (element.attr("id") == "completion_cost_unit" ){
 							  document.getElementById("completion_cost_unitError").innerHTML="";
 							  error.appendTo('#completion_cost_unitError');
+						 }else if (element.attr("id") == "work_status_fk" ){
+							  document.getElementById("work_status_fkError").innerHTML="";
+							  error.appendTo('#work_status_fkError');
 						 }else{
 				            	error.insertAfter(element);
 				            } 

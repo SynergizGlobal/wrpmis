@@ -342,7 +342,7 @@
            	 if(validator.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
-       			if(flag){
+       			if(validator.form()){
     				document.getElementById("workTypeForm").submit();	
     			 }
     			 $(".page-loader").hide();

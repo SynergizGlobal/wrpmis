@@ -22,6 +22,8 @@
  	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
+    	.ptb5px{padding: 5px 0;}
+    	.h46px{height: 46px !important;}
         #example3 input[type="text"]::-webkit-input-placeholder,
         #example3 input[type="text"]:-ms-input-placeholder,
         #example3 input[type="text"]::placeholder {
@@ -231,7 +233,6 @@
 		.input-field p.searchable_label {
 		    font-size: 0.85rem;
 		    margin-top: -16px !important;
-		    margin-bottom: 12px;
 		}
 		
 		@media only screen and (max-width: 769px) and (min-width: 500px){
@@ -364,7 +365,7 @@
 			                                 <input id="work_id" type="hidden" class="form-control" name="work_id" value="${workDetails.work_id }" >  
 			                           
 		                              <div class="col s12 m12 l9 input-field">
-	                                    <textarea id="work_name" class="pmis-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
+	                                    <textarea id="work_name" class="pmis-textarea h46px" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
 	                                    <label for="work_name">Work Name <span class="required">*</span></label>
 	                                     <span id="work_nameError"></span>
 	                                  </div>
@@ -393,7 +394,7 @@
                                     <label for="work_short_name">Work Short Name<span class="required">*</span></label>
                                      <span id="work_short_nameError"></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field offset-m2"> 
+                                <div class="col s12 m4 l4 input-field"> 
 	                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
 	                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
 	                                        <option value="">Select</option>
@@ -402,8 +403,8 @@
 	                                </div> 
 	                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${workDetails.work_status_fk }"/> 
 	                                
-	                             <div class="col s12 m12 l4 input-field offset-m2">
-                                   <p class="searchable_label">Work Type <span class="required"></span></p>
+	                             <div class="col s12 m12 l4 input-field">
+                                   <p class="searchable_label ptb5px">Work Type <!-- <span class="required">* </span> --></p>
                                     <select id="work_type_fk" name="work_type_fk"  class="select searchable validate-dropdown">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${workTypeList }">
@@ -429,7 +430,7 @@
                           	</div>
                           	<div class="row">
                                 <div class="col s6 m4 l4 input-field offset-m2">
-                       				<p class="searchable_label">Sanctioned Year</p>
+                       				<p class="searchable_label ptb5px">Sanctioned Year</p>
                                     <select class="searchable" id="sanctioned_year_fk" name="sanctioned_year_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${yearList}">
@@ -968,7 +969,7 @@
                             
                             <div class="row">
                                 <div class="col s12 m8 l6 input-field offset-m2">
-                       				<p class="searchable_label">Actual Year of Completion</p>
+                       				<p class="searchable_label ptb5px">Actual Year of Completion</p>
                                     <select id="year_of_completion" name="year_of_completion" class="searchable">
                                           <option value="">Select</option>
                                            <c:forEach var="obj" items="${yearList}">

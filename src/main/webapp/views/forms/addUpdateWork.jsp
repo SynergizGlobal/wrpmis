@@ -22,6 +22,7 @@
  	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
+    	.mt3em{margin-top: 3.5em !important;}
     	.ptb5px{padding: 5px 0;}
     	.h46px{height: 46px !important;}
         #example3 input[type="text"]::-webkit-input-placeholder,
@@ -370,7 +371,8 @@
 	                                     <span id="work_nameError"></span>
 	                                  </div>
 		                           </c:if>
-		                        
+		                        </div>
+		                        <div class="row">
 		                         <c:if test="${action eq 'add'}">
 		                          <div class="col s12 m12 l6 input-field">
                                     <input id="work_short_name" type="text" class="validate pdtb6" name="work_short_name" value="${workDetails.work_short_name }">
@@ -545,7 +547,7 @@
                                   </select>
                                      <span id="executed_by_id_fkError"></span>
                                 </div>
-                                   <div class="col s12 m4 l4 input-field offset-m2 amount-dropdown"> 
+                                   <div class="col s12 m4 l4 input-field offset-m2 amount-dropdown mt3em"> 
                                   	<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
                                     <label for="anticipated_cost">Anticipated cost (in Cr)</label>

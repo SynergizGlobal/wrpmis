@@ -270,7 +270,7 @@
                                 <label for="first_condition_value">First Condition Value</label>
                             </div>
                         </div>
-                        <div class="row no-mar">
+                        <div class="row no-mar" id="second_condition_div">
                             <div class="input-field col s12 m6">
                                 <p class="condition_label" id="second_condition"></p> 
                             </div>
@@ -465,6 +465,7 @@
         	$("#first_condition_value").val("");
         	$("#second_condition").html("");
         	$("#second_condition_value").val("");	
+        	$("#second_condition_div").hide();
         	
         	var myParams = {alert_condition_id : alert_condition_id}
 			$.ajax({url : "<%=request.getContextPath()%>/ajax/getAlertCondition",type:"POST",data:myParams,
@@ -473,9 +474,14 @@
 	    				$("#alert_condition_id").val(data.alert_condition_id);
 	    	        	$("#first_condition").html(data.first_condition);
 	    	        	$("#first_condition_value").val(data.first_condition_value).focus();
-	    	        	$("#second_condition").html(data.second_condition);
-	    	        	$("#second_condition_value").val(data.second_condition_value).focus();	
-	             		
+	    	        	
+	    	        	if($.trim(data.second_condition) != '' && $.trim(data.second_condition_value) != ''){
+	    	        		$("#second_condition_div").show();
+	    	        	}
+	    	        	
+    	        		$("#second_condition").html(data.second_condition);
+	    	        	$("#second_condition_value").val(data.second_condition_value).focus();
+	    	        	
 	             		$(".page-loader-2").hide();
 	    			}else{
 	    				$(".page-loader-2").hide();

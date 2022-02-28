@@ -94,7 +94,7 @@
 	                                  <span id="work_id_fkError" class="error-msg" ></span>
 	                                </div>
 	                                <c:if test="${action eq 'add'}">	
-	                                 <div class="col s6 m4 l4 input-field">
+	                                 <div class="col s12 m4 l4 input-field">
 	                                    <p class="searchable_label">Contract <span class="required">*</span></p>
 	                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
 	                                       	<option value="">Select</option>
@@ -119,7 +119,7 @@
 	                                     <input type="hidden" name="work_id_fk"  value="${deliverablesDetails.work_id_fk}"  />
 									    <label for="work_id_fk">Work <span class="required">*</span></label>
 	                                </div>
-	                                <div class="col s6 m4 input-field"> 
+	                                <div class="col s12 m4 input-field"> 
 	                              	    <input type="text"  id="contract_id_fk" value="${deliverablesDetails.contract_id_fk} - ${deliverablesDetails.contract_name}" readonly />
 	                              	     <input type="hidden" name="contract_id_fk"  value="${deliverablesDetails.contract_id_fk}"  />
 	                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
@@ -154,7 +154,7 @@
                                     </select>
                                     <span id="project_priority_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Status </p>
                                     <select class="searchable validate-dropdown" name="status_fk" id="status_fk">
                                         <option value="" >Select</option>
@@ -173,7 +173,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${deliverablesDetails.target_date }">
                                     <label for="target_date">Target Date</label>
                                     <button type="button" id="target_date_icon" class="datepicker-button"><i

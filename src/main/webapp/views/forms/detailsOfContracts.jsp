@@ -23,7 +23,7 @@
     		border-bottom: 1px solid rgba(0,0,0,0.52);
    		}
    		tr.even {
-   			 background-color: none !important;
+   			 background-color: transparent !important;
    		}
     	.dataTables_wrapper .mdl-grid .mdl-cell.mdl-cell--6-col:first-of-type{
     		    vertical-align: middle !important;
@@ -556,7 +556,7 @@
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '600');
 			        }else if (aData[1] == "In Progress") {
-			          $('td', nRow).css('background-color', 'rgb(253, 238, 135, 0.5)');
+			          $('td', nRow).css('background-color', 'rgb(66, 165, 245, 0.5)');
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '600');
 			        }else if (aData[1] == "Not Awarded") {

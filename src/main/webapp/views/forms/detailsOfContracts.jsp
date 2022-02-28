@@ -546,14 +546,17 @@
 				},
 			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			        if (aData[1] == "Completed") {
-			          $('td', nRow).css('background-color', '#86dc3d');
+			          $('td', nRow).css('background-color', '#98ff98');
 			          $('td', nRow).css('color', 'Black');
+			          $('td', nRow).css('font-weight', '600');
 			        }else if (aData[1] == "In Progress") {
-			          $('td', nRow).css('background-color', '#ffee58');
+			          $('td', nRow).css('background-color', '#fdee87');
 			          $('td', nRow).css('color', 'Black');
+			          $('td', nRow).css('font-weight', '600');
 			        }else if (aData[1] == "Not Awarded") {
-			          $('td', nRow).css('background-color', '#808080');
-			          $('td', nRow).css('color', 'White');
+			          $('td', nRow).css('background-color', '#e2e5de');
+			          $('td', nRow).css('color', 'Black');
+			          $('td', nRow).css('font-weight', '600');
 			        }else{
 			          $('td', nRow).css('background-color', 'White');
 			        }

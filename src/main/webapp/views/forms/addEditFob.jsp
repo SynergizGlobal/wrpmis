@@ -90,7 +90,7 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:36%;}
     	}
-    	@media(max-width: 800px){
+    	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	}
@@ -171,7 +171,7 @@
 			                	<form action="<%=request.getContextPath() %>/add-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                             <div class="row">
-                                <div class="col s6 m4 l6 input-field offset-m2">
+                                <div class="col s6 m6 l6 input-field">
                                 <p class="searchable_label"> Project</p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);" <c:if test="${not empty fob.project_id_fk}">disabled</c:if>>
@@ -182,7 +182,7 @@
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l6 input-field">
+                                <div class="col s6 m6 l6 input-field">
                                 <p class="searchable_label"> Work</p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);" <c:if test="${not empty fob.work_id_fk}">disabled</c:if>>
@@ -195,7 +195,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m2 l4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
                                     <label for="fob_name">FOB Name <span class="required">*</span></label>
                                     <span id="fob_nameError" class="error-msg" ></span>
@@ -208,7 +208,7 @@
 								</div>
                            
                                  <%-- <c:if test="${empty fob.fob_id }"> --%>
-	                                <div class="col s6 m2 l4 input-field">
+	                                <div class="col s6 m4 l4 input-field">
 	                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" onkeyup="doValidate(this.value)" <c:if test="${not empty fob.fob_id}">readonly</c:if>>
 	                                    <label for="fob_id">FOB ID <span class="required">*</span></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
@@ -413,13 +413,13 @@
                             
                             <br>
                            <div class="row">
-	                            <div class="col s12 m4 l6 input-field offset-m2">
+	                            <div class="col s12 m6 l6 input-field">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }" <c:if test="${not empty fob.target_date}">disabled</c:if>>
                                     <label for="target_date">Original Target Date </label>
                                     <button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="target_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l6 input-field amount-dropdown">
+                                <div class="col s12 m6 l6 input-field amount-dropdown">
                                 	<i class="material-icons amount-symbol cost">₹</i>   
                                     <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }" min="0.01" step="0.01" <c:if test="${not empty fob.estimated_cost}">readonly</c:if>>
                                     <label for="estimated_cost">Estimated Cost</label>
@@ -445,7 +445,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m8 l12 input-field offset-m2">
+                                <div class="col s12 m12 l12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000" maxlength="1000">${fob.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
@@ -453,12 +453,12 @@
                             </div>
                             <c:if test="${action eq 'edit'}">	
                             <div class="row">
-                                <div class="col s6 m4 l6 input-field offset-m2">
+                                <div class="col s6 m6 l6 input-field">
                                     <input id="latitude" name="latitude" type="text" class="validate" value="${fob.latitude }" <c:if test="${not empty fob.latitude}">readonly</c:if>>
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l6 input-field ">
+                                <div class="col s6 m6 l6 input-field ">
                                     <input id="longitude" name="longitude" type="text" class="validate" value="${fob.longitude }" <c:if test="${not empty fob.longitude}">readonly</c:if>>
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
@@ -467,13 +467,13 @@
                             </c:if>
                             
                             <div class="row">
-                                <div class="col s6 m4 l6 input-field offset-m2" id="construction_start_dateDiv" style="display: none;">
+                                <div class="col s6 m6 l6 input-field" id="construction_start_dateDiv" style="display: none;">
                                     <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }" <c:if test="${not empty fob.construction_start_date}">disabled</c:if>>
                                     <label for="construction_start_date" class="fs-sm-8rem">Construction Start Date </label>
                                     <button type="button" id="construction_start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="construction_start_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l6 input-field " id="revised_completionDiv" style="display: none;">
+                                <div class="col s6 m6 l6 input-field " id="revised_completionDiv" style="display: none;">
                                     <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${fob.revised_completion }" <c:if test="${not empty fob.revised_completion}">disabled</c:if>>
                                     <label for="revised_completion" class="fs-sm-8rem">Target completion Date </label>
                                     <button type="button" id="revised_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -484,7 +484,7 @@
 							<c:if test="${action eq 'edit'}">
 	                            <div class="row">
 	                                <h5 class="center-align">FOB Details</h5>
-	                                <div class="col s12 m8 l12 offset-m2">
+	                                <div class="col s12 m12 l12">
 	                                    <table id="fobDetailsTable" class="mdl-data-table" style="margin-bottom:20px;">
 	                                        <thead>
 	                                            <tr>
@@ -588,7 +588,7 @@
 								</c:if>		 --%>
 								
                              <div class="row">
-								<div class="col m10 l12 offset-m1 s12">
+								<div class="col m12 l12 s12">
 									<div class="row fixed-width">
                              			<h5 class="center-align"><span class="div-header">Documents</span></h5> 
 										 <div class="table-inside">
@@ -868,7 +868,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s6 l6 m4 mt-brdr">
+                                <div class="col s6 l6 m6 mt-brdr">
                                     <div class="center-align m-1">
                                         <c:if test="${action eq 'edit'}">
 	                                       <button type="button" onclick="updateFOB();" class="btn waves-effect waves-light bg-m">Update</button>

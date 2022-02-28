@@ -73,7 +73,7 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:18%;}
     	}
-    	@media(max-width: 800px){
+    	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	}
@@ -320,7 +320,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s6 m3 l4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
 									<!-- <input id="financial_years" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }"> -->
                                     <p class="searchable_label">Financial Year</p>
 									<select  name="financial_years"  id="financial_years"  class="validate-dropdown searchable">
@@ -331,7 +331,7 @@
                					  	</select>
                                     <span  id="financial_yearsError"> </span>
 								</div>
-								 <div class="col s6 m2 l4 input-field">
+								 <div class="col s6 m4 l4 input-field">
 								 	 <p class="searchable_label">Railway</p>
 									<select class="searchable validate-dropdown" id="railways" name="railways" >
 										<option value="" >Select</option>	
@@ -339,7 +339,7 @@
 						                <option value="CR" <c:if test="${projectDetails.railway eq 'CR'}">selected</c:if>>CR</option>
 									</select>
 								 </div>
-                                <div class="col s6 m3 l4 input-field md-mt-0">
+                                <div class="col s12 m4 l4 input-field md-mt-0">
                                     <input id="pink_book_item_numbers" class="validate" type="text" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="15"/>
                                     <label for="pink_book_item_numbers">PB Item No </label>                                   
                                     <span  id="pink_book_item_numbersError"> </span>
@@ -366,7 +366,7 @@
                             </div>
 							
 							<div class="row">
-								<div class="col l12 m8 s12 offset-m2">
+								<div class="col l12 m12 s12">
 									<div class="row fixed-width">
 										<!-- <div class="table-inside"> -->
 											<table class="mdl-data-table mobile_responsible_table">
@@ -473,7 +473,7 @@
 							</div>
 							
 							<div class="row">
-								<div class="col l12 m8 s12 offset-m2">
+								<div class="col l12 m12 s12">
 									<div class="row fixed-width">
 										<div class="table-inside">
 											<table class="mdl-data-table update-table mobile_responsible_table">
@@ -582,7 +582,7 @@
 						
 							<c:if test="${action eq 'edit'}">
 							<div class="row">
-								<div class="col l12 m8 s12 offset-m2">
+								<div class="col l12 m12 s12 ">
 									<div class="row fixed-width">
 										<div class="table-inside">
 											<table id="project-table" class="mdl-data-table update-table mobile_responsible_table">
@@ -690,7 +690,7 @@
 							</c:if>
 
                             <div class="row">
-                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
+                                <div class="col s6 m6 l6 mt-brdr center-align">
                                     <div class=" m-1">
                                      <c:if test="${action eq 'edit'}">
  											<button onclick="updateProject();" class="btn waves-effect waves-light bg-m w7em">Update</button>    
@@ -700,7 +700,7 @@
  									 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 l6 mt-brdr center-align">
+                                <div class="col s6 m6 l6 mt-brdr center-align">
                                     <div class=" m-1">
                                         <a href="<%=request.getContextPath()%>/project" class="btn waves-effect waves-light bg-s w7em">Cancel</a>
                                     </div>

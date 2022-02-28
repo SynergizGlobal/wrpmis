@@ -19,6 +19,12 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>   
+    	tr{
+    		border-bottom: 1px solid rgba(0,0,0,0.52);
+   		}
+   		tr.even {
+   			 background-color: none !important;
+   		}
     	.dataTables_wrapper .mdl-grid .mdl-cell.mdl-cell--6-col:first-of-type{
     		    vertical-align: middle !important;
 			    display: flex !important;
@@ -546,11 +552,11 @@
 				},
 			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			        if (aData[1] == "Completed") {
-			          $('td', nRow).css('background-color', '#98ff98');
+			          $('td', nRow).css('background-color', 'rgb(152, 255, 152, 0.5)');
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '600');
 			        }else if (aData[1] == "In Progress") {
-			          $('td', nRow).css('background-color', '#fdee87');
+			          $('td', nRow).css('background-color', 'rgb(253, 238, 135, 0.5)');
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '600');
 			        }else if (aData[1] == "Not Awarded") {

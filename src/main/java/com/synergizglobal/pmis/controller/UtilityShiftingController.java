@@ -554,6 +554,10 @@ public class UtilityShiftingController {
 		
 		try {
 			view.setViewName("redirect:/utilityshifting");
+			User uObj = (User) session.getAttribute("user");
+			dObj.setUser_type_fk(uObj.getUser_type_fk());
+			dObj.setUser_role_code(uObj.getUser_role_code());
+			dObj.setUser_id(uObj.getUser_id());
 			dataList =   utilityShiftingService.getUtilityShiftingList(dObj);
 		   
 			if(dataList != null && dataList.size() > 0){

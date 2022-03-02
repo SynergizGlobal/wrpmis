@@ -1185,7 +1185,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry = "SELECT id, utility_shifting_id, s.work_id_fk,w.work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,DATE_FORMAT(s.identification ,'%d-%m-%Y') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
+			String qry = "SELECT s.id, utility_shifting_id, s.work_id_fk,w.work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,DATE_FORMAT(s.identification ,'%d-%m-%Y') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
 					+ "utility_category_fk, s.owner_name, execution_agency_fk, contract_id_fk,  DATE_FORMAT(s.start_date ,'%d-%m-%Y') AS start_date, s.scope, s.completed, s.shifting_status_fk, DATE_FORMAT(shifting_completion_date ,'%d-%m-%Y') AS shifting_completion_date, "
 					+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, DATE_FORMAT(s.planned_completion_date ,'%d-%m-%Y') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
 					+ " s.modified_date from utility_shifting s "

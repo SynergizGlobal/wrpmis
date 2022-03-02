@@ -1191,7 +1191,6 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ " s.modified_date from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON s.work_id_fk = w.work_id "
-					+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
 					+ "where utility_shifting_id is not null " ;
 			int arrSize = 0;
@@ -1217,10 +1216,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				qry = qry + " and shifting_status_fk =?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and us.executive_user_id_fk = ? ";
-				arrSize++;
-			}
+			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -1240,9 +1236,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getShifting_status_fk())) {
 				pValues[i++] = obj.getShifting_status_fk();
 			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				pValues[i++] = obj.getUser_id();
-			}
+			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();

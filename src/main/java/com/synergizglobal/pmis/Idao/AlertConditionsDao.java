@@ -10,7 +10,7 @@ public interface AlertConditionsDao {
 
 	List<AlertConditions> getAlertConditions(AlertConditions obj) throws Exception;
 	
-	AlertConditions getAlertCondition(AlertConditions obj) throws Exception;
+	List<AlertConditions> getAlertCondition(AlertConditions obj) throws Exception;
 
 	boolean updateAlertCondition(AlertConditions obj) throws Exception;
 }

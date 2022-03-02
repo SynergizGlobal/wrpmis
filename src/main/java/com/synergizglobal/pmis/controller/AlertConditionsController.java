@@ -61,8 +61,8 @@ public class AlertConditionsController {
 	
 	@RequestMapping(value = "/ajax/getAlertCondition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public AlertConditions getAlertCondition(@ModelAttribute AlertConditions obj) {
-		AlertConditions aObj = null;  
+	public List<AlertConditions> getAlertCondition(@ModelAttribute AlertConditions obj) {
+		List<AlertConditions> aObj = null;  
 		try {
 			aObj = service.getAlertCondition(obj);
 		}catch (Exception e) {

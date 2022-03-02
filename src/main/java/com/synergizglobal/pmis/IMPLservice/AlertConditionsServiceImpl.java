@@ -25,7 +25,7 @@ public class AlertConditionsServiceImpl implements AlertConditionsService{
 	}
 
 	@Override
-	public AlertConditions getAlertCondition(AlertConditions obj) throws Exception {
+	public List<AlertConditions> getAlertCondition(AlertConditions obj) throws Exception {
 		return dao.getAlertCondition(obj);
 	}
 

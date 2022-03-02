@@ -232,11 +232,11 @@
                                     <thead>
                                         <tr>
                                             <th>Alert Type</th>
-                                            <th>Alert Level</th>
+                                            <!-- <th>Alert Level</th> -->
                                             <th>First Condition</th>
-                                            <th>First Condition Value</th>
+                                            <th>First Condition Values</th>
                                             <th>Second Condition</th>
-                                            <th>Second Condition Value</th>
+                                            <th>Second Condition Values</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -253,13 +253,13 @@
     </div>
     
     <div id="editModal" class="modal">
-		 <form class="form-horizontal" role="form">
+		 <form id="updateForm" name="updateForm" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h6 class="modal-header ">Update Conditions <span class="right modal-action modal-close"><span
+                <h6 class="modal-header ">Update <span id="alert_type_text"></span> Conditions <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
-                    <div class="col m8 s12 offset-m2">
-                    	<input id="alert_condition_id" name="alert_condition_id" type="hidden">
+                    <div class="col m12 s12">
+                    	<!-- <input id="alert_condition_id" name="alert_condition_id" type="hidden">
                         
                         <div class="row no-mar">
                             <div class="input-field col s12 m6">
@@ -290,7 +290,35 @@
                                     <button type="button" class="btn waves-effect waves-light bg-s modal-action modal-close " >Cancel</button>
                                 </div>
                             </div>
+                        </div> -->
+                        
+                        <table id="data-table-alert-type-conditions" class="mdl-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Alert Level</th>
+                                    <th>First Condition</th>
+                                    <th>First Condition Value</th>
+                                    <th>Second Condition</th>
+                                    <th>Second Condition Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="center-align m-1">
+                                    <button type="button" onclick="updateAlertCondition();" class="btn waves-effect waves-light bg-m">Update </button>
+                                </div>
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="center-align m-1">
+                                    <button type="button" class="btn waves-effect waves-light bg-s modal-action modal-close " >Cancel</button>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -377,7 +405,7 @@
                 },
                 columnDefs: [
                     {
-                        targets: [6],
+                        targets: [5],
                         className: 'last-column'
                     },
                     {
@@ -389,8 +417,9 @@
                 // "ScrollX": true,
                 "sScrollX": "100%",
                 "ordering":false,
-                 "sScrollXInner": "100%",
-                 "bScrollCollapse": true,
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
+                "order":[],
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                     var input = $('.dataTables_filter input')
@@ -421,20 +450,20 @@
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var alert_condition_id = "'"+val.alert_condition_id+"'";
-             			/* var alert_type_fk = "'"+val.alert_type_fk+"'";
-             			var alert_level_fk = "'"+val.alert_level_fk+"'";
+             			var alert_type_fk = "'"+val.alert_type_fk+"'";
+             			/* var alert_level_fk = "'"+val.alert_level_fk+"'";
              			var first_condition = "'"+val.first_condition+"'";
              			var first_condition_value = "'"+val.first_condition_value+"'";
              			var second_condition = "'"+val.second_condition+"'";
              			var second_condition_value = "'"+val.second_condition_value+"'"; */
              			
-                        var actions = '<a href="javascript:getAlertCondition('+alert_condition_id+');" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-pencil"></i></a>';
+                        var actions = '<a href="javascript:getAlertCondition('+alert_type_fk+');" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-pencil"></i></a>';
                         
                         
                         var rowArray = [];    	                 
                         
                         rowArray.push(val.alert_type_fk);
-                        rowArray.push(val.alert_level_fk); 
+                        /* rowArray.push(val.alert_level_fk);  */
                        	rowArray.push(val.first_condition);
                        	rowArray.push(val.first_condition_value);
                        	rowArray.push(val.second_condition);
@@ -456,8 +485,87 @@
           }});
         }
         
+        function getAlertCondition(alert_type_fk){         	
+        	$("#editModal").modal("open");        
+        	
+        	$("#alert_type_text").html(alert_type_fk);    
+        	
+			$(".page-loader-2").show();
+
+        	table = $('#data-table-alert-type-conditions').DataTable();
+  	   		 
+    		table.destroy();
+    		
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#data-table-alert-type-conditions').DataTable({
+        		fixedHeader: true,
+                columnDefs: [
+                    {
+                        targets: [1,3],
+                        className: 'fw-250'
+                    },
+                    { orderable: false, 'aTargets': ['no-sort'] }
+                ],
+                //"ScrollX": true,
+                "sScrollX": "100%",
+                "ordering":false,
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
+                "searching": false,
+                "paging": false,
+                "info": false,
+                "order":[]
+            }).rows().remove().draw();
+    		
+    		table.state.clear();	
+    	 	var myParams = {alert_type_fk : alert_type_fk};
+    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/getAlertCondition",type:"POST",data:myParams,
+    	 		success : function(data){ 
+    			if(data != null && data != '' && data.length > 0){    					
+             		$.each(data,function(key,val){
+             			//var alert_condition_id = "'"+val.alert_condition_id+"'";
+             			var alert_type_fk = "'"+val.alert_type_fk+"'";
+             			/* var alert_level_fk = "'"+val.alert_level_fk+"'";
+             			var first_condition = "'"+val.first_condition+"'";
+             			var first_condition_value = "'"+val.first_condition_value+"'";
+             			var second_condition = "'"+val.second_condition+"'";
+             			var second_condition_value = "'"+val.second_condition_value+"'"; */
+             			var index = key + 1;
+             			
+             			var alert_condition_id = '<input type="hidden" id="alert_condition_ids'+index+'" name="alert_condition_ids" class="validate" required="required" value="'+val.alert_condition_id+'">'
+             			var first_condition_value = '<input type="number" id="first_condition_values'+index+'" name="first_condition_values" class="validate" required="required" value="'+val.first_condition_value+'">'
+             			
+             			var second_condition_value = '';
+             			if($.trim(val.second_condition) != '' && $.trim(val.second_condition_value) != ''){
+             				second_condition_value = '<input type="number" id="second_condition_values'+index+'" name="second_condition_values" class="validate" required="required" value="'+val.second_condition_value+'">'
+	    	        	}else{
+	    	        		second_condition_value = '<input type="hidden" id="second_condition_values'+index+'" name="second_condition_values" class="validate" required="required">'
+	    	        	}
+             			
+                        var rowArray = [];    	                 
+                        
+                        rowArray.push(alert_condition_id + val.alert_level_fk);
+                       	rowArray.push(val.first_condition);
+                       	rowArray.push(first_condition_value);
+                       	rowArray.push(val.second_condition);
+                       	rowArray.push(second_condition_value);
+                       	
+                        table.row.add(rowArray).draw( true );
+                        		                       
+    				});
+             		
+             		$(".page-loader-2").hide();
+    			}else{
+    				$(".page-loader-2").hide();
+    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+          }});
+        }
         
-        function getAlertCondition(alert_condition_id){         	
+        function getAlertCondition2(alert_condition_id){         	
         	$("#editModal").modal("open");        
         	
         	$("#alert_condition_id").val("");
@@ -498,12 +606,17 @@
         	$(".page-loader-2").show();
         	$("#editModal").modal("close");
         	
-        	var alert_condition_id = $("#alert_condition_id").val();
+        	/* var alert_condition_id = $("#alert_condition_id").val();
         	var first_condition_value = $("#first_condition_value").val();
         	var second_condition_value = $("#second_condition_value").val();
         	
-        	var myParams = {alert_condition_id : alert_condition_id, first_condition_value : first_condition_value, second_condition_value : second_condition_value}
-			$.ajax({url : "<%=request.getContextPath()%>/ajax/updateAlertCondition",type:"POST",data:myParams,
+        	var myParams = {alert_condition_id : alert_condition_id, first_condition_value : first_condition_value, second_condition_value : second_condition_value} */
+			
+        	var dataString = $("#updateForm").serialize();
+        	
+        	$.ajax({url : "<%=request.getContextPath()%>/ajax/updateAlertCondition",
+				type:"POST",
+				data:dataString,
 				success : function(data){ 
 	    			if(data == true){
 	    				swal({

@@ -268,6 +268,9 @@
 		.pos-rel{
 			position:relative;
 		}
+		ul {
+		  list-style-type: none;
+		}
     </style>
 </head>
 <body>
@@ -306,8 +309,9 @@
 							        <li class="tab" ><a class="t-c" href="#workDetails">Work Details</a></li>
 							        <li class="tab" ><a class="t-c" href="#drawingDetails">Drawing Details</a></li>
 							        <li class="tab" ><a class="t-c" href="#statusDetails">Drawing Status</a></li>							        
-							        <li class="tab" ><a class="t-c" href="#revisionDetails">Revisions</a></li>
-							        <li class="tab"><a class="t-c" href="#documentDetails">Attachment</a></li>
+							        <li class="tab hideTab" ><a class="t-c" href="#revisionDetails">Revisions</a></li>
+							        <li class="tab hideTab"><a class="t-c" href="#documentDetails">Attachment</a></li>
+							        <li class="tab"><a class="t-c"><label><input type="checkbox" id="box" value="hidden"><span style="color: darkcyan;">Show Optional Fields</span></label></a></li> 
 							      </ul>
 							    </div>							    
 						   </div>
@@ -393,7 +397,7 @@
                                 </div>
                                  </div>
                                  <div class="row">                       
-                                 <div class="col s12 m4 l4 input-field ">
+                                 <div class="col s12 m4 l4 input-field " id="structureRow">
                                     <p class="searchable_label">Structure <span class="required">*</span></p>
                                     <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
@@ -403,7 +407,7 @@
                                     </select>
                                     <span id="structure_type_fkError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s6 m4 l4 input-field ">
+                                 <div class="col s6 m4 l4 input-field " id="structureIdRow">
                                     <p class="searchable_label">Structure Id<span class="required">*</span></p>
                                     <select id="structure_id_fk" name="structure_id_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option> 
@@ -413,8 +417,8 @@
                                     </select>
                                     <span id="structure_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Prepared By <span class="required">*</span></p>
+                                <div class="col s6 m4 l4 input-field optionalFileds" >
+                                    <p class="searchable_label">Prepared By <span class="required"></span></p>
                                     <select class="searchable validate-dropdown" name="prepared_by_id_fk" id="prepared_by_id_fk">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${preparedBy }">
@@ -425,7 +429,7 @@
                                 </div>
                               </div>
                             
-                            <div class="row">      
+                            <div class="row optionalFileds">      
                             <%--  <c:if test="${action eq 'add'}">   --%>                         
                                 <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Contract </p>
@@ -469,7 +473,7 @@
                                 </div>
                                 </div>
                                 <div class="row">
-                                <div class="col s12 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field" id="drawingType">
                                     <p class="searchable_label mb-8">Drawing Type <span class="required">*</span></p>
                                     <select id="drawing_type_fk" name="drawing_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
@@ -479,7 +483,17 @@
                                     </select>
                                     <span id="drawing_type_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m8">
+                                 <div class="col s6 m6 l6 input-field hideAuthority">
+                                    <p class="searchable_label mb-8" >Approval Authority<span class="required">*</span></p>
+                                    <select id="approval_authority_fks" name="approval_authority_fk" class="searchable validate-dropdown">
+                                        <option value="" selected>Select</option>     
+                                         <c:forEach var="obj" items="${approvalAuthority }">
+                                  				<option value="${obj.approval_authority_fk }" <c:if test="${designDetails.approval_authority_fk eq obj.approval_authority_fk }">selected</c:if>>${obj.approval_authority_fk }</option>
+                                				  </c:forEach>                          			
+                                    </select>
+                                    <span id="approval_authority_fksError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m8 optionalFileds">
                                 	<div class="row">
 		                                <div class="col s6 m6 l4 input-field">
 		                                    <p class="searchable_label mb-8" >Approval Authority<span class="required">*</span></p>
@@ -491,13 +505,13 @@
 		                                    </select>
 		                                    <span id="approval_authority_fkError" class="error-msg" ></span>
 		                                </div>
-		                         		<div class="col s6 m6 l4 input-field">
+		                         		<div class="col s6 m6 l4 input-field ">
 		                                    <input id="required_date" name="required_date" type="text" class="validate datepicker" value="${designDetails.required_date }">
 		                                    <label for="required_date" class="fs-sm-8rem fs-9">Required Date </label>
 		                                    <button type="button" id="required_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 		                                    <span id="required_dateError" class="error-msg" ></span>
 		                                </div>
-		                                <div class="col s6 m6 l4 input-field">
+		                                <div class="col s6 m6 l4 input-field ">
 		                                    <input id="gfc_release_date" name="gfc_released" type="text" class="validate datepicker" value="${designDetails.gfc_released }">
 		                                    <label for="gfc_release_date" class="fs-sm-8rem fs-9">GFC Release Date </label>
 		                                    <button type="button" id="gfc_release_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -509,27 +523,27 @@
 						</div>
                             <div class="row section scrollspy" id="drawingDetails">
                             	<h5 class="center-align">Drawing Details</h5>
-                                <div class="col s12 m12 input-field">
+                                <div class="col s12 m12 input-field" id="hideResponsive">
                                     <textarea id="drawing_title" name="drawing_title" class="pmis-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
                                     <label for="drawing_title">Drawing Title<span class="required">*</span></label>
                                      <span id="drawing_titleError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m3 input-field">
+                                <div class="col s6 m3 input-field optionalFileds">
                                      <input id="contractor_drawing_no" name="contractor_drawing_no" type="text" class="validate" value="${designDetails.contractor_drawing_no }">
 		                             <label for="contractor_drawing_no" >Agency Drawing No </label>
 		                             <span id="contractor_drawing_noError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m3 input-field">
+                                <div class="col s6 m3 input-field" id="hideResponsive1">
                                      <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate" value="${designDetails.mrvc_drawing_no }">
                                      <label for="mrvc_drawing_no">MRVC Drawing No <span class="required">*</span></label>
                                      <span id="mrvc_drawing_noError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m3 input-field">
+                                <div class="col s6 m3 input-field optionalFileds">
                                      <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate" value="${designDetails.division_drawing_no }">
 		                             <label for="division_drawing_no">Divisional Drawing No</label>
 		                             <span id="division_drawing_noError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m3 input-field">
+                                <div class="col s6 m3 input-field optionalFileds">
                                      <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate" value="${designDetails.hq_drawing_no }">
 		                             <label for="hq_drawing_no">HQ Drawing No</label>
                                      <span id="hq_drawing_noError" class="error-msg" ></span>
@@ -708,7 +722,7 @@
                             </div>
                            </div>
                           </div>  
-                            <div class="container container-no-margin"> 
+                            <div class="container container-no-margin optionalFileds"> 
                              <div class="row fixed-width section scrollspy" id="revisionDetails">
                                 <h5 class="center-align pos-rel">Revision Details 
                                 <c:if test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
@@ -848,7 +862,7 @@
                                 </div>
                             </div>  
                                   
-							<div class="row section scrollspy" id="documentDetails">
+							<div class="row section scrollspy optionalFileds" id="documentDetails">
 	                            <div class="col l12 m8 s12 offset-m2"  >
 	                                <div class="row fixed-width">
 	                                     <h5 class="center-align"><span class="div-header">Attachments</span></h5> 
@@ -1030,9 +1044,9 @@
                             </div>
  --%>
 
-                            <div class="row">
+                            <div class="row optionalFileds">
                                 <div class="col s12 m12 input-field">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${designDetails.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea " data-length="1000">${designDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>
@@ -1159,7 +1173,24 @@
             $('#remarks,#issueDesc').characterCounter();
             $('.tooltipped').tooltip();
             $('.scrollspy').scrollSpy();
-            
+            var state = '${action}';
+            if(state == 'edit'){
+            	  // #############  New chnages #########################
+	            $('.optionalFileds').hide();
+	            $('.hideTab').hide();
+	            $('#structureRow,#structureIdRow').removeClass('l4').addClass('l6'); 
+	            $('#hideResponsive').removeClass('m12').addClass('m6');
+	            $('#hideResponsive1').removeClass('m3').addClass('m6'); 
+	            $('#drawingType').removeClass('l4').addClass('l6');
+	            $('#hideResponsive1').css("bottom","-1rem");
+	    		$('.hideAuthority').show();
+	    		$('#approval_authority_fk').prop('disabled', true);
+    		// ############# #########################
+            }else{
+            	$('#approval_authority_fks').prop('disabled', true);
+        		$('.hideAuthority').hide();
+            }
+          
             getHodList();
             getDyHodList();
 			
@@ -1511,7 +1542,7 @@
        				 	  },"dy_hod": {
     				 		required: true
     				 	  },"prepared_by_id_fk": {
-    				 		required: true
+    				 		required: false
     				 	  },"structure_type_fk": {
     				 		required: true
     				 	  },"drawing_type_fk": {
@@ -1581,6 +1612,9 @@
 			 	    	}else if (element.attr("id") == "approval_authority_fk" ){
 	   			 		     document.getElementById("approval_authority_fkError").innerHTML="";
 				 			 error.appendTo('#approval_authority_fkError');
+			 	    	}else if (element.attr("id") == "approval_authority_fks" ){
+	   			 		     document.getElementById("approval_authority_fksError").innerHTML="";
+				 			 error.appendTo('#approval_authority_fksError');
 			 	    	}else if (element.attr("id") == "structure_id_fk" ){
 	   			 		     document.getElementById("structure_id_fkError").innerHTML="";
 				 			 error.appendTo('#structure_id_fkError');
@@ -2106,6 +2140,36 @@
 		 			}
 		           });
 		 		});
+		        $('#box').change(function() { 
+		        	var option = $('#box').val();
+		        	if(option == "hidden"){
+		        		$('#box').val('show');
+		        		$('.optionalFileds').show();
+		        		$('.hideTab').show();
+		        		$('#structureRow,#structureIdRow').removeClass('l6').addClass('l4');
+		        		$('#hideResponsive').removeClass('m6').addClass('m12'); 
+		        		$('#hideResponsive1').removeClass('m6').addClass('m3');
+		        		$('#drawingType').removeClass('l6').addClass('l4');
+		        		$('#hideResponsive1').css("bottom","");
+		        		$('#approval_authority_fk').prop('disabled', false);
+		        		$('#approval_authority_fks').prop('disabled', true);
+		        		$('.hideAuthority').hide();
+		        	}else{
+		        		$('#box').val('hidden');
+		        		$('.optionalFileds').hide();
+		        		$('.hideTab').hide();
+		        		$('#structureRow,#structureIdRow').removeClass('l4').addClass('l6');
+		        		$('#hideResponsive').removeClass('m12').addClass('m6'); 
+		        		$('#hideResponsive1').removeClass('m3').addClass('m6');
+		        		$('#drawingType').removeClass('l4').addClass('l6');
+		        		$('#hideResponsive1').css("bottom","-1rem");
+		        		$('#approval_authority_fk').prop('disabled', true);
+		        		$('#approval_authority_fks').prop('disabled', false);
+		        		$('.hideAuthority').show();
+		        	
+		        	}
+		        	
+		        });
     </script>
 
 </body>

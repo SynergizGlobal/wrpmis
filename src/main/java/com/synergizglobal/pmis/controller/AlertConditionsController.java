@@ -37,8 +37,8 @@ public class AlertConditionsController {
 	public ModelAndView alertConditions(){		
 		 ModelAndView model = new ModelAndView(PageConstants2.alertConditions);	    
 	     try {
-	    	 List<AlertConditions> alert_types = service.getAlertTypes();
-	    	 model.addObject("alertTypes", alert_types);
+			/* List<AlertConditions> alert_types = service.getAlertTypes();
+			 model.addObject("alertTypes", alert_types);*/
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("alertConditions() : "+e.getMessage());

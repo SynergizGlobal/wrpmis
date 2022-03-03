@@ -49,7 +49,7 @@ public class AlertConditionsDaoImpl implements AlertConditionsDao{
 	public List<AlertConditions> getAlertConditions(AlertConditions obj) throws Exception {
 		List<AlertConditions> objsList = null;
 		try {
-			String qry = "SELECT alert_type_fk,first_condition,GROUP_CONCAT(first_condition_value) AS first_condition_value,second_condition,GROUP_CONCAT(second_condition_value) AS second_condition_value "
+			String qry = "SELECT alert_type_fk,condition_info,first_condition,GROUP_CONCAT(first_condition_value) AS first_condition_value,second_condition,GROUP_CONCAT(second_condition_value) AS second_condition_value "
 					+ "FROM alert_conditions "
 					+ "WHERE alert_type_fk IS NOT NULL";
 			int arrSize = 0;
@@ -76,7 +76,7 @@ public class AlertConditionsDaoImpl implements AlertConditionsDao{
 	public List<AlertConditions> getAlertCondition(AlertConditions obj) throws Exception {
 		List<AlertConditions> objsList = null;
 		try {
-			String qry = "SELECT alert_condition_id,alert_type_fk,alert_level_fk,first_condition,first_condition_value,second_condition,second_condition_value "
+			String qry = "SELECT alert_condition_id,alert_type_fk,condition_info,alert_level_fk,first_condition,first_condition_value,second_condition,second_condition_value "
 					+ "FROM alert_conditions "
 					+ "WHERE alert_type_fk = ?";
 			
@@ -133,6 +133,7 @@ public class AlertConditionsDaoImpl implements AlertConditionsDao{
 						+ "first_condition_value= :first_condition_value,second_condition_value= :second_condition_value "
 						+ "where alert_condition_id = :alert_condition_id";
 				SqlParameterSource[] source = new SqlParameterSource[arraySize];
+				
 				for (int i = 0; i < arraySize; i++) {
 					AlertConditions pObj = new AlertConditions();
 					if(!StringUtils.isEmpty(obj.getAlert_condition_ids()) && obj.getAlert_condition_ids().size() > 0 && !StringUtils.isEmpty(obj.getAlert_condition_ids().get(i))) {
@@ -140,10 +141,15 @@ public class AlertConditionsDaoImpl implements AlertConditionsDao{
 					}
 					if(!StringUtils.isEmpty(obj.getFirst_condition_values()) && obj.getFirst_condition_values().size() > 0 && !StringUtils.isEmpty(obj.getFirst_condition_values().get(i))) {
 						pObj.setFirst_condition_value(obj.getFirst_condition_values().get(i));
+						if(i < (arraySize-1)) {
+							String second_condition_value = obj.getFirst_condition_values().get(i+1);
+							pObj.setSecond_condition_value(second_condition_value);
+						}
 					}
-					if(!StringUtils.isEmpty(obj.getSecond_condition_values()) && obj.getSecond_condition_values().size() > 0 && !StringUtils.isEmpty(obj.getSecond_condition_values().get(i))) {
+					
+					/*if(!StringUtils.isEmpty(obj.getSecond_condition_values()) && obj.getSecond_condition_values().size() > 0 && !StringUtils.isEmpty(obj.getSecond_condition_values().get(i))) {
 						pObj.setSecond_condition_value(obj.getSecond_condition_values().get(i));
-					}
+					}*/
 					source[i] = new BeanPropertySqlParameterSource(pObj);
 				}
 				

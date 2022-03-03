@@ -207,7 +207,7 @@
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-                        <div class="row no-mar">
+                        <%-- <div class="row no-mar">
                         	<div class="col m3 l4"></div>
                             <div class="col s12 m3 l2 input-field">
                                 <p class="searchable_label">Alert Type</p>
@@ -224,7 +224,7 @@
                                     Filters</button>
                             </div>
                             <div class="col m3 l4"></div>
-                        </div>
+                        </div> --%>
 
                         <div class="row">
                             <div class="col m12 s12">
@@ -232,11 +232,12 @@
                                     <thead>
                                         <tr>
                                             <th>Alert Type</th>
-                                            <!-- <th>Alert Level</th> -->
-                                            <th>First Condition</th>
+                                            <th>Condition</th>
+                                    		<th>Condition Values</th>
+                                            <!-- <th>First Condition</th>
                                             <th>First Condition Values</th>
                                             <th>Second Condition</th>
-                                            <th>Second Condition Values</th>
+                                            <th>Second Condition Values</th> -->
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -296,10 +297,12 @@
                             <thead>
                                 <tr>
                                     <th>Alert Level</th>
-                                    <th>First Condition</th>
+                                    <th>Condition</th>
+                                    <th>Condition Value</th>
+                                    <!-- <th>First Condition</th>
                                     <th>First Condition Value</th>
                                     <th>Second Condition</th>
-                                    <th>Second Condition Value</th>
+                                    <th>Second Condition Value</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -405,13 +408,13 @@
                 },
                 columnDefs: [
                     {
-                        targets: [5],
+                        targets: [3],
                         className: 'last-column'
                     },
-                    {
+                    /* {
                         targets: [2,4],
                         className: 'fw-250'
-                    },
+                    }, */
                     { orderable: false, 'aTargets': ['no-sort'] }
                 ],
                 // "ScrollX": true,
@@ -463,11 +466,13 @@
                         var rowArray = [];    	                 
                         
                         rowArray.push(val.alert_type_fk);
+                        rowArray.push(val.condition_info);
+                       	rowArray.push(val.first_condition_value)
                         /* rowArray.push(val.alert_level_fk);  */
-                       	rowArray.push(val.first_condition);
+                       	/* rowArray.push(val.first_condition);
                        	rowArray.push(val.first_condition_value);
                        	rowArray.push(val.second_condition);
-                       	rowArray.push(val.second_condition_value);
+                       	rowArray.push(val.second_condition_value); */
                        	rowArray.push($.trim(actions)); 
                        	
                         table.row.add(rowArray).draw( true );
@@ -500,10 +505,10 @@
     		table = $('#data-table-alert-type-conditions').DataTable({
         		fixedHeader: true,
                 columnDefs: [
-                    {
+                    /* {
                         targets: [1,3],
                         className: 'fw-250'
-                    },
+                    }, */
                     { orderable: false, 'aTargets': ['no-sort'] }
                 ],
                 //"ScrollX": true,
@@ -545,10 +550,12 @@
                         var rowArray = [];    	                 
                         
                         rowArray.push(alert_condition_id + val.alert_level_fk);
-                       	rowArray.push(val.first_condition);
+                        rowArray.push(val.condition_info);
+                       	rowArray.push(first_condition_value)
+                       	/* rowArray.push(val.first_condition);
                        	rowArray.push(first_condition_value);
                        	rowArray.push(val.second_condition);
-                       	rowArray.push(second_condition_value);
+                       	rowArray.push(second_condition_value); */
                        	
                         table.row.add(rowArray).draw( true );
                         		                       

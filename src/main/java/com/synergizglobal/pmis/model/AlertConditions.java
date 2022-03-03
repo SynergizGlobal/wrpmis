@@ -5,7 +5,7 @@ import java.util.List;
 public class AlertConditions {
 	private String alert_condition_id,alert_type_fk,alert_level_fk,
 	first_condition,first_condition_value,
-	second_condition,second_condition_value;
+	second_condition,second_condition_value,condition_info;
 	
 	private List<String> alert_condition_ids,first_condition_values,second_condition_values;
 	
@@ -88,6 +88,14 @@ public class AlertConditions {
 
 	public void setFirst_condition_value(String first_condition_value) {
 		this.first_condition_value = first_condition_value;
+	}
+
+	public String getCondition_info() {
+		return condition_info;
+	}
+
+	public void setCondition_info(String condition_info) {
+		this.condition_info = condition_info;
 	}
 
 	

@@ -1019,11 +1019,11 @@ public class DesignDaoImpl implements DesignDao{
 					jdbcTemplate.update( preparedByQry, new Object[] {obj.getPrepared_by_id_fk(),obj.getPrepared_by_id_fk()});
 				}
 				
-				if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				/*if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
 					String stQry = "INSERT INTO structure_type (structure_type) SELECT * FROM (SELECT ?) AS tmp "
 							+ "WHERE NOT EXISTS ( SELECT structure_type FROM structure_type WHERE structure_type = ? LIMIT 1 )";
 					jdbcTemplate.update( stQry, new Object[] {obj.getStructure_type_fk(),obj.getStructure_type_fk()});
-				}
+				}*/
 				
 				if(!StringUtils.isEmpty(obj.getDrawing_type_fk())) {
 					String dtQry = "INSERT INTO drawing_type (drawing_type) SELECT * FROM (SELECT ?) AS tmp "
@@ -1802,11 +1802,11 @@ public class DesignDaoImpl implements DesignDao{
 					jdbcTemplate.update( preparedByQry, new Object[] {obj.getPrepared_by_id_fk(),obj.getPrepared_by_id_fk()});
 				}
 				
-				if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				/*if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
 					String stQry = "INSERT INTO structure_type (structure_type) SELECT * FROM (SELECT ?) AS tmp "
 							+ "WHERE NOT EXISTS ( SELECT structure_type FROM structure_type WHERE structure_type = ? LIMIT 1 )";
 					jdbcTemplate.update( stQry, new Object[] {obj.getStructure_type_fk(),obj.getStructure_type_fk()});
-				}
+				}*/
 				
 				if(!StringUtils.isEmpty(obj.getDrawing_type_fk())) {
 					String dtQry = "INSERT INTO drawing_type (drawing_type) SELECT * FROM (SELECT ?) AS tmp "

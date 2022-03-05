@@ -13,7 +13,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
 <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
 <style>
-	.nav-wrapper{z-index: 1000;}
+	/* body .brand-logo img{
+	     		width: 53rem! important;
+	     	} */
+	.nav-wrapper{z-index: 1000;max-width: 94.5vw;}
 	nav .menu-active, nav .menu-active.blue {
 		background-color: #f56661 !important;
 		box-shadow: 0 0 5px #bababa inset;
@@ -111,6 +114,11 @@
 	 .more{position: absolute;
  	   		top: 26em;
     		right: 0.5em;}	
+	    @media only screen and (min-width: 1440px){
+		#CurrentDate {
+		    top: 0.7vw;
+			}
+		}
      @media only screen and (max-width:1400px) and (min-width:1024px) {
      	nav ul a{
      		padding : 0 5px;
@@ -123,7 +131,7 @@
      		right:15px;
      	}
      	.brand-logo img{
-     		width: 3rem! important;
+     		width: 3.5rem! important;
      	}
      }
      @media(max-width: 768px){
@@ -146,11 +154,17 @@
     font-size: 1.5rem;
     transition: all 1s ease-in-out;
 }
-
-		 #CurrentDate{
-		 	left:3.4rem !important;
+@media(max-width: 1920px){
+		#CurrentDate{
+		 	left:3.5rem !important;
 		 	font-size:.75rem !important;
 		}
+	}
+		 #CurrentDate{
+		 	left:4rem !important;
+		 	font-size:.75rem !important;
+		}
+	
 		
 </style>
 

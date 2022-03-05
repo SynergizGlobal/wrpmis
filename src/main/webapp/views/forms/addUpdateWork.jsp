@@ -498,7 +498,7 @@
                                 </div>
                                 <div class="col s6 m8 l3 input-field offset-m2">
                                    <input id="completeion_period_months" type="number" class="validate" name="completeion_period_months" value="${workDetails.completeion_period_months }">
-                                   <label for="completeion_period_months" class="fs9px">Completion Period (in Months)</label>
+                                   <label for="completeion_period_months" class="fs9px fs-sm-67rem fs-md-9r fs7rem">Completion Period (in Months)</label>
                                    <span id="completeion_period_monthsError"></span>
                                 </div>                             
                                

@@ -1560,7 +1560,9 @@
  			 		  required:true
  			 	  }	,"phase"	:{
  			 		  required:true
- 			 	  }	,"structure":{
+ 			 	  }	,"structure_id":{
+ 			 		  required:true
+ 			 	  }	,"identification_no":{
  			 		  required:true
  			 	  }	, "location_name": {
 			          required: true
@@ -1574,6 +1576,8 @@
     		 	  },"handed_over_to_execution": { 
      		 		 required: false,
 				 	 dateBeforeHOE:"#verification_date"
+    		 	  },encroachment_removal: { 
+     		 		 required: false,
     		 	  }
  		 	},
  		    messages: {
@@ -1585,7 +1589,9 @@
  			 		  required:'Required'
  			 	  },"phase"	:{
  			 		  required:'Required'
- 			 	  },"structure"	:{
+ 			 	  },"structure_id"	:{
+ 			 		  required:'Required'
+ 			 	  },"identification_no"	:{
  			 		  required:'Required'
  			 	  }, "location_name": {
  			          required: 'Required'
@@ -1596,6 +1602,8 @@
  			      },"letter_to_mmrda": {
      			 		required: 'Required'
    			 	  },"handed_over_to_execution": {
+     			 		required: 'Required'
+   			 	  },"encroachment_removal": {
      			 		required: 'Required'
    			 	  }
 	   		},
@@ -1609,6 +1617,9 @@
 				 }else if(element.attr("id") == "rr_id" ){
 				     document.getElementById("rr_idError").innerHTML="";
 			 	     error.appendTo('#rr_idError');
+				 }else if(element.attr("id") == "id_no" ){
+				     document.getElementById("id_noError").innerHTML="";
+			 	     error.appendTo('#id_noError');
 				 }else if(element.attr("id") == "phase" ){
 				     document.getElementById("phaseError").innerHTML="";
 			 	     error.appendTo('#phaseError');
@@ -1630,6 +1641,9 @@
 				 }else if(element.attr("id") == "handover_to_execution" ){
 				     document.getElementById("handover_to_executionError").innerHTML="";
 			 	     error.appendTo('#handover_to_executionError');
+				 }else if(element.attr("id") == "encroachment_removal" ){
+				     document.getElementById("encroachment_removalError").innerHTML="";
+			 	     error.appendTo('#encroachment_removalError');
 				 }else{
 					 error.insertAfter(element);
 		        } 
@@ -1750,6 +1764,8 @@
       
       $('#encroachment_removal,#alternate_housing_allotment').change(function(){
     	  var alternate_housing_allotment = $('#alternate_housing_allotment').val();
+    	  var encroachment_removal = $('#encroachment_removal').val();
+    	  var verification_date = $('#verification_date').val();
     	  if($.trim(alternate_housing_allotment) == ''){                	
     	      	$('#alternate_housing_allotment').rules("add", {
 		    	      	     required : true,
@@ -1762,6 +1778,18 @@
     	      	$('#alternate_housing_allotment_req').text('');
     	      	$('#alternate_housing_allotmentError').text('');
     	      }
+    	  if(encroachment_removal != '' && verification_date == ''){
+    		    $('#verification_date').rules("add", {
+	 	      	     required : true,
+	 	      	     messages : { required : '' }
+ 	      	    });
+			   	$('#verification_date_req').text('*');
+			   	$('#verification_dateError').text('Required');
+			   }else{
+			   	$('#verification_date').rules('remove',  'required');
+			   	$('#verification_date_req').text('');
+			   	$('#verification_dateError').text('');
+			   }
       });
       
       $('#handover_to_execution,#verification_date').change(function(){

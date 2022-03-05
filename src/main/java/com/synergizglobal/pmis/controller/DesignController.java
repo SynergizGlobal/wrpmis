@@ -1307,18 +1307,18 @@ public class DesignController {
 							
 							val = formatter.formatCellValue(row.getCell(23)).trim();
 							if(!StringUtils.isEmpty(val)) { 
-								if(val.contains("/")) {
+								/*if(val.contains("/")) {
 									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
 									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-								}
+								}*/
 								design.setSubmitted_date(val);}
 							
 							val = formatter.formatCellValue(row.getCell(24)).trim();
 							if(!StringUtils.isEmpty(val)) { 
-								if(val.contains("/")) {
-									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
-									val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
-								}
+								/*	if(val.contains("/")) {
+										LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
+										val = receivedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); 
+									}*/
 								design.setGfc_released(val);}
 							
 							val = formatter.formatCellValue(row.getCell(25)).trim();

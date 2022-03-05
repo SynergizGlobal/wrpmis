@@ -5,7 +5,7 @@ import java.util.List;
 public class TableauDashboard {
 
 	private List<TableauDashboard> tableauSubList,tableauSubListLevel2;
-	private String tableauUrl,tableauDashboardId,tableauDashboardName,imagePath,priority,tableauTrustedToken;
+	private String tableauUrl,tableauDashboardId,tableauDashboardName,imagePath,priority,tableauTrustedToken,work_id_fk;
 	
 	/**
 	 * This method will get the tableau sub list
@@ -112,6 +112,12 @@ public class TableauDashboard {
 	}
 	public void setTableauSubListLevel2(List<TableauDashboard> tableauSubListLevel2) {
 		this.tableauSubListLevel2 = tableauSubListLevel2;
+	}
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
 	}
 	
 }

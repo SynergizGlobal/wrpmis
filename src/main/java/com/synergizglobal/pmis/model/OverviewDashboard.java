@@ -2,46 +2,131 @@ package com.synergizglobal.pmis.model;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class OverviewDashboard {
 	
-	private String id,name,icon,link_url;
+	private String dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu;
 	private List<OverviewDashboard> formsSubMenu;
 	
-	private String [] ids,parentids,orderids,parentidsorder;
+	private String filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_name,
+	default_filter_column,default_filter_value, 
+	selected_value, priority, filter_column_id,filters_reference_table,filter_option_id,filter_option_value,work_id,parent_id,params;
+	
+	private List<OverviewDashboard> filter;
 
+	private int work_exists_or_not;
 
-	public String getId() {
-		return id;
+	public String getDashboard_id() {
+		return dashboard_id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setDashboard_id(String dashboard_id) {
+		this.dashboard_id = dashboard_id;
 	}
 
-	public String getName() {
-		return name;
+	public String getDashboard_name() {
+		return dashboard_name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDashboard_name(String dashboard_name) {
+		this.dashboard_name = dashboard_name;
 	}
 
-	public String getIcon() {
-		return icon;
+	public String getDashboard_icon() {
+		return dashboard_icon;
 	}
 
-	public void setIcon(String icon) {
-		this.icon = icon;
+	public void setDashboard_icon(String dashboard_icon) {
+		this.dashboard_icon = dashboard_icon;
 	}
 
-	public String getLink_url() {
-		return link_url;
+	public String getDashboard_url() {
+		return dashboard_url;
 	}
 
-	public void setLink_url(String link_url) {
-		this.link_url = link_url;
+	public void setDashboard_url(String dashboard_url) {
+		this.dashboard_url = dashboard_url;
+	}
+
+	public void setFilters_reference_table(String filters_reference_table) {
+		this.filters_reference_table = filters_reference_table;
+	}
+
+	public String getFilter_column_id() {
+		return filter_column_id;
+	}
+
+	public void setFilter_column_id(String filter_column_id) {
+		this.filter_column_id = filter_column_id;
+	}
+
+	public String getFilters_reference_table() {
+		return filters_reference_table;
+	}
+
+	
+
+	public String getDefault_filter_column() {
+		return default_filter_column;
+	}
+
+	public void setDefault_filter_column(String default_filter_column) {
+		this.default_filter_column = default_filter_column;
+	}
+
+	public String getDefault_filter_value() {
+		return default_filter_value;
+	}
+
+	public void setDefault_filter_value(String default_filter_value) {
+		this.default_filter_value = default_filter_value;
+	}
+
+	public String getSelected_value() {
+		return selected_value;
+	}
+
+	public void setSelected_value(String selected_value) {
+		this.selected_value = selected_value;
+	}
+
+	public String getFilter_id() {
+		return filter_id;
+	}
+
+	public void setFilter_id(String filter_id) {
+		this.filter_id = filter_id;
+	}
+
+	public String getLeft_menu_id_fk() {
+		return left_menu_id_fk;
+	}
+
+	public void setLeft_menu_id_fk(String left_menu_id_fk) {
+		this.left_menu_id_fk = left_menu_id_fk;
+	}
+
+	public String getFilters_table() {
+		return filters_table;
+	}
+
+	public void setFilters_table(String filters_table) {
+		this.filters_table = filters_table;
+	}
+
+	public String getFilter_label_name() {
+		return filter_label_name;
+	}
+
+	public void setFilter_label_name(String filter_label_name) {
+		this.filter_label_name = filter_label_name;
+	}
+
+	public String getFilter_column_name() {
+		return filter_column_name;
+	}
+
+	public void setFilter_column_name(String filter_column_name) {
+		this.filter_column_name = filter_column_name;
 	}
 
 	public List<OverviewDashboard> getFormsSubMenu() {
@@ -52,36 +137,100 @@ public class OverviewDashboard {
 		this.formsSubMenu = formsSubMenu;
 	}
 
-	public String [] getIds() {
-		return ids;
+	public String getPriority() {
+		return priority;
 	}
 
-	public void setIds(String [] ids) {
-		this.ids = ids;
+	public void setPriority(String priority) {
+		this.priority = priority;
 	}
 
-	public String [] getParentids() {
-		return parentids;
+	public String getSource_table_name() {
+		return source_table_name;
 	}
 
-	public void setParentids(String [] parentids) {
-		this.parentids = parentids;
+	public void setSource_table_name(String source_table_name) {
+		this.source_table_name = source_table_name;
 	}
 
-	public String [] getOrderids() {
-		return orderids;
+	public String getSource_field_name() {
+		return source_field_name;
 	}
 
-	public void setOrderids(String [] orderids) {
-		this.orderids = orderids;
+	public void setSource_field_name(String source_field_name) {
+		this.source_field_name = source_field_name;
 	}
 
-	public String [] getParentidsorder() {
-		return parentidsorder;
+	public String getSource_field_value() {
+		return source_field_value;
 	}
 
-	public void setParentidsorder(String [] parentidsorder) {
-		this.parentidsorder = parentidsorder;
+	public void setSource_field_value(String source_field_value) {
+		this.source_field_value = source_field_value;
+	}
+
+	public int getWork_exists_or_not() {
+		return work_exists_or_not;
+	}
+
+	public void setWork_exists_or_not(int work_exists_or_not) {
+		this.work_exists_or_not = work_exists_or_not;
+	}
+
+	public List<OverviewDashboard> getFilter() {
+		return filter;
+	}
+
+	public void setFilter(List<OverviewDashboard> filter) {
+		this.filter = filter;
+	}
+
+	public String getFilter_option_id() {
+		return filter_option_id;
+	}
+
+	public void setFilter_option_id(String filter_option_id) {
+		this.filter_option_id = filter_option_id;
+	}
+
+	public String getFilter_option_value() {
+		return filter_option_value;
+	}
+
+	public void setFilter_option_value(String filter_option_value) {
+		this.filter_option_value = filter_option_value;
+	}
+
+	public String getShow_left_menu() {
+		return show_left_menu;
+	}
+
+	public void setShow_left_menu(String show_left_menu) {
+		this.show_left_menu = show_left_menu;
+	}
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
+
+	public String getParent_id() {
+		return parent_id;
+	}
+
+	public void setParent_id(String parent_id) {
+		this.parent_id = parent_id;
+	}
+
+	public String getParams() {
+		return params;
+	}
+
+	public void setParams(String params) {
+		this.params = params;
 	}
 	
 }

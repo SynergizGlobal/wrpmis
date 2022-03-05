@@ -3,12 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -22,11 +17,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.OverviewDashboardDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
-import com.synergizglobal.pmis.common.PermissionURLs;
-import com.synergizglobal.pmis.common.TimeAgo;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.OverviewDashboard;
 
 @Repository
@@ -40,32 +31,47 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 
 
 	@Override
-	public List<OverviewDashboard> getFormsList(int ParentId) throws Exception {
+	public List<OverviewDashboard> getLeftNavNodes(OverviewDashboard dObj) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
-		OverviewDashboard obj = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry = "select id,name,icon,link_url,parent_id from leftmenu where status='Active' and parent_id=? order by `order`";
+			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value "
+					+ "FROM leftmenu "
+					+ "WHERE status = ? and parent_id = ? ORDER BY `order`";
 			statement = connection.prepareStatement(qry);
-			statement.setInt(1, ParentId);
+			statement.setString(1, CommonConstants.ACTIVE);
+			statement.setString(2, dObj.getParent_id());
 			resultSet = statement.executeQuery();  
+			
+			String work_id = dObj.getWork_id();
 			while(resultSet.next()) {
-				obj = new OverviewDashboard();
-				int childParentId = resultSet.getInt("id");
-				List<OverviewDashboard> subList=getFormsList(childParentId);
+				OverviewDashboard obj = new OverviewDashboard();
+				String childParentId = resultSet.getString("dashboard_id");
+				List<OverviewDashboard> subList = getDashboardsSubList(work_id,childParentId,connection);
 				obj.setFormsSubMenu(subList);
 				
-				obj.setId(resultSet.getString("id"));
-				obj.setName(resultSet.getString("name"));
-				obj.setIcon(resultSet.getString("icon"));
-				obj.setLink_url(resultSet.getString("link_url"));
+				obj.setDashboard_id(resultSet.getString("dashboard_id"));
+				obj.setDashboard_name(resultSet.getString("dashboard_name"));
+				obj.setDashboard_icon(resultSet.getString("dashboard_icon"));
+				obj.setDashboard_url(resultSet.getString("dashboard_url"));
+				obj.setSource_table_name(resultSet.getString("source_table_name"));
+				obj.setSource_field_name(resultSet.getString("source_field_name"));
+				obj.setSource_field_value(resultSet.getString("source_field_value"));				
+				if(!StringUtils.isEmpty(work_id)) {
+					obj.setSource_field_value(work_id);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getSource_table_name()) && !StringUtils.isEmpty(obj.getSource_field_name()) && !StringUtils.isEmpty(obj.getSource_field_value())) {
+					obj.setWork_exists_or_not(getWorkExistsOrNot(obj,connection));
+				}
+				
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
@@ -73,27 +79,60 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		return objsList;
 	}
 	
-	private List<OverviewDashboard> getFormsSubList(String parentId, Connection connection) throws Exception {
+	private int getWorkExistsOrNot(OverviewDashboard obj, Connection connection) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		int count = 0;
+		try {
+			String qry = "SELECT count(*) AS count FROM `"+obj.getSource_table_name()+"` WHERE `"+obj.getSource_field_name()+"` = '"+obj.getSource_field_value()+"'";
+			statement = connection.prepareStatement(qry);
+			resultSet = statement.executeQuery();  
+			if(resultSet.next()) {
+				count = resultSet.getInt("count");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+		}
+		return count;
+	}
+
+	private List<OverviewDashboard> getDashboardsSubList(String work_id, String parentId, Connection connection) throws Exception {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
 		OverviewDashboard obj = null;
 		try {
-			String qry = "select id,name,icon,link_url from leftmenu where status='Active' and parent_id<>id and parent_id=? order by `order`";
+			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value "
+					+ "FROM leftmenu "
+					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? ORDER BY `order`";
 			statement = connection.prepareStatement(qry);
-			statement.setString(1, parentId);
+			statement.setString(1, CommonConstants.ACTIVE);
+			statement.setString(2, parentId);
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new OverviewDashboard();
-				obj.setId(resultSet.getString("id"));
-				obj.setName(resultSet.getString("name"));
-				obj.setIcon(resultSet.getString("icon"));
-				obj.setLink_url(resultSet.getString("link_url"));
+				obj.setDashboard_id(resultSet.getString("dashboard_id"));
+				obj.setDashboard_name(resultSet.getString("dashboard_name"));
+				obj.setDashboard_icon(resultSet.getString("dashboard_icon"));
+				obj.setDashboard_url(resultSet.getString("dashboard_url"));
+				obj.setSource_table_name(resultSet.getString("source_table_name"));
+				obj.setSource_field_name(resultSet.getString("source_field_name"));
+				obj.setSource_field_value(resultSet.getString("source_field_value"));
+				if(!StringUtils.isEmpty(work_id)) {
+					obj.setSource_field_value(work_id);
+				}
+				if(!StringUtils.isEmpty(obj.getSource_table_name()) && !StringUtils.isEmpty(obj.getSource_field_name()) && !StringUtils.isEmpty(obj.getSource_field_value())) {
+					obj.setWork_exists_or_not(getWorkExistsOrNot(obj,connection));
+				}
+				
 				objsList.add(obj);				
 			}
 		
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
@@ -102,66 +141,55 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 	}
 
 	@Override
-	public String getTableauUrl(String name) throws Exception {
-		String link_url="";
+	public OverviewDashboard getTableauUrl(String dashboardId) throws Exception {
+		OverviewDashboard dObj = null;;
 		try {
-			String qry = "SELECT link_url FROM pmis.leftmenu WHERE name= ?";
-			link_url = (String) jdbcTemplate.queryForObject(qry, new Object[] { name }, String.class);
+			String qry = "SELECT dashboard_url,show_left_menu,source_table_name,source_field_name,source_field_value FROM leftmenu WHERE dashboard_id = ?";
+			List<OverviewDashboard> objsList = jdbcTemplate.query(qry, new Object[] { dashboardId },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+			for (OverviewDashboard overviewDashboard : objsList) {
+				dObj = overviewDashboard;
+			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}		
-		return link_url;
+		return dObj;
 	}
+	
+
 
 	@Override
-	public boolean saveLeftNavData(OverviewDashboard obj) throws Exception {
-		Connection con = null;
-		PreparedStatement updateStmt = null;
-		PreparedStatement updateParentStmt = null;
-		boolean flag = false;
+	public List<OverviewDashboard> getFilters(String dashboardId) throws Exception {
+		List<OverviewDashboard> objList = new ArrayList<OverviewDashboard>();
 		try {
-			con = dataSource.getConnection();		
-		    if( obj.getIds().length > 0)
-		    {
-				for (int i = 0; i < obj.getIds().length; i++) 
-				{	
-					if(obj.getIds()[i]!=null)
-					{
-						String updateQry = "UPDATE leftmenu set parent_id = ?,`order`=? where id=? ";
-						updateStmt = con.prepareStatement(updateQry);
-						updateStmt.setString(1,(obj.getParentids()[i]));
-						updateStmt.setString(2,(obj.getOrderids()[i]));
-						updateStmt.setString(3,(obj.getIds()[i]));
-						updateStmt.executeUpdate();
-						flag=true;
-					}
-				
+			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, default_filter_column, default_filter_value, selected_value "
+					+ "FROM left_menu_filters WHERE left_menu_id_fk = ? "
+					+ "ORDER BY priority ASC";
+			objList = jdbcTemplate.query(qry, new Object[] { dashboardId },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+			for (OverviewDashboard obj : objList) {		
+				if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
+					String filterQry = "SELECT "
+							+ "`" + obj.getFilter_column_name() + "` as filter_option_value";
+							if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
+								filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
+							}
+							filterQry = filterQry + " FROM "
+							+ "`"+ obj.getFilters_table()+ "`";
+							if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
+								filterQry = filterQry + " WHERE "
+								+ "`"+ obj.getDefault_filter_column()+ "`"
+								+ " = "
+								+ obj.getDefault_filter_value();
+							}
+							filterQry = filterQry + " GROUP BY "
+							+ "`"+ obj.getFilter_column_name()+ "`";
+					List<OverviewDashboard> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+					obj.setFilter(filter);
 				}
-				
-				for (int i = 0; i < obj.getParentidsorder().length; i++) 
-				{	
-					if(obj.getParentidsorder()[i]!=null)
-					{
-						int OrderVal=i+1;
-						String updateParentQry = "UPDATE leftmenu set `order`=? where id=? ";
-						updateParentStmt = con.prepareStatement(updateParentQry);
-						updateParentStmt.setInt(1,OrderVal);
-						updateParentStmt.setString(2,(obj.getParentidsorder()[i]));
-						updateParentStmt.executeUpdate();
-						flag=true;
-					}
-				
-				}
-				
-		    }
-		}catch(Exception e){ 
-			e.printStackTrace();
+			}
+		} catch (Exception e) {
 			throw new Exception(e);
-		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
-		}	
-		return flag;
+		}		
+		return objList;
 	}	
 	
 }

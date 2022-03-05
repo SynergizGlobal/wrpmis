@@ -219,7 +219,7 @@
 	
 	<div class="" style="margin-top:2rem;">
 	    <div class="row">
-	        <div class="col s12 m2 " id="menu-item-holder">
+	        <div class="col s12 m2" id="menu-item-holder">
 	            <!-- <ul class="collapsible m-0">
 	                <li class="active"> -->
 	                    <!-- <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div> -->
@@ -237,78 +237,6 @@
 	    </div>
 	</div>
 
-<!-- model 2 which shows icons on navigation -->
-	
-	<!-- <div class="container">
-	    <div class="row">
-	        <div class="col s12 m4">
-	                <div>
-	                    <div class="collapsible-header 2ndModel" onclick="toggleMenu()"><i class="fa fa-bars"></i>Logo</div>
-	                    <div class=" main-menu-collapse">
-	                        <ul class="collapsible main-menu" id="2ndModel">
-	                            <li>
-	                                <div class="collapsible-header over-sub-menu"><i class="material-icons">filter_drama</i> 
-	                                	<span class="showHide">First</span>
-	                                </div>
-	                                <div class="collapsible-body special-padding">
-	                                    <ul class="collapsible">
-	                                        <li>
-	                                            <div class="collapsible-header"><i class="material-icons">place</i>
-	                                            	<span class="showHide">Second</span>
-	                                            </div>
-	                                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                                        </li>
-	                                        <li>
-	                                            <div class="collapsible-header over-sub-menu"><i
-	                                                    class="material-icons">place</i><span class="showHide">Second</span></div>
-	                                            <div class="collapsible-body special-padding">
-	                                                <ul class="collapsible">
-	                                                    <li>
-	                                                        <div class="collapsible-header"><i class="material-icons">whatshot</i><span class="showHide">Second</span></div>
-	                                                        <div class="collapsible-body"><span>Lorem ipsum dolor sit
-	                                                                amet.</span></div>
-	                                                    </li>
-	                                                    <li>
-	                                                        <div class="collapsible-header"><i class="material-icons">whatshot</i><span class="showHide">Second</span></div>
-	                                                        <div class="collapsible-body">
-	
-	                                                        </div>
-	                                                    </li>
-	                                                    <li>
-	                                                        <div class="collapsible-header"><i class="material-icons">whatshot</i><span class="showHide">Second</span></div>
-	                                                        <div class="collapsible-body"><span>Lorem ipsum dolor sit
-	                                                                amet.</span></div>
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                        </li>
-	                                        <li>
-	                                            <div class="collapsible-header"><i class="material-icons">place</i><span class="showHide">Second</span>
-	                                            </div>
-	                                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                                        </li>
-	                                    </ul>
-	                                </div>
-	                            </li>
-	                            <li>
-	                                <div class="collapsible-header"><i class="material-icons">place</i><span class="showHide">Second</span></div>
-	                                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                            </li>
-	                            <li>
-	                                <div class="collapsible-header"><i class="material-icons">whatshot</i><span class="showHide">Third</span></div>
-	                                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                            </li>
-	                        </ul>
-	                    </div>
-	                </div>	
-	        </div>
-	        <div class="col s12 m8">
-	            <p> content goes here </p>
-	        </div>
-	    </div>
-	</div> -->
-	
-	
 		<div class="page-loader" style="display: none;">
 		<div class="preloader-wrapper big active">
 			<div class="spinner-layer spinner-blue-only">
@@ -339,9 +267,11 @@
   
   <script type="text/javascript">
 	
-   $(document).ready(function(){	    
-	    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavNodes",
+   $(document).ready(function(){	 
+	   var overview_work_id = '${work_id}';
+	   $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavNodes",
 			type:"POST",
+			data:{work_id : overview_work_id},
 			cache: false,async:false,
 			success : function(data){   
 				
@@ -357,7 +287,7 @@
 					var parentDashboardId = value.dashboard_id;
 					var liDisabled = 'disabled';
 					var notAvailable = 'NA';
-					if($.trim(value.work_exists_or_not) != '' && value.work_exists_or_not > 0){
+					if(($.trim(value.work_exists_or_not) != '' && value.work_exists_or_not > 0) || value.dashboard_name == 'Project Overview'){
 						liDisabled = '';
 						notAvailable = '';
 					}
@@ -365,7 +295,8 @@
 						tempDashboardId = parentDashboardId;
 						flag = flag + 1;
 					}
-					html = html + '<li class="'+liDisabled+'"><div class="collapsible-header over-sub-menu" id="'+parentDashboardId+'">';
+					
+					html = html + '<li class="'+liDisabled+'"><div class="collapsible-header over-sub-menu" id="'+parentDashboardId+'" >';
 					html = html + '<a href="javascript:void(0);" id='+nameStr+value.dashboard_id+'>'
 					+'<span class="showHide" id="'+nameStr+'">'+value.dashboard_name+'</span>'
 					+'<span style="float:right;color: red;">'+notAvailable+'</span>'
@@ -422,11 +353,13 @@
 			    	tempDashboardId = requestedDashboardId;
 			    }
 				if($.trim(tempDashboardId) != ''){
+					
 					onLoadPage(tempDashboardId);
 					var tempParentId = $('.collapsible-header#'+tempDashboardId).attr("parent_id");
 					if($.trim(tempParentId) != ''){
 						tempDashboardId = tempParentId;
 					}
+					
 					$('.collapsible-header#'+tempDashboardId).trigger("click");
 				}
 			}
@@ -481,30 +414,37 @@
           $('.collapsible-header').css("background-color", "#ffffff");
           $('.collapsible-header#'+dashboardId+'').css("background-color", "#e3f2fd");
           var params = "";
-      	  $.ajax({
+          var show_left_menu = '';
+          var filterIds = "";
+      	  <%-- $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL?dashboardId="+dashboardId+"&params="+params,
 	            type: 'POST',
-	            async: true,
+	            async: false,
 	            dataType: 'json',
 	            success: function (data){
-	         	   $("#dashboardOpen").attr("src",data.tableauUrl);
+	         	    $("#dashboardOpen").attr("src",data.dashboard_url);
+	         	    show_left_menu = data.show_left_menu;
 	            },error: function(xhr){
 	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
 	            }
-	      });
+	      }); --%>
       	  
       	  $.ajax({
       		url: "<%=request.getContextPath()%>/ajax/getFilters?dashboardId="+dashboardId,
             type: 'POST',
-            async: true,
+            async: false,
             dataType: 'json',
             success: function (data){
          	   if(data.length){
-         		   $("#tableau-item-holder").removeClass("m10");
-         		   $("#tableau-item-holder").addClass("m8");
+         		   /* if($.trim(show_left_menu) == 'Yes'){
+	         		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
+	         		   $("#menu-item-holder").show();
+	         	   }else{
+	         		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	         		   $("#menu-item-holder").hide();
+	         	   } */
          		   $("#filter-item-holder").show();
          		   
-         		   var filterIds = "";
          		   $.each( data, function( index, value ){
          			   var filter_column = value.filter_column_name;
          			   if($.trim(value.filter_column_id) != ''){
@@ -519,7 +459,7 @@
          		   
          		   filterIds = "'"+ filterIds + "'";
          		   
-         		   dashboardId = "'"+ dashboardId + "'";
+         		   var dashboardIdTemp = "'"+ dashboardId + "'";
          		   
          		   var filters = "";
          		   $.each( data, function( index, value ){
@@ -527,16 +467,24 @@
         			   if($.trim(value.filter_column_id) != ''){
         				  filter_column = value.filter_column_id;
         			   } 
+        			   
+        			   var filter_label_name = "'"+ value.filter_label_name + "'";
+        			   
          			   filters = filters + '<div class="filterHolder">'
 					         			+ '<label>'+value.filter_label_name+'</label>'
-					         			+ '<select class="searchable" name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardId+');">'
+					         			+ '<select class="searchable" name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption(this.value,'+filter_label_name+','+filterIds+','+dashboardIdTemp+');">'
 					         			+ '<option value="">All</option>'
 					         			$.each( value.filter, function( index2, value2 ){
 					         				var filter_option_id = value2.filter_option_value;
 					         				if($.trim(value2.filter_option_id) != ''){
 					         					filter_option_id = value2.filter_option_id;
 					         				}
-					         				filters = filters + '<option value="'+filter_option_id+'">'+value2.filter_option_value+'</option>'
+					         				var overview_work_id = '${work_id}';
+					         				var selectedFlag = "";
+					         				if($.trim(overview_work_id) == $.trim(filter_option_id)){
+					         					selectedFlag = 'selected';
+					         				}
+					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>'
 					         			});
 					         			filters = filters + '</select>'
 					         			+ '</div>';	
@@ -544,18 +492,77 @@
          		   $("#filter-item-holder").html(filters);
          		   $('.searchable').select2();
          	   }else{
-        		   $("#tableau-item-holder").removeClass("m8");
-         		   $("#tableau-item-holder").addClass("m10");
+        		   //$("#tableau-item-holder").removeClass("m8");
+         		   //$("#tableau-item-holder").addClass("m10");
+         		   
+         		   /* if($.trim(show_left_menu) == 'Yes'){
+	         		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	         		   $("#menu-item-holder").show();
+	         	   }else{
+	         		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
+	         		   $("#menu-item-holder").hide();
+	         	   } */
          		   $("#filter-item-holder").hide();
-         		   $("#filter-item-holder").html("");
+       		       $("#filter-item-holder").html("");
          	   }
             },error: function(xhr){
                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
             }
      	 });
+      	
+      	
+      	 if($.trim(filterIds) != '' ){ 
+      		 filterIds = filterIds.replace(/['"]+/g, '');
+	      	 var ids = filterIds.split(",");
+			 for(var  i=0;i<ids.length;i++){
+				 var id = ids[i];
+				 var val = $("#"+id).val();
+				 var param = id+"~"+val;
+				 if($.trim(val) != ''){
+					 if($.trim(params) != ''){
+					 	params = params +"$"+ param;
+				   	 }else{
+					   params = param;
+				     }
+				 }
+			 }
+      	 }
+      	
+		 $.ajax({
+	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
+	            type: 'POST',
+	            data:{dashboard_id : dashboardId,work_id : '${work_id}',params : encodeURIComponent(params)},
+	            async: false,
+	            dataType: 'json',
+	            success: function (data){
+	         	    $("#dashboardOpen").attr("src",data.dashboard_url);
+	         	    show_left_menu = data.show_left_menu;
+	            },error: function(xhr){
+	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+	            }
+	     });
+		 
+		 if($.trim(show_left_menu) == 'Yes' && $.trim(filterIds) != ''){
+	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
+	   		   $("#menu-item-holder").show();
+	   	 }else if($.trim(show_left_menu) == 'Yes'){
+	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	   		   $("#menu-item-holder").show();
+	   		   $("#filter-item-holder").hide();
+		       $("#filter-item-holder").html("");
+	   	 }else{
+   		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
+ 		      $("#menu-item-holder").hide();
+ 		      $("#filter-item-holder").hide();
+		      $("#filter-item-holder").html("");
+ 	   	 }
+		 
 	 }
 	
-	 function getSelectedOption(filterIds,dashboardId){
+	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId){
+		 if(filter_label_name == 'Work'){
+			 window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/${dashboardId}";
+		 }		 
 		 var params = "";
 		 var ids = filterIds.split(",");
 		 for(var  i=0;i<ids.length;i++){
@@ -572,12 +579,13 @@
 		 }
 		 
 		 $.ajax({
-	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL?dashboardId="+dashboardId+"&params="+encodeURIComponent(params),
+	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
 	            type: 'POST',
+	            data:{dashboard_id : dashboardId,work_id : '${work_id}',params : encodeURIComponent(params)},
 	            async: true,
 	            dataType: 'json',
 	            success: function (data){
-	         	   $("#dashboardOpen").attr("src",data.tableauUrl);
+	         	    $("#dashboardOpen").attr("src",data.dashboard_url);
 	            },error: function(xhr){
 	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
 	            }

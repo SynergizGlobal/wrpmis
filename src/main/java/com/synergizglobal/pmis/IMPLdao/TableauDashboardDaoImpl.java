@@ -36,13 +36,14 @@ public class TableauDashboardDaoImpl implements TableauDashboardDao {
 		try {
 			
 			connection = dataSource.getConnection();
-			String qry = "SELECT dashboard_url FROM dashboard WHERE dashboard_url is not null and dashboard_url <> '' and LOWER(dashboard_name) = ?";
+			String qry = "SELECT dashboard_url,work_id_fk FROM dashboard WHERE dashboard_url is not null and dashboard_url <> '' and LOWER(dashboard_name) = ?";
 			statement = connection.prepareStatement(qry); 
 			statement.setString(1, dashboardName);
 			resultSet = statement.executeQuery();  
 			if(resultSet.next()) {
 				tableauUrl = new TableauDashboard();
 				tableauUrl.setTableauUrl(resultSet.getString("dashboard_url"));
+				tableauUrl.setWork_id_fk(resultSet.getString("work_id_fk"));
 			}
 		}catch(Exception e){ 
 			throw new Exception(e);

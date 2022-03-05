@@ -1,6 +1,5 @@
 package com.synergizglobal.pmis.IMPLservice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +15,17 @@ public class OverviewDashboardServiceImpl implements OverviewDashboardService {
 	OverviewDashboardDao dao;
 
 	@Override
-	public List<OverviewDashboard> getFormsList(int ParentId) throws Exception {
-		return dao.getFormsList(ParentId);
+	public List<OverviewDashboard> getLeftNavNodes(OverviewDashboard obj) throws Exception {
+		return dao.getLeftNavNodes(obj);
 	}
 	
 	@Override
-	public String getTableauUrl(String name) throws Exception {
-		return dao.getTableauUrl(name);
+	public OverviewDashboard getTableauUrl(String dashboardId) throws Exception {
+		return dao.getTableauUrl(dashboardId);
 	}
-	
+
 	@Override
-	public boolean saveLeftNavData(OverviewDashboard obj)  throws Exception {
-		return dao.saveLeftNavData(obj);
+	public List<OverviewDashboard> getFilters(String dashboardId) throws Exception {
+		return dao.getFilters(dashboardId);
 	}	
 }

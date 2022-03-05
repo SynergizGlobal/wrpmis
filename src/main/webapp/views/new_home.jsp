@@ -56,7 +56,7 @@
 				}
 				.diamond:before,
 				.diamond:after {
-				  content: '';
+				  /* content: ''; */
 				  position: absolute;
 				  width: 0;
 				  height: 0;

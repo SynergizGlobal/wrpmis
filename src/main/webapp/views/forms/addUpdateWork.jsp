@@ -345,7 +345,7 @@
                                 <div class="col s12 m8 l12 offset-m2">
 	                                 <div class="row">
 	                                 	<c:if test="${action eq 'add'}">
-	                                 	<div class="col s12 m6 l3 input-field">
+	                                 	<div class="col s12 m12 l3 input-field">
 		                                   <p class="searchable_label">Project : <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   		  <option value="">select</option>
@@ -386,7 +386,7 @@
                                     <label for="work_short_name">Work Short Name<span class="required">*</span></label>
                                      <span id="work_short_nameError"></span>
                                 </div>
-	                            <div class="col s12 m12 l6 input-field offset-m2">
+	                            <div class="col s12 m12 l6 input-field ">
                                    <p class="searchable_label ptb5px">Work Type <span class="required"></span></p>
                                     <select id="work_type_fk" name="work_type_fk"  class="select searchable validate-dropdown">
                                         <option value="">Select</option>
@@ -429,7 +429,7 @@
 		                                   <label for="pb_item_no">PB Item No</label>
 		                                   <span id="pb_item_noError"></span>
 		                               </div> --%>
-		                               
+		                 
 	                                 </div>
                                 </div>
                              </div>
@@ -438,7 +438,7 @@
                                
                           	</div>
                           	<div class="row">
-                                <div class="col s6 m4 l3 input-field offset-m2">
+                                 <div class="col s6 m4 l4 input-field offset-m2">
                        				<p class="searchable_label ptb5px">Sanctioned Year</p>
                                     <select class="searchable" id="sanctioned_year_fk" name="sanctioned_year_fk">
                                         <option value="">Select</option>
@@ -448,7 +448,7 @@
                                     </select>
                                     <span id="sanctioned_yearError"></span>
                                 </div>
-                                <div class="col s6 m4 l3 input-field amount-dropdown mt1em">
+                                <div class="col s6 m4 l4 input-field amount-dropdown mt1em">
                        				<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_estimated_cost" class="active fs-sm-8rem fs-md-9r fs7rem">Sanctioned Estimated Cost (in Cr)</label>
@@ -472,7 +472,7 @@
                                 	<span id="sanctioned_estimated_cost_unitError" class="error-msg" ></span>
                                 	<!-- <label for="sanctioned_estimated_cost_unit">Units</label> -->
                                 </div> --%>
-                                 <div class="col s12 m8 l3 input-field offset-m2 amount-dropdown">
+                                 <div class="col s12 m8 l4 input-field offset-m2 amount-dropdown">
                                   	<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_completion_cost" class="fs-sm-67rem fs-md-9r fs7rem"> Sanctioned Completion Cost (in Cr)</label>
@@ -485,46 +485,31 @@
                                    		 </c:forEach>
                                 	</select> --%>
                                 </div>
-                         <%--        <div class="col s4 m3 l1 input-field">
-                                	<p class="searchable_label">Units</p>
-                                	<select class="units validate-dropdown" id="sanctioned_completion_cost_unit" name="sanctioned_completion_cost_unit">
-                                		<option value="">Select</option>
-                                		<c:forEach var="obj" items="${unitsList }">
-                                  			   <option value="${obj.value }" <c:if test="${workDetails.sanctioned_completion_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
-                                   		 </c:forEach>
-                                	</select>
-                                	<span id="sanctioned_completion_cost_unitError" class="error-msg" ></span>
-                                </div> --%>
-                                <div class="col s12 m8 l3 input-field offset-m2 amount-dropdown"> 
+                                              
+                            </div>
+                            
+                            <div class="row">
+                            
+                                <div class="col s6 m8 l3 input-field offset-m2 amount-dropdown"> 
                                   	<i class="material-icons amount-symbol cost">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
                                     <label for="anticipated_cost" class="l20px fs-sm-67rem fs-md-9r fs7rem">Anticipated cost (in Cr)</label>
                                     <span id="anticipated_costError"></span>
-                                	<%-- <span id="anticipated_cost_unitError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="anticipated_cost_unit" name="anticipated_cost_unit">
-                                		<option value="">Select</option>
-                                		<c:forEach var="obj" items="${unitsList }">
-                                  			   <option value="${obj.value }" <c:if test="${workDetails.anticipated_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
-                                   		 </c:forEach>
-                                	</select> --%>
-                                </div>                                
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col s12 m8 l4 input-field offset-m2">
+                                </div>
+                                <div class="col s6 m8 l3 input-field offset-m2">
                                    <input id="completeion_period_months" type="number" class="validate" name="completeion_period_months" value="${workDetails.completeion_period_months }">
                                    <label for="completeion_period_months" class="fs9px">Completion Period (in Months)</label>
                                    <span id="completeion_period_monthsError"></span>
                                 </div>                             
                                
-                                 <div class="col s6 m4 l4 input-field offset-m2 ">
+                                 <div class="col s6 m4 l3 input-field offset-m2 ">
                                     <input id="projected_completion" name="projected_completion" type="text" class="validate datepicker" value="${workDetails.projected_completion }">
                                     <label for="projected_completion">Target date<span class="required">*</span></label>
                                     <button type="button" id="projected_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="projected_completionError" class="error-msg" ></span>
                                 </div>
                                
-                                <div class="col s6 m4 l4 input-field ">
+                                <div class="col s6 m4 l3 input-field ">
                                     <input id="projected_completion_date" type="text" class="validate datepicker" name="projected_completion_date" value="${workDetails.projected_completion_date }">
                                     <label for="projected_completion_date" class="active fs-sm-8rem">Revised completion date</label>
                                     <button type="button" id="projected_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>

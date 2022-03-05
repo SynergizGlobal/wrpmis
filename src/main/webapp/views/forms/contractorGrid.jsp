@@ -38,6 +38,10 @@
          	width:250px;
         	min-width:250px;
          }
+          .fw-100{
+         	width:100px !important;
+        	min-width:100px !important;
+         }
       @media only screen and (max-width: 769px){ 
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
@@ -185,9 +189,8 @@
 								<table id="contractorTable" class="mdl-data-table">
 									<thead>
 										<tr>
-											<!-- <th>Contractor ID</th> 
-                                             <th class="no-sort">Remarks</th> -->
-											<th class="no-sort">Contractor Name</th>
+											
+											<th class="no-sort fw-100">Contractor Name</th>
 											<th>PAN Number</th>
 											<th>Specialization</th>
 											<th class="fw-250"> Address</th>

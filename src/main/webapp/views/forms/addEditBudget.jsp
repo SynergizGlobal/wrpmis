@@ -40,6 +40,12 @@
             margin-left:auto !important;
             margin-right:auto !important;
         }
+
+	@media only screen and (max-width: 768px)
+	.mobile_responsible_table>tbody tr td.mobile_btn_close a {
+	    float: right;
+	    margin-right: -25px;
+
   		.filevalue {
             display: block;
             margin-top: 10px;

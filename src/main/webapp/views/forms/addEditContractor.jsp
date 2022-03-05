@@ -165,7 +165,7 @@
 		                                </div>
 	                                 </c:if> --!>
 	
-	                                <div class="col s6 m4 l12 input-field">
+	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }" readonly="readonly">
 	                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
 	                                    <span id="contractor_nameError" class="error-msg" ></span>
@@ -204,7 +204,7 @@
 		                               		<label for="gst_number">GST Number<span class="required">*</span></label>
 		                               		<span id="gst_numberError" class="error-msg" ></span>
 		                         		</div>
-                                        <div class="col s6 m4 l4 input-field">
+                                        <div class="col s6 m4 l4 input-field offset-m2">
                                             <input id="bank_name" name="bank_name" type="text" class="validate" value="${contractorDetails.bank_name }">
                                             <label for="bank_name">Bank Name </label>
                                             <span id="bank_nameError" class="error-msg" ></span>

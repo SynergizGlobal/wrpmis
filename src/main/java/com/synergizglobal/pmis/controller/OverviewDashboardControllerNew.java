@@ -18,47 +18,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.synergizglobal.pmis.Iservice.OverviewDashboardService;
+import com.synergizglobal.pmis.Iservice.OverviewDashboardServiceNew;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.OverviewDashboard;
+import com.synergizglobal.pmis.model.OverviewDashboardNew;
 
 @Controller
-public class OverviewDashboardController {
-	Logger logger = Logger.getLogger(OverviewDashboardController.class);
+public class OverviewDashboardControllerNew {
+	Logger logger = Logger.getLogger(OverviewDashboardControllerNew.class);
 	
 	@Autowired
-	OverviewDashboardService overviewDashboardService;
+	OverviewDashboardServiceNew overviewDashboardService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
-
-	@RequestMapping(value="/overview-dashboard",method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView overviewDashboard(HttpSession session) {
-		ModelAndView model = new ModelAndView();
-		try {
-		    model.setViewName(PageConstants.overviewDashboardNew);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("welcome : " + e.getMessage());
-		}
-		return model;
-	}
-	
-	@RequestMapping(value="/overview-dashboard/{dashboardId}",method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView overviewDashboardList(@PathVariable("dashboardId") String dashboardId,HttpSession session) {
-		ModelAndView model = new ModelAndView();
-		try {
-		    model.setViewName(PageConstants.overviewDashboardNew);
-			
-			model.addObject("dashboardId", dashboardId);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("overviewDashboardList : " + e.getMessage());
-		}
-		return model;
-	}
 	
 	@RequestMapping(value="/work-overview-dashboard/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView overviewDashboardByWork(@PathVariable("work_id") String work_id,HttpSession session) {
@@ -89,10 +63,10 @@ public class OverviewDashboardController {
 		return model;
 	}	
 	
-	@RequestMapping(value = "/ajax/getLeftNavNodes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getLeftNav", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<OverviewDashboard> getLeftNavNodes(@ModelAttribute OverviewDashboard obj,HttpSession session) {
-		List<OverviewDashboard> overviewDashboard = null;
+	public List<OverviewDashboardNew> getLeftNavNodes(@ModelAttribute OverviewDashboardNew obj,HttpSession session) {
+		List<OverviewDashboardNew> overviewDashboard = null;
 		try {
 			String parentId = "0";
 			obj.setParent_id(parentId);
@@ -106,9 +80,9 @@ public class OverviewDashboardController {
 	
 	@RequestMapping(value = "/ajax/getDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public OverviewDashboard getDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session){
+	public OverviewDashboardNew getDashboardURL(@ModelAttribute OverviewDashboardNew dObj,HttpSession session){
 		String user_Id = null;String userName = null;
-		OverviewDashboard obj = new OverviewDashboard();
+		OverviewDashboardNew obj = new OverviewDashboardNew();
 		String tableauUrl = "";
 		try{
 			user_Id = (String) session.getAttribute("USER_ID"); userName = (String) session.getAttribute("USER_NAME");
@@ -167,9 +141,9 @@ public class OverviewDashboardController {
 	
 	@RequestMapping(value = "/ajax/getFilters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<OverviewDashboard> getFilters(@RequestParam("dashboardId") String dashboardId,HttpSession session){
+	public List<OverviewDashboardNew> getFilters(@RequestParam("dashboardId") String dashboardId,HttpSession session){
 		String user_Id = null;String userName = null;
-		List<OverviewDashboard> objList = null;
+		List<OverviewDashboardNew> objList = null;
 		try{
 			user_Id = (String) session.getAttribute("USER_ID"); 
 			userName = (String) session.getAttribute("USER_NAME");

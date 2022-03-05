@@ -2,16 +2,16 @@ package com.synergizglobal.pmis.model;
 
 import java.util.List;
 
-public class OverviewDashboard {
+public class OverviewDashboardNew {
 	
 	private String dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu;
-	private List<OverviewDashboard> formsSubMenu;
+	private List<OverviewDashboardNew> formsSubMenu;
 	
 	private String filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_name,
 	default_filter_column,default_filter_value, 
 	selected_value, priority, filter_column_id,filters_reference_table,filter_option_id,filter_option_value,work_id,parent_id,params;
 	
-	private List<OverviewDashboard> filter;
+	private List<OverviewDashboardNew> filter;
 
 	private int work_exists_or_not;
 
@@ -129,11 +129,11 @@ public class OverviewDashboard {
 		this.filter_column_name = filter_column_name;
 	}
 
-	public List<OverviewDashboard> getFormsSubMenu() {
+	public List<OverviewDashboardNew> getFormsSubMenu() {
 		return formsSubMenu;
 	}
 
-	public void setFormsSubMenu(List<OverviewDashboard> formsSubMenu) {
+	public void setFormsSubMenu(List<OverviewDashboardNew> formsSubMenu) {
 		this.formsSubMenu = formsSubMenu;
 	}
 
@@ -177,11 +177,11 @@ public class OverviewDashboard {
 		this.work_exists_or_not = work_exists_or_not;
 	}
 
-	public List<OverviewDashboard> getFilter() {
+	public List<OverviewDashboardNew> getFilter() {
 		return filter;
 	}
 
-	public void setFilter(List<OverviewDashboard> filter) {
+	public void setFilter(List<OverviewDashboardNew> filter) {
 		this.filter = filter;
 	}
 

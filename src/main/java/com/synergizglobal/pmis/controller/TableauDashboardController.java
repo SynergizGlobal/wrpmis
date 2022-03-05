@@ -110,6 +110,10 @@ public class TableauDashboardController {
 					String url = vo.getTableauUrl() + "/" + vo.getWork_id_fk();
 					view.setViewName("redirect:/"+url);
 					return view;
+				}else if(vo.getTableauUrl().equalsIgnoreCase("overview-dashboard")) {
+					String url = vo.getTableauUrl();
+					view.setViewName("redirect:/"+url);
+					return view;
 				}else {
 					view.addObject("active", param);
 					view.addObject("param1", param1);

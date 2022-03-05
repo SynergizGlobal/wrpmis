@@ -269,7 +269,7 @@
 	
    $(document).ready(function(){	 
 	   var overview_work_id = '${work_id}';
-	   $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavNodes",
+	   $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
 			type:"POST",
 			data:{work_id : overview_work_id},
 			cache: false,async:false,

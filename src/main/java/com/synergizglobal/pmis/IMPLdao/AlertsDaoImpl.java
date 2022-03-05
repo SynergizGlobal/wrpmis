@@ -1429,7 +1429,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
 			for (Alerts uObj : userIdList) {
 				alerts = new LinkedHashMap<String, List<Alerts>>();
-				String aLevelQry = "select alert_level " 
+				String aLevelQry = "select alert_level,"
+						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = a.alert_type_fk and ac.alert_level_fk = a.alert_level) as condition_value " 
 						+ "from alerts a "  
 						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
@@ -1526,21 +1527,21 @@ public class AlertsDaoImpl implements AlertsDao{
 						if(alert_level.equals("Overdue")) {
 							alert_level = alert_level + " (Expenditure>Contract Value)";
 						}else if(alert_level.equals("3rd Alert")) {
-							alert_level = alert_level + " (Expenditure>95% of Contract Value)";
+							alert_level = alert_level + " (Expenditure>"+lObj.getCondition_value()+"% of Contract Value)";
 						}else if(alert_level.equals("2nd Alert")) {
-							alert_level = alert_level + " (Expenditure>90% of Contract Value)";
+							alert_level = alert_level + " (Expenditure>"+lObj.getCondition_value()+"% of Contract Value)";
 						}else if(alert_level.equals("1st Alert")) {
-							alert_level = alert_level + " (Expenditure>80% of Contract Value)";
+							alert_level = alert_level + " (Expenditure>"+lObj.getCondition_value()+"% of Contract Value)";
 						}
 					}else{
 						if(alert_level.equals("Overdue")) {
 							alert_level = alert_level + " (Expired)";
 						}else if(alert_level.equals("3rd Alert")) {
-							alert_level = alert_level + " (Expiry in 15 days)";
+							alert_level = alert_level + " (Expiry in "+lObj.getCondition_value()+" days)";
 						}else if(alert_level.equals("2nd Alert")) {
-							alert_level = alert_level + " (Expiry in 30 days)";
+							alert_level = alert_level + " (Expiry in "+lObj.getCondition_value()+" days)";
 						}else if(alert_level.equals("1st Alert")) {
-							alert_level = alert_level + " (Expiry in 60 days)";
+							alert_level = alert_level + " (Expiry in "+lObj.getCondition_value()+" days)";
 						}
 					}
 					
@@ -1953,7 +1954,11 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			if(!StringUtils.isEmpty(alert_type)) {
 				Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
-				String aLevelQry = "select alert_level " 
+				String aLevelQry = "select alert_level,"
+						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = 'Bank Guarantee' and ac.alert_level_fk = a.alert_level) as bg_condition_value, " 
+						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = 'Insurance' and ac.alert_level_fk = a.alert_level) as insure_condition_value, " 
+						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = 'Contract Period' and ac.alert_level_fk = a.alert_level) as cp_condition_value, " 
+						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = 'Contract Value' and ac.alert_level_fk = a.alert_level) as cv_condition_value " 
 						+ "from alerts a " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
 						+ "left join work w on c.work_id_fk = w.work_id " 
@@ -2051,11 +2056,11 @@ public class AlertsDaoImpl implements AlertsDao{
 						if(alert_level.equals("Overdue")) {
 							alert_level = alert_level + " (Expenditure>Contract Value OR Validity Expired)";
 						}else if(alert_level.equals("3rd Alert")) {
-							alert_level = alert_level + " (Expenditure>95% of Contract Value OR Validity Expiry in 15 days)";
+							alert_level = alert_level + " (Expenditure>"+lObj.getCv_condition_value()+"% of Contract Value OR Validity Expiry in "+lObj.getBg_condition_value()+" days)";
 						}else if(alert_level.equals("2nd Alert")) {
-							alert_level = alert_level + " (Expenditure>90% of Contract Value OR Validity Expiry in 30 days)";
+							alert_level = alert_level + " (Expenditure>"+lObj.getCv_condition_value()+"% of Contract Value OR Validity Expiry in "+lObj.getBg_condition_value()+" days)";
 						}else if(alert_level.equals("1st Alert")) {
-							alert_level = alert_level + " (Expenditure>80% of Contract Value OR Validity Expiry in 60 days)";
+							alert_level = alert_level + " (Expenditure>"+lObj.getCv_condition_value()+"% of Contract Value OR Validity Expiry in "+lObj.getBg_condition_value()+" days)";
 						}
 					}					
 					alerts.put(alert_level, allAlertsList);

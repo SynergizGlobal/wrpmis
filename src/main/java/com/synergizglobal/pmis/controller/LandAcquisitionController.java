@@ -409,12 +409,15 @@ public class LandAcquisitionController {
 	}
 	
 	@RequestMapping(value = "/get-land-acquisition", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getLandAcquisitionForm(@ModelAttribute LandAcquisition obj ){
+	public ModelAndView getLandAcquisitionForm(@ModelAttribute LandAcquisition obj ,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.landAcquisitionForm);
 			model.addObject("action", "edit");
-			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			List<LandAcquisition> statusList = service.getStatusList();
 			model.addObject("statusList", statusList);
 			

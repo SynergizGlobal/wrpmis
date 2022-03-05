@@ -413,11 +413,16 @@ public class RandRMainController {
 	}
 
 	@RequestMapping(value = "/get-rr", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getRandRMainForm(@ModelAttribute RandRMain rr ){
+	public ModelAndView getRandRMainForm(@ModelAttribute RandRMain rr  ,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditRandRMain);
 			model.addObject("action", "edit");
+			
+			User uObj = (User) session.getAttribute("user");
+			rr.setUser_type_fk(uObj.getUser_type_fk());
+			rr.setUser_role_code(uObj.getUser_role_code());
+			rr.setUser_id(uObj.getUser_id());
 			
 			List<RandRMain> docType = service.getDocTypeListForRRForm(rr);
 			model.addObject("docType", docType);

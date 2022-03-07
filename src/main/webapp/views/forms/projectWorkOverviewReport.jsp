@@ -264,9 +264,9 @@
 display:none;
 }  
 
-table {
-  font-family: Calibri;
-  font-size:13px;
+table,body {
+  font-family: Verdana;
+  font-size:10.5px;
   border-collapse: collapse;
   width: 100%;
 }
@@ -280,6 +280,7 @@ td, th {
 
 .cmHed{
     }
+    
 </style>
 
     
@@ -348,7 +349,7 @@ td, th {
 						</div>							
 					</div>
 <div class='googoose-wrapper' style="display:none;">
-    <div class='googoose' style="padding-bottom:0px;text-align:center;">
+    <div class='googoose header' style="padding-bottom:0px;text-align:center;">
        <img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55">
     </div>					
  					<div style="text-align:center;text-transform: uppercase;" id="divWorkShortName"></div>
@@ -770,16 +771,16 @@ td, th {
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Year of Sanction</td><td>"+val.sanctioned_year_fk+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Sanctioned Cost (Cr)</td><td>"+val.sanctioned_estimated_cost+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Budget Grant FY "+getCurrentFinancialYear()+" (Cr)</td><td>"+val.budget_grant_current_fy+"</td></tr>");
-		        			$("#prjOverviewTbl tbody").append("<tr><td>Expenditure to end of 03/"+getCurrentFiscalYear()+" (Cr)</td><td>"+val.expenditure_end_of_fy+"</td></tr>");
+		        			$("#prjOverviewTbl tbody").append("<tr><td>Expenditure at the end of 03/"+getCurrentFiscalYear()+" (Cr)</td><td>"+val.expenditure_end_of_fy+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Expenditure in FY "+getCurrentFinancialYear()+" (Cr)</td><td>"+val.expenditure_current_fy+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Cumulative Total Expenditure (Cr)</td><td>"+val.cumulative_total_expenditure+"</td></tr>");
-		        			$("#prjOverviewTbl tbody").append("<tr><td>Financial Progress (%)</td><td></td></tr>");
+		        			$("#prjOverviewTbl tbody").append("<tr><td>Financial Progress (%)</td><td>"+val.financial_progress+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Physical Progress (%)</td><td>"+val.physical_progress+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Target Completion Date</td><td>"+val.target_completion_date+"</td></tr>");
 		        			
 	        				if(key==0)
 	        				{
-								$("#divWorkShortName").html(val.work_short_name+" ("+val.project_name+")<br><h4>OVERVIEW</h4>");
+								$("#divWorkShortName").html("<h4>"+val.work_short_name+" ("+val.project_name+")<br>OVERVIEW</h4>");
 	        				}
 						});
 						
@@ -864,7 +865,7 @@ td, th {
 						var OI=1;
 						
 						$.each(data,function(key,val){
-							$("#procurementStatusTbl tbody").append("<tr><td>"+OI+"</td><td>"+val.work_name+"</td><td style='text-align:center;'>"+val.total+"</td><td style='text-align:right;'>"+val.estimated_cost+"</td><td>"+val.strip_chart_type_fk+"</td><td style='text-align:center;'>"+val.contract_details_types+"</td><td style='text-align:right;'>"+val.awarded_cost+"</td><td>"+val.scope_of_contract+"</td></tr>");
+							$("#procurementStatusTbl tbody").append("<tr><td>"+OI+"</td><td>"+val.work_name+"</td><td style='text-align:center;'>"+val.total+"</td><td style='text-align:right;'>"+val.estimated_cost+"</td><td style='text-align:justify;'>"+val.strip_chart_type_fk+"</td><td style='text-align:center;'>"+val.contract_details_types+"</td><td style='text-align:right;'>"+val.awarded_cost+"</td><td>"+val.scope_of_contract+"</td></tr>");
 		        			OI++;
 						});						
 					}
@@ -1208,6 +1209,7 @@ td, th {
     	    	  	  margins: '0.5in',
     	    	  	  size: '9in 11.0in',
     	    	  	headermargin: '.4in',
+    	    	  	pagebreak: 'div.googoose.break' 
     	    };
     	    $(document).googoose(o);    
     	    $(".page-loader-2").hide();

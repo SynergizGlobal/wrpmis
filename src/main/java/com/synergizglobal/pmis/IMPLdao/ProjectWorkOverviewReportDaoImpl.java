@@ -153,8 +153,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                     \r\n"
 					+ "  round((select sum(work_per) from activities_scurve s \r\n"
 					+ "left join contract c on c.contract_id=s.contract_id \r\n"
-					+ "where c.contract_id is not null and work_id='"+obj.getWork_id_fk()+"' ),2)  as physical_progress                \r\n"
-					+ "\r\n"
+					+ "where c.contract_id is not null and work_id='"+obj.getWork_id_fk()+"' ),2)  as physical_progress,round((select sum(e.gross_work_done*e.gross_work_done_units)/sum(ifnull(revised_cost, ifnull(awarded_cost,ifnull(estimated_cost,0)))) from contract_details c where work_id='"+obj.getWork_id_fk()+"'),2) AS financial_progress "
 					+ " from contract c \r\n"
 					+ "										LEFT JOIN work w on c.work_id_fk = w.work_id \r\n"
 					+ "					                  left join work_yearly_sanction wy on wy.work_id_fk=w.work_id\r\n"
@@ -333,7 +332,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		try {
 			String qry = "select work_name,count(c.contract_id) as 'total',sum(estimated_cost) as estimated_cost,\r\n"
 					+ "                    \r\n"
-					+ "                   (select group_concat(distinct structure_type) from activities_scurve where work_id_fk='"+obj.getWork_id_fk()+"') as strip_chart_type_fk,\r\n"
+					+ "                   (select group_concat(distinct structure_type SEPARATOR ', ') from activities_scurve where work_id_fk='"+obj.getWork_id_fk()+"') as strip_chart_type_fk,\r\n"
 					+ "                    \r\n"
 					+ "                   \r\n"
 					+ "                    \r\n"

@@ -73,7 +73,7 @@
 				}
 				.diamond:before,
 				.diamond:after {
-				  content: '';
+				  /* content: ''; */
 				  position: absolute;
 				  width: 0;
 				  height: 0;
@@ -509,6 +509,17 @@
         }
         .modal-header{margin: 0 !important;}
         .subWorkOverview .modal.open{top:20% !important;}
+        @media(max-width: 820px){
+        	.card .card-content{padding: 10px;}
+        	.card.main-clr{margin: 5px;}
+        	.diamond{padding: 0 20px !important;}
+        	.diamond span{width: 130px;font-size: 14px;}
+        	#projectsList ul{
+        		padding-top: 0 !important;
+    			margin-top: -15px;
+    		}
+        	#projectsList ul li{margin: 0 1.1rem;}
+        }
     </style>
 </head>
 

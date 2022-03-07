@@ -49,7 +49,12 @@ public class RiskServiceImpl implements RiskService{
 	public List<Risk> getRiskAssessmentList(Risk obj) throws Exception {
 		return dao.getRiskAssessmentList(obj);
 	}
-
+	
+	@Override
+	public List<Risk> getRisks(Risk obj) throws Exception {
+		return dao.getRisks(obj);
+	}
+	
 	@Override
 	public List<Risk> getSubWorksFilterListInRiskAssessmnt(Risk obj) throws Exception {
 		return dao.getSubWorksFilterListInRiskAssessmnt(obj);

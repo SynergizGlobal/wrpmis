@@ -9,7 +9,8 @@ public class UtilityShifting {
 	utility_type_fk, utility_category_fk, owner_name, execution_agency_fk, contract_id_fk, start_date, scope, completed,
 	shifting_status_fk, shifting_completion_date, remarks, latitude, longitude, impacted_contract_id_fk, requirement_stage_fk, planned_completion_date,
 	contract_id,contract_name,work_name,project_id_fk,project_name,department_fk,Status_fk,work_short_name,contract_short_name,user_type_fk,
-	category_fk,user_role_code,hod_user_id_fk,unit_fk,attachment,progress_date,progress_of_work,executive_user_id_fk,name,utility_shifting_file_type,created_by_user_id_fk,modified_by,modified_date;
+	category_fk,user_role_code,hod_user_id_fk,unit_fk,attachment,progress_date,progress_of_work,executive_user_id_fk,name,utility_shifting_file_type,created_by_user_id_fk,modified_by,modified_date,
+	total,inprogress,pending;
 	
 	private String []  progress_dates, progress_of_works,attachment_file_types,attachmentNames;
 	
@@ -466,6 +467,30 @@ public class UtilityShifting {
 
 	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
 		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
+
+	public String getInprogress() {
+		return inprogress;
+	}
+
+	public void setInprogress(String inprogress) {
+		this.inprogress = inprogress;
+	}
+
+	public String getPending() {
+		return pending;
+	}
+
+	public void setPending(String pending) {
+		this.pending = pending;
 	}
 	
 	

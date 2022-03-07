@@ -149,5 +149,8 @@ public class IssueServiceImpl implements IssueService {
 	public List<Issue> getIssueFileTypes() throws Exception {
 		return issueDao.getIssueFileTypes();
 	}
-	
+	@Override
+	public List<Issue> getPendingIssues(Issue obj) throws Exception {
+		return issueDao.getPendingIssues(obj);
+	}	
 }

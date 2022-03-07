@@ -129,5 +129,9 @@ public class UtilityShiftingServiceImpl implements UtilityShiftingService {
 	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj) throws Exception {
 		return utilityShiftingDao.getUtilityShiftingList(obj);
 	}
+	@Override
+	public List<UtilityShifting> getUtilityShiftingStatus(UtilityShifting obj) throws Exception {
+		return utilityShiftingDao.getUtilityShiftingStatus(obj);
+	}	
 	
 }

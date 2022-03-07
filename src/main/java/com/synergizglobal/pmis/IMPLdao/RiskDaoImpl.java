@@ -1018,4 +1018,79 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		return rObj;
 	}
 
+	@Override
+	public List<Risk> getRisks(Risk obj) throws Exception {
+		List<Risk> objsList =null;		
+		try {
+			String qry = "SELECT distinct ra.area,(SELECT \r\n"
+					+ "                rc.classification FROM risk_classification rc WHERE (((rr.impact * rr.probability) >= rc.minimum)\r\n"
+					+ "                    AND ((rr.impact * rr.probability) <= rc.maximum))) as classification,owner,\r\n"
+					+ "sub_area,mitigation_plan,priority_fk,\r\n"
+					+ "\r\n"
+					+ "(select max(assessment_date) from risk r  \r\n"
+					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work \r\n"
+					+ "left join work w on rwh.work_id_fk = w.work_id \r\n"
+					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area \r\n"
+					+ "left join risk_area ra on rsa.risk_area_fk = ra.area \r\n"
+					+ "left join project p on w.project_id_fk = p.project_id \r\n"
+					+ "left join risk_upload ru on ru.sub_work=r.sub_work\r\n"
+					+ "left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk where work_id_fk=?)  as assessment_date,\r\n"
+					+ "\r\n"
+					+ "(select count(*) from risk r  \r\n"
+					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work \r\n"
+					+ "left join work w on rwh.work_id_fk = w.work_id \r\n"
+					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area \r\n"
+					+ "left join risk_area ra on rsa.risk_area_fk = ra.area \r\n"
+					+ "left join project p on w.project_id_fk = p.project_id \r\n"
+					+ "left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk where work_id_fk=?) as total,\r\n"
+					+ "\r\n"
+					+ "((select count(*) from risk r  \r\n"
+					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work \r\n"
+					+ "left join work w on rwh.work_id_fk = w.work_id \r\n"
+					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area \r\n"
+					+ "left join risk_area ra on rsa.risk_area_fk = ra.area \r\n"
+					+ "left join project p on w.project_id_fk = p.project_id \r\n"
+					+ "left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk where work_id_fk=?)-(select count(*) from risk r  \r\n"
+					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work \r\n"
+					+ "left join work w on rwh.work_id_fk = w.work_id \r\n"
+					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area \r\n"
+					+ "left join risk_area ra on rsa.risk_area_fk = ra.area \r\n"
+					+ "left join project p on w.project_id_fk = p.project_id \r\n"
+					+ "left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk where work_id_fk=? and priority_fk = 'Accepted')) as priority_risks,\r\n"
+					+ "(select count(*) from risk r  \r\n"
+					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work \r\n"
+					+ "left join work w on rwh.work_id_fk = w.work_id \r\n"
+					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area \r\n"
+					+ "left join risk_area ra on rsa.risk_area_fk = ra.area \r\n"
+					+ "left join project p on w.project_id_fk = p.project_id \r\n"
+					+ "left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk where work_id_fk=? and priority_fk = 'Accepted' ) as low_risks\r\n"
+					+ "\r\n"
+					+ "\r\n"
+					+ " \r\n"
+					+ "from risk r  \r\n"
+					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work \r\n"
+					+ "left join work w on rwh.work_id_fk = w.work_id \r\n"
+					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area \r\n"
+					+ "left join risk_area ra on rsa.risk_area_fk = ra.area \r\n"
+					+ "left join project p on w.project_id_fk = p.project_id \r\n"
+					+ "left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk \r\n"
+					+ "where risk_id_pk is not null and priority_fk <> 'Accepted'  and work_id_fk=? ";
+			
+			Object[] pValues = new Object[6];
+			pValues[0] = obj.getWork_id_fk();
+			pValues[1] = obj.getWork_id_fk();
+			pValues[2] = obj.getWork_id_fk();
+			pValues[3] = obj.getWork_id_fk();
+			pValues[4] = obj.getWork_id_fk();
+			pValues[5] = obj.getWork_id_fk();
+		
+			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
+
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
 }

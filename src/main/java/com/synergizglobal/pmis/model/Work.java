@@ -12,7 +12,8 @@ public class Work {
 	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id,
 	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date,work_file_id,work_file_type,work_file_type_fk,work_status_fk,existing_work_status_fk,
 	sanctioned_estimated_cost_unit,sanctioned_completion_cost_unit,anticipated_cost_unit,completion_cost_unit,latest_revised_cost_unit,unit,value,
-	estimated_cost_unit,sanctioned_cost_unit,anticipated_unit,completion_unti,revision_unit,user_name,designation,user_id,work_type_fk;
+	estimated_cost_unit,sanctioned_cost_unit,anticipated_unit,completion_unti,revision_unit,user_name,designation,user_id,work_type_fk,
+	budget_grant_current_fy,expenditure_end_of_fy,expenditure_current_fy,cumulative_total_expenditure,financial_progress,physical_progress,target_completion_date;
 
 
 
@@ -822,6 +823,62 @@ public class Work {
 
 	public void setExisting_work_status_fk(String existing_work_status_fk) {
 		this.existing_work_status_fk = existing_work_status_fk;
+	}
+
+	public String getBudget_grant_current_fy() {
+		return budget_grant_current_fy;
+	}
+
+	public void setBudget_grant_current_fy(String budget_grant_current_fy) {
+		this.budget_grant_current_fy = budget_grant_current_fy;
+	}
+
+	public String getExpenditure_end_of_fy() {
+		return expenditure_end_of_fy;
+	}
+
+	public void setExpenditure_end_of_fy(String expenditure_end_of_fy) {
+		this.expenditure_end_of_fy = expenditure_end_of_fy;
+	}
+
+	public String getExpenditure_current_fy() {
+		return expenditure_current_fy;
+	}
+
+	public void setExpenditure_current_fy(String expenditure_current_fy) {
+		this.expenditure_current_fy = expenditure_current_fy;
+	}
+
+	public String getCumulative_total_expenditure() {
+		return cumulative_total_expenditure;
+	}
+
+	public void setCumulative_total_expenditure(String cumulative_total_expenditure) {
+		this.cumulative_total_expenditure = cumulative_total_expenditure;
+	}
+
+	public String getFinancial_progress() {
+		return financial_progress;
+	}
+
+	public void setFinancial_progress(String financial_progress) {
+		this.financial_progress = financial_progress;
+	}
+
+	public String getPhysical_progress() {
+		return physical_progress;
+	}
+
+	public void setPhysical_progress(String physical_progress) {
+		this.physical_progress = physical_progress;
+	}
+
+	public String getTarget_completion_date() {
+		return target_completion_date;
+	}
+
+	public void setTarget_completion_date(String target_completion_date) {
+		this.target_completion_date = target_completion_date;
 	}
 	
 }

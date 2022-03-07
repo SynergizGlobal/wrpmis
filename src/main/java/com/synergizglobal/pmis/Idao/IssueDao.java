@@ -61,4 +61,6 @@ public interface IssueDao {
 
 	List<Issue> getIssueFileTypes() throws Exception;
 
+	List<Issue> getPendingIssues(Issue obj) throws Exception;
+
 }

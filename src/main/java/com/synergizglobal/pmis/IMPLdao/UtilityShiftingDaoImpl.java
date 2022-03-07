@@ -1245,4 +1245,73 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		return objsList;
 	}
 
+	@Override
+	public List<UtilityShifting> getUtilityShiftingStatus(UtilityShifting obj) throws Exception {
+		List<UtilityShifting> objsList = null;
+		try {
+			String qry = "select execution_agency_fk,Total,Completed,InProgress,Pending from (SELECT concat(utility_type_fk,' Utilities') as 'execution_agency_fk',work_id_fk,\r\n"
+					+ "count(*) as Total,\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Above Ground' and shifting_status_fk='Completed') as 'Completed',\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Above Ground' and shifting_status_fk='In Progress') as 'InProgress',\r\n"
+					+ "(SELECT count(*)  FROM utility_shifting where utility_type_fk='Above Ground' and shifting_status_fk='Pending') as 'Pending'\r\n"
+					+ "FROM utility_shifting \r\n"
+					+ "where utility_type_fk='Above Ground' and shifting_status_fk is not null\r\n"
+					+ "\r\n"
+					+ "UNION ALL\r\n"
+					+ "\r\n"
+					+ "select DISTINCT execution_agency_fk,work_id_fk,\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Above Ground' AND execution_agency_fk=S.execution_agency_fk and shifting_status_fk is not null) as Total,\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Above Ground' and shifting_status_fk='Completed' AND execution_agency_fk=S.execution_agency_fk ) as 'Completed',\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Above Ground' and shifting_status_fk='In Progress'  AND execution_agency_fk=S.execution_agency_fk) as 'InProgress',\r\n"
+					+ "(SELECT count(*)  FROM utility_shifting where utility_type_fk='Above Ground' and shifting_status_fk='Pending'  AND execution_agency_fk=S.execution_agency_fk) as 'Pending'\r\n"
+					+ "\r\n"
+					+ " from utility_shifting S where utility_type_fk='Above Ground' and shifting_status_fk is not null\r\n"
+					+ " \r\n"
+					+ " \r\n"
+					+ "\r\n"
+					+ "union all\r\n"
+					+ "\r\n"
+					+ "SELECT concat(utility_type_fk,' Utilities') as 'execution_agency_fk',work_id_fk,\r\n"
+					+ "count(*) as Total,\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Under Ground' and shifting_status_fk='Completed') as 'Completed',\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Under Ground' and shifting_status_fk='In Progress') as 'InProgress',\r\n"
+					+ "(SELECT count(*)  FROM utility_shifting where utility_type_fk='Under Ground' and shifting_status_fk='Pending') as 'Pending'\r\n"
+					+ "FROM utility_shifting \r\n"
+					+ "where utility_type_fk='Under Ground' and shifting_status_fk is not null\r\n"
+					+ "\r\n"
+					+ "union all\r\n"
+					+ "\r\n"
+					+ "select DISTINCT execution_agency_fk,work_id_fk,\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Under Ground' AND execution_agency_fk=S.execution_agency_fk and shifting_status_fk is not null) as Total,\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Under Ground' and shifting_status_fk='Completed' AND execution_agency_fk=S.execution_agency_fk) as 'Completed',\r\n"
+					+ "(SELECT count(*) FROM utility_shifting where utility_type_fk='Under Ground' and shifting_status_fk='In Progress' AND execution_agency_fk=S.execution_agency_fk) as 'InProgress',\r\n"
+					+ "(SELECT count(*)  FROM utility_shifting where utility_type_fk='Under Ground' and shifting_status_fk='Pending' AND execution_agency_fk=S.execution_agency_fk) as 'Pending'\r\n"
+					+ "\r\n"
+					+ " from utility_shifting S where utility_type_fk='Under Ground' and shifting_status_fk is not null) as us where 0=0 \r\n"
+					+ " \r\n"
+					+ "\r\n"
+					+ "" ;
+			int arrSize = 0;
+		
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+	
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
 }

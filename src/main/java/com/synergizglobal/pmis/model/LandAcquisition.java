@@ -31,7 +31,7 @@ public class LandAcquisition {
     //railway
     railway_area_to_be_acquired,railway_remarks,  railway_online_submission,railway_area_acquired,  railway_submission_date_to_DyCFO,  railway_submission_date_to_CCF_Thane, railway_submission_date_to_nodal_officer_CCF_Nagpur, 
     railway_submission_date_to_revenue_secretary_mantralaya, railway_submission_date_to_regional_office_nagpur,  railway_date_of_approval_by_Rregional_Office_agpur,  railway_valuation_by_DyCFO, railway_demanded_amount, railway_approval_for_payment, railway_payment_date, railway_payment_amount, railway_payment_status, railway_possession_date,  railway_possession_status, railway_special_feature, railway_attachment_no
-    ,demanded_amount_units,payment_amount_units_railway,private_land_process,date_of_submission_of_draft_notification_to_CALA_20ff;
+    ,demanded_amount_units,payment_amount_units_railway,private_land_process,date_of_submission_of_draft_notification_to_CALA_20ff,balance;
 	
 	
 	//private indian Act
@@ -1938,6 +1938,14 @@ public class LandAcquisition {
 
 	public void setModified_date(String modified_date) {
 		this.modified_date = modified_date;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
 	}
 
 }

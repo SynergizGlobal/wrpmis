@@ -37,5 +37,6 @@ public interface RiskDao {
 	
 	public Risk getLastUpdatedRiskAssessmentFile(Risk obj) throws Exception;
 	public boolean checkRiskAssessment(String subwork,String Date) throws Exception;
+	public List<Risk> getRisks(Risk obj) throws Exception;
 	
 }

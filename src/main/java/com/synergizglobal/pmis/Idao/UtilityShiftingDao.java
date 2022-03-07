@@ -53,4 +53,6 @@ public interface UtilityShiftingDao {
 
 	List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj) throws Exception;
 
+	List<UtilityShifting> getUtilityShiftingStatus(UtilityShifting obj) throws Exception;
+
 }

@@ -49,5 +49,6 @@ public interface UtilityShiftingService {
 	List<UtilityShifting> getRDetailsList(String utility_shifting_id) throws Exception;
 
 	List<UtilityShifting> getUtilityShiftingList(UtilityShifting dObj) throws Exception;
+	List<UtilityShifting> getUtilityShiftingStatus(UtilityShifting dObj) throws Exception;
 	
 }

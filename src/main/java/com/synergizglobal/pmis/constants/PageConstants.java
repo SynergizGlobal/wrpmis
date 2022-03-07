@@ -116,6 +116,7 @@ public class PageConstants {
 	public static final String ExecutionOverviewReport="/forms/ExecutionOverviewReport";
 
 	public static final String ProjectOverviewReport="/forms/projectOverviewReport";
+	public static final String ProjectWorkOverviewReport="/forms/projectWorkOverviewReport";
 
 	/****************************** We can Remove below****************************************/	
 	public static final String riskGrid = "forms/riskGrid";

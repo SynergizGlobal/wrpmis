@@ -19,6 +19,7 @@ public interface RiskService {
 	public boolean checkRiskAssessment(String subwork,String Date ) throws Exception;
 
 	public List<Risk> getRiskAssessmentList(Risk obj) throws Exception;
+	public List<Risk> getRisks(Risk obj) throws Exception;
 
 	public List<Risk> getSubWorksFilterListInRiskAssessmnt(Risk obj) throws Exception;
 

@@ -2155,4 +2155,51 @@ public class IssueDaoImpl implements IssueDao {
 		return objsList;
 	}
 
+	@Override
+	public List<Issue> getPendingIssues(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,title,DATE_FORMAT(date,'%d-%b-%Y') AS date,location,reported_by,responsible_person,c.department_fk,"
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%b-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,"
+					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,DATE_FORMAT(assigned_date,'%d-%b-%Y') AS assigned_date,"
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,other_organization,DATE_FORMAT(i.created_date,'%d-%b-%Y') AS created_date,DATE_FORMAT(escalation_date,'%d-%b-%Y') AS escalation_date,"
+					+ "other_org_resposible_person_name,other_org_resposible_person_designation,description,i.modified_by,DATE_FORMAT(i.modified_date,'%d-%m-%Y') as modified_date,(select count(*) from issue i 					LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id \r\n"
+					+ "					LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id \r\n"
+					+ "					LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id \r\n"
+					+ "					LEFT OUTER JOIN user u on c.hod_user_id_fk = u.user_id \r\n"
+					+ "					LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id \r\n"
+					+ "					LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id \r\n"
+					+ "					LEFT OUTER JOIN department d ON c.department_fk  = d.department \r\n"
+					+ "					LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id \r\n"
+					+ "					where issue_id is not null ) as total_issues " 
+					+ "from issue i "
+					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
+					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN user u on c.hod_user_id_fk = u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
+					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
+					+ "where issue_id is not null and status_fk<>'Closed' ";
+			int arrSize = 0;
+			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+
+
+			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
 }

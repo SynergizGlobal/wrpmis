@@ -490,9 +490,15 @@
 			    height: 100%;
 			}
 			.diamond:after{top: 0;}
+		}
+		@media(max-width: 820px){
+			.heading img {
+			    width: 173%;
+			    margin-top: 36px;
+			}
         }
         @media(max-width: 575px){
-        	.heading h3{width: 85%;line-height: 1.2;font-size: 15px;}
+        	.heading h3{width: 100%;line-height: 1.2;font-size: 15px;}
         	.map-btn-holder{margin: 0; margin-top: 33px;}
         	/* .heading h3:before, .heading h3:after{
         		border: 28px solid transparent;
@@ -505,7 +511,7 @@
 			    left: 100%;
 			    border-left-color: #1565C0;
 			} */
-        	.diamond{height: 50px;margin: 5px auto;}
+        	.diamond{height: 50px;margin: 5px auto;width: 155px;}
         	.diamond:before, .diamond:after{
         		border: 25px solid transparent;
         	}
@@ -520,6 +526,8 @@
 			.diamond span{width: 60px;}
 			.map-btn-holder .fa{font-size: 2rem;}
 			.map-btn-holder .btn{padding: 0 20px;}
+			.map-btn-holder .btn{height: 3rem;padding: 2px 10px;}
+			.heading img{margin-top: 38px;}
         }
 
         /* 2nd demo start */
@@ -675,12 +683,12 @@
             <div class="col s12 m12 l12">
             	<div class="row">
             	<div class="col s1 m1 l1"></div>
-            		<div class="col s1 m1 l1">
+            		<div class="col s2 m1 l1">
             		<div class="heading">
             			<img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
             		</div>
             	</div>
-                <div class="col l8 m8 s8">
+                <div class="col l8 m8 s7">
                 	<div class="heading color-change-2x">
                     <center>
                     

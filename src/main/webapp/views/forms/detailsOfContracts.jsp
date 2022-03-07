@@ -19,6 +19,14 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>   
+    	.bg-red{background-color: red !important;padding: 0px 8px;border-radius: 10px;}
+    	.tab-p{
+    		position: absolute;
+		    text-align: right;
+		    right: 3em;
+		    margin-top: 5em !important;
+    	}
+    	.red{color: red;background-color: transparent !important;}
     	tr{
     		border-bottom: 1px solid rgba(0,0,0,0.52);
    		}
@@ -184,15 +192,15 @@
         }
 
         .box.not-started {
-            background-color: #808080;
+            background-color: #e2e5de;
         }
 
         .box.in-progress {
-            background-color: #ffee58;
+            background-color: rgb(66, 165, 245, 0.5);
         }
 
         .box.completed {
-            background-color: #86dc3d;
+            background-color: rgb(152, 255, 152, 0.5);
         }
 
         .box.delayed {
@@ -200,6 +208,17 @@
         }
 		@media(max-width: 1024px){
 			.con-center{display: block;}
+		}
+		@media(max-width: 820px){
+			.tab-p{margin-top: 7.5em !important;}
+		}
+		@media(max-width: 768px){
+			div.dataTables_wrapper div.dataTables_filter {
+			    text-align: right;
+			    width: 50%;
+			    margin-top: 20px;
+			}
+			.tab-p{margin-top: 5.5em !important;}
 		}
         @media only screen and (max-width: 768px) {
            .fixed-width .table-inside {
@@ -213,6 +232,13 @@
         }
         @media(max-width: 575px){
         .row .col{margin: 10px auto}
+        div.dataTables_wrapper div.dataTables_filter {
+			    width: 100%;
+			    margin-top: 20px;
+			}
+		.mdl-grid{padding: 40px 0;}
+		fieldset.brdr{margin-top: 0 !important;}
+		.tab-p{margin-top: 11em !important;right: 1em;}
         }
        
         fieldset.brdr {
@@ -313,6 +339,7 @@
                               </fieldset>
 						</div>
 						<div class="col m12 s12">
+						<p class="right tab-p"><b>Figures in <span class="red">red</span> are Estimated</b></p>
 							<table id="datatable-contract-details" class="mdl-data-table">
 								<thead>
 									<tr>
@@ -516,6 +543,7 @@
                 {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
                 {targets: [1],className: 'hide-column'},
                 {targets: [0, 3, 4, 5, 7],className: 'center-column'},
+                {targets: [5],className: 'red'},
                 {targets: [2, 8],className: 'fw-230'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
@@ -583,14 +611,15 @@
                         	conractName = $.trim(val.contract_short_name) 
                         }
                         var loa_date = val.loa_date;
+                        var awarded_cost = val.awarded_cost;
                         if ($.trim(val.contract_status_fk) == 'Not Awarded'){
-                        	loa_date = $.trim(val.planned_date_of_award) 
+                        	loa_date = '<span class="red">'+val.planned_date_of_award+'</span>'
+                        	awarded_cost = '<span class="red">'+val.awarded_cost+'</span>'
                         }
-                        
 	                   	rowArray.push($.trim(key+1));
 	                   	rowArray.push($.trim(val.contract_status_fk));
 	                   	rowArray.push($.trim(conractName));
-	                   	rowArray.push($.trim(val.awarded_cost));
+	                   	rowArray.push($.trim(awarded_cost));
 	                   	rowArray.push($.trim(val.cumulative_expenditure));
 	                   	rowArray.push($.trim(val.physical_progress));
 	                   	rowArray.push($.trim(loa_date));

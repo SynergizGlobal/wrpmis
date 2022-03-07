@@ -184,18 +184,20 @@
 
         .box.electrical,
         .electrical {
-            background-color: #2F75B5;
+            background-color: #ffc000;
         }
 
         .box.sandt,
         .sandt {
-            background-color: #548235;
+            background-color: #ffc000;
         }
         
         .box.nbf,
         .nbf {
             background-color: #7e7579;
         }
+        .aw{background-color: #8fcb95;}
+        .naw{background color: #fff;}
         .fw-5p{
         	min-width:5.5%;
         	width:5.5%;
@@ -312,35 +314,36 @@
 						 	<fieldset class="p-2 con-center" >
                                    <div class="">
                                        <span class="box engineering"></span>
-                                       <span class="description">Engineering</span>
-                                   </div>
-                                   <div class="">
-                                       <span class="box electrical"></span>
-                                       <span class="description">Electrical</span>
-                                   </div>
-                                   <div class="">
-                                       <span class="box sandt"></span>
-                                       <span class="description">S & T</span>
+                                       <span class="description">Bank Funds</span>
                                    </div>
                                    <div class="">
                                        <span class="box nbf"></span>
                                        <span class="description">Non Bank Funds</span>
-                                   </div>                                   
+                                   </div> 
+                                   <div class="">
+                                       <span class="box aw"></span>
+                                       <span class="description">Awarded</span>
+                                   </div>
+                                   <div class="">
+                                       <span class="box naw"></span>
+                                       <span class="description">Not Awarded</span>
+                                   </div>                                  
                               </fieldset>
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col m12 s12">
+						<p class="right"><b>Amount Value in:</b> Cr</p>
 							<table id="datatable-project-overview-details" class="mdl-data-table">
 								<thead>
 									<tr>										
 										<th class="fw-5p">S. No.</th>
 										<th class="min-width:45%;width:45%;">Description</th>
-										<th class="fw-10p">Sanctioned Cost (CR)</th>
-										<th class="fw-15p">Total Expenditure till Date (CR)</th>
-										<th class="fw-15p">Total Expenditure this FY (CR)</th>
-										<th class="fw-10p">Total Pending Amount (CR)</th>
+										<th class="fw-10p">Sanctioned Cost</th>
+										<th class="fw-15p">Total Expenditure till Date</th>
+										<th class="fw-15p">Total Expenditure this FY</th>
+										<th class="fw-10p">Total Pending Amount</th>
 									</tr>
 								</thead>
 								</table>							
@@ -621,7 +624,7 @@
 			    	         							var contractstatuscolor="style='background-color:#8fcb95;color:#ffffff;'";
 			    	         							if(val1.contract_status_fk=="Not Awarded")
 			    	         							{
-			    	         								contractstatuscolor="style='background-color:#f9d4ca;color:#ffffff;'";
+			    	         								contractstatuscolor="style='background-color:#fff;color:#000;'";
 			    	         							}
 					    	         					html=html+'<tr '+contractstatuscolor+'>';
 					    	         						html=html+'<td class="fw-5p">'+$.trim(key1+1-key)+'</td>';

@@ -312,10 +312,30 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 				qry = qry + " and work_id = ?";
 				arrSize++;
 			}
-			qry=qry+" group by li.category_fk";
+			qry=qry+" group by li.category_fk union all ";
+			
+			qry = qry+"select 'Total',ifnull(round(sum(area_to_be_acquired),2),'') as area_to_be_acquired,ifnull(round(sum(area_acquired),2),'') as area_acquired,\r\n"
+					+ "ifnull(round(sum(area_to_be_acquired)-sum(area_acquired),2),'') as balance,\r\n"
+					+ "ifnull(sum(jm_fee_amount*jm_fee_amount_units),'') AS jm_fee_amount,ifnull('','') as payment_amount_units_railway\r\n"
+					+ "\r\n"
+					+ "\r\n"
+					+ "					 from la_land_identification li   \r\n"
+					+ "					left join work w on li.work_id_fk = w.work_id \r\n"
+					+ "					 left join land_executives le on li.work_id_fk = le.work_id_fk  \r\n"
+					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
+					+ "					left join la_sub_category sc on li.la_sub_category_fk = sc.id \r\n"
+					+ "					left join la_category c on sc.la_category_fk = c.la_category \r\n"
+					+ "					where la_id is not null  ";
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id = ?";
+				arrSize++;
+			}			
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));

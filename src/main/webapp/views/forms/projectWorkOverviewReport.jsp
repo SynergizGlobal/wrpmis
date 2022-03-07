@@ -245,6 +245,8 @@
         fieldset.brdr legend{		    
 		    padding: 0 5px;
 	    }
+	    
+	    table thead tr td{text-align:center;}
 	
     </style>
     
@@ -266,9 +268,11 @@ display:none;
 
 table,body {
   font-family: Verdana;
-  font-size:10.5px;
+  font-size:10px;
   border-collapse: collapse;
   width: 100%;
+  word-spacing: 1.5px;
+  letter-spacing: 0.2px;
 }
 
 td, th {
@@ -362,7 +366,7 @@ td, th {
 						<div style="text-align:center;" id="divProject"><h4>PROCUREMENT STATUS</h4></div>
 						<table style='width:100%' id="procurementStatusTbl" class="table table-striped table-bordered" >
 								<thead>
-									<tr><th style='width:10%'>S. No.</th><th style='width:30%'>Description</th><th style='width:15%'>Total Contracts</th><th style='width:15%'>Estimated Cost (Cr)</th><th style='width:30%'>Scope</th><th style='width:10%'>Awarded Contracts</th><th style='width:10%'>Awarded Value (Cr)</th><th style='width:10%'>Scope</th></tr>
+									<tr><td style='width:10%'>S. No.</td><td style='width:30%'>Description</td><td style='width:15%'>Total Contracts</td><td style='width:15%'>Estimated Cost (Cr)</td><td style='width:30%'>Scope</td><td style='width:10%'>Awarded Contracts</td><td style='width:10%'>Awarded Value (Cr)</td><td style='width:10%'>Scope</td></tr>
 								</thead>
 						        <tbody>
 					
@@ -374,13 +378,13 @@ td, th {
 						<table style='width:auto;' id="landAcquisitionStatusTbl" class="table table-striped table-bordered" >
 								<thead>
 									<tr>
-										<th>Land Category</th>
-										<th>Area to be Acquired (Ha.)</th>
-										<th>Area Acquired (Ha.)</th>
-										<th>Balance (Ha.)</th>
-										<th>Cost as per Estimate (Cr.)</th>
-										<th>Payment Made (Cr.)</th>
-										<th>Payment as per Accounts (Cr.)</th>
+										<td>Land Category</td>
+										<td>Area to be Acquired (Ha.)</td>
+										<td>Area Acquired (Ha.)</td>
+										<td>Balance (Ha.)</td>
+										<td>Cost as per Estimate (Cr.)</td>
+										<td>Payment Made (Cr.)</td>
+										<td>Payment as per Accounts (Cr.)</td>
 									</tr>
 								</thead>
 						        <tbody>
@@ -409,11 +413,11 @@ td, th {
 						<table style='width:auto;' id="utilityShiftingStatusTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
-						                <th>Utility Agency</th>
-						                <th>Total</th>
-						                <th>Completed</th>
-						                <th>In Progress</th>
-						                <th>Pending</th>
+						                <td>Utility Agency</td>
+						                <td>Total</td>
+						                <td>Completed</td>
+						                <td>In Progress</td>
+						                <td>Pending</td>
 						            </tr>
 						        </thead>
 						        <tbody>
@@ -424,10 +428,10 @@ td, th {
 						<table style='width:100%;' id="structuralProgressTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
-						                <th>Description</th>
-						                <th>Progress (%)</th>
-						                <th>Completion Date</th>
-						                <th>Remarks</th>
+						                <td>Description</td>
+						                <td>Progress (%)</td>
+						                <td>Completion Date</td>
+						                <td>Remarks</td>
 						            </tr>
 						        </thead>
 						        <tbody>
@@ -454,13 +458,13 @@ td, th {
 						<table style='width:auto;' id="issueStatusTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
-						                <th>S. No.</th>
-						                <th>Category</th>
-						                <th>Description</th>
-						                <th>Contract</th>
-						                <th>Action Taken</th>
-						                <th>Reported By</th>
-						                <th>Pending With</th>
+						                <td>S. No.</td>
+						                <td>Category</td>
+						                <td>Description</td>
+						                <td>Contract</td>
+						                <td>Action Taken</td>
+						                <td>Reported By</td>
+						                <td>Pending With</td>
 						            </tr>
 						        </thead>
 						        <tbody>
@@ -505,13 +509,13 @@ td, th {
 						<table style='width:auto;' id="riskStatusTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
-						                <th>S. No.</th>
-						                <th>Area</th>
-						                <th>Sub Area</th>
-						                <th>Classification</th>
-						                <th>Mitigation Plan</th>
-						                <th>Risk Owner</th>
-						                <th>Action Taken</th>
+						                <td>S. No.</td>
+						                <td>Area</td>
+						                <td>Sub Area</td>
+						                <td>Classification</td>
+						                <td>Mitigation Plan</td>
+						                <td>Risk Owner</td>
+						                <td>Action Taken</td>
 						            </tr>
 						        </thead>
 						        <tbody>
@@ -540,14 +544,14 @@ td, th {
 						<table style='width:auto;' id="safetyIncidentsOpenTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
-						                <th style="width:9%">S. No.</th>
-						                <th style="width:30%">Contract</th>
-						                <th style="width:10%">Department</th>
-						                <th style="width:15%">Date/ Location</th>
-						                <th style="width:15%">Description</th>
-						                <th style="width:10%">Category</th>
-						                <th style="width:10%">Compensation</th>
-						                <th style="width:10%">Corrective Action</th>
+						                <td style="width:9%">S. No.</td>
+						                <td style="width:30%">Contract</td>
+						                <td style="width:10%">Department</td>
+						                <td style="width:15%">Date/ Location</td>
+						                <td style="width:15%">Description</td>
+						                <td style="width:10%">Category</td>
+						                <td style="width:10%">Compensation</td>
+						                <td style="width:10%">Corrective Action</td>
 						            </tr>
 						        </thead>
 						        <tbody>
@@ -560,14 +564,14 @@ td, th {
 						<table style='width:auto;' id="safetyIncidentsClosedTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
-						                <th style="width:9%">S. No.</th>
-						                <th style="width:30%">Contract</th>
-						                <th style="width:10%">Department</th>
-						                <th style="width:15%">Date/ Location</th>
-						                <th style="width:15%">Description</th>
-						                <th style="width:10%">Category</th>
-						                <th style="width:10%">Compensation</th>
-						                <th style="width:10%">Corrective Action</th>
+						                <td style="width:9%">S. No.</td>
+						                <td style="width:30%">Contract</td>
+						                <td style="width:10%">Department</td>
+						                <td style="width:15%">Date/ Location</td>
+						                <td style="width:15%">Description</td>
+						                <td style="width:10%">Category</td>
+						                <td style="width:10%">Compensation</td>
+						                <td style="width:10%">Corrective Action</td>
 						            </tr>
 						        </thead>
 						        <tbody>
@@ -588,14 +592,14 @@ td, th {
 							<table style='width:auto;' id="listofContractsTbl" class="table table-striped table-bordered" >
 									<thead>
 										<tr>
-											<th style="width:9%">S. No.</th>
-											<th style="width:30%">Contract Name</th>
-											<th style="width:13%">LOA Date</th>
-											<th style="width:10%">Completion Date</th>
-											<th style="width:8%">% Progress</th>
-											<th style="width:10%">Estimated Cost (Cr)</th>
-											<th style="width:10%">Awarded Cost (Cr)</th>
-											<th style="width:10%">Remarks</th>
+											<td style="width:9%">S. No.</td>
+											<td style="width:30%">Contract Name</td>
+											<td style="width:13%">LOA Date</td>
+											<td style="width:10%">Completion Date</td>
+											<td style="width:8%">% Progress</td>
+											<td style="width:10%">Estimated Cost (Cr)</td>
+											<td style="width:10%">Awarded Cost (Cr)</td>
+											<td style="width:10%">Remarks</td>
 										</tr>
 									</thead>
 							        <tbody>
@@ -819,9 +823,17 @@ td, th {
 	 			{   
 					if(data != null && data != '' && data.length > 0)
 					{ 
-					
+						var OI=0;
 						$.each(data,function(key,val){
-							$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>"+val.jm_fee_amount+"</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td><td style='text-align:right;'></td></tr>");
+							if(key==0)
+								{
+									$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>"+val.jm_fee_amount+"</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td><td style='text-align:right;' rowspan='5'></td></tr>");
+								}
+							else
+								{
+								$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>"+val.jm_fee_amount+"</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td></tr>");
+								}
+							OI++;
 						});	
 						
 					}

@@ -65,7 +65,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 				}
 				
 				if(!StringUtils.isEmpty(obj.getSource_table_name()) && !StringUtils.isEmpty(obj.getSource_field_name()) && !StringUtils.isEmpty(obj.getSource_field_value())) {
-					obj.setWork_exists_or_not(getWorkExistsOrNot(obj,connection));
+					//obj.setWork_exists_or_not(getWorkExistsOrNot(obj,connection));
 				}
 				
 				objsList.add(obj);
@@ -125,7 +125,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					obj.setSource_field_value(work_id);
 				}
 				if(!StringUtils.isEmpty(obj.getSource_table_name()) && !StringUtils.isEmpty(obj.getSource_field_name()) && !StringUtils.isEmpty(obj.getSource_field_value())) {
-					obj.setWork_exists_or_not(getWorkExistsOrNot(obj,connection));
+					//obj.setWork_exists_or_not(getWorkExistsOrNot(obj,connection));
 				}
 				
 				objsList.add(obj);				

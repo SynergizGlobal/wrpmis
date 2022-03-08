@@ -73,7 +73,7 @@ public class TableauDashboardController {
 			view.setViewName(PageConstants.tableauDashboard);
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			
-			User user = (User)session.getAttribute("user");
+			//User user = (User)session.getAttribute("user");
 			String activityWork = null;
 			if(!StringUtils.isEmpty(param)){
 				activityWork = param.replaceAll("_", " - ").toLowerCase();
@@ -87,8 +87,6 @@ public class TableauDashboardController {
 				line = line.replaceAll("_", " - ").toLowerCase();
 				title = title + capitalize(line).toUpperCase() + " - ";
 			}
-			
-			
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
@@ -169,17 +167,17 @@ public class TableauDashboardController {
 		String title = "";
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
-			view.addObject("active", param);
-			view.addObject("tabActive", "dashboard");
+			/*view.addObject("active", param);
+			view.addObject("tabActive", "dashboard");*/
 			
-			User user = (User)session.getAttribute("user");
+			//User user = (User)session.getAttribute("user");
 			String activityWork = null;
 			if(!StringUtils.isEmpty(param)){
 				activityWork = param.replaceAll("_", " - ").toLowerCase();
 				activityWork = activityWork.replaceAll("-", " ").toLowerCase();
 				title = title + capitalize(activityWork).toUpperCase() + " - ";
 			}
-			view.addObject("title", title+"PMIS - Syntrack.");
+			//view.addObject("title", title+"PMIS - Syntrack.");
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
@@ -196,6 +194,20 @@ public class TableauDashboardController {
 				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrl);*/
+				
+				if(vo.getTableauUrl().equalsIgnoreCase("work-overview-dashboard")) {
+					String url = vo.getTableauUrl() + "/" + vo.getWork_id_fk();
+					view.setViewName("redirect:/"+url);
+					return view;
+				}else if(vo.getTableauUrl().equalsIgnoreCase("overview-dashboard")) {
+					String url = vo.getTableauUrl();
+					view.setViewName("redirect:/"+url);
+					return view;
+				}else {
+					view.addObject("active", param);
+					view.addObject("tabActive", "dashboard");
+					view.addObject("title", title+"PMIS - Syntrack.");
+				}
 				
 				String server_name = "Syntrack";
 				if(vo.getTableauUrl().contains(".com/")) {

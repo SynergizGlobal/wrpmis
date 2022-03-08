@@ -375,7 +375,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select work_name,count(c.contract_id) as 'total',sum(estimated_cost) as estimated_cost,\r\n"
+			String qry = "select * from (select work_name,count(c.contract_id) as 'total',sum(estimated_cost) as estimated_cost,\r\n"
 					+ "                    \r\n"
 					+ "                   (select group_concat(distinct structure_type SEPARATOR ', ') from activities_scurve where work_id_fk='"+obj.getWork_id_fk()+"') as strip_chart_type_fk,\r\n"
 					+ "                    \r\n"
@@ -459,7 +459,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'\r\n"
 					+ "                    \r\n"
-					+ "                    group by hoddt.department_name  ";
+					+ "                    group by hoddt.department_name) as a  ORDER BY FIELD(work_name,'Engineering','Electrical','Signalling & Telecom') ";
 			
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<Contract>(Contract.class));
 			

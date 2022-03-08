@@ -366,7 +366,7 @@ td, th {
 						        </tbody>
 						    </table>
 						    <br><br>
-						<div style="text-align:center;" id="divProject"><h4>PROCUREMENT STATUS</h4></div>
+						<div style="text-align:center;" id="divProject"><p>PROCUREMENT STATUS</p></div>
 						<table style='width:100%' id="procurementStatusTbl" class="table table-striped table-bordered" >
 								<thead>
 									<tr><td style='width:10%'>S. No.</td><td style='width:30%'>Description</td><td style='width:15%'>Total Contracts</td><td style='width:15%'>Estimated Cost (Cr)</td><td style='width:30%'>Scope</td><td style='width:10%'>Awarded Contracts</td><td style='width:10%'>Awarded Value (Cr)</td><td style='width:10%'>Scope</td></tr>
@@ -377,7 +377,7 @@ td, th {
 						    </table>
 						 <div>Refer <a href="#firstDestination">Annexure-1</a> for detailed list of contracts.</div>
 						 <br><br>						    
-						<div style="text-align:center;" id="divProject"><h4>LAND ACQUISITION STATUS</h4></div>  
+						<div style="text-align:center;" id="divProject"><p>LAND ACQUISITION STATUS</p></div>  
 						<table style='width:auto;' id="landAcquisitionStatusTbl" class="table table-striped table-bordered" >
 								<thead>
 									<tr>
@@ -394,7 +394,7 @@ td, th {
 						        </tbody>
 						    </table>
 						   <br><br>
-						    <div style="text-align:center;" id="divProject"><h4> UTILITY SHIFTING STATUS</h4></div>	
+						    <div style="text-align:center;" id="divProject"><p> UTILITY SHIFTING STATUS</p></div>	
 						   
 							<table style='width:40%' id="utilityShiftingStatusSummaryTbl" class="table table-striped table-bordered" >
 						        <tbody>
@@ -427,7 +427,7 @@ td, th {
 						        </tbody>
 						    </table>
 						 <br><br>	
-						 <div style="text-align:center;" id="divProject"><h4>STRUCTURAL PROGRESS (%)</h4></div>	   
+						 <div style="text-align:center;" id="divProject"><p>STRUCTURAL PROGRESS (%)</p></div>	   
 						<table style='width:100%;' id="structuralProgressTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
@@ -442,7 +442,7 @@ td, th {
 						        </tbody>
 						    </table>
 						    <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br><br> <br><br> <br><br><br><br><br> <br><br><br> <br><br><br><br><br><br>
-						<div style="text-align:center;" id="divProject"><h4>ISSUE STATUS</h4></div>		
+						<div style="text-align:center;" id="divProject"><p>ISSUE STATUS</p></div>		
 						
 						<table style='width:40%' id="issueSummaryTbl" class="table table-striped table-bordered" >
 					        <tbody>
@@ -456,7 +456,7 @@ td, th {
 					        </tbody>
 						</table>
 						<br> <br>											    	
-						 <div><h4>List of Pending Issues are mentioned in table below.</h4></div>		 						
+						 <div><p>List of Pending Issues are mentioned in table below.</p></div>		 						
 						 
 						<table style='width:auto;' id="issueStatusTbl" class="table table-striped table-bordered" >
 						        <thead>
@@ -474,7 +474,7 @@ td, th {
 						        </tbody>
 						    </table>	
 						     <br> <br>
-						<div style="text-align:center;" id="divProject"><h4>RISK STATUS</h4></div>  
+						<div style="text-align:center;" id="divProject"><p>RISK STATUS</p></div>  
 						
 						<table style='width:60%;' id="riskSummaryTbl" class="table table-striped table-bordered" >
 					        <tbody>
@@ -525,7 +525,7 @@ td, th {
 						        </tbody>
 						    </table>
 						<br><br>	
-						<div style="text-align:center;" id="divProject"><h4>SAFETY INCIDENTS</h4></div> 
+						<div style="text-align:center;" id="divProject"><p>SAFETY INCIDENTS</p></div> 
 						<table style='width:40%' id="safetySummaryTbl" class="table table-striped table-bordered" border="0">
 					        <tbody>
 						        <tr>
@@ -543,7 +543,7 @@ td, th {
 					        </tbody>
 						</table>
 						<br><br>
-						<div><h4>List of Open Incidents are mentioned in table below</h4></div> 						    
+						<div><p>List of Open Incidents are mentioned in table below</p></div> 						    
 						<table style='width:auto;' id="safetyIncidentsOpenTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
@@ -562,7 +562,7 @@ td, th {
 						        </tbody>
 						    </table>
 						    
-						<br><br><div><h4>List of Closed Incidents are mentioned in table below</h4></div> 						    
+						<br><br><div><p>List of Closed Incidents are mentioned in table below</p></div> 						    
 						    
 						<table style='width:auto;' id="safetyIncidentsClosedTbl" class="table table-striped table-bordered" >
 						        <thead>
@@ -582,7 +582,7 @@ td, th {
 						        </tbody>
 						    </table>
 						<br><br>							    	
-						<div style="text-align:center;" id="divProject"><h4>PROJECT PHOTOS</h4></div>   
+						<div style="text-align:center;" id="divProject"><p>PROJECT PHOTOS</p></div>   
 							<table style='width:auto;' id="projectPhotosTbl" class="table table-striped table-bordered" >
 							        <tbody>
 						
@@ -590,7 +590,7 @@ td, th {
 							</table>
 						<br><br>
 						<div id="firstDestination" >
-							<div style="text-align:center;" id="divProject"><h4>ANNEXURE-1: LIST OF CONTRACTS</h4></div>   
+							<div style="text-align:center;" id="divProject"><p>ANNEXURE-1: LIST OF CONTRACTS</p></div>   
 							<br>
 							<table style='width:auto;' id="listofContractsTbl" class="table table-striped table-bordered" >
 									<thead>
@@ -787,7 +787,7 @@ td, th {
 		        			
 	        				if(key==0)
 	        				{
-								$("#divWorkShortName").html("<h4>"+val.work_short_name+" ("+val.project_name+")<br>OVERVIEW</h4>");
+								$("#divWorkShortName").html("<p>"+val.work_short_name+" ("+val.project_name+")<br>OVERVIEW</p>");
 	        				}
 						});
 						

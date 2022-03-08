@@ -245,6 +245,9 @@
         fieldset.brdr legend{		    
 		    padding: 0 5px;
 	    }
+	    h4{
+	    font-size:14px!important;
+	    }
 	    
 	    table thead tr td{text-align:center;}
 	
@@ -827,15 +830,16 @@ td, th {
 						$.each(data,function(key,val){
 							if(key==0)
 								{
-									$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>35.28</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td><td style='text-align:right;' rowspan='5'>233.58</td></tr>");
+									$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>35.28</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td><td style='text-align:right;' rowspan='5'>233.19</td></tr>");
 								}
 							else
 								{
 									var amc=0;
 									if(key==1)
 									{amc=322;}
-									if(key==4){amc=357.28;}
-								$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>"+amc+"</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td></tr>");
+									var tyc=val.payment_amount_units_railway;
+									if(key==4){amc=357.28;tyc=237.11;}
+									$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>"+amc+"</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td></tr>");
 								}
 							OI++;
 						});	

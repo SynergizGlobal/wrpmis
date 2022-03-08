@@ -260,7 +260,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 				qry = qry + " and c.work_id = ?";
 				arrSize++;
 			}
-			qry=qry+" group by contract_id order by c.department ";
+			qry=qry+" group by contract_id order by FIELD(c.department,'Engineering','Electrical','Signalling & Telecom')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -459,7 +459,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'\r\n"
 					+ "                    \r\n"
-					+ "                    group by hoddt.department_name     ";
+					+ "                    group by hoddt.department_name   ORDER BY FIELD(hoddt.department_name,'Engineering','Electrical','Signalling & Telecom') ";
 			
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<Contract>(Contract.class));
 			

@@ -271,11 +271,11 @@ display:none;
 
 table,body {
   font-family: Verdana;
-  font-size:10px;
+  font-size:14px;
   border-collapse: collapse;
   width: 100%;
   word-spacing: 1.5px;
-  letter-spacing: 0.2px;
+  letter-spacing: 0px;
 }
 
 td, th {
@@ -283,6 +283,8 @@ td, th {
   text-align: left;
   padding: 2px;
   width:auto;
+    font-size:14px;
+  
 }  
 
 .cmHed{
@@ -366,8 +368,8 @@ td, th {
 						        </tbody>
 						    </table>
 						    <br><br>
-						<div style="text-align:center;" id="divProject"><p>PROCUREMENT STATUS</p></div>
-						<table style='width:100%' id="procurementStatusTbl" class="table table-striped table-bordered" >
+						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">PROCUREMENT STATUS</span></div>
+						<table style='width:99%' id="procurementStatusTbl" class="table table-striped table-bordered" >
 								<thead>
 									<tr><td style='width:10%'>S. No.</td><td style='width:30%'>Description</td><td style='width:15%'>Total Contracts</td><td style='width:15%'>Estimated Cost (Cr)</td><td style='width:30%'>Scope</td><td style='width:10%'>Awarded Contracts</td><td style='width:10%'>Awarded Value (Cr)</td><td style='width:10%'>Scope</td></tr>
 								</thead>
@@ -375,9 +377,9 @@ td, th {
 					
 						        </tbody>
 						    </table>
-						 <div>Refer <a href="#firstDestination">Annexure-1</a> for detailed list of contracts.</div>
+						 <div><span style="font-size:16px;">Refer <a href="#firstDestination">Annexure-1</a> for detailed list of contracts.</span></div>
 						 <br><br>						    
-						<div style="text-align:center;" id="divProject"><p>LAND ACQUISITION STATUS</p></div>  
+						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">LAND ACQUISITION STATUS</span></div>  
 						<table style='width:auto;' id="landAcquisitionStatusTbl" class="table table-striped table-bordered" >
 								<thead>
 									<tr>
@@ -394,7 +396,7 @@ td, th {
 						        </tbody>
 						    </table>
 						   <br><br>
-						    <div style="text-align:center;" id="divProject"><p> UTILITY SHIFTING STATUS</p></div>	
+						    <div style="text-align:center;" id="divProject"><span style="font-size:14px;"> UTILITY SHIFTING STATUS</span></div>	
 						   
 							<table style='width:40%' id="utilityShiftingStatusSummaryTbl" class="table table-striped table-bordered" >
 						        <tbody>
@@ -427,7 +429,7 @@ td, th {
 						        </tbody>
 						    </table>
 						 <br><br>	
-						 <div style="text-align:center;" id="divProject"><p>STRUCTURAL PROGRESS (%)</p></div>	   
+						 <div style="text-align:center;" id="divProject"><span style="font-size:14px;">STRUCTURAL PROGRESS (%)</span></div>	   
 						<table style='width:100%;' id="structuralProgressTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
@@ -441,8 +443,8 @@ td, th {
 					
 						        </tbody>
 						    </table>
-						    <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br><br> <br><br> <br><br><br><br><br> <br><br><br> <br><br><br><br><br><br>
-						<div style="text-align:center;" id="divProject"><p>ISSUE STATUS</p></div>		
+						    <br><br><br> <br><br><br> <br><br><br> <br><br><br>
+						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">ISSUE STATUS</span></div>		
 						
 						<table style='width:40%' id="issueSummaryTbl" class="table table-striped table-bordered" >
 					        <tbody>
@@ -456,7 +458,7 @@ td, th {
 					        </tbody>
 						</table>
 						<br> <br>											    	
-						 <div><p>List of Pending Issues are mentioned in table below.</p></div>		 						
+						 <div><span style="font-size:14px;">List of Pending Issues are mentioned in table below.</span></div>		 						
 						 
 						<table style='width:auto;' id="issueStatusTbl" class="table table-striped table-bordered" >
 						        <thead>
@@ -474,7 +476,7 @@ td, th {
 						        </tbody>
 						    </table>	
 						     <br> <br>
-						<div style="text-align:center;" id="divProject"><p>RISK STATUS</p></div>  
+						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">RISK STATUS</span></div>  
 						
 						<table style='width:60%;' id="riskSummaryTbl" class="table table-striped table-bordered" >
 					        <tbody>
@@ -508,7 +510,7 @@ td, th {
 					        </tbody>
 						</table>
 						<br><br>	
-						 <div>List of Priority Risks are mentioned in table below.</div>   						  
+						 <div><span style="font-size:14px;">List of Priority Risks are mentioned in table below.</span></div>   						  
 						<table style='width:auto;' id="riskStatusTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
@@ -525,7 +527,7 @@ td, th {
 						        </tbody>
 						    </table>
 						<br><br>	
-						<div style="text-align:center;" id="divProject"><p>SAFETY INCIDENTS</p></div> 
+						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">SAFETY INCIDENTS</span></div> 
 						<table style='width:40%' id="safetySummaryTbl" class="table table-striped table-bordered" border="0">
 					        <tbody>
 						        <tr>
@@ -543,7 +545,7 @@ td, th {
 					        </tbody>
 						</table>
 						<br><br>
-						<div><p>List of Open Incidents are mentioned in table below</p></div> 						    
+						<div><span style="font-size:14px;">List of Open Incidents are mentioned in table below</span></div> 						    
 						<table style='width:auto;' id="safetyIncidentsOpenTbl" class="table table-striped table-bordered" >
 						        <thead>
 						            <tr>
@@ -562,7 +564,7 @@ td, th {
 						        </tbody>
 						    </table>
 						    
-						<br><br><div><p>List of Closed Incidents are mentioned in table below</p></div> 						    
+						<br><br><div><span style="font-size:14px;">List of Closed Incidents are mentioned in table below</span></div> 						    
 						    
 						<table style='width:auto;' id="safetyIncidentsClosedTbl" class="table table-striped table-bordered" >
 						        <thead>
@@ -582,7 +584,7 @@ td, th {
 						        </tbody>
 						    </table>
 						<br><br>							    	
-						<div style="text-align:center;" id="divProject"><p>PROJECT PHOTOS</p></div>   
+						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">PROJECT PHOTOS</span></div>   
 							<table style='width:auto;' id="projectPhotosTbl" class="table table-striped table-bordered" >
 							        <tbody>
 						
@@ -590,7 +592,7 @@ td, th {
 							</table>
 						<br><br>
 						<div id="firstDestination" >
-							<div style="text-align:center;" id="divProject"><p>ANNEXURE-1: LIST OF CONTRACTS</p></div>   
+							<div style="text-align:center;" id="divProject"><span style="font-size:14px;">ANNEXURE-1: LIST OF CONTRACTS</span></div>   
 							<br>
 							<table style='width:auto;' id="listofContractsTbl" class="table table-striped table-bordered" >
 									<thead>
@@ -787,7 +789,7 @@ td, th {
 		        			
 	        				if(key==0)
 	        				{
-								$("#divWorkShortName").html("<p>"+val.work_short_name+" ("+val.project_name+")<br>OVERVIEW</p>");
+								$("#divWorkShortName").html("<span style='font-size:16px;'>"+val.work_short_name+" ("+val.project_name+")<br>OVERVIEW</span>");
 	        				}
 						});
 						
@@ -885,7 +887,7 @@ td, th {
 						var OI=1;
 						
 						$.each(data,function(key,val){
-							$("#procurementStatusTbl tbody").append("<tr><td>"+OI+"</td><td>"+val.work_name+"</td><td style='text-align:center;'>"+val.total+"</td><td style='text-align:right;'>"+val.estimated_cost+"</td><td style='text-align:justify;'>"+val.strip_chart_type_fk+"</td><td style='text-align:center;'>"+val.contract_details_types+"</td><td style='text-align:right;'>"+val.awarded_cost+"</td><td>"+val.scope_of_contract+"</td></tr>");
+							$("#procurementStatusTbl tbody").append("<tr><td>"+OI+"</td><td>"+val.work_name+"</td><td style='text-align:center;'>"+val.total+"</td><td style='text-align:right;'>"+val.estimated_cost+"</td><td>"+val.strip_chart_type_fk+"</td><td style='text-align:center;'>"+val.contract_details_types+"</td><td style='text-align:right;'>"+val.awarded_cost+"</td><td>"+val.scope_of_contract+"</td></tr>");
 		        			OI++;
 						});						
 					}
@@ -1226,8 +1228,8 @@ td, th {
     	    var o = {
     	        download: 0,
     	        filename: 'Project Overview Report.doc',
-    	    	  	  margins: '0.5in',
-    	    	  	  size: '9in 11.0in',
+    	    	  	  margins: '0.25in',
+    	    	  	  size: '9.3in 11.0in',
     	    	  	headermargin: '.4in',
     	    	  	pagebreak: 'div.googoose.break' 
     	    };

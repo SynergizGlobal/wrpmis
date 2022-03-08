@@ -459,7 +459,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'\r\n"
 					+ "                    \r\n"
-					+ "                    group by hoddt.department_name   ORDER BY FIELD(hoddt.department_name,'Engineering','Electrical','Signalling & Telecom') ";
+					+ "                    group by hoddt.department_name  ";
 			
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<Contract>(Contract.class));
 			

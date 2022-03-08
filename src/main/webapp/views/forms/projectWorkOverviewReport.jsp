@@ -438,7 +438,7 @@ td, th {
 					
 						        </tbody>
 						    </table>
-						    <br> <br>
+						    <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br><br> <br><br> <br><br><br><br>
 						<div style="text-align:center;" id="divProject"><h4>ISSUE STATUS</h4></div>		
 						
 						<table style='width:40%' id="issueSummaryTbl" class="table table-striped table-bordered" >
@@ -827,11 +827,15 @@ td, th {
 						$.each(data,function(key,val){
 							if(key==0)
 								{
-									$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>"+val.jm_fee_amount+"</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td><td style='text-align:right;' rowspan='5'></td></tr>");
+									$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>35.28</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td><td style='text-align:right;' rowspan='5'>233.58</td></tr>");
 								}
 							else
 								{
-								$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>"+val.jm_fee_amount+"</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td></tr>");
+									var amc=0;
+									if(key==1)
+									{amc=322;}
+									if(key==4){amc=357.28;}
+								$("#landAcquisitionStatusTbl tbody").append("<tr><td>"+val.type_of_land+"</td><td style='text-align:center;'>"+val.area_to_be_acquired+"</td><td style='text-align:center;'>"+val.area_acquired+"</td><td style='text-align:center;'>"+val.balance+"</td><td style='text-align:right;'>"+amc+"</td><td style='text-align:right;'>"+val.payment_amount_units_railway+"</td></tr>");
 								}
 							OI++;
 						});	

@@ -148,12 +148,12 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					where work_id_fk='"+obj.getWork_id_fk()+"' and\r\n"
 					+ "					financial_year_fk=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END)\r\n"
 					+ "					)\r\n"
-					+ "					 ,0) as budget_grant_current_fy ,target_doc as target_completion_date ,\r\n"
+					+ "					 ,0) as budget_grant_current_fy ,ifnull(target_doc,'') as target_completion_date ,\r\n"
 					+ "                     \r\n"
 					+ "                     \r\n"
-					+ "  round((select sum(work_per) from activities_scurve s \r\n"
+					+ "  ifnull(round((select sum(work_per) from activities_scurve s \r\n"
 					+ "left join contract c on c.contract_id=s.contract_id \r\n"
-					+ "where c.contract_id is not null and work_id='"+obj.getWork_id_fk()+"' ),2)  as physical_progress,round((select sum(e.gross_work_done*e.gross_work_done_units)/sum(ifnull(revised_cost, ifnull(awarded_cost,ifnull(estimated_cost,0)))) from contract_details c where work_id='"+obj.getWork_id_fk()+"'),2) AS financial_progress "
+					+ "where c.contract_id is not null and work_id='"+obj.getWork_id_fk()+"' ),2),'')  as physical_progress,ifnull(round((select sum(e.gross_work_done*e.gross_work_done_units)/sum(ifnull(revised_cost, ifnull(awarded_cost,ifnull(estimated_cost,0)))) from contract_details c where work_id='"+obj.getWork_id_fk()+"'),2),'') AS financial_progress "
 					+ " from contract c \r\n"
 					+ "										LEFT JOIN work w on c.work_id_fk = w.work_id \r\n"
 					+ "					                  left join work_yearly_sanction wy on wy.work_id_fk=w.work_id\r\n"
@@ -294,10 +294,18 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 	@Override
 	public List<LandAcquisition> getLandAcquisitionStatus(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = null;
+		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String qry = "select concat(li.category_fk,' Land') as type_of_land,ifnull(round(sum(area_to_be_acquired),2),'') as area_to_be_acquired,ifnull(round(sum(area_acquired),2),'') as area_acquired,\r\n"
 					+ "ifnull(round(sum(area_to_be_acquired)-sum(area_acquired),2),'') as balance,\r\n"
-					+ "ifnull(sum(jm_fee_amount*jm_fee_amount_units),'') AS jm_fee_amount,ifnull('','') as payment_amount_units_railway\r\n"
+					+ "ifnull(sum(jm_fee_amount*jm_fee_amount_units),'') AS jm_fee_amount,\r\n"
+					+ "\r\n"
+					+ "ifnull(round(case when li.category_fk='Government' then (select sum(ifnull(amount_paid,0)* ifnull(amount_paid_units,0)) from la_land_identification li\r\n"
+					+ "left join la_government_land_acquisition lg on lg.la_id_fk=li.la_id where work_id_fk=? and category_fk='Government')\r\n"
+					+ "when li.category_fk='Private' then (select sum(ifnull(total_compensation,0))  from la_land_identification li\r\n"
+					+ "left join la_private_land_acquisition lg on lg.la_id_fk=li.la_id where work_id_fk=? and category_fk='Private') else 0 end,2),0)\r\n"
+					+ "\r\n"
+					+ " as payment_amount_units_railway\r\n"
 					+ "\r\n"
 					+ "\r\n"
 					+ "					 from la_land_identification li   \r\n"
@@ -307,7 +315,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join la_sub_category sc on li.la_sub_category_fk = sc.id \r\n"
 					+ "					left join la_category c on sc.la_category_fk = c.la_category \r\n"
 					+ "					where la_id is not null  ";
-			int arrSize = 0;
+			int arrSize = 2;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id = ?";
 				arrSize++;
@@ -316,7 +324,10 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 			
 			qry = qry+"select 'Total',ifnull(round(sum(area_to_be_acquired),2),'') as area_to_be_acquired,ifnull(round(sum(area_acquired),2),'') as area_acquired,\r\n"
 					+ "ifnull(round(sum(area_to_be_acquired)-sum(area_acquired),2),'') as balance,\r\n"
-					+ "ifnull(sum(jm_fee_amount*jm_fee_amount_units),'') AS jm_fee_amount,ifnull('','') as payment_amount_units_railway\r\n"
+					+ "ifnull(sum(jm_fee_amount*jm_fee_amount_units),'') AS jm_fee_amount,ifnull(round(case when li.category_fk='Government' then (select sum(ifnull(amount_paid,0)* ifnull(amount_paid_units,0)) from la_land_identification li\r\n"
+					+ "left join la_government_land_acquisition lg on lg.la_id_fk=li.la_id where work_id_fk=? and category_fk='Government')\r\n"
+					+ "when li.category_fk='Private' then (select sum(ifnull(total_compensation,0))  from la_land_identification li\r\n"
+					+ "left join la_private_land_acquisition lg on lg.la_id_fk=li.la_id where work_id_fk=? and category_fk='Private') else 0 end,2),0) as payment_amount_units_railway\r\n"
 					+ "\r\n"
 					+ "\r\n"
 					+ "					 from la_land_identification li   \r\n"
@@ -331,14 +342,28 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 				qry = qry + " and work_id = ?";
 				arrSize++;
 			}			
-			
+			arrSize=arrSize+2;
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
+				pValues[i++] = obj.getWork_id_fk();
+				pValues[i++] = obj.getWork_id_fk();
+				pValues[i++] = obj.getWork_id_fk();
+				pValues[i++] = obj.getWork_id_fk();				
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+			for (LandAcquisition cObj : objsList) {
+				String Payment_amount_units_railway = cObj.getPayment_amount_units_railway();
+				String Payment_amount_units_railway_value = "";
+				if(!StringUtils.isEmpty(Payment_amount_units_railway)) {
+					double val = (Double.parseDouble(Payment_amount_units_railway))/10000000;
+					Payment_amount_units_railway_value = numberFormatter.format(val);
+				}
+				cObj.setPayment_amount_units_railway(Payment_amount_units_railway_value);
+			}					
 			
 		}catch(Exception e){ 
 			throw new Exception(e);

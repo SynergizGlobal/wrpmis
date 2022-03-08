@@ -340,7 +340,7 @@
 									<tr>										
 										<th class="fw-5p">S. No.</th>
 										<th class="min-width:45%;width:45%;">Description</th>
-										<th class="fw-10p">Sanctioned Cost</th>
+										<th class="fw-10p">Awarded/Estimated Costs</th>
 										<th class="fw-15p">Total Expenditure till Date</th>
 										<th class="fw-15p">Total Expenditure this FY</th>
 										<th class="fw-10p">Total Pending Amount</th>

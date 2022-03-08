@@ -134,8 +134,8 @@
      		width: 3.5rem! important;
      	}
      }
-     @media(max-width: 768px){
-     	.brand-logo{width: 32%;}
+     @media(max-width: 820px){
+     	.brand-logo{width: 20%;}
      	.brand-logo img{width: 3rem! important;}
      }
      @media(max-width: 575px){

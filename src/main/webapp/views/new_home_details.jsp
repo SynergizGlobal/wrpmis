@@ -519,6 +519,26 @@
     			margin-top: -15px;
     		}
         	#projectsList ul li{margin: 0 1.1rem;}
+        	.pdlr20px{
+        		padding: 0 10px;
+        	}
+        }
+        @media(max-width: 575px){
+        	.mswap{
+        		position: absolute;
+    			left: 2em;
+        	}
+        	.heading h3 {
+			    font-size: 14px;
+			    width: 100%;
+			    line-height: 20px;
+			}
+			.diamond {
+			    padding: 0 10px !important;
+			}
+			.sub ul li {
+			    margin: 0 1.1rem;
+			}
         }
     </style>
 </head>
@@ -531,7 +551,7 @@
     <div class="">
         <div class="row">
             <div class="col s12 m10 offset-m1">
-                <div class="col s12 m3">
+                <div class="col s3 m3">
                 <div id="projectsBtns">
                     <c:if test="${not empty projectOverview.benefits }">
                         <!-- <a class="btn btn-center">Benefits</a>   -->
@@ -665,7 +685,7 @@
                     </c:if>
                 </div>
                 </div>
-                <div class="col s12 m6">
+                <div class="col s6 m6">
                     <div class="heading">
                         <center>
                             <h3 data-title='${projectOverview.project_name }'>
@@ -673,7 +693,7 @@
                         </center>
                     </div>
                 </div>
-                <div class="col s12 m2 right">
+                <div class="col s3 m2 right">
                     <div class="card-title title-btn" id="projectBackBtn"> &nbsp;
  						<a class="btn " data-position="bottom" href="<%=request.getContextPath()%>/" class="btn tooltipped right btn" style="float:right;">Back</a>  
                                                
@@ -682,7 +702,7 @@
                         <a href="<%=request.getContextPath()%>/" class="right btn">
                             <span class="material-icons-outlined">home</span>
                         </a>
-                        <a href="#" onClick="goToProject()" class="right btn">
+                        <a href="#" onClick="goToProject()" class="right btn mswap">
                             <span class="material-icons">keyboard_backspace</span>
                         </a>
                     </div>

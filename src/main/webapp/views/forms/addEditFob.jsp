@@ -137,9 +137,24 @@
     #fobDocumentTableBody .select2-container--default .select2-selection--single {
     	background-color:transparent;
     }
+    @media(max-width: 768px){
+    	.mobile_responsible_table tbody tr td .select2-container {
+		    width: 93% !important;
+		}
+		.select2-container .select2-selection--multiple .select2-selection__rendered{
+			display: grid;
+		}
+		.input-field>label {
+		    top: 0px;
+		}
+    }
     @media(max-width: 575px){
     	.row .col{margin: 6px auto;}
     	h5{margin: 1.0933333333rem 0 .656rem 0;}
+    	.mobile_responsible_table tbody tr td .select2-container {
+		    width: 100% !important;
+		}
+		
     }
     </style>
 </head>

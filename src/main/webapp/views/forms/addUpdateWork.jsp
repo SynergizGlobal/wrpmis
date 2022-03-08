@@ -54,19 +54,29 @@
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	.mt3em{margin-top: 0 !important;}
-    	.mt1em{margin-top: 1.5em !important;}
+    	.mt1em{margin-top: 1em !important;}
     	}
         @media(max-width: 1380px){
 			.fs7rem{font-size: .7rem !important;}
+		}
+		@media(max-width: 768px){
+			.mt1em {
+			    margin-top: 2em !important;
+			}
 		}
         @media only screen and (min-width: 768px){
 	        .fs-md-9r{
 	        	font-size:.9rem;
 	        }
+	        
         }
         @media(max-width: 575px){
         
         .fs9px{font-size: 9px !important;}
+        .fs7rem {
+		    font-size: .6rem !important;
+		    line-height: 14px;
+			}
         }
         .my-error {
    			 color:red;
@@ -643,7 +653,7 @@
                             </div> --%>
                             
                             <div class="row" style="margin-bottom:20px;">
-								<div class="col l12 m8 s12 offset-m2">
+								<div class="col l12 m12 s12">
 									<div class="row fixed-width">
 										<div class="table-inside">
 											<table class="mdl-data-table update-table mobile_responsible_table">

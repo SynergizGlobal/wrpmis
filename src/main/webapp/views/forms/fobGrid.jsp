@@ -110,6 +110,10 @@
             padding-right: 6px;
         }
     }
+    @media(max-width: 820px){
+    	.m-d-none{display:none;}
+    	.mb2em{margin-bottom: 2em;}
+    }
     
     </style>
 </head>
@@ -162,10 +166,10 @@
 									<div class="col s12 m12 right-align exportButton">
 									    <div class="m-n1">
 									        <a href="<%=request.getContextPath()%>/add-fob-form"
-												class="btn waves-effect waves-light bg-s t-c"> <strong><i
+												class="btn waves-effect waves-light bg-s t-c m-d-none"> <strong><i
 													class="fa fa-plus-circle"></i> Add</strong></a>
 											<a href="javascript:void(0);" onclick="exportFOB();"
-												class="btn waves-effect waves-light bg-s t-c"> <strong><i
+												class="btn waves-effect waves-light bg-s t-c m-d-none"> <strong><i
 													class="fa fa-cloud-download"></i> Export</strong></a>
 									    </div>
 									</div>
@@ -181,7 +185,7 @@
 						</c:if>
 
 						<div class="row no-mar">
-							<div class="col s12 hide-on-large-only mb-md-2 center-align">
+							<div class="col s12 hide-on-large-only mb-md-2 center-align mb2em">
 							    <a href="<%=request.getContextPath()%>/add-fob-form" class="btn waves-effect waves-light bg-s t-c"> <strong><i
 							                class="fa fa-plus-circle"></i> Add FOB</strong></a>
 							</div>

@@ -527,7 +527,7 @@
 			.map-btn-holder .fa{font-size: 2rem;}
 			.map-btn-holder .btn{padding: 0 20px;}
 			.map-btn-holder .btn{height: 3rem;padding: 2px 10px;}
-			.heading img{margin-top: 38px;}
+			.heading img{margin-top: 37px;width: 125%;}
         }
 
         /* 2nd demo start */

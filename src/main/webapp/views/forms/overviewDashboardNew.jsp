@@ -285,12 +285,14 @@
 					nameStr = nameStr.replaceAll(" ","--");
 					
 					var parentDashboardId = value.dashboard_id;
-					var liDisabled = 'disabled';
+					var liDisabled = '';
+					var notAvailable = '';
+					/* var liDisabled = 'disabled';
 					var notAvailable = 'NA';
 					if(($.trim(value.work_exists_or_not) != '' && value.work_exists_or_not > 0) || value.dashboard_name == 'Project Overview'){
 						liDisabled = '';
 						notAvailable = '';
-					}
+					} */
 					if(flag == 0 && $.trim(notAvailable) == '' && $.trim(parentDashboardId) != ''){
 						tempDashboardId = parentDashboardId;
 						flag = flag + 1;
@@ -314,12 +316,14 @@
 								nameStr = nameStr.replaceAll(" ","--");
 								
 								var dashboardId = subMenuvalue.dashboard_id;
-								var liDisabled = 'disabled';
+								var liDisabled = '';
+								var notAvailable = '';
+								/* var liDisabled = 'disabled';
 								var notAvailable = 'NA';
 								if($.trim(subMenuvalue.work_exists_or_not) != '' && subMenuvalue.work_exists_or_not > 0){
 									liDisabled = '';
 									notAvailable = '';
-								}
+								} */
 								if(flag == 0 && $.trim(notAvailable) == '' && $.trim(dashboardId) != ''){
 									tempDashboardId = dashboardId;
 									flag = flag + 1;
@@ -386,12 +390,14 @@
 			nameStr = nameStr.replaceAll(" ","--");
 			
 			var dashboardId = value.dashboard_id;
-			var liDisabled = 'disabled';
+			var liDisabled = '';
+			var notAvailable = '';
+			/* var liDisabled = 'disabled';
 			var notAvailable = 'NA';
 			if($.trim(value.work_exists_or_not) != '' && value.work_exists_or_not > 0){
 				liDisabled = '';
 				notAvailable = '';
-			}
+			} */
 			html = html + '<li class="'+liDisabled+'"><div class="collapsible-header over-sub-menu" id="'+dashboardId+'">';
 			html = html + '<a href="javascript:void(0);" id='+nameStr+value.dashboard_id+'>'
 			+'<span class="showHide" id="'+nameStr+'">'+value.dashboard_name+'</span>'

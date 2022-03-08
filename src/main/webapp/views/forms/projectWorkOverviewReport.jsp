@@ -438,7 +438,7 @@ td, th {
 					
 						        </tbody>
 						    </table>
-						    <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br><br> <br><br> <br><br><br><br>
+						    <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br><br> <br><br> <br><br><br><br><br> <br><br><br> <br><br><br><br><br><br>
 						<div style="text-align:center;" id="divProject"><h4>ISSUE STATUS</h4></div>		
 						
 						<table style='width:40%' id="issueSummaryTbl" class="table table-striped table-bordered" >

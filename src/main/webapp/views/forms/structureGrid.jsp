@@ -65,7 +65,6 @@
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
 				padding:3px !important;
-				max-width: 45px;
 			}
 			.mob-btn{
 				padding:0 12px;
@@ -128,6 +127,11 @@ thead tr th:last-of-type{
             padding-left: 6px;
             padding-right: 6px;
         }
+    }
+    @media(max-width: 768px){
+    	.dataTables_scrollBody tbody tr td:last-of-type, .no-sort{
+    		max-width: 200px !important;
+    	}
     }
     </style>
 </head>
@@ -288,7 +292,7 @@ thead tr th:last-of-type{
 									<table id="datatable-structure" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th>Work </th>
+												<th class="w200">Work </th>
 												<th>Structures </th>
 												<!-- <th>Structure Id </th>
 												<th>Contract </th>

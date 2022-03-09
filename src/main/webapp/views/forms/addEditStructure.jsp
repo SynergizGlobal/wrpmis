@@ -297,6 +297,10 @@
 		.mb-2i{
 			margin-bottom:2rem !important;
 		}
+		@media(max-width: 575px){
+			.w-60p{top: 0em;}
+    		.collapsible-header-holder a.btn.red{top: 1.5rem;}
+		}
     </style>
     
 </head>

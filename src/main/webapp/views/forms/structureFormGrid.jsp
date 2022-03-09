@@ -86,6 +86,13 @@
        .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {
 		    text-align: center;
 		}
+		.btn i, .btn-large i, .btn-small i, .btn-floating i, .btn-large i, .btn-small i, .btn-flat i {
+		    font-size: 1.1rem;
+		    line-height: inherit;
+		}
+		.mob-btn {
+		    padding: 0 10px;
+		}
      } 
      .no-sort.sorting_asc:before,
 	.no-sort.sorting_asc:after{
@@ -148,7 +155,7 @@
 						</c:if>
 
 						<div class="row no-mar">
-							<div class="col s12 l8 offset-l2 m9 offset-m2">
+							<div class="col s12 l8 offset-l2 m12 offset-m1">
 								<div class="row no-mar">																		
 									<div class="col s6 m2 input-field">
 										<p class="searchable_label">Work</p>
@@ -159,7 +166,7 @@
 										</select>
 									</div>
 									
-									<div class="col s6 m3 input-field">
+									<div class="col s6 m2 input-field">
 										<p class="searchable_label">Contract</p>
 										<select id="contract_id_fk" name="contract_id_fk"
 											onchange="addInQueContract(this.value);getStructureList();" class="searchable">
@@ -451,10 +458,10 @@
 												"targets" : 'no-sort',
 												"orderable" : false,
 											},
-											// {targets:[1,2,4,5], className: 'hideCOl'},
+											 {targets:[0,1,4], className: 'hideCOl'},
 											{ targets: [0], className: 'no-sort'  },
-											{ targets: [1], className: 'last-column'  },
-											//{ targets: [0,3], className: 'fw-111'  }  
+											/* { targets: [1], className: 'last-column'  }, */
+											{ targets: [2,3], className: 'fw-12vw'  }  
 											],
 											"sScrollX" : "100%",
 											"ordering":false,

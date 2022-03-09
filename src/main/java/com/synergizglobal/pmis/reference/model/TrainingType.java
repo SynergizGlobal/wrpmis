@@ -26,11 +26,77 @@ public class TrainingType {
 	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type, rr_occupancy_status, rr_tenure_status, caste, mother_tongue, rr_type_of_family,marital_status
 	,phase,rr_type_of_use, rr_location_fk, rr_sub_location,work_type,rr_location_fk_old,rr_location_fk_new,executive_user_id_fk,user_id;
     
+	private String dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu;
+	
 	private String [] work_id_fks,executive_user_id_fks;
 	List<TrainingType> rrExecutivesList;
 	List<TrainingType> landExecutivesList;
 	List<TrainingType> utilityExecutivesList;
 	
+	public String getDashboard_id() {
+		return dashboard_id;
+	}
+
+	public void setDashboard_id(String dashboard_id) {
+		this.dashboard_id = dashboard_id;
+	}
+
+	public String getDashboard_name() {
+		return dashboard_name;
+	}
+
+	public void setDashboard_name(String dashboard_name) {
+		this.dashboard_name = dashboard_name;
+	}
+
+	public String getDashboard_icon() {
+		return dashboard_icon;
+	}
+
+	public void setDashboard_icon(String dashboard_icon) {
+		this.dashboard_icon = dashboard_icon;
+	}
+
+	public String getDashboard_url() {
+		return dashboard_url;
+	}
+
+	public void setDashboard_url(String dashboard_url) {
+		this.dashboard_url = dashboard_url;
+	}
+
+	public String getSource_table_name() {
+		return source_table_name;
+	}
+
+	public void setSource_table_name(String source_table_name) {
+		this.source_table_name = source_table_name;
+	}
+
+	public String getSource_field_name() {
+		return source_field_name;
+	}
+
+	public void setSource_field_name(String source_field_name) {
+		this.source_field_name = source_field_name;
+	}
+
+	public String getSource_field_value() {
+		return source_field_value;
+	}
+
+	public void setSource_field_value(String source_field_value) {
+		this.source_field_value = source_field_value;
+	}
+
+	public String getShow_left_menu() {
+		return show_left_menu;
+	}
+
+	public void setShow_left_menu(String show_left_menu) {
+		this.show_left_menu = show_left_menu;
+	}
+
 	public String getWork_type() {
 		return work_type;
 	}

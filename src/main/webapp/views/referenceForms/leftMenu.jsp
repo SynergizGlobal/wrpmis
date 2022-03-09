@@ -85,67 +85,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<%-- <c:forEach var="obj" items="${moduleDetails.dList1}" varStatus="indexs">
-											<tr>
-												<td>
-												<input type="hidden" id="nameId${indexs.count}" value="${obj.name }"  class="findLengths"/>
-												${obj.name }
-												</td>
-												<td>
-												<input type="hidden" id="parent_text${indexs.count}" value="${obj.parent_text }"/>
-												${obj.module_incharge }
-												</td>
-												<td>
-												<input type="hidden" id="order_text${indexs.count}" value="${obj.parent_text }"/>
-												</td>
-												<td>
-												<input type="hidden" id="soft_delete_status_fk${indexs.count}" value="${obj.soft_delete_status_fk }"/>
-												${obj.soft_delete_status_fk }
-												</td>
-												<c:forEach var="tObj" items="${moduleDetails.tablesList}" varStatus="index">
-												 
-													<td>
-														<c:forEach var="cObj" items="${moduleDetails.countList}" >
-														<c:choose> 
-														    <c:when test="${tObj.tName eq cObj.tName }"> 
-														    	<c:choose>  
-																    <c:when test="${cObj.name eq obj.name }"> 
-																      	 ( ${cObj.count } )   
-																    </c:when>  
-																    <c:otherwise>  
-																    </c:otherwise>   
-																</c:choose>
-															</c:when>
-															<c:otherwise> 
-														   </c:otherwise>
-														</c:choose>
-														</c:forEach>
-													</td>
-	                                            </c:forEach>
-												<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
-											 	<c:forEach var="oSbj"  items="${moduleDetails.dList}" varStatus="indexx"> 
-													<c:choose>  
-													    <c:when test="${oSbj.name eq obj.name }"> 
-													      	<a onclick="deleteRow('${ oSbj.name }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
-													      	  <input name="bg_type" value="${oSbj.bg_type}"/>
-													      	</a>
-													    </c:when>  
-													    <c:otherwise>  
-													    </c:otherwise>   
-													</c:choose>  
-													
-	 											 </c:forEach>
-	 											</td>
-	 										</tr>													   
- 										 </c:forEach> --%>
- 										 <tr>
- 										 <td></td>
- 										 <td></td>
- 										 <td></td>
- 										 <td></td>
- 										 <td></td>
- 										 </tr>
-
+										
                                     </tbody>
                                 </table>
                             </div>
@@ -182,53 +122,51 @@
 	                    <div class="col s12">
 	                    	<div class="row no-mar">
 	                            <div class="input-field col s12 m6">
-	                                <input id="name_text" name="name_text" type="text" class="validate"  onkeyup="doValidate(this.value)">
-	                                <label for="name_text">Name<span class="required">*</span></label>
-	                                <span id="nameError" class="error-msg" ></span>
+	                                <input id="dashboard_name" name="dashboard_name" type="text" class="validate"  onkeyup="doValidate(this.value)">
+	                                <label for="dashboard_name">Name<span class="required">*</span></label>
+	                                <span id="dashboard_nameError" class="error-msg" ></span>
 	                            </div> 
 	                        	<div class="input-field col s12 m6">
 	                        		<p class="searchable_label">Parent</p>
-	                                <select id="parent_text" name="parent_text" class="searchable validate-dropdown">
-	                                	<option value="">Select</option>	
+	                                <select id="parent_id" name="parent_id" class="searchable validate-dropdown">
+	                                	<option value="0">Select</option>	
 	                                	 <c:forEach var="obj" items="${parentList }">
-		                                      <option value="${obj.id }">${obj.name }</option>
+		                                      <option value="${obj.dashboard_id }">${obj.dashboard_name }</option>
 		                              </c:forEach>                                	
 	                                </select>
-	                                <span id="parent_textError" class="error-msg" ></span>
+	                                <span id="parent_idError" class="error-msg" ></span>
 	                        	</div>
 	                        </div>
 	                        <div class="row no-mar">
 	                        	<div class="input-field col s12">
-	                                <input id="url_text" name="url_text" type="url" class="validate" >
-	                                <label for="url_text">Link</label>
-	                                <span id="url_textError" class="error-msg" ></span>
+	                                <input id="dashboard_url" name="dashboard_url" type="url" class="validate" >
+	                                <label for="dashboard_url">Link</label>
+	                                <span id="dashboard_urlError" class="error-msg" ></span>
 	                        	</div>
 	                        </div>  
 	                        <div class="row no-mar">
 	                        	<div class="input-field col s12 m6">
-	                        		<input id="order_text" name="order_text" type="number" class="validate" >
-	                                <label for="order_text">Order</label>
-	                                <span id="order_textError" class="error-msg" ></span>
+	                        		<input id="order" name="order" type="number" class="validate" >
+	                                <label for="order">Order</label>
+	                                <span id="orderError" class="error-msg" ></span>
 	                        	</div>  
 	                        	<div class="input-field col s12 m6">
 	                        		<p class="searchable_label">Status<span class="required">*</span></p>
-	                                <select id="soft_delete_status_fk" name="status" class="searchable validate-dropdown">
-	                                	<option value="">Select</option>
-	                                <%-- 	 <c:choose>
-								          <c:when test="${not empty statusList && fn:length(statusList) gt 0 }">
-								            <c:forEach var="obj" items="${statusList }">
-		                                      <option value="${obj.status }" >${obj.status }</option>
-		                              		</c:forEach>
-								         </c:when>
-								         <c:otherwise> --%>
+	                                <select id="status" name="status" class="searchable validate-dropdown">
+	                                	   <option value="">Select</option>
 								           <option value="Active">Active</option>
 								           <option value="Inactive">Inactive</option>
-								       <%--   </c:otherwise>
-								      </c:choose> --%>
 	                                </select>
-	                                <span id="soft_delete_status_fkError" class="error-msg" ></span>
+	                                <span id="statusError" class="error-msg" ></span>
 	                        	</div> 
 	                         </div>
+	                         <div class="row no-mar">	                        	
+	                        	<div class="input-field col s12">
+	                                <input id="source_field_name" name="source_field_name" type="text" class="validate" >
+	                                <label for="source_field_name">Work Filter Name</label>
+	                                <span id="source_field_nameError" class="error-msg" ></span>
+	                        	</div>
+	                        </div> 
 	                        <div class="row">
 	                            <div class="col s12 m6">
 	                                <div class="center-align m-1">
@@ -263,57 +201,56 @@
 	                <div class="row">
 	                    <div class="col s12">
 	                       <div class="row no-mar">
+	                       	 <input id="value_old" type="hidden" name="value_old"  >
+	                         <input id="update_dashboard_id" type="hidden" name="dashboard_id"  >
+	                                
 	                         <div class="input-field col s6">
 	                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
-	                                <input id="value_old" type="hidden" name="value_old"  >
-	                                  <input id="id_old" type="hidden" name="id"  >
 	                                <label for="value_new">Name<span class="required">*</span></label>
 	                                <span id="value_newError" class="error-msg" ></span>
 	                         </div>
 	                         <div class="input-field col s12 m6">
 	                        		<p class="searchable_label">Parent</p>
-	                                <select id="parent_text_update" name="parent_texts" class="searchable validate-dropdown req">
-	                                	<option value="">Select</option>	      
+	                                <select id="update_parent_id" name="parent_id" class="searchable validate-dropdown req">
+	                                	<option value="0">Select</option>	      
 	                                	 <c:forEach var="obj" items="${parentList }">
-		                                      <option value="${obj.id }">${obj.name }</option>
-		                              </c:forEach>                          	
+		                                      <option value="${obj.dashboard_id }">${obj.dashboard_name }</option>
+		                                 </c:forEach>                          	
 	                                </select>
-	                                <span id="parent_text_updateError" class="error-msg" ></span>
+	                                <span id="update_parent_idError" class="error-msg" ></span>
 	                            </div>
 	                        </div>
 	                        <div class="row no-mar">	                        	
 	                        	<div class="input-field col s12">
-	                                <input id="url_text_update" name="url_text_update" type="url" class="validate" >
-	                                <label for="url_text_update">Link</label>
-	                                <span id="url_textUpdateError" class="error-msg" ></span>
+	                                <input id="update_dashboard_url" name="dashboard_url" type="url" class="validate" >
+	                                <label for="update_dashboard_url">Link</label>
+	                                <span id="update_dashboard_urlError" class="error-msg" ></span>
 	                        	</div>
 	                        </div> 
 	                        <div class="row no-mar">     
 	                        	<div class="input-field col s12 m6">
-	                                <input id="order_text_update" name="order_text_update" type="number" class="validate" >
-	                                <label for="order_text_update">Order</label>
-	                                <span id="order_text_updateError" class="error-msg" ></span>
+	                                <input id="update_order" name="order" type="number" class="validate" >
+	                                <label for="update_order">Order</label>
+	                                <span id="update_orderError" class="error-msg" ></span>
 	                        	</div>                     	
-	                          <div class="input-field col s6">
+	                            <div class="input-field col s6">
 	                        		<p class="searchable_label">Status<span class="required">*</span></p>
-	                                <select id="soft_delete_status_fk_update" name="statuss" class="searchable validate-dropdown req">
-	                                <option value="">Select</option>
-	                              <%--     <c:choose>
-								          <c:when test="${not empty statusList && fn:length(statusList) gt 0 }">
-								            <c:forEach var="obj" items="${statusList }">
-		                                      <option value="${obj.status }" >${obj.status }</option>
-		                              		</c:forEach>
-								         </c:when>
-								         <c:otherwise> --%>
+	                                <select id="update_status" name="status" class="searchable validate-dropdown req">
+	                                	   <option value="">Select</option>
 								           <option value="Active">Active</option>
 								           <option value="Inactive">Inactive</option>
-								       <%--   </c:otherwise>
-								      </c:choose> --%>
-	                                	
 	                                </select>
-	                                <span id="soft_delete_status_fkUpdateError" class="error-msg" ></span>
+	                                <span id="update_statusError" class="error-msg" ></span>
 	                        	</div>
 	                        </div>   
+	                        <div class="row no-mar">	                        	
+	                        	<div class="input-field col s12">
+	                                <input id="update_source_field_name" name="source_field_name" type="text" class="validate" >
+	                                <label for="update_source_field_name">Work Filter Name</label>
+	                                <span id="source_field_nameError" class="error-msg" ></span>
+	                        	</div>
+	                        </div> 
+	                        
 	                        <div class="row">
 	                            <div class="col s12 m6">
 	                                <div class="center-align m-1">
@@ -350,7 +287,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="id" id="id" />
+    	<input type="hidden" name="dashboard_id" id="dashboard_id" />
     </form>
      <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -589,11 +526,11 @@
 	  			success : function(data){    				
 	  				if(data != null && data != '' && data.length > 0){    					
 		             		$.each(data,function(key,val){
-		                        var paras = ''+val.id +','+val.name+','+val.parent_id +','+val.order+','+val.link_url +','+val.status+'';
-		                        var actions = '<a onclick="updateRow(\'' + val.id + '\',\'' + val.name + '\',\'' + val.parent_id + '\',\'' + val.order + '\',\'' + val.link_url + '\',\'' + val.status + '\')" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a><a href="javascript:void(0);" onclick="deleteRow('+val.id +');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>'
+		                        //var paras = ''+val.dashboard_id +','+val.dashboard_name+','+val.parent_id +','+val.order+','+val.dashboard_url +','+val.status+'';
+		                        var actions = '<a onclick="updateRow(\'' + val.dashboard_id + '\',\'' + val.dashboard_name + '\',\'' + val.parent_id + '\',\'' + val.order + '\',\'' + val.dashboard_url + '\',\'' + val.status + '\',\'' + val.source_field_name+ '\')" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a><a href="javascript:void(0);" onclick="deleteRow('+val.dashboard_id +');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>'
 		                        var rowArray = [];    	                 
-		                        arr.push($.trim(val.name));
-		                       	rowArray.push($.trim(val.name));
+		                        arr.push($.trim(val.dashboard_name));
+		                       	rowArray.push($.trim(val.dashboard_name));
 		                       	rowArray.push($.trim(val.parent_id));
 		                       	rowArray.push($.trim(val.order));
 		                    	rowArray.push($.trim(val.status));
@@ -625,12 +562,12 @@
      		   var findVal = arr[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#nameError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#dashboard_nameError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#nameError').text('');
+     			   $('#dashboard_nameError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -714,45 +651,45 @@
          var validator =  $('#addLeftMenuForm').validate({
         	 ignore: ":hidden:not(.validate-dropdown)",
          	 rules: {
-         		 "name_text": {
+         		 "dashboard_name": {
    			 		  required: true
-         		 },"parent_text": {
+         		 },"parent_id": {
    			 		  required: false
-         		 },"url_text": {
+         		 },"dashboard_url": {
    			 		  required: false
-         		 },"order_text": {
+         		 },"order": {
    			 		  required: false
          		 },"status": {
    			 		  required: true
          		 },
    			},messages: {
-   		 		   "name_text": {
+   		 		   "dashboard_name": {
    			 		  required: 'Required'
-   			 	  },"parent_text": {
+   			 	  },"parent_id": {
    			 		  required: 'Required'
-   			 	  },"url_text": {
+   			 	  },"dashboard_url": {
    			 		  required: 'Required'
-   			 	  },"order_text": {
+   			 	  },"order": {
    			 		  required: 'Required'
    			 	  },"status": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
-   	        	 if(element.attr("id") == "name_text" ){
-   				     document.getElementById("nameError").innerHTML="";
-   			 	     error.appendTo('#nameError');
-   				 }else if(element.attr("id") == "parent_text" ){
-   				     document.getElementById("parent_textError").innerHTML="";
-   			 	     error.appendTo('#parent_textError');
-   				 }else if(element.attr("id") == "url_text" ){
-   				     document.getElementById("url_textError").innerHTML="";
-   			 	     error.appendTo('#url_textError');
-   				 }else if(element.attr("id") == "order_text" ){
-   				     document.getElementById("order_textError").innerHTML="";
-   			 	     error.appendTo('#order_textError');
-   				 }else if(element.attr("id") == "soft_delete_status_fk" ){
-   				     document.getElementById("soft_delete_status_fkError").innerHTML="";
-   			 	     error.appendTo('#soft_delete_status_fkError');
+   	        	 if(element.attr("id") == "dashboard_name" ){
+   				     document.getElementById("dashboard_nameError").innerHTML="";
+   			 	     error.appendTo('#dashboard_nameError');
+   				 }else if(element.attr("id") == "parent_id" ){
+   				     document.getElementById("parent_idError").innerHTML="";
+   			 	     error.appendTo('#parent_idError');
+   				 }else if(element.attr("id") == "dashboard_url" ){
+   				     document.getElementById("dashboard_urlError").innerHTML="";
+   			 	     error.appendTo('#dashboard_urlError');
+   				 }else if(element.attr("id") == "order" ){
+   				     document.getElementById("orderError").innerHTML="";
+   			 	     error.appendTo('#orderError');
+   				 }else if(element.attr("id") == "status" ){
+   				     document.getElementById("statusError").innerHTML="";
+   			 	     error.appendTo('#statusError');
    				 }
    	        }
          	
@@ -763,11 +700,11 @@
           	 rules: {
           		 "value_new": {
     			 		  required: true
-          		 },"parent_text": {
+          		 },"parent_id": {
     			 		  required: false
-          		 },"url_text_update": {
+          		 },"update_dashboard_url": {
     			 		  required: false
-          		 },"order_text_update": {
+          		 },"order": {
     			 		  required: false
           		 },"status": {
     			 		  required: true
@@ -775,11 +712,11 @@
     			},messages: {
     		 		   "value_new": {
     			 		  required: 'Required'
-    			 	  },"parent_text": {
+    			 	  },"parent_id": {
     			 		  required: 'Required'
-    			 	  },"url_text_update": {
+    			 	  },"update_dashboard_url": {
     			 		  required: 'Required'
-    			 	  },"order_text_update": {
+    			 	  },"order": {
     			 		  required: 'Required'
     			 	  },"status": {
     			 		  required: 'Required'
@@ -788,18 +725,18 @@
     	        	 if(element.attr("id") == "value_new" ){
     				     document.getElementById("value_newError").innerHTML="";
     			 	     error.appendTo('#value_newError');
-    				 }else if(element.attr("id") == "parent_text_update" ){
-    				     document.getElementById("parent_text_updateError").innerHTML="";
-    			 	     error.appendTo('#parent_text_updateError');
-    				 }else if(element.attr("id") == "url_text_update" ){
-    				     document.getElementById("url_textUpdateError").innerHTML="";
-    			 	     error.appendTo('#url_textUpdateError');
-    				 }else if(element.attr("id") == "order_text_update" ){
-    				     document.getElementById("order_text_updateError").innerHTML="";
-    			 	     error.appendTo('#order_text_updateError'); 
-    				 }else if(element.attr("id") == "soft_delete_status_fk_update" ){
-    				     document.getElementById("soft_delete_status_fkUpdateError").innerHTML="";
-    			 	     error.appendTo('#soft_delete_status_fkUpdateError');
+    				 }else if(element.attr("id") == "update_parent_id" ){
+    				     document.getElementById("update_parent_idError").innerHTML="";
+    			 	     error.appendTo('#update_parent_idError');
+    				 }else if(element.attr("id") == "update_dashboard_url" ){
+    				     document.getElementById("update_dashboard_urlError").innerHTML="";
+    			 	     error.appendTo('#update_dashboard_urlError');
+    				 }else if(element.attr("id") == "update_order" ){
+    				     document.getElementById("update_orderError").innerHTML="";
+    			 	     error.appendTo('#update_orderError'); 
+    				 }else if(element.attr("id") == "update_status" ){
+    				     document.getElementById("update_statusError").innerHTML="";
+    			 	     error.appendTo('#update_statusError');
     				 }
     	        }
           	 
@@ -815,30 +752,33 @@
     	        $(this).valid();
     	    }
     	});
-        function updateRow(id,name,parent,order,link,status) {
-	    	 if(link.length == 0 ||link == 'null'){
+        function updateRow(id,name,parent,order,link,status,source_field_name) {
+	    	  if(link.length == 0 ||link == 'null'){
 	    		 link = "";
-	    	 }
-	    	 if(order.length == 0 ||order == 'null'){
+	    	  }
+	    	  if(order.length == 0 ||order == 'null'){
 	    		 order = ""; 
-	    	 }
-	    	  
-	    	  $('#id_old').val($.trim(id))
+	    	  }
+
+   	          $('#onlyUpdateModal').modal('open');
+	    	  $('#update_dashboard_id').val($.trim(id))
     	      $('#value_old').val($.trim(name))
-    	      $('#onlyUpdateModal').modal('open');
     	      $('#onlyUpdateModal #value_new').val($.trim(name)).focus();
-    	     // $('#onlyUpdateModal #parent_text_update').val(parent);
-    	      $("select option:selected").removeAttr("selected");
-    	      $('select[name^="parent_texts"] option[value="'+ parent +'"]').attr("selected","selected");
-    	      $('#onlyUpdateModal #order_text_update').val(order).focus();
-    	      $('#onlyUpdateModal #url_text_update').val(link).focus();
-    	      //$('#onlyUpdateModal #soft_delete_status_fk_update').val(soft_delete_status_fk);
-    	      $('select[name^="statuss"] option[value="'+ status +'"]').attr("selected","selected");
-    	    	$('.req').select2();
+    	      $('#onlyUpdateModal #update_parent_id').val(parent);
+    	      //$("select option:selected").removeAttr("selected");
+    	      $('#onlyUpdateModal #update_order').val(order);
+    	      //$('select[id^="update_parent_id"] option[value="'+ parent +'"]').attr("selected","selected");
+    	      $('#onlyUpdateModal #update_order').val(order).focus();
+    	      $('#onlyUpdateModal #update_dashboard_url').val(link).focus();
+    	      $('#onlyUpdateModal #update_status').val(status);
+    	      //$('select[id^="update_status"] option[value="'+ status +'"]').attr("selected","selected");
+    	      $('.req').select2();
+    	      
+    	      $('#onlyUpdateModal #update_source_field_name').val(source_field_name).focus();
     	  }
     	  
     	  function deleteRow(val){
-    	  	$("#id").val(val);
+    	  	$("#dashboard_id").val(val);
     	  	showCancelMessage();
     	  }
     	  	

@@ -26,8 +26,8 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getLeftMenuList(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="SELECT id, name, `order`, icon, parent_id, link_url, status " + 
-					" FROM leftmenu where name is not null ";
+			String qry ="SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url, `order`, parent_id, dashboard_url, status,source_field_name " + 
+					" FROM left_menu where dashboard_id is not null ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
@@ -61,7 +61,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getStatusFilterList(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry = "SELECT status from leftmenu where status is not null  ";
+			String qry = "SELECT status from left_menu where status is not null  ";
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
@@ -85,7 +85,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getParentFilterList(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry = "SELECT parent_id from leftmenu where parent_id is not null ";
+			String qry = "SELECT parent_id from left_menu where parent_id is not null ";
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
@@ -96,7 +96,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 				qry = qry + " and status = ? ";
 				arrSize++;
 			}
-			qry = qry + " group by parent_id ";
+			qry = qry + " GROUP BY parent_id ORDER BY parent_id";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
@@ -117,8 +117,8 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 		boolean flag = false;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO leftmenu"
-					+ "( name,`order`,parent_id,link_url,status) VALUES (:name_text,:order_text,:parent_text,:url_text,:status)";
+			String insertQry = "INSERT INTO left_menu"
+					+ "(dashboard_name,`order`, parent_id,dashboard_url,status,source_field_name) VALUES (:dashboard_name,:order,:parent_id,:dashboard_url,:status,:source_field_name)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -146,8 +146,8 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE leftmenu SET `name`= :value_new,`order`= :order_text_update"
-					+ ", parent_id= :parent_texts, link_url= :url_text_update, status= :statuss WHERE `id`= :id " ;
+			String  updatereferenceTableQry = "UPDATE left_menu SET dashboard_name= :value_new,`order`= :order,"
+					+ "parent_id= :parent_id, dashboard_url= :dashboard_url, status= :status,source_field_name = :source_field_name WHERE dashboard_id= :dashboard_id " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -178,7 +178,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE FROM leftmenu WHERE `id`= :id; ";
+			String deleteQry ="DELETE FROM left_menu WHERE dashboard_id= :dashboard_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -195,7 +195,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 		List<TrainingType> tablesList = null;
 		try {
 			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'leftmenu' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'left_menu' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -210,7 +210,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 		List<TrainingType> list = null;
 		try {
 			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'leftmenu' and TABLE_SCHEMA = 'pmis'";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'left_menu' and TABLE_SCHEMA = 'pmis'";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -224,8 +224,8 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getParentList() throws Exception {
 		List<TrainingType> list = null;
 		try {
-			String qry = "SELECT id,name from  leftmenu group by id";
-			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+			String qry = "SELECT dashboard_id,dashboard_name from left_menu WHERE parent_id = ? GROUP BY dashboard_id";
+			 list = jdbcTemplate.query( qry,new Object[]{"0"}, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
@@ -237,7 +237,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getStatusList() throws Exception {
 		List<TrainingType> list = null;
 		try {
-			String qry = "SELECT status from  leftmenu group by status";
+			String qry = "SELECT status from  left_menu group by status";
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();

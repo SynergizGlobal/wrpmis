@@ -41,7 +41,7 @@
         	min-width:50px;
 	      }
 	     .fw-12vw{
-	        	width:15vw !important;
+	        	width:18vw !important;
 	        	min-width:15vw !important;
 	      }
 	     .fw-10vw{
@@ -116,6 +116,11 @@
             padding-left: 6px;
             padding-right: 6px;
         }
+    }
+    @media(max-width: 575px){
+    	.w100px{
+    		width: 50px !important;
+    	}
     }
     
     </style>
@@ -205,7 +210,7 @@
 										<tr>
 											<th class="no-sort">Work</th>
 											<th>Structure  Type</th>
-											<th>Structure  ID</th>
+											<th class="w100px">Structure  ID</th>
 											<th>Contract</th>
 											<th>Work Status</th>
 											<th class="no-sort">Action</th>
@@ -461,7 +466,8 @@
 											 {targets:[0,1,4], className: 'hideCOl'},
 											{ targets: [0], className: 'no-sort'  },
 											/* { targets: [1], className: 'last-column'  }, */
-											{ targets: [2,3], className: 'fw-12vw'  }  
+											{ targets: [2,3], className: 'fw-111'  },
+											{ targets: [5], className: 'fw-12vw'  }  
 											],
 											"sScrollX" : "100%",
 											"ordering":false,

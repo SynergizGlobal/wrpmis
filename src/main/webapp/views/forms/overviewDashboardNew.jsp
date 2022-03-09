@@ -266,9 +266,11 @@
 
   
   <script type="text/javascript">
-	
+
+   var globalDashboardId = '';
    $(document).ready(function(){	 
 	   var overview_work_id = '${work_id}';
+	   globalDashboardId = '${dashboardId}';
 	   $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
 			type:"POST",
 			data:{work_id : overview_work_id},
@@ -357,7 +359,7 @@
 			    	tempDashboardId = requestedDashboardId;
 			    }
 				if($.trim(tempDashboardId) != ''){
-					
+					globalDashboardId = tempDashboardId;
 					onLoadPage(tempDashboardId);
 					var tempParentId = $('.collapsible-header#'+tempDashboardId).attr("parent_id");
 					if($.trim(tempParentId) != ''){
@@ -373,6 +375,7 @@
 	    
 	    $(".collapsible-header").on("click", function () {
 	    	var dashboardId = $(this).attr("id");
+	    	globalDashboardId = dashboardId;
 			onLoadPage(dashboardId);
         });		
 	    
@@ -567,7 +570,10 @@
 	
 	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId){
 		 if(filter_label_name == 'Work'){
-			 window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/${dashboardId}";
+			 if($.trim(globalDashboardId) != ''){
+				 dashboardId = globalDashboardId;
+			 }
+			 window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/"+dashboardId;
 		 }		 
 		 var params = "";
 		 var ids = filterIds.split(",");

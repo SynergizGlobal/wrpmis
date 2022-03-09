@@ -322,7 +322,7 @@
 						    	<h5 class="center-align m-b-2">Work Details</h5>
 						    <c:if test="${action eq 'add'}">	
                                 <div class="col s12 m4 l4 input-field ">
-                                    <p class="searchable_label"> Project</p>
+                                    <p class="searchable_label"> Project<span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
                                          <option value="" >Select</option>

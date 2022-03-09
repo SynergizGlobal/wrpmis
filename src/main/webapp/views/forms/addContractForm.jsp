@@ -89,7 +89,7 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:36%;}
     	}
-    	@media(max-width: 800px){
+    	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	}
@@ -309,8 +309,9 @@
 	                                 
 	                                <div class="col s12 m4 l4 input-field">
 		                                <p class="priokind pad-top" style="text-align: center;"> <span style="margin-right:.5rem;font-weight:600;">Contract Awarded? <span class="required">*</span></span>
+		                                <br></br>
                                            	<span class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
-                                                <label style="padding-right: 10px;">
+                                                <label style="padding-right: 15px;">
                                                     <input class="with-gap" name="contract_status" type="radio" value="Yes" onclick="getStatusLIst();hideContractDetails();">
                                                     <span style="padding-left: 23px;">Yes</span>
                                                 </label>
@@ -386,7 +387,7 @@
                                 </div>
                                 
                                 <div class="row">                            
-	                                <div class="col s12 m8 l12 input-field mt20px offset-m2">
+	                                <div class="col s12 m12 l12 input-field mt20px ">
 	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
 	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
@@ -394,7 +395,7 @@
 	                            </div>
 	              
 	                            <div class="row"> 
-	                            	<div class="col m8 l12 offset-m2 s12">
+	                            	<div class="col m12 s12 l12" style="margin-bottom:30px; padding:0;">
 										<div class="row fixed-width">
 									        <h5 class="center-align">Executives</h5>
 									        <div class="table-inside">
@@ -448,7 +449,7 @@
 									</div>
 								</div>
 	                            <div class="row">
-	                                <div class="col s12 m8 l12 input-field offset-m2">
+	                                <div class="col s12 m12 l12 input-field">
 	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate pmis-textarea" ></textarea>
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
@@ -493,7 +494,7 @@
 	                                </div>
 	                            </div>
 	                            <div class="row">
-	                                <div class="col s12 m4 l6 input-field offset-m2 amount-dropdown" id="estimated_cost_div">
+	                                <div class="col s12 m6 l6 input-field amount-dropdown" id="estimated_cost_div">
 	                                    <i class="material-icons amount-symbol cost">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="estimated_cost">Detailed Estimated cost</label>
@@ -505,14 +506,14 @@
                                    		    </c:forEach>
 	                                	</select>
 	                                </div>
-	                                <div class="col s6 m4 l6 input-field" id="planned_date_of_award_div">
+	                                <div class="col s12 m6 l6 input-field" id="planned_date_of_award_div">
 	                                    <input id="planned_date_of_award" name="planned_date_of_award" type="text" class="validate datepicker">
 	                                    <label for="planned_date_of_award">Planned date of award</label>
 	                                    <span id="planned_date_of_awardError" class="error-msg" ></span>
 	                                    <button type="button" id="planned_date_of_award_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                
-	                                <div class="col s6 m4 l6 input-field" id="contract_status_fk_div">
+	                                <div class="col s12 m6 l6 input-field" id="contract_status_fk_div">
 		                                   <!-- <p class="searchable_label">Status of Work <span class="required">*</span></p> -->			                                   
 		                                   <label class="selected" for="contract_status_fk">Status of Work <span class="required">*</span></label>			                                   
 		                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select">
@@ -527,7 +528,7 @@
 		                            </div>   
 		                            
 		                            <div class="row">
-		                                <div class="col s12 m8 l12 input-field offset-m2">
+		                                <div class="col s12 m12 l12 input-field ">
 		                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000" ></textarea>
 		                                    <label for="remarks">Remarks</label>
 		                                    <span id="remarksError" class="error-msg"></span>
@@ -537,7 +538,7 @@
  									<div class="table-div">
 	
 			                    		<div class="">
-			                    		<div class=" col m10 s12 l12" style="margin-bottom:30px; padding:0;">
+			                    		<div class=" col m12 s12 l12" style="margin-bottom:30px; padding:0;">
 			                                <div class="row fixed-width">
 			                                    <h5 class="center-align">Documents</h5>
 			                                   	  <div class="table-inside">

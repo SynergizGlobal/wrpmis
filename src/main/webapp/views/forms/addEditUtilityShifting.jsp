@@ -278,6 +278,17 @@
 				width:80px;
 			}
 		}
+		@media(max-width: 575px){
+			.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td::before {
+	  		  vertical-align: top;
+			}
+		}
+		@media only screen and (max-width: 768px){
+			.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td::before {
+			    vertical-align: top;
+			}
+		}
+		
     </style>
 </head>
 <body>
@@ -333,7 +344,7 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field">
                                 	<p class="searchable_label"> Contract </p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
@@ -415,7 +426,7 @@
                                 </div>
 							</div>
 							<div class="row">
-								<div class="col s6 m4 l3 input-field ">
+								<div class="col s6 m3 l3 input-field ">
                                     <p class="searchable_label mb-8"> Impacted Contract </p>
                                     <select class="searchable validate-dropdown" id="impacted_contract_id_fk" name="impacted_contract_id_fk"  >
                                         <option value="">Select</option>
@@ -425,7 +436,7 @@
                                     </select>
                                     <span id="impacted_contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l3 input-field">
+                                <div class="col s6 m3 l3 input-field">
                                     <p class="searchable_label mb-8"> Requirement stage </p>
                                     <select class="searchable validate-dropdown" id="requirement_stage_fk" name="requirement_stage_fk" >
                                         <option value="" >Select</option>
@@ -435,32 +446,32 @@
                                     </select>
                                       <span id="requirement_stage_fkError" class="error-msg" ></span>
                                 </div>
-                             	<div class="col s12 m4 l3 input-field">
+                             	<div class="col s12 m3 l3 input-field">
                                      <input id="planned_completion_date" name="planned_completion_date" type="text" class="validate datepicker" value="${utilityShifting.planned_completion_date }">                                     
                                      <label for="planned_completion_date">Planned Completion <span class="required">*</span></label>
 	                                 <button type="button" id="planned_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="planned_completion_dateError" class="error-msg" ></span> 
                                 </div>
-                             	<div class="col s12 m4 l3 input-field">
+                             	<div class="col s12 m3 l3 input-field">
                                      <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${utilityShifting.start_date }">                                     
-                                     <label for="start_date">Start Date <span class="required">*</span></label>
+                                     <label for="start_date">Start Date <span class="required"></span></label>
 	                                 <button type="button" id="start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="start_dateError" class="error-msg" ></span>
                                 </div>
 							</div>
 							<div class="row">
-								<div class="col s6 m4 l2 input-field">
+								<div class="col s6 m2 l2 input-field">
                                      <input id="scope" name="scope" type="number" class="validate" value="${utilityShifting.scope }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
-                                     <label for="scope">Scope <span class="required">*</span></label>
+                                     <label for="scope">Scope <span class="required"></span></label>
 	                                 <span id="scopeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l2 input-field">
+                                <div class="col s6 m2 l2 input-field">
                                      <input id="completed" name="completed" type="number" class="validate" value="${utilityShifting.completed }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
-                                     <label for="completed">Completed <span class="required">*</span></label>
+                                     <label for="completed">Completed <span class="required"></span></label>
 	                                 <span id="completedError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l2 input-field">
-                                    <p class="searchable_label mb-8"> Unit <span class="required">*</span></p>
+                                <div class="col s12 m2 l2 input-field">
+                                    <p class="searchable_label mb-8"> Unit <span class="required" id="unit"></span></p>
                                     <select class="searchable validate-dropdown" id="unit_fk" name="unit_fk" >
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${unitList }">
@@ -469,7 +480,7 @@
                                     </select>
                                       <span id="unit_fkError" class="error-msg" ></span>
                                 </div>
-                             	<div class="col s12 m4 l3 input-field">
+                             	<div class="col s12 m2 l2 input-field">
                                     <p class="searchable_label mb-8"> Status <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="shifting_status_fk" name="shifting_status_fk" >
                                         <option value="" >Select</option>
@@ -479,7 +490,7 @@
                                     </select>
                                       <span id="shifting_status_fkError" class="error-msg" ></span>
                                 </div>
-                             	<div class="col s12 m4 l3 input-field">
+                             	<div class="col s12 m4 l4 input-field">
                                      <input id="shifting_completion_date" name="shifting_completion_date" type="text" class="validate datepicker" value="${utilityShifting.shifting_completion_date }">                                     
                                      <label for="shifting_completion_date">Shifting Completed <span class="required"></span></label>
 	                                 <button type="button" id="shifting_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
@@ -697,7 +708,7 @@
 		                            </div>
 	                            </c:if>
 	                            <c:if test="${sessionScope.USER_ID eq utilityShifting.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
-                                <div class="col s6 offset-m2 m4 l6 mt-brdr">
+                                <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
                                        <c:if test="${action eq 'edit'}">
 	                                       <button type="button" class="btn waves-effect waves-light bg-m" onclick="addUtilityShifting();">Update</button>
@@ -707,7 +718,7 @@
 	                                    </c:if>
                                     </div>
                                 </div>
-                                  <div class="col s6 m4 l6 mt-brdr">
+                                  <div class="col s6  m6 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath() %>/utilityshifting" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
@@ -761,9 +772,99 @@
     	
     	$('#shifting_status_fk').change(function(){
     		if($('#shifting_status_fk').val()=='Completed'){
+    			$('#shifting_completion_date').rules('add',  { required: true });
+    			$('#start_date').rules('add',  { required: true });
+    			$('#completed').rules('add',  { required: true });
+    			$('#scope').rules('add',  { required: true });
+    			$('#unit_fk').rules('add',  { required: true });
+
     			$('label[for="shifting_completion_date"] .required').text('*');   
+    			$('label[for="start_date"] .required').text('*');   
+    			$('label[for="completed"] .required').text('*');   
+    			$('label[for="scope"] .required').text('*');
+    			$('#unit').text('*');   
+
+
+    		}else if($('#shifting_status_fk').val()=='In Progress'){
+    			$('#shifting_completion_date').rules('add',  { required: false });
+    			$('#start_date').rules('add',  { required: true });
+    			$('#completed').rules('add',  { required: true });
+    			$('#scope').rules('add',  { required: true });
+    			$('#unit_fk').rules('add',  { required: true });
+
+    			$('label[for="shifting_completion_date"] .required').text('');   
+    			$('label[for="start_date"] .required').text('*');   
+    			$('label[for="completed"] .required').text('*');   
+    			$('label[for="scope"] .required').text('*');   
+    			$('#unit').text('*');   
+
+
+    		}else if($('#shifting_status_fk').val()=='Under Progress'){
+    			$('#shifting_completion_date').rules('add',  { required: false });
+    			$('#start_date').rules('add',  { required: true });
+    			$('#completed').rules('add',  { required: true });
+    			$('#scope').rules('add',  { required: true });
+    			$('#unit_fk').rules('add',  { required: true });
+
+    			$('label[for="shifting_completion_date"] .required').text('');   
+    			$('label[for="start_date"] .required').text('*');   
+    			$('label[for="completed"] .required').text('*');   
+    			$('label[for="scope"] .required').text('*');   
+    			$('#unit').text('*');   
+
+
     		}
+    		else{
+    			$('#shifting_completion_date').rules('add',  { required: false });
+    			$('#start_date').rules('add',  { required: false });
+    			$('#completed').rules('add',  { required: false });
+    			$('#scope').rules('add',  { required: false });
+    			$('#unit_fk').rules('add',  { required: false });
+
+    			$('label[for="shifting_completion_date"] .required').text('');   
+    			$('label[for="start_date"] .required').text('');   
+    			$('label[for="completed"] .required').text('');   
+    			$('label[for="scope"] .required').text('');   
+    			$('#unit').text('');   
+
+
+    		}
+    		
         });
+    	
+    	$('#shifting_status_fk').change(function(){
+    		if($('#shifting_status_fk').val()=='Not Started'){
+    			$('#shifting_completion_date').rules('add',  { required: false });
+    			$('#start_date').rules('add',  { required: false });
+    			$('#completed').rules('add',  { required: false });
+    			$('#scope').rules('add',  { required: false });
+    			$('#unit').rules('add',  { required: false });
+
+				$('#shifting_completion_dateError').text('');   
+				$('#start_dateError').text('');   
+				$('#completedError').text('');   
+				$('#scopeError').text('');   
+				$('#unit_fkError').text('');   
+ 
+
+    		}
+    		if($('#shifting_status_fk').val()=='In Progress'){
+    			$('#shifting_completion_date').rules('add',  { required: false });
+    			
+				$('#shifting_completion_dateError').text('');   
+				
+    		}
+    		if($('#shifting_status_fk').val()=='Under Progress'){
+    			$('#shifting_completion_date').rules('add',  { required: false });
+    			
+
+				$('#shifting_completion_dateError').text('');   
+				 
+
+    		}
+    	});
+
+       
     	
     	if($('#shifting_status_fk').val()=='Completed'){
 			$('label[for="shifting_completion_date"] .required').text('*');
@@ -773,17 +874,47 @@
 		    $('label[for="start_date"] .required').text('*');	    	  
 			$('label[for="shifting_completion_date"] .required').text('');
         } */
-    	
+    	       	
+        if($('#shifting_status_fk').val()=='Completed'){
+			$('label[for="scope"] .required').text('*');
+			$('label[for="completed"] .required').text('*');
+			$('label[for="start_date"] .required').text('*');
+			$('#unit').text('*');   
+
+    	} 
+        if($('#shifting_status_fk').val()=='In Progress'){
+			$('label[for="scope"] .required').text('*');
+			$('label[for="completed"] .required').text('*');
+			$('label[for="start_date"] .required').text('*');
+			$('#unit').text('*');   
+
+    	} 
+         if($('#shifting_status_fk').val()=='Under Progress'){
+			$('label[for="scope"] .required').text('*');
+			$('label[for="completed"] .required').text('*');
+			$('label[for="start_date"] .required').text('*');
+			$('#unit').text('*');   
+
+    	} 
+        
    });
    
    function restrictAlphabets(e) {
        var x = e.which || e.keycode;
-       if ((x >= 48 && x <= 57))
-           return true;
-       else
-           return false;
-   }  
-
+       if (x == 46) {
+           //Check if the text already contains the . character
+           if (x.value.indexOf('.') === -1) {
+             return true;
+           } else {
+             return false;
+           }
+         } else {
+           if (x > 31 &&
+             (x < 48 || x > 57))
+             return false;
+         }
+         return true;
+   }
    function scopeValidation()
    {
 		 var s1=parseFloat(document.getElementById("scope").value);
@@ -1020,13 +1151,13 @@
 				 	        return $('#shifting_status_fk').val()=='Completed'
 				 	      }
 				 	  },"start_date":{	
-				 		 required: true
+				 		 required:false
 				 	  },"scope": {
-			 		    required: true,
+				 		 required:false
 			 	   	  },"completed": {
-				 		required: true
+			 	   		required:false
 				 	  },"unit_fk": {
-			 		    required: true
+				 		 required:false
 			 	   	  },"shifting_status_fk": {
 				 		required: true
 				 	  }

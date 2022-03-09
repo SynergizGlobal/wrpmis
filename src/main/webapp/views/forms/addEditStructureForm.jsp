@@ -82,6 +82,9 @@
         .mt9px{margin-top: 9px !important}
         .w7em{width: 7em;}
         .bd-none{border:none !important;background: transparent}
+        #structureContractResponsibleTableBody .input-field:not(.h-auto) .select2-container--default{
+    		max-width:400px;
+    	}
 		@media(max-width: 2200px){
 		.table-add{position: absolute;}
 		.table-add.sm{width:53%;}
@@ -93,12 +96,19 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:36%;}
     	}
-    	@media(max-width: 800px){
-    	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	@media(max-width: 820px){
+    	.add-align{position: relative; margin-top: 0; margin-left:0 !important;}
+    	.bd-none{border: 1px solid rgba(0,0,0,0.12) !important;}
     	.table-add{position: relative;}
-    	}
     	#structureContractResponsibleTableBody .input-field:not(.h-auto) .select2-container--default{
-    		max-width:400px;
+    		max-width:200px;
+    		}
+    	.table-add.sm {
+		    width: 100%;
+			}
+		.table-add{
+		 width: 100%;
+			}
     	}
         @media only screen and (max-width: 768px){
         	.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
@@ -177,7 +187,7 @@
 			                	<form action="<%=request.getContextPath() %>/add-structures" id="structuresForm" name="structuresForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                             <div class="row">
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                 <p class="searchable_label"> Project<span class="required">*</span></p>
                                 <input type="hidden" name="structure_id" id="structure_id" value="${structuresListDetails.structure_id}">
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
@@ -212,7 +222,7 @@
                             	</div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m2 l4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="structure_name" name="structure_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${structuresListDetails.structure_name }" >
                                     <label for="structure_name">Structure Name <span class="required">*</span></label>
                                     <span id="structure_nameError" class="error-msg" ></span>
@@ -223,13 +233,13 @@
 										<input type="hidden" id="structure${index.count}" value="${obj.structure }"  class="findLengths"/>
 									</c:forEach>
 								</div>          --%>                  
-                                <div class="col s6 m2 l4 input-field" id="hideForFOB"  >
+                                <div class="col s6 m4 l4 input-field" id="hideForFOB"  >
                                     <input id="structure" name="structure" type="text" class="validate" value="${structuresListDetails.structure }"  <c:if test="${not empty structuresListDetails.structure}">readonly</c:if>>
                                     <label for="structure">Structure ID <span class="required">*</span></label>
                                     <span id="structureError" class="error-msg" ></span>
                                 </div>
                                 
-                                 <div class="col s6 m2 l4 input-field" id="showForFOB" style=" display: none;">
+                                 <div class="col s6 m4 l4 input-field" id="showForFOB" style=" display: none;">
                                     <input id="fob_id" name="structure" type="text" class="validate" value="${structuresListDetails.structure }" onkeyup="doValidate(this.value)" <c:if test="${not empty structuresListDetails.structure}">readonly</c:if>>
                                     <label for="structure">Structure ID <span class="required">*</span></label>
                                     <span id="structureError" class="error-msg" ></span>
@@ -254,7 +264,7 @@
                             
 	                         <div class="row " id="structureResponsiblePeopleDetails">
 	                            <div class="row"> 
-	                            	<div class="col m10 l12 offset-m1 s12">
+	                            	<div class="col m12 l12 s12">
 										<div class="row fixed-width">
 									       <h5 class="center-align"><span class="div-header">Contract - Execution Executives</span></h5> 
 									        <div class="table-inside">
@@ -383,13 +393,13 @@
                             
                             <br>
                            <div class="row">
-	                            <div class="col s12 m4 l6 input-field offset-m2">
+	                            <div class="col s12 m6 l6 input-field">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${structuresListDetails.target_date }" <c:if test="${not empty structuresListDetails.target_date}">disabled</c:if>>
                                     <label for="target_date">Original Target Date </label>
                                     <button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="target_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l6 input-field amount-dropdown">
+                                <div class="col s12 m6 l6 input-field amount-dropdown">
                                 	<i class="material-icons amount-symbol cost">₹</i>   
                                     <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${structuresListDetails.estimated_cost }" min="0.01" step="0.01" <c:if test="${not empty structuresListDetails.estimated_cost}">readonly</c:if>>
                                     <label for="estimated_cost">Estimated Cost</label>
@@ -406,7 +416,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m8 l12 input-field offset-m2">
+                                <div class="col s12 m12 l12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000" maxlength="1000">${structuresListDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
@@ -414,12 +424,12 @@
                             </div>
                             <c:if test="${action eq 'edit'}">	
                             <div class="row">
-                                <div class="col s6 m4 l6 input-field offset-m2">
+                                <div class="col s6 m6 l6 input-field">
                                     <input id="latitude" name="latitude" type="text" class="validate" value="${structuresListDetails.latitude }" <c:if test="${not empty structuresListDetails.latitude}">readonly</c:if>>
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l6 input-field ">
+                                <div class="col s6 m6 l6 input-field ">
                                     <input id="longitude" name="longitude" type="text" class="validate" value="${structuresListDetails.longitude }" <c:if test="${not empty structuresListDetails.longitude}">readonly</c:if>>
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
@@ -428,13 +438,13 @@
                             </c:if>
                             
                             <div class="row">
-                                <div class="col s6 m4 l6 input-field " id="construction_start_dateDiv" style=" display: none;">
+                                <div class="col s6 m6 l6 input-field " id="construction_start_dateDiv" style=" display: none;">
                                     <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${structuresListDetails.construction_start_date }" <c:if test="${not empty structuresListDetails.construction_start_date}">disabled</c:if>>
                                     <label for="construction_start_date" class="fs-sm-8rem">Construction Start Date </label>
                                     <button type="button" id="construction_start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="construction_start_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l6 input-field " id="revised_completionDiv" style=" display: none; ">
+                                <div class="col s6 m6 l6 input-field " id="revised_completionDiv" style=" display: none; ">
                                     <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${structuresListDetails.revised_completion }" <c:if test="${not empty structuresListDetails.revised_completion}">disabled</c:if>>
                                     <label for="revised_completion" class="fs-sm-8rem">Target completion Date </label>
                                     <button type="button" id="revised_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -445,7 +455,7 @@
 							<c:if test="${action eq 'edit'}"> 
 	                            <div class="row">
 	                                <h5 class="center-align">Structure Details</h5>
-	                                <div class="col s12 m8 offset-m2" id="structureFobDiv" style="display:none;">
+	                                <div class="col s12 m12" id="structureFobDiv" style="display:none;">
 	                                    <table id="structureDetailsTable" class="mdl-data-table" style="margin-bottom:20px;">
 	                                        <thead>
 	                                            <tr>
@@ -488,7 +498,7 @@
 	                                     </tbody>
 	                                   </table>
 	                                </div>
-	                                <div class="col s12 m8 offset-m2" id="structureNonFobDiv" style="display:none;">
+	                                <div class="col s12 m12" id="structureNonFobDiv" style="display:none;">
 							            <table id="structureDetailsTable" class="mdl-data-table">
 							                <thead>
 							                    <tr>
@@ -602,7 +612,7 @@
                                 <div class="col m12 s12">
 	                           								
                              <div class="row">
-								<div class="col m10 l12 offset-m1 s12">
+								<div class="col m112 l12 s12">
 									<div class="row fixed-width">
                              			<h5 class="center-align"><span class="div-header">Documents</span></h5> 
 										<!-- <div class="table-inside"> -->
@@ -727,7 +737,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s6 l6 m4 mt-brdr">
+                                <div class="col s6 l6 m6 mt-brdr">
                                     <div class="center-align m-1">
                                         <c:if test="${action eq 'edit'}">
 	                                       <button type="button" onclick="updateStructure();" class="btn waves-effect waves-light bg-m">Update</button>

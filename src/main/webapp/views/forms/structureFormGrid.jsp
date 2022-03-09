@@ -117,6 +117,10 @@
             padding-right: 6px;
         }
     }
+    @media(max-width:768px){
+    	.vw15{width:15vw !important;
+        	min-width:15vw !important;}
+    }
     @media(max-width: 575px){
     	.w100px{
     		width: 50px !important;
@@ -467,7 +471,7 @@
 											{ targets: [0], className: 'no-sort'  },
 											/* { targets: [1], className: 'last-column'  }, */
 											{ targets: [2,3], className: 'fw-111'  },
-											{ targets: [5], className: 'fw-12vw'  }  
+											{ targets: [5], className: 'vw15'  }  
 											],
 											"sScrollX" : "100%",
 											"ordering":false,

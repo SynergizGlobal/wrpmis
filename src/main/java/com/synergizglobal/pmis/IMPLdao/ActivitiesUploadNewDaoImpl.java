@@ -150,7 +150,12 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
                 
                 stmt.setString(p++, !StringUtils.isEmpty(insertList.get(i).getCompleted())?insertList.get(i).getCompleted():"0");
                 stmt.setString(p++, insertList.get(i).getWeightage());
-                stmt.setString(p++, insertList.get(i).getComponent_details());	
+                String CD=insertList.get(i).getComponent_details();
+                if(CD==null)
+                {
+                	CD="";
+                }
+                stmt.setString(p++, CD);	
                 stmt.setString(p++, insertList.get(i).getRemarks());
                 stmt.setString(p++, insertList.get(i).getCreated_by_user_id_fk());
                 stmt.addBatch();
@@ -176,7 +181,12 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
                 
                 stmt.setString(p++, !StringUtils.isEmpty(updateList.get(i).getCompleted())?updateList.get(i).getCompleted():"0");
                 stmt.setString(p++, updateList.get(i).getWeightage());
-                stmt.setString(p++, updateList.get(i).getComponent_details());	
+                String CD1=updateList.get(i).getComponent_details();
+                if(CD1==null)
+                {
+                	CD1="";
+                }
+                stmt.setString(p++, CD1);	
                 stmt.setString(p++, updateList.get(i).getRemarks());
                 stmt.setString(p++, updateList.get(i).getModified_by_user_id_fk());
                 
@@ -191,6 +201,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
                 stmt.setString(p++, updateList.get(i).getComponent_id());		                	
                 stmt.setString(p++, updateList.get(i).getActivity_name());
                 stmt.addBatch();
+                
 			}
 			int[] updateCounts = stmt.executeBatch();
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);

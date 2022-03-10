@@ -12,10 +12,44 @@
 	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">	
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+	
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">	
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	
 	<style>
+		.ui-icon, .ui-widget-content .ui-icon{
+			display:none;
+		}
+		.ui-state-active .ui-icon, .ui-button:active .ui-icon{
+			display:none;
+		}
+		.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr, .ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl{
+			border-radius: 10px;
+		}
+		.ui-widget-content{
+			border: none;
+		}
+		.ui-state-default{border: 3px solid #4498d3dd;}
+		.bd-bl{
+			border: 3px solid #4498d3dd;
+			padding:.5em .5em .5em .7em;
+			border-radius: 10px;
+			display:block;
+			}
+		.ui-state-hover, .ui-icon{display:none;}
+		.ui-accordion .ui-accordion-content{
+			padding: 0em 0em 0 2.2em;
+		}
+		.ui-accordion-content p{
+			margin: 5px 0; 
+		}
+		.ui-accordion-content p a{
+			margin: 5px 0; 
+		}
+		.ds-none{display:none !important;}
+		.non-active{background: #f6f6f6 !important;color: #000 !important;}
+		.non-active:hover{background: #ededed !important;}
 		/* .ad-i{
 			font-size: 1.1rem !important;
 			margin-left: .3rem;
@@ -220,6 +254,33 @@
 	                <li class="active"> -->
 	                    <!-- <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div> -->
 	                    <div class=" main-menu-collapse" id="nestable">
+	                    	<div id="accordion">
+	                    		<h3 class="non-active"><a href="#">Section 1</a></h3>
+	                    		<div class="ds-none">
+	                    			<p></p>
+	                    		</div>
+								  <h3><a href="#">Section 2</a></h3>
+								  <div>
+								    <p>
+								    <a href="#" class="bd-bl">link1</a>
+								    <a href="#" class="bd-bl">link2</a>
+								    </p>
+								  </div>
+								  <h3><a href="#">Section 3</a></h3>
+								  <div>
+								    <p>
+								    <a href="#" class="bd-bl">link1</a>
+								    <a href="#" class="bd-bl">link2</a>
+								    </p>
+								  </div>
+								  <h3><a href="#">Section 4</a></h3>
+								  <div>
+								    <p>
+								    <a href="#" class="bd-bl">link1</a>
+								    <a href="#" class="bd-bl">link2</a>
+								    </p>
+								  </div>
+	                    	</div>
 	                    </div>
 	               <!--  </li>
 	            </ul> -->
@@ -373,10 +434,14 @@
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script type="text/javascript" src="https://infoviz.syntrackpro.com/javascripts/api/tableau-2.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
   
 	<script>
-	
+	 $( function() {
+		    $( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
+		  } );
 	$(".brand-logo.fs").html('<img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span><span id="CurrentDate"></span>');  			
 	document.getElementById("CurrentDate").innerHTML=todayDate;
 	
@@ -386,7 +451,7 @@
 		cache: false,async:false,
 		success : function(data)
 		{    
-			$('#nestable').append(getData(data)); 
+			//$('#nestable').append(getData(data)); 
 		}
 	});	
 	

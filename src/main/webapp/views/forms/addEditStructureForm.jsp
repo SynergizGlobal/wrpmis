@@ -87,7 +87,7 @@
     	}
 		@media(max-width: 2200px){
 		.table-add{position: absolute;}
-		.table-add.sm{width:53%;}
+		.table-add.sm{width:80%;}
 		.add-align{position: absolute;
    					 margin-top: -5.8em;
    					 margin-left: 26%;}
@@ -156,6 +156,9 @@
     @media(max-width: 575px){
     	.row .col{margin: 6px auto;}
     	h5{margin: 1.0933333333rem 0 .656rem 0;}
+    	.select2-container--default .select2-selection--multiple .select2-selection__choice__display{
+    		white-space: pre-wrap;
+    	}
     }
     </style>
 </head>
@@ -210,7 +213,7 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                 	<p class="searchable_label"> Structure Type<span class="required">*</span></p>
                                  	<select id="structure_type_fk" name="structure_type_fk" class="validate-dropdown searchable" >
                                          <option value="" >Select</option>
@@ -245,7 +248,7 @@
                                     <span id="structureError" class="error-msg" ></span>
                                 </div>
                              
-                                <div class="col s6 m4 l4 input-field mt9px">
+                                <div class="col s12 m4 l4 input-field mt9px">
                                     <p class="searchable_label">Work Status <span class="required">*</span></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
                                         <option value="">Select</option>
@@ -748,7 +751,7 @@
 	                                  
                                     </div>
                                 </div>
-                                <div class="col s6 m4 l6 mt-brdr">
+                                <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/structure-form" class="btn waves-effect waves-light bg-s" >Cancel</a>
                                     </div>

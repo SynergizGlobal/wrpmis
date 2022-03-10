@@ -413,6 +413,20 @@
 	
     <script>
     
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+    
+    	var cid = getUrlVars()["work_id"];
+	    if(cid!="")
+	    {
+	    	$("#word_id_fk").val(cid);
+	    }   
+    
     var filtersMap = new Object();
     var pageNo = window.localStorage.getItem("projectOverviewPageNo");
     $(document).ready(function () {
@@ -701,7 +715,7 @@
     	
 	    if ($.trim(work_id_fk) == "") {
 	    	$("#work_id_fk option:not(:first)").remove();
-		 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk};
+		 	var myParams = {department_fk : department_fk, work_id_fk : cid};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInPOR",
                 data: myParams, cache: false,async: false,

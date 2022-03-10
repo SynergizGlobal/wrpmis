@@ -62,7 +62,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"left join department d on d.department=c.department_fk "+
-					"where work_id_fk is not null and work_id_fk <> '' and work_id_fk in('P04w01') and c.contract_id not in('P04W01EN02','P04W01EN03') ";
+					"where work_id_fk is not null and work_id_fk <> ''  and c.contract_id not in('P04W01EN02','P04W01EN03') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -107,7 +107,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 			String qry = "SELECT distinct department_fk,department_name "
 					+ "from contract c "
 					+"left join department dt on c.department_fk = dt.department "
-					+"where department_fk is not null and department_fk <> '' and work_id_fk in('P04w01') and c.contract_id not in('P04W01EN02','P04W01EN03') ";
+					+"where department_fk is not null and department_fk <> ''  and c.contract_id not in('P04W01EN02','P04W01EN03') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -170,7 +170,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 					+ "LEFT join money_unit mu1 ON c.estimated_cost_units = mu1.value " 
 					+ "LEFT join money_unit mu2 ON c.awarded_cost_units = mu2.value " 
 					+ "LEFT join money_unit mu3 ON c.completed_cost_units = mu3.value " 
-					+ "	where work_id_fk is not null and work_id_fk <> '' and work_id_fk in('P04w01') and c.contract_id not in('P04W01EN02','P04W01EN03') group by contract_id ) as a where 0=0 ";
+					+ "	where work_id_fk is not null and work_id_fk <> ''  and c.contract_id not in('P04W01EN02','P04W01EN03') group by contract_id ) as a where 0=0 ";
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

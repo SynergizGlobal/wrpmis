@@ -169,19 +169,25 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 				if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
 					String filterQry = "SELECT "
 							+ "`" + obj.getFilter_column_name() + "` as filter_option_value";
-							if(!StringUtils.isEmpty(obj.getFilter_column_name())) {
-								filterQry = filterQry + ",`" + obj.getFilter_column_name() + "` as filter_option_id ";
+							if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
+								filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
 							}
 							filterQry = filterQry + " FROM "
 							+ "`"+ obj.getFilters_table()+ "`";
+							
+							filterQry = filterQry + " WHERE "
+									+ "`"+ obj.getFilter_column_id()+ "`"
+									+ " IS NOT NULL ";
 							if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
-								filterQry = filterQry + " WHERE "
+								filterQry = filterQry + " AND "
 								+ "`"+ obj.getDefault_filter_column()+ "`"
 								+ " = "
 								+ obj.getDefault_filter_value();
 							}
+							
+							
 							filterQry = filterQry + " GROUP BY "
-							+ "`"+ obj.getFilter_column_name()+ "`";
+							+ "`"+ obj.getFilter_column_id()+ "`";
 					List<OverviewDashboardNew> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
 					obj.setFilter(filter);
 				}

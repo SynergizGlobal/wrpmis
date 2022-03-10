@@ -133,6 +133,12 @@
 			    width: 200%;
 			    display: block !important;
 			}
+			.select2-container--default .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--multiple {
+			    box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff !important;
+			    background-color: transparent;
+			    padding: 5px;
+			    white-space: pre-wrap;
+			}
         }
        /*  datepicker styling to its defaults */
     .mobile_responsible_table .datepicker-table .datepicker-row td {
@@ -213,7 +219,7 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                 	<p class="searchable_label"> Structure Type<span class="required">*</span></p>
                                  	<select id="structure_type_fk" name="structure_type_fk" class="validate-dropdown searchable" >
                                          <option value="" >Select</option>
@@ -223,9 +229,8 @@
                                      </select>
                                      <span id="structure_type_fkError" class="error-msg" ></span>
                             	</div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6 m4 l4 input-field">
+                            	
+                            	                                <div class="col s6 m4 l4 input-field">
                                     <input id="structure_name" name="structure_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${structuresListDetails.structure_name }" >
                                     <label for="structure_name">Structure Name <span class="required">*</span></label>
                                     <span id="structure_nameError" class="error-msg" ></span>
@@ -248,7 +253,7 @@
                                     <span id="structureError" class="error-msg" ></span>
                                 </div>
                              
-                                <div class="col s12 m4 l4 input-field mt9px">
+                                <div class="col s6 m4 l4 input-field mt9px">
                                     <p class="searchable_label">Work Status <span class="required">*</span></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
                                         <option value="">Select</option>
@@ -261,6 +266,9 @@
                                     <span id="work_status_fkError" class="error-msg" ></span>
                                 </div>
                                 <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${structuresListDetails.work_status_fk }"/> 
+                            </div>
+                            <div class="row">
+
                            </div>
                          
                             

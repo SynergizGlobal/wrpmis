@@ -474,10 +474,7 @@ public class ActivitiesUploadNewController {
 										if(count != 2) {
 											scope = getCellDataType(workbook,row.getCell(10));
 										}	
-										if(!StringUtils.isEmpty(scope)) { 
-											
-											activityObj.setScope(scope);
-										}
+										if(!StringUtils.isEmpty(scope)) { activityObj.setScope(scope);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(9)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
@@ -506,78 +503,31 @@ public class ActivitiesUploadNewController {
 										
 										
 										
-										/*
-										 * if(count != 2) { planned_start = getCellDataType(workbook,row.getCell(13)); }
-										 */
-										int checkFormat=0;
-										if(!StringUtils.isEmpty(planned_start)) {
-											String[] PS=planned_start.split("/");
-											if(PS[2].length()>3)
-											{
-												activityObj.setPlanned_start(planned_start);
-												checkFormat=1;
-											}
-											else
-											{
-												activityObj.setPlanned_start(DateParser.parse(planned_start));
-											}
-										}
+										if(count != 2) {
+											planned_start = getCellDataType(workbook,row.getCell(13));
+										}	
+										if(!StringUtils.isEmpty(planned_start)) { activityObj.setPlanned_start(DateParser.parse(planned_start));}
 										
 										tempVal = formatter.formatCellValue(row.getCell(12)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										/*
-										 * if(count != 2) { planned_finish = getCellDataType(workbook,row.getCell(14));
-										 * }
-										 */
-										
-										if(!StringUtils.isEmpty(planned_finish)) {
-											String[] PF=planned_finish.split("/");
-											if(PF[2].length()>3)
-											{
-												activityObj.setPlanned_finish(planned_finish);
-												checkFormat=1;
-											}
-											else
-											{
-												activityObj.setPlanned_finish(DateParser.parse(planned_finish));
-											}
-										}
+										if(count != 2) {
+											planned_finish = getCellDataType(workbook,row.getCell(14));
+										}	
+										if(!StringUtils.isEmpty(planned_finish)) { activityObj.setPlanned_finish(DateParser.parse(planned_finish));}
 										
 										tempVal = formatter.formatCellValue(row.getCell(13)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										/*
-										 * if(count != 2) { actual_start = getCellDataType(workbook,row.getCell(15)); }
-										 */
-										if(!StringUtils.isEmpty(actual_start)) { 
-											String[] AS=actual_start.split("/");
-											if(AS[2].length()>3)
-											{
-												activityObj.setActual_start(actual_start);
-												checkFormat=1;
-											}
-											else
-											{
-												activityObj.setActual_start(DateParser.parse(actual_start));
-											}											
-										}
+										if(count != 2) {
+											actual_start = getCellDataType(workbook,row.getCell(15));
+										}	
+										if(!StringUtils.isEmpty(actual_start)) { activityObj.setActual_start(DateParser.parse(actual_start));}
 										
 										tempVal = formatter.formatCellValue(row.getCell(14)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										/*
-										 * if(count != 2) { actual_finish = getCellDataType(workbook,row.getCell(16)); }
-										 */	
-										if(!StringUtils.isEmpty(actual_finish)) { 
-											String[] AF=actual_finish.split("/");
-											if(AF[2].length()>3)
-											{
-												activityObj.setActual_finish(actual_finish);
-												checkFormat=1;
-											}
-											else
-											{
-												activityObj.setActual_finish(DateParser.parse(actual_finish));
-											}											
-										}
+										if(count != 2) {
+											actual_finish = getCellDataType(workbook,row.getCell(16));
+										}	
+										if(!StringUtils.isEmpty(actual_finish)) { activityObj.setActual_finish(DateParser.parse(actual_finish));}
 										
 										tempVal = formatter.formatCellValue(row.getCell(15)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
@@ -604,11 +554,6 @@ public class ActivitiesUploadNewController {
 											completedScope = Double.parseDouble(activityObj.getCompleted());
 										}
 										DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-										if(checkFormat==1)
-										{
-											format = new SimpleDateFormat("dd/MM/yyyy");
-										}
-										
 										Date actual_start_date = null;
 										Date actual_finish_date = null;
 										Date planned_start_date = null;

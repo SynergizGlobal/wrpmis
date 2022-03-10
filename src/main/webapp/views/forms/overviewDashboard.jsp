@@ -30,14 +30,14 @@
 		.ui-widget-content{
 			border: none;
 		}
-		.ui-state-default{border: 3px solid #4498d3dd;}
+		.ui-state-default{border: 3px solid #4498d3dd;background: #fff;}
 		.bd-bl{
 			border: 3px solid #4498d3dd;
 			padding:.5em .5em .5em .7em;
 			border-radius: 10px;
 			display:block;
 			}
-		.ui-state-hover, .ui-icon{display:none;}
+		.ui-state-hover, .ui-icon{display:none;background: #fff;}
 		.ui-accordion .ui-accordion-content{
 			padding: 0em 0em 0 2.2em;
 		}
@@ -48,8 +48,18 @@
 			margin: 5px 0; 
 		}
 		.ds-none{display:none !important;}
-		.non-active{background: #f6f6f6 !important;color: #000 !important;}
-		.non-active:hover{background: #ededed !important;}
+		.non-active{background: #fff;color: #000 !important;}
+		.ui-state-active a:visited{
+		color: #000;
+		background-color: rgb(227, 242, 253) !important;
+		}
+		.ui-state-active{
+			background-color: transparent;
+		}
+		.active {
+		  background-color: rgb(227, 242, 253) !important;
+		  color: #000;
+		}
 		/* .ad-i{
 			font-size: 1.1rem !important;
 			margin-left: .3rem;
@@ -255,29 +265,29 @@
 	                    <!-- <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div> -->
 	                    <div class=" main-menu-collapse" id="nestable">
 	                    	<div id="accordion">
-	                    		<h3 class="non-active"><a href="#">Section 1</a></h3>
+	                    		<h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
 	                    		<div class="ds-none">
 	                    			<p></p>
 	                    		</div>
-								  <h3><a href="#">Section 2</a></h3>
+								  <h3 class="bg-a"><a href="#">Section 2</a></h3>
 								  <div>
 								    <p>
-								    <a href="#" class="bd-bl">link1</a>
-								    <a href="#" class="bd-bl">link2</a>
+								    <a href="#" class="bd-bl bg-a">link1</a>
+								    <a href="#" class="bd-bl bg-a">link2</a>
 								    </p>
 								  </div>
-								  <h3><a href="#">Section 3</a></h3>
+								  <h3 class="bg-a"><a href="#">Section 3</a></h3>
 								  <div>
 								    <p>
-								    <a href="#" class="bd-bl">link1</a>
-								    <a href="#" class="bd-bl">link2</a>
+								    <a href="#" class="bd-bl bg-a">link1</a>
+								    <a href="#" class="bd-bl bg-a">link2</a>
 								    </p>
 								  </div>
-								  <h3><a href="#">Section 4</a></h3>
+								  <h3 class="bg-a"><a href="#">Section 4</a></h3>
 								  <div>
 								    <p>
-								    <a href="#" class="bd-bl">link1</a>
-								    <a href="#" class="bd-bl">link2</a>
+								    <a href="#" class="bd-bl bg-a">link1</a>
+								    <a href="#" class="bd-bl bg-a">link2</a>
 								    </p>
 								  </div>
 	                    	</div>
@@ -439,6 +449,15 @@
 
   
 	<script>
+	var header = document.getElementById("accordion");
+	var btns = header.getElementsByClassName("bg-a");
+	for (var i = 0; i < btns.length; i++) {
+	  btns[i].addEventListener("click", function() {
+	  var current = document.getElementsByClassName("active");
+	  current[0].className = current[0].className.replace(" active", "");
+	  this.className += " active";
+	  });
+	}
 	 $( function() {
 		    $( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
 		  } );

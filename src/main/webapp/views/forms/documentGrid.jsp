@@ -170,7 +170,7 @@
 								        </c:if>
 								    </div>
 								</div>	
-							<div class="col s6 m4 l1 input-field">
+							<div class="col s6 m4 l2 input-field">
 								<p class="searchable_label">Project</p>
 								<select name="project_id_fk" id="project_id_fk"
 									onchange="addInQueProject(this.value);getDocumentList();" 
@@ -194,7 +194,7 @@
 
 								</select>
 							</div>
-							<div class="col s6 m4 l2 input-field">
+							<div class="col s6 m4 l1 input-field">
 								<p class="searchable_label">Priority</p>
 								<select id="project_priority_fk" name="project_priority_fk"
 									class="searchable" onchange="addInQuePriority(this.value);getDocumentList();">

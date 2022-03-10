@@ -70,7 +70,7 @@
             width: 100%;
             overflow: auto;
         }
-        @media only screen and (max-width: 769px) {
+        @media only screen and (max-width: 820px) {
             #revision_details .select2-container{
                 min-width: inherit;
                 max-width: inherit;
@@ -126,7 +126,7 @@
                         <c:if test="${action eq 'add'}">
                             <div class="row">
  
-                                <div class="col s6 offset-m2 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                	  		 onchange="getWorksList(this.value);">
@@ -137,7 +137,7 @@
 		                             </select>
                                		 <span id="project_idError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Work <span class="required">*</span></p>
                                      <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                    		  onchange="getContractsList(this.value);">
@@ -150,13 +150,22 @@
                                    		   
                                   <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 l4 input-field">
+                                    <p class="searchable_label">Contract <span class="required">*</span></p>
+                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
+                                       	<option value="">Select</option>
+                                       	     <c:forEach var="obj" items="${contractsList }">
+                                      	    	<option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                        	</c:forEach>
+                                  	</select>
+                                   	<span id="contract_id_fkError" class="error-msg" ></span>
+                                </div>
                              </div>
                              </c:if>
                              <c:if test="${action eq 'edit'}">	
                              <div class="row">
                               
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 input-field">
                                     <input type="text"  id="project_id_fk" value="${documentDetails.project_id_fk}- ${documentDetails.project_name}" readonly />
                                      <input type="hidden" name="project_id_fk"  value="${documentDetails.project_id_fk}"  />
 									<label for="project_id_fk">Project <span class="required">*</span></label>     
@@ -166,17 +175,22 @@
 								    <input type="hidden" name="work_id_fk"  value="${documentDetails.work_id_fk}"  />
 								    <label for="work_id_fk">Work <span class="required">*</span></label>     
                                 </div>
+                                <div class="col s12 m4 input-field"> 
+                              	    <input type="text" id="contract_id_fk" value="${documentDetails.contract_id_fk} - ${documentDetails.contract_short_name}" readonly />
+                                 	 <input type="hidden" name="contract_id_fk"  value="${documentDetails.contract_id_fk}"  />
+                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>           
+                              	    </div>
                             </div>
                              </c:if>
                             <div class="row">
-                                <c:if test="${action eq 'edit'}">	
+                                <%-- <c:if test="${action eq 'edit'}">	
                                  <div class="col s6 m4 input-field offset-m2"> 
                               	    <input type="text" id="contract_id_fk" value="${documentDetails.contract_id_fk} - ${documentDetails.contract_short_name}" readonly />
                                  	 <input type="hidden" name="contract_id_fk"  value="${documentDetails.contract_id_fk}"  />
                                  	<label for="contract_id_fk">Contract <span class="required">*</span></label>           
                               	    </div>
-                                 </c:if>
-                                <c:if test="${action eq 'add'}">	
+                                 </c:if> --%>
+                                <%-- <c:if test="${action eq 'add'}">	
                                 <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Contract <span class="required">*</span></p>
                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
@@ -187,9 +201,9 @@
                                   	</select>
                                    	<span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                 </c:if>
+                                 </c:if> --%>
                                  
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Document Type <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="document_type_fk" id="document_type_fk">
                                         <option value="" >Select</option>
@@ -199,9 +213,7 @@
                                     </select>
                                     <span id="document_type_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Priority </p>
                                     <select class="searchable" name="project_priority_fk" id="project_priority_fk">
                                         <option value="" >Select</option>
@@ -221,7 +233,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2" >
+                                
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12 input-field" >
                                     <input id="document_name" name="document_name" type="text" class="validate" value="${documentDetails.document_name }">
                                     <label for="document_name">Document Name</label>
                                 </div>
@@ -375,7 +391,7 @@
 
                         <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr center-align offset-m2">
+                                <div class="col s6 m6 mt-brdr center-align">
                                     <div class="m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateDocument();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -385,7 +401,7 @@
 											 </c:if>
                                     </div>
                                 </div>
-                               <div class="col s6 m4 mt-brdr center-align">
+                               <div class="col s6 m6 mt-brdr center-align">
                                     <div class=" m-1">
                                           <a href="<%=request.getContextPath()%>/documents" class="btn waves-effect waves-light bg-s w-text">Cancel</a>
                                     </div>

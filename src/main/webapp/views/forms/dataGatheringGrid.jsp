@@ -48,7 +48,7 @@
         	width:15vw;
         	min-width:15vw;
         }
-        @media only screen and (max-width: 769px){ 
+        @media only screen and (max-width: 820px){ 
 		
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
@@ -179,21 +179,21 @@
 							        </c:if>
 							    </div>
 							</div>	
-							<div class="col s6 m4 l2 input-field offset-l1">
+							<div class="col s6 m3 l2 input-field offset-l1">
 								<p class="searchable_label">Project</p>
 								<select id="project_id_fk" name="project_id_fk"
 									class="searchable" onchange="addInQueProject(this.value);getDataGatheringList();">
 									<option value="">Select</option>
 								</select>
 							</div>
-							<div class="col s6 m4 l2 input-field">
+							<div class="col s6 m3 l2 input-field">
 								<p class="searchable_label">Work</p>
 								<select id="work_id_fk" name="work_id_fk" class="searchable"
 									onchange="addInQueWork(this.value);getDataGatheringList();">
 									<option value="">Select</option>
 								</select>
 							</div>
-							<div class="col s6 m4 l2 input-field">
+							<div class="col s6 m3 l2 input-field">
 								<p class="searchable_label">Contract</p>
 								<select id="contract_id_fk" name="contract_id_fk"
 									class="searchable" onchange="addInQueContract(this.value);getDataGatheringList();">
@@ -206,14 +206,14 @@
                                     <option value=""  >Select</option>                                    
                                 </select>
                             </div> -->
-							<div class="col s6 m4 l2 input-field">
+							<div class="col s6 m3 l2 input-field">
 								<p class="searchable_label">Status</p>
 								<select id="status_fk" name="status_fk" class="searchable"
 									onchange="addInQueStatus(this.value);getDataGatheringList();">
 									<option value="">Select</option>
 								</select>
 							</div>
-							<div class="col s12 m4 l2 center-align">
+							<div class="col s12 m2 l2 center-align offset-m5">
 								<button
 									class="btn bg-m waves-effect waves-light t-c clear-filters"
 									style="margin-top: 12px; width: 100%;" onclick="clearFilters()">Clear

@@ -223,31 +223,31 @@
                         <div class="row" style="margin-bottom: 0;">
                             <div class="col m10 s12 offset-m1">
                                 <div class="row ">                                  
-                                      <div class="col s6 m4 l2 input-field offset-l1">
+                                      <div class="col s6 m3 l2 input-field offset-l1">
                                           <p class="searchable_label">Project</p>
                                           <select name="project_id_fk" id="project_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
                                               <option value="">Select</option>                                                    
                                           </select>
                                       </div> 
-                                       <div class="col s6 m4 l2 input-field">
+                                       <div class="col s6 m3 l2 input-field">
                                           <p class="searchable_label">Work</p>
                                           <select name="work_id_fk" id="work_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
                                               <option value="">Select</option>                                                    
                                           </select>
                                       </div> 
-                                      <div class="col s6 m4 l2 input-field">
+                                      <div class="col s6 m3 l2 input-field">
                                           <p class="searchable_label">Milestone</p>
                                           <select name="milestone_fk" id="milestone_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
                                               <option value="">Select</option>                                                    
                                           </select>
                                       </div>          
-                                         <div class="col s6 m4 l2 input-field">
+                                         <div class="col s6 m3 l2 input-field">
                                           <p class="searchable_label">Contract</p>
                                           <select  name="contract_id_fk" id="contract_id_fk"  onchange="getMileStoneList();" class="searchable validate-dropdown">
                                               <option value="">Select</option>                                                    
                                           </select>
                                       </div>                                 
-                                      <div class="col s12 m4 l3 input-field center-align">
+                                      <div class="col s12 m2 l3 input-field center-align offset-m5">
                                           <button class="btn bg-m waves-effect waves-light t-c clear-filters "  onclick="clearFilter();">Clear Filters</button>
                                       </div>                                    
                                 </div>

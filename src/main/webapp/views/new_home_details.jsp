@@ -62,7 +62,7 @@
 				  /* position: relative;*/
  				  height: 85px;
 				  /* border-radius: 0 !important; */
-				  border-radius: 40px;
+				  border-radius: 20px !important;
 				}
 				.diamond span {
 				  display: inline-block;

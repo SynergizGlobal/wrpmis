@@ -47,6 +47,7 @@
 				  /* position: relative; */
 				  height: 70px;
 				  width: 210px;
+				  border-radius: 20px;
 				}
 				.diamond span {
 				  display: inline-block;

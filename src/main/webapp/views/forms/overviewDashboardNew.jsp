@@ -396,8 +396,9 @@
           var filterIds = "";
       	  
       	  $.ajax({
-      		url: "<%=request.getContextPath()%>/ajax/getFilters?dashboardId="+dashboardId,
+      		url: "<%=request.getContextPath()%>/ajax/getFilters",
             type: 'POST',
+            data:{dashboard_id : dashboardId,work_id : '${work_id}'},
             async: false,
             dataType: 'json',
             success: function (data){
@@ -526,12 +527,12 @@
 	 }
 	
 	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId){
-		 <%-- if(filter_label_name == 'Work'){
-			 if($.trim(globalDashboardId) != ''){
+		 if(filter_label_name == 'Work'){
+			 /*if($.trim(globalDashboardId) != ''){
 				 dashboardId = globalDashboardId;
-			 }
-			 window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/"+dashboardId;
-		 } --%>		 
+			 } */
+			 <%--  window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/"+dashboardId; --%>
+		 }		 
 		 var params = "";
 		 var ids = filterIds.split(",");
 		 for(var  i=0;i<ids.length;i++){

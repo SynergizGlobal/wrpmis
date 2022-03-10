@@ -158,13 +158,13 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 
 
 	@Override
-	public List<OverviewDashboardNew> getFilters(String dashboardId) throws Exception {
+	public List<OverviewDashboardNew> getFilters(OverviewDashboardNew dObj) throws Exception {
 		List<OverviewDashboardNew> objList = new ArrayList<OverviewDashboardNew>();
 		try {
 			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, default_filter_column, default_filter_value, selected_value "
 					+ "FROM left_menu_filters WHERE left_menu_id_fk = ? "
 					+ "ORDER BY priority ASC";
-			objList = jdbcTemplate.query(qry, new Object[] { dashboardId },new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
+			objList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id() },new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
 			for (OverviewDashboardNew obj : objList) {		
 				if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
 					String filterQry = "SELECT "

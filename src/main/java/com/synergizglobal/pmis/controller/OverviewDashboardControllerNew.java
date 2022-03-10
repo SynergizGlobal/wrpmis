@@ -141,13 +141,13 @@ public class OverviewDashboardControllerNew {
 	
 	@RequestMapping(value = "/ajax/getFilters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<OverviewDashboardNew> getFilters(@RequestParam("dashboardId") String dashboardId,HttpSession session){
+	public List<OverviewDashboardNew> getFilters(@ModelAttribute OverviewDashboardNew dObj,HttpSession session){
 		String user_Id = null;String userName = null;
 		List<OverviewDashboardNew> objList = null;
 		try{
 			user_Id = (String) session.getAttribute("USER_ID"); 
 			userName = (String) session.getAttribute("USER_NAME");
-			objList = overviewDashboardService.getFilters(dashboardId);
+			objList = overviewDashboardService.getFilters(dObj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getFilters() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());

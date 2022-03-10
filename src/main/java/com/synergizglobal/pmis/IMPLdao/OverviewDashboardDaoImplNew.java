@@ -169,8 +169,8 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 				if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
 					String filterQry = "SELECT "
 							+ "`" + obj.getFilter_column_name() + "` as filter_option_value";
-							if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
-								filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
+							if(!StringUtils.isEmpty(obj.getFilter_column_name())) {
+								filterQry = filterQry + ",`" + obj.getFilter_column_name() + "` as filter_option_id ";
 							}
 							filterQry = filterQry + " FROM "
 							+ "`"+ obj.getFilters_table()+ "`";

@@ -61,13 +61,6 @@
 		  background-color: rgb(227, 242, 253) !important;
 		  color: #000;
 		}
-		/* .ad-i{
-			font-size: 1.1rem !important;
-			margin-left: .3rem;
-		}
-		.ad-i:before{
-			vertical-align: sub;
-		} */
 		.main-menu-collapse{
 			padding:0;
 		}
@@ -114,61 +107,19 @@
 			border-radius:20px; */
 		}
 		
-.collapsible-body {
-    border-bottom: 0px solid #ddd;
-    box-sizing: border-box;
-}		
+		.collapsible-body {
+		    border-bottom: 0px solid #ddd;
+		    box-sizing: border-box;
+		}		
 		.special-padding .collapsible li:not(.active) .collapsible-header{
 			background-color:transparent;
 		}
-/*				
-		.over-sub-menu{		    
-		    position:relative;		
-		}
- 		.over-sub-menu:after{
-			content:"\f078";
-			font: normal normal normal 14px/1 FontAwesome;
-			font-size: .7rem;
-		    text-rendering: auto;
-		    -webkit-font-smoothing: antialiased;
-		    position:absolute;
-		    right:1rem;
-		    top:38%;
-		} */
-/* 		.active >.over-sub-menu:after{
-			content:"\f077";
-		} */
-		
-		
-		
-		
-		/* .secondModel{
-			/* box-shadow :0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2) !important; */
-			justify-content:flex-end;
-		} */
 		.collapsible-header{
 			text-align:left !important;
 		}
 		.secondModel .fa{
 			margin:0;
 		}
-		/* .showHide{
-			display:inline-block;			
-		} */
-		/* .hideText .showHide,
-		.hideText .over-sub-menu:after{
-			display:none;
-		}
-		.hideText{
-			display:inline-block;
-		} */
-		/* .hideText .material-icons,
-		.hideText .fas,
-		.hideText .fa,
-		.hideText .ad-i{
-			margin-right:0;
-			margin-left:0;
-		} */
 		.timeline_body {
 		    display: block;
 		    margin: 0 auto;
@@ -242,11 +193,6 @@
 		 
 	</style>
 	
-</head>
-<body style="background-color:#fff;">
-	<!-- header included -->
-	<jsp:include page="../layout/header.jsp"></jsp:include>
-
 	<style>
 		.brand-logo img{
 		    width: 3rem! important;
@@ -255,7 +201,13 @@
 		 	left:3.4rem !important;
 		 	font-size:.75rem !important;
 		}
-	</style>	
+	</style>
+	
+</head>
+<body style="background-color:#fff;">
+	<!-- header included -->
+	<jsp:include page="../layout/header.jsp"></jsp:include>
+		
 	<!-- model 1 which closes entire navigation -->
 	
 	<div class="" style="margin-top:2rem;">
@@ -373,7 +325,6 @@
 	
 		function getData(Data){
 			var html= '';
-			
 			$.each( Data, function( index, value ){
 				var nameStr=value.name;
 					nameStr=nameStr.replaceAll("&","_");

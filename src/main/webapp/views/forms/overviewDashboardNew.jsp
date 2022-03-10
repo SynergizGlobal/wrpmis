@@ -12,17 +12,60 @@
 	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">	
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+	
+  	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">	
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	
 	<style>
-		/* .ad-i{
-			font-size: 1.1rem !important;
-			margin-left: .3rem;
+		.ui-icon, .ui-widget-content .ui-icon{
+			display:none;
 		}
-		.ad-i:before{
-			vertical-align: sub;
-		} */
+		.ui-state-active .ui-icon, .ui-button:active .ui-icon{
+			display:none;
+		}
+		.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr, .ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl{
+			border-radius: 10px;
+		}
+		.ui-widget-content{
+			border: none;
+		}
+		.ui-state-default{border: 3px solid #4498d3dd;background: #fff;}
+		.bd-bl{
+			border: 3px solid #4498d3dd;
+			padding:.5em .5em .5em .7em;
+			border-radius: 10px;
+			display:block;
+			}
+		.ui-state-hover, .ui-icon{display:none;background: #fff;}
+		.ui-accordion .ui-accordion-content{
+			padding: 0em 0em 0 2.2em;
+			height: auto !important;
+		}
+		.ui-accordion-content p{
+			margin: 5px 0; 
+		}
+		.ui-accordion-content p a{
+			margin: 5px 0; 
+		}
+		.ds-none{display:none !important;}
+		.non-active{background: #fff;color: #000 !important;}
+		.ui-state-active a:visited{
+		color: #000;
+		background-color: rgb(227, 242, 253) !important;
+		}
+		.ui-state-active{
+			background-color: transparent;
+		}
+		.active {
+		  background-color: rgb(227, 242, 253) !important;
+		  color: #000 !important;
+		}
+		
+		.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+		   color:#000!important;
+		}
+
 		.main-menu-collapse{
 			padding:0;
 		}
@@ -76,54 +119,12 @@
 		.special-padding .collapsible li:not(.active) .collapsible-header{
 			background-color:transparent;
 		}
-		/*				
-		.over-sub-menu{		    
-		    position:relative;		
-		}
- 		.over-sub-menu:after{
-			content:"\f078";
-			font: normal normal normal 14px/1 FontAwesome;
-			font-size: .7rem;
-		    text-rendering: auto;
-		    -webkit-font-smoothing: antialiased;
-		    position:absolute;
-		    right:1rem;
-		    top:38%;
-		} */
-		/* .active >.over-sub-menu:after{
-			content:"\f077";
-		} */
-		
-		
-		
-		
-		/* .secondModel{
-			/* box-shadow :0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2) !important; */
-			justify-content:flex-end;
-		} */
 		.collapsible-header{
 			text-align:left !important;
 		}
 		.secondModel .fa{
 			margin:0;
 		}
-		/* .showHide{
-			display:inline-block;			
-		} */
-		/* .hideText .showHide,
-		.hideText .over-sub-menu:after{
-			display:none;
-		}
-		.hideText{
-			display:inline-block;
-		} */
-		/* .hideText .material-icons,
-		.hideText .fas,
-		.hideText .fa,
-		.hideText .ad-i{
-			margin-right:0;
-			margin-left:0;
-		} */
 		.timeline_body {
 		    display: block;
 		    margin: 0 auto;
@@ -144,8 +145,6 @@
 				vertical-align: baseline;
 			} */
 		}
-		
-		
 	</style>
     <style>
 		 .main-menu li .collapsible-header,
@@ -184,9 +183,7 @@
 		 	.main-menu:not(.hideText) li .collapsible-header{
 		 		padding-right:2rem;
 		 	}
-		 /* .over-sub-menu:after{
-		 		right:.5rem;
-		 	} */
+
 		 	.ad-i:before{
 				vertical-align: sub;
 			}
@@ -195,19 +192,13 @@
 		 		vertical-align: inherit;
 		 		width:1rem;
 		 	}
-		 	/* .hideText .material-icons,
-			.hideText .fas,
-			.hideText .fa,
-			.hideText .ad-i{
-				margin-right:.5rem;
-				margin-left:.3rem;
-			} */
-		 }
 		 
+		 }
 		 .disabled {
 		    pointer-events:none;
-		    opacity:0.4!important;
+		    /* opacity:0.4!important; */
 		 }
+		 
 	</style>
 	
 </head>
@@ -220,12 +211,35 @@
 	<div class="" style="margin-top:2rem;">
 	    <div class="row">
 	        <div class="col s12 m2" id="menu-item-holder">
-	            <!-- <ul class="collapsible m-0">
-	                <li class="active"> -->
-	                    <!-- <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div> -->
-	                    <div class=" main-menu-collapse" id="nestable"></div>
-	               <!--  </li>
-	            </ul> -->
+	             <div class=" main-menu-collapse">
+	             	<div id="accordion">
+	                 <!-- <h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
+	                 	  <div class="ds-none">
+	                 		<p></p>
+	                 	  </div>
+						  <h3 class="bg-a"><a href="#">Section 2</a></h3>
+						  <div>
+						    <p>
+						    <a href="#" class="bd-bl bg-a">link1</a>
+						    <a href="#" class="bd-bl bg-a">link2</a>
+						    </p>
+						  </div>
+						  <h3 class="bg-a"><a href="#">Section 3</a></h3>
+						  <div>
+						    <p>
+						    <a href="#" class="bd-bl bg-a">link1</a>
+						    <a href="#" class="bd-bl bg-a">link2</a>
+						    </p>
+						  </div>
+						  <h3 class="bg-a"><a href="#">Section 4</a></h3>
+						  <div>
+						    <p>
+						    <a href="#" class="bd-bl bg-a">link1</a>
+						    <a href="#" class="bd-bl bg-a">link2</a>
+						    </p>
+						  </div> -->
+					  </div>
+               </div>
 	        </div>
 	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
 				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
@@ -263,180 +277,123 @@
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script type="text/javascript" src="https://infoviz.syntrackpro.com/javascripts/api/tableau-2.min.js"></script>
-
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   
   <script type="text/javascript">
+	   /*  var header = document.getElementById("accordion");
+		var btns = header.getElementsByClassName("bg-a");
+		for (var i = 0; i < btns.length; i++) {
+		  btns[i].addEventListener("click", function() {
+		  var current = document.getElementsByClassName("active");
+		  current[0].className = current[0].className.replace(" active", "");
+		  this.className += " active";
+		  });
+		}
+		$( function() {
+			  $( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
+	    }); */
 
-   var globalDashboardId = '';
-   $(document).ready(function(){	 
-	   var overview_work_id = '${work_id}';
-	   globalDashboardId = '${dashboardId}';
-	   $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
-			type:"POST",
-			data:{work_id : overview_work_id},
-			cache: false,async:false,
-			success : function(data){   
-				
-				var html= '<ul class="collapsible main-menu">';
-				
-				var flag = 0;
-				var tempDashboardId = '';
-				$.each( data, function( index, value ){
-					var nameStr = value.dashboard_name;
-					nameStr = nameStr.replaceAll("&","_");
-					nameStr = nameStr.replaceAll(" ","--");
+	    var globalDashboardId = '';
+	    $(document).ready(function(){	 
+		    var overview_work_id = '${work_id}';
+		    globalDashboardId = '${dashboardId}';
+		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
+				type:"POST",
+				data:{work_id : overview_work_id},
+				cache: false,async:false,
+				success : function(data){   
+					$('#accordion').append(getData(data));
 					
-					var parentDashboardId = value.dashboard_id;
-					var liDisabled = '';
-					var notAvailable = '';
-					/* var liDisabled = 'disabled';
-					var notAvailable = 'NA';
-					if(($.trim(value.work_exists_or_not) != '' && value.work_exists_or_not > 0) || value.dashboard_name == 'Project Overview'){
-						liDisabled = '';
-						notAvailable = '';
-					} */
-					if(flag == 0 && $.trim(notAvailable) == '' && $.trim(parentDashboardId) != ''){
-						tempDashboardId = parentDashboardId;
-						flag = flag + 1;
+					var header = document.getElementById("accordion");
+					var btns = header.getElementsByClassName("bg-a");
+					for (var i = 0; i < btns.length; i++) {
+					  btns[i].addEventListener("click", function() {
+					  var current = document.getElementsByClassName("active");
+					  current[0].className = current[0].className.replace(" active", "");
+					  this.className += " active";
+					  });
 					}
+					$( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
 					
-					html = html + '<li class="'+liDisabled+'"><div class="collapsible-header over-sub-menu" id="'+parentDashboardId+'" >';
-					html = html + '<a href="javascript:void(0);" id='+nameStr+value.dashboard_id+'>'
-					+'<span class="showHide" id="'+nameStr+'">'+value.dashboard_name+'</span>'
-					+'<span style="float:right;color: red;">'+notAvailable+'</span>'
-					+'</a>'
-					+'</div>';
-					if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
-							html = html + '<div class="collapsible-body special-padding">';
-							//html = html + '' + getData(value.formsSubMenu);
-							
-							html= html +'<ul class="collapsible main-menu">';
-							
-							$.each( value.formsSubMenu, function( subMenuindex, subMenuvalue ){
-								nameStr = subMenuvalue.dashboard_name;
-								nameStr = nameStr.replaceAll("&","_");
-								nameStr = nameStr.replaceAll(" ","--");
-								
-								var dashboardId = subMenuvalue.dashboard_id;
-								var liDisabled = '';
-								var notAvailable = '';
-								/* var liDisabled = 'disabled';
-								var notAvailable = 'NA';
-								if($.trim(subMenuvalue.work_exists_or_not) != '' && subMenuvalue.work_exists_or_not > 0){
-									liDisabled = '';
-									notAvailable = '';
-								} */
-								if(flag == 0 && $.trim(notAvailable) == '' && $.trim(dashboardId) != ''){
-									tempDashboardId = dashboardId;
-									flag = flag + 1;
-								}
-								
-								html = html + '<li class="'+liDisabled+'"><div class="collapsible-header over-sub-menu" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">';
-								html = html + '<a href="javascript:void(0);" id='+nameStr+subMenuvalue.dashboard_id+'>'
-								+'<span class="showHide" id="'+nameStr+'">'+subMenuvalue.dashboard_name+'</span>'
-								+'<span style="float:right;color: red;">'+notAvailable+'</span>'
-								+'</a>'
-								+'</div>';
-								html = html + '</li>';
-							});
-							
-							html = html + '</ul>';
-							
-							
-							html = html + '</div>';
-					}
-					html = html + '</li>'; 
-				});
-				html = html + '</ul>';
-				
-				$('#nestable').html(html);		
-				
-				$('.collapsible').collapsible();
-			    $('.searchable').select2();
-			    
-			    var requestedDashboardId = '${dashboardId}';
-			    if($.trim(requestedDashboardId) != ''){
-			    	tempDashboardId = requestedDashboardId;
-			    }
-				if($.trim(tempDashboardId) != ''){
-					globalDashboardId = tempDashboardId;
-					onLoadPage(tempDashboardId);
-					var tempParentId = $('.collapsible-header#'+tempDashboardId).attr("parent_id");
-					if($.trim(tempParentId) != ''){
-						tempDashboardId = tempParentId;
-					}
-					
-					$('.collapsible-header#'+tempDashboardId).trigger("click");
+					$.each( data, function( index, value ){
+						if(index == 0){
+							$('.bg-a#'+value.dashboard_id).trigger("click");
+						}
+					});
 				}
+	        });
+		   
+		    var requestedDashboardId = '${dashboardId}';
+			if($.trim(requestedDashboardId) != ''){
+				globalDashboardId = requestedDashboardId;
+				///openDashboard(tempDashboardId);
+				/* var tempParentId = $('.collapsible-header#'+tempDashboardId).attr("parent_id");
+				if($.trim(tempParentId) != '' && tempParentId != 'undefined'){
+					tempDashboardId = tempParentId;
+				}
+				
+				$('.collapsible-header#'+tempDashboardId).trigger("click"); */
 			}
-	    });
-	    
-	    
-	    
-	    $(".collapsible-header").on("click", function () {
-	    	var dashboardId = $(this).attr("id");
-	    	globalDashboardId = dashboardId;
-			onLoadPage(dashboardId);
-        });		
-	    
-	    $('.collapsible').collapsible();
-	    $('.searchable').select2();
+		    $('.searchable').select2();
 	});
-	
-	
-	function getData(data){
-		var html= '<ul class="collapsible main-menu">';
-		
+	    
+    function getData(data){
+    	var html= '';
+		var flag = 0;
+		var tempDashboardId = '';
 		$.each( data, function( index, value ){
-			var nameStr = value.dashboard_name;
-			nameStr = nameStr.replaceAll("&","_");
-			nameStr = nameStr.replaceAll(" ","--");
-			
-			var dashboardId = value.dashboard_id;
+			var parentDashboardId = value.dashboard_id;
 			var liDisabled = '';
 			var notAvailable = '';
 			/* var liDisabled = 'disabled';
 			var notAvailable = 'NA';
-			if($.trim(value.work_exists_or_not) != '' && value.work_exists_or_not > 0){
+			if(($.trim(value.work_exists_or_not) != '' && value.work_exists_or_not > 0) || value.dashboard_name == 'Project Overview'){
 				liDisabled = '';
 				notAvailable = '';
 			} */
-			html = html + '<li class="'+liDisabled+'"><div class="collapsible-header over-sub-menu" id="'+dashboardId+'">';
-			html = html + '<a href="javascript:void(0);" id='+nameStr+value.dashboard_id+'>'
-			+'<span class="showHide" id="'+nameStr+'">'+value.dashboard_name+'</span>'
-			+'<span style="float:right;color: red;">'+notAvailable+'</span>'
-			+'</a>'
-			+'</div>';
-			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
-					html = html + '<div class="collapsible-body special-padding">';
-					html = html + '' + getData(value.formsSubMenu);
-					html = html + '</div>';
+			if(flag == 0 && $.trim(notAvailable) == '' && $.trim(parentDashboardId) != ''){
+				tempDashboardId = parentDashboardId;
+				flag = flag + 1;
 			}
-			html = html + '</li>'; 
+			
+			html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a></h3>';
+			if(value.formsSubMenu!="" && value.formsSubMenu!=null && value.formsSubMenu != 'undefined'){
+				html = html + '<div> <p>';
+				$.each( value.formsSubMenu, function( subMenuindex, subMenuvalue ){
+					var dashboardId = subMenuvalue.dashboard_id;
+					var liDisabled = '';
+					var notAvailable = '';
+					/* var liDisabled = 'disabled';
+					var notAvailable = 'NA';
+					if($.trim(subMenuvalue.work_exists_or_not) != '' && subMenuvalue.work_exists_or_not > 0){
+						liDisabled = '';
+						notAvailable = '';
+					} */
+					if(flag == 0 && $.trim(notAvailable) == '' && $.trim(dashboardId) != ''){
+						tempDashboardId = dashboardId;
+						flag = flag + 1;
+					}
+			    	
+					html = html + '<a href="javascript:openDashboard('+subMenuvalue.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+subMenuvalue.dashboard_name+'</a>';
+				});
+				html = html + '</p></div> ';
+			}else{
+				html = html+'<div class="ds-none"> <p></p> </div>';
+			}
 		});
-		html = html + '</ul>';
 	    return html;	
 	}	
-	
-	
-	function onLoadPage(dashboardId){
-          $('.collapsible-header').css("background-color", "#ffffff");
-          $('.collapsible-header#'+dashboardId+'').css("background-color", "#e3f2fd");
+	  
+	function openDashboard(dashboardId){
+		  $(".bg-a").removeClass("active");
+		  $("#"+dashboardId).addClass("active");
+		  $(".bg-a").removeClass("disabled");
+		  $("#"+dashboardId).addClass("disabled");
+		  globalDashboardId = dashboardId;
           var params = "";
           var show_left_menu = '';
           var filterIds = "";
-      	  <%-- $.ajax({
-	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL?dashboardId="+dashboardId+"&params="+params,
-	            type: 'POST',
-	            async: false,
-	            dataType: 'json',
-	            success: function (data){
-	         	    $("#dashboardOpen").attr("src",data.dashboard_url);
-	         	    show_left_menu = data.show_left_menu;
-	            },error: function(xhr){
-	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-	            }
-	      }); --%>
       	  
       	  $.ajax({
       		url: "<%=request.getContextPath()%>/ajax/getFilters?dashboardId="+dashboardId,
@@ -569,12 +526,12 @@
 	 }
 	
 	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId){
-		 if(filter_label_name == 'Work'){
+		 <%-- if(filter_label_name == 'Work'){
 			 if($.trim(globalDashboardId) != ''){
 				 dashboardId = globalDashboardId;
 			 }
 			 window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/"+dashboardId;
-		 }		 
+		 } --%>		 
 		 var params = "";
 		 var ids = filterIds.split(",");
 		 for(var  i=0;i<ids.length;i++){

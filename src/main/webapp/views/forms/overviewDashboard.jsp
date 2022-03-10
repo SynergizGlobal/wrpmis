@@ -40,6 +40,7 @@
 		.ui-state-hover, .ui-icon{display:none;background: #fff;}
 		.ui-accordion .ui-accordion-content{
 			padding: 0em 0em 0 2.2em;
+			height: auto !important;
 		}
 		.ui-accordion-content p{
 			margin: 5px 0; 

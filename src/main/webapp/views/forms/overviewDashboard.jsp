@@ -263,12 +263,12 @@
 	            <!-- <ul class="collapsible m-0">
 	                <li class="active"> -->
 	                    <!-- <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div> -->
-	                    <div class=" main-menu-collapse" id="nestable">
+	                    <div class=" main-menu-collapse">
 	                    	<div id="accordion">
-	                    		<h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
-	                    		<div class="ds-none">
-	                    			<p></p>
-	                    		</div>
+		                    	  <!-- <h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
+		                    	  <div class="ds-none">
+		                    		<p></p>
+		                    	  </div>
 								  <h3 class="bg-a"><a href="#">Section 2</a></h3>
 								  <div>
 								    <p>
@@ -289,7 +289,7 @@
 								    <a href="#" class="bd-bl bg-a">link1</a>
 								    <a href="#" class="bd-bl bg-a">link2</a>
 								    </p>
-								  </div>
+								  </div> -->
 	                    	</div>
 	                    </div>
 	               <!--  </li>
@@ -299,123 +299,8 @@
 	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
 			<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>
-	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
-		    	<div class="filterHolder">
-		    		<label>Work</label>
-		    		<select class="searchable" name="work_id_fk" id="work_id_fk">
-		    			<option>select</option>
-		    			<option>thane diva</option>
-		    			<option>fob</option>
-		    			<option>wr fob</option>
-		    			<option>cr fob</option>
-		    		</select>
-		    	</div>
-		    	<div class="filterHolder">
-		    		<label>Project</label>
-		    		<select class="searchable" name="project_id_fk" id="project_id_fk">
-		    			<option>select</option>
-		    			<option>thane diva</option>
-		    			<option>fob</option>
-		    			<option>wr fob</option>
-		    			<option>cr fob</option>
-		    		</select>
-		    	</div>
-		    	<div class="filterHolder">
-		    		<label>HOD</label>
-		    		<select class="searchable" name="hod_id_fk" id="hod_id_fk">
-		    			<option>select</option>
-		    			<option>thane diva</option>
-		    			<option>fob</option>
-		    			<option>wr fob</option>
-		    			<option>cr fob</option>
-		    		</select>
-		    	</div>
-		    	<div class="filterHolder">
-		    		<label>Dy HOD</label>
-		    		<select class="searchable" name="dyhod_id_fk" id="dyhod_id_fk">
-		    			<option>select</option>
-		    			<option>thane diva</option>
-		    			<option>fob</option>
-		    			<option>wr fob</option>
-		    			<option>cr fob</option>
-		    		</select>
-		    	</div>
-		    	<div class="clearHolder">
-		    		<button class="btn waves-effect waves-light t-c" onclick="clearFilter();">Clear Filters</button>
-		    	</div>
-	    </div>
+	    	
 	</div>
-
-<!-- model 2 which shows icons on navigation -->
-	
-	<!-- <div class="container">
-	    <div class="row">
-	        <div class="col s12 m4">
-	                <div>
-	                    <div class="collapsible-header 2ndModel" onclick="toggleMenu()"><i class="fa fa-bars"></i>Logo</div>
-	                    <div class=" main-menu-collapse">
-	                        <ul class="collapsible main-menu" id="2ndModel">
-	                            <li>
-	                                <div class="collapsible-header over-sub-menu"><i class="material-icons">filter_drama</i> 
-	                                	<span class="showHide">First</span>
-	                                </div>
-	                                <div class="collapsible-body special-padding">
-	                                    <ul class="collapsible">
-	                                        <li>
-	                                            <div class="collapsible-header"><i class="material-icons">place</i>
-	                                            	<span class="showHide">Second</span>
-	                                            </div>
-	                                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                                        </li>
-	                                        <li>
-	                                            <div class="collapsible-header over-sub-menu"><i
-	                                                    class="material-icons">place</i><span class="showHide">Second</span></div>
-	                                            <div class="collapsible-body special-padding">
-	                                                <ul class="collapsible">
-	                                                    <li>
-	                                                        <div class="collapsible-header"><i class="material-icons">whatshot</i><span class="showHide">Second</span></div>
-	                                                        <div class="collapsible-body"><span>Lorem ipsum dolor sit
-	                                                                amet.</span></div>
-	                                                    </li>
-	                                                    <li>
-	                                                        <div class="collapsible-header"><i class="material-icons">whatshot</i><span class="showHide">Second</span></div>
-	                                                        <div class="collapsible-body">
-	
-	                                                        </div>
-	                                                    </li>
-	                                                    <li>
-	                                                        <div class="collapsible-header"><i class="material-icons">whatshot</i><span class="showHide">Second</span></div>
-	                                                        <div class="collapsible-body"><span>Lorem ipsum dolor sit
-	                                                                amet.</span></div>
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                        </li>
-	                                        <li>
-	                                            <div class="collapsible-header"><i class="material-icons">place</i><span class="showHide">Second</span>
-	                                            </div>
-	                                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                                        </li>
-	                                    </ul>
-	                                </div>
-	                            </li>
-	                            <li>
-	                                <div class="collapsible-header"><i class="material-icons">place</i><span class="showHide">Second</span></div>
-	                                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                            </li>
-	                            <li>
-	                                <div class="collapsible-header"><i class="material-icons">whatshot</i><span class="showHide">Third</span></div>
-	                                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-	                            </li>
-	                        </ul>
-	                    </div>
-	                </div>	
-	        </div>
-	        <div class="col s12 m8">
-	            <p> content goes here </p>
-	        </div>
-	    </div>
-	</div> -->
 	
 	
 		<div class="page-loader" style="display: none;">
@@ -444,117 +329,99 @@
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script type="text/javascript" src="https://infoviz.syntrackpro.com/javascripts/api/tableau-2.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
   
-	<script>
-	var header = document.getElementById("accordion");
-	var btns = header.getElementsByClassName("bg-a");
-	for (var i = 0; i < btns.length; i++) {
-	  btns[i].addEventListener("click", function() {
-	  var current = document.getElementsByClassName("active");
-	  current[0].className = current[0].className.replace(" active", "");
-	  this.className += " active";
-	  });
-	}
-	 $( function() {
-		    $( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
-		  } );
-	$(".brand-logo.fs").html('<img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span><span id="CurrentDate"></span>');  			
-	document.getElementById("CurrentDate").innerHTML=todayDate;
-	
-	
-	$.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavNodes",
-		type:"POST",
-		cache: false,async:false,
-		success : function(data)
-		{    
-			//$('#nestable').append(getData(data)); 
+	<script type="text/javascript">
+		var header = document.getElementById("accordion");
+		var btns = header.getElementsByClassName("bg-a");
+		for (var i = 0; i < btns.length; i++) {
+		  btns[i].addEventListener("click", function() {
+		  var current = document.getElementsByClassName("active");
+		  current[0].className = current[0].className.replace(" active", "");
+		  this.className += " active";
+		  });
 		}
-	});	
+		$( function() {
+			  $( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
+	    });
+		$(".brand-logo.fs").html('<img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span><span id="CurrentDate"></span>');  			
+		document.getElementById("CurrentDate").innerHTML = todayDate;
 	
 	
-	function getData(Data)
-	{
-		var html= '<ul class="collapsible main-menu">';
-		
-		$.each( Data, function( index, value ){
-			var nameStr=value.name;
-				nameStr=nameStr.replaceAll("&","_");
-				nameStr=nameStr.replaceAll(" ","--");
-			 html=html+'<li><div class="collapsible-header over-sub-menu" id="'+nameStr+'">';
-			html=html+'<a href="#" id='+value.id+'><span class="showHide" id="'+nameStr+'">'+value.name+'</span></a></div>';
-			if(value.formsSubMenu!="" && value.formsSubMenu!=null && value.formsSubMenu!=undefined)
-				{
-					html= html+'<div class="collapsible-body special-padding">';
-					html=html+''+getData(value.formsSubMenu);
-					html=html+'</div>';
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavNodes",
+			type:"POST",
+			cache: false,async:false,
+			success : function(data){    
+				$('#accordion').append(getData(data));
+				
+				var header = document.getElementById("accordion");
+				var btns = header.getElementsByClassName("bg-a");
+				for (var i = 0; i < btns.length; i++) {
+				  btns[i].addEventListener("click", function() {
+				  var current = document.getElementsByClassName("active");
+				  current[0].className = current[0].className.replace(" active", "");
+				  this.className += " active";
+				  });
 				}
-			html=html+'</li>'; 
-		});
-		html=html+'</ol>';
-	    return html;	
-	}	
+				$( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
+			}
+		});	
 	
 	
-	  function onLoadPage(pageName)
-	  {
-		  
-          $('.collapsible-header').css("background-color", "#ffffff");
-          $('.collapsible-header#'+pageName+'').css("background-color", "#e3f2fd");
-		  
-	                var pagename = pageName;
-               
-	             	var bool = false;
-	             	 $.ajax({
-	             		url: "<%=request.getContextPath()%>/ajax/GetURL?tableauDashboardName="+pagename,
-	                   type: 'POST',
-	                   async: true,
-	                   dataType: 'json',
-	                   success: function (data) 
-	                   {
-	                	   $("#dashboardOpen").attr("src",data.tableauUrl);
-	                   },error: function(xhr){
-	                       alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-	                   }
-	  });
-	  }
+		function getData(Data){
+			var html= '';
+			
+			$.each( Data, function( index, value ){
+				var nameStr=value.name;
+					nameStr=nameStr.replaceAll("&","_");
+					nameStr=nameStr.replaceAll(" ","--");
+				    html = html+'<h3 class="non-active bg-a"><a href="#">'+value.name+'</a></h3>';
+				    if(value.formsSubMenu!="" && value.formsSubMenu!=null && value.formsSubMenu != 'undefined'){
+				    	html = html + '<div> <p>';
+						$.each( value.formsSubMenu, function( index1, value1 ){
+							html = html + '<a href="#" class="bd-bl bg-a">'+value1.name+'</a>';
+						});
+						html = html + '</p></div> ';
+					}else{
+						html = html+'<div class="ds-none"> <p></p> </div>';
+					}
+			});
+		    return html;	
+		}	
+	
+	
+	  function onLoadPage(pageName) {
+	        $('.collapsible-header').css("background-color", "#ffffff");
+	        $('.collapsible-header#'+pageName+'').css("background-color", "#e3f2fd");
+            var pagename = pageName;
+           	var bool = false;
+           	$.ajax({
+           		url: "<%=request.getContextPath()%>/ajax/GetURL?tableauDashboardName="+pagename,
+                  type: 'POST',
+                  async: true,
+                  dataType: 'json',
+                  success: function (data){
+              	   $("#dashboardOpen").attr("src",data.tableauUrl);
+                  },error: function(xhr){
+                     alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                  }
+			});
+	  	}
 	
 		$(document).ready(function(){
-		    $('.collapsible').collapsible();
+		    /* $('.collapsible').collapsible();
 		    $('.searchable').select2();
 		    
 		    onLoadPage("Project Overview");
 		    
 		    $(".collapsible-header").on("click", function () {
-		    	
 		    	var pagename = $(this).attr("id");
 				onLoadPage(pagename);
-            });		    
+            });	 */	    
 		    
 		  });
-		
-		/*  function toggleMenu(){
-				$('#secondModel,.secondModel').toggleClass('hideText');
-				//$('#tableau-item-holder').toggleClass('m8 m11');
-				$('#menu-item-holder').toggleClass('m2 m1');
-				
-				$('#tableau-item-holder').toggleClass('m8 m10');
-				$('#filter-item-holder').toggleClass('m2 m1');
-			} */
-	        function clearFilter(){
-		        	$("#work_id_fk").val("");
-		        	$("#project_id_fk").val("");
-		        	$("#hod_id_fk").val("");
-		        	$("#dyhod_id_fk").val("");
-		        	
-		        	$('#work_id_fk option:eq(0)').prop('selected',true);
-		        	$('#project_id_fk option:eq(0)').prop('selected',true);
-		        	$('#hod_id_fk option:eq(0)').prop('selected',true);
-		        	$('#dyhod_id_fk option:eq(0)').prop('selected',true);
-		        	$(".searchable").select2();
-		        }
 
 	</script>
 	</body>

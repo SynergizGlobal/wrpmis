@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -1658,7 +1660,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				}
 				flag=true;
 				
-				String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date,status) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CURRENT_TIMESTAMP,:status)";
+				String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CURRENT_TIMESTAMP)";
 				int docArrSize = 0;
 				
 				if (!StringUtils.isEmpty(obj.getStructureFileNames()) && obj.getStructureFileNames().length > 0) {
@@ -1677,17 +1679,21 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							
 							String Ext=multipartFile.getContentType();
 							Ext=Ext.replaceAll("image/", "");
-							String Concat=fileName+"."+Ext;
+						
+							String CheckStrString="."+Ext;
+							String verifyStr=multipartFile.getOriginalFilename();
+							String mainStr=verifyStr.replaceAll(CheckStrString, "");
+							
+							String ConcatStr=mainStr+"_"+LocalDate.now()+""+CheckStrString;
 							;
 							if (null != multipartFile && !multipartFile.isEmpty()) {
-								FileUploads.singleFileSaving(multipartFile, saveDirectory, Concat);
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, ConcatStr);
 							}
 							Structure fileObj = new Structure();
-							fileObj.setAttachment(Concat);
+							fileObj.setAttachment(ConcatStr);
 							
 							
 							fileObj.setStructure_file_type_fk("Site photograph");
-							fileObj.setStatus("In Active");
 							
 							String qryStructure ="select structure_id from structure where structure=? ";
 							String StructureText= jdbcTemplate.queryForObject( qryStructure,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);

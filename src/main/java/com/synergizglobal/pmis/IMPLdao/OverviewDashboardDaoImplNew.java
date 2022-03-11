@@ -161,10 +161,13 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 	public List<OverviewDashboardNew> getFilters(OverviewDashboardNew dObj) throws Exception {
 		List<OverviewDashboardNew> objList = new ArrayList<OverviewDashboardNew>();
 		try {
+			
+			OverviewDashboardNew tempObj = getWorkColumnName(dObj.getDashboard_id());
+			
 			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, default_filter_column, default_filter_value, selected_value "
-					+ "FROM left_menu_filters WHERE left_menu_id_fk = ? "
+					+ "FROM left_menu_filters WHERE left_menu_id_fk = ? AND status = ?"
 					+ "ORDER BY priority ASC";
-			objList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id() },new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
+			objList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id(),CommonConstants.ACTIVE },new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
 			for (OverviewDashboardNew obj : objList) {		
 				if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
 					String filterQry = "SELECT "
@@ -178,6 +181,12 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 							filterQry = filterQry + " WHERE "
 									+ "`"+ obj.getFilter_column_id()+ "`"
 									+ " IS NOT NULL ";
+							if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
+								filterQry = filterQry + " AND "
+								+ "`"+ tempObj.getSource_field_name()+ "`"
+								+ " = "
+								+ "'"+ dObj.getWork_id()+ "'";
+							}
 							if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
 								filterQry = filterQry + " AND "
 								+ "`"+ obj.getDefault_filter_column()+ "`"
@@ -197,5 +206,19 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 		}		
 		return objList;
 	}	
+	
+	public OverviewDashboardNew getWorkColumnName(String dashboardId) throws Exception {
+		OverviewDashboardNew dObj = null;;
+		try {
+			String qry = "SELECT source_field_name FROM left_menu WHERE dashboard_id = ?";
+			List<OverviewDashboardNew> objsList = jdbcTemplate.query(qry, new Object[] { dashboardId },new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
+			for (OverviewDashboardNew overviewDashboard : objsList) {
+				dObj = overviewDashboard;
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return dObj;
+	}
 	
 }

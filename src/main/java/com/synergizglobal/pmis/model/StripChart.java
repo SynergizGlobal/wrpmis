@@ -22,6 +22,7 @@ public class StripChart {
 	private String reported_by_email_id,zonal_railway_fk,other_organization,department_fk,department_name;
 	
 	private List<MultipartFile> issueFiles;
+	private MultipartFile[] structureFileNames;
 	
 	public String getActivity_id_fk() {
 		return activity_id_fk;
@@ -726,5 +727,13 @@ public class StripChart {
 	public void setModified_date(String modified_date) {
 		this.modified_date = modified_date;
 	}
-	
+
+	public MultipartFile[] getStructureFileNames() {
+		return structureFileNames;
+	}
+
+	public void setStructureFileNames(MultipartFile[] structureFileNames) {
+		this.structureFileNames = structureFileNames;
+	}
+
 }

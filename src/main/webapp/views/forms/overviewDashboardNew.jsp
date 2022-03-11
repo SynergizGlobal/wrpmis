@@ -484,10 +484,10 @@
 			 for(var  i=0;i<ids.length;i++){
 				 var id = ids[i];
 				 var val = $("#"+id).val();
-				 var param = id+"~"+val;
+				 var param = id+"="+val;
 				 if($.trim(val) != ''){
 					 if($.trim(params) != ''){
-					 	params = params +"$"+ param;
+					 	params = params +"&"+ param;
 				   	 }else{
 					   params = param;
 				     }
@@ -538,10 +538,10 @@
 		 for(var  i=0;i<ids.length;i++){
 			 var id = ids[i];
 			 var val = $("#"+id).val();
-			 var param = id+"~"+val;
+			 var param = id+"="+val;
 			 if($.trim(val) != ''){
 				 if($.trim(params) != ''){
-				 	params = params +"$"+ param;
+				 	params = params +"&"+ param;
 			   	 }else{
 				   params = param;
 			     }

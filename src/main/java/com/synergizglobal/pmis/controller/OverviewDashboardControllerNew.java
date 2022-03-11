@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -97,9 +98,10 @@ public class OverviewDashboardControllerNew {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_url())){
 				String dashboardUrl = obj.getDashboard_url();
 				if(!StringUtils.isEmpty(params)) {
-					params = params.replaceAll("~", "=");
+					params = decodeURIComponent(params);
+					/*params = params.replaceAll("~", "=");
 					params = params.replaceAll("&", "~");
-					params = params.replaceAll("\\$", "&");
+					params = params.replaceAll("\\$", "&");*/
 				}
 				if(!StringUtils.isEmpty(work_id) && !StringUtils.isEmpty(params)) {
 					params = params + "&"+obj.getSource_field_name()+"="+work_id;
@@ -139,6 +141,18 @@ public class OverviewDashboardControllerNew {
 		}
 		return obj;
 	}	
+	
+	public static String decodeURIComponent(String s) {
+	    String result = ""; 
+	    try {
+	      if(!StringUtils.isEmpty(s)) {
+	    	  result = URLDecoder.decode(s, "UTF-8");
+	      }
+	    } catch (UnsupportedEncodingException e) {
+	          result = s;  
+	    } 
+	    return result;
+	}
 	
 	@RequestMapping(value = "/ajax/getFilters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

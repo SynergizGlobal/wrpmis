@@ -182,7 +182,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 								filterQry = filterQry + " AND "
 								+ "`"+ obj.getDefault_filter_column()+ "`"
 								+ " = "
-								+ obj.getDefault_filter_value();
+								+ "'"+ obj.getDefault_filter_value()+ "'";
 							}
 							
 							

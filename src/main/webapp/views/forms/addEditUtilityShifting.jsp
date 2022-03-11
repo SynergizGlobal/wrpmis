@@ -481,7 +481,7 @@
                                       <span id="unit_fkError" class="error-msg" ></span>
                                 </div>
                              	<div class="col s12 m2 l2 input-field">
-                                    <p class="searchable_label mb-8"> Status <span class="required">*</span></p>
+                                    <p class="searchable_label mb-8"> Status <span class="required"></span></p>
                                     <select class="searchable validate-dropdown" id="shifting_status_fk" name="shifting_status_fk" >
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${statusList }">
@@ -1159,7 +1159,7 @@
 				 	  },"unit_fk": {
 				 		 required:false
 			 	   	  },"shifting_status_fk": {
-				 		required: true
+				 		required: false
 				 	  }
 				 				
 			 	},

@@ -347,7 +347,7 @@
 						   ${error}
 						</div>
 				    </c:if>
-                    <form action="<%=request.getContextPath() %>/update-new-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" >
+                    <form action="<%=request.getContextPath() %>/update-new-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                     <div class="container container-no-margin">
                         <div class="row">                          
                                 <div class="col m10 s12 offset-m1">
@@ -543,11 +543,16 @@
                                              <button type="button" id="progress_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m7 s6 input-field left-align">
+                                        <div class="col m4 s6 input-field left-align">
 		                                    <input id="remarks" name="remarks" type="text" class="validate valid" aria-invalid="false" disabled>
 		                                    <label for="remarks" class="active">Remarks</label> 
 		                                    <span id="remarksError" class="error-msg"></span>
-                                        </div>                                        
+                                        </div> 
+                                        <div class="col m3 s6 input-field left-align">
+											<input name="structureFileNames" type="file" id="structureFileNames" accept="gif|jpg|png|jpeg|webp|svg|gif|jiff" />
+		                                    <label for="Attachment" class="active">Attachment</label> 
+		                                    <span id="myList"></span>
+                                        </div>                                                                                
                                          <div class="col m1 s6 input-field">
                                           <div class="center-align m-3">
                                                 <button type="button" onclick="updateProgress();" id="btn1" class="btn waves-effect waves-light bg-m" >Update</button>
@@ -733,6 +738,7 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/pmis/resources/js/jquery.MultiFile.js"></script>
     
     <script>
     	var monthShortCode=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -824,6 +830,15 @@
 		     });
 		 }); 
 		 
+		 $(function(){
+
+				$('#structureFileNames').MultiFile({
+					onFileChange: function(){
+						console.log(this, arguments);
+					}
+				});
+
+			});
 		 
 	    var filtersMap = new Object();
 	    var structureVal = "";

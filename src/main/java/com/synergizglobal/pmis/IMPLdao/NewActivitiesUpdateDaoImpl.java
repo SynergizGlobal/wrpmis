@@ -16,10 +16,12 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mysql.cj.jdbc.CallableStatement;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
@@ -27,10 +29,13 @@ import com.synergizglobal.pmis.Idao.NewActivitiesUpdateDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
+import com.synergizglobal.pmis.model.Structure;
 @Repository
 public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	
@@ -1652,6 +1657,50 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					
 				}
 				flag=true;
+				
+				String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date,status) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CURRENT_TIMESTAMP,:status)";
+				int docArrSize = 0;
+				
+				if (!StringUtils.isEmpty(obj.getStructureFileNames()) && obj.getStructureFileNames().length > 0) {
+					if (docArrSize < obj.getStructureFileNames().length) {
+						docArrSize = obj.getStructureFileNames().length;
+					}
+				}
+				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				for (int i = 0; i < docArrSize; i++) {
+					if (!StringUtils.isEmpty(obj.getStructureFileNames()) && obj.getStructureFileNames().length > 0) {
+						MultipartFile multipartFile = obj.getStructureFileNames()[i];
+						if ((null != multipartFile && !multipartFile.isEmpty()))  {
+							String saveDirectory =  CommonConstants2.STRUCTURE_FILE_SAVING_PATH ;
+							String fileName = obj.getStructure_type_fk()+"_"+obj.getStrip_chart_structure_id_fk()+"_"+obj.getStrip_chart_component();
+							
+							String Ext=multipartFile.getContentType();
+							Ext=Ext.replaceAll("image/", "");
+							String Concat=fileName+"."+Ext;
+							;
+							if (null != multipartFile && !multipartFile.isEmpty()) {
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, Concat);
+							}
+							Structure fileObj = new Structure();
+							fileObj.setAttachment(Concat);
+							
+							
+							fileObj.setStructure_file_type_fk("Site photograph");
+							fileObj.setStatus("In Active");
+							
+							String qryStructure ="select structure_id from structure where structure=? ";
+							String StructureText= jdbcTemplate.queryForObject( qryStructure,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);
+							
+							
+							fileObj.setStructure_id(StructureText);
+							fileObj.setName(fileName);
+							
+							paramSource = new BeanPropertySqlParameterSource(fileObj);
+							namedParamJdbcTemplate.update(document_insert_qry, paramSource);
+						}
+					}
+				}
 			
 				/********************************************************************************/	
 			//}

@@ -383,7 +383,8 @@ public class NewActivitiesUpdateController {
 	}		
 	
 
-	@RequestMapping(value = "/update-new-activities-bulk", method = {RequestMethod.POST})
+	@RequestMapping(value = "/update-new-activities-bulk", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
 	public ModelAndView updateNewAcivitiesBulk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{

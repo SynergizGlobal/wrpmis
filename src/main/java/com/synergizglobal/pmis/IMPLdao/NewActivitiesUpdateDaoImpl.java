@@ -1660,7 +1660,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				}
 				flag=true;
 				
-				String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date,status) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CURRENT_TIMESTAMP,:status)";
+				String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CURRENT_TIMESTAMP)";
 				int docArrSize = 0;
 				
 				if (!StringUtils.isEmpty(obj.getStructureFileNames()) && obj.getStructureFileNames().length > 0) {
@@ -1694,7 +1694,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							
 							
 							fileObj.setStructure_file_type_fk("Site photograph");
-							fileObj.setStatus("In Active");
 							
 							String qryStructure ="select structure_id from structure where structure=? ";
 							String StructureText= jdbcTemplate.queryForObject( qryStructure,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);

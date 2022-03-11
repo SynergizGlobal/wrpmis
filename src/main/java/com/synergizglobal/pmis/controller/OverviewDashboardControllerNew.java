@@ -99,9 +99,6 @@ public class OverviewDashboardControllerNew {
 				String dashboardUrl = obj.getDashboard_url();
 				if(!StringUtils.isEmpty(params)) {
 					params = decodeURIComponent(params);
-					/*params = params.replaceAll("~", "=");
-					params = params.replaceAll("&", "~");
-					params = params.replaceAll("\\$", "&");*/
 				}
 				if(!StringUtils.isEmpty(work_id) && !StringUtils.isEmpty(params)) {
 					params = params + "&"+obj.getSource_field_name()+"="+work_id;

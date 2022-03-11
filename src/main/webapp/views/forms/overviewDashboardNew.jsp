@@ -245,11 +245,11 @@
 				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>
 	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
-		    	<div class="clearHolder">
+		    	<!-- <div class="clearHolder">
 		    		<button class="btn waves-effect waves-light t-c" onclick="clearFilter();">Clear Filters</button>
-		    	</div>
-	    </div>
-	</div>
+		    	</div> -->
+	    	</div>
+		</div>
 
 		<div class="page-loader" style="display: none;">
 		<div class="preloader-wrapper big active">
@@ -386,6 +386,7 @@
 	}	
 	  
 	function openDashboard(dashboardId){
+		  $(".page-loader").show();
 		  $(".bg-a").removeClass("active");
 		  $("#"+dashboardId).addClass("active");
 		  $(".bg-a").removeClass("disabled");
@@ -456,6 +457,11 @@
 					         			filters = filters + '</select>'
 					         			+ '</div>';	
          		   });
+         		   
+         		  filters = filters + '<div class="clearHolder">'
+         		 						+ '<button class="btn waves-effect waves-light t-c" onclick="clearFilter('+filterIds+','+dashboardIdTemp+');">Clear Filters</button>'
+         								+ '</div>'
+         		   
          		   $("#filter-item-holder").html(filters);
          		   $('.searchable').select2();
          	   }else{
@@ -472,8 +478,11 @@
          		   $("#filter-item-holder").hide();
        		       $("#filter-item-holder").html("");
          	   }
+         	   $(".page-loader").hide();
             },error: function(xhr){
-               alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+            	$(".page-loader").hide();
+                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+               
             }
      	 });
       	
@@ -494,7 +503,8 @@
 				 }
 			 }
       	 }
-      	
+      	 
+      	 $(".page-loader").show();
 		 $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
 	            type: 'POST',
@@ -504,7 +514,9 @@
 	            success: function (data){
 	         	    $("#dashboardOpen").attr("src",data.dashboard_url);
 	         	    show_left_menu = data.show_left_menu;
+	         	    $(".page-loader").hide();
 	            },error: function(xhr){
+	            	$(".page-loader").hide();
 	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
 	            }
 	     });
@@ -523,16 +535,16 @@
  		      $("#filter-item-holder").hide();
 		      $("#filter-item-holder").html("");
  	   	 }
-		 
+		 $(".page-loader").hide();
 	 }
 	
 	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId){
-		 if(filter_label_name == 'Work'){
+		 //if(filter_label_name == 'Work'){
 			 /*if($.trim(globalDashboardId) != ''){
 				 dashboardId = globalDashboardId;
 			 } */
 			 <%--  window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/"+dashboardId; --%>
-		 }		 
+		 // }		 
 		 var params = "";
 		 var ids = filterIds.split(",");
 		 for(var  i=0;i<ids.length;i++){
@@ -562,26 +574,18 @@
 	     });
 	 }
 		
-     /*function toggleMenu(){
-		$('#secondModel,.secondModel').toggleClass('hideText');
-		//$('#tableau-item-holder').toggleClass('m8 m11');
-		$('#menu-item-holder').toggleClass('m2 m1');
-		
-		$('#tableau-item-holder').toggleClass('m8 m10');
-		$('#filter-item-holder').toggleClass('m2 m1');
-	 } */
 	
-     function clearFilter(){
-       	$("#work_id_fk").val("");
-       	$("#project_id_fk").val("");
-       	$("#hod_id_fk").val("");
-       	$("#dyhod_id_fk").val("");
-       	
-       	$('#work_id_fk option:eq(0)').prop('selected',true);
-       	$('#project_id_fk option:eq(0)').prop('selected',true);
-       	$('#hod_id_fk option:eq(0)').prop('selected',true);
-       	$('#dyhod_id_fk option:eq(0)').prop('selected',true);
-       	$(".searchable").select2();
+     function clearFilter(filterIds,dashboardId){
+    	 /* var ids = filterIds.split(",");
+		 for(var  i=0;i<ids.length;i++){
+			 var id = ids[i];
+			 $("#"+id).val('');
+		 }		 
+       	 $(".searchable").select2();
+       	 
+       	 getSelectedOption('','',filterIds,dashboardId); */
+       	 
+       	openDashboard(dashboardId);
      }
 
  </script>

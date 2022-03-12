@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %><!DOCTYPE html>
 <html>
@@ -7,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contractor - Update Forms - PMIS</title>
+    <title>Gallery - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png"> 
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">          
@@ -157,69 +158,43 @@ ul.breadcrumb li a:hover {
                         </div>
                     </span>
                     <div class="">
-
-                        <!-- <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                            </div>
-
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Contract</strong></a>
-                                </div>
-                            </div>
-
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            
                         </div>
-
                         <div class="row  column-reverse">
                             <div class="col m2 s12">
                                 <div class="row" style="margin-bottom: 0;" id="filters">
                                     <div class="col s12 m12 input-field">
-                                        <p class="searchable_label">Select Module </p>
-                                        <select id="work_id_fk" class="searchable">
-                                            <option value="" disabled selected>Select Module Name</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                        <p class="searchable_label"> Month </p>
+                                        <select id="created_date" name="created_date" class="searchable" onchange="getGalleryList();">
+                                          <%--  <c:forEach var="obj" items="${dates}">
+												<option value="${obj.valueDate }">${obj.created_date }</option>
+											</c:forEach> --%>
                                         </select>
                                     </div>
                                     <div class="col s12 m12 input-field">
-                                        <p class="searchable_label">Select Dashboard Type</p>
-                                        <select id="dept_fk" class="searchable">
-                                            <option value="" disabled selected>Select Dashboard</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                        <p class="searchable_label">Structure</p>
+                                        <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="getGalleryList();">
+                                            <option value="" disabled selected>Select</option>
+                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m12 input-field">
-                                        <p class="searchable_label">Select Status</p>
-                                        <select id="contractor_fk" class="searchable">
-                                            <option value="" disabled selected>Select Contractor</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                        <p class="searchable_label">Structure Id</p>
+                                        <select id="structure" name="structure" class="searchable" onchange="getGalleryList();">
+                                            <option value="" disabled selected>Select</option>
+                                           
                                         </select>
                                     </div>
-                                    <div class="col s12 m12">
+                                   <!--  <div class="col s12 m12">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                         style="margin-top: 20px;width: 100%;">Clear Filters</button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="col m10 s12">
                                 <div class="photos">
-                                    <ul>
-                                        <div class="row">
+                                    <ul id="imageFiles">
+                                        <%-- <div class="row">
                                             <li class="col l4 m4 s12">
                                                 <center>
                                                     <a href="#modal1" class="modal-trigger">
@@ -233,36 +208,24 @@ ul.breadcrumb li a:hover {
                                                   </p>
                                               </div>
                                           </li>
-                                       </div>
+                                       </div> --%>
 
 						          </ul>
 						      </div>
-                              <!--   <div id="myModal" class="modal">
-  <span class="close">&times;</span>
-  <img class="modal-content" id="img01">
-              <div class="center-align p-2 bg-m modal-title">
-                <h6>Upload Designs</h6>
-            </div>
-
-  <div id="caption">path</div>
-</div> -->
-<!-- update popup starts -->
-<div id="modal1" class="modal">
-    <div class="modal-content">
-        <div class="center-align p-2 bg-m modal-title">
-            <h6>Image</h6>
-        </div>
-            <!-- <ul class="breadcrumb">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Pictures</a></li>
-              <li><a href="#">Summer 15</a></li>
-              <li>Italy</li>
-          </ul> -->
-          <img class="modal-content" id="img01">
-          
-      </div>
-  </div>
-</div>
+						<!-- update popup starts -->
+						<div>
+						
+						</div>
+						<div id="modal" class="modal">
+						    <div class="modal-content">
+						        <div class="center-align p-2 bg-m modal-title">
+						            <h6>Image</h6>
+						        </div>
+						          <img class="modal-content" id="img01" src="">
+						          
+						      </div>
+						  </div>
+				</div>
 </div>
 </div>
 </div>
@@ -308,6 +271,7 @@ ul.breadcrumb li a:hover {
 	</form>
 	
     <script type="text/javascript">
+  
         $(".selectrow1").click(function(){
             $(".row1").prop("checked",$(this).prop("checked"));
         });
@@ -333,44 +297,135 @@ ul.breadcrumb li a:hover {
                 coverTrigger: false,
                 closeOnClick: false,
             });
-            $('#example').DataTable({
-                columnDefs: [
-                {
-                    targets: [0, 1, 2],
-                    className: 'mdl-data-table__cell--non-numeric',
-                    targets: 'no-sort', orderable: false,
-                },
-                { "width": "20px", "targets": [7] },
-                ], "scrollCollapse": true,
-                fixedHeader: true,
-                "sScrollY": 400,
-                ordering: false,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                    var input = $('.dataTables_filter input')
-                    .unbind(),
-                    self = this.api(),
-                    $searchButton = $('<i class="fa fa-search" title="Go" id="save_post">')
-                    .click(function () { self.search(input.val()).draw(); }),
-                    $clearButton = $('<i class="fa fa-close" title="Reset">')
-                    .click(function () {
-                        input.val('');
-                        $searchButton.click();
-                    })
-                    $('.dataTables_filter').append(
-                        '<div class="right-btns"></div>');
-                    $('.dataTables_filter div').append(
-                        $searchButton, $clearButton);
-                }
-            });
-
-            $('.clear-filters').click(function () {
-                $('#hod_fk').val("");
-                $('#module_fk').val("");
-            });
+            getGalleryList();
+            
         });
-
+        function getGalleryList() {
+        	$(".page-loader").show();
+        	var created_date = $("#created_date").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
+        	var structure = $("#structure").val();
+        	getMonthList();
+        	getStructuresList();
+        	getStructureTypeList(); 
+        	
+        	$('#imageFiles li').remove();
+       	 	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure};
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getGalleryList",
+                   data: myParams, cache: false,async: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {  
+                        	   //var path = '${CommonConstants2.STRUCTURE_FILE_SAVING_PATH}';
+                                var htmlText = '<div class=""><li class="col l4 m4 s12"><center>'
+                                	+'<a href="#modal" class="modal-trigger" >'
+                                    +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
+                                        +'</a> </center>'
+                                    +' <button class="accordion" id="accordion'+i+'" onclick="accordianToggle('+i+')">description: '+val.name+' <span class="right">Date: '+val.created_date+'</span></button>'
+                                +'<div class="accordion-content"id="accordion-content'+i+'" ><p> Whether you need a wordpress website</p></div></li></div>';
+                                
+   	                         $("#imageFiles").append(htmlText);
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			      $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+               });
+        }
+        
+        
+        function getMonthList() {
+        	$(".page-loader").show();
+        	var created_date = $("#created_date").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
+        	var structure = $("#structure").val();
+            if ($.trim(created_date) == "") {
+            	$("#created_date option:not(:first)").remove();
+            	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure};               
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getMonthList",
+                    data: myParams, cache: false, 
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                            $("#created_date").append('<option value="' + val.valueDate + '">' + $.trim(val.created_date) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        function getStructuresList() {
+        	$(".page-loader").show();
+        	var created_date = $("#created_date").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
+        	var structure = $("#structure").val();
+            if ($.trim(structure) == "") {
+            	$("#structure option:not(:first)").remove();
+            	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure};               
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getStructureIdList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                            $("#structure").append('<option value="' + val.structure + '">' + $.trim(val.structure) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        function getStructureTypeList() {
+        	$(".page-loader").show();
+        	var created_date = $("#created_date").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
+        	var structure = $("#structure").val();
+            if ($.trim(structure_type_fk) == "") {
+            	$("#structure_type_fk option:not(:first)").remove();
+            	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure};               
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getStructuresLists",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                            $("#structure_type_fk").append('<option value="' + val.structure_type_fk + '">' + $.trim(val.structure_type_fk) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
         //accordion script
+
+      
         const accordionBtns = document.querySelectorAll(".accordion");
 
         accordionBtns.forEach((accordion) => {
@@ -389,34 +444,21 @@ ul.breadcrumb li a:hover {
       console.log(content.style.maxHeight);
   }
 };
-});
+}); 
 
         //modal images
         // create references to the modal...
-        var modal = document.getElementById('modal1');
-// to all images -- note I'm using a class!
-var images = document.getElementsByClassName('myImages');
-// the image in the modal
-var modalImg = document.getElementById("img01");
-// and the caption in the modal
-var captionText = document.getElementById("caption");
-
-// Go through all of the images with our custom class
-for (var i = 0; i < images.length; i++) {
-  var img = images[i];
-  // and attach our click listener for this image.
-  img.onclick = function(evt) {
-    modal.style.display = "block";
-    modalImg.src = this.src;
-    captionText.innerHTML = this.alt;
-}
+        
+function openImage(i){
+	var dd = $('#myImg'+i);
+	var imgSrc = $(dd).attr("src");
+	$('#modal img').attr('src', imgSrc);  
+	$('#modal img').width(300); // Units are assumed to be pixels
+	$('#modal img').height(300);
 }
 
-var span = document.getElementsByClassName("close")[0];
 
-span.onclick = function() {
-  modal.style.display = "none";
-}
+
 </script>
 </body>
 

@@ -11,7 +11,7 @@ public class Structure {
 		work_name,work_short_name,user_type_fk,user_id,user_role_code,contract_name,contract_short_name,department_name,project_id_fk,project_name,structure_type,
 		id, uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on,contract_id,responsible_people_id_fk,user_name,designation,work_status_fk, unit, value,structure_file_type
 		,structure_id_fk, structure_detail,name,attachment,structure_file_type_fk,created_date,structure_value,target_date,estimated_cost,estimated_cost_units,construction_start_date
-		,revised_completion,structure_name,structure_details_type,fob_details_type,fob_details_location,structure_details_location,latitude,longitude,commissioning_date,actual_completion_date,completion_cost,completion_cost_units,structure_file_id,created_by_user_id_fk;
+		,revised_completion,structure_name,structure_details_type,fob_details_type,fob_details_location,valueDate,structure_details_location,latitude,longitude,commissioning_date,actual_completion_date,completion_cost,completion_cost_units,structure_file_id,created_by_user_id_fk;
 	private int [] subRowsLengths;
 	  
 	private MultipartFile structureFile;
@@ -33,6 +33,14 @@ public class Structure {
 	private List<Structure> contractsLists;
 	private List<Structure> responsiblePeopleLists;
 	
+
+	public String getValueDate() {
+		return valueDate;
+	}
+
+	public void setValueDate(String valueDate) {
+		this.valueDate = valueDate;
+	}
 
 	public List<Structure> getStructureListInactive() {
 		return structureListInactive;

@@ -111,7 +111,7 @@ public class OverviewDashboardControllerNew {
 				}else {
 					server_name = "MRVC";
 				}
-				/*TableauTrustedTicket tObj = new TableauTrustedTicket();
+				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
 				CommonConstants cObj = new CommonConstants();
 				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
@@ -128,7 +128,7 @@ public class OverviewDashboardControllerNew {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;
 				}else {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-				}*/
+				}
 				logger.error("getDashboardURL() : URL : "+tableauUrl);
 				obj.setDashboard_url(tableauUrl.toString());	
 			}

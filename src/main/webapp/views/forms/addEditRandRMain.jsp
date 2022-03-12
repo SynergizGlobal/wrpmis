@@ -360,7 +360,7 @@
 		                             <span id="id_noError" class="error-msg" ></span>
                                  </div>                                 
                                  <div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label mb-8"> Phase <span class="required">*</span></p>
+                                    <p class="searchable_label mb-8"> Phase <span class="required"></span></p>
                                     <select class="searchable validate-dropdown" id="phase" name="phase"  >
                                          <option value="" >Select</option>
                                          <c:forEach var="obj" items="${phase }">
@@ -1559,7 +1559,7 @@
  			 	  }	,"rr_id"	:{
  			 		  required:true
  			 	  }	,"phase"	:{
- 			 		  required:true
+ 			 		  required: false
  			 	  }	,"structure_id":{
  			 		  required:true
  			 	  }	,"identification_no":{

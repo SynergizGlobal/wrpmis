@@ -95,7 +95,7 @@ public class OverviewDashboardControllerNew {
 			String params = dObj.getParams();
 			obj = overviewDashboardService.getTableauUrl(dashboard_id);
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_url())){
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_url()) && !"structure-gallery-page".equals(obj.getDashboard_url())){
 				String dashboardUrl = obj.getDashboard_url();
 				if(!StringUtils.isEmpty(params)) {
 					params = decodeURIComponent(params);

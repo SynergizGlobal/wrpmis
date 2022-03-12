@@ -136,7 +136,7 @@
                             <div class="row">
                                 <!-- row 2 -->
                                  
-                                <div class="col s6 offset-m2 m4 l4 input-field">
+                                <div class="col s12 offset-m2 m4 l4 input-field">
                                 	<p class="searchable_label">Issue Category <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="getIssueTitlesList();">
                                         <option value="">Select</option>
@@ -165,7 +165,7 @@
                                     </select>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 offset-m2 input-field">
                                 	<p class="searchable_label">Issue Priority <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>

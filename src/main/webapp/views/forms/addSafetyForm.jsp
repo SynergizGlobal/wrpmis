@@ -96,7 +96,7 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field ">
                                 	<p class="searchable_label"> Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getResponsiblePersonsList();">
                                         <option value="">Select</option>
@@ -268,7 +268,7 @@
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
-                                         <div class="col s6 m4 l4 input-field">
+                                         <div class="col s12 m4 l4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate" value="${sessionScope.USER_NAME }">
                                     <label for="reported_by">Reported By</label>
                                     <span id="reported_byError" class="error-msg" ></span>

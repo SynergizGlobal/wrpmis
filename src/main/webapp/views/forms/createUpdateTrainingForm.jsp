@@ -381,7 +381,7 @@
 									<p class="primary-text-bold">Training ID : <span>${trainingDetails.training_id }</span></p>								
 								</div> --%>
 							</c:if>
-							<div class="col s6 m4 l4 input-field <c:if test="${action eq 'add'}">offset-m2 </c:if>">
+							<div class="col s6 m4 l4 input-field <c:if test="${action eq 'add'}"> </c:if>">
 								<p class="searchable_label">Training Type <span class="required">*</span></p>
 								<select class="searchable validate-dropdown"
 									name="training_type_fk" id="training_type_fk">

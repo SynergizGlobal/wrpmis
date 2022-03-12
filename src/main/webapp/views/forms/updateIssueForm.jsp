@@ -166,7 +166,7 @@
                             
                             <div class="row">
                                  
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <div class="col s12 m6 l4 input-field offset-m2">
                                		<!-- <p class="searchable_label">Issue Category <span class="required">*</span></p>                                 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
                                         <option value="">Select</option>
@@ -178,12 +178,12 @@
                                     <label for="category_fk"> Issue Category <span class="required">*</span></label>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4	 l4 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field offset-m2">
                                      <textarea id="title" name="title" class="pmis-textarea textarea-no-height" data-length="1000" readonly>${issue.title }</textarea>
                                      <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                 	<p class="searchable_label">Issue Priority <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
@@ -240,7 +240,7 @@
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field offset-m2">
+                                <div class="col s12 m8 l4 input-field offset-m2">
                                    <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk" onchange="getResponsiblePersons('')">
                                         <option value="">Select</option>
@@ -399,7 +399,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m4 l6 input-field offset-m2" style="margin-top:15px; display:none;" id="resolvedDiv">
+                                <div class="col s12 m8 l6 input-field offset-m2" style="margin-top:15px; display:none;" id="resolvedDiv">
                                     <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
                                     <label for="resolved_date"> Resolved Date<span class="required">*</span></label>
                                     <button type="button" id="resolved_date_icon" class="datepicker-button"><i

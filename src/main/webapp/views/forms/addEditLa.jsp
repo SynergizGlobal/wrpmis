@@ -216,7 +216,7 @@
 	                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" >
 	                                  <span id="la_idError" class="error-msg" ></span>
 	                                 </div>
-	                                  <div class="col s12 m6 l4 input-field">
+	                                  <div class="col s12 m8 l4 input-field offset-m2">
 	                                   <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
                                     	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk">
                                         	<option value="" >Select</option>
@@ -236,7 +236,7 @@
 	                                 <div class="col s12 m6 l6 input-field">
 	                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" readonly>
 	                                 </div>	
-	                                 <div class="col s12 m6 l4 input-field">
+	                                 <div class="col s12 m8 l4 input-field offset-m2">
 	                                 <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
                                     	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" >
                                         	<option value="" >Select</option>
@@ -255,7 +255,7 @@
                                     <label for="survey_number">Survey Number </label>
 									<span id="survey_numberError" class="error-msg" ></span>                                    
                                 </div>
-                                <div class="col s4 m4 l4 input-field ">
+                                <div class="col s6 m4 l4 input-field ">
                                     <input id="village_id" name="village_id" type="text" class="validate mt-10" value="${LADetails.village_id }">
                                     <label for="village_id">Village ID </label>
                                     <span id="village_idError" class="error-msg" ></span>
@@ -288,7 +288,7 @@
                                     </select>
                                     <span id="sub_category_of_landError" class="error-msg" ></span>
                                 </div>  
-                                <div class="col s12 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field  offset-m2">
                                        <input id="required_area" name="area_acquired" type="number" 
                                            class="validate mt-10">
                                        <label for="required_area"> Acquired Area</label>
@@ -305,7 +305,7 @@
 	                                    <input type="text"  id="sub_category_of_land" value="${LADetails.sub_category_of_land }" readonly/>
 	                                    <label for="sub_category_of_land" class="fs-sm-8rem"> Sub Category of Land <span class="required">*</span></label>
 	                                </div>
-	                                <div class="col s12 m4 l4 input-field">
+	                                <div class="col s12 m4 l4 offset-m2 input-field">
                                        <input id="required_area" name="area_acquired" type="number" value="${LADetails.area_acquired }"
                                            class="validate mt-10">
                                        <label for="required_area"> Acquired Area</label>
@@ -2239,7 +2239,7 @@
                               </div>
                             
                             <div class="row">                                 
-                                <div class="col m8 s12 offset-m2 l12">
+                                <div class="col m12 s12  l12">
                                     <div class="row">
                                         <div class="col l12 m12 s12">
                                         	<%-- <c:if test="${action eq 'add'}">

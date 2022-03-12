@@ -407,7 +407,7 @@
                                     </select>
                                     <span id="structure_type_fkError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s6 m4 l4 input-field " id="structureIdRow">
+                                 <div class="col s12 m4 l4 input-field " id="structureIdRow">
                                     <p class="searchable_label">Structure Id<span class="required">*</span></p>
                                     <select id="structure_id_fk" name="structure_id_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option> 
@@ -473,7 +473,7 @@
                                 </div>
                                 </div>
                                 <div class="row">
-                                <div class="col s12 m4 l4 input-field" id="drawingType">
+                                <div class="col s6 m4 l4 input-field" id="drawingType">
                                     <p class="searchable_label mb-8">Drawing Type <span class="required">*</span></p>
                                     <select id="drawing_type_fk" name="drawing_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
@@ -483,7 +483,7 @@
                                     </select>
                                     <span id="drawing_type_fkError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s6 m6 l6 input-field hideAuthority">
+                                 <div class="col s6 m4 l6 input-field hideAuthority">
                                     <p class="searchable_label mb-8" >Approval Authority<span class="required">*</span></p>
                                     <select id="approval_authority_fks" name="approval_authority_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>     
@@ -495,7 +495,7 @@
                                 </div>
                                 <div class="col s12 m8 optionalFileds">
                                 	<div class="row">
-		                                <div class="col s6 m6 l4 input-field">
+		                                <div class="col s6 m4 l4 input-field">
 		                                    <p class="searchable_label mb-8" >Approval Authority<span class="required">*</span></p>
 		                                    <select id="approval_authority_fk" name="approval_authority_fk" class="searchable validate-dropdown">
 		                                        <option value="" selected>Select</option>     
@@ -523,7 +523,7 @@
 						</div>
                             <div class="row section scrollspy" id="drawingDetails">
                             	<h5 class="center-align">Drawing Details</h5>
-                                <div class="col s12 m12 input-field" id="hideResponsive">
+                                <div class="col s6 m12 input-field" id="hideResponsive">
                                     <textarea id="drawing_title" name="drawing_title" class="pmis-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
                                     <label for="drawing_title">Drawing Title<span class="required">*</span></label>
                                      <span id="drawing_titleError" class="error-msg" ></span>

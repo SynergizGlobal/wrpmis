@@ -448,9 +448,13 @@
 					         				if($.trim(value2.filter_option_id) != ''){
 					         					filter_option_id = value2.filter_option_id;
 					         				}
-					         				var overview_work_id = '${work_id}';
+					         				/* var overview_work_id = '${work_id}';
 					         				var selectedFlag = "";
 					         				if($.trim(overview_work_id) == $.trim(filter_option_id)){
+					         					selectedFlag = 'selected';
+					         				} */
+					         				var selectedFlag = "";
+					         				if(index == 0 && index2 == 0){
 					         					selectedFlag = 'selected';
 					         				}
 					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>'

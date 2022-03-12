@@ -30,8 +30,7 @@
    		 	padding:10px !important;
    		 	border-radius: 10px;
    		 }
-   		 .bg-m{background-color: #4498d3dd;}
-   		 .bg-m:hover{background-color: #4498d3dd;}
+   		 .bg-m, .bg-m:hover{background-color: #4498d3dd;}
    		 .img-li:hover {
     		box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 0%);
 		}

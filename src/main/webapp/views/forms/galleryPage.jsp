@@ -20,7 +20,15 @@
    	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
    	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
    <style>
-   
+   		 .img-li{
+   		 border: 2px solid #ededed;
+	    border-radius: 50px;
+	    padding: 20px !important;
+	    margin: 0 10px !important;
+	    }
+	    .w31{width: 31% !important;}
+	    .mt10px{margin-top: 10px;padding: 10px;}
+   		 .cw{color:#fff;}
    		 .column-reverse{
             display: flex;
             flex-direction: row-reverse;
@@ -56,7 +64,6 @@
           transition: max-height 0.2s ease-in-out;
       }
       .gal-image{
-        width: 200px;
         height: 180px;
       }
       #myImg {
@@ -69,6 +76,8 @@
 
 /* The Modal (background) */
 .modal{top: 10%;
+	max-height: 80%;
+    width: 50%;
 
 }
 
@@ -218,9 +227,7 @@ ul.breadcrumb li a:hover {
 						</div>
 						<div id="modal" class="modal">
 						    <div class="modal-content">
-						        <div class="center-align p-2 bg-m modal-title">
-						            <h6>Image</h6>
-						        </div>
+						        <h4><div class="cw p-2 bg-m modal-title" id="modalhead"></div></h4>
 						          <img class="modal-content" id="img01" src="">
 						          
 						      </div>
@@ -318,12 +325,12 @@ ul.breadcrumb li a:hover {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {  
                         	   //var path = '${CommonConstants2.STRUCTURE_FILE_SAVING_PATH}';
-                                var htmlText = '<div class=""><li class="col l4 m4 s12"><center>'
+                                var htmlText = '<div class=""><li class="col l4 m4 s12 img-li w31"><center>'
                                 	+'<a href="#modal" class="modal-trigger" >'
                                     +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
                                         +'</a> </center>'
-                                    +' <button class="accordion"  >description: '+val.name+' <span class="right">Date: '+val.created_date+'</span></button>'
-                                +'<div class="accordion-content"  ><p> Whether you need a wordpress website</p></div></li></div>';
+                                    +' <div class="accordion mt10px"  >'+val.name+' <input type="hidden" id="name'+i+'" value="'+val.name+'"/><input type="hidden" id="date'+i+'" value="'+val.created_date+'"/>'
+                                +'<span class="right">'+val.created_date+'</span></div></li></div>';
                                 
    	                         $("#imageFiles").append(htmlText);
                            });
@@ -450,13 +457,17 @@ ul.breadcrumb li a:hover {
         // create references to the modal...
         
 function openImage(i){
+	$("#modalhead").text('');
 	var dd = $('#myImg'+i);
 	var imgSrc = $(dd).attr("src");
 	$('#modal img').attr('src', imgSrc);  
-	$('#modal img').width(300); // Units are assumed to be pixels
-	$('#modal img').height(300);
+	var name = $('#name'+i).val();
+	var date = $('#date'+i).val();
+	var spanText = name+'    '+date;
+	$("#modalhead").append(name+' <span class="right">'+date+'</span> ');
+	//$('#modal img').width(300); // Units are assumed to be pixels
+	//$('#modal img').height(300);
 }
-
 
 
 </script>

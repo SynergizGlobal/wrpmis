@@ -322,8 +322,8 @@ ul.breadcrumb li a:hover {
                                 	+'<a href="#modal" class="modal-trigger" >'
                                     +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
                                         +'</a> </center>'
-                                    +' <button class="accordion" id="accordion'+i+'" onclick="accordianToggle('+i+')">description: '+val.name+' <span class="right">Date: '+val.created_date+'</span></button>'
-                                +'<div class="accordion-content"id="accordion-content'+i+'" ><p> Whether you need a wordpress website</p></div></li></div>';
+                                    +' <button class="accordion"  >description: '+val.name+' <span class="right">Date: '+val.created_date+'</span></button>'
+                                +'<div class="accordion-content"  ><p> Whether you need a wordpress website</p></div></li></div>';
                                 
    	                         $("#imageFiles").append(htmlText);
                            });

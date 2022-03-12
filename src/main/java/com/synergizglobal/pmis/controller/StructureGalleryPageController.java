@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,6 +48,19 @@ public class StructureGalleryPageController {
 		return model;
 	}
 
+	@RequestMapping(value="/structure-gallery-page/{work_id}",method={RequestMethod.GET})
+	public ModelAndView galleryPageWithWork(HttpSession session,@ModelAttribute Structure obj,@PathVariable("work_id") String work_id){
+		ModelAndView model = new ModelAndView(PageConstants.structureGalleryPage);
+		try {
+			List<Structure> dates = service.getMonthList(obj);
+			model.addObject("dates", dates);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("galleryPageWithWork : " + e.getMessage());
+		}
+		return model;
+	}
+	
 	@RequestMapping(value = "/ajax/getGalleryList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Structure> getGalleryList(@ModelAttribute Structure obj) {

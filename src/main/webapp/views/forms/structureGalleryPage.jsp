@@ -327,12 +327,13 @@ ul.breadcrumb li a:hover {
         	var created_date = $("#created_date").val();
         	var structure_type_fk = $("#structure_type_fk").val();
         	var structure = $("#structure").val();
+        	var work_id = '${work_id}';
         	getMonthList();
         	getStructuresList();
         	getStructureTypeList(); 
      	   $("#imageFiles").text("");
         	$('#imageFiles li').remove();
-       	 	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure};
+       	 	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure, work_id : work_id};
                $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getGalleryList",
                    data: myParams, cache: false,async: false,
@@ -346,7 +347,7 @@ ul.breadcrumb li a:hover {
                                         +'</a> </center>'
                                     +' <div class="accordion mt10px"  >'+val.name+' <input type="hidden" id="name'+i+'" value="'+val.name+'"/><input type="hidden" id="date'+i+'" value="'+val.created_date+'"/>'
                                 +'<span class="right">'+val.created_date+'</span></div></li></div>';
-                                
+                                $('#work_short_name').text(val.work_short_name)
    	                         $("#imageFiles").append(htmlText);
    	                        $("#imageFiles").css({"text-align": "left"});
                            });
@@ -370,9 +371,10 @@ ul.breadcrumb li a:hover {
         	var created_date = $("#created_date").val();
         	var structure_type_fk = $("#structure_type_fk").val();
         	var structure = $("#structure").val();
+        	var work_id = '${work_id}';
             if ($.trim(created_date) == "") {
             	$("#created_date option:not(:first)").remove();
-            	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure};               
+            	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure, work_id : work_id};               
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getMonthList",
                     data: myParams, cache: false, 
@@ -398,9 +400,10 @@ ul.breadcrumb li a:hover {
         	var created_date = $("#created_date").val();
         	var structure_type_fk = $("#structure_type_fk").val();
         	var structure = $("#structure").val();
+        	var work_id = '${work_id}';
             if ($.trim(structure) == "") {
             	$("#structure option:not(:first)").remove();
-            	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure};               
+            	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure, work_id : work_id};               
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStructureIdList",
                     data: myParams, cache: false,
@@ -426,9 +429,10 @@ ul.breadcrumb li a:hover {
         	var created_date = $("#created_date").val();
         	var structure_type_fk = $("#structure_type_fk").val();
         	var structure = $("#structure").val();
+        	var work_id = '${work_id}';
             if ($.trim(structure_type_fk) == "") {
             	$("#structure_type_fk option:not(:first)").remove();
-            	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure};               
+            	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure, work_id : work_id};               
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStructuresLists",
                     data: myParams, cache: false,

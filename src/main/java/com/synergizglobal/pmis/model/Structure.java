@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Structure {
-	private String structure_id,work_id_fk,contract_id_fk,department_fk,structure_type_fk,structure,structure_count,
+	private String structure_id,work_id_fk,work_id,contract_id_fk,department_fk,structure_type_fk,structure,structure_count,
 		work_name,work_short_name,user_type_fk,user_id,user_role_code,contract_name,contract_short_name,department_name,project_id_fk,project_name,structure_type,
 		id, uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on,contract_id,responsible_people_id_fk,user_name,designation,work_status_fk, unit, value,structure_file_type
 		,structure_id_fk, structure_detail,name,attachment,structure_file_type_fk,created_date,structure_value,target_date,estimated_cost,estimated_cost_units,construction_start_date
@@ -33,6 +33,14 @@ public class Structure {
 	private List<Structure> contractsLists;
 	private List<Structure> responsiblePeopleLists;
 	
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
 
 	public String getValueDate() {
 		return valueDate;

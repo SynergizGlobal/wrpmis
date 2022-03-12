@@ -27,10 +27,11 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 		List<Structure> objsList = null;
 		try {
 		
-			String qry ="select id, structure_id_fk, name, attachment, structure_file_type_fk, DATE_FORMAT(sd.created_date,'%d-%m-%Y') AS created_date " 
+			String qry ="select id, structure_id_fk, name, sd.attachment,w.work_short_name,w.work_name, structure_file_type_fk, DATE_FORMAT(sd.created_date,'%d-%m-%Y') AS created_date " 
 					+ " from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
-					+ "where attachment is not null and structure_file_type_fk = 'Site photograph' ";
+					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "
+					+ "where sd.attachment is not null and structure_file_type_fk = 'Site photograph' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
@@ -45,6 +46,10 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 				qry = qry + " and structure = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + " and s.work_id_fk = ?";
+				arrSize++;
+			}	
 			qry = qry +" GROUP BY id order by sd.created_date desc";
 
 			Object[] pValues = new Object[arrSize];
@@ -57,6 +62,9 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
 				pValues[i++] = obj.getStructure();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 
@@ -73,7 +81,8 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			String qry ="select date_format(created_date,'%b-%y') as created_date, DATE_FORMAT(created_date,'%Y-%m')as valueDate  " 
 					+ " from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
-					+ "where attachment is not null and structure_file_type_fk = 'Site photograph' ";
+					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "
+					+ "where sd.attachment is not null and structure_file_type_fk = 'Site photograph' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
@@ -86,6 +95,10 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
 				qry = qry + " and structure = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + " and s.work_id_fk = ?";
 				arrSize++;
 			}	
 			qry = qry +" GROUP BY DATE_FORMAT(created_date,'%Y-%m') order by sd.created_date desc";
@@ -102,6 +115,9 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
 				pValues[i++] = obj.getStructure();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 
 		}catch(Exception e){ 
@@ -116,7 +132,8 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 		try {
 			String qry ="select structure_type_fk from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
-					+ "where attachment is not null and structure_file_type_fk = 'Site photograph' ";
+					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "
+					+ "where sd.attachment is not null and structure_file_type_fk = 'Site photograph' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
@@ -131,6 +148,10 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 				qry = qry + " and structure = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + " and s.work_id_fk = ?";
+				arrSize++;
+			}
 			qry = qry +" GROUP BY structure_type_fk";
 
 			Object[] pValues = new Object[arrSize];
@@ -144,6 +165,9 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
 				pValues[i++] = obj.getStructure();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 
@@ -159,7 +183,8 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 		try {
 			String qry ="select structure from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
-					+ "where attachment is not null and structure_file_type_fk = 'Site photograph' ";
+					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "
+					+ "where sd.attachment is not null and structure_file_type_fk = 'Site photograph' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
@@ -174,6 +199,10 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 				qry = qry + " and structure = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + " and s.work_id_fk = ?";
+				arrSize++;
+			}
 			qry = qry +" GROUP BY structure";
 
 			Object[] pValues = new Object[arrSize];
@@ -187,6 +216,9 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
 				pValues[i++] = obj.getStructure();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
 

@@ -294,10 +294,10 @@
 			  $( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
 	    }); */
 
-	    var globalDashboardId = '';
+	    var requestedDashboardId = '';
 	    $(document).ready(function(){	 
 		    var overview_work_id = '${work_id}';
-		    globalDashboardId = '${dashboardId}';
+		    requestedDashboardId = '${dashboardId}';
 		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
 				type:"POST",
 				data:{work_id : overview_work_id},
@@ -317,23 +317,22 @@
 					$( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
 					
 					$.each( data, function( index, value ){
-						if(index == 0){
-							$('.bg-a#'+value.dashboard_id).trigger("click");
+						if(index == 0 && $.trim(requestedDashboardId) == ''){
+							requestedDashboardId = value.dashboard_id;
 						}
 					});
 				}
 	        });
 		   
-		    var requestedDashboardId = '${dashboardId}';
-			if($.trim(requestedDashboardId) != ''){
-				globalDashboardId = requestedDashboardId;
-				///openDashboard(tempDashboardId);
-				/* var tempParentId = $('.collapsible-header#'+tempDashboardId).attr("parent_id");
+		    if($.trim(requestedDashboardId) != ''){
+				var tempParentId = $('.bg-a#'+requestedDashboardId).attr("parent_id");
 				if($.trim(tempParentId) != '' && tempParentId != 'undefined'){
-					tempDashboardId = tempParentId;
+					$('.bg-a#'+tempParentId).trigger("click");
+					requestedDashboardId = '${dashboardId}';
+					openDashboard(requestedDashboardId);
+				}else{
+					$('.bg-a#'+requestedDashboardId).trigger("click");
 				}
-				
-				$('.collapsible-header#'+tempDashboardId).trigger("click"); */
 			}
 		    $('.searchable').select2();
 	});
@@ -391,7 +390,7 @@
 		  $("#"+dashboardId).addClass("active");
 		  $(".bg-a").removeClass("disabled");
 		  $("#"+dashboardId).addClass("disabled");
-		  globalDashboardId = dashboardId;
+		  requestedDashboardId = dashboardId;
           var params = "";
           var show_left_menu = '';
           var filterIds = "";
@@ -540,8 +539,8 @@
 	
 	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId){
 		 //if(filter_label_name == 'Work'){
-			 /*if($.trim(globalDashboardId) != ''){
-				 dashboardId = globalDashboardId;
+			 /*if($.trim(requestedDashboardId) != ''){
+				 dashboardId = requestedDashboardId;
 			 } */
 			 <%--  window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/"+dashboardId; --%>
 		 // }		 

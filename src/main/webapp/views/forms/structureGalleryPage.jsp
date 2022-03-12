@@ -100,7 +100,7 @@
 .modal-content {
   margin: auto;
   display: block;
-  width: 80%;
+  width: 100%;
   max-width: 700px;
   z-index: 1003 !important;
 }

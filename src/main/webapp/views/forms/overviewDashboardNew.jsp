@@ -611,9 +611,9 @@
 			         		   $.each( data, function( index, value ){
 			         			  var filterOptions = value.filter;
 			         			  $.each( value.filter, function( index2, value2 ){
-				         			  	var filter_option_id = value.filter_option_value;
-				         				if($.trim(value.filter_option_id) != ''){
-				         					filter_option_id = value.filter_option_id;
+				         			  	var filter_option_id = value2.filter_option_value;
+				         				if($.trim(value2.filter_option_id) != ''){
+				         					filter_option_id = value2.filter_option_id;
 				         				}
 				         				var length = filterOptions.length;
 				         				var selectedFlag = "";

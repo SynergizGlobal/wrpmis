@@ -79,6 +79,7 @@
       }
       .gal-image{
         height: 180px;
+        max-width: 20em;
       }
       #myImg {
   border-radius: 5px;

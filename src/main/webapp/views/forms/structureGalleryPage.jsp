@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - PMIS</title>
+    <title>Structure Gallery - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png"> 
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">          
@@ -155,7 +155,7 @@ ul.breadcrumb li a:hover {
 
 <body>
     <!-- header included -->
-    <jsp:include page="../layout/header.jsp"></jsp:include>
+    <%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%>
 
 	<div class="row">
         <div class="col s12 m12">
@@ -163,7 +163,7 @@ ul.breadcrumb li a:hover {
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Gallery</h6>
+                            <h6>Structure Gallery</h6>
                         </div>
                     </span>
                     <div class="">
@@ -175,9 +175,9 @@ ul.breadcrumb li a:hover {
                                     <div class="col s12 m12 input-field">
                                         <p class="searchable_label"> Month </p>
                                         <select id="created_date" name="created_date" class="searchable" onchange="getGalleryList();">
-                                          <%--  <c:forEach var="obj" items="${dates}">
+                                          <c:forEach var="obj" items="${dates}">
 												<option value="${obj.valueDate }">${obj.created_date }</option>
-											</c:forEach> --%>
+											</c:forEach> 
                                         </select>
                                     </div>
                                     <div class="col s12 m12 input-field">
@@ -256,7 +256,7 @@ ul.breadcrumb li a:hover {
 	</div> 
 	
     <!-- footer included -->
-    <jsp:include page="../layout/footer.jsp"></jsp:include>
+   <%--  <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -315,7 +315,7 @@ ul.breadcrumb li a:hover {
         	getMonthList();
         	getStructuresList();
         	getStructureTypeList(); 
-        	
+     	   $("#imageFiles").text("");
         	$('#imageFiles li').remove();
        	 	var myParams = {created_date : created_date,structure_type_fk : structure_type_fk, structure : structure};
                $.ajax({
@@ -334,6 +334,9 @@ ul.breadcrumb li a:hover {
                                 
    	                         $("#imageFiles").append(htmlText);
                            });
+                       }else{
+                    	   var htmlText = 'No Records Found!'
+                    	$("#imageFiles").append(htmlText);
                        }
                        $('.searchable').select2();
                        $(".page-loader").hide();

@@ -17,26 +17,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.synergizglobal.pmis.Iservice.GalleryPageService;
+import com.synergizglobal.pmis.Iservice.StructureGalleryPageService;
 import com.synergizglobal.pmis.Iservice.WorkService;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Structure;
 
 @Controller
-public class GalleryPageController {
+public class StructureGalleryPageController {
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
-	public static Logger logger = Logger.getLogger(GalleryPageController.class);
+	public static Logger logger = Logger.getLogger(StructureGalleryPageController.class);
 	
 	@Autowired
-	GalleryPageService service;
+	StructureGalleryPageService service;
 	
-	@RequestMapping(value="/gallery-page",method={RequestMethod.GET})
+	@RequestMapping(value="/structure-gallery-page",method={RequestMethod.GET})
 	public ModelAndView galleryPage(HttpSession session,@ModelAttribute Structure obj){
-		ModelAndView model = new ModelAndView(PageConstants.galleryPage);
+		ModelAndView model = new ModelAndView(PageConstants.structureGalleryPage);
 		try {
 			List<Structure> dates = service.getMonthList(null);
 			model.addObject("dates", dates);

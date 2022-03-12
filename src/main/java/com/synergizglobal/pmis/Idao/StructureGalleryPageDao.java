@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.synergizglobal.pmis.model.Structure;
 
-public interface GalleryPageDao {
+public interface StructureGalleryPageDao {
 
 	List<Structure> getGalleryList(Structure obj)  throws Exception;
 

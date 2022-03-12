@@ -10,12 +10,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.synergizglobal.pmis.Idao.GalleryPageDao;
+import com.synergizglobal.pmis.Idao.StructureGalleryPageDao;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Structure;
 import com.synergizglobal.pmis.model.Structure;
 @Repository
-public class GalleryPageDaoImpl implements GalleryPageDao{
+public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 	@Autowired
 	DataSource dataSource;
 	
@@ -30,9 +30,9 @@ public class GalleryPageDaoImpl implements GalleryPageDao{
 			String qry ="select id, structure_id_fk, name, attachment, structure_file_type_fk, DATE_FORMAT(sd.created_date,'%d-%m-%Y') AS created_date, sd.status " 
 					+ " from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
-					+ "where attachment is not null and sd.status = ? ";
+					+ "where attachment is not null and structure_file_type_fk = 'Site photograph' ";
 			
-			int arrSize = 1;
+			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
 				qry = qry + " and DATE_FORMAT(sd.created_date,'%Y-%m') = ?";
 				arrSize++;
@@ -45,11 +45,10 @@ public class GalleryPageDaoImpl implements GalleryPageDao{
 				qry = qry + " and structure = ?";
 				arrSize++;
 			}	
-			qry = qry +" GROUP BY id";
+			qry = qry +" GROUP BY id order by sd.created_date desc";
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			pValues[i++] = CommonConstants.ACTIVE;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
 				pValues[i++] = obj.getCreated_date();
 			}
@@ -74,9 +73,9 @@ public class GalleryPageDaoImpl implements GalleryPageDao{
 			String qry ="select date_format(created_date,'%b-%y') as created_date, DATE_FORMAT(created_date,'%Y-%m')as valueDate  " 
 					+ " from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
-					+ "where attachment is not null and sd.status = ? ";
+					+ "where attachment is not null and structure_file_type_fk = 'Site photograph' ";
 			
-			int arrSize = 1;
+			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
 				qry = qry + " and DATE_FORMAT(sd.created_date,'%Y-%m') = ?";
 				arrSize++;
@@ -93,7 +92,7 @@ public class GalleryPageDaoImpl implements GalleryPageDao{
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			pValues[i++] = CommonConstants.ACTIVE;
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
 				pValues[i++] = obj.getCreated_date();
 			}
@@ -117,9 +116,9 @@ public class GalleryPageDaoImpl implements GalleryPageDao{
 		try {
 			String qry ="select structure_type_fk from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
-					+ "where attachment is not null and sd.status = ? ";
+					+ "where attachment is not null and structure_file_type_fk = 'Site photograph' ";
 			
-			int arrSize = 1;
+			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
 				qry = qry + " and DATE_FORMAT(sd.created_date,'%Y-%m') = ?";
 				arrSize++;
@@ -136,7 +135,7 @@ public class GalleryPageDaoImpl implements GalleryPageDao{
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			pValues[i++] = CommonConstants.ACTIVE;
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
 				pValues[i++] = obj.getCreated_date();
 			}
@@ -160,9 +159,9 @@ public class GalleryPageDaoImpl implements GalleryPageDao{
 		try {
 			String qry ="select structure from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
-					+ "where attachment is not null and sd.status = ? ";
+					+ "where attachment is not null and structure_file_type_fk = 'Site photograph' ";
 			
-			int arrSize = 1;
+			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
 				qry = qry + " and DATE_FORMAT(sd.created_date,'%Y-%m') = ?";
 				arrSize++;
@@ -179,7 +178,7 @@ public class GalleryPageDaoImpl implements GalleryPageDao{
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			pValues[i++] = CommonConstants.ACTIVE;
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
 				pValues[i++] = obj.getCreated_date();
 			}

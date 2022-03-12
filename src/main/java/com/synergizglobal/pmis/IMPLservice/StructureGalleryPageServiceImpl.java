@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.synergizglobal.pmis.Idao.GalleryPageDao;
-import com.synergizglobal.pmis.Iservice.GalleryPageService;
+import com.synergizglobal.pmis.Idao.StructureGalleryPageDao;
+import com.synergizglobal.pmis.Iservice.StructureGalleryPageService;
 import com.synergizglobal.pmis.model.Structure;
 
 @Service
-public class GalleryPageServiceImpl implements GalleryPageService{
+public class StructureGalleryPageServiceImpl implements StructureGalleryPageService{
 
 	@Autowired
-	GalleryPageDao dao;
+	StructureGalleryPageDao dao;
 
 	@Override
 	public List<Structure> getGalleryList(Structure obj) throws Exception {

@@ -26,6 +26,9 @@
 		    justify-content: center;
 		    vertical-align: middle;
    		 } */
+   		 .img-li:hover {
+    		box-shadow: 0 14px 28px rgb(0 0 0 / 12%), 0 10px 10px rgb(0 0 0 / 0%);
+		}
    		 .img-li{
    		 border: 2px solid #ededed;
 	    border-radius: 50px;

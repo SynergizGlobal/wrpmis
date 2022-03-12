@@ -20,6 +20,12 @@
    	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
    	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
    <style>
+   		/*  #imageFiles{
+   		 	display: flex;
+		    flex-wrap: nowrap;
+		    justify-content: center;
+		    vertical-align: middle;
+   		 } */
    		 .img-li{
    		 border: 2px solid #ededed;
 	    border-radius: 50px;
@@ -333,10 +339,12 @@ ul.breadcrumb li a:hover {
                                 +'<span class="right">'+val.created_date+'</span></div></li></div>';
                                 
    	                         $("#imageFiles").append(htmlText);
+   	                        $("#imageFiles").css({"text-align": "left"});
                            });
                        }else{
                     	   var htmlText = 'No Records Found!'
                     	$("#imageFiles").append(htmlText);
+                    	   $("#imageFiles").css({"text-align": "center"});
                        }
                        $('.searchable').select2();
                        $(".page-loader").hide();

@@ -26,6 +26,11 @@
 		    justify-content: center;
 		    vertical-align: middle;
    		 } */
+   		 .br-bl{border: 2px solid #4498d3dd;
+   		 	padding:10px !important;
+   		 	border-radius: 10px;
+   		 }
+   		 .bg-m{background-color: #4498d3dd;}
    		 .img-li:hover {
     		box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 0%);
 		}
@@ -33,7 +38,7 @@
    		 border: 3px solid #ededed;
 	    border-radius: 50px;
 	    padding: 20px !important;
-	    margin: 0 10px !important;
+	    margin: 10px !important;
 	    }
 	    .w31{width: 31% !important;}
 	    .mt10px{margin-top: 10px;padding: 10px;}
@@ -172,7 +177,7 @@ ul.breadcrumb li a:hover {
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Structure Gallery</h6>
+                            <h6>Gallery</h6>
                         </div>
                     </span>
                     <div class="">
@@ -181,7 +186,7 @@ ul.breadcrumb li a:hover {
                         <div class="row  column-reverse">
                             <div class="col m2 s12">
                                 <div class="row" style="margin-bottom: 0;" id="filters">
-                                    <div class="col s12 m12 input-field">
+                                    <div class="col s12 m12 input-field br-bl">
                                         <p class="searchable_label"> Month </p>
                                         <select id="created_date" name="created_date" class="searchable" onchange="getGalleryList();">
                                           <c:forEach var="obj" items="${dates}">
@@ -189,14 +194,14 @@ ul.breadcrumb li a:hover {
 											</c:forEach> 
                                         </select>
                                     </div>
-                                    <div class="col s12 m12 input-field">
+                                    <div class="col s12 m12 input-field br-bl">
                                         <p class="searchable_label">Structure</p>
                                         <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="getGalleryList();">
                                             <option value="" disabled selected>Select</option>
                                            
                                         </select>
                                     </div>
-                                    <div class="col s12 m12 input-field">
+                                    <div class="col s12 m12 input-field br-bl">
                                         <p class="searchable_label">Structure Id</p>
                                         <select id="structure" name="structure" class="searchable" onchange="getGalleryList();">
                                             <option value="" disabled selected>Select</option>

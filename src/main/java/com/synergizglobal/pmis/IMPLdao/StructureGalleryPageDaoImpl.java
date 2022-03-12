@@ -88,7 +88,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 				qry = qry + " and structure = ?";
 				arrSize++;
 			}	
-			qry = qry +" GROUP BY DATE_FORMAT(created_date,'%Y-%m')";
+			qry = qry +" GROUP BY DATE_FORMAT(created_date,'%Y-%m') order by sd.created_date desc";
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

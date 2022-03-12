@@ -111,7 +111,7 @@ public class OverviewDashboardControllerNew {
 				}else {
 					server_name = "MRVC";
 				}
-				TableauTrustedTicket tObj = new TableauTrustedTicket();
+				/*TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
 				CommonConstants cObj = new CommonConstants();
 				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
@@ -128,7 +128,7 @@ public class OverviewDashboardControllerNew {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;
 				}else {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-				}
+				}*/
 				logger.error("getDashboardURL() : URL : "+tableauUrl);
 				obj.setDashboard_url(tableauUrl.toString());	
 			}
@@ -154,15 +154,30 @@ public class OverviewDashboardControllerNew {
 	@RequestMapping(value = "/ajax/getFilters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<OverviewDashboardNew> getFilters(@ModelAttribute OverviewDashboardNew dObj,HttpSession session){
-		String user_Id = null;String userName = null;
 		List<OverviewDashboardNew> objList = null;
 		try{
-			user_Id = (String) session.getAttribute("USER_ID"); 
-			userName = (String) session.getAttribute("USER_NAME");
 			objList = overviewDashboardService.getFilters(dObj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getFilters() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
+			logger.error("getFilters() : "+e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getFilteredOptions", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<OverviewDashboardNew> getFilteredOptions(@ModelAttribute OverviewDashboardNew dObj,HttpSession session){
+		List<OverviewDashboardNew> objList = null;
+		try{
+			String params = dObj.getParams();
+			if(!StringUtils.isEmpty(params)) {
+				params = decodeURIComponent(params);
+				dObj.setParams(params);
+			}
+			objList = overviewDashboardService.getFilteredOptions(dObj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFilteredOptions() : "+e.getMessage());
 		}
 		return objList;
 	}

@@ -220,5 +220,59 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 		}		
 		return dObj;
 	}
+
+	@Override
+	public List<OverviewDashboardNew> getFilteredOptions(OverviewDashboardNew dObj) throws Exception {
+		List<OverviewDashboardNew> objList = new ArrayList<OverviewDashboardNew>();
+		try {
+			
+			OverviewDashboardNew tempObj = getWorkColumnName(dObj.getDashboard_id());
+			
+			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, default_filter_column, default_filter_value, selected_value "
+					+ "FROM left_menu_filters WHERE filter_id = ?"
+					+ "ORDER BY priority ASC";
+			objList = jdbcTemplate.query(qry, new Object[] { dObj.getFilter_id()},new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
+			for (OverviewDashboardNew obj : objList) {		
+				if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
+					String filterQry = "SELECT "
+							+ "`" + obj.getFilter_column_name() + "` as filter_option_value";
+							if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
+								filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
+							}
+							filterQry = filterQry + " FROM "
+							+ "`"+ obj.getFilters_table()+ "`";
+							
+							filterQry = filterQry + " WHERE "
+									+ "`"+ obj.getFilter_column_id()+ "`"
+									+ " IS NOT NULL ";
+							if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
+								filterQry = filterQry + " AND "
+								+ "`"+ tempObj.getSource_field_name()+ "`"
+								+ " = "
+								+ "'"+ dObj.getWork_id()+ "'";
+							}
+							if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
+								filterQry = filterQry + " AND "
+								+ "`"+ obj.getDefault_filter_column()+ "`"
+								+ " = "
+								+ "'"+ obj.getDefault_filter_value()+ "'";
+							}
+							
+							if(!StringUtils.isEmpty(dObj.getParams())) {
+								filterQry = filterQry + " AND "+dObj.getParams();
+							}
+							
+							
+							filterQry = filterQry + " GROUP BY "
+							+ "`"+ obj.getFilter_column_id()+ "`";
+					List<OverviewDashboardNew> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
+					obj.setFilter(filter);
+				}
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return objList;
+	}
 	
 }

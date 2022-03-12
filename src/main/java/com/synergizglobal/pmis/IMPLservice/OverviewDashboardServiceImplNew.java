@@ -27,5 +27,10 @@ public class OverviewDashboardServiceImplNew implements OverviewDashboardService
 	@Override
 	public List<OverviewDashboardNew> getFilters(OverviewDashboardNew obj) throws Exception {
 		return dao.getFilters(obj);
+	}
+
+	@Override
+	public List<OverviewDashboardNew> getFilteredOptions(OverviewDashboardNew dObj) throws Exception {
+		return dao.getFilteredOptions(dObj);
 	}	
 }

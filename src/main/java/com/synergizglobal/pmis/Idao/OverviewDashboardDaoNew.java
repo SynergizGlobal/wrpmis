@@ -11,4 +11,6 @@ public interface OverviewDashboardDaoNew {
 	public OverviewDashboardNew getTableauUrl(String dashboardId) throws Exception;
 
 	public List<OverviewDashboardNew> getFilters(OverviewDashboardNew obj) throws Exception;
+
+	public List<OverviewDashboardNew> getFilteredOptions(OverviewDashboardNew dObj) throws Exception;
 }

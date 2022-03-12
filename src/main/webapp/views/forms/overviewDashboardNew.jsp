@@ -436,10 +436,12 @@
         			   } 
         			   
         			   var filter_label_name = "'"+ value.filter_label_name + "'";
+        			   var filter_id = "'"+ value.filter_id + "'";
+        			   var filter_column_name = "'"+ filter_column + "'";
         			   
          			   filters = filters + '<div class="filterHolder">'
 					         			+ '<label>'+value.filter_label_name+'</label>'
-					         			+ '<select class="searchable" name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption(this.value,'+filter_label_name+','+filterIds+','+dashboardIdTemp+');">'
+					         			+ '<select class="searchable" filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption(this.value,'+filter_label_name+','+filterIds+','+dashboardIdTemp+','+filter_id+','+filter_column_name+');">'
 					         			+ '<option value="">All</option>'
 					         			$.each( value.filter, function( index2, value2 ){
 					         				var filter_option_id = value2.filter_option_value;
@@ -537,13 +539,13 @@
 		 $(".page-loader").hide();
 	 }
 	
-	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId){
+	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId,filter_id,filter_column_name){
 		 //if(filter_label_name == 'Work'){
 			 /*if($.trim(requestedDashboardId) != ''){
 				 dashboardId = requestedDashboardId;
 			 } */
 			 <%--  window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/"+dashboardId; --%>
-		 // }		 
+		 // }		
 		 var params = "";
 		 var ids = filterIds.split(",");
 		 for(var  i=0;i<ids.length;i++){
@@ -571,6 +573,65 @@
 	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
 	            }
 	     });
+		 
+		 getFilteredOptions(filterIds,dashboardId,filter_id,filter_column_name);
+	 }
+	 
+	 function getFilteredOptions(filterIds,dashboardId,filter_id,filter_column_name){
+		 var params = "";
+		 var ids = filterIds.split(",");
+		 for(var  i=0;i<ids.length;i++){
+			 var id = ids[i];
+			 var val = $("#"+id).val();
+			 var param = id+"='"+val+"'";
+			 if($.trim(val) != ''){
+				 if($.trim(params) != ''){
+				 	params = params +" AND "+ param;
+			   	 }else{
+				   params = param;
+			     }
+			 }
+		 }
+		 for(var  i=0;i<ids.length;i++){
+			 var id = ids[i];
+			 var val = $("#"+id).val();
+			 
+			 var filter_id_temp = $('#'+id).attr("filter_id");
+			 
+			 if($.trim(val) == ''){
+				 $("#"+id+" option:not(:first)").remove();
+				 $.ajax({
+			      		url: "<%=request.getContextPath()%>/ajax/getFilteredOptions",
+			            type: 'POST',
+			            data:{dashboard_id : dashboardId,work_id : '${work_id}',filter_id : filter_id_temp,params : encodeURIComponent(params)},
+			            async: false,
+			            dataType: 'json',
+			            success: function (data){
+			         	   if(data.length){
+			         		   $.each( data, function( index, value ){
+			         			  var filterOptions = value.filter;
+			         			  $.each( value.filter, function( index2, value2 ){
+				         			  	var filter_option_id = value.filter_option_value;
+				         				if($.trim(value.filter_option_id) != ''){
+				         					filter_option_id = value.filter_option_id;
+				         				}
+				         				var length = filterOptions.length;
+				         				var selectedFlag = "";
+				         				if($.trim(length) != '' && length == 1){
+				         					selectedFlag = 'selected';
+				         				}
+				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
+			                      });
+			         		  });
+			         		   $('.searchable').select2();
+			         	   }
+			         	   $(".page-loader").hide();
+			            },error: function(xhr){
+			            	$(".page-loader").hide();
+			            }
+			     });
+			 }
+		 }
 	 }
 		
 	

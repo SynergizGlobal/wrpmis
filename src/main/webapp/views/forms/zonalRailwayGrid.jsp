@@ -18,8 +18,8 @@
     <!-- <link rel="stylesheet" href="/pmis/resources/css/zonal.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         p a {
             color: blue;
@@ -57,7 +57,7 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }  
-       @media only screen and (max-width: 769px){ 
+       @media only screen and (max-width: 820px){ 
 		
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
@@ -96,7 +96,7 @@
         margin: -2rem auto 0;
     }
 
-    @media only screen and (max-width: 767px) {
+    @media only screen and (max-width: 820px) {
         .mob-mar {
             text-align: left;
         }
@@ -105,6 +105,9 @@
             padding-left: 6px;
             padding-right: 6px;
         }
+    }
+    @media(max-width: 575px){
+    	.fw-111{min-width: 25vw;}
     }
     </style>
 </head>
@@ -536,7 +539,7 @@
    								columnDefs : [ {
    									"targets" : 'no-sort',
    									"orderable" : false,
-   								},{targets: [2,3,4], className: 'hideCOl'},{targets: [0], className: 'no-sort fw-111'} ],
+   								},{targets: [2,3], className: 'hideCOl'},{targets: [0], className: 'no-sort fw-111'} ],
    								"sScrollX" : "100%",
    								"sScrollXInner" : "100%",
    								"ordering":false,

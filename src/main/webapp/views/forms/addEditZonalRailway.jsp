@@ -19,13 +19,13 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
     	.add2{position: absolute !important;
-    			top: -5.5em;
-    			right: 0;
+    			top: -4.5em;
     			border:0;
+    			left:50%;
     	}
     	.add2 td{border: 0;}
         .row.fixed-width {
@@ -98,7 +98,7 @@
 		.d-none{display: none;}
 		.w7em{width: 7em;}
 		.mdl-data-table th:first-of-type{padding-left: 15px;}
-       @media only screen and (max-width: 768px){       
+       @media only screen and (max-width: 820px){       
 			.input-field p.searchable_label {
 			    margin-bottom: 0;
 			}

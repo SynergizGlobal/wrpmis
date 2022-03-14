@@ -13,10 +13,12 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
      <style>
-     .w-60p::after{
+     	.m-3{margin-top: 0.45em;}
+     	.h3em{height:3em;}
+     	.w-60p::after{
 			content: attr(count);
 		    position: absolute;
 		    font-size: .85rem;
@@ -41,7 +43,7 @@
 		    max-width: 26em;
 		    max-height: 14em;
 		    min-width: 7em;
-		    min-width: 7em;
+		    min-width: 13em;
 		    /* border-radius: 50%; */
 		    padding: 5px;
 		    list-style: none;
@@ -79,6 +81,7 @@
 			 max-width: 100%;
 			 border-radius: 50%;
 			 transition: 0.15s;
+			 height: 5em;
 		}
 		 .circle-container img {
 			 filter: grayscale(0);
@@ -929,7 +932,7 @@
                                         </div>                                                                                
                                          <div class="col m1 s6 input-field">
                                           <div class="center-align m-3">
-                                                <button type="button" onclick="updateProgress();" id="btn1" class="btn waves-effect waves-light bg-m" >Update</button>
+                                                <button type="button" onclick="updateProgress();" id="btn1" class="h3em btn waves-effect waves-light bg-m" >Update</button>
                                        	  </div>
                                         </div> 
                                         

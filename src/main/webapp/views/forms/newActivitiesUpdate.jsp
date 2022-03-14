@@ -16,6 +16,335 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
      <style>
+     	.MultiFile-title{
+     		color: #000 !important;
+     	}
+     	.MultiFile-list{
+     		line-height:30px;
+     	}
+     	/* hover pop up style */
+     	.circle-container {
+		   position: absolute;
+		    max-width: 26em;
+		    max-height: 14em;
+		    min-width: 7em;
+		    min-width: 7em;
+		    /* border-radius: 50%; */
+		    padding: 5px;
+		    list-style: none;
+		    margin: 5em auto 0;
+		    display: none;
+		    top: -1.5em;
+    		left: 0em;
+		    z-index: 10;
+		    background-color: #fff;
+		    border: 2px solid #ededed;
+		    overflow: auto;
+		    border-top-right-radius: 30px;
+		    border-bottom-right-radius: 30px;
+		    border-bottom-left-radius: 30px;
+		}
+		.circle-container > * {
+			 display: inline-block;
+			 position: relative;
+			 
+			 width: 6em;
+			 height: 6em;
+			
+		}
+		 .file-field .btn, .file-field .btn-large, .file-field .btn-small{
+		 	float:initial;
+		 }
+		 .btn, .btn-large, .btn-small, .btn-flat{
+		 	vertical-align: initial;
+		 	text-align: inherit;
+		 	
+		 }
+		 .MultiFile-remove{color:#ff4081 !important;}
+		 .circle-container img {
+			 display: block;
+			 max-width: 100%;
+			 border-radius: 50%;
+			 transition: 0.15s;
+		}
+		 .circle-container img {
+			 filter: grayscale(0);
+		}
+		.circle-container li:hover ~ .pop-img{opacity: 0.7 !important;}
+		.img-remove{display:none;}
+		.circle-container li:hover>.img-remove{display:block !important}
+		.img-remove{
+			color: #000 !important;
+		    position: absolute;
+			top: -13%;
+		    font-size: 26px;
+		    left: 0%;
+		    font-weight: bolder;
+		    z-index: 1;
+		    background: rgb(255, 255, 255, 0.5);
+		    padding: 32px;
+		}
+		#btn-fl{z-index: 11;}
+		#btn-fl:hover .circle-container{display:inline-block !important;}
+     	/* float action button */
+     	
+		 /* .circle-container {
+			 position: relative;
+			 width: 20em;
+			 height: 20em;
+			 border-radius: 50%;
+			 padding: 0;
+			 list-style: none;
+			 margin: 5em auto 0;
+		   /display:none; 
+		    margin-top: -12em;
+		    margin-left: -7em;
+		    z-index:10;
+		    
+		}
+		
+		 .circle-container > * {
+			 display: block;
+			 position: absolute;
+			 top: 50%;
+			 left: 50%;
+			 margin: -3em;
+			 width: 6em;
+			 height: 6em;
+			
+		}
+		 .file-field .btn{width: 8em !important;}
+		 .circle-container img {
+			 display: block;
+			 max-width: 100%;
+			 border-radius: 50%;
+			 transition: 0.15s;
+		}
+		 .circle-container img:hover {
+			 filter: grayscale(0);
+		}
+		#btn-fl{z-index: 11;}
+		#btn-fl:hover ~ .circle-container{display:block !important;}
+		  .circle-container > *:nth-of-type(1) {
+			 transform: rotate(0deg) translate(1em) rotate(0deg);
+		   transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		}
+		 .circle-container > *:nth-of-type(2) {
+			 transform: rotate(45deg) translate(1em) rotate(-45deg);
+		   transition-duration: .35s;
+		}
+		 .circle-container > *:nth-of-type(3) {
+			 transform: rotate(90deg) translate(1em) rotate(-90deg);
+		}
+		 .circle-container > *:nth-of-type(4) {
+			 transform: rotate(135deg) translate(1em) rotate(-135deg);
+		}
+		 .circle-container > *:nth-of-type(5) {
+			 transform: rotate(180deg) translate(1em) rotate(-180deg);
+		}
+		 .circle-container > *:nth-of-type(6) {
+			 transform: rotate(225deg) translate(1em) rotate(-225deg);
+		}
+		 .circle-container > *:nth-of-type(7) {
+			 transform: rotate(270deg) translate(1em) rotate(-270deg);
+		}
+		 .circle-container > *:nth-of-type(8) {
+			 transform: rotate(315deg) translate(1em) rotate(-315deg);
+		}
+		 
+		.slide-top {
+			-webkit-animation: slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+			        animation: slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		}
+		@-webkit-keyframes slide-top {
+		  0% {
+		    -webkit-transform: translateY(0);
+		            transform: translateY(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(-100px);
+		            transform: translateY(-100px);
+		  }
+		}
+		@keyframes slide-top {
+		  0% {
+		    -webkit-transform: translateY(0);
+		            transform: translateY(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(-100px);
+		            transform: translateY(-100px);
+		  }
+		}
+		.slide-tr {
+			-webkit-animation: slide-tr 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+			        animation: slide-tr 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		}
+		@-webkit-keyframes slide-tr {
+		  0% {
+		    -webkit-transform: translateY(0) translateX(0);
+		            transform: translateY(0) translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(-80px) translateX(80px);
+		            transform: translateY(-80px) translateX(80px);
+		  }
+		}
+		@keyframes slide-tr {
+		  0% {
+		    -webkit-transform: translateY(0) translateX(0);
+		            transform: translateY(0) translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(-80px) translateX(80px);
+		            transform: translateY(-80px) translateX(80px);
+		  }
+		}
+		.slide-right {
+			-webkit-animation: slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+			        animation: slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		}
+		@-webkit-keyframes slide-right {
+		  0% {
+		    -webkit-transform: translateX(0);
+		            transform: translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateX(100px);
+		            transform: translateX(100px);
+		  }
+		}
+		@keyframes slide-right {
+		  0% {
+		    -webkit-transform: translateX(0);
+		            transform: translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateX(100px);
+		            transform: translateX(100px);
+		  }
+		}
+		.slide-br {
+			-webkit-animation: slide-br 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+			        animation: slide-br 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		}
+		@-webkit-keyframes slide-br {
+		  0% {
+		    -webkit-transform: translateY(0) translateX(0);
+		            transform: translateY(0) translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(80px) translateX(80px);
+		            transform: translateY(80px) translateX(80px);
+		  }
+		}
+		@keyframes slide-br {
+		  0% {
+		    -webkit-transform: translateY(0) translateX(0);
+		            transform: translateY(0) translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(80px) translateX(80px);
+		            transform: translateY(80px) translateX(80px);
+		  }
+		}
+		.slide-bottom {
+			-webkit-animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+			        animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		}
+		@-webkit-keyframes slide-bottom {
+		  0% {
+		    -webkit-transform: translateY(0);
+		            transform: translateY(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(100px);
+		            transform: translateY(100px);
+		  }
+		}
+		@keyframes slide-bottom {
+		  0% {
+		    -webkit-transform: translateY(0);
+		            transform: translateY(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(100px);
+		            transform: translateY(100px);
+		  }
+		}
+		.slide-bl {
+			-webkit-animation: slide-bl 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+			        animation: slide-bl 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		}
+		@-webkit-keyframes slide-bl {
+		  0% {
+		    -webkit-transform: translateY(0) translateX(0);
+		            transform: translateY(0) translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(80px) translateX(-80px);
+		            transform: translateY(80px) translateX(-80px);
+		  }
+		}
+		@keyframes slide-bl {
+		  0% {
+		    -webkit-transform: translateY(0) translateX(0);
+		            transform: translateY(0) translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(80px) translateX(-80px);
+		            transform: translateY(80px) translateX(-80px);
+		  }
+		}
+		.slide-left {
+			-webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+			        animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		}
+		@-webkit-keyframes slide-left {
+		  0% {
+		    -webkit-transform: translateX(0);
+		            transform: translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateX(-100px);
+		            transform: translateX(-100px);
+		  }
+		}
+		@keyframes slide-left {
+		  0% {
+		    -webkit-transform: translateX(0);
+		            transform: translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateX(-100px);
+		            transform: translateX(-100px);
+		  }
+		}
+		.slide-tl {
+			-webkit-animation: slide-tl 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+			        animation: slide-tl 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		}
+		@-webkit-keyframes slide-tl {
+		  0% {
+		    -webkit-transform: translateY(0) translateX(0);
+		            transform: translateY(0) translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(-80px) translateX(-80px);
+		            transform: translateY(-80px) translateX(-80px);
+		  }
+		}
+		@keyframes slide-tl {
+		  0% {
+		    -webkit-transform: translateY(0) translateX(0);
+		            transform: translateY(0) translateX(0);
+		  }
+		  100% {
+		    -webkit-transform: translateY(-80px) translateX(-80px);
+		            transform: translateY(-80px) translateX(-80px);
+		  }
+		} */
+     	
 		/* Chrome, Safari, Edge, Opera */
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
@@ -549,9 +878,50 @@
 		                                    <span id="remarksError" class="error-msg"></span>
                                         </div> 
                                         <div class="col m3 s6 input-field left-align">
-											<input name="structureFileNames" type="file" id="structureFileNames" accept="gif|jpg|png|jpeg|webp|svg|gif|jiff" />
-		                                    <label for="Attachment" class="active">Attachment</label> 
-		                                    <span id="myList"></span>
+                                           <!-- <div id="btn-fl">
+                                           <div class="input-field">
+                                        	<div class="t-c">
+                                        	<span id="myList">Attach Photo</span>
+                                        		<input class="bg-m" name="structureFileNames" type="file" id="structureFileNames" accept="gif|jpg|png|jpeg|webp|svg|gif|jiff" />
+		                                    	<ul class='circle-container'>
+												  <li class="slide-top"><img src='/pmis/resources/images/mrvclogo.png'></li>
+												  <li class="slide-tr"><img src='/pmis/resources/images/mrvclogo.png'></li>
+												  <li class="slide-right"><img src='/pmis/resources/images/mrvclogo.png'></li>
+												  <li class="slide-br"><img src='/pmis/resources/images/mrvclogo.png'></li>
+												  <li class="slide-bottom"><img src='/pmis/resources/images/mrvclogo.png'></li>
+												  <li class="slide-bl"><img src='/pmis/resources/images/mrvclogo.png'></li>
+												  <li class="slide-left"><img src='/pmis/resources/images/mrvclogo.png'></li>
+												  <li class="slide-tl"><img src='/pmis/resources/images/mrvclogo.png'></li>
+												</ul>
+                                        	</div>
+		                                    </div>
+		                                 	</div> -->
+		                                    <div>
+		                                    	<div id="selectedFilesInput">
+		                                    	<div class="file-field input-field" id="workFilesDiv1" >
+			                                        <div class="btn bg-m t-c" id="btn-fl">
+			                                           <span>Attach Photo</span>
+			                                           <input  name="structureFileNames" type="file" id="structureFileNames" accept="image/*" multiple/>
+			                                           <ul class='circle-container'>
+														  <li class="slide-top">
+														  	<a class="MultiFile-remove img-remove" href="#">x</a>
+														  	<img src='/pmis/resources/images/mrvclogo.png' class="pop-img">
+														  </li>
+														  <li class="slide-tr">
+														  	<a class="MultiFile-remove img-remove" href="#">x</a>
+														  	<img src='/pmis/resources/images/mrvclogo.png' class="pop-img">
+														  </li>
+														  
+														</ul>
+			                                        </div>
+			                                        <span id="myList">
+			                                        </span>                                       
+			                                    </div>
+										</div>
+		                                    </div>
+	                                    <div id="selectedFiles">
+	                                    	
+										</div>
                                         </div>                                                                                
                                          <div class="col m1 s6 input-field">
                                           <div class="center-align m-3">

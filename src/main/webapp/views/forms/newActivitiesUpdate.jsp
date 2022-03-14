@@ -16,6 +16,19 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
      <style>
+     .w-60p::after{
+			content: attr(count);
+		    position: absolute;
+		    font-size: .85rem;
+		    color: #000;
+		    margin-left:1rem;
+		    border-radius: 1rem;
+		    padding: 0 0.6rem;
+		    background-color: #cce3de;
+		    box-shadow: 2px 2px 3px rgba(0,0,0,.1), -1px -1px 1px rgba(0,0,0,.1);
+		    line-height: 25px;
+   			margin-top: 8px;
+		}
      	.MultiFile-title{
      		color: #000 !important;
      	}
@@ -84,7 +97,7 @@
 		    background: rgb(255, 255, 255, 0.5);
 		    padding: 32px;
 		}
-		#btn-fl{z-index: 11;}
+		#btn-fl{z-index: 11;width:12em;}
 		#btn-fl:hover .circle-container{display:inline-block !important;}
      	/* float action button */
      	
@@ -900,7 +913,7 @@
 		                                    	<div id="selectedFilesInput">
 		                                    	<div class="file-field input-field" id="workFilesDiv1" >
 			                                        <div class="btn bg-m t-c" id="btn-fl">
-			                                           <span>Attach Photo</span>
+			                                           <span class="w-60p" id="countNo1" count="1">Attach Photo</span>
 			                                           <input  name="structureFileNames" type="file" id="structureFileNames" multiple/>
 			                                           <ul class='circle-container'>
 														  <li class="slide-top">

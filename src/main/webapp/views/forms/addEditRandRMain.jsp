@@ -370,7 +370,7 @@
                                     <span id="phaseError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label mb-8"> Structure <span class="required">*</span></p>
+                                    <p class="searchable_label mb-8"> Structure <span class="required"></span></p>
                                     <select class="searchable validate-dropdown" id="structure" name="structure_id"  >
                                          <option value="" >Select</option>
                                          <c:forEach var="obj" items="${structure }">
@@ -1561,7 +1561,7 @@
  			 	  }	,"phase"	:{
  			 		  required: false
  			 	  }	,"structure_id":{
- 			 		  required:true
+ 			 		  required: false
  			 	  }	,"identification_no":{
  			 		  required:true
  			 	  }	, "location_name": {

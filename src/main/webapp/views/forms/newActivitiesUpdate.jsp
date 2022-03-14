@@ -913,22 +913,13 @@
 		                                    	<div id="selectedFilesInput">
 		                                    	<div class="file-field input-field" id="workFilesDiv1" >
 			                                        <div class="btn bg-m t-c" id="btn-fl">
-			                                           <span class="w-60p" id="countNo1" count="1">Attach Photo</span>
-			                                           <input  name="structureFileNames" type="file" id="structureFileNames" multiple/>
-			                                           <ul class='circle-container'>
-														  <li class="slide-top">
-														  	<a class="MultiFile-remove img-remove" href="#">x</a>
-														  	<img src='/pmis/resources/images/mrvclogo.png' class="pop-img">
-														  </li>
-														  <li class="slide-tr">
-														  	<a class="MultiFile-remove img-remove" href="#">x</a>
-														  	<img src='/pmis/resources/images/mrvclogo.png' class="pop-img">
-														  </li>
-														  
+			                                           <span class="w-60p" id="countNo" count="">Attach Photo</span>
+			                                           <input  name="structureFileNames" type="file" id="structureFileNames" accept="gif, .jpg, .png, .jpeg, .webp, .svg, .gif, .jiff"  multiple />
+			                                           <ul class='circle-container' id="myList">
+
 														</ul>
 			                                        </div>
-			                                        <span id="myList">
-			                                        </span>                                       
+                                      
 			                                    </div>
 										</div>
 		                                    </div>
@@ -1121,7 +1112,6 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-    <script src="/pmis/resources/js/jquery.MultiFile.js"></script>
     
     <script>
     	var monthShortCode=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -1215,13 +1205,44 @@
 		 
 		 $(function(){
 
-				$('#structureFileNames').MultiFile({
-					onFileChange: function(){
-						console.log(this, arguments);
-					}
-				});
+			 var imagesPreview = function(input, placeToInsertImagePreview) {
+	                if (input.files) {
+	                    var filesAmount = input.files.length;
+	                    for (i = 0; i < filesAmount; i++) {
+	                        var reader = new FileReader();
+	                        reader.onload = function(event) {
+	                        	var html='<li class="slide-top" id="rowli'+i+'"><a class="MultiFile-remove img-remove" href="#" onClick="removeli('+i+');">x</a><img src="'+event.target.result+'">';
+	                            $(html).appendTo(placeToInsertImagePreview);
+	                        }
+	                        reader.readAsDataURL(input.files[i]);
+	                    }
+	                }
+	            };
+
+                $('#structureFileNames').on('change', function() {
+                    imagesPreview(this, 'ul#myList');
+                    
+                    var cnt=Number($('ul#myList li').length)+1;
+                    $("#countNo").attr("count",cnt);
+                });	
+				
+				
 
 			});
+		 
+		 function removeli(lino)
+		 {
+			 $("#rowli"+lino).remove();
+			 var cnt=Number($("#countNo").attr("count"))-1;
+			 if(cnt==0)
+				 {
+				 	$("#countNo").attr("count","");
+				 }
+			 else
+				 {
+			 		$("#countNo").attr("count",cnt);
+				 }
+		 }
 		 
 	    var filtersMap = new Object();
 	    var structureVal = "";
@@ -1298,6 +1319,13 @@
             $('#remarks').characterCounter();
         
         });
+        
+        function getFiles()
+        {
+        	var numFiles = $("input:file")[0].files.length;
+			alert($("input:file")[0].files.length);
+        }
+        
         function onLoadMethod(){
 	        $(".page-loader").show();
 	       

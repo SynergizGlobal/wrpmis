@@ -1660,7 +1660,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				}
 				flag=true;
 				
-				String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CURRENT_TIMESTAMP)";
+				String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,:target_date)";
 				int docArrSize = 0;
 				
 				if (!StringUtils.isEmpty(obj.getStructureFileNames()) && obj.getStructureFileNames().length > 0) {
@@ -1691,6 +1691,32 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							}
 							Structure fileObj = new Structure();
 							fileObj.setAttachment(ConcatStr);
+							
+							if(!StringUtils.isEmpty(obj.getProgress_date())) 
+							{	
+								
+						    	Calendar c4 = Calendar.getInstance();
+						    	String[] SplitWith4=obj.getProgress_date().split("-");
+								
+					            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+					            c4.setTime(PrFormat.parse(SplitWith4[1]));
+					            c4.set(Calendar.DATE, Integer.parseInt(SplitWith4[0]));
+					            
+								DateFormat dfm = new SimpleDateFormat("dd-MM-yy");
+								DateFormat rdfm = new SimpleDateFormat("YYYY");
+								Date Cdfm=dfm.parse(SplitWith4[0]+'-'+c4.get(Calendar.MONTH)+'-'+SplitWith4[2]);	
+								
+					            String gdate=rdfm.format(Cdfm);
+					            
+					            c4.set(Calendar.YEAR, Integer.parseInt(gdate));		            
+					            
+					            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					            
+					            String Prdate=df.format(c4.getTime());	
+					            
+								fileObj.setTarget_date(Prdate);
+							}
+							
 							
 							
 							fileObj.setStructure_file_type_fk("Site photograph");

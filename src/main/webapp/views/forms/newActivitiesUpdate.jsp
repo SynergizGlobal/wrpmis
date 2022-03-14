@@ -901,7 +901,7 @@
 		                                    	<div class="file-field input-field" id="workFilesDiv1" >
 			                                        <div class="btn bg-m t-c" id="btn-fl">
 			                                           <span>Attach Photo</span>
-			                                           <input  name="structureFileNames" type="file" id="structureFileNames" accept="image/*" multiple/>
+			                                           <input  name="structureFileNames" type="file" id="structureFileNames" multiple/>
 			                                           <ul class='circle-container'>
 														  <li class="slide-top">
 														  	<a class="MultiFile-remove img-remove" href="#">x</a>
@@ -2089,7 +2089,11 @@
 		        	 } 
 	    			 if($("#actualScopes"+i).val()!="" && $("#actualScopes"+i).val()!=0){
 	    				checkValidate=1;
-    				 }	        
+    				 }	
+    				if($("input:file")[0].files.length>0)
+    				{
+    					checkValidate=1;
+    				}	    			 
 	    		 }
     		}
     		if(checkValidate==0 && "${sessionScope.USER_ROLE_NAME}"=='IT Admin'){

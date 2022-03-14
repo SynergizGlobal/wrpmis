@@ -34,7 +34,7 @@
 		    list-style: none;
 		    margin: 5em auto 0;
 		    display: none;
-		    top: -1.5em;
+		    top: -2em;
     		left: 0em;
 		    z-index: 10;
 		    background-color: #fff;

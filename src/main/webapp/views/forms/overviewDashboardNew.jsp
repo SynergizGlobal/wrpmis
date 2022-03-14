@@ -622,9 +622,9 @@
 				         				}
 				         				var length = filterOptions.length;
 				         				var selectedFlag = "";
-				         				if($.trim(length) != '' && length == 1){
+				         				/* if($.trim(length) != '' && length == 1){
 				         					selectedFlag = 'selected';
-				         				}
+				         				} */
 				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
 			                      });
 			         		  });

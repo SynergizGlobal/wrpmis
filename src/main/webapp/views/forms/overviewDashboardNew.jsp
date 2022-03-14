@@ -454,9 +454,9 @@
 					         					selectedFlag = 'selected';
 					         				} */
 					         				var selectedFlag = "";
-					         				if(index == 0 && index2 == 0){
+					         				/* if(index == 0 && index2 == 0){
 					         					selectedFlag = 'selected';
-					         				}
+					         				} */
 					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>'
 					         			});
 					         			filters = filters + '</select>'

@@ -171,8 +171,10 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 			objList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id(),CommonConstants.ACTIVE },new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
 			for (OverviewDashboardNew obj : objList) {		
 				if(!StringUtils.isEmpty(obj.getQuery_for_filter_options())){
-					String[] sQry = obj.getQuery_for_filter_options().split("FROM");
-					String filterQry = sQry[0]
+					String[] qryArr = obj.getQuery_for_filter_options().split("FROM");
+					String firstPart = qryArr[0];
+					String secondPart = qryArr[1];
+					String filterQry = firstPart
 							+ ",`" + obj.getFilter_column_name() + "` as filter_option_value";
 							if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
 								filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
@@ -180,10 +182,13 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 								filterQry = filterQry + ",`" + obj.getFilter_column_name() + "` as filter_option_id ";
 							}
 							filterQry = filterQry + " FROM ";
-							filterQry = filterQry + sQry[1];
-							filterQry = filterQry + " WHERE "
-									+ "`"+ obj.getFilter_column_id()+ "`"
-									+ " IS NOT NULL ";
+							filterQry = filterQry + secondPart;
+							if(!secondPart.contains("WHERE")) {
+								filterQry = filterQry + " WHERE "
+												+ "`"+ obj.getFilter_column_id()+ "`"
+												+ " IS NOT NULL ";
+							}
+							
 							if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
 								filterQry = filterQry + " AND "
 								+ "`"+ tempObj.getSource_field_name()+ "`"
@@ -270,8 +275,10 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 			objList = jdbcTemplate.query(qry, new Object[] { dObj.getFilter_id()},new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
 			for (OverviewDashboardNew obj : objList) {		
 				if(!StringUtils.isEmpty(obj.getQuery_for_filter_options())){
-					String[] sQry = obj.getQuery_for_filter_options().split("FROM");
-					String filterQry = sQry[0]
+					String[] qryArr = obj.getQuery_for_filter_options().split("FROM");
+					String firstPart = qryArr[0];
+					String secondPart = qryArr[1];
+					String filterQry = firstPart
 							+ ",`" + obj.getFilter_column_name() + "` as filter_option_value";
 							if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
 								filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
@@ -279,10 +286,14 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 								filterQry = filterQry + ",`" + obj.getFilter_column_name() + "` as filter_option_id ";
 							}
 							filterQry = filterQry + " FROM ";
-							filterQry = filterQry + sQry[1];
-							filterQry = filterQry + " WHERE "
-									+ "`"+ obj.getFilter_column_id()+ "`"
-									+ " IS NOT NULL ";
+							filterQry = filterQry + secondPart;
+							if(!secondPart.contains("WHERE")) {
+								filterQry = filterQry + " WHERE "
+												+ "`"+ obj.getFilter_column_id()+ "`"
+												+ " IS NOT NULL ";
+							}
+							
+							
 							if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
 								filterQry = filterQry + " AND "
 								+ "`"+ tempObj.getSource_field_name()+ "`"

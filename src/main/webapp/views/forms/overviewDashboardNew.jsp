@@ -448,15 +448,10 @@
 					         				if($.trim(value2.filter_option_id) != ''){
 					         					filter_option_id = value2.filter_option_id;
 					         				}
-					         				/* var overview_work_id = '${work_id}';
 					         				var selectedFlag = "";
-					         				if($.trim(overview_work_id) == $.trim(filter_option_id)){
+					         				if(index == 0 && index2 == 0){
 					         					selectedFlag = 'selected';
-					         				} */
-					         				var selectedFlag = "";
-					         				/* if(index == 0 && index2 == 0){
-					         					selectedFlag = 'selected';
-					         				} */
+					         				}
 					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>'
 					         			});
 					         			filters = filters + '</select>'
@@ -545,6 +540,7 @@
 		      $("#filter-item-holder").html("");
  	   	 }
 		 $(".page-loader").hide();
+		 getFilteredOptions(filterIds,dashboardId);
 	 }
 	
 	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId,filter_id,filter_column_name){
@@ -553,7 +549,10 @@
 				 dashboardId = requestedDashboardId;
 			 } */
 			 <%--  window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/"+dashboardId; --%>
-		 // }		
+		 // }
+			 
+	     getFilteredOptions(filterIds,dashboardId);
+			 
 		 var params = "";
 		 var ids = filterIds.split(",");
 		 for(var  i=0;i<ids.length;i++){
@@ -581,11 +580,9 @@
 	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
 	            }
 	     });
-		 
-		 getFilteredOptions(filterIds,dashboardId,filter_id,filter_column_name);
 	 }
 	 
-	 function getFilteredOptions(filterIds,dashboardId,filter_id,filter_column_name){
+	 function getFilteredOptions(filterIds,dashboardId){
 		 var params = "";
 		 var ids = filterIds.split(",");
 		 for(var  i=0;i<ids.length;i++){

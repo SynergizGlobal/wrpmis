@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
    	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
    	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-   	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+   	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
    <style>
    
    		 .dataTables_filter label::after{
@@ -42,12 +42,16 @@
          	width:100px !important;
         	min-width:100px !important;
          }
-      @media only screen and (max-width: 769px){ 
+      @media only screen and (max-width: 820px){ 
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
 			padding:3px !important;
 			max-width: 45px;
 		}
+		.fw-100{
+         	width:130px !important;
+        	min-width:130px !important;
+         }
 		td:not(.no-sort):not(:last-of-type),
 		th:not(:last-of-type){
 			width:30vw !important;
@@ -87,7 +91,7 @@
         margin: -2rem auto 0;
     }
 
-    @media only screen and (max-width: 767px) {
+    @media only screen and (max-width: 820px) {
         .mob-mar {
             text-align: left;
         }
@@ -255,7 +259,7 @@
         	
         	$('.close-message').delay(3000).fadeOut('slow');
             getContractorsList();
-            if(window.matchMedia("(max-width: 769px)").matches){
+            if(window.matchMedia("(max-width: 820px)").matches){
   		        $('#mobView').css({'display':'block'});
   		      	
   		    } else{

@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
      	.text-primary p a:not(.btn) {
             color: blue;
@@ -88,11 +88,12 @@
 		.head.existing{
 			background-color:#d5ebff;
 		}
-	  @media only screen and (max-width: 769px){ 		
+	  @media only screen and (max-width: 820px){ 	
+	  	.cw-m{width: 150px !important;}	
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
 			padding:3px !important;
-			max-width: 45px;
+			
 		}
 		.mob-btn{
 			padding:0 12px;
@@ -105,6 +106,9 @@
 	.no-sort.sorting_asc:after{
 		opacity:0 !important;
 		content:'' !important;
+	}
+	@media(max-width: 575px){
+		.cw-m{width: 95px !important;}
 	}
 	 
     </style>
@@ -339,7 +343,7 @@
                                 <table id="datatable-p6-data" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th class="no-sort">Contract ID</th>
+                                            <th class="no-sort cw-m">Contract ID</th>
                                             <th>FOB ID</th>
                                             <th>Data Type</th>
                                             <th>Data Date </th>
@@ -728,6 +732,10 @@
 	                   {
 	                	   targets:[2,3,4,5,6],
 	                       className: 'hideCOl'
+	                   },
+	                   {
+	                	   targets:[0,1,7],
+	                       className: 'cw-m'
 	                   },
 	                   
 	                   { orderable: false, 'aTargets': ['nosort'] },

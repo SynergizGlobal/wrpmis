@@ -20,7 +20,7 @@
         body {
             overflow-x: hidden;
         }
-
+		.bg-m{background-color: #007A7A;}
         .hiddendiv.common {
             width: 99vw !important;
         }
@@ -535,7 +535,7 @@
                                     </div>
 
                                     <div class="row">                
-                                        <div class="col s6 m6 input-field center-align">
+                                        <div class="col s10 m6 input-field center-align offset-m2">
                                             <p class="priokind" style="text-align: right;">Any Issue?
                                             	<span class="radiogroup"
 	                                                style="padding-bottom: 10px;padding-top: 10px;">

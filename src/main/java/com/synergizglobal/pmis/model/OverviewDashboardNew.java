@@ -9,7 +9,8 @@ public class OverviewDashboardNew {
 	
 	private String filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_name,
 	default_filter_column,default_filter_value, selected_value, priority, 
-	filter_column_id,filters_reference_table,filter_option_id,filter_option_value,work_id,parent_id,params,query_for_work_search,query_for_filter_options;
+	filter_column_id,filters_reference_table,filter_option_id,filter_option_value,work_id,parent_id,params,
+	query_for_work_search,query_for_filter_options,source_table_alias_name,filters_table_alias_name;
 	
 	private List<OverviewDashboardNew> filter;
 
@@ -247,6 +248,22 @@ public class OverviewDashboardNew {
 
 	public void setQuery_for_filter_options(String query_for_filter_options) {
 		this.query_for_filter_options = query_for_filter_options;
+	}
+
+	public String getSource_table_alias_name() {
+		return source_table_alias_name;
+	}
+
+	public void setSource_table_alias_name(String source_table_alias_name) {
+		this.source_table_alias_name = source_table_alias_name;
+	}
+
+	public String getFilters_table_alias_name() {
+		return filters_table_alias_name;
+	}
+
+	public void setFilters_table_alias_name(String filters_table_alias_name) {
+		this.filters_table_alias_name = filters_table_alias_name;
 	}
 	
 }

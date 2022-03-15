@@ -312,7 +312,7 @@
   height: 50%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  /*background-color: rgba(0,0,0,0.4);*/ /* Black w/ opacity */
 }
 
 /* Modal Content/Box */
@@ -321,7 +321,7 @@
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 40%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
@@ -1392,7 +1392,7 @@
     
    
     	
-  <div id="Modalremove" class="modal" style="top:30% !important">
+  <div id="Modalremove" class="modal" style="width:100%;height:100%">
        <div class="modal-content">
            <h5 class="modal-header"> Remove Structure 
 	           <span class="right modal-action modal-close" onClick="rmvModal();">
@@ -1416,7 +1416,7 @@
        </div>
    </div> 
    
-   <div id="Modalmultiremove" class="modal" style="top:30% !important">
+   <div id="Modalmultiremove" class="modal" style="width:100%;height:100%">
        <div class="modal-content">
            <h5 class="modal-header"> Remove Structure 
 	           <span class="right modal-action modal-close" onClick="rmvModal();">

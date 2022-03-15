@@ -158,6 +158,45 @@ public class StructureController {
 		return objList;
 	}
 	
+	@RequestMapping(value = "/ajax/deleteStructure", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Structure> deleteStructure(@ModelAttribute Structure obj,HttpSession session) {
+		List<Structure> objList = null;
+		try {
+			boolean flag = structureService.deleteStructure(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("deleteStructure : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getStructureTypeCount", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Structure> getStructureTypeCount(@ModelAttribute Structure obj,HttpSession session) {
+		List<Structure> objList = null;
+		try {
+			objList = structureService.getStructureTypeCount(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureTypeCount : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getStructureCount", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Structure> getStructureCount(@ModelAttribute Structure obj,HttpSession session) {
+		List<Structure> objList = null;
+		try {
+			objList = structureService.getStructureCount(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureCount : " + e.getMessage());
+		}
+		return objList;
+	}	
+	
 	@RequestMapping(value = "/ajax/getContractListForStructureFrom", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Structure> getContractListForStructureFrom(@ModelAttribute Structure obj,HttpSession session) {
@@ -169,7 +208,7 @@ public class StructureController {
 			logger.error("getContractListForStructureFrom : " + e.getMessage());
 		}
 		return objList;
-	}
+	}	
 	
 	@RequestMapping(value = "/ajax/getWorkListForStructureForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

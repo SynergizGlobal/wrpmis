@@ -40,7 +40,9 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FormHistory;
+import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.Structure;
+import com.synergizglobal.pmis.model.User;
 
 @Repository
 public class StructureDaoImpl implements StructureDao {
@@ -1613,6 +1615,127 @@ public class StructureDaoImpl implements StructureDao {
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public boolean deleteStructure(Structure obj) throws Exception {
+		Connection connection = null;
+		java.sql.CallableStatement statement = null;
+		ResultSet resultSet = null;
+		try{
+				String concat="";
+				if(obj.getStructure_ids().length>1)
+				{
+					concat="[";
+				}
+				for (int i = 0; i < obj.getStructure_ids().length; i++)
+				{
+					concat=concat+'"'+obj.getStructure_ids()[i]+'"'+",";
+				}
+				concat=concat.substring(0, concat.length() - 1);
+				if(obj.getStructure_ids().length>1)
+				{
+					concat=concat+"]";
+				}				
+				
+				connection = dataSource.getConnection();	
+				
+				if(obj.getStructure_ids().length>1)
+				{
+					statement = connection.prepareCall("{call deleteMultipleStructure(?,?)}");
+
+				}	
+				else
+				{
+					statement = connection.prepareCall("{call deleteStructure(?,?)}");
+				}
+				statement.setString(1, concat);
+				statement.setString(2, obj.getStructure_type_fk());
+
+				boolean hadResults = statement.execute();
+				if(hadResults)
+				{
+					return true;
+				}
+		}catch(Exception e){ 
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return false;
+	}
+
+	@Override
+	public List<Structure> getStructureCount(Structure obj) throws Exception {
+		Connection connection = null;
+		java.sql.CallableStatement statement = null;
+		ResultSet resultSet = null;
+		List<Structure> objsList = new ArrayList<Structure>();
+		try{
+				connection = dataSource.getConnection();
+				String concat="";
+				for (int i = 0; i < obj.getStructure_ids().length; i++)
+				{
+						concat=concat+obj.getStructure_ids()[i]+",";
+				}
+				concat=concat.substring(0, concat.length() - 1);				
+				statement = connection.prepareCall("{call getStructureCount(?,?)}");
+				statement.setString(1, concat);
+				statement.setString(2, obj.getStructure_type_fk());
+				resultSet =statement.executeQuery();
+				
+				while(resultSet.next()) 
+				{
+					Structure str = new Structure();
+					str.setName(resultSet.getString("name"));
+					str.setStructure_count(resultSet.getString("structure_count"));
+					objsList.add(str);
+				}
+				
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+			return objsList;
+	}
+
+	@Override
+	public List<Structure> getStructureTypeCount(Structure obj) throws Exception {
+		Connection connection = null;
+		java.sql.CallableStatement statement = null;
+		ResultSet resultSet = null;
+		List<Structure> objsList = new ArrayList<Structure>();
+		try{
+				connection = dataSource.getConnection();
+				String concat="";
+				if(obj.getStructure_ids().length>0)
+				{
+					concat="[";
+				}				
+				for (int i = 0; i < obj.getStructure_ids().length; i++)
+				{
+						concat=concat+'"'+obj.getStructure_ids()[i]+'"'+",";
+				}
+				concat=concat.substring(0, concat.length() - 1);
+				if(obj.getStructure_ids().length>0)
+				{
+					concat=concat+"]";
+				}					
+				statement = connection.prepareCall("{call getStructureTypeCount(?,?)}");
+				statement.setString(1, concat);
+				statement.setString(2, obj.getStructure_type_fk());
+				resultSet =statement.executeQuery();
+				
+				while(resultSet.next()) 
+				{
+					Structure str = new Structure();
+					str.setName(resultSet.getString("name"));
+					str.setStructure_count(resultSet.getString("structure_count"));
+					objsList.add(str);
+				}
+				
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+			return objsList;
 	}
 
 }

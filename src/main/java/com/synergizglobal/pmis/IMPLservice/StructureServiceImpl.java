@@ -125,5 +125,17 @@ public class StructureServiceImpl implements StructureService{
 	public List<Structure> getFileTypeForStructureForm(Structure obj) throws Exception {
 		return dao.getFileTypeForStructureForm(obj);
 	}
-
+	
+	@Override
+	public boolean deleteStructure(Structure obj) throws Exception {
+		return dao.deleteStructure(obj);
+	}
+	@Override
+	public List<Structure> getStructureCount(Structure obj) throws Exception {
+		return dao.getStructureCount(obj);
+	}
+	@Override
+	public List<Structure> getStructureTypeCount(Structure obj) throws Exception {
+		return dao.getStructureTypeCount(obj);
+	}	
 }

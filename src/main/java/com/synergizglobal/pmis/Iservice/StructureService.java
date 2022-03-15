@@ -49,5 +49,8 @@ public interface StructureService {
 	List<Structure> getUnitsListForStructureForm(Structure obj) throws Exception;
 
 	List<Structure> getFileTypeForStructureForm(Structure obj) throws Exception;
+	boolean deleteStructure(Structure obj) throws Exception;
+	List<Structure> getStructureCount(Structure obj) throws Exception;
+	List<Structure> getStructureTypeCount(Structure obj) throws Exception;
 	
 }

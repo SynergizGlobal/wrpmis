@@ -301,6 +301,45 @@
 			.w-60p{top: 0em;}
     		.collapsible-header-holder a.btn.red{top: 1.5rem;}
 		}
+		
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 30%;
+  width: 50%; /* Full width */
+  height: 50%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+		
     </style>
     
 </head>
@@ -322,6 +361,7 @@
                             </div>
                         </span>
                     </div>
+                    <input type="hidden" name="rowNoVal" id="rowNoVal"><input type="hidden" name="ind" id="ind">
                     <!-- form start-->
                    		    <c:if test="${action eq 'edit'}">				                
 				                 	<form action="<%=request.getContextPath() %>/update-structure" id="structureForm" name="structureForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
@@ -451,7 +491,7 @@
 						                                    	<span id="structure_name${indexx.count }${index.count }Error" class="error-msg" ></span>
 						                                	</td>
 															<td class="no-pad">
-																<a class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('${indexx.count }_${index.count }','${index.count }');countChange('${index.count }')"> <i class="fa fa-close"></i></a>
+																<a  class="btn mob-btn waves-effect waves-light red t-c" onclick="removeStructureInternalRow('${indexx.count }_${index.count }','${index.count }');countChange('${index.count }')"> <i class="fa fa-close"></i></a>
 				                                            </td>
 				                                        </tr> 
 														 </c:forEach>
@@ -509,7 +549,7 @@
 														class="validate" placeholder="Structure Name" value="">
 														<span id="structure_name11Error" class="error-msg"></span>
 													</td>
-													<td class="no-pad"><a
+													<td class="no-pad"><a 
 														class="btn mob-btn waves-effect waves-light red t-c"
 														onclick="removeStructureInternalRow('11','1');countChange('1')"> <i
 															class="fa fa-close"></i></a></td>
@@ -1349,6 +1389,57 @@
             </div>
         </div>
     </div>
+    
+   
+    	
+  <div id="Modalremove" class="modal" style="top:30% !important">
+       <div class="modal-content">
+           <h5 class="modal-header"> Remove Structure 
+	           <span class="right modal-action modal-close" onClick="rmvModal();">
+	           <span class="material-icons">close</span></span>
+           </h5>
+           <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post" id="remarksForm" name="remarksForm">
+               <div class="row no-mar" id="amendment_not_required_in_contract_Div" style="display: block;">
+                   <div class="col s12 m12 input-field" style="text-align:center;">
+	                   <table id="tblStructure">
+	                   		<thead>
+
+	                   		</thead>
+	                   		<tbody></tbody>
+	                   </table>
+	                   
+						<input type="button" name="remove" id="remove" value="Remove" class="btn btn-primary t-c" onClick="rmvStructure();">
+						<button type="button" name="cancel" id="cancel" class="btn waves-effect waves-light bg-s t-c" onClick="rmvModal();">Cancel</button>
+                   </div>
+               </div>        
+           </form>
+       </div>
+   </div> 
+   
+   <div id="Modalmultiremove" class="modal" style="top:30% !important">
+       <div class="modal-content">
+           <h5 class="modal-header"> Remove Structure 
+	           <span class="right modal-action modal-close" onClick="rmvModal();">
+	           <span class="material-icons">close</span></span>
+           </h5>
+           <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post" id="remarksForm" name="remarksForm">
+               <div class="row no-mar" id="amendment_not_required_in_contract_Div" style="display: block;">
+                   <div class="col s12 m12 input-field" style="text-align:center;">
+	                   <table id="tblStructure1">
+	                   		<thead>
+
+	                   		</thead>
+	                   		<tbody></tbody>
+	                   </table>
+	                   
+						<input type="button" name="remove" id="remove" value="Remove" class="btn btn-primary t-c" onClick="rmv1Structure();">
+						<button type="button" name="cancel" id="cancel" class="btn waves-effect waves-light bg-s t-c" onClick="rmv1Modal();">Cancel</button>
+                   </div>
+               </div>        
+           </form>
+       </div>
+   </div>    
+       
  <!-- Page Loader -->
 	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
@@ -1385,6 +1476,73 @@
 		 function countChange(no){
 			$('#countNo'+no).attr('count',$('#internalTable'+no+' >tr:not(.mob-add-btn.pos-rel)').length);			
 		 }
+		
+		function rmvModal()
+		{
+			$('.modal').hide();
+		}
+		
+		function rmv1Modal()
+		{
+			$('#Modalmultiremove').hide();
+		}
+		function rmv1Structure()
+		{
+			StrArray=[];
+			
+			var m=1;
+			$('#structureRow'+$("#rowNoVal").val()+'-internalTable tbody tr').each(function() {
+			    var keval = $(this).find("input").val();
+			   		if($("#structure_id"+m+$("#rowNoVal").val()).val()!=undefined)
+				   {
+						StrArray.push($("#structure_id"+m+$("#rowNoVal").val()).val());
+				   }
+			    m++;
+			  });			
+			
+			var myParams = { structure_type_fk: $("#structure_type_fks"+$("#rowNoVal").val()).val(), structure_ids: StrArray.toString() };
+            
+			$.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/deleteStructure",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                     
+                 }
+             }); 
+			
+			$('#collapseItem'+$("#rowNoVal").val()).remove();
+			$('#Modalmultiremove').hide();
+			
+		}
+		
+		function rmvStructure()
+		{
+			StrArray=[];
+			//$("#internalRow"+ind).val(len); 
+			//$("#subRowsLengths"+ind).val(len);
+			
+			var getVal=$("#rowNoVal").val().replace("_","");
+			StrArray.push($("#structure_id"+getVal).val());
+		
+			
+			var myParams = { structure_type_fk: $("#structure_type_fks"+$("#ind").val()).val(), structure_ids: StrArray.toString() };
+            
+			$.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/deleteStructure",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                     
+                 }
+             }); 
+			
+			$("#internalTableRow"+$("#rowNoVal").val()).remove();
+			var row = $('#structureRow'+$("#ind").val()+'-internalTable tbody tr td input')[0]; //get the first row of the tbody
+			var structureId = $(row).attr('id');
+			$("#"+structureId).removeAttr('name');
+			var len = $("#internalTable"+$("#ind").val()+" tr").length-1;
+			var rNo = Number(len) - 1;
+			$('.modal').hide();
+		}
 		
 		/* $(document).on('click','.structre_type_text',function(){
 			var self = this; 
@@ -1727,7 +1885,7 @@
            			    
            				//+'<span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5></div></div>'
            				+'</div></div><a class="modal-trigger btn bg-m t-c" href="#modal'+rNo+rNo+x+'">Update</a>	</td>' */
-           				+'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c " onclick="removeStructureInternalRow('+rNo+rNo+x+','+rNo+');countChange('+rNo+')" > <i class="fa fa-close"></i></a></td></tr>'
+           				+'<td class="no-pad"><a  class="btn mob-btn waves-effect waves-light red t-c " onclick="removeStructureInternalRow('+rNo+rNo+x+','+rNo+');countChange('+rNo+')" > <i class="fa fa-close"></i></a></td></tr>'
            				+'<tr class="mob-add-btn"><td> <a type="button" class="btn mob-btn waves-effect waves-light bg-m t-c" onclick="addInternalTableRow('+rNo+rNo+x+','+rNo+');countChange('+rNo+')"> <i class="fa fa-plus"></i></a>'
            				+'</td></tr></tbody></table></td>'
            				//+'<td data-head="Structure Id" class="input-field">'
@@ -1855,7 +2013,7 @@
 				            
 						   //+'<h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5></div></div>'
 	           				+'</div></div><a class="modal-trigger btn bg-m t-c" href="#modal'+rNo+rNo+x+'">Update</a>	</td>' */
-						   +'<td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c" '
+						   +'<td class="no-pad"><a  class="btn mob-btn waves-effect waves-light red t-c" '
 						   +'onclick="removeStructureInternalRow('+rNo+tableNo+','+tableNo+'); countChange('+tableNo+')"> <i class="fa fa-close"></i></a></td></tr>';
 
 			   $('#structureRow'+tableNo+'-internalTable tbody tr.mob-add-btn').prev().after(html);
@@ -1878,16 +2036,44 @@
 		      		})
 		         }); */
 			}
+			var StrArray=new Array();
 			
 			function removeStructureInternalRow(rowNo,ind){
-				$("#internalTableRow"+rowNo).remove();
-				var row = $('#structureRow'+ind+'-internalTable tbody tr td input')[0]; //get the first row of the tbody
-				var structureId = $(row).attr('id');
-				$("#"+structureId).removeAttr('name');
-				var len = $("#internalTable"+ind+" tr").length-1;
-				var rNo = Number(len) - 1;
-				//$("#internalRow"+ind).val(len); 
-				//$("#subRowsLengths"+ind).val(len);
+				
+				StrArray=[];
+				$("#tblStructure thead").empty();
+				$("#tblStructure tbody").empty();
+				
+				$("#rowNoVal").val(rowNo);
+				$("#ind").val(ind);
+				
+				var getVal=rowNo.replace("_","");
+				StrArray.push($("#structure_id"+getVal).val());
+			
+				
+				var myParams = { structure_type_fk: $("#structure_type_fks"+ind).val(), structure_ids: StrArray.toString() };
+				
+				$.ajax({
+	                 url: "<%=request.getContextPath()%>/ajax/getStructureCount",
+	                 data: myParams, cache: false,
+	                 success: function (data) 
+	                 {
+	                	 	 if(data.length>0)
+	                		 {
+		                	 	$("#tblStructure thead").append("<tr><th>Table Name</th><th>Count</th></tr>");
+	                			
+		                		for(var i=0;i<data.length;i++)
+		                		{
+		                			$("#tblStructure tbody").append("<tr><td>"+data[i].name+"</td><td style='text-lign:left;'>"+data[i].structure_count+"</td></tr>");
+		                		}
+	                		 }
+	                     
+	                 }
+	             }); 				
+				
+				$('.modal').show();
+				$('body').css('background-color', '#000000');
+
 			}
 			
 			function addstructureDetailRow(ind){
@@ -1933,7 +2119,7 @@
 							+'name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
 							+'<td><input type="hidden" name="structure_ids"	id="structure_ids'+cNo+''+rNo+'" value="" /> <input '
 							+'id="structure_name'+cNo+''+rNo+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="">'
-							+'<span id="structure_name00Error" class="error-msg"></span></td> <td class="no-pad"><a class="btn mob-btn waves-effect waves-light red t-c"'
+							+'<span id="structure_name00Error" class="error-msg"></span></td> <td class="no-pad"><a  class="btn mob-btn waves-effect waves-light red t-c"'
 							+'onclick="removeStructureInternalRow('+rNo+''+rNo+','+rNo+');countChange('+rNo+')"> <i class="fa fa-close"></i></a></td> </tr>'
 							+'<tr class="mob-add-btn pos-rel"><td><a type="button" class="btn mob-btn waves-effect waves-light bg-m " '
 							+'onClick="addInternalTableRow('+rNo+','+rNo+');countChange('+rNo+')"> <i class="fa fa-plus"></i></a></td> </tr> </tbody> </table> </div> </div> </li>';
@@ -1944,9 +2130,46 @@
 				 $('.searchable').select2(); 
 				 $('select:not(.searchable)').formSelect();
 			}
+			
 			function removeCollapseItem(a){
-				$('#collapseItem'+a).remove();
+				StrArray=[];
+				$('#Modalmultiremove').show();
+				
+				$("#tblStructure1 thead").empty();
+				$("#tblStructure1 tbody").empty();
+				
+				$("#rowNoVal").val(a);
+				
+					var m=1;
+					$('#structureRow'+a+'-internalTable tbody tr').each(function() {
+					    var keval = $(this).find("input").val();
+					   		if($("#structure_id"+m+a).val()!=undefined)
+						   {
+								StrArray.push($("#structure_id"+m+a).val());
+						   }
+					    m++;
+					  });
+					
+					var myParams = { structure_type_fk: $("#structure_type_fks"+a).val(), structure_ids: StrArray.toString() };
+		            
+					$.ajax({
+		                 url: "<%=request.getContextPath()%>/ajax/getStructureTypeCount",
+		                 data: myParams, cache: false,
+		                 success: function (data) 
+		                 {
+	                	 	 if(data.length>0)
+	                		 {
+		                	 	$("#tblStructure1 thead").append("<tr><th>Table Name</th><th>Count</th></tr>");
+	                			
+		                		for(var i=0;i<data.length;i++)
+		                		{
+		                			$("#tblStructure1 tbody").append("<tr><td>"+data[i].name+"</td><td style='text-align:left;'>"+data[i].structure_count+"</td></tr>");
+		                		}
+	                		 }		                     
+		                 }
+		             });
 			}
+			
 			 function addstructureResponsibleRow(ind){
 					/*  var work_id_fk = $("#work_id_fk").val();
 		    	 	 getContractsList(work_id_fk); */

@@ -441,7 +441,7 @@
         			   
          			   filters = filters + '<div class="filterHolder">'
 					         			+ '<label>'+value.filter_label_name+'</label>'
-					         			+ '<select class="searchable" filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption(this.value,'+filter_label_name+','+filterIds+','+dashboardIdTemp+','+filter_id+','+filter_column_name+');">'
+					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption(this.value,'+filter_label_name+','+filterIds+','+dashboardIdTemp+','+filter_id+','+filter_column_name+');">'
 					         			+ '<option value="">All</option>'
 					         			$.each( value.filter, function( index2, value2 ){
 					         				var filter_option_id = value2.filter_option_value;
@@ -588,6 +588,11 @@
 		 for(var  i=0;i<ids.length;i++){
 			 var id = ids[i];
 			 var val = $("#"+id).val();
+			 
+			 var filters_table_alias_name = $('#'+id).attr("filters_table_alias_name");
+			 if($.trim(filters_table_alias_name) != '' && filters_table_alias_name != 'null' && filters_table_alias_name != null && filters_table_alias_name != 'undefined'){
+				 id = filters_table_alias_name+"."+id;
+			 }
 			 var param = id+"='"+val+"'";
 			 if($.trim(val) != ''){
 				 if($.trim(params) != ''){

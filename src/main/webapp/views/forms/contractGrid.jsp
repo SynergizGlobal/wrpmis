@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>        
         .input-field .searchable_label{
         	font-size:0.85rem;
@@ -49,7 +49,7 @@
          		padding:12px 10px !important;
          	}
          }
-           @media only screen and (max-width: 769px){ 
+           @media only screen and (max-width: 820px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
@@ -66,10 +66,11 @@
 				width:45vw !important;
         		max-width:45vw;  
         	}
-        	fw-1{
+        	.fw-1{
 				width:30vw !important;
         		max-width:30vw; 
         	} 
+        	.cw-m{width: 8rem;}
 			
 		} 
 		.page-loader {
@@ -96,7 +97,7 @@
         margin: -2rem auto 0;
     }
 
-    @media only screen and (max-width: 767px) {
+    @media only screen and (max-width: 820px) {
         .mob-mar {
             text-align: left;
         }
@@ -538,6 +539,8 @@
                     targets: [0, 1, 2],
                     className: 'mdl-data-table__cell--non-numeric'
                 },
+                { targets:[3,4,5,6,7], className: 'hideCOl'},
+                { targets:[1], className: 'cw-m'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,

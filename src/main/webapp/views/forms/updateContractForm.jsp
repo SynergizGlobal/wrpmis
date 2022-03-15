@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style> 
         #ravTable .datepicker~button,
         #insurenceTable .datepicker~button,
@@ -814,6 +814,12 @@
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
+	                                <div class="col s12 m6 l6 input-field " id="doc_div">
+	                                    <input autocomplete="off" name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }">
+	                                    <label for="doc">Original DOC<span class="required" id="doc_req">*</span></label>
+	                                     <button type="button" id="doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                     <span id="docError" class="error-msg" ></span>
+	                                </div>
 	                                <%-- <div class="col s9 m3 l4 input-field" id="estimated_cost_div">
 	                                    <i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }" >
@@ -845,12 +851,7 @@
 	                                </div> --%>                        
                                 </div>      
 	                           	<div class="row">
-	                                <div class="col s12 m6 l6 input-field " id="doc_div">
-	                                    <input autocomplete="off" name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }">
-	                                    <label for="doc">Original DOC<span class="required" id="doc_req">*</span></label>
-	                                     <button type="button" id="doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-	                                     <span id="docError" class="error-msg" ></span>
-	                                </div>
+	                                
 	                                <%-- <div class="col s9 m3 l4 input-field " id="awarded_cost_div">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input autocomplete="off" id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }">
@@ -867,6 +868,9 @@
 	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
                                 	</div> --%>
                                 	
+                                	
+                                </div>
+                                <div class="row">
                                 	<div class="col s12 m6 l6 input-field amount-dropdown" id="awarded_cost_div">
 	                                    <i class="material-icons amount-symbol cost">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate" value="${contractDeatils.awarded_cost }">
@@ -880,8 +884,6 @@
                                    		    </c:forEach>
 	                                	</select>
 	                                </div> 
-                                </div>
-                                <div class="row">
 	                                <div class="col s6 m6 l6 input-field " id="target_doc_div">
 	                                    <input autocomplete="off" name="target_doc" id="target_doc" type="text" class="validate datepicker" value="${contractDeatils.target_doc }"    >
 	                                    <label for="target_doc">Target DOC</label>
@@ -937,7 +939,7 @@
 	                                </div>
 	                            </div>
 	                            <div class="row" id="contractClosureRadioBtn" style="display: none;">
-	                            	<div class="col s12 m12 input-field offset-m2">
+	                            	<div class="col s12 m10 input-field offset-m2">
 			                   			<div class="col l5 m5">
 			                   				<p >Contract Closed/Closure initiated? </p>
 			                   			</div>

@@ -196,9 +196,12 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					filterQry = filterQry + " FROM ";
 					filterQry = filterQry + secondPart;
 					if(!secondPart.contains("WHERE")) {
-						filterQry = filterQry + " WHERE "
-										+ ""+ obj.getFilter_column_id()+ ""
-										+ " IS NOT NULL ";
+						filterQry = filterQry + " WHERE ";
+								if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+									filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
+								}
+								filterQry = filterQry + obj.getFilter_column_id()
+								+ " IS NOT NULL ";
 					}							
 					if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
 						filterQry = filterQry + " AND ";
@@ -319,8 +322,11 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					filterQry = filterQry + " FROM ";
 					filterQry = filterQry + secondPart;
 					if(!secondPart.contains("WHERE")) {
-						filterQry = filterQry + " WHERE "
-										+ ""+ obj.getFilter_column_id()+ ""
+						filterQry = filterQry + " WHERE ";
+								if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+									filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
+								}
+								filterQry = filterQry + obj.getFilter_column_id()
 										+ " IS NOT NULL ";
 					}							
 					if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {

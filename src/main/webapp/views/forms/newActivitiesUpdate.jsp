@@ -81,7 +81,7 @@
 			 max-width: 100%;
 			 border-radius: 50%;
 			 transition: 0.15s;
-			 height: 5em;
+			 height: 5.5em;
 		}
 		 .circle-container img {
 			 filter: grayscale(0);
@@ -641,10 +641,11 @@
             background-color: #f00;
         }
 
-        @media only screen and (max-width: 768px) {
+        @media only screen and (max-width: 820px) {
            .fixed-width .table-inside {
 	    		overflow: hidden;
 			}
+			.mt0{margin-top:0;}
         }
         @media only screen and (max-width: 700px) {
             .legends .col {
@@ -914,7 +915,7 @@
 		                                 	</div> -->
 		                                    <div>
 		                                    	<div id="selectedFilesInput">
-		                                    	<div class="file-field input-field" id="workFilesDiv1" >
+		                                    	<div class="file-field input-field mt0" id="workFilesDiv1" >
 			                                        <div class="btn bg-m t-c" id="btn-fl">
 			                                           <span class="w-60p" id="countNo" count="">Attach Photo</span>
 			                                           <input  name="structureFileNames" type="file" id="structureFileNames" accept="gif, .jpg, .png, .jpeg, .webp, .svg, .gif, .jiff"  multiple />
@@ -930,7 +931,7 @@
 	                                    	
 										</div>
                                         </div>                                                                                
-                                         <div class="col m1 s6 input-field">
+                                         <div class="col m12 s6 input-field">
                                           <div class="center-align m-3">
                                                 <button type="button" onclick="updateProgress();" id="btn1" class="h3em btn waves-effect waves-light bg-m" >Update</button>
                                        	  </div>

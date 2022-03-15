@@ -20,8 +20,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
     <style>
         p a {
             color: blue
@@ -40,8 +40,18 @@
             margin-left:auto !important;
             margin-right:auto !important;
         }
-
-	@media only screen and (max-width: 768px)
+	.mdl-data-table td, .mdl-data-table th{padding: 0 5px 12px;}
+	@media(max-width: 820px){
+			.mdl-data-table td, .mdl-data-table th{
+				padding: 0 35px 12px;
+			}
+		}
+		@media(max-width: 575px){
+			.mdl-data-table td, .mdl-data-table th{
+				padding: 0 18px 12px;
+			}
+		}
+	@media only screen and (max-width: 820px)
 	.mobile_responsible_table>tbody tr td.mobile_btn_close a {
 	    float: right;
 	    margin-right: -25px;
@@ -60,7 +70,7 @@
     	.input-field .prefix{
 			top:25%;
 		}
-		@media only screen and (min-width:769px){
+		@media only screen and (min-width:820px){
 			.mdl-data-table td.mobile_btn_close{
 				padding-right:inherit;
 			}
@@ -71,7 +81,7 @@
                 min-width: 80px;
             }
         }
-        @media only screen and (max-width: 768px) {
+        @media only screen and (max-width: 820px) {
              td.cell-disp-inb div.file-path-wrapper {
 			    visibility: hidden;
 			    width: 2px;
@@ -109,7 +119,7 @@
 		}
 		
 		
-		@media only screen and (min-width: 769px)  {
+		@media only screen and (min-width: 820px)  {
 			#budgetTableBody tr td .select2-container{
 	        	width:140px !important;
 	        	max-width:140px;
@@ -129,6 +139,7 @@
 		    font-size: .85rem;
 		    word-break: break-all;
 		}
+		
     </style>
 </head>
 
@@ -429,7 +440,7 @@
 					<div class="container container-no-margin">                           
 
                             <div class="row">
-                                <div class="col s6 m4 l6 mt-brdr">
+                                <div class="col s6 m6 l6 mt-brdr">
                                    <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateBudget();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -439,7 +450,7 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 l6 mt-brdr">
+                                <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/budget" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

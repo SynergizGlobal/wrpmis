@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         p a {
             color: blue
@@ -176,7 +176,7 @@
 							<div class="center-align bg-m p-2 m-b-5">								
 								<!-- <h6 class="hide-on-med-and-down">Update Expenditure</h6> -->
 								<h6 class="mob-mar">Expenditure</h6>
-								<div class="col s12 m12 right-align exportButton">
+								<div class="col s12 m12 right-align exportButton hideCOl">
     								<div class="m-n1">
     									 <a href="/pmis/Expenditure_Template.xlsx" download class="template-btn" title="Download Template">
             <i class="material-icons-outlined">download_for_offline</i>

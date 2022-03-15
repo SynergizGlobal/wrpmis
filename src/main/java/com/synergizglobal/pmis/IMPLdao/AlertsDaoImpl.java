@@ -394,7 +394,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			
-			String cvQryAlert5 = "select c.contract_id,'Flag' as alert_level,'Execution' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,concat('actual progress lagging by ',concat(round(ifnull(physical_planned-physical_actual,0),2)*100),'%') as alert_value,concat('/new-activities-update?contract_id=',c.contract_id) as redirect_url "
+			String cvQryAlert5 = "select c.contract_id,'Flag' as alert_level,'Execution' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,concat('actual progress lagging by ',concat(round(ifnull(physical_planned-physical_actual,0),4)*100),'%') as alert_value,concat('/new-activities-update?contract_id=',c.contract_id) as redirect_url "
 					+ "from contract_progress c left join contract c1 on c1.contract_id=c.contract_id where physical_planned-physical_actual>0.1";
 	
 	
@@ -404,10 +404,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 				
 			
-			String cvQryAlert6 = "select c1.contract_id,'Flag' as alert_level,'R&R' as alert_type,\r\n"
+			String cvQryAlert6 = "select c1.contract_id,'Flag' as alert_level,'R&R' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
 					+ "concat(type_of_use,\" structures in \",location_name,\" not updated in\", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/randr-main?location=',r.location_name,'&type_of_use=',r.type_of_use,'&work_id=',w.work_id) as redirect_url\r\n"
-					+ " from rr r left JOIN work w ON w.work_id=r.work_id left join contract c1 on c1.work_id_fk=w.work_id where DATEDIFF(curdate(), r.modified_date)>=90 group by location_name,type_of_use,w.work_id";
+					+ " from rr r left JOIN work w ON w.work_id=r.work_id left join contract c1 on c1.work_id_fk=w.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(curdate(), r.modified_date)>=90 group by location_name,type_of_use,w.work_id";
 	
 	
 			List<Alerts> cvQryAlert6List = jdbcTemplate.query( cvQryAlert6, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -416,10 +416,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			
-			String cvQryAlert7 = "select c1.contract_id,'Flag' as alert_level,'Land Acquisition' as alert_type,\r\n"
+			String cvQryAlert7 = "select c1.contract_id,'Flag' as alert_level,'Land Acquisition' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
 					+ "concat(\"Land Acquisition for \",village,\" not updated in\", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/land-acquisition?village=',r.village,'&work_id=',w.work_id) as redirect_url\r\n"
-					+ " from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join contract c1 on c1.work_id_fk=w.work_id where DATEDIFF(curdate(), r.modified_date)>=90 group by village,w.work_id";
+					+ " from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join contract c1 on c1.work_id_fk=w.work_id left join land_executives re on re.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 group by village,w.work_id";
 	
 	
 			List<Alerts> cvQryAlert7List = jdbcTemplate.query( cvQryAlert7, new BeanPropertyRowMapper<Alerts>(Alerts.class));

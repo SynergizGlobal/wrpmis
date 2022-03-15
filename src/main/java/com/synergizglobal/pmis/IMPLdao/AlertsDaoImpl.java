@@ -393,6 +393,19 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			
+			
+			String cvQryAlert5 = "select c.contract_id,'Flag' as alert_level,'Execution' as alert_type,concat('actual progress lagging by ',round(ifnull(physical_planned-physical_actual,0),2)) as alert_value,concat('/new-activities-update?contract_id=',c.contract_id) as redirect_url "
+					+ "from contract_progress c where physical_planned-physical_actual>0.1";
+	
+	
+			List<Alerts> cvQryAlert5List = jdbcTemplate.query( cvQryAlert5, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(cvQryAlert5List) && cvQryAlert5List.size() > 0) {
+				list.addAll(cvQryAlert5List);
+			}
+						
+			
+			
+			
 			/*************************Alerts insertion********************************************/
 			String updateQry = "update alerts set alert_status = ? where count <> 0";	
 			Object[] pValues = new Object[] {CommonConstants.INACTIVE};

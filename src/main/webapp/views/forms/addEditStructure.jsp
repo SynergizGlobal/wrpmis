@@ -1398,7 +1398,6 @@
 	           <span class="right modal-action modal-close" onClick="rmvModal();">
 	           <span class="material-icons">close</span></span>
            </h5>
-           <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post" id="remarksForm" name="remarksForm">
                <div class="row no-mar" id="amendment_not_required_in_contract_Div" style="display: block;">
                    <div class="col s12 m12 input-field" style="text-align:center;">
 	                   <table id="tblStructure">
@@ -1412,17 +1411,15 @@
 						<button type="button" name="cancel" id="cancel" class="btn waves-effect waves-light bg-s t-c" onClick="rmvModal();">Cancel</button>
                    </div>
                </div>        
-           </form>
        </div>
    </div> 
    
    <div id="Modalmultiremove" class="modal" style="width:100%;height:100%">
        <div class="modal-content">
-           <h5 class="modal-header"> Remove Structure 
+           <h5 class="modal-header"> Remove St	ructure 
 	           <span class="right modal-action modal-close" onClick="rmvModal();">
 	           <span class="material-icons">close</span></span>
            </h5>
-           <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post" id="remarksForm" name="remarksForm">
                <div class="row no-mar" id="amendment_not_required_in_contract_Div" style="display: block;">
                    <div class="col s12 m12 input-field" style="text-align:center;">
 	                   <table id="tblStructure1">
@@ -1436,7 +1433,6 @@
 						<button type="button" name="cancel" id="cancel" class="btn waves-effect waves-light bg-s t-c" onClick="rmv1Modal();">Cancel</button>
                    </div>
                </div>        
-           </form>
        </div>
    </div>    
        
@@ -1480,11 +1476,13 @@
 		function rmvModal()
 		{
 			$('.modal').hide();
+			$('#Modalmultiremove').hide();
 		}
 		
 		function rmv1Modal()
 		{
 			$('#Modalmultiremove').hide();
+			$('.modal').hide();
 		}
 		function rmv1Structure()
 		{
@@ -1512,6 +1510,7 @@
 			
 			$('#collapseItem'+$("#rowNoVal").val()).remove();
 			$('#Modalmultiremove').hide();
+			$('.modal').hide();
 			
 		}
 		
@@ -1542,6 +1541,7 @@
 			var len = $("#internalTable"+$("#ind").val()+" tr").length-1;
 			var rNo = Number(len) - 1;
 			$('.modal').hide();
+			$('#Modalmultiremove').hide();
 		}
 		
 		/* $(document).on('click','.structre_type_text',function(){

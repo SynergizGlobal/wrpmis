@@ -1179,6 +1179,9 @@
 			                    		  }else if(val.alert_type_fk == 'Safety'){
 			                    			  bgIcon = '<i class="material-icons">verified_user</i>';
 			                    		  }
+			                    		  else if(val.alert_type_fk == 'Execution'){
+			                    			  bgIcon = '<i class="material-icons">settings</i>';
+			                    		  }			                    		  
 			                    		  
 			                    		  var urlStringContains = ""
 			                    		  if($.trim(val.redirect_url) != '' && (val.redirect_url).indexOf("?") > 0 && $.trim(val.alerts_user_id) != ''){

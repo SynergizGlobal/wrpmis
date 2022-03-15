@@ -1117,6 +1117,22 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+    
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+    
+    	var cid = getUrlVars()["contract_id"];
+	    if(cid!="")
+	    {
+	    	$("#contract_id_fk").val(cid);
+	    	getStructureTypesListFilter(cid);resetWorksAndProjectsDropdowns(null);
+	    }     
+    
     	var monthShortCode=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 	    var datePickerSelectAddClass = function () {
 	        var self = this;

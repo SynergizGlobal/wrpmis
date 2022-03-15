@@ -349,6 +349,14 @@
     
 	<script>
 	
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
 		var filtersMap = new Object();
 		
 		function openUploadDesignsModal() {
@@ -362,6 +370,22 @@
 		}
 
 		$(document).ready(function() {
+	    	var cid2 = getUrlVars()["work_id"];
+		    if(cid2!="")
+		    {
+		    	$("#work_id_fk").val(cid2).trigger('change');
+		    } 
+	    	var cid1 = getUrlVars()["type_of_use"];
+		    if(cid1!="")
+		    {
+		    	$("#type_of_use").val(cid1);
+		    }  		    
+	    	var cid = getUrlVars()["location"];
+		    if(cid!="")
+		    {
+		    	$("#location_name").val(cid);
+		    } 		    
+			
 			$('.modal').modal();
 			$('select:not(.searchable)').formSelect();
 			$('.searchable').select2();

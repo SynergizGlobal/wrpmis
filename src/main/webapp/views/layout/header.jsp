@@ -1182,6 +1182,12 @@
 			                    		  else if(val.alert_type_fk == 'Execution'){
 			                    			  bgIcon = '<i class="material-icons">settings</i>';
 			                    		  }			                    		  
+			                    		  else if(val.alert_type_fk == 'R&R'){
+			                    			  bgIcon = '<i class="material-icons">location_disabled</i>';
+			                    		  }	
+			                    		  else if(val.alert_type_fk == 'Land Acquisition'){
+			                    			  bgIcon = '<i class="material-icons">crop_landscape</i>';
+			                    		  }	
 			                    		  
 			                    		  var urlStringContains = ""
 			                    		  if($.trim(val.redirect_url) != '' && (val.redirect_url).indexOf("?") > 0 && $.trim(val.alerts_user_id) != ''){

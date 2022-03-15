@@ -394,7 +394,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			
-			String cvQryAlert5 = "select c.contract_id,'Flag' as alert_level,'Execution' as alert_type,concat('actual progress lagging by ',round(ifnull(physical_planned-physical_actual,0),2)) as alert_value,concat('/new-activities-update?contract_id=',c.contract_id) as redirect_url "
+			String cvQryAlert5 = "select c.contract_id,'Flag' as alert_level,'Execution' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,concat('actual progress lagging by ',round(ifnull(physical_planned-physical_actual,0),2)) as alert_value,concat('/new-activities-update?contract_id=',c.contract_id) as redirect_url "
 					+ "from contract_progress c where physical_planned-physical_actual>0.1";
 	
 	
@@ -402,7 +402,31 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(!StringUtils.isEmpty(cvQryAlert5List) && cvQryAlert5List.size() > 0) {
 				list.addAll(cvQryAlert5List);
 			}
-						
+				
+			
+			String cvQryAlert6 = "select 'Flag' as alert_level,'R&R' as alert_type,\r\n"
+					+ "concat(type_of_use,\" structures in \",location_name,\" not updated in\", DATEDIFF(curdate(), modified_date), \" days\") as alert_value,\r\n"
+					+ "concat('/randr-main?location=',r.location_name,'&type_of_use=',r.type_of_use,'&work_id=',w.work_id) as redirect_url\r\n"
+					+ " from rr r inner JOIN work w ON w.work_id=r.work_id where DATEDIFF(curdate(), modified_date)>=90 group by location_name,type_of_use,w.work_id";
+	
+	
+			List<Alerts> cvQryAlert6List = jdbcTemplate.query( cvQryAlert6, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(cvQryAlert6List) && cvQryAlert6List.size() > 0) {
+				list.addAll(cvQryAlert6List);
+			}
+			
+			
+			String cvQryAlert7 = "select 'Flag' as alert_level,'Land Acquisition' as alert_type,\r\n"
+					+ "concat(\"Land Acquisition for \",village,\" not updated in\", DATEDIFF(curdate(), modified_date), \" days\") as alert_value,\r\n"
+					+ "concat('/land-acquisition?village=',r.village,'&work_id=',w.work_id) as redirect_url\r\n"
+					+ " from la_land_identification r inner JOIN work w ON w.work_id=r.work_id_fk where DATEDIFF(curdate(), modified_date)>=90 group by village,w.work_id";
+	
+	
+			List<Alerts> cvQryAlert7List = jdbcTemplate.query( cvQryAlert7, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(cvQryAlert7List) && cvQryAlert7List.size() > 0) {
+				list.addAll(cvQryAlert7List);
+			}			
+			
 			
 			
 			

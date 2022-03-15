@@ -395,6 +395,15 @@
 	</form>
     <script>
     
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }   
+
+    
     	var filtersMap = new Object();
     	
     	function openUploadLAModal() {
@@ -408,6 +417,21 @@
 		}
 
         $(document).ready(function () {
+
+            
+        	var cid2 = getUrlVars()["work_id"];
+            if(cid2!="")
+            {
+            	$("#work_id_fk").val(cid2).trigger('change');
+            	addInQueWork(cid2);getLandAcquisitionList();
+            }     	
+        	var cid = getUrlVars()["village"];
+            if(cid!="")
+            {
+            	$("#village").val(cid);
+            } 
+            
+            
         	  $('.modal').modal();
         	  $('select:not(.searchable)').formSelect();
               $('.searchable').select2();

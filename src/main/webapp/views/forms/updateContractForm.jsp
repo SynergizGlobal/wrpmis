@@ -4236,7 +4236,7 @@
 	        	$('#contract_type_fk_req').text('');
         	}else{
         		var contract_type_fk='${contractDeatils.contract_type_fk}';
-        		var scope_of_contract='${contractDeatils.scope_of_contract}';
+        		var scope_of_contract="${contractDeatils.scope_of_contract}";
         		
         		var contractor_id_fk='${contractDeatils.contractor_id_fk}';
         		var loa_letter_number='${contractDeatils.loa_letter_number}';

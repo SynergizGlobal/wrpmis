@@ -374,6 +374,7 @@
 		    if(cid2!="")
 		    {
 		    	$("#work_id_fk").val(cid2).trigger('change');
+		    	addInQueWork(cid2);getRRList();
 		    } 
 	    	var cid1 = getUrlVars()["type_of_use"];
 		    if(cid1!="")

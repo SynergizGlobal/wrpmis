@@ -16,8 +16,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">		 
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
 	
 	 <style>
         .no-mar .row {
@@ -55,11 +55,11 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:18%;}
     	}
-    	@media(max-width: 800px){
+    	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	}
-		@media only screen and (max-width: 769px) {			
+		@media only screen and (max-width: 820px) {			
 			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
 			    border-bottom: 3px solid #007A7A;
 			}
@@ -165,7 +165,7 @@
                                     </select>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 offset-m2 input-field">
+                                <div class="col s12 m8 l4 offset-m2 input-field">
                                 	<p class="searchable_label">Issue Priority <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
@@ -215,7 +215,7 @@
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 offset-m2 m4 l4 input-field">
+                                <div class="col s12 offset-m2 m8 l4 input-field">
                                     <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
                                         <option value="">Select</option>

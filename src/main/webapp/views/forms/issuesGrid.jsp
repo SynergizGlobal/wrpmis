@@ -15,8 +15,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />	
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />	
 	
 	 <style>
         p a {
@@ -62,7 +62,7 @@
 	        }
 	        
        } */
-        @media only screen and (max-width: 769px){ 
+        @media only screen and (max-width: 820px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			td.no-sort{
@@ -111,7 +111,7 @@
         margin: -2rem auto 0;
     }
 
-    @media only screen and (max-width: 767px) {
+    @media only screen and (max-width: 820px) {
         .mob-mar {
             text-align: left;
         }
@@ -505,7 +505,7 @@
 					window.localStorage.setItem("issuesPageNo", info.page);
 				},
                 columnDefs: [ 
-                    { orderable: false, 'aTargets': ['nosort'] },{targets:[2,3,4,5],
+                    { orderable: false, 'aTargets': ['nosort'] },{targets:[2,3,4,5,6],
 	                       className: 'hideCOl'},{ targets: [2], className: 'fw-111'  },{ targets: [6], className: 'fw-110'  }
                 ],
                 // "ScrollX": true,

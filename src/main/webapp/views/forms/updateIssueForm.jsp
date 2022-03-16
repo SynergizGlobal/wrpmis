@@ -16,8 +16,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">		 
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
 	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"> -->
 	 <link rel="stylesheet" href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange">
 	 <style>
@@ -72,11 +72,11 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:18%;}
     	}
-    	@media(max-width: 800px){
+    	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	}
-		@media only screen and (max-width: 769px) {
+		@media only screen and (max-width: 820px) {
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
 				float:none;
 				position:relative;
@@ -166,7 +166,7 @@
                             
                             <div class="row">
                                  
-                                <div class="col s12 m6 l4 input-field offset-m2">
+                                <div class="col s12 m8 l4 input-field offset-m2">
                                		<!-- <p class="searchable_label">Issue Category <span class="required">*</span></p>                                 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
                                         <option value="">Select</option>

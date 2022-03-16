@@ -1187,7 +1187,14 @@
 			                    		  }	
 			                    		  else if(val.alert_type_fk == 'Land Acquisition'){
 			                    			  bgIcon = '<i class="material-icons">crop_landscape</i>';
+			                    		  }
+			                    		  else if(val.alert_type_fk == 'Contract'){
+			                    			  bgIcon = '<i class="material-icons">playlist_add</i>';
 			                    		  }	
+			                    		  else if(val.alert_type_fk == 'Drawing'){
+			                    			  bgIcon = '<i class="material-icons">draw</i>';
+			                    		  }				                    		  
+			                    		  
 			                    		  
 			                    		  var urlStringContains = ""
 			                    		  if($.trim(val.redirect_url) != '' && (val.redirect_url).indexOf("?") > 0 && $.trim(val.alerts_user_id) != ''){
@@ -1208,7 +1215,7 @@
 			                    		  		+'</div> <div class="col m10 s10 text-holder">'; */
 			                    		  		+'<table><tbody><tr class="no-border"> <td class="alert-table-icon"><span class="icon"> '+bgIcon
 			                    		  		+' <span class="icon-text">'+val.alert_type_fk+'</span> </span> </td> <td class="alert-table-content">';
-			                    		  		if(val.alert_type_fk != 'Risk'){
+			                    		  		if(val.alert_type_fk != 'Risk' && val.alert_type_fk != 'R&R' && val.alert_type_fk != 'Land Acquisition'){
 			                    		  			 html = html + '<div>Work : '+val.work_short_name +'</div>'
 								                    		  		+ '<div>Contract : '+val.contract_short_name +'</div>'
 								                    		  		+ '<div>Contractor : '+val.contractor_name +'</div>'
@@ -1216,7 +1223,7 @@
 			                    		  		var label = "Reason : ";
 			                    		  		if(val.alert_type_fk == 'Issue'){
 			                    		  			label = 'Short Description : ';
-				                    		    }else if(val.alert_type_fk == 'Risk'){
+				                    		    }else if(val.alert_type_fk == 'Risk' || val.alert_type_fk == 'R&R' || val.alert_type_fk == 'Land Acquisition'){
 				                    		    	label = '';
 				                    		    }
 			                    		  		 

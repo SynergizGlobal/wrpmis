@@ -357,15 +357,15 @@
 			}
 			
 			html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a></h3>';
-			if(value.formsSubMenu!="" && value.formsSubMenu!=null && value.formsSubMenu != 'undefined'){
+			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
 				html = html + '<div> <p>';
-				$.each( value.formsSubMenu, function( subMenuindex, subMenuvalue ){
-					var dashboardId = subMenuvalue.dashboard_id;
+				$.each( value.formsSubMenu, function( index1, value1 ){
+					var dashboardId = value1.dashboard_id;
 					var liDisabled = '';
 					var notAvailable = '';
 					/* var liDisabled = 'disabled';
 					var notAvailable = 'NA';
-					if($.trim(subMenuvalue.work_exists_or_not) != '' && subMenuvalue.work_exists_or_not > 0){
+					if($.trim(value1.work_exists_or_not) != '' && value1.work_exists_or_not > 0){
 						liDisabled = '';
 						notAvailable = '';
 					} */
@@ -374,7 +374,27 @@
 						flag = flag + 1;
 					}
 			    	
-					html = html + '<a href="javascript:openDashboard('+subMenuvalue.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+subMenuvalue.dashboard_name+'</a>';
+					html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
+					if(value1.formsSubMenu != "" && value1.formsSubMenu != null && value1.formsSubMenu != 'undefined' && value1.formsSubMenu.length > 0){
+						html = html + '<div style="margin: 0 0 0 2em;"> <p>';
+						$.each( value1.formsSubMenu, function( index2, value2 ){
+							var dashboardId = value2.dashboard_id;
+							var liDisabled = '';
+							var notAvailable = '';
+							/* var liDisabled = 'disabled';
+							var notAvailable = 'NA';
+							if($.trim(value1.work_exists_or_not) != '' && value1.work_exists_or_not > 0){
+								liDisabled = '';
+								notAvailable = '';
+							} */
+							if(flag == 0 && $.trim(notAvailable) == '' && $.trim(dashboardId) != ''){
+								tempDashboardId = dashboardId;
+								flag = flag + 1;
+							}
+							html = html + '<a href="javascript:openDashboard('+value2.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value2.dashboard_name+'</a>';
+						});
+						html = html + '</p></div> ';
+					}
 				});
 				html = html + '</p></div> ';
 			}else{
@@ -436,17 +456,7 @@
 					         			+ '<label>'+value.filter_label_name+'</label>'
 					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
 					         			+ '<option value="">All</option>'
-					         			/* $.each( value.filter, function( index2, value2 ){
-					         				var filter_option_id = value2.filter_option_value;
-					         				if($.trim(value2.filter_option_id) != ''){
-					         					filter_option_id = value2.filter_option_id;
-					         				}
-					         				var selectedFlag = "";
-					         				if((index == 0 && index2 == 0) || (value.is_first_option_selected == 'YES')){
-					         					selectedFlag = 'selected';
-					         				}
-					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>'
-					         			}); */
+					         			
 					         			filters = filters + '</select>'
 					         			+ '</div>';	
          		   });
@@ -458,16 +468,6 @@
          		   $("#filter-item-holder").html(filters);
          		   $('.searchable').select2();
          	   }else{
-        		   //$("#tableau-item-holder").removeClass("m8");
-         		   //$("#tableau-item-holder").addClass("m10");
-         		   
-         		   /* if($.trim(show_left_menu) == 'Yes'){
-	         		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
-	         		   $("#menu-item-holder").show();
-	         	   }else{
-	         		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
-	         		   $("#menu-item-holder").hide();
-	         	   } */
          		   $("#filter-item-holder").hide();
        		       $("#filter-item-holder").html("");
          	   }
@@ -477,60 +477,6 @@
                 alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
             }
      	 });
-      	
-      	
-      	 <%-- if($.trim(filterIds) != '' ){ 
-      		 filterIds = filterIds.replace(/['"]+/g, '');
-	      	 var ids = filterIds.split(",");
-			 for(var  i=0;i<ids.length;i++){
-				 var id = ids[i];
-				 var val = $("#"+id).val();
-				 var param = id+"="+val;
-				 if($.trim(val) != ''){
-					 if($.trim(params) != ''){
-					 	params = params +"&"+ param;
-				   	 }else{
-					   params = param;
-				     }
-				 }
-			 }
-      	 }
-      	 
-      	 $(".page-loader").show();
-		 $.ajax({
-	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
-	            type: 'POST',
-	            data:{dashboard_id : dashboardId,work_id : '${work_id}',params : encodeURIComponent(params)},
-	            async: false,
-	            dataType: 'json',
-	            success: function (data){
-	            	var dashboard_url = data.dashboard_url;
-	            	if($.trim(dashboard_url) == 'structure-gallery-page'){
-	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
-	            	}
-	         	    $("#dashboardOpen").attr("src",dashboard_url);
-	         	    show_left_menu = data.show_left_menu;
-	         	    $(".page-loader").hide();
-	            },error: function(xhr){
-	            	$(".page-loader").hide();
-	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-	            }
-	     });
-		 
-		 if($.trim(show_left_menu) == 'Yes' && $.trim(filterIds) != ''){
-	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
-	   		   $("#menu-item-holder").show();
-	   	 }else if($.trim(show_left_menu) == 'Yes'){
-	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
-	   		   $("#menu-item-holder").show();
-	   		   $("#filter-item-holder").hide();
-		       $("#filter-item-holder").html("");
-	   	 }else{
-   		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
- 		      $("#menu-item-holder").hide();
- 		      $("#filter-item-holder").hide();
-		      $("#filter-item-holder").html("");
- 	   	 } --%>
 		 $(".page-loader").hide();
 		 getSelectedOption(filterIds,dashboardId);
 	 }

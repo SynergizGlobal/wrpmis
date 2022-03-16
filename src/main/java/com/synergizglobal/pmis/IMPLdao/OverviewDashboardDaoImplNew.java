@@ -114,6 +114,11 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new OverviewDashboardNew();
+				
+				String childParentId = resultSet.getString("dashboard_id");
+				List<OverviewDashboardNew> subList = getDashboardsSubList(work_id,childParentId,connection);
+				obj.setFormsSubMenu(subList);
+				
 				obj.setDashboard_id(resultSet.getString("dashboard_id"));
 				obj.setDashboard_name(resultSet.getString("dashboard_name"));
 				obj.setDashboard_icon(resultSet.getString("dashboard_icon"));

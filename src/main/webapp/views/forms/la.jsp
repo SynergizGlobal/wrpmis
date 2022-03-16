@@ -71,21 +71,21 @@
 			.mb-md-2{
 				margin-bottom:2rem;
 			}
-			.dataTables_filter label input {
+			/* .dataTables_filter label input {
 			    width: 100% !important;
-			}
+			} */
 			.r-300{
 				width:30vw !important;
         		max-width:30vw;
 			}
-			 .dataTables_filter label{
+			/*  .dataTables_filter label{
 	        	position:relative;
 	        }
 	        .dataTables_filter label::after{
 	        	position:absolute;
 	        	right:5px;
 	        	top:30px;
-	        }
+	        } */
 	        .fw-111{
 	        	width:30vw;
 	        	min-width:30vw; 
@@ -420,13 +420,13 @@
 
             
         	var cid2 = getUrlVars()["work_id"];
-            if(cid2!="")
+            if(cid2!="" && cid2 != null)
             {
             	$("#work_id_fk").val(cid2).trigger('change');
             	addInQueWork(cid2);getLandAcquisitionList();
             }     	
         	var cid = getUrlVars()["village"];
-            if(cid!="")
+            if(cid!="" && cid != null)
             {
             	$("#village").val(cid);
             } 

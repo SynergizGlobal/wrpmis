@@ -95,7 +95,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (work_id_fk like ? or w.work_short_name like ? or survey_number like ? or village like ?"
+				qry = qry + " and (li.work_id_fk like ? or w.work_short_name like ? or survey_number like ? or village like ?"
 						+ " or c.la_category like ? or sc.la_sub_category like ? or area_of_plot like ?)";
 				arrSize++;
 				arrSize++;
@@ -194,7 +194,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (work_id_fk like ? or w.work_short_name like ? or survey_number like ? or village like ?"
+				qry = qry + " and (li.work_id_fk like ? or w.work_short_name like ? or survey_number like ? or village like ?"
 						+ " or c.la_category like ? or sc.la_sub_category like ? or area_of_plot like ?)";
 				arrSize++;
 				arrSize++;

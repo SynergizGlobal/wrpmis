@@ -19,8 +19,8 @@
     <!-- <link rel="stylesheet" href="/pmis/resources/css/finance.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">	
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         .row.no-mar {
             margin-bottom: 0;

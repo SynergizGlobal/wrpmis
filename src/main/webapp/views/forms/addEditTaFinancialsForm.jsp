@@ -22,8 +22,8 @@
     <!-- <link rel="stylesheet" href="/pmis/resources/css/finance.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
     <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
@@ -144,7 +144,7 @@
 				width: -webkit-fill-available;
 			}	
 			.mdl-data-table .amount-dropdown .select-wrapper {
-			    right: 18vw;
+			    right: 16vw;
 			}
 		}
 

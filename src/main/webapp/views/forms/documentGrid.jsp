@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
- 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+ 	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         p a {
             color: blue;
@@ -538,7 +538,7 @@
     									"orderable" : false,
     								} , 
     								{
-    									targets : [2,3,4,5],
+    									targets : [0,2,3,5],
     									className: 'hideCOl',
     								},{ targets: [0,1,4,5], className: 'fw-111'  },{ targets: [2], className: 'fw-100'  },{ targets: [0], className: 'no-sort'  }], 
     								"sScrollX" : "100%",

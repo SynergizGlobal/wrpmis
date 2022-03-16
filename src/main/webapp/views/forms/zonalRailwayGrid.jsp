@@ -107,7 +107,7 @@
         }
     }
     @media(max-width: 575px){
-    	.fw-111{min-width: 25vw;}
+    	.fw-111{min-width: 32vw;}
     }
     </style>
 </head>

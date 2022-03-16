@@ -1447,7 +1447,7 @@ public class ContractController {
 	public ModelAndView detailsOfContracts(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView(PageConstants.detailsOfContracts);
 		try {
-			
+			model.addObject("work_id", obj.getWork_id());
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("detailsOfContracts : " + e.getMessage());

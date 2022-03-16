@@ -466,7 +466,7 @@
     	$('.searchable').select2();
     	
     	window.localStorage.setItem("contractDetailsFilters",'');
-    	window.location.href= "<%=request.getContextPath()%>/details-of-contracts";
+    	window.location.href= "<%=request.getContextPath()%>/details-of-contracts"; 
     	
     	var table = $('#datatable-contract-details').DataTable();
     	table.draw( true );
@@ -502,11 +502,15 @@
     
     function getContractDetailList(){
     	$(".page-loader-2").show();
-    	getDepartmentFilterList('');
-    	getContractStatusFilterList('');
+
     	getWorkFilterList('');
+    	getContractStatusFilterList('');
+    	getDepartmentFilterList('');
     	    	
     	var work_id_fk = $("#work_id_fk").val();
+    	if($.trim(work_id_fk) == '' ){
+    		work_id_fk = '${work_id}';
+    	}
     	if($.trim(work_id_fk) == '' ){
     		work_id_fk = 'P04W01';
     	}
@@ -647,6 +651,9 @@
 	    	$(".page-loader").show();
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	if($.trim(work_id_fk) == '' ){
+	    		work_id_fk = '${work_id}';
+	    	}
+	    	if($.trim(work_id_fk) == '' ){
 	    		work_id_fk = 'P04W01';
 	    	}
 	    	var department_fk = $("#department_fk").val();
@@ -680,6 +687,9 @@
 		 	$(".page-loader").show();
 		 	var work_id_fk = $("#work_id_fk").val();
 		 	if($.trim(work_id_fk) == '' ){
+	    		work_id_fk = '${work_id}';
+	    	}
+	    	if($.trim(work_id_fk) == '' ){
 	    		work_id_fk = 'P04W01';
 	    	}
 	    	var department_fk = $("#department_fk").val();
@@ -718,6 +728,9 @@
     	var contract_status_fk = $("#contract_status_fk").val();
     	
 	    if ($.trim(work_id_fk) == "") {
+	    	if($.trim(work_id_fk) == '' ){
+	    		work_id_fk = '${work_id}';
+	    	}
 	    	if($.trim(work_id_fk) == '' ){
 	    		work_id_fk = 'P04W01';
 	    	}

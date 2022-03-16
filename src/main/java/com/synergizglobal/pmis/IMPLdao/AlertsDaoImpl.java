@@ -3117,7 +3117,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+					//+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+					+ "where count <> 0 and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {

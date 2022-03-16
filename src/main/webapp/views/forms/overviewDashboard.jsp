@@ -189,6 +189,10 @@
 		 	}
 		 
 		 }
+		 #ds1 {
+		  display: none;
+		  margin: 0 0 0 3em;
+		}
 		 
 		 
 	</style>
@@ -218,14 +222,18 @@
 	                    <!-- <div class="collapsible-header secondModel" onclick="toggleMenu()"><i class="fa fa-bars"></i></div> -->
 	                    <div class=" main-menu-collapse">
 	                    	<div id="accordion">
-		                    	  <!-- <h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
+		                    	  <h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
 		                    	  <div class="ds-none">
 		                    		<p></p>
 		                    	  </div>
 								  <h3 class="bg-a"><a href="#">Section 2</a></h3>
 								  <div>
 								    <p>
-								    <a href="#" class="bd-bl bg-a">link1</a>
+								    <a href="#" class="bd-bl bg-a lvl3" id="myFunction">link1</a>
+								    	<div id="ds1">
+										  <a href="#" class="bd-bl bg-a"> Item one </a>
+										  <a href="#" class="bd-bl bg-a"> Item two</a>
+										</div>
 								    <a href="#" class="bd-bl bg-a">link2</a>
 								    </p>
 								  </div>
@@ -242,7 +250,7 @@
 								    <a href="#" class="bd-bl bg-a">link1</a>
 								    <a href="#" class="bd-bl bg-a">link2</a>
 								    </p>
-								  </div> -->
+								  </div>
 	                    	</div>
 	                    </div>
 	               <!--  </li>
@@ -287,6 +295,12 @@
 
   
 	<script type="text/javascript">
+	$("#myFunction").ready(function(){
+		  $(".lvl3").click(function(){
+		    $("#ds1").toggle();
+		  });
+		});
+	
 		var header = document.getElementById("accordion");
 		var btns = header.getElementsByClassName("bg-a");
 		for (var i = 0; i < btns.length; i++) {
@@ -307,7 +321,7 @@
 			type:"POST",
 			cache: false,async:false,
 			success : function(data){    
-				$('#accordion').append(getData(data));
+				/*$('#accordion').append(getData(data));
 				
 				var header = document.getElementById("accordion");
 				var btns = header.getElementsByClassName("bg-a");
@@ -318,7 +332,7 @@
 				  this.className += " active";
 				  });
 				}
-				$( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
+				$( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });*/
 			}
 		});	
 	

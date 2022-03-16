@@ -403,13 +403,6 @@
             dataType: 'json',
             success: function (data){
          	   if(data.length){
-         		   /* if($.trim(show_left_menu) == 'Yes'){
-	         		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
-	         		   $("#menu-item-holder").show();
-	         	   }else{
-	         		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
-	         		   $("#menu-item-holder").hide();
-	         	   } */
          		   $("#filter-item-holder").show();
          		   
          		   $.each( data, function( index, value ){
@@ -441,19 +434,19 @@
         			   
          			   filters = filters + '<div class="filterHolder">'
 					         			+ '<label>'+value.filter_label_name+'</label>'
-					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption(this.value,'+filter_label_name+','+filterIds+','+dashboardIdTemp+','+filter_id+','+filter_column_name+');">'
+					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
 					         			+ '<option value="">All</option>'
-					         			$.each( value.filter, function( index2, value2 ){
+					         			/* $.each( value.filter, function( index2, value2 ){
 					         				var filter_option_id = value2.filter_option_value;
 					         				if($.trim(value2.filter_option_id) != ''){
 					         					filter_option_id = value2.filter_option_id;
 					         				}
 					         				var selectedFlag = "";
-					         				if(index == 0 && index2 == 0){
+					         				if((index == 0 && index2 == 0) || (value.is_first_option_selected == 'YES')){
 					         					selectedFlag = 'selected';
 					         				}
 					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>'
-					         			});
+					         			}); */
 					         			filters = filters + '</select>'
 					         			+ '</div>';	
          		   });
@@ -482,12 +475,11 @@
             },error: function(xhr){
             	$(".page-loader").hide();
                 alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-               
             }
      	 });
       	
       	
-      	 if($.trim(filterIds) != '' ){ 
+      	 <%-- if($.trim(filterIds) != '' ){ 
       		 filterIds = filterIds.replace(/['"]+/g, '');
 	      	 var ids = filterIds.split(",");
 			 for(var  i=0;i<ids.length;i++){
@@ -538,27 +530,24 @@
  		      $("#menu-item-holder").hide();
  		      $("#filter-item-holder").hide();
 		      $("#filter-item-holder").html("");
- 	   	 }
+ 	   	 } --%>
 		 $(".page-loader").hide();
-		 getFilteredOptions(filterIds,dashboardId);
+		 getSelectedOption(filterIds,dashboardId);
 	 }
 	
-	 function getSelectedOption(selectedValue,filter_label_name,filterIds,dashboardId,filter_id,filter_column_name){
-		 //if(filter_label_name == 'Work'){
-			 /*if($.trim(requestedDashboardId) != ''){
-				 dashboardId = requestedDashboardId;
-			 } */
-			 <%--  window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+selectedValue+"/"+dashboardId; --%>
-		 // }
-			 
-	     getFilteredOptions(filterIds,dashboardId);
-			 
+	 function getSelectedOption(filterIds,dashboardId){
+		 $(".page-loader").show();	 
+		 var show_left_menu = '';	 
 		 var params = "";
 		 var ids = [];
 		 if($.trim(filterIds) != ''){
 			 filterIds = filterIds.replace(/['"]+/g, '');
 	      	 ids = filterIds.split(",");
 		 }
+		 
+	     getFilteredOptions(filterIds,dashboardId);
+	     $(".page-loader").show();
+	    
 		 for(var  i=0;i<ids.length;i++){
 			 var id = ids[i];
 			 var val = $("#"+id).val();
@@ -576,14 +565,30 @@
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
 	            type: 'POST',
 	            data:{dashboard_id : dashboardId,work_id : '${work_id}',params : encodeURIComponent(params)},
-	            async: true,
+	            async: false,
 	            dataType: 'json',
 	            success: function (data){
 	         	    $("#dashboardOpen").attr("src",data.dashboard_url);
+	         	   	show_left_menu = data.show_left_menu;
+	         	    $(".page-loader").hide();
 	            },error: function(xhr){
 	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
 	            }
 	     });
+		 if($.trim(show_left_menu) == 'Yes' && $.trim(filterIds) != ''){
+	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
+	   		   $("#menu-item-holder").show();
+	   	 }else if($.trim(show_left_menu) == 'Yes'){
+	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	   		   $("#menu-item-holder").show();
+	   		   $("#filter-item-holder").hide();
+		       $("#filter-item-holder").html("");
+	   	 }else{
+ 		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
+		      $("#menu-item-holder").hide();
+		      $("#filter-item-holder").hide();
+		      $("#filter-item-holder").html("");
+	   	 }
 	 }
 	 
 	 function getFilteredOptions(filterIds,dashboardId){
@@ -641,6 +646,9 @@
 				         				/* if($.trim(length) != '' && length == 1){
 				         					selectedFlag = 'selected';
 				         				} */
+				         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
+				         					selectedFlag = 'selected';
+				         				}
 				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
 			                      });
 			         		  });
@@ -658,15 +666,6 @@
 		
 	
      function clearFilter(filterIds,dashboardId){
-    	 /* var ids = filterIds.split(",");
-		 for(var  i=0;i<ids.length;i++){
-			 var id = ids[i];
-			 $("#"+id).val('');
-		 }		 
-       	 $(".searchable").select2();
-       	 
-       	 getSelectedOption('','',filterIds,dashboardId); */
-       	 
        	openDashboard(dashboardId);
      }
 

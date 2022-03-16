@@ -28,7 +28,7 @@
     	}
     	.red{color: red;background-color: transparent !important;}
     	tr{
-    		border-bottom: 1px solid rgba(0,0,0,0.52);
+    		border-bottom: 2px solid rgba(255,255,255,0.52);
    		}
    		tr.even {
    			 background-color: transparent !important;
@@ -196,11 +196,11 @@
         }
 
         .box.in-progress {
-            background-color: rgb(66, 165, 245, 0.5);
+            background-color: rgb(255, 192, 0, 0.7);
         }
 
         .box.completed {
-            background-color: rgb(152, 255, 152, 0.5);
+            background-color: rgb(152, 255, 152, 0.7);
         }
 
         .box.delayed {
@@ -584,17 +584,17 @@
 				},
 			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			        if (aData[1] == "Completed") {
-			          $('td', nRow).css('background-color', 'rgb(152, 255, 152, 0.5)');
+			          $('td', nRow).css('background-color', 'rgb(152, 255, 152, 0.7)');
 			          $('td', nRow).css('color', 'Black');
-			          $('td', nRow).css('font-weight', '600');
+			          $('td', nRow).css('font-weight', '400');
 			        }else if (aData[1] == "In Progress") {
-			          $('td', nRow).css('background-color', 'rgb(66, 165, 245, 0.5)');
+			          $('td', nRow).css('background-color', 'rgb(255, 192, 0, 0.7)');
 			          $('td', nRow).css('color', 'Black');
-			          $('td', nRow).css('font-weight', '600');
+			          $('td', nRow).css('font-weight', '400');
 			        }else if (aData[1] == "Not Awarded") {
 			          $('td', nRow).css('background-color', '#e2e5de');
 			          $('td', nRow).css('color', 'Black');
-			          $('td', nRow).css('font-weight', '600');
+			          $('td', nRow).css('font-weight', '400');
 			        }else{
 			          $('td', nRow).css('background-color', 'White');
 			        }

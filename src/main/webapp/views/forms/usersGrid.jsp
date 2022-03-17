@@ -15,8 +15,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
 	<style>
       	
       	p a{
@@ -41,7 +41,7 @@
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
 			padding:3px !important;
-			max-width: 45px;
+			max-width: 130px;
 		}
 		td:not(:last-of-type),
 		th:not(:last-of-type){
@@ -151,7 +151,7 @@
 								 <h6 class="hide-on-large-only left-align">Users</h6>  -->
 								 <h6 class="">Users</h6> 
 								<div class="col s12 m12 right-align exportButton" >
-								<div class="m-1 ">
+								<div class="m-1 hideCOl">
 									<a href="<%=request.getContextPath()%>/add-user-form"
 							        class="btn waves-effect waves-light bg-s t-c"> <strong><i
 							            class="fa fa-plus-circle"></i> Add User</strong></a>

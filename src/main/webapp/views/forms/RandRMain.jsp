@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
 
     <style>
          p a {
@@ -59,7 +59,7 @@
          	margin-bottom:0;
          }
 
-      @media only screen and (max-width: 769px){ 
+      @media only screen and (max-width: 820px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
@@ -111,7 +111,7 @@
 	.template-btn{
 		text-shadow:1px 1px 1px black;
 	}
-	@media only screen and (max-width: 767px){
+	@media only screen and (max-width: 820px){
 		.mob-mar{
 			text-align: center;
 		    margin-top: -1rem;
@@ -141,8 +141,8 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">								
-								<h6 class="left-align mob-mar center-align">R & R</h6>
-								<div class="col s12 m12 right-align exportButton" >
+								<h6 class="left-align center-align">R & R</h6>
+								<div class="col s12 m12 right-align exportButton hideCOl" >
 								
 								<div class="m-n1">
 									<!-- <a href="/pmis/Designs_Drawings.xlsx" download class="template-btn" title="Download Template">
@@ -578,7 +578,11 @@
 	    							columnDefs : [ {
 	    								"targets" : 'no-sort',
 	    								"orderable" : false,
-	    							}
+	    							},
+	    							{
+	    	                            targets: [0,1,2,3,4,7,8],
+	    	                            className: 'hideCOl'
+	    	                        }
 	    			                ],
 	    							"sScrollX" : "100%",
 	    							"sScrollXInner" : "100%",

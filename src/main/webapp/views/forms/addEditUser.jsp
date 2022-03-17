@@ -19,8 +19,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
 	<style>
         #example3 .datepicker~button,
         #example4 .datepicker~button {
@@ -117,11 +117,11 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:17%;}
     	}
-    	@media(max-width: 800px){
+    	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	}
-		 @media only screen and (max-width:768px) {          
+		 @media only screen and (max-width:820px) {          
 			.input-field input[type="email"]{
 				box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff !important;
 				width: -webkit-fill-available;
@@ -174,7 +174,7 @@
                                     <label for="designation">Designation <span class="required">*</span></label>
                                     <span id="designationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field">
                                    <p class="searchable_label">Department <span class="required">*</span></p>
                                     <select id="department_fk" name="department_fk" class="searchable validate-dropdown" onchange="getReportingToPersonsList();">
                                         <option value="">Select</option>
@@ -238,7 +238,7 @@
                             
                                 </div>
                             <div class="row">
-                                <div class="col s6 m4 l4 input-field offset-m2 ">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="email_id" name="email_id" type="email" class="validate" value="${usrObj.email_id }">
                                     <label for="email_id">Email ID <span class="required">*</span></label>
                                     <span id="email_idError" class="error-msg" ></span>
@@ -248,7 +248,7 @@
                                     <label for="mobile_number"> Mobile Number</label>
                                     <span id="mobile_numberError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field">
                                     <input id="personal_contact_number" name="personal_contact_number" type="number" class="validate" value="${usrObj.personal_contact_number }">
                                     <label for="personal_contact_number"> Personal Contact Number </label>
                                     <span id="personal_contact_numberError" class="error-msg" ></span>
@@ -260,7 +260,7 @@
                           
                                               
                             <div class="row">
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="landline" name="landline" type="number" class="validate" value="${usrObj.landline }">
                                     <label for="landline"> Landline </label>
                                     <span id="landlineError" class="error-msg" ></span>
@@ -270,7 +270,7 @@
                                     <label for="extension">Extension</label>
                                      <span id="extensionError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field offset-m4">                                
+                                <div class="col s12 m4 l4 input-field">                                
                                     <input id="pmis_key_fk" name="pmis_key_fk" type="text" class="validate" value="${usrObj.pmis_key_fk }">
                                     <label for="pmis_key_fk">PMIS KEY</label>
                                     <span id="pmis_key_fkError" class="error-msg" ></span>

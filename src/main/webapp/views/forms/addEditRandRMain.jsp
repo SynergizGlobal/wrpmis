@@ -10,12 +10,12 @@
     <title>R & R - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">     
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
 	
     <style>
        
@@ -110,7 +110,7 @@
 			min-height:4rem ;
 		}
 		.fs11px{font-size: 11px !important;}
-		@media only screen and (max-width: 768px){
+		@media only screen and (max-width: 820px){
 			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
 			#revisionsTableBody tr .input-field .datepicker~button ,
 			 #statusTable tr .input-field .datepicker~button{
@@ -183,7 +183,7 @@
 				margin-top: -14px !important;
 			} 
 		}
-		@media only screen and (max-width: 767px){
+		@media only screen and (max-width: 820px){
 			.input-field.min4{
 				min-height:1px ;
 			}
@@ -198,7 +198,7 @@
 				}
 			}
 			
-		@media only screen and (max-width: 769px) and (min-width: 500px){
+		@media only screen and (max-width: 820px) and (min-width: 500px){
 			  #revTable .select2-container{
 		          max-width: inherit !important;
     			  width: 95% !important;
@@ -228,7 +228,7 @@
 			position:absolute;
 			right:3rem;
 		}
-		@media only screen and (max-width: 769px){
+		@media only screen and (max-width: 820px){
 			.right.mob-center{
 		    	position:relative;
 				right:inherit;
@@ -237,6 +237,9 @@
 				margin-left:auto;
 				margin-right:auto;
 				margin-top:5px;
+			}
+			.input-field>.datepicker~label{
+				line-height: 13px;
 			}
 			.filevalue {
 			    width: 200%;
@@ -268,10 +271,15 @@
 		#percapita_per_month{
 			margin-top:.5rem;
 		}
-		@media only screen and (min-width: 769px){
+		@media only screen and (min-width: 820px){
 			.max-80{
 				max-width:80px;
 				width:80px;
+			}
+		}
+		@media(max-width: 575px){
+			.input-field>.datepicker~label{
+				line-height: 13px;
 			}
 		}
     </style>
@@ -322,7 +330,7 @@
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label mb-8"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetProjectsDropdowns(this.value); resetStructureId(this.value);">
                                         <option value="" >Select</option>
@@ -345,7 +353,7 @@
 								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${rrDetails.project_id_fk }"  />
 								    	<input type="text"  value="${rrDetails.project_id_fk } -  ${rrDetails.project_name }" readonly />
 								    </div> 
-	                                <div class="col s12 m8 l8 input-field"> 
+	                                <div class="col s6 m8 l8 input-field"> 
 	                                	<label for="work_id">Work <span class="required">*</span></label>
 	                                	<input type="hidden" name="work_id" id="work_id" value="${rrDetails.work_id }"  />
 	                                	<input type="text" value="${rrDetails.work_id } - ${rrDetails.work_short_name }" readonly />
@@ -369,7 +377,7 @@
                                     </select>
                                     <span id="phaseError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s6 m4 l4 input-field ">
+                                 <div class="col s12 m4 l4 input-field ">
                                     <p class="searchable_label mb-8"> Structure <span class="required"></span></p>
                                     <select class="searchable validate-dropdown" id="structure" name="structure_id"  >
                                          <option value="" >Select</option>
@@ -430,7 +438,7 @@
                                     </select>
                                     <span id="verification_byError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s12 m4 input-field">
                                      <input id="letter_to_mmrda" name="letter_to_mmrda" type="text" class="validate datepicker" value="${rrDetails.letter_to_mmrda }">
                                      <button type="button" id="letter_to_mmrda_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
@@ -453,7 +461,7 @@
 		                             <label for="encroachment_removal">Encroachment Removal</label>
 		                             <span id="encroachment_removalError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s12 m4 input-field">
                                     <p class="searchable_label mb-8">Boundary Wall Status <!-- <span class="required">*</span> --></p>
                                     <select class="searchable validate-dropdown" name="boundary_wall_status" id="boundary_wall_status">
                                         <option value="" selected>Select</option>
@@ -492,31 +500,31 @@
 						</div>
                             <div class="row ">
                             	<h6 class="center-align">Identification Details</h6>
-                                 <div class="col s6 m2 input-field">
+                                 <div class="col s6 m3 input-field">
                                     <input id="carpet_area" name="carpet_area" type="text" class="validate" value="${rrDetails.carpet_area }">
                                     <label for="carpet_area" class="fs-sm-8rem fs-9">Carpet Area (sft)</label>
                                     <span id="carpet_areaError" class="error-msg" ></span>
 	                             </div>
-                                <div class="col s6 m2 input-field">
+                                <div class="col s6 m3 input-field">
 	                                <input id="year_of_construction" name="year_of_construction" type="text" class="validate datepicker" value="${rrDetails.year_of_construction }">
                                      <button type="button" id="verification_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
 		                             <label for="year_of_construction">Year of Construction </label>
 	                                <span id="construction_yearError" class="error-msg" ></span>
                                  </div>		                         		
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m3 input-field">
                                     <input id="owner_name" name="name_of_the_owner" type="text" class="validate " value="${rrDetails.name_of_the_owner }">
                                     <label for="owner_name" class="fs-sm-8rem fs-9">Owner Name </label>
                                     <span id="owner_nameError" class="error-msg" ></span>
                                 </div>  
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m3 input-field">
                                     <input id="occupier_name" name="occupier_name_during_verification" type="text" class="validate " value="${rrDetails.occupier_name_during_verification }">
                                     <label for="occupier_name" class="fs-sm-8rem fs-9">Occupier Name </label>
                                     <span id="occupier_nameError" class="error-msg" ></span>
                                 </div>  
                              </div>
                             <div class="row ">
-                                <div class="col s6 m2 input-field">
+                                <div class="col s6 m3 input-field">
                                     <p class="searchable_label mb-8">Document Type <!-- <span class="required">*</span> --></p>
                                     <select class="searchable validate-dropdown" name="document_type" id="doc_type">
                                         <option value="" selected>Select</option>
@@ -526,17 +534,17 @@
                                     </select>
                                     <span id="doc_typeError" class="error-msg" ></span>
                                 </div>                               
-                                <div class="col s6 m2 input-field">
+                                <div class="col s6 m3 input-field">
                                      <input id="document_no" name="document_no" type="text" class="validate" value="${rrDetails.document_no }">
 		                             <label for="document_no" >Document No </label>
 		                             <span id="document_noError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m3 input-field">
                                      <input id="map_no" name="map_sr_no" type="text" class="validate" value="${rrDetails.map_sr_no }">
 		                             <label for="map_no" >Map S.No </label>
 		                             <span id="map_noError" class="error-msg" ></span>
                                  </div>
-                            	 <div class="col s6 m4 l4 input-field">
+                            	 <div class="col s6 m3 l3 input-field">
                                      <input id="approval_by_committee" name="approval_by_committee" type="text" class="validate datepicker" value="${rrDetails.approval_by_committee }">
                                      <button type="button" id="approval_by_committee_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
@@ -559,7 +567,7 @@
 		                             <label for="estimate_approval">Estimate Approval</label>
 		                             <span id="estimate_approvalError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field amount-dropdown">
+                                <div class="col s12 m4 l4 input-field amount-dropdown">
                                     <i class="material-icons amount-symbol center-align">₹</i>
                                     <input id="estimation_amount" name="estimation_amount" type="number" class="validate" value="${rrDetails.estimation_amount }" min="0" step="0.00001">
                                     <label for="estimation_amount">Estimation Amount</label>
@@ -593,7 +601,7 @@
 		                             <label for="payment_to_mmrda">Payment to MMRDA</label>
 		                             <span id="payment_to_mmrdaError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                      <input id="relocation" name="relocation" type="text" class="validate datepicker" value="${rrDetails.relocation }">
                                      <button type="button" id="relocation_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
@@ -670,7 +678,7 @@
                                             </select>
                                             <span id="mother_tongueError" class="my-error"></span>
                             			</div>
-                            			<div class="col s6 m4 l4 input-field">
+                            			<div class="col s12 m4 l4 input-field">
 		                                    <p class="searchable_label">Type of Family </p>
 		                                    <select class="searchable validate-dropdown" name="type_of_family" id="type_of_family">
 		                                        <option value="" >Select</option>

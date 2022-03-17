@@ -322,6 +322,20 @@
 	
     <script>
     
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+    
+    	var cid = getUrlVars()["work_id"];
+	    if(cid!="")
+	    {
+	    	$("#word_id_fk").val(cid).trigger('change');
+	    }   
+    
     var filtersMap = new Object();
     var pageNo = window.localStorage.getItem("executionOverviewReportPageNo");
     $(document).ready(function () {
@@ -387,7 +401,7 @@
 		var StructureTypeArray=new Array(); 
 		var CalStructureTypeValuesArray=new Array();
 	 
-	 	var myParams = { work_id_fk : work_id_fk,department_fk : department_fk,contract_id_fk: contract_id_fk};
+	 	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk};
 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getExecutionOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){  
 					var CheckLp=1;
@@ -419,7 +433,7 @@
 		                   		}	
 
 		                   		
-		                   		if(val.structure_type_fk=="Earthwork")
+		                   		/*if(val.structure_type_fk=="Earthwork")
 		                   		{cval1=10.3;}
 		                   		else if(val.structure_type_fk=="Major Bridge")
 	                   			{
@@ -438,14 +452,14 @@
 	                   			{
 			                   		cval1=cval1/cnt;
 			                   		pval2=100-cval1;
-			                   		/* pval2=pval2/cnt; */
-	                   			}
+			                   		 pval2=pval2/cnt; 
+	                   			}*/
 		                   		
-/* 		                   		if(cval1>0)
+ 		                   		if(cval1>0)
 	                   			{
 			                   		cval1=(cnt*100)/cval1;
 			                   		pval2=100-cval1;
-	                   			} */
+	                   			} 
          			
 		                   		
 		                   		if(StructureTypeArray.indexOf(val.structure_type_fk)==-1)
@@ -483,11 +497,11 @@
 							});
       		
 	         		
-	         		$(".page-loader-2").hide();
 
 	         			
 				}
-	         		
+         		$(".page-loader-2").hide();
+
 			}
 		});
     }
@@ -503,7 +517,7 @@
 	    	
 		    if ($.trim(work_id_fk) == "") {
 		    	$("#work_id_fk option:not(:first)").remove();
-			 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
+			 	var myParams = {department_fk : department_fk, work_id_fk : cid, contract_id_fk : contract_id_fk};
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInEOR",
 	                data: myParams, cache: false,async: false,
@@ -512,7 +526,7 @@
 	                        $.each(data, function (i, val) {
 	                        	 var workShortName = '';
 	                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-	                             var selectedFlag = (work == val.work_id)?'selected':'';
+	                             var selectedFlag = (cid == val.work_id)?'selected':'';
 	                             if(data.length == 1 ){
 	                            	 selectedFlag = 'selected';
 	                             }
@@ -541,7 +555,7 @@
 	    	
 		    if ($.trim(department_fk) == "") {
 		    	$("#department_fk option:not(:first)").remove();
-			 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
+			 	var myParams = {department_fk : department_fk, work_id_fk : cid, contract_id_fk : contract_id_fk};
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getDepartmentFilterListInEOR",
 	                data: myParams, cache: false,async: false,
@@ -550,7 +564,7 @@
 	                        $.each(data, function (i, val) {
 	                        	 var departmentHOD = '';
 	                             if ($.trim(val.department_name) != '') { departmentHOD =  $.trim(val.department_name) }
-	                             var selectedFlag = ("Engineering / CPM II" == val.department_name)?'selected':'';
+	                             var selectedFlag = (department == val.department_name)?'selected':'';
 	                             if(data.length == 1 ){
 	                            	 selectedFlag = 'selected';
 	                             }
@@ -580,7 +594,7 @@
 	    	
 		    if ($.trim(contract_id_fk) == "") {
 		    	$("#contract_id_fk option:not(:first)").remove();
-			 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
+			 	var myParams = {department_fk : department_fk, work_id_fk : cid, contract_id_fk : contract_id_fk};
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getContractIdFilterListInEOR",
 	                data: myParams, cache: false,async: false,
@@ -589,7 +603,7 @@
 	                        $.each(data, function (i, val) {
 	                        	 var contractShortName = '';
 	                             if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
-	                             var selectedFlag = ("P04W01EN04" == val.contract_id)?'selected':'';
+	                             var selectedFlag = (ContractId == val.contract_id)?'selected':'';
 	                             if(data.length == 1 ){
 	                            	 selectedFlag = 'selected';
 	                             }

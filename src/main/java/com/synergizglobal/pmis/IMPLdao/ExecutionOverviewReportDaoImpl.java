@@ -57,7 +57,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct work_id,work_short_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where work_id in('P04w01') ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -110,7 +110,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct d.department,concat(department_name,' / ',hod) as department_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) left join department d on d.department_name=c.department where work_id in('P04w01') ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) left join department d on d.department_name=c.department where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -163,7 +163,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		try {
 			String qry = "select distinct contract_id,contract_short_name FROM "
 					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where work_id in('P04w01') ";
+					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -245,7 +245,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					+ "    \r\n"
 					+ "     left join department d on d.department=c.department_fk\r\n"
 					+ "    \r\n"
-					+ "    where work_id_fk in('P04w01') group by contract_id,structure order by FIELD(structure_type_fk,'Earthwork', 'Major Bridge', 'Minor Bridge', 'RUB', 'Drain', 'Ballast'),structure) as eor where 0=0 ";
+					+ "    where 0=0 group by contract_id,structure order by FIELD(structure_type_fk,'Earthwork', 'Major Bridge', 'Minor Bridge', 'RUB', 'Drain', 'Ballast'),structure) as eor where 0=0 ";
 
 			
 			int arrSize = 0;

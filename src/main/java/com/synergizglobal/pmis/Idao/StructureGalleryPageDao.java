@@ -14,4 +14,6 @@ public interface StructureGalleryPageDao {
 
 	List<Structure> getStructureIdList(Structure obj)  throws Exception;
 
+	Structure getWorkShortName(Structure obj)  throws Exception;
+
 }

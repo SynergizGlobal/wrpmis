@@ -78,7 +78,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 	public List<Structure> getMonthList(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry ="select date_format(created_date,'%b-%y') as created_date, DATE_FORMAT(created_date,'%Y-%m')as valueDate  " 
+			String qry ="select date_format(created_date,'%b-%y') as created_date,w.work_short_name, DATE_FORMAT(created_date,'%Y-%m')as valueDate  " 
 					+ " from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
 					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "
@@ -226,6 +226,33 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public Structure getWorkShortName(Structure obj) throws Exception {
+		Structure work_short_name = null;
+		try {
+			String qry ="select work_short_name from work w  ";
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + " where work_id = ?";
+				arrSize++;
+			}
+			qry = qry +" GROUP BY work_id";
+
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
+			}
+			work_short_name = (Structure)jdbcTemplate.queryForObject( qry,pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return work_short_name;
 	}
 	
 }

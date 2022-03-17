@@ -34,4 +34,9 @@ public class StructureGalleryPageServiceImpl implements StructureGalleryPageServ
 	public List<Structure> getStructureIdList(Structure obj) throws Exception {
 		return dao.getStructureIdList(obj);
 	}
+
+	@Override
+	public Structure getWorkShortName(Structure obj) throws Exception {
+		return dao.getWorkShortName(obj);
+	}
 }

@@ -54,6 +54,9 @@ public class StructureGalleryPageController {
 		try {
 			List<Structure> dates = service.getMonthList(obj);
 			model.addObject("dates", dates);
+			
+			Structure work = service.getWorkShortName(obj);
+			model.addObject("work", work);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("galleryPageWithWork : " + e.getMessage());

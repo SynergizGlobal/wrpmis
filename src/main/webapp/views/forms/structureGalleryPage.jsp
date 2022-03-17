@@ -178,7 +178,7 @@ ul.breadcrumb li a:hover {
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6><span id="work_short_name"></span> - Gallery</h6>
+                            <h6><span id="work_short_name"></span>Gallery</h6>
                         </div>
                     </span>
                     <div class="">
@@ -321,6 +321,7 @@ ul.breadcrumb li a:hover {
             });
             getGalleryList();
             
+           
         });
         function getGalleryList() {
         	$(".page-loader").show();
@@ -347,14 +348,17 @@ ul.breadcrumb li a:hover {
                                         +'</a> </center>'
                                     +' <div class="accordion mt10px"  >'+val.name+' <input type="hidden" id="name'+i+'" value="'+val.name+'"/><input type="hidden" id="date'+i+'" value="'+val.created_date+'"/>'
                                 +'<span class="right">'+val.created_date+'</span></div></li></div>';
-                                $('#work_short_name').text(val.work_short_name)
-   	                         $("#imageFiles").append(htmlText);
-   	                        $("#imageFiles").css({"text-align": "left"});
+                                var work_short_name = val.work_short_name+" - ";
+                                $('#work_short_name').text(work_short_name);
+   	                            $("#imageFiles").append(htmlText);
+   	                            $("#imageFiles").css({"text-align": "left"});
                            });
                        }else{
-                    	   var htmlText = 'No Records Found!'
-                    	$("#imageFiles").append(htmlText);
-                    	   $("#imageFiles").css({"text-align": "center"});
+                    	    var htmlText = 'No Records Found!'
+                    		var work_short_name = '${work.work_short_name}'+" - ";
+                            $('#work_short_name').text(work_short_name);
+                    		$("#imageFiles").append(htmlText);
+                    	    $("#imageFiles").css({"text-align": "center"});
                        }
                        $('.searchable').select2();
                        $(".page-loader").hide();
@@ -383,6 +387,8 @@ ul.breadcrumb li a:hover {
                             $.each(data, function (i, val) {
     	                            $("#created_date").append('<option value="' + val.valueDate + '">' + $.trim(val.created_date) +'</option>');
                             });
+                        }else{
+                        	$("#created_date").append('<option value="">' + 'select' +'</option>');
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();

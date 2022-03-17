@@ -1076,12 +1076,17 @@ td, th {
 						var sumCompensation=0;
 						var sumCompensation1=0;
 						
-						var OI=1,CI=1;
+						var OI=0,CI=0;
+
 						var ohtml="";
 						var chtml="";
 						$.each(data,function(key,val){
 								if(val.status_fk=="Open")
 								{
+									if(data>0 && key==0)
+									{
+										OI=1;
+									}									
 										ohtml=ohtml+"<tr>";
 										ohtml=ohtml+"<td>"+OI+"</td>";
 										ohtml=ohtml+"<td>"+val.contract_short_name+"</td>";
@@ -1106,6 +1111,10 @@ td, th {
 								}
 								else if(val.status_fk=="Closed")
 									{
+									if(data>0 && key==0)
+									{
+										CI=1;
+									}										
 											chtml=chtml+"<tr>";
 												chtml=chtml+"<td>"+CI+"</td>";
 											   	chtml=chtml+"<td>"+val.contract_short_name+"</td>";

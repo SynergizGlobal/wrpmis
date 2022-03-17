@@ -1184,6 +1184,7 @@ public class AlertsDaoImpl implements AlertsDao{
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-assessment?sub_work="+alerts.getSub_work());
             		 aObj.setUser_id_fk(alerts.getHod_user_id_fk());
+            		 aObj.setWork_id(alerts.getWork_id());
             		 if(day > 5) {
             			 aObj.setReporting_to_user_id(alerts.getReporting_to_user_id());
             		 }
@@ -1192,7 +1193,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			/*************************Alerts insertion********************************************/
 			
-			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url) VALUES  (?,?,?,?,?,?,?,?)";		
+			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,work_id) VALUES  (?,?,?,?,?,?,?,?,?)";		
 			
 			for (Alerts obj : list) {
 				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
@@ -1201,6 +1202,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				String contract_id = obj.getContract_id();
 				String alert_value = obj.getAlert_value();
 				String redirect_url = obj.getRedirect_url();
+				String work_id = obj.getWork_id();
 				
 				String last_alert_id = getLastAlertId(contract_id,alert_level,alert_type,alert_value,connection);
 				
@@ -1213,6 +1215,8 @@ public class AlertsDaoImpl implements AlertsDao{
                 stmt.setString(p++, "1");
                 stmt.setString(p++, null);
                 stmt.setString(p++, redirect_url);
+                stmt.setString(p++, work_id);
+                
                 int c = stmt.executeUpdate();
                 resultSet = stmt.getGeneratedKeys();
                 if(c > 0) {
@@ -1508,7 +1512,8 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "from alerts a "  
 						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
-						+ "left join work w on c.work_id_fk = w.work_id " 
+						+ "left join work w on c.work_id_fk = w.work_id "
+						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
 						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
@@ -1548,7 +1553,8 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "from alerts a "  
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 							+ "left join contract c on a.contract_id = c.contract_id " 
-							+ "left join work w on c.work_id_fk = w.work_id " 
+							+ "left join work w on c.work_id_fk = w.work_id "
+							+ "left outer join work w1 on w1.work_id = a.work_id "
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
 							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
@@ -1714,7 +1720,8 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "from alerts a "  
 						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
-						+ "left join work w on c.work_id_fk = w.work_id " 
+						+ "left join work w on c.work_id_fk = w.work_id "
+						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
 						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
@@ -1755,6 +1762,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 							+ "left join contract c on a.contract_id = c.contract_id " 
 							+ "left join work w on c.work_id_fk = w.work_id " 
+							+ "left outer join work w1 on w1.work_id = a.work_id "
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
 							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
@@ -2035,7 +2043,8 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = 'Contract Value' and ac.alert_level_fk = a.alert_level) as cv_condition_value " 
 						+ "from alerts a " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
-						+ "left join work w on c.work_id_fk = w.work_id " 
+						+ "left join work w on c.work_id_fk = w.work_id "
+						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id "
 						+ "where alert_status = ? and count <> 0 "; 
@@ -2075,7 +2084,8 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join contract c on a.contract_id = c.contract_id " 
-							+ "left join work w on c.work_id_fk = w.work_id " 
+							+ "left join work w on c.work_id_fk = w.work_id "
+							+ "left outer join work w1 on w1.work_id = a.work_id "
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
 							+ "where alert_level = ? and alert_status = ? and count <> 0 ";
@@ -2293,10 +2303,11 @@ public class AlertsDaoImpl implements AlertsDao{
 					}
 			
 			qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
-					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+					+ "where  count <> 0 and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -2305,7 +2316,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2339,6 +2351,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2375,13 +2388,15 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from alerts a "
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "where alert_status = ? and  count <> 0 "
 					+ "and c.contractor_id_fk is not null and c.contractor_id_fk <> '' ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2408,6 +2423,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			int i = 0;
 			pValues[i++] = CommonConstants.ACTIVE;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2437,14 +2453,15 @@ public class AlertsDaoImpl implements AlertsDao{
 			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name "
 					+ "from alerts a "
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
-					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-					+ "and a.contract_id is not null and a.contract_id <> '' ";
+					+ "where alert_status = ? and  count <> 0 ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2471,6 +2488,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			int i = 0;
 			pValues[i++] = CommonConstants.ACTIVE;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2501,13 +2519,15 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from alerts a "
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "where alert_status = ? and  count <> 0 "
 					+ "and u.designation is not null and u.designation <> '' ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2536,6 +2556,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			pValues[i++] = CommonConstants.ACTIVE;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
@@ -2561,17 +2582,19 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getWorksFilterListInAlerts(Alerts obj) throws Exception {
 		List<Alerts> objsList = null;
 		try {
-			String qry = "SELECT c.work_id_fk,w.work_id,work_name,work_short_name "
+			String qry = "SELECT case when c.work_id_fk is null then w1.work_id else c.work_id_fk end as work_id_fk,case when w.work_id is null then w1.work_id else w.work_id end as work_id,case when w.work_name is null then w1.work_name else w.work_name end as work_name,case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name "
 					+ "from alerts a "
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
-					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-					+ "and c.work_id_fk is not null and c.work_id_fk <> '' ";
+					+ "where alert_status = ? and  count <> 0 "
+					+ "and (c.work_id_fk is not null or w1.work_id is not null) and (c.work_id_fk <> '' or w1.work_id <> '') ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2598,6 +2621,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			int i = 0;
 			pValues[i++] = CommonConstants.ACTIVE;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2628,13 +2652,15 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from alerts a "
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-					+ "and c.work_id_fk is not null and c.work_id_fk <> '' ";
+					+ "where alert_status = ? and  count <> 0 "
+					+ "and (c.work_id_fk is not null or w1.work_id is not null) and (c.work_id_fk <> '' or w1.work_id <> '') ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2661,6 +2687,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			int i = 0;
 			pValues[i++] = CommonConstants.ACTIVE;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2724,7 +2751,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					}
 			
 			qry = qry + "left join contract c on a.contract_id = c.contract_id " 
-					+ "left join work w on c.work_id_fk = w.work_id " 
+					+ "left join work w on c.work_id_fk = w.work_id "
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left join user u on c.hod_user_id_fk = u.user_id " 
 					+ "where alert_status = ? and count <> 0 ";
@@ -2736,7 +2764,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2768,6 +2797,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
@@ -2790,7 +2820,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				
 				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url ";
+						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url ";
 				
 						if(!"IT Admin".equals(obj.getUser_role_name())) {
 							qry = qry + ",au.alerts_user_id,au.read_time "; 
@@ -2804,6 +2834,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				qry = qry + "left join contract c on a.contract_id = c.contract_id " 
 						+ "left join work w on c.work_id_fk = w.work_id " 
+						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
 						+ "where alert_status = ? and count <> 0 ";
@@ -2815,7 +2846,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and c.work_id_fk = ?";
+					qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+					arrSize++;
 					arrSize++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2849,6 +2881,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
 					pValues[i++] = obj.getWork_id_fk();
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2890,6 +2923,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			qry = qry +"left join contract c on a.contract_id = c.contract_id " 
 					+ "left join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left join user u on c.hod_user_id_fk = u.user_id "
 					+ "where alert_status = ? and count <> 0 ";
@@ -2901,7 +2935,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -2930,6 +2965,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -3016,10 +3052,11 @@ public class AlertsDaoImpl implements AlertsDao{
 					}
 			
 			qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
-					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+					+ "where  count <> 0 and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -3028,7 +3065,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -3053,8 +3091,9 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (u.designation like ? or c.work_id_fk like ? or w.work_short_name like ? or a.contract_id like ?"
+				qry = qry + " and (u.designation like ? or c.work_id_fk like ? or w1.work_id like ? or (case when w.work_short_name is null then w1.work_short_name else w.work_short_name end) like ? or a.contract_id like ?"
 						+ " or c.contract_short_name like ? or contractor_name like ? or alert_type_fk like ? or alert_level like ? or alert_value like ? or a.remarks like ?)";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -3069,7 +3108,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
 			
-			qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc";
+			qry = qry + " order by u.designation,(case when w.work_short_name is null then w1.work_short_name else w.work_short_name end),a.contract_id asc, alert_level desc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -3079,6 +3118,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -3097,6 +3137,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				pValues[i++] = obj.getAlert_level();
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -3134,7 +3175,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w1 on w1.work_id = a.work_id  "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					//+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+					//+ "where  count <> 0 and alert_status = ? ";
 					+ "where count <> 0 and alert_status = ? ";
 			
 			int arrSize = 1;
@@ -3144,7 +3185,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -3201,6 +3243,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
@@ -3256,6 +3299,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			qry = qry + "left join contract c on a.contract_id = c.contract_id " 
 					+ "left join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left join user u on c.hod_user_id_fk = u.user_id " 
 					+ "where alert_status = ? and count <> 0 ";
@@ -3267,7 +3311,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " (and c.work_id_fk = ? or w1.work_id = ? )";
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -3300,6 +3345,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -3567,7 +3613,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3642,7 +3688,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left outer join work w on c.work_id_fk = w.work_id " 
 						+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-						+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+						+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
 				
 				arrSize = 1;
 				if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3726,7 +3772,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3797,7 +3843,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3866,7 +3912,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3935,7 +3981,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {

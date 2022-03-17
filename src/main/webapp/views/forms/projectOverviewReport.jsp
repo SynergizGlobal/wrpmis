@@ -424,7 +424,7 @@
     	var cid = getUrlVars()["work_id"];
 	    if(cid!="")
 	    {
-	    	$("#word_id_fk").val(cid);
+	    	$("#work_id_fk").val(cid);
 	    }   
     
     var filtersMap = new Object();
@@ -573,7 +573,7 @@
 			             			conHtm=conHtm+'<table id="datatable-project-overview-details" style="color:#ffffff;background-color:#4498d3dd !important">'+
 													'<thead>'+
 														'<tr>'	+									
-															'<th style="min-width:47%;width:47%;padding-left: 6px !important;" colspan="2">'+val.work_short_name+'</th>'+
+															'<th style="min-width:47%;width:47%;padding-left: 6px !important;" colspan="2">Virar-Dahanu Road New Line Work</th>'+
 															'<th class="scVal" style="min-width:10%;width:10%;text-align:center;padding-left: 0px !important;"></th>'+
 															'<th class="scVal1" style="min-width:15%;width:15%;text-align:center;padding-right: 50px !important;"></th>'+
 															'<th class="scVal2" style="min-width:15%;width:15%;text-align:center;padding-right: 80px !important;"></th>'+

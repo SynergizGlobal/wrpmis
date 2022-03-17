@@ -21,8 +21,8 @@
 	<!-- <link rel="stylesheet" href="/pmis/resources/css/header-footer.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
         <style>
         textarea::placeholder {
             color: #444;
@@ -89,7 +89,7 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:18%;}
     	}
-    	@media(max-width: 800px){
+    	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
     	}
@@ -193,7 +193,7 @@
                        
                        <!--  </div> -->
 							<div class="row">
-								<div class="col m8 s12 l12">
+								<div class="col m12 s12 l12">
 									<div class="row fixed-width"
 										style="margin-bottom: 40px; margin-top: 20px">
 										<div class="table-inside">

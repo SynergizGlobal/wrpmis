@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
 	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
 	
       <style>
@@ -38,7 +38,7 @@
         	word-break: break-word;
     		white-space: initial;
 		}
-		@media only screen and (min-width: 770px){ 
+		@media only screen and (min-width: 820px){ 
 	 		.fw-250{
 	    	 	width:250px !important;
 	    	 	max-width:250px;
@@ -53,7 +53,7 @@
 	    	 }
 	    	 tbody tr td:nth-child(1),
 	    	 thead tr th:nth-child(1){
-	    	 	max-width:150px !important;
+	    	 	max-width:250px !important;
 	    	 }
     	 }
 		.error-msg label{color:red!important;}
@@ -92,12 +92,12 @@
 				font-size:1.2vmin;
 			}			
 		}    
-		@media screen and (max-width: 992px) and (min-width: 770px) {
+		@media screen and (max-width: 992px) and (min-width: 820px) {
 			.btn.bg-s.fs-sm-8rem{
 				font-size:1.5vmin;
 			}			
 		} 
-          @media only screen and (max-width:769px) { 
+          @media only screen and (max-width:820px) { 
 			.btn.bg-s.fs-sm-8rem{
 				font-size:1.35vmin;
 			}	
@@ -174,12 +174,12 @@
          		width:12vw !important;
         		max-width:12vw;
          }
-           @media only screen and (max-width: 769px){ 
+           @media only screen and (max-width: 820px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
 				padding:3px !important;
-				max-width: 45px;
+				max-width: 250px;
 			}
 			.mob-btn{
 				padding:4px 12px;

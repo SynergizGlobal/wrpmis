@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
        <style>
 
         .input-field .searchable_label {
@@ -32,7 +32,7 @@
                 margin-top: inherit;
             }
         } 
-         @media only screen and (max-width: 768px) {
+         @media only screen and (max-width: 820px) {
             .fw-111 {
                 width:20vw !important;
         		max-width:20vw;
@@ -70,7 +70,7 @@
         	width:110px;
         	min-width:110px;
         }
-         @media only screen and (min-width: 769px){ 
+         @media only screen and (min-width: 820px){ 
 	        .fw-111{
 	        	width:128px;
 	        	min-width:128px;
@@ -88,7 +88,7 @@
 	   	.clear-filters{
         	margin-top:4px;
          }
-		 @media only screen and (max-width: 769px){ 			
+		 @media only screen and (max-width: 820px){ 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
 				padding:3px !important;
@@ -159,7 +159,7 @@
 
                         <!--if  model 2 -->
                         <div class="row no-mar">
-                             <div class="col m8 l6 s12 offset-m2 offset-l4"> 
+                             <div class="col m8 l6 s12 offset-m3 offset-l4"> 
 								<div class="col s6 m4 input-field">
 	                                <p class="searchable_label">Work</p>
 	                                  <select id="sub_work" name="sub_work" onchange="addInQueSubWork(this.value);getAssessmentDatesFilterList('');getRiskList();" class="searchable" required="required">
@@ -180,7 +180,7 @@
 	                                      <!-- <option value="" >Select </option> -->	                                           
 	                                 </select>
 	                            </div> 
-	                            <div class="col s12 m4 center-align">
+	                            <div class="col s6 m4 center-align">
 	                                <button class="btn bg-s waves-effect waves-light t-c clear-filters" onclick="clearFilters()">Clear
 	                                    Filters</button>
 	                            </div>

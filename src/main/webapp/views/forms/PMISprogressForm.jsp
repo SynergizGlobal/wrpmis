@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">     
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
       <style>
 
         .table-inside .mdl-data-table td:first-of-type{
@@ -97,7 +97,7 @@
 			min-width:250px;
 			max-width:250px;
 		}
-        @media only screen and (max-width: 700px) {
+        @media only screen and (max-width: 820px) {
             .w-150,.w-250{
 				width:auto;
 				min-width:auto;
@@ -135,7 +135,7 @@
 		   padding-top: 10px;
 		   font-weight: 600;
     }
-    @media only screen and (max-width: 769px) {
+    @media only screen and (max-width: 820px) {
 	    .mobile_responsible_table >tbody > tr >td:nth-child(1) >p{
 	    	display:inline-block;
 	    }
@@ -181,7 +181,7 @@
 			max-width:inherit;
 		}  	       	
     }
-    @media only screen and (max-width: 768px){
+    @media only screen and (max-width: 820px){
 		.dataTables_filter input,
          div.dataTables_wrapper div.dataTables_filter label input{
              width: 96% !important;

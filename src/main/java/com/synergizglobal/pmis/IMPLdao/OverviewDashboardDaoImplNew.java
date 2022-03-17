@@ -371,7 +371,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					filterQry = filterQry + obj.getFilter_column_id();
 					if(!StringUtils.isEmpty(obj.getOrder_by())) {
 						filterQry = filterQry + " ORDER BY ";
-						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD")) {
 							filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
 						}
 						filterQry = filterQry + obj.getOrder_by();
@@ -437,7 +437,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 						unionFilterQry = unionFilterQry + obj.getFilter_column_id();
 						if(!StringUtils.isEmpty(obj.getOrder_by())) {
 							unionFilterQry = unionFilterQry + " ORDER BY ";
-							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD")) {
 								unionFilterQry = unionFilterQry + obj.getFilters_table_alias_name() + ".";
 							}
 							unionFilterQry = unionFilterQry + obj.getOrder_by();

@@ -209,10 +209,10 @@ ul.breadcrumb li a:hover {
                                            
                                         </select>
                                     </div>
-                                   <!--  <div class="col s12 m12">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                        style="margin-top: 20px;width: 100%;">Clear Filters</button>
-                                    </div> -->
+                                    <div class="col s12 m12">
+                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"  onclick="clearFilter();" 
+                                        style="margin-top:20px;width: 100%;">Clear Filters</button>
+                                    </div> 
                                 </div>
                             </div>
                             <div class="col m10 s12">
@@ -498,7 +498,15 @@ function openImage(i){
 	//$('#modal img').width(300); // Units are assumed to be pixels
 	//$('#modal img').height(300);
 }
+function clearFilter(){
+	
+	$("#structure_type_fk").val("");
+	$("#created_date").val("");
+	$("#financial_year_fk").val("");
+	$('.searchable').select2();
+	window.location.href= "<%=request.getContextPath()%>/structure-gallery-page/${work_id}";
 
+}
 
 </script>
 </body>

@@ -149,11 +149,18 @@
 		}
     }
     @media(max-width: 575px){
-    	.row .col{margin: 6px auto;}
+    	.row .col{margin: 10px auto;}
     	h5{margin: 1.0933333333rem 0 .656rem 0;}
     	.mobile_responsible_table tbody tr td .select2-container {
 		    width: 100% !important;
 		}
+		.select2-container .select2-selection--single .select2-selection__rendered{
+			.padding-right: 0px !important;
+		}
+		.select2-container--default .select2-selection--multiple{
+			    white-space: break-spaces; 
+		}
+		td{word-break: break-all;}
 		
     }
     </style>

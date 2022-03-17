@@ -1509,6 +1509,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				}
 					else
 					{
+						
 						String SplitStr2=obj.getScope();
 						String[] StrVar2=SplitStr2.split(",");	
 

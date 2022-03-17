@@ -404,7 +404,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 				
 			
-			String cvQryAlert6 = "select 'Flag' as alert_level,'R&R' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
+			String cvQryAlert6 = "select w.work_id,'Flag' as alert_level,'R&R' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
 					+ "concat(type_of_use,\" structures in \",location_name,\" not updated in \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/randr-main?location=',r.location_name,'&type_of_use=',r.type_of_use,'&work_id=',w.work_id) as redirect_url\r\n"
 					+ " from rr r left JOIN work w ON w.work_id=r.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(curdate(), r.modified_date)>=90 and r.handed_over_to_execution is null group by location_name,type_of_use,w.work_id";
@@ -416,7 +416,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			
-			String cvQryAlert7 = "select 'Flag' as alert_level,'Land Acquisition' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
+			String cvQryAlert7 = "select w.work_id,'Flag' as alert_level,'Land Acquisition' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
 					+ "concat(\"Land Acquisition for \",village,\" not updated in\", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/land-acquisition?village=',r.village,'&work_id=',w.work_id) as redirect_url\r\n"
 					+ " from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join land_executives re on re.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and r.la_land_status_fk <> 'Land available for Execution' group by village,w.work_id";
@@ -457,8 +457,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			jdbcTemplate.update(updateQry,pValues);	
 			
 			
-			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,details,valid_upto,amendment_not_required_in_contract)"
-					+ " VALUES  (?,?,?,?,?,?,?,?,?,?,?)";
+			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,details,valid_upto,amendment_not_required_in_contract,work_id)"
+					+ " VALUES  (?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 			String qryAlertsSendManually = "select user_id_fk,alert_type_fk,alert_level_fk from alerts_send_manually ";			
 			List<Alerts> alertsSendManually = jdbcTemplate.query( qryAlertsSendManually, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -473,6 +473,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				String redirect_url = obj.getRedirect_url();
 				String details = obj.getDetails();
 				String valid_upto = obj.getValidity();
+				String work_id = obj.getWork_id();
 				
 				String amendment_not_required_in_contract = getAmendmentNotRequiredInContract(contract_id,alert_type,alert_value,connection);
 				String last_alert_id = getLastAlertId(contract_id,alert_level,alert_type,alert_value,connection);
@@ -489,6 +490,15 @@ public class AlertsDaoImpl implements AlertsDao{
                 stmt.setString(p++, details);
                 stmt.setString(p++, valid_upto);
                 stmt.setString(p++, amendment_not_required_in_contract);
+                
+                if(alert_type.contains("R&R") || alert_type.contains("Land Acquisition") || alert_type.contains("Risk"))
+                {
+                	stmt.setString(p++, work_id);
+                }
+                else
+                {
+                	stmt.setString(p++, null);
+                }
                 int c = stmt.executeUpdate();
                 resultSet = stmt.getGeneratedKeys();
                 if(c > 0) {
@@ -1282,21 +1292,22 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			connection = dataSource.getConnection();
 			
-			String mitigation_alerts_qry = "select sub_work,owner,u.user_id as owner_user_id,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date,"
+			String mitigation_alerts_qry = "select r.sub_work,owner,u.user_id as owner_user_id,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date,"
 					+ "(CASE "
 					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 1) THEN '1st Alert' "
 					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 2) THEN '2nd Alert' " 
 					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 3) THEN '3rd Alert' "
 					+ "ELSE 'Overdue' "
 					+ "END "
-					+ ") as alert_level " 
+					+ ") as alert_level,(select r1.work_id_fk from risk_work_hod r1 where r1.sub_work = r.sub_work) as work_id "
 					+ "from risk_revision rr " 
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk "
+					+ "left join risk_work_hod r1 on r1.sub_work = r.sub_work "
 					+ "left join user u on owner = u.designation " 
 					+ "where date = (SELECT MAX(`date`) FROM `risk_revision` LEFT JOIN `risk` ON `risk_id_pk` = `risk_id_pk_fk` WHERE `sub_work` = `r`.`sub_work`) " 
 					+ "and priority_fk <> 'Accepted' " 
 					+ "and (mitigation_plan is null or mitigation_plan = '') " 
-					+ "group by sub_work,owner";
+					+ "group by r.sub_work,owner";
 			
 			List<Alerts> risk_mitigation_alerts = jdbcTemplate.query( mitigation_alerts_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
@@ -1309,29 +1320,30 @@ public class AlertsDaoImpl implements AlertsDao{
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());
             		 aObj.setOwner_user_id(alerts.getOwner_user_id());
+            		 aObj.setWork_id(alerts.getWork_id());
  	 				 list.add(aObj);
 				 }
 			}
 			
 			/****************************************************************************************/
 
-			String atr_alerts_qry = "select distinct sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date, "
+			String atr_alerts_qry = "select distinct r.sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date, "
 					+ "(CASE "
 					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 1) THEN '1st Alert' "
 					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 2) THEN '2nd Alert' " 
 					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 3) THEN '3rd Alert' "
 					+ "ELSE 'Overdue' "
 					+ "END "
-					+ ") as alert_level "
+					+ ") as alert_level,(select r1.work_id_fk from risk_work_hod r1 where r1.sub_work = r.sub_work) as work_id "
 					+ "from risk_revision rr "  
-					+ "left join risk r on risk_id_pk_fk = risk_id_pk " 
+					+ "left join risk r on risk_id_pk_fk = risk_id_pk "
 					+ "left join risk_action ra on risk_revision_id_fk = risk_revision_id "
 					+ "left join user u1 on owner = u1.designation "
 					+ "left join user u2 on responsible_person = u2.designation " 
 					+ "where date = (SELECT MAX(`date`) FROM `risk_revision` LEFT JOIN `risk` ON `risk_id_pk` = `risk_id_pk_fk` WHERE `sub_work` = `r`.`sub_work`) " 
 					+ "and priority_fk <> 'Accepted' " 
-					+ "group by sub_work,risk_revision_id having racount = 0 "  
-					+ "order by sub_work";
+					+ "group by r.sub_work,risk_revision_id having racount = 0 "  
+					+ "order by r.sub_work";
 			
 			List<Alerts> risk_atr_alerts = jdbcTemplate.query( atr_alerts_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
@@ -1348,6 +1360,7 @@ public class AlertsDaoImpl implements AlertsDao{
             		 aObj.setResponsible_person_user_id(alerts.getResponsible_person_user_id());
             		 /**************************************************/
             		 aObj.setHod_email(alerts.getOwner());
+            		 aObj.setWork_id(alerts.getWork_id());
             		 /**************************************************/
  	 				 list.add(aObj);
 				 }
@@ -1356,8 +1369,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			/*************************Alerts insertion********************************************/
 			
 			String qryInsert = "INSERT INTO alerts "
-					+ "(alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,hod_email)"
-					+ " VALUES  (?,?,?,?,?,?,?,?,?)";		
+					+ "(alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,hod_email,work_id)"
+					+ " VALUES  (?,?,?,?,?,?,?,?,?,?)";		
 			
 			for (Alerts obj : list) {
 				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
@@ -1367,6 +1380,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				String alert_value = obj.getAlert_value();
 				String redirect_url = obj.getRedirect_url();
 				String hod_email = obj.getHod_email();
+				String work_id = obj.getWork_id();
 				
 				int p = 1;
                 stmt.setString(p++, alert_level);
@@ -1378,6 +1392,8 @@ public class AlertsDaoImpl implements AlertsDao{
                 stmt.setString(p++, null);
                 stmt.setString(p++, redirect_url);
                 stmt.setString(p++, hod_email);
+                stmt.setString(p++, work_id);
+                
                 int c = stmt.executeUpdate();
                 resultSet = stmt.getGeneratedKeys();
                 if(c > 0) {
@@ -2545,7 +2561,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getWorksFilterListInAlerts(Alerts obj) throws Exception {
 		List<Alerts> objsList = null;
 		try {
-			String qry = "SELECT c.work_id_fk,work_id,work_name,work_short_name "
+			String qry = "SELECT c.work_id_fk,w.work_id,work_name,work_short_name "
 					+ "from alerts a "
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
@@ -3107,7 +3123,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
 			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
-					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url,amendment_not_required_in_contract  "
+					+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,case when c.work_id_fk is null then w1.work_id else c.work_id_fk end as work_id_fk,case when w.work_id is null then w1.work_id else w.work_id end as work_id ,case when w.work_name is null then w1.work_name else w.work_name end as work_name,c.contract_short_name,redirect_url,amendment_not_required_in_contract  "
 					+ "from alerts a "; 
 					if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
@@ -3115,6 +3131,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w1 on w1.work_id = a.work_id  "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
 					//+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";

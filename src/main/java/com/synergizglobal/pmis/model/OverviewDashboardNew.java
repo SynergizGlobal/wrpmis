@@ -10,7 +10,7 @@ public class OverviewDashboardNew {
 	private String filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_name,
 	default_filter_column,default_filter_value, selected_value, priority, 
 	filter_column_id,filters_reference_table,filter_option_id,filter_option_value,work_id,parent_id,params,
-	query_for_work_search,query_for_filter_options,source_table_alias_name,filters_table_alias_name,order_by,is_first_option_selected;
+	query_for_work_search,query_for_filter_options,source_table_alias_name,filters_table_alias_name,order_by,is_first_option_selected,union_all;
 	
 	private List<OverviewDashboardNew> filter;
 
@@ -280,6 +280,14 @@ public class OverviewDashboardNew {
 
 	public void setIs_first_option_selected(String is_first_option_selected) {
 		this.is_first_option_selected = is_first_option_selected;
+	}
+
+	public String getUnion_all() {
+		return union_all;
+	}
+
+	public void setUnion_all(String union_all) {
+		this.union_all = union_all;
 	}
 	
 }

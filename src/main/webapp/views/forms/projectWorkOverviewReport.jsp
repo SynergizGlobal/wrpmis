@@ -282,7 +282,6 @@ td, th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 2px;
-  width:auto;
     font-size:14px;
   
 }  
@@ -358,27 +357,27 @@ td, th {
 						</div>							
 					</div>
 <div class='googoose-wrapper' style="display:none;">
-    <div class='googoose header' style="padding-bottom:0px;text-align:center;">
+    <div class='googoose' style="padding-bottom:0px;text-align:center;">
        <img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55">
-    </div>					
- 					<div style="text-align:center;text-transform: uppercase;" id="divWorkShortName"></div>
+    </div>
+    <br><br>					
+ 					<div style="text-align:center;text-transform: uppercase;" id="divWorkShortName"></div><br><br>
 					<div class="WordSection1">
 						<table style='width:auto;' id="prjOverviewTbl" class="bordered" >
 						        <tbody>
 						        </tbody>
 						    </table>
-						    <br><br>
-						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">PROCUREMENT STATUS</span></div>
-						<table style='width:99%' id="procurementStatusTbl" class="table table-striped table-bordered" >
+						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">PROCUREMENT STATUS</span></div><br><br>
+						<table style='width:auto;' id="procurementStatusTbl" class="table table-striped table-bordered" >
 								<thead>
-									<tr><td style='width:10%'>S. No.</td><td style='width:30%'>Description</td><td style='width:15%'>Total Contracts</td><td style='width:15%'>Estimated Cost (Cr)</td><td style='width:30%'>Scope</td><td style='width:10%'>Awarded Contracts</td><td style='width:10%'>Awarded Value (Cr)</td><td style='width:10%'>Scope</td></tr>
+									<tr><td style="width:5%">S. No.</td><td style="width:10%">Description</td><td style="width:10%">Total Contracts</td><td style="width:10%">Estimated Cost (Cr)</td><td style="width:10%">Awarded Contracts</td><td style="width:10%">Awarded Value (Cr)</td></tr>
 								</thead>
 						        <tbody>
 					
 						        </tbody>
 						    </table>
 						 <div><span style="font-size:16px;">Refer <a href="#firstDestination">Annexure-1</a> for detailed list of contracts.</span></div>
-						 <br><br>						    
+						    <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>						    
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">LAND ACQUISITION STATUS</span></div>  
 						<table style='width:auto;' id="landAcquisitionStatusTbl" class="table table-striped table-bordered" >
 								<thead>
@@ -395,7 +394,7 @@ td, th {
 						        <tbody>
 						        </tbody>
 						    </table>
-						   <br><br>
+						      <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>
 						    <div style="text-align:center;" id="divProject"><span style="font-size:14px;"> UTILITY SHIFTING STATUS</span></div>	
 						   
 							<table style='width:40%' id="utilityShiftingStatusSummaryTbl" class="table table-striped table-bordered" >
@@ -428,7 +427,7 @@ td, th {
 						        <tbody>
 						        </tbody>
 						    </table>
-						 <br><br>	
+						   <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>	
 						 <div style="text-align:center;" id="divProject"><span style="font-size:14px;">STRUCTURAL PROGRESS (%)</span></div>	   
 						<table style='width:100%;' id="structuralProgressTbl" class="table table-striped table-bordered" >
 						        <thead>
@@ -443,7 +442,7 @@ td, th {
 					
 						        </tbody>
 						    </table>
-						    <br><br><br> <br><br><br> <br><br><br> <br><br><br>
+						       <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">ISSUE STATUS</span></div>		
 						
 						<table style='width:40%' id="issueSummaryTbl" class="table table-striped table-bordered" >
@@ -475,7 +474,7 @@ td, th {
 						        <tbody>
 						        </tbody>
 						    </table>	
-						     <br> <br>
+						        <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">RISK STATUS</span></div>  
 						
 						<table style='width:60%;' id="riskSummaryTbl" class="table table-striped table-bordered" >
@@ -526,7 +525,7 @@ td, th {
 						        <tbody>
 						        </tbody>
 						    </table>
-						<br><br>	
+						   <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>	
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">SAFETY INCIDENTS</span></div> 
 						<table style='width:40%' id="safetySummaryTbl" class="table table-striped table-bordered" border="0">
 					        <tbody>
@@ -583,7 +582,7 @@ td, th {
 				
 						        </tbody>
 						    </table>
-						<br><br>							    	
+						   <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>						    	
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">PROJECT PHOTOS</span></div>   
 							<table style='width:auto;' id="projectPhotosTbl" class="table table-striped table-bordered" >
 							        <tbody>
@@ -789,7 +788,7 @@ td, th {
 		        			
 	        				if(key==0)
 	        				{
-								$("#divWorkShortName").html("<span style='font-size:16px;'>"+val.work_short_name+" ("+val.project_name+")<br>OVERVIEW</span>");
+								$("#divWorkShortName").html("<span style='font-size:16px;'>"+val.work_short_name+" ("+val.project_name+")<br><br>OVERVIEW</span>");
 	        				}
 						});
 						
@@ -887,7 +886,7 @@ td, th {
 						var OI=1;
 						
 						$.each(data,function(key,val){
-							$("#procurementStatusTbl tbody").append("<tr><td>"+OI+"</td><td>"+val.work_name+"</td><td style='text-align:center;'>"+val.total+"</td><td style='text-align:right;'>"+val.estimated_cost+"</td><td>"+val.strip_chart_type_fk+"</td><td style='text-align:center;'>"+val.contract_details_types+"</td><td style='text-align:right;'>"+val.awarded_cost+"</td><td>"+val.scope_of_contract+"</td></tr>");
+							$("#procurementStatusTbl tbody").append("<tr><td style='text-align:center;'>"+OI+"</td><td>"+val.work_name+"</td><td style='text-align:center;'>"+val.total+"</td><td style='text-align:right;'>"+val.estimated_cost+"</td><td style='text-align:center;'>"+val.contract_details_types+"</td><td style='text-align:right;'>"+val.awarded_cost+"</td></tr>");
 		        			OI++;
 						});						
 					}
@@ -1229,9 +1228,8 @@ td, th {
     	        download: 0,
     	        filename: 'Project Overview Report.doc',
     	    	  	  margins: '0.25in',
-    	    	  	  size: '9.3in 11.0in',
+    	    	  	  size: '9in 11.0in',
     	    	  	headermargin: '.4in',
-    	    	  	pagebreak: 'div.googoose.break' 
     	    };
     	    $(document).googoose(o);    
     	    $(".page-loader-2").hide();

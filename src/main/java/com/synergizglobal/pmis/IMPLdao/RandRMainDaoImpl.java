@@ -612,7 +612,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY rr_id ASC limit ?,?";
+				qry = qry + " GROUP BY rr_id ORDER BY rr_id ASC limit ?,?";
 				arrSize++;
 				arrSize++;
 			}
@@ -734,8 +734,18 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getStructureListForRRForm(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "select structure as structure_id from structure ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
+			String qry = "select structure as structure_id from structure where structure_type_fk = 'R&R' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and work_id_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}	
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));		
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

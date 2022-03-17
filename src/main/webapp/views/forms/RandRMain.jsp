@@ -327,6 +327,7 @@
  
 	 <form action="<%=request.getContextPath()%>/get-randr" id="getForm" name="getForm" method="post" >
   		<input type="hidden" name="rr_id" id="rr_id"/>
+  		<input type="hidden" name="work_id_fk" id="work_id"/>
     </form>
     
   <form action="<%=request.getContextPath()%>/export-randr-main" name="exportRandRForm" id="exportRandRForm" target="_blank" method="post">	
@@ -628,7 +629,8 @@
 	    		            } },	    		            
 	    		         	{ "mData": function(data,type,row){
 	    		         		var rr_id = "'"+data.rr_id+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="getRandR('+rr_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+	    		         		var work_id = "'"+data.work_id+"'";
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getRandR('+rr_id+','+work_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
 	    		            	return actions;
 	    		            } }
 	    		            
@@ -839,8 +841,9 @@
 	        	  $(".page-loader").hide();
 	        }
 	    }
-	    function getRandR(rr_id){
+	    function getRandR(rr_id,work_id){
 	    	$("#rr_id").val(rr_id);
+	    	$("#work_id").val(work_id);
 	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-rr');
 	    	$('#getForm').submit();
 	    }

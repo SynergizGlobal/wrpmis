@@ -324,7 +324,7 @@
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label mb-8"> Work <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetProjectsDropdowns(this.value);">
+                                    <select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetProjectsDropdowns(this.value); resetStructureId(this.value);">
                                         <option value="" >Select</option>
                                          <c:forEach var="obj" items="${worksList }">
                                       	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -1451,6 +1451,36 @@
    function removeResidentRow(rowNo){
 		$("#employeeDetailRow"+rowNo).remove();
 	}
+   
+   function resetStructureId(work_id){
+	   	$(".page-loader").show();
+	       $("#structure option:not(:first)").remove();
+
+	       if ($.trim(work_id) != "") {
+	           var myParams = { work_id_fk: work_id };
+	           $.ajax({
+	               url: "<%=request.getContextPath()%>/ajax/geStructureIdFilterListInRR",
+	               data: myParams, cache: false,
+	               success: function (data) {
+	                   if (data.length > 0) {
+	                       $.each(data, function (i, val) {
+	                           var structure = "${rrDetails.structure_id}";
+	                           if ($.trim(structure) != '' && val.structure_id == $.trim(structure)) {
+	                               $("#structure").append('<option value="' + val.structure_id + '" selected>' + $.trim(val.structure_id) + '</option>');
+	                           } else {
+	                               $("#structure").append('<option value="' + val.structure_id + '">' + $.trim(val.structure_id) + '</option>');
+	                           }
+	                       });
+	                   }
+	                   $('.searchable').select2();
+	                   $(".page-loader").hide();
+	               }
+	           });
+	       }else{
+	       	$(".page-loader").hide();
+	       }   
+   }
+   
    
    function getWorksList(projectId) {
    	$(".page-loader").show();

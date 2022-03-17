@@ -318,6 +318,7 @@ public class RandRMainController {
 		}
 		return objList;
 	}
+	
 	@RequestMapping(value = "/ajax/getLocationListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<RandRMain> getLocationListForRRForm(@ModelAttribute RandRMain obj) {
@@ -330,6 +331,7 @@ public class RandRMainController {
 		}
 		return objList;
 	}
+	
 	@RequestMapping(value = "/ajax/getSubLocationListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<RandRMain> getSubLocationListForRRForm(@ModelAttribute RandRMain obj) {
@@ -339,6 +341,19 @@ public class RandRMainController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getSubLocationListForRRForm : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/geStructureIdFilterListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<RandRMain> geStructureIdFilterListInRR(@ModelAttribute RandRMain obj) {
+		List<RandRMain> objList = null;
+		try {
+			objList = service.getStructureListForRRForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("geStructureIdFilterListInRR : " + e.getMessage());
 		}
 		return objList;
 	}

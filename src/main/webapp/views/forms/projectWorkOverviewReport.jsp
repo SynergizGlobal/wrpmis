@@ -884,9 +884,14 @@ td, th {
 					if(data != null && data != '' && data.length > 0)
 					{ 
 						var OI=1;
+						var EstTot=0;
 						
 						$.each(data,function(key,val){
 							$("#procurementStatusTbl tbody").append("<tr><td style='text-align:center;'>"+OI+"</td><td>"+val.work_name+"</td><td style='text-align:center;'>"+val.total+"</td><td style='text-align:right;'>"+val.estimated_cost+"</td><td style='text-align:center;'>"+val.contract_details_types+"</td><td style='text-align:right;'>"+val.awarded_cost+"</td></tr>");
+							if(key>0)
+								{
+									EstTot=parseFloat(EstTot)+parseFloat(val.estimated_cost);
+								}
 		        			OI++;
 						});						
 					}

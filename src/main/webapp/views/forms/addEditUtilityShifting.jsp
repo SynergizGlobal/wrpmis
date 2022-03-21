@@ -770,6 +770,18 @@
     	$('.searchable').select2();
     	$(".datepicker").datepicker();
     	
+    	 $('select').change(function(){
+             if ($(this).val() != ""){
+                 $(this).valid();
+             }
+         });
+
+         $('input').change(function(){
+             if ($(this).val() != ""){
+                 $(this).valid();
+             }
+         });
+         
     	$('#shifting_status_fk').change(function(){
     		if($('#shifting_status_fk').val()=='Completed'){
     			$('#shifting_completion_date').rules('add',  { required: true });

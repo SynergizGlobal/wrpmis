@@ -1074,7 +1074,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 					+ "left join risk_area ra on rsa.risk_area_fk = ra.area \r\n"
 					+ "left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk \r\n"
-					+ "where risk_id_pk is not null and priority_fk <> 'Accepted'  and work_id_fk=? ";
+					+ "where risk_id_pk is not null and priority_fk <> 'Accepted'  and work_id_fk=? group by ra.area";
 			
 			Object[] pValues = new Object[6];
 			pValues[0] = obj.getWork_id_fk();

@@ -1549,7 +1549,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				for (Alerts lObj : alert_levels) {
 					
 					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-							+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 							+ "left join contract c on a.contract_id = c.contract_id " 
@@ -1571,7 +1571,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						}
 						qry = qry + ")";
 					}
-					qry = qry +  " order by hod,work_short_name,a.contract_id asc, alert_level desc";
+					qry = qry +  " order by hod,case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as,a.contract_id asc, alert_level desc";
 					
 					
 					pValues = new Object[arrSize];
@@ -1757,7 +1757,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				for (Alerts lObj : alert_levels) {
 					
 					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-							+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 							+ "left join contract c on a.contract_id = c.contract_id " 
@@ -1779,7 +1779,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						}
 						qry = qry + ")";
 					}
-					qry = qry +  " order by hod,work_short_name,a.contract_id asc, alert_level desc";
+					qry = qry +  " order by hod,case when w.work_short_name is null then w1.work_short_name else w.work_short_name end,a.contract_id asc, alert_level desc";
 					
 					
 					pValues = new Object[arrSize];
@@ -2081,7 +2081,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				for (Alerts lObj : alert_levels) {	
 					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-							+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join contract c on a.contract_id = c.contract_id " 
 							+ "left join work w on c.work_id_fk = w.work_id "
@@ -2104,7 +2104,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						qry = qry + ")";
 					}
 					
-					qry = qry +  " order by hod,work_short_name,a.contract_id asc, alert_level desc";
+					qry = qry +  " order by hod,case when w.work_short_name is null then w1.work_short_name else w.work_short_name end,a.contract_id asc, alert_level desc";
 					
 					pValues = new Object[arrSize];
 					
@@ -2296,7 +2296,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
 			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
-					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url "
+					+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url "
 					+ "from alerts a "; 
 					if(!"IT Admin".equals(obj.getUser_role_name())) {
 						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
@@ -2316,7 +2316,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -2341,7 +2341,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				arrSize++;
 			}
 			
-			qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc";
+			qry = qry + " order by u.designation,case when w.work_short_name is null then w1.work_short_name else w.work_short_name end,a.contract_id asc, alert_level desc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -2395,7 +2395,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "and c.contractor_id_fk is not null and c.contractor_id_fk <> '' ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -2460,7 +2460,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "where alert_status = ? and  count <> 0 ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -2526,7 +2526,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "and u.designation is not null and u.designation <> '' ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -2593,7 +2593,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "and (c.work_id_fk is not null or w1.work_id is not null) and (c.work_id_fk <> '' or w1.work_id <> '') ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -2659,7 +2659,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "and (c.work_id_fk is not null or w1.work_id is not null) and (c.work_id_fk <> '' or w1.work_id <> '') ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -2764,7 +2764,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -2846,7 +2846,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+					qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 					arrSize++;
 					arrSize++;
 				}
@@ -2871,7 +2871,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					arrSize++;
 				}
 				
-				qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc";
+				qry = qry + " order by u.designation,case when w.work_short_name is null then w1.work_short_name else w.work_short_name end,a.contract_id asc, alert_level desc";
 				
 				pValues = new Object[arrSize];
 				i = 0;
@@ -2935,7 +2935,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -3065,7 +3065,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -3185,7 +3185,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " (and c.work_id_fk = ? or w1.work_id= ? )";
+				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
 				arrSize++;
 				arrSize++;
 			}
@@ -3475,10 +3475,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			for (Alerts lObj : alert_levelsList) {
 				
 				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 						+ "from alerts a " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
-						+ "left join work w on c.work_id_fk = w.work_id " 
+						+ "left join work w on c.work_id_fk = w.work_id "
+						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
 						+ "where alert_level = ? and alert_status = ? and count <> 0  ";
@@ -3497,7 +3498,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					qry = qry + ")";
 				}
 				
-				qry = qry + " order by hod,work_short_name,a.contract_id asc, alert_level desc";
+				qry = qry + " order by hod,case when w.work_short_name is null then w1.work_short_name else w.work_short_name end,a.contract_id asc, alert_level desc";
 				
 				p = 0;
 				pValues = new Object[arrSize];
@@ -3677,7 +3678,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			List<Alerts> hodObjsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			for (Alerts hodObj : hodObjsList) {			
 				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
-						+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url,"
+						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url,"
 						+ "a.details,DATE_FORMAT(a.valid_upto,'%d-%m-%y') as validity "
 						+ "from alerts a "; 
 						if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3686,6 +3687,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 						+ "left outer join work w on c.work_id_fk = w.work_id " 
+						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left outer join user u on c.hod_user_id_fk = u.user_id "
 						+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
@@ -3721,7 +3723,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					arrSize++;
 				}
 				
-				qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc";
+				qry = qry + " order by u.designation,case when w.work_short_name is null then w1.work_short_name else w.work_short_name end,a.contract_id asc, alert_level desc";
 				
 				pValues = new Object[arrSize];
 				i = 0;
@@ -3834,7 +3836,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getWorksListInAlertsReport(Alerts obj) throws Exception {
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
-			String qry = "select c.work_id_fk as work_id,work_short_name "
+			String qry = "select c.work_id_fk as work_id,case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name "
 					+ "from alerts a "; 
 					if(!"IT Admin".equals(obj.getUser_role_name())) {
 						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
@@ -3842,6 +3844,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
 					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
 			

@@ -375,7 +375,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select * from ((select work_name,count(c.contract_id) as 'total',(select sum(ifnull(estimated_cost,0)*ifnull(estimated_cost_units,0))/(case when mu.unit='Cr' then 10000000 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 1 else 1 end)  \r\n"
+			String qry = "select * from (select work_name,count(c.contract_id) as 'total',(select sum(ifnull(estimated_cost,0)*ifnull(estimated_cost_units,0))/(case when mu.unit='Cr' then 10000000 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 1 else 1 end)  \r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
 					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
@@ -384,9 +384,8 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join money_unit mu on c.estimated_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
-					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' ) as estimated_cost,\r\n"
+					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'  ) as estimated_cost,\r\n"
 					+ "                    \r\n"
-					+ "                   (select group_concat(distinct structure_type SEPARATOR ', ') from activities_scurve where work_id_fk='"+obj.getWork_id_fk()+"') as strip_chart_type_fk,\r\n"
 					+ "                    \r\n"
 					+ "                   \r\n"
 					+ "                    \r\n"
@@ -409,10 +408,8 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join money_unit mu on c.awarded_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
-					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and awarded_cost is not null)   as awarded_cost,               \r\n"
-					+ " ifnull((select group_concat(distinct structure_type SEPARATOR ', ') as Scope from activities_scurve s \r\n"
-					+ "left join contract c on c.contract_id=s.contract_id \r\n"
-					+ "where c.contract_id is not null and work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and awarded_cost is not null),'') as scope_of_contract\r\n"
+					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and awarded_cost is not null)   as awarded_cost               \r\n"
+					+ "\r\n"
 					+ "\r\n"
 					+ "                    \r\n"
 					+ "                    from contract c  \r\n"
@@ -429,9 +426,8 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                    \r\n"
 					+ "                    \r\n"
 					+ "                    \r\n"
-					+ "                     (select hoddt.department_name,count(c.contract_id) as 'total',sum(ifnull(estimated_cost,0)*ifnull(estimated_cost_units,0))/(case when mu.unit='Cr' then 10000000 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 1 else 1 end)  as estimated_cost,\r\n"
+					+ "                     select hoddt.department_name,count(c.contract_id) as 'total',sum(ifnull(estimated_cost,0)*ifnull(estimated_cost_units,0))/(case when mu.unit='Cr' then 10000000 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 1 else 1 end)  as estimated_cost,\r\n"
 					+ "                    \r\n"
-					+ "                   (select group_concat(distinct structure_type SEPARATOR ', ') from activities_scurve where work_id_fk='"+obj.getWork_id_fk()+"' and department=hoddt.department_name) as strip_chart_type_fk,\r\n"
 					+ "                    \r\n"
 					+ "                   \r\n"
 					+ "                    \r\n"
@@ -453,14 +449,9 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "					left join department hoddt2 on u.department_fk = hoddt2.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
-					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and hoddt2.department_name=hoddt.department_name)   as awarded_cost,  \r\n"
+					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and hoddt2.department_name=hoddt.department_name)  \r\n"
 					+ "                    \r\n"
-					+ " ifnull((select group_concat(distinct structure_type SEPARATOR ', ') as Scope from activities_scurve s \r\n"
-					+ "left join contract c on c.contract_id=s.contract_id \r\n"
-					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
-					+ "					left join department hoddt3 on u.department_fk = hoddt3.department\r\n"
-					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"					
-					+ "where c.contract_id is not null and work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and hoddt3.department_name=hoddt.department_name),'') as scope_of_contract\r\n"
+					+ "\r\n"
 					+ "\r\n"
 					+ "                    \r\n"
 					+ "                    from contract c  \r\n"
@@ -471,9 +462,9 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join money_unit mu on c.estimated_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
-					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and awarded_cost is not null \r\n"
+					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'\r\n"
 					+ "                    \r\n"
-					+ "                    group by hoddt.department_name) as a  ORDER BY FIELD(work_name,'Engineering','Electrical','Signalling & Telecom') ";
+					+ "                    group by hoddt.department_name) as a  ORDER BY FIELD(work_name,'Engineering','Electrical','Signalling & Telecom')";
 			
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<Contract>(Contract.class));
 			

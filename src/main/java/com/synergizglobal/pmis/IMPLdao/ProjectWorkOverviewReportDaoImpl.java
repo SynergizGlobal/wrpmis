@@ -375,7 +375,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select * from (select work_name,count(c.contract_id) as 'total',(select sum(awarded_cost) as awarded_cost\r\n"
+			String qry = "select * from (select work_name,count(c.contract_id) as 'total',(select sum(ifnull(estimated_cost,0)*ifnull(estimated_cost_units,0)) as awarded_cost\r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
 					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
@@ -399,7 +399,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded') as contract_details_types,\r\n"
 					+ "                    \r\n"
-					+ "                     (select sum(awarded_cost) as awarded_cost\r\n"
+					+ "                     (select sum(ifnull(awarded_cost,0)*ifnull(awarded_cost_units,0)) as awarded_cost\r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
 					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"

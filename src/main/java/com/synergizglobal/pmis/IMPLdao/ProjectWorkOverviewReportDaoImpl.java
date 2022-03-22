@@ -467,24 +467,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                    group by hoddt.department_name) as a  ORDER BY FIELD(work_name,'Engineering','Electrical','Signalling & Telecom')";
 			
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<Contract>(Contract.class));
-			
-			for (Contract cObj : objsList) {
-				String awarded_cost = cObj.getAwarded_cost();
-				String awarded_cost_value = "";
-				if(!StringUtils.isEmpty(awarded_cost)) {
-					double val = (Double.parseDouble(awarded_cost))/10000000;
-					awarded_cost_value = numberFormatter.format(val);
-				}
-				cObj.setAwarded_cost(awarded_cost_value);
 
-				String estimated_cost = cObj.getEstimated_cost();
-				String estimated_cost_value = "";
-				if(!StringUtils.isEmpty(estimated_cost)) {
-					double val = (Double.parseDouble(estimated_cost))/10000000;
-					estimated_cost_value = numberFormatter.format(val);
-				}
-				cObj.setEstimated_cost(estimated_cost_value);
-			}			
 			
 		}catch(Exception e){ 
 			throw new Exception(e);

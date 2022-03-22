@@ -375,16 +375,15 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select * from (select work_name,count(c.contract_id) as 'total',(select round(ifnull(sum(ifnull(estimated_cost,0))/(case when mu.unit='Cr' then 1 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 10000000 else 1 end),0),2)  \r\n"
+			String qry = "select * from (select work_name,count(c.contract_id) as 'total',(select sum((estimated_cost*estimated_cost_units))  \r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
-					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
+					+ "					left join contract_revision cr on c.contractor_id_fk = cr.contract_id_fk and cr.revision_amounts_status = 'Yes' \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
-					+ "					left join money_unit mu on c.estimated_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
-					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'  and contract_status_fk<>'Not Awarded' and awarded_cost is not null) as estimated_cost,\r\n"
+					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'  ) as estimated_cost,\r\n"
 					+ "                    \r\n"
 					+ "                    \r\n"
 					+ "                   \r\n"
@@ -392,20 +391,19 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                      (select count(*)\r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
-					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
+					+ "					left join contract_revision cr on c.contractor_id_fk = cr.contract_id_fk and cr.revision_amounts_status = 'Yes' \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and awarded_cost is not null) as contract_details_types,\r\n"
 					+ "                    \r\n"
-					+ "                     (select round(ifnull(sum(ifnull(awarded_cost,0))/(case when mu.unit='Cr' then 1 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 10000000 else 1 end),0),2) \r\n"
+					+ "                     (select sum((case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) \r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
-					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
+					+ "					left join contract_revision cr on c.contractor_id_fk = cr.contract_id_fk and cr.revision_amounts_status = 'Yes' \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
-					+ "					left join money_unit mu on c.awarded_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and awarded_cost is not null)   as awarded_cost               \r\n"
@@ -414,19 +412,19 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                    \r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
-					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
+					+ "					left join contract_revision cr on c.contractor_id_fk = cr.contract_id_fk and cr.revision_amounts_status = 'Yes' \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
-					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' \r\n"
+					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and awarded_cost is not null \r\n"
 					+ "                    \r\n"
 					+ "                    \r\n"
 					+ "                    union all\r\n"
 					+ "                    \r\n"
 					+ "                    \r\n"
 					+ "                    \r\n"
-					+ "                     select hoddt.department_name,count(c.contract_id) as 'total',round(ifnull(sum(ifnull(estimated_cost,0))/(case when mu.unit='Cr' then 1 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 10000000 else 1 end),0),2)  as estimated_cost,\r\n"
+					+ "                     select hoddt.department_name,count(c.contract_id) as 'total',sum((estimated_cost*estimated_cost_units))  as estimated_cost,\r\n"
 					+ "                    \r\n"
 					+ "                    \r\n"
 					+ "                   \r\n"
@@ -434,17 +432,17 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                      (select count(*)\r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
-					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
+					+ "					left join contract_revision cr on c.contractor_id_fk = cr.contract_id_fk and cr.revision_amounts_status = 'Yes' \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "					left join department hoddt1 on u.department_fk = hoddt1.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and hoddt1.department_name=hoddt.department_name) as contract_details_types,\r\n"
 					+ "                    \r\n"
-					+ "                     (select round(ifnull(sum(ifnull(awarded_cost,0))/(case when mu.unit='Cr' then 1 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 10000000 else 1 end),0),2)  as awarded_cost\r\n"
+					+ "                     (select sum((case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end)  as awarded_cost\r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
-					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
+					+ "					left join contract_revision cr on c.contractor_id_fk = cr.contract_id_fk and cr.revision_amounts_status = 'Yes' \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "					left join department hoddt2 on u.department_fk = hoddt2.department\r\n"
@@ -456,10 +454,9 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                    \r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
-					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
+					+ "					left join contract_revision cr on c.contractor_id_fk = cr.contract_id_fk and cr.revision_amounts_status = 'Yes' \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
-					+ "					left join money_unit mu on c.estimated_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'\r\n"
@@ -468,6 +465,23 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 			
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<Contract>(Contract.class));
 			
+			for (Contract cObj : objsList) {
+				String awarded_cost = cObj.getAwarded_cost();
+				String awarded_cost_value = "";
+				if(!StringUtils.isEmpty(awarded_cost)) {
+					double val = (Double.parseDouble(awarded_cost))/10000000;
+					awarded_cost_value = numberFormatter.format(val);
+				}
+				cObj.setAwarded_cost(awarded_cost_value);
+
+				String estimated_cost = cObj.getEstimated_cost();
+				String estimated_cost_value = "";
+				if(!StringUtils.isEmpty(estimated_cost)) {
+					double val = (Double.parseDouble(estimated_cost))/10000000;
+					estimated_cost_value = numberFormatter.format(val);
+				}
+				cObj.setEstimated_cost(estimated_cost_value);
+			}			
 			
 		}catch(Exception e){ 
 			throw new Exception(e);

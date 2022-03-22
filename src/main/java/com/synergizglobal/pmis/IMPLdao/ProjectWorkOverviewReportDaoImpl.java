@@ -375,7 +375,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select work_name ,sum(awarded_cost) as awarded_cost,sum(estimated_cost) as estimated_cost,sum(ifnull(total,0)) as total,sum(contract_details_types) as contract_details_types from (select work_name,hoddt.department_name,round(sum(ifnull(awarded_cost,0)*ifnull(awarded_cost_units,0))/10000000,2) as awarded_cost,\r\n"
+			String qry = "select * from (select work_name ,sum(awarded_cost) as awarded_cost,sum(estimated_cost) as estimated_cost,sum(ifnull(total,0)) as total,sum(contract_details_types) as contract_details_types from (select work_name,hoddt.department_name,round(sum(ifnull(awarded_cost,0)*ifnull(awarded_cost_units,0))/10000000,2) as awarded_cost,\r\n"
 					+ " \r\n"
 					+ " round(sum(ifnull(estimated_cost,0)*ifnull(estimated_cost_units,0))/10000000,2) as estimated_cost ,\r\n"
 					+ " \r\n"
@@ -473,7 +473,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                    and contract_name not like '%Expense - Miscellaneous%' and  contract_name not like '%Expense - Land%'\r\n"
 					+ "                    \r\n"
 					+ "                                      \r\n"
-					+ "                    group by hoddt.department_name ";
+					+ "                    group by hoddt.department_name) as a  ORDER BY FIELD(work_name,'Engineering','Electrical','Signalling & Telecom')";
 			
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<Contract>(Contract.class));
 			

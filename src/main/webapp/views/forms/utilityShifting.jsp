@@ -276,9 +276,34 @@
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 
 	<script>
+	
+	
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }	
+	
 		var filtersMap = new Object();
 	
         $(document).ready(function () {
+        	
+        	var cid2 = getUrlVars()["work_id"];
+		    if(cid2!="")
+		    {
+		    	$("#work_id_fk").val(cid2).trigger('change');
+		    	addInQueWork(cid2);getUtilityShiftingList();
+		    } 
+	    	var cid1 = getUrlVars()["utility_category_fk"];
+		    if(cid1!="")
+		    {
+		    	$("#utility_category_fk").val(cid1);
+		    }  		        	
+        	
+        	
+        	
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
            

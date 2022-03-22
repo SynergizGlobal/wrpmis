@@ -446,7 +446,16 @@ public class AlertsDaoImpl implements AlertsDao{
 			List<Alerts> cvQryAlert9List = jdbcTemplate.query( cvQryAlert9, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cvQryAlert9List) && cvQryAlert9List.size() > 0) {
 				list.addAll(cvQryAlert9List);
-			}				
+			}
+			
+			
+			String cvQryAlert10 = "select 'Flag' as alert_level,'Utility Shifting' as alert_type,concat(utility_shifting_id,\" is not shifted by \", owner_name,\" beyond \",ifnull(requirement_stage_fk,''),ifnull(start_date,'')) as alert_value,concat('/utilityshifting?utility_category_fk=',r.utility_category_fk,'&work_id=',w.work_id) as redirect_url,ue.executive_user_id_fk as hod_user_id_fk from utility_shifting r left join work w on w.work_id=r.work_id_fk  left join utility_shifting_executives ue on ue.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and shifting_status_fk!='Completed' group by utility_category_fk";
+	
+	
+			List<Alerts> cvQryAlert10List = jdbcTemplate.query( cvQryAlert10, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(cvQryAlert10List) && cvQryAlert10List.size() > 0) {
+				list.addAll(cvQryAlert10List);
+			}			
 			
 			
 			

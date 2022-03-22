@@ -375,17 +375,15 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select * from ((select work_name,count(c.contract_id) as 'total',(select sum(ifnull(estimated_cost,0)*ifnull(estimated_cost_units,0))/(case when mu.unit='Cr' then 10000000 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 1 else 1 end)  \r\n"
+			String qry = "select * from (select work_name,count(c.contract_id) as 'total',(select sum(awarded_cost) as awarded_cost\r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
 					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
-					+ "					left join money_unit mu on c.estimated_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
-				
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
-					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' ) as estimated_cost,\r\n"
+					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' ) as estimated_cost,\r\n"
 					+ "                    \r\n"
 					+ "                   (select group_concat(distinct structure_type SEPARATOR ', ') from activities_scurve where work_id_fk='"+obj.getWork_id_fk()+"') as strip_chart_type_fk,\r\n"
 					+ "                    \r\n"
@@ -401,13 +399,12 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded') as contract_details_types,\r\n"
 					+ "                    \r\n"
-					+ "                     (select sum(ifnull(awarded_cost,0)*ifnull(awarded_cost_units,0))/(case when mu.unit='Cr' then 10000000 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 1 else 1 end) \r\n"
+					+ "                     (select sum(awarded_cost) as awarded_cost\r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
 					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
-					+ "					left join money_unit mu on c.awarded_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' )   as awarded_cost,               \r\n"
@@ -423,14 +420,14 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
-					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"')\r\n"
+					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'\r\n"
 					+ "                    \r\n"
 					+ "                    \r\n"
 					+ "                    union all\r\n"
 					+ "                    \r\n"
 					+ "                    \r\n"
 					+ "                    \r\n"
-					+ "                     (select hoddt.department_name,count(c.contract_id) as 'total',sum(ifnull(estimated_cost,0)*ifnull(estimated_cost_units,0))/(case when mu.unit='Cr' then 10000000 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 1 else 1 end)  as estimated_cost,\r\n"
+					+ "                     select hoddt.department_name,count(c.contract_id) as 'total',sum(estimated_cost) as estimated_cost,\r\n"
 					+ "                    \r\n"
 					+ "                   (select group_concat(distinct structure_type SEPARATOR ', ') from activities_scurve where work_id_fk='"+obj.getWork_id_fk()+"' and department=hoddt.department_name) as strip_chart_type_fk,\r\n"
 					+ "                    \r\n"
@@ -446,13 +443,12 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and hoddt1.department_name=hoddt.department_name) as contract_details_types,\r\n"
 					+ "                    \r\n"
-					+ "                     (select sum(ifnull(awarded_cost,0)*ifnull(awarded_cost_units,0))/(case when mu.unit='Cr' then 10000000 when mu.unit='L' then 100000 when mu.unit='Th' then 1000 when mu.unit='Rs' then 1 else 1 end)  as awarded_cost\r\n"
+					+ "                     (select sum(awarded_cost) as awarded_cost\r\n"
 					+ "                    from contract c  \r\n"
 					+ "					left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci  \r\n"
 					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
-					+ "					left join money_unit mu on c.awarded_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
 					+ "					left join department hoddt2 on u.department_fk = hoddt2.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"' and contract_status_fk<>'Not Awarded' and hoddt2.department_name=hoddt.department_name)   as awarded_cost,  \r\n"
@@ -470,12 +466,11 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "					left join contractor cr on c.contractor_id_fk = cr.contractor_id \r\n"
 					+ "					left join project p on w.project_id_fk = p.project_id \r\n"
 					+ "					left join user u on c.hod_user_id_fk = u.user_id\r\n"
-					+ "					left join money_unit mu on c.estimated_cost_units = mu.value COLLATE utf8mb4_unicode_ci\r\n"
 					+ "					left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "					left join user us on c.dy_hod_user_id_fk = us.user_id\r\n"
 					+ "					where contract_id is not null and w.work_id='"+obj.getWork_id_fk()+"'\r\n"
 					+ "                    \r\n"
-					+ "                    group by hoddt.department_name)) as a  ORDER BY FIELD(work_name,'Engineering','Electrical','Signalling & Telecom') ";
+					+ "                    group by hoddt.department_name) as a  ORDER BY FIELD(work_name,'Engineering','Electrical','Signalling & Telecom') ";
 			
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<Contract>(Contract.class));
 			
@@ -483,7 +478,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 				String awarded_cost = cObj.getAwarded_cost();
 				String awarded_cost_value = "";
 				if(!StringUtils.isEmpty(awarded_cost)) {
-					double val = (Double.parseDouble(awarded_cost));
+					double val = (Double.parseDouble(awarded_cost))/10000000;
 					awarded_cost_value = numberFormatter.format(val);
 				}
 				cObj.setAwarded_cost(awarded_cost_value);
@@ -491,7 +486,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 				String estimated_cost = cObj.getEstimated_cost();
 				String estimated_cost_value = "";
 				if(!StringUtils.isEmpty(estimated_cost)) {
-					double val = (Double.parseDouble(estimated_cost));
+					double val = (Double.parseDouble(estimated_cost))/10000000;
 					estimated_cost_value = numberFormatter.format(val);
 				}
 				cObj.setEstimated_cost(estimated_cost_value);

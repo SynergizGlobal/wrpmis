@@ -44,4 +44,8 @@ public class ProjectWorkOverviewReportServiceImpl implements ProjectWorkOverview
 	public List<LandAcquisition> getLandAcquisitionStatus(LandAcquisition obj) throws Exception{
 		return dao.getLandAcquisitionStatus(obj);
 	}
+	public List<Contract> getFinanceReportContracts(String work_id) throws Exception
+	{
+		return dao.getFinanceReportContracts(work_id);
+	}
 }

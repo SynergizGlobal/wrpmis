@@ -31,6 +31,7 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Messages;
@@ -481,6 +482,49 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 			
 		}catch(Exception e){ 
 			throw new Exception(e);
+		}
+		return objsList;
+	}
+	@Override
+	public List<Contract> getFinanceReportContracts(String work_id) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select work_short_name as contract_name,'' as value,'' as actual_physical_progress,'' as actual_financial_progress from work where work_id='"+work_id+"'\r\n"
+					+ "union all\r\n"
+					+ "select 'Civil Works' as contract_name,'' as value,'' as actual_physical_progress,'' as actual_financial_progress from work where work_id='"+work_id+"'\r\n"
+					+ "union all\r\n"
+					+ "select c.contract_name,\r\n"
+					+ "case when cr.revised_amount is null then round(awarded_cost*awarded_cost_units/1000000,2) else round(revised_amount*revised_amount_units/1000000,2) end as value,\r\n"
+					+ "round(sum(contract_per)*100,2) as actual_physical_progress,'' as actual_financial_progress from contract c\r\n"
+					+ "left join activities_scurve a on c.contract_id=a.contract_id \r\n"
+					+ "left join contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes'\r\n"
+					+ "left join user u on c.hod_user_id_fk = u.user_id\r\n"
+					+ "left join department hoddt on u.department_fk = hoddt.department\r\n"
+					+ "and date>=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()),'-04-01') ELSE concat(YEAR(NOW())-1,'-04-01') END)\r\n"
+					+ "and date<=(SELECT concat(YEAR(NOW()),'-03-31'))\r\n"
+					+ "where c.status='Open' and c.contract_name not like '%Expense - Miscellaneous%' and  c.contract_name not like '%Expense - Land%'\r\n"
+					+ "and category='planned' and c.work_id_fk='"+work_id+"' and hoddt.department_name='Engineering'\r\n"
+					+ "group by c.contract_id\r\n"
+					+ "\r\n"
+					+ "union all\r\n"
+					+ "select 'Electrical and Signalling works' as contract_name,'' as value,'' as actual_physical_progress,'' as actual_financial_progress from work where work_id='"+work_id+"'\r\n"
+					+ "union all\r\n"
+					+ "\r\n"
+					+ "select c.contract_name,\r\n"
+					+ "case when cr.revised_amount is null then round(awarded_cost*awarded_cost_units/1000000,2) else round(revised_amount*revised_amount_units/1000000,2) end as value,\r\n"
+					+ "round(sum(contract_per)*100,2) as actual_physical_progress,'' as actual_financial_progress from contract c\r\n"
+					+ "left join activities_scurve a on c.contract_id=a.contract_id \r\n"
+					+ "left join contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes'\r\n"
+					+ "left join user u on c.hod_user_id_fk = u.user_id\r\n"
+					+ "left join department hoddt on u.department_fk = hoddt.department\r\n"
+					+ "and date>=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()),'-04-01') ELSE concat(YEAR(NOW())-1,'-04-01') END)\r\n"
+					+ "and date<=(SELECT concat(YEAR(NOW()),'-03-31'))\r\n"
+					+ "where c.status='Open' and c.contract_name not like '%Expense - Miscellaneous%' and  c.contract_name not like '%Expense - Land%'\r\n"
+					+ "and category='planned' and c.work_id_fk='"+work_id+"' and hoddt.department_name in('Engineering','Signalling & Telecom')\r\n"
+					+ "group by c.contract_id";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
+		}catch(Exception e){ 
+		throw new Exception(e);
 		}
 		return objsList;
 	}	

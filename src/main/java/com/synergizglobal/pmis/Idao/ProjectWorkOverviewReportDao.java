@@ -22,6 +22,8 @@ public interface ProjectWorkOverviewReportDao {
 
 	public List<Contract> getProcurementStatus(Contract obj) throws Exception;
 	public List<LandAcquisition> getLandAcquisitionStatus(LandAcquisition obj) throws Exception;
+
+	public List<Contract> getFinanceReportContracts(String work_id) throws Exception;
 	
 
 

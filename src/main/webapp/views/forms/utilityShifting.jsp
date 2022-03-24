@@ -15,8 +15,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
 	
 	 <style>
         p a {
@@ -126,9 +126,9 @@
                      <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
                             <!-- <h6 class="hide-on-med-and-down">Update Incident</h6> -->
-							<h6 class="mob-mar">Utility Shifting</h6>
+							<h6>Utility Shifting</h6>
 							<div class="col s12 m12 right-align exportButton">
-							    <div class="m-n1">
+							    <div class="m-n1 hideCOl">
 							    	 <a href="<%=request.getContextPath()%>/add-utility-shifting" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add</strong></a>
                                     <a href="javascript:void(0);" onclick="exportUtilityShifting();" class="btn waves-effect waves-light bg-s t-c">
@@ -291,13 +291,13 @@
         $(document).ready(function () {
         	
         	var cid2 = getUrlVars()["work_id"];
-		    if(cid2!="")
+		    if(cid2!="" && cid2!= null)
 		    {
 		    	$("#work_id_fk").val(cid2).trigger('change');
 		    	addInQueWork(cid2);getUtilityShiftingList();
 		    } 
 	    	var cid1 = getUrlVars()["utility_category_fk"];
-		    if(cid1!="")
+		    if(cid1!="" && cid1!= null)
 		    {
 		    	$("#utility_category_fk").val(cid1);
 		    }  		        	

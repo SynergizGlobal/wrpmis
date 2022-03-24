@@ -365,24 +365,24 @@
 	                                 <button type="button" id="identification_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="identificationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                      <input id="location_name" name="location_name" type="text" class="validate" value="${utilityShifting.location_name }">                                     
                                      <label for="location_name">Location Name<span class="required">*</span></label>
 	                                 <span id="location_nameError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="reference_number" name="reference_number" type="text" class="validate" value="${utilityShifting.reference_number }">                                     
                                      <label for="reference_number">Reference Number<span class="required">*</span> </label>
 	                                 <span id="reference_numberError" class="error-msg" ></span>
                                 </div>
 							</div>
 							<div class="row">
-								 <div class="col s12 m4 input-field">
+								 <div class="col s6 m4 input-field">
                                      <input id="latitude" name="latitude" type="text" class="validate" value="${utilityShifting.latitude }">                                     
                                      <label for="latitude">Chainage</label>
 	                                 <span id="latitudeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                      <input id="utility_description" name="utility_description" type="text" class="validate" value="${utilityShifting.utility_description }">                                     
                                      <label for="utility_description">Utility Description<span class="required">*</span></label>
 	                                 <span id="utility_descriptionError" class="error-msg" ></span>
@@ -470,7 +470,7 @@
                                      <label for="completed">Completed <span class="required"></span></label>
 	                                 <span id="completedError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m2 l2 input-field">
+                                <div class="col s6 m2 l2 input-field">
                                     <p class="searchable_label mb-8"> Unit <span class="required" id="unit"></span></p>
                                     <select class="searchable validate-dropdown" id="unit_fk" name="unit_fk" >
                                         <option value="" >Select</option>
@@ -480,7 +480,7 @@
                                     </select>
                                       <span id="unit_fkError" class="error-msg" ></span>
                                 </div>
-                             	<div class="col s12 m2 l2 input-field">
+                             	<div class="col s6 m2 l2 input-field">
                                     <p class="searchable_label mb-8"> Status <span class="required"></span></p>
                                     <select class="searchable validate-dropdown" id="shifting_status_fk" name="shifting_status_fk" >
                                         <option value="" >Select</option>

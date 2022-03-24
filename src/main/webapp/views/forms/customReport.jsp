@@ -19,6 +19,135 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 
     <style>
+    	main {
+		  transition: transform .7s ease-in-out;
+		}
+		.move-to-left {
+		  transform: translateX(-400px);
+		}
+		.move-to-left-partly {
+		  transform: translateX(-30px);
+		  -webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		}
+		@-webkit-keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  25% {
+  	width: 90%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  50% {
+  	width: 85%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  75% {
+  	width: 80%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  100% {
+    -webkit-transform: translateX(-30px);
+            transform: translateX(-30px);
+            width: 75%;
+  }
+}
+@keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  15% {
+  	width: 98%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  20% {
+  	width: 97%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+   25% {
+  	width: 95%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  30% {
+  	width: 93%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+   35% {
+  	width: 91%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  40% {
+  	width: 89%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  45% {
+  	width: 87%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  50% {
+  	width: 85%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  
+  70% {
+  	width: 80%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  75% {
+  	width: 79%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  80% {
+  	width: 78%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+    85% {
+  	width: 77%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  90% {
+  	width: 76%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  95% {
+  	width: 75.5%;
+  	 transition: width 2s, transform .7s ease-in-out;
+  }
+  100% {
+    -webkit-transform: translateX(-30px);
+            transform: translateX(-30px);
+            width: 75%;
+  }
+}
+		.sidebar {
+		  height: 50%;
+		  width: 320px;
+		  position: absolute;
+		  top: 18.5rem;
+		  z-index: 1;
+		  right: -400px;
+		  background-color: #FFF;
+		  box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.4);
+		  transition: transform .7s ease-in-out;
+		}
+		.container-liner{
+		  margin-left:1rem;
+		}
+		.sidebar-tab {
+		  height: 100%;
+		  width: 2rem;
+		  position: fixed;
+		  top: 3rem;
+		  z-index: 1;
+		  right: 0;
+		  background-color: #FFF;
+		  box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.5);
+		  transition: transform .7s ease-in-out;
+		}
+
+
         #divGrpHeaders label {
             font-size: 1rem;
             color: #000;
@@ -334,8 +463,14 @@
                                         <div class="center-align" id="divGrpHeaders">
                                         </div>
                                     </div>
-
-                                    <div class="row no-mar">
+									<div class="row">
+										<div class="col s6 m4 l4 offset-l8" style="text-align:right;">
+										<button class="btn waves-effect waves-light bg-s" onClick="saveLayout();" type="button">Save</button>
+										<a class="btn waves-effect waves-light bg-s" onclick="toggleSidebar()">Layout</a>
+										</div>
+									</div>
+                                    <main class="text-center" id="main">
+                                    	<div class="row no-mar">
 
                                         <div class="list_holder">
                                             <div class="col m5 s12">
@@ -374,7 +509,9 @@
                                                     <button type="button" onclick="delSelected()" class="remove button"
                                                         data-icon="<"></button>
                                                 </div>
+	                                                                                           
                                             </div>
+                                            
                                             <div class="col m5 s12">
                                                 <div class="right-div card mb-2px">
                                                     <div class="card-content py-none">
@@ -407,6 +544,46 @@
                                         </div>
 
                                     </div>
+                                    </main>
+                                    
+                                    <div class="sidebar" id="sidebar">
+									  <div class="container-liner">
+									    <div class="card">
+	                                             	<table>
+	                                             		<thead>
+		                                             		<tr>
+			                                             		<td><b>Layout</b></td>
+			                                             		<td><b>Action</b></td>
+		                                             		</tr>
+	                                             		</thead>
+	                                             		<tbody>
+		                                             		<tr>
+			                                             		<td>Layout 1</td>
+			                                             		<td>
+			                                             			<button type="button" class="btn r-75rem">
+		                                                                    <i class="fa fa-spinner" aria-hidden="true"></i>
+		                                                             </button>
+			                                             			<button type="button" class="btn r-75rem" onClick="removeLayout();">
+		                                                                    <i class="fa fa-remove"></i>
+		                                                             </button>
+		                                                         </td>
+	                                                         </tr>
+	                                                         <tr>
+		                                                         <td>Layout 2</td>
+		                                                         <td>
+		                                                         	<button type="button" class="btn r-75rem">
+		                                                                    <i class="fa fa-spinner" aria-hidden="true"></i>
+		                                                             </button>
+		                                                         	<button type="button" class="btn r-75rem">
+		                                                                    <i class="fa fa-remove"></i>
+		                                                             </button>
+		                                                         </td>
+	                                                          </tr>
+                                                          </tbody>
+	                                             	</table>
+	                                            </div> 
+									  </div>
+									</div>
 
                                 </div>
                             </div>
@@ -447,6 +624,64 @@
      <script src="/pmis/resources/js/select2.min.js"></script>
 
      <script>       
+     /* Unsure how to center this without JS :/*/
+     $(function(){
+       $("#sidebar-tab-text").width($("#sidebar").height());
+     });
+     $( window ).resize(function() {
+       $("#sidebar-tab-text").width($("#sidebar").height());
+     });
+     /* End of unsure centering */
+
+     //The only necessary piece of code lol
+     function toggleSidebar(){
+       $("#sidebar").toggleClass("move-to-left");
+       $("#sidebar-tab").toggleClass("move-to-left");
+       $("main").toggleClass("move-to-left-partly");
+       $(".arrow").toggleClass("active");
+     }
+
+     /* Totally unncessary swyping gestures*/
+     var gestureZone = document;
+     var touchstartX = 0, touchstartY = 0;
+     gestureZone.addEventListener('touchstart', function(event) {
+         touchstartX = event.changedTouches[0].screenX;
+         touchstartY = event.changedTouches[0].screenY;
+     }, false);
+
+     gestureZone.addEventListener('touchend', function(event) {
+         var touchendX = event.changedTouches[0].screenX;
+         var touchendY = event.changedTouches[0].screenY;
+         handleGesure(touchendX, touchendY);
+     }, false); 
+
+     function handleGesure(touchendX, touchendY) {
+         var acceptableYTravel = (touchendY-touchstartY) < 30 && (touchendY-touchstartY) > -30;
+       
+         var swiped = 'swiped: ';
+         if (touchendX < touchstartX && acceptableYTravel) {
+             openSidebar();
+             console.log(swiped + 'left!');
+         }
+         if (touchendX > touchstartX  && acceptableYTravel) {
+             closeSidebar();
+             console.log(swiped + 'right!');
+         }
+     }
+     function openSidebar(){
+       $("#sidebar").addClass("move-to-left");
+       $("main").addClass("move-to-left-partly");
+       $("#sidebar-tab").addClass("move-to-left");
+     }
+     function closeSidebar(){
+       $("#sidebar").removeClass("move-to-left");
+       $("main").removeClass("move-to-left-partly");
+       $("#sidebar-tab").removeClass("move-to-left");
+     }
+     /* End of totally unncessary swyping gestures*/
+     
+     
+     
         // selecting single item
         $(document).on('click', '.multiList .optionItem', function () {
             $(this).toggleClass('selected');
@@ -561,6 +796,70 @@
         }
         function replaceAll(str, find, replace) {
         	  return str.replace(new RegExp(find, 'g'), replace);
+        }
+        
+        function removeLayout()
+        {
+	       	 if (confirm("Are you sure you want to delete layout")) 
+	    	 {  
+	    	 }        	
+        }
+        
+        function saveLayout()
+        {
+        	var layoutfieldslength=$('#right-box li ul').find('li:not(.hidden)').length;
+        	if(layoutfieldslength==0)
+       		{
+        		$("#layoutErrorMsg").html("Please select atleast one field into right box!.");
+       		}
+        	else
+       		{
+        		$("#layoutErrorMsg").html("");
+       		}
+        	
+        	grpHeadArray=[];
+        	grpColumnArray=[];
+        	
+
+        	
+        	$('#right-box li').not('.hidden').map(function() {
+    			var id=$(this).attr("id");
+    			if(id!=undefined)
+   				{
+   					var grpName=$("#"+id+" span").html();
+   					grpName=replaceAll(grpName,"<b>","");
+   					grpName=replaceAll(grpName,"</b>","");
+   					grpHeadArray.push(grpName);
+   				}
+
+        	})   
+        	
+        	$('#right-box li ul li').not('.hidden').map(function() {
+    			var id=$(this).parent().parent().attr('id');
+    			if(id!=undefined)
+   				{
+   					var grpName=$("#"+id+" span").html();
+   					grpName=replaceAll(grpName,"<b>","");
+   					grpName=replaceAll(grpName,"</b>","");
+  					
+	    			var ids=$(this).html();
+	    			ids=ids.replace(/<\/?span[^>]*>/g,"");
+	    			ids=ids.replace("*","");
+    			 	 if(/\s+$/.test(ids)) 
+    				 {
+    			 		ids=ids.slice(0, ids.length-1) ;
+    				 }
+	    			grpColumnArray.push(grpName+"-"+ids);
+   				}
+    			
+        	}) 
+        	
+        	var concatfilter="";
+        	
+        	$("#grpHead").val(grpHeadArray);
+        	$("#grpHeadColumns").val(grpColumnArray); 
+        	
+        	
         }
         
         

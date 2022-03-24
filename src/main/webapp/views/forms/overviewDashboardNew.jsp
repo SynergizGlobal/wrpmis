@@ -543,39 +543,41 @@
 	 
 	 function getFilteredOptions(filterIds,dashboardId){
 		 $(".page-loader").show();
-		 var params = "";
+		 
 		 var ids = [];
 		 if($.trim(filterIds) != ''){
 			 ids = filterIds.split(",");
 		 }
 		 
 		 for(var  i=0;i<ids.length;i++){
-			 var id = ids[i];
-			 var val = $("#"+id).val();
-			 
-			 var filters_table_alias_name = $('#'+id).attr("filters_table_alias_name");
-			 
-			 if($.trim(filters_table_alias_name) != '' && filters_table_alias_name != 'null' && filters_table_alias_name != null && filters_table_alias_name != 'undefined'){
-				 id = filters_table_alias_name+"."+id;
+			 var params = "";
+			 for(var  j=0;j<ids.length;j++){
+				 var idTemp = ids[j];
+				 var valTemp = $("#"+idTemp).val();
+				 
+				 var filters_table_alias_name = $('#'+idTemp).attr("filters_table_alias_name");
+				 
+				 if($.trim(filters_table_alias_name) != '' && filters_table_alias_name != 'null' && filters_table_alias_name != null && filters_table_alias_name != 'undefined'){
+					 idTemp = filters_table_alias_name+"."+idTemp;
+				 }
+				 var param = idTemp+"='"+valTemp+"'";
+				 if($.trim(valTemp) != ''){
+					 if($.trim(params) != ''){
+					 	params = params +" AND "+ param;
+				   	 }else{
+					   params = param;
+				     }
+				 }
 			 }
-			 var param = id+"='"+val+"'";
-			 if($.trim(val) != ''){
-				 if($.trim(params) != ''){
-				 	params = params +" AND "+ param;
-			   	 }else{
-				   params = param;
-			     }
-			 }
-		 }
-		 
-		 for(var  i=0;i<ids.length;i++){
+
 			 var id = ids[i];
 			 var val = $("#"+id).val();
 			 
 			 var filter_id_temp = $('#'+id).attr("filter_id");
 			 
 			 if($.trim(val) == ''){
-				 $("#"+id+" option:not(:first)").remove();
+				 //$("#"+id+" option:not(:first)").remove();
+				 $("#"+id+" option").remove();
 				 $.ajax({
 			      		url: "<%=request.getContextPath()%>/ajax/getFilteredOptions",
 			            type: 'POST',
@@ -586,6 +588,9 @@
 			         	   if(data.length){
 			         		   $.each( data, function( index, value ){
 			         			  var filterOptions = value.filter;
+			         			  if((value.is_first_option_selected != 'YES')){
+			         				$("#"+id).append('<option value="" selected>All</option>');
+			         			  }
 			         			  $.each( value.filter, function( index2, value2 ){
 				         			  	var filter_option_id = value2.filter_option_value;
 				         				if($.trim(value2.filter_option_id) != ''){

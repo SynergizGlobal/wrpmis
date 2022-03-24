@@ -167,7 +167,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 		List<OverviewDashboardNew> objList = new ArrayList<OverviewDashboardNew>();
 		try {
 			
-			OverviewDashboardNew tempObj = getWorkColumnName(dObj.getDashboard_id());
+			//OverviewDashboardNew tempObj = getWorkColumnName(dObj.getDashboard_id());
 			
 			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, "
 					+ "default_filter_column, default_filter_value, selected_value,query_for_filter_options,filters_table_alias_name,order_by,is_first_option_selected "
@@ -231,7 +231,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					filterQry = filterQry + obj.getFilter_column_id();
 					if(!StringUtils.isEmpty(obj.getOrder_by())) {
 						filterQry = filterQry + " ORDER BY ";
-						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
 							filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
 						}
 						filterQry = filterQry + obj.getOrder_by();
@@ -270,7 +270,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 							filterQry = filterQry + " GROUP BY " + "`"+ obj.getFilter_column_id()+ "`";
 							if(!StringUtils.isEmpty(obj.getOrder_by())) {
 								filterQry = filterQry + " ORDER BY ";
-								if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+								if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
 									filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
 								}
 								filterQry = filterQry + obj.getOrder_by();
@@ -278,6 +278,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					List<OverviewDashboardNew> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
 					obj.setFilter(filter);
 				} 
+				
 			}*/
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -371,7 +372,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					filterQry = filterQry + obj.getFilter_column_id();
 					if(!StringUtils.isEmpty(obj.getOrder_by())) {
 						filterQry = filterQry + " ORDER BY ";
-						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD")) {
+						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
 							filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
 						}
 						filterQry = filterQry + obj.getOrder_by();
@@ -437,7 +438,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 						unionFilterQry = unionFilterQry + obj.getFilter_column_id();
 						if(!StringUtils.isEmpty(obj.getOrder_by())) {
 							unionFilterQry = unionFilterQry + " ORDER BY ";
-							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD")) {
+							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
 								unionFilterQry = unionFilterQry + obj.getFilters_table_alias_name() + ".";
 							}
 							unionFilterQry = unionFilterQry + obj.getOrder_by();
@@ -448,7 +449,6 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					
 					
 					/*************************************************************************************/
-					
 					List<OverviewDashboardNew> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
 					obj.setFilter(filter);
 				}else if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
@@ -484,12 +484,11 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					filterQry = filterQry + " GROUP BY " + "`"+ obj.getFilter_column_id()+ "`";
 					if(!StringUtils.isEmpty(obj.getOrder_by())) {
 						filterQry = filterQry + " ORDER BY ";
-						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
 							filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
 						}
 						filterQry = filterQry + obj.getOrder_by();
 					}
-							
 					List<OverviewDashboardNew> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
 					obj.setFilter(filter);
 				}

@@ -42,4 +42,22 @@ public class CustomReportServiceImpl implements CustomReportService{
 	{
 		return dao.getTableColumns(obj);
 	}
+	public boolean saveCustomReportLayout(CustomReportColumns obj) throws Exception
+	{
+		return dao.saveCustomReportLayout(obj);
+	}
+	public boolean checkLayoutName(CustomReportColumns obj) throws Exception
+	{
+		return dao.checkLayoutName(obj);
+	}
+	public boolean removeLayout(CustomReportColumns obj) throws Exception
+	{
+		return dao.removeLayout(obj);
+	}	
+	@Override
+	public List<CustomReportColumns> getLayouts(CustomReportColumns obj) throws Exception {
+		return dao.getLayouts(obj);
+	}
+	
+	
 }

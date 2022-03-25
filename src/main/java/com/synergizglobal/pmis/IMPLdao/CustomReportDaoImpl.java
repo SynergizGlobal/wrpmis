@@ -12,6 +12,8 @@ import org.apache.commons.lang.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -379,6 +381,159 @@ public class CustomReportDaoImpl implements CustomReportDao {
 		}	      
         
 		return objsList;
+	}
+
+	@Override
+	public boolean saveCustomReportLayout(CustomReportColumns obj) throws Exception {
+		BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+		NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		if(obj.getName().compareTo("Update")==0)
+		{
+			String deleteQry = "DELETE from custom_report_layouts where created_by = :created_by_user_id_fk and layout_name=:layout_name and module_name_fk=:module_name_fk";
+			String[] layout=obj.getLayout_name().split("@@");
+			obj.setLayout_name(layout[0]);
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			namedParamJdbcTemplate.update(deleteQry, paramSource);
+			obj.setLayout_name(layout[1]);
+		}
+		
+		String query = " insert into custom_report_layouts (module_name_fk,layout_name,group_header, created_by, created_date, group_header_columns)"
+	               + " values (?,?,?, ?, CURRENT_TIMESTAMP, ?)";
+
+	  PreparedStatement preparedStmt = null;
+	  Connection con = null;
+	  try
+	  {
+		con = dataSource.getConnection();
+	    preparedStmt = con.prepareStatement(query);
+	    String[] Headers=obj.getGrpHead().split(",");
+	    String[] HeaderColumns=obj.getGrpHeadColumns().split(",");
+	    
+	    for (int i=0;i<Headers.length;i++)
+	    {
+	    	String columnNames="";
+    		for (int i1=0;i1<HeaderColumns.length;i1++)
+    		{
+    			String[] HeaderClmDevide=HeaderColumns[i1].split("-");
+    			if(HeaderClmDevide[0].compareTo(Headers[i])==0)
+    			{
+    				columnNames=columnNames+HeaderClmDevide[1]+",";
+    			}
+    		}
+    		columnNames=columnNames.substring(0, columnNames.length() - 1);  	
+	      preparedStmt.setString(1, obj.getModule_name_fk());
+	      preparedStmt.setString(2, obj.getLayout_name());
+	      preparedStmt.setString(3, Headers[i]);
+	      preparedStmt.setString(4, obj.getCreated_by_user_id_fk());
+	      preparedStmt.setString(5, columnNames);	 
+	      preparedStmt.execute();
+	    }	
+   
+	  }
+	  catch (SQLException se)
+	  {
+	    se.printStackTrace();
+	    throw se;
+	  }
+	  finally
+	  {
+	    preparedStmt.close();
+	  }
+	  return false;
+	}
+
+	@Override
+	public boolean checkLayoutName(CustomReportColumns obj) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean process = false;
+		try{  
+			con = dataSource.getConnection();
+			
+			if(obj.getName().compareTo("Create")==0)
+			{
+				String updateQry = "select * from custom_report_layouts WHERE layout_name=? and created_by = ? and module_name_fk=?";
+				stmt = con.prepareStatement(updateQry);
+				stmt.setString(1, obj.getLayout_name());
+				stmt.setString(2, obj.getCreated_by_user_id_fk());
+				stmt.setString(3, obj.getModule_name_fk());	
+				rs = stmt.executeQuery(); 
+			}
+			else
+			{
+				String[] layout=obj.getLayout_name().split("@@");
+				obj.setLayout_name(layout[0]);
+				
+				String updateQry = "select * from custom_report_layouts WHERE layout_name=? and created_by = ? and layout_name not in(?) and module_name_fk=?";
+				stmt = con.prepareStatement(updateQry);
+				stmt.setString(1, layout[1]);
+				stmt.setString(2, obj.getCreated_by_user_id_fk());
+				stmt.setString(3, layout[0]);
+				stmt.setString(4, obj.getModule_name_fk());	
+				rs = stmt.executeQuery(); 				
+			}
+			if(rs.next()) {		
+				process=true;	
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return process;
+	}
+
+	@Override
+	public List<CustomReportColumns> getLayouts(CustomReportColumns obj) throws Exception {
+		PreparedStatement stmt = null;
+		CustomReportColumns sobj = null;
+		ResultSet rs=null;
+		Connection con = null;
+	    List<CustomReportColumns> objsList = new ArrayList<CustomReportColumns>();
+	    try{  
+
+		
+		con = dataSource.getConnection();
+		String qry ="select layout_name,group_header as grpHead,group_header_columns as grpHeadColumns from custom_report_layouts where created_by=? and module_name_fk=?";
+		stmt = con.prepareStatement(qry);
+		stmt.setString(1,obj.getCreated_by_user_id_fk());
+		stmt.setString(2,obj.getModule_name_fk());
+
+		
+		 rs = stmt.executeQuery();
+
+	      while(rs.next())
+	      {
+				sobj = new CustomReportColumns();
+				sobj.setLayout_name(rs.getString(1));
+				sobj.setGrpHead(rs.getString(2));
+				sobj.setGrpHeadColumns(rs.getString(3));
+				objsList.add(sobj);
+	      }
+	    }catch(Exception e){ 
+			throw new SQLException(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}	      
+        
+		return objsList;
+	}
+
+	@Override
+	public boolean removeLayout(CustomReportColumns obj) throws Exception {
+		boolean flag=false;
+		BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+		NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);		
+		try{  
+			String deleteQry = "DELETE from custom_report_layouts where created_by = :created_by_user_id_fk and layout_name=:layout_name and module_name_fk=:module_name_fk";
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			namedParamJdbcTemplate.update(deleteQry, paramSource);
+			flag=true;
+		}catch(Exception e){ 
+			throw new SQLException(e);
+		}
+		return flag;
 	}	
 
 }

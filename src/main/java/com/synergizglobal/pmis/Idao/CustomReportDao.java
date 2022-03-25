@@ -19,4 +19,12 @@ public interface CustomReportDao {
 
 	public List<CustomReportColumns> getModuleFiltersOptionValues(CustomReportColumns obj) throws Exception;
 
+	public boolean saveCustomReportLayout(CustomReportColumns obj) throws Exception;
+
+	public boolean checkLayoutName(CustomReportColumns obj) throws Exception;
+
+	public List<CustomReportColumns> getLayouts(CustomReportColumns obj) throws Exception;
+
+	public boolean removeLayout(CustomReportColumns obj) throws Exception;
+
 }

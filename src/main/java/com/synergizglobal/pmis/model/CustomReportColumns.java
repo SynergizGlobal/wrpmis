@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class CustomReportColumns {
-	private String module_name_fk,column_name,name,table_name,grpHead,grpHeadColumns,filterColumns,filter_name,option_id,option_value;
+	private String module_name_fk,column_name,name,table_name,grpHead,grpHeadColumns,filterColumns,filter_name,option_id,option_value,created_by_user_id_fk,layout_name;
 	
 	private String option_ids,option_values;
 	
@@ -104,6 +104,22 @@ public class CustomReportColumns {
 
 	public void setOption_values(String option_values) {
 		this.option_values = option_values;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getLayout_name() {
+		return layout_name;
+	}
+
+	public void setLayout_name(String layout_name) {
+		this.layout_name = layout_name;
 	}
 
 

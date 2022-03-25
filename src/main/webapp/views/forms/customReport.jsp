@@ -463,10 +463,17 @@
                                         <div class="center-align" id="divGrpHeaders">
                                         </div>
                                     </div>
-									<div class="row">
-										<div class="col s6 m4 l4 offset-l8" style="text-align:right;">
-										<button class="btn waves-effect waves-light bg-s" onClick="saveLayout();" type="button">Save</button>
-										<a class="btn waves-effect waves-light bg-s" onclick="toggleSidebar()">Layout</a>
+									<div class="row no-mar">
+										<div class="col m2 s12"></div>
+										<div id="layoutErrorMsg" style="color:red;text-align:right;" class="col m5 s12"></div>
+										<div class="col m5 s12">
+											<div class="col s12 m8" style="text-align:right;">
+												<input type="text" name="layout_name" id="layout_name">
+											</div>
+											<div class="col s12 m4" style="float:left;">
+												<button id="btnsaveLayout" class="btn waves-effect waves-light bg-s" onClick="saveLayout();" type="button">Save</button>
+												<a class="btn waves-effect waves-light bg-s" onclick="toggleSidebar()">Layouts</a>
+											</div>
 										</div>
 									</div>
                                     <main class="text-center" id="main">
@@ -549,38 +556,16 @@
                                     <div class="sidebar" id="sidebar">
 									  <div class="container-liner">
 									    <div class="card">
-	                                             	<table>
+									    
+	                                             	<table id="layouts">
 	                                             		<thead>
 		                                             		<tr>
 			                                             		<td><b>Layout</b></td>
 			                                             		<td><b>Action</b></td>
 		                                             		</tr>
 	                                             		</thead>
-	                                             		<tbody>
-		                                             		<tr>
-			                                             		<td>Layout 1</td>
-			                                             		<td>
-			                                             			<button type="button" class="btn r-75rem">
-		                                                                    <i class="fa fa-spinner" aria-hidden="true"></i>
-		                                                             </button>
-			                                             			<button type="button" class="btn r-75rem" onClick="removeLayout();">
-		                                                                    <i class="fa fa-remove"></i>
-		                                                             </button>
-		                                                         </td>
-	                                                         </tr>
-	                                                         <tr>
-		                                                         <td>Layout 2</td>
-		                                                         <td>
-		                                                         	<button type="button" class="btn r-75rem">
-		                                                                    <i class="fa fa-spinner" aria-hidden="true"></i>
-		                                                             </button>
-		                                                         	<button type="button" class="btn r-75rem">
-		                                                                    <i class="fa fa-remove"></i>
-		                                                             </button>
-		                                                         </td>
-	                                                          </tr>
-                                                          </tbody>
 	                                             	</table>
+	                                             	<input type="hidden" id="hdnLayoutName" name="hdnLayoutName">
 	                                            </div> 
 									  </div>
 									</div>
@@ -641,6 +626,12 @@
        $(".arrow").toggleClass("active");
      }
 
+     var LayoutArray=new Array();
+     var LayoutMainArray=new Array();
+     var LayoutHeadArray=new Array();
+     var LayoutColumnsArray=new Array();
+     
+     
      /* Totally unncessary swyping gestures*/
      var gestureZone = document;
      var touchstartX = 0, touchstartY = 0;
@@ -798,68 +789,242 @@
         	  return str.replace(new RegExp(find, 'g'), replace);
         }
         
-        function removeLayout()
+        function removeLayout(row,t,layrow)
         {
+        	 layrow = layrow.toString();
+        	 layrow = layrow.substr(1);
+        	 layrow = layrow.substring(0, layrow.length - 1);
 	       	 if (confirm("Are you sure you want to delete layout")) 
 	    	 {  
+	       		$(t).closest('tr').remove();
+	       		
+	        	var bool = false;
+	           	 $.ajax({
+	                 url: "<%=request.getContextPath()%>/ajax/removeLayout",
+	                 data: {layout_name:layrow,module_name_fk:$("#module_name_fk").val()},type: 'POST',
+	                 async: false,
+	                 dataType: 'json',
+	                 success: function (data) 
+	                 {
+	                		if(data==true)
+	                		{
+	                			alert("Layout removed successfully");
+	                		}
+	                 }
+	             });
+	           	return trueOrFalse(bool);	       		
 	    	 }        	
         }
         
+        function loadLayout(row,t)
+        {
+			$("#layout_name").val(LayoutArray[row]);
+			$("#btnsaveLayout").html("Update");
+			$("#hdnLayoutName").val(LayoutArray[row]);
+			
+				for(var m=0;m<LayoutHeadArray.length;m++)
+				{
+					$('#left-box li ul li').map(function(){
+						var id=$(this).parent().parent().attr('id');
+		    			if(id!=undefined)
+		   				{
+		   					var grpName=$("#"+id+" span").html();
+		   					grpName=replaceAll(grpName,"<b>","");
+		   					grpName=replaceAll(grpName,"</b>","");
+		   					var spltColumn=LayoutColumnsArray[m].toString();
+		   					var SpltStr=spltColumn.split(",");
+	   						if(grpName==LayoutHeadArray[m])
+	   						{
+	   							var ids=$(this).html();
+				    			ids=ids.replace(/<\/?span[^>]*>/g,"");
+				    			ids=ids.replace("*","");
+			    			 	 if(/\s+$/.test(ids)) 
+			    				 {
+			    			 		ids=ids.slice(0, ids.length-1) ;
+			    				 }
+		    			 	 	 for(var t=0;t<SpltStr.length;t++)
+		    			 		 {
+		    			 		 		if(SpltStr[t]==ids)
+		    			 		 		{
+		    			 		 			$(this).addClass('selected');
+		    			 		 		}
+		    			 		 }
+	   						}
+		   				}
+					});
+				}
+				addSelected();			
+		
+			//LayoutHeadArray.push(data[i].group_header);
+			//LayoutColumnsArray.push(data[i].group_header_columns);     	
+        }      
+        
+        function checkLayoutName()
+        {
+        		var name="Create";
+        		var lName=$('#layout_name').val();
+        		if($("#btnsaveLayout").text()=="Update")
+        		{
+        			name="Update";
+        			lName=$("#hdnLayoutName").val()+'@@'+$("#layout_name").val();
+        		}
+        	var bool = false;
+           	 $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/checkLayoutName",
+                 data: {module_name_fk:$("#module_name_fk").val(),layout_name:lName,name:name},type: 'POST',
+                 async: false,
+                 dataType: 'json',
+                 success: function (data) 
+                 {
+                	 if (data == true) {
+                         bool = true;
+                     }
+                 }
+             });
+           	return trueOrFalse(bool);
+        }
+        function trueOrFalse(bool){
+            return bool;
+    	}      
+        
+        
         function saveLayout()
         {
-        	var layoutfieldslength=$('#right-box li ul').find('li:not(.hidden)').length;
-        	if(layoutfieldslength==0)
+        	if($('#layout_name').val()=="")
        		{
-        		$("#layoutErrorMsg").html("Please select atleast one field into right box!.");
+        		$("#layoutErrorMsg").html("Please Enter Layout Name");
+        		return false;
        		}
         	else
        		{
         		$("#layoutErrorMsg").html("");
        		}
         	
-        	grpHeadArray=[];
-        	grpColumnArray=[];
+        	var layoutfieldslength=$('#right-box li ul').find('li:not(.hidden)').length;
+        	if(layoutfieldslength==0)
+       		{
+        		$("#layoutErrorMsg").html("Please select atleast one field into right box!.");
+        		return false;
+       		}
+        	else
+       		{
+        		$("#layoutErrorMsg").html("");
+       		}
         	
+        	if(checkLayoutName()==false)
+        	{
+        	
+		        	grpHeadArray=[];
+		        	grpColumnArray=[];
+		        	
+		
+		        	
+		        	$('#right-box li').not('.hidden').map(function() {
+		    			var id=$(this).attr("id");
+		    			if(id!=undefined)
+		   				{
+		   					var grpName=$("#"+id+" span").html();
+		   					grpName=replaceAll(grpName,"<b>","");
+		   					grpName=replaceAll(grpName,"</b>","");
+		   					grpHeadArray.push(grpName);
+		   				}
+		
+		        	})   
+		        	
+		        	$('#right-box li ul li').not('.hidden').map(function() {
+		    			var id=$(this).parent().parent().attr('id');
+		    			if(id!=undefined)
+		   				{
+		   					var grpName=$("#"+id+" span").html();
+		   					grpName=replaceAll(grpName,"<b>","");
+		   					grpName=replaceAll(grpName,"</b>","");
+		  					
+			    			var ids=$(this).html();
+			    			ids=ids.replace(/<\/?span[^>]*>/g,"");
+			    			ids=ids.replace("*","");
+		    			 	 if(/\s+$/.test(ids)) 
+		    				 {
+		    			 		ids=ids.slice(0, ids.length-1) ;
+		    				 }
+			    			grpColumnArray.push(grpName+"-"+ids);
+		   				}
+		    			
+		        	}) 
+		        	
+		        	var concatfilter="";
+		        	
+		        	$("#grpHead").val(grpHeadArray);
+		        	$("#grpHeadColumns").val(grpColumnArray); 
+		        	var CustomReportLayout=new Object();  
+		        	CustomReportLayout.module_name_fk=$("#module_name_fk").val();
+		        	CustomReportLayout.grpHead=$("#grpHead").val();
+		        	CustomReportLayout.grpHeadColumns=$("#grpHeadColumns").val();
+		        		if($("#btnsaveLayout").text()=="Update")
+		        		{
+		        			CustomReportLayout.name="Update";
+				        	CustomReportLayout.layout_name=$("#hdnLayoutName").val()+'@@'+$("#layout_name").val();
 
-        	
-        	$('#right-box li').not('.hidden').map(function() {
-    			var id=$(this).attr("id");
-    			if(id!=undefined)
-   				{
-   					var grpName=$("#"+id+" span").html();
-   					grpName=replaceAll(grpName,"<b>","");
-   					grpName=replaceAll(grpName,"</b>","");
-   					grpHeadArray.push(grpName);
-   				}
+		        		}
+		        		else
+	        			{
+		        			CustomReportLayout.name="Create";
+				        	CustomReportLayout.layout_name=$("#layout_name").val();
 
-        	})   
-        	
-        	$('#right-box li ul li').not('.hidden').map(function() {
-    			var id=$(this).parent().parent().attr('id');
-    			if(id!=undefined)
-   				{
-   					var grpName=$("#"+id+" span").html();
-   					grpName=replaceAll(grpName,"<b>","");
-   					grpName=replaceAll(grpName,"</b>","");
-  					
-	    			var ids=$(this).html();
-	    			ids=ids.replace(/<\/?span[^>]*>/g,"");
-	    			ids=ids.replace("*","");
-    			 	 if(/\s+$/.test(ids)) 
-    				 {
-    			 		ids=ids.slice(0, ids.length-1) ;
-    				 }
-	    			grpColumnArray.push(grpName+"-"+ids);
-   				}
-    			
-        	}) 
-        	
-        	var concatfilter="";
-        	
-        	$("#grpHead").val(grpHeadArray);
-        	$("#grpHeadColumns").val(grpColumnArray); 
+	        			}
+		        		
+		        	 $.ajax({
+		                 url: "<%=request.getContextPath()%>/ajax/saveCustomReportLayout",
+		                 data:CustomReportLayout,
+		                 type: 'POST',
+		                 async: false,
+		                 dataType: 'json',
+		                 success: function (data) 
+		                 {
+		                 	alert("Custom Report Layout created for module "+$("#module_name_fk").val()+" successfully..");
+		                 	window.location.reload();
+		                 	//$("#layouts").append('<tr><td>Layout 1</td><td><button type="button" class="btn r-75rem" onClick="removeLayout();"><i class="fa fa-remove"></i></button></td></tr>');
+		                 }
+		        	 });
+		        	
+		        	
+        	}
+        	else
+        		{
+        			alert("Layout Name already exists.");
+        		}
         	
         	
+        }
+
+        
+        function getLayouts()
+        {
+        	var myParams={module_name_fk:$("#module_name_fk").val()};
+       	 	$.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getLayouts",
+                data:myParams,
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) 
+                {  
+            		for(var i=0;i<data.length;i++)
+            		{
+            				if(LayoutArray.indexOf(data[i].layout_name)==-1)
+            				{
+            					LayoutArray.push(data[i].layout_name);
+            				}
+            				LayoutMainArray.push(data[i].layout_name);
+            				LayoutHeadArray.push(data[i].grpHead);
+            				LayoutColumnsArray.push(data[i].grpHeadColumns);
+            		}             	
+                	
+               		for(var i1=0;i1<LayoutArray.length;i1++)
+               		{
+	                 	$("#layouts").append('<tr><td id="layrow'+i1+'">'+LayoutArray[i1]+'</td><td><button type="button" class="btn r-75rem" onClick="loadLayout('+i1+',this);"><i class="fa fa-spinner" aria-hidden="true"></i></button><button type="button" class="btn r-75rem" onClick="removeLayout('+i1+',this,/'+LayoutArray[i1]+'/);"><i class="fa fa-remove"></i></button></td></tr>');
+               		}
+                }
+       	 	});
         }
         
         
@@ -1240,6 +1405,7 @@
                 	 $("#divGrpHeaders").append(appendHeader);
                 	 $("#left-box").append(html);
                 	 $("#right-box").append(hdnHtml);
+                	 getLayouts();
                  }
              });        	
         }

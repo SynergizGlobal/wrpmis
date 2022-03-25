@@ -144,6 +144,22 @@ public class CustomReportController {
 		return ModuleColumns;
 	}
 	
+	@RequestMapping(value = "/ajax/getLayouts", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<CustomReportColumns> getLayouts(@ModelAttribute CustomReportColumns obj,HttpSession session){
+		List<CustomReportColumns> ModuleColumns = null;
+		try{
+
+			String userId = (String) session.getAttribute("USER_ID");
+			obj.setCreated_by_user_id_fk(userId);	
+			ModuleColumns = customReportService.getLayouts(obj);
+	
+		}catch(Exception e){
+			logger.error("getModuleColumns() : "+e.getMessage());
+		}
+		return ModuleColumns;
+	}	
+	
 	@RequestMapping(value = "/ajax/getModuleFiltersOptionValues", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<CustomReportColumns> getModuleFiltersOptionValues(@ModelAttribute CustomReportColumns obj,HttpSession session){
@@ -186,6 +202,53 @@ public class CustomReportController {
 		return ModuleColumns;
 	}
 	
+	@RequestMapping(value = "/ajax/saveCustomReportLayout", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean saveCustomReportLayout(@ModelAttribute CustomReportColumns obj,HttpSession session){
+		boolean flag=false;
+		try{
+			
+			String userId = (String) session.getAttribute("USER_ID");
+			obj.setCreated_by_user_id_fk(userId);			
+			
+			if(obj.getGrpHead()!=null)
+			{
+				flag =  customReportService.saveCustomReportLayout(obj);			
+			}
+	
+		}catch(Exception e){
+			logger.error("getModuleColumns() : "+e.getMessage());
+		}
+		return flag;
+	}	
+
+	@RequestMapping(value = "/ajax/checkLayoutName", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean checkLayoutName(@ModelAttribute CustomReportColumns obj, HttpSession session) throws Exception {
+		boolean flag = false;
+		try {
+			String userId = (String) session.getAttribute("USER_ID");
+			obj.setCreated_by_user_id_fk(userId);
+			flag = customReportService.checkLayoutName(obj);
+		} catch (SQLException e) {
+			logger.error("checkLayoutName : " + e.getMessage());
+		}
+		return flag;
+	}
+	
+	@RequestMapping(value = "/ajax/removeLayout", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean removeLayout(@ModelAttribute CustomReportColumns obj, HttpSession session) throws Exception {
+		boolean flag = false;
+		try {
+			String userId = (String) session.getAttribute("USER_ID");
+			obj.setCreated_by_user_id_fk(userId);
+			flag = customReportService.removeLayout(obj);
+		} catch (SQLException e) {
+			logger.error("checkLayoutName : " + e.getMessage());
+		}
+		return flag;
+	}	
 	
 	@RequestMapping(value = "/generate-custom-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportSafety(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute CustomReportColumns customReportColumns,RedirectAttributes attributes){

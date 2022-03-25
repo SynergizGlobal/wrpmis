@@ -395,7 +395,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			String cvQryAlert5 = "select c.contract_id,'Flag' as alert_level,'Execution' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,concat('actual progress lagging by ', substring(round(ifnull(physical_planned-physical_actual,0),4)*100,1,LENGTH(round(ifnull(physical_planned-physical_actual,0),4)*100)-2),'%') as alert_value,concat('/new-activities-update?contract_id=',c.contract_id) as redirect_url "
-					+ "from contract_progress c left join contract c1 on c1.contract_id=c.contract_id where physical_planned-physical_actual>0.1";
+					+ "from contract_progress c left join contract c1 on c1.contract_id=c.contract_id where physical_planned-physical_actual>0.1 and DATEDIFF(curdate(), c1.modified_date)>=90";
 	
 	
 			List<Alerts> cvQryAlert5List = jdbcTemplate.query( cvQryAlert5, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -428,7 +428,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String cvQryAlert8 = "select distinct c1.contract_id,'Flag' as alert_level,'Contract' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,\r\n"
-					+ "concat(milestone_id,\" Completion Date of \", c1.contract_short_name, \" has passed i.e. \",(select min(milestone_date) from contract_milestones mc where mc.contract_id_fk=r.contract_id_fk)) as alert_value,concat('/get-contract/',c1.contract_id,'/#milestoneDetails') as redirect_url\r\n"
+					+ "concat(\"Milestone \",milestone_id,\" Completion Date of \", c1.contract_short_name, \" has passed i.e. \",(select DATE_FORMAT(min(milestone_date),'%d-%m-%Y') from contract_milestones mc where mc.contract_id_fk=r.contract_id_fk)) as alert_value,concat('/get-contract/',c1.contract_id,'/#milestoneDetails') as redirect_url\r\n"
 					+ " from contract_milestones r left join contract c1 on c1.contract_id=r.contract_id_fk  where curdate()>milestone_date and c1.status='Open' and contract_status_fk='In Progress' ";
 	
 	

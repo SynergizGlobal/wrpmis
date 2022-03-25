@@ -428,8 +428,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String cvQryAlert8 = "select distinct c1.contract_id,'Flag' as alert_level,'Contract' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,\r\n"
-					+ "concat(\"Milestone Completion Date of \", c1.contract_short_name, \" has passed i.e. \",(select min(milestone_date) from contract_milestones mc where mc.contract_id_fk=r.contract_id_fk)) as alert_value,concat('/get-contract/',c1.contract_id,'/#milestoneDetails') as redirect_url\r\n"
-					+ " from contract_milestones r left join contract c1 on c1.contract_id=r.contract_id_fk  where curdate()>milestone_date and c1.status='Open' ";
+					+ "concat(milestone_id,\" Completion Date of \", c1.contract_short_name, \" has passed i.e. \",(select min(milestone_date) from contract_milestones mc where mc.contract_id_fk=r.contract_id_fk)) as alert_value,concat('/get-contract/',c1.contract_id,'/#milestoneDetails') as redirect_url\r\n"
+					+ " from contract_milestones r left join contract c1 on c1.contract_id=r.contract_id_fk  where curdate()>milestone_date and c1.status='Open' and contract_status_fk='In Progress' ";
 	
 	
 			List<Alerts> cvQryAlert8List = jdbcTemplate.query( cvQryAlert8, new BeanPropertyRowMapper<Alerts>(Alerts.class));

@@ -809,6 +809,7 @@
 	                		if(data==true)
 	                		{
 	                			alert("Layout removed successfully");
+	                			window.location.reload();
 	                		}
 	                 }
 	             });

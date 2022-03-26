@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)"    href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)"    href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
    
         .input-field .searchable_label {
@@ -58,7 +58,7 @@
         	width:250px !important;
         	max-width:250px;
         } 
-           @media only screen and (max-width: 769px){ 
+           @media only screen and (max-width: 820px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
@@ -84,8 +84,8 @@
 	        	top:30px; 
 	        }
 	        .fw-111{
-	        	width:20vw;
-	        	min-width:20vw;
+	        	width:15vw;
+	        	min-width:15vw;
 	        	
 	        }
 	        .break{

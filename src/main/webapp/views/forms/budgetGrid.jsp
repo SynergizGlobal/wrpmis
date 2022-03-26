@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 1024px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 1024px)" href="/pmis/resources/css/mobile-grid-template.css" />
     
     <style>
         p a {
@@ -47,7 +47,7 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
-        @media only screen and (max-width: 769px){ 
+        @media only screen and (max-width: 1024px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
@@ -73,7 +73,7 @@
         margin: -2rem auto 0;
     }
 
-    @media only screen and (max-width: 767px) {
+    @media only screen and (max-width: 1024px) {
         .mob-mar {
             text-align: left;
         }

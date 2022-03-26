@@ -299,7 +299,7 @@
 							<table id="datatable-contract" class="mdl-data-table">
 								<thead>
 									<tr>
-										<th class="no-sort fw-250">Work</th>
+										<th class="no-sort fw-250">Work &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 										<th class="no-sort">Contract ID</th>
 										<th class="no-sort fw-250">Contract Name</th>
 										<th class="no-sort">Contractor Name</th>

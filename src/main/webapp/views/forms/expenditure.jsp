@@ -110,6 +110,15 @@
             padding-right: 6px;
         }
     }
+    @media(max-width: 575px){
+    	.m-b-5{
+    		    margin-bottom: 1rem;
+    	}
+    	.mob-mar {
+		    margin-top: 0rem;
+		    margin-bottom: 0.2rem;
+		}
+    }
     </style>
 </head>
 

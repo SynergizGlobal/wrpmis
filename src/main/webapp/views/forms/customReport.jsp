@@ -468,7 +468,7 @@
 										<div id="layoutErrorMsg" style="color:red;text-align:right;" class="col m5 s12"></div>
 										<div class="col m5 s12">
 											<div class="col s12 m8" style="text-align:right;">
-												<input type="text" name="layout_name" id="layout_name">
+												<input type="text" name="layout_name" id="layout_name" placeholder="Layout Name">
 											</div>
 											<div class="col s12 m4" style="float:left;">
 												<button id="btnsaveLayout" class="btn waves-effect waves-light bg-s" onClick="saveLayout();" type="button">Save</button>

@@ -339,13 +339,13 @@
 
 					<div class="row">
 						<div class="col m12 s12">
-						<p style="float:right;margin-right:20px;"><b>Amount Value in:</b> Cr</p>
+						<p style="float:right;margin-right:20px;"><b>Figures in <span class="red">red</span> are Estimated</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Amount Value in:</b> Cr</p>
 							<table id="datatable-project-overview-details" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
 									<tr>										
 										<th class="fw-5p" style="background-color: #162D6E;font-size:1.6rem !important;">S. No.</th>
 										<th class="min-width:45%;width:45%;" style="background-color: #162D6E;font-size:1.6rem !important;">Description</th>
-										<th class="fw-10p" style="background-color: #162D6E;font-size:1.6rem !important;">Awarded/Estimated Costs</th>
+										<th class="fw-10p" style="background-color: #162D6E;font-size:1.6rem !important;">Awarded Costs</th>
 										<th class="fw-15p" style="background-color: #162D6E;font-size:1.6rem !important;">Expenditure till Date</th>
 										<th class="fw-15p" style="background-color: #162D6E;font-size:1.6rem !important;">Expenditure this FY</th>
 										<th class="fw-10p" style="background-color: #162D6E;font-size:1.6rem !important;">Pending Amount</th>
@@ -578,7 +578,7 @@
 			             			conHtm=conHtm+'<table id="datatable-project-overview-details" style="color:#ffffff;">'+
 													'<thead>'+
 														'<tr>'	+									
-															'<th style="font-size:1.6rem !important;background-color:#305496;min-width:47%;width:47%;padding-left: 6px !important;" colspan="2">'+val.work_name+'</th>'+
+															'<th style="font-size:1.6rem !important;background-color:#305496;min-width:47%;width:47%;padding-left: 6px !important;" colspan="2">'+val.work_short_name+'</th>'+
 															'<th class="scVal" style="font-size:1.6rem !important;background-color:#305496;min-width:10%;width:10%;text-align:center;padding-left: 0px !important;"></th>'+
 															'<th class="scVal1" style="font-size:1.6rem !important;background-color:#305496;min-width:15%;width:15%;text-align:center;padding-right: 50px !important;"></th>'+
 															'<th class="scVal2" style="font-size:1.6rem !important;background-color:#305496;min-width:15%;width:15%;text-align:center;padding-right: 80px !important;"></th>'+
@@ -643,16 +643,30 @@
 			    	         							var contractstatuscolor="style='background-color:#8fcb95;color:#ffffff;'";
 			    	         							if(val1.contract_status_fk=="Not Awarded")
 			    	         							{
-			    	         								contractstatuscolor="style='background-color:#fff;color:#000;'";
+			    	         								contractstatuscolor="style='background-color:#fff;color:red;'";
 			    	         							}
-					    	         					html=html+'<tr '+contractstatuscolor+'>';
-					    	         						html=html+'<td class="fw-5p" style="font-size:1.6rem !important;">'+$.trim(key1+1-key)+'</td>';
-					    	         						html=html+'<td class="fw-42p" style="font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
-					    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.awarded_cost+'</td>';
-					    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.cumulative_expenditure+'</td>';
-					    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_financial_progress+'</td>';
-					    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_physical_progress+'</td>';
-					    	         					html=html+'</tr>';
+			    	         							if(val1.contract_status_fk=="Not Awarded")
+			    	         								{
+							    	         					html=html+'<tr '+contractstatuscolor+'>';
+							    	         						html=html+'<td class="fw-5p" style="font-size:1.6rem !important;">'+$.trim(key1+1-key)+'</td>';
+							    	         						html=html+'<td class="fw-42p" style="font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
+							    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.awarded_cost+'</td>';
+							    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">-</td>';
+							    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">-</td>';
+							    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">-</td>';
+							    	         					html=html+'</tr>';
+			    	         								}
+			    	         							else
+			    	         								{
+								    	         					html=html+'<tr '+contractstatuscolor+'>';
+							    	         						html=html+'<td class="fw-5p" style="font-size:1.6rem !important;">'+$.trim(key1+1-key)+'</td>';
+							    	         						html=html+'<td class="fw-42p" style="font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
+							    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.awarded_cost+'</td>';
+							    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.cumulative_expenditure+'</td>';
+							    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_financial_progress+'</td>';
+							    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_physical_progress+'</td>';
+							    	         					html=html+'</tr>';			    	         								
+			    	         								}
 			    	         						}
 			    	         				});
 			    	         		html=html+'</tbody></table></span></div>';

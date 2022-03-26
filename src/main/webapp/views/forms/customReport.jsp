@@ -817,8 +817,20 @@
 	    	 }        	
         }
         
+        function clearLayout()
+        {
+        	$('#right-box li ul li').map(function(){
+        		$(this).addClass('selected');
+			});
+        	delSelected();
+        	$('#right-box li ul li').map(function(){
+        		$(this).removeClass('selected');
+			});       	
+        }
+        
         function loadLayout(row,t)
         {
+        	clearLayout();
 			$("#layout_name").val(LayoutArray[row]);
 			$("#btnsaveLayout").html("Update");
 			$("#hdnLayoutName").val(LayoutArray[row]);
@@ -855,9 +867,7 @@
 					});
 				}
 				addSelected();			
-		
-			//LayoutHeadArray.push(data[i].group_header);
-			//LayoutColumnsArray.push(data[i].group_header_columns);     	
+   	
         }      
         
         function checkLayoutName()

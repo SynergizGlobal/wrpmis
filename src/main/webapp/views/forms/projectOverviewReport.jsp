@@ -179,17 +179,17 @@
 
         .box.engineering,
         .engineering {
-            background-color: #ffc000;
+            background-color: #BDD7EE;
         }
 
         .box.electrical,
         .electrical {
-            background-color: #ffc000;
+            background-color: #BDD7EE;
         }
 
         .box.sandt,
         .sandt {
-            background-color: #ffc000;
+            background-color: #BDD7EE;
         }
         
         .box.nbf,
@@ -248,6 +248,11 @@
         fieldset.brdr legend{		    
 		    padding: 0 5px;
 	    }
+	    
+ .select2-container--default .select2-selection--single .select2-selection__rendered {
+    text-align: left;
+    font-size: 1.6rem;
+} 
 	
     </style>
 </head>
@@ -264,7 +269,7 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<!-- <h6 class="hide-on-med-and-down">Update Contract</h6> -->
-								<h6 class="mob-mar">Project Overview Report</h6>	
+								<h6 class="mob-mar" style="font-size:1.6rem !important;">Project Overview Report</h6>	
 								<div class="col s12 m12 right-align exportButton">
     								<div class="m-n1">
     									<a href="javascript:exportProjectOverviewDetails();" class="btn waves-effect waves-light bg-s t-c"> 
@@ -285,22 +290,22 @@
 									</c:if>
 								</div>
 							</div>
-							<div class="col m12 l6 offset-l3 s12">
-								<div class="row no-mar">
-									<div class="col s6 m4 input-field">
-										<p class="searchable_label">Work</p>
+							<div class="col m12 l12">
+								<div class="row no-mar" class="col m12 l10" style="padding-left:7%;">
+									<div class="col s12 m5 input-field">
+										<p class="searchable_label"  style="font-size:1.6rem !important;color:#000000;">Work</p><br>
 										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getProjectOverviewDetailList();">
 											<option value="">Select</option>										
 										</select> 
 									</div>										
-									<div class="col s6 m4 input-field">
-										<p class="searchable_label">Department</p>
+									<div class="col s12 m5 input-field">
+										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Department</p><br>
 										<select id="department_fk" name="department_fk" class="searchable" onChange="getProjectOverviewDetailList();">
 											<option value="">Select</option>
 										</select>
 									</div>
 								
-								<div class="col s6 m4 center-align">  
+								<div class="col s12 m2 center-align">  
 									<button class="btn bg-m waves-effect waves-light t-c"
 										style="margin-top: 6px;" onclick="clearFilter();">Clear
 										Filters</button>
@@ -310,8 +315,8 @@
 					</div>
 
 					<div class="row no-mar">
-						<div class="col m12 l5 offset-l3 s12">
-						 	<fieldset class="p-2 con-center" >
+						<div class="col m12 l7 offset-l2 s12">
+						 	<fieldset class="p-2 con-center" style="font-size:1.6rem !important;">
                                    <div class="">
                                        <span class="box engineering"></span>
                                        <span class="description">Bank Funds</span>
@@ -334,16 +339,16 @@
 
 					<div class="row">
 						<div class="col m12 s12">
-						<p class="right"><b>Amount Value in:</b> Cr</p>
-							<table id="datatable-project-overview-details" class="mdl-data-table">
+						<p style="float:right;margin-right:20px;"><b>Amount Value in:</b> Cr</p>
+							<table id="datatable-project-overview-details" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
 									<tr>										
-										<th class="fw-5p">S. No.</th>
-										<th class="min-width:45%;width:45%;">Description</th>
-										<th class="fw-10p">Awarded/Estimated Costs</th>
-										<th class="fw-15p">Total Expenditure till Date</th>
-										<th class="fw-15p">Total Expenditure this FY</th>
-										<th class="fw-10p">Total Pending Amount</th>
+										<th class="fw-5p" style="background-color: #162D6E;font-size:1.6rem !important;">S. No.</th>
+										<th class="min-width:45%;width:45%;" style="background-color: #162D6E;font-size:1.6rem !important;">Description</th>
+										<th class="fw-10p" style="background-color: #162D6E;font-size:1.6rem !important;">Awarded/Estimated Costs</th>
+										<th class="fw-15p" style="background-color: #162D6E;font-size:1.6rem !important;">Expenditure till Date</th>
+										<th class="fw-15p" style="background-color: #162D6E;font-size:1.6rem !important;">Expenditure this FY</th>
+										<th class="fw-10p" style="background-color: #162D6E;font-size:1.6rem !important;">Pending Amount</th>
 									</tr>
 								</thead>
 								</table>							
@@ -570,14 +575,14 @@
 			             		if(loop==0)
 		             			{
 			             			
-			             			conHtm=conHtm+'<table id="datatable-project-overview-details" style="color:#ffffff;background-color:#4498d3dd !important">'+
+			             			conHtm=conHtm+'<table id="datatable-project-overview-details" style="color:#ffffff;">'+
 													'<thead>'+
 														'<tr>'	+									
-															'<th style="min-width:47%;width:47%;padding-left: 6px !important;" colspan="2">Virar-Dahanu Road New Line Work</th>'+
-															'<th class="scVal" style="min-width:10%;width:10%;text-align:center;padding-left: 0px !important;"></th>'+
-															'<th class="scVal1" style="min-width:15%;width:15%;text-align:center;padding-right: 50px !important;"></th>'+
-															'<th class="scVal2" style="min-width:15%;width:15%;text-align:center;padding-right: 80px !important;"></th>'+
-															'<th class="scVal3" style="min-width:10%;width:10%;text-align:center;padding-right: 80px !important;"></th>'+
+															'<th style="font-size:1.6rem !important;background-color:#305496;min-width:47%;width:47%;padding-left: 6px !important;" colspan="2">'+val.work_name+'</th>'+
+															'<th class="scVal" style="font-size:1.6rem !important;background-color:#305496;min-width:10%;width:10%;text-align:center;padding-left: 0px !important;"></th>'+
+															'<th class="scVal1" style="font-size:1.6rem !important;background-color:#305496;min-width:15%;width:15%;text-align:center;padding-right: 50px !important;"></th>'+
+															'<th class="scVal2" style="font-size:1.6rem !important;background-color:#305496;min-width:15%;width:15%;text-align:center;padding-right: 80px !important;"></th>'+
+															'<th class="scVal3" style="font-size:1.6rem !important;background-color:#305496;min-width:10%;width:10%;text-align:center;padding-right: 80px !important;"></th>'+
 														'</tr>'+
 													'</thead>'+
 												'</table>';
@@ -624,10 +629,10 @@
 			         								         			
 				         			
 				         			
-				                    html=html+'<div class="collapsible-header white-text '+class_name+'"><span class="fw-5p">'+CheckLp+'</span><span class="fw-43p">'
+				                    html=html+'<div class="collapsible-header white-text '+class_name+'" style="font-size:1.6rem !important;color:#000000 !important;"><span class="fw-5p">'+CheckLp+'</span><span class="fw-43p">'
 				                    	 +val.department_name+'</span>'+internal_text+'</div>';
 				                    	 
-				                    html=html+'<div class="collapsible-body"><span>';	
+				                    html=html+'<div class="collapsible-body" style="font-size:1.6rem !important;"><span>';	
 				                    
 			                    	html=html+'<table id="datatable-execution-overview-report'+CheckLp+'" class="mdl-data-table">'+
 									'<tbody>';
@@ -641,12 +646,12 @@
 			    	         								contractstatuscolor="style='background-color:#fff;color:#000;'";
 			    	         							}
 					    	         					html=html+'<tr '+contractstatuscolor+'>';
-					    	         						html=html+'<td class="fw-5p">'+$.trim(key1+1-key)+'</td>';
-					    	         						html=html+'<td class="fw-42p">'+val1.contract_short_name+'</td>';
-					    	         						html=html+'<td class="fw-10p" style="text-align:center;">'+val1.awarded_cost+'</td>';
-					    	         						html=html+'<td class="fw-15p" style="text-align:center;">'+val1.cumulative_expenditure+'</td>';
-					    	         						html=html+'<td class="fw-15p" style="text-align:center;">'+val1.actual_financial_progress+'</td>';
-					    	         						html=html+'<td class="fw-10p" style="text-align:center;">'+val1.actual_physical_progress+'</td>';
+					    	         						html=html+'<td class="fw-5p" style="font-size:1.6rem !important;">'+$.trim(key1+1-key)+'</td>';
+					    	         						html=html+'<td class="fw-42p" style="font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
+					    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.awarded_cost+'</td>';
+					    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.cumulative_expenditure+'</td>';
+					    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_financial_progress+'</td>';
+					    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_physical_progress+'</td>';
 					    	         					html=html+'</tr>';
 			    	         						}
 			    	         				});

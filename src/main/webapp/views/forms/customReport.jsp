@@ -834,7 +834,7 @@
 		   					grpName=replaceAll(grpName,"</b>","");
 		   					var spltColumn=LayoutColumnsArray[m].toString();
 		   					var SpltStr=spltColumn.split(",");
-	   						if(grpName==LayoutHeadArray[m])
+	   						if(grpName==LayoutHeadArray[m] && LayoutMainArray[m]==LayoutArray[row])
 	   						{
 	   							var ids=$(this).html();
 				    			ids=ids.replace(/<\/?span[^>]*>/g,"");

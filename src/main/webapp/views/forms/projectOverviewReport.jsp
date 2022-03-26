@@ -643,7 +643,7 @@
 			    	         							var contractstatuscolor="style='background-color:#8fcb95;color:#ffffff;'";
 			    	         							if(val1.contract_status_fk=="Not Awarded")
 			    	         							{
-			    	         								contractstatuscolor="style='background-color:#fff;color:red;'";
+			    	         								contractstatuscolor="style='background-color:#fff;'";
 			    	         							}
 			    	         							if(val1.contract_status_fk=="Not Awarded")
 			    	         								{
@@ -661,7 +661,7 @@
 								    	         					html=html+'<tr '+contractstatuscolor+'>';
 							    	         						html=html+'<td class="fw-5p" style="font-size:1.6rem !important;">'+$.trim(key1+1-key)+'</td>';
 							    	         						html=html+'<td class="fw-42p" style="font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
-							    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.awarded_cost+'</td>';
+							    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;color:red;">'+val1.awarded_cost+'</td>';
 							    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.cumulative_expenditure+'</td>';
 							    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_financial_progress+'</td>';
 							    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_physical_progress+'</td>';

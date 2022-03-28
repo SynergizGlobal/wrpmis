@@ -37,7 +37,7 @@
    		 .img-li{
    		 border: 3px solid #ededed;
 	    border-radius: 50px;
-	    padding: 20px !important;
+	    padding: 9px !important;
 	    margin: 10px !important;
 	    }
 	    .w31{width: 31% !important;}
@@ -90,7 +90,7 @@
       }
       .gal-image{
         height: 180px;
-        max-width: 20em;
+        max-width: 19em;
       }
       #myImg {
   border-radius: 5px;
@@ -114,6 +114,11 @@
   width: 100%;
   max-width: 700px;
   z-index: 1003 !important;
+  
+}
+.modal-content h4{
+	font-size: 18px;
+	line-height: 20px;	
 }
 
 /* Caption of Modal Image */
@@ -173,8 +178,16 @@ ul.breadcrumb li a:hover {
   color: #01447e;
   text-decoration: underline;
 }
-@media(max-width: 575px){
+@media(max-width: 820px){
 .column-reverse{flex-direction: column;}
+.w31{width: 47% !important;}
+.modal{padding-left: 0;}
+.modal{width: 90%;}
+}
+@media(max-width: 575px){
+	.w31{width: 95% !important;}
+	.cw{height: 6em;}
+	.ta-right{text-align:right;}
 }
    </style>
 </head>
@@ -196,9 +209,9 @@ ul.breadcrumb li a:hover {
                         <div class="row no-mar" style="margin-bottom: 0;">
                         </div>
                         <div class="row  column-reverse">
-                            <div class="col m2 s12">
+                            <div class="col l3 m6 s12 offset-m3">
                                 <div class="row" style="margin-bottom: 0;" id="filters">
-                                    <div class="col s12 m12 input-field br-bl">
+                                    <div class="col s8 m12 input-field br-bl offset-s2">
                                         <p class="searchable_label"> Month </p>
                                         <select id="created_date" name="created_date" class="searchable" onchange="getGalleryList();">
                                           <c:forEach var="obj" items="${dates}">
@@ -206,27 +219,27 @@ ul.breadcrumb li a:hover {
 											</c:forEach> 
                                         </select>
                                     </div>
-                                    <div class="col s12 m12 input-field br-bl">
+                                    <div class="col s8 m12 input-field br-bl offset-s2">
                                         <p class="searchable_label">Structure</p>
                                         <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="getGalleryList();">
                                             <option value="" disabled selected>Select</option>
                                            
                                         </select>
                                     </div>
-                                    <div class="col s12 m12 input-field br-bl">
+                                    <div class="col s8 m12 input-field br-bl offset-s2">
                                         <p class="searchable_label">Structure Id</p>
                                         <select id="structure" name="structure" class="searchable" onchange="getGalleryList();">
                                             <option value="" disabled selected>Select</option>
                                            
                                         </select>
                                     </div>
-                                    <div class="col s12 m12">
+                                    <div class="col s8 m12 offset-s4 offset-m4">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"  onclick="clearFilter();" 
                                         style="margin-top:20px;width: 100%;">Clear Filters</button>
                                     </div> 
                                 </div>
                             </div>
-                            <div class="col m10 s12">
+                            <div class="col m12 s12">
                                 <div class="photos">
                                     <ul id="imageFiles">
                                         <%-- <div class="row">
@@ -353,7 +366,7 @@ ul.breadcrumb li a:hover {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {  
                         	   //var path = '${CommonConstants2.STRUCTURE_FILE_SAVING_PATH}';
-                                var htmlText = '<div class=""><li class="col l4 m4 s12 img-li w31"><center>'
+                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center>'
                                 	+'<a href="#modal" class="modal-trigger" >'
                                     +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
                                         +'</a> </center>'
@@ -505,7 +518,7 @@ function openImage(i){
 	var name = $('#name'+i).val();
 	var date = $('#date'+i).val();
 	var spanText = name+'    '+date;
-	$("#modalhead").append(' <div class="col s12 m9 l9">'+name+'</div> <span class="col s12 m3 l3">'+date+'</span> ');
+	$("#modalhead").append(' <div class="col s12 m9 l9">'+name+'</div> <span class="col s12 m3 l3 ta-right">'+date+'</span> ');
 	//$('#modal img').width(300); // Units are assumed to be pixels
 	//$('#modal img').height(300);
 }

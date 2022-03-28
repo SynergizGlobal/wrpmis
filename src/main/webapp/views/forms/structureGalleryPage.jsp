@@ -42,7 +42,18 @@
 	    }
 	    .w31{width: 31% !important;}
 	    .mt10px{margin-top: 10px;padding: 10px;}
-   		 .cw{color:#fff;}
+   		 .cw{color:#fff;
+   		 	height: 4em;
+			    display: flex;
+			    flex-wrap: nowrap;
+			    align-content: center;
+			    justify-content: center;
+			    align-items: center;
+   		 }
+   		 .align-center{
+   		 	display: flex;
+    		align-items: center;
+   		 }
    		 .column-reverse{
             display: flex;
             flex-direction: row-reverse;
@@ -346,8 +357,8 @@ ul.breadcrumb li a:hover {
                                 	+'<a href="#modal" class="modal-trigger" >'
                                     +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
                                         +'</a> </center>'
-                                    +' <div class="accordion mt10px"  >'+val.name+' <input type="hidden" id="name'+i+'" value="'+val.name+'"/><input type="hidden" id="date'+i+'" value="'+val.created_date+'"/>'
-                                +'<span class="right">'+val.created_date+'</span></div></li></div>';
+                                    +' <div class="accordion mt10px align-center"  ><div class="col s8 m8 l8">'+val.name+'</div> <input type="hidden" id="name'+i+'" value="'+val.name+'"/><input type="hidden" id="date'+i+'" value="'+val.created_date+'"/>'
+                                +'<span class="col s4 m4 l4">'+val.created_date+'</span></div></li></div>';
                                 var work_short_name = val.work_short_name+" - ";
                                 $('#work_short_name').text(work_short_name);
    	                            $("#imageFiles").append(htmlText);
@@ -494,7 +505,7 @@ function openImage(i){
 	var name = $('#name'+i).val();
 	var date = $('#date'+i).val();
 	var spanText = name+'    '+date;
-	$("#modalhead").append(name+' <span class="right">'+date+'</span> ');
+	$("#modalhead").append(' <div class="col s12 m9 l9">'+name+'</div> <span class="col s12 m3 l3">'+date+'</span> ');
 	//$('#modal img').width(300); // Units are assumed to be pixels
 	//$('#modal img').height(300);
 }

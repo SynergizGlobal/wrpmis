@@ -578,7 +578,7 @@
 			             			conHtm=conHtm+'<table id="datatable-project-overview-details" style="color:#ffffff;">'+
 													'<thead>'+
 														'<tr>'	+									
-															'<th style="font-size:1.6rem !important;background-color:#305496;min-width:20%;width:20%;padding-left: 6px !important;" colspan="2">'+val.work_short_name+'</th>'+
+															'<th style="font-size:1.6rem !important;background-color:#305496;min-width:21%;width:21%;padding-left: 6px !important;" colspan="2">'+val.work_short_name+'</th>'+
 															'<th class="scVal" style="font-size:1.6rem !important;background-color:#305496;min-width:10%;width:10%;text-align:center;padding-left: 0px !important;"></th>'+
 															'<th class="scVal1" style="font-size:1.6rem !important;background-color:#305496;min-width:15%;width:15%;text-align:center;padding-right: 50px !important;"></th>'+
 															'<th class="scVal2" style="font-size:1.6rem !important;background-color:#305496;min-width:15%;width:15%;text-align:center;padding-right: 80px !important;"></th>'+
@@ -629,7 +629,7 @@
 			         								         			
 				         			
 				         			
-				                    html=html+'<div class="collapsible-header white-text '+class_name+'" style="font-size:1.6rem !important;color:#000000 !important;"><span class="fw-5p">'+CheckLp+'</span><span style="min-width:21.1%;width:21.1%;">'
+				                    html=html+'<div class="collapsible-header white-text '+class_name+'" style="font-size:1.6rem !important;color:#000000 !important;"><span class="fw-5p">'+CheckLp+'</span><span style="min-width:21.7%;width:21.7%;">'
 				                    	 +val.department_name+'</span>'+internal_text+'</div>';
 				                    	 
 				                    html=html+'<div class="collapsible-body" style="font-size:1.6rem !important;"><span>';	

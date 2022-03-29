@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 	<style type="text/css">
+		.f-logo{width: 30px;vertical-align: bottom;}
 		.dropdown-content li>a>i{
 		    float:right;
 		    /* margin:auto; */
@@ -23,7 +24,8 @@
 <!-- footer goes here -->
   <div class="footer-copyright blue lighten-5 bottom">
     <div class="container">
-      <span> &copy; <span id="currentYear"></span> @ <a href="https://mrvc.indianrailways.gov.in/" target="_blank" style="color:blue">mrvc.indianrailways.gov.in</a> | Designed & Developed by</span> 
+      <span> &copy; <span id="currentYear"></span> @ <a href="https://mrvc.indianrailways.gov.in/" target="_blank" style="color:blue"> <b>mrvc</b> 
+      	<img src="/pmis/resources/images/mrvclogo.png" alt="Logo" class="f-logo"> </a> | Designed & Developed by</span> 
       		<a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image"></a>
         <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
         	<img src="/pmis/resources/images/help_icon.svg">

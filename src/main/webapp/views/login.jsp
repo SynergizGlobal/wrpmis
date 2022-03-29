@@ -281,9 +281,9 @@
 			    <!-- <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module <i class="fa fa-download"></i></a></li>
 			    <li><a href="/pmis/5.User Manual -Works Execution & Monitoring Module FOB-Ver-2.pdf"  target="_blank">User Manual for FOB <i class="fa fa-download"></i></a></li>
 			    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li> -->
-			    <c:forEach var="manualObj" items="${userManuals }">
+			   <%--  <c:forEach var="manualObj" items="${userManuals }">
 			    	<li><a href="<%=CommonConstants2.PMIS_MANUALS%>${manualObj.manual_id }/${manualObj.file_name }" target="_blank">${manualObj.title } <i class="fa fa-download"></i></a></li>
-			    </c:forEach>
+			    </c:forEach> --%>
 			    <li class="divider" tabindex="-1"></li>
 			    <li class="support-link"> Contact us : <a href="mailto:support_pmis@mrvc.gov.in" style="display: inline;">support_pmis@mrvc.gov.in</a></li>
 			  </ul>

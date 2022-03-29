@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/style.css">  
     
     <style type="text/css">
-    	.f-logo{width: 30px;vertical-align: bottom;}
+    	.f-logo{width: 27px;vertical-align: bottom;}
 		/* Change the white to any color ;) */
 		input:-webkit-autofill,
 		input:-webkit-autofill:hover, 
@@ -265,7 +265,7 @@
       <footer class="page-footer">
         <div class="container">
             <p class="footer-text"> &copy; <span id="year"></span> @ 
-            	<a href="https://mrvc.indianrailways.gov.in/" target="_blank"><b>mrvc</b> 
+            	<a href="https://mrvc.indianrailways.gov.in/" target="_blank"><b> MRVC </b> 
       	<img src="/pmis/resources/images/mrvclogo.png" alt="Logo" class="f-logo"></a> | Designed & Developed by
                <a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"> </a>
                 <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>

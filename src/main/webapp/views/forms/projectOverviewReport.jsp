@@ -645,15 +645,31 @@
 			    	         							{
 			    	         								contractstatuscolor="style='background-color:#fff;'";
 			    	         							}
-
+														if(val1.contract_short_name.indexOf("Demo")=="-1")
+															{
+					    	         							if(val1.contract_status_fk=="Not Awarded")
+				    	         								{
 								    	         					html=html+'<tr '+contractstatuscolor+'>';
-							    	         						html=html+'<td style="min-width:5%;width:5%;font-size:1.6rem !important;">'+$.trim(key1+1-key)+'</td>';
-							    	         						html=html+'<td style="min-width:14%;width:14%;font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
-							    	         						html=html+'<td style="min-width:10%;width:10%;text-align:center;font-size:1.6rem !important;">'+val1.awarded_cost+'</td>';
-							    	         						html=html+'<td style="min-width:14%;width:14%;text-align:center;font-size:1.6rem !important;">'+val1.cumulative_expenditure+'</td>';
-							    	         						html=html+'<td style="min-width:15%;width:15%;text-align:center;font-size:1.6rem !important;">'+val1.actual_financial_progress+'</td>';
-							    	         						html=html+'<td style="min-width:10%;width:10%;text-align:center;font-size:1.6rem !important;">'+val1.actual_physical_progress+'</td>';
-							    	         					html=html+'</tr>';			    	         								
+								    	         						html=html+'<td class="fw-5p" style="font-size:1.6rem !important;">'+$.trim(key1+1-key)+'</td>';
+								    	         						html=html+'<td class="fw-42p" style="font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
+								    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;color:red;">'+val1.awarded_cost+'</td>';
+								    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.cumulative_expenditure+'</td>';
+								    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_financial_progress+'</td>';
+								    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_physical_progress+'</td>';
+								    	         					html=html+'</tr>';
+				    	         								}
+				    	         							else
+				    	         								{
+									    	         					html=html+'<tr '+contractstatuscolor+'>';
+								    	         						html=html+'<td class="fw-5p" style="font-size:1.6rem !important;">'+$.trim(key1+1-key)+'</td>';
+								    	         						html=html+'<td class="fw-42p" style="font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
+								    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.awarded_cost+'</td>';
+								    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.cumulative_expenditure+'</td>';
+								    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_financial_progress+'</td>';
+								    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_physical_progress+'</td>';
+								    	         					html=html+'</tr>';			    	         								
+				    	         								}	
+															}
 			    	         								
 			    	         						}
 			    	         				});

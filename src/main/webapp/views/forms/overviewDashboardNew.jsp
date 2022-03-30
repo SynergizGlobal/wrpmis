@@ -323,7 +323,7 @@
 					});
 				}
 	        });
-		   
+		    
 		    if($.trim(requestedDashboardId) != ''){
 				var tempParentId = $('.bg-a#'+requestedDashboardId).attr("parent_id");
 				if($.trim(tempParentId) != '' && tempParentId != 'undefined'){
@@ -331,7 +331,12 @@
 					requestedDashboardId = '${dashboardId}';
 					openDashboard(requestedDashboardId);
 				}else{
-					$('.bg-a#'+requestedDashboardId).trigger("click");
+					if($('#'+requestedDashboardId).length){
+						$('.bg-a#'+requestedDashboardId).trigger("click");
+					}else{
+						openDashboard(requestedDashboardId);
+					}
+					
 				}
 			}
 		    $('.searchable').select2();
@@ -506,7 +511,6 @@
 			     }
 			 }
 		 }
-		 
 		 $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
 	            type: 'POST',
@@ -533,7 +537,11 @@
 	   		   $("#menu-item-holder").show();
 	   		   $("#filter-item-holder").hide();
 		       $("#filter-item-holder").html("");
-	   	 }else{
+	   	 }else if(($.trim(show_left_menu) == 'No' || $.trim(show_left_menu) == '') && $.trim(filterIds) != ''){
+ 		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+		      $("#menu-item-holder").hide();
+		      $("#filter-item-holder").show();
+	   	 }else {
  		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
 		      $("#menu-item-holder").hide();
 		      $("#filter-item-holder").hide();

@@ -35,6 +35,20 @@ public class OverviewDashboardControllerNew {
 	@Value("${common.error.message}")
 	public String commonError;
 	
+	@RequestMapping(value="/overview-dashboard/{dashboardId}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView overviewDashboard(@PathVariable("dashboardId") String dashboardId,HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.overviewDashboardNew);
+			
+			model.addObject("dashboardId", dashboardId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("overviewDashboardByWork : " + e.getMessage());
+		}
+		return model;
+	}
+	
 	@RequestMapping(value="/work-overview-dashboard/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView overviewDashboardByWork(@PathVariable("work_id") String work_id,HttpSession session) {
 		ModelAndView model = new ModelAndView();

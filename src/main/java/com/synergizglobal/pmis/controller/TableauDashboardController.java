@@ -104,11 +104,11 @@ public class TableauDashboardController {
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrl);*/
 				
-				if(vo.getTableauUrl().equalsIgnoreCase("work-overview-dashboard")) {
+				if(vo.getTableauUrl().contains("work-overview-dashboard")) {
 					String url = vo.getTableauUrl() + "/" + vo.getWork_id_fk();
 					view.setViewName("redirect:/"+url);
 					return view;
-				}else if(vo.getTableauUrl().equalsIgnoreCase("overview-dashboard")) {
+				}else if(vo.getTableauUrl().contains("overview-dashboard")) {
 					String url = vo.getTableauUrl();
 					view.setViewName("redirect:/"+url);
 					return view;
@@ -195,11 +195,11 @@ public class TableauDashboardController {
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrl);*/
 				
-				if(vo.getTableauUrl().equalsIgnoreCase("work-overview-dashboard")) {
+				if(vo.getTableauUrl().contains("work-overview-dashboard")) {
 					String url = vo.getTableauUrl() + "/" + vo.getWork_id_fk();
 					view.setViewName("redirect:/"+url);
 					return view;
-				}else if(vo.getTableauUrl().equalsIgnoreCase("overview-dashboard")) {
+				}else if(vo.getTableauUrl().contains("overview-dashboard")) {
 					String url = vo.getTableauUrl();
 					view.setViewName("redirect:/"+url);
 					return view;

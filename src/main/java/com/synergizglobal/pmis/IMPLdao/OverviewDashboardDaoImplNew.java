@@ -38,12 +38,13 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 		List<OverviewDashboardNew> objsList = new ArrayList<OverviewDashboardNew>();
 		try {
 			connection = dataSource.getConnection();
-			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value "
+			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
-					+ "WHERE status = ? and parent_id = ? ORDER BY `order`";
+					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? ORDER BY `order`";
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
 			statement.setString(2, dObj.getParent_id());
+			statement.setString(3, "Yes");
 			resultSet = statement.executeQuery();  
 			
 			String work_id = dObj.getWork_id();
@@ -105,12 +106,13 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 		List<OverviewDashboardNew> objsList = new ArrayList<OverviewDashboardNew>();
 		OverviewDashboardNew obj = null;
 		try {
-			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value "
+			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
-					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? ORDER BY `order`";
+					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? ORDER BY `order`";
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
 			statement.setString(2, parentId);
+			statement.setString(3, "Yes");
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new OverviewDashboardNew();
@@ -346,7 +348,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 								filterQry = filterQry + obj.getFilter_column_id()
 										+ " IS NOT NULL ";
 					}							
-					if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
+					if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
 						filterQry = filterQry + " AND ";
 						if(!StringUtils.isEmpty(tempObj.getSource_table_alias_name())) {
 							filterQry = filterQry + tempObj.getSource_table_alias_name()+ ".";
@@ -412,7 +414,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 									unionFilterQry = unionFilterQry + obj.getFilter_column_id()
 											+ " IS NOT NULL ";
 						}							
-						if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
+						if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
 							unionFilterQry = unionFilterQry + " AND ";
 							if(!StringUtils.isEmpty(tempObj.getSource_table_alias_name())) {
 								unionFilterQry = unionFilterQry + tempObj.getSource_table_alias_name()+ ".";
@@ -463,7 +465,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					filterQry = filterQry + " WHERE "
 							+ "`"+ obj.getFilter_column_id()+ "`"
 							+ " IS NOT NULL ";
-					if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
+					if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
 						filterQry = filterQry + " AND "
 						+ "`"+ tempObj.getSource_field_name()+ "`"
 						+ " = "

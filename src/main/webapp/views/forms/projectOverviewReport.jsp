@@ -253,7 +253,7 @@
     text-align: left;
     font-size: 1.6rem;
 } 
-	
+
     </style>
 </head>
 
@@ -342,7 +342,7 @@
 						<p style="float:right;margin-right:20px;"><b>Figures in <span style="color:red;">red</span> are Estimated</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Amount Value in:</b> Cr</p>
 							<table id="datatable-project-overview-details" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
-									<tr>										
+									<tr id="topDivCss">										
 										<th class="fw-5p" style=" background-color: #162D6E;font-size:1.6rem !important;">S. No.</th>
 										<th class="fw-15p" style=" background-color: #162D6E;font-size:1.6rem !important;">Description</th>
 										<th class="fw-10p" style=" background-color: #162D6E;font-size:1.6rem !important;">Awarded Costs</th>
@@ -435,6 +435,18 @@
     var filtersMap = new Object();
     var pageNo = window.localStorage.getItem("projectOverviewPageNo");
     $(document).ready(function () {
+    	
+    	$(window).scroll(function () {
+          	 if($(document).scrollTop()>130)
+        	   {
+          		$('#topDivCss').css({"position": "fixed","top": "4%","z-index": "2"});
+        	   }
+          	 else
+          		 {
+          			$('#topDivCss').css({"position": "fixed","top": "33%","z-index": "2"});
+          		 }
+        });   	
+    	
     	$('.collapsible').collapsible();
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();

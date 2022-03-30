@@ -432,6 +432,7 @@
 	    	$("#work_id_fk").val(cid);
 	    }   
     
+	    
     var filtersMap = new Object();
     var pageNo = window.localStorage.getItem("projectOverviewPageNo");
     $(document).ready(function () {

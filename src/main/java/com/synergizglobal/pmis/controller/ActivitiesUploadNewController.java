@@ -492,42 +492,67 @@ public class ActivitiesUploadNewController {
 										
 										tempVal = formatter.formatCellValue(row.getCell(11)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");										
-										
-										
-										
-										
-										
-										
-										
-										
-										
+
+										SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yy");
+										SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");										
 										
 										
 										if(count != 2) {
 											planned_start = getCellDataType(workbook,row.getCell(13));
 										}	
-										if(!StringUtils.isEmpty(planned_start)) { activityObj.setPlanned_start(DateParser.parse(planned_start));}
+										if(!StringUtils.isEmpty(planned_start)) 
+										{ 
+											
+											Date date = null;
+											String dateString = null;
+											date = formatter1.parse(planned_start);
+											dateString = formatter2.format(date);
+											activityObj.setPlanned_start(dateString);
+										}
 										
 										tempVal = formatter.formatCellValue(row.getCell(12)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
 											planned_finish = getCellDataType(workbook,row.getCell(14));
 										}	
-										if(!StringUtils.isEmpty(planned_finish)) { activityObj.setPlanned_finish(DateParser.parse(planned_finish));}
+										if(!StringUtils.isEmpty(planned_finish)) 
+										{ 
+											Date date = null;
+											String dateString = null;
+											date = formatter1.parse(planned_finish);
+											dateString = formatter2.format(date);
+											activityObj.setPlanned_finish(dateString);											
+										}
 										
 										tempVal = formatter.formatCellValue(row.getCell(13)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
 											actual_start = getCellDataType(workbook,row.getCell(15));
-										}	
-										if(!StringUtils.isEmpty(actual_start)) { activityObj.setActual_start(DateParser.parse(actual_start));}
+										}
+
+										if(!StringUtils.isEmpty(actual_start)) 
+										{ 
+											Date date = null;
+											String dateString = null;
+											date = formatter1.parse(actual_start);
+											dateString = formatter2.format(date);
+											activityObj.setActual_start(dateString);
+										}
 										
 										tempVal = formatter.formatCellValue(row.getCell(14)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
 											actual_finish = getCellDataType(workbook,row.getCell(16));
 										}	
-										if(!StringUtils.isEmpty(actual_finish)) { activityObj.setActual_finish(DateParser.parse(actual_finish));}
+										if(!StringUtils.isEmpty(actual_finish)) 
+										{ 
+											Date date = null;
+											String dateString = null;
+											date = formatter1.parse(actual_finish);
+											dateString = formatter2.format(date);
+											activityObj.setActual_finish(dateString);											
+											
+										}
 										
 										tempVal = formatter.formatCellValue(row.getCell(15)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");

@@ -15,14 +15,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.synergizglobal.pmis.Idao.OverviewDashboardDaoNew;
+import com.synergizglobal.pmis.Idao.OverviewDashboardDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.model.OverviewDashboardNew;
+import com.synergizglobal.pmis.model.OverviewDashboard;
 
 @Repository
-public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
-	Logger logger = Logger.getLogger(OverviewDashboardDaoImplNew.class);
+public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
+	Logger logger = Logger.getLogger(OverviewDashboardDaoImpl.class);
 	@Autowired
 	DataSource dataSource;
 	
@@ -31,11 +31,11 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 
 
 	@Override
-	public List<OverviewDashboardNew> getLeftNavNodes(OverviewDashboardNew dObj) throws Exception {
+	public List<OverviewDashboard> getLeftNavNodes(OverviewDashboard dObj) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		List<OverviewDashboardNew> objsList = new ArrayList<OverviewDashboardNew>();
+		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
 		try {
 			connection = dataSource.getConnection();
 			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value,show_left_menu "
@@ -49,9 +49,9 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 			
 			String work_id = dObj.getWork_id();
 			while(resultSet.next()) {
-				OverviewDashboardNew obj = new OverviewDashboardNew();
+				OverviewDashboard obj = new OverviewDashboard();
 				String childParentId = resultSet.getString("dashboard_id");
-				List<OverviewDashboardNew> subList = getDashboardsSubList(work_id,childParentId,connection);
+				List<OverviewDashboard> subList = getDashboardsSubList(work_id,childParentId,connection);
 				obj.setFormsSubMenu(subList);
 				
 				obj.setDashboard_id(resultSet.getString("dashboard_id"));
@@ -80,7 +80,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 		return objsList;
 	}
 	
-	private int getWorkExistsOrNot(OverviewDashboardNew obj, Connection connection) throws Exception {
+	private int getWorkExistsOrNot(OverviewDashboard obj, Connection connection) throws Exception {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		int count = 0;
@@ -100,11 +100,11 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 		return count;
 	}
 
-	private List<OverviewDashboardNew> getDashboardsSubList(String work_id, String parentId, Connection connection) throws Exception {
+	private List<OverviewDashboard> getDashboardsSubList(String work_id, String parentId, Connection connection) throws Exception {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		List<OverviewDashboardNew> objsList = new ArrayList<OverviewDashboardNew>();
-		OverviewDashboardNew obj = null;
+		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
+		OverviewDashboard obj = null;
 		try {
 			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
@@ -115,10 +115,10 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 			statement.setString(3, "Yes");
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
-				obj = new OverviewDashboardNew();
+				obj = new OverviewDashboard();
 				
 				String childParentId = resultSet.getString("dashboard_id");
-				List<OverviewDashboardNew> subList = getDashboardsSubList(work_id,childParentId,connection);
+				List<OverviewDashboard> subList = getDashboardsSubList(work_id,childParentId,connection);
 				obj.setFormsSubMenu(subList);
 				
 				obj.setDashboard_id(resultSet.getString("dashboard_id"));
@@ -148,12 +148,12 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 	}
 
 	@Override
-	public OverviewDashboardNew getTableauUrl(String dashboardId) throws Exception {
-		OverviewDashboardNew dObj = null;;
+	public OverviewDashboard getTableauUrl(String dashboardId) throws Exception {
+		OverviewDashboard dObj = null;;
 		try {
 			String qry = "SELECT dashboard_url,show_left_menu,source_table_name,source_field_name,source_field_value FROM left_menu WHERE dashboard_id = ?";
-			List<OverviewDashboardNew> objsList = jdbcTemplate.query(qry, new Object[] { dashboardId },new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
-			for (OverviewDashboardNew overviewDashboard : objsList) {
+			List<OverviewDashboard> objsList = jdbcTemplate.query(qry, new Object[] { dashboardId },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+			for (OverviewDashboard overviewDashboard : objsList) {
 				dObj = overviewDashboard;
 			}
 		} catch (Exception e) {
@@ -165,18 +165,18 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 
 
 	@Override
-	public List<OverviewDashboardNew> getFilters(OverviewDashboardNew dObj) throws Exception {
-		List<OverviewDashboardNew> objList = new ArrayList<OverviewDashboardNew>();
+	public List<OverviewDashboard> getFilters(OverviewDashboard dObj) throws Exception {
+		List<OverviewDashboard> objList = new ArrayList<OverviewDashboard>();
 		try {
 			
-			//OverviewDashboardNew tempObj = getWorkColumnName(dObj.getDashboard_id());
+			//OverviewDashboard tempObj = getWorkColumnName(dObj.getDashboard_id());
 			
 			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, "
 					+ "default_filter_column, default_filter_value, selected_value,query_for_filter_options,filters_table_alias_name,order_by,is_first_option_selected "
 					+ "FROM left_menu_filters WHERE left_menu_id_fk = ? AND status = ? "
 					+ "ORDER BY priority ASC";
-			objList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id(),CommonConstants.ACTIVE },new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
-			/*for (OverviewDashboardNew obj : objList) {		
+			objList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id(),CommonConstants.ACTIVE },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+			/*for (OverviewDashboard obj : objList) {		
 				if(!StringUtils.isEmpty(obj.getQuery_for_filter_options())){
 					String[] qryArr = obj.getQuery_for_filter_options().split("FROM");
 					String firstPart = qryArr[0];
@@ -239,7 +239,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 						filterQry = filterQry + obj.getOrder_by();
 					}
 					
-					List<OverviewDashboardNew> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
+					List<OverviewDashboard> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
 					obj.setFilter(filter);
 				}else if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
 					String filterQry = "SELECT "
@@ -277,7 +277,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 								}
 								filterQry = filterQry + obj.getOrder_by();
 							}
-					List<OverviewDashboardNew> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
+					List<OverviewDashboard> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
 					obj.setFilter(filter);
 				} 
 				
@@ -288,12 +288,12 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 		return objList;
 	}	
 	
-	public OverviewDashboardNew getWorkColumnName(String dashboardId) throws Exception {
-		OverviewDashboardNew dObj = null;;
+	public OverviewDashboard getWorkColumnName(String dashboardId) throws Exception {
+		OverviewDashboard dObj = null;;
 		try {
 			String qry = "SELECT source_field_name,source_table_alias_name FROM left_menu WHERE dashboard_id = ?";
-			List<OverviewDashboardNew> objsList = jdbcTemplate.query(qry, new Object[] { dashboardId },new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
-			for (OverviewDashboardNew overviewDashboard : objsList) {
+			List<OverviewDashboard> objsList = jdbcTemplate.query(qry, new Object[] { dashboardId },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+			for (OverviewDashboard overviewDashboard : objsList) {
 				dObj = overviewDashboard;
 			}
 		} catch (Exception e) {
@@ -303,18 +303,18 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 	}
 
 	@Override
-	public List<OverviewDashboardNew> getFilteredOptions(OverviewDashboardNew dObj) throws Exception {
-		List<OverviewDashboardNew> objList = new ArrayList<OverviewDashboardNew>();
+	public List<OverviewDashboard> getFilteredOptions(OverviewDashboard dObj) throws Exception {
+		List<OverviewDashboard> objList = new ArrayList<OverviewDashboard>();
 		try {
 			
-			OverviewDashboardNew tempObj = getWorkColumnName(dObj.getDashboard_id());
+			OverviewDashboard tempObj = getWorkColumnName(dObj.getDashboard_id());
 			
 			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, "
 					+ "default_filter_column, default_filter_value, selected_value,query_for_filter_options,filters_table_alias_name,order_by,is_first_option_selected,union_all "
 					+ "FROM left_menu_filters WHERE filter_id = ? "
 					+ "ORDER BY priority ASC";
-			objList = jdbcTemplate.query(qry, new Object[] { dObj.getFilter_id()},new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
-			for (OverviewDashboardNew obj : objList) {		
+			objList = jdbcTemplate.query(qry, new Object[] { dObj.getFilter_id()},new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+			for (OverviewDashboard obj : objList) {		
 				if(!StringUtils.isEmpty(obj.getQuery_for_filter_options())){
 					String[] qryArr = obj.getQuery_for_filter_options().split("FROM");
 					String firstPart = qryArr[0];
@@ -451,7 +451,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 					
 					
 					/*************************************************************************************/
-					List<OverviewDashboardNew> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
+					List<OverviewDashboard> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
 					obj.setFilter(filter);
 				}else if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
 					String filterQry = "SELECT "
@@ -491,7 +491,7 @@ public class OverviewDashboardDaoImplNew implements OverviewDashboardDaoNew {
 						}
 						filterQry = filterQry + obj.getOrder_by();
 					}
-					List<OverviewDashboardNew> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboardNew>(OverviewDashboardNew.class));
+					List<OverviewDashboard> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
 					obj.setFilter(filter);
 				}
 			}

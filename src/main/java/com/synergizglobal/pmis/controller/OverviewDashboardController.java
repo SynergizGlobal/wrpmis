@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.synergizglobal.pmis.Iservice.OverviewDashboardServiceNew;
+import com.synergizglobal.pmis.Iservice.OverviewDashboardService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.OverviewDashboardNew;
+import com.synergizglobal.pmis.model.OverviewDashboard;
 
 @Controller
-public class OverviewDashboardControllerNew {
-	Logger logger = Logger.getLogger(OverviewDashboardControllerNew.class);
+public class OverviewDashboardController {
+	Logger logger = Logger.getLogger(OverviewDashboardController.class);
 	
 	@Autowired
-	OverviewDashboardServiceNew overviewDashboardService;
+	OverviewDashboardService overviewDashboardService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -39,7 +39,7 @@ public class OverviewDashboardControllerNew {
 	public ModelAndView overviewDashboard(@PathVariable("dashboardId") String dashboardId,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
-		    model.setViewName(PageConstants.overviewDashboardNew);
+		    model.setViewName(PageConstants.overviewDashboard);
 			
 			model.addObject("dashboardId", dashboardId);
 		} catch (Exception e) {
@@ -53,7 +53,7 @@ public class OverviewDashboardControllerNew {
 	public ModelAndView overviewDashboardByWork(@PathVariable("work_id") String work_id,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
-		    model.setViewName(PageConstants.overviewDashboardNew);
+		    model.setViewName(PageConstants.overviewDashboard);
 			
 			model.addObject("work_id", work_id);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class OverviewDashboardControllerNew {
 	public ModelAndView overviewDashboardListByWork(@PathVariable("work_id") String work_id,@PathVariable("dashboardId") String dashboardId,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
-		    model.setViewName(PageConstants.overviewDashboardNew);
+		    model.setViewName(PageConstants.overviewDashboard);
 			
 			model.addObject("work_id", work_id);
 			model.addObject("dashboardId", dashboardId);
@@ -80,8 +80,8 @@ public class OverviewDashboardControllerNew {
 	
 	@RequestMapping(value = "/ajax/getLeftNav", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<OverviewDashboardNew> getLeftNavNodes(@ModelAttribute OverviewDashboardNew obj,HttpSession session) {
-		List<OverviewDashboardNew> overviewDashboard = null;
+	public List<OverviewDashboard> getLeftNavNodes(@ModelAttribute OverviewDashboard obj,HttpSession session) {
+		List<OverviewDashboard> overviewDashboard = null;
 		try {
 			String parentId = "0";
 			obj.setParent_id(parentId);
@@ -95,9 +95,9 @@ public class OverviewDashboardControllerNew {
 	
 	@RequestMapping(value = "/ajax/getDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public OverviewDashboardNew getDashboardURL(@ModelAttribute OverviewDashboardNew dObj,HttpSession session){
+	public OverviewDashboard getDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session){
 		String user_Id = null;String userName = null;
-		OverviewDashboardNew obj = new OverviewDashboardNew();
+		OverviewDashboard obj = new OverviewDashboard();
 		String tableauUrl = "";
 		try{
 			user_Id = (String) session.getAttribute("USER_ID"); userName = (String) session.getAttribute("USER_NAME");
@@ -166,8 +166,8 @@ public class OverviewDashboardControllerNew {
 	
 	@RequestMapping(value = "/ajax/getFilters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<OverviewDashboardNew> getFilters(@ModelAttribute OverviewDashboardNew dObj,HttpSession session){
-		List<OverviewDashboardNew> objList = null;
+	public List<OverviewDashboard> getFilters(@ModelAttribute OverviewDashboard dObj,HttpSession session){
+		List<OverviewDashboard> objList = null;
 		try{
 			objList = overviewDashboardService.getFilters(dObj);
 		} catch (Exception e) {
@@ -179,8 +179,8 @@ public class OverviewDashboardControllerNew {
 	
 	@RequestMapping(value = "/ajax/getFilteredOptions", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<OverviewDashboardNew> getFilteredOptions(@ModelAttribute OverviewDashboardNew dObj,HttpSession session){
-		List<OverviewDashboardNew> objList = null;
+	public List<OverviewDashboard> getFilteredOptions(@ModelAttribute OverviewDashboard dObj,HttpSession session){
+		List<OverviewDashboard> objList = null;
 		try{
 			String params = dObj.getParams();
 			if(!StringUtils.isEmpty(params)) {

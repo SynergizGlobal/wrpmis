@@ -100,11 +100,11 @@
                                 </div>
                             </div>
                             <div class="row">	                                	
-                                 <div class="col s12 m4 l3 input-field center-align offset-l3 offset-m2">
+                                 <div class="col s6 m4 l3 input-field center-align offset-l3 offset-m2">
                                     <button type="submit" class="btn bg-m waves-effect waves-light t-c clear-filters"
                                         style="margin-top: 6px;min-width:160px%; font-weight: 600;">Generate Report</button>
                                 </div>
-                                 <div class="col s12 m4 l3 input-field left-align ">
+                                 <div class="col s6 m4 l3 input-field left-align ">
                                     <button class="btn bg-s waves-effect waves-light t-c" type="button"
                                         style="margin-top: 6px; font-weight: 600; min-width:160px"
                                         onclick="clearFilter()">Reset</button>

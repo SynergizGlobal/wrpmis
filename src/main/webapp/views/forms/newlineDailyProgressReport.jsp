@@ -65,7 +65,7 @@
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
 								</div>	
-								<div class="col s6 m3 l4 input-field">
+								<div class="col s12 m3 l4 input-field">
 									<p class="searchable_label">Contract</p>
 									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="addInQueContract(this.value);resetWorksAndProjectsDropdowns('');getFobList('');getContractorsList(''); getHodList('');getDyhodList('');resetFilterDropDowns();">
 										<option value="">Select</option>	

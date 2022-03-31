@@ -641,7 +641,10 @@
 	 	var myParams = { work_id_fk : work_id_fk,department_fk : department_fk,contract_status_fk: contract_status_fk};
 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getDetailsOfContracts",type:"POST",data:myParams,async: true,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
-	         		$.each(data,function(key,val){
+	         		$.each(data,function(key,val)
+	         				{
+						if(val.contract_short_name.indexOf("Demo")=="-1")
+						{
 	                    var rowArray = []; 
                         
                         var conractName = val.contract_id;
@@ -665,6 +668,7 @@
 	                   	rowArray.push($.trim(val.remarks));   	                   	
 	                   	
 	                    table.row.add(rowArray).draw( true );
+						}
 	                    
 					});
 	         		/* if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}

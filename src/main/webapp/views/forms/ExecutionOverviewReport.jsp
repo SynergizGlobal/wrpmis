@@ -252,7 +252,7 @@
 					<div claass="row">
 					<table id="datatable-execution-overview-report" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
-									<tr>
+									<tr id="topDivCss">
 										<th style="width:0.5%; background-color: #162D6E;font-size:1.6rem !important;">S No</th>
 										<th style="width:16.5%;padding-left: 0px !important; background-color: #162D6E;font-size:1.6rem !important;">Structure Type</th>
 										<th style="width:12%; background-color: #162D6E;font-size:1.6rem !important;">Unit</th>
@@ -347,6 +347,18 @@
     var filtersMap = new Object();
     var pageNo = window.localStorage.getItem("executionOverviewReportPageNo");
     $(document).ready(function () {
+    	
+    	$(window).scroll(function () {
+         	 if($(document).scrollTop()>130)
+       	   {
+         		$('#topDivCss').css({"position": "fixed","top": "4%","z-index": "2"});
+       	   }
+         	 else
+         		 {
+         			$('#topDivCss').css({"position": "fixed","top": "29%","z-index": "2"});
+         		 }
+       });    	
+    	
     	$('.collapsible').collapsible();
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();

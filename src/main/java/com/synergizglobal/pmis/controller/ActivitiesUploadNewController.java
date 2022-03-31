@@ -494,7 +494,8 @@ public class ActivitiesUploadNewController {
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");										
 
 										SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yy");
-										SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");										
+										SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+										SimpleDateFormat formatter3 = new SimpleDateFormat("dd-MM-yyyy");
 										
 										
 										if(count != 2) {
@@ -502,12 +503,18 @@ public class ActivitiesUploadNewController {
 										}	
 										if(!StringUtils.isEmpty(planned_start)) 
 										{ 
-											
-											Date date = null;
-											String dateString = null;
-											date = formatter1.parse(planned_start);
-											dateString = formatter2.format(date);
-											activityObj.setPlanned_start(dateString);
+											if(planned_start.indexOf("/")!=-1)
+											{											
+												Date date = null;
+												String dateString = null;
+												date = formatter1.parse(planned_start);
+												dateString = formatter2.format(date);
+												activityObj.setPlanned_start(dateString);
+											}
+											else
+											{
+												activityObj.setPlanned_start(planned_finish);	
+											}											
 										}
 										
 										tempVal = formatter.formatCellValue(row.getCell(12)).trim();
@@ -517,11 +524,18 @@ public class ActivitiesUploadNewController {
 										}	
 										if(!StringUtils.isEmpty(planned_finish)) 
 										{ 
-											Date date = null;
-											String dateString = null;
-											date = formatter1.parse(planned_finish);
-											dateString = formatter2.format(date);
-											activityObj.setPlanned_finish(dateString);											
+											if(planned_finish.indexOf("/")!=-1)
+											{
+												Date date = null;
+												String dateString = null;
+												date = formatter1.parse(planned_finish);
+												dateString = formatter2.format(date);
+												activityObj.setPlanned_finish(dateString);	
+											}
+											else
+											{
+												activityObj.setPlanned_finish(planned_finish);	
+											}
 										}
 										
 										tempVal = formatter.formatCellValue(row.getCell(13)).trim();
@@ -532,11 +546,18 @@ public class ActivitiesUploadNewController {
 
 										if(!StringUtils.isEmpty(actual_start)) 
 										{ 
-											Date date = null;
-											String dateString = null;
-											date = formatter1.parse(actual_start);
-											dateString = formatter2.format(date);
-											activityObj.setActual_start(dateString);
+											if(actual_start.indexOf("/")!=-1)
+											{											
+												Date date = null;
+												String dateString = null;
+												date = formatter1.parse(actual_start);
+												dateString = formatter2.format(date);
+												activityObj.setActual_start(dateString);
+											}
+											else
+											{
+												activityObj.setActual_start(actual_start);
+											}
 										}
 										
 										tempVal = formatter.formatCellValue(row.getCell(14)).trim();
@@ -546,11 +567,22 @@ public class ActivitiesUploadNewController {
 										}	
 										if(!StringUtils.isEmpty(actual_finish)) 
 										{ 
-											Date date = null;
-											String dateString = null;
-											date = formatter1.parse(actual_finish);
-											dateString = formatter2.format(date);
-											activityObj.setActual_finish(dateString);											
+											if(actual_finish.indexOf("/")!=-1)
+											{											
+												Date date = null;
+												String dateString = null;
+												date = formatter1.parse(actual_finish);
+												dateString = formatter2.format(date);
+												activityObj.setActual_finish(dateString);	
+											}
+											else
+											{
+												Date date = null;
+												String dateString = null;
+												date = formatter3.parse(actual_finish);
+												dateString = formatter2.format(date);												
+												activityObj.setActual_finish(dateString);	
+											}
 											
 										}
 										

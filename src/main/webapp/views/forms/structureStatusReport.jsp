@@ -76,7 +76,7 @@
 									<span id="contract_idError" class="error-msg"></span>
 								</div>	 
 							
-							    <div class="col s12 m3 l4 input-field" id="structure_type_fk_div">
+							    <div class="col s6 m3 l4 input-field" id="structure_type_fk_div">
 									<p class="searchable_label">Structure Type</p>
 									<select class="searchable validate-dropdown" id="structure_type_fk" name="structure_type_fk"  onchange="addInQueFOB();getActivitiesList();">
 										<option value="">Select</option>	

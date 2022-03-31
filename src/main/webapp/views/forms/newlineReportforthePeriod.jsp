@@ -46,16 +46,16 @@
 					<!-- form start-->
 					<form action="<%=request.getContextPath() %>/generate-newline-activities-dpr-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
 						<div class="row">
-						<div class="col s12 m12 l7 offset-l2 offset-m1">
+						<div class="col s12 m10 l8 offset-l2 offset-m1">
 							<div class="row no-mar" style="margin-bottom:0;">
-								<div class="col s6 m3 l4 input-field"> 
+								<div class="col s6 m4 l4 input-field"> 
 									<p class="searchable_label">Project</p>
 									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="addInQueProject(this.value);getWorksList('');getContractsList('');getContractorsList(''); getHodList('');getDyhodList('');resetFilterDropDowns();">
 										<option value="">Select</option>										
 									</select> 
 									<span id="project_idError" class="error-msg"></span>
 								</div>							
-								<div class="col s6 m3 l4 input-field">
+								<div class="col s6 m4 l4 input-field">
 									<p class="searchable_label">Work</p>
 									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="addInQueWork(this.value);getContractsList('');getContractorsList(''); getHodList('');getDyhodList('');resetFilterDropDowns();">
 										<option value="">Select</option>
@@ -65,7 +65,7 @@
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
 								</div>	
-								<div class="col s6 m3 l4 input-field">
+								<div class="col s12 m4 l4 input-field">
 									<p class="searchable_label">Contract</p>
 									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="addInQueContract(this.value);resetWorksAndProjectsDropdowns('');getFobList('');getContractorsList(''); getHodList('');getDyhodList('');resetFilterDropDowns();">
 										<option value="">Select</option>	
@@ -87,7 +87,7 @@
 										</select> 
 										<span id="contractor_idError" class="error-msg"></span>
 									</div> --%>
-									<div class="col s6 m3 l4 input-field">
+									<div class="col s6 m6 l6 input-field">
 										<p class="searchable_label">HOD</p>
 										<select class="searchable validate-dropdown" id="hod" name="hod" onchange="addInQueHOD(this.value);getDyhodList('');resetFilterDropDowns();">
 											<option value="">Select</option>
@@ -97,7 +97,7 @@
 										</select> 
 										<span id="hod_idError" class="error-msg"></span>
 									</div>
-									<div class="col s6 m3 l4 input-field">
+									<div class="col s6 m6 l6 input-field">
 										<p class="searchable_label">Dy HOD</p>
 										<select class="searchable validate-dropdown" id="dyhod" name="dyhod" onchange="addInQueDyHOD(this.value);resetFilterDropDowns();">
 											<option value="">Select</option>	
@@ -109,19 +109,19 @@
 									</div>
 								</div>	
 								<div class="row">
-							    <div class="col s6 m3 l4 input-field" id="structure_type_fk_div" style="display: none;">
+							    <div class="col s6 m4 l4 input-field" id="structure_type_fk_div" style="display: none;">
 									<p class="searchable_label">Structure Type</p>
 									<select class="searchable validate-dropdown" id="structure_type_fk" name="structure_type_fk" onchange="addInQueFOB(this.value);resetFilterDropDowns();">
 										<option value="">Select</option>	
 									</select> 
 									<span id="structure_type_fkError" class="error-msg"></span>
 								</div>			
-								<div class="col s6 m3 l4 input-field" id="fmRow">
+								<div class="col s6 m4 l4 input-field" id="fmRow">
 									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> From Date <span class="required">*</span></label>
 									<button type="button" id="from_date_icon"><i class="fa fa-calendar"></i></button>
 									<span id="from_dateError" class="error-msg"></span>
 								</div>
-								<div class="col s6 m3 l4 input-field" id="to_date_holder">
+								<div class="col s6 m4 l4 input-field" id="to_date_holder">
 									<input id="to_date" name="to_date" type="text" class="validate datepicker"> <label for="to_date"> To Date</label>
 									<button type="button" id="to_date_icon" ><i class="fa fa-calendar"></i></button>
 									<span id="to_dateError" class="error-msg"></span>

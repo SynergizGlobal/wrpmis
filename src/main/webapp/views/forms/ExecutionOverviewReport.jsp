@@ -349,13 +349,13 @@
     $(document).ready(function () {
     	
     	$(window).scroll(function () {
-         	 if($(document).scrollTop()>130)
+         	 if($(document).scrollTop()>270)
        	   {
-         		$('#topDivCss').css({"position": "fixed","top": "4%","z-index": "2"});
+         		$('#topDivCss').css({"position": "fixed","top": "6%","z-index": "2"});
        	   }
          	 else
          		 {
-         			$('#topDivCss').css({"position": "fixed","top": "29%","z-index": "2"});
+         			$('#topDivCss').css({"position": "sticky","top": "0","z-index": "2"});
          		 }
        });    	
     	

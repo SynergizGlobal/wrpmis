@@ -78,8 +78,7 @@
                                     </select>
                                     <span id="contractError" class="error-msg" ></span>
                                 </div>
-                                </div>
-                           <div class="row">
+                                
                            	
                                   
                                    	<div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
@@ -108,13 +107,13 @@
                                 </div>
                             </div>
                             <div class="row">	                                	
-                                <div class="col s12 m4 l3 input-field center-align offset-l3 offset-m2">
+                                <div class="col s7 m4 l3 input-field center-align offset-l3 offset-m2">
                                     <button type="button" class="btn bg-m waves-effe ct waves-light t-c clear-filters"
                                         style="margin-top: 6px;min-width:160px%; font-weight: 600;" onclick="testingExistingData();">Generate Report</button>
                                 </div>
-                                <div class="col s12 m4 l3 input-field left-align ">
+                                <div class="col s5 m4 l3 input-field left-align ">
                                     <button class="btn bg-s waves-effect waves-light t-c" type="button"
-                                        style="margin-top: 6px; font-weight: 600; min-width:160px"
+                                        style="margin-top: 6px; font-weight: 600; min-width:120px"
                                         onclick="clearFilter()">Reset</button>
                                 </div>                                
                              </div>

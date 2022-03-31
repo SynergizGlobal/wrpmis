@@ -305,7 +305,7 @@
 										</select>
 									</div>
 								
-								<div class="col s12 m2 center-align">  
+								<div class="col s12 m2 center-align">  <br>
 									<button class="btn bg-m waves-effect waves-light t-c"
 										style="margin-top: 6px;" onclick="clearFilter();">Clear
 										Filters</button>

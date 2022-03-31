@@ -169,13 +169,20 @@
         }
        	 
     .collapsible-header {
-        background-color: #cce3de;
+        background-color: #BDD7EE;
         padding:0;
     }
         
     .collapsible-body {
-        background-color: #E3F0EF;
-    }   
+        background-color: #ffffff;
+        font-size:1.6rem !important;color:#000000;
+    } 
+    
+	    
+ .select2-container--default .select2-selection--single .select2-selection__rendered {
+    text-align: left;
+    font-size: 1.6rem;
+}       
     </style>
 </head>
 
@@ -191,7 +198,7 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<!-- <h6 class="hide-on-med-and-down">Update Contract</h6> -->
-								<h6 class="mob-mar">Execution Overview Report </h6>	
+								<h6 class="mob-mar" style="font-size:1.6rem !important;">Execution Overview Report </h6>	
 								<div class="col s12 m12 right-align exportButton">
     								<div class="m-n1">
     									<a href="javascript:exportExecutionOverviewReport();" class="btn waves-effect waves-light bg-s t-c"> 
@@ -215,25 +222,25 @@
 							<div class="col m12 l8 offset-l2 s12">
 								<div class="row no-mar">
 									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label">Work ID</p>
+										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Work ID</p><br>
 										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>										
 										</select> 
 									</div>		
 									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label">Department / HOD</p>
+										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Department / HOD</p><br>
 										<select id="department_fk" name="department_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>
 										</select>
 									</div>
 									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label">Contract ID</p>
+										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Contract ID</p><br>
 										<select id="contract_id_fk" name="contract_id_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>
 										</select>
 									</div>
 								
-								<div class="col s6 m12 l3 center-align">  
+								<div class="col s6 m12 l3 center-align">  <br>
 									<button class="btn bg-m waves-effect waves-light t-c"
 										style="margin-top: 6px;" onclick="clearFilter();">Clear
 										Filters</button>
@@ -241,18 +248,19 @@
 							</div>
 						</div>
 					</div>
+					<br><br>
 					<div claass="row">
-					<table id="datatable-execution-overview-report" class="mdl-data-table">
+					<table id="datatable-execution-overview-report" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
 									<tr>
-										<th style="width:0.5%">S No</th>
-										<th style="width:16.5%;padding-left: 0px !important;">Structure Type</th>
-										<th style="width:12%;">Unit</th>
-										<th style="width:15%;">Scope</th>
-										<th style="width:17.4%;">Completed</th>
-										<th style="width:12%;">Pending</th>
-										<th>Last Updated on</th>
-										<th>Remarks</th>
+										<th style="width:0.5%; background-color: #162D6E;font-size:1.6rem !important;">S No</th>
+										<th style="width:16.5%;padding-left: 0px !important; background-color: #162D6E;font-size:1.6rem !important;">Structure Type</th>
+										<th style="width:12%; background-color: #162D6E;font-size:1.6rem !important;">Unit</th>
+										<th style="width:15%; background-color: #162D6E;font-size:1.6rem !important;">Scope</th>
+										<th style="width:17.4%; background-color: #162D6E;font-size:1.6rem !important;">Completed</th>
+										<th style="width:12%; background-color: #162D6E;font-size:1.6rem !important;">Pending</th>
+										<th style=" background-color: #162D6E;font-size:1.6rem !important;">Last Updated on</th>
+										<th style=" background-color: #162D6E;font-size:1.6rem !important;">Remarks</th>
 									</tr>
 								</thead>
 					</table>
@@ -467,10 +475,10 @@
 		                   				StructureTypeArray.push(val.structure_type_fk);
 					         			var html="<li>";
 					         			var lmVal=parseFloat(100)-cval1;
-					                    html=html+'<div class="collapsible-header"><table><thead><tr><th style="width:1%">'+CheckLp+'</th><th style="width:18.3%">'+val.structure_type_fk+'</th><th style="width:11.7%">%</th><th style="width:15.9%">100</th><th style="width:17%">'+cval1.toFixed(2)+'</th><th style="width:11.7%">'+lmVal.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-header" style="font-size:1.6rem !important;color:#000000 !important;"><table><thead><tr><th style="width:1%;font-weight:normal;">'+CheckLp+'</th><th style="width:18.3%;font-weight:normal;">'+val.structure_type_fk+'</th><th style="width:11.7%;font-weight:normal;">%</th><th style="width:15.9%;font-weight:normal;">100</th><th style="width:17%;font-weight:normal;">'+cval1.toFixed(2)+'</th><th style="width:11.7%;font-weight:normal;">'+lmVal.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
 					                    html=html+'<div class="collapsible-body">';
 				
-				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table">'+
+				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table" style="background-color: #E3F0EF;font-size:1.6rem !important;color:#000000 !important;">'+
 
 										'<tbody>';
 				    	         		$.each(data,function(key1,val1)

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
       <style>
         p a {
             color: blue;
@@ -55,27 +55,27 @@
                             <div class="col m8 s12 offset-m2">
                             	<form id="contractReportForm" name="contractReportForm" method="post">
 	                                <div class="row no-mar">	
-	                                    <div class="col s6 m3 input-field">
+	                                    <div class="col s12 m12 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select id="hod_designation" class="searchable validate-dropdown" name="hod_designations" onchange="addInQueHOD();getResetFiltersList();"  multiple="multiple" >
 	                                        </select>
 	                                        <span id="hod_designationError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m3 input-field">
+	                                    <div class="col s6 m6 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All</option>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m2 input-field">
+	                                    <div class="col s6 m6 l2 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contractor</p>
 	                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="addInQueContractor(this.value);getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="contractor_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m2 input-field" id="CSdiv" style="display:none;">
+	                                    <div class="col s6 m6 l2 input-field" id="CSdiv" style="display:none;">
 	                                        <p class="searchable_label" style="text-align:left">Contract Status</p>
 	                                        <select id="status" name="status" class="searchable validate-dropdown" onchange="addInQueContractStatus(this.value);getStatusofWorkItems();getResetFiltersList();">
 	                                           <option value="">All</option>
@@ -84,7 +84,7 @@
 	                                        </select>
 	                                        <span id="contract_status_fkError" class="error-msg" ></span>
 	                                    </div>	                                    
-	                                    <div class="col s6 m2 input-field">
+	                                    <div class="col s6 m6 l2 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Status of Work</p>
 	                                        <select id="contract_status_fk" name="contract_status_fk" onchange="addInQueStatusOfWork(this.value);getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
@@ -93,12 +93,12 @@
 	                                    </div>	                                    
 	                                </div>  
 	                                <div class="row" id="nextRow" style="display:none;">
-	                                    <div class="col s6 m3 input-field" id="dateDiv">
+	                                    <div class="col s6 m6 l3 input-field" id="dateDiv">
 	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date" class="fs-sm-8rem"> Validity Expiry By Date</label>
 											<button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
 	                                    </div>
-	                                    <div class="col s6 m3 input-field" id="contractDiv">
+	                                    <div class="col s6 m6 l3 input-field" id="contractDiv">
 	                                        <p class="searchable_label" style="text-align:left">Contract <span class="required">*</span></p>
 	                                        <select id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">Select </option>

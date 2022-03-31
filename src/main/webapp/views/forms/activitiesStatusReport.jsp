@@ -26,6 +26,7 @@
 		.input-field .center-align.m-1 button.bg-s{
 			width:inherit !important;
 		}
+		.mt3em{margin-top: 1em;}
 	</style>
 </head>
 <body>
@@ -46,16 +47,16 @@
 					<!-- form start-->
 					<form action="<%=request.getContextPath() %>/generate-activities-status-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
 						<div class="row">
-						<div class="col s12 m12 l7 offset-l2">
+						<div class="col s12 m8 l7 offset-l2 offset-m2">
 							<div class="row no-mar" style="margin-bottom:0;">
-								<div class="col s6 m3 l4 input-field"> 
+								<div class="col s6 m4 l4 input-field"> 
 									<p class="searchable_label">Project</p>
 									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="addInQueProject(this.value);getWorksList();getContractsList();getActivitiesList();">
 										<option value="">Select</option>										
 									</select> 
 									<span id="project_idError" class="error-msg"></span>
 								</div>							
-								<div class="col s6 m3 l4 input-field">
+								<div class="col s6 m4 l4 input-field">
 									<p class="searchable_label">Work</p>
 									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="addInQueWork(this.value);resetProjectsDropdowns();getContractsList();getActivitiesList();">
 										<option value="">Select</option>
@@ -65,7 +66,7 @@
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
 								</div>	
-								<div class="col s6 m3 l4 input-field">
+								<div class="col s12 m4 l4 input-field">
 									<p class="searchable_label">Contract</p>
 									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getFobList();resetWorksAndProjectsDropdowns();getActivitiesList();">
 										<option value="">Select</option>		
@@ -91,11 +92,11 @@
 								</div>	
 							</div>									
 							
-							<div class="row">	
-								<div class="col s7 m6 input-field" style="text-align:right;">
+							<div class="row mt3em">	
+								<div class="col s7 m7 input-field" style="text-align:right;">
 									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Report </strong></button>
 								</div>
-								<div class="col s4 m6 input-field" style="text-align:left;">
+								<div class="col s4 m5 input-field" style="text-align:left;">
 									<button type="button" class="btn waves-effect waves-light bg-s t-c" onClick="clearFilters();" >Reset</button>
 								</div>								
 							</div>

@@ -513,7 +513,11 @@ public class ActivitiesUploadNewController {
 											}
 											else
 											{
-												activityObj.setPlanned_start(planned_finish);	
+												Date date = null;
+												String dateString = null;
+												date = formatter3.parse(planned_start);
+												dateString = formatter2.format(date);													
+												activityObj.setPlanned_start(dateString);	
 											}											
 										}
 										
@@ -534,7 +538,11 @@ public class ActivitiesUploadNewController {
 											}
 											else
 											{
-												activityObj.setPlanned_finish(planned_finish);	
+												Date date = null;
+												String dateString = null;
+												date = formatter3.parse(planned_finish);
+												dateString = formatter2.format(date);													
+												activityObj.setPlanned_finish(dateString);	
 											}
 										}
 										
@@ -556,7 +564,11 @@ public class ActivitiesUploadNewController {
 											}
 											else
 											{
-												activityObj.setActual_start(actual_start);
+												Date date = null;
+												String dateString = null;
+												date = formatter3.parse(actual_start);
+												dateString = formatter2.format(date);													
+												activityObj.setActual_start(dateString);	
 											}
 										}
 										

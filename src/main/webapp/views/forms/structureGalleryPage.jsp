@@ -233,7 +233,7 @@ ul.breadcrumb li a:hover {
                                            
                                         </select>
                                     </div>
-                                    <div class="col s8 m12 offset-s4 offset-m4">
+                                    <div class="col s8 m8 offset-s4 offset-m2 l8 offset-l2">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"  onclick="clearFilter();" 
                                         style="margin-top:20px;width: 100%;">Clear Filters</button>
                                     </div> 

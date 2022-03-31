@@ -27,9 +27,9 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 		List<TrainingType> objsList = null;
 		try {
 			String qry ="SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url, `order`, parent_id, dashboard_url, status,source_field_name " + 
-					" FROM left_menu where dashboard_id is not null ";
+					" FROM left_menu where dashboard_id is not null and show_left_menu = ?";
 			
-			int arrSize = 0;
+			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
 				qry = qry + " and parent_id = ? ";
 				arrSize++;
@@ -41,6 +41,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			qry = qry + "  order by `order` asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			pValues[i++] = "Yes";
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
 				pValues[i++] = obj.getParent_id();
 			}
@@ -61,9 +62,9 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getStatusFilterList(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry = "SELECT status from left_menu where status is not null  ";
+			String qry = "SELECT status from left_menu where status is not null and show_left_menu = ? ";
 
-			int arrSize = 0;
+			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
 				qry = qry + " and parent_id = ? ";
 				arrSize++;
@@ -71,6 +72,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			qry = qry + " group by status ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			pValues[i++] = "Yes";
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
 				pValues[i++] = obj.getParent_id();
 			}
@@ -85,9 +87,9 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getParentFilterList(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry = "SELECT parent_id from left_menu where parent_id is not null ";
+			String qry = "SELECT parent_id from left_menu where parent_id is not null and show_left_menu = ? ";
 
-			int arrSize = 0;
+			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
 				qry = qry + " and parent_id = ? ";
 				arrSize++;
@@ -99,6 +101,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			qry = qry + " GROUP BY parent_id ORDER BY parent_id";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			pValues[i++] = "Yes";
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
 				pValues[i++] = obj.getParent_id();
 			}
@@ -224,8 +227,8 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getParentList() throws Exception {
 		List<TrainingType> list = null;
 		try {
-			String qry = "SELECT dashboard_id,dashboard_name from left_menu WHERE parent_id = ? GROUP BY dashboard_id";
-			 list = jdbcTemplate.query( qry,new Object[]{"0"}, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+			String qry = "SELECT dashboard_id,dashboard_name from left_menu WHERE parent_id = ? and show_left_menu = ? GROUP BY dashboard_id";
+			 list = jdbcTemplate.query( qry,new Object[]{"0","Yes"}, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);

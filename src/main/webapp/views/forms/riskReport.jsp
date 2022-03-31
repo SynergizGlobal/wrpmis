@@ -37,7 +37,7 @@
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col l9 m10 s12 offset-m2 offset-l3">
+                            <div class="col l9 m9 s12 offset-m3 offset-l3">
                             	<form action="<%=request.getContextPath() %>/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
 	                                    <div class="col s6 m4 l3 input-field offset-l1">
@@ -56,12 +56,12 @@
 	                                    </div>
 	                                </div>
 	                                <div class="row">	                                	
-	                                    <div class="col s5 m4 l3 input-field center-align offset-l1">
+	                                    <div class="col s5 m4 l3 input-field center-align offset-l1 offset-s1">
 	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="clearFilter()">Clear Filter</button>
 	                                    </div>
-	                                    <div class="col s7 m4 l3 input-field center-align">
+	                                    <div class="col s5 m4 l3 input-field center-align">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;min-width:160px%; font-weight: 600;"
 	                                            onclick="generateReport()">Generate Report</button>

@@ -25,6 +25,11 @@
 		.input-field .center-align.m-1 button.bg-s{
 			width:inherit !important;
 		}
+		@media(max-width: 575px){
+			.s-center-align{
+				text-align: center;
+			}
+		}
 	</style>
 </head>
 <body>
@@ -45,7 +50,7 @@
 					<!-- form start-->
 					<form action="<%=request.getContextPath() %>/generate-contracts-alert-report" id="alertsReportForm" name="alertsReportForm" method="post" target="_blank">
 						<div class="row">
-						<div class="col s12 m12 l7 offset-l2">
+						<div class="col s12 m12 l8 offset-l2">
 							<div class="row no-mar" style="margin-bottom:0;">
 								<div class="col s6 m3 l3 input-field">
 									<p class="searchable_label">HOD</p>
@@ -86,10 +91,10 @@
 							</div>									
 							
 							<div class="row">	
-								<div class="col s12 m6 input-field center-align">
+								<div class="col s12 m5 input-field right-align s-center-align">
 									<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Clear Filters</button>
 								</div>
-								<div class="col s12 m6 input-field center-align">
+								<div class="col s12 m7 input-field s-center-align">
 									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Contracts Alert Report </strong></button>
 								</div>
 							</div>

@@ -103,7 +103,7 @@
 	                                        </select>
 	                                        <span id="category_fkError" class="error-msg" ></span>
 	                                    </div> 
-	                                     <div class="col s12 m9 l6 input-field">
+	                                     <div class="col s12 m12 l6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Location & Description <span class="required">*</span></p>
 	                                        <select class="searchable validate-dropdown" id="issue_id" name="issue_id" onchange="addInQueTitles(this.value);getIssueDetailsReport();">
 	                                            <option value="">Select </option>
@@ -117,13 +117,13 @@
 	                                    
 	                                </div>    
 	                                <div class="row">	                                	
-	                                    <div class="col s5 m4 l3 input-field offset-l2">
+	                                    <div class="col s5 m4 l3 input-field offset-l2 offset-m2 offset-s1">
 	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="clearFilter()">Clear Filter</button>
 	                                    </div>
 	                                   
-	                                     <div class="col s7 m4 l3 input-field mob-center">
+	                                     <div class="col s6 m4 l3 input-field">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateAndDownloadIssueDetailsReport()">Generate Report</button>

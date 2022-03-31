@@ -164,6 +164,12 @@
         	/* min-width:230px !important; */
         }
         
+		
+		.fw-200{
+        	width:10% !important;
+        	/* min-width:230px !important; */
+        }
+                
         .fw-250{
         	width:250px !important;
         	min-width:250px !important;
@@ -192,15 +198,15 @@
         }
 
         .box.not-started {
-            background-color: #e2e5de;
+            background-color: #7e7579;
         }
 
         .box.in-progress {
-            background-color: rgb(255, 192, 0, 0.7);
+            background-color: #BDD7EE;
         }
 
         .box.completed {
-            background-color: rgb(152, 255, 152, 0.7);
+            background-color: #8fcb95;
         }
 
         .box.delayed {
@@ -250,6 +256,21 @@
         fieldset.brdr legend{		    
 		    padding: 0 5px;
 	    }
+	    
+ .select2-container--default .select2-selection--single .select2-selection__rendered {
+    text-align: left;
+    font-size: 1.6rem;
+}
+
+.dataTables_length
+{
+ font-size: 1.6rem !important;
+}
+
+.form-control input-sm ms-w280
+{
+	font-size: 1.6rem !important;
+}	    
 	
     </style>
 </head>
@@ -290,28 +311,28 @@
 							<div class="col m12 l8 offset-l2 s12">
 								<div class="row no-mar">
 									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label">Work</p>
+										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Work</p><br>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>										
 										</select> 
 									</div>		
 									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label">Contract Status</p>
+										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Contract Status</p><br>
 										<select id="contract_status_fk" name="contract_status_fk"
 											onchange="addInQueContractStatus(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
 									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label">Department</p>
+										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Department</p><br>
 										<select id="department_fk" name="department_fk"
 											onchange="addInQueDepartment(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
 								
-								<div class="col s6 m12 l3 center-align">  
+								<div class="col s6 m12 l3 center-align"><br>
 									<button class="btn bg-m waves-effect waves-light t-c"
 										style="margin-top: 6px;" onclick="clearFilter();">Clear
 										Filters</button>
@@ -319,8 +340,8 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="row">
+					<br>
+					<div class="row" style="font-size:1.6rem !important;">
 						<div class="col m12 l5 offset-l3 s12">
 						 	<fieldset class="p-2 brdr" >
 							 	   <!-- <legend> Legend </legend>  --> 										
@@ -340,21 +361,21 @@
 						</div>
 						<div class="col m12 s12">
 						<p class="right tab-p"><b>Figures in <span class="red">red</span> are Estimated</b></p>
-							<table id="datatable-contract-details" class="mdl-data-table">
+							<table id="datatable-contract-details" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
-									<tr>
-										<th>S.No</th>
-										<th>Contract Status</th>
-										<th>Contract</th>
-										<th>Contract Value(Cr)</th>
-										<th>Expenditure(Cr)</th>
-										<th>Physical Progress</th>
-										<th class="w100">LOA Date</th>
-										<th>Completion Date</th>
-										<th>Remarks</th>
+									<tr id="topDivCss">
+										<th style="background-color: #162D6E;font-size:1.6rem !important;">S.No</th>
+										<th style="background-color: #162D6E;font-size:1.6rem !important;">Contract Status</th>
+										<th style="background-color: #162D6E;font-size:1.6rem !important;">Contract</th>
+										<th style="background-color: #162D6E;font-size:1.6rem !important;">Contract Value(Cr)</th>
+										<th style="background-color: #162D6E;font-size:1.6rem !important;">Expenditure(Cr)</th>
+										<th style="background-color: #162D6E;font-size:1.6rem !important;">Physical Progress</th>
+										<th style="background-color: #162D6E;font-size:1.6rem !important;" class="w100">LOA Date</th>
+										<th style="background-color: #162D6E;font-size:1.6rem !important;">Completion Date</th>
+										<th style="background-color: #162D6E;font-size:1.6rem !important;">Remarks</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody style="background-color: #162D6E;font-size:1.6rem !important;">
 									<tr>
 										<td></td>
 										<td></td>	
@@ -431,6 +452,18 @@
     var filtersMap = new Object();
     var pageNo = window.localStorage.getItem("contractPageNo");
     $(document).ready(function () {
+    	
+/*     	$(window).scroll(function () {
+        	 if($(document).scrollTop()>130)
+      	   {
+        		$('#topDivCss').css({"position": "fixed","top": "4%","z-index": "2"});
+      	   }
+        	 else
+        		 {
+        			$('#topDivCss').css({"position": "fixed","top": "29%","z-index": "2"});
+        		 }
+      		}); */
+    	
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
            
@@ -548,6 +581,7 @@
                 {targets: [1],className: 'hide-column'},
                 {targets: [0, 3, 4, 5, 7],className: 'center-column'},
                 {targets: [5],className: 'red'},
+                {targets: [6],className: 'fw-200'},
                 {targets: [2, 8],className: 'fw-230'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
@@ -584,15 +618,15 @@
 				},
 			    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			        if (aData[1] == "Completed") {
-			          $('td', nRow).css('background-color', 'rgb(152, 255, 152, 0.7)');
+			          $('td', nRow).css('background-color', '#8fcb95');
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '400');
 			        }else if (aData[1] == "In Progress") {
-			          $('td', nRow).css('background-color', 'rgb(255, 192, 0, 0.7)');
+			          $('td', nRow).css('background-color', '#BDD7EE');
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '400');
 			        }else if (aData[1] == "Not Awarded") {
-			          $('td', nRow).css('background-color', '#e2e5de');
+			          $('td', nRow).css('background-color', '#7e7579');
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '400');
 			        }else{

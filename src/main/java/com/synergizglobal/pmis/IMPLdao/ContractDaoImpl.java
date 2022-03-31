@@ -3931,8 +3931,8 @@ public class ContractDaoImpl implements ContractDao {
 					"cast(c.estimated_cost*c.estimated_cost_units as CHAR) as estimated_cost," + 
 					"IFNULL((SELECT (revised_amount * revised_amount_units) FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.revision_amounts_status = 'Yes' limit 1),cast(c.awarded_cost*c.awarded_cost_units as CHAR)) as awarded_cost, " + 
 					"(SELECT cast(SUM(gross_work_done) as CHAR) FROM expenditure e WHERE e.contract_id_fk = c.contract_id) AS cumulative_expenditure,"+
-					"DATE_FORMAT(planned_date_of_award,'%d-%m-%Y') as planned_date_of_award, " + 
-					"DATE_FORMAT(loa_date,'%d-%m-%Y') as loa_date, " + 
+					"ifnull(DATE_FORMAT(planned_date_of_award,'%d-%m-%Y'),'') as planned_date_of_award, " + 
+					"ifnull(DATE_FORMAT(loa_date,'%d-%m-%Y'),'') as loa_date, " + 
 					"(SELECT sum(contract_per) FROM activities_scurve where contract_id = c.contract_id AND category = ?) as physical_progress, " + 
 					"IFNULL((SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1),(case when (SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1) is null then DATE_FORMAT(doc,'%d-%m-%Y') else (SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1) end )) as actual_completion_date, " + 
 					"c.remarks " + 

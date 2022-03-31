@@ -320,7 +320,7 @@ td, th {
 									</c:if>
 								</div>
 							</div>
-							<div class="col m12 l8 offset-l2 s8">
+							<div class="col m12 l8 offset-l2 s12">
 								<div class="row no-mar">
 									<div class="col s6 m6 input-field">
 										<p class="searchable_label">Project</p>
@@ -345,7 +345,7 @@ td, th {
 
 							</div>
 						</div>
-						<div class="col m12 l8 offset-l2 s8">
+						<div class="col m12 l8 offset-l2 s12 offset-s1">
   								<div class="col s6 m6 input-field">
 							<button id="gnReport" class="btn waves-effect waves-light bg-m t-c"
 								style="margin-top: 6px;float:right;" onclick="generateReport();">Generate Report</button>									

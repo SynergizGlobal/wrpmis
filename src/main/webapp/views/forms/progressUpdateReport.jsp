@@ -26,6 +26,9 @@
 		.input-field .center-align.m-1 button.bg-s{
 			width:inherit !important;
 		}
+		@media(max-width: 820px){
+			.m-align-left{text-align: left !important;}
+		}
 	</style>
 </head>
 <body>
@@ -65,7 +68,7 @@
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
 								</div>	
-								<div class="col s6 m3 l4 input-field">
+								<div class="col s12 m3 l4 input-field">
 									<p class="searchable_label">Contract</p>
 									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getFobList('');getContractorsList(''); getHodList('');getDyhodList('');resetFilterDropDowns();">
 										<option value="">Select</option>	
@@ -129,10 +132,10 @@
 							</div>									
 							
 							<div class="row">	
-								<div class="col s7 m6 input-field" style="text-align:right;">
+								<div class="col s7 m6 l6 input-field" style="text-align:right;">
 									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Report </strong></button>
 								</div>
-								<div class="col s4 m6 input-field" style="text-align:left;">
+								<div class="col s4 m6 l6 input-field m-align-left" style="text-align:center;">
 									<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Reset</button>
 								</div>								
 							</div>

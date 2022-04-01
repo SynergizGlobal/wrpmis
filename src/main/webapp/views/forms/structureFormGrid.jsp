@@ -140,7 +140,7 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<!-- <h6 class="hide-on-med-and-down">Update Structure </h6> -->
-								<h6 class="mob-mar">Structure Form</h6>
+								<h6 class="mob-mar">Structure Form</h6> 
 								<c:if test="${(sessionScope.USER_TYPE eq 'DyHOD') or (sessionScope.USER_TYPE eq 'HOD') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
 									<div class="col s12 m12 right-align exportButton">
 									   <%--  <div class="m-n1">

@@ -348,7 +348,7 @@
     var pageNo = window.localStorage.getItem("executionOverviewReportPageNo");
     $(document).ready(function () {
     	
-    	$(window).scroll(function () {
+    	/*$(window).scroll(function () {
          	 if($(document).scrollTop()>270)
        	   {
          		$('#topDivCss').css({"position": "fixed","top": "6%","z-index": "2"});
@@ -357,7 +357,8 @@
          		 {
          			$('#topDivCss').css({"position": "sticky","top": "0","z-index": "2"});
          		 }
-       });    	
+       });*/  
+       
     	
     	$('.collapsible').collapsible();
     	   $('select:not(.searchable)').formSelect();

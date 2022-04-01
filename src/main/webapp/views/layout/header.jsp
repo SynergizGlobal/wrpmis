@@ -835,7 +835,39 @@
 				
 				</ul></li>
 		</c:if>
-
+				<li class="sub-menu"><a href="javascript:void(0);"
+					class='head-img collapsible-header'> <span class="material-icons-outlined">description</span>
+						Documents
+				</a>
+					<ul class="dropdown-data collapsible-body second-lvl collapsible">
+						<c:forEach var="obj" items="${webDocumentTypes}">
+							<c:set var="tempWebDocType"
+								value="${ fn:toLowerCase(obj.type.replaceAll(' - ', '_'))}">
+							</c:set>
+							<c:set var="webDocType"
+								value="${ fn:toLowerCase(tempWebDocType.replaceAll(' ', '-'))}">
+							</c:set>
+							<li><a
+								href="<%=request.getContextPath()%>/web-documents/${webDocType}">
+									<span class="nav-label">${obj.type}</span>
+							</a></li>
+						</c:forEach>
+					</ul></li>
+				<%--<li class="blue"><a href="<%=request.getContextPath()%>/web-links"
+                                                class='head-img'>
+                                                <span class="material-icons-outlined">link</span> Quick Links</a>
+                                            </li>--%>
+				<li class="sub-menu"><a href="javascript:void(0);"
+					class='head-img collapsible-header'> <span class="material-icons-outlined">link</span> Quick
+						Links
+				</a>
+					<ul class="dropdown-data collapsible-body second-lvl collapsible">
+						<c:forEach var="lObj" items="${webLinksList }">
+							<li><a href="${lObj.link }" target="_blank"> <span
+									class="nav-label">${lObj.name}</span>
+							</a></li>
+						</c:forEach>
+					</ul></li>
  
 		<li class="sub-menu"><a href="#"
 			class='head-img collapsible-header'> <img

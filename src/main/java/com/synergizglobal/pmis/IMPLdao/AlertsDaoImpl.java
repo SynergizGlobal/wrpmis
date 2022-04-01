@@ -230,8 +230,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** Contract Period alerts*******************************************************/
 			
 			String cpQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
+					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d/%m/%Y') ) else '' end ) as alert_value," 
 					+ "concat('/get-contract?contract_id=',contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
 					+ "when doc is not null then DATE_FORMAT(doc,'%Y-%m-%d') else '' end ) as validity " 
@@ -247,8 +247,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(cpQryAlert1List);
 			}
 			String cpQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
+					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d/%m/%Y') ) else '' end ) as alert_value," 
 					+ "concat('/get-contract?contract_id=',contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
 					+ "when doc is not null then DATE_FORMAT(doc,'%Y-%m-%d') else '' end ) as validity "  
@@ -266,8 +266,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			String cpQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
+					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d/%m/%Y') ) else '' end ) as alert_value," 
 					+ "concat('/get-contract?contract_id=',contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
 					+ "when doc is not null then DATE_FORMAT(doc,'%Y-%m-%d') else '' end ) as validity " 
@@ -284,8 +284,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String cpQryAlert4 = "select contract_id,'Overdue' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
+					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d/%m/%Y') ) else '' end ) as alert_value," 
 					+ "concat('/get-contract?contract_id=',contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
 					+ "when doc is not null then DATE_FORMAT(doc,'%Y-%m-%d') else '' end ) as validity " 
@@ -405,9 +405,9 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 			
 			String cvQryAlert6 = "select w.work_id,'Flag' as alert_level,'R&R' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
-					+ "concat(type_of_use,\" structures in \",location_name,\" not updated in \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
+					+ "concat(structure_id,\" structures in \",location_name,\" not updated in \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/randr-main?location=',r.location_name,'&type_of_use=',r.type_of_use,'&work_id=',w.work_id) as redirect_url\r\n"
-					+ " from rr r left JOIN work w ON w.work_id=r.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(curdate(), r.modified_date)>=90 and r.handed_over_to_execution is null group by location_name,type_of_use,w.work_id";
+					+ " from rr r left JOIN work w ON w.work_id=r.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(curdate(), r.modified_date)>=90 and r.handed_over_to_execution is null group by sub_location_name";
 	
 	
 			List<Alerts> cvQryAlert6List = jdbcTemplate.query( cvQryAlert6, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -428,7 +428,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String cvQryAlert8 = "select distinct c1.contract_id,'Flag' as alert_level,'Contract' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,\r\n"
-					+ "concat(\"Milestone \",milestone_id,\" Completion Date of \", c1.contract_short_name, \" has passed i.e. \",(select DATE_FORMAT(min(milestone_date),'%d-%m-%Y') from contract_milestones mc where mc.contract_id_fk=r.contract_id_fk)) as alert_value,concat('/get-contract/',c1.contract_id,'/#milestoneDetails') as redirect_url\r\n"
+					+ "concat(\"Milestone \",milestone_id,\" Completion Date of \", c1.contract_short_name, \" has passed i.e. \",(select DATE_FORMAT(min(milestone_date),'%d/%m/%Y') from contract_milestones mc where mc.contract_id_fk=r.contract_id_fk)) as alert_value,concat('/get-contract/',c1.contract_id,'/#milestoneDetails') as redirect_url\r\n"
 					+ " from contract_milestones r left join contract c1 on c1.contract_id=r.contract_id_fk  where curdate()>milestone_date and c1.status='Open' and contract_status_fk='In Progress' ";
 	
 	

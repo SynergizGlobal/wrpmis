@@ -143,14 +143,14 @@
 								<h6 class="mob-mar">Structure Form</h6>
 								<c:if test="${(sessionScope.USER_TYPE eq 'DyHOD') or (sessionScope.USER_TYPE eq 'HOD') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
 									<div class="col s12 m12 right-align exportButton">
-									    <div class="m-n1">
+									   <%--  <div class="m-n1">
 									        <a href="<%=request.getContextPath()%>/add-structures-form"
 												class="btn waves-effect waves-light bg-s t-c"> <strong><i
 													class="fa fa-plus-circle"></i> Add</strong></a>
 											<!-- <a href="javascript:void(0);" onclick="exportStructure();"
 												class="btn waves-effect waves-light bg-s t-c"> <strong><i
 													class="fa fa-cloud-download"></i> Export</strong></a> -->
-									    </div>
+									    </div> --%>
 									</div>
 								</c:if>
 							</div>

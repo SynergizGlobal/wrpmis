@@ -437,7 +437,7 @@
     
     $(document).ready(function () {
     	
-    	$(window).scroll(function () {
+    	/*$(window).scroll(function () {
           	 if($(document).scrollTop()>130)
         	   {
           		$('#topDivCss').css({"position": "fixed","top": "4%","z-index": "2"});
@@ -446,7 +446,7 @@
           		 {
           			$('#topDivCss').css({"position": "fixed","top": "33%","z-index": "2"});
           		 }
-        });  
+        });*/  
     	
     	
     	$('.collapsible').collapsible();

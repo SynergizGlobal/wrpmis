@@ -448,7 +448,6 @@
           		 }
         });*/  
     	
-    	
     	$('.collapsible').collapsible();
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();

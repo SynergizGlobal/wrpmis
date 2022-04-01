@@ -405,9 +405,9 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 			
 			String cvQryAlert6 = "select w.work_id,'Flag' as alert_level,'R&R' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
-					+ "concat(structure_id,\" structures in \",location_name,\" not updated in \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
+					+ "concat(structure_id,\" structures in \",location_name,\" not updated in last\", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/randr-main?location=',r.location_name,'&type_of_use=',r.type_of_use,'&work_id=',w.work_id) as redirect_url\r\n"
-					+ " from rr r left JOIN work w ON w.work_id=r.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(curdate(), r.modified_date)>=90 and r.handed_over_to_execution is null group by sub_location_name";
+					+ " from rr r left JOIN work w ON w.work_id=r.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(curdate(), r.modified_date)>=90 and r.handed_over_to_execution is null group by sub_location_name,w.work_id";
 	
 	
 			List<Alerts> cvQryAlert6List = jdbcTemplate.query( cvQryAlert6, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -417,7 +417,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			String cvQryAlert7 = "select w.work_id,'Flag' as alert_level,'Land Acquisition' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
-					+ "concat(\"Land Acquisition for \",village,\" not updated in\", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
+					+ "concat(\"Land activity of for \",chainage_from,\" to \",chainage_to,\" not updated in last\", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/land-acquisition?village=',r.village,'&work_id=',w.work_id) as redirect_url\r\n"
 					+ " from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join land_executives re on re.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and r.la_land_status_fk <> 'Land available for Execution' group by village,w.work_id";
 	

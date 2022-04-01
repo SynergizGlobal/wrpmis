@@ -405,7 +405,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 			
 			String cvQryAlert6 = "select w.work_id,'Flag' as alert_level,'R&R' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
-					+ "concat(structure_id,\" structures in \",location_name,\" not updated in last\", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
+					+ "concat(structure_id,\" structures in \",location_name,\" not updated in last \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/randr-main?location=',r.location_name,'&type_of_use=',r.type_of_use,'&work_id=',w.work_id) as redirect_url\r\n"
 					+ " from rr r left JOIN work w ON w.work_id=r.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(curdate(), r.modified_date)>=90 and r.handed_over_to_execution is null group by sub_location_name,w.work_id";
 	
@@ -417,7 +417,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			String cvQryAlert7 = "select w.work_id,'Flag' as alert_level,'Land Acquisition' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
-					+ "concat(\"Land activity of for \",chainage_from,\" to \",chainage_to,\" not updated in last\", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
+					+ "concat(\"Land activity of for \",chainage_from,\" to \",chainage_to,\" not updated in last \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/land-acquisition?village=',r.village,'&work_id=',w.work_id) as redirect_url\r\n"
 					+ " from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join land_executives re on re.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and r.la_land_status_fk <> 'Land available for Execution' group by village,w.work_id";
 	
@@ -447,7 +447,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			
-			String cvQryAlert10 = "select 'Flag' as alert_level,'Utility Shifting' as alert_type,concat(utility_shifting_id,\" is not shifted by \", owner_name,\" beyond \",ifnull(requirement_stage_fk,''),ifnull(start_date,'')) as alert_value,concat('/utilityshifting?utility_category_fk=',r.utility_category_fk,'&work_id=',w.work_id) as redirect_url,ue.executive_user_id_fk as hod_user_id_fk from utility_shifting r left join work w on w.work_id=r.work_id_fk  left join utility_shifting_executives ue on ue.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and shifting_status_fk!='Completed' group by utility_category_fk";
+			String cvQryAlert10 = "select 'Flag' as alert_level,'Utility Shifting' as alert_type,concat(utility_shifting_id,\" is not shifted by \", owner_name,\" beyond \",ifnull(requirement_stage_fk,''),ifnull(DATE_FORMAT(start_date,'%d/%m/%Y'),'')) as alert_value,concat('/utilityshifting?utility_category_fk=',r.utility_category_fk,'&work_id=',w.work_id) as redirect_url,ue.executive_user_id_fk as hod_user_id_fk from utility_shifting r left join work w on w.work_id=r.work_id_fk  left join utility_shifting_executives ue on ue.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and shifting_status_fk!='Completed' group by utility_category_fk";
 	
 	
 			List<Alerts> cvQryAlert10List = jdbcTemplate.query( cvQryAlert10, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -985,7 +985,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(alert2List);
 			}	
 			
-			String qryAlert3 = "select contract_id_fk as contract_id, '3rd Alert' as alert_level,'Issue' as alert_type,"
+			/*String qryAlert3 = "select contract_id_fk as contract_id, '3rd Alert' as alert_level,'Issue' as alert_type,"
 					+ "concat(i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
 					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
@@ -999,7 +999,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			List<Alerts> alert3List = jdbcTemplate.query( qryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(alert3List) && alert3List.size() > 0) {
 				list.addAll(alert3List);
-			}
+			}*/
 			
 			
 			/*************************Alerts insertion********************************************/

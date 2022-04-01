@@ -765,10 +765,17 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
    <script>
+   
+   
    $(document).ready(function () {
         $('select:not(.searchable)').formSelect();
     	$('.searchable').select2();
     	$(".datepicker").datepicker();
+    	var status = $("#shifting_status_fk").val();
+    	if(status == null || status == ''){
+    		 $("#shifting_status_fk option[value='Not Started']").attr("selected", "selected");
+    		 $('.searchable').select2();
+    	}
     	
     	 $('select').change(function(){
              if ($(this).val() != ""){
@@ -783,6 +790,10 @@
          });
          
     	$('#shifting_status_fk').change(function(){
+    		status = $("#shifting_status_fk").val();
+    		if(status == null || status == ''){
+    			 $("#shifting_status_fk").val('Not Started'); 
+	    	}
     		if($('#shifting_status_fk').val()=='Completed'){
     			$('#shifting_completion_date').rules('add',  { required: true });
     			$('#start_date').rules('add',  { required: true });
@@ -795,7 +806,6 @@
     			$('label[for="completed"] .required').text('*');   
     			$('label[for="scope"] .required').text('*');
     			$('#unit').text('*');   
-
 
     		}else if($('#shifting_status_fk').val()=='In Progress'){
     			$('#shifting_completion_date').rules('add',  { required: false });

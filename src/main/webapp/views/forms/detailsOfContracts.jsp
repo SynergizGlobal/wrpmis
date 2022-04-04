@@ -274,8 +274,8 @@
 
 .mdl-data-table td 
 {
-    /* border-top: 1px solid rgba(0,0,0,.12); */
-    /* border-bottom: 1px solid rgba(0,0,0,.12); */
+     border-top: 1px solid #ffffff !important; 
+     border-bottom: 1px solid #ffffff !important; 
     padding-top: 12px;
     vertical-align: middle;
 }   

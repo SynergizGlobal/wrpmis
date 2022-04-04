@@ -1054,14 +1054,40 @@ td, th {
 					if(data != null && data != '' && data.length > 0)
 					{ 
 						var html="";
+						var shtml="";
+						var mhtml="";
+						var phtml="";
 						$.each(data,function(key,val){
-							if (key % 3 === 0) 
+							if(key<=2)
 								{
-									html=html+"<tr><td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td></tr>";
+									html=html+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
 								}
 						});
-						$("#projectPhotosTbl tbody").append(html);
-				
+						$("#projectPhotosTbl tbody").append("<tr>"+html+"</tr>");
+						
+						$.each(data,function(key,val){
+							if(key>2 && key<6)
+								{
+								shtml=shtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								}
+						});
+						$("#projectPhotosTbl tbody").append("<tr>"+shtml+"</tr>");
+						
+						$.each(data,function(key,val){
+							if(key>=6 && key<9)
+								{
+								mhtml=mhtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								}
+						});
+						$("#projectPhotosTbl tbody").append("<tr>"+mhtml+"</tr>");	
+						
+						$.each(data,function(key,val){
+							if(key>=9 && key<12)
+								{
+								phtml=phtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								}
+						});
+						$("#projectPhotosTbl tbody").append("<tr>"+phtml+"</tr>");							
 
 					}
 	 			}

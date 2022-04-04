@@ -198,7 +198,7 @@
         }
 
         .box.not-started {
-            background-color: #7e7579;
+            background-color: #ffffff;
         }
 
         .box.in-progress {
@@ -634,7 +634,8 @@
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '400');
 			        }else if (aData[1] == "Not Awarded") {
-			          $('td', nRow).css('background-color', '#7e7579');
+			          $('td', nRow).css('background-color', '#ffffff');
+			          $('td', nRow).css('color', '#000000');
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '400');
 			        }else{

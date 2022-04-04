@@ -1052,10 +1052,22 @@ td, th {
 					if(data != null && data != '' && data.length > 0)
 					{ 
 						var html="";
+						var shtml="";
 						$.each(data,function(key,val){
-							html=html+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='200' height='200'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+							if(key<=2)
+								{
+									html=html+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='200' height='200'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								}
 						});
 						$("#projectPhotosTbl tbody").append("<tr>"+html+"</tr>");
+						
+						$.each(data,function(key,val){
+							if(key>2)
+								{
+								shtml=shtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='200' height='200'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								}
+						});
+						$("#projectPhotosTbl tbody").append("<tr>"+shtml+"</tr>");						
 
 					}
 	 			}
@@ -1173,22 +1185,25 @@ td, th {
 						$.each(data,function(key,val){
 							if(deptArray.indexOf(val.department_id_fk)=="-1")
 							{
-								html=html+"<tr><td style='text-align:center;'>"+OI+"</td><td colspan='7'>"+val.department_id_fk+"</td></tr>";
-								deptArray.push(val.department_id_fk);
-							
-								var kt=0;
-								$.each(data,function(key1,val1){
-	
-									if(val1.department_id_fk==val.department_id_fk)
+								if(val.department_id_fk!=null)
 									{
-										var m=Number(kt)+1;
-										var concVal=OI+'.'+m;
-										
-										html=html+"<tr><td style='text-align:center;'>"+concVal+"</td><td>"+val1.contract_short_name+"</td><td style='text-align:center;'>"+val1.loa_date+"</td><td style='text-align:center;'>"+val1.actual_completion_date+"</td><td style='text-align:center;'>"+val1.actual_physical_progress+"</td><td style='text-align:right;'>"+val1.estimated_cost+"</td><td style='text-align:right;'>"+val1.awarded_cost+"</td><td>"+val1.remarks+"</td></tr>";
-										kt++;
+										html=html+"<tr><td style='text-align:center;'>"+OI+"</td><td colspan='7'>"+val.department_id_fk+"</td></tr>";
+										deptArray.push(val.department_id_fk);
+									
+										var kt=0;
+										$.each(data,function(key1,val1){
+			
+											if(val1.department_id_fk==val.department_id_fk)
+											{
+												var m=Number(kt)+1;
+												var concVal=OI+'.'+m;
+												
+												html=html+"<tr><td style='text-align:center;'>"+concVal+"</td><td>"+val1.contract_short_name+"</td><td style='text-align:center;'>"+val1.loa_date+"</td><td style='text-align:center;'>"+val1.actual_completion_date+"</td><td style='text-align:center;'>"+val1.actual_physical_progress+"</td><td style='text-align:right;'>"+val1.estimated_cost+"</td><td style='text-align:right;'>"+val1.awarded_cost+"</td><td>"+val1.remarks+"</td></tr>";
+												kt++;
+											}
+										});
+										OI++;
 									}
-								});
-								OI++;
 							}
 							
 						});

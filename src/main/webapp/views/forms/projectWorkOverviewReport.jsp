@@ -776,6 +776,13 @@ td, th {
 						var LastYear=today.getFullYear();
 						
 						$.each(data,function(key,val){
+	        				if(key==0)
+	        				{
+								$("#divWorkShortName").html("<span style='font-size:16px;'>"+val.work_short_name+" ("+val.project_name+")<br><br>OVERVIEW</span>");
+	        				}
+						});
+						
+						$.each(data,function(key,val){
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Year of Sanction</td><td>"+val.sanctioned_year_fk+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Sanctioned Cost (Cr)</td><td>"+val.sanctioned_estimated_cost+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Budget Grant FY "+getCurrentFinancialYear()+" (Cr)</td><td>"+val.budget_grant_current_fy+"</td></tr>");
@@ -785,11 +792,6 @@ td, th {
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Financial Progress (%)</td><td>"+val.financial_progress+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Physical Progress (%)</td><td>"+val.physical_progress+"</td></tr>");
 		        			$("#prjOverviewTbl tbody").append("<tr><td>Target Completion Date</td><td>"+val.target_completion_date+"</td></tr>");
-		        			
-	        				if(key==0)
-	        				{
-								$("#divWorkShortName").html("<span style='font-size:16px;'>"+val.work_short_name+" ("+val.project_name+")<br><br>OVERVIEW</span>");
-	        				}
 						});
 						
 					}
@@ -1053,10 +1055,11 @@ td, th {
 					{ 
 						var html="";
 						var shtml="";
+						var mhtml="";
 						$.each(data,function(key,val){
 							if(key<=2)
 								{
-									html=html+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='200' height='200'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+									html=html+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
 								}
 						});
 						$("#projectPhotosTbl tbody").append("<tr>"+html+"</tr>");
@@ -1064,10 +1067,18 @@ td, th {
 						$.each(data,function(key,val){
 							if(key>2)
 								{
-								shtml=shtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='200' height='200'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								shtml=shtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
 								}
 						});
-						$("#projectPhotosTbl tbody").append("<tr>"+shtml+"</tr>");						
+						$("#projectPhotosTbl tbody").append("<tr>"+shtml+"</tr>");
+						
+						$.each(data,function(key,val){
+							if(key>=6)
+								{
+								mhtml=mhtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								}
+						});
+						$("#projectPhotosTbl tbody").append("<tr>"+mhtml+"</tr>");						
 
 					}
 	 			}

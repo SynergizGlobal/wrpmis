@@ -270,7 +270,15 @@
 .form-control input-sm ms-w280
 {
 	font-size: 1.6rem !important;
-}	    
+}	
+
+.mdl-data-table td 
+{
+    /* border-top: 1px solid rgba(0,0,0,.12); */
+    /* border-bottom: 1px solid rgba(0,0,0,.12); */
+    padding-top: 12px;
+    vertical-align: middle;
+}   
 	
     </style>
 </head>

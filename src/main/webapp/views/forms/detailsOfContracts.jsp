@@ -30,9 +30,7 @@
     	tr{
     		//border-bottom: 2px solid rgba(255,255,255,0.52);
    		}
-   		tr.even {
-   			 background-color: transparent !important;
-   		}
+
     	.dataTables_wrapper .mdl-grid .mdl-cell.mdl-cell--6-col:first-of-type{
     		    vertical-align: middle !important;
 			    display: flex !important;
@@ -649,35 +647,37 @@
 	 
 	 	var myParams = { work_id_fk : work_id_fk,department_fk : department_fk,contract_status_fk: contract_status_fk};
 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getDetailsOfContracts",type:"POST",data:myParams,async: true,success : function(data){    				
-				if(data != null && data != '' && data.length > 0){    					
+				if(data != null && data != '' && data.length > 0){  
+					var lp=1;
 	         		$.each(data,function(key,val)
 	         				{
-						if(val.contract_short_name.indexOf("Demo")=="-1")
-						{
-	                    var rowArray = []; 
-                        
-                        var conractName = val.contract_id;
-                        if ($.trim(val.contract_short_name) != ''){
-                        	conractName = $.trim(val.contract_short_name) 
-                        }
-                        var loa_date = val.loa_date;
-                        var awarded_cost = val.awarded_cost;
-                        if ($.trim(val.contract_status_fk) == 'Not Awarded'){
-                        	loa_date = '<span class="red">'+val.planned_date_of_award+'</span>'
-                        	awarded_cost = '<span class="red">'+val.awarded_cost+'</span>'
-                        }
-	                   	rowArray.push($.trim(key+1));
-	                   	rowArray.push($.trim(val.contract_status_fk));
-	                   	rowArray.push($.trim(conractName));
-	                   	rowArray.push($.trim(awarded_cost));
-	                   	rowArray.push($.trim(val.cumulative_expenditure));
-	                   	rowArray.push($.trim(val.physical_progress));
-	                   	rowArray.push($.trim(loa_date));
-	                   	rowArray.push($.trim(val.actual_completion_date));
-	                   	rowArray.push($.trim(val.remarks));   	                   	
-	                   	
-	                    table.row.add(rowArray).draw( true );
-						}
+								if(val.contract_short_name.indexOf("Demo")=="-1")
+								{
+				                    var rowArray = []; 
+			                        
+			                        var conractName = val.contract_id;
+			                        if ($.trim(val.contract_short_name) != ''){
+			                        	conractName = $.trim(val.contract_short_name) 
+			                        }
+			                        var loa_date = val.loa_date;
+			                        var awarded_cost = val.awarded_cost;
+			                        if ($.trim(val.contract_status_fk) == 'Not Awarded'){
+			                        	loa_date = '<span class="red">'+val.planned_date_of_award+'</span>'
+			                        	awarded_cost = '<span class="red">'+val.awarded_cost+'</span>'
+			                        }
+				                   	rowArray.push($.trim(lp));
+				                   	rowArray.push($.trim(val.contract_status_fk));
+				                   	rowArray.push($.trim(conractName));
+				                   	rowArray.push($.trim(awarded_cost));
+				                   	rowArray.push($.trim(val.cumulative_expenditure));
+				                   	rowArray.push($.trim(val.physical_progress));
+				                   	rowArray.push($.trim(loa_date));
+				                   	rowArray.push($.trim(val.actual_completion_date));
+				                   	rowArray.push($.trim(val.remarks));   	                   	
+				                   	
+				                    table.row.add(rowArray).draw( true );
+				                    lp++;
+								}
 	                    
 					});
 	         		/* if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}

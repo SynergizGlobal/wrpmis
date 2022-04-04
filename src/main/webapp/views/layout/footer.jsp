@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 	<style type="text/css">
+		.help-txt{
+    		position: relative;
+		    top: -1.1em;
+		    right: .5em;
+		    font-size: 1rem;
+    	}
 		.f-logo{width: 27px;vertical-align: bottom;}
 		.dropdown-content li>a>i{
 		    float:right;
@@ -28,7 +34,7 @@
       	<img src="/pmis/resources/images/mrvclogo.png" alt="Logo" class="f-logo"> </a> | Designed & Developed by</span> 
       		<a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image"></a>
         <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
-        	<img src="/pmis/resources/images/help_icon.svg">
+        	<span class="help-txt">Help desk</span><img src="/pmis/resources/images/help_icon.svg">
         </a>
 
   <!-- Dropdown Structure -->
@@ -46,7 +52,7 @@
     	<li><a href="<%=CommonConstants2.PMIS_MANUALS%>${manualObj.manual_id }/${manualObj.file_name }" target="_blank">${manualObj.title } <i class="fa fa-download"></i></a></li>
     </c:forEach>
     <li class="divider" tabindex="-1"></li>
-    <li class="support-link"> Contact us :  <a href="mailto:support_pmis@mrvc.gov.in" style="display: inline;">support_pmis@mrvc.gov.in</a></li>
+    <li class="support-link"> Contact us :  <a href="mailto:helpdesk_pmis@mrvc.gov.in" style="display: inline;">helpdesk_pmis@mrvc.gov.in</a></li>
   </ul>
     </div>
   </div>

@@ -28,7 +28,7 @@
     	}
     	.red{color: red;background-color: transparent !important;}
     	tr{
-    		border-bottom: 2px solid rgba(255,255,255,0.52);
+    		//border-bottom: 2px solid rgba(255,255,255,0.52);
    		}
    		tr.even {
    			 background-color: transparent !important;
@@ -342,7 +342,7 @@
 					</div>
 					<br>
 					<div class="row" style="font-size:1.6rem !important;">
-						<div class="col m12 l5 offset-l3 s12">
+						<div class="col m12 l7 offset-l3 s12">
 						 	<fieldset class="p-2 brdr" >
 							 	   <!-- <legend> Legend </legend>  --> 										
                                    <div class="col m4 s4 center-align con-center">
@@ -580,7 +580,7 @@
                 {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
                 {targets: [1],className: 'hide-column'},
                 {targets: [0, 3, 4, 5, 7],className: 'center-column'},
-                {targets: [5],className: 'red'},
+                //{targets: [5],className: 'red'},
                 {targets: [6],className: 'fw-200'},
                 {targets: [2, 8],className: 'fw-230'},
                 { orderable: false, 'aTargets': ['nosort'] }

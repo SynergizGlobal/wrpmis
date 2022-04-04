@@ -749,9 +749,9 @@ td, th {
     function getCurrentFinancialYear() {
         var financial_year = "";
         var today = new Date();
+   		var mcDate=(today.getFullYear() + 1)
         if ((today.getMonth() + 1) <= 3) {
        		var date=today.getFullYear();
-       		var mcDate=(today.getFullYear() + 1)
             financial_year = (today.getFullYear() - 1) + "-" + date.toString().slice(-2);
         } else {
             financial_year = today.getFullYear() + "-" + mcDate.toString().slice(-2);

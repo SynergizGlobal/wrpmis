@@ -1054,31 +1054,14 @@ td, th {
 					if(data != null && data != '' && data.length > 0)
 					{ 
 						var html="";
-						var shtml="";
-						var mhtml="";
 						$.each(data,function(key,val){
-							if(key<=2)
+							if (key >= 0 && key % 2 === 0) {
 								{
 									html=html+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
 								}
 						});
 						$("#projectPhotosTbl tbody").append("<tr>"+html+"</tr>");
-						
-						$.each(data,function(key,val){
-							if(key>2)
-								{
-								shtml=shtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
-								}
-						});
-						$("#projectPhotosTbl tbody").append("<tr>"+shtml+"</tr>");
-						
-						$.each(data,function(key,val){
-							if(key>=6)
-								{
-								mhtml=mhtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
-								}
-						});
-						$("#projectPhotosTbl tbody").append("<tr>"+mhtml+"</tr>");						
+				
 
 					}
 	 			}

@@ -169,119 +169,196 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		List<OverviewDashboard> objList = new ArrayList<OverviewDashboard>();
 		try {
 			
-			//OverviewDashboard tempObj = getWorkColumnName(dObj.getDashboard_id());
+			OverviewDashboard tempObj = getWorkColumnName(dObj.getDashboard_id());
 			
 			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, "
 					+ "default_filter_column, default_filter_value, selected_value,query_for_filter_options,filters_table_alias_name,order_by,is_first_option_selected "
 					+ "FROM left_menu_filters WHERE left_menu_id_fk = ? AND status = ? "
 					+ "ORDER BY priority ASC";
 			objList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id(),CommonConstants.ACTIVE },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
-			/*for (OverviewDashboard obj : objList) {		
-				if(!StringUtils.isEmpty(obj.getQuery_for_filter_options())){
-					String[] qryArr = obj.getQuery_for_filter_options().split("FROM");
-					String firstPart = qryArr[0];
-					String secondPart = qryArr[1];
-					String filterQry = firstPart + ",";
-					if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
-						filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
-					}
-					filterQry = filterQry + obj.getFilter_column_name() + " as filter_option_value";
-					
-					if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
-						filterQry = filterQry + ",";
+			for (OverviewDashboard obj : objList) {		
+				if(!StringUtils.isEmpty(obj.getIs_first_option_selected()) && (obj.getIs_first_option_selected()).toUpperCase().equals("YES")){
+					if(!StringUtils.isEmpty(obj.getQuery_for_filter_options())){
+						String[] qryArr = obj.getQuery_for_filter_options().split("FROM");
+						String firstPart = qryArr[0];
+						String secondPart = qryArr[1];
+						String filterQry = firstPart + ",";
 						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
 							filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
 						}
-						filterQry = filterQry + obj.getFilter_column_id() + " as filter_option_id ";
-					}else {
-						filterQry = filterQry + ",";
-						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
-							filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
-						}
-						filterQry = filterQry + obj.getFilter_column_name() + " as filter_option_id ";
-					}
-					filterQry = filterQry + " FROM ";
-					filterQry = filterQry + secondPart;
-					if(!secondPart.contains("WHERE")) {
-						filterQry = filterQry + " WHERE ";
-								if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
-									filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
-								}
-								filterQry = filterQry + obj.getFilter_column_id()
-								+ " IS NOT NULL ";
-					}							
-					if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
-						filterQry = filterQry + " AND ";
-						if(!StringUtils.isEmpty(tempObj.getSource_table_alias_name())) {
-							filterQry = filterQry + tempObj.getSource_table_alias_name()+ ".";
-						}
-						filterQry = filterQry + ""+ tempObj.getSource_field_name()+ ""
-						+ " = "
-						+ "'"+ dObj.getWork_id()+ "'";
-					}
-					if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
-						filterQry = filterQry + " AND "
-						+ ""+ obj.getDefault_filter_column()+ ""
-						+ " = "
-						+ "'"+ obj.getDefault_filter_value()+ "'";
-					}
-					
-					filterQry = filterQry + " GROUP BY ";
-					if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
-						filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
-					}
-					filterQry = filterQry + obj.getFilter_column_id();
-					if(!StringUtils.isEmpty(obj.getOrder_by())) {
-						filterQry = filterQry + " ORDER BY ";
-						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
-							filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
-						}
-						filterQry = filterQry + obj.getOrder_by();
-					}
-					
-					List<OverviewDashboard> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
-					obj.setFilter(filter);
-				}else if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
-					String filterQry = "SELECT "
-							+ "`" + obj.getFilter_column_name() + "` as filter_option_value";
-							if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
-								filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
-							}else {
-								filterQry = filterQry + ",`" + obj.getFilter_column_name() + "` as filter_option_id ";
+						filterQry = filterQry + obj.getFilter_column_name() + " as filter_option_value";
+						
+						if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
+							filterQry = filterQry + ",";
+							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+								filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
 							}
-							filterQry = filterQry + " FROM "
-							+ "`"+ obj.getFilters_table()+ "`";
+							filterQry = filterQry + obj.getFilter_column_id() + " as filter_option_id ";
+						}else {
+							filterQry = filterQry + ",";
+							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+								filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
+							}
+							filterQry = filterQry + obj.getFilter_column_name() + " as filter_option_id ";
+						}
+						filterQry = filterQry + " FROM ";
+						filterQry = filterQry + secondPart;
+						if(!secondPart.contains("WHERE")) {
+							filterQry = filterQry + " WHERE ";
+									if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+										filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
+									}
+									filterQry = filterQry + obj.getFilter_column_id()
+											+ " IS NOT NULL ";
+						}							
+						if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
+							filterQry = filterQry + " AND ";
+							if(!StringUtils.isEmpty(tempObj.getSource_table_alias_name())) {
+								filterQry = filterQry + tempObj.getSource_table_alias_name()+ ".";
+							}
+							filterQry = filterQry + ""+ tempObj.getSource_field_name()+ ""
+							+ " = "
+							+ "'"+ dObj.getWork_id()+ "'";
+						}
+						if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
+							filterQry = filterQry + " AND "
+							+ ""+ obj.getDefault_filter_column()+ ""
+							+ " = "
+							+ "'"+ obj.getDefault_filter_value()+ "'";
+						}
+						if(!StringUtils.isEmpty(dObj.getParams())) {
+							filterQry = filterQry + " AND "+dObj.getParams();
+						}
+						
+						filterQry = filterQry + " GROUP BY ";
+						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+							filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
+						}
+						filterQry = filterQry + obj.getFilter_column_id();
+						if(!StringUtils.isEmpty(obj.getOrder_by())) {
+							filterQry = filterQry + " ORDER BY ";
+							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
+								filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
+							}
+							filterQry = filterQry + obj.getOrder_by();
+						}
+						
+						/************************************************************************************/
+						if(!StringUtils.isEmpty(obj.getUnion_all())){
+							String[] unionQryArr = obj.getUnion_all().split("FROM");
+							String unionFirstPart = unionQryArr[0];
+							String unionSecondPart = unionQryArr[1];
+							String unionFilterQry = unionFirstPart + ",";
+							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+								unionFilterQry = unionFilterQry + obj.getFilters_table_alias_name() + ".";
+							}
+							unionFilterQry = unionFilterQry + obj.getFilter_column_name() + " as filter_option_value";
 							
-							filterQry = filterQry + " WHERE "
-									+ "`"+ obj.getFilter_column_id()+ "`"
-									+ " IS NOT NULL ";
-							if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name())) {
-								filterQry = filterQry + " AND "
-								+ "`"+ tempObj.getSource_field_name()+ "`"
+							if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
+								unionFilterQry = unionFilterQry + ",";
+								if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+									unionFilterQry = unionFilterQry + obj.getFilters_table_alias_name() + ".";
+								}
+								unionFilterQry = unionFilterQry + obj.getFilter_column_id() + " as filter_option_id ";
+							}else {
+								unionFilterQry = unionFilterQry + ",";
+								if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+									unionFilterQry = unionFilterQry + obj.getFilters_table_alias_name() + ".";
+								}
+								unionFilterQry = unionFilterQry + obj.getFilter_column_name() + " as filter_option_id ";
+							}
+							unionFilterQry = unionFilterQry + " FROM ";
+							unionFilterQry = unionFilterQry + unionSecondPart;
+							if(!unionSecondPart.contains("WHERE")) {
+								unionFilterQry = unionFilterQry + " WHERE ";
+										if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+											unionFilterQry = unionFilterQry + obj.getFilters_table_alias_name() + ".";
+										}
+										unionFilterQry = unionFilterQry + obj.getFilter_column_id()
+												+ " IS NOT NULL ";
+							}							
+							if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
+								unionFilterQry = unionFilterQry + " AND ";
+								if(!StringUtils.isEmpty(tempObj.getSource_table_alias_name())) {
+									unionFilterQry = unionFilterQry + tempObj.getSource_table_alias_name()+ ".";
+								}
+								unionFilterQry = unionFilterQry + ""+ tempObj.getSource_field_name()+ ""
 								+ " = "
 								+ "'"+ dObj.getWork_id()+ "'";
 							}
 							if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
-								filterQry = filterQry + " AND "
-								+ "`"+ obj.getDefault_filter_column()+ "`"
+								unionFilterQry = unionFilterQry + " AND "
+								+ ""+ obj.getDefault_filter_column()+ ""
 								+ " = "
 								+ "'"+ obj.getDefault_filter_value()+ "'";
 							}
-							
-							
-							filterQry = filterQry + " GROUP BY " + "`"+ obj.getFilter_column_id()+ "`";
-							if(!StringUtils.isEmpty(obj.getOrder_by())) {
-								filterQry = filterQry + " ORDER BY ";
-								if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
-									filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
-								}
-								filterQry = filterQry + obj.getOrder_by();
+							if(!StringUtils.isEmpty(dObj.getParams())) {
+								unionFilterQry = unionFilterQry + " AND "+dObj.getParams();
 							}
-					List<OverviewDashboard> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
-					obj.setFilter(filter);
-				} 
-				
-			}*/
+							
+							unionFilterQry = unionFilterQry + " GROUP BY ";
+							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
+								unionFilterQry = unionFilterQry + obj.getFilters_table_alias_name() + ".";
+							}
+							unionFilterQry = unionFilterQry + obj.getFilter_column_id();
+							if(!StringUtils.isEmpty(obj.getOrder_by())) {
+								unionFilterQry = unionFilterQry + " ORDER BY ";
+								if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
+									unionFilterQry = unionFilterQry + obj.getFilters_table_alias_name() + ".";
+								}
+								unionFilterQry = unionFilterQry + obj.getOrder_by();
+							}
+							
+							filterQry = filterQry + " UNION ALL " +unionFilterQry;
+						}
+						
+						
+						/*************************************************************************************/
+						List<OverviewDashboard> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+						obj.setFilter(filter);
+					}else if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
+						String filterQry = "SELECT "
+						+ "`" + obj.getFilter_column_name() + "` as filter_option_value ";
+						if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
+							filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
+						}
+						filterQry = filterQry + " FROM "
+						+ "`"+ obj.getFilters_table()+ "`";
+						
+						filterQry = filterQry + " WHERE "
+								+ "`"+ obj.getFilter_column_id()+ "`"
+								+ " IS NOT NULL ";
+						if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
+							filterQry = filterQry + " AND "
+							+ "`"+ tempObj.getSource_field_name()+ "`"
+							+ " = "
+							+ "'"+ dObj.getWork_id()+ "'";
+						}
+						if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
+							filterQry = filterQry + " AND "
+							+ "`"+ obj.getDefault_filter_column()+ "`"
+							+ " = "
+							+ "'"+ obj.getDefault_filter_value()+ "'";
+						}
+						
+						if(!StringUtils.isEmpty(dObj.getParams())) {
+							filterQry = filterQry + " AND "+dObj.getParams();
+						}
+						
+						
+						filterQry = filterQry + " GROUP BY " + "`"+ obj.getFilter_column_id()+ "`";
+						if(!StringUtils.isEmpty(obj.getOrder_by())) {
+							filterQry = filterQry + " ORDER BY ";
+							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
+								filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
+							}
+							filterQry = filterQry + obj.getOrder_by();
+						}
+						List<OverviewDashboard> filter = jdbcTemplate.query(filterQry,new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+						obj.setFilter(filter);
+					}
+				}
+			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}		

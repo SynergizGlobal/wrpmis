@@ -460,7 +460,22 @@
          			   filters = filters + '<div class="filterHolder">'
 					         			+ '<label>'+value.filter_label_name+'</label>'
 					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
-					         			+ '<option value="">All</option>'
+					         			//+ '<option value="">All</option>'
+					         			
+					         			if((value.is_first_option_selected != 'YES')){
+					         				filters = filters + '<option value="" selected>All</option>';
+				         			    }
+				         			  	$.each( value.filter, function( index2, value2 ){
+					         			  	var filter_option_id = value2.filter_option_value;
+					         				if($.trim(value2.filter_option_id) != ''){
+					         					filter_option_id = value2.filter_option_id;
+					         				}
+					         				var selectedFlag = "";
+					         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
+					         					selectedFlag = 'selected';
+					         				}
+					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+				                     	});
 					         			
 					         			filters = filters + '</select>'
 					         			+ '</div>';	

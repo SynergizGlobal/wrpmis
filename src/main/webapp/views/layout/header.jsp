@@ -148,103 +148,130 @@
      }
      
      .theme-change {
-    position: fixed;
-    z-index: 2;
-    right: -20px;
-    top: 60px;
-    border: 0;
-    cursor: pointer;
-    font-size: 1.5rem;
-    transition: all 1s ease-in-out;
-}
-@media(max-width: 1920px){
-		#CurrentDate{
-		 	left:3.5rem !important;
-		 	font-size:.75rem !important;
+	    position: fixed;
+	    z-index: 2;
+	    right: -20px;
+	    top: 60px;
+	    border: 0;
+	    cursor: pointer;
+	    font-size: 1.5rem;
+	    transition: all 1s ease-in-out;
+	}
+	@media(max-width: 1920px){
+			#CurrentDate{
+			 	left:3.5rem !important;
+			 	font-size:.75rem !important;
+			}
+		}
+			 #CurrentDate{
+			 	left:4rem !important;
+			 	font-size:.75rem !important;
+			}
+	.accordions{
+	    right: 8em;
+	    position: absolute;
+	    width: 4em;
+	    display:none;
+	}
+	.accordion {
+	  margin: 10px 35px;
+	  position: relative;
+	  border-radius: .88rem;
+	  background: #fff;
+	  width: fit-content;
+	  box-shadow: 2px 2px 4px rgb(0 0 0 / 30%);
+	}
+	
+	
+	.accordion__header {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  display: flex;
+	  align-items: center;
+	  height: 2.4rem;
+	  width: 8rem;
+	  padding: .31rem 1.25rem .44rem .56rem;
+	  cursor: pointer;
+	  border-radius: .88rem;
+	  z-index: 10;
+	}
+	span.badge1{
+		border-radius: 50px;
+		margin-top: -9px;
+		min-width: 1rem;
+		padding: 0 8px;
+	    margin-left: -9px;
+	    font-size: 12px;
+	    color: #fff;
+	    height: 23px;
+	}
+	.material-icons-outlined{
+		font-size: 27px;
+		width: 30px;
+	}
+	.accordion__icon {
+	  margin-right: .63rem;
+	  width: 2rem;
+	  height: 1.5rem;
+	  transition: all .5s ease; 
+	}
+	
+	.accordion__title {
+	  font-weight: 700;
+	  font-size: .75rem;
+	}
+	
+	.accordion__body {
+	  position: absolute;
+	  float: right;
+	  right:-4rem;
+	  width: 400px !important;
+	  height: 0;
+	  min-height: 0;
+	  border-radius: .88rem;
+	  transition: all .5s ease;
+	  overflow: hidden;
+	  background-color: #fff;
+	  color: #000;
+	  top: 3rem;
+	}
+	
+	.accordion__inner {
+	  position: relative;
+	  padding: 15px	;
+	  width: 29rem;
+	  font-size: .88rem;
+	  line-height: 1.13rem
+	}
+	.rm9em{right: -9em !important;}
+	@media(max-width: 400px){
+		.accordion__body{
+			width: 375px !important;
+		}
+		.accordion__inner{
+			width: 27rem;
 		}
 	}
-		 #CurrentDate{
-		 	left:4rem !important;
-		 	font-size:.75rem !important;
+	@media(max-width: 375px){
+		.accordion__body{
+			width: 360px !important;
 		}
-.accordions{
-    right: 8em;
-    position: absolute;
-    width: 4em;
-    display:none;
-}
-.accordion {
-  margin: 10px 35px;
-  position: relative;
-  border-radius: .88rem;
-  background: #fff;
-  width: fit-content;
-  box-shadow: 2px 2px 4px rgb(0 0 0 / 30%);
-}
-
-
-.accordion__header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  height: 2.4rem;
-  width: 8rem;
-  padding: .31rem 1.25rem .44rem .56rem;
-  cursor: pointer;
-  border-radius: .88rem;
-  z-index: 10;
-}
-span.badge1{
-	border-radius: 50px;
-	margin-top: -9px;
-	min-width: 1rem;
-	padding: 0 8px;
-    margin-left: -9px;
-    font-size: 12px;
-    color: #fff;
-    height: 23px;
-}
-.material-icons-outlined{
-	font-size: 27px;
-	width: 30px;
-}
-.accordion__icon {
-  margin-right: .63rem;
-  width: 2rem;
-  height: 1.5rem;
-  transition: all .5s ease; 
-}
-
-.accordion__title {
-  font-weight: 700;
-  font-size: .75rem;
-}
-
-.accordion__body {
-  position: absolute;
-  float: right;
-  right:-4rem;
-  width: 400px !important;
-  height: 0;
-  min-height: 0;
-  border-radius: .88rem;
-  transition: all .5s ease;
-  overflow: hidden;
-  background-color: #fff;
-  color: #000;
-  top: 3rem;
-}
-
-.accordion__inner {
-  position: relative;
-  padding: 15px	;
-  width: 29rem;
-  font-size: .88rem;
-  line-height: 1.13rem
-}
-.rm9em{right: -9em !important;}
+		.accordion__inner{
+			width: 26rem;
+		}
+	}
+	@media(max-width: 360px){
+		.accordion__body{
+			width: 350px !important;
+		}
+		.accordion__inner{
+			width: 26rem;
+		}
+		.brand-logo.fs {
+		    width: 60%;
+		}
+	}
 		
 </style>
 

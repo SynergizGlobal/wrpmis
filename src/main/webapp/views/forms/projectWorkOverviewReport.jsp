@@ -1055,7 +1055,7 @@ td, th {
 					{ 
 						var html="";
 						$.each(data,function(key,val){
-							if (key >= 0 && key % 2 === 0) {
+							if (key >= 0 && key % 2 === 0) 
 								{
 									html=html+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
 								}

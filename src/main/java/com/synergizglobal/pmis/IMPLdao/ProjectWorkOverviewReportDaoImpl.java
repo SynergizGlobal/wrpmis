@@ -501,7 +501,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "left join user u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "and date>=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()),'-04-01') ELSE concat(YEAR(NOW())-1,'-04-01') END)\r\n"
-					+ "and date<=(SELECT concat(YEAR(NOW()),'-03-31'))\r\n"
+					+ "and date<=(SELECT concat(YEAR(NOW())+1,'-03-31'))\r\n"
 					+ "where c.status='Open' and c.contract_name <> 'Miscellaneous' and  c.contract_name <> 'Land'\r\n"
 					+ "and category='planned' and c.work_id_fk='"+work_id+"' and hoddt.department_name='Engineering'\r\n"
 					+ "group by c.contract_id\r\n"
@@ -518,7 +518,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "left join user u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "left join department hoddt on u.department_fk = hoddt.department\r\n"
 					+ "and date>=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()),'-04-01') ELSE concat(YEAR(NOW())-1,'-04-01') END)\r\n"
-					+ "and date<=(SELECT concat(YEAR(NOW()),'-03-31'))\r\n"
+					+ "and date<=(SELECT concat(YEAR(NOW())+1,'-03-31'))\r\n"
 					+ "where c.status='Open' and c.contract_name <> 'Miscellaneous' and  c.contract_name <> 'Land'\r\n"
 					+ "and category='planned' and c.work_id_fk='"+work_id+"' and hoddt.department_name in('Engineering','Signalling & Telecom')\r\n"
 					+ "group by c.contract_id";

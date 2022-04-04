@@ -72,13 +72,13 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 				qry = qry + " and d.department = ? ";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
 						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
-			}
+			}*/
 			qry = qry + "GROUP BY work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -88,11 +88,11 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-			}
+			}*/
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
@@ -117,13 +117,13 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 				qry = qry + " and dt.department = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod = ? or dyhod = ? or "
-						+ "contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)) ";
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
-			}
+			}*/
 			qry=qry+" union all select 'NBF' as department_fk, 'Non Bank Funds' as department_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -133,11 +133,11 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-			}
+			}*/
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 

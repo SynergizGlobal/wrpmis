@@ -275,17 +275,17 @@ span.badge1{
           	<div class="accordion">
               <div class="accordion__header">
                 
-                <div class="accordion__title"><!-- <span class="material-icons-outlined">notifications</span> <span
-						class="badge badge1 red" id="notificationCount">0 </span> --></div>
+                <div class="accordion__title"><span class="material-icons-outlined">notifications</span> <span
+						class="badge badge1 red" id="notificationCountMobile">0 </span></div>
               </div>
               <div class="accordion__body rm9em">
                 <div class="accordion__inner">
                   <div class="accordion__text">
-                  <%-- <div class="search-holder">
+                  <div class="search-holder">
 							<input type="text" name="srch-term" id="srch-term"
 								class="browser-default searching empty"
 								placeholder="&#xF002; Search Alerts..." >
-								<select class="browser-default" id="alert_type_fk_web" name="alert_type_fk" onchange="getAlertsForHeaderNotifications(this.value);">														
+								<select class="browser-default" id="alert_type_fk_mob" name="alert_type_fk" onchange="getAlertsForHeaderNotifications(this.value);">														
 									<option value="">Alert Type</option>		
 									<c:forEach var="obj" items="${alertTypes }">
 										<option value="${obj.alert_type_fk}">${obj.alert_type_fk}</option>	
@@ -294,7 +294,7 @@ span.badge1{
 								
 						</div>
 
-						<ul class="notifications_group"	id="notificationList" > 
+						<ul class="notifications_group"	id="notificationListMobile" > 
 							<!-- list of Notifications starts -->
 							
 							<c:forEach var="obj" items="${alerts }">
@@ -359,7 +359,7 @@ span.badge1{
 
 								</c:forEach>
 							</c:forEach>
-						</ul> --%>
+						</ul>
                   </div>
                 </div>
               </div>
@@ -370,55 +370,59 @@ span.badge1{
             	<div class="accordion">
                 <div class="accordion__header">
                   
-                  <div class="accordion__title"><!-- <span class="material-icons-outlined">chat_bubble_outlined</span>
-						<span class="badge badge1 red" id="messagesCount">0 </span> --></div>
+                  <div class="accordion__title"><span class="material-icons-outlined">chat_bubble_outlined</span>
+						<span class="badge badge1 red" id="messagesCountMobile">0 </span></div>
                 </div>
                 <div class="accordion__body">
                   <div class="accordion__inner">
                     <div class="accordion__text">
-                    <%-- <!-- Mobile messages starts here -->
-	<div class="sidenav" id='messages-demo'>
-		<div class="top-fix search-holder">
-			<!-- mobile notification sidenav will close after clicking back-->
-			<a class="sidenav-close white-text" href="#!"><i
-				class="fa fa-arrow-left"></i> Back</a> 
-			<input type="text"
-				name="srch-term" id="messages-srch-term-mobile"
-				class="browser-default searching empty"
-				placeholder="&#xF002; Search Messages...">
-			<select class="browser-default" id="message_type_mobile" name="message_type" onchange="getMesagesForHeader(this.value);">														
-				<option value="">Message Type</option>	
-				<c:forEach var="obj" items="${messageTypes }">
-					<option value="${obj.message_type}">${obj.message_type}</option>	
-				</c:forEach>								
-			</select>
-		</div>
-		<ul class="notifications_group message_group" id="messagesListMobile">
-			<c:if test="${not empty messages and fn:length(messages) gt 0}">
-				<li class="head-item">Messages</li>
-				<c:forEach var="obj" items="${messages }">
-					<c:if test="${not empty obj.read_time}">
-						<c:set var="message_color_bg" value="read-message"></c:set>
-					</c:if>
-					<c:if test="${empty obj.read_time}">
-						<c:set var="message_color_bg" value="unread-message"></c:set>
-					</c:if>
+                    <!-- Mobile messages starts here -->
+						<div class="search-holder">
+							<input type="text" name="srch-term" id="messages-srch-term"
+								class="browser-default searching empty"
+								placeholder="&#xF002; Search Messages...">
+							<select class="browser-default" id="message_type_web" name="message_type" onchange="getMesagesForHeader(this.value);">														
+								<option value="">Message Type</option>	
+								<c:forEach var="obj" items="${messageTypes }">
+									<option value="${obj.message_type}">${obj.message_type}</option>	
+								</c:forEach>								
+							</select>
+						</div>
+						<ul class="notifications_group message_group"	id="messagesListMobile">
+							<!-- list of messages starts -->
+							<c:if test="${not empty messages and fn:length(messages) gt 0}">
+							
+								<li class="head-item">Messages</li>
+								<c:forEach var="obj" items="${messages }">
+									<c:if test="${not empty obj.read_time}">
+										<c:set var="message_color_bg" value="read-message"></c:set>
+									</c:if>
+									<c:if test="${empty obj.read_time}">
+										<c:set var="message_color_bg" value="unread-message"></c:set>
+									</c:if>
 
-					<li class="item ${message_color_bg}">
-					<a href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
-							<span class="icon"> <i class='fa fa-exclamation-triangle'></i>
-								<span class="icon-text">${obj.message_type }</span>
-						</span>
-							<div>${obj.message }</div>
-							<span class="date_text">
-								<i class='fa fa-clock-o'></i> ${obj.created_date }
-							</span>
-					</a></li>
-				</c:forEach>
-			</c:if>
-			<!-- Mobile notification body ends here -->
-		</ul>
-	</div> --%>
+									<li class="item ${message_color_bg}">
+										<a href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
+											<div class="row col m12">
+												<div class="col m2">
+													<i class='fa fa-exclamation-triangle'></i> 
+													<span class="icon-text">${obj.message_type }</span>
+											    </div>
+											    <div class="col m10">
+											    	<div>${obj.message }</div> 
+											    	<span class="date_text"> <i class='fa fa-clock-o'></i> ${obj.created_date }</span>
+											    </div>
+										    </div>
+										</a>
+									</li>
+								</c:forEach>
+							</c:if>														
+						</ul>
+						
+							<!-- <div class="head-item  more"><button class="markread"  id="markasread" onclick="getAllMessages();">More</button></div> -->
+						
+						<!-- messages dropdown body ends -->
+					
                     </div>
                   </div>
                 </div>

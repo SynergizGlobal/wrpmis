@@ -129,6 +129,7 @@
      	}
      	.notification .badge.red{
      		right:15px;
+     		top:0;
      	}
      	.brand-logo img{
      		width: 3.5rem! important;
@@ -137,11 +138,13 @@
      @media(max-width: 820px){
      	.brand-logo{width: 20%;}
      	.brand-logo img{width: 3rem! important;}
+     	.accordions{display:flex !important;}
+     	.notifications_group{height: 52em;}
      }
      @media(max-width: 575px){
      .brand-logo.fs {
     		width: 50%;
-	}
+		}
      }
      
      .theme-change {
@@ -164,7 +167,84 @@
 		 	left:4rem !important;
 		 	font-size:.75rem !important;
 		}
-	
+.accordions{
+    right: 8em;
+    position: absolute;
+    width: 4em;
+    display:none;
+}
+.accordion {
+  margin: 10px 35px;
+  position: relative;
+  border-radius: .88rem;
+  background: #fff;
+  width: fit-content;
+  box-shadow: 2px 2px 4px rgb(0 0 0 / 30%);
+}
+
+
+.accordion__header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  height: 2.4rem;
+  width: 8rem;
+  padding: .31rem 1.25rem .44rem .56rem;
+  cursor: pointer;
+  border-radius: .88rem;
+  z-index: 10;
+}
+span.badge1{
+	border-radius: 50px;
+	margin-top: -9px;
+	min-width: 1rem;
+	padding: 0 8px;
+    margin-left: -9px;
+    font-size: 12px;
+    color: #fff;
+    height: 23px;
+}
+.material-icons-outlined{
+	font-size: 27px;
+	width: 30px;
+}
+.accordion__icon {
+  margin-right: .63rem;
+  width: 2rem;
+  height: 1.5rem;
+  transition: all .5s ease; 
+}
+
+.accordion__title {
+  font-weight: 700;
+  font-size: .75rem;
+}
+
+.accordion__body {
+  position: absolute;
+  float: right;
+  right:-4rem;
+  width: 400px !important;
+  height: 0;
+  min-height: 0;
+  border-radius: .88rem;
+  transition: all .5s ease;
+  overflow: hidden;
+  background-color: #fff;
+  color: #000;
+  top: 3rem;
+}
+
+.accordion__inner {
+  position: relative;
+  padding: 15px	;
+  width: 29rem;
+  font-size: .88rem;
+  line-height: 1.13rem
+}
+.rm9em{right: -9em !important;}
 		
 </style>
 
@@ -189,6 +269,165 @@
 				data-target="mobile-demo" class="sidenav-trigger"> 
 					<i class="fa fa-bars"></i>
 			</a>
+			<div class="accordions"> 
+
+          <div class="col s6 m6 l6">
+          	<div class="accordion">
+              <div class="accordion__header">
+                
+                <div class="accordion__title"><!-- <span class="material-icons-outlined">notifications</span> <span
+						class="badge badge1 red" id="notificationCount">0 </span> --></div>
+              </div>
+              <div class="accordion__body rm9em">
+                <div class="accordion__inner">
+                  <div class="accordion__text">
+                  <%-- <div class="search-holder">
+							<input type="text" name="srch-term" id="srch-term"
+								class="browser-default searching empty"
+								placeholder="&#xF002; Search Alerts..." >
+								<select class="browser-default" id="alert_type_fk_web" name="alert_type_fk" onchange="getAlertsForHeaderNotifications(this.value);">														
+									<option value="">Alert Type</option>		
+									<c:forEach var="obj" items="${alertTypes }">
+										<option value="${obj.alert_type_fk}">${obj.alert_type_fk}</option>	
+									</c:forEach>							
+								</select>
+								
+						</div>
+
+						<ul class="notifications_group"	id="notificationList" > 
+							<!-- list of Notifications starts -->
+							
+							<c:forEach var="obj" items="${alerts }">
+								<li class="head-item">${obj.key}</li>
+								<c:if test="${obj.key eq '3rd Alert'}">
+									<c:set var="bgClass" value="type-3"></c:set>
+								</c:if>
+								<c:if test="${obj.key eq '2nd Alert'}">
+									<c:set var="bgClass" value="type-2"></c:set>
+								</c:if>
+								<c:if test="${obj.key eq '1st Alert'}">
+									<c:set var="bgClass" value="type-1"></c:set>
+								</c:if>
+								<c:forEach var="aObj" items="${obj.value}">
+
+									<c:if test="${aObj.alert_type_fk eq 'Bank Guarantee'}">
+										<c:set var="bgIcon"
+											value="<i class='material-icons'>account_balance</i>">
+										</c:set>
+									</c:if>
+									<c:if test="${aObj.alert_type_fk eq 'Insurance'}">
+										<c:set var="bgIcon"
+											value="<i class='material-icons'>security</i>">
+										</c:set>
+									</c:if>
+									<c:if test="${aObj.alert_type_fk eq 'Contract Period'}">
+										<c:set var="bgIcon"
+											value="<i class='material-icons'>access_time</i>">
+										</c:set>
+									</c:if>
+									<c:if test="${aObj.alert_type_fk eq 'Contract Value'}">
+										<c:set var="bgIcon" value="<i class='fa fa-money'></i>">
+										</c:set>
+									</c:if>
+									<c:if test="${aObj.alert_type_fk eq 'Issue'}">
+										<c:set var="bgIcon" value="<i class='fa fa-exclamation-triangle'></i>"></c:set> 										
+									</c:if>
+									<c:if test="${aObj.alert_type_fk eq 'Risk'}">
+										<c:set var="bgIcon" value="<i class='material-icons'>error_outline</i>"></c:set> 										
+									</c:if>
+									<c:if test="${aObj.alert_type_fk eq 'Safety'}">
+										<c:set var="bgIcon" value="<i class='material-icons-outlined'>verified_user</i>"></c:set>										
+									</c:if>								
+										 
+									<li class="item ${bgClass } row" >										
+										<a href="<%=request.getContextPath()%>${aObj.redirect_url }">
+											<div class="col m2">
+												<span class="bl" class="icon"> <!-- <i class="material-icons">access_time</i> -->
+													${bgIcon } <span class="bl" class="icon-text">${aObj.alert_type_fk
+	                                                                            }</span>
+												</span>										
+											</div>
+											<div class="col m10">
+											<c:if test="${aObj.alert_type_fk ne 'Risk' }">
+												<div>Work : ${aObj.work_short_name }</div>
+												<div>Contract : ${aObj.contract_short_name }</div>
+												<div>Contractor : ${aObj.contractor_name }</div>
+											</c:if>
+											<div>Reason : ${aObj.alert_value }</div>
+											</div>
+									</a></li>
+
+								</c:forEach>
+							</c:forEach>
+						</ul> --%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+            <div class="col s6 m6 l6">
+            	<div class="accordion">
+                <div class="accordion__header">
+                  
+                  <div class="accordion__title"><!-- <span class="material-icons-outlined">chat_bubble_outlined</span>
+						<span class="badge badge1 red" id="messagesCount">0 </span> --></div>
+                </div>
+                <div class="accordion__body">
+                  <div class="accordion__inner">
+                    <div class="accordion__text">
+                    <%-- <!-- Mobile messages starts here -->
+	<div class="sidenav" id='messages-demo'>
+		<div class="top-fix search-holder">
+			<!-- mobile notification sidenav will close after clicking back-->
+			<a class="sidenav-close white-text" href="#!"><i
+				class="fa fa-arrow-left"></i> Back</a> 
+			<input type="text"
+				name="srch-term" id="messages-srch-term-mobile"
+				class="browser-default searching empty"
+				placeholder="&#xF002; Search Messages...">
+			<select class="browser-default" id="message_type_mobile" name="message_type" onchange="getMesagesForHeader(this.value);">														
+				<option value="">Message Type</option>	
+				<c:forEach var="obj" items="${messageTypes }">
+					<option value="${obj.message_type}">${obj.message_type}</option>	
+				</c:forEach>								
+			</select>
+		</div>
+		<ul class="notifications_group message_group" id="messagesListMobile">
+			<c:if test="${not empty messages and fn:length(messages) gt 0}">
+				<li class="head-item">Messages</li>
+				<c:forEach var="obj" items="${messages }">
+					<c:if test="${not empty obj.read_time}">
+						<c:set var="message_color_bg" value="read-message"></c:set>
+					</c:if>
+					<c:if test="${empty obj.read_time}">
+						<c:set var="message_color_bg" value="unread-message"></c:set>
+					</c:if>
+
+					<li class="item ${message_color_bg}">
+					<a href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
+							<span class="icon"> <i class='fa fa-exclamation-triangle'></i>
+								<span class="icon-text">${obj.message_type }</span>
+						</span>
+							<div>${obj.message }</div>
+							<span class="date_text">
+								<i class='fa fa-clock-o'></i> ${obj.created_date }
+							</span>
+					</a></li>
+				</c:forEach>
+			</c:if>
+			<!-- Mobile notification body ends here -->
+		</ul>
+	</div> --%>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+              
+                      
+        </div>
 			
 			<ul class="right hide-on-med-and-down top-level-menu" id="DesktopView">
 				<li class="blue darken-3"><a
@@ -1063,7 +1302,36 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<!-- <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>  -->
 	<script>
+	let accordions = document.querySelectorAll(".accordion");
+	accordions.forEach((element) => {
+	  element.querySelector(".accordion__header").addEventListener("click", () => {
+	    toggleAccordion(element);
+	  });
+	});
 
+	function toggleAccordion(element) {
+	  let isActive = element.classList.contains("active");
+	  if (document.querySelectorAll(".accordion.active").length > 0) {
+	    document.querySelector(".accordion.active .accordion__body").style.width =
+	      document.querySelector(".accordion.active .accordion__header")
+	        .offsetWidth + "px";
+	    document.querySelector(".accordion.active .accordion__body").style.height = "0px";
+	    document.querySelector(".accordion.active").classList.remove("active");
+	  }
+	  if (isActive) {
+	    element.querySelector(".accordion__body").style.width = 
+	      element.querySelector(".accordion__header").offsetWidth + "px";
+	    element.querySelector(".accordion__body").style.height =
+	      element.querySelector(".accordion__header").offsetHeight * 0 + "px";
+	    element.classList.remove("active");
+	  } else {
+	    element.querySelector(".accordion__body").style.width =
+	      element.querySelector(".accordion__inner").offsetWidth + "px";
+	    element.querySelector(".accordion__body").style.height =
+	      element.querySelector(".accordion__inner").offsetHeight + "0px";
+	    element.classList.add("active");
+	  }
+	}
    			var dt=new Date();
    			//var month= dt.getMonth() >10 ? "" + dt.getMonth(): "0" + dt.getMonth(); 
    			const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];

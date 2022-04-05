@@ -654,7 +654,6 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 					+ "(select count(*) from issue left join contract on contract_id_fk = contract_id where hod_user_id_fk = c.hod_user_id_fk and status_fk = 'Closed') as closed_issues,"
 					+ "(select count(*) from issue left join contract on contract_id_fk = contract_id where hod_user_id_fk = c.hod_user_id_fk and status_fk <> 'Closed') as open_issues "
 					+ "from contract c "
-					+ "left join issue i on i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					//+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -673,10 +672,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				hodQry = hodQry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getIssue_id())) {
-				hodQry = hodQry + " and i.issue_id = ?";
-				arrSize++;
-			}			
+		
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -691,9 +687,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getIssue_id())) {
-				pValues[i++] = obj.getIssue_id();
-			}			
+	
 			
 			hodQry = hodQry + " GROUP BY hod_user_id_fk ";
 			hodQry = hodQry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),designation" ;

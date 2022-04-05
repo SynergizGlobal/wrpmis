@@ -1276,8 +1276,8 @@ public class IssuesReportController {
 	}
 	
 	
-	@RequestMapping(value = "/issues-summary-report/{issue_id}", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView IssuesSummaryReport(@ModelAttribute Issue obj,@PathVariable("issue_id") String issue_id, HttpServletRequest request,
+	@RequestMapping(value = "/issues-summary-report/{work_id_fk}", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView IssuesSummaryReport(@ModelAttribute Issue obj,@PathVariable("work_id_fk") String work_id_fk, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session, RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView("redirect:/issues-report");
 		try {
@@ -1286,8 +1286,8 @@ public class IssuesReportController {
 			Date date = new Date();
 			String currentDate = sqlDate.format(date);
 			
-			if (!StringUtils.isEmpty(issue_id)) {
-				obj.setIssue_id(issue_id);
+			if (!StringUtils.isEmpty(work_id_fk)) {
+				obj.setWork_id_fk(work_id_fk);
 			}
 			
 			boolean flag = IssuesSummaryReport(response, currentDate, obj);

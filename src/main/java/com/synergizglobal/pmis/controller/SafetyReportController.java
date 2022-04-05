@@ -88,6 +88,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -137,6 +138,110 @@ public class SafetyReportController {
 		}
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/safety-summary-report/{safety_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateSafetySummaryReport(@ModelAttribute Safety obj ,@PathVariable("safety_id") String safety_id,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/safety-report");
+		try{ 
+			if (!StringUtils.isEmpty(safety_id)) {
+				obj.setSafety_id(safety_id);
+			}			
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+           
+			boolean flag = generateSafetySummaryReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatePendingSafetyReport : " + e.getMessage());
+		}
+		return model;
+     }	
+	
+	
+	private boolean generateSafetySummaryReport(HttpServletResponse response, String currentDate, Safety obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			
+			//obj.setStatus_fk("Closed");
+			List<Safety> safetyData = safetyService.getSafetySummaryReport(obj);
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+			
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+			
+			String headerTextMiddle = "PMIS Report - Safety Incidents";
+			
+			String headerTextRight = report_created_date;
+			
+			//String headerText = "PMIS Report - Safety Incidents";
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			
+			String Status="";
+			
+			if(!StringUtils.isEmpty(obj.getStatus_fk())) 
+			{
+				Status=obj.getStatus_fk();
+			}
+			
+			DocxTableCreation.createTableForSafetyReport(wordMLPackage, mp, factory,safetyData,obj.getStatus_fk());
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "Safety Report - " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generatePendingSafetyReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatePendingSafetyReport >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
+	}	
+	
 	
 	@RequestMapping(value = "/ajax/getWorksListInSafetyReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

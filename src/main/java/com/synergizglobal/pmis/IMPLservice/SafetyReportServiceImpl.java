@@ -37,4 +37,11 @@ public class SafetyReportServiceImpl implements SafetyReportService{
 	public List<Safety> getStatusListInSafetyReport(Safety obj) throws Exception {
 		return safetyDao.getStatusListInSafetyReport(obj);
 	}
+	
+	@Override
+	public List<Safety> getSafetySummaryReport(Safety obj) throws Exception {
+		return safetyDao.getSafetySummaryReport(obj);
+	}	
+	
+	
 }

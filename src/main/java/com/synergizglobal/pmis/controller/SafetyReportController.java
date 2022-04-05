@@ -140,12 +140,12 @@ public class SafetyReportController {
 	}
 	
 	
-	@RequestMapping(value = "/safety-summary-report/{safety_id}", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateSafetySummaryReport(@ModelAttribute Safety obj ,@PathVariable("safety_id") String safety_id,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+	@RequestMapping(value = "/safety-summary-report/{work_id_fk}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateSafetySummaryReport(@ModelAttribute Safety obj ,@PathVariable("work_id_fk") String work_id_fk,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/safety-report");
 		try{ 
-			if (!StringUtils.isEmpty(safety_id)) {
-				obj.setSafety_id(safety_id);
+			if (!StringUtils.isEmpty(work_id_fk)) {
+				obj.setWork_id_fk(work_id_fk);
 			}			
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");

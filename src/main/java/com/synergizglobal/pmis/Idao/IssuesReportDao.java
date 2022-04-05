@@ -27,4 +27,6 @@ public interface IssuesReportDao {
 
 	List<Issue> getCategoriesListInIssuesReport(Issue obj) throws Exception;
 
+	List<Issue> IssuesSummaryData(Issue obj) throws Exception;
+
 }

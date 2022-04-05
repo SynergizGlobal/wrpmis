@@ -34,7 +34,7 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 					+ "DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date,DATE_FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date,DATEDIFF(CURDATE(),date) AS pending_Since, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,ctr.contractor_id,ctr.contractor_name,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,u4.designation as hod_designation,u5.designation as dyHod_designation,i.status_fk as existing_status_fk,"
-					+ "DATE_FORMAT(created_date,'%d-%m-%Y') AS created_date,other_org_resposible_person_name,other_org_resposible_person_designation "
+					+ "DATE_FORMAT(i.created_date,'%d-%m-%Y') AS created_date,other_org_resposible_person_name,other_org_resposible_person_designation "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "

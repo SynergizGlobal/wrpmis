@@ -88,6 +88,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -1273,6 +1274,104 @@ public class IssuesReportController {
 		}
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/issues-summary-report/{issue_id}", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView IssuesSummaryReport(@ModelAttribute Issue obj,@PathVariable("issue_id") String issue_id, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session, RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView("redirect:/issues-report");
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			String currentDate = sqlDate.format(date);
+			
+			if (!StringUtils.isEmpty(issue_id)) {
+				obj.setIssue_id(issue_id);
+			}
+			
+			boolean flag = IssuesSummaryReport(response, currentDate, obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("IssuesSummaryReport : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	
+	private boolean IssuesSummaryReport(HttpServletResponse response, String currentDate, Issue obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;
+		//ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try {
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date());
+
+			List<Issue> issuesCounts = issueService.IssuesSummaryData(obj);
+
+			boolean landscape = false;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+
+			String headerTextMiddle = "Project Issues Summary";
+
+			String headerTextRight = report_created_date;
+
+			//String headerText = "PMIS Report - Pending Issues";
+
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory, imagePath, imageAlignment,
+					headerTextMiddle, headerTextRight);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+
+			DocxTableCreation.createTableForIssuesSummaryReport(wordMLPackage, mp, factory, issuesCounts);
+
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "Issues Summary Report - " + currentDate + FILE_EXTENSION;
+
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+
+				flag = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generateIssuesSummaryReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateIssuesSummaryReport >> " + e.getMessage());
+			flag = false;
+		}
+
+		return flag;
+	}	
 
 	private boolean generateIssuesSummaryReport(HttpServletResponse response, String currentDate, Issue obj) {
 		//XWPFDocument document = new XWPFDocument(); 

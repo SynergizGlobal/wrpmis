@@ -937,7 +937,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		RandRMain obj = null;
 		try {
 			String qry = "select rr_id, r.work_id,(select executive_user_id_fk from rr_executives re where r.work_id = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk, identification_no,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, "
-					+ "type_of_structure_wall, type_of_structure_floor, r.carpet_area, DATE_FORMAT(year_of_construction ,'%d-%m-%Y') AS year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, DATE_FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,DATE_FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,r.remarks,estimation_amount_units,estimated_by_mmrda_amount_units,"
+					+ "type_of_structure_wall, type_of_structure_floor, r.carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, DATE_FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,DATE_FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,r.remarks,estimation_amount_units,estimated_by_mmrda_amount_units,"
 					+ "DATE_FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc, estimation_amount,DATE_FORMAT(estimate_approval_date ,'%d-%m-%Y') AS estimate_approval_date,DATE_FORMAT(letter_to_mmrda ,'%d-%m-%Y') AS letter_to_mmrda, estimates_by_mmrda, DATE_FORMAT(payment_to_mmrda ,'%d-%m-%Y') AS payment_to_mmrda, DATE_FORMAT(alternate_housing_allotment ,'%d-%m-%Y') AS alternate_housing_allotment,DATE_FORMAT(relocation ,'%d-%m-%Y') AS relocation,DATE_FORMAT(encroachment_removal ,'%d-%m-%Y') AS encroachment_removal, boundary_wall_status, "
 					+ "DATE_FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,DATE_FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification,"
 					+ "rr1.id, rr1.rr_id_fk, rr1.name_of_activity, rr1.year_of_establishment, rr1.carpet_area as com_carpet_area, rr1.monthly_turnover_amount, rr1.monthly_turnover_amount_units, rr1.number_of_employees, rr1.remarks as com_remarks,"
@@ -1530,7 +1530,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		List<RandRMain> objsList = null;
 		try {
 			String qry ="select rr_id, r.work_id as work_id_fk, identification_no ,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall," + 
-					"  type_of_structure_floor, carpet_area, DATE_FORMAT(year_of_construction ,'%d-%m-%Y') AS year_of_construction, name_of_the_owner, type_of_use,"
+					"  type_of_structure_floor, carpet_area,  year_of_construction, name_of_the_owner, type_of_use,"
 					+ " document_type, document_no, DATE_FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,"
 					+ "DATE_FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,"
 					+ "DATE_FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc,cast(estimation_amount as CHAR) as  estimation_amount, m1.unit as estimation_amount_units, "

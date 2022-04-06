@@ -599,7 +599,7 @@ public class RandRMainController {
 			obj.setEncroachment_removal(DateParser.parse(obj.getEncroachment_removal()));
 			obj.setBoundary_wall_doc(DateParser.parse(obj.getBoundary_wall_doc()));
 			obj.setHanded_over_to_execution(DateParser.parse(obj.getHanded_over_to_execution()));
-			obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
+			//obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
 			obj.setRelocation(DateParser.parse(obj.getRelocation()));
 			boolean flag =  service.addRR(obj);
 			if(flag) {
@@ -639,7 +639,7 @@ public class RandRMainController {
 			obj.setEncroachment_removal(DateParser.parse(obj.getEncroachment_removal()));
 			obj.setBoundary_wall_doc(DateParser.parse(obj.getBoundary_wall_doc()));
 			obj.setHanded_over_to_execution(DateParser.parse(obj.getHanded_over_to_execution()));
-			obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
+			//obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
 			obj.setRelocation(DateParser.parse(obj.getRelocation()));
 			
 			boolean flag =  service.updateRR(obj);
@@ -1315,10 +1315,10 @@ public class RandRMainController {
 						if(!StringUtils.isEmpty(result[3])){sheet = Integer.parseInt(result[3]);}
 						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
 						if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
-							attributes.addFlashAttribute("error","<span style='color:red;'>Work and RR Id Mismatch at row : "+row+"</span>");
+							attributes.addFlashAttribute("error","<span style='color:red;'>Work and RR Id Mismatch at row: "+row+"</span>");
 	                		return model;
 						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
-							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet :"+sheet+" at row : "+subRow+"</span>");
+							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet: "+sheet+" at row: "+subRow+"</span>");
 	                		return model;
 						}
 						
@@ -1500,7 +1500,7 @@ public class RandRMainController {
 							val = formatter.formatCellValue(row.getCell(30)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setRemarks(val);}
 					
-							rr.setYear_of_construction(DateParser.parse(rr.getYear_of_construction()));
+							//rr.setYear_of_construction(DateParser.parse(rr.getYear_of_construction()));
 							rr.setPhysical_verification(DateParser.parse(rr.getPhysical_verification()));
 							rr.setEstimate_approval_date(DateParser.parse(rr.getEstimate_approval_date()));
 							rr.setCreated_by_user_id_fk(userId);

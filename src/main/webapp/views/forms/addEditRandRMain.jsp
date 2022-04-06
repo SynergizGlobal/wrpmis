@@ -506,9 +506,9 @@
                                     <span id="carpet_areaError" class="error-msg" ></span>
 	                             </div>
                                 <div class="col s6 m3 input-field">
-	                                <input id="year_of_construction" name="year_of_construction" type="text" class="validate datepicker" value="${rrDetails.year_of_construction }">
-                                     <button type="button" id="verification_date_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
+	                                <input id="year_of_construction" name="year_of_construction" type="number" class="validate" value="${rrDetails.year_of_construction }">
+                                    <!--  <button type="button" id="verification_date_icon" class="datepicker-button"><i
+                                            class="fa fa-calendar"></i></button> -->
 		                             <label for="year_of_construction">Year of Construction </label>
 	                                <span id="construction_yearError" class="error-msg" ></span>
                                  </div>		                         		

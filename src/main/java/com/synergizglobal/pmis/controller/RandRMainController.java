@@ -1323,8 +1323,8 @@ public class RandRMainController {
 						}
 						
 						if(count > 0) {
-							attributes.addFlashAttribute("success", count + " R&R added successfully.");	
-							msg = count + " R&R added successfully.";
+							attributes.addFlashAttribute("success", count + " records added successfully.");	
+							msg = count + " records added successfully.";
 							
 							FormHistory formHistory = new FormHistory();
 							formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());

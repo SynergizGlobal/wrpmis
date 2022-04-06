@@ -40,6 +40,20 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
+	public static List<String> getRRFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Work,R&R Id,Id No,Map S.No,Phase,Structure,Location,Sub Location,Type of Use,Carpet Area (sft),Year of Construction,Owner Name,"
+				+ "Occupier Name,Document Type,Document No,Physical Verification Date,Verification By,Approval By Committee,Approval by MRVC,Estimate Approval,"
+				+ "Estimation Amount,Letter to MMRDA,Estimate by MMRDA,Payment to MMRDA,Alternate Housing Allotment,Relocation,Encroachment Removal,Boundary Wall Status,"
+				+ "Boundary Wall Doc,Handover to Execution,Remarks";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}
+	
+	
 	public static List<String> getP6WbsFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		//String columns = "Contract ID,FOB ID,WBS Code, WBS Name, Parent WBS Code, WBS Category";

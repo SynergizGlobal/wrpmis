@@ -3,26 +3,33 @@ package com.synergizglobal.pmis.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -40,22 +47,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.BudgetService;
 import com.synergizglobal.pmis.Iservice.RandRMainService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.User;
-import com.synergizglobal.pmis.model.RandRMain;
-import com.synergizglobal.pmis.model.RandRMain;
-import com.synergizglobal.pmis.model.RandRMain;
+
+import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.RRPaginationObject;
-import com.synergizglobal.pmis.model.RandRMain;
 
 @Controller
 public class RandRMainController {
@@ -66,7 +74,8 @@ public class RandRMainController {
 	
 	Logger logger = Logger.getLogger(RandRMainController.class);
 	
-
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Autowired
 	RandRMainService service;
 	@Value("${common.error.message}")
@@ -1248,4 +1257,555 @@ public class RandRMainController {
         
         return style;
 	}
+	
+	@RequestMapping(value = "/upload-rr", method = {RequestMethod.POST})
+	public ModelAndView uploadRR(@ModelAttribute RandRMain obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		String msg = "";
+		try {
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(userId);
+			obj.setUser_id(userId);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			model.setViewName("redirect:/randr-main");
+			
+			if(!StringUtils.isEmpty(obj.getRandRFile())){
+				MultipartFile multipartFile = obj.getRandRFile();
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet laSheet = workbook.getSheetAt(0);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = laSheet.getRow(0);
+						//checking given file format
+						if(headerRow != null){
+							List<String> fileFormat = FileFormatModel.getRRFileFormat();	
+							int noOfColumns = headerRow.getLastCellNum();
+							if(noOfColumns == fileFormat.size()){
+								for (int i = 0; i < fileFormat.size();i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		return model;
+				                	}
+								}
+							}else{
+								attributes.addFlashAttribute("error",uploadformatError);
+		                		return model;
+							}
+						}else{
+							attributes.addFlashAttribute("error",uploadformatError);
+	                		return model;
+						}
+						String[]  result = uploadRR(obj,userId,userName);
+						String errMsg = result[0];
+						int count = 0,row = 0,sheet = 0,subRow = 0;
+						if(!StringUtils.isEmpty(result[1])){count = Integer.parseInt(result[1]);}
+						if(!StringUtils.isEmpty(result[2])){row = Integer.parseInt(result[2]);}
+						if(!StringUtils.isEmpty(result[3])){sheet = Integer.parseInt(result[3]);}
+						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
+						if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
+							attributes.addFlashAttribute("error","<span style='color:red;'>Work and RR Id Mismatch at row : "+row+"</span>");
+	                		return model;
+						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
+							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet :"+sheet+" at row : "+subRow+"</span>");
+	                		return model;
+						}
+						
+						if(count > 0) {
+							attributes.addFlashAttribute("success", count + " R&R added successfully.");	
+							msg = count + " R&R added successfully.";
+							
+							FormHistory formHistory = new FormHistory();
+							formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+							formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+							formHistory.setModule_name_fk("R&R");
+							formHistory.setForm_name("Upload R&R");
+							formHistory.setForm_action_type("Upload");
+							formHistory.setForm_details( msg);
+							formHistory.setWork(obj.getWork_id());
+							formHistory.setWork_id_fk(obj.getWork_id());
+							//formHistory.setContract(obj.getContract_id_fk());
+							
+							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+							/********************************************************************************/
+						}else {
+							attributes.addFlashAttribute("success"," No records found.");	
+							msg = " No records found.";
+						}
+					}
+					workbook.close();
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("updateDataDate() : "+e.getMessage());
+		}
+		return model;
+	}
+	private  String[]  uploadRR(RandRMain obj, String userId, String userName) throws Exception {
+		RandRMain rr = null;
+		List<RandRMain> rrsList = new ArrayList<RandRMain>();
+		String[] result = new String[5];
+		Writer w = null;
+		int count = 0;
+		try {	
+			MultipartFile excelfile = obj.getRandRFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					
+					XSSFSheet laSheet = workbook.getSheetAt(0);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					for(int i = 1; i <= laSheet.getLastRowNum();i++){
+						int v = laSheet.getLastRowNum();
+						XSSFRow row = laSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						rr = new RandRMain();
+						String val = null;
+						if(!StringUtils.isEmpty(row)) {								
+							val = formatter.formatCellValue(row.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setWork_id(val);}
+							
+							val = formatter.formatCellValue(row.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setRr_id(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(2)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setIdentification_no(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(3)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setMap_sr_no(val);}
+							
+							val = formatter.formatCellValue(row.getCell(4)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setPhase(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(5)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setStructure_id(val);}					
+							
+							
+							val = formatter.formatCellValue(row.getCell(6)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setLocation_name(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(7)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setSub_location_name(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(8)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setType_of_use(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(9)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(9));
+								}
+								rr.setCarpet_area(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(10)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setYear_of_construction(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(11)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setName_of_the_owner(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(12)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setOccupier_name_during_verification(val);}										
+							
+							val = formatter.formatCellValue(row.getCell(13)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setDocument_type(val);}
+							
+							val = formatter.formatCellValue(row.getCell(14)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setDocument_no(val);}
+							
+							val = formatter.formatCellValue(row.getCell(15)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setPhysical_verification(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(16)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setVerification_by(val);}
+							
+							val = formatter.formatCellValue(row.getCell(17)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setApproval_by_committee(val);}
+							
+							val = formatter.formatCellValue(row.getCell(18)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setRr_approval_status_by_mrvc(val);}
+							
+							val = formatter.formatCellValue(row.getCell(19)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setEstimate_approval_date(val);}
+						
+							val = formatter.formatCellValue(row.getCell(20)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(20));
+								}
+								rr.setEstimation_amount(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(21)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setLetter_to_mmrda(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(22)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(22));
+								}
+								rr.setEstimates_by_mmrda(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(23)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								rr.setPayment_to_mmrda(val);}				
+							
+							val = formatter.formatCellValue(row.getCell(24)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setAlternate_housing_allotment(val);}										
+						
+							val = formatter.formatCellValue(row.getCell(25)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setRelocation(val);}
+							
+							val = formatter.formatCellValue(row.getCell(26)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setEncroachment_removal(val);}
+							
+							val = formatter.formatCellValue(row.getCell(27)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setBoundary_wall_status(val);}
+							
+							val = formatter.formatCellValue(row.getCell(28)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setBoundary_wall_doc(val);}
+							
+							val = formatter.formatCellValue(row.getCell(29)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setHanded_over_to_execution(val);}
+							
+							val = formatter.formatCellValue(row.getCell(30)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setRemarks(val);}
+					
+							rr.setYear_of_construction(DateParser.parse(rr.getYear_of_construction()));
+							rr.setPhysical_verification(DateParser.parse(rr.getPhysical_verification()));
+							rr.setEstimate_approval_date(DateParser.parse(rr.getEstimate_approval_date()));
+							rr.setCreated_by_user_id_fk(userId);
+							rr.setLetter_to_mmrda(DateParser.parse(rr.getLetter_to_mmrda()));
+							rr.setAlternate_housing_allotment(DateParser.parse(rr.getAlternate_housing_allotment()));
+							rr.setRelocation(DateParser.parse(rr.getRelocation()));
+							rr.setEncroachment_removal(DateParser.parse(rr.getEncroachment_removal()));
+							rr.setBoundary_wall_doc(DateParser.parse(rr.getBoundary_wall_doc()));
+							rr.setHanded_over_to_execution(DateParser.parse(rr.getHanded_over_to_execution()));
+							rr.setPayment_to_mmrda(DateParser.parse(rr.getPayment_to_mmrda()));
+							rr.setRr_approval_status_by_mrvc(DateParser.parse(rr.getRr_approval_status_by_mrvc()));
+							rr.setApproval_by_committee(DateParser.parse(rr.getApproval_by_committee()));
+						}
+				
+						List<RandRMain> pObjList = new ArrayList<RandRMain>();
+						List<RandRMain> pObjList1 = new ArrayList<RandRMain>();
+						List<RandRMain> pObjList2 = new ArrayList<RandRMain>();
+						List<RandRMain> gObjList = new ArrayList<RandRMain>();
+						
+						XSSFSheet laComercialDetailsSheet = workbook.getSheetAt(1);
+						XSSFSheet laComEmpDetailsSheet = workbook.getSheetAt(2);
+						XSSFSheet ResiDetailsSheet = workbook.getSheetAt(3);
+						XSSFSheet ResFamDetailsSheet = workbook.getSheetAt(4);
+						
+
+						XSSFRow comDetails = laComercialDetailsSheet.getRow(1);
+						XSSFRow ComEmpDetails = laComEmpDetailsSheet.getRow(1);
+						XSSFRow resDetails = ResiDetailsSheet.getRow(1);
+						XSSFRow ResFamDetails = ResFamDetailsSheet.getRow(1);
+						
+						//String val = null;
+						if(comDetails != null){
+							for(int j = 1; j <= laComercialDetailsSheet.getLastRowNum();j++){
+								XSSFRow row2 = laComercialDetailsSheet.getRow(j);
+								RandRMain pObj = new RandRMain();
+								if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(rr.getRr_id())) {
+									val = formatter.formatCellValue(row2.getCell(0)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setRr_id(val);}
+									
+									val = formatter.formatCellValue(row2.getCell(1)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setName_of_activity(val);}
+									
+									val = formatter.formatCellValue(row2.getCell(2)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setYear_of_establishment(val);}	
+									
+									val = formatter.formatCellValue(row2.getCell(3)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setCom_carpet_area(val);}
+									
+									val = formatter.formatCellValue(row2.getCell(4)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setMonthly_turnover_amount(val);}
+									
+									val = formatter.formatCellValue(row2.getCell(5)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setNumber_of_employees(val);}
+									
+									val = formatter.formatCellValue(row2.getCell(6)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setCom_remarks(val);}
+							}
+							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(rr.getRr_id())) {
+								pObjList.add(pObj);
+							}
+									
+						}
+					rr.setComList(pObjList);
+					}
+					if(resDetails != null){
+						int b  = ResiDetailsSheet.getLastRowNum();
+						for(int j = 1; j <= ResiDetailsSheet.getLastRowNum();j++){
+							XSSFRow row2 = ResiDetailsSheet.getRow(j);
+							RandRMain pObj1 = new RandRMain();
+							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(rr.getRr_id())) {
+								val = formatter.formatCellValue(row2.getCell(0)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setRr_id(val);}
+							
+								val = formatter.formatCellValue(row2.getCell(1)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setOccupancy_status(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(2)).trim();
+								if(!StringUtils.isEmpty(val)) {pObj1.setGender(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(3)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setTenure_status(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(4)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setVulnerable_category(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(5)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setCaste(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(6)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setMother_tongue(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(7)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setType_of_family(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(8)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setFamily_size(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(9)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setNumber_of_married_couple(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(10)).trim();
+								if(!StringUtils.isEmpty(val)) {
+									int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+									if(c != 2) {
+										val = getCellDataType(workbook,row2.getCell(10));
+									}
+									pObj1.setFamily_income_amount(val);}
+							}
+							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(rr.getRr_id())) {
+								pObjList1.add(pObj1);
+							}
+							
+						}
+					rr.setResList(pObjList1);
+					}	
+					if(ComEmpDetails != null){
+						for(int j = 1; j <= laComEmpDetailsSheet.getLastRowNum();j++){
+							XSSFRow row2 = laComEmpDetailsSheet.getRow(j);
+							RandRMain pObj1 = new RandRMain();
+							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(rr.getRr_id())) {
+								val = formatter.formatCellValue(row2.getCell(0)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setRr_id(val);}
+							
+								val = formatter.formatCellValue(row2.getCell(1)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setEmployee_name(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(2)).trim();
+								if(!StringUtils.isEmpty(val)) {
+									int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+									if(c != 2) {
+										val = getCellDataType(workbook,row2.getCell(2));
+									}
+									pObj1.setEmployee_age(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(3)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setEmployee_gender(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(4)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setEmployee_literacy(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(5)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setEmployee_attended(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(6)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setEmployee_travel_time(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(7)).trim();
+								if(!StringUtils.isEmpty(val)) { 
+									int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+									if(c != 2) {
+										val = getCellDataType(workbook,row2.getCell(7));
+									}
+									pObj1.setEmployee_salary(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(8)).trim();
+								if(!StringUtils.isEmpty(val)) { pObj1.setEmployee_nature_of_work(val);}
+							}
+							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(rr.getRr_id())) {
+								pObjList2.add(pObj1);	
+							}
+							
+						}
+					rr.setComFamList(pObjList2);
+					}
+					if(ResFamDetails != null){
+						for(int j = 1; j <= ResFamDetailsSheet.getLastRowNum();j++){
+							XSSFRow row2 = ResFamDetailsSheet.getRow(j);
+							RandRMain ResFamDetail = new RandRMain();
+							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(rr.getRr_id())) {
+								val = formatter.formatCellValue(row2.getCell(0)).trim();
+								if(!StringUtils.isEmpty(val)) { ResFamDetail.setRr_id(val);}
+						
+								val = formatter.formatCellValue(row2.getCell(1)).trim();
+								if(!StringUtils.isEmpty(val)) { ResFamDetail.setResidential_name(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(2)).trim();
+								if(!StringUtils.isEmpty(val)) {ResFamDetail.setResidential_relation_with_head(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(3)).trim();
+								if(!StringUtils.isEmpty(val)) {ResFamDetail.setResidential_age(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(4)).trim();
+								if(!StringUtils.isEmpty(val)) { ResFamDetail.setResidential_gender(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(5)).trim();
+								if(!StringUtils.isEmpty(val)) {ResFamDetail.setResidential_maritual_status(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(6)).trim();
+								if(!StringUtils.isEmpty(val)) {ResFamDetail.setResidential_education(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(7)).trim();
+								if(!StringUtils.isEmpty(val)) {ResFamDetail.setResidential_employment(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(8)).trim();
+								if(!StringUtils.isEmpty(val)) {
+									int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+									if(c != 2) {
+										val = getCellDataType(workbook,row2.getCell(8));
+									}
+									ResFamDetail.setResidential_salary(val);}
+								}
+							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(rr.getRr_id())) {
+								gObjList.add(ResFamDetail);
+
+							}
+						}
+						rr.setResFamList(gObjList);
+						}
+						boolean flag = rr.checkNullOrEmpty();
+						if(!flag && !StringUtils.isEmpty(rr.getRr_id())) {
+							rrsList.add(rr);
+						}
+					}
+					if(!rrsList.isEmpty() && rrsList != null){
+						String[] arr  = service.uploadRRData(rrsList,rr);
+						result[0] = arr[0];
+						result[1] = arr[1];
+						result[2] = arr[2];
+						result[3] = arr[3];
+						result[4] = arr[4];
+					}
+					
+				}
+				workbook.close();
+			}
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadRRs() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadRRs() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return result;
+	}
+	
+	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {
+		String val = null;
+		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); 
+
+		// existing Sheet, Row, and Cell setup
+		//workbook.setForceFormulaRecalculation(true);
+		try {
+			CellType type = cell.getCellType();
+			if (!StringUtils.isEmpty(cell)) {
+			    switch (type) {
+			        case BOOLEAN:
+			            val = String.valueOf(cell.getBooleanCellValue());
+			            break;
+			        case NUMERIC:
+			        	val = String.valueOf(cell.getNumericCellValue());
+			        	if(val.contains("E")){
+			        		val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+			        	}
+			       
+			            break;
+			        case STRING:
+			        	try {  
+			        		val = cell.getStringCellValue();
+			        		NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+			        		Number number = format.parse(val);
+			        		int d = number.intValue();
+			        		val = String.valueOf(d);
+			        		if(val.contains("E")){
+			        			val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+			        		}
+			        	  } catch(NumberFormatException e){  
+			        		  val = cell.getStringCellValue();
+			        	  }  
+			            
+			            break;
+			        case BLANK:
+			        	val = cell.getStringCellValue();
+			            break;
+			        case ERROR:
+			            val = cell.getStringCellValue();
+			            break;
+			        case _NONE:
+			            val = cell.getStringCellValue();
+			            break;
+					default:
+						break;
+			    }
+			}else if (!StringUtils.isEmpty(cell)) {
+				DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+				val = formatter.formatCellValue(cell).trim();
+			}
+		}catch(Exception e) {
+			try {
+				 val = cell.getStringCellValue();
+			}catch(Exception e1) {
+				val = String.valueOf(cell.getNumericCellValue());
+			}
+			
+		}
+	
+		return val;
+	}
+	
 }

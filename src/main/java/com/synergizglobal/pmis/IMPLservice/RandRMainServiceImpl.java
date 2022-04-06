@@ -191,4 +191,14 @@ public class RandRMainServiceImpl implements RandRMainService{
 		return dao.getRDetailsList(rr_id);
 	}
 
+	@Override
+	public String[] uploadRRData(List<RandRMain> rrsList, RandRMain rr) throws Exception {
+		return dao.uploadRRData(rrsList,rr);
+	}
+
+	@Override
+	public String checkLAIdMethod(RandRMain rr, String check) throws Exception {
+		return dao.checkLAIdMethod(rr,check);
+	}
+
 }

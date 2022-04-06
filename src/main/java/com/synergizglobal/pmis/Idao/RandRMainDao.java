@@ -77,4 +77,8 @@ public interface RandRMainDao {
 
 	List<RandRMain> getRDetailsList(String rr_id) throws Exception;
 
+	String[] uploadRRData(List<RandRMain> rrsList, RandRMain rr) throws Exception;
+
+	String checkLAIdMethod(RandRMain rr, String check) throws Exception;
+
 }

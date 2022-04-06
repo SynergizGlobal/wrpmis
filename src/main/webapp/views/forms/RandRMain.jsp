@@ -145,13 +145,16 @@
 								<div class="col s12 m12 right-align exportButton hideCOl" >
 								
 								<div class="m-n1">
-									<!-- <a href="/pmis/Designs_Drawings.xlsx" download class="template-btn" title="Download Template">
+									 <!-- <a href="/pmis/RR_Drawings.xlsx" download class="template-btn" title="Download Template">
+										<i class="material-icons-outlined">download_for_offline</i>
+									</a> -->
+									<a href="/pmis/R&R_Template.xlsx" download class="template-btn" title="Click to Download R&R Template">
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a>
 									<a href="javascript:void(0);"
-										onclick="openUploadDesignsModal();"
+										onclick="openUploadLAModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-arrow-circle-up"></i> Upload</strong></a> -->
+											class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
 									<a href="<%=request.getContextPath()%>/add-randr-main"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
@@ -259,11 +262,11 @@
 	<div id="upload_template" class="modal">
 		<div class="modal-content">
 			<div class="center-align p-2 bg-m modal-title headbg">
-				<h6>Upload Designs</h6>
+				<h6>Upload R & R</h6>
 			</div>
 			<!-- form start-->
 			<div class="container">
-				<form action="<%=request.getContextPath()%>/upload-designs"
+				<form action="<%=request.getContextPath()%>/upload-rr"
 					method="post" enctype="multipart/form-data">
 					<div class="row no-mar">
 						<div class="col s12 m12 input-field center-align">
@@ -294,7 +297,7 @@
 						<div class="col s12 m6">
 							<div class="center-align m-1">
 								<button type="button" class="btn waves-effect waves-light bg-s"
-									style="width: 100%;" onclick="closeUploadDesignsModal();">Cancel</button>
+									style="width: 100%;" onclick="closeUploadRRModal();">Cancel</button>
 							</div>
 						</div>
 					</div>
@@ -360,12 +363,22 @@
 
 		var filtersMap = new Object();
 		
-		function openUploadDesignsModal() {
+		function openUploadLAModal() {
 			$("#RandRFile").val('');
 			$("#upload_template").modal('open');
 		}
 
-		function closeUploadDesignsModal() {
+		function closeUploadLAModal() {
+			$("#RandRFile").val('');
+			$("#upload_template").modal('close');
+		}
+		
+		function openUploadRRModal() {
+			$("#RandRFile").val('');
+			$("#upload_template").modal('open');
+		}
+
+		function closeUploadRRModal() {
 			$("#RandRFile").val('');
 			$("#upload_template").modal('close');
 		}

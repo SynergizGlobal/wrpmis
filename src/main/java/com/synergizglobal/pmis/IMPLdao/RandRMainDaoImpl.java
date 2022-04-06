@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.TransactionDefinition;
@@ -31,7 +32,7 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.FormHistory;
-import com.synergizglobal.pmis.model.LandAcquisition;
+import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
@@ -1704,7 +1705,224 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		}
 		return objsList;
 	}
-	
-	
+
+	@Override
+	public String[] uploadRRData(List<RandRMain> rrsList, RandRMain rr) throws Exception {
+		boolean flag = false;
+		int count = 0,row =1,sheet = 1,subRow = 1;
+		String errMsg = null;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String insertQry = "INSERT INTO rr"
+					+ "( rr_id, work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor,"
+					+ "carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, "
+					+ "approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, letter_to_mmrda, estimate_approval_date,estimates_by_mmrda,"
+					+ "payment_to_mmrda,alternate_housing_allotment,relocation,encroachment_removal,boundary_wall_status,boundary_wall_doc,handed_over_to_execution,occupier_name_during_verification,remarks,created_by,created_date)"
+					+ "VALUES"
+					+ "(:rr_id, :work_id, :identification_no, :map_sr_no, :location_name, :sub_location_name, :phase, :structure_id, :type_of_structure_roof, :type_of_structure_wall, :type_of_structure_floor, "
+					+ ":carpet_area, :year_of_construction, :name_of_the_owner, :type_of_use, :document_type, :document_no, :physical_verification, :verification_by, "
+					+ ":approval_by_committee, :rr_approval_status_by_mrvc, :estimation_amount, :letter_to_mmrda, :estimate_approval_date , :estimates_by_mmrda, :payment_to_mmrda, :alternate_housing_allotment, "
+					+ ":relocation, :encroachment_removal, :boundary_wall_status, :boundary_wall_doc, :handed_over_to_execution, :occupier_name_during_verification, :remarks, :created_by_user_id_fk,CURRENT_TIMESTAMP)";
+			
+			String updatetQry = "UPDATE rr "
+					+ " set identification_no= :identification_no, map_sr_no= :map_sr_no, location_name= :location_name, sub_location_name= :sub_location_name"
+					+ ", phase= :phase, structure_id= :structure_id, type_of_structure_roof= :type_of_structure_roof, type_of_structure_wall= :type_of_structure_wall"
+					+ ", type_of_structure_floor= :type_of_structure_floor,"
+					+ "carpet_area= :carpet_area, year_of_construction= :year_of_construction, name_of_the_owner= :name_of_the_owner, type_of_use= :type_of_use"
+					+ ", document_type= :document_type, document_no= :document_no, physical_verification= :physical_verification, verification_by=  :verification_by, "
+					+ "approval_by_committee= :approval_by_committee, rr_approval_status_by_mrvc= :rr_approval_status_by_mrvc, estimation_amount= :estimation_amount"
+					+ ", letter_to_mmrda= :letter_to_mmrda, estimate_approval_date= :estimate_approval_date,estimates_by_mmrda= :estimates_by_mmrda,"
+					+ "payment_to_mmrda= :payment_to_mmrda,alternate_housing_allotment= :alternate_housing_allotment,relocation= :relocation,encroachment_removal= :encroachment_removal"
+					+ ",boundary_wall_status= :boundary_wall_status,boundary_wall_doc= :boundary_wall_doc,handed_over_to_execution= :handed_over_to_execution"
+					+ ",occupier_name_during_verification= :occupier_name_during_verification, remarks= :remarks, estimation_amount_units= :estimation_amount_units, estimated_by_mmrda_amount_units= :estimated_by_mmrda_amount_units,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP  "
+					+ " WHERE   rr_id= :rr_id ";
+		//	int rNo = 0;
+			for (RandRMain obj : rrsList) {
+				
+				String table_name = "rr";
+				String rr_id = checkLAIdMethod(obj,table_name);
+				row++;sheet = 1;
+				if(!StringUtils.isEmpty(rr_id)) {
+					obj.setRr_id(rr_id);
+					//System.out.println(rNo++);
+						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+					    count = namedParamJdbcTemplate.update(updatetQry, paramSource);
+				}else {
+					//System.out.println(rNo++);
+						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+					    count = namedParamJdbcTemplate.update(insertQry, paramSource);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getResList())) {
+					subRow = 1;
+					String comInsertQry = "INSERT INTO rr_residential_details"
+							+ "( rr_id_fk, occupancy_status, gender, tenure_status, caste, mother_tongue, "
+							+ "type_of_family, family_size, number_of_married_couple, family_income_amount, family_income_amount_units, vulnerable_category)"
+							+ "VALUES"
+							+ "(:rr_id, :occupancy_status, :gender, :tenure_status, :caste,:mother_tongue, "
+							+ " :type_of_family, :family_size, :number_of_married_couple, :family_income_amount, :family_income_amount_units, :vulnerable_category)";
+					
+					String  comUpdateQry  = "UPDATE rr_residential_details SET "
+							+ " occupancy_status= :occupancy_status, gender= :gender, tenure_status= :tenure_status, caste= :caste, mother_tongue= :mother_tongue, "
+							+ "type_of_family= :type_of_family, family_size= :family_size, number_of_married_couple= :number_of_married_couple,"
+							+ " family_income_amount= family_income_amount, family_income_amount_units= :family_income_amount_units, vulnerable_category= :vulnerable_category "
+							+ " Where rr_id_fk = :rr_id";
+					
+					for (RandRMain obj1 : obj.getResList()) {
+						String table_name1 = "rr_residential_details";
+						String rr_id1 = checkLAIdMethod(obj1,table_name1);
+						sheet = 4;subRow++;
+						if(!StringUtils.isEmpty(rr_id1)) {
+							obj.setRr_id(rr_id1);
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj1);
+						    count = namedParamJdbcTemplate.update(comUpdateQry, paramSource);
+						   
+						}else {
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj1);
+						    count = namedParamJdbcTemplate.update(comInsertQry, paramSource);
+						   
+						}
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getResFamList())) {
+					subRow = 1;
+					String  privateLAInsertQry = "INSERT INTO rr_residential_family_details"
+							+ "( rr_id_fk, residential_name, residential_relation_with_head, residential_age, residential_gender, residential_maritual_status, "
+							+ "residential_education, residential_employment, residential_salary, residential_salary_units)"
+							+ "VALUES"
+							+ "( :rr_id, :residential_name, :residential_relation_with_head, :residential_age, :residential_gender, :residential_maritual_status,"
+							+ ":residential_education, :residential_employment, :residential_salary, :residential_salary_units)"
+							;
+					 
+					String  privateLAUpdateQry = "UPDATE rr_residential_family_details SET "
+							+ " residential_name =:residential_name, residential_relation_with_head =:residential_relation_with_head, "
+							+ "residential_age =:residential_age, residential_gender =:residential_gender, residential_maritual_status =:residential_maritual_status, "
+							+ "residential_education =:residential_education, residential_employment =:residential_employment, "
+							+ "residential_salary =:residential_salary "
+					 		+ "where rr_id_fk= :rr_id";
+					
+					for (RandRMain obj2 : obj.getResFamList()) {
+						sheet = 5;subRow++;
+						String table_name2 = "rr_residential_family_details";
+						String rr_id2 = checkLAIdMethod(obj2,table_name2);
+						if(!StringUtils.isEmpty(rr_id2)) {
+							obj.setRr_id(rr_id2);
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj2);
+						    count = namedParamJdbcTemplate.update(privateLAUpdateQry, paramSource);
+						}else {
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj2);
+						    count = namedParamJdbcTemplate.update(privateLAInsertQry, paramSource);
+						}
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getComList())) {
+					subRow = 1;
+					String privateInsertSubQry = "INSERT INTO rr_commercial_details "
+					 		+ "( rr_id_fk, name_of_activity, year_of_establishment, carpet_area, monthly_turnover_amount,monthly_turnover_amount_units, number_of_employees, remarks)"
+					 		+ "VALUES"
+					 		+ "( :rr_id, :name_of_activity, :year_of_establishment, :com_carpet_area, :monthly_turnover_amount,:monthly_turnover_amount_units, :number_of_employees, :com_remarks)";
+					 
+					 
+					String privateUpdateSubQry = "UPDATE rr_commercial_details SET "
+					 		+ "name_of_activity =:name_of_activity, year_of_establishment =:year_of_establishment, carpet_area =:com_carpet_area,"
+					 		+ "monthly_turnover_amount =:monthly_turnover_amount, number_of_employees =:number_of_employees, remarks =:com_remarks "
+					 		+ "where rr_id_fk= :rr_id";
+					
+					for (RandRMain obj3 : obj.getComList()) {
+						sheet = 2;subRow++;
+						String table_name3 = "rr_commercial_details";
+						String rr_id3 = checkLAIdMethod(obj3,table_name3);
+						if(!StringUtils.isEmpty(rr_id3)) {
+							obj.setRr_id(rr_id3);
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj3);
+						    count = namedParamJdbcTemplate.update(privateUpdateSubQry, paramSource);
+						}else {
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj3);
+						    count = namedParamJdbcTemplate.update(privateInsertSubQry, paramSource);
+						}
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getComFamList())) {
+					subRow = 1;
+					String govInsertQry = "INSERT INTO rr_commercial_employee_details"
+							+ "( rr_id_fk, employee_name, employee_age, employee_gender, employee_literacy, employee_attended, "
+							+ "employee_travel_time, employee_salary, employee_nature_of_work)"
+							+ "VALUES"
+							+ "( :rr_id, :employee_name, :employee_age, :employee_gender, :employee_literacy, :employee_attended, "
+							+ ":employee_travel_time, :employee_salary, :employee_nature_of_work)";
+					
+					String govUpdateQry = "UPDATE  rr_commercial_employee_details SET "
+							+ " employee_name= :employee_name, employee_age= :employee_age, employee_gender= :employee_gender, employee_literacy= :employee_literacy, "
+							+ "employee_attended= :employee_attended,employee_travel_time= :employee_travel_time, employee_salary= :employee_salary, employee_nature_of_work= :employee_nature_of_work "
+							+ "where  rr_id_fk= :rr_id";
+					for (RandRMain obj4 : obj.getComFamList()) {
+						sheet = 3;subRow++;
+						String table_name4 = "rr_commercial_employee_details";
+						String rr_id4 = checkLAIdMethod(obj4,table_name4);
+						if(!StringUtils.isEmpty(rr_id4)) {
+							obj.setRr_id(rr_id4);
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj4);
+						    count = namedParamJdbcTemplate.update(govUpdateQry, paramSource);
+						}else {
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj4);
+						    count = namedParamJdbcTemplate.update(govInsertQry, paramSource);
+						} 
+					}
+				}
+			   
+			}
+		   count = rrsList.size();
+		   transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			e.printStackTrace();
+			errMsg = e.getMessage();
+		}
+		String arr[] = new String[5];
+		arr[0] = errMsg;
+	    arr[1] = String.valueOf(count);
+	    arr[2] = String.valueOf(row);
+	    arr[3] = String.valueOf(sheet);
+	    arr[4] = String.valueOf(subRow);
+		return arr;
+	}
+	@Override
+	public String checkLAIdMethod(RandRMain obj, String table_name) {
+		RandRMain dObj = null;
+		String laId = null;
+		String qry1 = "";
+		String column_name = "rr_id";
+		try {
+			if((table_name.equals("test"))){
+				table_name = "rr";
+			}
+			if(!(table_name.equals("rr"))){
+				column_name = "rr_id_fk";
+			}
+			String qry ="select "+column_name+" as rr_id from "+table_name+" where "+column_name+" = ? " ;
+			dObj = (RandRMain)jdbcTemplate.queryForObject(qry, new Object[] {obj.getRr_id()}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+			laId = dObj.getRr_id();
+			if((table_name.equals("rr"))){
+				try {
+					qry1 = " and work_id = ? ";
+					String qry2 ="select "+column_name+" as rr_id from "+table_name+" where "+column_name+" = ? "+qry1 ;
+					dObj = (RandRMain)jdbcTemplate.queryForObject(qry2, new Object[] {obj.getRr_id(),obj.getWork_id()}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+					laId = dObj.getRr_id();
+				}
+				catch(Exception e){ 
+					laId = null;
+					return laId;
+				}
+			}
+			return laId;
+		}
+		catch(Exception e){ 
+				laId = null;
+				return laId;
+		}
+	}
+
 	
 }

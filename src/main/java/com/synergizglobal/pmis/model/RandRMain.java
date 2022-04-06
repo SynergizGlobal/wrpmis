@@ -1,6 +1,10 @@
 package com.synergizglobal.pmis.model;
 
+import java.lang.reflect.Field;
 import java.util.List;
+
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 public class RandRMain {
 private String rr_id, work_id,work_id_fk,work_short_name,work_name, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor, carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, estimate_approval_date, letter_to_mmrda, estimates_by_mmrda, payment_to_mmrda, alternate_housing_allotment,
@@ -13,12 +17,52 @@ residential_name, residential_relation_with_head, residential_age, rr_location_f
 residential_maritual_status, residential_education, residential_employment, residential_salary, unit, value,com_carpet_area,com_remarks,estimated_by_mmrda_amount_units,estimation_amount_units,
 residential_salary_units,created_by_user_id_fk,modified_by,modified_date,user_id,user_name,designation,user_type_fk,user_role_code,executive_user_id_fk;
 
-private List<RandRMain> residentialList,commercialList;
-
+private List<RandRMain> residentialList,commercialList,comList,comFamList,resList,resFamList;
+private MultipartFile RandRFile;
 private String [] values,genders,ids, rr_id_fks, employee_names, employee_ages, employee_genders, employee_literacys,employee_salary_unitsss, employee_travel_times
 , employee_salarys, employee_salary_unitss, employee_nature_of_works,
 residential_names, residential_relation_with_heads, residential_ages, residential_genders, residential_maritual_statuss,employee_attendeds, residential_educations, residential_employments
 , residential_salarys, residential_salary_unitss;
+
+public List<RandRMain> getComList() {
+	return comList;
+}
+
+public void setComList(List<RandRMain> comList) {
+	this.comList = comList;
+}
+
+public List<RandRMain> getComFamList() {
+	return comFamList;
+}
+
+public void setComFamList(List<RandRMain> comFamList) {
+	this.comFamList = comFamList;
+}
+
+public List<RandRMain> getResList() {
+	return resList;
+}
+
+public void setResList(List<RandRMain> resList) {
+	this.resList = resList;
+}
+
+public List<RandRMain> getResFamList() {
+	return resFamList;
+}
+
+public void setResFamList(List<RandRMain> resFamList) {
+	this.resFamList = resFamList;
+}
+
+public MultipartFile getRandRFile() {
+	return RandRFile;
+}
+
+public void setRandRFile(MultipartFile randRFile) {
+	RandRFile = randRFile;
+}
 
 public String getExecutive_user_id_fk() {
 	return executive_user_id_fk;
@@ -990,6 +1034,18 @@ public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
 	this.created_by_user_id_fk = created_by_user_id_fk;
 }
 
+public boolean checkNullOrEmpty() throws IllegalAccessException {
+	boolean flag = true;
+	try {
+		for (Field f : getClass().getDeclaredFields())
+	        if (!StringUtils.isEmpty(f.get(this)))
+	        	flag = false;
+	} catch (Exception e) {
+		
+	}
+    
+    return flag;            
+}
 
 
 

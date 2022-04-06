@@ -295,11 +295,13 @@
 								<!-- <h6 class="hide-on-med-and-down">Update Contract</h6> -->
 								<h6 class="mob-mar">Contract Details</h6>	
 								<div class="col s12 m12 right-align exportButton">
+ 								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
     								<div class="m-n1">
     									<a href="javascript:exportContractDetails();" class="btn waves-effect waves-light bg-s t-c"> 
     									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
     									</a>										
     								</div>
+    							</c:if>   								
     							</div>	
 							</div>
 						</span>
@@ -634,6 +636,7 @@
 			        }else if (aData[1] == "Not Awarded") {
 			          $('td', nRow).css('background-color', '#ffffff');
 			          $('td', nRow).css('color', '#000000');
+			          $('td', nRow).css('border-bottom', '1px solid #000000 !important');
 			          $('td', nRow).css('color', 'Black');
 			          $('td', nRow).css('font-weight', '400');
 			        }else{

@@ -506,7 +506,8 @@
                                     <span id="carpet_areaError" class="error-msg" ></span>
 	                             </div>
                                 <div class="col s6 m3 input-field">
-	                                <input id="year_of_construction" name="year_of_construction" type="number" class="validate" value="${rrDetails.year_of_construction }">
+	                                <input id="year_of_construction" name="year_of_construction" type="number" class="validate" value="${rrDetails.year_of_construction }"
+	                                maxlength="4" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
                                     <!--  <button type="button" id="verification_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button> -->
 		                             <label for="year_of_construction">Year of Construction </label>

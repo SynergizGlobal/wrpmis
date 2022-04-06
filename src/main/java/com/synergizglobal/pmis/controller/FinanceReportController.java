@@ -95,6 +95,7 @@ import com.synergizglobal.pmis.common.DocxTableCreationForContractReport;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.Safety;
 
 @Controller
 public class FinanceReportController {
@@ -124,16 +125,28 @@ public class FinanceReportController {
 	
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;	
-			
-	@RequestMapping(value="/finance-report/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
-	public void financeReport(@PathVariable("work_id") String work_id,HttpSession session,HttpServletResponse response) {
+	
+	@RequestMapping(value="/finance-report",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView FinanceReport(HttpSession session,@ModelAttribute Contract obj) throws Exception{
+		ModelAndView model = new ModelAndView(PageConstants.FinanceReport);
+		List<Contract> worksList = projectWorkOverviewReportService.getWorksFilterListInPOR(obj);
+		List<Contract> projectsList = projectWorkOverviewReportService.getProjectsFilterListInPOR(obj);
+		model.addObject("worksList", worksList);
+		model.addObject("projectsList", projectsList);		
+		return model;
+	}
+	
+	
+	@RequestMapping(value="/generate-finance-report",method= {RequestMethod.GET,RequestMethod.POST})
+	public void GenerateFinanceReport(@ModelAttribute Contract obj,HttpSession session,HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("redirect:/finance-report");
 		byte[] byteArray;        
 		try{
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
 						
-			List<Contract> list = projectWorkOverviewReportService.getFinanceReportContracts(work_id);
+			List<Contract> list = projectWorkOverviewReportService.getFinanceReportContracts(obj);
 			
 			
 			boolean landscape = false;

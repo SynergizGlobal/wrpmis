@@ -486,12 +486,12 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		return objsList;
 	}
 	@Override
-	public List<Contract> getFinanceReportContracts(String work_id) throws Exception {
+	public List<Contract> getFinanceReportContracts(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select work_short_name as contract_name,'' as value,'' as actual_physical_progress,'' as actual_financial_progress from work where work_id='"+work_id+"'\r\n"
+			String qry ="select work_short_name as contract_name,'' as value,'' as actual_physical_progress,'' as actual_financial_progress from work where work_id='"+obj.getWork_id_fk()+"'\r\n"
 					+ "union all\r\n"
-					+ "select 'Civil Works' as contract_name,'' as value,'' as actual_physical_progress,'' as actual_financial_progress from work where work_id='"+work_id+"'\r\n"
+					+ "select 'Civil Works' as contract_name,'' as value,'' as actual_physical_progress,'' as actual_financial_progress from work where work_id='"+obj.getWork_id_fk()+"'\r\n"
 					+ "union all\r\n"
 					+ "select c.contract_short_name as contract_name,\r\n"
 					+ "case when cr.revised_amount is null then round(awarded_cost*awarded_cost_units/1000000,2) else round(revised_amount*revised_amount_units/1000000,2) end as value,\r\n"
@@ -503,11 +503,11 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "and date>=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()),'-04-01') ELSE concat(YEAR(NOW())-1,'-04-01') END)\r\n"
 					+ "and date<=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW())+1,'-03-31') else concat(YEAR(NOW()),'-03-31') end )\r\n"
 					+ "where c.status='Open' and c.contract_name <> 'Miscellaneous' and  c.contract_name <> 'Land'\r\n"
-					+ "and category='planned' and c.work_id_fk='"+work_id+"' and hoddt.department_name='Engineering'\r\n"
+					+ "and category='planned' and c.work_id_fk='"+obj.getWork_id_fk()+"' and hoddt.department_name='Engineering'\r\n"
 					+ "group by c.contract_id\r\n"
 					+ "\r\n"
 					+ "union all\r\n"
-					+ "select 'Electrical and Signalling works' as contract_name,'' as value,'' as actual_physical_progress,'' as actual_financial_progress from work where work_id='"+work_id+"'\r\n"
+					+ "select 'Electrical and Signalling works' as contract_name,'' as value,'' as actual_physical_progress,'' as actual_financial_progress from work where work_id='"+obj.getWork_id_fk()+"'\r\n"
 					+ "union all\r\n"
 					+ "\r\n"
 					+ "select c.contract_short_name as contract_name,\r\n"
@@ -520,7 +520,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "and date>=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()),'-04-01') ELSE concat(YEAR(NOW())-1,'-04-01') END)\r\n"
 					+ "and date<=(SELECT CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW())+1,'-03-31') else concat(YEAR(NOW()),'-03-31') end )\r\n"
 					+ "where c.status='Open' and c.contract_name <> 'Miscellaneous' and  c.contract_name <> 'Land'\r\n"
-					+ "and category='planned' and c.work_id_fk='"+work_id+"' and hoddt.department_name in('Engineering','Signalling & Telecom')\r\n"
+					+ "and category='planned' and c.work_id_fk='"+obj.getWork_id_fk()+"' and hoddt.department_name in('Engineering','Signalling & Telecom')\r\n"
 					+ "group by c.contract_id";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 

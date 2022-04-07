@@ -392,7 +392,7 @@ td, th {
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
     	   $('.close-message').delay(3000).fadeOut('slow');
-    	  // clearFilters();
+    	   clearFilters();
     });	
 	
 
@@ -433,7 +433,7 @@ td, th {
 	                if (data.length > 0) 
 	                {
 	                    $.each(data, function (i, val) {
-	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">'+$.trim(val.work_id)+'--' +  $.trim(val.work_short_name) + '</option>');
+	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">'+$.trim(val.work_id_fk)+'--' +  $.trim(val.work_short_name) + '</option>');
 	                    });
 	                }
 	                $('.searchable').select2();

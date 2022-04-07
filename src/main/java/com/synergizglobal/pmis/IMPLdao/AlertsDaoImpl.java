@@ -72,10 +72,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************** BG alerts*******************************************************/
 			String bgQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Bank Guarantee' as alert_type,"
-					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
 					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "bg.bg_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity " 
 					+ "from contract c " 
@@ -90,10 +90,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			}			
 			
 			String bgQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Bank Guarantee' as alert_type,"
-					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
 					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "bg.bg_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity " 
 					+ "from contract c "
@@ -108,10 +108,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			}	
 			
 			String bgQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Bank Guarantee' as alert_type,"
-					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
 					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "bg.bg_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity " 
 					+ "from contract c " 
@@ -126,10 +126,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String bgQryAlert4 = "select bg.contract_id_fk as contract_id, 'Overdue' as alert_level,'Bank Guarantee' as alert_type,"
-					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
 					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "bg.bg_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity  " 
 					+ "from contract c " 
@@ -150,10 +150,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************** Insurance alerts*******************************************************/
 			String insuranceQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Insurance' as alert_type,"
-					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
 					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "bg.insurance_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity "
 					+ "from contract c " 
@@ -168,10 +168,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String insuranceQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Insurance' as alert_type,"
-					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
 					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "bg.insurance_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity "
 					+ "from contract c "
@@ -186,10 +186,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String insuranceQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Insurance' as alert_type,"
-					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
 					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "bg.insurance_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity "
 					+ "from contract c "
@@ -204,10 +204,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String insuranceQryAlert4 = "select bg.contract_id_fk as contract_id, 'Overdue' as alert_level,'Insurance' as alert_type,"
-					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
 					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "bg.insurance_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity "
 					+ " from contract c "
@@ -454,8 +454,6 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(!StringUtils.isEmpty(cvQryAlert10List) && cvQryAlert10List.size() > 0) {
 				list.addAll(cvQryAlert10List);
 			}			
-			
-			
 			
 			
 			/*************************Alerts insertion********************************************/

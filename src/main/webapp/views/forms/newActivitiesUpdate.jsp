@@ -1308,7 +1308,7 @@
     		        		  getNewActivitiesUpdateStructures(temp2[1]);
     		        		  //structureVal = temp2[1];
     		        	  }else if($.trim(temp2[0]) == 'strip_chart_component'){
-    		        		  //getComponentsList(temp2[1]);
+    		        		  getComponentsList(temp2[1]);
     		        		  glb=temp2[1];
     		        	  }  
     		        	  else if($.trim(temp2[0]) == 'strip_chart_component_id'){
@@ -1674,7 +1674,7 @@
                       $('.searchable').select2();
                       $(".page-loader-4").hide();
                       
-                      if ($.trim(id1) != '' && $.trim(id2) != ''){
+                      if ($.trim(id2) != ''){
                     	  getComponentsList(id2);
                       }
                   }

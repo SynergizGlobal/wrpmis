@@ -298,9 +298,10 @@
 	    $(document).ready(function(){	 
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
+		    var dashboard_type = '${dashboard_type}';
 		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
 				type:"POST",
-				data:{work_id : overview_work_id},
+				data:{dashboard_id : requestedDashboardId, work_id : overview_work_id, dashboard_type : dashboard_type},
 				cache: false,async:false,
 				success : function(data){   
 					$('#accordion').append(getData(data));

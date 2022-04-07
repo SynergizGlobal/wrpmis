@@ -10,11 +10,29 @@ public class OverviewDashboard {
 	private String filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_name,
 	default_filter_column,default_filter_value, selected_value, priority, 
 	filter_column_id,filters_reference_table,filter_option_id,filter_option_value,work_id,parent_id,params,
-	query_for_work_search,query_for_filter_options,source_table_alias_name,filters_table_alias_name,order_by,is_first_option_selected,union_all;
+	query_for_work_search,query_for_filter_options,source_table_alias_name,filters_table_alias_name,order_by,is_first_option_selected,union_all,dashboard_type,dashboard_type_fk;
 	
 	private List<OverviewDashboard> filter;
 
 	private int work_exists_or_not;
+
+	
+
+	public String getDashboard_type() {
+		return dashboard_type;
+	}
+
+	public void setDashboard_type(String dashboard_type) {
+		this.dashboard_type = dashboard_type;
+	}
+
+	public String getDashboard_type_fk() {
+		return dashboard_type_fk;
+	}
+
+	public void setDashboard_type_fk(String dashboard_type_fk) {
+		this.dashboard_type_fk = dashboard_type_fk;
+	}
 
 	public String getDashboard_id() {
 		return dashboard_id;

@@ -40,11 +40,19 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			connection = dataSource.getConnection();
 			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
-					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? ORDER BY `order`";
+					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? AND dashboard_type_fk = ?";
+			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) {
+				qry = qry + " AND dashboard_id = ?";
+			}
+			qry = qry + " ORDER BY `order`";
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
 			statement.setString(2, dObj.getParent_id());
 			statement.setString(3, "Yes");
+			statement.setString(4, dObj.getDashboard_type());
+			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) {
+				statement.setString(5, dObj.getDashboard_id());
+			}
 			resultSet = statement.executeQuery();  
 			
 			String work_id = dObj.getWork_id();

@@ -40,8 +40,8 @@ public class OverviewDashboardController {
 		ModelAndView model = new ModelAndView();
 		try {
 		    model.setViewName(PageConstants.overviewDashboard);
-			
 			model.addObject("dashboardId", dashboardId);
+			model.addObject("dashboard_type", "Modules");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("overviewDashboardByWork : " + e.getMessage());
@@ -54,8 +54,8 @@ public class OverviewDashboardController {
 		ModelAndView model = new ModelAndView();
 		try {
 		    model.setViewName(PageConstants.overviewDashboard);
-			
 			model.addObject("work_id", work_id);
+			model.addObject("dashboard_type", "Works");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("overviewDashboardByWork : " + e.getMessage());
@@ -71,6 +71,7 @@ public class OverviewDashboardController {
 			
 			model.addObject("work_id", work_id);
 			model.addObject("dashboardId", dashboardId);
+			model.addObject("dashboard_type", "Works");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("overviewDashboardListByWork : " + e.getMessage());

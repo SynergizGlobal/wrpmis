@@ -162,7 +162,6 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 					+ "					,contract_status_fk from contract c \r\n"
 					+ "					LEFT JOIN work w on c.work_id_fk = w.work_id\r\n"
 					+ "					LEFT JOIN project p on w.project_id_fk = p.project_id\r\n"
-					+ "					left join department d on d.department=c.department_fk\r\n"
 					+ "	LEFT JOIN user u ON c.hod_user_id_fk = u.user_id " 
 					+ "	left join department d1 on d1.department=u.department_fk " 					
 					+ "                    left join contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes'\r\n"

@@ -687,7 +687,8 @@
          
          function getIssueCategoryList(){
         	 
-        	  var contract_type_fk = $("#contract_id_fk").find('option:selected').attr("contract_type");
+        	  //var contract_type_fk = $("#contract_id_fk").find('option:selected').attr("contract_type");
+        	  var contract_type_fk = "";
         	 
         	  $(".page-loader").show(); 
       		  $("#category_fk option:not(:first)").remove();

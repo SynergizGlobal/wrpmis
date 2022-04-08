@@ -3,11 +3,15 @@ package com.synergizglobal.pmis.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,11 +21,15 @@ import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -40,17 +48,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.UtilityShiftingService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.UtilityShiftingPaginationObject;
+import com.synergizglobal.pmis.model.UtilityShifting;
+import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.User;
 
@@ -64,7 +77,8 @@ public class UtilityShiftingController {
     }
 	
 	Logger logger = Logger.getLogger(UtilityShiftingController.class);
-	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	@Autowired
 	UtilityShiftingService utilityShiftingService;
 	
@@ -564,11 +578,11 @@ public class UtilityShiftingController {
 		   
 			if(dataList != null && dataList.size() > 0){
 	            XSSFWorkbook  workBook = new XSSFWorkbook ();
-	            XSSFSheet RRSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting"));
+	            XSSFSheet UtilityShiftingSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting"));
 				XSSFSheet subSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Progress Details"));
 				
 				
-		        workBook.setSheetOrder(RRSheet.getSheetName(), 0);
+		        workBook.setSheetOrder(UtilityShiftingSheet.getSheetName(), 0);
 				workBook.setSheetOrder(subSheet.getSheetName(), 1);
 			
 		        
@@ -592,14 +606,14 @@ public class UtilityShiftingController {
 		        
 		        
 		        
-	            XSSFRow headingRow = RRSheet.createRow(0);
+	            XSSFRow headingRow = UtilityShiftingSheet.createRow(0);
 	            String headerString = "Project ^Work ^Contract ^Utility Shifting ID^Identification^Location Name^Reference Number^Chainage"
 	            		+ "^Utility Description^Utility Type"
 	            		+ "^Owner Name^Category^Execution Agency^Impacted Contract^Requirement stage^Planned Completion^Shifting Completed"
 	            		+ "^Start Date^Scope^Completed^Unit^Status^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
-	            RRSheet.createFreezePane(0,1);
+	            UtilityShiftingSheet.createFreezePane(0,1);
 	            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
 		        	Cell cell = headingRow.createCell(i);
 			        cell.setCellStyle(greenStyle);
@@ -646,7 +660,7 @@ public class UtilityShiftingController {
 			 short rowNo = 1;
 	         for (UtilityShifting obj : dataList) {
 					
-	                XSSFRow row = RRSheet.createRow(rowNo);
+	                XSSFRow row = UtilityShiftingSheet.createRow(rowNo);
 	                int c = 0;
 	               
 	                Cell cell = row.createCell(c++);
@@ -687,11 +701,11 @@ public class UtilityShiftingController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getOwner_name());
+					cell.setCellValue(obj.getUtility_type_fk());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getUtility_type_fk());
+					cell.setCellValue(obj.getOwner_name());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -745,7 +759,7 @@ public class UtilityShiftingController {
 	            }
 				
 	        	for(int columnIndex = 0; columnIndex < 29; columnIndex++) {
-	        		RRSheet.setColumnWidth(columnIndex, 25 * 200);
+	        		UtilityShiftingSheet.setColumnWidth(columnIndex, 25 * 200);
 				}
 	        	for(int columnIndex = 0; columnIndex < 38; columnIndex++) {
 	        		subSheet.setColumnWidth(columnIndex, 25 * 200);
@@ -826,5 +840,355 @@ public class UtilityShiftingController {
         style.setFont(font); 
         
         return style;
+	}
+	
+	@RequestMapping(value = "/upload-utility-shifting", method = {RequestMethod.POST})
+	public ModelAndView uploadUtilityShifting(@ModelAttribute UtilityShifting obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		String msg = "";
+		try {
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(userId);
+			obj.setUser_id(userId);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			model.setViewName("redirect:/utilityshifting");
+			
+			if(!StringUtils.isEmpty(obj.getUtilityFile())){
+				MultipartFile multipartFile = obj.getUtilityFile();
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet laSheet = workbook.getSheetAt(0);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = laSheet.getRow(0);
+						//checking given file format
+						if(headerRow != null){
+							List<String> fileFormat = FileFormatModel.getUtilityShiftingFileFormat();	
+							int noOfColumns = headerRow.getLastCellNum();
+							if(noOfColumns == fileFormat.size()){
+								for (int i = 0; i < fileFormat.size();i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		return model;
+				                	}
+								}
+							}else{
+								attributes.addFlashAttribute("error",uploadformatError);
+		                		return model;
+							}
+						}else{
+							attributes.addFlashAttribute("error",uploadformatError);
+	                		return model;
+						}
+						String[]  result = uploadUtilityShifting(obj,userId,userName);
+						String errMsg = result[0];
+						int count = 0,row = 0,sheet = 0,subRow = 0;
+						if(!StringUtils.isEmpty(result[1])){count = Integer.parseInt(result[1]);}
+						if(!StringUtils.isEmpty(result[2])){row = Integer.parseInt(result[2]);}
+						if(!StringUtils.isEmpty(result[3])){sheet = Integer.parseInt(result[3]);}
+						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
+						if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
+							attributes.addFlashAttribute("error","<span style='color:red;'>Work and Utility Shifting Id Mismatch at row: ("+row+")</span>");
+	                		return model;
+						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
+							if(sheet == 1) {subRow = row; }
+							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet: ("+sheet+") at row: (("+subRow+")</span>");
+	                		return model;
+						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
+							if(sheet == 1) {subRow = row; }
+							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet:  ("+sheet+") at row: ("+subRow+")</span>");
+	                		return model;
+						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
+							if(sheet == 1) {subRow = row; }
+							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect date value on Sheet:  ("+sheet+") at row: ("+subRow+")</span>");
+	                		return model;
+						}
+						
+						if(count > 0) {
+							attributes.addFlashAttribute("success", count + " records added successfully.");	
+							msg = count + " records added successfully.";
+							
+							FormHistory formHistory = new FormHistory();
+							formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+							formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+							formHistory.setModule_name_fk("Utility Shifting");
+							formHistory.setForm_name("Upload Utility Shifting");
+							formHistory.setForm_action_type("Upload");
+							formHistory.setForm_details( msg);
+							formHistory.setWork(obj.getWork_id_fk());
+							//formHistory.setContract(obj.getContract_id_fk());
+							
+							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+							/********************************************************************************/
+						}else {
+							attributes.addFlashAttribute("success"," No records found.");	
+							msg = " No records found.";
+						}
+					}
+					workbook.close();
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("updateDataDate() : "+e.getMessage());
+		}
+		return model;
+	}
+	private  String[]  uploadUtilityShifting(UtilityShifting obj, String userId, String userName) throws Exception {
+		UtilityShifting us = null;
+		List<UtilityShifting> ussList = new ArrayList<UtilityShifting>();
+		String[] result = new String[5];
+		Writer w = null;
+		int count = 0;
+		try {	
+			MultipartFile excelfile = obj.getUtilityFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					
+					XSSFSheet laSheet = workbook.getSheetAt(0);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					for(int i = 1; i <= laSheet.getLastRowNum();i++){
+						int v = laSheet.getLastRowNum();
+						XSSFRow row = laSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						us = new UtilityShifting();
+						String val = null;
+						if(!StringUtils.isEmpty(row)) {								
+							val = formatter.formatCellValue(row.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setWork_id_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setContract_id_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(2)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setUtility_shifting_id(val);}
+							
+							val = formatter.formatCellValue(row.getCell(3)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setIdentification(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(4)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setLocation_name(val);}
+							
+							val = formatter.formatCellValue(row.getCell(5)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setReference_number(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(6)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setLatitude(val);}					
+							
+							
+							val = formatter.formatCellValue(row.getCell(7)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setUtility_description(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(8)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setUtility_type_fk(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(9)).trim();
+							if(!StringUtils.isEmpty(val)) {us.setOwner_name(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(10)).trim();
+							if(!StringUtils.isEmpty(val)) {us.setUtility_category_fk(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(11)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setExecution_agency_fk(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(12)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setImpacted_contract_id_fk(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(13)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setRequirement_stage_fk(val);}										
+							
+							val = formatter.formatCellValue(row.getCell(14)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setPlanned_completion_date(val);}
+							
+							val = formatter.formatCellValue(row.getCell(15)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setShifting_completion_date(val);}
+							
+							val = formatter.formatCellValue(row.getCell(16)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setStart_date(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(17)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(17));
+								}
+								us.setScope(val);}
+							}
+							
+							val = formatter.formatCellValue(row.getCell(18)).trim();
+							if(!StringUtils.isEmpty(val)) {
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(18));
+								}
+								us.setCompleted(val);}
+							
+							val = formatter.formatCellValue(row.getCell(19)).trim();
+							if(!StringUtils.isEmpty(val)) {us.setUnit_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(20)).trim();
+							if(!StringUtils.isEmpty(val)) {us.setShifting_status_fk(val);}
+						
+							val = formatter.formatCellValue(row.getCell(21)).trim();
+							if(!StringUtils.isEmpty(val)) {us.setRemarks(val);}								
+						
+							us.setStart_date(DateParser.parse(us.getStart_date()));
+							us.setShifting_completion_date(DateParser.parse(us.getShifting_completion_date()));
+							us.setCreated_by_user_id_fk(userId);
+							us.setPlanned_completion_date(DateParser.parse(us.getPlanned_completion_date()));
+							us.setIdentification(DateParser.parse(us.getIdentification()));
+				
+						List<UtilityShifting> pObjList = new ArrayList<UtilityShifting>();
+						XSSFSheet laComercialDetailsSheet = workbook.getSheetAt(1);
+						XSSFRow comDetails = laComercialDetailsSheet.getRow(1);
+					
+						if(comDetails != null){
+							for(int j = 1; j <= laComercialDetailsSheet.getLastRowNum();j++){
+								XSSFRow row2 = laComercialDetailsSheet.getRow(j);
+								UtilityShifting pObj = new UtilityShifting();
+								if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(us.getUtility_shifting_id())) {
+									val = formatter.formatCellValue(row2.getCell(0)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setUtility_shifting_id(val);}
+									
+									val = formatter.formatCellValue(row2.getCell(1)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setProgress_date(val);}
+									
+									val = formatter.formatCellValue(row2.getCell(2)).trim();
+									if(!StringUtils.isEmpty(val)) { pObj.setProgress_of_work(val);}	
+									
+									pObj.setProgress_date(DateParser.parse(pObj.getProgress_date()));
+								
+							}
+							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(us.getUtility_shifting_id())) {
+								pObjList.add(pObj);
+							}
+									
+						}
+						us.setProcessList(pObjList);
+						}
+				
+						boolean flag = us.checkNullOrEmpty();
+						if(!flag && !StringUtils.isEmpty(us.getUtility_shifting_id())) {
+							ussList.add(us);
+						}
+					}
+					if(!ussList.isEmpty() && ussList != null){
+						String[] arr  = utilityShiftingService.uploadUtilityShiftingData(ussList,us);
+						result[0] = arr[0];
+						result[1] = arr[1];
+						result[2] = arr[2];
+						result[3] = arr[3];
+						result[4] = arr[4];
+					}
+					
+				}
+				workbook.close();
+			}
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadUtilityShifting() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadRUtilityShifting() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return result;
+	}
+	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {
+		String val = null;
+		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); 
+
+		// existing Sheet, Row, and Cell setup
+		//workbook.setForceFormulaRecalculation(true);
+		try {
+			CellType type = cell.getCellType();
+			if (!StringUtils.isEmpty(cell)) {
+			    switch (type) {
+			        case BOOLEAN:
+			            val = String.valueOf(cell.getBooleanCellValue());
+			            break;
+			        case NUMERIC:
+			        	val = String.valueOf(cell.getNumericCellValue());
+			        	if(val.contains("E")){
+			        		val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+			        	}
+			       
+			            break;
+			        case STRING:
+			        	try {  
+			        		val = cell.getStringCellValue();
+			        		NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+			        		Number number = format.parse(val);
+			        		int d = number.intValue();
+			        		val = String.valueOf(d);
+			        		if(val.contains("E")){
+			        			val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+			        		}
+			        	  } catch(NumberFormatException e){  
+			        		  val = cell.getStringCellValue();
+			        	  }  
+			            
+			            break;
+			        case BLANK:
+			        	val = cell.getStringCellValue();
+			            break;
+			        case ERROR:
+			            val = cell.getStringCellValue();
+			            break;
+			        case _NONE:
+			            val = cell.getStringCellValue();
+			            break;
+					default:
+						break;
+			    }
+			}else if (!StringUtils.isEmpty(cell)) {
+				DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+				val = formatter.formatCellValue(cell).trim();
+			}
+		}catch(Exception e) {
+			try {
+				 val = cell.getStringCellValue();
+			}catch(Exception e1) {
+				val = String.valueOf(cell.getNumericCellValue());
+			}
+			
+		}
+	
+		return val;
 	}
 }

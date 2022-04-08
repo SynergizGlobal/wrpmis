@@ -1315,10 +1315,19 @@ public class RandRMainController {
 						if(!StringUtils.isEmpty(result[3])){sheet = Integer.parseInt(result[3]);}
 						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
 						if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
-							attributes.addFlashAttribute("error","<span style='color:red;'>Work and RR Id Mismatch at row: "+row+"</span>");
+							attributes.addFlashAttribute("error","<span style='color:red;'>Work and RR Id Mismatch at row: ("+row+")</span>");
 	                		return model;
 						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
-							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet: "+sheet+" at row: "+subRow+"</span>");
+							if(sheet == 1) {subRow = row; }
+							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet: ("+sheet+") at row: ("+subRow+")</span>");
+	                		return model;
+						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
+							if(sheet == 1) {subRow = row; }
+							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet:  ("+sheet+") at row: ("+subRow+")</span>");
+	                		return model;
+						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
+							if(sheet == 1) {subRow = row; }
+							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect date value on Sheet:  ("+sheet+") at row: ("+subRow+")</span>");
 	                		return model;
 						}
 						

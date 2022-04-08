@@ -50,5 +50,7 @@ public interface UtilityShiftingService {
 
 	List<UtilityShifting> getUtilityShiftingList(UtilityShifting dObj) throws Exception;
 	List<UtilityShifting> getUtilityShiftingStatus(UtilityShifting dObj) throws Exception;
+
+	String[] uploadUtilityShiftingData(List<UtilityShifting> ussList, UtilityShifting us) throws Exception;
 	
 }

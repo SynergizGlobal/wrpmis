@@ -55,4 +55,6 @@ public interface UtilityShiftingDao {
 
 	List<UtilityShifting> getUtilityShiftingStatus(UtilityShifting obj) throws Exception;
 
+	String[] uploadUtilityShiftingData(List<UtilityShifting> ussList, UtilityShifting us) throws Exception;
+
 }

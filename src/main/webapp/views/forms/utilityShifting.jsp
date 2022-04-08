@@ -129,6 +129,13 @@
 							<h6>Utility Shifting</h6>
 							<div class="col s12 m12 right-align exportButton">
 							    <div class="m-n1 hideCOl">
+								    <a href="/pmis/Utility_Shifting_Template.xlsx" download class="template-btn" title="Click to Download R&R Template">
+											<i class="material-icons-outlined">download_for_offline</i>
+									</a>
+									<a href="javascript:void(0);"
+										onclick="openUploadLAModal();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
 							    	 <a href="<%=request.getContextPath()%>/add-utility-shifting" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add</strong></a>
                                     <a href="javascript:void(0);" onclick="exportUtilityShifting();" class="btn waves-effect waves-light bg-s t-c">
@@ -234,7 +241,53 @@
             </div>
         </div>
     </div>
-
+	<!-- update popup starts -->
+	<div id="upload_template" class="modal">
+		<div class="modal-content">
+			<div class="center-align p-2 bg-m modal-title headbg">
+				<h6>Upload Utility Shifting</h6>
+			</div>
+			<!-- form start-->
+			<div class="container">
+				<form action="<%=request.getContextPath()%>/upload-utility-shifting"
+					method="post" enctype="multipart/form-data">
+					<div class="row no-mar">
+						<div class="col s12 m12 input-field center-align">
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="file-field input-field">
+										<div class="btn bg-m">
+											<span>Attachment</span> <input type="file" id="utilityFile"
+												name="utilityFile" required="required">
+										</div>
+										<div class="file-path-wrapper">
+											<input class="file-path validate" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row no-mar">
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="submit" class="btn waves-effect waves-light bg-m"
+									style="width: 100%;">Update</button>
+							</div>
+						</div>
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="button" class="btn waves-effect waves-light bg-s"
+									style="width: 100%;" onclick="closeUploadRRModal();">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
    
 	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
@@ -287,9 +340,17 @@
     }	
 	
 		var filtersMap = new Object();
-	
+		function openUploadLAModal() {
+			$("#utilityFile").val('');
+			$("#upload_template").modal('open');
+		}
+
+		function closeUploadLAModal() {
+			$("#utilityFile").val('');
+			$("#upload_template").modal('close');
+		}
         $(document).ready(function () {
-        	
+        	$('.modal').modal();
         	var cid2 = getUrlVars()["work_id"];
 		    if(cid2!="" && cid2!= null)
 		    {

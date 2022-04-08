@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -40,6 +41,7 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.Messages;
+import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.Safety;
@@ -852,7 +854,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				                	int k = 1;
 									ps.setString(k++, progressDates.length > 0 ?DateParser.parse(progressDates[i]):null);
 									ps.setString(k++, progressOfWorks.length > 0 ?progressOfWorks[i]:null);
-									ps.setString(k++, obj.getUtility_shifting_id());
+									ps.setString(k++, USID);
 				                }
 				                @Override  
 				                public int getBatchSize() {		                	
@@ -950,7 +952,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			}
 			if(flag) {
 
-				String deleteProgressDataQry = "delete from utility_shifting_progress where utility_shifting_id = :id";
+				String deleteProgressDataQry = "delete from utility_shifting_progress where utility_shifting_id = :utility_shifting_id";
 				
 				UtilityShifting fileObj = new UtilityShifting();
 				fileObj.setUtility_shifting_id(obj.getId());
@@ -980,7 +982,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			                	int k = 1;
 								ps.setString(k++, progressDates.length > 0 ?DateParser.parse(progressDates[i]):null);
 								ps.setString(k++, progressOfWorks.length > 0 ?progressOfWorks[i]:null);
-								ps.setString(k++, obj.getId());
+								ps.setString(k++, obj.getUtility_shifting_id());
 			                }
 			                @Override  
 			                public int getBatchSize() {		                	
@@ -1132,7 +1134,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					sobj.setUtilityShiftingFilesList(objsList);
 				}
 				String filesCMQry ="select id, DATE_FORMAT(progress_date,'%d-%m-%Y') as progress_date, progress_of_work from utility_shifting_progress where utility_shifting_id = ? ";					
-				List<UtilityShifting> objsCMList = jdbcTemplate.query( filesCMQry,new Object[] {obj.getId()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));					
+				List<UtilityShifting> objsCMList = jdbcTemplate.query( filesCMQry,new Object[] {obj.getUtility_shifting_id()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));					
 				if(!StringUtils.isEmpty(objsCMList)) {
 					sobj.setUtilityShiftingProgressDetailsList(objsCMList);
 				}				
@@ -1313,5 +1315,127 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		}
 		return objsList;
 	}
+
+	@Override
+	public String[] uploadUtilityShiftingData(List<UtilityShifting> ussList, UtilityShifting us) throws Exception {
+		boolean flag = false;
+		int count = 0,row =1,sheet = 1,subRow = 1;
+		String errMsg = null;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String insertQry  = "INSERT INTO utility_shifting"
+					+ "(utility_shifting_id, work_id_fk, identification, location_name, reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, "
+					+ "execution_agency_fk, contract_id_fk, "
+					+ "start_date, scope, completed, shifting_status_fk, shifting_completion_date, remarks, latitude,  impacted_contract_id_fk, requirement_stage_fk, "
+					+ "planned_completion_date, unit_fk) "
+					+ "VALUES "
+					+ "(:utility_shifting_id,:work_id_fk,:identification,:location_name,:reference_number,:utility_description,"
+							+ ":utility_type_fk,"
+							+ ":utility_category_fk,:owner_name,"
+							+ ":execution_agency_fk,"
+							+ ":contract_id_fk,:start_date,:scope,:completed,:shifting_status_fk,"
+							+ ":shifting_completion_date,:remarks,:latitude,"
+							+ ":impacted_contract_id_fk,:requirement_stage_fk,:planned_completion_date,:unit_fk"
+							+ ")";	
+			
+			String updatetQry = "UPDATE utility_shifting SET  identification=:identification, location_name=:location_name,"
+					+ "reference_number=:reference_number, utility_description=:utility_description, utility_type_fk=:utility_type_fk, utility_category_fk=:utility_category_fk,"
+					+ " owner_name=:owner_name, execution_agency_fk=:execution_agency_fk, contract_id_fk=:contract_id_fk, start_date=:start_date, scope=:scope, completed=:completed,"
+					+ " shifting_status_fk=:shifting_status_fk, shifting_completion_date=:shifting_completion_date, remarks=:remarks, latitude=:latitude,"
+					+ " impacted_contract_id_fk=:impacted_contract_id_fk, requirement_stage_fk=:requirement_stage_fk, planned_completion_date=:planned_completion_date, unit_fk=:unit_fk,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP "
+					+ " WHERE utility_shifting_id = :utility_shifting_id";	
+		//	int rNo = 0;
+			for (UtilityShifting obj : ussList) {
+				
+				String table_name = "utility_shifting";
+				String rr_id = checkLAIdMethod(obj,table_name);
+				row++;sheet = 1;
+				if(!StringUtils.isEmpty(rr_id)) {
+					obj.setUtility_shifting_id(rr_id);
+					//System.out.println(rNo++);
+						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+					    count = namedParamJdbcTemplate.update(updatetQry, paramSource);
+				}else {
+					//System.out.println(rNo++);
+						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+					    count = namedParamJdbcTemplate.update(insertQry, paramSource);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getProcessList())) {
+					subRow = 1;
+					String comInsertQry = "INSERT INTO utility_shifting_progress"
+							+ "( utility_shifting_id, progress_date, progress_of_work) "
+							+ "VALUES"
+							+ "(:utility_shifting_id, :progress_date, :progress_of_work)";
+					
+					String  comUpdateQry  = "UPDATE utility_shifting_progress SET "
+							+ " progress_date= :progress_date, progress_of_work= :progress_of_work Where utility_shifting_id = :utility_shifting_id";
+					
+					for (UtilityShifting obj1 : obj.getProcessList()) {
+						String table_name1 = "utility_shifting_progress";
+						String rr_id1 = checkLAIdMethod(obj1,table_name1);
+						sheet = 2;subRow++;
+						if(!StringUtils.isEmpty(rr_id1)) {
+							obj.setUtility_shifting_id(rr_id1);
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj1);
+						    count = namedParamJdbcTemplate.update(comUpdateQry, paramSource);
+						   
+						}else {
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj1);
+						    count = namedParamJdbcTemplate.update(comInsertQry, paramSource);
+						   
+						}
+					}
+				}
+
+			}
+		   count = ussList.size();
+		   transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			e.printStackTrace();
+			errMsg = e.getMessage();
+		}
+		String arr[] = new String[5];
+		arr[0] = errMsg;
+	    arr[1] = String.valueOf(count);
+	    arr[2] = String.valueOf(row);
+	    arr[3] = String.valueOf(sheet);
+	    arr[4] = String.valueOf(subRow);
+		return arr;
+	}
+	
+	private String checkLAIdMethod(UtilityShifting obj, String table_name) throws Exception {
+		UtilityShifting dObj = null;
+		String usId = null;
+		String qry1 = "";
+		String column_name = "utility_shifting_id";
+		try {
+			String qry ="select "+column_name+" as utility_shifting_id from "+table_name+" where "+column_name+" = ? " ;
+			dObj = (UtilityShifting)jdbcTemplate.queryForObject(qry, new Object[] {obj.getUtility_shifting_id()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+			usId = dObj.getUtility_shifting_id();
+			if((table_name.equals("utility_shifting"))){
+				try {
+					qry1 = " and work_id_fk = ? ";
+					String qry2 ="select "+column_name+" as utility_shifting_id from "+table_name+" where "+column_name+" = ? "+qry1 ;
+					dObj = (UtilityShifting)jdbcTemplate.queryForObject(qry2, new Object[] {obj.getUtility_shifting_id(),obj.getWork_id_fk()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+					usId = dObj.getUtility_shifting_id();
+				}
+				catch(Exception e){ 
+					usId = null;
+					return usId;
+				}
+			}
+			return usId; 
+		}
+		catch(Exception e){ 
+			usId = null;
+			return usId;
+		}
+	}
+
+	
 
 }

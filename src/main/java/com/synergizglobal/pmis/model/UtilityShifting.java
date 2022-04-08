@@ -1,7 +1,9 @@
 package com.synergizglobal.pmis.model;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UtilityShifting {
@@ -15,11 +17,36 @@ public class UtilityShifting {
 	private String []  progress_dates, progress_of_works,attachment_file_types,attachmentNames;
 	
 	private List<MultipartFile> utilityShiftingFiles;
-	
+	private List<UtilityShifting> utilityList,processList;
+	private MultipartFile utilityFile;
 	
 	private List<UtilityShifting> utilityShiftingFilesList;
 	private List<UtilityShifting> utilityShiftingProgressDetailsList;
 	
+
+	public List<UtilityShifting> getUtilityList() {
+		return utilityList;
+	}
+
+	public void setUtilityList(List<UtilityShifting> utilityList) {
+		this.utilityList = utilityList;
+	}
+
+	public List<UtilityShifting> getProcessList() {
+		return processList;
+	}
+
+	public void setProcessList(List<UtilityShifting> processList) {
+		this.processList = processList;
+	}
+
+	public MultipartFile getUtilityFile() {
+		return utilityFile;
+	}
+
+	public void setUtilityFile(MultipartFile utilityFile) {
+		this.utilityFile = utilityFile;
+	}
 
 	public String getExecutive_user_id_fk() {
 		return executive_user_id_fk;
@@ -493,5 +520,16 @@ public class UtilityShifting {
 		this.pending = pending;
 	}
 	
-	
+	public boolean checkNullOrEmpty() throws IllegalAccessException {
+		boolean flag = true;
+		try {
+			for (Field f : getClass().getDeclaredFields())
+		        if (!StringUtils.isEmpty(f.get(this)))
+		        	flag = false;
+		} catch (Exception e) {
+			
+		}
+	    
+	    return flag;            
+	}
 }

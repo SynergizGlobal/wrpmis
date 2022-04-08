@@ -233,7 +233,7 @@ public class ContractResourceReportController {
 	        int len  = 0;
 	        String contarct_id = null;
 	        if(!(StringUtils.isEmpty(reportData))) {
-	        
+	        	 if(!(StringUtils.isEmpty(reportData.getContarctsList().size())) && reportData.getContarctsList().size() > 0) {
 	        	 for (ContractResource zObj : reportData.getContarctsList()) {  
 	        		contarct_id = zObj.getContract_id_fk();
 			        XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(contarct_id));
@@ -484,6 +484,10 @@ public class ContractResourceReportController {
 
 						}
 					}
+	        	 }else {
+	 	        	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Data"));
+			        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
+		        }
 	        }else {
 	        	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Data"));
 		        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);

@@ -53,6 +53,18 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
+	public static List<String> getUtilityShiftingFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Work,Contract,Utility Shifting ID,Identification,Location Name,Reference Number,Chainage,Utility Description,Utility Type,"
+				+ "Owner Name,Category,Execution Agency,Impacted Contract,Requirement stage,Planned Completion,Shifting Completed,Start Date,Scope,"
+				+ "Completed,Unit,Status,Remarks";
+		
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}
 	
 	public static List<String> getP6WbsFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();

@@ -196,7 +196,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 	@Override
 	public ContractResource getContarctResourceReportData(ContractResource obj) throws Exception {
 		try {
-			String qry = "SELECT resource_id, contract_id_fk, date,contract_name,contract_short_name,work_name,work_short_name, resource_type, resource_name, quantity, created_by_user_id, created_date,unit FROM `contract_resource` cr "
+			String qry = "SELECT resource_id, contract_id_fk, date,contract_name,contract_short_name,work_name,work_short_name, resource_type, resource_name, quantity, created_by_user_id, cr.created_date,unit FROM `contract_resource` cr "
 					+ " LEFT JOIN contract c on cr.contract_id_fk = c.contract_id "
 					+ " LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id ";

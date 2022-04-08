@@ -94,6 +94,7 @@ import com.synergizglobal.pmis.Iservice.ProjectWorkOverviewReportService;
 import com.synergizglobal.pmis.common.DocxTableCreationForContractReport;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Safety;
 
@@ -136,6 +137,78 @@ public class FinanceReportController {
 		return model;
 	}
 	
+	
+	
+	@RequestMapping(value="/finance-report/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
+	public void financeReport(@PathVariable("work_id") String work_id,HttpSession session,HttpServletResponse response) {
+		byte[] byteArray;        
+		try{
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+            Contract obj = new Contract();
+			if (!StringUtils.isEmpty(work_id)) {
+				obj.setWork_id_fk(work_id);
+			}
+            
+			List<Contract> list = projectWorkOverviewReportService.getFinanceReportContracts(obj);
+			
+			
+			boolean landscape = false;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			
+			
+			String imagePath = CommonConstants2.DOCX_LOGO+"/"+"report_logo_mrvc.png";
+			
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+			
+			//String headerTextMiddle = "Summary of Risk Assessment of Projects";
+			String headerTextMiddle = list.get(0).getContract_name();
+
+			String headerTextRight = report_created_date;
+			
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA, true, false, false, false);
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRpr);		
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForFinanceReport(wordMLPackage, mp, factory, list, report_created_date);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "FinanceReport-" + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("FinanceReport >> FileNotFoundException occurs.." + e.getMessage());
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("FinanceReport >> " + e.getMessage());
+		}
+	}	
 	
 	@RequestMapping(value="/generate-finance-report",method= {RequestMethod.GET,RequestMethod.POST})
 	public void GenerateFinanceReport(@ModelAttribute Contract obj,HttpSession session,HttpServletResponse response) {

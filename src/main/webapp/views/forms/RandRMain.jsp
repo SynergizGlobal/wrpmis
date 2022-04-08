@@ -152,7 +152,7 @@
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a>
 									<a href="javascript:void(0);"
-										onclick="openUploadLAModal();"
+										onclick="openUploadRRModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
 									<a href="<%=request.getContextPath()%>/add-randr-main"
@@ -363,15 +363,6 @@
 
 		var filtersMap = new Object();
 		
-		function openUploadLAModal() {
-			$("#RandRFile").val('');
-			$("#upload_template").modal('open');
-		}
-
-		function closeUploadLAModal() {
-			$("#RandRFile").val('');
-			$("#upload_template").modal('close');
-		}
 		
 		function openUploadRRModal() {
 			$("#RandRFile").val('');
@@ -404,7 +395,7 @@
 			$('.modal').modal();
 			$('select:not(.searchable)').formSelect();
 			$('.searchable').select2();
-			$('.close-message').delay(3000).fadeOut('slow');
+			$('.close-message').delay(20000).fadeOut('slow');
 			var filters = window.localStorage.getItem("RandRFilters");
 		    if($.trim(filters) != '' && $.trim(filters) != null){
 		      	  var temp = filters.split('^'); 

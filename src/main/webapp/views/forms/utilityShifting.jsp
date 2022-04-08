@@ -133,7 +133,7 @@
 											<i class="material-icons-outlined">download_for_offline</i>
 									</a>
 									<a href="javascript:void(0);"
-										onclick="openUploadLAModal();"
+										onclick="openUploadUSModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
 							    	 <a href="<%=request.getContextPath()%>/add-utility-shifting" class="btn waves-effect waves-light bg-s t-c">
@@ -280,7 +280,7 @@
 						<div class="col s12 m6">
 							<div class="center-align m-1">
 								<button type="button" class="btn waves-effect waves-light bg-s"
-									style="width: 100%;" onclick="closeUploadRRModal();">Cancel</button>
+									style="width: 100%;" onclick="closeUploadUSModal();">Cancel</button>
 							</div>
 						</div>
 					</div>
@@ -340,12 +340,12 @@
     }	
 	
 		var filtersMap = new Object();
-		function openUploadLAModal() {
+		function openUploadUSModal() {
 			$("#utilityFile").val('');
 			$("#upload_template").modal('open');
 		}
 
-		function closeUploadLAModal() {
+		function closeUploadUSModal() {
 			$("#utilityFile").val('');
 			$("#upload_template").modal('close');
 		}
@@ -369,7 +369,7 @@
             $('.searchable').select2();
            
         	
-			$('.close-message').delay(10000).fadeOut('slow');
+			$('.close-message').delay(20000).fadeOut('slow');
         	
         	var filters = window.localStorage.getItem("USFilters");
 	          

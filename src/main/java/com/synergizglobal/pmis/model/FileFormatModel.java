@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class FileFormatModel {
 	public static List<String> getUserFileFormat() {
@@ -196,5 +197,26 @@ public class FileFormatModel {
 			fileFormat.add(column.trim());
 		}
 		return fileFormat;
+	}
+
+	public static String getActualValue(String error, String errMsg, int subRow, List<String> fileFormat) {
+		String actualValue = null;
+		String [] val = errMsg.split(error);
+		errMsg = val[1];errMsg = errMsg.replaceAll("[_]", " ");  
+		String regex = "\\b(.)(.*?)\\b";
+	    String captilizedName = Pattern.compile(regex).matcher(errMsg).replaceAll( matche -> matche.group(1).toUpperCase() + matche.group(2));
+	   
+		for (int i = 0; i < fileFormat.size();i++) {
+			String alpha = generateExcelFormatAlphaBits(i);
+			if(captilizedName.matches(".*(?i)"+fileFormat.get(i).trim()+".*")) {
+				actualValue = alpha + Integer.toString(subRow);
+				break;
+			}
+		}
+		return actualValue;
+	}
+	
+	static String generateExcelFormatAlphaBits(int i) {
+	    return i < 0 ? "" : generateExcelFormatAlphaBits((i / 26) - 1) + (char)(65 + i % 26);
 	}
 }

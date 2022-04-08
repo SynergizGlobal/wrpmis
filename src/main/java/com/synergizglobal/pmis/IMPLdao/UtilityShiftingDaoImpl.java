@@ -1320,6 +1320,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public String[] uploadUtilityShiftingData(List<UtilityShifting> ussList, UtilityShifting us) throws Exception {
 		boolean flag = false;
 		int count = 0,row =1,sheet = 1,subRow = 1;
+		int sheet1 =1;
 		String errMsg = null;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
@@ -1364,7 +1365,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				}
 				
 				if(!StringUtils.isEmpty(obj.getProcessList())) {
-					subRow = 1;
+					subRow = sheet1;
 					String comInsertQry = "INSERT INTO utility_shifting_progress"
 							+ "( utility_shifting_id, progress_date, progress_of_work) "
 							+ "VALUES"
@@ -1381,7 +1382,6 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 							obj.setUtility_shifting_id(rr_id1);
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj1);
 						    count = namedParamJdbcTemplate.update(comUpdateQry, paramSource);
-						   
 						}else {
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj1);
 						    count = namedParamJdbcTemplate.update(comInsertQry, paramSource);
@@ -1389,7 +1389,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 						}
 					}
 				}
-
+				sheet1 = sheet1 + obj.getProcessList().size();
 			}
 		   count = ussList.size();
 		   transactionManager.commit(status);

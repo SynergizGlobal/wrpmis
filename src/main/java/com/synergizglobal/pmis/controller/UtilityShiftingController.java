@@ -892,31 +892,60 @@ public class UtilityShiftingController {
 	                		return model;
 						}
 						String[]  result = uploadUtilityShifting(obj,userId,userName);
-						String errMsg = result[0];
+						String errMsg = result[0];String actualVal = "";
 						int count = 0,row = 0,sheet = 0,subRow = 0;
+						List<String> fileFormat = FileFormatModel.getUtilityShiftingFileFormat();	
 						if(!StringUtils.isEmpty(result[1])){count = Integer.parseInt(result[1]);}
 						if(!StringUtils.isEmpty(result[2])){row = Integer.parseInt(result[2]);}
 						if(!StringUtils.isEmpty(result[3])){sheet = Integer.parseInt(result[3]);}
 						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
 						if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
-							attributes.addFlashAttribute("error","<span style='color:red;'>Work and Utility Shifting Id Mismatch at row: ("+row+")</span>");
+							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and Utility Shifting Id Mismatch at row: ("+row+")</b> please check and Uplaod again.</span>");
 	                		return model;
 						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
-							if(sheet == 1) {subRow = row; }
-							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet: ("+sheet+") at row: (("+subRow+")</span>");
+							actualVal = Integer.toString(subRow);
+							if(sheet == 1) {subRow = row; 
+								String error = "Data truncated";
+								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+							} 
+							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
 	                		return model;
 						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
-							if(sheet == 1) {subRow = row; }
-							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect Value on Sheet:  ("+sheet+") at row: ("+subRow+")</span>");
+							actualVal = Integer.toString(subRow);
+							if(sheet == 1) {subRow = row;
+								String error = "Cannot add or update a child row";
+								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+							}
+							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
 	                		return model;
 						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
-							if(sheet == 1) {subRow = row; }
-							attributes.addFlashAttribute("error","<span style='color:red;'>Incorrect date value on Sheet:  ("+sheet+") at row: ("+subRow+")</span>");
+							actualVal = Integer.toString(subRow);
+							if(sheet == 1) {subRow = row;
+								String error = "Incorrect date value";
+								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+							}
+							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect date value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+	                		return model;
+						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect integer value")) {
+							actualVal = Integer.toString(subRow);
+							if(sheet == 1) {subRow = row; 
+								String error = "Incorrect integer value";
+								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+							}
+							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect integer value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+	                		return model;
+						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect decimal value")) {
+							actualVal = Integer.toString(subRow);
+							if(sheet == 1) {subRow = row;
+								String error = "Incorrect decimal value";
+								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+							}
+							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
 	                		return model;
 						}
 						
 						if(count > 0) {
-							attributes.addFlashAttribute("success", count + " records Uploaded successfully.");	
+							attributes.addFlashAttribute("success","<i class='fa fa-check'></i>&nbsp;"+ count + "<span style='color:green;'> records Uploaded successfully.</span>");	
 							msg = count + " records Uploaded successfully.";
 							
 							FormHistory formHistory = new FormHistory();

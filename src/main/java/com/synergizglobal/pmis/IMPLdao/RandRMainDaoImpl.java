@@ -1710,6 +1710,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public String[] uploadRRData(List<RandRMain> rrsList, RandRMain rr) throws Exception {
 		boolean flag = false;
 		int count = 0,row =1,sheet = 1,subRow = 1;
+		int sheet1 =1,sheet2=1,sheet3=1,sheet4=1;
 		String errMsg = null;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
@@ -1756,7 +1757,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				}
 				
 				if(!StringUtils.isEmpty(obj.getResList())) {
-					subRow = 1;
+					subRow = sheet1;
 					String comInsertQry = "INSERT INTO rr_residential_details"
 							+ "( rr_id_fk, occupancy_status, gender, tenure_status, caste, mother_tongue, "
 							+ "type_of_family, family_size, number_of_married_couple, family_income_amount, family_income_amount_units, vulnerable_category)"
@@ -1785,9 +1786,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 						   
 						}
 					}
+					sheet1 = sheet1 + obj.getResList().size();
 				}
 				if(!StringUtils.isEmpty(obj.getResFamList())) {
-					subRow = 1;
+					subRow = sheet2;
 					String  privateLAInsertQry = "INSERT INTO rr_residential_family_details"
 							+ "( rr_id_fk, residential_name, residential_relation_with_head, residential_age, residential_gender, residential_maritual_status, "
 							+ "residential_education, residential_employment, residential_salary, residential_salary_units)"
@@ -1816,9 +1818,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 						    count = namedParamJdbcTemplate.update(privateLAInsertQry, paramSource);
 						}
 					}
+					sheet2 = sheet2 + obj.getResFamList().size();
 				}
 				if(!StringUtils.isEmpty(obj.getComList())) {
-					subRow = 1;
+					subRow = sheet3;
 					String privateInsertSubQry = "INSERT INTO rr_commercial_details "
 					 		+ "( rr_id_fk, name_of_activity, year_of_establishment, carpet_area, monthly_turnover_amount,monthly_turnover_amount_units, number_of_employees, remarks)"
 					 		+ "VALUES"
@@ -1843,9 +1846,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 						    count = namedParamJdbcTemplate.update(privateInsertSubQry, paramSource);
 						}
 					}
+					sheet3 = sheet3 + obj.getComList().size();
 				}
 				if(!StringUtils.isEmpty(obj.getComFamList())) {
-					subRow = 1;
+					subRow = sheet4;
 					String govInsertQry = "INSERT INTO rr_commercial_employee_details"
 							+ "( rr_id_fk, employee_name, employee_age, employee_gender, employee_literacy, employee_attended, "
 							+ "employee_travel_time, employee_salary, employee_nature_of_work)"
@@ -1870,6 +1874,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 						    count = namedParamJdbcTemplate.update(govInsertQry, paramSource);
 						} 
 					}
+					sheet4 = sheet4 + obj.getComFamList().size();
 				}
 			   
 			}

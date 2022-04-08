@@ -19,6 +19,63 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>   
+    	nav{
+    		position: sticky;
+    		z-index: 3;
+    	}
+    	.st-1{
+    		    position: sticky;
+			    top: 3.7em;
+			    margin-top: 1000em;;
+			    z-index: 2;
+    	}
+    	.st-2{
+    		position: sticky;
+		    top: 6.5em;
+		    margin-top: 1000em;
+		    z-index: 2;
+    	}
+    	.collapsible-header{
+    		position: sticky;
+		    top: 6.5em;
+		    z-index: 1;
+    	}
+    	.st2-th1{
+    		font-size:1.6rem !important;
+    		background-color:#305496;
+    		min-width:21%;
+    		width:21%;
+    		padding-left: 6px !important;
+    	}
+    	.fs16r{
+    		background-color: #162D6E;
+    		font-size: 1.6rem !important;
+    	}
+    	.fs16r-2{
+    		background-color: #305496;
+    		font-size: 1.6rem !important;
+    	}
+    	.fs16rem{font-size: 1.6rem !important;}
+    	.fs16rm{font-size: 1.6rem;}
+    	.wspn{
+    		min-width:21.7%;
+    		width:21.7%;
+    		}
+    	.txt-cntr{
+    		text-align: center !important;
+    	}
+    	.txt-cntr-2{
+    		text-align: center !important;
+    	}
+    	.txt-cntr-3{
+    		text-align: center !important;
+    	}
+    	.pdr80px{
+    		padding-right: 80px !important;
+    	}
+    	.pdr50px{
+    		padding-right: 50px !important;
+    	}
     	.dataTables_wrapper .mdl-grid .mdl-cell.mdl-cell--6-col:first-of-type{
    		    vertical-align: middle !important;
 		    display: flex !important;
@@ -179,24 +236,24 @@
 
         .box.engineering,
         .engineering {
-            background-color: #BDD7EE;
+            background-color: #BDD7EE !important;
         }
 
         .box.electrical,
         .electrical {
-            background-color: #BDD7EE;
+            background-color: #BDD7EE !important;
         }
 
         .box.sandt,
         .sandt {
-            background-color: #BDD7EE;
+            background-color: #BDD7EE !important;
         }
         
         .box.nbf,
         .nbf {
-            background-color: #7e7579;
+            background-color: #7e7579 !important;
         }
-        .aw{background-color: #8fcb95;}
+        .aw{background-color: #8fcb95 !important;}
         .naw{background color: #fff;}
         .fw-5p{
         	min-width:5.5%;
@@ -222,8 +279,16 @@
         	min-width:44%;
         	width:44%;
         }
+        .tb-up-txt{
+        	float:right;
+        	margin-right:20px;
+        }
+        .pdl15px{
+        	padding-left:15px;
+        }
 		@media(max-width: 1024px){
 			.con-center{display: block;}
+			.fs16r{font-size: 1.4rem !important;}
 		}
         @media only screen and (max-width: 768px) {
            .fixed-width .table-inside {
@@ -235,9 +300,7 @@
                 text-align: left;
             }
         }
-        @media(max-width: 575px){
-        .row .col{margin: 10px auto}
-        }
+        
        
         fieldset.brdr {
         	/* padding-bottom: 1rem !important;
@@ -249,10 +312,94 @@
 		    padding: 0 5px;
 	    }
 	    
- .select2-container--default .select2-selection--single .select2-selection__rendered {
-    text-align: left;
-    font-size: 1.6rem;
-} 
+		 .select2-container--default .select2-selection--single .select2-selection__rendered {
+		    text-align: left;
+		    font-size: 1.6rem;
+		} 
+		.fs16rm{font-size: 1.6rem !important;}
+		@media(max-width: 1280px){
+			.fs16rm{font-size: 1.4rem !important;}
+		}
+		@media(max-width: 820px){
+			.fw-5p{width: 4% !important;}
+			.fw-15p, .fw-10p{width: 13% !important;}
+			.fs16r{font-size: 1rem !important;}
+			.fs16r-2{font-size: 1rem !important;}
+			.st2-th1{font-size: 1rem !important;width: 15%;}
+			.fs16rem{font-size:1rem !important;}
+			.wspn{width: 24%;min-width: 25.7%;}
+			.txt-cntr-3{text-align: left !important;
+			    min-width: 19% !important;
+			    width: 22% !important;
+			}
+			.pdr50px, .pdr80px{padding-right: 0 !important;}
+			.collapsible-body{padding: 1rem;}
+			.collapsible-header{top: 10em;}
+		}
+		@media(max-width: 769px){
+			.collapsible-header{top: 8em;}
+		}
+		@media(max-width: 575px){
+        .row .col{margin: 3px auto}
+        .st-1{
+        	white-space: break-spaces;
+    		font-size: 10px !important;
+    		}
+    	td:not(:last-of-type), th:not(:last-of-type){
+    		padding: 0 4px !important;
+    		}
+    	.txt-cntr-3{
+    		text-align: center !important;
+    		min-width: 18% !important;
+    		width: 12% !important;
+    		}
+    		.fs16r{font-size: .7rem !important;}
+			.fs16r-2{font-size: .8rem !important;}
+			.st2-th1{font-size: .8rem !important;}
+			.fs16rem{font-size:.8rem !important;}
+			.st-1{top: 4.7em;}
+			.st-2{top: 6.8em;}
+			.collapsible-header{top: 10.5em;}
+			.fs16rm{font-size: 1rem !important;}
+			.collapsible-body {
+			    padding: 0.5rem;
+			}
+			.input-field p.searchable_label{
+				margin-bottom: -19px;
+			}
+			.select2-container--default .select2-selection--single .select2-selection__rendered{
+				font-size: 16px;
+			}
+			.con-center.p-2{
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+			.tb-up-txt{display: flex;}
+			.m-n1 {
+			    margin: -2.5rem auto 0;
+			}
+			.fw-5p {
+			    width: 7% !important;
+			}
+			.st2-th1{width: 21%;}
+        }
+        @media(max-width: 375px){
+        	.tb-up-txt{
+        		padding-left: 0;
+        		display: block;
+        		float: left;
+        	}
+        	.pdl15px{
+        		padding-left: 0px;
+        		display: block;
+        	}
+        }
+        @media(max-width: 360px){
+        	.fs16r {
+			    font-size: .65rem !important;
+			}
+			.collapsible-header{top: 12.5em;padding: 10px 7px;}
+        }
 
     </style>
 </head>
@@ -269,7 +416,7 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<!-- <h6 class="hide-on-med-and-down">Update Contract</h6> -->
-								<h6 class="mob-mar" style="font-size:1.6rem !important;">Project Overview Report</h6>	
+								<h6 class="mob-mar fs16rm">Project Overview Report</h6>	
 								<div class="col s12 m12 right-align exportButton">
 								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
     								<div class="m-n1">
@@ -292,22 +439,22 @@
 									</c:if>
 								</div>
 							</div>
-							<div class="col m12 l12">
-								<div class="row no-mar" class="col m12 l10" style="padding-left:7%;">
-									<div class="col s12 m5 input-field">
-										<p class="searchable_label"  style="font-size:1.6rem !important;color:#000000;">Work</p><br>
+							<div class="col m12 l12 s12">
+								<div class="row no-mar" class="col m12 l10">
+									<div class="col s6 m5 input-field">
+										<p class="searchable_label fs16rm"  style="color:#000000;">Work</p><br>
 										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getProjectOverviewDetailList();">
 											<option value="">Select</option>										
 										</select> 
 									</div>										
-									<div class="col s12 m5 input-field">
-										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Department</p><br>
+									<div class="col s6 m5 input-field">
+										<p class="searchable_label fs16rm" style="color:#000000;">Department</p><br>
 										<select id="department_fk" name="department_fk" class="searchable" onChange="getProjectOverviewDetailList();">
 											<option value="">Select</option>
 										</select>
 									</div>
 								
-								<div class="col s12 m2 center-align">  <br>
+								<div class="col s12 m2 center-align">
 									<button class="btn bg-m waves-effect waves-light t-c"
 										style="margin-top: 6px;" onclick="clearFilter();">Clear
 										Filters</button>
@@ -318,7 +465,7 @@
 
 					<div class="row no-mar">
 						<div class="col m12 l7 offset-l2 s12">
-						 	<fieldset class="p-2 con-center" style="font-size:1.6rem !important;">
+						 	<fieldset class="p-2 con-center fs16rm">
                                    <div class="">
                                        <span class="box engineering"></span>
                                        <span class="description">Bank Funds</span>
@@ -341,16 +488,16 @@
 
 					<div class="row">
 						<div class="col m12 s12">
-						<p style="float:right;margin-right:20px;"><b>Figures in <span style="color:red;">red</span> are Estimated</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Amount Value in:</b> Cr</p>
+						<p class="tb-up-txt"><b>Figures in <span style="color:red;">red</span> are Estimated</b> <span class="pdl15px"><b>Amount Value in:</b> Cr</span></p>
 							<table id="datatable-project-overview-details" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
-									<tr id="topDivCss">										
-										<th class="fw-5p" style=" background-color: #162D6E;font-size:1.6rem !important;">S. No.</th>
-										<th class="fw-15p" style=" background-color: #162D6E;font-size:1.6rem !important;">Description</th>
-										<th class="fw-10p" style=" background-color: #162D6E;font-size:1.6rem !important;">Awarded Costs</th>
-										<th class="fw-15p" style=" background-color: #162D6E;font-size:1.6rem !important;">Expenditure till Date</th>
-										<th class="fw-15p" style=" background-color: #162D6E;font-size:1.6rem !important;">Expenditure this FY</th>
-										<th class="fw-10p" style=" background-color: #162D6E;font-size:1.6rem !important;">Pending Amount</th>
+									<tr class="st-1">										
+										<th class="fw-5p fs16r">S. No.</th>
+										<th class="fw-15p fs16r">Description</th>
+										<th class="fw-10p fs16r">Awarded Costs</th>
+										<th class="fw-15p fs16r">Expenditure till Date</th>
+										<th class="fw-15p fs16r">Expenditure this FY</th>
+										<th class="fw-10p fs16r">Pending Amount</th>
 									</tr>
 								</thead>
 								</table>							
@@ -592,12 +739,12 @@
 			             			
 			             			conHtm=conHtm+'<table id="datatable-project-overview-details" style="color:#ffffff;">'+
 													'<thead>'+
-														'<tr>'	+									
-															'<th style="font-size:1.6rem !important;background-color:#305496;min-width:21%;width:21%;padding-left: 6px !important;" colspan="2">'+val.work_short_name+'</th>'+
-															'<th class="scVal" style="font-size:1.6rem !important;background-color:#305496;min-width:10%;width:10%;text-align:center;padding-left: 0px !important;"></th>'+
-															'<th class="scVal1" style="font-size:1.6rem !important;background-color:#305496;min-width:15%;width:15%;text-align:center;padding-right: 50px !important;"></th>'+
-															'<th class="scVal2" style="font-size:1.6rem !important;background-color:#305496;min-width:15%;width:15%;text-align:center;padding-right: 80px !important;"></th>'+
-															'<th class="scVal3" style="font-size:1.6rem !important;background-color:#305496;min-width:10%;width:10%;text-align:center;padding-right: 80px !important;"></th>'+
+														'<tr class="st-2">'	+									
+															'<th class="st2-th1" colspan="2">'+val.work_short_name+'</th>'+
+															'<th class="scVal fs16r-2 fw-10p txt-cntr-2" style="padding-left: 0px !important;"></th>'+
+															'<th class="scVal1 fs16r-2 fw-15p txt-cntr-2 pdr50px"></th>'+
+															'<th class="scVal2 fs16r-2 fw-15p txt-cntr-2 pdr80px"></th>'+
+															'<th class="scVal3 fs16r-2 fw-10p txt-cntr-2 pdr80px"></th>'+
 														'</tr>'+
 													'</thead>'+
 												'</table>';
@@ -608,32 +755,32 @@
 				         			var html=conHtm+"<li>", class_name='', internal_text='';
 				         			if(val.department_name=="Engineering") {
 				         				class_name="engineering";
-				         				internal_text=internal_text+'<span style="text-align:center;min-width:17.6%;width:17.6%;">'+sumVal1.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:17%;width:17%;">'+sumVal2.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:25%;width:25%;">'+sumVal3.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:11%;width:11%;">'+sumVal4.toFixed(2)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:17.6%;width:17.6%;">'+sumVal1.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:17%;width:17%;">'+sumVal2.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:25%;width:25%;">'+sumVal3.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:11%;">'+sumVal4.toFixed(2)+'</span>';
 
 				         			}
 									if(val.department_name=="Electrical") {
 				         				class_name="electrical";
-				         				internal_text=internal_text+'<span style="text-align:center;min-width:17.6%;width:17.6%;">'+sumVal11.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:17%;width:17%;">'+sumVal22.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:25%;width:25%;">'+sumVal33.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:11%;width:11%;">'+sumVal44.toFixed(2)+'</span>';  
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:17.6%;width:17.6%;">'+sumVal11.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:17%;width:17%;">'+sumVal22.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:25%;width:25%;">'+sumVal33.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:11%;">'+sumVal44.toFixed(2)+'</span>';  
 			         				}
 				         			if(val.department_name=="Signalling & Telecom") {
 				         				class_name="sandt";
-				         				internal_text=internal_text+'<span style="text-align:center;min-width:17.6%;width:17.6%;">'+sumVal111.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:17%;width:17%;">'+sumVal222.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:25%;width:25%;">'+sumVal333.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:11%;width:11%;">'+sumVal444.toFixed(2)+'</span>'; 
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:17.6%;width:17.6%;">'+sumVal111.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:17%;width:17%;">'+sumVal222.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:25%;width:25%;">'+sumVal333.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:11%;">'+sumVal444.toFixed(2)+'</span>'; 
 			         				}
 				         			if(val.department_name=="Non Bank Funds") {
 				         				class_name="nbf";	
-				         				internal_text=internal_text+'<span style="text-align:center;min-width:17.6%;width:17.6%;">'+sumVal1111.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:17%;width:17%;">'+sumVal2222.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:25%;width:25%;">'+sumVal3333.toFixed(2)+'</span>';
-					                    internal_text=internal_text+'<span style="text-align:center;min-width:11%;width:11%;">'+sumVal4444.toFixed(2)+'</span>'; 
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:17.6%;width:17.6%;">'+sumVal1111.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:17%;width:17%;">'+sumVal2222.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:25%;width:25%;">'+sumVal3333.toFixed(2)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:11%;">'+sumVal4444.toFixed(2)+'</span>'; 
 			         				}	
 				         			
 				         			
@@ -644,10 +791,10 @@
 			         								         			
 				         			
 				         			
-				                    html=html+'<div class="collapsible-header white-text '+class_name+'" style="font-size:1.6rem !important;color:#000000 !important;"><span class="fw-5p">'+CheckLp+'</span><span style="min-width:21.7%;width:21.7%;">'
+				                    html=html+'<div class="collapsible-header white-text fs16rem '+class_name+'" style="color:#000000 !important;"><span class="fw-5p">'+CheckLp+'</span><span class="wspn">'
 				                    	 +val.department_name+'</span>'+internal_text+'</div>';
 				                    	 
-				                    html=html+'<div class="collapsible-body" style="font-size:1.6rem !important;"><span>';	
+				                    html=html+'<div class="collapsible-body fs16rem "><span>';	
 				                    
 			                    	html=html+'<table id="datatable-execution-overview-report'+CheckLp+'" class="mdl-data-table">'+
 									'<tbody>';
@@ -666,23 +813,23 @@
 					    	         							if(val1.contract_status_fk=="Not Awarded")
 				    	         								{
 								    	         					html=html+'<tr '+contractstatuscolor+'>';
-								    	         						html=html+'<td class="fw-5p" style="font-size:1.6rem !important;">'+$.trim(t1)+'</td>';
-								    	         						html=html+'<td class="fw-42p" style="font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
-								    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;color:red;">'+val1.awarded_cost+'</td>';
-								    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;color:red;">'+val1.cumulative_expenditure+'</td>';
-								    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;color:red;">'+val1.actual_financial_progress+'</td>';
-								    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;color:red;">'+val1.actual_physical_progress+'</td>';
+								    	         						html=html+'<td class="fw-5p fs16rem">'+$.trim(t1)+'</td>';
+								    	         						html=html+'<td class="fw-42p fs16rem">'+val1.contract_short_name+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+val1.awarded_cost+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+val1.cumulative_expenditure+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+val1.actual_financial_progress+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+val1.actual_physical_progress+'</td>';
 								    	         					html=html+'</tr>';
 				    	         								}
 				    	         							else
 				    	         								{
 									    	         					html=html+'<tr '+contractstatuscolor+'>';
-								    	         						html=html+'<td class="fw-5p" style="font-size:1.6rem !important;">'+$.trim(t1)+'</td>';
-								    	         						html=html+'<td class="fw-42p" style="font-size:1.6rem !important;">'+val1.contract_short_name+'</td>';
-								    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.awarded_cost+'</td>';
-								    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.cumulative_expenditure+'</td>';
-								    	         						html=html+'<td class="fw-15p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_financial_progress+'</td>';
-								    	         						html=html+'<td class="fw-10p" style="text-align:center;font-size:1.6rem !important;">'+val1.actual_physical_progress+'</td>';
+								    	         						html=html+'<td class="fw-5p fs16rem">'+$.trim(t1)+'</td>';
+								    	         						html=html+'<td class="fw-42p fs16rem">'+val1.contract_short_name+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+val1.awarded_cost+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+val1.cumulative_expenditure+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+val1.actual_financial_progress+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+val1.actual_physical_progress+'</td>';
 								    	         					html=html+'</tr>';			    	         								
 				    	         								}
 					    	         							t1++;

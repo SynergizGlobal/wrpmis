@@ -61,7 +61,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.User;
-
+import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.RRPaginationObject;
@@ -655,6 +655,18 @@ public class RandRMainController {
 			logger.error("updateRR : " + e.getMessage());
 		}
 		return model;
+	}
+	@RequestMapping(value = "/ajax/getRRUploadsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<RandRMain> getRRUploadsList(@ModelAttribute RandRMain obj) {
+		List<RandRMain> objsList = null;
+		try {
+			objsList = service.getRRUploadsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getRRUploadsList : " + e.getMessage());
+		}
+		return objsList;
 	}
 	@RequestMapping(value = "/export-randr-main", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportRandRMain(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute RandRMain dObj,RedirectAttributes attributes){
@@ -1262,9 +1274,9 @@ public class RandRMainController {
 	@RequestMapping(value = "/upload-rr", method = {RequestMethod.POST})
 	public ModelAndView uploadRR(@ModelAttribute RandRMain obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String msg = "";
+		String msg = "";String userId = null;
 		try {
-			String userId = (String) session.getAttribute("USER_ID");
+			userId = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
@@ -1297,15 +1309,30 @@ public class RandRMainController {
 									String columnName = headerRow.getCell(i).getStringCellValue().trim();
 									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
 				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		msg = uploadformatError;
+				                		obj.setUploaded_by_user_id_fk(userId);
+				                		obj.setStatus("Fail");
+				                		obj.setRemarks(msg);
+										boolean flag = service.saveRRDataUploadFile(obj);
 				                		return model;
 				                	}
 								}
 							}else{
 								attributes.addFlashAttribute("error",uploadformatError);
+								msg = uploadformatError;
+		                		obj.setUploaded_by_user_id_fk(userId);
+		                		obj.setStatus("Fail");
+		                		obj.setRemarks(msg);
+								boolean flag = service.saveRRDataUploadFile(obj);
 		                		return model;
 							}
 						}else{
 							attributes.addFlashAttribute("error",uploadformatError);
+							msg = uploadformatError;
+	                		obj.setUploaded_by_user_id_fk(userId);
+	                		obj.setStatus("Fail");
+	                		obj.setRemarks(msg);
+	                		boolean flag = service.saveRRDataUploadFile(obj);
 	                		return model;
 						}
 						String[]  result = uploadRR(obj,userId,userName);
@@ -1317,51 +1344,59 @@ public class RandRMainController {
 						if(!StringUtils.isEmpty(result[3])){sheet = Integer.parseInt(result[3]);}
 						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
 						//System.out.println(errMsg);
-						if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and RR Id Mismatch at row: ("+row+")</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row; 
-								String error = "Data truncated";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
-							} 
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row;
-								String error = "Cannot add or update a child row";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+						if(!StringUtils.isEmpty(errMsg)) {
+							if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and RR Id Mismatch at row: ("+row+")</b> please check and Uplaod again.</span>");
+								msg = "Work and Utility Shifting Id Mismatch at row: "+row;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row; 
+									String error = "Data truncated";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								} 
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Cannot add or update a child row";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Incorrect date value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect date value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect date value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect integer value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row; 
+									String error = "Incorrect integer value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect integer value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect integer value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect decimal value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Incorrect decimal value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
 							}
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row;
-								String error = "Incorrect date value";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
-							}
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect date value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect integer value")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row; 
-								String error = "Incorrect integer value";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
-							}
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect integer value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect decimal value")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row;
-								String error = "Incorrect decimal value";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
-							}
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+						
+	                		obj.setUploaded_by_user_id_fk(userId);
+	                		obj.setStatus("Fail");
+	                		obj.setRemarks(msg);
+							boolean flag = service.saveRRDataUploadFile(obj);
 	                		return model;
 						}
-						
+					
 						if(count > 0) {
 							attributes.addFlashAttribute("success","<i class='fa fa-check'></i>&nbsp;"+ count + "<span style='color:green;'> records Uploaded successfully.</span>");	
 							msg = count + " records Uploaded successfully.";
@@ -1383,17 +1418,37 @@ public class RandRMainController {
 							attributes.addFlashAttribute("success"," No records found.");	
 							msg = " No records found.";
 						}
+						obj.setUploaded_by_user_id_fk(userId);
+                		obj.setStatus("Success");
+                		obj.setRemarks(msg);
+						boolean flag = service.saveRRDataUploadFile(obj);
 					}
 					workbook.close();
 				}
 			} else {
 				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				msg = "No file exists";
+				obj.setUploaded_by_user_id_fk(userId);
+        		obj.setStatus("Fail");
+        		obj.setRemarks(msg);
+				boolean flag = service.saveRRDataUploadFile(obj);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
 			logger.fatal("updateDataDate() : "+e.getMessage());
+			msg = "Something went wrong. Please try after some time";
+			obj.setUploaded_by_user_id_fk(userId);
+    		obj.setStatus("Fail");
+    		obj.setRemarks(msg);
+		
+			try {
+				boolean flag = service.saveRRDataUploadFile(obj);
+			} catch (Exception e1) {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				logger.fatal("saveDesignDataUploadFile() : "+e.getMessage());
+			}
 		}
 		return model;
 	}

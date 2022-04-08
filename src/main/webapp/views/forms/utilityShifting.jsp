@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -240,6 +241,49 @@
                 </div>
             </div>
         </div>
+        		<c:if test="${USER_ROLE_CODE eq 'IT' }">
+			<div class="row hide-on-med-and-down">
+				<div class="col m12 s12">
+					 <div class="card">
+		                <div class="card-content">
+		                    <span class="card-title headbg">
+		                        <div class="center-align bg-m p-2 m-b-5">
+		                            <h6>Uploded Utility Shifting Data</h6>
+		                        </div>
+		                    </span>
+		                    <div class="">
+		                        <div class="row">
+		                            <div class="col m12 s12">
+		                                <table id="us-upload-table" class="mdl-data-table">
+		                                    <thead>
+		                                        <tr>                                            
+													<th>Uploaded File</th>
+													<th>Status</th>
+													<th>Remarks</th>
+													<th>Uploaded by </th>
+													<th>Uploaded On</th>
+		                                        </tr>
+		                                    </thead>
+											<tbody>
+												<!-- <tr>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr> -->
+		
+											</tbody>
+		
+										</table>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+				</div>
+			</div>
+	</c:if>
     </div>
 	<!-- update popup starts -->
 	<div id="upload_template" class="modal">
@@ -367,7 +411,25 @@
         	
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-           
+            $('#us-upload-table').DataTable({
+                columnDefs: [
+                    {
+                        targets: [0],
+                        className: 'mdl-data-table__cell--non-numeric',
+                        targets: 'no-sort', orderable: false,
+                    },
+                    //{ "width": "10px", "targets": [2] },
+                ],
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
+                "bAutoWidth": true,
+                "ordering": false, //to stop sorting option                
+                fixedHeader: true, // to change the language of data table	          
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            });
         	
 			$('.close-message').delay(20000).fadeOut('slow');
         	
@@ -392,9 +454,78 @@
 	        	  }
 	          }
             }        	
-        	getUtilityShiftingList();        	
+        	getUtilityShiftingList();    
+        	getUtilityShiftingUploadsList();
         });
-        
+	     
+        function getUtilityShiftingUploadsList(){
+        	$(".page-loader-2").show();
+        	
+        	table = $('#us-upload-table').DataTable();
+    		table.destroy();
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#us-upload-table').DataTable({
+    			"order": [],
+        		"bStateSave": false,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['no-sort'] }
+                ],
+                // "ScrollX": true,
+                "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                 "ordering":false,
+                 "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		table.state.clear();		
+    		var myParams = {};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getUtilityShiftingUploadsList",type:"POST",
+    			data:myParams,async: false,
+    			success : function(data){    				
+    				if(data != null && data != '' && data.length > 0){    					
+	             		$.each(data,function(key,val){
+	             			var utility_data_id = "'"+val.utility_data_id+"'"; 
+	                        var filePath = "";
+	                        
+	                        if($.trim(val.uploaded_file) != ''){
+	                        	filePath = '<a href="<%=CommonConstants.UTILITY_UPLOADED_FILES%>'+ val.uploaded_file +'" download>'+val.uploaded_file + '</a>';
+	                        }
+	                        var rowArray = [];    	                 
+	                        
+	                       	rowArray.push(filePath);
+	                       	rowArray.push($.trim(val.status));
+	                       	rowArray.push($.trim(val.remarks));
+	                       	rowArray.push($.trim(val.uploaded_by_user_id_fk));
+	                       	rowArray.push($.trim(val.uploaded_on)); 
+	                       	
+	                        table.row.add(rowArray).draw( true );
+	                        		                       
+	    				});
+	             		
+	             		$(".page-loader-2").hide();
+	    			}else{
+	    				$(".page-loader-2").hide();
+	    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+         }});
+       }
         
         function getWorksListFilter(work) {
         	var work_id_fk = $("#work_id_fk").val();

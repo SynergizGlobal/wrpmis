@@ -81,4 +81,8 @@ public interface RandRMainDao {
 
 	String checkLAIdMethod(RandRMain rr, String check) throws Exception;
 
+	List<RandRMain> getRRUploadsList(RandRMain obj) throws Exception;
+
+	boolean saveRRDataUploadFile(RandRMain obj) throws Exception;
+
 }

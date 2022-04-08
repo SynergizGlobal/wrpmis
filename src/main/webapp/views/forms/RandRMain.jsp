@@ -255,7 +255,49 @@
 				</div>
 			</div>
 		</div>
-	
+		<c:if test="${USER_ROLE_CODE eq 'IT' }">
+			<div class="row hide-on-med-and-down">
+				<div class="col m12 s12">
+					 <div class="card">
+		                <div class="card-content">
+		                    <span class="card-title headbg">
+		                        <div class="center-align bg-m p-2 m-b-5">
+		                            <h6>Uploded R & R Data</h6>
+		                        </div>
+		                    </span>
+		                    <div class="">
+		                        <div class="row">
+		                            <div class="col m12 s12">
+		                                <table id="rr-upload-table" class="mdl-data-table">
+		                                    <thead>
+		                                        <tr>                                            
+													<th>Uploaded File</th>
+													<th>Status</th>
+													<th>Remarks</th>
+													<th>Uploaded by </th>
+													<th>Uploaded On</th>
+		                                        </tr>
+		                                    </thead>
+											<tbody>
+												<!-- <tr>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr> -->
+		
+											</tbody>
+		
+										</table>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+				</div>
+			</div>
+	</c:if>
 	</div>
 
 	<!-- update popup starts -->
@@ -419,9 +461,98 @@
 			          }
 		          }
 			
-
+		     $('#rr-upload-table').DataTable({
+	                columnDefs: [
+	                    {
+	                        targets: [0],
+	                        className: 'mdl-data-table__cell--non-numeric',
+	                        targets: 'no-sort', orderable: false,
+	                    },
+	                    //{ "width": "10px", "targets": [2] },
+	                ],
+	                "sScrollX": "100%",
+	                "sScrollXInner": "100%",
+	                "bScrollCollapse": true,
+	                "bAutoWidth": true,
+	                "ordering": false, //to stop sorting option                
+	                fixedHeader: true, // to change the language of data table	          
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            });
 		     getRRList();
+		     getRRUploadsList();
 		});
+		
+	     
+        function getRRUploadsList(){
+        	$(".page-loader-2").show();
+        	
+        	table = $('#rr-upload-table').DataTable();
+    		table.destroy();
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#rr-upload-table').DataTable({
+    			"order": [],
+        		"bStateSave": false,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['no-sort'] }
+                ],
+                // "ScrollX": true,
+                "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                 "ordering":false,
+                 "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		table.state.clear();		
+    		var myParams = {};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRRUploadsList",type:"POST",
+    			data:myParams,async: false,
+    			success : function(data){    				
+    				if(data != null && data != '' && data.length > 0){    					
+	             		$.each(data,function(key,val){
+	             			var rr_data_id = "'"+val.rr_data_id+"'"; 
+	                        var filePath = "";
+	                        
+	                        if($.trim(val.uploaded_file) != ''){
+	                        	filePath = '<a href="<%=CommonConstants.RR_UPLOADED_FILES%>'+ val.uploaded_file +'" download>'+val.uploaded_file + '</a>';
+	                        }
+	                        var rowArray = [];    	                 
+	                        
+	                       	rowArray.push(filePath);
+	                       	rowArray.push($.trim(val.status));
+	                       	rowArray.push($.trim(val.remarks));
+	                       	rowArray.push($.trim(val.uploaded_by_user_id_fk));
+	                       	rowArray.push($.trim(val.uploaded_on)); 
+	                       	
+	                        table.row.add(rowArray).draw( true );
+	                        		                       
+	    				});
+	             		
+	             		$(".page-loader-2").hide();
+	    			}else{
+	    				$(".page-loader-2").hide();
+	    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+         }});
+       }
 		 function addInQueLocation(location_name){
 		    	Object.keys(filtersMap).forEach(function (key) {
 		   			if(key.match('location_name')) delete filtersMap[key];

@@ -18,6 +18,8 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -32,6 +34,7 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.FormHistory;
+import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
@@ -1927,6 +1930,63 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				laId = null;
 				return laId;
 		}
+	}
+
+	@Override
+	public List<RandRMain> getRRUploadsList(RandRMain obj) throws Exception {
+		List<RandRMain> objsList = null;
+		try {
+			String qry = "SELECT rr_data_id, uploaded_file, rru.status, rru.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
+					+ ",uploaded_on as date from rr_upload_data rru " 
+					+ "LEFT JOIN user u ON rru.uploaded_by_user_id_fk = u.user_id "
+					+ "where rr_data_id is not null order by date desc ";
+			
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public boolean saveRRDataUploadFile(RandRMain obj) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		String rr_data_id = null;		
+		try {
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
+			String qry = "INSERT INTO rr_upload_data"
+					+ "(uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on) "
+					+ "VALUES "
+					+ "( :uploaded_file, :status, :remarks, :uploaded_by_user_id_fk,CURRENT_TIMESTAMP)";	
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = template.update(qry, paramSource, keyHolder);
+			if(count > 0) {
+				rr_data_id = String.valueOf(keyHolder.getKey().intValue());
+				obj.setRr_data_id(rr_data_id);
+				flag = true;
+				
+				MultipartFile file = obj.getRandRFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants.RR_UPLOADED_FILE_SAVING_PATH ;
+					String fileName = rr_data_id + "_" +file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+					
+					obj.setUploaded_file(fileName);
+					String updateQry = "UPDATE rr_upload_data set uploaded_file= :uploaded_file where rr_data_id= :rr_data_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+					template.update(updateQry, paramSource1);
+				}
+			}
+			transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			throw new Exception(e);
+		}
+		return flag;
 	}
 
 	

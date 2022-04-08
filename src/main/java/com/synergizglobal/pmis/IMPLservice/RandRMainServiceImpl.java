@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.DashboardsAccessDao;
 import com.synergizglobal.pmis.Idao.RandRMainDao;
 import com.synergizglobal.pmis.Iservice.RandRMainService;
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.RandRMain;
 
 @Service
@@ -199,6 +200,16 @@ public class RandRMainServiceImpl implements RandRMainService{
 	@Override
 	public String checkLAIdMethod(RandRMain rr, String check) throws Exception {
 		return dao.checkLAIdMethod(rr,check);
+	}
+
+	@Override
+	public List<RandRMain> getRRUploadsList(RandRMain obj) throws Exception {
+		return dao.getRRUploadsList(obj);
+	}
+
+	@Override
+	public boolean saveRRDataUploadFile(RandRMain obj) throws Exception {
+		return dao.saveRRDataUploadFile(obj);
 	}
 
 }

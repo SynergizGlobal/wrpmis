@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.RandRMain;
 
 public interface RandRMainService {
@@ -79,6 +80,10 @@ public interface RandRMainService {
 	String[] uploadRRData(List<RandRMain> rrsList, RandRMain rr) throws Exception;
 
 	String checkLAIdMethod(RandRMain rr, String check) throws Exception;
+
+	List<RandRMain> getRRUploadsList(RandRMain obj) throws Exception;
+
+	boolean saveRRDataUploadFile(RandRMain obj) throws Exception;
 
 
 }

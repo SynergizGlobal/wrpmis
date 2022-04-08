@@ -62,6 +62,7 @@ import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.UtilityShiftingPaginationObject;
 import com.synergizglobal.pmis.model.UtilityShifting;
+import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.UtilityShifting;
@@ -560,7 +561,18 @@ public class UtilityShiftingController {
 		}
 		return model;
 	}
-	
+	@RequestMapping(value = "/ajax/getUtilityShiftingUploadsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<UtilityShifting> getUtilityShiftingUploadsList(@ModelAttribute UtilityShifting obj) {
+		List<UtilityShifting> objsList = null;
+		try {
+			objsList = utilityShiftingService.getUtilityShiftingUploadsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUtilityShiftingUploadsList : " + e.getMessage());
+		}
+		return objsList;
+	}
 	@RequestMapping(value = "/export-utility-shifting", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportUtilityShifting(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute UtilityShifting dObj,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.utilityShifting);
@@ -845,9 +857,9 @@ public class UtilityShiftingController {
 	@RequestMapping(value = "/upload-utility-shifting", method = {RequestMethod.POST})
 	public ModelAndView uploadUtilityShifting(@ModelAttribute UtilityShifting obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String msg = "";
+		String msg = "";String userId = null;
 		try {
-			String userId = (String) session.getAttribute("USER_ID");
+			userId = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
@@ -880,15 +892,30 @@ public class UtilityShiftingController {
 									String columnName = headerRow.getCell(i).getStringCellValue().trim();
 									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
 				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		msg = uploadformatError;
+				                		obj.setUploaded_by_user_id_fk(userId);
+				                		obj.setStatus("Fail");
+				                		obj.setRemarks(msg);
+										boolean flag = utilityShiftingService.saveUSDataUploadFile(obj);
 				                		return model;
 				                	}
 								}
 							}else{
 								attributes.addFlashAttribute("error",uploadformatError);
+								msg = uploadformatError;
+		                		obj.setUploaded_by_user_id_fk(userId);
+		                		obj.setStatus("Fail");
+		                		obj.setRemarks(msg);
+								boolean flag = utilityShiftingService.saveUSDataUploadFile(obj);
 		                		return model;
 							}
 						}else{
 							attributes.addFlashAttribute("error",uploadformatError);
+							msg = uploadformatError;
+	                		obj.setUploaded_by_user_id_fk(userId);
+	                		obj.setStatus("Fail");
+	                		obj.setRemarks(msg);
+							boolean flag = utilityShiftingService.saveUSDataUploadFile(obj);
 	                		return model;
 						}
 						String[]  result = uploadUtilityShifting(obj,userId,userName);
@@ -899,48 +926,56 @@ public class UtilityShiftingController {
 						if(!StringUtils.isEmpty(result[2])){row = Integer.parseInt(result[2]);}
 						if(!StringUtils.isEmpty(result[3])){sheet = Integer.parseInt(result[3]);}
 						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
-						if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and Utility Shifting Id Mismatch at row: ("+row+")</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row; 
-								String error = "Data truncated";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
-							} 
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row;
-								String error = "Cannot add or update a child row";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+						if(!StringUtils.isEmpty(errMsg)){
+							if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and Utility Shifting Id Mismatch at row: ("+row+")</b> please check and Uplaod again.</span>");
+								msg = "Work and Utility Shifting Id Mismatch at row: "+row;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row; 
+									String error = "Data truncated";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								} 
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Cannot add or update a child row";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Incorrect date value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect date value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect date value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect integer value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row; 
+									String error = "Incorrect integer value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect integer value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect integer value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect decimal value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Incorrect decimal value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
 							}
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row;
-								String error = "Incorrect date value";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
-							}
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect date value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect integer value")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row; 
-								String error = "Incorrect integer value";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
-							}
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect integer value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
-	                		return model;
-						}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect decimal value")) {
-							actualVal = Integer.toString(subRow);
-							if(sheet == 1) {subRow = row;
-								String error = "Incorrect decimal value";
-								actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
-							}
-							attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+						
+	                		obj.setUploaded_by_user_id_fk(userId);
+	                		obj.setStatus("Fail");
+	                		obj.setRemarks(msg);
+							boolean flag = utilityShiftingService.saveUSDataUploadFile(obj);
 	                		return model;
 						}
 						
@@ -964,17 +999,36 @@ public class UtilityShiftingController {
 							attributes.addFlashAttribute("success"," No records found.");	
 							msg = " No records found.";
 						}
+                		obj.setUploaded_by_user_id_fk(userId);
+                		obj.setStatus("Success");
+                		obj.setRemarks(msg);
+						boolean flag = utilityShiftingService.saveUSDataUploadFile(obj);
 					}
 					workbook.close();
 				}
 			} else {
 				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				msg = "No file exists";
+				obj.setUploaded_by_user_id_fk(userId);
+        		obj.setStatus("Fail");
+        		obj.setRemarks(msg);
+				boolean flag = utilityShiftingService.saveUSDataUploadFile(obj);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
 			logger.fatal("updateDataDate() : "+e.getMessage());
+			msg = "Something went wrong. Please try after some time";
+			obj.setUploaded_by_user_id_fk(userId);
+    		obj.setStatus("Fail");
+    		obj.setRemarks(msg);
+			try {
+				boolean flag = utilityShiftingService.saveUSDataUploadFile(obj);
+			} catch (Exception e1) {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				logger.fatal("saveDesignDataUploadFile() : "+e.getMessage());
+			}
 		}
 		return model;
 	}

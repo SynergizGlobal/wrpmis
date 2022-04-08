@@ -137,6 +137,16 @@ public class UtilityShiftingServiceImpl implements UtilityShiftingService {
 	@Override
 	public String[] uploadUtilityShiftingData(List<UtilityShifting> ussList, UtilityShifting us) throws Exception {
 		return utilityShiftingDao.uploadUtilityShiftingData(ussList,us);
+	}
+
+	@Override
+	public List<UtilityShifting> getUtilityShiftingUploadsList(UtilityShifting obj) throws Exception {
+		return utilityShiftingDao.getUtilityShiftingUploadsList(obj);
+	}
+
+	@Override
+	public boolean saveUSDataUploadFile(UtilityShifting obj) throws Exception {
+		return utilityShiftingDao.saveUSDataUploadFile(obj);
 	}	
 	
 }

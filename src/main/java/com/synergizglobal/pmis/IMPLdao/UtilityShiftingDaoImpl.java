@@ -38,6 +38,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.Messages;
@@ -1434,6 +1435,63 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			usId = null;
 			return usId;
 		}
+	}
+
+	@Override
+	public List<UtilityShifting> getUtilityShiftingUploadsList(UtilityShifting obj) throws Exception {
+		List<UtilityShifting> objsList = null;
+		try {
+			String qry = "SELECT utility_data_id, uploaded_file, us.status, us.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
+					+ ",uploaded_on as date from utility_shifting_upload_data us " 
+					+ "LEFT JOIN user u ON us.uploaded_by_user_id_fk = u.user_id "
+					+ "where utility_data_id is not null order by date desc ";
+			
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public boolean saveUSDataUploadFile(UtilityShifting obj) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		String utility_data_id = null;		
+		try {
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
+			String qry = "INSERT INTO utility_shifting_upload_data"
+					+ "(uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on) "
+					+ "VALUES "
+					+ "( :uploaded_file, :status, :remarks, :uploaded_by_user_id_fk,CURRENT_TIMESTAMP)";	
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = template.update(qry, paramSource, keyHolder);
+			if(count > 0) {
+				utility_data_id = String.valueOf(keyHolder.getKey().intValue());
+				obj.setUtility_data_id(utility_data_id);
+				flag = true;
+				
+				MultipartFile file = obj.getUtilityFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants.UTILITY_UPLOADED_FILE_SAVING_PATH ;
+					String fileName = utility_data_id + "_" +file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+					
+					obj.setUploaded_file(fileName);
+					String updateQry = "UPDATE utility_shifting_upload_data set uploaded_file= :uploaded_file where utility_data_id= :utility_data_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+					template.update(updateQry, paramSource1);
+				}
+			}
+			transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			throw new Exception(e);
+		}
+		return flag;
 	}
 
 	

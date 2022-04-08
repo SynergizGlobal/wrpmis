@@ -12,7 +12,7 @@ public class UtilityShifting {
 	shifting_status_fk, shifting_completion_date, remarks, latitude, longitude, impacted_contract_id_fk, requirement_stage_fk, planned_completion_date,
 	contract_id,contract_name,work_name,project_id_fk,project_name,department_fk,Status_fk,work_short_name,contract_short_name,user_type_fk,
 	category_fk,user_role_code,hod_user_id_fk,unit_fk,attachment,progress_date,progress_of_work,executive_user_id_fk,name,utility_shifting_file_type,created_by_user_id_fk,modified_by,modified_date,
-	total,inprogress,pending;
+	total,inprogress,pending,utility_data_id, uploaded_file, status, uploaded_by_user_id_fk, uploaded_on;
 	
 	private String []  progress_dates, progress_of_works,attachment_file_types,attachmentNames;
 	
@@ -23,6 +23,46 @@ public class UtilityShifting {
 	private List<UtilityShifting> utilityShiftingFilesList;
 	private List<UtilityShifting> utilityShiftingProgressDetailsList;
 	
+
+	public String getUtility_data_id() {
+		return utility_data_id;
+	}
+
+	public void setUtility_data_id(String utility_data_id) {
+		this.utility_data_id = utility_data_id;
+	}
+
+	public String getUploaded_file() {
+		return uploaded_file;
+	}
+
+	public void setUploaded_file(String uploaded_file) {
+		this.uploaded_file = uploaded_file;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getUploaded_by_user_id_fk() {
+		return uploaded_by_user_id_fk;
+	}
+
+	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
+		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
+	}
+
+	public String getUploaded_on() {
+		return uploaded_on;
+	}
+
+	public void setUploaded_on(String uploaded_on) {
+		this.uploaded_on = uploaded_on;
+	}
 
 	public List<UtilityShifting> getUtilityList() {
 		return utilityList;

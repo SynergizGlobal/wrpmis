@@ -916,8 +916,8 @@ public class UtilityShiftingController {
 						}
 						
 						if(count > 0) {
-							attributes.addFlashAttribute("success", count + " records added successfully.");	
-							msg = count + " records added successfully.";
+							attributes.addFlashAttribute("success", count + " records Uploaded successfully.");	
+							msg = count + " records Uploaded successfully.";
 							
 							FormHistory formHistory = new FormHistory();
 							formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());

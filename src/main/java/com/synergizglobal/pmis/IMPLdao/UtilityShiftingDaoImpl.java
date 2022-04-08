@@ -1329,7 +1329,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "(utility_shifting_id, work_id_fk, identification, location_name, reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, "
 					+ "execution_agency_fk, contract_id_fk, "
 					+ "start_date, scope, completed, shifting_status_fk, shifting_completion_date, remarks, latitude,  impacted_contract_id_fk, requirement_stage_fk, "
-					+ "planned_completion_date, unit_fk) "
+					+ "planned_completion_date, unit_fk,created_by,created_date) "
 					+ "VALUES "
 					+ "(:utility_shifting_id,:work_id_fk,:identification,:location_name,:reference_number,:utility_description,"
 							+ ":utility_type_fk,"
@@ -1337,7 +1337,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 							+ ":execution_agency_fk,"
 							+ ":contract_id_fk,:start_date,:scope,:completed,:shifting_status_fk,"
 							+ ":shifting_completion_date,:remarks,:latitude,"
-							+ ":impacted_contract_id_fk,:requirement_stage_fk,:planned_completion_date,:unit_fk"
+							+ ":impacted_contract_id_fk,:requirement_stage_fk,:planned_completion_date,:unit_fk,:created_by_user_id_fk,CURRENT_TIMESTAMP"
 							+ ")";	
 			
 			String updatetQry = "UPDATE utility_shifting SET  identification=:identification, location_name=:location_name,"

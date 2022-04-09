@@ -56,6 +56,42 @@
          .no-wrap{
          	white-space:nowrap;
          }
+         .th-fs{
+         	font-size: 1.6rem !important;
+         }
+         .fs-th{
+         	font-size: 1.6rem !important;
+         }
+         .w-half{
+         	width: 0.5%;
+         }
+         .w-16{
+         	width: 16.5%;
+         }
+         .w-12{
+         	width: 12%;
+         }
+         .w-15{
+         	width: 15%;
+         }
+         .w-17{
+         	width: 17%;
+         }
+         .w-1{
+         	width: 1%;
+         }
+         .w-11{
+         	width: 11%;
+         }
+         .w-26{
+         	width: 26%;
+         }
+         .w-18{
+         	width: 18%;
+         }
+         .fs16rem{
+         	font-size: 1.6rem !important;
+         }
          @media only screen and (max-width: 1366px) and (min-width:1023px){ 
          	tbody td{
          		padding:12px 10px !important;
@@ -179,10 +215,80 @@
     } 
     
 	    
- .select2-container--default .select2-selection--single .select2-selection__rendered {
-    text-align: left;
-    font-size: 1.6rem;
-}       
+	 .select2-container--default .select2-selection--single .select2-selection__rendered {
+	    text-align: left;
+	    font-size: 1.6rem;
+	}  
+	@media(max-width: 1024px){
+		thead tr th{
+			padding-right: 11px !important;
+		    width: 99px !important;
+		    font-size: 1.4rem;
+		    text-align: left;
+		    padding-left: 1px !important;
+   			 white-space: break-spaces;
+		}
+		.th-fs{
+			font-size: 1.4rem !important;
+		}
+	} 
+	@media(max-width: 820px){
+		thead tr th{
+			width: 88px !important;
+			font-size: 1rem !important;
+		}
+		.w-16{
+			width: 12.5%;
+		}
+		.fs16rem{
+			font-size: 1rem !important;
+		}
+		.th-fs{
+			font-size: 1.2rem !important;
+		}
+		 .select2-container--default .select2-selection--single .select2-selection__rendered {
+		    font-size: 1.2rem;
+		}
+	}  
+	@media(max-width: 575px){
+		td:not(:last-of-type), th:not(:last-of-type){
+			    padding: 0 2px !important;
+		}
+		td{
+			word-break: break-all;
+		    word-wrap: break-word;
+		    white-space: break-spaces;
+		    width: 50px;
+		}
+		.th-fs{
+			font-size: .8rem !important;
+		}
+		.collapsible-body{
+			    padding: .5rem;
+		}
+		.fs16rem{
+			font-size: .8rem;
+		}
+		thead tr th{
+			width: 20px !important;
+		    font-size: 1rem !important;
+		    word-break: break-all;
+		    word-wrap: break-word;
+		    white-space: break-spaces;
+		}
+		.select2-container--default .select2-selection--single .select2-selection__rendered {
+		    font-size: .8rem;
+		}
+		.m-n1{
+			margin: -3rem auto 0;
+		}
+	}  
+	@media(max-width: 360px){
+		.m-n1 {
+		    margin: 1rem auto 0;
+		    text-align: center;
+		}
+	}
     </style>
 </head>
 
@@ -198,7 +304,7 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<!-- <h6 class="hide-on-med-and-down">Update Contract</h6> -->
-								<h6 class="mob-mar" style="font-size:1.6rem !important;">Execution Overview Report </h6>	
+								<h6 class="mob-mar fs16rem">Execution Overview Report </h6>	
 								<div class="col s12 m12 right-align exportButton">
 								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
     								<div class="m-n1">
@@ -223,26 +329,26 @@
 							</div>
 							<div class="col m12 l8 offset-l2 s12">
 								<div class="row no-mar">
-									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Work ID</p><br>
+									<div class="col s6 m4 l4 input-field">
+										<p class="searchable_label fs16rem" style="color:#000000;">Work ID</p><br>
 										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>										
 										</select> 
 									</div>		
-									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Department / HOD</p><br>
+									<div class="col s6 m4 l4 input-field">
+										<p class="searchable_label fs16rem" style="color:#000000;">Department/HOD</p><br>
 										<select id="department_fk" name="department_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>
 										</select>
 									</div>
-									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Contract ID</p><br>
+									<div class="col s6 m4 l4 input-field">
+										<p class="searchable_label fs16rem" style="	color:#000000;">Contract ID</p><br>
 										<select id="contract_id_fk" name="contract_id_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>
 										</select>
 									</div>
 								
-								<div class="col s6 m12 l3 center-align">  <br>
+								<div class="col s6 m12 l3 center-align offset-l4">  <br>
 									<button class="btn bg-m waves-effect waves-light t-c"
 										style="margin-top: 6px;" onclick="clearFilter();">Clear
 										Filters</button>
@@ -255,14 +361,14 @@
 					<table id="datatable-execution-overview-report" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
 									<tr id="topDivCss">
-										<th style="width:0.5%; background-color: #162D6E;font-size:1.6rem !important;">S No</th>
-										<th style="width:16.5%;padding-left: 0px !important; background-color: #162D6E;font-size:1.6rem !important;">Structure Type</th>
-										<th style="width:12%; background-color: #162D6E;font-size:1.6rem !important;">Unit</th>
-										<th style="width:15%; background-color: #162D6E;font-size:1.6rem !important;">Scope</th>
-										<th style="width:17.4%; background-color: #162D6E;font-size:1.6rem !important;">Completed</th>
-										<th style="width:12%; background-color: #162D6E;font-size:1.6rem !important;">Pending</th>
-										<th style=" background-color: #162D6E;font-size:1.6rem !important;">Last Updated on</th>
-										<th style=" background-color: #162D6E;font-size:1.6rem !important;">Remarks</th>
+										<th class="th-fs w-half" style="background-color: #162D6E;">S No</th>
+										<th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th>
+										<th class="th-fs w-12" style="background-color: #162D6E;">Unit</th>
+										<th class="th-fs w-15" style="background-color: #162D6E;">Scope</th>
+										<th class="th-fs w-17" style="background-color: #162D6E;">Completed</th>
+										<th class="th-fs w-12" style="background-color: #162D6E;">Pending</th>
+										<th class="th-fs" style=" background-color: #162D6E;">Last Updated on</th>
+										<th class="th-fs" style=" background-color: #162D6E;">Remarks</th>
 									</tr>
 								</thead>
 					</table>
@@ -490,10 +596,10 @@
 		                   				StructureTypeArray.push(val.structure_type_fk);
 					         			var html="<li>";
 					         			var lmVal=parseFloat(100)-cval1;
-					                    html=html+'<div class="collapsible-header" style="font-size:1.6rem !important;color:#000000 !important;"><table><thead><tr><th style="width:1%;font-weight:normal;">'+CheckLp+'</th><th style="width:18.3%;font-weight:normal;">'+val.structure_type_fk+'</th><th style="width:11.7%;font-weight:normal;">%</th><th style="width:15.9%;font-weight:normal;">100</th><th style="width:17%;font-weight:normal;">'+cval1.toFixed(2)+'</th><th style="width:11.7%;font-weight:normal;">'+lmVal.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-header fs-th" style="color:#000000 !important;"><table><thead><tr><th class="w-1" style="font-weight:normal;">'+CheckLp+'</th><th class="w-18" style="font-weight:normal;">'+val.structure_type_fk+'</th><th class="w-11" style="font-weight:normal;">%</th><th class="w-16" style="font-weight:normal;">100</th><th class="w-17" style="font-weight:normal;">'+cval1.toFixed(2)+'</th><th class="w-11" style="font-weight:normal;">'+lmVal.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
 					                    html=html+'<div class="collapsible-body">';
 				
-				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table" style="background-color: #E3F0EF;font-size:1.6rem !important;color:#000000 !important;">'+
+				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table fs16rem" style="background-color: #E3F0EF;color:#000000 !important;">'+
 
 										'<tbody>';
 				    	         		$.each(data,function(key1,val1)
@@ -503,7 +609,7 @@
 						    	         					html=html+'<tr>';
 						    	         						html=html+'<td style="width:21%">'+$.trim(val1.strip_chart_structure_id)+'</td>';
 						    	         						html=html+'<td style="width:11.9%">'+val1.unit_fk+'</td>';
-						    	         						html=html+'<td style="width:16.7%">'+val1.scope.replace('%','')+'</td>';
+						    	         						html=html+'<td class="w-16">'+val1.scope.replace('%','')+'</td>';
 						    	         						html=html+'<td style="width:17.5%">'+val1.completed+'</td>';
 						    	         						html=html+'<td>'+val1.pending+'</td>';
 						    	         						html=html+'<td></td>';

@@ -76,6 +76,9 @@
     	.pdr50px{
     		padding-right: 50px !important;
     	}
+    	.select2-dropdown {
+		    z-index: 2;
+		}
     	.dataTables_wrapper .mdl-grid .mdl-cell.mdl-cell--6-col:first-of-type{
    		    vertical-align: middle !important;
 		    display: flex !important;

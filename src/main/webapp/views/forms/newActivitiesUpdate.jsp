@@ -1279,7 +1279,7 @@
 	        }
 
 	        var yyyy = today.getFullYear();
-	        var today =  dd+'-'+ months[today.getMonth() + 1] +'-'+yyyy.toString().substr(-2); 
+	        var today =  dd+'-'+ months[today.getMonth()] +'-'+yyyy.toString().substr(-2); 
 	        
 	        $("label[for='progress_date']").css("display", "none");
 	        

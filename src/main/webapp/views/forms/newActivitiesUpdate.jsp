@@ -885,8 +885,8 @@
                                         <div class="col m4 s6 input-field left-align">
                                         <input type="hidden" id="data_date" name="data_date">
                                              <input id="progress_date" name="progress_date" type="text" class="validate datepicker-max-today">
-                                             <label for="progress_date">Reporting Date <span class="required">*</span></label>
-                                             <button type="button" id="progress_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
+<!--                                              <label for="progress_date">Reporting Date <span class="required">*</span></label>
+ -->                                             <button type="button" id="progress_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m4 s6 input-field left-align">
@@ -1269,6 +1269,22 @@
 	    var glb="";
 	    var glbID="";
         $(document).ready(function () {
+        	
+        	var  months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        	
+        	 var today = new Date();
+        	var dd = today.getDate();
+	        if (dd < 10) {
+	            dd = '0' + dd;
+	        }
+
+	        var yyyy = today.getFullYear();
+	        var today =  dd+'-'+ months[today.getMonth() + 1] +'-'+yyyy.toString().substr(-2); 
+	        
+	        $("label[for='progress_date']").css("display", "none");
+	        
+	        $("#progress_date").val(today);
+        	
             $('.searchable').select2();
             
             var project_id = "${activitiesData.project_id}";

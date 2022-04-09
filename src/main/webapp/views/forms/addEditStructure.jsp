@@ -1416,7 +1416,7 @@
    
    <div id="Modalmultiremove" class="modal" style="width:100%;height:100%">
        <div class="modal-content">
-           <h5 class="modal-header"> Remove St	ructure 
+           <h5 class="modal-header"> Remove Structure 
 	           <span class="right modal-action modal-close" onClick="rmvModal();">
 	           <span class="material-icons">close</span></span>
            </h5>

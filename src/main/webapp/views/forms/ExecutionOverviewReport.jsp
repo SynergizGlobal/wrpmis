@@ -207,6 +207,9 @@
     .collapsible-header {
         background-color: #BDD7EE;
         padding:0;
+        position: sticky;
+        top: 4.5em;
+        z-index: 1;
     }
         
     .collapsible-body {
@@ -230,6 +233,9 @@
 		}
 		.th-fs{
 			font-size: 1.4rem !important;
+		}
+		.collapsible-header{
+			top: 5.5em;
 		}
 	} 
 	@media(max-width: 820px){
@@ -288,6 +294,21 @@
 		    margin: 1rem auto 0;
 		    text-align: center;
 		}
+	}
+	table{
+	  border-collapse: collapse;
+	  position: relative;
+	  width: 100%;
+	}
+	thead{
+	  position: relative;
+	  top: 0;
+	  }
+	.thead--is-fixed{
+	  display: table;
+	  position: fixed;
+	  top: 4em;
+	  z-index: 2;
 	}
     </style>
 </head>
@@ -358,7 +379,7 @@
 					</div>
 					<br><br>
 					<div claass="row">
-					<table id="datatable-execution-overview-report" class="mdl-data-table" style="background-color:#162D6E;">
+					<table id="datatable-execution-overview-report" class="mdl-data-table" style="background-color:#162D6E;" data-module="sticky-table">
 								<thead>
 									<tr id="topDivCss">
 										<th class="th-fs w-half" style="background-color: #162D6E;">S No</th>
@@ -437,7 +458,29 @@
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
     <script>
-    
+    var el = document.querySelector('[data-module="sticky-table"]');
+
+    var scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
+
+    var thead = el.querySelector('thead');
+
+    var offset = el.getBoundingClientRect();
+
+
+    // Make sure you throttle/debounce this
+    window.addEventListener('scroll', function (event) {
+      var rect = el.getBoundingClientRect();
+      
+      scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
+      
+      if(rect.top < thead.offsetHeight) {
+        thead.style.width = rect.width + 'px';
+        thead.classList.add('thead--is-fixed');
+      }
+      else {
+        thead.classList.remove('thead--is-fixed');
+      }
+    });
     function getUrlVars() {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {

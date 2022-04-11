@@ -207,12 +207,12 @@
                                                 </tbody>
                                             </table>
                                             
-                                            <table class="mdl-data-table table-add bd-none">
+                                            <table class="mdl-data-table">
 												<tbody>
-													<tr class="bd-none">
-														<td colspan="6" class="bd-none"><a
+													<tr>
+														<td colspan="6"><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c add-align"
+															class="btn waves-effect waves-light bg-m t-c"
 															onclick="addRow()"> <i
 																class="fa fa-plus"></i>
 														</a>
@@ -358,12 +358,12 @@
                                                 </tbody>
                                             </table>
                                             
-                                            <table class="mdl-data-table table-add bd-none">
+                                            <table class="mdl-data-table">
 												<tbody>
 													<tr class="bd-none">
-														<td colspan="6" class="bd-none"><a
+														<td colspan="6"><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c add-align"
+															class="btn waves-effect waves-light bg-m t-c"
 															onclick="addRows()"> <i
 																class="fa fa-plus"></i>
 														</a>

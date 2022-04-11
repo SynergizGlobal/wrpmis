@@ -2040,6 +2040,8 @@
 			
 			function removeStructureInternalRow(rowNo,ind){
 				
+				$('#internalTableRow'+rowNo).remove();
+				
 				StrArray=[];
 				$("#tblStructure thead").empty();
 				$("#tblStructure tbody").empty();
@@ -2051,7 +2053,7 @@
 				StrArray.push($("#structure_id"+getVal).val());
 			
 				
-				var myParams = { structure_type_fk: $("#structure_type_fks"+ind).val(), structure_ids: StrArray.toString() };
+				var myParams = { structure_type_fk: $("#structure_type_fks"+ind).val(), structure_ids: StrArray.toString(),work_id_fk:$("#work_id_fk").val() };
 				
 				$.ajax({
 	                 url: "<%=request.getContextPath()%>/ajax/getStructureCount",
@@ -2150,7 +2152,7 @@
 					    m++;
 					  });
 					
-					var myParams = { structure_type_fk: $("#structure_type_fks"+a).val(), structure_ids: StrArray.toString() };
+					var myParams = { structure_type_fk: $("#structure_type_fks"+a).val(), structure_ids: StrArray.toString(),work_id_fk:$("#work_id_fk").val() };
 		            
 					$.ajax({
 		                 url: "<%=request.getContextPath()%>/ajax/getStructureTypeCount",

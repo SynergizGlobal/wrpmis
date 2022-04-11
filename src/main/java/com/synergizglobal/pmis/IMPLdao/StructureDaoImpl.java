@@ -1651,6 +1651,7 @@ public class StructureDaoImpl implements StructureDao {
 				}
 				statement.setString(1, concat);
 				statement.setString(2, obj.getStructure_type_fk());
+				statement.setString(3, obj.getWork_id_fk());
 
 				boolean hadResults = statement.execute();
 				if(hadResults)
@@ -1679,8 +1680,9 @@ public class StructureDaoImpl implements StructureDao {
 				}
 				concat=concat.substring(0, concat.length() - 1);				
 				statement = connection.prepareCall("{call getStructureCount(?,?)}");
-				statement.setString(1, concat);
-				statement.setString(2, obj.getStructure_type_fk());
+				statement.setString(1, obj.getWork_id_fk());
+				statement.setString(2, concat);
+				statement.setString(3, obj.getStructure_type_fk());
 				resultSet =statement.executeQuery();
 				
 				while(resultSet.next()) 
@@ -1720,8 +1722,9 @@ public class StructureDaoImpl implements StructureDao {
 					concat=concat+"]";
 				}					
 				statement = connection.prepareCall("{call getStructureTypeCount(?,?)}");
-				statement.setString(1, concat);
-				statement.setString(2, obj.getStructure_type_fk());
+				statement.setString(1, obj.getWork_id_fk());
+				statement.setString(2, concat);
+				statement.setString(3, obj.getStructure_type_fk());
 				resultSet =statement.executeQuery();
 				
 				while(resultSet.next()) 

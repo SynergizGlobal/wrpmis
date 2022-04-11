@@ -62,7 +62,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 		try {
 			String qry = "SELECT s.work_status_fk,structure_id FROM structure s  " + 
 					"left join structure_contract_responsible_people cp on cp.structure_id_fk = s.structure_id "+
-					"where s.work_status_fk is not null ";
+					"where s.work_status_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
 				qry = qry + " and s.work_status_fk = ?";
@@ -110,7 +110,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 			String qry = "SELECT s.work_id_fk,w.work_short_name,work_name FROM structure s " + 
 					"left join structure_contract_responsible_people cp on s.structure_id = cp.structure_id_fk " + 
 					"left join  work w on s.work_id_fk = w.work_id "+
-					"where s.work_id_fk is not null ";
+					"where s.work_id_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
 				qry = qry + " and s.work_status_fk = ?";
@@ -158,7 +158,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 			String qry = "SELECT cp.contract_id_fk ,c.contract_short_name,c.contract_name FROM structure_contract_responsible_people cp " + 
 					"left join structure s on cp.structure_id_fk = s.structure_id " + 
 					"left join contract c on cp.contract_id_fk = c.contract_id "+
-					"where cp.contract_id_fk is not null ";
+					"where cp.contract_id_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
 				qry = qry + " and s.work_status_fk = ?";
@@ -209,7 +209,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					"left join structure_contract_responsible_people cp on s.structure_id =  cp.structure_id_fk " + 
 					"left join work w on s.work_id_fk = w.work_id " + 
 					"left join contract c on cp.contract_id_fk = c.contract_id  " 
-					+"where structure_id is not null ";
+					+"where structure_id is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
 				qry = qry + " and s.work_status_fk = ?";
@@ -291,7 +291,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					"left join structure_contract_responsible_people cp on s.structure_id =  cp.structure_id_fk " + 
 					"left join work w on s.work_id_fk = w.work_id " + 
 					"left join contract c on cp.contract_id_fk = c.contract_id  " + 
-					"where structure_id is not null " ;
+					"where structure_id is not null and s.status <> 'Inactive' " ;
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -406,7 +406,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					+ " DATE_FORMAT(s.construction_start_date,'%d-%m-%Y') AS construction_start_date, DATE_FORMAT(s.revised_completion,'%d-%m-%Y') AS revised_completion, s.remarks "
 					+ "from structure s " + 
 					"left join work w on s.work_id_fk = w.work_id " +
-					"left join project p on w.project_id_fk = p.project_id where structure_id is not null" ; 
+					"left join project p on w.project_id_fk = p.project_id where s.status <> 'Inactive' and structure_id is not null " ; 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
 				qry = qry + " and structure_id = ?";

@@ -32,6 +32,11 @@
         #example3 input[type="text"]::placeholder {
             color: #777;
         }
+        #work_codeError{
+    		color:red!important; 
+    		font-size: .8rem;  
+    	} 
+        .txt-up{    text-transform: uppercase;}
         .fixed-width {
             width: 100%;
             margin-left:auto !important;
@@ -366,11 +371,18 @@
 		                                    <span id="project_id_fkError"></span>
 		                               </div> 
 		                               <input type="hidden" name ="project_name" id="project_name"/>
-		                                <div class="col s12 m12 l9 input-field">
+		                                <div class="col s12 m10 l7 input-field">
 	                                    <textarea id="work_name" class="pmis-textarea h46px" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
 	                                    <label for="work_name">Work Name <span class="required">*</span></label>
 	                                     <span id="work_nameError"></span>
 	                                  </div>
+	                                  <div class="col s12 m2 l2 input-field">
+		                                    <input id="work_code" type="text" class="validate"  style="text-transform:uppercase"  onkeyup="workCodeVerify()"
+		                                    maxlength="2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+		                                    name="work_code" value="${workDetails.work_code }">
+		                                    <label for="work_code">Work Code<span class="required">*</span></label>
+		                                     <span id="work_codeError"></span>
+		                                </div>
 			                           </c:if>
 			                           </div>
 			                           <div class="row">
@@ -382,11 +394,18 @@
 			                               </div>
 			                                 <input id="work_id" type="hidden" class="form-control" name="work_id" value="${workDetails.work_id }" >  
 			                           
-		                              <div class="col s12 m12 l9 input-field">
+		                              <div class="col s12 m10 l7 input-field">
 	                                    <textarea id="work_name" class="pmis-textarea h46px" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
 	                                    <label for="work_name">Work Name <span class="required">*</span></label>
 	                                     <span id="work_nameError"></span>
 	                                  </div>
+	                                  <div class="col s12 m2 l2 input-field">
+		                                    <input id="work_code" type="text" class="validate txt-up" name="work_code"  onkeyup="workCodeVerify()"
+		                                     maxlength="2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+		                                     value="${workDetails.work_code }" <c:if test="${not empty workDetails.work_code }"> readonly </c:if>>
+		                                    <label for="work_code">Work Code<span class="required">*</span></label>
+		                                     <span id="work_codeError"></span>
+		                                </div>
 		                           </c:if>
 		                        </div>
 		                        <div class="row">
@@ -1234,7 +1253,7 @@
         	/* var flag = validateContract();
         	if(flag){ */
 		  		if(validator.form()){ // validation perform
-		  			$(".page-loader").show();	    
+		  			    
 		  			//var sanctioned_estimated_cost = $('#sanctioned_estimated_cost').val();
 		  			//var sanctioned_completion_cost = $('#sanctioned_completion_cost').val();
 		  			var anticipated_cost = $('#anticipated_cost').val();
@@ -1252,7 +1271,14 @@
 		  			$('form input[name=latest_revised_cost_unit]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=year_of_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			document.getElementById("workForm").submit();			
+		  			if($('#work_codeError').html()==""){
+		  				$(".page-loader").show();	
+			  			document.getElementById("workForm").submit();
+		  			} else{
+		        		   $("#work_code").focus();
+		            	   $(".page-loader").hide();
+		        	}
+		  						
 	    	 	/* } */
         	}
     	}
@@ -1277,7 +1303,13 @@
 		  			$('form input[name=year_of_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=latest_revised_cost_unit]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			document.getElementById("workForm").submit();			
+		  			if($('#work_codeError').html()==""){
+		  				$(".page-loader").show();	
+			  			document.getElementById("workForm").submit();			
+		  			} else{
+		        		   $("#work_code").focus();
+		            	   $(".page-loader").hide();
+		        	}
 	    	 	/* } */
         	}
     	}
@@ -1292,6 +1324,8 @@
 		  			 	  },"work_name": {
 		  			 		required: true
 		  			 	  },"work_short_name":{
+		  			 		required: true
+		  			 	  },"work_code":{
 		  			 		required: true
 		  			 	  },"sanctioned_estimated_cost": {
 		  			 		required: false
@@ -1342,7 +1376,9 @@
 		  				 	required: 'This Field Required',
 		  			 	 },"work_short_name":{
 		  			 		required: 'This Field Required',
-		  			 	  },"sanctioned_estimated_cost": {
+		  			 	  },"work_code": {
+		  			 		required: ' This Field Required'
+		  			 	 },"sanctioned_estimated_cost": {
 		  			 		required: ' This Field Required'
 		  			 	 },"completeion_period_months": {
 		  		 			required: ' This Field Required'
@@ -1383,6 +1419,9 @@
 			   			 }else if (element.attr("id") == "work_short_name" ){
 		  		 		      document.getElementById("work_short_nameError").innerHTML="";
 			  		 		  error.appendTo('#work_short_nameError');
+				   		 }else if (element.attr("id") == "work_code" ){
+		  		 		      document.getElementById("work_codeError").innerHTML="";
+			  		 		  error.appendTo('#work_codeError');
 				   		 }else if (element.attr("id") == "sanctioned_estimated_cost" ){
 		  		 		      document.getElementById("sanctioned_estimated_costError").innerHTML="";
 		  		 			  error.appendTo('#sanctioned_estimated_costError');
@@ -1577,6 +1616,37 @@
             });
 		});
      */
+     function workCodeVerify(){
+     	var work_code = $("#work_code").val();
+         if ($.trim(work_code) != "") {
+             var myParams = { work_code: work_code };
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getworkCodeList",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                    	 if(data){
+                    		    $.each(data, function (i, val) {
+                                    if ($.trim(val.work_code) != '') {
+                                    	$('#work_codeError').show();
+                                    	document.getElementById('work_codeError').innerHTML='Work Code already exist';
+                                    } 
+                                }); 
+                    	 } else{
+                        	 document.getElementById('work_codeError').innerHTML='';
+                         }
+                     
+                     }
+                     else{
+                    	 document.getElementById('work_codeError').innerHTML='';
+                     }
+                 }
+             });
+         }else{
+         	$(".page-loader").hide();
+         }
+       }
+    
     </script>
 </body>
 

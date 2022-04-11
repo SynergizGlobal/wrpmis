@@ -45,4 +45,6 @@ public interface WorkDao {
 
 	public List<Work> getWorkTypeList() throws Exception;
 
+	public List<Work> getworkCodeList(Work obj) throws Exception;
+
 }

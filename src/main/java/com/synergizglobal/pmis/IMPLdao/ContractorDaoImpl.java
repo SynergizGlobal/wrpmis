@@ -88,6 +88,8 @@ public class ContractorDaoImpl implements ContractorDao {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String contractor_id = getContractorId();
 			obj.setContractor_id(contractor_id);
+			String pan_no = obj.getPan_number().toUpperCase();
+			obj.setPan_number(pan_no);
 			String insertQry = "INSERT INTO contractor"
 					+ "(contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, "
 					+ "email_id, pan_number, gst_number, bank_name, account_number, ifsc_code,bank_address, remarks)"
@@ -149,6 +151,8 @@ public class ContractorDaoImpl implements ContractorDao {
 	public boolean updateContractor(Contractor obj) throws Exception {
 		boolean flag = false;
 		try {
+			String pan_no = obj.getPan_number().toUpperCase();
+			obj.setPan_number(pan_no);
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE contractor set "
 					+ "contractor_name= :contractor_name, contractor_specilization_fk= :contractor_specilization_fk, address= :address,"

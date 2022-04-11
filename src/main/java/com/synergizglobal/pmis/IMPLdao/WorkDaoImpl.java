@@ -51,7 +51,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getWorkList(Work obj) throws Exception{
 		List<Work> objsList = null;
 		try {
-			String qry ="SELECT DISTINCT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost,"
+			String qry ="SELECT DISTINCT work_id,work_name,work_short_name,work_code,work_code,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost,"
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`," 
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
@@ -91,7 +91,7 @@ public class WorkDaoImpl implements WorkDao {
 		Work work = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry ="SELECT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," 
+			String qry ="SELECT work_id,work_name,work_short_name,work_code,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," 
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
 					+ ",w.remarks,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
 					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
@@ -107,6 +107,7 @@ public class WorkDaoImpl implements WorkDao {
 				work.setWork_id(resultSet.getString("work_id"));
 				work.setWork_name(resultSet.getString("work_name"));
 				work.setWork_short_name(resultSet.getString("work_short_name"));
+				work.setWork_code(resultSet.getString("work_code"));
 				work.setProject_id_fk(resultSet.getString("project_id_fk"));
 				work.setProject_name(resultSet.getString("project_name"));
 				work.setSanctioned_year_fk(resultSet.getString("sanctioned_year_fk"));
@@ -278,7 +279,7 @@ public class WorkDaoImpl implements WorkDao {
 			con.setAutoCommit(false);
 			String qry = "update work set work_name = ?,project_id_fk = ?,sanctioned_year_fk=?,sanctioned_estimated_cost = ?," + 
 						 "completeion_period_months = ?,sanctioned_completion_cost = ?,anticipated_cost = ?,year_of_completion = ?,"
-						 + "completion_cost = ?,remarks = ?,projected_completion = ?,work_short_name = ?,projected_completion_date = ? ,work_status_fk = ?,work_type_fk = ? "
+						 + "completion_cost = ?,remarks = ?,projected_completion = ?,work_short_name = ?,work_code = ?,projected_completion_date = ? ,work_status_fk = ?,work_type_fk = ? "
 						 + "where work_id =?";
 		
 			stmt = con.prepareStatement(qry); 
@@ -296,6 +297,7 @@ public class WorkDaoImpl implements WorkDao {
 			//stmt.setString(p++,work.getAttachment());
 			stmt.setString(p++,work.getProjected_completion());
 			stmt.setString(p++,work.getWork_short_name());
+			stmt.setString(p++,work.getWork_code().toUpperCase());
 			stmt.setString(p++,work.getProjected_completion_date());
 			stmt.setString(p++,work.getWork_status_fk());
 			stmt.setString(p++,work.getWork_type_fk());
@@ -564,8 +566,8 @@ public class WorkDaoImpl implements WorkDao {
 			con.setAutoCommit(false);
 			String qry ="INSERT into work (work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost," + 
 						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,"
-						+ "remarks,projected_completion,work_short_name,projected_completion_date,work_type_fk )"+
-						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ "remarks,projected_completion,work_short_name,work_code,projected_completion_date,work_type_fk )"+
+						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry); 
 			int p = 1;
 			stmt.setString(p++,workId ); 
@@ -582,6 +584,7 @@ public class WorkDaoImpl implements WorkDao {
 			//stmt.setString(p++,work.getAttachment());
 			stmt.setString(p++,work.getProjected_completion());
 			stmt.setString(p++,work.getWork_short_name());
+			stmt.setString(p++,work.getWork_code().toUpperCase());
 			stmt.setString(p++,work.getProjected_completion_date());
 			stmt.setString(p++,work.getWork_type_fk());
 			//stmt.setString(p++,work.getSanctioned_estimated_cost_unit());
@@ -926,7 +929,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getWorksList(Work obj) throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry = "SELECT DISTINCT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost, " + 
+			String qry = "SELECT DISTINCT work_id,work_name,work_short_name,work_code,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost, " + 
 					"(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`, " + 
 					"(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`, " + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost "  + 
@@ -1008,6 +1011,19 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> objsList = null;
 		try {
 			String qry = "SELECT work_type as work_type_fk from work_type where work_type is not null and work_type <> '' ";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<Work> getworkCodeList(Work obj) throws Exception {
+		List<Work> objsList = null;
+		try {
+			String qry = "SELECT work_code from work where work_code is not null and work_code <> '' and work_code = '"+obj.getWork_code()+"'";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
 			throw new Exception(e);

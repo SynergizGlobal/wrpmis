@@ -40,6 +40,8 @@ public interface WorkService {
 
 	public List<Work> getWorkTypeList() throws Exception;
 
+	public List<Work> getworkCodeList(Work obj) throws Exception;
+
 	/**public int getTotalRecords(Work obj, String searchParameter) throws Exception;
 
 	public List<Work> getWorksList(Work obj, int startIndex, int offset, String searchParameter) throws Exception;

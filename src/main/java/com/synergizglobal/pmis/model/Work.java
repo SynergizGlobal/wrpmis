@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Work {
 	private String work_id,work_name,work_short_name,project_id_fk,sanctioned_year,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,
-	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
+	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,work_code,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,created_date,
 	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id,
@@ -40,6 +40,14 @@ public class Work {
 	
 	private String[] title_fks,dashboard_urls,statuses,category_fks,descriptions,salient_features_statuses;
 	
+
+	public String getWork_code() {
+		return work_code;
+	}
+
+	public void setWork_code(String work_code) {
+		this.work_code = work_code;
+	}
 
 	public String getWork_type_fk() {
 		return work_type_fk;

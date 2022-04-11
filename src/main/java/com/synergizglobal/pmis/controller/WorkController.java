@@ -131,6 +131,19 @@ public class WorkController {
 		return workStatusList;
 	}
 	
+	@RequestMapping(value = "/ajax/getworkCodeList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Work> getworkCodeList(@ModelAttribute Work obj) {
+		List<Work> workCodeList = null;
+		try {
+			workCodeList = workService.getworkCodeList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getworkCodeList : " + e.getMessage());
+		}
+		return workCodeList;
+	}
+	
 	@RequestMapping(value = "/ajax/getProjectsFilterListInWork", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Work> getProjectsList(@ModelAttribute Work obj) {

@@ -100,4 +100,9 @@ public class WorkServiceImpl implements WorkService {
 	public List<Work> getWorkTypeList() throws Exception {
 		return workDao.getWorkTypeList();
 	}
+
+	@Override
+	public List<Work> getworkCodeList(Work obj) throws Exception {
+		return workDao.getworkCodeList(obj);
+	}
 }

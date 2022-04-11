@@ -167,6 +167,73 @@
 	                                <span id="source_field_nameError" class="error-msg" ></span>
 	                        	</div>
 	                        </div> 
+	                        <div class="row" style="margin-bottom: 20px;">
+                                 
+                                <div class="col s12 m12 l12">
+                                    <div class="row fixed-width">
+                                        <h6 class="center-align"  style="font-weight:600;">Form Details</h6>
+                                        <div class="table-inside">
+                                            <table id="form_form_table" class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Access Type </th>
+                                                        <th>Access Value </th>
+                                                        <th class="fw-8p">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="detailsBody">
+                                                    
+															<tr id="actionRow0">
+																<td class="input-field">
+		                                                            <select name="access_types" onchange="getAccessValues(this.value,'0');" class="searchable">
+		                                                                <option value="">Select</option>
+		                                                                <option value="user_role">User Role</option>
+		                                                                <option value="user_type">User Type</option>
+		                                                                <option value="user">User</option>
+		                                                            </select>
+		                                                            <span id="access_type0Error" class="error-msg"></span>
+		                                                        </td>
+		                                                        <td class="input-field">
+		                                                            <select class="searchable" name="access_values">
+		                                                                <option value="">Select</option>
+		                                                            </select>
+		                                                            <span id="access_value0Error" class="error-msg"></span>
+		                                                        </td>
+																<td>
+																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
+																</td>
+															</tr>
+													
+                                                </tbody>
+                                            </table>
+                                            
+                                            <table class="mdl-data-table table-add bd-none">
+												<tbody>
+													<tr class="bd-none">
+														<td colspan="6" class="bd-none"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c add-align"
+															onclick="addRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											<c:choose>
+												<c:when
+													test="${not empty (formDetails.accessPermissions) && fn:length(formDetails.accessPermissions) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo"
+														value="${fn:length(formDetails.accessPermissions) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+                            </div>
 	                        <div class="row">
 	                            <div class="col s12 m6">
 	                                <div class="center-align m-1">
@@ -249,7 +316,75 @@
 	                                <label for="update_source_field_name">Work Filter Name</label>
 	                                <span id="source_field_nameError" class="error-msg" ></span>
 	                        	</div>
-	                        </div> 
+	                        </div>
+	                        <div class="row" style="margin-bottom: 20px;">
+                                 
+                                <div class="col s12 m12 l12">
+                                    <div class="row fixed-width">
+                                        <h6 class="center-align"  style="font-weight:600;">Form Details</h6>
+                                        <div class="table-inside">
+                                            <table class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Access Type </th>
+                                                        <th>Access Value </th>
+                                                        <th class="fw-8p">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="detailsBody1">
+                                                    
+															<tr id="actionRows0">
+																<td class="input-field">
+		                                                            <select name="access_types" onchange="getAccessValues(this.value,'0');" class="searchable">
+		                                                                <option value="">Select</option>
+		                                                                <option value="user_role">User Role</option>
+		                                                                <option value="user_type">User Type</option>
+		                                                                <option value="user">User</option>
+		                                                            </select>
+		                                                            <span id="access_type0Errors" class="error-msg"></span>
+		                                                        </td>
+		                                                        <td class="input-field">
+		                                                            <select class="searchable" name="access_values">
+		                                                                <option value="">Select</option>
+		                                                            </select>
+		                                                            <span id="access_value0Errors" class="error-msg"></span>
+		                                                        </td>
+																<td>
+																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
+																</td>
+															</tr>
+														
+													
+                                                </tbody>
+                                            </table>
+                                            
+                                            <table class="mdl-data-table table-add bd-none">
+												<tbody>
+													<tr class="bd-none">
+														<td colspan="6" class="bd-none"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c add-align"
+															onclick="addRows()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											<c:choose>
+												<c:when
+													test="${not empty (formDetails.accessPermissions) && fn:length(formDetails.accessPermissions) gt 0 }">
+													<input type="hidden" id="rowNu" name="rowNo"
+														value="${fn:length(formDetails.accessPermissions) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNu" name="rowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+                            </div> 
 	                        
 	                        <div class="row">
 	                            <div class="col s12 m6">
@@ -301,6 +436,68 @@
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 
     <script>
+    function addRow() {        	
+        var rowNo = $("#rowNo").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<tr id="actionRows' + rNo + '">'
+        + '<td class="input-field">'
+        + '<select class="searchable" name="access_types" onchange="getAccessValues(this.value,'+rNo+');"> ' 
+        + '<option value="">Select</option>'
+        + '<option value="user_role">User Role</option>'
+        + '<option value="user_type">User Type</option>'
+        + '<option value="user">User</option>'
+        + '</select>'
+        + '<span id="access_type' + rNo + 'Error" class="error-msg"></span>'
+        + '</td>'
+        + '<td class="input-field">'
+        + '<select class="searchable" name="access_values">'
+        + '<option value="">Select</option>' 
+        + '</select>' 
+        + '<span id="access_value' + rNo + 'Error" class="error-msg"></span>' 
+        + '</td>'
+		+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
+	
+		$('#detailsBody').append(html);
+        $("#rowNu").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+    
+    function removeActions(rowNo){
+    	$("#actionRow"+rowNo).remove();
+    }
+    function addRows() {        	
+        var rowNu = $("#rowNu").val();
+        var rNo = Number(rowNu)+1;
+        var html = '<tr id="actionRows' + rNo + '">'
+        + '<td class="input-field">'
+        + '<select id="access_types' + rNo + '" class="searchable" name="access_types" onchange="getAccessValues(this.value,'+rNo+');"> ' 
+        + '<option value="">Select</option>'
+        + '<option value="user_role">User Role</option>'
+        + '<option value="user_type">User Type</option>'
+        + '<option value="user">User</option>'
+        + '</select>'
+        + '<span id="access_type' + rNo + 'Error" class="error-msg"></span>'
+        + '</td>'
+        + '<td class="input-field">'
+        + '<select class="searchable" name="access_values">'
+        + '<option value="">Select</option>' 
+        + '</select>' 
+        + '<span id="access_value' + rNo + 'Error" class="error-msg"></span>' 
+        + '</td>'
+		+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
+	
+		$('#detailsBody1').append(html);
+        $("#rowNu").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+    
+    function removeActions(rowNu){
+    	$("#actionRows"+rowNu).remove();
+    }
     	var filtersMap = new Object();
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();

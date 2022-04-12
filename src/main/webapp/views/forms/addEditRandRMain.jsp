@@ -330,21 +330,22 @@
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
+                                <input type="hidden" id= "work_code" name= "work_code"/>
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label mb-8"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetProjectsDropdowns(this.value); resetStructureId(this.value);">
                                         <option value="" >Select</option>
                                          <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                      	   <option name="${ obj.work_code}" value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
                                          </c:forEach> 
                                     </select>
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                             <div class="col s12 m4 l4 input-field">
+                             <!-- <div class="col s12 m4 l4 input-field">
                              		<input type="text" id="rr_id" name="rr_id" class="validate" onkeyup="checkRRId()"/>
 								    <label for="rr_id">R & R Id <span class="required">*</span></label>
 								    <span id="rr_idError" class="error-msg" style="font-size:13px"; ></span>
-                             </div>
+                             </div> -->
                             </c:if>
  							<c:if test="${action eq 'edit'}">		
  							 <input type="hidden" id="rr_id" name="rr_id" value="${rrDetails.rr_id }">                             
@@ -1507,9 +1508,9 @@
                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                            var workId = "${rrDetails.work_id}";
                            if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                               $("#work_id").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                               $("#work_id").append('<option name = "' + val.work_code + '" value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                            } else {
-                               $("#work_id").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                               $("#work_id").append('<option name = "' + val.work_code + '" value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                            }
                        });
                    }
@@ -1529,6 +1530,9 @@
   			$("#project_id_fk").val(projectId);
   			$("#project_id_fk").select2();
   			$("#project_id_fkError").text("");
+  			var work_code =   $('#work_id option:selected').attr('name');
+  			$("#work_code").val(work_code);
+  			
   		}
   		
    }

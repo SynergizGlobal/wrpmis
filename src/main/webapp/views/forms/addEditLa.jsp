@@ -153,7 +153,7 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-2">
                                 <h6>
-                                	 <c:if test="${action eq 'edit'}">Update Land Acquisition</c:if>
+                                	 <c:if test="${action eq 'edit'}">Update Land Acquisition (${LADetails.la_id })</c:if>
 									 <c:if test="${action eq 'add'}"> Add Land Acquisition</c:if>
                                 </h6>
                             </div>
@@ -169,9 +169,9 @@
 				     <c:if test="${action eq 'add'}">				                
 				                	<form action="<%=request.getContextPath() %>/add-land-acquisition" id="landAcquisitionForm" name="landAcquisitionForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 				     </c:if>
-				     <c:if test="${action eq 'add'}">
+				     <c:if test="${action eq 'add'}"> 
                         <div class="row">
-                                <div class="col s6 m4 l6 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select id="project_id_fk" name="project_id_fk"  class="searchable validate-dropdown"  onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -181,33 +181,54 @@
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l6 input-field">
+                                 <input type="hidden" id= "work_code" name= "work_code"/>
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${worksList }">
-	                                      	   <option value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                      	   <option name="${ obj.work_code}" value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
 	                                     </c:forEach>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
+                                  <div class="col s12 m8 l4 input-field offset-m2">
+                                	 <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
+                                 	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk">
+                                     	<option value="" >Select</option>
+                                     	<c:forEach var="obj" items="${laLandStatus }">
+                                    	   	<option value= "${obj.la_land_status}">${obj.la_land_status}</option>
+                                  	 </c:forEach>
+                                 	</select>
+                                		<span id="type_of_landError" class="error-msg" ></span> 
+                               </div>
                             </div>
 							</c:if>
- 							<c:if test="${action eq 'edit'}">	
+ 							<c:if test="${action eq 'edit'}">	 
                               <div class="row" >
-	                       		  <div class="col s6 m4 l6 input-field offset-m2">
+	                       		  <div class="col s6 m4 l4 input-field offset-m2">
 										<p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <input type="text" value="${LADetails.project_id_fk} - ${LADetails.project_name}" readonly />
 								  </div> 
-								  <div class="col s6 m4 l6 input-field"> 
+								  <div class="col s6 m4 l4 input-field"> 
 									    <p class="searchable_label"> Work <span class="required">*</span></p>
                                     	<input type="text"  value="${LADetails.work_id_fk} - ${LADetails.work_short_name}" readonly />
                                     	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${LADetails.work_id_fk}"  />
 	                              </div>
+	                              <div class="col s12 m8 l4 input-field offset-m2">
+	                                 <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
+                                    	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" >
+                                        	<option value="" >Select</option>
+                                        	<c:forEach var="obj" items="${laLandStatus }">
+	                                      	   	<option value= "${obj.la_land_status}" <c:if test="${LADetails.la_land_status_fk eq obj.la_land_status}">selected</c:if>>${obj.la_land_status}</option>
+	                                    	 </c:forEach>
+                                    	</select>
+                                   		<span id="type_of_landError" class="error-msg" ></span> 
+	                                </div> 
                               </div> 
                              </c:if>
                              <br>
-                             <c:if test="${action eq 'add'}">
+                    <%--          <c:if test="${action eq 'add'}">
 	                            <div class="row" >
 	                                <div class="col s12 m3 l2 input-field offset-m2 mt-sm-n1rem">
 	                                    <label for="la_id" class="mn6tbpx"> Land Acquisition ID <span class="required">*</span>:</label>
@@ -226,9 +247,10 @@
                                     	</select>
                                    		<span id="type_of_landError" class="error-msg" ></span> 
 	                                 </div>
+	                            
 	                            </div>
-							</c:if>
-							<c:if test="${action eq 'edit'}">
+							</c:if> --%>
+					<%-- 		<c:if test="${action eq 'edit'}">
 	                            <div class="row" >	                                 
 	                                <div class="col s12 m2 l2 input-field offset-m2 mt-sm-n1rem">
 	                                    <label for="la_id"> Land Acquisition ID <span class="required">*</span>:</label>
@@ -247,7 +269,7 @@
                                    		<span id="type_of_landError" class="error-msg" ></span> 
 	                                 </div>                                 
 	                            </div>
-							</c:if>
+							</c:if> --%>
 							
                             <div class="row">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
@@ -2769,9 +2791,9 @@
                                 if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                                 var workId = "${LADetails.work_id_fk}";
                                 if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option name = "' + val.work_code + '" value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
                                 } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option name = "' + val.work_code + '" value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
                                 }
                             });
                         }
@@ -2790,6 +2812,8 @@
             	projectId = workId.substring(0, 3); 
        			$("#project_id_fk").val(projectId);
        			$("#project_id_fk").select2();
+       			var work_code =   $('#work_id_fk option:selected').attr('name');
+      			$("#work_code").val(work_code);
        		}
        		
         }

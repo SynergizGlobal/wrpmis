@@ -410,7 +410,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,DATE_FORMAT(date,'%d-%b-%y') AS date,"
 					+ "location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,d.department_name,"
 					+ "c.contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,u.designation as hod_designation,u1.designation as dyhod_designation,category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%b-%y') AS closure_date,"
-					+ "cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,ifnull(committee_formed_fk,'') as committee_formed_fk,ifnull(committee_required_fk,'') as committee_required_fk,"
 					+ "DATE_FORMAT(investigation_completed,'%d-%b-%y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation * compensation_units as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%b-%y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,"
 					+ "(SELECT GROUP_CONCAT( attachment SEPARATOR ',')  as attachment FROM safety_files where safety_id_fk = ?) as attachment,s.compensation_units,  "
 					+ " "

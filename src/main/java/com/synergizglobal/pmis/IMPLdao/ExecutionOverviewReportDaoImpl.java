@@ -55,9 +55,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getWorksFilterListInEOR(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct work_id,work_short_name FROM "
-					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where 0=0 ";
+			String qry = "SELECT DISTINCT c.work_id AS work_id,c.work_short_name FROM CONTRACT_DETAILS c WHERE 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -92,11 +90,6 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-			}*/
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
 		}catch(Exception e){ 
@@ -109,8 +102,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select distinct d.department,concat(department_name,' / ',hod) as department_name FROM "
-					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) left join department d on d.department_name=c.department where 0=0 ";
+					+" contract_details c left join department d on d.department_name=c.department where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";
@@ -162,8 +154,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select distinct contract_id,contract_short_name FROM "
-					+ "(`activities_actual` `a` "
-					+ "LEFT JOIN `contract_details` `c` ON ((`a`.`contract_id_fk` = `c`.`contract_id`))) where 0=0 ";
+					+ "contract_details c where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id = ?";

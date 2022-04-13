@@ -176,59 +176,43 @@
                                             <table id="form_form_table" class="mdl-data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Access Type </th>
-                                                        <th>Access Value </th>
-                                                        <th class="fw-8p">Action</th>
+                                                        <th>User Role </th>
+                                                        <th>User Type </th>
+                                                        <th class="fw-8p">User</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="detailsBody">
-                                                    
-															<tr id="actionRow0">
-																<td class="input-field">
-		                                                            <select name="access_types" onchange="getAccessValues(this.value,'0');" class="searchable">
-		                                                                <option value="">Select</option>
-		                                                                <option value="user_role">User Role</option>
-		                                                                <option value="user_type">User Type</option>
-		                                                                <option value="user">User</option>
-		                                                            </select>
-		                                                            <span id="access_type0Error" class="error-msg"></span>
-		                                                        </td>
-		                                                        <td class="input-field">
-		                                                            <select class="searchable" name="access_values">
-		                                                                <option value="">Select</option>
-		                                                            </select>
-		                                                            <span id="access_value0Error" class="error-msg"></span>
-		                                                        </td>
-																<td>
-																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
-																</td>
-															</tr>
-													
+	                                                	<tr>	
+															<td class="input-field">
+																<input type="hidden" id="access_user_roles0" name="access_user_roles" />
+	                                                            <select id="user_roles0" name="user_roles" class="searchable" multiple data-placeholder="User Role" onchange="setAccessUserRoles(0)">
+	                                                                <option value="">Select</option>
+	                                                                <c:forEach var="obj" items="${user_roles }">
+			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id}</option>
+			                                                        </c:forEach>
+	                                                            </select>
+	                                                        </td>
+	                                                        <td class="input-field">
+	                                                        	<input type="hidden" id="access_user_types0" name="access_user_types" />
+	                                                            <select id="user_types0" name="user_types" class="searchable" multiple data-placeholder="User Type" onchange="setAccessUserTypes(0)">
+	                                                                <option value="">Select</option>
+			                                                        <c:forEach var="obj" items="${user_types }">
+			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }</option>
+			                                                        </c:forEach>
+	                                                            </select>
+	                                                        </td>
+															<td class="input-field">
+																<input type="hidden" id="access_users0" name="access_users" />
+	                                                            <select id="users0" name="users" class="searchable" multiple data-placeholder="User"  onchange="setAccessUsers(0)">
+	                                                                <option value="" >Select</option>
+			                                                        <c:forEach var="obj" items="${users }">
+			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }<c:if test="${not empty obj.access_value_name}"> - </c:if> ${obj.access_value_name }</option>
+			                                                        </c:forEach>
+	                                                            </select>
+	                                                        </td>
+														</tr>
                                                 </tbody>
                                             </table>
-                                            
-                                            <table class="mdl-data-table">
-												<tbody>
-													<tr>
-														<td colspan="6"><a
-															type="button"
-															class="btn waves-effect waves-light bg-m t-c"
-															onclick="addRow()"> <i
-																class="fa fa-plus"></i>
-														</a>
-													</tr>
-												</tbody>
-											</table>
-											<c:choose>
-												<c:when
-													test="${not empty (formDetails.accessPermissions) && fn:length(formDetails.accessPermissions) gt 0 }">
-													<input type="hidden" id="rowNo" name="rowNo"
-														value="${fn:length(formDetails.accessPermissions) }" />
-												</c:when>
-												<c:otherwise>
-													<input type="hidden" id="rowNo" name="rowNo" value="0" />
-												</c:otherwise>
-											</c:choose>
                                         </div>
                                     </div>
                                 </div>
@@ -270,7 +254,7 @@
 	                       <div class="row no-mar">
 	                       	 <input id="value_old" type="hidden" name="value_old"  >
 	                         <input id="update_dashboard_id" type="hidden" name="dashboard_id"  >
-	                                
+                                
 	                         <div class="input-field col s6">
 	                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
 	                                <label for="value_new">Name<span class="required">*</span></label>
@@ -321,65 +305,48 @@
                                  
                                 <div class="col s12 m12 l12">
                                     <div class="row fixed-width">
-                                        <h6 class="center-align"  style="font-weight:600;">Form Details</h6>
+                                        <h6 class="center-align"  style="font-weight:600;">Access Details</h6>
                                         <div class="table-inside">
                                             <table class="mdl-data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Access Type </th>
-                                                        <th>Access Value </th>
-                                                        <th class="fw-8p">Action</th>
+                                                        <th>User Role </th>
+                                                        <th>User Type </th>
+                                                        <th class="fw-8p">User</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="detailsBody1">
-                                                    
-															<tr id="actionRows0">
-																<td class="input-field">
-		                                                            <select name="access_types" onchange="getAccessValues(this.value,'0');" class="searchable">
-		                                                                <option value="">Select</option>
-		                                                                <option value="user_role">User Role</option>
-		                                                                <option value="user_type">User Type</option>
-		                                                                <option value="user">User</option>
-		                                                            </select>
-		                                                            <span id="access_type0Errors" class="error-msg"></span>
-		                                                        </td>
-		                                                        <td class="input-field">
-		                                                            <select class="searchable" name="access_values">
-		                                                                <option value="">Select</option>
-		                                                            </select>
-		                                                            <span id="access_value0Errors" class="error-msg"></span>
-		                                                        </td>
-																<td>
-																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
-																</td>
-															</tr>
-														
-													
+	                                                	<tr>	
+															<td class="input-field">
+																<input type="hidden" id="access_user_roles1" name="access_user_roles" />
+	                                                            <select id="user_roles1" name="user_roles" class="searchable" multiple data-placeholder="User Role" onchange="setAccessUserRoles(1)">
+	                                                                <option value="">Select</option>
+	                                                                <c:forEach var="obj" items="${user_roles }">
+			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id}</option>
+			                                                        </c:forEach>
+	                                                            </select>
+	                                                        </td>
+	                                                        <td class="input-field">
+	                                                        	<input type="hidden" id="access_user_types1" name="access_user_types" />
+	                                                            <select id="user_types1" name="user_types" class="searchable" multiple data-placeholder="User Type" onchange="setAccessUserTypes(1)">
+	                                                                <option value="">Select</option>
+			                                                        <c:forEach var="obj" items="${user_types }">
+			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }</option>
+			                                                        </c:forEach>
+	                                                            </select>
+	                                                        </td>
+															<td class="input-field">
+																<input type="hidden" id="access_users1" name="access_users" />
+	                                                            <select id="users1" name="users" class="searchable" multiple data-placeholder="User"  onchange="setAccessUsers(1)">
+	                                                                <option value="" >Select</option>
+			                                                        <c:forEach var="obj" items="${users }">
+			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }<c:if test="${not empty obj.access_value_name}"> - </c:if> ${obj.access_value_name }</option>
+			                                                        </c:forEach>
+	                                                            </select>
+	                                                        </td>
+														</tr>
                                                 </tbody>
                                             </table>
-                                            
-                                            <table class="mdl-data-table">
-												<tbody>
-													<tr class="bd-none">
-														<td colspan="6"><a
-															type="button"
-															class="btn waves-effect waves-light bg-m t-c"
-															onclick="addRows()"> <i
-																class="fa fa-plus"></i>
-														</a>
-													</tr>
-												</tbody>
-											</table>
-											<c:choose>
-												<c:when
-													test="${not empty (formDetails.accessPermissions) && fn:length(formDetails.accessPermissions) gt 0 }">
-													<input type="hidden" id="rowNu" name="rowNo"
-														value="${fn:length(formDetails.accessPermissions) }" />
-												</c:when>
-												<c:otherwise>
-													<input type="hidden" id="rowNu" name="rowNo" value="0" />
-												</c:otherwise>
-											</c:choose>
                                         </div>
                                     </div>
                                 </div>
@@ -436,68 +403,21 @@
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 
     <script>
-    function addRow() {        	
-        var rowNo = $("#rowNo").val();
-        var rNo = Number(rowNo)+1;
-        var html = '<tr id="actionRows' + rNo + '">'
-        + '<td class="input-field">'
-        + '<select class="searchable" name="access_types" onchange="getAccessValues(this.value,'+rNo+');"> ' 
-        + '<option value="">Select</option>'
-        + '<option value="user_role">User Role</option>'
-        + '<option value="user_type">User Type</option>'
-        + '<option value="user">User</option>'
-        + '</select>'
-        + '<span id="access_type' + rNo + 'Error" class="error-msg"></span>'
-        + '</td>'
-        + '<td class="input-field">'
-        + '<select class="searchable" name="access_values">'
-        + '<option value="">Select</option>' 
-        + '</select>' 
-        + '<span id="access_value' + rNo + 'Error" class="error-msg"></span>' 
-        + '</td>'
-		+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
-	
-		$('#detailsBody').append(html);
-        $("#rowNu").val(rNo);
-        
-        $('select:not(.searchable)').formSelect();
-        $('.searchable').select2();
+    
+    function setAccessUserRoles(index){
+    	var value = $("#user_roles"+index).val();
+    	if($.trim(value) != ''){ $("#access_user_roles"+index).val(value.toString().split(",").join("~$~")); }
+		}
+    function setAccessUserTypes(index){
+    	var value = $("#user_types"+index).val();
+    	if($.trim(value) != ''){ $("#access_user_types"+index).val(value.toString().split(",").join("~$~")); } 
+    }
+    function setAccessUsers(index){
+    	var value = $("#users"+index).val();
+    	if($.trim(value) != ''){ $("#access_users"+index).val(value.toString().split(",").join("~$~")); } 
     }
     
-    function removeActions(rowNo){
-    	$("#actionRow"+rowNo).remove();
-    }
-    function addRows() {        	
-        var rowNu = $("#rowNu").val();
-        var rNo = Number(rowNu)+1;
-        var html = '<tr id="actionRows' + rNo + '">'
-        + '<td class="input-field">'
-        + '<select id="access_types' + rNo + '" class="searchable" name="access_types" onchange="getAccessValues(this.value,'+rNo+');"> ' 
-        + '<option value="">Select</option>'
-        + '<option value="user_role">User Role</option>'
-        + '<option value="user_type">User Type</option>'
-        + '<option value="user">User</option>'
-        + '</select>'
-        + '<span id="access_type' + rNo + 'Error" class="error-msg"></span>'
-        + '</td>'
-        + '<td class="input-field">'
-        + '<select class="searchable" name="access_values">'
-        + '<option value="">Select</option>' 
-        + '</select>' 
-        + '<span id="access_value' + rNo + 'Error" class="error-msg"></span>' 
-        + '</td>'
-		+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
-	
-		$('#detailsBody1').append(html);
-        $("#rowNu").val(rNo);
-        
-        $('select:not(.searchable)').formSelect();
-        $('.searchable').select2();
-    }
     
-    function removeActions(rowNu){
-    	$("#actionRows"+rowNu).remove();
-    }
     	var filtersMap = new Object();
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
@@ -724,7 +644,7 @@
 	  				if(data != null && data != '' && data.length > 0){    					
 		             		$.each(data,function(key,val){
 		                        //var paras = ''+val.dashboard_id +','+val.dashboard_name+','+val.parent_id +','+val.order+','+val.dashboard_url +','+val.status+'';
-		                        var actions = '<a onclick="updateRow(\'' + val.dashboard_id + '\',\'' + val.dashboard_name + '\',\'' + val.parent_id + '\',\'' + val.order + '\',\'' + val.dashboard_url + '\',\'' + val.status + '\',\'' + val.source_field_name+ '\')" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a><a href="javascript:void(0);" onclick="deleteRow('+val.dashboard_id +');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>'
+		                        var actions = '<input id="hdnUserRoles'+$.trim(key)+'" type="hidden" name="hdnUserRoles" value="'+val.user_roles+'" ><input id="hdnUserTypes'+$.trim(key)+'" type="hidden" name="hdnUserTypes" value="'+val.user_types+'" ><input id="hdnUsers'+$.trim(key)+'" type="hidden" name="hdnUsers" value="'+val.users+'"><a onclick="updateRow(\'' + val.dashboard_id + '\',\'' + val.dashboard_name + '\',\'' + val.parent_id + '\',\'' + val.order + '\',\'' + val.dashboard_url + '\',\'' + val.status + '\',\'' + val.source_field_name+ '\','+$.trim(key)+')" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a><a href="javascript:void(0);" onclick="deleteRow('+val.dashboard_id +');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>'
 		                        var rowArray = [];    	                 
 		                        arr.push($.trim(val.dashboard_name));
 		                       	rowArray.push($.trim(val.dashboard_name));
@@ -732,7 +652,7 @@
 		                       	rowArray.push($.trim(val.order));
 		                    	rowArray.push($.trim(val.status));
 		                       	rowArray.push($.trim(actions)); 
-		                       	
+
 		                        table.row.add(rowArray).draw( true ); 
 		                        		                       
 		    				});
@@ -949,7 +869,12 @@
     	        $(this).valid();
     	    }
     	});
-        function updateRow(id,name,parent,order,link,status,source_field_name) {
+        function updateRow(id,name,parent,order,link,status,source_field_name,rowid) {
+        	
+           	$('#user_roles1').val("");
+           	$('#user_types1').val("");
+           	$('#users').val("");
+           	
 	    	  if(link.length == 0 ||link == 'null'){
 	    		 link = "";
 	    	  }
@@ -968,6 +893,15 @@
     	      $('#onlyUpdateModal #update_order').val(order).focus();
     	      $('#onlyUpdateModal #update_dashboard_url').val(link).focus();
     	      $('#onlyUpdateModal #update_status').val(status);
+    	      
+    	      var uR=$('#hdnUserRoles'+rowid).val().split(',');
+    	      var uT=$('#hdnUserTypes'+rowid).val().split(',');
+    	      var uS=$('#hdnUsers'+rowid).val().split(',');
+    	      
+           	$('#user_roles1').val(uR).trigger('change');
+           	$('#user_types1').val(uT).trigger('change');
+           	$('#users1').val(uS).trigger('change');
+    	      
     	      //$('select[id^="update_status"] option[value="'+ status +'"]').attr("selected","selected");
     	      $('.req').select2();
     	      

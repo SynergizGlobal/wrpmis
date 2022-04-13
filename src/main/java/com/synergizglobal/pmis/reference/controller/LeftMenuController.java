@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.FormsAccessService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Form;
 import com.synergizglobal.pmis.reference.Iservice.LeftMenuService;
 import com.synergizglobal.pmis.reference.model.Risk;
 import com.synergizglobal.pmis.reference.model.TrainingType;
@@ -35,14 +37,27 @@ public class LeftMenuController {
 	@Autowired
 	LeftMenuService service;
 	
+	@Autowired
+	FormsAccessService formsAccessService;	
+	
 	@RequestMapping(value="/left-menu",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView alertLevel(HttpSession session,@ModelAttribute TrainingType obj){
+	public ModelAndView alertLevel(HttpSession session,@ModelAttribute Form obj){
 		ModelAndView model = new ModelAndView(PageConstants.leftMenu);
 		try {
 			List<TrainingType> parentList = service.getParentList();
 			model.addObject("parentList", parentList);
 			List<TrainingType> statusList = service.getStatusList();
 			model.addObject("statusList", statusList);
+			
+			List<Form> user_roles = formsAccessService.getUserRolesInFormAccess(obj);
+			model.addObject("user_roles", user_roles);
+			
+			List<Form> user_types = formsAccessService.getUserTypesInFormAccess(obj);
+			model.addObject("user_types", user_types);
+			
+			List<Form> users = formsAccessService.getUsersInFormAccess(obj);
+			model.addObject("users", users);			
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("alertLevel : " + e.getMessage());
@@ -93,7 +108,8 @@ public class LeftMenuController {
 		try{
 			model.setViewName("redirect:/left-menu");
 			boolean flag =  service.addLeftMenu(obj);
-			if(flag) {
+			if(flag) 
+			{
 				attributes.addFlashAttribute("success", " Left Menu Added Succesfully.");
 			}
 			else {

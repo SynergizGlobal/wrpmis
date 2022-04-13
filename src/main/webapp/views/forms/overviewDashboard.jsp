@@ -362,7 +362,17 @@
 				flag = flag + 1;
 			}
 			
-			html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a></h3>';
+			if(getDashboardLeftMenuAccess(parentDashboardId,2)==true)
+			{
+				if(getDashboardLeftMenuAccess(parentDashboardId,3)==true)
+					{
+						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a></h3>';
+					}
+				else
+					{
+						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
+					}
+			}
 			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
 				html = html + '<div> <p>';
 				$.each( value.formsSubMenu, function( index1, value1 ){
@@ -379,8 +389,17 @@
 						tempDashboardId = dashboardId;
 						flag = flag + 1;
 					}
-			    	
-					html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
+					if(getDashboardLeftMenuAccess(dashboardId,2)==true)
+					{
+						if(getDashboardLeftMenuAccess(dashboardId,3)==true)
+						{
+							html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
+						}
+						else
+						{
+							html = html + '<a style="cursor: default;" href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'<span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></a>';
+						}
+					}
 					if(value1.formsSubMenu != "" && value1.formsSubMenu != null && value1.formsSubMenu != 'undefined' && value1.formsSubMenu.length > 0){
 						html = html + '<div style="margin: 0 0 0 2em;"> <p>';
 						$.each( value1.formsSubMenu, function( index2, value2 ){
@@ -397,7 +416,10 @@
 								tempDashboardId = dashboardId;
 								flag = flag + 1;
 							}
-							html = html + '<a href="javascript:openDashboard('+value2.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value2.dashboard_name+'</a>';
+							if(getDashboardLeftMenuAccess(value2.dashboard_id,3)==true)
+							{
+								html = html + '<a href="javascript:openDashboard('+value2.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value2.dashboard_name+'</a>';
+							}
 						});
 						html = html + '</p></div> ';
 					}
@@ -408,7 +430,29 @@
 			}
 		});
 	    return html;	
-	}	
+	}
+    
+    function getDashboardLeftMenuAccess(dashboard_id,level)
+    {
+    	var bool = false;
+       	 $.ajax({
+             url: "<%=request.getContextPath()%>/ajax/getDashboardLeftMenuAccess",
+             data: {dashboard_id:dashboard_id,level:level},type: 'POST',
+             async: false,
+             dataType: 'json',
+             success: function (data) 
+             {
+            	 if (data == true) {
+                     bool = true;
+                 }
+             }
+         });
+       	return trueOrFalse(bool);
+    }
+    function trueOrFalse(bool){
+        return bool;
+	}  
+    
 	  
 	function openDashboard(dashboardId){
 		  $(".page-loader").show();

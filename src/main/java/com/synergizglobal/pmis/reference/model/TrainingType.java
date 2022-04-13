@@ -26,7 +26,10 @@ public class TrainingType {
 	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type, rr_occupancy_status, rr_tenure_status, caste, mother_tongue, rr_type_of_family,marital_status
 	,phase,rr_type_of_use, rr_location_fk, rr_sub_location,work_type,rr_location_fk_old,rr_location_fk_new,executive_user_id_fk,user_id;
     
-	private String dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu;
+	private String dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu,user_types,user_roles,users;
+	
+	private List<String> access_user_types,access_user_roles,access_users;
+
 	
 	private String [] work_id_fks,executive_user_id_fks;
 	List<TrainingType> rrExecutivesList;
@@ -1919,6 +1922,54 @@ public class TrainingType {
 
 	public void setSoft_delete_status_fk(String soft_delete_status_fk) {
 		this.soft_delete_status_fk = soft_delete_status_fk;
+	}
+
+	public List<String> getAccess_user_types() {
+		return access_user_types;
+	}
+
+	public void setAccess_user_types(List<String> access_user_types) {
+		this.access_user_types = access_user_types;
+	}
+
+	public List<String> getAccess_user_roles() {
+		return access_user_roles;
+	}
+
+	public void setAccess_user_roles(List<String> access_user_roles) {
+		this.access_user_roles = access_user_roles;
+	}
+
+	public List<String> getAccess_users() {
+		return access_users;
+	}
+
+	public void setAccess_users(List<String> access_users) {
+		this.access_users = access_users;
+	}
+
+	public String getUser_types() {
+		return user_types;
+	}
+
+	public void setUser_types(String user_types) {
+		this.user_types = user_types;
+	}
+
+	public String getUser_roles() {
+		return user_roles;
+	}
+
+	public void setUser_roles(String user_roles) {
+		this.user_roles = user_roles;
+	}
+
+	public String getUsers() {
+		return users;
+	}
+
+	public void setUsers(String users) {
+		this.users = users;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,7 @@ import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.OverviewDashboard;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class OverviewDashboardController {
@@ -86,6 +88,12 @@ public class OverviewDashboardController {
 		try {
 			String parentId = "0";
 			obj.setParent_id(parentId);
+
+			User uObj = (User) session.getAttribute("user");
+ 			obj.setUser_type_fk(uObj.getUser_type_fk());
+ 			obj.setUser_role_name_fk(uObj.getUser_role_name_fk());
+			obj.setUser_id(uObj.getUser_id());
+			
 			overviewDashboard = overviewDashboardService.getLeftNavNodes(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,6 +101,27 @@ public class OverviewDashboardController {
 		}
 		return overviewDashboard;
 	}		
+	
+	@RequestMapping(value = "/ajax/getDashboardLeftMenuAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean getDashboardLeftMenuAccess(String dashboard_id,String level,HttpSession session) throws Exception {
+			boolean flag=false;
+			OverviewDashboard obj = new OverviewDashboard();
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_name_fk(uObj.getUser_role_name_fk());
+			obj.setUser_id(uObj.getUser_id());
+			obj.setDashboard_id(dashboard_id);
+			obj.setLevel(level);
+			try {
+				flag=overviewDashboardService.getDashboardLeftMenuAccess(obj);
+
+			} catch (SQLException e) {
+				logger.error("checkUserEmail : " + e.getMessage());
+			}
+			return flag;			
+	
+	}	
 	
 	@RequestMapping(value = "/ajax/getDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

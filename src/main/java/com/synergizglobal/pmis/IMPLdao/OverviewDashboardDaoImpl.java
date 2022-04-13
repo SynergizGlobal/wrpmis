@@ -19,6 +19,7 @@ import com.synergizglobal.pmis.Idao.OverviewDashboardDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.OverviewDashboard;
+import com.synergizglobal.pmis.model.User;
 
 @Repository
 public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
@@ -584,6 +585,66 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			throw new Exception(e);
 		}		
 		return objList;
+	}
+
+	@Override
+	public boolean getDashboardLeftMenuAccess(OverviewDashboard dObj) throws Exception {
+		boolean flag=false;
+		List<User> objsList = null;
+		try {
+			String qry="";
+
+			if(dObj.getLevel().compareTo("3")==0)
+			{
+			    qry = "select  count(distinct dashboard_name) as count from left_menu l "
+				+ "left join left_menu_access ls on ls.dashboard_id=l.dashboard_id "
+				+ "where l.dashboard_id=? and (ls.access_value = ? or ls.access_value = ? or ls.access_value = ?) having count(distinct dashboard_name) >0 ";
+				
+	
+				int arrSize = 4;
+				Object[] pValues = new Object[arrSize];				
+				int i = 0;
+	
+				pValues[i++] = dObj.getDashboard_id();
+	
+				pValues[i++] = dObj.getUser_type_fk();
+				pValues[i++] = dObj.getUser_role_name_fk();
+				pValues[i++] = dObj.getUser_id();
+				objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<User>(User.class));
+			}
+			
+			if(dObj.getLevel().compareTo("2")==0)
+			{
+				qry = "select  count(distinct dashboard_name) as count from left_menu l "
+						+ "left join left_menu_access ls on ls.dashboard_id=l.dashboard_id "
+						+ "left join left_menu_access ls1 on ls1.dashboard_id=l.parent_id "
+						+ "where (l.dashboard_id=? or l.parent_id=?) and ((ls.access_value = ? or ls.access_value = ? or ls.access_value = ?) or (ls1.access_value = ? or ls1.access_value = ? or ls1.access_value = ?) ) having count(distinct dashboard_name) >0 ";
+					
+				int arrSize = 8;
+				Object[] pValues = new Object[arrSize];				
+				int i = 0;
+				
+				pValues[i++] = dObj.getDashboard_id();
+				pValues[i++] = dObj.getDashboard_id();
+
+				pValues[i++] = dObj.getUser_type_fk();
+				pValues[i++] = dObj.getUser_role_name_fk();
+				pValues[i++] = dObj.getUser_id();
+				pValues[i++] = dObj.getUser_type_fk();
+				pValues[i++] = dObj.getUser_role_name_fk();
+				pValues[i++] = dObj.getUser_id();
+				objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<User>(User.class));
+
+			}			
+	
+			if(objsList.size()>0)
+			{
+				flag=true;
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return flag;
 	}
 	
 }

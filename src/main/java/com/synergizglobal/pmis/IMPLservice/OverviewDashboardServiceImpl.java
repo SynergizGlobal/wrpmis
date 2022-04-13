@@ -32,5 +32,9 @@ public class OverviewDashboardServiceImpl implements OverviewDashboardService {
 	@Override
 	public List<OverviewDashboard> getFilteredOptions(OverviewDashboard dObj) throws Exception {
 		return dao.getFilteredOptions(dObj);
-	}	
+	}
+	
+	public boolean getDashboardLeftMenuAccess(OverviewDashboard dObj) throws Exception{
+		return dao.getDashboardLeftMenuAccess(dObj);
+	}
 }

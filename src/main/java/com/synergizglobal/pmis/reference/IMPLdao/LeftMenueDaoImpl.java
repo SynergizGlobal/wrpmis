@@ -1,5 +1,9 @@
 package com.synergizglobal.pmis.reference.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -9,9 +13,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.model.Form;
 import com.synergizglobal.pmis.reference.Idao.LeftMenueDao;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 @Repository
@@ -26,8 +32,11 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getLeftMenuList(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url, `order`, parent_id, dashboard_url, status,source_field_name " + 
-					" FROM left_menu where dashboard_id is not null and show_left_menu = ?";
+			String qry ="SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url, `order`, parent_id, dashboard_url, status,source_field_name, "  
+					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_role') as user_roles, "
+					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_type') as user_types, "
+					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user') as users "		
+					+" FROM left_menu l where dashboard_id is not null and show_left_menu = ?";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
@@ -118,16 +127,96 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	@Override
 	public boolean addLeftMenu(TrainingType obj) throws Exception {
 		boolean flag = false;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;		
 		try {
+			connection = dataSource.getConnection();
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO left_menu"
-					+ "(dashboard_name,`order`, parent_id,dashboard_url,status,source_field_name) VALUES (:dashboard_name,:order,:parent_id,:dashboard_url,:status,:source_field_name)";
+					+ "(dashboard_name,`order`, parent_id,dashboard_url,status,source_field_name) VALUES (?,?,?,?,?,?)";
 			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
-			if(count > 0) {
-				flag = true;
+			stmt = connection.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, obj.getDashboard_name());
+			stmt.setString(2, obj.getOrder());
+			stmt.setString(3, obj.getParent_id());
+			stmt.setString(4, obj.getDashboard_url());
+			stmt.setString(5, obj.getStatus());
+			stmt.setString(6, obj.getSource_field_name());
+			stmt.executeUpdate();			 
+			 
+			rs = stmt.getGeneratedKeys();
+			String generatedKey = "0";
+			if (rs.next()) {generatedKey = rs.getString(1);flag = true;}	
+			
+			if(flag==true)
+			{
+				if(!StringUtils.isEmpty(obj.getAccess_user_roles()) && obj.getAccess_user_roles().size() > 0 && !StringUtils.isEmpty(obj.getAccess_user_roles().get(0))) {
+					String asccess_user_roles = obj.getAccess_user_roles().get(0);
+					if(!StringUtils.isEmpty(asccess_user_roles) && asccess_user_roles.contains("~$~")) {
+						asccess_user_roles = asccess_user_roles.replaceAll("[~$~]+" , ",");
+				    }
+
+					String[] user_role_access = asccess_user_roles.split(",");
+					int user_role_access_count = user_role_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_role_access_count];
+					String messageQry = "INSERT INTO left_menu_access (dashboard_id,access_type,access_value)"
+							+ "VALUES" + "(:form_id,:access_type,:access_value)";
+					
+					for (int j = 0; j < user_role_access_count; j++) {
+						Form msgObj = new Form();
+						msgObj.setForm_id(generatedKey);
+						msgObj.setAccess_type("user_role");
+						msgObj.setAccess_value(user_role_access[j]);
+				        source[j] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getAccess_user_types()) && obj.getAccess_user_types().size() > 0 && !StringUtils.isEmpty(obj.getAccess_user_types().get(0))) {
+					String asccess_user_types = obj.getAccess_user_types().get(0);
+					if(!StringUtils.isEmpty(asccess_user_types) && asccess_user_types.contains("~$~")) {
+						asccess_user_types = asccess_user_types.replaceAll("[~$~]+" , ",");
+				    }
+					String[] user_type_access = asccess_user_types.split(",");
+					int user_type_access_count = user_type_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_type_access_count];
+					String messageQry = "INSERT INTO left_menu_access (dashboard_id,access_type,access_value)"
+							+ "VALUES" + "(:form_id,:access_type,:access_value)";
+					
+					for (int j = 0; j < user_type_access_count; j++) {
+						Form msgObj = new Form();
+						msgObj.setForm_id(generatedKey);
+						msgObj.setAccess_type("user_type");
+						msgObj.setAccess_value(user_type_access[j]);
+				        source[j] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getAccess_users()) && obj.getAccess_users().size() > 0 && !StringUtils.isEmpty(obj.getAccess_users().get(0))) {
+					String asccess_users = obj.getAccess_users().get(0);
+					if(!StringUtils.isEmpty(asccess_users) && asccess_users.contains("~$~")) {
+						asccess_users = asccess_users.replaceAll("[~$~]+" , ",");
+				    }
+					String[] user_access = asccess_users.split(",");
+					int user_access_count = user_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_access_count];
+					String messageQry = "INSERT INTO left_menu_access (dashboard_id,access_type,access_value)"
+							+ "VALUES" + "(:form_id,:access_type,:access_value)";
+					
+					for (int j = 0; j < user_access_count; j++) {
+						Form msgObj = new Form();
+						msgObj.setForm_id(generatedKey);
+						msgObj.setAccess_type("user");
+						msgObj.setAccess_value(user_access[j]);
+				        source[j] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
 			}
+				
+			
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
@@ -164,8 +253,76 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			String  enableQry =	"SET foreign_key_checks = 1";
 			paramSource = new BeanPropertySqlParameterSource(obj);	
 			namedParamJdbcTemplate.update(enableQry, paramSource);
-			if(count > 0) {
+			if(count > 0) 
+			{
 				flag = true;
+				String deleteQry ="delete from left_menu_access where dashboard_id = :dashboard_id ";
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
+				
+				if(!StringUtils.isEmpty(obj.getAccess_user_roles()) && obj.getAccess_user_roles().size() > 0 && !StringUtils.isEmpty(obj.getAccess_user_roles().get(0))) {
+					String asccess_user_roles = obj.getAccess_user_roles().get(0);
+					if(!StringUtils.isEmpty(asccess_user_roles) && asccess_user_roles.contains("~$~")) {
+						asccess_user_roles = asccess_user_roles.replaceAll("[~$~]+" , ",");
+				    }
+
+					String[] user_role_access = asccess_user_roles.split(",");
+					int user_role_access_count = user_role_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_role_access_count];
+					String messageQry = "INSERT INTO left_menu_access (dashboard_id,access_type,access_value)"
+							+ "VALUES" + "(:form_id,:access_type,:access_value)";
+					
+					for (int j = 0; j < user_role_access_count; j++) {
+						Form msgObj = new Form();
+						msgObj.setForm_id(obj.getDashboard_id());
+						msgObj.setAccess_type("user_role");
+						msgObj.setAccess_value(user_role_access[j]);
+				        source[j] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getAccess_user_types()) && obj.getAccess_user_types().size() > 0 && !StringUtils.isEmpty(obj.getAccess_user_types().get(0))) {
+					String asccess_user_types = obj.getAccess_user_types().get(0);
+					if(!StringUtils.isEmpty(asccess_user_types) && asccess_user_types.contains("~$~")) {
+						asccess_user_types = asccess_user_types.replaceAll("[~$~]+" , ",");
+				    }
+					String[] user_type_access = asccess_user_types.split(",");
+					int user_type_access_count = user_type_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_type_access_count];
+					String messageQry = "INSERT INTO left_menu_access (dashboard_id,access_type,access_value)"
+							+ "VALUES" + "(:form_id,:access_type,:access_value)";
+					
+					for (int j = 0; j < user_type_access_count; j++) {
+						Form msgObj = new Form();
+						msgObj.setForm_id(obj.getDashboard_id());
+						msgObj.setAccess_type("user_type");
+						msgObj.setAccess_value(user_type_access[j]);
+				        source[j] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getAccess_users()) && obj.getAccess_users().size() > 0 && !StringUtils.isEmpty(obj.getAccess_users().get(0))) {
+					String asccess_users = obj.getAccess_users().get(0);
+					if(!StringUtils.isEmpty(asccess_users) && asccess_users.contains("~$~")) {
+						asccess_users = asccess_users.replaceAll("[~$~]+" , ",");
+				    }
+					String[] user_access = asccess_users.split(",");
+					int user_access_count = user_access.length;
+					SqlParameterSource[] source = new SqlParameterSource[user_access_count];
+					String messageQry = "INSERT INTO left_menu_access (dashboard_id,access_type,access_value)"
+							+ "VALUES" + "(:form_id,:access_type,:access_value)";
+					
+					for (int j = 0; j < user_access_count; j++) {
+						Form msgObj = new Form();
+						msgObj.setForm_id(obj.getDashboard_id());
+						msgObj.setAccess_type("user");
+						msgObj.setAccess_value(user_access[j]);
+				        source[j] = new BeanPropertySqlParameterSource(msgObj);
+				    }
+					namedParamJdbcTemplate.batchUpdate(messageQry, source);
+				}				
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

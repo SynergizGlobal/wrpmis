@@ -13,4 +13,5 @@ public interface OverviewDashboardService {
 	public List<OverviewDashboard> getFilters(OverviewDashboard obj) throws Exception;
 
 	public List<OverviewDashboard> getFilteredOptions(OverviewDashboard dObj) throws Exception;
+	public boolean getDashboardLeftMenuAccess(OverviewDashboard dObj) throws Exception;
 }

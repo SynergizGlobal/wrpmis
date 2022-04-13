@@ -640,12 +640,19 @@
         .box.delayed {
             background-color: #f00;
         }
-
+		@media(max-width: 1024px){
+			#btn-fl{
+				width: 10em;
+			}
+			.file-field span{
+				margin-left: -0.5em;
+			}
+		}
         @media only screen and (max-width: 820px) {
            .fixed-width .table-inside {
 	    		overflow: hidden;
 			}
-			.mt0{margin-top:0;}
+			.mt0{margin-top:0 !important;}
         }
         @media only screen and (max-width: 700px) {
             .legends .col {
@@ -654,6 +661,7 @@
         }
         @media(max-width: 575px){
         .row .col{margin: 10px auto}
+        .m-3{margin-top: 0;}
         }
        
         fieldset.brdr {
@@ -768,11 +776,11 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="row" style="margin-bottom: 20px;display:none;" id="component_circles_row">
+                                    <!-- <div class="row" style="margin-bottom: 20px;display:none;" id="component_circles_row">
                                         <div class="col m12 s12" id="dotgroup1">
                                             <div class="dotgroup-scroll">
                                                 <div id="component_circles" style="padding: 10px;">
-                                                    <!-- <div class="dot-container">
+                                                    <div class="dot-container">
                                                         <a href="javascript:void(0);" class="dot"
                                                             style="margin-left: 0;">
                                                             <span class="project odd">P2P4P2P4</span></a>
@@ -856,14 +864,14 @@
                                                         <a href="#" class="dot not-started"><span
                                                                 class="project odd">P3A4P3A4</span></a>
                                                         <span class="dot-line"></span>
-                                                    </div> -->
+                                                    </div>
 
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>  -->
 
-									<div class="row" style="display:none;" id="legends">
+									<!-- <div class="row" style="display:none;" id="legends">
 									 <fieldset class="p-2 brdr" >
   										<legend> Legend </legend>  										
                                         <div class="col m4 s4 center-align">
@@ -879,7 +887,7 @@
                                             <span class="description">Completed</span>
                                         </div>
                                      </fieldset>
-                                    </div>
+                                    </div> -->
 
                                     <div class="row">
                                         <div class="col m4 s6 input-field left-align">
@@ -931,7 +939,7 @@
 	                                    	
 										</div>
                                         </div>                                                                                
-                                         <div class="col m12 s6 input-field">
+                                         <div class="col m12 s6 l1 input-field">
                                           <div class="center-align m-3">
                                                 <button type="button" onclick="updateProgress();" id="btn1" class="h3em btn waves-effect waves-light bg-m" >Update</button>
                                        	  </div>

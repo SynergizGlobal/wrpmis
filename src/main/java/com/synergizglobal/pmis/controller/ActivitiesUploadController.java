@@ -291,8 +291,9 @@ public class ActivitiesUploadController {
 							DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 							
 							List<Activity> componentIdList = new ArrayList<Activity>();
+							List<Activity> structureIdList = new ArrayList<Activity>();
 							
-							String component_id = null,order = null;
+							String component_id = null,order_y = null;
 									
 							for(int i = 2; i<= referenceDataSheet.getLastRowNum();i++){
 								XSSFRow row = referenceDataSheet.getRow(i);	
@@ -317,21 +318,53 @@ public class ActivitiesUploadController {
 										tempVal = formatter.formatCellValue(row.getCell(1)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											order = getCellDataType(workbook,row.getCell(1));
+											order_y = getCellDataType(workbook,row.getCell(1));
 										}	
-										if(!StringUtils.isEmpty(order)) { componentIdObj.setOrder(order);}
+										if(!StringUtils.isEmpty(order_y)) { componentIdObj.setOrder(order_y);}
 										
 										componentIdList.add(componentIdObj);
 									}
 								}
 							}
-
+							String structureid = null,order_x = null;
+							
+							for(int i = 2; i<= referenceDataSheet.getLastRowNum();i++){
+								XSSFRow row = referenceDataSheet.getRow(i);	
+								if(!StringUtils.isEmpty(row)) {
+									
+									String structureId_temp = null;
+									Cell cell = row.getCell(0);
+									if(!StringUtils.isEmpty(cell)) {
+										structureId_temp = formatter.formatCellValue(cell).trim();
+									}
+									
+									if(!StringUtils.isEmpty(structureId_temp) && !structureId_temp.equals("null")) {									
+										Activity structureIdObj = new Activity();
+										
+										String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
+										int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											structureid = getCellDataType(workbook,row.getCell(0));
+										}	
+										if(!StringUtils.isEmpty(structureid)) { structureIdObj.setStructure(structureid);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(1)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											order_x = getCellDataType(workbook,row.getCell(1));
+										}	
+										if(!StringUtils.isEmpty(order_x)) { structureIdObj.setOrder_x(order_x);}
+										
+										structureIdList.add(structureIdObj);
+									}
+								}
+							}
 							
 							XSSFSheet activityDataSheet = workbook.getSheetAt(2);
 							
 							List<Activity> activityList = new ArrayList<Activity>();
 							
-							String activity_id = null,contract_id_fk = null,struture_type_fk = null,section = null,line = null,structure = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
+							String activity_id = null,contract_id_fk = null,struture_type_fk = null,from_structure_id = null,to_structure_id = null,section = null,line = null,structure = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
 							String completed_scope_gt_total_scope = "",
 									planned_start_null = "",planned_finish_null = "",planned_start_gt_planned_finish = "",
 									actual_start_null = "",actual_start_gt_actual_finish = "";
@@ -362,113 +395,168 @@ public class ActivitiesUploadController {
 										
 										tempVal = formatter.formatCellValue(row.getCell(1)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										
 										if(count != 2) {
-											line = getCellDataType(workbook,row.getCell(1));
+											from_structure_id = getCellDataType(workbook,row.getCell(1));
 										}	
-										if(!StringUtils.isEmpty(line)) { activityObj.setLine(line);}
+										if(!StringUtils.isEmpty(from_structure_id)) { activityObj.setFrom_structure_id(from_structure_id);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(2)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										
 										if(count != 2) {
-											structure = getCellDataType(workbook,row.getCell(2));
+											to_structure_id = getCellDataType(workbook,row.getCell(2));
 										}	
-										if(!StringUtils.isEmpty(structure)) { activityObj.setStructure(structure);}
+										if(!StringUtils.isEmpty(to_structure_id)) { activityObj.setTo_structure_id(to_structure_id);}
+										
+										
+										
 										
 										tempVal = formatter.formatCellValue(row.getCell(3)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											component = getCellDataType(workbook,row.getCell(3));
+											line = getCellDataType(workbook,row.getCell(3));
 										}	
-										if(!StringUtils.isEmpty(component)) { activityObj.setComponent(component);}
+										if(!StringUtils.isEmpty(line)) { activityObj.setLine(line);}
+										
+										
 										
 										tempVal = formatter.formatCellValue(row.getCell(4)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											component_id = getCellDataType(workbook,row.getCell(4));
+											struture_type_fk = getCellDataType(workbook,row.getCell(4));
 										}	
-										if(!StringUtils.isEmpty(component_id)) { activityObj.setComponent_id(component_id);}
+										if(!StringUtils.isEmpty(struture_type_fk)) { activityObj.setStructure(struture_type_fk);}
 										
-										for (Activity cObj : componentIdList) {
-											if(cObj.getComponent_id().equals(activityObj.getComponent_id())) {
-												activityObj.setOrder(cObj.getOrder().trim());
-											}
-										}
-										if(StringUtils.isEmpty(activityObj.getOrder())) { activityObj.setOrder("9999");}
+										
 										
 										tempVal = formatter.formatCellValue(row.getCell(5)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											activity_name = getCellDataType(workbook,row.getCell(5));
+											structure = getCellDataType(workbook,row.getCell(5));
 										}	
-										if(!StringUtils.isEmpty(activity_name)) { activityObj.setActivity_name(activity_name);}
+										if(!StringUtils.isEmpty(structure)) { activityObj.setStructure(structure);}
+										
+										
 										
 										tempVal = formatter.formatCellValue(row.getCell(6)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											planned_start = getCellDataType(workbook,row.getCell(6));
+											component = getCellDataType(workbook,row.getCell(6));
 										}	
-										if(!StringUtils.isEmpty(planned_start)) { activityObj.setPlanned_start(DateParser.parse(planned_start));}
+										if(!StringUtils.isEmpty(component)) { activityObj.setComponent(component);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(7)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											planned_finish = getCellDataType(workbook,row.getCell(7));
+											component_id = getCellDataType(workbook,row.getCell(7));
 										}	
-										if(!StringUtils.isEmpty(planned_finish)) { activityObj.setPlanned_finish(DateParser.parse(planned_finish));}
+										if(!StringUtils.isEmpty(component_id)) { activityObj.setComponent_id(component_id);}
 										
+										
+										for (Activity cObj : structureIdList) {
+											if(cObj.getStructure().equals(activityObj.getStructure())) {
+												activityObj.setOrder_x(cObj.getOrder_x().trim());
+											}
+										}
+										if(StringUtils.isEmpty(activityObj.getOrder_x())) { activityObj.setOrder_x("9999");}											
+										
+										
+										for (Activity cObj : componentIdList) {
+											if(cObj.getComponent_id().equals(activityObj.getComponent_id())) {
+												activityObj.setOrder_y(cObj.getOrder_y().trim());
+											}
+										}
+
+										if(StringUtils.isEmpty(activityObj.getOrder_y())) { activityObj.setOrder_y("9999");}
+										
+
 										tempVal = formatter.formatCellValue(row.getCell(8)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											actual_start = getCellDataType(workbook,row.getCell(8));
+											activity_name = getCellDataType(workbook,row.getCell(8));
 										}	
-										if(!StringUtils.isEmpty(actual_start)) { activityObj.setActual_start(DateParser.parse(actual_start));}
+										if(!StringUtils.isEmpty(activity_name)) { activityObj.setActivity_name(activity_name);}
+										
 										
 										tempVal = formatter.formatCellValue(row.getCell(9)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											actual_finish = getCellDataType(workbook,row.getCell(9));
+											unit = getCellDataType(workbook,row.getCell(9));
 										}	
-										if(!StringUtils.isEmpty(actual_finish)) { activityObj.setActual_finish(DateParser.parse(actual_finish));}
+										if(!StringUtils.isEmpty(unit)) { activityObj.setUnit(unit);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(10)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											unit = getCellDataType(workbook,row.getCell(10));
+											scope = getCellDataType(workbook,row.getCell(10));
 										}	
-										if(!StringUtils.isEmpty(unit)) { activityObj.setUnit(unit);}
+										if(!StringUtils.isEmpty(scope)) { activityObj.setScope(scope);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(11)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											scope = getCellDataType(workbook,row.getCell(11));
+											completed = getCellDataType(workbook,row.getCell(11));
 										}	
-										if(!StringUtils.isEmpty(scope)) { activityObj.setScope(scope);}
+										if(!StringUtils.isEmpty(completed)) { activityObj.setCompleted(completed);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(12)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											completed = getCellDataType(workbook,row.getCell(12));
+											weightage = getCellDataType(workbook,row.getCell(12));
 										}	
-										if(!StringUtils.isEmpty(completed)) { activityObj.setCompleted(completed);}
+										if(!StringUtils.isEmpty(weightage)) { activityObj.setWeightage(weightage);}
+										
 										
 										tempVal = formatter.formatCellValue(row.getCell(13)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											weightage = getCellDataType(workbook,row.getCell(13));
+											planned_start = getCellDataType(workbook,row.getCell(13));
 										}	
-										if(!StringUtils.isEmpty(weightage)) { activityObj.setWeightage(weightage);}
+										if(!StringUtils.isEmpty(planned_start)) { activityObj.setPlanned_start(DateParser.parse(planned_start));}
+										
+										
 										
 										tempVal = formatter.formatCellValue(row.getCell(14)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											component_details = getCellDataType(workbook,row.getCell(14));
+											planned_finish = getCellDataType(workbook,row.getCell(14));
 										}	
-										if(!StringUtils.isEmpty(component_details)) { activityObj.setComponent_details(component_details);}
+										if(!StringUtils.isEmpty(planned_finish)) { activityObj.setPlanned_finish(DateParser.parse(planned_finish));}
+										
+										
 										
 										tempVal = formatter.formatCellValue(row.getCell(15)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											remarks = getCellDataType(workbook,row.getCell(15));
+											actual_start = getCellDataType(workbook,row.getCell(15));
+										}	
+										if(!StringUtils.isEmpty(actual_start)) { activityObj.setActual_start(DateParser.parse(actual_start));}
+										
+										
+										
+										tempVal = formatter.formatCellValue(row.getCell(16)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											actual_finish = getCellDataType(workbook,row.getCell(16));
+										}	
+										if(!StringUtils.isEmpty(actual_finish)) { activityObj.setActual_finish(DateParser.parse(actual_finish));}
+						
+										
+										
+										tempVal = formatter.formatCellValue(row.getCell(17)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											component_details = getCellDataType(workbook,row.getCell(17));
+										}	
+										if(!StringUtils.isEmpty(component_details)) { activityObj.setComponent_details(component_details);}
+										
+										
+										
+										tempVal = formatter.formatCellValue(row.getCell(18)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											remarks = getCellDataType(workbook,row.getCell(18));
 										}	
 										if(!StringUtils.isEmpty(remarks)) { activityObj.setRemarks(remarks);}
 										
@@ -535,10 +623,10 @@ public class ActivitiesUploadController {
 											break;
 										}
 										
-										if(!StringUtils.isEmpty(obj.getFob_id()) && !obj.getFob_id().equals(activityObj.getStructure())) {
+										/*if(!StringUtils.isEmpty(obj.getFob_id()) && !obj.getFob_id().equals(activityObj.getStructure())) {
 											contarct_and_fob_mismatch = " FOB selected from the dropdown and on the Activity File do not match. at Row no(s) " + (j+1);
 											break;
-										}
+										}*/
 										
 									}
 								}

@@ -136,8 +136,8 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				}
 			}
 			
-			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,section,line,structure,component,component_id,`order`,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)";
+			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order_x,order_y,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)";
 			
 			stmt = con.prepareStatement(insertQry); 
 			
@@ -151,7 +151,8 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
                 
                 stmt.setString(p++, insertList.get(i).getComponent());
                 stmt.setString(p++, insertList.get(i).getComponent_id());
-                stmt.setString(p++, insertList.get(i).getOrder());	
+                stmt.setString(p++, insertList.get(i).getOrder_x());
+                stmt.setString(p++, insertList.get(i).getOrder_y());	
                 stmt.setString(p++, insertList.get(i).getActivity_name());
                 stmt.setString(p++, insertList.get(i).getPlanned_start());
                 
@@ -171,7 +172,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			int[] insertCounts = stmt.executeBatch();
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);			
 			
-			String updateQry = "UPDATE activities SET planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ? "
+			String updateQry = "UPDATE activities SET order_x = ?,order_y = ?,planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ? "
 					+ "WHERE (contract_id_fk = ? OR contract_id_fk IS NULL OR contract_id_fk = '') and (structure_type_fk = ? OR structure_type_fk IS NULL OR structure_type_fk = '') "
 					+ "and (section = ? OR section IS NULL OR section = '') and (line = ? OR line IS NULL OR line = '') and (structure = ? OR structure IS NULL OR structure = '') and (component = ? OR component IS NULL OR component = '') "
 					+ "and (component_id = ? OR component_id IS NULL OR component_id = '') and (activity_name = ? OR activity_name IS NULL OR activity_name = '') ";
@@ -179,6 +180,8 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			
 			for (int i = 0;i < updateList.size();i++) {
 				int p = 1;
+				stmt.setString(p++, updateList.get(i).getOrder_x());
+	            stmt.setString(p++, updateList.get(i).getOrder_y());	
 				stmt.setString(p++, updateList.get(i).getPlanned_start());		                    
                 stmt.setString(p++, updateList.get(i).getPlanned_finish());
                 stmt.setString(p++, updateList.get(i).getActual_start());

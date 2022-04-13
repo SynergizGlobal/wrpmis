@@ -486,13 +486,13 @@
     			{
     				alert("Sheet is Empty");
     			}
-   				if(excelRows[i]["Type of Structure"]!=$("#fob_id").val())
+   				/* if(excelRows[i]["Type of Structure"]!=$("#fob_id").val())
    				{
    					alert("FOB selected from the dropdown and on the Activity File do not match in at Row No " + (i+1));
    					
    					return false;
    					break;
-   				}
+   				} */
             }
             
 

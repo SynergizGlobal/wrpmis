@@ -99,7 +99,7 @@ public class FileFormatModel {
 
 	public static List<String> getActivityRefetenceData_FileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Component ID^Order";
+		String columns = "Structure ID^Order";
 		String[] convertedColumnsArray = columns.split("\\^");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
@@ -129,7 +129,8 @@ public class FileFormatModel {
 	
 	public static List<String> getActivityData_FileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Section^Line^Structure^Component^Component ID^Activity^Planned Start Date^Planned Finish Date^Actual Start Date^Actual Finish Date^Unit^Total Scope^Completed^Weightage Point^Components Detail^Remarks";
+		String columns = "Section^From Structure ID^To Structure ID^Line^Structure Type^Structure ID^Component^Component ID^Activity^Unit^Total Scope^Completed"
+				+ "^Weightage Point^Planned Start Date^Planned Finish Date^Actual Start Date^Actual Finish Date^Components Detail^Remarks";
 		String[] convertedColumnsArray = columns.split("\\^");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

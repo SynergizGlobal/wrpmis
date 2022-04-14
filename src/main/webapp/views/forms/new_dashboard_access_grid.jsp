@@ -171,7 +171,7 @@
             getDashboardsList();
 
         	window.localStorage.setItem("dashboardFilters",'');
-        	window.location.href= "<%=request.getContextPath()%>/dashboards";
+        	window.location.href= "<%=request.getContextPath()%>/access-dashboards";
         }
         
         function addInQueModule(module_name_fk){

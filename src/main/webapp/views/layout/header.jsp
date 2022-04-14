@@ -145,6 +145,9 @@
      .brand-logo.fs {
     		width: 50%;
 		}
+		span.badge1{
+			margin-top: 0px;
+		}
      }
      
      .theme-change {

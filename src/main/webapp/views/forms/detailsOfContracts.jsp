@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>   
     	.bg-red{background-color: red !important;padding: 0px 8px;border-radius: 10px;}
     	.tab-p{
@@ -26,7 +26,7 @@
 		    right: 3em;
 		    margin-top: 5em !important;
     	}
-    	.red{color: red;background-color: transparent !important;}
+    	.red1{color: red;background-color: transparent !important;}
     	tr{
     		//border-bottom: 2px solid rgba(255,255,255,0.52);
    		}
@@ -99,7 +99,7 @@
          @media(max-width: 1024px){
          	.ms-w280{width: 280px !important;}
          }
-           @media only screen and (max-width: 769px){ 
+           @media only screen and (max-width: 820px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
@@ -135,7 +135,7 @@
     		}
 		}
 		
-	    @media only screen and (max-width: 767px) {
+	    @media only screen and (max-width: 820px) {
 	        .mob-mar {
 	            text-align: left;
 	        }
@@ -158,19 +158,27 @@
 		
 		
 		.fw-230{
-        	width:20% !important;
-        	/* min-width:230px !important; */
+        	width:230px !important;
+        	min-width:230px !important;
         }
         
 		
 		.fw-200{
-        	width:10% !important;
-        	/* min-width:230px !important; */
+        	width:200px !important;
+        	min-width:200px !important;
         }
                 
         .fw-250{
         	width:250px !important;
         	min-width:250px !important;
+        }
+        .fw-155{
+        	width:155px !important;
+        	min-width:155px !important;
+        }
+        .fw-150{
+        	width:150px !important;
+        	min-width:150px !important;
         }
         
         
@@ -210,13 +218,45 @@
         .box.delayed {
             background-color: #f00;
         }
+        .w50px{width: 50px !important;}
+        .fs16rem{
+        	font-size: 1.6rem !important;
+        }
 		@media(max-width: 1024px){
 			.con-center{display: block;}
+			.fs16rem{
+        	font-size: 1.2rem !important;
+        	}
+        	 .select2-container--default .select2-selection--single .select2-selection__rendered {
+				    font-size: 1.2rem !important;
+				}
+			
+			.form-control input-sm ms-w280
+			{
+				font-size: 1.2rem !important;
+			}
+			.con-center{
+				width: 160px !important;
+			}
+			.box{
+				margin-right: -5px;
+			}
 		}
 		@media(max-width: 820px){
 			.tab-p{margin-top: 7.5em !important;}
+			.hideCOl{
+			display:none;
+			}
+			.fw-200{
+	        	width:400px !important;
+	        	min-width:400px !important;
+       		 }
+       		 .con-center{
+				width: 33.333333% !important;
+			}
+			
 		}
-		@media(max-width: 768px){
+		@media(max-width: 820px){
 			div.dataTables_wrapper div.dataTables_filter {
 			    text-align: right;
 			    width: 50%;
@@ -224,9 +264,12 @@
 			}
 			.tab-p{margin-top: 5.5em !important;}
 		}
-        @media only screen and (max-width: 768px) {
+        @media only screen and (max-width: 820px) {
            .fixed-width .table-inside {
 	    		overflow: hidden;
+			}
+			.input-field p.searchable_label{
+				margin-bottom: -15px;
 			}
         }
         @media only screen and (max-width: 700px) {
@@ -235,14 +278,30 @@
             }
         }
         @media(max-width: 575px){
-        .row .col{margin: 10px auto}
-        div.dataTables_wrapper div.dataTables_filter {
-			    width: 100%;
-			    margin-top: 20px;
-			}
-		.mdl-grid{padding: 40px 0;}
-		fieldset.brdr{margin-top: 0 !important;}
-		.tab-p{margin-top: 11em !important;right: 1em;}
+	        .row .col{margin: 10px auto}
+	        div.dataTables_wrapper div.dataTables_filter {
+				    width: 100%;
+				    margin-top: 20px;
+				}
+			.mdl-grid{padding: 40px 0;}
+			fieldset.brdr{margin-top: 0 !important;}
+			.tab-p{margin-top: 11em !important;right: 1em;}
+			.fw-250{
+				min-width: 130px !important;
+				width: 130px !important;
+				}
+			.fw-200{
+	        	width:150px !important;
+	        	min-width:150px !important;
+       		 }
+       		 .fw-155{
+	        	width:100px !important;
+	        	min-width:100px !important;
+	        }
+	        .m-n1{
+	        	margin: -3rem auto 0;
+	        }
+		
         }
        
         fieldset.brdr {
@@ -255,28 +314,28 @@
 		    padding: 0 5px;
 	    }
 	    
- .select2-container--default .select2-selection--single .select2-selection__rendered {
-    text-align: left;
-    font-size: 1.6rem;
-}
-
-.dataTables_length
-{
- font-size: 1.6rem !important;
-}
-
-.form-control input-sm ms-w280
-{
-	font-size: 1.6rem !important;
-}	
-
-.mdl-data-table td 
-{
-     border-top: 1px solid #ffffff !important; 
-     border-bottom: 1px solid #ffffff !important; 
-    padding-top: 12px;
-    vertical-align: middle;
-}   
+		 .select2-container--default .select2-selection--single .select2-selection__rendered {
+		    text-align: left;
+		    font-size: 1.6rem;
+		}
+		
+		.dataTables_length
+		{
+		 font-size: 1.6rem !important;
+		}
+		
+		.form-control input-sm ms-w280
+		{
+			font-size: 1.6rem !important;
+		}	
+		
+		.mdl-data-table td 
+		{
+		     border-top: 1px solid #ffffff !important; 
+		     border-bottom: 1px solid #ffffff !important; 
+		    padding-top: 12px;
+		    vertical-align: middle;
+		}   
 	
     </style>
 </head>
@@ -319,28 +378,28 @@
 							<div class="col m12 l8 offset-l2 s12">
 								<div class="row no-mar">
 									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Work</p><br>
+										<p class="searchable_label fs16rem" style="color:#000000;">Work</p><br>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>										
 										</select> 
 									</div>		
 									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Contract Status</p><br>
+										<p class="searchable_label fs16rem" style="color:#000000;">Contract Status</p><br>
 										<select id="contract_status_fk" name="contract_status_fk"
 											onchange="addInQueContractStatus(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
 									<div class="col s6 m4 l3 input-field">
-										<p class="searchable_label" style="font-size:1.6rem !important;color:#000000;">Department</p><br>
+										<p class="searchable_label fs16rem" style="color:#000000;">Department</p><br>
 										<select id="department_fk" name="department_fk"
 											onchange="addInQueDepartment(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
 								
-								<div class="col s6 m12 l3 center-align"><br>
+								<div class="col s6 m12 l3 center-align">
 									<button class="btn bg-m waves-effect waves-light t-c"
 										style="margin-top: 6px;" onclick="clearFilter();">Clear
 										Filters</button>
@@ -348,9 +407,8 @@
 							</div>
 						</div>
 					</div>
-					<br>
-					<div class="row" style="font-size:1.6rem !important;">
-						<div class="col m12 l7 offset-l3 s12">
+					<div class="row fs16rem" >
+						<div class="col m12 l7 offset-l2 s12">
 						 	<fieldset class="p-2 brdr" >
 							 	   <!-- <legend> Legend </legend>  --> 										
                                    <div class="col m4 s4 center-align con-center">
@@ -368,22 +426,22 @@
                               </fieldset>
 						</div>
 						<div class="col m12 s12">
-						<p class="right tab-p"><b>Figures in <span class="red">red</span> are Estimated</b></p>
+						<p class="right tab-p"><b>Figures in <span class="red1">red</span> are Estimated</b></p>
 							<table id="datatable-contract-details" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
 									<tr id="topDivCss">
-										<th style="background-color: #162D6E;font-size:1.6rem !important;">S.No</th>
-										<th style="background-color: #162D6E;font-size:1.6rem !important;">Contract Status</th>
-										<th style="background-color: #162D6E;font-size:1.6rem !important;">Contract</th>
-										<th style="background-color: #162D6E;font-size:1.6rem !important;">Contract Value(Cr)</th>
-										<th style="background-color: #162D6E;font-size:1.6rem !important;">Expenditure(Cr)</th>
-										<th style="background-color: #162D6E;font-size:1.6rem !important;">Physical Progress</th>
-										<th style="background-color: #162D6E;font-size:1.6rem !important;" class="w100">LOA Date</th>
-										<th style="background-color: #162D6E;font-size:1.6rem !important;">Completion Date</th>
-										<th style="background-color: #162D6E;font-size:1.6rem !important;">Remarks</th>
+										<th class="fs16rem" style="background-color: #162D6E;">S.No</th>
+										<th class="fs16rem" style="background-color: #162D6E;">Contract Status</th>
+										<th class="fs16rem" style="background-color: #162D6E;">Contract</th>
+										<th class="fs16rem" style="background-color: #162D6E;">Contract Value(Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;">Expenditure(Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;">Physical Progress</th>
+										<th class="fs16rem" style="background-color: #162D6E;" class="w100">LOA Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;">Completion Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;">Remarks</th>
 									</tr>
 								</thead>
-								<tbody style="background-color: #162D6E;font-size:1.6rem !important;">
+								<tbody class="fs16rem" style="background-color: #162D6E;">
 									<tr>
 										<td></td>
 										<td></td>	
@@ -587,10 +645,13 @@
             columnDefs: [
                 {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
                 {targets: [1],className: 'hide-column'},
+                {targets: [0],className: 'w50px'},
+                {targets: [1, 3, 4, 5, 6, 8],className: 'hideCOl'},
                 {targets: [0, 3, 4, 5, 7],className: 'center-column'},
                 //{targets: [5],className: 'red'},
-                {targets: [6],className: 'fw-200'},
-                {targets: [2, 8],className: 'fw-230'},
+                //{targets: [6],className: 'fw-200'},
+                {targets: [6,7],className: 'fw-155'},
+                {targets: [2,8],className: 'fw-200'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,

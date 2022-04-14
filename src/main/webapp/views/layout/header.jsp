@@ -146,7 +146,7 @@
     		width: 50%;
 		}
 		span.badge1{
-			margin-top: 0px;
+			margin-top: 0px !important;
 		}
      }
      

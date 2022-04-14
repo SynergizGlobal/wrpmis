@@ -58,6 +58,9 @@
          .row.no-mar{
          	margin-bottom:0;
          }
+         .d-none{
+         	display: none;
+         }
 
       @media only screen and (max-width: 820px){ 
 			
@@ -125,6 +128,12 @@
 	
 	thead th{
 		text-transform: capitalize;
+	}
+	@media(max-width: 575px){
+		.fw-200{
+			width: 120px !important;
+    		max-width: 120px;
+		}
 	}
     </style>
 </head>
@@ -506,6 +515,10 @@
                         targets: [0, 1, 2],
                         className: 'mdl-data-table__cell--non-numeric'
                     },
+					{
+                        targets: [4,5,7,],
+                        className: 'd-none'
+                    },
                     { orderable: false, 'aTargets': ['no-sort'] }
                 ],
                 // "ScrollX": true,
@@ -715,7 +728,11 @@
 	    								"orderable" : false,
 	    							},
 	    							{
-	    	                            targets: [0,1,2,3,4,7,8],
+	    		                        targets: [4,5,7,],
+	    		                        className: 'd-none'
+	    		                    },
+	    							{
+	    	                            targets: [1,2,3,4,5,7,8],
 	    	                            className: 'hideCOl'
 	    	                        }
 	    			                ],

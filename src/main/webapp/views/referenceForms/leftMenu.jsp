@@ -278,6 +278,66 @@
                                 </div>
                                  
                             </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                 
+                                <div class="col s12 m8 l12">
+                                    <div class="row fixed-width">
+                                        <h6 class="center-align"  style="font-weight:600;">Archive Details</h6>
+                                        <div class="table-inside">
+                                            <table class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date </th>
+                                                        <th>URL </th>
+                                                        <th class="fw-8p">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="archiveBody">
+															<tr id="actionRow0">
+																<td class="input-field">
+									                                    <input name="archive_date" type="date" class="validate datepicker" value="">
+									                                    <span id="archive_dateError" class="error-msg" ></span>
+									                                
+		                                                        </td>
+		                                                        <td class="input-field">
+										                                <input name="archive_url" type="url" class="validate">
+										                                <span id="archive_urlError" class="error-msg" ></span>
+										                            
+		                                                        </td>
+																<td>
+																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
+																</td>
+															</tr>													
+                                                </tbody>
+                                            </table>
+                                            
+                                            <table class="mdl-data-table">
+												<tbody>
+													<tr>
+														<td colspan="6"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c"
+															onclick="addRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											<c:choose>
+												<c:when
+													test="${not empty (formDetails.accessPermissions) && fn:length(formDetails.accessPermissions) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo"
+														value="${fn:length(formDetails.accessPermissions) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+                            </div> 
 	                        <div class="row">
 	                            <div class="col s12 m6">
 	                                <div class="center-align m-1">
@@ -363,50 +423,122 @@
 	                        </div>
 	                        <div class="row" style="margin-bottom: 20px;">
                                  
-                                <div class="col s12 m12 l12">
+                                <div class="col s12 m8 l12">
                                     <div class="row fixed-width">
-                                        <h6 class="center-align"  style="font-weight:600;">Access Details</h6>
+                                        <h6 class="center-align"  style="font-weight:600;">Archive Details</h6>
                                         <div class="table-inside">
                                             <table class="mdl-data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>User Role </th>
-                                                        <th>User Type </th>
-                                                        <th class="fw-8p">User</th>
+                                                        <th>Date </th>
+                                                        <th>URL </th>
+                                                        <th class="fw-8p">Action</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="detailsBody1">
-	                                                	<tr>	
-															<td class="input-field">
-																<input type="hidden" id="access_user_roles1" name="access_user_roles" />
-	                                                            <select id="user_roles1" name="user_roles" class="searchable" multiple data-placeholder="User Role" onchange="setAccessUserRoles(1)">
-	                                                                <option value="">Select</option>
-	                                                                <c:forEach var="obj" items="${user_roles }">
-			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id}</option>
-			                                                        </c:forEach>
-	                                                            </select>
-	                                                        </td>
-	                                                        <td class="input-field">
-	                                                        	<input type="hidden" id="access_user_types1" name="access_user_types" />
-	                                                            <select id="user_types1" name="user_types" class="searchable" multiple data-placeholder="User Type" onchange="setAccessUserTypes(1)">
-	                                                                <option value="">Select</option>
-			                                                        <c:forEach var="obj" items="${user_types }">
-			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }</option>
-			                                                        </c:forEach>
-	                                                            </select>
-	                                                        </td>
-															<td class="input-field">
-																<input type="hidden" id="access_users1" name="access_users" />
-	                                                            <select id="users1" name="users" class="searchable" multiple data-placeholder="User"  onchange="setAccessUsers(1)">
-	                                                                <option value="" >Select</option>
-			                                                        <c:forEach var="obj" items="${users }">
-			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }<c:if test="${not empty obj.access_value_name}"> - </c:if> ${obj.access_value_name }</option>
-			                                                        </c:forEach>
-	                                                            </select>
-	                                                        </td>
-														</tr>
+                                                <tbody id="archiveBody1">
+															<tr id="actionRows0">
+																<td class="input-field">
+									                                    <input name="archive_date" type="date" class="validate datepicker" value="">
+									                                    <span id="archive_dateError" class="error-msg" ></span>
+									                                
+		                                                        </td>
+		                                                        <td class="input-field">
+										                                <input name="archive_url" type="url" class="validate">
+										                                <span id="archive_urlError" class="error-msg" ></span>
+										                            
+		                                                        </td>
+																<td>
+																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
+																</td>
+															</tr>													
                                                 </tbody>
                                             </table>
+                                            
+                                            <table class="mdl-data-table">
+												<tbody>
+													<tr>
+														<td colspan="6"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c"
+															onclick="addRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											<c:choose>
+												<c:when
+													test="${not empty (formDetails.accessPermissions) && fn:length(formDetails.accessPermissions) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo"
+														value="${fn:length(formDetails.accessPermissions) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                 
+                                <div class="col s12 m8 l12">
+                                    <div class="row fixed-width">
+                                        <h6 class="center-align"  style="font-weight:600;">Archive Details</h6>
+                                        <div class="table-inside">
+                                            <table class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date </th>
+                                                        <th>URL </th>
+                                                        <th class="fw-8p">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="detailsBody">
+															<tr id="actionRow0">
+																<td class="input-field">
+		                                                             <div class="col s6 m4 input-field"  >
+									                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }" <c:if test="${not empty fob.actual_completion_date}">disabled</c:if>>									                                   
+									                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+									                                    <span id="actual_completion_dateError" class="error-msg" ></span>
+									                                </div>
+		                                                        </td>
+		                                                        <td class="input-field">
+		                                                            <div class="input-field col s12 m6">
+										                                <input id="dashboard_name" name="dashboard_name" type="text" class="validate"  onkeyup="doValidate(this.value)">
+										                                <span id="dashboard_nameError" class="error-msg" ></span>
+										                            </div>
+		                                                        </td>
+																<td>
+																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
+																</td>
+															</tr>													
+                                                </tbody>
+                                            </table>
+                                            
+                                            <table class="mdl-data-table table-add bd-none">
+												<tbody>
+													<tr class="bd-none">
+														<td colspan="6" class="bd-none"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c add-align"
+															onclick="addRows()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											<c:choose>
+												<c:when
+													test="${not empty (formDetails.accessPermissions) && fn:length(formDetails.accessPermissions) gt 0 }">
+													<input type="hidden" id="rowNu" name="rowNu"
+														value="${fn:length(formDetails.accessPermissions) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNu" name="rowNu" value="0" />
+												</c:otherwise>
+											</c:choose>
                                         </div>
                                     </div>
                                 </div>
@@ -463,7 +595,56 @@
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 
     <script>
+    function addRow() {        	
+        var rowNo = $("#rowNo").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<tr id="actionRow' + rNo + '">'
+        + '<td class="input-field">'
+        + '<input name="archive_date" type="date" class="validate datepicker" value="${fob.actual_completion_date }"> '
+        + '<span id="archive_dateError' + rNo + 'Error" class="error-msg"></span>'
+        + '</td>'
+        + '<td class="input-field">'
+        + '<input name="archive_url" type="url" class="validate">'
+        + '<span id="archive_urlError' + rNo + 'Error" class="error-msg"></span>' 
+        + '</td>'
+		+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
+	
+		$('#archiveBody').append(html);
+        $("#rowNo").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
     
+    function removeActions(rowNo){
+    	$("#actionRow"+rowNo).remove();
+    }
+    //add-1 end
+    function addRows() {        	
+        var rowNu = $("#rowNu").val();
+        var rNo = Number(rowNu)+1;
+        var html = '<tr id="actionRows' + rNo + '">'
+        + '<td class="input-field">'
+        + '<input name="archive_date" type="date" class="validate datepicker" value="${fob.actual_completion_date }"> '
+        + '<span id="archive_dateError' + rNo + 'Error" class="error-msg"></span>'
+        + '</td>'
+        + '<td class="input-field">'
+        + '<input name="archive_url" type="url" class="validate">'
+        + '<span id="archive_urlError' + rNo + 'Error" class="error-msg"></span>' 
+        + '</td>'
+		+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
+	
+		$('#archiveBody1').append(html);
+        $("#rowNu").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+    
+    function removeActions(rowNo){
+    	$("#actionRows"+rowNo).remove();
+    }
+    //add-2 end
     function setAccessUserRoles(index){
     	var value = $("#user_roles"+index).val();
     	if($.trim(value)!= '')

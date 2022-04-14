@@ -406,15 +406,60 @@
     
     function setAccessUserRoles(index){
     	var value = $("#user_roles"+index).val();
-    	if($.trim(value) != ''){ $("#access_user_roles"+index).val(value.toString().split(",").join("~$~")); }
-		}
+    	if($.trim(value)!= '')
+    	{ 
+    			if(value.toString().indexOf(",")!=-1)
+    			{
+    				$("#access_user_roles"+index).val(value.toString().split(",").join("~$~")); 
+    			}
+    			else
+   				{
+    				$("#access_user_roles"+index).val(value.toString()); 
+   				}
+    	}
+   		else
+   		{
+   			$("#access_user_roles"+index).val(value.toString()); 
+   		}
+	}
+    
     function setAccessUserTypes(index){
     	var value = $("#user_types"+index).val();
-    	if($.trim(value) != ''){ $("#access_user_types"+index).val(value.toString().split(",").join("~$~")); } 
+    	
+    	if($.trim(value)!= '')
+    	{ 
+    			if(value.toString().indexOf(",")!=-1)
+    			{
+    				$("#access_user_types"+index).val(value.toString().split(",").join("~$~")); 
+    			}
+    			else
+   				{
+    				$("#access_user_types"+index).val(value.toString()); 
+   				}
+    	}
+   		else
+   		{
+   			$("#access_user_types"+index).val(value.toString()); 
+   		} 	
+    	
     }
     function setAccessUsers(index){
     	var value = $("#users"+index).val();
-    	if($.trim(value) != ''){ $("#access_users"+index).val(value.toString().split(",").join("~$~")); } 
+    	if($.trim(value)!= '')
+    	{ 
+    			if(value.toString().indexOf(",")!=-1)
+    			{
+    				$("#access_users"+index).val(value.toString().split(",").join("~$~")); 
+    			}
+    			else
+   				{
+    				$("#access_users"+index).val(value.toString()); 
+   				}
+    	}
+   		else
+   		{
+   			$("#access_users"+index).val(value.toString()); 
+   		} 	    	
     }
     
     

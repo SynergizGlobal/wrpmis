@@ -14,12 +14,65 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/referenceformitem.min.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
      <style>
     	 .required{color:red;}
+         .dn-l{display:none;}
+    	 .m-n1 {
+		   		 margin: -2rem auto 0;
+			}
+		.btn {
+		    height: 30px !important;
+		    line-height: 30px !important;
+		    }
+		 .mdl-cell--6-col, .mdl-cell--6-col-desktop.mdl-cell--6-col-desktop {
+			    width: calc(50% - 16px) !important;
+			}
+		div.dataTables_wrapper div.dataTables_filter{
+			text-align:right;
+		}
+		.mdl-data-table{
+			font-size: 1.2rem;
+		}
+		.mdl-data-table thead tr th, .mdl-data-table tfoot tr th{
+			font-size: 1.2rem;
+		}
+		.w-fx{
+		 width: 30%;	
+		}
+		td:last-child, td:last-of-type{
+			white-space: initial;
+		}
+    	 @media(max-width: 820px){
+    	 	.hideCOl{
+    	 		display:none;
+    	 	}
+    	 	.dn-l{display: block;}
+    	 	.mdl-cell--6-col, .mdl-cell--6-col-phone.mdl-cell--6-col-phone, .mdl-cell--7-col {
+			    width: calc(100% - 16px) !important;
+			}
+			.dataTables_filter label input {
+			    width: 90% !important;
+			    margin-left: auto !important;
+			    margin-right: auto !important;
+			}
+			div.dataTables_wrapper div.dataTables_filter {
+			    margin-top: 0.5rem !important;
+			}
+    	 }
+    	 @media(max-width: 575px){
+    	 	.s-align-center{
+    	 		text-align: center;
+    	 	}
+			
+    	 }
      </style>
 </head>
 
 <body>
+         <!-- header  starts-->
+         <jsp:include page="../layout/header.jsp"></jsp:include>
 
     <div class="row">
         <div class="col s12 m12">
@@ -27,7 +80,14 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Left Menu</h6>
+                            <h6>Overview Dashboard</h6>
+                            <div class="col s12 m12 right-align exportButton hideCOl" >
+								
+								<div class="m-n1">
+									<a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Dashboard</a> 
+								</div>
+							</div>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -41,8 +101,8 @@
 							</div>
 						</c:if>
                     <div class="">
-                    	<div class="row no-mar">
-                     	 	<div class="col s12 m3 offset-m1 input-field">
+                    	<div class="row">
+                     	 	<div class="col s12 m3 offset-m2 input-field">
                                 <p class="searchable_label">Parent</p>
                                 <select id="parent_id_fk" name="parent_id"  class="searchable" onchange="addInQueParent(this.value);leftMenuList();">
                                     <option value="">Select</option>	                                    
@@ -54,16 +114,16 @@
                                     <option value="">Select</option>	                                    
                                 </select>
                            	</div>
-                           	<div class="col s12 m4 center-align">
+                           	<div class="col s12 m4 s-align-center">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                     style="margin-top: 20px;" onclick="clearFilters()">Clear
                                     Filters</button>
                             </div>
                      	</div>
-                        <div class="row no-mar">
+                        <div class="row dn-l">
                             <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Left Menu</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Dashboard</a>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -117,7 +177,7 @@
             <div class="modal-content">
                 <h5 class="modal-header">Add Module <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
-                <div class="container">
+                <div class="">
 	                <div class="row">
 	                    <div class="col s12">
 	                    	<div class="row no-mar">
@@ -176,9 +236,9 @@
                                             <table id="form_form_table" class="mdl-data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>User Role </th>
-                                                        <th>User Type </th>
-                                                        <th class="fw-8p">User</th>
+                                                        <th class="w-fx">User Role </th>
+                                                        <th class="w-fx">User Type </th>
+                                                        <th class="fw-8p w-fx">User</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="detailsBody">
@@ -387,8 +447,8 @@
            </div>
     	</div> -->
     <!-- footer  -->
-<%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
-	<form name="getForm" id="getForm" method="post">
+	 <jsp:include page="../layout/footer.jsp"></jsp:include>
+     <form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="dashboard_id" id="dashboard_id" />
     </form>
      <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -497,7 +557,7 @@
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
-                paging:false,
+                paging:true,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
                 fixedColumns:   {
@@ -666,7 +726,7 @@
 	              // "ScrollX": true,
 	              "sScrollX": "100%",
 	               "sScrollXInner": "100%",
-	               paging:false,
+	               paging:true,
 	               "bScrollCollapse": true,
 	               fixedColumns:   {
 	            	    right: 1

@@ -60,11 +60,32 @@
 			div.dataTables_wrapper div.dataTables_filter {
 			    margin-top: 0.5rem !important;
 			}
+			.g-w{
+				width: 20% !important;
+			}
     	 }
     	 @media(max-width: 575px){
     	 	.s-align-center{
     	 		text-align: center;
     	 	}
+    	 	td {
+			    word-break: initial;
+			    word-wrap: normal;
+			    white-space: initial;
+			}
+			.modal{
+				width: 90%;
+			}
+			.modal-header{
+				margin: 0px 0px 20px !important;
+			}
+			.modal .modal-content{
+				padding: 0;
+			}
+			.mdl-data-table td>.btn+.btn {
+			    text-align: center;
+			    margin-left: 0.15rem;
+			}
 			
     	 }
      </style>
@@ -141,7 +162,7 @@
                                             	 	<th>${mTObj } </th>
                                             	</c:forEach>
                                             </c:forEach> --%>
-                                            <th class="no-sort">Action</th>
+                                            <th class="no-sort g-w">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -280,7 +301,7 @@
                             </div>
                             <div class="row" style="margin-bottom: 20px;">
                                  
-                                <div class="col s12 m8 l12">
+                                <div class="col s12 m12 l12">
                                     <div class="row fixed-width">
                                         <h6 class="center-align"  style="font-weight:600;">Archive Details</h6>
                                         <div class="table-inside">
@@ -423,7 +444,58 @@
 	                        </div>
 	                        <div class="row" style="margin-bottom: 20px;">
                                  
-                                <div class="col s12 m8 l12">
+                                <div class="col s12 m12 l12">
+                                    <div class="row fixed-width">
+                                        <h6 class="center-align"  style="font-weight:600;">Access Details</h6>
+                                        <div class="table-inside">
+                                            <table class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="w-fx">User Role </th>
+                                                        <th class="w-fx">User Type </th>
+                                                        <th class="fw-8p w-fx">User</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="detailsBody1">
+	                                                	<tr>	
+															<td class="input-field">
+																<input type="hidden" id="access_user_roles1" name="access_user_roles" />
+	                                                            <select id="user_roles1" name="user_roles" class="searchable" multiple data-placeholder="User Role" onchange="setAccessUserRoles(1)">
+	                                                                <option value="">Select</option>
+	                                                                <c:forEach var="obj" items="${user_roles }">
+			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id}</option>
+			                                                        </c:forEach>
+	                                                            </select>
+	                                                        </td>
+	                                                        <td class="input-field">
+	                                                        	<input type="hidden" id="access_user_types1" name="access_user_types" />
+	                                                            <select id="user_types1" name="user_types" class="searchable" multiple data-placeholder="User Type" onchange="setAccessUserTypes(1)">
+	                                                                <option value="">Select</option>
+			                                                        <c:forEach var="obj" items="${user_types }">
+			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }</option>
+			                                                        </c:forEach>
+	                                                            </select>
+	                                                        </td>
+															<td class="input-field">
+																<input type="hidden" id="access_users1" name="access_users" />
+	                                                            <select id="users1" name="users" class="searchable" multiple data-placeholder="User"  onchange="setAccessUsers(1)">
+	                                                                <option value="" >Select</option>
+			                                                        <c:forEach var="obj" items="${users }">
+			                                                        	<option value="${obj.access_value_id }">${obj.access_value_id }<c:if test="${not empty obj.access_value_name}"> - </c:if> ${obj.access_value_name }</option>
+			                                                        </c:forEach>
+	                                                            </select>
+	                                                        </td>
+														</tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                 
+                                <div class="col s12 m12 l12">
                                     <div class="row fixed-width">
                                         <h6 class="center-align"  style="font-weight:600;">Archive Details</h6>
                                         <div class="table-inside">
@@ -448,7 +520,7 @@
 										                            
 		                                                        </td>
 																<td>
-																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
+																	<a onclick="removeAction('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
 																</td>
 															</tr>													
                                                 </tbody>
@@ -460,7 +532,7 @@
 														<td colspan="6"><a
 															type="button"
 															class="btn waves-effect waves-light bg-m t-c"
-															onclick="addRow()"> <i
+															onclick="addRows()"> <i
 																class="fa fa-plus"></i>
 														</a>
 													</tr>
@@ -481,69 +553,6 @@
                                 </div>
                                  
                             </div>
-                            <div class="row" style="margin-bottom: 20px;">
-                                 
-                                <div class="col s12 m8 l12">
-                                    <div class="row fixed-width">
-                                        <h6 class="center-align"  style="font-weight:600;">Archive Details</h6>
-                                        <div class="table-inside">
-                                            <table class="mdl-data-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Date </th>
-                                                        <th>URL </th>
-                                                        <th class="fw-8p">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="detailsBody">
-															<tr id="actionRow0">
-																<td class="input-field">
-		                                                             <div class="col s6 m4 input-field"  >
-									                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }" <c:if test="${not empty fob.actual_completion_date}">disabled</c:if>>									                                   
-									                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-									                                    <span id="actual_completion_dateError" class="error-msg" ></span>
-									                                </div>
-		                                                        </td>
-		                                                        <td class="input-field">
-		                                                            <div class="input-field col s12 m6">
-										                                <input id="dashboard_name" name="dashboard_name" type="text" class="validate"  onkeyup="doValidate(this.value)">
-										                                <span id="dashboard_nameError" class="error-msg" ></span>
-										                            </div>
-		                                                        </td>
-																<td>
-																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
-																</td>
-															</tr>													
-                                                </tbody>
-                                            </table>
-                                            
-                                            <table class="mdl-data-table table-add bd-none">
-												<tbody>
-													<tr class="bd-none">
-														<td colspan="6" class="bd-none"><a
-															type="button"
-															class="btn waves-effect waves-light bg-m t-c add-align"
-															onclick="addRows()"> <i
-																class="fa fa-plus"></i>
-														</a>
-													</tr>
-												</tbody>
-											</table>
-											<c:choose>
-												<c:when
-													test="${not empty (formDetails.accessPermissions) && fn:length(formDetails.accessPermissions) gt 0 }">
-													<input type="hidden" id="rowNu" name="rowNu"
-														value="${fn:length(formDetails.accessPermissions) }" />
-												</c:when>
-												<c:otherwise>
-													<input type="hidden" id="rowNu" name="rowNu" value="0" />
-												</c:otherwise>
-											</c:choose>
-                                        </div>
-                                    </div>
-                                </div>
-                                 
-                            </div> 
 	                        
 	                        <div class="row">
 	                            <div class="col s12 m6">
@@ -632,7 +641,7 @@
         + '<input name="archive_url" type="url" class="validate">'
         + '<span id="archive_urlError' + rNo + 'Error" class="error-msg"></span>' 
         + '</td>'
-		+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
+		+ '<td><a onclick="removeAction(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
 	
 		$('#archiveBody1').append(html);
         $("#rowNu").val(rNo);
@@ -641,8 +650,8 @@
         $('.searchable').select2();
     }
     
-    function removeActions(rowNo){
-    	$("#actionRows"+rowNo).remove();
+    function removeAction(rowNu){
+    	$("#actionRows"+rowNu).remove();
     }
     //add-2 end
     function setAccessUserRoles(index){

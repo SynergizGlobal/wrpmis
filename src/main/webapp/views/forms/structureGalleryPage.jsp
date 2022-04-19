@@ -26,6 +26,12 @@
 		    justify-content: center;
 		    vertical-align: middle;
    		 } */
+   		 [type="checkbox"]:not(:checked), [type="checkbox"]:checked{
+   		 	opacity: 1;
+    		pointer-events: initial;
+    		-webkit-transform: scale(1.5);
+    		margin: 12px 307px;
+   		 }
    		 .br-bl{border: 2px solid #4498d3dd;
    		 	padding:10px !important;
    		 	border-radius: 10px;
@@ -33,6 +39,9 @@
    		 .bg-m, .bg-m:hover{background-color: #4498d3dd;}
    		 .img-li:hover {
     		box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 0%);
+		}
+		.swal-overlay {
+		background-color: rgba(63,255,106,0.69);
 		}
    		 .img-li{
    		 border: 3px solid #ededed;
@@ -97,7 +106,11 @@
   cursor: pointer;
   transition: 0.3s;
 }
-
+input[type=checkbox] {
+    display: block;
+      -webkit-appearance:checkbox;
+    
+} 
 #myImg:hover {opacity: 0.7;}
 
 /* The Modal (background) */
@@ -189,6 +202,15 @@ ul.breadcrumb li a:hover {
 	.cw{height: 6em;}
 	.ta-right{text-align:right;}
 }
+ .btn {
+       padding-left: 6px;
+       padding-right: 6px;
+     }
+     
+     .editMode{
+         background-color: rgb(219 219 219 / 69%);
+	}
+     
    </style>
 </head>
 
@@ -203,8 +225,22 @@ ul.breadcrumb li a:hover {
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
                             <h6><span id="work_short_name"></span>Gallery</h6>
+                            <div class="col s12 m12 right-align">
+                             <div class="m-n1">
+                            	<a href="javascript:void(0);" onclick="exportImages();" style="top: 20px;"
+												class="btn waves-effect waves-light bg-s t-c m-d-none"> <strong><i
+													class="fa fa-cloud-download"></i> Download</strong></a>
+									 <a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c m-d-none back" style="display: none;float: left;top: 27px;"
+										  onclick="editImages();"> <i class="fa fa-cloud-download" aria-hidden="true"></i>Back</a>				
+										 			
+							</div>
+							
+                        	</div>
+                        	      
                         </div>
+                     
                     </span>
+               
                     <div class="">
                         <div class="row no-mar" style="margin-bottom: 0;">
                         </div>
@@ -305,6 +341,10 @@ ul.breadcrumb li a:hover {
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+    
     
    	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>  
 
@@ -335,6 +375,7 @@ ul.breadcrumb li a:hover {
         });
     </script>
     <script>
+    	var ws ;
         $(document).ready(function () {
             $('.modal').modal();
             $('select:not(.searchable)').formSelect();
@@ -347,8 +388,10 @@ ul.breadcrumb li a:hover {
             
            
         });
+        var work_short_name = '';
         function getGalleryList() {
         	$(".page-loader").show();
+        	
         	var created_date = $("#created_date").val();
         	var structure_type_fk = $("#structure_type_fk").val();
         	var structure = $("#structure").val();
@@ -366,19 +409,25 @@ ul.breadcrumb li a:hover {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {  
                         	   //var path = '${CommonConstants2.STRUCTURE_FILE_SAVING_PATH}';
-                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center>'
+                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center><div class="imgs"><input type="checkbox" id="checkbox'+i+'" name = "checkbox" class="removed" style="display: none" src="/pmis/STRUCTURE_FILES/'+val.attachment+'" nameNdate ="'+val.name+'_'+val.created_date+'" /></div>'
                                 	+'<a href="#modal" class="modal-trigger" >'
                                     +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
                                         +'</a> </center>'
                                     +' <div class="accordion mt10px align-center"  ><div class="col s8 m8 l8">'+val.name+'</div> <input type="hidden" id="name'+i+'" value="'+val.name+'"/><input type="hidden" id="date'+i+'" value="'+val.created_date+'"/>'
                                 +'<span class="col s4 m4 l4">'+val.created_date+'</span></div></li></div>';
-                                var work_short_name = val.work_short_name+" - ";
+                                work_short_name = val.work_short_name+" - ";
+                                ws = val.work_short_name;
                                 $('#work_short_name').text(work_short_name);
    	                            $("#imageFiles").append(htmlText);
    	                            $("#imageFiles").css({"text-align": "left"});
-                           });
+	   	                        if ($('.back:visible')[0]) {
+	   	                  	    	$('.removed').css("display", "block");
+	   	                  	  	 	$('.img-li').addClass('editMode');
+	   	                    	 }
+                           }); 
                        }else{
                     	    var htmlText = 'No Records Found!'
+                    	    $('.back').css("display", "none");
                     		var work_short_name = '${work.work_short_name}'+" - ";
                             $('#work_short_name').text(work_short_name);
                     		$("#imageFiles").append(htmlText);
@@ -531,7 +580,72 @@ function clearFilter(){
 	window.location.href= "<%=request.getContextPath()%>/structure-gallery-page/${work_id}";
 
 }
+var links = [];
+$(document).on('change', 'input[type="checkbox"]', function(e){
+	var tag = $(this).attr('src');
+	tag = tag.split('.');
+	if ($(this).is(':checked')){
+	    links.push($(this).attr('nameNdate')+'.'+tag[tag.length-1]);
+	    //console.log(links);
+	}else{
+	  //$('.img-li').removeClass('editMode');
+	   var itemtoRemove = $(this).attr('nameNdate')+'.'+tag[tag.length-1];
+	   links.splice($.inArray(itemtoRemove, links), 1);
+	   //console.log(links);
+   }
+	//console.log($("#created_date").children("option").filter(":selected").text());
+});
 
+function exportImages(){
+    $('.back').css("display", "-webkit-inline-box");
+	$('.img-li').addClass('editMode');
+
+	var ck_box = $('input[type="checkbox"]:checked').length;
+	if (ck_box == 0 && !($('.removed:visible')[0])) {
+	    $('.removed').css("display", "block");
+   }else if (ck_box == 0 && ('.removed:visible')[0]) {
+	    showCancelMessage();    
+   }else{
+		  var zip = new JSZip();
+		  var count = 0;
+		  var date = $("#created_date").children("option").filter(":selected").text();
+		  var zipFilename = ws+"_"+date+".zip";
+		  links.forEach(function (url, i) {
+		    var filename = links[i];
+		    filename = filename.replace(/[\/\*\|\:\<\>\?\"\\]/gi, '').replace("httpsi.imgur.com","");
+		    // loading a file and add it in a zip file
+		    JSZipUtils.getBinaryContent(url, function (err, data) {
+		      if (err) {
+		        throw err; // or handle the error
+		      }
+		      zip.file(filename, data, { binary: true });
+		      count++;
+		      if (count == links.length) {
+		        zip.generateAsync({ type: 'blob' }).then(function (content) {
+		          saveAs(content, zipFilename);
+		        });
+		     }
+		  });
+	  });
+	}
+}
+
+function showCancelMessage() {
+	swal({
+        title: "Action Requried!",
+        text: "Atleast Select one Check Box to Download!",
+        type: "info",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Okay"
+    });
+}
+
+function editImages(){
+	  $('input[type=checkbox]').prop('checked', false);
+	  $('.removed').css("display", "none");
+	  $('.img-li').removeClass('editMode');
+	  $('.back').css("display", "none");
+}
 </script>
 </body>
 

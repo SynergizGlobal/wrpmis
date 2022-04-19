@@ -50,9 +50,15 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			statement.setString(1, CommonConstants.ACTIVE);
 			statement.setString(2, dObj.getParent_id());
 			statement.setString(3, "Yes");
-			statement.setString(4, dObj.getDashboard_type());
-			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) {
+			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) 
+			{
+				String dType=getDashboardType(dObj.getDashboard_id(),connection);
+				statement.setString(4, dType);
 				statement.setString(5, dObj.getDashboard_id());
+			}
+			else
+			{
+				statement.setString(4, dObj.getDashboard_type());
 			}
 			resultSet = statement.executeQuery();  
 			
@@ -88,6 +94,33 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		}
 		return objsList;
 	}
+	
+	
+	private String getDashboardType(String dashboard_id,Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String dashboardtypefk = null;
+		try {
+			String qry = "select dashboard_type_fk from left_menu where dashboard_id = ? ";
+	    	
+			
+			stmt = con.prepareStatement(qry);
+			int k = 1;			
+			
+			stmt.setString(k++, dashboard_id);
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				dashboardtypefk = rs.getString("dashboard_type_fk");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return dashboardtypefk;
+	}	
+	
 	
 	private int getWorkExistsOrNot(OverviewDashboard obj, Connection connection) throws Exception {
 		PreparedStatement statement = null;

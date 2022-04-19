@@ -135,11 +135,12 @@
      		width: 3.5rem! important;
      	}
      }
-     @media(max-width: 820px){
+     @media(max-width: 912px){
      	.brand-logo{width: 20%;}
      	.brand-logo img{width: 3rem! important;}
      	.accordions{display:flex !important;}
      	.notifications_group{height: 52em;}
+     	#tech_assist_ul{display:block;}
      }
      @media(max-width: 575px){
      .brand-logo.fs {
@@ -1883,13 +1884,13 @@
 	    		 
 	    	 });
 
-	          $("#tech_assist_list").click(function(){
+	         /*  $("#tech_assist_list").click(function(){
 	        	  $(this).toggleClass("active"); 
 	        	  	if($(this).hasClass('active'))
 	        	     	$('#tech_assist_ul').css("display","block"); 
 	        	  	else
 	        	  		$('#tech_assist_ul').css("display","none"); 
-	        	});
+	        	}); */
  </script>
 
 </body>

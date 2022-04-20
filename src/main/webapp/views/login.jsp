@@ -293,7 +293,7 @@
 			    	<li><a href="<%=CommonConstants2.PMIS_MANUALS%>${manualObj.manual_id }/${manualObj.file_name }" target="_blank">${manualObj.title } <i class="fa fa-download"></i></a></li>
 			    </c:forEach> --%>
 			    <li class="divider" tabindex="-1"></li>
-			    <li class="support-link"> Contact us : <a href="mailto:mailto:helpdesk_pmis@mrvc.gov.in" style="display: inline;">mailto:helpdesk_pmis@mrvc.gov.in</a></li>
+			    <li class="support-link"> Contact us : <a href="mailto:mailto:helpdesk_pmis@mrvc.gov.in" style="display: inline;">helpdesk_pmis@mrvc.gov.in</a></li>
 			  </ul>
         </div>
       </footer>

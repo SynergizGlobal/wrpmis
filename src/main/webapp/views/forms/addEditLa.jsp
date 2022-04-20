@@ -225,6 +225,7 @@
                                     	</select>
                                    		<span id="type_of_landError" class="error-msg" ></span> 
 	                                </div> 
+	                                <input type="hidden" id="la_id" name="la_id" value="${LADetails.la_id }">
                               </div> 
                              </c:if>
                              <br>

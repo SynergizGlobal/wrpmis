@@ -625,7 +625,7 @@
 	                     {
 	                         "targets": 'no-sort',
 	                         "orderable": false,
-	                     },{targets:[0,2,3,5,6],
+	                     },{targets:[1,2,3,5,6],
 		                       className: 'hideCOl'} 
 		                   ,{targets: [4],
 			                       className: 'fw-115'}

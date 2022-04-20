@@ -731,8 +731,8 @@
 	    		                        targets: [4,5,7,],
 	    		                        className: 'd-none'
 	    		                    },
-	    							{
-	    	                            targets: [1,2,3,4,5,7,8],
+	    		                    {
+	    	                            targets: [1,2],
 	    	                            className: 'hideCOl'
 	    	                        }
 	    			                ],

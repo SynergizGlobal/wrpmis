@@ -446,7 +446,7 @@
                                  
                                 <div class="col s12 m12 l12">
                                     <div class="row fixed-width">
-                                        <h6 class="center-align"  style="font-weight:600;">Access Details</h6>
+                                        <h6 class="center-align"  style="font-weight:600;">Left Side Menu Access Details</h6>
                                         <div class="table-inside">
                                             <table class="mdl-data-table">
                                                 <thead>

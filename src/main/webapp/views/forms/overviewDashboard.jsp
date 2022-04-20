@@ -351,12 +351,7 @@
 			var parentDashboardId = value.dashboard_id;
 			var liDisabled = '';
 			var notAvailable = '';
-			/* var liDisabled = 'disabled';
-			var notAvailable = 'NA';
-			if(($.trim(value.work_exists_or_not) != '' && value.work_exists_or_not > 0) || value.dashboard_name == 'Project Overview'){
-				liDisabled = '';
-				notAvailable = '';
-			} */
+			
 			if(flag == 0 && $.trim(notAvailable) == '' && $.trim(parentDashboardId) != ''){
 				tempDashboardId = parentDashboardId;
 				flag = flag + 1;
@@ -374,17 +369,17 @@
 					}
 			}
 			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
-				html = html + '<div> <p>';
+				
+				$.each( value.formsSubMenu, function( index1, value1 ){
+					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
+					{
+						html = html + '<div> <p>';
+					}
+				});
 				$.each( value.formsSubMenu, function( index1, value1 ){
 					var dashboardId = value1.dashboard_id;
 					var liDisabled = '';
 					var notAvailable = '';
-					/* var liDisabled = 'disabled';
-					var notAvailable = 'NA';
-					if($.trim(value1.work_exists_or_not) != '' && value1.work_exists_or_not > 0){
-						liDisabled = '';
-						notAvailable = '';
-					} */
 					if(flag == 0 && $.trim(notAvailable) == '' && $.trim(dashboardId) != ''){
 						tempDashboardId = dashboardId;
 						flag = flag + 1;
@@ -406,12 +401,6 @@
 							var dashboardId = value2.dashboard_id;
 							var liDisabled = '';
 							var notAvailable = '';
-							/* var liDisabled = 'disabled';
-							var notAvailable = 'NA';
-							if($.trim(value1.work_exists_or_not) != '' && value1.work_exists_or_not > 0){
-								liDisabled = '';
-								notAvailable = '';
-							} */
 							if(flag == 0 && $.trim(notAvailable) == '' && $.trim(dashboardId) != ''){
 								tempDashboardId = dashboardId;
 								flag = flag + 1;
@@ -424,7 +413,12 @@
 						html = html + '</p></div> ';
 					}
 				});
-				html = html + '</p></div> ';
+				$.each( value.formsSubMenu, function( index1, value1 ){
+					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
+					{
+						html = html + '</p></div>';
+					}
+				});
 			}else{
 				html = html+'<div class="ds-none"> <p></p> </div>';
 			}

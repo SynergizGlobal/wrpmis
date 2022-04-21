@@ -262,11 +262,13 @@ ul.breadcrumb li a:hover {
                             <h6><span id="work_short_name"></span>Gallery</h6>
                             <div class="col s12 m12 right-align">
                              <div class="m-n1">
-                            	<a href="javascript:void(0);" onclick="exportImages();" style="top: 20px;"
+                            	<a href="javascript:void(0);" onclick="exportImages();" style="right: 358px;top: 65px;position: absolute;"
 												class="btn waves-effect waves-light bg-s t-c m-d-none"> <strong><i
 													class="fa fa-cloud-download"></i> Download</strong></a>
 									 <a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c m-d-none back" style="display: none;float: left;top: 27px;"
-										  onclick="editImages();"> <i class="fa fa-cloud-download" aria-hidden="true"></i>Back</a>				
+										  onclick="editImages();"> <i class="fa fa-cloud-download" aria-hidden="true"></i>Back</a>
+									  <a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c m-d-none back" style="display: none; top: 65px; right: 455px;position: absolute;"
+									   onClick="selectAll();"> <i class="fa fa-cloud-download" aria-hidden="true" ></i>select all</a>				
 										 			
 							</div>
 							
@@ -446,8 +448,8 @@ ul.breadcrumb li a:hover {
                            $.each(data, function (i, val) {  
                         	   //var path = '${CommonConstants2.STRUCTURE_FILE_SAVING_PATH}';
                         	    var newName = "/pmis/STRUCTURE_FILES/"+val.attachment;
-                        	    newName = newName.replace(/[\/\*\|\:\<\>\\.\,\?\"\\]/gi, '').replace(/ /g,"");
-                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center><div class="imgs"><input type="checkbox" id="checkbox'+i+'" name = "checkbox" class="removed ch-ad" style="display: none" src="/pmis/STRUCTURE_FILES/'+val.attachment+'" nameNdate ="'+val.attachment+'" /></div>'
+                        	    newName = newName.replace(/[\/\*\|\:\<\>\\.\,\?\/\-\_\!\@\#\$\%\^\&\;\(\)\[\]\{\}\=\+\~\`\"\\]/gi, '').replace(/ /g,"");
+                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center><div class="imgs"><input type="checkbox" id="checkbox'+i+'" name = "checkbox" class="removed" style="display: none" src="/pmis/STRUCTURE_FILES/'+val.attachment+'" nameNdate ="'+val.attachment+'" /></div>'
                                 	+'<a href="#modal" class="modal-trigger" >'
                                     +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
                                         +'</a> </center><input type="hidden" id = "'+newName+'"  value="'+val.name+'_'+val.created_date+'"/>'
@@ -636,11 +638,32 @@ $(document).on('change', 'input[type="checkbox"]', function(e){
    }
 	//console.log($("#created_date").children("option").filter(":selected").text());
 });
-
+function selectAll(){
+		
+	if($('input[type=checkbox]').is(':checked')){
+		$('input[type=checkbox]').prop('checked', false); 
+		$('input[type=checkbox]').each(function (url, i) {
+			var itemtoRemove = $(this).attr('src');
+			links.splice($.inArray(itemtoRemove, links), 1);
+			console.log(links);
+		})
+	}else{
+		$('input[type=checkbox]').prop('checked', true); 
+		$('input[type=checkbox]').each(function (url, i) {
+			var tag = $(this).attr('src');
+			tag = tag.split('.');
+			if ($(this).is(':checked')){
+			    links.push($(this).attr('src'));
+			    console.log(links);
+			}
+		})
+	}    
+}
 function exportImages(){
     $('.back').css("display", "-webkit-inline-box");
 	$('.img-li').addClass('editMode');
-
+	var titles = [];var count = { };
+	var firstOccurences = [];
 	var ck_box = $('input[type="checkbox"]:checked').length;
 	if (ck_box == 0 && !($('.removed:visible')[0])) {
 	    $('.removed').css("display", "block");
@@ -654,11 +677,38 @@ function exportImages(){
 		  links.forEach(function (url, i) {
 		    var filename = links[i];
 		  
-		    filename = filename.replace(/[\/\*\|\:\<\>\?\"\\]/gi, '').replace("httpsi.imgur.com","");
-		    var file2 = filename.replace(/[\/\*\|\:\<\>\\.\,\?\"\\]/gi, '').replace(/ /g,"");
+		    filename = filename.replace(/[\/\*\|\:\<\>\?\\/\-\_\!\@\#\$\%\^\&\;\(\)\[\]\{\}\=\+\~\`\"\\]/gi, '').replace(/ /g,"");
+		    var file2 = filename.replace(/[\/\*\|\:\<\>\\.\,\?\/\-\_\!\@\#\$\%\^\&\;\(\)\[\]\{\}\=\+\~\`\"\\]/gi, '').replace(/ /g,"");
 		    var newName = $('#'+file2).val();
-		    filename = filename.split('.');
-		    filename = newName+"."+filename[filename.length-1]
+		    if(newName.indexOf('/') != -1){
+		    	newName = newName.replace(/\//g, '_');
+		    }
+		    filename = filename.split('.')[filename.split('.').length-1];;
+		  
+		    
+		    
+		    titles.push(newName);
+		    for ( var i = 0; i < titles.length; i++ ) {
+
+		    	  // Set a word variable, and an integer suffix
+		    	  var word = titles[i], c = 1;
+
+		    	  // While our current word (with/without suffix) exists in results
+		    	  while ( strArr(word, firstOccurences) >= 0 ) 
+		    	    // Increment the suffix on our word
+		    	    word = titles[i] + "-" + c++;
+		    	  newName = word;
+		    	  // Push word into result array
+		    	  firstOccurences.push(word);
+		    	}
+
+		    	// Function for determining if a string is in an array
+		    	function strArr(s,a){
+		    	  for ( var j = 0; j < a.length; j++ )
+		    	    if ( a[ j ] == s ) return j;
+		    	  return -1;
+		    	}
+		    	filename = newName+"."+filename;
 		    // loading a file and add it in a zip file
 		    JSZipUtils.getBinaryContent(url, function (err, data) {
 		      if (err) {
@@ -690,8 +740,9 @@ function editImages(){
 	  $('input[type=checkbox]').prop('checked', false);
 	  $('.removed').css("display", "none");
 	  $('.img-li').removeClass('editMode');
-	  $('.back').css("display", "none");
+	  $('.back').css("display", "none"); 
 }
+
 </script>
 </body>
 

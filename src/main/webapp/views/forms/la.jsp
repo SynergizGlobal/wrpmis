@@ -128,6 +128,14 @@
             padding-right: 6px;
         }
     }
+    @media(max-width: 375px){
+    	.fw-111{
+    		min-width: 22vw;
+    	}
+    	.fw-last{
+    		min-width: 85px;
+    	}
+    }
     </style>
 </head>
 
@@ -625,7 +633,7 @@
 	                     {
 	                         "targets": 'no-sort',
 	                         "orderable": false,
-	                     },{targets:[1,2,3,5,6],
+	                     },{targets:[1,2,3,5],
 		                       className: 'hideCOl'} 
 		                   ,{targets: [4],
 			                       className: 'fw-115'}

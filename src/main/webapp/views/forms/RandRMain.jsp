@@ -132,7 +132,17 @@
 	@media(max-width: 575px){
 		.fw-200{
 			width: 120px !important;
-    		max-width: 120px;
+    		max-width: 75px;
+		}
+		.mdl-data-table thead tr th {
+		    vertical-align: middle;
+		    text-align: center;
+		    word-break: break-word;
+		    white-space: initial;
+		}
+		.fw-10{
+			width: 120px !important;
+    		max-width: 110px;
 		}
 	}
     </style>
@@ -728,8 +738,12 @@
 	    								"orderable" : false,
 	    							},
 	    							{
-	    		                        targets: [4,5,7,],
+	    		                        targets: [4,5,6,7,],
 	    		                        className: 'd-none'
+	    		                    },
+	    		                    {
+	    		                        targets: [3],
+	    		                        className: 'fw-10'
 	    		                    },
 	    		                    {
 	    	                            targets: [1,2],

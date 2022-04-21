@@ -26,6 +26,9 @@
 		    justify-content: center;
 		    vertical-align: middle;
    		 } */
+   		 .removed{
+   		 	margin-left: 17em !important;
+   		 }
    		 [type="checkbox"]:not(:checked), [type="checkbox"]:checked{
    		 	opacity: 1;
     		pointer-events: initial;
@@ -99,7 +102,8 @@
       }
       .gal-image{
         height: 180px;
-        max-width: 19em;
+        max-width: 15em;
+        padding: 5px;
       }
       #myImg {
   border-radius: 5px;
@@ -191,16 +195,47 @@ ul.breadcrumb li a:hover {
   color: #01447e;
   text-decoration: underline;
 }
+@media(max-width: 1920px){
+	.removed{
+		margin-left: 27em !important;
+	}
+}
+@media(max-width: 1560px){
+	.removed{
+		margin-left: 20em !important;
+	}
+}
+@media(max-width: 1366px){
+	.removed{
+		margin-left: 18em !important;
+	}
+}
+@media(max-width: 1024px){
+	.gal-img{
+		height: 180px;
+   		max-width: 15em;
+	}
+	.w31{
+		width: 45% !important;
+	}
+	.removed{
+		margin-left: 20em !important;
+	}
+}
 @media(max-width: 820px){
 .column-reverse{flex-direction: column;}
 .w31{width: 47% !important;}
 .modal{padding-left: 0;}
 .modal{width: 90%;}
+.removed{margin-left: 21em !important;}
 }
 @media(max-width: 575px){
 	.w31{width: 95% !important;}
 	.cw{height: 6em;}
 	.ta-right{text-align:right;}
+}
+@media(max-width: 360px){
+	.removed{margin-left: 18em !important;}
 }
  .btn {
        padding-left: 6px;
@@ -412,7 +447,7 @@ ul.breadcrumb li a:hover {
                         	   //var path = '${CommonConstants2.STRUCTURE_FILE_SAVING_PATH}';
                         	    var newName = "/pmis/STRUCTURE_FILES/"+val.attachment;
                         	    newName = newName.replace(/[\/\*\|\:\<\>\\.\,\?\"\\]/gi, '').replace(/ /g,"");
-                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center><div class="imgs"><input type="checkbox" id="checkbox'+i+'" name = "checkbox" class="removed" style="display: none" src="/pmis/STRUCTURE_FILES/'+val.attachment+'" nameNdate ="'+val.attachment+'" /></div>'
+                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center><div class="imgs"><input type="checkbox" id="checkbox'+i+'" name = "checkbox" class="removed ch-ad" style="display: none" src="/pmis/STRUCTURE_FILES/'+val.attachment+'" nameNdate ="'+val.attachment+'" /></div>'
                                 	+'<a href="#modal" class="modal-trigger" >'
                                     +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
                                         +'</a> </center><input type="hidden" id = "'+newName+'"  value="'+val.name+'_'+val.created_date+'"/>'

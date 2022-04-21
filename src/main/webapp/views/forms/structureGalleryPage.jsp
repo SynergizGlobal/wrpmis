@@ -388,6 +388,7 @@ ul.breadcrumb li a:hover {
             
            
         });
+        var links = [];
         var work_short_name = '';
         function getGalleryList() {
         	$(".page-loader").show();
@@ -409,10 +410,12 @@ ul.breadcrumb li a:hover {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {  
                         	   //var path = '${CommonConstants2.STRUCTURE_FILE_SAVING_PATH}';
-                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center><div class="imgs"><input type="checkbox" id="checkbox'+i+'" name = "checkbox" class="removed" style="display: none" src="/pmis/STRUCTURE_FILES/'+val.attachment+'" nameNdate ="'+val.name+'_'+val.created_date+'" /></div>'
+                        	    var newName = "/pmis/STRUCTURE_FILES/"+val.attachment;
+                        	    newName = newName.replace(/[\/\*\|\:\<\>\\.\,\?\"\\]/gi, '').replace(/ /g,"");
+                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center><div class="imgs"><input type="checkbox" id="checkbox'+i+'" name = "checkbox" class="removed" style="display: none" src="/pmis/STRUCTURE_FILES/'+val.attachment+'" nameNdate ="'+val.attachment+'" /></div>'
                                 	+'<a href="#modal" class="modal-trigger" >'
                                     +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
-                                        +'</a> </center>'
+                                        +'</a> </center><input type="hidden" id = "'+newName+'"  value="'+val.name+'_'+val.created_date+'"/>'
                                     +' <div class="accordion mt10px align-center"  ><div class="col s8 m8 l8">'+val.name+'</div> <input type="hidden" id="name'+i+'" value="'+val.name+'"/><input type="hidden" id="date'+i+'" value="'+val.created_date+'"/>'
                                 +'<span class="col s4 m4 l4">'+val.created_date+'</span></div></li></div>';
                                 work_short_name = val.work_short_name+" - ";
@@ -423,6 +426,7 @@ ul.breadcrumb li a:hover {
 	   	                        if ($('.back:visible')[0]) {
 	   	                  	    	$('.removed').css("display", "block");
 	   	                  	  	 	$('.img-li').addClass('editMode');
+	   	                  	  		links = [];
 	   	                    	 }
                            }); 
                        }else{
@@ -580,18 +584,20 @@ function clearFilter(){
 	window.location.href= "<%=request.getContextPath()%>/structure-gallery-page/${work_id}";
 
 }
-var links = [];
+
 $(document).on('change', 'input[type="checkbox"]', function(e){
 	var tag = $(this).attr('src');
 	tag = tag.split('.');
 	if ($(this).is(':checked')){
-	    links.push($(this).attr('nameNdate')+'.'+tag[tag.length-1]);
-	    //console.log(links);
+	    //links.push($(this).attr('nameNdate')+'.'+tag[tag.length-1]);
+	    links.push($(this).attr('src'));
+	    console.log(links);
 	}else{
 	  //$('.img-li').removeClass('editMode');
-	   var itemtoRemove = $(this).attr('nameNdate')+'.'+tag[tag.length-1];
+	   //var itemtoRemove = $(this).attr('nameNdate')+'.'+tag[tag.length-1];
+	   var itemtoRemove = $(this).attr('src');
 	   links.splice($.inArray(itemtoRemove, links), 1);
-	   //console.log(links);
+	   console.log(links);
    }
 	//console.log($("#created_date").children("option").filter(":selected").text());
 });
@@ -612,13 +618,18 @@ function exportImages(){
 		  var zipFilename = ws+"_"+date+".zip";
 		  links.forEach(function (url, i) {
 		    var filename = links[i];
+		  
 		    filename = filename.replace(/[\/\*\|\:\<\>\?\"\\]/gi, '').replace("httpsi.imgur.com","");
+		    var file2 = filename.replace(/[\/\*\|\:\<\>\\.\,\?\"\\]/gi, '').replace(/ /g,"");
+		    var newName = $('#'+file2).val();
+		    filename = filename.split('.');
+		    filename = newName+"."+filename[filename.length-1]
 		    // loading a file and add it in a zip file
 		    JSZipUtils.getBinaryContent(url, function (err, data) {
 		      if (err) {
 		        throw err; // or handle the error
 		      }
-		      zip.file(filename, data, { binary: true });
+		      zip.file(filename, data, { base64: true });
 		      count++;
 		      if (count == links.length) {
 		        zip.generateAsync({ type: 'blob' }).then(function (content) {

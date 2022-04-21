@@ -680,9 +680,12 @@ function exportImages(){
 		    filename = filename.replace(/[\/\*\|\:\<\>\?\\/\-\_\!\@\#\$\%\^\&\;\(\)\[\]\{\}\=\+\~\`\"\\]/gi, '').replace(/ /g,"");
 		    var file2 = filename.replace(/[\/\*\|\:\<\>\\.\,\?\/\-\_\!\@\#\$\%\^\&\;\(\)\[\]\{\}\=\+\~\`\"\\]/gi, '').replace(/ /g,"");
 		    var newName = $('#'+file2).val();
-		    if(newName.indexOf('/') != -1){
-		    	newName = newName.replace(/\//g, '_');
-		    }
+		    if(newName!="" && newName != null){
+		    	 if(newName.indexOf('/') != -1){
+				    	newName = newName.replace(/\//g, '_');
+				    }
+            }
+		   
 		    filename = filename.split('.')[filename.split('.').length-1];;
 		  
 		    

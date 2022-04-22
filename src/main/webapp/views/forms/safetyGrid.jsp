@@ -434,7 +434,7 @@
 
     		getWorksListFilter('');
         	getContractsListFilter('');
-        	//getDepartmentsListFilter('');
+        	getDepartmentsListFilter('');
         	getCategoryListFilter('');
         	getStatusListFilter('');
         	getHODListInSafetyFilter('');
@@ -459,7 +459,7 @@
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		var rowLen = 0;
     		var myParams =  "work_id_fk="
-    				+ work_id_fk + "&contract_id_fk="+ contract_id_fk+ "&department_fk="+ department_fk+ "&category_fk="+ category_fk+ "&status_fk="+ status_fk+ "&hod_user_id_fk="+ hod_user_id_fk;
+    				+ work_id_fk + "&contract_id_fk="+ contract_id_fk+ "&department_fk="+ encodeURIComponent(department_fk)+ "&category_fk="+ category_fk+ "&status_fk="+ status_fk+ "&hod_user_id_fk="+ hod_user_id_fk;
 
     		/***************************************************************************************************/
 
@@ -570,7 +570,7 @@
     		            	if($.trim(data.responsible_person) == ''){ return '-'; }else{ return data.responsible_person; }
     		            } },
     		         	{ "mData": function(data,type,row){
-    		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
+    		            	if($.trim(data.department_name) == ''){ return '-'; }else{ return data.department_name; }
     		            } },
     		            { "mData": function(data,type,row){
     		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
@@ -731,7 +731,7 @@
 
             if ($.trim(work_id_fk) == "") {
                 $("#work_id_fk option:not(:first)").remove();
-         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
+         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : encodeURIComponent(department_fk), category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInSafety",
                     data: myParams, cache: false,async:false,
@@ -768,7 +768,7 @@
 
             if ($.trim(contract_id_fk) == "") {
                 $("#contract_id_fk option:not(:first)").remove();
-         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
+         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : encodeURIComponent(department_fk), category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInSafety",
                     data: myParams, cache: false,async:false,
@@ -807,7 +807,7 @@
 
             if ($.trim(department_fk) == "") {
                 $("#department_fk option:not(:first)").remove();
-         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
+         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : encodeURIComponent(department_fk), category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInSafety",
                     data: myParams, cache: false,async:false,
@@ -842,7 +842,7 @@
 
             if ($.trim(category_fk) == "") {
                  $("#category_fk option:not(:first)").remove();
-         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
+         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : encodeURIComponent(department_fk), category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInSafety",
                      data: myParams, cache: false,async:false,
@@ -877,7 +877,7 @@
 
             if ($.trim(status_fk) == "") {
                  $("#status_fk option:not(:first)").remove();
-         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
+         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : encodeURIComponent(department_fk), category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInSafety",
                      data: myParams, cache: false,async:false,
@@ -911,7 +911,7 @@
            	
            	if ($.trim(hod_user_id_fk) == "") {
            		$("#hod_user_id_fk option:not(:first)").remove();
-	           	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
+	           	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : encodeURIComponent(department_fk), category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
 	            $.ajax({
 	                   url: "<%=request.getContextPath()%>/ajax/getHODListFilterInSafety",
 	                   data: myParams, cache: false,async:false,

@@ -71,7 +71,7 @@
 															<tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Priority
+                                                                     Impact
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
@@ -133,40 +133,28 @@
 															<tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Safety/Action Taken/Remarks
+                                                                     Committe Members
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="white-space: pre-wrap;padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($alert.corrective_measure && !$alert.corrective_measure.empty) 
-                                                                    	$alert.corrective_measure
+                                                                    #if($alert.committe_members && !$alert.committe_members.empty) 
+                                                                    	$alert.committe_members
                                                                     #end
                                                                 </td>
                                                             </tr>
-                                                            #if($alert.escalated_to_designation && !$alert.escalated_to_designation.empty) 
-															<tr>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Escalated To
-                                                                </td>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $alert.escalated_to_designation
-                                                                </td>
-                                                            </tr>
-                                                            #end
-                                                            
-                                                            #if($alert.remarks && !$alert.remarks.empty) 
                                                             <tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Escalated remarks
+                                                                      Corrective Measure
                                                                 </td>
 																<td align="left" width="100px"
-                                                                    style="white-space: pre-wrap;padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $alert.remarks
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    #if($alert.corrective_measure_short_term && !$alert.corrective_measure_short_term.empty) 
+                                                                    	$alert.corrective_measure_short_term
+                                                                    #end
                                                                 </td>
-                                                            </tr>
-                                                             #end
+                                                            </tr>                                                          
+                                                           
                                                         </tbody>
                                                         <tr>
                                                             <td

@@ -185,11 +185,11 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry = "INSERT INTO safety"
 					+ "(contract_id_fk,hod_user_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,category_fk,impact_fk,root_cause_fk,status_fk,"
 					+ "closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,investigation_completed,corrective_measure_short_term,"
-					+ "corrective_measure_long_term,compensation,payment_date,remarks,compensation_units,committee_member_name) "
+					+ "corrective_measure_long_term,compensation,payment_date,remarks,compensation_units,committee_member_name,created_by,created_date) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:hod_user_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:category_fk,:impact_fk,:root_cause_fk,:status_fk,:"
 					+ "closure_date,:lti_hours,:equipment_impact,:people_impact,:work_impact,:committee_formed_fk,:committee_required_fk,:investigation_completed,:corrective_measure_short_term,:"
-					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:compensation_units,:committee_member_name)";	
+					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:compensation_units,:committee_member_name,created_by_user_id_fk,CURRENT_TIMESTAMP)";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 		    int count = template.update(qry, paramSource, keyHolder);
@@ -206,7 +206,7 @@ public class SafetyDaoImpl implements SafetyDao {
 						
 						List<MultipartFile> issueFiles = obj.getSafetyFiles();
 						for (MultipartFile multipartFile : issueFiles) {
-							if (null != multipartFile && !multipartFile.isEmpty()){
+							if(null != multipartFile && !multipartFile.isEmpty()){
 								String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH;
 								String fileName = multipartFile.getOriginalFilename();
 								DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
@@ -275,21 +275,31 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "u2.email_id as responsible_person_email_id,"
 					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,"
 					+ "i.responsible_person as responsible_person_user_id,"
-					+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,impact_fk, i.remarks,corrective_measure_long_term  "
+					+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,impact_fk,"
+					+ " i.remarks,corrective_measure_long_term,i.created_by as reported_by_user_id,u6.email_id as reported_by_email_id,"
+					+ "corrective_measure_short_term,"
+					+ "(select group_concat(user_name) from safety_committee_members cmb left join user u7 on cmb.committee_member_name = u7.user_id where safety_id_fk = i.safety_id) as committe_members "
 					+ "from safety i " 
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
 					+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
+					+ "LEFT OUTER JOIN user u6 on i.created_by = u6.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "where safety_id = ? ";
 
 			Object[] pValues = new Object[] { safety_id };
 
-			Safety iObj = (Safety) jdbcTemplate.queryForObject(emailsQry, pValues,
-					new BeanPropertyRowMapper<Safety>(Safety.class));
-			if (!StringUtils.isEmpty(iObj)) {
-
+			Safety iObj = (Safety) jdbcTemplate.queryForObject(emailsQry, pValues,new BeanPropertyRowMapper<Safety>(Safety.class));
+			
+			if(!StringUtils.isEmpty(iObj)) {
+				
+				String committe_user_ids_query = "select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name";
+				String committe_user_email_ids_query = "select email_id from user where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
+				
+				List<String> committe_user_ids = jdbcTemplate.query( committe_user_ids_query,new Object[]{safety_id}, new BeanPropertyRowMapper<String>(String.class));
+				List<String> committe_user_email_ids = jdbcTemplate.query( committe_user_email_ids_query,new Object[]{safety_id}, new BeanPropertyRowMapper<String>(String.class));
+				
 				/*********************************************************************************************/
 				NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 
@@ -297,44 +307,42 @@ public class SafetyDaoImpl implements SafetyDao {
 						+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";
 
 				String safetystatus = null;
-				if (!StringUtils.isEmpty(iObj.getStatus_fk())) {
+				if(!StringUtils.isEmpty(iObj.getStatus_fk())) {
 					safetystatus = iObj.getStatus_fk().toLowerCase();
 				}
-				String message1 = "A new safety against " + iObj.getContract_id_fk() + " has been " + safetystatus
-						+ " to you";
+				String message1 = "A new safety against " + iObj.getContract_short_name() + " has been " + safetystatus + " to you";
 
-				String message2 = "An safety against " + iObj.getContract_id_fk() + " has been " + safetystatus;
+				String message2 = "An incident against " + iObj.getContract_short_name() + " has been " + safetystatus;
 
-				String message3 = "An safety against " + iObj.getContract_id_fk() + " has been ";
+				String message3 = "An incident against " + iObj.getContract_short_name() + " has been ";
+				
+				String message4 = "An incident against " + iObj.getContract_short_name() + " has been assigned to you as a Committee member";
 
-				if (safety_status!="Update")
-				{		
+				if(!"Update".equals(safety_status)){		
 					message3 = message3 + safetystatus;
-				} else {
+				}else{
 					message3 = message3 + "updated";
 				}
 
-				String hod_user_id = "", dy_hod_user_id = "", responsible_person_user_id = "",
-						escalated_to_user_id = "", created_by_user_id = "";
-				if ("Open".equals(iObj.getStatus_fk())) {
+				String hod_user_id = "", dy_hod_user_id = "", responsible_person_user_id = "",reported_by_user_id = "";
+				if("Open".equals(iObj.getStatus_fk())) {
 					hod_user_id = iObj.getContract_hod_user_id();
 					dy_hod_user_id = iObj.getContract_dyhod_user_id();
-					created_by_user_id = iObj.getCreated_by_user_id_fk();
-				}  else if ("Closed".equals(iObj.getStatus_fk())) {
+					reported_by_user_id = iObj.getReported_by_user_id();
+				}else if("Closed".equals(iObj.getStatus_fk())) {
 					hod_user_id = iObj.getContract_hod_user_id();
 					dy_hod_user_id = iObj.getContract_dyhod_user_id();
 					responsible_person_user_id = iObj.getResponsible_person_user_id();
-					created_by_user_id = iObj.getCreated_by_user_id_fk();
+					reported_by_user_id = iObj.getReported_by_user_id();
 				}
 				String redirect_url = "/get-safety?safety_id=" + iObj.getSafety_id();
 				
 				String message_type = "Safety";
 				
-				if (safety_status!="Update")
-				{				
-					if (!StringUtils.isEmpty(iObj.getStatus_fk()) && "Open".equals(iObj.getStatus_fk())
+				if(!"Update".equals(safety_status)){				
+					if(!StringUtils.isEmpty(iObj.getStatus_fk()) && "Open".equals(iObj.getStatus_fk())
 							&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-						if (!StringUtils.isEmpty(dy_hod_user_id)) {
+						if(!StringUtils.isEmpty(dy_hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(dy_hod_user_id);
 							msgObj.setMessage(message1);
@@ -343,7 +351,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(hod_user_id)) {
+						if(!StringUtils.isEmpty(hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(hod_user_id);
 							msgObj.setMessage(message2);
@@ -354,10 +362,11 @@ public class SafetyDaoImpl implements SafetyDao {
 						}
 					}
 					
+				} else {
 					
-					if (!StringUtils.isEmpty(iObj.getStatus_fk()) && "Closed".equals(iObj.getStatus_fk())
+					if(!StringUtils.isEmpty(iObj.getStatus_fk()) && "Closed".equals(iObj.getStatus_fk())
 							&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-						if (!StringUtils.isEmpty(hod_user_id)) {
+						if(!StringUtils.isEmpty(hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(hod_user_id);
 							msgObj.setMessage(message2);
@@ -366,7 +375,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(dy_hod_user_id)) {
+						if(!StringUtils.isEmpty(dy_hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(dy_hod_user_id);
 							msgObj.setMessage(message2);
@@ -375,7 +384,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(responsible_person_user_id)) {
+						if(!StringUtils.isEmpty(responsible_person_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(responsible_person_user_id);
 							msgObj.setMessage(message2);
@@ -384,22 +393,18 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(escalated_to_user_id)) {
+						if(!StringUtils.isEmpty(reported_by_user_id)) {
 							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(escalated_to_user_id);
+							msgObj.setUser_id_fk(reported_by_user_id);
 							msgObj.setMessage(message2);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-					}
-				}
-				else
-				{
-					if (!StringUtils.isEmpty(iObj.getStatus_fk())
+					}else if(!StringUtils.isEmpty(iObj.getStatus_fk())
 							&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-						if (!StringUtils.isEmpty(hod_user_id)) {
+						if(!StringUtils.isEmpty(hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(hod_user_id);
 							msgObj.setMessage(message2);
@@ -408,7 +413,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(dy_hod_user_id)) {
+						if(!StringUtils.isEmpty(dy_hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(dy_hod_user_id);
 							msgObj.setMessage(message2);
@@ -417,7 +422,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(responsible_person_user_id)) {
+						if(!StringUtils.isEmpty(responsible_person_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(responsible_person_user_id);
 							msgObj.setMessage(message1);
@@ -426,11 +431,11 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-					} else if (!StringUtils.isEmpty(iObj.getStatus_fk())
+					} else if(!StringUtils.isEmpty(iObj.getStatus_fk())
 							&& iObj.getStatus_fk().equals(existing_status_fk)
 							&& !StringUtils.isEmpty(iObj.getResponsible_person_user_id())
 							&& iObj.getResponsible_person_user_id().equals(existing_responsible_person)) {
-						if (!StringUtils.isEmpty(responsible_person_user_id)) {
+						if(!StringUtils.isEmpty(responsible_person_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(responsible_person_user_id);
 							msgObj.setMessage(message3);
@@ -439,7 +444,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(hod_user_id)) {
+						if(!StringUtils.isEmpty(hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(hod_user_id);
 							msgObj.setMessage(message3);
@@ -448,7 +453,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(dy_hod_user_id)) {
+						if(!StringUtils.isEmpty(dy_hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(dy_hod_user_id);
 							msgObj.setMessage(message3);
@@ -457,11 +462,11 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-					} else if (!StringUtils.isEmpty(iObj.getStatus_fk())
+					}else if(!StringUtils.isEmpty(iObj.getStatus_fk())
 							&& iObj.getStatus_fk().equals(existing_status_fk)
 							&& !StringUtils.isEmpty(iObj.getResponsible_person_user_id())
 							&& !iObj.getResponsible_person_user_id().equals(existing_responsible_person)) {
-						if (!StringUtils.isEmpty(responsible_person_user_id)) {
+						if(!StringUtils.isEmpty(responsible_person_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(responsible_person_user_id);
 							msgObj.setMessage(message1);
@@ -470,7 +475,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(hod_user_id)) {
+						if(!StringUtils.isEmpty(hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(hod_user_id);
 							msgObj.setMessage(message3);
@@ -479,7 +484,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-						if (!StringUtils.isEmpty(dy_hod_user_id)) {
+						if(!StringUtils.isEmpty(dy_hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(dy_hod_user_id);
 							msgObj.setMessage(message3);
@@ -488,7 +493,20 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
-					}					
+					}
+					
+					for (String user_id : committe_user_ids) {
+						if(!StringUtils.isEmpty(user_id)) {
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(user_id);
+							msgObj.setMessage(message4);
+							msgObj.setRedirect_url(redirect_url);
+							msgObj.setMessage_type(message_type);
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+							template.update(issueMessageQry, paramSource);
+						}
+					}
+					
 				}
 
 				/*********************************************************************************************/
@@ -496,84 +514,85 @@ public class SafetyDaoImpl implements SafetyDao {
 				String mailCC = "";
 				
 				
-				if (safety_status!="Update")
-				{
-					if ("Open".equals(iObj.getStatus_fk())) {
-						if (!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailTo = mailTo + iObj.getContract_dyhod_email_id() + ",";
+				if(!"Update".equals(safety_status)){
+					if("Open".equals(iObj.getStatus_fk())) {
+						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+							mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
 						}
-						if (!StringUtils.isEmpty(reported_by_email_id)) {
-							mailCC = mailCC + reported_by_email_id + ",";
-						}
-						if (!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
-						}
-					}  else if ("Closed".equals(iObj.getStatus_fk())) {
-						if (!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailTo = mailTo + iObj.getContract_hod_email_id() + ",";
-						}
-						if (!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
 							mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
 						}
-						if (!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-							mailCC = mailCC + iObj.getResponsible_person_email_id() + ",";
+						if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
+							mailCC = mailCC + iObj.getReported_by_email_id() + ",";
 						}
-						if (!StringUtils.isEmpty(iObj.getCreated_by_email_id())) {
-							mailCC = mailCC + iObj.getCreated_by_email_id() + ",";
+						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+							mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
+						}
+					}else if("Closed".equals(iObj.getStatus_fk())) {
+						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+							mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
+						}
+						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+							mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
+						}
+						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+							mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
+						}
+						if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
+							mailCC = mailCC + iObj.getReported_by_email_id() + ",";
 						}
 					}
-				}
-				else
-				{
-					if (!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+					
+				} else {
+					
+					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 						mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
 					}
-					if (!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+					if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
 						mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
 					}
-					if (!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
 						mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
-					}					
+					}	
+					
+					for (String email_id : committe_user_email_ids) {
+						if(!StringUtils.isEmpty(email_id)) {
+							mailTo = mailTo + email_id + ",";
+						}
+					}
 				}
+				
+				
 
-				if (!StringUtils.isEmpty(mailTo)) {
+				if(!StringUtils.isEmpty(mailTo)) {
 					mailTo = org.apache.commons.lang3.StringUtils.chop(mailTo);
 				}
 
-				if (!StringUtils.isEmpty(mailCC)) {
+				if(!StringUtils.isEmpty(mailCC)) {
 					mailCC = org.apache.commons.lang3.StringUtils.chop(mailCC);
 				}
 
 				String mailBodyHeader = "";
 
-				if (safety_status!="Update")
-				{
-					if(iObj.getStatus_fk().equals("Open"))
-					{
-						mailBodyHeader = mailBodyHeader + "A new ";
-					}
-					else if(iObj.getStatus_fk().equals("Closed"))
-					{
+				if(!"Update".equals(safety_status)) {
+					if(iObj.getStatus_fk().equals("Open")) {
+						mailBodyHeader = mailBodyHeader + "A new safety ";
+					}else if(iObj.getStatus_fk().equals("Closed")) {
 						mailBodyHeader = mailBodyHeader + "An ";
 					}
-				}
-				else
-				{
+				}else{
 					mailBodyHeader = mailBodyHeader + "An ";
 				}
-				mailBodyHeader = mailBodyHeader + "safety against ";
+				mailBodyHeader = mailBodyHeader + "incident against ";
 				
-				if (!StringUtils.isEmpty(iObj.getContract_id_fk())) {
+				if(!StringUtils.isEmpty(iObj.getContract_id_fk())) {
 					mailBodyHeader = mailBodyHeader + iObj.getContract_id_fk();
 				}
 				mailBodyHeader = mailBodyHeader + " has been ";				
 
-				if (safety_status!="Update")
-				{
+				if(!"Update".equals(safety_status)) {
 					mailBodyHeader = mailBodyHeader + safetystatus;
-				}
-				else
-				{
+				}else{
 					mailBodyHeader = mailBodyHeader + "updated ";
 				}
 
@@ -582,9 +601,9 @@ public class SafetyDaoImpl implements SafetyDao {
 
 				String emailSubject = "PMIS Safety Notification - Safety ";
 
-				if (!StringUtils.isEmpty(iObj.getStatus_fk()) && !StringUtils.isEmpty(existing_status_fk)
+				if(!StringUtils.isEmpty(iObj.getStatus_fk()) && !StringUtils.isEmpty(existing_status_fk)
 						&& iObj.getStatus_fk().equals(existing_status_fk)) {
-					if ("Closed".equals(iObj.getStatus_fk())) {
+					if("Closed".equals(iObj.getStatus_fk())) {
 						emailSubject = emailSubject + iObj.getStatus_fk();
 					} else {
 						emailSubject = emailSubject + "Updated";
@@ -606,13 +625,13 @@ public class SafetyDaoImpl implements SafetyDao {
 				SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 				String current_year = yearFormat.format(new Date()).toUpperCase();
 
-				if (!StringUtils.isEmpty(mailTo)) {
+				if(!StringUtils.isEmpty(mailTo)) {
 					EMailSender emailSender = new EMailSender();
-					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail to " + mailTo + ": Start ");
-					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail CC " + mailCC + ": Start ");
+					/*logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail to " + mailTo + ": Start ");
+					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail CC " + mailCC + ": Start ");*/
 					emailSender.sendEmailWithSafetyStatusAlert(mail, iObj, today_date, current_year);
-					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail to " + mailTo + ": end ");
-					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail CC " + mailCC + ": end ");
+					/*logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail to " + mailTo + ": end ");
+					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail CC " + mailCC + ": end ");*/
 				}
 			}
 		} catch (Exception e) {
@@ -748,29 +767,29 @@ public class SafetyDaoImpl implements SafetyDao {
 				template.update(deletecommitteeMembersQry, paramSource);
 
 				
-					String committeeMembersQry = "INSERT INTO safety_committee_members (committee_member_name,safety_id_fk)VALUES(:committee_member_name,:safety_id)";
-					
-					int arrayCMSize = 0;
-					if(!StringUtils.isEmpty(obj.getCommittee_member_names()) && obj.getCommittee_member_names().length > 0 ) {
-						obj.setCommittee_member_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getCommittee_member_names()));
-						if(arrayCMSize < obj.getCommittee_member_names().length) {
-							arrayCMSize = obj.getCommittee_member_names().length;
-						}
+				String committeeMembersQry = "INSERT INTO safety_committee_members (committee_member_name,safety_id_fk)VALUES(:committee_member_name,:safety_id)";
+				
+				int arrayCMSize = 0;
+				if(!StringUtils.isEmpty(obj.getCommittee_member_names()) && obj.getCommittee_member_names().length > 0 ) {
+					obj.setCommittee_member_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getCommittee_member_names()));
+					if(arrayCMSize < obj.getCommittee_member_names().length) {
+						arrayCMSize = obj.getCommittee_member_names().length;
 					}
+				}
 
-						for (int i = 0; i < arrayCMSize; i++) {
-							fileCommitteeMembersObj = new Safety();
-							fileCommitteeMembersObj.setCommittee_member_name(obj.getCommittee_member_names()[i]);
-							fileCommitteeMembersObj.setSafety_id(obj.getSafety_id());
-							paramSource = new BeanPropertySqlParameterSource(fileCommitteeMembersObj);	
-							template.update(committeeMembersQry, paramSource);
-						}
+				for (int i = 0; i < arrayCMSize; i++) {
+					fileCommitteeMembersObj = new Safety();
+					fileCommitteeMembersObj.setCommittee_member_name(obj.getCommittee_member_names()[i]);
+					fileCommitteeMembersObj.setSafety_id(obj.getSafety_id());
+					paramSource = new BeanPropertySqlParameterSource(fileCommitteeMembersObj);	
+					template.update(committeeMembersQry, paramSource);
+				}
 							
 				
 				if(!StringUtils.isEmpty(obj.getSafetyFiles()) && obj.getSafetyFiles().size() > 0) {
 					List<MultipartFile> issueFiles = obj.getSafetyFiles();
 					for (MultipartFile multipartFile : issueFiles) {
-						if (null != multipartFile && !multipartFile.isEmpty()){
+						if(null != multipartFile && !multipartFile.isEmpty()){
 							String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH;
 							String fileName = multipartFile.getOriginalFilename();
 							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
@@ -841,18 +860,21 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name from safety s "
+					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ "where contract_id_fk is not null and contract_id_fk <> '' ";
 					
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -864,34 +886,37 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					qry = qry + " and u.department_fk = ?";
-					arrSize++;
-				}
-			}	
-						
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				
+				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY contract_id_fk";
 			
+			qry = qry + " GROUP BY contract_id_fk";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
 				pValues[i++] = obj.getCategory_fk();
@@ -900,21 +925,21 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					pValues[i++] = obj.getDepartment_fk();
-				}
-			}			
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
-			
-			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -926,20 +951,23 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getDepartmentsListFilter(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT c.department_fk,department,department_name from safety s "
-					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
-					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
-					+ "where c.department_fk is not null and c.department_fk <> '' ";
+			String qry = "SELECT u.department_fk,department,department_name "
+					+ "from safety s "
+					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
+					+ "where u.department_fk is not null and u.department_fk <> '' ";
 			int arrSize = 0;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -951,33 +979,37 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					qry = qry + " and u.department_fk = ?";
-					arrSize++;
-				}
-			}			
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				
+				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY c.department_fk";
 			
+			qry = qry + " GROUP BY u.department_fk";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
 				pValues[i++] = obj.getCategory_fk();
@@ -985,22 +1017,22 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
-
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-
-						pValues[i++] = obj.getDepartment_fk();
-				}
-			}	
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
-			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1013,18 +1045,21 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT category_fk from safety s "
-					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ " where category_fk is not null and category_fk <> '' ";
 			
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -1036,33 +1071,37 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					qry = qry + " and u.department_fk = ?";
-					arrSize++;
-				}
-			}				
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				
+				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY category_fk ";
 			
+			qry = qry + " GROUP BY category_fk";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
 				pValues[i++] = obj.getCategory_fk();
@@ -1071,15 +1110,17 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					pValues[i++] = obj.getDepartment_fk();
-				}
-			}
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
@@ -1097,18 +1138,21 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT status_fk from safety s "
-					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ " where status_fk is not null and status_fk <> '' ";
 			
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -1120,33 +1164,37 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					qry = qry + " and u.department_fk = ?";
-					arrSize++;
-				}
-			}				
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				
+				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY status_fk ";
 			
+			qry = qry + " GROUP BY status_fk";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
 				pValues[i++] = obj.getCategory_fk();
@@ -1155,21 +1203,21 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					pValues[i++] = obj.getDepartment_fk();
-				}
-			}		
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
-			
-			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1182,18 +1230,21 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT work_id as work_id_fk,work_short_name from safety s "
-					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ " where work_id_fk is not null and work_id_fk <> '' ";
 			
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -1205,33 +1256,37 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					qry = qry + " and u.department_fk =?";
-					arrSize++;
-				}
-			}			
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				
+				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY work_id_fk ";
 			
+			qry = qry + " GROUP BY work_id_fk";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
 				pValues[i++] = obj.getCategory_fk();
@@ -1240,16 +1295,17 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					pValues[i++] = obj.getDepartment_fk();
-				}
-			}					
-			
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
@@ -1266,20 +1322,23 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getHODListFilterInSafety(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT s.hod_user_id_fk,designation,user_name as hod_name "
+			String qry = "SELECT c.hod_user_id_fk,u.designation,u.user_name as hod_name "
 					+ "from safety s "
+					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT JOIN user u ON s.hod_user_id_fk= u.user_id "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where s.hod_user_id_fk is not null and s.hod_user_id_fk <> '' ";
+					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
+					+ "where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' ";
 					
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -1289,36 +1348,39 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
-			}	
-			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					qry = qry + " and u.department_fk = ?";
-					arrSize++;
-				}
-			}				
+			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				
+				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY s.hod_user_id_fk ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),u.designation" ;
-
 			
+			qry = qry + " GROUP BY c.hod_user_id_fk ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),u.designation" ;
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
 				pValues[i++] = obj.getCategory_fk();
@@ -1327,15 +1389,17 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					pValues[i++] = obj.getDepartment_fk();
-				}
-			}
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
@@ -1464,12 +1528,12 @@ public class SafetyDaoImpl implements SafetyDao {
 		int totalRecords = 0;
 		try {
 			String qry = "SELECT count(*) as total_records from safety s "
+					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "		
+					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
+					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ "where safety_id is not null " ;
 			int arrSize = 0;
 			
@@ -1491,11 +1555,23 @@ public class SafetyDaoImpl implements SafetyDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				
+				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
@@ -1526,8 +1602,18 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
@@ -1560,10 +1646,10 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "from safety s "
 					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
+					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ "where safety_id is not null " ;
 			int arrSize = 0;
 			
@@ -1584,20 +1670,23 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					qry = qry + " and u.department_fk = ?";
-					arrSize++;
-				}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
 			}
 			
-			/*
-			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()))
-			 * { qry = qry + " and s.department_fk = ?"; arrSize++; }
-			 */
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
@@ -1634,18 +1723,18 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-					pValues[i++] = obj.getDepartment_fk();
-				
-				}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			/*
-			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()))
-			 * { pValues[i++] = obj.getDepartment_fk(); }
-			 */
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}

@@ -3,6 +3,8 @@ package com.synergizglobal.pmis.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -119,6 +121,18 @@ public class SafetyController {
 		return model;
 	}
 	
+	public static String decodeURIComponent(String s) {
+	    String result = ""; 
+	    try {
+	      if(!StringUtils.isEmpty(s)) {
+	    	  result = URLDecoder.decode(s, "UTF-8");
+	      }
+	    } catch (UnsupportedEncodingException e) {
+	          result = s;  
+	    } 
+	    return result;
+	}
+	
 	@RequestMapping(value = "/ajax/getWorksListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Safety> getWorksListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
@@ -126,8 +140,11 @@ public class SafetyController {
 		try {
 			
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
 			obj.setUser_role_code(uObj.getUser_role_code());
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
+			}
 			
 			objList = safetyService.getWorksListFilter(obj);
 		} catch (Exception e) {
@@ -143,9 +160,10 @@ public class SafetyController {
 		List<Safety> objList = null;
 		try {
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
 			obj.setUser_role_code(uObj.getUser_role_code());
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
+			}
 			objList = safetyService.getContractsListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -160,8 +178,10 @@ public class SafetyController {
 		List<Safety> objList = null;
 		try {
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());			
+			obj.setUser_role_code(uObj.getUser_role_code());	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
+			}
 			objList = safetyService.getDepartmentsListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -176,8 +196,10 @@ public class SafetyController {
 		List<Safety> objList = null;
 		try {
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());			
+			obj.setUser_role_code(uObj.getUser_role_code());	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
+			}
 			objList = safetyService.getCategoryListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,8 +214,10 @@ public class SafetyController {
 		List<Safety> objList = null;
 		try {
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());			
+			obj.setUser_role_code(uObj.getUser_role_code());	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
+			}
 			objList = safetyService.getStatusListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -208,8 +232,10 @@ public class SafetyController {
 		List<Safety> objsList = null;
 		try {
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());			
+			obj.setUser_role_code(uObj.getUser_role_code());	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
+			}
 			objsList = safetyService.getHODListFilterInSafety(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -238,11 +264,20 @@ public class SafetyController {
 		//JSONObject json = new JSONObject();
 		String json2 = null;
 		String userId = null;
-		String userName = null,user_role_name=null;
+		String userName = null,user_role_name=null,user_role_code = null;
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
 			user_role_name = (String) session.getAttribute("USER_ROLE_NAME");
+			user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(userId);
+			obj.setUser_role_code(user_role_code);
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
+			}
+			
 			pw = response.getWriter();
 			//Fetch the page number from client
 			Integer pageNumber = 0;
@@ -323,11 +358,6 @@ public class SafetyController {
 	public List<Safety> createPaginationData(HttpSession session, int startIndex, int offset, Safety obj, String searchParameter) {
 		List<Safety> objList = null;
 		try {
-
-			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
-			
 			objList = safetyService.getSafetyList(obj, startIndex, offset, searchParameter);
 		} catch (Exception e) {
 			logger.error("createPaginationData : " + e.getMessage());
@@ -438,7 +468,8 @@ public class SafetyController {
 			obj.setUser_name(userName);
 			obj.setDesignation(userDesignation);
 			User user = (User)session.getAttribute("user");
-			if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getEmail_id())) {
+			if(!StringUtils.isEmpty(user)) {
+				obj.setReported_by(userName);
 				obj.setReported_by_email_id(user.getEmail_id());
 			}			
 			
@@ -446,7 +477,6 @@ public class SafetyController {
 			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));
 			obj.setInvestigation_completed(DateParser.parse(obj.getInvestigation_completed()));			
 			obj.setPayment_date(DateParser.parse(obj.getPayment_date()));
-			obj.setCreated_by_user_id_fk(user_Id);
 			
 			boolean flag = safetyService.addSafety(obj);
 			if(flag) {
@@ -559,10 +589,10 @@ public class SafetyController {
 			obj.setUser_id(user_Id);
 			obj.setUser_name(userName);
 			obj.setDesignation(userDesignation);
-			User user = (User)session.getAttribute("user");
+			/*User user = (User)session.getAttribute("user");
 			if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getEmail_id())) {
 				obj.setReported_by_email_id(user.getEmail_id());
-			}
+			}*/
 			
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));

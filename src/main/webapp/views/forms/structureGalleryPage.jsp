@@ -207,7 +207,7 @@ ul.breadcrumb li a:hover {
 }
 @media(max-width: 1366px){
 	.removed{
-		margin-left: 18em !important;
+		margin-left: 17.5em !important;
 	}
 }
 @media(max-width: 1024px){
@@ -235,7 +235,7 @@ ul.breadcrumb li a:hover {
 	.ta-right{text-align:right;}
 }
 @media(max-width: 360px){
-	.removed{margin-left: 18em !important;}
+	.removed{margin-left: 17.5em !important;}
 }
  .btn {
        padding-left: 6px;
@@ -262,13 +262,13 @@ ul.breadcrumb li a:hover {
                             <h6><span id="work_short_name"></span>Gallery</h6>
                             <div class="col s12 m12 right-align">
                              <div class="m-n1">
-                            	<a href="javascript:void(0);" onclick="exportImages();" style="right: 358px;top: 65px;position: absolute;"
-												class="btn waves-effect waves-light bg-s t-c m-d-none"> <strong><i
+                            	<a href="javascript:void(0);" onclick="exportImages();" style="right: 282px;top: 65px;position: absolute;"
+												class="btn waves-effect waves-light bg-s t-c m-d-none download"> <strong><i
 													class="fa fa-cloud-download"></i> Download</strong></a>
 									 <a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c m-d-none back" style="display: none;float: left;top: 27px;"
 										  onclick="editImages();"> <i class="fa fa-cloud-download" aria-hidden="true"></i>Back</a>
-									  <a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c m-d-none back" style="display: none; top: 65px; right: 455px;position: absolute;"
-									   onClick="selectAll();"> <i class="fa fa-cloud-download" aria-hidden="true" ></i>select all</a>				
+									  <a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c m-d-none back" style="display: none; top: 65px; right: 372px;position: absolute;"
+									   onClick="selectAll();"> <i class="fa fa-cloud-download" aria-hidden="true" ></i><span id="selecAllToggle">select all</span></a>				
 										 			
 							</div>
 							
@@ -429,7 +429,7 @@ ul.breadcrumb li a:hover {
         var work_short_name = '';
         function getGalleryList() {
         	$(".page-loader").show();
-        	
+        	$('#selecAllToggle').text('select all')
         	var created_date = $("#created_date").val();
         	var structure_type_fk = $("#structure_type_fk").val();
         	var structure = $("#structure").val();
@@ -446,6 +446,7 @@ ul.breadcrumb li a:hover {
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {  
+                        	   $('.download').css("display", "block");
                         	   //var path = '${CommonConstants2.STRUCTURE_FILE_SAVING_PATH}';
                         	    var newName = "/pmis/STRUCTURE_FILES/"+val.attachment;
                         	    newName = newName.replace(/[\/\*\|\:\<\>\\.\,\?\/\-\_\!\@\#\$\%\^\&\;\(\)\[\]\{\}\=\+\~\`\"\\]/gi, '').replace(/ /g,"");
@@ -468,6 +469,7 @@ ul.breadcrumb li a:hover {
                            }); 
                        }else{
                     	    var htmlText = 'No Records Found!'
+                    	    $('.download').css("display", "none");
                     	    $('.back').css("display", "none");
                     		var work_short_name = '${work.work_short_name}'+" - ";
                             $('#work_short_name').text(work_short_name);
@@ -638,26 +640,25 @@ $(document).on('change', 'input[type="checkbox"]', function(e){
    }
 	//console.log($("#created_date").children("option").filter(":selected").text());
 });
-function selectAll(){
-		
-	if($('input[type=checkbox]').is(':checked')){
-		$('input[type=checkbox]').prop('checked', false); 
-		$('input[type=checkbox]').each(function (url, i) {
-			var itemtoRemove = $(this).attr('src');
-			links.splice($.inArray(itemtoRemove, links), 1);
+function selectAll(){  
+	var checkBox = 'input[type="checkbox"]';
+	 links = []; 
+
+	$('input[type=checkbox]').each(function (url, i) {
+		if($('#selecAllToggle').text() == 'select all'){
+			$('input[type=checkbox]').prop('checked', true);
+			links.push($(this).attr('src'));
 			console.log(links);
-		})
+		}else{
+			$('input[type=checkbox]').prop('checked', false);
+			 console.log(links);
+		}
+	})
+	if ($(checkBox+':checked').length == $(checkBox).length) {
+		$('#selecAllToggle').text('unselect all')
 	}else{
-		$('input[type=checkbox]').prop('checked', true); 
-		$('input[type=checkbox]').each(function (url, i) {
-			var tag = $(this).attr('src');
-			tag = tag.split('.');
-			if ($(this).is(':checked')){
-			    links.push($(this).attr('src'));
-			    console.log(links);
-			}
-		})
-	}    
+		$('#selecAllToggle').text('select all')
+	}
 }
 function exportImages(){
     $('.back').css("display", "-webkit-inline-box");

@@ -297,8 +297,8 @@ public class SafetyDaoImpl implements SafetyDao {
 				String committe_user_ids_query = "select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name";
 				String committe_user_email_ids_query = "select email_id from user where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
 				
-				List<String> committe_user_ids = jdbcTemplate.query( committe_user_ids_query,new Object[]{safety_id}, new BeanPropertyRowMapper<String>(String.class));
-				List<String> committe_user_email_ids = jdbcTemplate.query( committe_user_email_ids_query,new Object[]{safety_id}, new BeanPropertyRowMapper<String>(String.class));
+				List<String> committe_user_ids = jdbcTemplate.queryForList(committe_user_ids_query,new Object[]{safety_id}, String.class);
+				List<String> committe_user_email_ids = jdbcTemplate.queryForList( committe_user_email_ids_query,new Object[]{safety_id},String.class);
 				
 				/*********************************************************************************************/
 				NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -586,7 +586,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				mailBodyHeader = mailBodyHeader + "incident against ";
 				
 				if(!StringUtils.isEmpty(iObj.getContract_id_fk())) {
-					mailBodyHeader = mailBodyHeader + iObj.getContract_id_fk();
+					mailBodyHeader = mailBodyHeader + iObj.getContract_short_name();
 				}
 				mailBodyHeader = mailBodyHeader + " has been ";				
 
@@ -810,10 +810,12 @@ public class SafetyDaoImpl implements SafetyDao {
 				String reported_by_email_id = obj.getReported_by_email_id();
 				String existing_responsible_person = obj.getExisting_responsible_person();
 				String existing_escalated_to = obj.getExisting_escalated_to();
-				if(!StringUtils.isEmpty(obj.getExisting_responsible_person()) && !StringUtils.isEmpty(obj.getResponsible_person()) && obj.getExisting_responsible_person().compareTo(obj.getResponsible_person())!=0)
-				{
+				/*if(!StringUtils.isEmpty(obj.getExisting_responsible_person()) && !StringUtils.isEmpty(obj.getResponsible_person()) && 
+						obj.getExisting_responsible_person().compareTo(obj.getResponsible_person())!=0){
 					sendEmailWithSafetyStatusAlert(safety_id, "Update", reported_by_email_id, existing_status_fk,existing_responsible_person, existing_escalated_to);
-				}
+				}*/
+				
+				sendEmailWithSafetyStatusAlert(safety_id, "Update", reported_by_email_id, existing_status_fk,existing_responsible_person, existing_escalated_to);
 				
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());

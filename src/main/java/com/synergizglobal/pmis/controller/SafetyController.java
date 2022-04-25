@@ -642,8 +642,7 @@ public class SafetyController {
 			view.setViewName("redirect:/safety");
 			
 			User uObj = (User) session.getAttribute("user");
-			safety.setUser_id(uObj.getDepartment_fk());
-			safety.setDepartment_fk(uObj.getDepartment_fk());
+			safety.setUser_id(uObj.getUser_id());
 			safety.setUser_role_code(uObj.getUser_role_code());			
 			
 			dataList = safetyService.getSafetyList(safety);  

@@ -164,10 +164,12 @@
 	                                                	<tr>	
 	                                                		<input type="hidden" id="form_ids${index.count }" name="form_ids" value="${mObj.form_id }" />
 		                                                	<td class="input-field">
-		                                                		 <input id="form_names${index.count }" name="form_names" type="text" class="validate" placeholder="Form Name" value="${mObj.form_name }" >
+		                                                		 <%-- <input id="form_names${index.count }" name="form_names" type="text" class="validate" placeholder="Form Name" value="${mObj.form_name }" > --%>
+		                                                		 ${mObj.form_name }
 		                                                	</td>
 		                                                	<td class="input-field">
-		                                                		<input id="form_urls${index.count }" name="form_urls" type="text" class="validate" placeholder="Form Url" value="${mObj.form_url }">
+		                                                		<%-- <input id="form_urls${index.count }" name="form_urls" type="text" class="validate" placeholder="Form Url" value="${mObj.form_url }"> --%>
+		                                                		${mObj.form_url }
 		                                                	</td>
 															<td class="input-field">
 																<input type="hidden" id="access_user_roles${index.count }" name="access_user_roles" />
@@ -329,7 +331,15 @@
                 "bScrollCollapse": true,
                 "bAutoWidth": true,
                 "ordering": false,
-                "searching":false
+                "searching":true,
+                "initComplete" : function() {
+					$('.dataTables_filter input[type="search"]')
+							.attr('placeholder', 'Search')
+							.css({
+								'width' : '350px ',
+								'display' : 'inline-block'
+							});
+				}
             });
         });
         

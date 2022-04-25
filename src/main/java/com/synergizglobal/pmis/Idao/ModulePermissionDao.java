@@ -20,4 +20,8 @@ public interface ModulePermissionDao {
 	public List<ModulePermission> getUsers(ModulePermission obj) throws Exception;
 
 	boolean updateUrlPermissions(ModulePermission obj) throws Exception;
+	
+	List<ModulePermission> getModulesForFilter(ModulePermission obj) throws Exception;
+
+	List<ModulePermission> getModuleStatusListForFilter(ModulePermission obj) throws Exception;
 }

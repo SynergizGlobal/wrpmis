@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -34,7 +35,7 @@ public class ModulePermissionController {
 	Logger logger = Logger.getLogger(ModulePermissionController.class);
 	
 	@Autowired
-	ModulePermissionService modulePermissionService;
+	ModulePermissionService service;
 	
 	@Autowired
 	FormsAccessService formService;
@@ -48,13 +49,31 @@ public class ModulePermissionController {
 			obj.setUser_role_code(uObj.getUser_role_code());
 			obj.setUser_id(uObj.getUser_id());
 			
-			List<ModulePermission> modulesList = modulePermissionService.getModulesList(obj);
-			model.addObject("modulesList", modulesList);	
+			/*List<ModulePermission> modulesList = service.getModulesList(obj);
+			model.addObject("modulesList", modulesList);	*/
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("modulePermission : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	
+	@RequestMapping(value = "/ajax/getModulesList", method = {RequestMethod.POST})
+	@ResponseBody
+	public List<ModulePermission> getModulesList(@ModelAttribute ModulePermission obj,HttpSession session){
+		List<ModulePermission> objList = new ArrayList<ModulePermission>();
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			objList =  service.getModulesList(obj);
+		}catch (Exception e) {
+			logger.error("getModulesList : " + e.getMessage());
+		}
+		return objList;
 	}
 	
 	@RequestMapping(value = "/get-module-permission", method = {RequestMethod.GET,RequestMethod.POST})
@@ -63,19 +82,19 @@ public class ModulePermissionController {
 		try{
 			model.setViewName(PageConstants.updateModulePermission);
 			
-			List<ModulePermission> modulesList = modulePermissionService.getModulesList(obj);
+			List<ModulePermission> modulesList = service.getModulesList(obj);
 			model.addObject("modulesList", modulesList);	
 			
-			List<ModulePermission> user_roles = modulePermissionService.getUserRoles(obj);
+			List<ModulePermission> user_roles = service.getUserRoles(obj);
 			model.addObject("user_roles", user_roles);
 			
-			List<ModulePermission> user_types = modulePermissionService.getUserTypes(obj);
+			List<ModulePermission> user_types = service.getUserTypes(obj);
 			model.addObject("user_types", user_types);
 			
-			List<ModulePermission> users = modulePermissionService.getUsers(obj);
+			List<ModulePermission> users = service.getUsers(obj);
 			model.addObject("users", users);
 			
-			ModulePermission modulePermissions = modulePermissionService.getModulePermission(obj);
+			ModulePermission modulePermissions = service.getModulePermission(obj);
 			model.addObject("modulePermissions", modulePermissions);
 		
 		}catch (Exception e) {
@@ -90,7 +109,7 @@ public class ModulePermissionController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/module-permissions");
-			boolean flag =  modulePermissionService.updateModulePermission(obj);
+			boolean flag =  service.updateModulePermission(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Module Updated Succesfully.");
 			}else {
@@ -108,7 +127,7 @@ public class ModulePermissionController {
 	public boolean updateUrlPermissions(@ModelAttribute ModulePermission obj){
 		boolean flag = false;
 		try{
-			flag =  modulePermissionService.updateUrlPermissions(obj);
+			flag =  service.updateUrlPermissions(obj);
 		}catch (Exception e) {
 			//attributes.addFlashAttribute("error","Updating Module failed. Try again.");
 			logger.error("updateUrlPermissions : " + e.getMessage());
@@ -116,12 +135,36 @@ public class ModulePermissionController {
 		return flag;
 	}
 	
+	@RequestMapping(value = "/ajax/getModulesForFilter", method = {RequestMethod.POST})
+	@ResponseBody
+	public List<ModulePermission> getModulesForFilter(@ModelAttribute ModulePermission obj){
+		List<ModulePermission> objList = new ArrayList<ModulePermission>();
+		try{
+			objList =  service.getModulesForFilter(obj);
+		}catch (Exception e) {
+			logger.error("getModulesForFilter : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getModuleStatusListForFilter", method = {RequestMethod.POST})
+	@ResponseBody
+	public List<ModulePermission> getModuleStatusListForFilter(@ModelAttribute ModulePermission obj){
+		List<ModulePermission> objList = new ArrayList<ModulePermission>();
+		try{
+			objList =  service.getModuleStatusListForFilter(obj);
+		}catch (Exception e) {
+			logger.error("getModuleStatusListForFilter : " + e.getMessage());
+		}
+		return objList;
+	}
+	
 	/*@RequestMapping(value = "/update-url-permissions", method = {RequestMethod.POST})
 	public ModelAndView updateUrlPermissions(@ModelAttribute ModulePermission obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/module-permissions");
-			boolean flag =  modulePermissionService.updateUrlPermissions(obj);
+			boolean flag =  service.updateUrlPermissions(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "URL Permissions Updated Succesfully.");
 			}else {

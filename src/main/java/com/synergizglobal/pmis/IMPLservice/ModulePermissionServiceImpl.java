@@ -48,5 +48,15 @@ public class ModulePermissionServiceImpl implements ModulePermissionService{
 	public boolean updateUrlPermissions(ModulePermission obj) throws Exception {
 		return dao.updateUrlPermissions(obj);
 	}
+
+	@Override
+	public List<ModulePermission> getModulesForFilter(ModulePermission obj) throws Exception {
+		return dao.getModulesForFilter(obj);
+	}
+
+	@Override
+	public List<ModulePermission> getModuleStatusListForFilter(ModulePermission obj) throws Exception {
+		return dao.getModuleStatusListForFilter(obj);
+	}
 	
 }

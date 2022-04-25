@@ -102,6 +102,29 @@
 							</div>
 						</span>
 						<div class="row">
+							
+							<div class="col m12 l10 s12">
+								<div class="col s6 m4 l3 input-field">
+									<p class="searchable_label">Module</p>
+									<select id="module_name_filter" name="module_name"
+										onchange="getModulesList();" class="searchable">
+										<option value="">Select</option>
+									</select>
+								</div>
+								<div class="col s6 m4 l3 input-field">
+									<p class="searchable_label">Status</p>
+									<select id="soft_delete_status_fk" name="soft_delete_status_fk"
+										onchange="getModulesList();" class="searchable">
+										<option value="">Select</option>
+									</select> 
+								</div>
+							</div>
+							<div class="col s12 m12 l2 center-align">  
+								<button class="btn bg-m waves-effect waves-light t-c"
+									style="margin-top: 12px;" onclick="clearFilter();">Clear
+									Filters</button>
+							</div>
+						
 							<div class="row clearfix">
 								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<c:if test="${not empty success }">
@@ -121,7 +144,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										 <c:forEach var="obj" items="${modulesList }">
+										 <%-- <c:forEach var="obj" items="${modulesList }">
 											<tr>
 												<td>${obj.module_name}</td>
 												<td>${obj.soft_delete_status_fk}</td>												
@@ -129,7 +152,7 @@
 													class="btn waves-effect waves-light bg-m t-c mob-btn"><i
 														class="fa fa-pencil"></i> </a> </td>
 											</tr>
-										</c:forEach>
+										</c:forEach> --%>
 									</tbody>
 								</table>
 						</div>
@@ -152,6 +175,22 @@
 	    </div>
 	  </div>
 	</div> 
+	
+	<div class="page-loader-2" style="display: none;">
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- footer  -->
    <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -187,61 +226,185 @@
             $('.searchable').select2();
            
         	$('.close-message').delay(3000).fadeOut('slow');
-        	table = $('#module_permission_table').DataTable();
-      		 
-    		table.destroy();
-    		 
-		    table = $('#module_permission_table').DataTable({
-		    	    
-        		"bStateSave": true,  
-        		fixedHeader: true,
-        		"pageLength":25,
-            	//Default: Page display length
-				"iData" : {
-					"start" : 52
-				},
-				"iDisplayStart" : 0,
-                columnDefs: [
-                    {
-                        targets: [0],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'nosort', orderable: false,
-                    },
-                    { "width": "20px", "targets": [2] }, 
-                    
-                ],
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                "bAutoWidth": true,
-                "ordering": false, //to stop sorting option                
-                fixedHeader: true, // to change the language of data table	          
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });       
-	                    var input = $('.dataTables_filter input')
-						.unbind()
-						.bind('keyup',function(e){
-						    if (e.which == 13){
-						    	self.search(input.val()).draw();
-						    }
-						}), self = this.api(), $searchButton = $(
-						'<i class="fa fa-search" title="Go">')
-						.click(function() {
-							self.search(input.val()).draw();
-						}), $clearButton = $(
-								'<i class="fa fa-close" title="Reset">')
-						.click(function() {
-							input.val('');
-							$searchButton.click();
-						})
-						$('.dataTables_filter').append(
-								'<div class="right-btns"></div>');
-						$('.dataTables_filter div').append(
-								$searchButton, $clearButton);                    
-                }
-            });
-	        
+        	
+        	getModulesList();
         });
+   	    
+   	 function clearFilter(){
+     	$("#module_name_filter").val("");
+     	$("#soft_delete_status_fk").val("");
+     	$('.searchable').select2();
+     	
+     	getModulesList();
+     }
+   	 
+   	 function getModulesList(){
+     	$(".page-loader-2").show();
+     	getModulesForFilter('');
+     	getModuleStatusListForFilter('');
+     	
+     	var module_name = $("#module_name_filter").val();
+     	var soft_delete_status_fk = $("#soft_delete_status_fk").val();
+      	
+     	table = $('#module_permission_table').DataTable();
+ 		 
+		table.destroy();
+		 
+	    table = $('#module_permission_table').DataTable({
+	    	    
+    		"bStateSave": true,  
+    		fixedHeader: true,
+    		"pageLength":25,
+        	//Default: Page display length
+			"iData" : {
+				"start" : 52
+			},
+			"iDisplayStart" : 0,
+            columnDefs: [
+                {
+                    targets: [0],
+                    className: 'mdl-data-table__cell--non-numeric',
+                    targets: 'nosort', orderable: false,
+                },
+                { "width": "20px", "targets": [2] }, 
+                
+            ],
+            "sScrollX": "100%",
+            "sScrollXInner": "100%",
+            "bScrollCollapse": true,
+            "bAutoWidth": true,
+            "ordering": false, //to stop sorting option                
+            fixedHeader: true, // to change the language of data table	          
+            initComplete: function () {
+                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });       
+                    var input = $('.dataTables_filter input')
+					.unbind()
+					.bind('keyup',function(e){
+					    if (e.which == 13){
+					    	self.search(input.val()).draw();
+					    }
+					}), self = this.api(), $searchButton = $(
+					'<i class="fa fa-search" title="Go">')
+					.click(function() {
+						self.search(input.val()).draw();
+					}), $clearButton = $(
+							'<i class="fa fa-close" title="Reset">')
+					.click(function() {
+						input.val('');
+						$searchButton.click();
+					})
+					$('.dataTables_filter').append(
+							'<div class="right-btns"></div>');
+					$('.dataTables_filter div').append(
+							$searchButton, $clearButton);                    
+            }
+        }).rows().remove().draw();
+ 		
+ 		
+ 		table.state.clear();		
+ 	 
+ 	 	var myParams = {module_name : module_name, soft_delete_status_fk : soft_delete_status_fk};
+ 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getModulesList",type:"POST",data:myParams,success : function(data){    				
+ 				if(data != null && data != '' && data.length > 0){    					
+ 	         		$.each(data,function(key,val){
+ 	         			var module_name = "'"+val.module_name+"'";
+ 	                    var actions = '<a href="javascript:getModule('+module_name+');" class="btn waves-effect waves-light bg-m t-c mob-btn"><i class="fa fa-pencil"></i> </a>';    	                   	
+ 	                   	var rowArray = [];
+                         
+ 	                   	rowArray.push($.trim(val.module_name));
+ 	                   	rowArray.push($.trim(val.soft_delete_status_fk));
+ 	                   	rowArray.push($.trim(actions));   	                   	
+ 	                   	
+ 	                    table.row.add(rowArray).draw( true );
+ 					});
+ 	         		$(".page-loader-2").hide();
+ 				}else{
+ 					$(".page-loader-2").hide();
+ 				}
+ 				
+ 			},error: function (jqXHR, exception) {
+ 				$(".page-loader-2").hide();
+ 	         	getErrorMessage(jqXHR, exception);
+ 	     }});
+     }
+   	 
+   	 function getModulesForFilter(){
+    	$(".page-loader").show();
+    	
+    	var module_name = $("#module_name_filter").val();
+     	var soft_delete_status_fk = $("#soft_delete_status_fk").val();
+     	if($.trim(module_name) == ''){
+	       $("#module_name_filter option:not(:first)").remove();
+	   	   var myParams = {module_name : module_name,soft_delete_status_fk : soft_delete_status_fk};
+           $.ajax({
+               url: "<%=request.getContextPath()%>/ajax/getModulesForFilter",type:"POST",
+               data: myParams, cache: false,async: false,
+               success: function (data) {
+            	   if (data.length > 0) {
+                       $.each(data, function (i, val) {
+                       		$("#module_name_filter").append('<option value="' + val.module_name +'">' + $.trim(val.module_name) +'</option>');
+                       });
+                   }
+                   $('.searchable').select2();
+                   $(".page-loader").hide();
+               },error: function (jqXHR, exception) {
+	   			      $(".page-loader").hide();
+   	          	  getErrorMessage(jqXHR, exception);
+   	     	  }
+           });
+     	}else{
+     		$(".page-loader").hide();
+     	}
+     }
+   	
+   	 function getModuleStatusListForFilter(){
+    	$(".page-loader").show();
+    	
+    	var module_name = $("#module_name_filter").val();
+     	var soft_delete_status_fk = $("#soft_delete_status_fk").val();
+     	if($.trim(soft_delete_status_fk) == ''){
+	       $("#soft_delete_status_fk option:not(:first)").remove();
+	   	   var myParams = {module_name : module_name,soft_delete_status_fk : soft_delete_status_fk};
+           $.ajax({
+               url: "<%=request.getContextPath()%>/ajax/getModuleStatusListForFilter",type:"POST",
+               data: myParams, cache: false,async: false,
+               success: function (data) {
+                   if (data.length > 0) {
+                       $.each(data, function (i, val) {
+                       		$("#soft_delete_status_fk").append('<option value="' + val.soft_delete_status_fk +'">' + $.trim(val.soft_delete_status_fk) +'</option>');
+                       });
+                   }
+                   $('.searchable').select2();
+                   $(".page-loader").hide();
+               },error: function (jqXHR, exception) {
+	   			      $(".page-loader").hide();
+   	          	  getErrorMessage(jqXHR, exception);
+   	     	  }
+           });
+     	}else{
+     		$(".page-loader").hide();
+     	}
+     }
+   	 
+   	 function getErrorMessage(jqXHR, exception) {
+	    var msg = '';
+	    if (jqXHR.status === 0) {
+	        msg = 'Not connect.\n Verify Network.';
+	    } else if (jqXHR.status == 404) {
+	        msg = 'Requested page not found. [404]';
+	    } else if (jqXHR.status == 500) {
+	        msg = 'Internal Server Error [500].';
+	    } else if (exception === 'parsererror') {
+	        msg = 'Requested JSON parse failed.';
+	    } else if (exception === 'timeout') {
+	        msg = 'Time out error.';
+	    } else if (exception === 'abort') {
+	        msg = 'Ajax request aborted.';
+	    } else {
+	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+	    }
+	    console.log(msg);
+ 	 }
 			 	        	
     </script>
 

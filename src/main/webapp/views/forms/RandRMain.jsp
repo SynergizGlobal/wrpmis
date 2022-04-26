@@ -525,10 +525,7 @@
                         targets: [0, 1, 2],
                         className: 'mdl-data-table__cell--non-numeric'
                     },
-					{
-                        targets: [4,5,7,],
-                        className: 'd-none'
-                    },
+					
                     { orderable: false, 'aTargets': ['no-sort'] }
                 ],
                 // "ScrollX": true,

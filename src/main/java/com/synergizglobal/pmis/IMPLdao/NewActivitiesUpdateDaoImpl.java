@@ -1086,9 +1086,11 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 											  c4.setTime(PrFormat.parse(SplitWith4[1]));
 											  c4.set(Calendar.DATE, Integer.parseInt(SplitWith4[0]));
 			
-											  DateFormat dfm4 = new SimpleDateFormat("dd-MM-yy");	
+											  DateFormat dfm4 = new SimpleDateFormat("YYYY");	
 											  DateFormat rdfm4 = new SimpleDateFormat("YYYY");
-											  Date Cdfm4=dfm4.parse(SplitWith4[0]+'-'+c4.get(Calendar.MONTH)+'-'+SplitWith4[2]);	
+											  String concat="20"+SplitWith4[2];
+											  
+											  Date Cdfm4=dfm4.parse(concat);	
 			
 											  String gdate4=rdfm4.format(Cdfm4);
 			
@@ -1156,9 +1158,10 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 										  c5.setTime(PrFormat.parse(SplitWith5[1]));
 										  c5.set(Calendar.DATE, Integer.parseInt(SplitWith5[0]));
 		
-										  DateFormat dfm5 = new SimpleDateFormat("dd-MM-yy");	
+										  DateFormat dfm5 = new SimpleDateFormat("YYYY");	
 										  DateFormat rdfm5 = new SimpleDateFormat("YYYY");
-										  Date Cdfm5=dfm5.parse(SplitWith5[0]+'-'+c5.get(Calendar.MONTH)+'-'+SplitWith5[2]);	
+										  String concat="20"+SplitWith5[2];
+										  Date Cdfm5=dfm5.parse(concat);	
 		
 										  String gdate5=rdfm5.format(Cdfm5);
 		
@@ -1211,6 +1214,190 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							  insertStmt.addBatch();
 						  }
 			    	}
+			    }
+			    else 
+			    {
+			    	
+			    	String Str1=getScopeValue(obj.getActivity_ids()[i]);
+			    	String Str2[]=obj.getScope().split(",");
+			    	Float Str=Float.parseFloat(Str2[i]);
+
+			    	boolean insertFlag=false;
+			    	
+			    	String Prdate=null;
+					if(!StringUtils.isEmpty(obj.getProgress_date())) 
+					{	
+						Prdate=obj.getData_date();
+					}			    	
+			    	
+			    	if(Str1.compareTo(String.valueOf(Str))!=0)
+					{
+						Message="Scope";
+					}
+					
+										    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
+										    insertStmt.setString(k++, obj.getRemarks());
+									    	insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:null);
+										    insertStmt.setString(k++,(obj.getActivity_ids()[i]));
+										    insertStmt.setString(k++, Prdate);
+				    insertStmt.setString(k++, "Pending");
+				    					    if(Str1.compareTo(String.valueOf(Str))!=0)
+				    					    {
+				    					    	insertFlag=true;
+				    						    insertStmt.setString(k++,(SplitScope[i]));
+				    					    }
+				    					    else
+				    					    {
+				    						    insertStmt.setString(k++,(null));
+				    }
+				    
+				    
+					  if( !StringUtils.isEmpty(obj.getPlanned_start())) 
+					  {
+						  if(SplitPlannedStart.length>0)
+						  {
+							  String StrPS=getPlannedStart(obj.getActivity_ids()[i]);
+
+							  if(i<SplitPlannedStart.length) 
+							  {
+								  if(!StringUtils.isEmpty(SplitPlannedStart[i])) 
+								  {
+										  String PStrdate=null;
+		
+										  Calendar c4 = Calendar.getInstance();
+										  String[] SplitWith4=SplitPlannedStart[i].split("-");
+		
+										  SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+										  c4.setTime(PrFormat.parse(SplitWith4[1]));
+										  c4.set(Calendar.DATE, Integer.parseInt(SplitWith4[0]));
+		
+										  DateFormat dfm4 = new SimpleDateFormat("YYYY");	
+										  DateFormat rdfm4 = new SimpleDateFormat("YYYY");
+										  String concat="20"+SplitWith4[2];
+										  Date Cdfm4=dfm4.parse(concat);	
+		
+										  String gdate4=rdfm4.format(Cdfm4);
+		
+		
+		
+										  c4.set(Calendar.YEAR, Integer.parseInt(gdate4));		            
+		
+										  SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+										  PStrdate=df.format(c4.getTime());	
+										  if(StrPS!=null)
+										  {
+										  	 if(StrPS.compareTo(String.valueOf(PStrdate))!=0)
+											 {	
+										  		 	insertFlag=true;
+										  		  insertStmt.setString(k++,PStrdate);
+											 }
+										     else
+										     {
+											  insertStmt.setString(k++,null);
+										     }
+										  }
+										  else
+										  {
+											  insertFlag=true;
+											  insertStmt.setString(k++,PStrdate);
+										  }
+								  }
+								  else
+								  {
+									  insertStmt.setString(k++,null);
+								  }									  
+							  }
+							  else
+							  {
+								  insertStmt.setString(k++,null);
+							  }
+						  }
+						  else
+						  {
+							  insertStmt.setString(k++,null);
+						  }
+					  }	
+					  else
+					  {
+						  insertStmt.setString(k++,null);
+					  }
+					  
+					  if( !StringUtils.isEmpty(obj.getPlanned_finish())) 
+					  {
+						  if(SplitPlannedFinish.length>0)
+						  {
+							  String StrPF=getPlannedFinish(obj.getActivity_ids()[i]);
+							  if(i<SplitPlannedFinish.length) 
+							  {
+								  
+								  if(!StringUtils.isEmpty(SplitPlannedFinish[i])) 
+								  {
+									  String Pfndate=null;
+	
+									  Calendar c5 = Calendar.getInstance();
+									  String[] SplitWith5=SplitPlannedFinish[i].split("-");
+	
+									  SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+									  c5.setTime(PrFormat.parse(SplitWith5[1]));
+									  c5.set(Calendar.DATE, Integer.parseInt(SplitWith5[0]));
+	
+									  DateFormat dfm5 = new SimpleDateFormat("YYYY");	
+									  DateFormat rdfm5 = new SimpleDateFormat("YYYY");
+									  String concat="20"+SplitWith5[2];
+									  Date Cdfm5=dfm5.parse(concat);	
+	
+									  String gdate5=rdfm5.format(Cdfm5);
+	
+	
+	
+									  c5.set(Calendar.YEAR, Integer.parseInt(gdate5));		            
+	
+									  SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	
+									  Pfndate=df.format(c5.getTime());	
+									  if(StrPF!=null)
+									  {
+									  	  if(StrPF.compareTo(String.valueOf(Pfndate))!=0)
+										  {	
+									  		  insertFlag=true;
+									  		  insertStmt.setString(k++,Pfndate);
+										  }
+										  else
+										  {
+											  insertStmt.setString(k++,null);
+										  }
+									  }
+									  else
+									  {
+										  insertFlag=true;
+										  insertStmt.setString(k++,Pfndate);
+									  }
+								  }
+								  else
+								  {
+									  insertStmt.setString(k++,null);
+								  }									  
+							  }
+							  else
+							  {
+								  insertStmt.setString(k++,null);
+							  }
+						  }
+						  else
+						  {
+							  insertStmt.setString(k++,null);
+						  }
+					  }	
+					  else
+					  {
+						  insertStmt.setString(k++,null);
+					  }						  
+					  if(insertFlag==true)
+					  {
+						  insertStmt.addBatch();
+					  }					    			    	
+			    	
 			    }
 			}
 			int[] insertCount = insertStmt.executeBatch();

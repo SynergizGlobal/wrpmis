@@ -214,7 +214,8 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			OverviewDashboard tempObj = getWorkColumnName(dObj.getDashboard_id());
 			
 			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, "
-					+ "default_filter_column, default_filter_value, selected_value,query_for_filter_options,filters_table_alias_name,order_by,is_first_option_selected "
+					+ "default_filter_column, default_filter_value, selected_value,query_for_filter_options,filters_table_alias_name,order_by,"
+					+ "is_first_option_selected,union_all "
 					+ "FROM left_menu_filters WHERE left_menu_id_fk = ? AND status = ? "
 					+ "ORDER BY priority ASC";
 			objList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id(),CommonConstants.ACTIVE },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
@@ -429,7 +430,8 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			OverviewDashboard tempObj = getWorkColumnName(dObj.getDashboard_id());
 			
 			String qry = "SELECT filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_id, filter_column_name, "
-					+ "default_filter_column, default_filter_value, selected_value,query_for_filter_options,filters_table_alias_name,order_by,is_first_option_selected,union_all "
+					+ "default_filter_column, default_filter_value, selected_value,query_for_filter_options,filters_table_alias_name,order_by,"
+					+ "is_first_option_selected,union_all "
 					+ "FROM left_menu_filters WHERE filter_id = ? "
 					+ "ORDER BY priority ASC";
 			objList = jdbcTemplate.query(qry, new Object[] { dObj.getFilter_id()},new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));

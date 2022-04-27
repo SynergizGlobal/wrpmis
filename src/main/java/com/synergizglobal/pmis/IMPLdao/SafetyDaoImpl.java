@@ -201,8 +201,8 @@ public class SafetyDaoImpl implements SafetyDao {
 	@Override
 	public boolean addSafety(Safety obj) throws Exception {
 		boolean flag = false;
-		TransactionDefinition def = new DefaultTransactionDefinition();
-		TransactionStatus status = transactionManager.getTransaction(def);
+		//TransactionDefinition def = new DefaultTransactionDefinition();
+		//TransactionStatus status = transactionManager.getTransaction(def);
 		String safety_id = null;		
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
@@ -221,51 +221,29 @@ public class SafetyDaoImpl implements SafetyDao {
 				safety_id = String.valueOf(keyHolder.getKey().intValue());
 				obj.setSafety_id(safety_id);
 				flag = true;
-				if(flag) 
-				{
-					if(!StringUtils.isEmpty(obj.getSafetyFiles()) && obj.getSafetyFiles().size() > 0) 
-					{
-						
-						String fileQry = "INSERT INTO safety_files (attachment,safety_id_fk)VALUES(:attachment,:safety_id)";
-						
-						List<MultipartFile> issueFiles = obj.getSafetyFiles();
-						for (MultipartFile multipartFile : issueFiles) {
-							if(null != multipartFile && !multipartFile.isEmpty()){
-								String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH;
-								String fileName = multipartFile.getOriginalFilename();
-								DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
-								String fileName_new = "Safety-"+obj.getSafety_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
-								
-								Safety fileObj = new Safety();
-								fileObj.setAttachment(fileName_new);
-								fileObj.setSafety_id(obj.getSafety_id());
-								paramSource = new BeanPropertySqlParameterSource(fileObj);	
-								template.update(fileQry, paramSource);
-							}
-						}
-					}
+				if(!StringUtils.isEmpty(obj.getSafetyFiles()) && obj.getSafetyFiles().size() > 0){						
+					String fileQry = "INSERT INTO safety_files (attachment,safety_id_fk)VALUES(:attachment,:safety_id)";
 					
-					String safety_status = obj.getStatus_fk();
-					String reported_by_email_id = obj.getReported_by_email_id();					
-
-					sendEmailWithSafetyStatusAlert(safety_id, safety_status, reported_by_email_id, obj.getExisting_status_fk(), null,
-							null);					
-					
-					/*if(!StringUtils.isEmpty(obj.getCommittee_member_names()) && obj.getCommittee_member_names().length > 0) 
-					{
-						Safety fileCommitteeMembersObj = new Safety();
-						String fileQry = "INSERT INTO safety_committee_members (committee_member_name,safety_id_fk)VALUES(:committee_member_name,:safety_id)";
-						
-						for (int i = 0; i < obj.getCommittee_member_names().length; i++) {
-							fileCommitteeMembersObj = new Safety();
-							fileCommitteeMembersObj.setCommittee_member_name(obj.getCommittee_member_names()[i]);
-							fileCommitteeMembersObj.setSafety_id(obj.getSafety_id());
-							paramSource = new BeanPropertySqlParameterSource(fileCommitteeMembersObj);	
+					List<MultipartFile> issueFiles = obj.getSafetyFiles();
+					for (MultipartFile multipartFile : issueFiles) {
+						if(null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH;
+							String fileName = multipartFile.getOriginalFilename();
+							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
+							String fileName_new = "Safety-"+obj.getSafety_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+							
+							Safety fileObj = new Safety();
+							fileObj.setAttachment(fileName_new);
+							fileObj.setSafety_id(obj.getSafety_id());
+							paramSource = new BeanPropertySqlParameterSource(fileObj);	
 							template.update(fileQry, paramSource);
 						}
-					}*/						
-				}
+					}
+				}			
+
+				sendEmailWithSafetyStatusAlert(safety_id, "Add", null, null, null);
+				
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
@@ -276,25 +254,25 @@ public class SafetyDaoImpl implements SafetyDao {
 				formHistory.setWork_id_fk(obj.getWork_id_fk());
 				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
-				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/
 			}
-			transactionManager.commit(status);
+			//transactionManager.commit(status);
 		}catch(Exception e){ 
-			transactionManager.rollback(status);
+			//transactionManager.rollback(status);
 			throw new Exception(e);
 		}
 		return flag;
 	}
 	
 	
-	public void sendEmailWithSafetyStatusAlert(String safety_id, String safety_status, String reported_by_email_id,
-			String existing_status_fk, String existing_responsible_person, String existing_escalated_to)
+	public void sendEmailWithSafetyStatusAlert(String safety_id, String action_type,String existing_status_fk, String existing_responsible_person, String existing_committe_members)
 			throws Exception {
 
 		try {
-
-			String emailsQry = "select i.safety_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.title,i.location,i.remarks,"
+			String emailsQry = "select i.safety_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,"
+					+ "c.contract_name,i.category_fk,i.title,i.location,i.remarks,"
+					+ "u2.user_name as responsible_person,"
 					+ "u2.designation as responsible_person_designation,"
 					+ "u2.email_id as responsible_person_email_id,"
 					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,"
@@ -329,71 +307,57 @@ public class SafetyDaoImpl implements SafetyDao {
 
 				String issueMessageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
 						+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";
-
-				String safetystatus = null;
-				if(!StringUtils.isEmpty(iObj.getStatus_fk())) {
-					safetystatus = iObj.getStatus_fk().toLowerCase();
+				String[] existing_committe_members_arr = null;
+				if(!StringUtils.isEmpty(existing_committe_members)) {
+					existing_committe_members_arr = existing_committe_members.split(",");
 				}
-				String message1 = "A new safety against " + iObj.getContract_short_name() + " has been " + safetystatus + " to you";
 
-				String message2 = "An incident against " + iObj.getContract_short_name() + " has been " + safetystatus;
 
-				String message3 = "An incident against " + iObj.getContract_short_name() + " has been ";
 				
-				String message4 = "An incident against " + iObj.getContract_short_name() + " has been assigned to you as a Committee member";
+				String message1 = "An incident against " + iObj.getContract_short_name() + " has been assigned to you.";
+				
+				String message2 = "An incident against " + iObj.getContract_short_name() + " has been assigned to you as a Committee member.";
 
-				if(!"Update".equals(safety_status)){		
-					message3 = message3 + safetystatus;
-				}else{
-					message3 = message3 + "updated";
-				}
+				String message3 = "An incident against " + iObj.getContract_short_name() + " has been updated";
+				
+				String message4 = "An incident against " + iObj.getContract_short_name() + " has been " + iObj.getStatus_fk();
 
-				String hod_user_id = "", dy_hod_user_id = "", responsible_person_user_id = "",reported_by_user_id = "";
-				if("Open".equals(iObj.getStatus_fk())) {
-					hod_user_id = iObj.getContract_hod_user_id();
-					dy_hod_user_id = iObj.getContract_dyhod_user_id();
-					reported_by_user_id = iObj.getReported_by_user_id();
-				}else if("Closed".equals(iObj.getStatus_fk())) {
-					hod_user_id = iObj.getContract_hod_user_id();
-					dy_hod_user_id = iObj.getContract_dyhod_user_id();
-					responsible_person_user_id = iObj.getResponsible_person_user_id();
-					reported_by_user_id = iObj.getReported_by_user_id();
-				}
+				String hod_user_id = iObj.getContract_hod_user_id();
+				String dy_hod_user_id = iObj.getContract_dyhod_user_id();
+				String responsible_person_user_id = iObj.getResponsible_person_user_id();
+				String reported_by_user_id = iObj.getReported_by_user_id();
+				
 				String redirect_url = "/get-safety?safety_id=" + iObj.getSafety_id();
 				
 				String message_type = "Safety";
 				
-				if(!"Update".equals(safety_status)){				
-					if(!StringUtils.isEmpty(iObj.getStatus_fk()) && "Open".equals(iObj.getStatus_fk())
-							&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-						if(!StringUtils.isEmpty(dy_hod_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(dy_hod_user_id);
-							msgObj.setMessage(message1);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-						if(!StringUtils.isEmpty(hod_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(hod_user_id);
-							msgObj.setMessage(message2);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
+				if(!"Update".equals(action_type)){		
+					if(!StringUtils.isEmpty(responsible_person_user_id)) {
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(responsible_person_user_id);
+						msgObj.setMessage(message1);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+						template.update(issueMessageQry, paramSource);
 					}
-					
 				} else {
-					
-					if(!StringUtils.isEmpty(iObj.getStatus_fk()) && "Closed".equals(iObj.getStatus_fk())
-							&& !iObj.getStatus_fk().equals(existing_status_fk)) {
+					if(!StringUtils.isEmpty(iObj.getStatus_fk()) && "Closed".equals(iObj.getStatus_fk())) {
+						
+						for (String user_id : committe_user_ids) {
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(user_id);
+							msgObj.setMessage(message4);
+							msgObj.setRedirect_url(redirect_url);
+							msgObj.setMessage_type(message_type);
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+							template.update(issueMessageQry, paramSource);
+						}
+						
 						if(!StringUtils.isEmpty(hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(hod_user_id);
-							msgObj.setMessage(message2);
+							msgObj.setMessage(message4);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
@@ -402,7 +366,7 @@ public class SafetyDaoImpl implements SafetyDao {
 						if(!StringUtils.isEmpty(dy_hod_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(dy_hod_user_id);
-							msgObj.setMessage(message2);
+							msgObj.setMessage(message4);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
@@ -411,7 +375,7 @@ public class SafetyDaoImpl implements SafetyDao {
 						if(!StringUtils.isEmpty(responsible_person_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(responsible_person_user_id);
-							msgObj.setMessage(message2);
+							msgObj.setMessage(message4);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
@@ -420,110 +384,41 @@ public class SafetyDaoImpl implements SafetyDao {
 						if(!StringUtils.isEmpty(reported_by_user_id)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(reported_by_user_id);
-							msgObj.setMessage(message2);
+							msgObj.setMessage(message4);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
 					}else if(!StringUtils.isEmpty(iObj.getStatus_fk())
-							&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-						if(!StringUtils.isEmpty(hod_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(hod_user_id);
-							msgObj.setMessage(message2);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-						if(!StringUtils.isEmpty(dy_hod_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(dy_hod_user_id);
-							msgObj.setMessage(message2);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-						if(!StringUtils.isEmpty(responsible_person_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(responsible_person_user_id);
-							msgObj.setMessage(message1);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-					} else if(!StringUtils.isEmpty(iObj.getStatus_fk())
-							&& iObj.getStatus_fk().equals(existing_status_fk)
-							&& !StringUtils.isEmpty(iObj.getResponsible_person_user_id())
-							&& iObj.getResponsible_person_user_id().equals(existing_responsible_person)) {
-						if(!StringUtils.isEmpty(responsible_person_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(responsible_person_user_id);
-							msgObj.setMessage(message3);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-						if(!StringUtils.isEmpty(hod_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(hod_user_id);
-							msgObj.setMessage(message3);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-						if(!StringUtils.isEmpty(dy_hod_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(dy_hod_user_id);
-							msgObj.setMessage(message3);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-					}else if(!StringUtils.isEmpty(iObj.getStatus_fk())
-							&& iObj.getStatus_fk().equals(existing_status_fk)
-							&& !StringUtils.isEmpty(iObj.getResponsible_person_user_id())
-							&& !iObj.getResponsible_person_user_id().equals(existing_responsible_person)) {
-						if(!StringUtils.isEmpty(responsible_person_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(responsible_person_user_id);
-							msgObj.setMessage(message1);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-						if(!StringUtils.isEmpty(hod_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(hod_user_id);
-							msgObj.setMessage(message3);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-						if(!StringUtils.isEmpty(dy_hod_user_id)) {
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(dy_hod_user_id);
-							msgObj.setMessage(message3);
-							msgObj.setRedirect_url(redirect_url);
-							msgObj.setMessage_type(message_type);
-							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
-							template.update(issueMessageQry, paramSource);
-						}
-					}
-					
-					for (String user_id : committe_user_ids) {
-						if(!StringUtils.isEmpty(user_id)) {
+							&& iObj.getStatus_fk().equals(existing_status_fk)) {
+						for (String user_id : committe_user_ids) {
+							boolean exst_flag = false;
+							if(!StringUtils.isEmpty(existing_committe_members_arr)) {
+								for (String existing_committe_member : existing_committe_members_arr) {
+									if(!StringUtils.isEmpty(user_id) && !StringUtils.isEmpty(existing_committe_member) && 
+											user_id.equals(existing_committe_member)) {
+										exst_flag = true;
+									}
+								}
+							}
+							String message = "";
+							if(exst_flag)message = message3; else message = message2;
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(user_id);
-							msgObj.setMessage(message4);
+							msgObj.setMessage(message);
+							msgObj.setRedirect_url(redirect_url);
+							msgObj.setMessage_type(message_type);
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+							template.update(issueMessageQry, paramSource);
+						}
+						if(!StringUtils.isEmpty(responsible_person_user_id)) {
+							String message = "";
+							if(responsible_person_user_id.equals(existing_responsible_person))message = message3; else message = message1;
+							
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(responsible_person_user_id);
+							msgObj.setMessage(message);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
@@ -538,7 +433,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				String mailCC = "";
 				
 				
-				if(!"Update".equals(safety_status)){
+				if(!"Update".equals(action_type)){
 					if("Open".equals(iObj.getStatus_fk())) {
 						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 							mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
@@ -546,29 +441,11 @@ public class SafetyDaoImpl implements SafetyDao {
 						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
 							mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
 						}
-						if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
-							mailCC = mailCC + iObj.getReported_by_email_id() + ",";
-						}
 						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
 							mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
 						}
-					}else if("Closed".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-							mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
-						}
-						if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
-							mailCC = mailCC + iObj.getReported_by_email_id() + ",";
-						}
-					}
-					
+					}					
 				} else {
-					
 					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 						mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
 					}
@@ -578,15 +455,12 @@ public class SafetyDaoImpl implements SafetyDao {
 					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
 						mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
 					}	
-					
-					for (String email_id : committe_user_email_ids) {
-						if(!StringUtils.isEmpty(email_id)) {
-							mailTo = mailTo + email_id + ",";
+					if(!StringUtils.isEmpty(committe_user_email_ids)) {
+						for (String committe_user_email_id : committe_user_email_ids) {
+							mailTo = mailTo + committe_user_email_id + ",";
 						}
 					}
 				}
-				
-				
 
 				if(!StringUtils.isEmpty(mailTo)) {
 					mailTo = org.apache.commons.lang3.StringUtils.chop(mailTo);
@@ -598,7 +472,7 @@ public class SafetyDaoImpl implements SafetyDao {
 
 				String mailBodyHeader = "";
 
-				if(!"Update".equals(safety_status)) {
+				if(!"Update".equals(action_type)) {
 					if(iObj.getStatus_fk().equals("Open")) {
 						mailBodyHeader = mailBodyHeader + "A new safety ";
 					}else if(iObj.getStatus_fk().equals("Closed")) {
@@ -614,26 +488,25 @@ public class SafetyDaoImpl implements SafetyDao {
 				}
 				mailBodyHeader = mailBodyHeader + " has been ";				
 
-				if(!"Update".equals(safety_status)) {
-					mailBodyHeader = mailBodyHeader + safetystatus;
-				}else{
+				if(!"Update".equals(action_type)) {
+					mailBodyHeader = mailBodyHeader + "added.";
+				}else if(!"Closed".equals(iObj.getStatus_fk())){
 					mailBodyHeader = mailBodyHeader + "updated ";
+				}else{
+					mailBodyHeader = mailBodyHeader + iObj.getStatus_fk();
 				}
 
 
 				iObj.setMail_body_header(mailBodyHeader);
 
-				String emailSubject = "PMIS Safety Notification - Safety ";
-
-				if(!StringUtils.isEmpty(iObj.getStatus_fk()) && !StringUtils.isEmpty(existing_status_fk)
-						&& iObj.getStatus_fk().equals(existing_status_fk)) {
-					if("Closed".equals(iObj.getStatus_fk())) {
-						emailSubject = emailSubject + iObj.getStatus_fk();
-					} else {
-						emailSubject = emailSubject + "Updated";
-					}
-				} else {
-					emailSubject = emailSubject + safety_status;
+				String emailSubject = "PMIS Safety Notification - An incident ";
+				
+				if(!"Update".equals(action_type)) {
+					emailSubject = emailSubject + "added.";
+				}else if(!"Closed".equals(iObj.getStatus_fk())){
+					emailSubject = emailSubject  + "updated.";
+				}else{
+					emailSubject = emailSubject + iObj.getStatus_fk();
 				}
 
 				Mail mail = new Mail();
@@ -651,11 +524,7 @@ public class SafetyDaoImpl implements SafetyDao {
 
 				if(!StringUtils.isEmpty(mailTo)) {
 					EMailSender emailSender = new EMailSender();
-					/*logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail to " + mailTo + ": Start ");
-					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail CC " + mailCC + ": Start ");*/
 					emailSender.sendEmailWithSafetyStatusAlert(mail, iObj, today_date, current_year);
-					/*logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail to " + mailTo + ": end ");
-					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail CC " + mailCC + ": end ");*/
 				}
 			}
 		} catch (Exception e) {
@@ -670,8 +539,9 @@ public class SafetyDaoImpl implements SafetyDao {
 		try {
 			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,w.work_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,u.department_fk,"
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,s.compensation_units,s.committee_member_name,"
-					+ "s.status_fk as existing_status_fk  "
+					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,"
+					+ "work_id_fk,work_name,project_id_fk,project_name,s.compensation_units,s.committee_member_name,"
+					+ "(select group_concat(committee_member_name) from safety_committee_members where safety_id_fk = ?) as committe_members "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
@@ -679,50 +549,8 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "where safety_id = ? ";
 			
-			int arrSize = 1;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getImpact_fk())) {
-				qry = qry + " and impact_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
-				qry = qry + " and category_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
-				qry = qry + " and status_fk = ?";
-				arrSize++;
-			}
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRoot_cause_fk())) {
-				qry = qry + " and root_cause_fk = ?";
-				arrSize++;
-			}
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			pValues[i++] = obj.getSafety_id();
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getImpact_fk())) {
-				pValues[i++] = obj.getImpact_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
-				pValues[i++] = obj.getCategory_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
-				pValues[i++] = obj.getStatus_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRoot_cause_fk())) {
-				pValues[i++] = obj.getRoot_cause_fk();
-			}
-			sobj = (Safety)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
+			sobj = (Safety)jdbcTemplate.queryForObject( qry, new Object[]{obj.getSafety_id(),obj.getSafety_id()}, new BeanPropertyRowMapper<Safety>(Safety.class));	
 			
 			if(!StringUtils.isEmpty(sobj)) {				
 				String filesQry ="select id, safety_id_fk, attachment from safety_files where safety_id_fk = ? ";					
@@ -829,17 +657,10 @@ public class SafetyDaoImpl implements SafetyDao {
 					}
 				} 
 				String safety_id = obj.getSafety_id();
-				String safety_status = obj.getStatus_fk();
 				String existing_status_fk = obj.getExisting_status_fk();
-				String reported_by_email_id = obj.getReported_by_email_id();
 				String existing_responsible_person = obj.getExisting_responsible_person();
-				String existing_escalated_to = obj.getExisting_escalated_to();
-				/*if(!StringUtils.isEmpty(obj.getExisting_responsible_person()) && !StringUtils.isEmpty(obj.getResponsible_person()) && 
-						obj.getExisting_responsible_person().compareTo(obj.getResponsible_person())!=0){
-					sendEmailWithSafetyStatusAlert(safety_id, "Update", reported_by_email_id, existing_status_fk,existing_responsible_person, existing_escalated_to);
-				}*/
 				
-				sendEmailWithSafetyStatusAlert(safety_id, "Update", reported_by_email_id, existing_status_fk,existing_responsible_person, existing_escalated_to);
+				sendEmailWithSafetyStatusAlert(safety_id, "Update", existing_status_fk,existing_responsible_person, obj.getExisting_committe_members());
 				
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());

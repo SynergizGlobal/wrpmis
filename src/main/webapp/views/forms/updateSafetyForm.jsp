@@ -89,31 +89,20 @@
                     <div class="container container-no-margin">
                         <form action="<%=request.getContextPath() %>/update-safety" id="safetyForm" name="safetyForm" method="post" enctype="multipart/form-data">
                         
-                         	<input id="existing_status_fk" name="existing_status_fk" type="hidden" value="${safety.existing_status_fk }"/>
-                        	<input id="existing_responsible_person" name="existing_responsible_person" type="hidden" value="${safety.responsible_person }"/>
-                        	<input id="hod_user_id_fk" name="hod_user_id_fk" type="hidden" value="${safety.hod_user_id_fk }" />
-                        	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" value="${safety.dy_hod_user_id_fk }" />                       
+                         	<input name="existing_status_fk" type="hidden" value="${safety.status_fk }"/>
+                        	<input name="existing_responsible_person" type="hidden" value="${safety.responsible_person }"/>
+                        	<input name="hod_user_id_fk" type="hidden" value="${safety.hod_user_id_fk }" />
+                        	<input name="dy_hod_user_id_fk" type="hidden" value="${safety.dy_hod_user_id_fk }" />        
+                        	<input name="existing_committe_members" type="hidden" value="${safety.committe_members }" />                
                         
                         	<div class="row">
                                 <div class="col s6 m4 l4 input-field">
-                                   <%--  <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
-                                        onchange="getWorksList(this.value);">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id }" <c:if test="${safety.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-                                        </c:forEach>
-                                    </select> --%>
                                     <input type="text"  value ="${safety.project_id_fk } - ${safety.project_name}" readonly id="project-text"/>
                                     <label for="project-text">Project <span class="required">*</span></label>
                                     <input type="hidden" name="project_id_fk" id="project_id_fk" value ="${safety.project_id_fk }" />
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                  <!--   <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);">
-                                        <option value="" selected>Select</option>
-                                    </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span> -->
                                     <input type="text"  value ="${safety.work_id_fk } - ${safety.work_short_name}" readonly id="work-text"/>
                                     <label for="work-text">Work <span class="required">*</span></label>
                                     <input type="hidden" name="work_id_fk" id="work_id_fk" value ="${safety.work_id_fk }" />
@@ -130,44 +119,8 @@
                             </div>
 
                             <div class="row">
-                            <input id="safety_id" name="safety_id" type="hidden" value="${safety.safety_id }" />
-                               <%--  <div class="col s12 m4 input-field">
-                                    <!-- <input type="text" id="user_id"> -->
-                                    <label for="user_id" >Safety ID : <input id="safety_id" name="safety_id" type="text" value="${safety.safety_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-                                    <br><br>
-                                </div> --%>
-                                
-                                
-                                
+                            <input id="safety_id" name="safety_id" type="hidden" value="${safety.safety_id }" />                                
                             </div>
-                            
-                       <%--      <div class="row">
-                                <!-- row 6 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                     <p class="searchable_label"> Department <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${departmentList }">
-                                        	<c:if test="${obj.department_fk eq 'Elec' or obj.department_fk eq 'Engg' or obj.department_fk eq 'S&T'}">
-                                            	<option value="${obj.department_fk }" <c:if test="${safety.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
-                                        	</c:if>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="department_fkError" class="error-msg" ></span>
-                                </div>
-                                   <div class="col s12 m4 input-field">
-                                	<p class="searchable_label"> HOD <span class="required">*</span></p>
-                                    <select id="hod_user_id_fk" name="hod_user_id_fk" class="searchable validate-dropdown">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${hodList }">
-                                      	   <option value= "${ obj.hod_user_id_fk}" <c:if test="${safety.hod_user_id_fk eq obj.hod_user_id_fk}">selected</c:if>>${obj.designation}</option>
-                                         </c:forEach>
-                                    </select>
-                                    <span id="hod_user_id_fkError" class="error-msg" ></span>
-                                </div> 
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> --%>
                             <div class="row">
                             <div class="col s6 m4 l4 input-field">
                                    <p class="searchable_label"> Category <span class="required">*</span></p>

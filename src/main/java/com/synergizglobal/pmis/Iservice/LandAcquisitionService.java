@@ -46,7 +46,7 @@ public interface LandAcquisitionService {
 
 	public List<LandAcquisition> getLaFileType() throws Exception;
 
-	public int uploadLAData(List<LandAcquisition> lasList, LandAcquisition la) throws Exception;
+	public String[] uploadLAData(List<LandAcquisition> lasList, LandAcquisition la) throws Exception;
 
 	public List<LandAcquisition> getLaLandStatus() throws Exception;
 

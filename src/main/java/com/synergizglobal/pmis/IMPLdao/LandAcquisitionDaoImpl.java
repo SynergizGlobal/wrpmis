@@ -1442,9 +1442,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	}
 
 	@Override
-	public int uploadLAData(List<LandAcquisition> lasList, LandAcquisition la) throws Exception {
+	public String[] uploadLAData(List<LandAcquisition> lasList, LandAcquisition la) throws Exception {
 		boolean flag = false;
-		int count = 0;
+		String errMsg = null;
+		int count = 0,row =2,sheet = 2,subRow = 3;
+		int sheet1 =2,sheet2=2,sheet3=2,sheet4=2,sheet5=2,sheet6=2;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
@@ -1475,7 +1477,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				String la_id = checkLAIdMethod(obj,table_name);
 				String sub_category_no = getSubCategoryNo(obj);
 				obj.setLa_sub_category_fk(sub_category_no);
-				
+				row++;sheet = 1;
 				if(!StringUtils.isEmpty(la_id)) {
 					obj.setLa_id(la_id);
 					//System.out.println(rNo++);
@@ -1487,6 +1489,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					    count = namedParamJdbcTemplate.update(insertQry, paramSource);
 				}
 				if(!StringUtils.isEmpty(obj.getPrivateIRAList())) {
+					subRow = sheet1;
 					String  privateInsertQry = "INSERT INTO la_private_ira "
 							+ " (la_id_fk, collector, submission_of_proposal_to_GM, approval_of_GM, draft_letter_to_con_for_approval_rp, date_of_approval_of_construction_rp, date_of_uploading_of_gazette_notification_rp, "
 							+ "publication_in_gazette_rp, date_of_proposal_to_DC_for_nomination, date_of_nomination_of_competenta_authority, draft_letter_to_con_for_approval_ca, date_of_approval_of_construction_ca, "
@@ -1525,6 +1528,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					for (LandAcquisition obj1 : obj.getPrivateIRAList()) {
 						String table_name1 = "la_private_ira";
 						String la_id1 = checkLAIdMethod(obj1,table_name1);
+						sheet = 2;subRow++;
 						if(!StringUtils.isEmpty(la_id1)) {
 							obj.setLa_id(la_id1);
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj1);
@@ -1540,8 +1544,10 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						    namedParamJdbcTemplate.update(upLandQry, paramSource);
 						}
 					}
+					sheet1 = sheet1 + obj.getPrivateIRAList().size();
 				}
 				if(!StringUtils.isEmpty(obj.getPrivateLAList())) {
+					subRow = sheet2;
 					String  privateLAInsertQry = "INSERT INTO la_private_land_acquisition "
 					 		+ "(la_id_fk, name_of_the_owner, basic_rate, agriculture_tree_nos,agriculture_tree_rate, forest_tree_nos,"
 					 		+ " forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, possession_status_fk, "
@@ -1565,6 +1571,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 					String upLandQry = "UPDATE la_land_identification set private_land_process = 'Private DPM',modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP where la_id= :la_id";
 					for (LandAcquisition obj2 : obj.getPrivateLAList()) {
+						sheet = 4;subRow++;
 						String table_name2 = "la_private_land_acquisition";
 						String la_id2 = checkLAIdMethod(obj2,table_name2);
 						obj.setType_of_land("Private");
@@ -1583,8 +1590,10 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						    namedParamJdbcTemplate.update(upLandQry, paramSource);
 						}
 					}
+					sheet2 = sheet2 + obj.getPrivateLAList().size();
 				}
 				if(!StringUtils.isEmpty(obj.getPrivateLVList())) {
+					subRow = sheet3;
 					String privateInsertSubQry = "INSERT INTO la_private_land_valuation "
 					 		+ "(la_id_fk, forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, "
 					 		+ "structure_survey, structure_valuation, borewell_survey, borewell_valuation, horticulture_tree_valuation_status_fk, structure_valuation_status_fk, "
@@ -1604,6 +1613,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					 		+ "where la_id_fk= :la_id";
 					
 					for (LandAcquisition obj3 : obj.getPrivateLVList()) {
+						sheet = 3;subRow++;
 						String table_name3 = "la_private_land_valuation";
 						String la_id3 = checkLAIdMethod(obj3,table_name3);
 						obj.setType_of_land("Private");
@@ -1616,8 +1626,10 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						    count = namedParamJdbcTemplate.update(privateInsertSubQry, paramSource);
 						}
 					}
+					sheet3 = sheet3 + obj.getPrivateLVList().size();
 				}
 				if(!StringUtils.isEmpty(obj.getGovList())) {
+					subRow = sheet4;
 					String govInsertQry = "INSERT INTO la_government_land_acquisition"
 							+ "( la_id_fk, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, "
 							+ "lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk,"//special_feature
@@ -1633,6 +1645,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 							+ "amount_demanded_units= :amount_demanded_units, amount_paid_units= :amount_paid_units "
 							+ "where  la_id_fk= :la_id";
 					for (LandAcquisition obj4 : obj.getGovList()) {
+						sheet = 5;subRow++;
 						String table_name4 = "la_government_land_acquisition";
 						String la_id4 = checkLAIdMethod(obj4,table_name4);
 						obj.setType_of_land("Government");
@@ -1645,8 +1658,10 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						    count = namedParamJdbcTemplate.update(govInsertQry, paramSource);
 						} 
 					}
+					sheet4 = sheet4 + obj.getGovList().size();
 				}
 				if(!StringUtils.isEmpty(obj.getForestList())) {
+					subRow = sheet5;
 					String forestInsertSubQry = "INSERT INTO la_forest_land_acquisition "
 					 		+ "( la_id_fk, on_line_submission, submission_date_to_dycfo, submission_date_to_ccf_thane, submission_date_to_nodal_officer, "
 					 		+ "submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur, valuation_by_dycfo, "
@@ -1666,6 +1681,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					 		+ " where la_id_fk= :la_id ";
 
 					for (LandAcquisition obj5 : obj.getForestList()) {
+						sheet = 6;subRow++;
 						String table_name5 = "la_forest_land_acquisition";
 						String la_id5 = checkLAIdMethod(obj5,table_name5);
 						obj.setType_of_land("Forest");
@@ -1678,8 +1694,10 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						    count = namedParamJdbcTemplate.update(forestInsertSubQry, paramSource);
 						}
 					}
+					sheet5 = sheet5 + obj.getForestList().size();
 				}
 				if(!StringUtils.isEmpty(obj.getRailwayList())) {
+					subRow = sheet6;
 					String railwayInsertSubQry = " INSERT INTO la_railway_land_acquisition"
 					 		+ "(la_id_fk, online_submission, submission_date_to_DyCFO, "
 					 		+ "submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`, submission_date_to_revenue_secretary_mantralaya, "
@@ -1701,6 +1719,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					 		+ "demanded_amount_units= :demanded_amount_units, payment_amount_units= :payment_amount_units_railway   "
 					 		+ "where la_id_fk= :la_id ";
 					for (LandAcquisition obj6 : obj.getRailwayList()) {
+						sheet = 7;subRow++;
 						String table_name6 = "la_railway_land_acquisition";
 						String la_id6 = checkLAIdMethod(obj6,table_name6);
 						obj.setType_of_land("Railway");
@@ -1713,19 +1732,25 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						    count = namedParamJdbcTemplate.update(railwayInsertSubQry, paramSource);
 						}
 					}
-				
+					sheet6 = sheet6 + obj.getRailwayList().size();
 				}
+				count = lasList.size();
 			   }
 			}
-		   count = lasList.size();
+		   
 		   transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			e.printStackTrace();
-			throw new Exception(e);
+			errMsg = e.getMessage();
 		}
-		
-		return count;
+		String arr[] = new String[5];
+		arr[0] = errMsg;
+	    arr[1] = String.valueOf(count);
+	    arr[2] = String.valueOf(row);
+	    arr[3] = String.valueOf(sheet);
+	    arr[4] = String.valueOf(subRow);
+		return arr;
 	}
 
 	// checking if given id is alredy in table or not 

@@ -787,10 +787,66 @@ public class LandAcquisitionController {
 	                		return model;
 						}
 						
-						int count = uploadLA(obj,userId,userName);
-						if(count > 0) {
-							
-							
+						String[]  result = uploadLA(obj,userId,userName);
+						String errMsg = result[0];String actualVal = "";
+						int count = 0,row = 0,sheet = 0,subRow = 0;
+						List<String> fileFormat = FileFormatModel.getLAFileFormat();
+						if(!StringUtils.isEmpty(result[1])){count = Integer.parseInt(result[1]);}
+						if(!StringUtils.isEmpty(result[2])){row = Integer.parseInt(result[2]);}
+						if(!StringUtils.isEmpty(result[3])){sheet = Integer.parseInt(result[3]);}
+						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
+						//System.out.println(errMsg);
+						if(!StringUtils.isEmpty(errMsg)) {
+							if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {    
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and RR Id Mismatch at row: ("+row+")</b> please check and Uplaod again.</span>");
+								msg = "Work and Utility Shifting Id Mismatch at row: "+row;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row; 
+									String error = "Data truncated";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								} 
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Cannot add or update a child row";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Incorrect date value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect date value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect date value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect integer value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row; 
+									String error = "Incorrect integer value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect integer value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect integer value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect decimal value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Incorrect decimal value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}
+						
+	                		//obj.setUploaded_by_user_id_fk(userId);
+	                		//obj.setStatus("Fail");
+	                		//obj.setRemarks(msg);
+							//boolean flag = service.saveRRDataUploadFile(obj);
+	                		return model;
 						}
 						if(count > 0) {
 							attributes.addFlashAttribute("success", count + " Land Acquisition added successfully.");	
@@ -840,10 +896,10 @@ public class LandAcquisitionController {
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
 
-	private int uploadLA(LandAcquisition obj, String userId, String userName) throws Exception {
+	private String[] uploadLA(LandAcquisition obj, String userId, String userName) throws Exception {
 		LandAcquisition la = null;
 		List<LandAcquisition> lasList = new ArrayList<LandAcquisition>();
-		
+		String[] result = new String[5];
 		Writer w = null;
 		int count = 0;
 		try {	
@@ -1900,7 +1956,12 @@ public class LandAcquisitionController {
 					}
 					if(!lasList.isEmpty() && lasList != null){
 						//count  = laService.uploadLAs(lasList);
-						count  = service.uploadLAData(lasList,la);
+						String[] arr  = service.uploadLAData(lasList,la);
+						result[0] = arr[0];
+						result[1] = arr[1];
+						result[2] = arr[2];
+						result[3] = arr[3];
+						result[4] = arr[4];						
 					}
 				}
 				workbook.close();
@@ -1921,7 +1982,7 @@ public class LandAcquisitionController {
 		    }
 		}
 		
-		return count;
+		return result;
 	}
 	
 	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {

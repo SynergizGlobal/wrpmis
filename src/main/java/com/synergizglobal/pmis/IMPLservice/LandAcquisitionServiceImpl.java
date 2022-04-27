@@ -117,7 +117,7 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	}
 
 	@Override
-	public int uploadLAData(List<LandAcquisition> lasList,LandAcquisition la) throws Exception {
+	public String[] uploadLAData(List<LandAcquisition> lasList,LandAcquisition la) throws Exception {
 		return dao.uploadLAData(lasList,la);
 	}
 

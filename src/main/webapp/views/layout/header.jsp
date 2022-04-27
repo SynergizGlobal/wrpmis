@@ -1545,6 +1545,9 @@
 			                    		  }				                    		  
 			                    		  else if(val.alert_type_fk == 'Utility Shifting'){
 			                    			  bgIcon = '<i class="material-icons">filter_tilt_shift</i>';
+			                    		  }
+			                    		  else if(val.alert_type_fk == 'Contract Milestone'){
+			                    			  bgIcon = '<i class="material-icons">touch_app</i>';
 			                    		  }				                    		  
 			                    		  
 			                    		  var urlStringContains = ""

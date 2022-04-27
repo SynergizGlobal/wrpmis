@@ -427,7 +427,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(cvQryAlert7List);
 			}
 			
-			String cvQryAlert8 = "select distinct c1.contract_id,'Flag' as alert_level,'Contract' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,\r\n"
+			String cvQryAlert8 = "select distinct c1.contract_id,'Flag' as alert_level,'Contract Milestone' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,\r\n"
 					+ "concat(\"Milestone \",milestone_id,\" Completion Date of \", c1.contract_short_name, \" has passed i.e. \",(select DATE_FORMAT(min(milestone_date),'%d/%m/%Y') from contract_milestones mc where mc.contract_id_fk=r.contract_id_fk)) as alert_value,concat('/get-contract/',c1.contract_id,'/#milestoneDetails') as redirect_url\r\n"
 					+ " from contract_milestones r left join contract c1 on c1.contract_id=r.contract_id_fk  where curdate()>milestone_date and c1.status='Open' and contract_status_fk='In Progress' ";
 	

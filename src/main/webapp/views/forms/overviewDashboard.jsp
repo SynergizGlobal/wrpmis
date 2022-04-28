@@ -300,6 +300,19 @@
 
 	    var requestedDashboardId = '';
 	    $(document).ready(function(){
+	    	
+	    	
+ 		 	var currentHost = window.location.href;    	
+
+ 	    	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
+     		{
+ 	    		$("#lefticon").show();
+     		}
+ 	    	else
+	    	{
+		   			$("#lefticon").hide();
+	    	}  
+	    	
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
 		    var dashboard_type = '${dashboard_type}';
@@ -519,16 +532,14 @@
          		   
          		  var filters = "";
          		  
-         		 var currentHost = window.location.href;    	
+         		 	var currentHost = window.location.href;    	
 
 	     	    	if(currentHost.indexOf("archive-overview-dashboard")=="-1")
 	         		{
-	     	    		$("#lefticon").hide();
 	         		}
 	     	    	else
      	    		{
 				   		filters = filters+getArchiveDates(dashboardId);
-				   		$("#lefticon").show();
      	    		}        		  
 			   		
          		   $.each( data, function( index, value ){

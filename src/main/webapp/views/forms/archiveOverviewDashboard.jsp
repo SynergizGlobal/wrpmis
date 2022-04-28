@@ -357,7 +357,7 @@
 				html = html + '<div style="margin: 0 0 0 2em;"> <p>';
 				$.each( value.tableauSubList, function( index2, value2 ){
 					
-					html = html + '<a href="'+value2.tableauUrl+'/'+value2.work_id_fk+'" class="bd-bl bg-a" id="'+value2.tableauDashboardId+'">'+value2.tableauDashboardName+'</a>';
+					html = html + '<a href="archive-'+value2.tableauUrl+'/'+value2.work_id_fk+'" class="bd-bl bg-a" id="'+value2.tableauDashboardId+'">'+value2.tableauDashboardName+'</a>';
 	
 				});
 				html = html + '</p> </div>';

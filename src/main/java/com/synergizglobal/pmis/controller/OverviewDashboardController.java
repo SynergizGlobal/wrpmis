@@ -69,6 +69,21 @@ public class OverviewDashboardController {
 			logger.error("overviewDashboardByWork : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value="/archive-work-overview-dashboard/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView archiveOverviewDashboardByWork(@PathVariable("work_id") String work_id,HttpSession session,HttpServletRequest request) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.overviewDashboard);
+			model.addObject("work_id", work_id);
+			model.addObject("dashboard_type", "Works");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("overviewDashboardByWork : " + e.getMessage());
+		}
+		return model;
 	}	
 	
 	@RequestMapping(value="/work-overview-dashboard/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})

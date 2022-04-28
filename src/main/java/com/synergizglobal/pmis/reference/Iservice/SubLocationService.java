@@ -19,4 +19,6 @@ public interface SubLocationService {
 
 	boolean deleteSubLocation(TrainingType obj) throws Exception;
 
+	List<TrainingType> getSubLocations(TrainingType obj) throws Exception;
+
 }

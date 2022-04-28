@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.reference.Idao.SubLocationDao;
 import com.synergizglobal.pmis.reference.model.Risk;
@@ -54,7 +55,7 @@ public class SubLocationDaoImpl implements SubLocationDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select rr_sub_location,rr_location_fk from rr_sub_location order by rr_location_fk ";
+			String qry ="select group_concat(rr_sub_location SEPARATOR '?') as rr_sub_location,group_concat(id) as id,rr_location_fk from rr_sub_location group by rr_location_fk ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -137,13 +138,54 @@ public class SubLocationDaoImpl implements SubLocationDao{
 	@Override
 	public boolean addSubLocation(TrainingType obj) throws Exception {
 		boolean flag = false;
+		int count = 0;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO rr_sub_location"
-					+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk, :rr_sub_location)";
+			int size = 0,size2 = 0,size3=0;
+			String location  = obj.getRr_location_fk();
+			String sub_location  = obj.getRr_sub_location();
+			String [] locationArr = new String [0];
+			String [] sub_locationArr = new String [0];
+			String [] sub_locationArr1 = new String [0];
+			if(!StringUtils.isEmpty(location) && location.contains(",")) {
+				locationArr = location.split(",");
+				size = locationArr.length;
+				sub_locationArr = sub_location.split("_,");
+				size2 = locationArr.length;
+				
+			}else if(!StringUtils.isEmpty(sub_location) && sub_location.contains(",")) {
+				sub_locationArr1 = sub_location.split(",");
+				size3 = sub_locationArr1.length;
+				size = 1;
+			}
+			for(int i =0;i< size; i++) {
+				 if(locationArr.length > 0) {
+					obj.setRr_location_fk(locationArr[i]);
+					if(!StringUtils.isEmpty(sub_locationArr[i]) && sub_locationArr[i].length() > 0) {
+						sub_locationArr1 = sub_locationArr[i].split(",");
+						size3 = sub_locationArr1.length;
+					}
+					for(int j =0;j< size3; j++) {
+						obj.setRr_sub_location(sub_locationArr1[j]);
+						String insertQry = "INSERT INTO rr_sub_location"
+								+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk, :rr_sub_location)";
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(sub_locationArr1[i]) && sub_locationArr1[i].length() > 0) {
+							obj.setRr_sub_location(sub_locationArr1[j]);
+						}
+						String insertQry = "INSERT INTO rr_sub_location"
+								+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk, :rr_sub_location)";
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+			     }
 			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			}
+				
 			if(count > 0) {
 				flag = true;
 			}
@@ -168,17 +210,67 @@ public class SubLocationDaoImpl implements SubLocationDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE rr_sub_location SET `rr_sub_location`= :value_new,rr_location_fk= :rr_location_fk_new WHERE `rr_sub_location`= :value_old " ;
+			String deleteQry = "delete from rr_sub_location where `rr_location_fk`= :rr_location_fk_old";
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
-			
-			for (TrainingType bObj : obj.getdList()) {
+			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+			int size = 0,size2 = 0,size3=0;
+			String location  = obj.getRr_location_fk_new();
+			String sub_location  = obj.getRr_sub_location_new();
+			String [] locationArr = new String [0];
+			String [] sub_locationArr = new String [0];
+			String [] sub_locationArr1 = new String [0];
+			String [] value_old = new String [0];
+			if(!StringUtils.isEmpty(location) && location.contains(",")) {
+				locationArr = location.split(",");
+				size = locationArr.length;
+				sub_locationArr = sub_location.split("_,");
+				size2 = locationArr.length;
 				
-				String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:value_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
-				
-				 paramSource = new BeanPropertySqlParameterSource(obj);		 
-				 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+			}else if(!StringUtils.isEmpty(sub_location) && sub_location.contains(",")) {
+				sub_locationArr1 = sub_location.split(",");
+				size3 = sub_locationArr1.length;
+				size = 1;
 			}
+			for(int i =0;i< size; i++) {
+				 if(locationArr.length > 0) {
+					obj.setRr_location_fk_new(locationArr[i]);
+					if(!StringUtils.isEmpty(sub_locationArr[i]) && sub_locationArr[i].length() > 0) {
+						sub_locationArr1 = sub_locationArr[i].split(",");
+						value_old = sub_locationArr[i].split(",");
+						size3 = sub_locationArr1.length;
+					}
+					for(int j =0;j< size3; j++) {
+						obj.setValue_old(sub_locationArr1[j]);
+						obj.setRr_sub_location_new(sub_locationArr1[j]);
+						String insertQry = "INSERT INTO rr_sub_location"
+								+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk_new, :rr_sub_location_new)";
+						paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+						for (TrainingType bObj : obj.getdList()) {
+							 String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:rr_sub_location_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+							 paramSource = new BeanPropertySqlParameterSource(obj);		 
+							 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+						}
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(sub_locationArr1[i]) && sub_locationArr1[i].length() > 0) {
+							obj.setRr_sub_location_new(sub_locationArr1[j]);
+						}
+						String insertQry = "INSERT INTO rr_sub_location"
+								+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk_new, :rr_sub_location_new)";
+						paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+						for (TrainingType bObj : obj.getdList()) {
+							 String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:rr_sub_location_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+							 paramSource = new BeanPropertySqlParameterSource(obj);		 
+							 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+						}
+					}
+			     }
+			
+			}
+			
 			String  enableQry =	"SET foreign_key_checks = 1";
 			paramSource = new BeanPropertySqlParameterSource(obj);	
 			namedParamJdbcTemplate.update(enableQry, paramSource);
@@ -199,7 +291,7 @@ public class SubLocationDaoImpl implements SubLocationDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from rr_sub_location WHERE `rr_sub_location`= :rr_sub_location; ";
+			String deleteQry ="DELETE from rr_sub_location WHERE `rr_location_fk`= :rr_location_fk; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -209,5 +301,18 @@ public class SubLocationDaoImpl implements SubLocationDao{
 		throw new Exception(e);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<TrainingType> getSubLocations(TrainingType obj) throws Exception {
+		List<TrainingType> objList = null;
+		try {
+			String qry = "SELECT rr_sub_location  from rr_sub_location where rr_location_fk= '"+ obj.getRr_location_fk()+"'";
+			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
 	}
 }

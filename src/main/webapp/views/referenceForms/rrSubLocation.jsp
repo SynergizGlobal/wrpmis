@@ -14,6 +14,57 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/referenceformitem.min.css">
+    <style type="text/css">
+   		.r-flex{
+		    position: relative;
+		        right: -15em;
+    			top: -1.5em;
+		    }	
+		.input-field {
+		    position: relative;
+		    margin-top: 0rem;
+		    margin-bottom: 0rem;
+		}	
+		.align-center{
+			    display: flex;
+    			align-items: center;
+		}
+		.mt1em{
+			margin-top: 1em;
+		}
+		.w50{
+			width: 50% !important;
+		}
+		.mov {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+		.pd0{padding: 0 !important;}
+		.mt-c{
+			    display: flex;
+			    flex-wrap: wrap;
+			    align-items: center;
+			    padding-bottom: 15px;
+		}
+		.mt-c:nth-child(odd){
+			background-color: #eee;
+		}
+		.bg-none{
+		 background: transparent !important;
+		}
+		.bd-none{
+			border: 0 !important;
+		}
+		@media(max-width: 575px){
+			.align-center{
+				display: block;
+			}
+			.w50{
+			width: 100% !important;
+			}
+		}
+   </style>
 </head>
 
 <body>
@@ -60,12 +111,15 @@
                                     <tbody>
                                     <c:forEach var="obj" items="${subLocationDetails.dList1}" varStatus="indexs">
 											<tr>
-											<td>
+											<td style="font-weight: 600;">
 												<input type="hidden" id="rr_location_fkId${indexs.count}" value="${obj.rr_location_fk }" /> 
 												${obj.rr_location_fk }</td>
 											<td>
 												<input type="hidden" id="rr_sub_locationId${indexs.count}" value="${obj.rr_sub_location }" /> 
-												${obj.rr_sub_location }</td>
+												<input type="hidden" id="id${indexs.count}" value="${obj.id }" />
+													<c:forEach var="splt" items="${fn:split(obj.rr_sub_location,'?')}">
+												   &#9656; ${splt} <br>
+												</c:forEach></td>
 											<c:forEach var="tObj" items="${subLocationDetails.tablesList}" varStatus="index">
 												 
 												<td><c:forEach var="cObj" items="${subLocationDetails.countList}" >
@@ -90,7 +144,7 @@
 												 
 												<c:choose>  
 												    <c:when test="${oSbj.rr_sub_location eq obj.rr_sub_location }"> 
-												      	<a onclick="deleteRow('${ oSbj.rr_sub_location }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												      	<a onclick="deleteRow('${ oSbj.rr_location_fk }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -132,8 +186,10 @@
                 <h6 class="modal-header">Add  Sub Location <span
                         class="right modal-action modal-close"><span class="material-icons">close</span></span></h6>
                 <div class="row">
-                    <div class="col m8 s12 offset-m2">
-                        <div class="row no-mar">
+                    <div class="col m12 s12">
+                     <div id="listOfLocationsAdd"> 
+                        <div id="archiveBody"> 
+                        	<%-- <div class="row no-mar">
                             <div class="input-field col s12 m6">
                                 <!-- <input id="rr_location_fk" name="rr_location_fk" type="text" class="validate"> -->
                                 <p class="searchable_label"> Location</p>
@@ -150,7 +206,59 @@
                                 <label for="rr_sub_location"> Sub Location </label>
                                 <span id="rr_sub_locationError" class="error-msg" ></span>
                             </div>
-                        </div>
+                        </div> --%>
+                        <div class="row no-mar mt-c" id="actionRow0">
+							<div class="input-field col s11 m5">
+								<!-- <input id="rr_location_fk" name="rr_location_fk" type="text" class="validate"> -->
+								<p class="searchable_label"> Location</p>
+								<select name="rr_location_fk" id="rr_location_fk" class="searchable validate-dropdown">
+									<option value="">Select </option>
+									 <c:forEach var="obj" items="${locationList }">
+											  <option value="${obj.rr_location }">${obj.rr_location }</option>
+									  </c:forEach>
+								</select>
+								<span id="rr_location_fkError" class="error-msg" ></span>
+							</div>
+							<div class="input-field col s11 m5" id="subArchiveBody0">
+								<div id="subActionRow0">
+								<div class="col s10 pd0">
+								<input id="rr_sub_location" name="rr_sub_location" type="text" class="validate" placeholder="Sub Location">
+								<!-- <label for="rr_sub_location"> Sub Location </label> -->
+								<span id="rr_sub_locationError" class="error-msg" ></span>	
+							</div>
+							<span class="col s1"><a onclick="subRemoveAction('0');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>
+							</div>
+						</div>
+						<span class="col s1 m1 input-field"><a onclick="removeAction('0');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>
+						<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none">
+												<tbody>
+													<tr class="bd-none">
+														<td colspan="6" class="bd-none"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c"
+															onclick="addSubRow('0')"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											<input type="hidden" id="rowNo" name="rowNo" value="0" />
+									</div>
+			                        </div> </div>
+			                        <table class="mdl-data-table col s12">
+											<tbody>
+												<tr>
+													<td colspan="6"><a
+														type="button"
+														class="btn waves-effect waves-light bg-m t-c"
+														onclick="addRow()"> <i
+															class="fa fa-plus"></i>
+													</a>
+												</tr>
+											</tbody>
+										</table>
+										<input type="hidden" id="rowNo1" name="rowNo1" value="0" />
+										
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -179,27 +287,55 @@
                 <h6 class="modal-header bg-m">Update  Status <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h6>
                 <div class="row">
-                    <div class="col m8 s12 offset-m2">
-                       <div class="row no-mar">
-                            <div class="input-field col s12 m6">
-                                <input id="ids" name="id" type="hidden" class="validate"> 
-                                <p class="searchable_label"> Location</p>
-                                <input id="rr_location_fk_old" type="hidden" name="rr_location_fk_old"  >
-                                <select name="rr_location_fk_new" id="rr_location_fk_new" class="searchable validate-dropdown">
-                                    <option value="">Select </option>
-                                     <c:forEach var="obj" items="${locationList }">
-		                                      <option value="${obj.rr_location }">${obj.rr_location }</option>
-		                              </c:forEach>
-                                </select>
-                                <span id="rr_location_fk_newError" class="error-msg" ></span>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <input id="value_new" name="value_new" type="text" class="validate">
-                                <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="rr_sub_location"> Sub Location </label>
-                                <span id="value_newError" class="error-msg" ></span>
-                            </div>
-                        </div>
+                    <div class="col m12 s12">
+                     
+                        <div id="listOfLocations">
+                         <div id="archiveBodyupdate">
+                           <input id="rr_location_fk_old" name="rr_location_fk_old" type="hidden" > 
+                          <input id="ids" name="id" type="hidden" > 
+                          <input id="value_old" name="value_old" type="hidden" > 
+             					<div class="row no-mar mt-c" id="actionRows0"><div class="input-field col s11 m5">
+						<p class="searchable_label"> Location</p>
+						
+						<select name="rr_location_fk_new" id="rr_location_fk_new" class="searchable validate-dropdown">
+							<option value="">Select </option>
+							 <c:forEach var="obj" items="${locationList }">
+									  <option value="${obj.rr_location }">${obj.rr_location }</option>
+							  </c:forEach>
+						</select>
+						<span id="rr_location_fk0Error" class="error-msg" ></span>
+					</div>
+					<div class="input-field col s11 m5" id="subArchiveBodys0">
+						<div id="subActionRows0">
+				
+						</div>
+				</div>
+				<span class="col s1 m1 input-field"><a onclick="removeActions(0);" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>
+				<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none">
+								<tbody>
+									<tr class="bd-none">
+										<td colspan="6" class="bd-none"><atype="button" class="btn waves-effect waves-light bg-m t-c" onclick="addSubRows(0)"> <i class="fa fa-plus"></i>
+										</a>
+									</tr>
+								</tbody>
+							</table>
+							   <input type="hidden" id="rowNu" name="rowNu" value="1" />
+							</div>
+	                        </div>
+                         </div>
+                        <table class="mdl-data-table col s12">
+								<tbody>
+									<tr>
+										<td colspan="6"><a
+											type="button"
+											class="btn waves-effect waves-light bg-m t-c"
+											onclick="addRows()"> <i
+												class="fa fa-plus"></i>
+										</a>
+									</tr>
+								</tbody>
+							</table>
+							<input type="hidden" id="rowNu1" name="rowNu1" value="0" />
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -228,7 +364,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="rr_sub_location" id="id" />
+    	<input type="hidden" name="rr_location_fk" id="rr_location_fks" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -240,6 +376,115 @@
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 
     <script>
+    function addRow() {        	
+        var rowNo = $("#rowNo1").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<div class="row no-mar mt-c" id="actionRow' + rNo + '">'
+        + '<div class="input-field col s11 m5"><p class="searchable_label"> Location</p>'
+        + '<select name="rr_location_fk" id="rr_location' + rNo +'_fk" class="searchable validate-dropdown">'
+        + '<option value="">Select </option>'
+        + '<c:forEach var="obj" items="${locationList }">'
+        + '<option value="${obj.rr_location }">${obj.rr_location }</option>'
+        + '</c:forEach></select>'
+        + '<span id="rr_location' + rNo +'_fkError" class="error-msg" ></span></div>'
+        + '<div class="input-field col s11 m5"  id="subArchiveBody' + rNo +'">'
+        + '<div id="subActionRow' + rNo +'"><div class="col s10 pd0">'
+        + '<input id="rr_sub_locationss' + rNo +'" name="rr_sub_location" type="hidden" value="_"> '
+        + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location" type="text" class="validate" placeholder="Sub Location"> '
+        + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span></div>'
+        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1 m1 input-field"><a onclick="removeAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
+        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addSubRow(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
+ 		$('#listOfLocationsAdd').append('<div id="archiveBody' + rNo + '" > </div>');
+        
+        $('#archiveBody' + rNo).append(html);
+        $("#rowNo1").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+    function removeAction(rowNo){
+        $("#actionRow"+rowNo).remove();
+    }
+    function addSubRow(idNo) {        	
+        var rowNo = $("#rowNo").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<div id="subActionRow' + rNo + '">'
+        + '<div class="input-field col s10 pd0">'
+        + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location" type="text" class="validate" placeholder="Sub Location"> '
+        + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span>'
+        + '</div>'
+        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span></div>';
+      
+        $('#subArchiveBodyAdd').append('<div id="subArchiveBody' + rNo + '" > </div>');
+        
+        $('#subArchiveBody' + idNo).append(html);
+        $("#rowNo").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+  
+    function subRemoveAction(rowNo){
+        $("#subActionRow"+rowNo).remove();
+    }
+    //add-1 end
+     function addRows() {        	
+        var rowNo = $("#rowNu1").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<div class="row no-mar mt-c" id="actionRows' + rNo + '">'
+        + '<div class="input-field col s11 m5"><p class="searchable_label"> Location</p>'
+        + '<select name="rr_location_fk_new" id="rr_location' + rNo +'_fk" class="searchable validate-dropdown">'
+        + '<option value="">Select </option>'
+        + '<c:forEach var="obj" items="${locationList }">'
+        + '<option value="${obj.rr_location }">${obj.rr_location }</option>'
+        + '</c:forEach></select>'
+        + '<span id="rr_location' + rNo +'_fkError" class="error-msg" ></span></div>'
+        + '<div class="input-field col s11 m5"  id="subArchiveBodys' + rNo +'">'
+        + '<div id="subActionRows' + rNo +'"><div class="col s10 pd0">'
+        + '<input id="rr_sub_locationss' + rNo +'" name="rr_sub_location_new" type="hidden" value="_"> '
+        + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location_new" type="text" class="validate" placeholder="Sub Location"> '
+        + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span></div>'
+        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1 m1 input-field"><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
+        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addSubRows(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
+
+        $('#listOfLocations').append('<div id="archiveBodyupdate' + rNo + '" > </div>');
+        
+        $('#archiveBodyupdate' + rNo).append(html);
+        $("#rowNu1").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+    function removeActions(rowNo){
+        $("#actionRows"+rowNo).remove();
+    }
+    function addSubRows(idNo) {        	
+        var rowNo = $("#rowNu").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<div id="subActionRows' + rNo + '">'
+        + '<div class="input-field col s10 pd0">'
+        + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location_new" type="text" class="validate" placeholder="Sub Location"> '
+        + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span>'
+        + '</div>'
+        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span></div>';
+        $('#subArchiveBodyUpdate').append('<div id="subArchiveBody' + rNo + '" > </div>');
+        $('#subArchiveBodys' + idNo).append(html);
+        $("#rowNu").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+  
+    function subRemoveActions(rowNo){
+        $("#subActionRows"+rowNo).remove();
+    }
+    //add-2 end
         $(document).ready(function () {
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
@@ -355,21 +600,53 @@
           }
       });
       function updateRow(no) {
+    	  var html = '';
+    	  $("#subArchiveBodys0").empty();
     	  var id = $('#id'+no).val();
-          var rr_sub_location = $('#rr_sub_locationId'+no).val();
+         // var rr_sub_location = $('#rr_sub_locationId'+no).val();
           var rr_location_fk = $('#rr_location_fkId'+no).val();
           $('#value_old').val($.trim(rr_sub_location));
           $('#rr_location_fk_old').val($.trim(rr_location_fk));
           $('#ids').val($.trim(id));
+          if ($.trim(rr_location_fk) != "") {
+              var myParams = { rr_location_fk: rr_location_fk };
+              $.ajax({
+                  url: "<%=request.getContextPath()%>/ajax/getSubLocations",
+                  data: myParams, cache: false,
+                  success: function (data) {
+                      if (data.length > 0) {
+                          $.each(data, function (i, val) {
+                        html = '<div id="subActionRows'+i+'">'+
+							'<div class="col s10 pd0">'+
+							'<input id="rr_sub_location_new'+i+'" name="rr_sub_location_new" type="text" class="validate" placeholder="Sub Location" value="'+val.rr_sub_location+'">'+
+							'<span id="rr_sub_location'+i+'Error" class="error-msg" ></span>	'+
+						'</div>'+
+						'<span class="col s1"><a onclick="subRemoveActions('+i+');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'+
+						'</div><br>';
+	                        	$('#rowNu').val(data.length);
+	                        	$('#ids').val(id);
+                                $("#subArchiveBodys0").append(html);
+                                $('#onlyUpdateModal #rr_sub_location'+i).focus();
+                               // $('#onlyUpdateModal #rr_sub_location_new'+i).val($.trim(rr_sub_location)).focus();
+                                $('#onlyUpdateModal #rr_location_fk_new').val($.trim(rr_location_fk)).focus(); 
+                               // $('#onlyUpdateModal #rr_location_fk_new').val($.trim(rr_location_fk)); 
+                                $('select[name^="rr_location_fk_new"] option[value="'+ rr_location_fk +'"]').attr("selected","selected");
+                          });
+                      }
+                      $('.searchable').select2();
+                      $(".page-loader").hide();
+                  }
+              });
+          }else{
+          	$(".page-loader").hide();
+          }
           $('#onlyUpdateModal').modal('open');
-          $('#onlyUpdateModal #value_new').val($.trim(rr_sub_location)).focus();
-          $('#onlyUpdateModal #rr_location_fk_new').val($.trim(rr_location_fk)).focus(); 
-          $('select[name^="rr_location_fk_new"] option[value="'+ rr_location_fk +'"]').attr("selected","selected");
+       
           $('.searchable').select2();
       }
       
       function deleteRow(val){
-      	$("#id").val(val);
+      	$("#rr_location_fks").val(val);
       	showCancelMessage(); 
       }
       	

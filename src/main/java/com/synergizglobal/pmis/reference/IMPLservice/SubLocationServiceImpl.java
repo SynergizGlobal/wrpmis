@@ -43,4 +43,9 @@ public class SubLocationServiceImpl implements SubLocationService{
 	public boolean deleteSubLocation(TrainingType obj) throws Exception {
 		return dao.deleteSubLocation(obj);
 	}
+
+	@Override
+	public List<TrainingType> getSubLocations(TrainingType obj) throws Exception {
+		return dao.getSubLocations(obj);
+	}
 }

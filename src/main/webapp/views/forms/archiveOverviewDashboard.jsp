@@ -265,7 +265,7 @@
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
 		    var dashboard_type = '${dashboard_type}';
-		    
+
 		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavArchiveModules",
 				type:"POST",
 				cache: false,async:false,
@@ -330,7 +330,6 @@
     	var html = '<h3 class="bg-a" id="" parent_id=""><a href="javascript:void(0);">Modules</a></h3>';
 
 		var flag = 0;
-		console.log(data);
 
 		html = html + '<div> <p>';
     	$.each( data, function( index, value ){
@@ -344,9 +343,12 @@
     function getDataWorks(data)
     {
     	
-		var html = '<h3 class="bg-a" id="" parent_id="" onclick="openWorksMenu();"><a href="javascript:void(0);">Works</a></h3>';
+		var html = '<h3 class="bg-a" id="" parent_id=""><a href="javascript:void(0);">Works</a></h3>';
 
-		var flag = 0;   
+		var flag = 0;  
+		
+		console.log(data);
+
 		html = html + '<div> <p>';
 
     	$.each( data, function( index, value ){
@@ -355,7 +357,7 @@
 				html = html + '<div style="margin: 0 0 0 2em;"> <p>';
 				$.each( value.tableauSubList, function( index2, value2 ){
 					
-					html = html + '<a href="'+value.tableauUrl+'" class="bd-bl bg-a" id="'+value2.tableauDashboardId+'">'+value2.tableauDashboardName+'</a>';
+					html = html + '<a href="'+value2.tableauUrl+'/'+value2.work_id_fk+'" class="bd-bl bg-a" id="'+value2.tableauDashboardId+'">'+value2.tableauDashboardName+'</a>';
 	
 				});
 				html = html + '</p> </div>';

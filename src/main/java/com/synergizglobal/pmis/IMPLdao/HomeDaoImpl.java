@@ -57,7 +57,7 @@ public class HomeDaoImpl implements HomeDao {
 		TableauDashboard tableau = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,dashboard_url,tum.priority,icon_path,mobile_view "
+			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,dashboard_url,tum.priority,icon_path,mobile_view,work_id_fk "
 					+ "FROM dashboard tum "
 					+ "left join module m on tum.module_name_fk = m.module_name "
 					+ "WHERE m.soft_delete_status_fk = ? AND parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? ";
@@ -82,6 +82,7 @@ public class HomeDaoImpl implements HomeDao {
 				tableau = new TableauDashboard();
 				tableau.setTableauDashboardId(resultSet.getString("dashboard_id"));
 				tableau.setTableauDashboardName(resultSet.getString("dashboard_name"));
+				tableau.setWork_id_fk(resultSet.getString("work_id_fk"));
 				tableau.setTableauUrl(resultSet.getString("dashboard_url"));
 				tableau.setPriority(resultSet.getString("priority"));
 				tableau.setImagePath(resultSet.getString("icon_path"));
@@ -125,7 +126,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<TableauDashboard> dashboardsList = new ArrayList<TableauDashboard>();
 		
 		try {
-			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.dashboard_url,tum.priority,icon_path,mobile_view  "
+			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.dashboard_url,tum.priority,icon_path,mobile_view,work_id_fk  "
 					+ "FROM dashboard tum "
 					+ "WHERE parent_dashboard_id_sr_fk <> tum.dashboard_id and parent_dashboard_id_sr_fk = ? "
 					+ "and tum.soft_delete_status_fk = ? ";
@@ -153,6 +154,8 @@ public class HomeDaoImpl implements HomeDao {
 				TableauDashboard tableauDashboard = new TableauDashboard();
 				tableauDashboard.setTableauDashboardId(resultSet.getString("dashboard_id"));
 				tableauDashboard.setTableauDashboardName(resultSet.getString("dashboard_name"));
+				tableauDashboard.setWork_id_fk(resultSet.getString("work_id_fk"));
+				tableauDashboard.setTableauUrl(resultSet.getString("dashboard_url"));
 				tableauDashboard.setImagePath(resultSet.getString("icon_path"));
 				tableauDashboard.setPriority(resultSet.getString("priority"));
 
@@ -185,7 +188,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<TableauDashboard> dashboardsList = new ArrayList<TableauDashboard>();
 		
 		try {
-			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path  "
+			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path,work_id_fk  "
 					+ "FROM dashboard tum "
 					+ "WHERE parent_dashboard_id_sr_fk <> tum.dashboard_id and parent_dashboard_id_sr_fk = ? "
 					+ "and tum.soft_delete_status_fk = ? ";
@@ -211,6 +214,8 @@ public class HomeDaoImpl implements HomeDao {
 				TableauDashboard tableauDashboard = new TableauDashboard();
 				tableauDashboard.setTableauDashboardId(resultSet.getString("dashboard_id"));
 				tableauDashboard.setTableauDashboardName(resultSet.getString("dashboard_name"));
+				tableauDashboard.setWork_id_fk(resultSet.getString("work_id_fk"));
+				tableauDashboard.setTableauUrl(resultSet.getString("dashboard_url"));
 				tableauDashboard.setImagePath(resultSet.getString("icon_path"));
 				tableauDashboard.setPriority(resultSet.getString("priority"));
 				

@@ -211,6 +211,7 @@
 	<div class="" style="margin-top:2rem;">
 	    <div class="row">
 	        <div class="col s12 m2" id="menu-item-holder">
+	        
 	        <span id="lefticon" style="display:none;"><i class="fas fa-arrow-left" onclick="window.location.href='../archive-overview-dashboard'"></i></span>
 	        <br>
 	             <div class=" main-menu-collapse">

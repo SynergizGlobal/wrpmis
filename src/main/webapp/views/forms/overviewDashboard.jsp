@@ -268,8 +268,6 @@
 			</div>
 		</div>
 	</div>
-	
-	<input type="hidden" id="GlbCnt" value="0">
 
 	<!-- footer included -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include> 
@@ -299,7 +297,15 @@
 	    }); */
 
 	    var requestedDashboardId = '';
-	    $(document).ready(function(){	
+	    $(document).ready(function(){
+
+	    	var currentHost = window.location.href;    	
+	    	
+	    	if(currentHost.indexOf("work-overview-dashboard")!="-1")
+	    		{
+	    			$("#lefticon").hide();
+	    		}
+	    	
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
 		    var dashboard_type = '${dashboard_type}';
@@ -360,7 +366,6 @@
 	             success: function (data)
 	             {
 	            	 $.each( data, function( index, value ){
-	            		 $("#GlbCnt").val(1);
 	            	 	rhtml += "<option value='"+value.dashboard_url+"'>"+value.dashboard_name+"</option>";
 	            	 });
 	             }
@@ -519,13 +524,7 @@
          		   var dashboardIdTemp = "'"+ dashboardId + "'";
          		   
          		  var filters = "";
-         		  
-         		  	var ACount=getArchiveDates(dashboardId);
-         		  	
-         		  	 if($("#GlbCnt").val()==1)
-         			  {
-			   				filters = filters+getArchiveDates(dashboardId);
-         			  }
+			   		filters = filters+getArchiveDates(dashboardId);
 			   		
          		   $.each( data, function( index, value ){
          			   var filter_column = value.filter_column_name;

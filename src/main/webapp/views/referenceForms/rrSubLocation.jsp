@@ -47,7 +47,8 @@
 			    align-items: center;
 			    padding-bottom: 15px;
 		}
-		.mt-c:nth-child(odd){
+		
+		 .box-grey{
 			background-color: #eee;
 		}
 		.bg-none{
@@ -55,6 +56,15 @@
 		}
 		.bd-none{
 			border: 0 !important;
+		}
+		.br20px{
+			border-radius: 20px;
+		}
+		.mdl-data-table tbody tr:hover {
+		    background-color: transparent;
+		}
+		.mdl-data-table tbody tr, .mdl-data-table tbody tr td{
+			padding: 1em;
 		}
 		@media(max-width: 575px){
 			.align-center{
@@ -219,14 +229,14 @@
 								</select>
 								<span id="rr_location_fkError" class="error-msg" ></span>
 							</div>
-							<div class="input-field col s11 m5" id="subArchiveBody0">
+							<div class="input-field col s11 m5 box-grey" id="subArchiveBody0">
 								<div id="subActionRow0">
 								<div class="col s10 pd0">
 								<input id="rr_sub_location" name="rr_sub_location" type="text" class="validate" placeholder="Sub Location">
 								<!-- <label for="rr_sub_location"> Sub Location </label> -->
 								<span id="rr_sub_locationError" class="error-msg" ></span>	
 							</div>
-							<span class="col s1"><a onclick="subRemoveAction('0');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>
+							<span class="col s1"><a onclick="subRemoveAction('0');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span>
 							</div>
 						</div>
 						<span class="col s1 m1 input-field"><a onclick="removeAction('0');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>
@@ -235,7 +245,7 @@
 													<tr class="bd-none">
 														<td colspan="6" class="bd-none"><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c"
+															class="btn waves-effect waves-light bg-m t-c br20px"
 															onclick="addSubRow('0')"> <i
 																class="fa fa-plus"></i>
 														</a>
@@ -305,7 +315,7 @@
 						</select>
 						<span id="rr_location_fk0Error" class="error-msg" ></span>
 					</div>
-					<div class="input-field col s11 m5" id="subArchiveBodys0">
+					<div class="input-field col s11 m5 box-grey" id="subArchiveBodys0">
 						<div id="subActionRows0">
 				
 						</div>
@@ -314,7 +324,7 @@
 				<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none">
 								<tbody>
 									<tr class="bd-none">
-										<td colspan="6" class="bd-none"><atype="button" class="btn waves-effect waves-light bg-m t-c" onclick="addSubRows(0)"> <i class="fa fa-plus"></i>
+										<td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRows(0)"> <i class="fa fa-plus"></i>
 										</a>
 									</tr>
 								</tbody>
@@ -387,14 +397,14 @@
         + '<option value="${obj.rr_location }">${obj.rr_location }</option>'
         + '</c:forEach></select>'
         + '<span id="rr_location' + rNo +'_fkError" class="error-msg" ></span></div>'
-        + '<div class="input-field col s11 m5"  id="subArchiveBody' + rNo +'">'
+        + '<div class="input-field col s11 m5 box-grey"  id="subArchiveBody' + rNo +'">'
         + '<div id="subActionRow' + rNo +'"><div class="col s10 pd0">'
         + '<input id="rr_sub_locationss' + rNo +'" name="rr_sub_location" type="hidden" value="_"> '
         + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location" type="text" class="validate" placeholder="Sub Location"> '
         + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span></div>'
-        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
         + '<span class="col s1 m1 input-field"><a onclick="removeAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
-        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addSubRow(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
+        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRow(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
  		$('#listOfLocationsAdd').append('<div id="archiveBody' + rNo + '" > </div>');
         
         $('#archiveBody' + rNo).append(html);
@@ -415,7 +425,7 @@
         + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location" type="text" class="validate" placeholder="Sub Location"> '
         + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span>'
         + '</div>'
-        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span></div>';
+        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div>';
       
         $('#subArchiveBodyAdd').append('<div id="subArchiveBody' + rNo + '" > </div>');
         
@@ -442,14 +452,14 @@
         + '<option value="${obj.rr_location }">${obj.rr_location }</option>'
         + '</c:forEach></select>'
         + '<span id="rr_location' + rNo +'_fkError" class="error-msg" ></span></div>'
-        + '<div class="input-field col s11 m5"  id="subArchiveBodys' + rNo +'">'
+        + '<div class="input-field col s11 m5 box-grey"  id="subArchiveBodys' + rNo +'">'
         + '<div id="subActionRows' + rNo +'"><div class="col s10 pd0">'
         + '<input id="rr_sub_locationss' + rNo +'" name="rr_sub_location_new" type="hidden" value="_"> '
         + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location_new" type="text" class="validate" placeholder="Sub Location"> '
         + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span></div>'
-        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
         + '<span class="col s1 m1 input-field"><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
-        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addSubRows(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
+        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRows(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
 
         $('#listOfLocations').append('<div id="archiveBodyupdate' + rNo + '" > </div>');
         
@@ -471,7 +481,7 @@
         + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location_new" type="text" class="validate" placeholder="Sub Location"> '
         + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span>'
         + '</div>'
-        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span></div>';
+        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div>';
         $('#subArchiveBodyUpdate').append('<div id="subArchiveBody' + rNo + '" > </div>');
         $('#subArchiveBodys' + idNo).append(html);
         $("#rowNu").val(rNo);
@@ -617,11 +627,11 @@
                       if (data.length > 0) {
                           $.each(data, function (i, val) {
                         html = '<div id="subActionRows'+i+'">'+
-							'<div class="col s10 pd0">'+
+							'<div class="col s10 pd0 br20px">'+
 							'<input id="rr_sub_location_new'+i+'" name="rr_sub_location_new" type="text" class="validate" placeholder="Sub Location" value="'+val.rr_sub_location+'">'+
 							'<span id="rr_sub_location'+i+'Error" class="error-msg" ></span>	'+
 						'</div>'+
-						'<span class="col s1"><a onclick="subRemoveActions('+i+');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'+
+						'<span class="col s1"><a onclick="subRemoveActions('+i+');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span>'+
 						'</div><br>';
 	                        	$('#rowNu').val(data.length);
 	                        	$('#ids').val(id);

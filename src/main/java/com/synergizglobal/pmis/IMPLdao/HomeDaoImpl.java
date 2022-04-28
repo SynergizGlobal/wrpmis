@@ -82,6 +82,7 @@ public class HomeDaoImpl implements HomeDao {
 				tableau = new TableauDashboard();
 				tableau.setTableauDashboardId(resultSet.getString("dashboard_id"));
 				tableau.setTableauDashboardName(resultSet.getString("dashboard_name"));
+				tableau.setTableauUrl(resultSet.getString("dashboard_url"));
 				tableau.setPriority(resultSet.getString("priority"));
 				tableau.setImagePath(resultSet.getString("icon_path"));
 				List<TableauDashboard> tableauSubList = getTableauSubList(tableau.getTableauDashboardId(),base,uObj,connection);

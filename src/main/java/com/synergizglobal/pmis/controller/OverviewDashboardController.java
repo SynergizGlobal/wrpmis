@@ -5,6 +5,7 @@ import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -20,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.OverviewDashboardService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.OverviewDashboard;
+import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
 
 @Controller
@@ -33,6 +36,9 @@ public class OverviewDashboardController {
 	
 	@Autowired
 	OverviewDashboardService overviewDashboardService;
+	
+	@Autowired
+	HomeService service;	
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -51,13 +57,40 @@ public class OverviewDashboardController {
 		return model;
 	}
 	
+	@RequestMapping(value="/archive-overview-dashboard/{dashboardId}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView archiveOverviewDashboard(@PathVariable("dashboardId") String dashboardId,HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.overviewDashboard);
+			model.addObject("dashboardId", dashboardId);
+			model.addObject("dashboard_type", "Modules");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("overviewDashboardByWork : " + e.getMessage());
+		}
+		return model;
+	}	
+	
 	@RequestMapping(value="/work-overview-dashboard/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView overviewDashboardByWork(@PathVariable("work_id") String work_id,HttpSession session) {
+	public ModelAndView overviewDashboardByWork(@PathVariable("work_id") String work_id,HttpSession session,HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
 		try {
 		    model.setViewName(PageConstants.overviewDashboard);
 			model.addObject("work_id", work_id);
 			model.addObject("dashboard_type", "Works");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("overviewDashboardByWork : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/archive-overview-dashboard",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView archiveOverviewDashboard(HttpSession session,HttpServletRequest request) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.archiveOverviewDashboard);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("overviewDashboardByWork : " + e.getMessage());
@@ -100,7 +133,41 @@ public class OverviewDashboardController {
 			logger.error("getLeftNavNodes : " + e.getMessage());
 		}
 		return overviewDashboard;
-	}		
+	}	
+	
+	@RequestMapping(value = "/ajax/getLeftNavArchiveModules", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TableauDashboard> getLeftNavArchiveModules(@ModelAttribute TableauDashboard obj,HttpSession session,HttpServletRequest request) {
+		List<TableauDashboard> overviewDashboard = null;
+		try {
+			User userDetails = (User)request.getSession().getAttribute("user");
+			String base = "web";
+			String dashboardType = "Module";
+			overviewDashboard = service.getDashboardsList(dashboardType,base,userDetails);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getLeftNavArchiveModules : " + e.getMessage());
+		}
+		return overviewDashboard;
+	}
+	
+	@RequestMapping(value = "/ajax/getLeftNavArchiveWorks", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TableauDashboard> getLeftNavArchiveWorks(@ModelAttribute TableauDashboard obj,HttpSession session,HttpServletRequest request) {
+		List<TableauDashboard> overviewDashboard = null;
+		try {
+			User userDetails = (User)request.getSession().getAttribute("user");
+			String base = "web";
+			String dashboardType = "Project";
+			overviewDashboard = service.getDashboardsList(dashboardType,base,userDetails);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getLeftNavArchiveWorks : " + e.getMessage());
+		}
+		return overviewDashboard;
+	}	
 	
 	@RequestMapping(value = "/ajax/getDashboardLeftMenuAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -206,6 +273,19 @@ public class OverviewDashboardController {
 		}
 		return objList;
 	}
+	
+	@RequestMapping(value = "/ajax/getArchiveDates", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<OverviewDashboard> getArchiveDates(@ModelAttribute OverviewDashboard dObj,HttpSession session){
+		List<OverviewDashboard> objList = null;
+		try{
+			objList = overviewDashboardService.getArchiveDates(dObj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFilters() : "+e.getMessage());
+		}
+		return objList;
+	}	
 	
 	@RequestMapping(value = "/ajax/getFilteredOptions", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

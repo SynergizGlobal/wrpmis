@@ -28,6 +28,11 @@ public class OverviewDashboardServiceImpl implements OverviewDashboardService {
 	public List<OverviewDashboard> getFilters(OverviewDashboard obj) throws Exception {
 		return dao.getFilters(obj);
 	}
+	
+	@Override
+	public List<OverviewDashboard> getArchiveDates(OverviewDashboard obj) throws Exception {
+		return dao.getArchiveDates(obj);
+	}	
 
 	@Override
 	public List<OverviewDashboard> getFilteredOptions(OverviewDashboard dObj) throws Exception {

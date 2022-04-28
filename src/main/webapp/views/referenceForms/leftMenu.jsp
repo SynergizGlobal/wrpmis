@@ -1183,7 +1183,8 @@
     	});
         function updateRow(id,name,parent,order,link,status,source_field_name,rowid) {
         	
-        	
+        	$('#archive_date1').val("");
+  	 		$('#archive_url1').val("");       	
         	
            	$('#user_roles1').val("");
            	$('#user_types1').val("");

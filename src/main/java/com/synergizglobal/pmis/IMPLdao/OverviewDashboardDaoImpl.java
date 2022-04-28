@@ -682,4 +682,15 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		return flag;
 	}
 	
+	@Override
+	public List<OverviewDashboard> getArchiveDates(OverviewDashboard dObj) throws Exception {
+		List<OverviewDashboard> objsList;
+		try {
+			String qry = "SELECT DATE_FORMAT(archive_date ,'%d/%m/%Y') as dashboard_name,archive_url as dashboard_url FROM left_menu_archive_details WHERE dashboard_id = ?";
+			objsList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id() },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return objsList;
+	}	
 }

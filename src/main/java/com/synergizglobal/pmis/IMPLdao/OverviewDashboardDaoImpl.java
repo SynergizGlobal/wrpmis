@@ -688,6 +688,17 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		try {
 			String qry = "SELECT DATE_FORMAT(archive_date ,'%d/%m/%Y') as dashboard_name,archive_url as dashboard_url FROM left_menu_archive_details WHERE dashboard_id = ?";
 			objsList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id() },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+			if(StringUtils.isEmpty(objsList))
+			{
+				String qry1 = "SELECT dashboard_url FROM dashboard WHERE dashboard_id = ?";
+				String Dashboardurl = (String) jdbcTemplate.queryForObject(qry1, new Object[] { dObj.getDashboard_id() }, String.class);
+				String DId="";
+				if(!StringUtils.isEmpty(Dashboardurl)) {
+					String []SplitStr=Dashboardurl.split("/");
+					DId=SplitStr[1];
+				}
+				objsList = jdbcTemplate.query(qry, new Object[] { DId },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));				
+			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}		

@@ -248,6 +248,10 @@
 	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
 				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>
+
+	    	<div class="col m2 s12" id="archive-item-holder" style="display:none;">
+	    	</div>	    	
+	    	
 	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
 		    	<!-- <div class="clearHolder">
 		    		<button class="btn waves-effect waves-light t-c" onclick="clearFilter();">Clear Filters</button>
@@ -513,6 +517,8 @@
             success: function (data){
          	   if(data.length){
          		   $("#filter-item-holder").show();
+     				$("#archive-item-holder").html("");
+
          		   
          		   $.each( data, function( index, value ){
          			   var filter_column = value.filter_column_name;
@@ -533,13 +539,13 @@
          		  var filters = "";
          		  
          		 	var currentHost = window.location.href;    	
-
-	     	    	if(currentHost.indexOf("archive-overview-dashboard")=="-1")
+         		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
 	         		{
+	     	    		filters = filters+getArchiveDates(dashboardId);
 	         		}
 	     	    	else
      	    		{
-				   		filters = filters+getArchiveDates(dashboardId);
+				   		
      	    		}        		  
 			   		
          		   $.each( data, function( index, value ){
@@ -583,8 +589,11 @@
          		   $("#filter-item-holder").html(filters);
          		   $('.searchable').select2();
          	   }else{
-         		   $("#filter-item-holder").hide();
-       		       $("#filter-item-holder").html("");
+          				$("#archive-item-holder").show();
+          				$("#archive-item-holder").html("");
+            		   var filters1 = getArchiveDates(dashboardId);   
+     				  $("#archive-item-holder").html(filters1);  
+     				 $('.searchable').select2();
          	   }
          	   $(".page-loader").hide();
             },error: function(xhr){

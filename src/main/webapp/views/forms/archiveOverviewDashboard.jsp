@@ -352,7 +352,7 @@
 		html = html + '<div> <p>';
 
     	$.each( data, function( index, value ){
-			html = html + '<a href="'+value.tableauUrl+'" class="bd-bl bg-a" id="'+value.tableauDashboardId+'">'+value.tableauDashboardName+'</a>';
+			html = html + '<a href="#" class="bd-bl bg-a" id="'+value.tableauDashboardId+'">'+value.tableauDashboardName+'</a>';
 			if(value.tableauSubList != "" && value.tableauSubList != null && value.tableauSubList != 'undefined'){
 				html = html + '<div style="margin: 0 0 0 2em;"> <p>';
 				$.each( value.tableauSubList, function( index2, value2 ){

@@ -333,7 +333,7 @@
 
 		html = html + '<div> <p>';
     	$.each( data, function( index, value ){
-			html = html + '<a href="'+value.tableauUrl+'" class="bd-bl bg-a" id="'+value.tableauDashboardId+'">'+value.tableauDashboardName+'</a>';
+			html = html + '<a href="archive-'+value.tableauUrl+'" class="bd-bl bg-a" id="'+value.tableauDashboardId+'">'+value.tableauDashboardName+'</a>';
     	});
     	html = html + '</p> </div>';
     	return html;

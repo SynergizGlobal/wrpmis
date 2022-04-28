@@ -5,7 +5,6 @@ import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -39,10 +38,11 @@ public class UrlGenerator {
 		    URL requestURL = new URL(request.getRequestURL().toString());
 		    String port = requestURL.getPort() == -1 ? "" : ":" + requestURL.getPort();
 		    //return requestURL.getProtocol() + "://" + requestURL.getHost() + port;
-		    logger.error("request.getServerName() : "+ request.getServerName());
-		    logger.error("requestURL.getHost() : "+ requestURL.getHost());
 		    //ipAddress = requestURL.getHost();
-		    ipAddress = request.getServerName();
+		    ipAddress = request.getServerName().toString();
+			if("10.203.10.157".equals(ipAddress)) {
+				ipAddress = "pmis.mrvc.gov.in";
+			}
 		} catch (Exception e) {
 			logger.error("getIpAddress : " + e.getMessage());
 		}

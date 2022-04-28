@@ -98,9 +98,6 @@ public class LoginController {
 		User userDetails = null;
 		ModelAndView model = new ModelAndView();
 		try{
-			UrlGenerator tObj = new UrlGenerator();
-			logger.error("tObj.getIpAddress() : " + tObj.getIpAddress());
-			logger.error("tObj.getURLBase() : " + tObj.getURLBase());
 			String single_login_session_id = (String) session.getAttribute("SINGLE_LOGIN_SESSION_ID");
 			if(!StringUtils.isEmpty(user.getUser_id()) && !StringUtils.isEmpty(user.getPassword())){
 				userDetails = loginService.validateUser(user,single_login_session_id);

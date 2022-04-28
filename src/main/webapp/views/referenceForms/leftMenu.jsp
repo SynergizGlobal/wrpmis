@@ -316,12 +316,12 @@
                                                 <tbody id="archiveBody">
 															<tr id="actionRow0">
 																<td class="input-field">
-									                                    <input name="archive_date" type="date" class="validate datepicker" value="">
-									                                    <span id="archive_dateError" class="error-msg" ></span>
+									                                    <input name="archive_date" type="text" class="validate datepicker" id="archive_date0">
+									                                    <button type="button" name="archive_date" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 									                                
 		                                                        </td>
 		                                                        <td class="input-field">
-										                                <input name="archive_url" type="url" class="validate">
+										                                <input name="archive_url" type="url" class="validate" id="archive_url0">
 										                                <span id="archive_urlError" class="error-msg" ></span>
 										                            
 		                                                        </td>
@@ -510,12 +510,12 @@
                                                 <tbody id="archiveBody1">
 															<tr id="actionRows0">
 																<td class="input-field">
-									                                    <input name="archive_date" type="date" class="validate datepicker" value="">
-									                                    <span id="archive_dateError" class="error-msg" ></span>
+									                                    <input name="archive_date" type="text" class="validate datepicker" id="archive_date1">
+									                                    <button type="button" name="archive_date" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 									                                
 		                                                        </td>
 		                                                        <td class="input-field">
-										                                <input name="archive_url" type="url" class="validate">
+										                                 <input name="archive_url" type="url" class="validate" id="archive_url1">
 										                                <span id="archive_urlError" class="error-msg" ></span>
 										                            
 		                                                        </td>
@@ -578,6 +578,8 @@
 
         </form>
     </div>
+    <input type="hidden" id="ClickRowNo">
+    <input type="hidden" id="rowNu" value="0">
      <!-- <div id="errorModal" class="modal">
            <div class="modal-content">
                <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
@@ -602,18 +604,23 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+    
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
+    
 
     <script>
+
+    
     function addRow() {        	
         var rowNo = $("#rowNo").val();
         var rNo = Number(rowNo)+1;
         var html = '<tr id="actionRow' + rNo + '">'
         + '<td class="input-field">'
-        + '<input name="archive_date" type="date" class="validate datepicker" value="${fob.actual_completion_date }"> '
+        + '<input name="archive_date" type="text" class="validate datepicker" id="archive_date' + rNo + '"> <button type="button" name="archive_date" class="datepicker-button"><i class="fa fa-calendar"></i></button> '
         + '<span id="archive_dateError' + rNo + 'Error" class="error-msg"></span>'
         + '</td>'
         + '<td class="input-field">'
-        + '<input name="archive_url" type="url" class="validate">'
+        + '<input name="archive_url" type="url" class="validate" id="archive_url' + rNo + '">'
         + '<span id="archive_urlError' + rNo + 'Error" class="error-msg"></span>' 
         + '</td>'
 		+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
@@ -634,11 +641,11 @@
         var rNo = Number(rowNu)+1;
         var html = '<tr id="actionRows' + rNo + '">'
         + '<td class="input-field">'
-        + '<input name="archive_date" type="date" class="validate datepicker" value="${fob.actual_completion_date }"> '
+        + '<input name="archive_date" type="text" class="validate datepicker" id="archive_date' + rNo + '"><button type="button" name="archive_date" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
         + '<span id="archive_dateError' + rNo + 'Error" class="error-msg"></span>'
         + '</td>'
         + '<td class="input-field">'
-        + '<input name="archive_url" type="url" class="validate">'
+        + '<input name="archive_url" type="url" class="validate" id="archive_url'+ rNo+'">'
         + '<span id="archive_urlError' + rNo + 'Error" class="error-msg"></span>' 
         + '</td>'
 		+ '<td><a onclick="removeAction(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
@@ -648,6 +655,8 @@
         
         $('select:not(.searchable)').formSelect();
         $('.searchable').select2();
+  
+        
     }
     
     function removeAction(rowNu){
@@ -938,8 +947,9 @@
 	  			success : function(data){    				
 	  				if(data != null && data != '' && data.length > 0){    					
 		             		$.each(data,function(key,val){
+		             			//alert(val.archive_dates+'----'+val.archive_urls);
 		                        //var paras = ''+val.dashboard_id +','+val.dashboard_name+','+val.parent_id +','+val.order+','+val.dashboard_url +','+val.status+'';
-		                        var actions = '<input id="hdnUserRoles'+$.trim(key)+'" type="hidden" name="hdnUserRoles" value="'+val.user_roles+'" ><input id="hdnUserTypes'+$.trim(key)+'" type="hidden" name="hdnUserTypes" value="'+val.user_types+'" ><input id="hdnUsers'+$.trim(key)+'" type="hidden" name="hdnUsers" value="'+val.users+'"><a onclick="updateRow(\'' + val.dashboard_id + '\',\'' + val.dashboard_name + '\',\'' + val.parent_id + '\',\'' + val.order + '\',\'' + val.dashboard_url + '\',\'' + val.status + '\',\'' + val.source_field_name+ '\','+$.trim(key)+')" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a><a href="javascript:void(0);" onclick="deleteRow('+val.dashboard_id +');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>'
+		                        var actions = '<input id="hdnArchive_dates'+$.trim(key)+'" type="hidden" name="hdnArchive_dates" value="'+val.archive_dates+'" ><input id="hdnArchive_urls'+$.trim(key)+'" type="hidden" name="hdnArchive_urls" value="'+val.archive_urls+'" ><input id="hdnUserRoles'+$.trim(key)+'" type="hidden" name="hdnUserRoles" value="'+val.user_roles+'" ><input id="hdnUserTypes'+$.trim(key)+'" type="hidden" name="hdnUserTypes" value="'+val.user_types+'" ><input id="hdnUsers'+$.trim(key)+'" type="hidden" name="hdnUsers" value="'+val.users+'"><a onclick="updateRow(\'' + val.dashboard_id + '\',\'' + val.dashboard_name + '\',\'' + val.parent_id + '\',\'' + val.order + '\',\'' + val.dashboard_url + '\',\'' + val.status + '\',\'' + val.source_field_name+ '\','+$.trim(key)+')" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a><a href="javascript:void(0);" onclick="deleteRow('+val.dashboard_id +');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>'
 		                        var rowArray = [];    	                 
 		                        arr.push($.trim(val.dashboard_name));
 		                       	rowArray.push($.trim(val.dashboard_name));
@@ -1073,7 +1083,9 @@
    			 		  required: false
          		 },"status": {
    			 		  required: true
-         		 },
+         		 },"archive_url": {
+ 			 		  required: false
+       		 }        		 
    			},messages: {
    		 		   "dashboard_name": {
    			 		  required: 'Required'
@@ -1085,7 +1097,9 @@
    			 		  required: 'Required'
    			 	  },"status": {
    			 		  required: 'Required'
-   			 	  }
+   			 	  },"archive_url": {
+ 			 		  required: 'Required'
+   	       		 }     
    	        },errorPlacement:function(error, element){
    	        	 if(element.attr("id") == "dashboard_name" ){
    				     document.getElementById("dashboard_nameError").innerHTML="";
@@ -1102,6 +1116,9 @@
    				 }else if(element.attr("id") == "status" ){
    				     document.getElementById("statusError").innerHTML="";
    			 	     error.appendTo('#statusError');
+   				 }else if(element.attr("id") == "archive_url" ){
+   				     document.getElementById("archive_urlError").innerHTML="";
+   			 	     error.appendTo('#archive_urlError');
    				 }
    	        }
          	
@@ -1166,6 +1183,8 @@
     	});
         function updateRow(id,name,parent,order,link,status,source_field_name,rowid) {
         	
+        	
+        	
            	$('#user_roles1').val("");
            	$('#user_types1').val("");
            	$('#users').val("");
@@ -1192,6 +1211,46 @@
     	      var uR=$('#hdnUserRoles'+rowid).val().split(',');
     	      var uT=$('#hdnUserTypes'+rowid).val().split(',');
     	      var uS=$('#hdnUsers'+rowid).val().split(',');
+    	      
+    	      $('#ClickRowNo').val(rowid);
+    	      
+   	      	  if($('#hdnArchive_dates'+rowid).val()!="" && $('#hdnArchive_urls'+rowid).val()!="")
+   	    	  {
+   	      			$("#archiveBody1 tr").not(":first").remove();
+   	    	  	    var AD=$('#hdnArchive_dates'+rowid).val().split(',');
+   	    	  		var AU=$('#hdnArchive_urls'+rowid).val().split(',');
+   	    	  		
+					var reverseStr=AD[0].split("-").reverse().join("-");
+					
+					if(AU[0]!="null" && AU[0]!="")
+					{
+	   	  	 			$('#archive_date1').val(reverseStr);
+	    	  	 		$('#archive_url1').val(AU[0]); 
+					}
+   	  	 			$("#rowNu").val(1);
+
+   	    	  	 	for(var t=2;t<=AD.length;t++)
+   	    	  		 {
+
+   	    	  	 				addRows();
+   	    	  	 	
+   	    	  		 }
+   	    	  			for(var q=2;q<=AD.length;q++)
+   	    	  			{
+   	    	  				var lm=Number(q)-1;
+							var reverseStr1=AD[lm].split("-").reverse().join("-");
+							if(AU[0]!=null)
+							{
+	   	    	  	 			$('#archive_date'+q).val(reverseStr1);
+	   	     	  	 			$('#archive_url'+q).val(AU[lm]);  	
+							}
+   	    	  			
+   	    	  			}
+
+
+   	    	     	  	 	
+   	    	  	 	
+   	    	  }
     	      
            	$('#user_roles1').val(uR).trigger('change');
            	$('#user_types1').val(uT).trigger('change');

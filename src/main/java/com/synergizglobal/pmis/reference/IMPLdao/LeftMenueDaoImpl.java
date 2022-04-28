@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -17,7 +20,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Form;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.reference.Idao.LeftMenueDao;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 @Repository
@@ -35,7 +40,9 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			String qry ="SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url, `order`, parent_id, dashboard_url, status,source_field_name, "  
 					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_role') as user_roles, "
 					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_type') as user_types, "
-					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user') as users "		
+					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user') as users, "	
+					+ "(select group_concat(archive_date) from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_dates, "
+					+ "(select group_concat(archive_url) from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_urls "
 					+" FROM left_menu l where dashboard_id is not null and show_left_menu = ?";
 			
 			int arrSize = 1;
@@ -214,6 +221,35 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 				    }
 					namedParamJdbcTemplate.batchUpdate(messageQry, source);
 				}
+				
+
+				if (!StringUtils.isEmpty(obj.getArchive_date()) && obj.getArchive_date().length > 0
+						&& !StringUtils.isEmpty(obj.getArchive_url()) && obj.getArchive_url().length > 0) {
+					PreparedStatement insertStmt = null;
+					String insert_qry = "INSERT into  left_menu_archive_details (dashboard_id, archive_date, archive_url, created_by_user_id_fk, created_date) " + "VALUES (?,?,?,?,CURRENT_TIMESTAMP)";
+					insertStmt = connection.prepareStatement(insert_qry, Statement.RETURN_GENERATED_KEYS);
+
+					for (int i = 0; i < obj.getArchive_url().length; i++) 
+					{
+						int p = 1;
+						if (!StringUtils.isEmpty(obj.getArchive_date()[i]) && !StringUtils.isEmpty(obj.getArchive_url()[i])) 
+						{
+							
+							insertStmt.setString(p++, generatedKey);
+							String[] Prdate=obj.getArchive_date()[i].split("-");
+							
+							 String result =Prdate[2]+"-"+Prdate[1]+"-"+Prdate[0];
+							
+							insertStmt.setString(p++,(obj.getArchive_date().length > 0) ? result : null);
+							insertStmt.setString(p++, (obj.getArchive_url().length > 0) ? obj.getArchive_url()[i] : null);
+							insertStmt.setString(p++, obj.getCreated_by_user_id_fk());
+							insertStmt.addBatch();
+							int[] count = insertStmt.executeBatch();
+						}
+					}
+				}
+				
+				
 			}
 				
 			
@@ -228,8 +264,10 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public boolean updateLeftMenu(TrainingType obj) throws Exception {
 		boolean flag = false;
 		int count = 0;
+		Connection connection = null;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			connection = dataSource.getConnection();			
 			List<TrainingType> tablesList = getTablesList(obj);
 			List<TrainingType> list = getDataDetails(obj);
 			obj.setdList(list);
@@ -322,7 +360,39 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 				        source[j] = new BeanPropertySqlParameterSource(msgObj);
 				    }
 					namedParamJdbcTemplate.batchUpdate(messageQry, source);
-				}				
+				}
+
+				if (!StringUtils.isEmpty(obj.getArchive_date()) && obj.getArchive_date().length > 0
+						&& !StringUtils.isEmpty(obj.getArchive_url()) && obj.getArchive_url().length > 0) {
+					
+					String deletearchiveQry ="delete from left_menu_archive_details where dashboard_id = :dashboard_id ";
+					paramSource = new BeanPropertySqlParameterSource(obj);		 
+					count = namedParamJdbcTemplate.update(deletearchiveQry, paramSource);					
+					
+					PreparedStatement insertStmt = null;
+					String insert_qry = "INSERT into  left_menu_archive_details (dashboard_id, archive_date, archive_url, modified_by, modified_date) " + "VALUES (?,?,?,?,CURRENT_TIMESTAMP)";
+					insertStmt = connection.prepareStatement(insert_qry, Statement.RETURN_GENERATED_KEYS);
+
+					for (int i = 0; i < obj.getArchive_url().length; i++) 
+					{
+						int p = 1;
+						if (!StringUtils.isEmpty(obj.getArchive_date()[i]) && !StringUtils.isEmpty(obj.getArchive_url()[i])) 
+						{
+							
+							insertStmt.setString(p++, obj.getDashboard_id());
+							String[] Prdate=obj.getArchive_date()[i].split("-");
+							
+							 String result =Prdate[2]+"-"+Prdate[1]+"-"+Prdate[0];
+							
+							insertStmt.setString(p++,(obj.getArchive_date().length > 0) ? result : null);
+							insertStmt.setString(p++, (obj.getArchive_url().length > 0) ? obj.getArchive_url()[i] : null);
+							insertStmt.setString(p++, obj.getCreated_by_user_id_fk());
+							insertStmt.addBatch();
+							int[] count1 = insertStmt.executeBatch();
+						}
+					}
+				}
+				
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

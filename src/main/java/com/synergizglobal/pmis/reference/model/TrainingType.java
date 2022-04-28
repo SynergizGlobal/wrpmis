@@ -26,12 +26,12 @@ public class TrainingType {
 	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type, rr_occupancy_status, rr_tenure_status, caste, mother_tongue, rr_type_of_family,marital_status
 	,phase,rr_type_of_use, rr_location_fk, rr_sub_location,work_type,rr_location_fk_old,rr_location_fk_new,executive_user_id_fk,user_id;
     
-	private String dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu,user_types,user_roles,users;
+	private String dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu,user_types,user_roles,users,Created_by_user_id_fk,archive_dates,archive_urls;
 	
 	private List<String> access_user_types,access_user_roles,access_users;
 
 	
-	private String [] work_id_fks,executive_user_id_fks;
+	private String [] work_id_fks,executive_user_id_fks,archive_date,archive_url;
 	List<TrainingType> rrExecutivesList;
 	List<TrainingType> landExecutivesList;
 	List<TrainingType> utilityExecutivesList;
@@ -1970,6 +1970,46 @@ public class TrainingType {
 
 	public void setUsers(String users) {
 		this.users = users;
+	}
+
+	public String [] getArchive_date() {
+		return archive_date;
+	}
+
+	public void setArchive_date(String [] archive_date) {
+		this.archive_date = archive_date;
+	}
+
+	public String [] getArchive_url() {
+		return archive_url;
+	}
+
+	public void setArchive_url(String [] archive_url) {
+		this.archive_url = archive_url;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return Created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		Created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getArchive_dates() {
+		return archive_dates;
+	}
+
+	public void setArchive_dates(String archive_dates) {
+		this.archive_dates = archive_dates;
+	}
+
+	public String getArchive_urls() {
+		return archive_urls;
+	}
+
+	public void setArchive_urls(String archive_urls) {
+		this.archive_urls = archive_urls;
 	}
 
 }

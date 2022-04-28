@@ -103,10 +103,15 @@ public class LeftMenuController {
 	
 	@RequestMapping(value = "/add-left-menu", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addLeftMenu(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+	public ModelAndView addLeftMenu(HttpSession session,@ModelAttribute TrainingType obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/left-menu");
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+
+			obj.setCreated_by_user_id_fk(user_Id);			
+			
 			boolean flag =  service.addLeftMenu(obj);
 			if(flag) 
 			{
@@ -124,10 +129,15 @@ public class LeftMenuController {
 	
 	@RequestMapping(value = "/update-left-menu", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView updateLeftMenu(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+	public ModelAndView updateLeftMenu(HttpSession session,@ModelAttribute TrainingType obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/left-menu");
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+
+			obj.setCreated_by_user_id_fk(user_Id);		
+			
 			boolean flag =  service.updateLeftMenu(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Left Menu Updated Succesfully.");

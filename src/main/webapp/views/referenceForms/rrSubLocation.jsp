@@ -438,7 +438,7 @@
     }
 
   
-    function subRemoveAction(rowNo){
+    function subRemoveAction(rowNo){ 
         $("#subActionRow"+rowNo).remove();
     }
     //add-1 end

@@ -57,9 +57,16 @@
 		<!-- maxUploadSize=10MB -->
 		<!-- <property name="maxUploadSize" value="10240000"/> -->
 	 </bean>
+	 
+	 <!-- Production DB -->
 	 <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 	    	<property name="jndiName" value="java:comp/env/jdbc/PMIS_DB"/>
 	 </bean>
+	 
+	 <!-- QA DB -->
+	 <!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	    	<property name="jndiName" value="java:comp/env/jdbc/PMIS_QA_DB"/>
+	 </bean> -->
 	 
 	 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource"/>

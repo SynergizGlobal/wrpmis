@@ -24,6 +24,7 @@ import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.PermissionURLs;
 import com.synergizglobal.pmis.common.TimeAgo;
+import com.synergizglobal.pmis.common.UrlGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Admin;
@@ -1119,7 +1120,10 @@ public class HomeDaoImpl implements HomeDao {
 		try {
 			connection = dataSource.getConnection();
 			
-			requestURI = requestURI.replaceAll("/pmis","");
+			UrlGenerator ugObj = new UrlGenerator();
+			String context_path = ugObj.getContextPath();
+			
+			requestURI = requestURI.replaceAll("/"+context_path,"");
 			
 			List<String> urls = PermissionURLs.urls;
 			if( urls.contains(requestURI) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {

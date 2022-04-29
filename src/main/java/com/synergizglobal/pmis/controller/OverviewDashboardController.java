@@ -239,15 +239,14 @@ public class OverviewDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				String[] url = {};
 				if(dashboardUrl.contains(".com/")) {
 					url = dashboardUrl.split(".com/");
-					baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				}else {
 					url = dashboardUrl.split(":8000/");
-					baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 				}
 				
 				if(!StringUtils.isEmpty(params)) {

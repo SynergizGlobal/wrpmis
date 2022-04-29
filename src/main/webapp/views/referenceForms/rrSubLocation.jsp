@@ -389,6 +389,7 @@
     function addRow() {        	
         var rowNo = $("#rowNo1").val();
         var rNo = Number(rowNo)+1;
+        var randNum = Math.floor((Math.random() * 1000));
         var html = '<div class="row no-mar mt-c" id="actionRow' + rNo + '">'
         + '<div class="input-field col s11 m5"><p class="searchable_label"> Location</p>'
         + '<select name="rr_location_fk" id="rr_location' + rNo +'_fk" class="searchable validate-dropdown">'
@@ -398,11 +399,11 @@
         + '</c:forEach></select>'
         + '<span id="rr_location' + rNo +'_fkError" class="error-msg" ></span></div>'
         + '<div class="input-field col s11 m5 box-grey"  id="subArchiveBody' + rNo +'">'
-        + '<div id="subActionRow' + rNo +'"><div class="col s10 pd0">'
+        + '<div id="subActionRow' + rNo +randNum+'"><div class="col s10 pd0">'
         + '<input id="rr_sub_locationss' + rNo +'" name="rr_sub_location" type="hidden" value="_"> '
         + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location" type="text" class="validate" placeholder="Sub Location"> '
         + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span></div>'
-        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo +randNum+ ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
         + '<span class="col s1 m1 input-field"><a onclick="removeAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
         + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRow(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
  		$('#listOfLocationsAdd').append('<div id="archiveBody' + rNo + '" > </div>');
@@ -444,6 +445,7 @@
      function addRows() {        	
         var rowNo = $("#rowNu1").val();
         var rNo = Number(rowNo)+1;
+        var randNum = Math.floor((Math.random() * 1000));
         var html = '<div class="row no-mar mt-c" id="actionRows' + rNo + '">'
         + '<div class="input-field col s11 m5"><p class="searchable_label"> Location</p>'
         + '<select name="rr_location_fk_new" id="rr_location' + rNo +'_fk" class="searchable validate-dropdown">'
@@ -453,11 +455,11 @@
         + '</c:forEach></select>'
         + '<span id="rr_location' + rNo +'_fkError" class="error-msg" ></span></div>'
         + '<div class="input-field col s11 m5 box-grey"  id="subArchiveBodys' + rNo +'">'
-        + '<div id="subActionRows' + rNo +'"><div class="col s10 pd0">'
+        + '<div id="subActionRows' + rNo +randNum+'"><div class="col s10 pd0">'
         + '<input id="rr_sub_locationss' + rNo +'" name="rr_sub_location_new" type="hidden" value="_"> '
         + '<input id="rr_sub_location' + rNo +'" name="rr_sub_location_new" type="text" class="validate" placeholder="Sub Location"> '
         + '<span id="rr_sub_location' + rNo + 'Error" class="error-msg"></span></div>'
-        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo +randNum+ ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
         + '<span class="col s1 m1 input-field"><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
         + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRows(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
 

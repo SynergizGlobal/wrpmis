@@ -39,8 +39,8 @@
 	<session-config>
 		<!-- Expired time is 4 hrs-->
         <!-- <session-timeout>240</session-timeout> -->
-        <!-- Expired time is 30 mins-->
-        <session-timeout>30</session-timeout>
+        <!-- Expired time is 300 mins-->
+        <session-timeout>300</session-timeout>
     </session-config>
 	
 	<welcome-file-list>  

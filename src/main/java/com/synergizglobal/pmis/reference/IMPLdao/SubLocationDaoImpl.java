@@ -144,29 +144,41 @@ public class SubLocationDaoImpl implements SubLocationDao{
 			int size = 0,size2 = 0,size3=0;
 			String location  = obj.getRr_location_fk();
 			String sub_location  = obj.getRr_sub_location();
+			//sub_location = sub_location.replaceFirst("^", "").replaceAll(",,", ",");
 			String [] locationArr = new String [0];
 			String [] sub_locationArr = new String [0];
 			String [] sub_locationArr1 = new String [0];
 			if(!StringUtils.isEmpty(location) && location.contains(",")) {
 				locationArr = location.split(",");
 				size = locationArr.length;
-				sub_locationArr = sub_location.split("_,");
+				sub_locationArr = sub_location.split(",_,");
 				size2 = locationArr.length;
 				
 			}else if(!StringUtils.isEmpty(sub_location) && sub_location.contains(",")) {
 				sub_locationArr1 = sub_location.split(",");
 				size3 = sub_locationArr1.length;
 				size = 1;
+			}else if(!StringUtils.isEmpty(sub_location)) {
+				size = 1;
+				size3 = 1;
 			}
 			for(int i =0;i< size; i++) {
 				 if(locationArr.length > 0) {
+					String [] subName = null;
 					obj.setRr_location_fk(locationArr[i]);
-					if(!StringUtils.isEmpty(sub_locationArr[i]) && sub_locationArr[i].length() > 0) {
-						sub_locationArr1 = sub_locationArr[i].split(",");
-						size3 = sub_locationArr1.length;
+					if((!StringUtils.isEmpty(sub_locationArr1) && sub_locationArr1.length > 0) 
+							|| (!StringUtils.isEmpty(sub_locationArr) && sub_locationArr.length > 0)) {
+						if(sub_locationArr[i].contains(",")) {
+							subName = sub_locationArr[i].split(",");
+							size3 = (sub_locationArr1.length > 0) ? sub_locationArr1.length : subName.length ;
+						}else {
+							subName = sub_locationArr; size3 = 1;
+							String sub_name = sub_locationArr[i];
+							subName[0] = sub_name;
+						}
 					}
 					for(int j =0;j< size3; j++) {
-						obj.setRr_sub_location(sub_locationArr1[j]);
+						obj.setRr_sub_location(subName[j].replaceAll("&", ","));
 						String insertQry = "INSERT INTO rr_sub_location"
 								+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk, :rr_sub_location)";
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -174,8 +186,10 @@ public class SubLocationDaoImpl implements SubLocationDao{
 					}
 				 }else {
 					for(int j =0;j< size3; j++) {
-						if(!StringUtils.isEmpty(sub_locationArr1[i]) && sub_locationArr1[i].length() > 0) {
-							obj.setRr_sub_location(sub_locationArr1[j]);
+						if(!StringUtils.isEmpty(sub_locationArr1) && sub_locationArr1.length > 0) {
+							obj.setRr_sub_location(sub_locationArr1[j].replaceAll("&", ","));
+						}else {
+							obj.setRr_sub_location(sub_location.replaceAll("&", ","));
 						}
 						String insertQry = "INSERT INTO rr_sub_location"
 								+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk, :rr_sub_location)";
@@ -216,6 +230,7 @@ public class SubLocationDaoImpl implements SubLocationDao{
 			int size = 0,size2 = 0,size3=0;
 			String location  = obj.getRr_location_fk_new();
 			String sub_location  = obj.getRr_sub_location_new();
+			//sub_location = sub_location.replaceFirst("^!,", "").replaceAll(",,", ",");
 			String [] locationArr = new String [0];
 			String [] sub_locationArr = new String [0];
 			String [] sub_locationArr1 = new String [0];
@@ -223,25 +238,35 @@ public class SubLocationDaoImpl implements SubLocationDao{
 			if(!StringUtils.isEmpty(location) && location.contains(",")) {
 				locationArr = location.split(",");
 				size = locationArr.length;
-				sub_locationArr = sub_location.split("_,");
+				sub_locationArr = sub_location.split(",_,");
 				size2 = locationArr.length;
 				
 			}else if(!StringUtils.isEmpty(sub_location) && sub_location.contains(",")) {
 				sub_locationArr1 = sub_location.split(",");
 				size3 = sub_locationArr1.length;
 				size = 1;
+			}else if(!StringUtils.isEmpty(sub_location) ) {
+				size = 1;
+				size3 = 1;
 			}
 			for(int i =0;i< size; i++) {
 				 if(locationArr.length > 0) {
+					String [] subName = null;
 					obj.setRr_location_fk_new(locationArr[i]);
-					if(!StringUtils.isEmpty(sub_locationArr[i]) && sub_locationArr[i].length() > 0) {
-						sub_locationArr1 = sub_locationArr[i].split(",");
-						value_old = sub_locationArr[i].split(",");
-						size3 = sub_locationArr1.length;
+					if((!StringUtils.isEmpty(sub_locationArr1) && sub_locationArr1.length > 0) 
+							|| (!StringUtils.isEmpty(sub_locationArr) && sub_locationArr.length > 0)) {
+						if(sub_locationArr[i].contains(",")) {
+							subName = sub_locationArr[i].split(",");
+							size3 = (sub_locationArr1.length > 0) ? sub_locationArr1.length : subName.length ;
+						}else {
+							subName = sub_locationArr; size3 = 1;
+							String sub_name = sub_locationArr[i];
+							subName[0] = sub_name;
+						}
 					}
 					for(int j =0;j< size3; j++) {
-						obj.setValue_old(sub_locationArr1[j]);
-						obj.setRr_sub_location_new(sub_locationArr1[j]);
+						obj.setValue_old(obj.getRr_location_fk_old());
+						obj.setRr_sub_location_new(subName[j].replaceAll("&", ","));
 						String insertQry = "INSERT INTO rr_sub_location"
 								+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk_new, :rr_sub_location_new)";
 						paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -254,8 +279,11 @@ public class SubLocationDaoImpl implements SubLocationDao{
 					}
 				 }else {
 					for(int j =0;j< size3; j++) {
-						if(!StringUtils.isEmpty(sub_locationArr1[i]) && sub_locationArr1[i].length() > 0) {
-							obj.setRr_sub_location_new(sub_locationArr1[j]);
+						if(!StringUtils.isEmpty(sub_locationArr1) && sub_locationArr1.length > 0) {
+							obj.setRr_sub_location_new(sub_locationArr1[j].replaceAll("&", ","));
+						}else {
+							obj.setValue_old(obj.getRr_location_fk_old());
+							obj.setRr_sub_location_new(sub_location.replaceAll("&", ","));
 						}
 						String insertQry = "INSERT INTO rr_sub_location"
 								+ "( rr_location_fk, rr_sub_location) VALUES (:rr_location_fk_new, :rr_sub_location_new)";

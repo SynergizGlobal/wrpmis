@@ -534,6 +534,14 @@
 
         function addRrSubLocation(){
          	 if(validator.form()){ 
+         		$('input[name^="rr_sub_location"]').each(function(){
+         			 var v =  $(this).val(); 
+             	   if(v.indexOf(",") != -1){
+         	    	v = v.replaceAll(',', '&');
+         	    	$(this).val(v);
+         	    	console.log(v)
+         	       }
+         	});
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
      			document.getElementById("addRrSubLocationForm").submit();	
@@ -542,6 +550,14 @@
         
         function updateRrSubLocation(){
         	 if(validator1.form()){ 
+        		 $('input[name^="rr_sub_location_new"]').each(function(){
+        		   var v =  $(this).val(); 
+           	       if(v.indexOf(",") != -1){
+           	    	v = v.replaceAll(',', '&');
+           	    	$(this).val(v);
+           	    	console.log(v)
+           	       }
+           	});
     			$(".page-loader").show();
     			$("#onlyUpdateModal").modal();
     			document.getElementById("updateRrSubLocationForm").submit();	

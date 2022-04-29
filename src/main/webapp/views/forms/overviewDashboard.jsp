@@ -18,6 +18,9 @@
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	
 	<style>
+		.w100{
+			width: 100% !important;
+		}
 		.ui-icon, .ui-widget-content .ui-icon{
 			display:none;
 		}
@@ -367,7 +370,7 @@
 	    
 	    function getArchiveDates(dashboardId)
 	    {
-	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible" id="archive_date" onChange="changeUrl('+dashboardId+');"><option value="">Current</option>';
+	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible w100" id="archive_date" onChange="changeUrl('+dashboardId+');"><option value="">Current</option>';
 	    	 $.ajax({
 	       		url: "<%=request.getContextPath()%>/ajax/getArchiveDates",
 	             type: 'POST',
@@ -668,7 +671,13 @@
 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
 	   		   $("#menu-item-holder").show();
 	   	 }else if($.trim(show_left_menu) == 'Yes'){
-	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
+	   		var currentHost = window.location.href;    	
+		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1"){
+		 		  $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
+		 	}else{
+		 		$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+		 	}
+	   		 
 	   		   $("#menu-item-holder").show();
 	   		   $("#filter-item-holder").hide();
 		       $("#filter-item-holder").html("");

@@ -1,13 +1,12 @@
 package com.synergizglobal.pmis.constants;
 
-import java.io.File;
-
 import com.synergizglobal.pmis.common.UrlGenerator;
 
 public class CommonConstants {
 	
 	static UrlGenerator ugObj = new UrlGenerator();
 	static String context_path = ugObj.getContextPath();
+	static String base_path = ugObj.getNGINXFilesBasePath();
 	
 	public final static String BASE_URL_SYNTRACK = "https://infoviz.syntrackpro.com/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
 	public final static String BASE_URL_MRVC = "http://"+ugObj.getIpAddress()+":8000/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
@@ -40,6 +39,8 @@ public class CommonConstants {
 	
 	public final static String  ISSUE_STATUS_RAISED = "Raised";
 	
+	public static String LOGIN_BACKGROUND_IMAGE_URL = "/"+context_path+"/resources/images/login-background.jpg";
+	
 	public final static String SAFETY_EQUIPMENT_FILES = "/"+context_path+"/SAFETY_EQUIPMENT_FILES/";
 	public final static String BUDGET_FILES = "/"+context_path+"/BUDGET_FILES/";
 	public final static String FUND_FILES = "/"+context_path+"/FUND_FILES/";
@@ -57,10 +58,33 @@ public class CommonConstants {
 	public final static String TEMPLATE_FILE_SAVE_PATH = "/"+context_path+"/TEMPLATES_OLD/";
 	public final static String RR_UPLOADED_FILES = "/"+context_path+"/RR_UPLOADED_FILES/";
 	public final static String UTILITY_UPLOADED_FILES = "/"+context_path+"/UTILITY_UPLOADED_FILES/";
-	/*********** LOCAL ****************************************************/
 	
-	public static String DIRECTORY_PATH = "E:";
+	/*********************************************************************************************/	
+	public final static String LOGIN_BACKGROUND_IMAGE = base_path+"/resources/images/";
 	
+	public final static String STRIPCHART_FILE_SAVING_PATH = base_path+"/STRIPCHART_FILES/";
+	public final static String WORK_FILE_SAVING_PATH = base_path+"/WORK_FILES/";
+	public final static String CONTRACT_FILE_SAVING_PATH = base_path+"/CONTRACT_FILES/";
+	public final static String DESIGN_FILE_SAVING_PATH = base_path+"/DESIGN_FILES/";
+	public final static String SAFETYEQUIPMENT_FILE_SAVING_PATH = base_path+"/SAFETY_EQUIPMENT_FILES/";
+	public final static String BUDGET_FILE_SAVING_PATH = base_path+"/BUDGET_FILES/";
+	public final static String FUND_FILE_SAVING_PATH = base_path+"/FUND_FILES/";
+	public final static String DOCUMENT_FILES_SAVING_PATH = base_path+"/DOCUMENT_FILES/";
+	public final static String SAFETY_INSTRUCTIONS_FILE_SAVING_PATH = base_path+"/SAFETY_INSTRUCTIONS_FILES/";
+	public final static String MANUAL_FILE_SAVING_PATH = base_path+"/MANUAL_FILES/";
+	public final static String PROJECT_FILE_SAVING_PATH = base_path+"/PROJECT_FILES/";
+	public final static String DELIVERABLES_FILE_SAVING_PATH = base_path+"/DELIVERABLES_FILES/";
+	public final static String TRAINING_SESSION_FILE_SAVING_PATH = base_path+"/TRAINING_SESSIONS/";
+	public final static String LAND_ACQUISITION_FILE_SAVING_PATH = base_path+"/LAND_ACQUISITION_FILES/";
+	public final static String DESIGN_UPLOADED_FILE_SAVING_PATH = base_path+"/DESIGN_UPLOADED_FILES/";
+	public final static String TEMPLATE_FILEPATH = base_path+"/";
+	public final static String TEMPLATE_OLD_FILEPATH = base_path+"/TEMPLATES_OLD/";
+	public final static String STRUCTURE_UPLOADED_FILE_SAVING_PATH = base_path+"/STRUCTURE_UPLOADED_FILES/";
+	public final static String RR_UPLOADED_FILE_SAVING_PATH = base_path+"/RR_UPLOADED_FILES/";
+	public final static String UTILITY_UPLOADED_FILE_SAVING_PATH = base_path+"/UTILITY_UPLOADED_FILES/";
+
+	/*********** LOCAL ****************************************************/	
+	/*public static String DIRECTORY_PATH = "E:";
 	
 	public final static String LOGIN_BACKGROUND_IMAGE = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+context_path+File.separator+"resources"+File.separator+"images"+File.separator;
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/"+context_path+"/resources/images/login-background.jpg";
@@ -85,7 +109,7 @@ public class CommonConstants {
 	public final static String STRUCTURE_UPLOADED_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development/nginx-1.9.9/html/"+context_path+"/STRUCTURE_UPLOADED_FILES/";
 	public final static String RR_UPLOADED_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development/nginx-1.9.9/html/"+context_path+"/RR_UPLOADED_FILES/";
 	public final static String UTILITY_UPLOADED_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development/nginx-1.9.9/html/"+context_path+"/UTILITY_UPLOADED_FILES/";
-
+	*/
 	/*********** Syntract AWS ****************************************************/	
 	/*public final static String LOGIN_BACKGROUND_IMAGE = "usr/share/nginx/html/"+context_path+"/resources/images/";
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/"+context_path+"/resources/images/login-background.jpg";
@@ -137,7 +161,6 @@ public class CommonConstants {
 	public final static String STRUCTURE_UPLOADED_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/"+context_path+"/STRUCTURE_UPLOADED_FILES/";
 	public final static String RR_UPLOADED_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/"+context_path+"/RR_UPLOADED_FILES/";
 	public final static String UTILITY_UPLOADED_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/"+context_path+"/UTILITY_UPLOADED_FILES/";
-
 
 	*/
 	

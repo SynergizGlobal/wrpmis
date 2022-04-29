@@ -1,13 +1,15 @@
 package com.synergizglobal.pmis.constants;
 
-import java.io.File;
-
 import com.synergizglobal.pmis.common.UrlGenerator;
 
 public class CommonConstants2 {	
 	
 	static UrlGenerator ugObj = new UrlGenerator();
 	static String context_path = ugObj.getContextPath();
+	static String base_path = ugObj.getNGINXFilesBasePath();
+	
+	static String user_login_report_mail_id = ugObj.getUser_login_report_mail_id();
+	static String managers_mail_ids = ugObj.getManagers_mail_ids_for_alerts();
 	
 	public final static String  STATUS_COMPLETED = "Completed";
 	public final static String  STATUS_DROPPED = "Dropped";	
@@ -51,10 +53,34 @@ public class CommonConstants2 {
 	public final static String UTILITY_SHIFTING_FILES = "/"+context_path+"/UTILITY_SHIFTING_FILES/";
 	public final static String RRBSES_FILES = "/"+context_path+"/RRBSES_FILES/";
 	
+	/*******************************************************************************************/
+	
+	
+	public final static String USER_LOGIN_REPORT_MAIL = user_login_report_mail_id;
+	public final static String ALERTS_EMAIL = user_login_report_mail_id;
+	
+	
+	public final static String ISSUE_FILE_SAVING_PATH = base_path+"/ISSUE_FILES/";
+	public static final String SAFETY_FILE_SAVING_PATH = base_path+"/SAFETY_FILES/";
+	public static final String FOB_GALLERY_SAVING_PATH = base_path+"/FOB_GALLERY/";
+	public static final String FOB_FILE_SAVING_PATH = base_path+"/FOB_FILES/";
+	public static final String USER_IMAGE_SAVING_PATH = base_path+"/USER_IMAGES/";
+	public static final String DESIGN_FILE_SAVING_PATH = base_path+"/DESIGN_FILES/";
+	public static final String P6_FILE_SAVING_PATH = base_path+"/P6_FILES/";
+	public static final String DOCX_LOGO = base_path+"/resources/images";
+	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = base_path+"/WEB_DOCUMENTS/";
+	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = base_path+"/PROJECT_GALLERY/";
+	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = base_path+"/ACTIVITY_PROGRESS_REPORTS/";
+	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = base_path+"/ACTIVITIES_UPLOAD_FILES/";
+	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = base_path+"/RISK_ASSESSMENT_UPLOADED_FILES/";
+	public final static String PMIS_MANUAL_SAVING_PATH = base_path+"/PMIS_MANUALS/";
+	public final static String STRUCTURE_FILE_SAVING_PATH = base_path+"/STRUCTURE_FILES/";
+	public static final String UTILITY_SHIFTING_FILE_SAVING_PATH = base_path+"/UTILITY_SHIFTING_FILES/";
+	public static final String RRBSES_FILE_SAVING_PATH = base_path+"/RRBSES_FILES/";
 	
 	
 	/*********** LOCAL ****************************************************/
-	public static String DIRECTORY_PATH = "C:";
+	/*public static String DIRECTORY_PATH = "C:";
 	
 	public final static String USER_LOGIN_REPORT_MAIL = "gkalluri@ghsltechnologies.com";
 	public final static String ALERTS_EMAIL = "kallurigurappa@gmail.com,gkalluri@ghsltechnologies.com";
@@ -64,7 +90,7 @@ public class CommonConstants2 {
 	public static final String FOB_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+context_path+File.separator+"FOB_FILES"+File.separator;
 	public static final String STRUCTURE_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+context_path+File.separator+"STRUCTURE_FILES"+File.separator;
 	public static final String UTILITY_SHIFTING_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+context_path+File.separator+"UTILITY_SHIFTING_FILES"+File.separator;
-
+	
 	
 	public static final String USER_IMAGE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+context_path+File.separator+"USER_IMAGES"+File.separator;
 	public static final String DESIGN_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+context_path+File.separator+"DESIGN_FILES"+File.separator;
@@ -78,7 +104,7 @@ public class CommonConstants2 {
 	public final static String PMIS_MANUAL_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/"+context_path+"/PMIS_MANUALS/";
 	 
 	public static final String RRBSES_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+context_path+File.separator+"RRBSES_FILES"+File.separator;
-
+	*/
 	/*********** Syntrack AWS ****************************************************/	
 	/*public final static String USER_LOGIN_REPORT_MAIL = "raviteja.reddy@synergizglobal.com";
 	public final static String ALERTS_EMAIL = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";

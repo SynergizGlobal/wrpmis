@@ -49,6 +49,7 @@
             <list>
                 <value>classpath:Placeholders.properties</value>
                 <value>classpath:database.properties</value>
+                <value>classpath:cronjob.properties</value>
             </list>
         </property>
     </bean>

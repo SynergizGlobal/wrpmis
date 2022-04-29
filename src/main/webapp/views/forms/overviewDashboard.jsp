@@ -601,11 +601,15 @@
          		   $("#filter-item-holder").html(filters);
          		   $('.searchable').select2();
          	   }else{
+         		  	var currentHost = window.location.href;    	
+        		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
+	         		{
           				$("#archive-item-holder").show();
           				$("#archive-item-holder").html("");
             		   var filters1 = getArchiveDates(dashboardId);   
      				  $("#archive-item-holder").html(filters1);  
      				 $('.searchable').select2();
+	         		}
          	   }
          	   $(".page-loader").hide();
             },error: function(xhr){
@@ -664,7 +668,7 @@
 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
 	   		   $("#menu-item-holder").show();
 	   	 }else if($.trim(show_left_menu) == 'Yes'){
-	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
 	   		   $("#menu-item-holder").show();
 	   		   $("#filter-item-holder").hide();
 		       $("#filter-item-holder").html("");

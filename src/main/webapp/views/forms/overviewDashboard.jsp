@@ -367,7 +367,7 @@
 	    
 	    function getArchiveDates(dashboardId)
 	    {
-	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible" id="archive_date" onChange="changeUrl(this.value);"><option value="">Current</option>';
+	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible" id="archive_date" onChange="changeUrl('+dashboardId+');"><option value="">Current</option>';
 	    	 $.ajax({
 	       		url: "<%=request.getContextPath()%>/ajax/getArchiveDates",
 	             type: 'POST',
@@ -386,9 +386,21 @@
 	    	return rhtml;
 	    }
 	    
-	    function changeUrl(dashboard_url)
+	    function changeUrl(dashboardId)
 	    {
-	    	 $("#dashboardOpen").attr("src",dashboard_url);
+			 $.ajax({
+		      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
+		            type: 'POST',
+		            data:{dashboard_id : dashboardId},
+		            async: false,
+		            dataType: 'json',
+		            success: function (data){
+		            	var dashboard_url = data.dashboard_url;
+		         	    $("#dashboardOpen").attr("src",dashboard_url);
+		            },error: function(xhr){
+		                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+		            }
+		     });
 	    }
 	    
 	    

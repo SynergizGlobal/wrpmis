@@ -1,7 +1,6 @@
 package com.synergizglobal.pmis.login.filter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
@@ -21,11 +19,10 @@ import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.Iservice.UserManualsService;
 import com.synergizglobal.pmis.Iservice.WebDocumentsService;
 import com.synergizglobal.pmis.Iservice.WebLinksService;
-import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.common.UrlGenerator;
 import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Forms;
-import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
@@ -63,17 +60,20 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws IOException {
 		String requestURI = null;
+		String context_path = null;
 		try {
 			requestURI = request.getRequestURI();
+			UrlGenerator ugObj = new UrlGenerator();
+			context_path = ugObj.getContextPath();
 			// Avoid a redirect loop for some urls
-			if( !requestURI.equals("/pmis/") && !requestURI.equals("/pmis/login") 
+			if( !requestURI.equals("/"+context_path+"/") && !requestURI.equals("/"+context_path+"/login") 
 					&& !requestURI.equals("/") && !requestURI.equals("/login") 
-					&& !requestURI.equals("/pmis/someone-login") && !requestURI.equals("/someone-login") 
-					&& !requestURI.equals("/pmis/access-denied") && !request.getRequestURI().equals("/access-denied")){
+					&& !requestURI.equals("/"+context_path+"/someone-login") && !requestURI.equals("/someone-login") 
+					&& !requestURI.equals("/"+context_path+"/access-denied") && !request.getRequestURI().equals("/access-denied")){
 			    User userData = (User) request.getSession().getAttribute("user");
 			    if(userData == null){
-			    	if(request.getRequestURI().contains("/pmis/")){
-			    		response.sendRedirect("/pmis/login");
+			    	if(request.getRequestURI().contains("/"+context_path+"/")){
+			    		response.sendRedirect("/"+context_path+"/login");
 			    	}else{
 			    		response.sendRedirect("/login");
 			    	}
@@ -84,16 +84,16 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 					String single_session_id = loginService.getSingleLoginSessionId(userData);
 					if(!StringUtils.isEmpty(single_login_session_id) && StringUtils.isEmpty(single_session_id)){
 						request.getSession().invalidate();
-						if(request.getRequestURI().contains("/pmis/")){
-				    		response.sendRedirect("/pmis/login");
+						if(request.getRequestURI().contains("/"+context_path+"/")){
+				    		response.sendRedirect("/"+context_path+"/login");
 				    	}else{
 				    		response.sendRedirect("/login");
 				    	}
 						return false;
 					}else if(!StringUtils.isEmpty(single_login_session_id) && !single_login_session_id.equals(single_session_id)){
 						request.getSession().invalidate();
-						if(request.getRequestURI().contains("/pmis/")){
-				    		response.sendRedirect("/pmis/someone-login");
+						if(request.getRequestURI().contains("/"+context_path+"/")){
+				    		response.sendRedirect("/"+context_path+"/someone-login");
 				    	}else{
 				    		response.sendRedirect("/someone-login");
 				    	}
@@ -103,8 +103,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 						if(flag) {
 							return true;
 						}else {
-							if(requestURI.contains("/pmis/")){
-						   		response.sendRedirect("/pmis/access-denied");
+							if(requestURI.contains("/"+context_path+"/")){
+						   		response.sendRedirect("/"+context_path+"/access-denied");
 						   	}else{
 						   		response.sendRedirect("/access-denied");
 						   	}
@@ -116,8 +116,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 			}
 		} catch (Exception e) {
 			logger.error("preHandle : " + e.getMessage());
-			if(requestURI.contains("/pmis/")){
-		   		response.sendRedirect("/pmis/access-denied");
+			if(requestURI.contains("/"+context_path+"/")){
+		   		response.sendRedirect("/"+context_path+"/access-denied");
 		   	}else{
 		   		response.sendRedirect("/access-denied");
 		   	}

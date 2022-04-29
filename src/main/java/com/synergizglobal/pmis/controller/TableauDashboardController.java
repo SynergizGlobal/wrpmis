@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.IssueService;
@@ -90,19 +89,6 @@ public class TableauDashboardController {
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
-				/*String[] url = {};
-				if(vo.getTableauUrl().contains(".com/")) {
-					url = vo.getTableauUrl().split(".com/");
-				}else {
-					url = vo.getTableauUrl().split(":8000/");
-				}
-				
-				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket();
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
-				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-				vo.setTableauUrl(tableauUrl);*/
 				
 				if(vo.getTableauUrl().contains("work-overview-dashboard")) {
 					String url = vo.getTableauUrl() + "/" + vo.getWork_id_fk();
@@ -127,15 +113,14 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
@@ -181,19 +166,6 @@ public class TableauDashboardController {
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
-				/*String[] url = {};
-				if(vo.getTableauUrl().contains(".com/")) {
-					url = vo.getTableauUrl().split(".com/");
-				}else {
-					url = vo.getTableauUrl().split(":8000/");
-				}
-				
-				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket();
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
-				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-				vo.setTableauUrl(tableauUrl);*/
 				
 				if(vo.getTableauUrl().contains("work-overview-dashboard")) {
 					String url = vo.getTableauUrl() + "/" + vo.getWork_id_fk();
@@ -217,15 +189,14 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
@@ -267,18 +238,6 @@ public class TableauDashboardController {
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
-				/*String[] url = {};
-				if(vo.getTableauUrl().contains(".com/")) {
-					url = vo.getTableauUrl().split(".com/");
-				}else {
-					url = vo.getTableauUrl().split(":8000/");
-				}
-				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket();
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
-				String tableauUrl = baseUrl + url[1]+"&issue_id="+issue_id+"&issue_id_fk="+issue_id+CommonConstants.TABLEAU_PARAMS;
-				vo.setTableauUrl(tableauUrl);*/
 				
 				String server_name = "Syntrack";
 				if(vo.getTableauUrl().contains(".com/")) {
@@ -288,15 +247,14 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+"&issue_id="+issue_id+"&issue_id_fk="+issue_id+CommonConstants.TABLEAU_PARAMS;
@@ -339,18 +297,6 @@ public class TableauDashboardController {
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
-				/*String[] url = {};
-				if(vo.getTableauUrl().contains(".com/")) {
-					url = vo.getTableauUrl().split(".com/");
-				}else {
-					url = vo.getTableauUrl().split(":8000/");
-				}
-				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket();
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
-				String tableauUrl = baseUrl + url[1]+"&Assessment Date="+obj.getAssessment_date()+"&Work  ="+obj.getSub_work()+CommonConstants.TABLEAU_PARAMS;
-				vo.setTableauUrl(tableauUrl);*/
 				
 				String server_name = "Syntrack";
 				if(vo.getTableauUrl().contains(".com/")) {
@@ -360,15 +306,14 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+"&Assessment Date="+obj.getAssessment_date()+"&Work  ="+obj.getSub_work()+CommonConstants.TABLEAU_PARAMS;
@@ -411,18 +356,6 @@ public class TableauDashboardController {
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
-				/*String[] url = {};
-				if(vo.getTableauUrl().contains(".com/")) {
-					url = vo.getTableauUrl().split(".com/");
-				}else {
-					url = vo.getTableauUrl().split(":8000/");
-				}
-				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket();
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
-				String tableauUrl = baseUrl + url[1]+"&contract_id="+contract_id+CommonConstants.TABLEAU_PARAMS;
-				vo.setTableauUrl(tableauUrl);*/
 				
 				String server_name = "Syntrack";
 				if(vo.getTableauUrl().contains(".com/")) {
@@ -432,15 +365,14 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				CommonConstants cObj = new CommonConstants();
-				String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+"&contract_id="+contract_id+"&contract_id_fk="+contract_id+CommonConstants.TABLEAU_PARAMS;

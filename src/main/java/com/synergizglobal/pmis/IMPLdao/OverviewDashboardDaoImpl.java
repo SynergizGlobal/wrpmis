@@ -690,8 +690,8 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			objsList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id() },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
 			if(StringUtils.isEmpty(objsList))
 			{
-				String qry1 = "SELECT dashboard_url FROM dashboard WHERE dashboard_id = ? and work_id=?";
-				String Dashboardurl = (String) jdbcTemplate.queryForObject(qry1, new Object[] { dObj.getDashboard_id(), dObj.getWork_id()}, String.class);
+				String qry1 = "SELECT dashboard_url FROM dashboard WHERE dashboard_id = ?";
+				String Dashboardurl = (String) jdbcTemplate.queryForObject(qry1, new Object[] { dObj.getDashboard_id() }, String.class);
 				String DId="";
 				if(!StringUtils.isEmpty(Dashboardurl)) {
 					String []SplitStr=Dashboardurl.split("/");

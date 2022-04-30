@@ -54,7 +54,7 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 	public TrainingType getSubResourceTypeDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		List<TrainingType> objsList1 = null;
-		TrainingType sObj =null;
+		TrainingType sObj =null; 
 		try {
 			String qry ="select id, resource_type_fk, group_concat(sub_resource_type) as sub_resource_type from sub_resource_type group by resource_type_fk ";
 			

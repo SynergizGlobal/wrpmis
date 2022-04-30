@@ -6,7 +6,7 @@ import com.synergizglobal.pmis.reference.model.Risk;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 
 public interface SubResourceTypeDao {
-
+ 
 	List<TrainingType> getRiskSubResourceType() throws Exception;
 
 	List<TrainingType> getRiskResourceType() throws Exception;

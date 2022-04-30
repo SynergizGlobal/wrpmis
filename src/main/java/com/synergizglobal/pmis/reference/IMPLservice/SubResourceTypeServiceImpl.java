@@ -26,7 +26,7 @@ public class SubResourceTypeServiceImpl implements SubResourceTypeService{
 		return dao.getRiskResourceType();
 	}
 
-	@Override
+	@Override 
 	public TrainingType getSubResourceTypeDetails(TrainingType obj) throws Exception {
 		return dao.getSubResourceTypeDetails(obj);
 	}

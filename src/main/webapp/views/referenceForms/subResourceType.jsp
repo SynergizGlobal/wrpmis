@@ -660,11 +660,11 @@
      	   }
         }
         var updateFlag = true;
-        function doValidateUpdate(value,value1){
+         function doValidateUpdate(value,value1){
            var value = $('#resource_type_fk_new').val();
            var value1 = $('#value_new').val();
            value = value.trim();
-           value1 = value1.trim();
+           value1 = value1.trim(); 
      	   var print_value = value;	
      	   var print_value2 = value1;	
      	   var validate = $('.findLengths').length;

@@ -108,7 +108,7 @@
                         <div class="row no-mar">
                             <div class="col m12 s12">
                                 <table id="rr_sublocation_table" class="mdl-data-table">
-                                    <thead>
+                                     <thead>
                                         <tr>
                                             <th>Location</th>
                                             <th>Sub Location</th>

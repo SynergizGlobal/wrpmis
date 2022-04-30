@@ -7,7 +7,7 @@ import com.synergizglobal.pmis.reference.model.TrainingType;
 
 public interface SubResourceTypeService {
 
-	List<TrainingType> getRiskSubResourceType() throws Exception;
+	List<TrainingType> getRiskSubResourceType() throws Exception; 
 
 	List<TrainingType> getRiskResourceType() throws Exception;
 

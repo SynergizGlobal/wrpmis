@@ -48,13 +48,13 @@ public class SubResourceTypeController {
 			TrainingType subResourceTypeDetails = subResourceTypeService.getSubResourceTypeDetails(obj);
 			model.addObject("subResourceTypeDetails",subResourceTypeDetails);
 		
-		}catch (Exception e) {
+		}catch (Exception e) { 
 			e.printStackTrace();
 			logger.error("subResourceType : " + e.getMessage());
 		}
 		return model;
 	}
-	
+	 
 	@RequestMapping(value = "/ajax/getResourceType", method = { RequestMethod.GET,RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<TrainingType> getResourceType(@ModelAttribute TrainingType obj) {

@@ -26,7 +26,7 @@ public class TrainingType {
 	soft_delete_status_fk,rr_verification_by, rr_location,rr_boundarywall_Status, bses_file_type, rr_occupancy_status, rr_tenure_status, caste, mother_tongue, rr_type_of_family,marital_status
 	,phase,rr_type_of_use, rr_location_fk, rr_sub_location,work_type,rr_location_fk_old,rr_location_fk_new,executive_user_id_fk,user_id;
     
-	private String rr_sub_location_new,dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu,user_types,user_roles,users,Created_by_user_id_fk,archive_dates,archive_urls;
+	private String sub_resource_type_new,resource_type_fk_old,rr_sub_location_new,dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu,user_types,user_roles,users,Created_by_user_id_fk,archive_dates,archive_urls;
 	
 	private List<String> access_user_types,access_user_roles,access_users;
 
@@ -36,6 +36,22 @@ public class TrainingType {
 	List<TrainingType> landExecutivesList;
 	List<TrainingType> utilityExecutivesList;
 	
+	public String getResource_type_fk_old() {
+		return resource_type_fk_old;
+	}
+
+	public void setResource_type_fk_old(String resource_type_fk_old) {
+		this.resource_type_fk_old = resource_type_fk_old;
+	}
+
+	public String getSub_resource_type_new() {
+		return sub_resource_type_new;
+	}
+
+	public void setSub_resource_type_new(String sub_resource_type_new) {
+		this.sub_resource_type_new = sub_resource_type_new;
+	}
+
 	public String getRr_sub_location_new() {
 		return rr_sub_location_new;
 	}

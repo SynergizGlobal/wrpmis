@@ -45,4 +45,9 @@ public class SubResourceTypeServiceImpl implements SubResourceTypeService{
 	public boolean deletesubResourceType(TrainingType obj) throws Exception {
 		return dao.deletesubResourceType(obj);
 	}
+
+	@Override
+	public List<TrainingType> getResourceType(TrainingType obj) throws Exception {
+		return dao.getResourceType(obj);
+	}
 }

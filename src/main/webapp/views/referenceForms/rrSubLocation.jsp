@@ -631,7 +631,7 @@
     	  var html = '';
     	  $("#subArchiveBodys0").empty();
     	  var id = $('#id'+no).val();
-         // var rr_sub_location = $('#rr_sub_locationId'+no).val();
+          var rr_sub_location = $('#rr_sub_locationId'+no).val();
           var rr_location_fk = $('#rr_location_fkId'+no).val();
           $('#value_old').val($.trim(rr_sub_location));
           $('#rr_location_fk_old').val($.trim(rr_location_fk));

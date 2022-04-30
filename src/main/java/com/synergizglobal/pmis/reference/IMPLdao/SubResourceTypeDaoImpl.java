@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.reference.Idao.SubResourceTypeDao;
 import com.synergizglobal.pmis.reference.model.Risk;
@@ -55,7 +56,7 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select id, resource_type_fk, sub_resource_type from sub_resource_type order by resource_type_fk ";
+			String qry ="select id, resource_type_fk, group_concat(sub_resource_type) as sub_resource_type from sub_resource_type group by resource_type_fk ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -149,11 +150,63 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 		boolean flag = false;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO sub_resource_type"
-					+ "( resource_type_fk, sub_resource_type) VALUES (:resource_type_fk, :sub_resource_type)";
-			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			int size = 0,size2 = 0,size3=0,count=0;
+			String location  = obj.getResource_type_fk();
+			String resource_type  = obj.getSub_resource_type();
+			String [] locationArr = new String [0];
+			String [] resource_typeArr = new String [0];
+			String [] resource_typeArr1 = new String [0];
+			String [] value_old = new String [0];
+			if(!StringUtils.isEmpty(location) && location.contains(",")) {
+				locationArr = location.split(",");
+				size = locationArr.length;
+				resource_typeArr = resource_type.split(",_,");
+				size2 = locationArr.length;
+				
+			}else if(!StringUtils.isEmpty(resource_type) && resource_type.contains(",")) {
+				resource_typeArr1 = resource_type.split(",");
+				size3 = resource_typeArr1.length;
+				size = 1;
+			}else if(!StringUtils.isEmpty(resource_type) ) {
+				size = 1;
+				size3 = 1;
+			}
+			for(int i =0;i< size; i++) {
+				 if(locationArr.length > 0) {
+					String [] subName = null;
+					obj.setResource_type_fk(locationArr[i]);
+					if((!StringUtils.isEmpty(resource_typeArr1) && resource_typeArr1.length > 0) 
+							|| (!StringUtils.isEmpty(resource_typeArr) && resource_typeArr.length > 0)) {
+						if(resource_typeArr[i].contains(",")) {
+							subName = resource_typeArr[i].split(",");
+							size3 = (resource_typeArr1.length > 0) ? resource_typeArr1.length : subName.length ;
+						}else {
+							subName = resource_typeArr; size3 = 1;
+							String sub_name = resource_typeArr[i];
+							subName[0] = sub_name;
+						}
+					}
+					for(int j =0;j< size3; j++) {
+						obj.setSub_resource_type(subName[j].replaceAll("&", ","));
+						String insertQry = "INSERT INTO sub_resource_type"
+								+ "( resource_type_fk, sub_resource_type) VALUES (:resource_type_fk, :sub_resource_type)";
+						BeanPropertySqlParameterSource	paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(resource_typeArr1) && resource_typeArr1.length > 0) {
+							obj.setSub_resource_type(resource_typeArr1[j].replaceAll("&", ","));
+						}else {
+							obj.setSub_resource_type(resource_type.replaceAll("&", ","));
+						}
+						String insertQry = "INSERT INTO sub_resource_type"
+								+ "( resource_type_fk, sub_resource_type) VALUES (:resource_type_fk, :sub_resource_type)";
+						BeanPropertySqlParameterSource	paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+			     }
+			}
 			if(count > 0) {
 				flag = true;
 			}
@@ -178,17 +231,83 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE sub_resource_type SET `sub_resource_type`= :value_new,resource_type_fk= :resource_type_fk_new WHERE `sub_resource_type`= :value_old " ;
+			String deleteQry = "delete from sub_resource_type where `resource_type_fk`= :resource_type_fk_old";
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
-			
-			for (TrainingType bObj : obj.getdList()) {
+			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+			int size = 0,size2 = 0,size3=0;
+			String location  = obj.getResource_type_fk_new();
+			String resource_type  = obj.getSub_resource_type_new();
+			String [] locationArr = new String [0];
+			String [] resource_typeArr = new String [0];
+			String [] resource_typeArr1 = new String [0];
+			String [] value_old = new String [0];
+			if(!StringUtils.isEmpty(location) && location.contains(",")) {
+				locationArr = location.split(",");
+				size = locationArr.length;
+				resource_typeArr = resource_type.split(",_,");
+				size2 = locationArr.length;
 				
-				String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:value_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
-				
-				 paramSource = new BeanPropertySqlParameterSource(obj);		 
-				 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+			}else if(!StringUtils.isEmpty(resource_type) && resource_type.contains(",")) {
+				resource_typeArr1 = resource_type.split(",");
+				size3 = resource_typeArr1.length;
+				size = 1;
+			}else if(!StringUtils.isEmpty(resource_type) ) {
+				size = 1;
+				size3 = 1;
 			}
+			for(int i =0;i< size; i++) {
+				 if(locationArr.length > 0) {
+					String [] subName = null;
+					obj.setResource_type_fk_new(locationArr[i]);
+					if((!StringUtils.isEmpty(resource_typeArr1) && resource_typeArr1.length > 0) 
+							|| (!StringUtils.isEmpty(resource_typeArr) && resource_typeArr.length > 0)) {
+						if(resource_typeArr[i].contains(",")) {
+							subName = resource_typeArr[i].split(",");
+							size3 = (resource_typeArr1.length > 0) ? resource_typeArr1.length : subName.length ;
+						}else {
+							subName = resource_typeArr; size3 = 1;
+							String sub_name = resource_typeArr[i];
+							subName[0] = sub_name;
+						}
+					}
+					for(int j =0;j< size3; j++) {
+						obj.setValue_old(obj.getResource_type_fk());
+						obj.setSub_resource_type_new(subName[j].replaceAll("&", ","));
+						String insertQry = "INSERT INTO sub_resource_type"
+								+ "( resource_type_fk, sub_resource_type) VALUES (:resource_type_fk_new, :sub_resource_type_new)";
+						paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+						for (TrainingType bObj : obj.getdList()) {
+							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:sub_resource_type_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+							
+							 paramSource = new BeanPropertySqlParameterSource(obj);		 
+							 namedParamJdbcTemplate.update(updateTableQry, paramSource);		
+						}
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(resource_typeArr1) && resource_typeArr1.length > 0) {
+							obj.setSub_resource_type_new(resource_typeArr1[j].replaceAll("&", ","));
+						}else {
+							obj.setValue_old(obj.getResource_type_fk());
+							obj.setSub_resource_type_new(resource_type.replaceAll("&", ","));
+						}
+						String insertQry = "INSERT INTO sub_resource_type"
+								+ "( resource_type_fk, sub_resource_type) VALUES (:resource_type_fk_new, :sub_resource_type_new)";
+						paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+						for (TrainingType bObj : obj.getdList()) {
+							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:value_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+							
+							 paramSource = new BeanPropertySqlParameterSource(obj);		 
+							 namedParamJdbcTemplate.update(updateTableQry, paramSource);		
+						}
+					}
+			     }
+			
+			}
+
+			
 			String  enableQry =	"SET foreign_key_checks = 1";
 			paramSource = new BeanPropertySqlParameterSource(obj);	
 			namedParamJdbcTemplate.update(enableQry, paramSource);
@@ -219,5 +338,18 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 		throw new Exception(e);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<TrainingType> getResourceType(TrainingType obj) throws Exception {
+		List<TrainingType> objList = null;
+		try {
+			String qry = "SELECT sub_resource_type  from sub_resource_type where resource_type_fk= '"+ obj.getResource_type_fk()+"'";
+			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
 	}
 }

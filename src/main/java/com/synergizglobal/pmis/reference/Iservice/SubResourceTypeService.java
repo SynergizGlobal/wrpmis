@@ -19,4 +19,6 @@ public interface SubResourceTypeService {
 
 	boolean deletesubResourceType(TrainingType obj) throws Exception;
 
+	List<TrainingType> getResourceType(TrainingType obj) throws Exception;
+
 }

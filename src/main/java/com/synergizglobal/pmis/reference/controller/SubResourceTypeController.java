@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -52,6 +53,19 @@ public class SubResourceTypeController {
 			logger.error("subResourceType : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getResourceType", method = { RequestMethod.GET,RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TrainingType> getResourceType(@ModelAttribute TrainingType obj) {
+		List<TrainingType> objList = null;
+		try {
+			objList = subResourceTypeService.getResourceType(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getResourceType : " + e.getMessage());
+		}
+		return objList;
 	}
 	
 	@RequestMapping(value = "/add-sub-resource-type", method = {RequestMethod.POST})

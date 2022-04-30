@@ -370,7 +370,7 @@
 	    
 	    function getArchiveDates(dashboardId,work_id)
 	    {
-	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible w100" id="archive_date" onChange="changeUrl('+dashboardId+',"'+work_id+'");"><option value="">Current</option>';
+	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible w100" id="archive_date" onChange=changeUrl('+dashboardId+',"'+work_id+'");><option value="">Current</option>';
 	    	 $.ajax({
 	       		url: "<%=request.getContextPath()%>/ajax/getArchiveDates",
 	             type: 'POST',

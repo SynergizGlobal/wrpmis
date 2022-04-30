@@ -73,7 +73,7 @@
      </bean>
      
      <bean id="mrvcDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-	    	<property name="jndiName" value="java:comp/env/jdbc/MRVC_DB"/>
+	    	<property name="jndiName" value="java:comp/env/jdbc/PMIS_DB"/>
 	 </bean>
 	 
 </beans>

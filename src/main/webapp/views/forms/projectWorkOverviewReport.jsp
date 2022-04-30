@@ -1244,9 +1244,10 @@ td, th {
 		else
 		{
 			$("#work_idError").html("");
+			$(".page-loader-2").show();
 		}
 		$(".googoose-wrapper").show();
-		$(".page-loader-2").show();
+		
     	getProjectWorkOverviewReport();
     	getProcurementStatus();
 		getLandAcquisitionStatus();

@@ -368,13 +368,13 @@
 	});
 	    
 	    
-	    function getArchiveDates(dashboardId)
+	    function getArchiveDates(dashboardId,work_id)
 	    {
 	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible w100" id="archive_date" onChange="changeUrl('+dashboardId+');"><option value="">Current</option>';
 	    	 $.ajax({
 	       		url: "<%=request.getContextPath()%>/ajax/getArchiveDates",
 	             type: 'POST',
-	             data:{dashboard_id : dashboardId},
+	             data:{dashboard_id : dashboardId,work_id :work_id},
 	             async: false,
 	             dataType: 'json',
 	             success: function (data)
@@ -556,7 +556,7 @@
          		 	var currentHost = window.location.href;    	
          		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
 	         		{
-	     	    		filters = filters+getArchiveDates(dashboardId);
+	     	    		filters = filters+getArchiveDates(dashboardId,'${work_id}');
 	         		}
 	     	    	else
      	    		{
@@ -609,7 +609,7 @@
 	         		{
           				$("#archive-item-holder").show();
           				$("#archive-item-holder").html("");
-            		   var filters1 = getArchiveDates(dashboardId);   
+            		   var filters1 = getArchiveDates(dashboardId,'${work_id}');   
      				  $("#archive-item-holder").html(filters1);  
      				 $('.searchable').select2();
 	         		}

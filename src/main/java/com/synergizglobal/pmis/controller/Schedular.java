@@ -1,11 +1,8 @@
 package com.synergizglobal.pmis.controller;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.User;
 
@@ -46,6 +39,7 @@ public class Schedular {
 	
 	@Autowired
 	ContractReportController contractReportController;
+	
 	@Autowired
 	LoginController loginController;
 	
@@ -57,8 +51,8 @@ public class Schedular {
 	
 	
 	/**********************************************************************************/
-	//@Scheduled(cron = "0 0/1 * * * *")	//  = every minute.
-	@Scheduled(cron = "${cron.expression.user.login.timeout}")
+	
+	@Scheduled(cron = "${${cron.schedular.env}.cron.expression.user.login.timeout}")
 	public void userLoginTimeout(){
 	     try {
 	    	 //logger.error("userLoginTimeout : Method executed at > "+new Date());
@@ -71,10 +65,7 @@ public class Schedular {
 	}
 	/**********************************************************************************/	
 	
-	//@Scheduled(cron = "0 0/3 * * * *")	//  = every minute.
-	//@Scheduled(cron = "0 50 10 * * *")	//  = every day 2:10 am.
-	//@Scheduled(cron = "0 10 16 * * *")	//  = every day 4:10 pm.
-	//@Scheduled(cron = "${cron.expression.generate.alerts}")
+	@Scheduled(cron = "${${cron.schedular.env}.cron.expression.generate.alerts}")
 	public void generateAlertsByCronJob(){	
 	     logger.error("generateAlertsByCronJob : Method executed every day. Current time is :"+ new Date());	    
 	     try {
@@ -101,8 +92,7 @@ public class Schedular {
 	}
 	
 	
-	//@Scheduled(cron = "0 30 12 * * *")	//  = every day 12:30 am.
-	//@Scheduled(cron = "${cron.expression.generate.assign.responsibility}")
+	@Scheduled(cron = "${${cron.schedular.env}.cron.expression.generate.assign.responsibility}")
 	public void generateAutoResponsibilityByCronJob(){	
 	     logger.error("generateAutoResponsibilityByCronJob : Method executed every day. Current time is :"+ new Date());	    
 	     try {
@@ -115,8 +105,7 @@ public class Schedular {
 		 }
 	}	
 	
-	//@Scheduled(cron = "0 0/2 * * * *")
-	//@Scheduled(cron = "${cron.expression.sending.alert.mails.by.alert.type}")
+	@Scheduled(cron = "${${cron.schedular.env}.cron.expression.sending.alert.mails.by.alert.type}")
 	public void sendNotificationAlertMailsToAllByCronJob(){		   
 	     logger.error("sendNotificationAlertMailsToAllByCronJob : Current time is :"+ new Date());	    
 	     try {
@@ -171,10 +160,7 @@ public class Schedular {
 	
 	/******************************************************************************************/
 	
-	
-	
-	//@Scheduled(cron = "0 0/1 * * * *")	//  = every minute.
-	//@Scheduled(cron = "${cron.expression.send.mail.with.open.issues}")
+	@Scheduled(cron = "${${cron.schedular.env}.cron.expression.send.mail.with.open.issues}")
 	public void sendMailWithOpenIssues(){
 	     try {
 	    	 logger.error("sendMailWithOpenIssues : Method executed at > "+new Date());
@@ -187,9 +173,7 @@ public class Schedular {
 		 }
 	}
 	
-	//@Scheduled(cron = "0 0/1 * * * *")	//  = every minute.
-	//@Scheduled(cron = "0 10 12 * * MON")
-	//@Scheduled(cron = "${cron.expression.sending.user.login.report.mails}")
+	@Scheduled(cron = "${${cron.schedular.env}.cron.expression.sending.user.login.report.mails}")
 	public void sendUserLoginReportByCronJob(){		
 	     logger.error("sendUserLoginReportByCronJob : Current time is :"+ new Date());	    
 	     try {
@@ -204,8 +188,7 @@ public class Schedular {
 		 }
 	}
 	
-	//@Scheduled(cron = "0 0/1 * * * *")	//  = every minute.
-	//@Scheduled(cron = "${cron.expression.send.mail.with.contract.bg.insurance.report}")
+	@Scheduled(cron = "${${cron.schedular.env}.cron.expression.send.mail.with.contract.bg.insurance.report}")
 	public void sendMailWithContractBGInsuranceReport(){
 		try {
 	    	 logger.error("sendMailWithContractBGInsuranceReport : Method executed at > "+new Date());

@@ -303,7 +303,8 @@
 					}
 					$( "#accordion2" ).accordion({ header: "h3", collapsible: false, active: false });
 				}
-	        });		    
+	        });	
+		    $(".ui-accordion-content").hide();
 		    
 		    
 		    if($.trim(requestedDashboardId) != ''){
@@ -327,11 +328,11 @@
 	    
     function getDataModules(data)
     {
-    	var html = '<h3 class="bg-a" id="" parent_id=""><a href="javascript:void(0);">Modules</a></h3>';
+    	var html = '<h3 class="bg-a" id="" parent_id="" onclick="openModulesMenu();"><a href="javascript:void(0);">Modules</a></h3>';
 
 		var flag = 0;
 
-		html = html + '<div> <p>';
+		html = html + '<div id="idnShowModules"> <p>';
     	$.each( data, function( index, value ){
 			html = html + '<a href="archive-'+value.tableauUrl+'" class="bd-bl bg-a" id="'+value.tableauDashboardId+'">'+value.tableauDashboardName+'</a>';
     	});
@@ -343,18 +344,18 @@
     function getDataWorks(data)
     {
     	
-		var html = '<h3 class="bg-a" id="" parent_id=""><a href="javascript:void(0);">Works</a></h3>';
+		var html = '<h3 class="bg-a" id="" parent_id="" onclick="openWorksMenu();"><a href="javascript:void(0);">Works</a></h3>';
 
 		var flag = 0;  
 		
 		console.log(data);
 
-		html = html + '<div> <p>';
+		html = html + '<div id="idnShowWorks" onclick="openChildWorksMenu();"> <p>';
 
     	$.each( data, function( index, value ){
-			html = html + '<a href="#" class="bd-bl bg-a" id="'+value.tableauDashboardId+'">'+value.tableauDashboardName+'</a>';
+			html = html + '<a href="#" class="bd-bl bg-a" id="'+value.tableauDashboardId+'" onclick="openChildWorksSubMenu('+index+','+value.tableauDashboardId+');">'+value.tableauDashboardName+'</a>';
 			if(value.tableauSubList != "" && value.tableauSubList != null && value.tableauSubList != 'undefined'){
-				html = html + '<div style="margin: 0 0 0 2em;"> <p>';
+				html = html + '<div style="margin: 0 0 0 2em;" id="submenu'+index+'"> <p>';
 				$.each( value.tableauSubList, function( index2, value2 ){
 					
 					html = html + '<a href="archive-'+value2.tableauUrl+'/'+value2.work_id_fk+'" class="bd-bl bg-a" id="'+value2.tableauDashboardId+'">'+value2.tableauDashboardName+'</a>';
@@ -368,6 +369,55 @@
 
     	return html;
     }
+    
+    function openModulesMenu()
+    {
+    		if($("#idnShowModules").is(":visible"))
+    		{
+    			$("#idnShowModules").hide();
+    		}
+    		else
+   			{
+    			$("#idnShowModules").show();
+    			$("#idnShowWorks").hide();
+    			$("#ui-id-1").addClass("active");
+    			$("#ui-id-2").removeClass("active");
+    			
+   			}
+    }
+    
+    
+    function openWorksMenu()
+    {
+		if($("#idnShowWorks").is(":visible"))
+		{
+			$("#idnShowWorks").hide();
+			$("#idnShowChildWorks").hide();
+		}
+		else
+			{
+			$("#idnShowWorks").show();
+			$("#idnShowModules").hide();
+			$("#ui-id-1").removeClass("active");
+			$("#ui-id-2").addClass("active");			
+			
+			}    	
+    }   
+    
+    function openChildWorksSubMenu(t,id)
+    {
+/* 		if($("#submenu"+t).is(":visible"))
+		{
+			$("#submenu"+t).hide();
+			$("#"+id).removeClass("active");
+		}
+		else
+		{
+			$("#submenu"+t).show();
+			$("#"+id).addClass("active");
+			
+		}  */	
+    }  
   
 
     

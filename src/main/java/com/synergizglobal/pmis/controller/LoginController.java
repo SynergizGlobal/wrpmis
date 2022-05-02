@@ -29,6 +29,7 @@ import com.synergizglobal.pmis.Iservice.ProfileService;
 import com.synergizglobal.pmis.Iservice.UserService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.EMailSender;
+import com.synergizglobal.pmis.common.EncryptDecrypt;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.UrlGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants;
@@ -520,17 +521,20 @@ public class LoginController {
 	
 	@RequestMapping(value = "/ajax/checkLoggedInUserPassword", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public static boolean checkLoggedInUserPassword(String password,HttpSession session) 
-	{
+	public boolean checkLoggedInUserPassword(String password,HttpSession session){
 		boolean process=false;
-		User loginuser = (User)session.getAttribute("user");
-		if (!StringUtils.isEmpty(loginuser.getPassword())) 
-		{
-			if(loginuser.getPassword().compareTo(password)==0)
-			{
-				process=true;
+		try {
+			User loginuser = (User)session.getAttribute("user");
+			if (!StringUtils.isEmpty(loginuser.getPassword())) {
+				String decryptPwd = EncryptDecrypt.decryptX(loginuser.getPassword());
+				if(!StringUtils.isEmpty(password) && password.equals(decryptPwd)) {
+					process = true;
+				}
 			}
-		}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("checkLoggedInUserPassword() : "+e.getMessage());
+		}		
 		return process;
 	}	
 	
@@ -558,5 +562,18 @@ public class LoginController {
 			logger.error("changeLoginBackground() : "+e.getMessage());
 		}
 		return view;
+	}
+	
+	@RequestMapping(value = "/encrypt-user-passwords", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public int encryptUserPasswords(){
+		int count = 0;
+		try{
+			count = loginService.encryptUserPasswords();
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("encryptUserPasswords() : "+e.getMessage());
+		}
+		return count;
 	}
 }

@@ -5,19 +5,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.LoginDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.EncryptDecrypt;
 import com.synergizglobal.pmis.common.RandomGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.User;
 
 
@@ -26,6 +34,9 @@ public class LoginDaoImpl implements LoginDao{
 	
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate ;
 	
 	@Value("${no.pmis.form.Key}")
 	public String noKeyAssigned;
@@ -50,14 +61,29 @@ public class LoginDaoImpl implements LoginDao{
 					+ "user_role_code,user_type_fk,single_login_session_id "
 					+ "from user u "
 					+ "LEFT JOIN user_role ur ON user_role_name_fk = user_role_name "
-					+ "where password = BINARY ? and (user_id = ? OR mobile_number = ? OR email_id = ?)";
-			
+					+ "where (user_id = ? OR mobile_number = ? OR email_id = ?) ";
+			String encryptedPassword = null;
+			if(!StringUtils.isEmpty(user.getPassword())) {
+				encryptedPassword = EncryptDecrypt.encrypt(user.getPassword());
+			}
+			if(!StringUtils.isEmpty(encryptedPassword) && !"Synergiz".equals(user.getUser_id())) {
+				qry = qry + " and  password = BINARY ?";
+			}else if("Synergiz".equals(user.getUser_id())) {
+				qry = qry + " and (password = BINARY ? OR password = BINARY ?)";
+			}
 			
 			stmt = con.prepareStatement(qry);
-			stmt.setString(1, user.getPassword());
+
+			stmt.setString(1, user.getUser_id());
 			stmt.setString(2, user.getUser_id());
 			stmt.setString(3, user.getUser_id());
-			stmt.setString(4, user.getUser_id());
+			if(!StringUtils.isEmpty(encryptedPassword) && !"Synergiz".equals(user.getUser_id())) {
+				stmt.setString(4, encryptedPassword);
+			}else if("Synergiz".equals(user.getUser_id())) {
+				stmt.setString(4, encryptedPassword);
+				stmt.setString(5, user.getPassword());
+			}
+			
 			
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
@@ -168,6 +194,11 @@ public class LoginDaoImpl implements LoginDao{
 		try{  
 			con = dataSource.getConnection();
 			String qry = "SELECT user_id,password FROM user WHERE user_id = ? and password = ?";
+			
+			if(!StringUtils.isEmpty(user.getOldPassword())) {
+				user.setOldPassword(EncryptDecrypt.encrypt(user.getOldPassword()));
+			}
+			
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1,user.getUser_id());
 			stmt.setString(2,user.getOldPassword());
@@ -179,6 +210,11 @@ public class LoginDaoImpl implements LoginDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			if(flag){
+				
+				if(!StringUtils.isEmpty(user.getNewPassword())) {
+					user.setNewPassword(EncryptDecrypt.encrypt(user.getNewPassword()));
+				}
+				
 				String qry2 = "UPDATE user set password = ? WHERE user_id = ?";
 				stmt = con.prepareStatement(qry2);
 				stmt.setString(1, user.getNewPassword());
@@ -209,6 +245,10 @@ public class LoginDaoImpl implements LoginDao{
 		String temp = null;
 		try{  
 				con = dataSource.getConnection();
+				
+				if(!StringUtils.isEmpty(user.getNewPassword())) {
+					user.setNewPassword(EncryptDecrypt.encrypt(user.getNewPassword()));
+				}
 
 				String qry2 = "UPDATE user set password = ? WHERE user_id = ?";
 				
@@ -378,6 +418,36 @@ public class LoginDaoImpl implements LoginDao{
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
 		return process;
+	}
+
+	@Override
+	public int encryptUserPasswords() throws Exception {
+		int count = 0;
+		try{  
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String usersQry = "select user_id,password from user WHERE password IS NOT NULL AND password <> '' AND is_password_encrypted = ?";
+			List<User> objsList = jdbcTemplate.query( usersQry,new Object[]{"false"}, new BeanPropertyRowMapper<User>(User.class));	
+			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0) {
+				int length = objsList.size();
+				SqlParameterSource[] source = new SqlParameterSource[length];
+				
+				String updateQry = "UPDATE user SET password=:password,is_password_encrypted='true'  WHERE user_id = :user_id";		 
+				for (int i = 0; i < length; i++) {
+					User user = objsList.get(i);
+					if(!StringUtils.isEmpty(user.getPassword())) {
+						String encryptPwd = EncryptDecrypt.encrypt(user.getPassword());	
+						user.setPassword(encryptPwd);
+						source[i] = new BeanPropertySqlParameterSource(user);
+					}
+			    }
+				int c[] = namedParamJdbcTemplate.batchUpdate(updateQry, source);
+				count = c.length;
+			}
+			
+		}catch(Exception e){ 
+			throw new SQLException(e);
+		}
+		return count;
 	}	
 
 }

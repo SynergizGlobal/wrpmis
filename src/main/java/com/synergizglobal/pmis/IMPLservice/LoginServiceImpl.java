@@ -72,5 +72,10 @@ public class LoginServiceImpl implements LoginService {
 	public String resetPassword(User user) throws Exception {
 		return loginDao.resetPassword(user);
 	}
+
+	@Override
+	public int encryptUserPasswords() throws Exception {
+		return loginDao.encryptUserPasswords();
+	}
 	
 }

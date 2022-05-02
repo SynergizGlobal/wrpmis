@@ -23,6 +23,8 @@ public interface LoginDao {
 	public boolean checkUserEmail(String Email) throws SQLException;
 
 	public String resetPassword(User user) throws Exception;
+
+	public int encryptUserPasswords() throws Exception;
 }
 
 

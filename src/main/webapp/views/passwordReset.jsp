@@ -93,7 +93,7 @@
                                     <span id="newPasswordError" ></span>
                                 </div>
                             </div>
-                           <input type="hidden" id="hdnPass">
+                           <input type="hidden" id="hdnPass" name="hdnPass">
                            
                            <div class="row">
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3 ">
@@ -110,7 +110,7 @@
                              <br>
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3">
                                     <input type="password" id="otpvalue" name="otpvalue"  maxlength="6" class="validate" autocomplete="off" >
-                                    <label for="newPassword">OTP</label>
+                                    <label for="otpvalue">OTP</label>
                                 </div>
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3 ">
                                         <button type="button" class="btn waves-effect waves-light bg-m" style="width: 100%;" id="btnCheckotp" onClick="CheckOTP();">Check OTP</button>
@@ -209,19 +209,19 @@
 	                         }, 1000);
 	                     }
 	                 },submitHandler:function(form){
-	                	if(checkLoggedInUserPassword()==true)
+	                	var tempFlag = checkLoggedInUserPassword();
+	                	if(tempFlag == true)
 	                		{
 	                			$("#accessMsg").html("");
 		                       	 $("#oldPassword").prop("readonly", true);
 		                    	 $("#newPassword").prop("readonly", true);
 		                    	 $("#confirmPassword").prop("readonly", true);	                			
 	                			
-			                	 if(glbProcess==false)
-			                		 {
+			                	 if(glbProcess == false){
 					                	 $("#divOTP").show();
 					                	 $("#divbtnchp").hide();
 					                	 
-					                	 var OTP=generateOTP();
+					                	 var OTP = generateOTP();
 					                	 $("#hdnPass").val(OTP);
 					                	 
 					                	 var myParams = { OTP: OTP };

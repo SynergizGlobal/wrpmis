@@ -9,6 +9,7 @@ public class User  {
 	private String oldPassword;
 	private String newPassword;
 	private String confirmPassword;
+	private String is_password_encrypted,is_test_env_enabled;
 	
 	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,loginCount,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
@@ -717,6 +718,26 @@ public class User  {
 
 	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
 		Created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+
+	public String getIs_password_encrypted() {
+		return is_password_encrypted;
+	}
+
+
+	public void setIs_password_encrypted(String is_password_encrypted) {
+		this.is_password_encrypted = is_password_encrypted;
+	}
+
+
+	public String getIs_test_env_enabled() {
+		return is_test_env_enabled;
+	}
+
+
+	public void setIs_test_env_enabled(String is_test_env_enabled) {
+		this.is_test_env_enabled = is_test_env_enabled;
 	}
 	
 	

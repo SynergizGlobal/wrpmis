@@ -134,35 +134,4 @@ public class UrlGenerator {
 		return managers_mail_ids;
 	}
 	
-	public boolean getIsCronJobsEnbled(){
-		boolean is_cron_jobs_enabled = false;
-		try {
-			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-			        .getRequestAttributes()).getRequest();
-			
-			String context_path = request.getContextPath().toString();
-		    if(!StringUtils.isEmpty(context_path)) {
-		    	context_path = context_path.replaceAll("/", "");
-		    }
-		    
-			String ip_address = request.getServerName().toString();
-			if("10.203.10.157".equals(ip_address)) {
-				ip_address = "pmis.mrvc.gov.in";
-			}
-		    
-		    if(("10.203.10.157".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) 
-		    		&& "pmis".equals(context_path)) {
-		    	is_cron_jobs_enabled = true;
-		    }else if(("10.203.10.157".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) 
-		    		&& "pmis_qa".equals(context_path)) {
-		    	is_cron_jobs_enabled = false;
-		    }else{
-		    	is_cron_jobs_enabled = false;
-		    }
-		} catch (Exception e) {
-			logger.error("getIsCronJobsEnbled : " + e.getMessage());
-		}
-		return is_cron_jobs_enabled;
-	}
-	
 }

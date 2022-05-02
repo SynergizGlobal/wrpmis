@@ -50,9 +50,8 @@ public class Schedular {
 	@Value("${common.error.message}")
 	public String commonError;
 	
-	UrlGenerator ugObj = new UrlGenerator();
-	public boolean is_cron_jobs_enabled = ugObj.getIsCronJobsEnbled();
-	
+	@Value("${is.cron.jobs.enabled}")
+	public boolean is_cron_jobs_enabled;
 	
 	/**********************************************************************************/
 	
@@ -62,7 +61,7 @@ public class Schedular {
 			try {
 		    	 //logger.error("userLoginTimeout : Method executed at > "+new Date());
 	             boolean flag = homeService.userLoginTimeout();
-		    	 logger.error("userLoginTimeout : "+flag);
+		    	 //logger.error("userLoginTimeout : "+flag);
 			 } catch (Exception e) {
 				 e.printStackTrace();
 				 logger.error("userLoginTimeout() : "+e.getMessage());

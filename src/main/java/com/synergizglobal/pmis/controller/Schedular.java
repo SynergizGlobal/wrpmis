@@ -50,7 +50,7 @@ public class Schedular {
 	@Value("${common.error.message}")
 	public String commonError;
 	
-	@Value("${is.cron.jobs.enabled}")
+	@Value("${run.cron.jobs}")
 	public boolean is_cron_jobs_enabled;
 	
 	/**********************************************************************************/

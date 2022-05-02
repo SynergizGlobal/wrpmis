@@ -252,7 +252,7 @@
 				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>
 
-	    	<div class="col m2 s12" id="archive-item-holder" style="display:none;">
+	    	<div class="col m2 s12" id="archive-item-holder" style="display:none;" style="" data-select2-id="select2-data-archive-item-holder">
 	    	</div>	    	
 	    	
 	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
@@ -370,7 +370,7 @@
 	    
 	    function getArchiveDates(dashboardId,work_id)
 	    {
-	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible w100" id="archive_date" onChange=changeUrl('+dashboardId+',"'+work_id+'");><option value="">Current</option>';
+	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible w100" id="archive_date" style="" data-select2-id="select2-data-archive-item-holder" onChange=changeUrl('+dashboardId+',"'+work_id+'");><option value="">Current</option>';
 	    	 $.ajax({
 	       		url: "<%=request.getContextPath()%>/ajax/getArchiveDates",
 	             type: 'POST',

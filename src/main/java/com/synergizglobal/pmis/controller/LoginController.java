@@ -564,7 +564,7 @@ public class LoginController {
 		return view;
 	}
 	
-	@RequestMapping(value = "/encrypt-user-passwords", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	/*@RequestMapping(value = "/encrypt-user-passwords", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public int encryptUserPasswords(){
 		int count = 0;
@@ -575,5 +575,19 @@ public class LoginController {
 			logger.error("encryptUserPasswords() : "+e.getMessage());
 		}
 		return count;
+	}*/
+	
+	@RequestMapping(value = "/encrypt-user-passwords", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView encryptUserPasswords(){
+		ModelAndView model = new ModelAndView("redirect:/home");
+		int count = 0;
+		try{
+			count = loginService.encryptUserPasswords();
+			logger.error("encryptUserPasswords() >> success count : "+count);
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("encryptUserPasswords() : "+e.getMessage());
+		}
+		return model;
 	}
 }

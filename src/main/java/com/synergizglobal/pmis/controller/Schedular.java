@@ -62,7 +62,7 @@ public class Schedular {
 			try {
 		    	 //logger.error("userLoginTimeout : Method executed at > "+new Date());
 	             boolean flag = homeService.userLoginTimeout();
-		    	 //logger.error("userLoginTimeout : "+flag);
+		    	 logger.error("userLoginTimeout : "+flag);
 			 } catch (Exception e) {
 				 e.printStackTrace();
 				 logger.error("userLoginTimeout() : "+e.getMessage());

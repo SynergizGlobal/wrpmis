@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,17 +50,14 @@ public class Schedular {
 	@Value("${common.error.message}")
 	public String commonError;
 	
-	@Autowired
-	UrlGenerator urlGenerator;	
+	UrlGenerator ugObj = new UrlGenerator();
+	public boolean is_cron_jobs_enabled = ugObj.getIsCronJobsEnbled();
 	
 	
 	/**********************************************************************************/
 	
 	@Scheduled(cron = "${cron.expression.user.login.timeout}")
-	public void userLoginTimeout(HttpServletRequest request){
-		boolean is_cron_jobs_enabled = urlGenerator.getIsCronJobsEnbled();
-		logger.error("userLoginTimeout : "+request.getContextPath());
-		logger.error("is_cron_jobs_enabled : "+is_cron_jobs_enabled);
+	public void userLoginTimeout(){
 		if(is_cron_jobs_enabled) {
 			try {
 		    	 //logger.error("userLoginTimeout : Method executed at > "+new Date());
@@ -78,7 +73,6 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.generate.alerts}")
 	public void generateAlertsByCronJob(){	
-		boolean is_cron_jobs_enabled = urlGenerator.getIsCronJobsEnbled();
 		if(is_cron_jobs_enabled) {
 		     logger.error("generateAlertsByCronJob : Method executed every day. Current time is :"+ new Date());	    
 		     try {
@@ -108,7 +102,6 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.generate.assign.responsibility}")
 	public void generateAutoResponsibilityByCronJob(){	
-		boolean is_cron_jobs_enabled = urlGenerator.getIsCronJobsEnbled();
 		if(is_cron_jobs_enabled) {
 		     logger.error("generateAutoResponsibilityByCronJob : Method executed every day. Current time is :"+ new Date());	    
 		     try {
@@ -124,7 +117,6 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.sending.alert.mails.by.alert.type}")
 	public void sendNotificationAlertMailsToAllByCronJob(){		
-		boolean is_cron_jobs_enabled = urlGenerator.getIsCronJobsEnbled();
 		if(is_cron_jobs_enabled) {
 		     logger.error("sendNotificationAlertMailsToAllByCronJob : Current time is :"+ new Date());	    
 		     try {
@@ -182,7 +174,6 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.send.mail.with.open.issues}")
 	public void sendMailWithOpenIssues(){
-		boolean is_cron_jobs_enabled = urlGenerator.getIsCronJobsEnbled();
 		if(is_cron_jobs_enabled) {
 		     try {
 		    	 logger.error("sendMailWithOpenIssues : Method executed at > "+new Date());
@@ -197,8 +188,7 @@ public class Schedular {
 	}
 	
 	@Scheduled(cron = "${cron.expression.sending.user.login.report.mails}")
-	public void sendUserLoginReportByCronJob(){	
-		boolean is_cron_jobs_enabled = urlGenerator.getIsCronJobsEnbled();
+	public void sendUserLoginReportByCronJob(){		
 		if(is_cron_jobs_enabled) {
 	     logger.error("sendUserLoginReportByCronJob : Current time is :"+ new Date());	    
 		     try {
@@ -216,7 +206,6 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.send.mail.with.contract.bg.insurance.report}")
 	public void sendMailWithContractBGInsuranceReport(){
-		boolean is_cron_jobs_enabled = urlGenerator.getIsCronJobsEnbled();
 		if(is_cron_jobs_enabled) {
 			try {
 		    	 logger.error("sendMailWithContractBGInsuranceReport : Method executed at > "+new Date());

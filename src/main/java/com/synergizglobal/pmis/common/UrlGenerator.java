@@ -5,17 +5,12 @@ import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-@Component
 public class UrlGenerator {
 	Logger logger = Logger.getLogger(UrlGenerator.class);
-	
-	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-	        .getRequestAttributes()).getRequest();
 	public String getURLBase() {
 		String base_url = "";
 		try {
@@ -45,7 +40,6 @@ public class UrlGenerator {
 		    String port = requestURL.getPort() == -1 ? "" : ":" + requestURL.getPort();
 		    //return requestURL.getProtocol() + "://" + requestURL.getHost() + port;
 		    //ip_address = requestURL.getHost();
-		    logger.error("getIpAddress : " + request.getServerName());
 		    ip_address = request.getServerName().toString();
 			if("10.203.10.157".equals(ip_address)) {
 				ip_address = "pmis.mrvc.gov.in";
@@ -143,19 +137,18 @@ public class UrlGenerator {
 	public boolean getIsCronJobsEnbled(){
 		boolean is_cron_jobs_enabled = false;
 		try {
-			logger.error("getIsCronJobsEnbled : start");
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+			        .getRequestAttributes()).getRequest();
 			
-			String context_path = request.getContextPath();
-			logger.error("context_path : " + context_path);
+			String context_path = request.getContextPath().toString();
 		    if(!StringUtils.isEmpty(context_path)) {
 		    	context_path = context_path.replaceAll("/", "");
 		    }
 		    
-			String ip_address = request.getServerName();
-			logger.error("ip_address : " + context_path);
+			String ip_address = request.getServerName().toString();
 			if("10.203.10.157".equals(ip_address)) {
 				ip_address = "pmis.mrvc.gov.in";
-			}			
+			}
 		    
 		    if(("10.203.10.157".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) 
 		    		&& "pmis".equals(context_path)) {

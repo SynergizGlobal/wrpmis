@@ -50,14 +50,13 @@ public class Schedular {
 	@Value("${common.error.message}")
 	public String commonError;
 	
-	@Value("${is.cron.jobs.enabled}")
-	public boolean is_cron_jobs_enabled;
+	public String cron_jobs_enabled;
 	
 	/**********************************************************************************/
 	
 	@Scheduled(cron = "${cron.expression.user.login.timeout}")
 	public void userLoginTimeout(){
-		if(is_cron_jobs_enabled) {
+		if(cron_jobs_enabled.equals("true")) {
 			try {
 		    	 //logger.error("userLoginTimeout : Method executed at > "+new Date());
 	             boolean flag = homeService.userLoginTimeout();
@@ -72,7 +71,7 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.generate.alerts}")
 	public void generateAlertsByCronJob(){	
-		if(is_cron_jobs_enabled) {
+		if(cron_jobs_enabled.equals("true")) {
 		     logger.error("generateAlertsByCronJob : Method executed every day. Current time is :"+ new Date());	    
 		     try {
 		    	 
@@ -101,7 +100,7 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.generate.assign.responsibility}")
 	public void generateAutoResponsibilityByCronJob(){	
-		if(is_cron_jobs_enabled) {
+		if(cron_jobs_enabled.equals("true")) {
 		     logger.error("generateAutoResponsibilityByCronJob : Method executed every day. Current time is :"+ new Date());	    
 		     try {
 		    	 
@@ -116,7 +115,7 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.sending.alert.mails.by.alert.type}")
 	public void sendNotificationAlertMailsToAllByCronJob(){		
-		if(is_cron_jobs_enabled) {
+		if(cron_jobs_enabled.equals("true")) {
 		     logger.error("sendNotificationAlertMailsToAllByCronJob : Current time is :"+ new Date());	    
 		     try {
 		    	   Date date = new Date();
@@ -173,7 +172,7 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.send.mail.with.open.issues}")
 	public void sendMailWithOpenIssues(){
-		if(is_cron_jobs_enabled) {
+		if(cron_jobs_enabled.equals("true")) {
 		     try {
 		    	 logger.error("sendMailWithOpenIssues : Method executed at > "+new Date());
 		    	 Issue obj = new Issue();
@@ -188,7 +187,7 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.sending.user.login.report.mails}")
 	public void sendUserLoginReportByCronJob(){		
-		if(is_cron_jobs_enabled) {
+		if(cron_jobs_enabled.equals("true")) {
 	     logger.error("sendUserLoginReportByCronJob : Current time is :"+ new Date());	    
 		     try {
 		    	 User uObj = new User();
@@ -205,7 +204,7 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.send.mail.with.contract.bg.insurance.report}")
 	public void sendMailWithContractBGInsuranceReport(){
-		if(is_cron_jobs_enabled) {
+		if(cron_jobs_enabled.equals("true")) {
 			try {
 		    	 logger.error("sendMailWithContractBGInsuranceReport : Method executed at > "+new Date());
 		    	 contractReportController.contractReportAutoEmail();

@@ -652,7 +652,7 @@
     	    	$("#work_status_fk option:not(:first)").remove();
     	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkStatusFilterListInStructure",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkStatusListInStructure",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                        if(data != null && data != '' && data.length > 0){  
@@ -755,7 +755,7 @@
             if ($.trim(structure_type_fk) == "") {
                 $("#structure_type_fk option:not(:first)").remove();
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStructureTypesInActivitiesUpload",
+                    url: "<%=request.getContextPath()%>/ajax/getStructureTypeListForFilter",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {

@@ -25,9 +25,19 @@ public class StructureFormServiceImpl implements StructureFormService{
 	}
 
 	@Override
+	public List<Structure> getStructureTypeListForFilter(Structure obj) throws Exception {
+		return dao.getStructureTypeListForFilter(obj);
+	}
+	
+	@Override
+	public List<Structure> getWorkStatusListForFilter(Structure obj) throws Exception {
+		return dao.getWorkStatusListForFilter(obj);
+	}
+	
+	@Override
 	public List<Structure> getContractsListForFilter(Structure obj) throws Exception {
 		return dao.getContractsListForFilter(obj);
-	}
+	}	
 
 	@Override
 	public int getTotalRecords(Structure obj, String searchParameter) throws Exception {

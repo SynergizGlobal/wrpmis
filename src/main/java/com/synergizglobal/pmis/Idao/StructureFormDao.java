@@ -26,4 +26,8 @@ public interface StructureFormDao {
 
 	boolean updateStructureForm(Structure obj) throws Exception;
 
+	List<Structure> getStructureTypeListForFilter(Structure obj) throws Exception;
+
+	List<Structure> getWorkStatusListForFilter(Structure obj) throws Exception;
+
 }

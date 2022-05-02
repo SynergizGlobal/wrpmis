@@ -140,6 +140,42 @@ public class StructureFormController {
 		return contractsList;
 	}
 	
+	
+	  @RequestMapping(value = "/ajax/getStructureTypeListForFilter", method ={RequestMethod.GET,RequestMethod.POST},produces=MediaType. APPLICATION_JSON_VALUE)
+	  @ResponseBody public List<Structure>getStructureTypeListForFilter(@ModelAttribute Structure obj,HttpSession session) { 
+		  List<Structure> contractsList = null; 
+		  try { User uObj = (User)
+				  session.getAttribute("user"); obj.setUser_type_fk(uObj.getUser_type_fk());
+				  obj.setUser_role_code(uObj.getUser_role_code());
+				  obj.setUser_id(uObj.getUser_id()); 
+				  contractsList = structureFormService.getStructureTypeListForFilter(obj); 
+			 } 
+		  catch (Exception e) { 
+			  e.printStackTrace(); 
+			  logger.error("getStructureTypeListForFilter : " + e.getMessage()); 
+			 } 
+		  return contractsList; 
+	 }
+	  
+	  
+	  @RequestMapping(value = "/ajax/getWorkStatusListInStructure", method ={RequestMethod.GET,RequestMethod.POST},produces=MediaType. APPLICATION_JSON_VALUE)
+	  @ResponseBody public List<Structure> getWorkStatusListForFilter(@ModelAttribute Structure obj,HttpSession session) {
+		  List<Structure> contractsList = null; 
+		  try {   User uObj = (User)
+				  session.getAttribute("user"); obj.setUser_type_fk(uObj.getUser_type_fk());
+				  obj.setUser_role_code(uObj.getUser_role_code());
+				  obj.setUser_id(uObj.getUser_id()); contractsList =
+                 structureFormService.getWorkStatusListForFilter(obj); 
+			 } 
+		  catch (Exception e) {
+			  e.printStackTrace(); 
+			  logger.error("getWorkStatusListForFilter : " +e.getMessage()); 
+			  } 
+		  return contractsList; 
+		}
+	 	
+	
+	
 	@RequestMapping(value = "/ajax/getStructuresList", method = { RequestMethod.POST, RequestMethod.GET })
 	public void getStructureList(@ModelAttribute Structure obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {

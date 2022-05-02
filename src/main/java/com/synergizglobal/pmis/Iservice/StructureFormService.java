@@ -11,6 +11,8 @@ public interface StructureFormService {
 	List<Structure> getWorksListForFilter(Structure obj) throws Exception;
 
 	List<Structure> getContractsListForFilter(Structure obj) throws Exception;
+	List<Structure> getStructureTypeListForFilter(Structure obj) throws Exception;
+	List<Structure> getWorkStatusListForFilter(Structure obj) throws Exception;
 
 	int getTotalRecords(Structure obj, String searchParameter) throws Exception;
 

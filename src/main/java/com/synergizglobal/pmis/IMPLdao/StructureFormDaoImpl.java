@@ -1050,4 +1050,100 @@ public class StructureFormDaoImpl implements StructureFormDao{
 		}
 		return flag;
 	}
+
+	@Override
+	public List<Structure> getStructureTypeListForFilter(Structure obj) throws Exception {
+		List<Structure> objsList = null;
+		try {
+			String qry = "SELECT distinct s.structure_type_fk as structure_type FROM structure_contract_responsible_people cp " + 
+					"left join structure s on cp.structure_id_fk = s.structure_id " + 
+					"left join contract c on cp.contract_id_fk = c.contract_id "+
+					"where cp.contract_id_fk is not null and s.status <> 'Inactive' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
+				qry = qry + " and s.work_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				qry = qry + " and s.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				qry = qry + " and cp.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and  cp.responsible_people_id_fk = ? ";
+				arrSize++;
+			}	
+			qry = qry + "GROUP BY cp.contract_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
+				pValues[i++] = obj.getWork_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_id();
+			
+			}	
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Structure> getWorkStatusListForFilter(Structure obj) throws Exception {
+		List<Structure> objsList = null;
+		try {
+			String qry = "SELECT distinct work_status_fk FROM structure_contract_responsible_people cp " + 
+					"left join structure s on cp.structure_id_fk = s.structure_id " + 
+					"left join contract c on cp.contract_id_fk = c.contract_id "+
+					"where cp.contract_id_fk is not null and s.status <> 'Inactive' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
+				qry = qry + " and s.work_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				qry = qry + " and s.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				qry = qry + " and cp.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and  cp.responsible_people_id_fk = ? ";
+				arrSize++;
+			}	
+			qry = qry + "GROUP BY cp.contract_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
+				pValues[i++] = obj.getWork_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_id();
+			
+			}	
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Structure>(Structure.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
 }

@@ -609,7 +609,11 @@
 	         		{
           				$("#archive-item-holder").show();
           				$("#archive-item-holder").html("");
-            		   var filters1 = getArchiveDates(dashboardId,'${work_id}');   
+            		   var filters1 = getArchiveDates(dashboardId,'${work_id}');  
+              		  filters1 = filters1 + '<div class="clearHolder">'
+						+ '<button class="btn waves-effect waves-light t-c" onclick="clearArchive();">Clear Filters</button>'
+						+ '</div>';          		   
+            		   
      				  $("#archive-item-holder").html(filters1);  
      				 $('.searchable').select2();
 	         		}
@@ -623,6 +627,11 @@
 		 $(".page-loader").hide();
 		 getSelectedOption(filterIds,dashboardId);
 	 }
+	
+	function clearArchive()
+	{
+		$("#archive_date").val('').trigger('change');
+	}
 	
 	 function getSelectedOption(filterIds,dashboardId){
 		 $(".page-loader").show();	 

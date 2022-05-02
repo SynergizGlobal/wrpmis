@@ -355,7 +355,7 @@
     	$.each( data, function( index, value ){
 			html = html + '<a href="#" class="bd-bl bg-a" id="'+value.tableauDashboardId+'" onclick="openChildWorksSubMenu('+index+','+value.tableauDashboardId+');">'+value.tableauDashboardName+'</a>';
 			if(value.tableauSubList != "" && value.tableauSubList != null && value.tableauSubList != 'undefined'){
-				html = html + '<div style="margin: 0 0 0 2em;" id="submenu'+index+'"> <p>';
+				html = html + '<div style="margin: 0 0 0 2em;display:none;" id="submenu'+index+'" class="submenucls"> <p>';
 				$.each( value.tableauSubList, function( index2, value2 ){
 					
 					html = html + '<a href="archive-'+value2.tableauUrl+'/'+value2.work_id_fk+'" class="bd-bl bg-a" id="'+value2.tableauDashboardId+'">'+value2.tableauDashboardName+'</a>';
@@ -406,17 +406,19 @@
     
     function openChildWorksSubMenu(t,id)
     {
-/* 		if($("#submenu"+t).is(":visible"))
+    	$(".submenucls").hide();
+		if($("#submenu"+t).is(":visible"))
 		{
 			$("#submenu"+t).hide();
 			$("#"+id).removeClass("active");
 		}
 		else
 		{
+			
 			$("#submenu"+t).show();
 			$("#"+id).addClass("active");
 			
-		}  */	
+		}  	
     }  
   
 

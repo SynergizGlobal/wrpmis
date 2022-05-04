@@ -26,7 +26,7 @@ public class LoginServiceImpl implements LoginService {
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public User validateUser(User user, String single_login_session_id) throws SQLException,NoKeyException,NotEnabledTestEnv {
+	public User validateUser(User user, String single_login_session_id) throws Exception,SQLException,NoKeyException,NotEnabledTestEnv {
 		return loginDao.validateUser(user,single_login_session_id);
 	}
 	

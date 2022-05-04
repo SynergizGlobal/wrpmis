@@ -9,7 +9,7 @@ import com.synergizglobal.pmis.model.User;
 
 
 public interface LoginDao {
-	public User validateUser(User user, String single_login_session_id) throws SQLException,NoKeyException,NotEnabledTestEnv;
+	public User validateUser(User user, String single_login_session_id) throws Exception,SQLException,NoKeyException,NotEnabledTestEnv;
 	
 	public String changePassword(User user) throws Exception;
 

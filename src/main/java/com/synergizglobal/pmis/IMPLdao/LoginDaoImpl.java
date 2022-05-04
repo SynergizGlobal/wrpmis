@@ -137,6 +137,10 @@ public class LoginDaoImpl implements LoginDao{
 					throw new NotEnabledTestEnv("Test Environment not enabled for your account");
 				}
 				
+				if("false".equals(rs.getString("is_password_encrypted"))) {
+					userDetails.setDecrypted_password(EncryptDecrypt.decryptX(user.getPassword()));
+				}
+				
 			}
 		}catch(SQLException e){ 
 			throw new SQLException(e.getMessage());

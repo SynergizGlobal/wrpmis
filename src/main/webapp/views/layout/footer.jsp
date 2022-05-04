@@ -58,7 +58,7 @@
   </div>
   <form id="switchEnv" name="switchEnv" method="post">
   	<input type="hidden" name="user_id" value="${sessionScope.user.user_id }" />
-  	<input type="hidden" name="password" value="${sessionScope.user.password }" />
+  	<input type="hidden" name="password" value="${sessionScope.user.decrypted_password }" />
   	<input type="hidden" name="current_url" id="current_url" />
   </form>
      <!-- <script src="/pmis/resources/js/theme.js"></script> -->

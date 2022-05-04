@@ -153,7 +153,7 @@
 				                                     <select id="contract_id_fkUpload" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpload','fobDropDownUpload');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${contractsList}">
-				                       						  <option value="${obj.contract_id }" >${obj.contract_id }<c:if test="${not empty obj.contract_name }"> - ${obj.contract_name }</c:if></option>
+				                       						  <option value="${obj.contract_id }" >${obj.contract_id }<c:if test="${not empty obj.contract_short_name }"> - ${obj.contract_short_name }</c:if></option>
 				                                             </c:forEach>
 				                                     </select>
 				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
@@ -220,7 +220,7 @@
 				                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate','fobDropDownUpdate');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${contractsList}">
-				                       						  <option value="${obj.contract_id }">${obj.contract_id }<c:if test="${not empty obj.contract_name }"> - ${obj.contract_name }</c:if></option>
+				                       						  <option value="${obj.contract_id }">${obj.contract_id }<c:if test="${not empty obj.contract_short_name }"> - ${obj.contract_short_name }</c:if></option>
 				                                             </c:forEach>				                                             
 				                                     </select>
 				                                     <span id="contract_id_fkUpdateError" class="error-msg" ></span>
@@ -296,7 +296,7 @@
                                         <select id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getP6NewActivityDataList();" class="searchable">
                                             <option value="">Select</option>
                                             <%-- <c:forEach var="obj" items="${contractsListFilter }">
-                                            	<option value="${obj.contract_id }">${obj.contract_name }</option>
+                                            	<option value="${obj.contract_id }">${obj.contract_short_name }</option>
                                             </c:forEach> --%>	                                           
                                         </select>
                                     </div>
@@ -762,8 +762,8 @@
 	   	         		$.each(data,function(key,val){
 	   	         			var rowArray = [];    	                  
 	   	                   	
-	   	                   	var contract_name = '';
-	                        if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+	   	                   	var contract_short_name = '';
+	                        if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
 	                        
 	                        var filePath = "";
 	                        
@@ -771,7 +771,7 @@
 	                        	filePath = '<a href="<%=CommonConstants2.P6_FILES%>'+ val.p6_file_path +'">'+val.p6_file_path + '</a>';
 	                        }
 	   	                   	
-	   	                   	rowArray.push($.trim(val.contract_id_fk) + contract_name);
+	   	                   	rowArray.push($.trim(val.contract_id_fk) + contract_short_name);
 	   	                    rowArray.push($.trim(val.fob_id_fk));
 	   	                   	rowArray.push($.trim(val.upload_type));
 	   	                   	rowArray.push($.trim(val.data_date));
@@ -835,10 +835,10 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-	                           var contract_name = '';
-	                           if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+	                           var contract_short_name = '';
+	                           if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
 	                           var selectedFlag = (contract == val.contract_id)?'selected':''; 
-	                           $("#contract_id").append('<option value="' + val.contract_id + '"'+selectedFlag+'>' + $.trim(val.contract_id)  + contract_name +'</option>');
+	                           $("#contract_id").append('<option value="' + val.contract_id + '"'+selectedFlag+'>' + $.trim(val.contract_id)  + contract_short_name +'</option>');
                            });
                        }
                        $('.searchable').select2();

@@ -193,7 +193,7 @@ public class P6NewDataController {
 				if(workbook != null) {
 					int sheetsCount = workbook.getNumberOfSheets();
 					if(sheetsCount > 0) {
-						uploadFilesSheet = workbook.getSheetAt(2);
+						uploadFilesSheet = workbook.getSheetAt(0);
 						//System.out.println(uploadFilesSheet.getSheetName());
 						//header row
 						XSSFRow headerRow = uploadFilesSheet.getRow(1);
@@ -216,7 +216,7 @@ public class P6NewDataController {
 		                		return model;
 							}
 						}
-						uploadFilesSheet1 = workbook.getSheetAt(3);
+						uploadFilesSheet1 = workbook.getSheetAt(1);
 						XSSFRow headerRow1 = uploadFilesSheet1.getRow(1);
 						if(headerRow1 != null){
 							List<String> fileFormat1 = FileFormatModel.getP6ActivitiesFileFormat();	
@@ -242,7 +242,17 @@ public class P6NewDataController {
 						int i= 2;
 						wbsList = baselineWBSUpload(p6data,workbook,fob_mismatch);
 						activitiesList = baselineActivitiesUpload(p6data,workbook);
-						if(wbsList.size() == 0 ){
+						
+						uploadFilesSheet = workbook.getSheetAt(0);
+						XSSFRow row = uploadFilesSheet.getRow(i);
+						String contarct = null;
+						DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+						if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
+							contarct = formatter.formatCellValue(row.getCell(0)).trim();
+						if(!p6data.getContract_id_fk().equalsIgnoreCase(contarct)) {
+							fob_mismatch = "selected Contract ID and WBS Code Mismatch at sheet (1) row [A3].";
+						}
+						if(wbsList.size() == 0 && StringUtils.isEmpty(fob_mismatch)){
 							fob_mismatch = "Sheet is empty.";
 						}
 						if(!StringUtils.isEmpty(p6data.getFob_id_fk()))
@@ -272,7 +282,11 @@ public class P6NewDataController {
 			p6data.setUpload_type("Baseline");
 			if(StringUtils.isEmpty(fob_mismatch)){
 				String counts = p6newdataService.uploadP6WBSActivities(wbsList,activitiesList,p6data);
-				attributes.addFlashAttribute("success", "Data date updated and "+ counts + " WBS , Activities records added successfully.");	
+				if(counts.contains("Error")) {
+					attributes.addFlashAttribute("error", "WBS Parent code doesnt exist in sheet (1) at row [A"+counts.replace("Error", "") +"].");	
+				}else {
+					attributes.addFlashAttribute("success", "Data date updated and "+ counts + " WBS , Activities records added successfully.");	
+				}
 			}else {
 				attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
 			}
@@ -293,7 +307,7 @@ public class P6NewDataController {
 		try {	
 			int sheetsCount = workbook.getNumberOfSheets();
 			if(sheetsCount > 0) {
-				uploadFilesSheet = workbook.getSheetAt(2);
+				uploadFilesSheet = workbook.getSheetAt(0);
 				for(int i = 2; i<= uploadFilesSheet.getLastRowNum();i++){
 					XSSFRow row = uploadFilesSheet.getRow(i);
 					// Sets the Read data to the model class
@@ -302,25 +316,23 @@ public class P6NewDataController {
 					// String j_username = formatter.formatCellValue(row.getCell(0));
 					
 					p6data = new P6Data();
-					
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
-						p6data.setContract_id_fk(formatter.formatCellValue(row.getCell(0)).trim());
+					/*if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
+						p6data.setContract_id_fk(formatter.formatCellValue(row.getCell(0)).trim());*/
 					/*if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
 						p6data.setFob_id_fk(formatter.formatCellValue(row.getCell(1)).trim());*/
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
+						p6data.setP6_wbs_code(formatter.formatCellValue(row.getCell(0)).trim());
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
-						p6data.setP6_wbs_code(formatter.formatCellValue(row.getCell(1)).trim());
+						p6data.setP6_wbs_name(formatter.formatCellValue(row.getCell(1)).trim());
+					/*if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
+						p6data.setP6_wbs_parent_code(formatter.formatCellValue(row.getCell(3)).trim());*/
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
-						p6data.setP6_wbs_name(formatter.formatCellValue(row.getCell(2)).trim());
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
-						p6data.setP6_wbs_parent_code(formatter.formatCellValue(row.getCell(3)).trim());
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
-						p6data.setP6_wbs_category_fk(formatter.formatCellValue(row.getCell(4)).trim());
+						p6data.setP6_wbs_category_fk(formatter.formatCellValue(row.getCell(2)).trim());
 					
 					
-					if(!StringUtils.isEmpty(p6data) && !StringUtils.isEmpty(p6data.getContract_id_fk()) && !StringUtils.isEmpty(p6data.getP6_wbs_code())) {
+					if(!StringUtils.isEmpty(p6data) && !StringUtils.isEmpty(obj.getContract_id_fk()) && !StringUtils.isEmpty(p6data.getP6_wbs_code())) {
 						wbsList.add(p6data);
-					}
-					
+					} 
 				}
 			}
 		} catch (Exception e) {
@@ -338,7 +350,7 @@ public class P6NewDataController {
 		try {		
 			int sheetsCount = workbook.getNumberOfSheets();
 			if(sheetsCount > 0) {
-				uploadFilesSheet = workbook.getSheetAt(3);
+				uploadFilesSheet = workbook.getSheetAt(1);
 				//System.out.println(uploadFilesSheet.getSheetName());
 				//header row
 				//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
@@ -353,21 +365,29 @@ public class P6NewDataController {
 					p6data = new P6Data();
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
-						p6data.setP6_wbs_code_fk(formatter.formatCellValue(row.getCell(0)).trim());
+						p6data.setP6_task_code(formatter.formatCellValue(row.getCell(0)).trim());
+					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
-						p6data.setP6_task_code(formatter.formatCellValue(row.getCell(1)).trim());
+						p6data.setStatus_fk(formatter.formatCellValue(row.getCell(1)).trim());
+					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
-						p6data.setP6_activity_name(formatter.formatCellValue(row.getCell(2)).trim());
+						p6data.setP6_wbs_code_fk(formatter.formatCellValue(row.getCell(2)).trim());
+					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
-						p6data.setStatus_fk(formatter.formatCellValue(row.getCell(3)).trim());
+						p6data.setP6_activity_name(formatter.formatCellValue(row.getCell(3)).trim());
+					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
 						p6data.setBaseline_start(formatter.formatCellValue(row.getCell(4)).trim());
+					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
 						p6data.setBaseline_finish(formatter.formatCellValue(row.getCell(5)).trim());
+					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
 						p6data.setStart(formatter.formatCellValue(row.getCell(6)).trim());
+					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(7)).trim()))
 						p6data.setFinish(formatter.formatCellValue(row.getCell(7)).trim());
+					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(8)).trim()))
 						p6data.setP6_float(formatter.formatCellValue(row.getCell(8)).trim());
 					
@@ -419,10 +439,10 @@ public class P6NewDataController {
 						String fileName = multipartFile.getOriginalFilename();
 						int sheetsCount = workbook.getNumberOfSheets();
 						if(sheetsCount > 0) {
-							uploadFilesSheet = workbook.getSheetAt(1);
+							uploadFilesSheet = workbook.getSheetAt(0);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
-							XSSFRow headerRow = uploadFilesSheet.getRow(1);
+							XSSFRow headerRow = uploadFilesSheet.getRow(0);
 							//checking given file format
 							if(headerRow != null){
 								List<String> fileFormat = FileFormatModel.getP6UpdateFileFormat();;
@@ -449,6 +469,19 @@ public class P6NewDataController {
 							p6data.setP6_file_path(fileName);
 							int i= 2;
 							activitiesList = updateP6NewActivities(p6data,workbook);
+							uploadFilesSheet = workbook.getSheetAt(0);
+							XSSFRow row = uploadFilesSheet.getRow(i);
+							String contarct = null;
+							DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+							if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim())) {
+								contarct = formatter.formatCellValue(row.getCell(2)).trim();
+								if(contarct.contains(".")) {
+									contarct = contarct.split("\\.")[0];
+								}
+							}
+							if(!p6data.getContract_id_fk().equalsIgnoreCase(contarct)) {
+								fob_mismatch = "selected Contract ID and WBS Code Mismatch at sheet (1) row [A3].";
+							}
 							if(activitiesList.size() == 0 ){
 								fob_mismatch = "Sheet is empty.";
 							}
@@ -499,7 +532,7 @@ public class P6NewDataController {
 		try {				
 			int sheetsCount = workbook.getNumberOfSheets();
 			if(sheetsCount > 0) {
-				uploadFilesSheet = workbook.getSheetAt(1);	
+				uploadFilesSheet = workbook.getSheetAt(0);	
 				for(int i = 2; i<= uploadFilesSheet.getLastRowNum();i++){
 					XSSFRow row = uploadFilesSheet.getRow(i);
 					// Sets the Read data to the model class
@@ -507,20 +540,34 @@ public class P6NewDataController {
 					
 					p6data = new P6Data();					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
-						p6data.setP6_wbs_code_fk(formatter.formatCellValue(row.getCell(0)).trim());
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
-						p6data.setP6_task_code(formatter.formatCellValue(row.getCell(1)).trim());
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
-						p6data.setP6_activity_name(formatter.formatCellValue(row.getCell(2)).trim());
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
-						p6data.setStatus_fk(formatter.formatCellValue(row.getCell(3)).trim());					
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
-						p6data.setStart(formatter.formatCellValue(row.getCell(4)).trim());
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
-						p6data.setFinish(formatter.formatCellValue(row.getCell(5)).trim());
-					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
-						p6data.setP6_float(formatter.formatCellValue(row.getCell(6)).trim());
+						p6data.setP6_task_code(formatter.formatCellValue(row.getCell(0)).trim());
 					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
+						p6data.setStatus_fk(formatter.formatCellValue(row.getCell(1)).trim());
+					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
+						p6data.setP6_wbs_code_fk(formatter.formatCellValue(row.getCell(2)).trim());
+					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
+						p6data.setP6_activity_name(formatter.formatCellValue(row.getCell(3)).trim());
+					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
+						p6data.setBaseline_start(formatter.formatCellValue(row.getCell(4)).trim());
+					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
+						p6data.setBaseline_finish(formatter.formatCellValue(row.getCell(5)).trim());
+					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
+						p6data.setStart(formatter.formatCellValue(row.getCell(6)).trim());
+					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(7)).trim()))
+						p6data.setFinish(formatter.formatCellValue(row.getCell(7)).trim());
+					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(8)).trim()))
+						p6data.setP6_float(formatter.formatCellValue(row.getCell(8)).trim());
+					
+					p6data.setBaseline_start(DateParser.parse(p6data.getBaseline_start()));
+					p6data.setBaseline_finish(DateParser.parse(p6data.getBaseline_finish()));
 					p6data.setStart(DateParser.parse(p6data.getStart()));
 					p6data.setFinish(DateParser.parse(p6data.getFinish()));
 					

@@ -19,6 +19,7 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.P6Data;
+import com.synergizglobal.pmis.model.RandRMain;
 
 @Repository
 public class P6NewDataDaoImpl implements P6NewDataDao {
@@ -36,7 +37,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public List<P6Data> getContractsList(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="SELECT contract_id,contract_name FROM contract ";
+			String qry ="SELECT contract_id,contract_name,contract_short_name FROM contract ";
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -64,7 +65,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public List<P6Data> getContractsListFilter(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="SELECT contract_id_fk as contract_id,contract_name FROM p6_activity_data "
+			String qry ="SELECT contract_id_fk as contract_id,contract_name,contract_short_name FROM p6_activity_data "
 					+ "LEFT OUTER JOIN contract ON contract_id_fk = contract_id "
 					+ "WHERE contract_id_fk is not null and contract_id_fk <> '' ";
 			int arrSize = 0;
@@ -293,18 +294,25 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
-			String updateActivitiesQry ="UPDATE p6_activity set p6_activity_name = ?,status_fk = ?,"
-					+ " `start` = ?,finish = ?,`float` =  ? where  p6_wbs_code_fk = ? and p6_task_code = ? ";
+			String updateActivitiesQry ="UPDATE p6_activity set "
+					+ "p6_activity_name = ?,status_fk = ?,"
+					+ " `start` = ?,finish = ?,`float` =  ?,baseline_start = ?,baseline_finish = ? "
+					+ " where  p6_wbs_code_fk like CONCAT ('%', ?, '%') and p6_task_code = ? ";
 			
 			stmt = con.prepareStatement(updateActivitiesQry);
 			for (P6Data obj : p6dataList) {
 				p = 1;				
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
+				//stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_code_fk()))?obj.getP6_wbs_code_fk():null);
+
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getStart())?obj.getStart():null);
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getFinish())?obj.getFinish():null);
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);				
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_code_fk()))?obj.getP6_wbs_code_fk():null);
+				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);	
+				stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_start())?obj.getBaseline_start():null);
+				stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_finish())?obj.getBaseline_finish():null);
+				
+				stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
 				stmt.addBatch();
 			}
@@ -395,6 +403,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 		String counts = null;
 		int wbsCount = 0;
 		int activitiesCount = 0;
+		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
 			
@@ -433,7 +442,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			stmt.executeUpdate();
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-			
+			int row =3;
 			String wbsQry = "INSERT INTO p6_wbs (contract_id_fk,fob_id_fk,p6_wbs_code,p6_wbs_name,p6_wbs_parent_code,p6_wbs_category_fk)"
 					+ " VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE p6_wbs_code = p6_wbs_code";
 			stmt = con.prepareStatement(wbsQry);
@@ -450,13 +459,13 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				DBConnectionHandler.closeJDBCResoucrs(null, pstmt, rs);
 				if(count == 0) {
 					p = 1;
-					stmt.setString(p++,!StringUtils.isEmpty((obj.getContract_id_fk()))?obj.getContract_id_fk():null);
+					stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
 					stmt.setString(p++,!StringUtils.isEmpty((obj.getFob_id_fk()))?obj.getFob_id_fk():null);
 					stmt.setString(p++,obj.getP6_wbs_code());
 					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_name()))?obj.getP6_wbs_name():null);
 					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_parent_code()))?obj.getP6_wbs_parent_code():null);
 					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_category_fk()))?obj.getP6_wbs_category_fk():null);
-					
+					System.out.println(obj.getP6_wbs_name());
 					stmt.addBatch();
 				}				
 			}
@@ -466,7 +475,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			}
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-			
+			//con.commit();
 			String activitiesQry ="INSERT INTO p6_activity(p6_task_code,p6_wbs_code_fk,p6_activity_name,status_fk,baseline_start,baseline_finish,`start`,finish,`float`)"
 					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			
@@ -498,11 +507,37 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				    stmt.addBatch();
 				}
 			}
-			c = stmt.executeBatch();		
+			c = stmt.executeBatch();	
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 			for (int i = 0; i < c.length; i++) {
 				activitiesCount = activitiesCount + c[i];
 			}
 			counts = wbsCount + "," + activitiesCount;	
+
+			con.commit();
+			con.setAutoCommit(false);
+			String wbsUpdateQry = "update p6_wbs set p6_wbs_parent_code = ? where p6_wbs_code = ?";
+			stmt = con.prepareStatement(wbsUpdateQry);
+			for (P6Data obj : wbsList) {
+					String p6_wbs_parent_code = obj.getP6_wbs_code();
+					if(!(StringUtils.isEmpty(obj.getP6_wbs_code())) && obj.getP6_wbs_code().contains(".")) {
+						int endIndex = p6_wbs_parent_code.lastIndexOf(".");
+				 	    if (endIndex != -1) {
+				 	        String newstr = p6_wbs_parent_code.substring(0, endIndex);
+				 	       flag = getP6_wbs_name(newstr);
+				 	       if(!flag) {
+				 	    	   return counts = "Error"+row;
+				 	       }
+				 	      obj.setP6_wbs_parent_code(newstr);
+				 	    }
+					}
+					p = 1;
+					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_parent_code()))?obj.getP6_wbs_parent_code():null);
+					stmt.setString(p++,obj.getP6_wbs_code());
+					stmt.addBatch();
+			}
+			int[] d = stmt.executeBatch();		
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 			con.commit();
 			
 			FormHistory formHistory = new FormHistory();
@@ -525,5 +560,27 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 		}
 		return counts;
 	}
+
+
+	private boolean getP6_wbs_name(String newstr) {
+		P6Data dObj = null;
+		String laId = null;
+		try {
+			
+			String qry ="SELECT p6_wbs_code as p6_wbs_code FROM p6_wbs WHERE p6_wbs_code = ? " ;
+			dObj = (P6Data)jdbcTemplate.queryForObject(qry, new Object[] {newstr}, new BeanPropertyRowMapper<P6Data>(P6Data.class));
+			laId = dObj.getP6_wbs_code();
+			if(!StringUtils.isEmpty(laId)) {
+				return true;
+			}else {
+				return false;	
+			}
+		}
+		catch(Exception e){ 
+				laId = null;
+				return false;
+		}
+	}
+
 	
 }

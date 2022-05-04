@@ -70,7 +70,7 @@ public class FileFormatModel {
 	public static List<String> getP6WbsFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		//String columns = "Contract ID,FOB ID,WBS Code, WBS Name, Parent WBS Code, WBS Category";
-		String columns = "Contract ID,WBS Code, WBS Name, Parent WBS Code, WBS Category";
+		String columns = "WBS Code, WBS Name, WBS Category";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
@@ -79,7 +79,7 @@ public class FileFormatModel {
 	}
 	public static List<String> getP6ActivitiesFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "WBS Code,Task Code,Activity Name,Activity Status,Baseline Start,Baseline Finish,Start, Finish,Float";
+		String columns = "Task Code,Activity Status,WBS Code,Activity Name,Baseline Start,Baseline Finish,Start,Finish,Float";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
@@ -89,7 +89,7 @@ public class FileFormatModel {
 	
 	public static List<String> getP6UpdateFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "WBS Code,Task Code,Activity Name,Activity Status,Start, Finish,Float";
+		String columns = "task_code,status_code,wbs_id,task_name,base_start_date,base_end_date,start_date,end_date,total_float_hr_cnt";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

@@ -9,7 +9,7 @@ public class User  {
 	private String oldPassword;
 	private String newPassword;
 	private String confirmPassword;
-	private String is_password_encrypted,is_test_env_enabled;
+	private String is_password_encrypted,is_test_env_enabled,current_url;
 	
 	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,loginCount,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
@@ -738,6 +738,16 @@ public class User  {
 
 	public void setIs_test_env_enabled(String is_test_env_enabled) {
 		this.is_test_env_enabled = is_test_env_enabled;
+	}
+
+
+	public String getCurrent_url() {
+		return current_url;
+	}
+
+
+	public void setCurrent_url(String current_url) {
+		this.current_url = current_url;
 	}
 	
 	

@@ -134,9 +134,12 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 		String requestURI = null;
 		try {
 			requestURI = request.getRequestURI();
-			//System.out.println(requestURI);
 			User userDetails = (User)request.getSession().getAttribute("user");
 			if(!StringUtils.isEmpty(userDetails)) {	
+
+				/*UrlGenerator ugObj = new UrlGenerator();			
+				model.addObject("context_path", ugObj.getContextPath());*/
+				
 				boolean flag = service.addUserLastActiveDateTime(userDetails);
 				
 				String base = "web";

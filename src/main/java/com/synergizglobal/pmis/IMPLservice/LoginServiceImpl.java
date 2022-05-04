@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.LoginDao;
 import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
+import com.synergizglobal.pmis.exceptions.NotEnabledTestEnv;
 import com.synergizglobal.pmis.model.User;
 
 
@@ -25,7 +26,7 @@ public class LoginServiceImpl implements LoginService {
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public User validateUser(User user, String single_login_session_id) throws SQLException,NoKeyException {
+	public User validateUser(User user, String single_login_session_id) throws SQLException,NoKeyException,NotEnabledTestEnv {
 		return loginDao.validateUser(user,single_login_session_id);
 	}
 	

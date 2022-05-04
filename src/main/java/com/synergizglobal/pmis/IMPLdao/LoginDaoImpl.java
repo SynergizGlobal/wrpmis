@@ -23,9 +23,10 @@ import com.synergizglobal.pmis.Idao.LoginDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.EncryptDecrypt;
 import com.synergizglobal.pmis.common.RandomGenerator;
+import com.synergizglobal.pmis.common.UrlGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
-import com.synergizglobal.pmis.model.Messages;
+import com.synergizglobal.pmis.exceptions.NotEnabledTestEnv;
 import com.synergizglobal.pmis.model.User;
 
 
@@ -48,7 +49,7 @@ public class LoginDaoImpl implements LoginDao{
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public User validateUser(User user,String single_login_session_id) throws SQLException,NoKeyException {
+	public User validateUser(User user,String single_login_session_id) throws SQLException,NoKeyException,NotEnabledTestEnv {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -58,7 +59,7 @@ public class LoginDaoImpl implements LoginDao{
 			
 			String qry = "select user_id,user_name,password,designation,email_id,cast(mobile_number as CHAR) as mobile_number,cast(landline as CHAR) as landline,"
 					+ "cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image,"
-					+ "user_role_code,user_type_fk,single_login_session_id "
+					+ "user_role_code,user_type_fk,single_login_session_id,is_password_encrypted,is_test_env_enabled "
 					+ "from user u "
 					+ "LEFT JOIN user_role ur ON user_role_name_fk = user_role_name "
 					+ "where (user_id = ? OR mobile_number = ? OR email_id = ?) ";
@@ -105,6 +106,9 @@ public class LoginDaoImpl implements LoginDao{
 				userDetails.setRemarks(rs.getString("remarks"));
 				userDetails.setUser_image(rs.getString("user_image"));
 				userDetails.setUser_type_fk(rs.getString("user_type_fk"));
+				userDetails.setIs_password_encrypted(rs.getString("is_password_encrypted"));
+				userDetails.setIs_test_env_enabled(rs.getString("is_test_env_enabled"));
+				
 				String login_session_id = rs.getString("single_login_session_id");
 				
 				if(!StringUtils.isEmpty(login_session_id) && !login_session_id.equals(single_login_session_id)) {	
@@ -126,6 +130,13 @@ public class LoginDaoImpl implements LoginDao{
 				}else {
 					throw new NoKeyException(noKeyAssigned);
 				}
+				
+				UrlGenerator ugObj = new UrlGenerator();
+				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk")) && "pmis_qa".equals(ugObj.getContextPath()) &&
+						(StringUtils.isEmpty(rs.getString("is_test_env_enabled")) || "false".equals(rs.getString("is_test_env_enabled")))) {
+					throw new NotEnabledTestEnv("Test Environment not enabled for your account");
+				}
+				
 			}
 		}catch(Exception e){ 
 			throw new SQLException(e.getMessage());

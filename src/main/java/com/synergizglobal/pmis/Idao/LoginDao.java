@@ -3,12 +3,13 @@ package com.synergizglobal.pmis.Idao;
 import java.sql.SQLException;
 
 import com.synergizglobal.pmis.exceptions.NoKeyException;
+import com.synergizglobal.pmis.exceptions.NotEnabledTestEnv;
 import com.synergizglobal.pmis.model.User;
 
 
 
 public interface LoginDao {
-	public User validateUser(User user, String single_login_session_id) throws SQLException,NoKeyException;
+	public User validateUser(User user, String single_login_session_id) throws SQLException,NoKeyException,NotEnabledTestEnv;
 	
 	public String changePassword(User user) throws Exception;
 

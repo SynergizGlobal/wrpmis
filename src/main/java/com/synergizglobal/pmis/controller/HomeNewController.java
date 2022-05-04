@@ -39,7 +39,7 @@ Logger logger = Logger.getLogger(HomeController.class);
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
 	//@RequestMapping(value="/home-new",method=RequestMethod.GET)
-	@RequestMapping(value="/",method=RequestMethod.GET)
+	@RequestMapping(value="/",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView welcome(HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView();
 		try {

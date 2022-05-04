@@ -31,11 +31,11 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.EncryptDecrypt;
 import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.common.UrlGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
+import com.synergizglobal.pmis.exceptions.NotEnabledTestEnv;
 import com.synergizglobal.pmis.model.Form;
 import com.synergizglobal.pmis.model.User;
 @Controller
@@ -103,7 +103,11 @@ public class LoginController {
 			if(!StringUtils.isEmpty(user.getUser_id()) && !StringUtils.isEmpty(user.getPassword())){
 				userDetails = loginService.validateUser(user,single_login_session_id);
 				if(!StringUtils.isEmpty(userDetails)) {
-					model.setViewName("redirect:/home");
+					if(!StringUtils.isEmpty(user.getCurrent_url())) {
+						model.setViewName("redirect:"+user.getCurrent_url());
+					}else {
+						model.setViewName("redirect:/home");
+					}
 					session.setAttribute("user", userDetails);
 					session.setAttribute("USER_ID", userDetails.getUser_id());
 					session.setAttribute("USER_NAME", userDetails.getUser_name());
@@ -111,6 +115,7 @@ public class LoginController {
 					session.setAttribute("USER_ROLE_CODE", userDetails.getUser_role_code());
 					session.setAttribute("USER_TYPE", userDetails.getUser_type_fk());
 					session.setAttribute("USER_DESIGNATION", userDetails.getDesignation());
+					session.setAttribute("IS_TEST_ENV_ENABLED", userDetails.getIs_test_env_enabled());
 					
 					session.setAttribute("USER_LOGIN_DETAILS_ID", userDetails.getUser_login_details_id());
 
@@ -123,6 +128,10 @@ public class LoginController {
 				model.setViewName(PageConstants.login);
 			}
 		}catch(NoKeyException e){
+			logger.error("login : " + e.getMessage());
+			model.addObject("message", e.getMessage());
+			model.setViewName(PageConstants.login);
+		}catch(NotEnabledTestEnv e){
 			logger.error("login : " + e.getMessage());
 			model.addObject("message", e.getMessage());
 			model.setViewName(PageConstants.login);

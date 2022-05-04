@@ -261,7 +261,6 @@ public class OverviewDashboardController {
 				}else {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				}
-				logger.error("getDashboardURL() : "+tableauUrl.toString());
 				obj.setDashboard_url(tableauUrl.toString());	
 			}
 		} catch (Exception e) {

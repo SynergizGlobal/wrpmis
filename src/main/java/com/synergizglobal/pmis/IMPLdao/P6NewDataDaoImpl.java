@@ -295,7 +295,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			String updateActivitiesQry ="UPDATE p6_activity set "
-					+ "p6_activity_name = ?,status_fk = ?,"
+					+ "p6_activity_name = ?,status_fk = ?,p6_wbs_code_fk = ?,"
 					+ " `start` = ?,finish = ?,`float` =  ?,baseline_start = ?,baseline_finish = ? "
 					+ " where  p6_wbs_code_fk like CONCAT ('%', ?, '%') and p6_task_code = ? ";
 			
@@ -304,7 +304,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				p = 1;				
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
-				//stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_code_fk()))?obj.getP6_wbs_code_fk():null);
+				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_code_fk()))?obj.getP6_wbs_code_fk():null);
 
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getStart())?obj.getStart():null);
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getFinish())?obj.getFinish():null);

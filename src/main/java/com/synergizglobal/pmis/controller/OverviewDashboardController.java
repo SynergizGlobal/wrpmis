@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.OverviewDashboardService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
+import com.synergizglobal.pmis.common.UrlGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.OverviewDashboard;
@@ -239,14 +240,20 @@ public class OverviewDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
 				if(dashboardUrl.contains(".com/")) {
 					url = dashboardUrl.split(".com/");
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {
 					url = dashboardUrl.split(":8000/");
-					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					UrlGenerator ugObj = new UrlGenerator();
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", ugObj.getIpAddress());
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}
 				
 				if(!StringUtils.isEmpty(params)) {
@@ -254,6 +261,7 @@ public class OverviewDashboardController {
 				}else {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				}
+				logger.error("getDashboardURL() : "+tableauUrl.toString());
 				obj.setDashboard_url(tableauUrl.toString());	
 			}
 		} catch (Exception e) {

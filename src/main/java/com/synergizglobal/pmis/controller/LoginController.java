@@ -139,6 +139,10 @@ public class LoginController {
 			logger.error("login : " + e.getMessage());
 			model.addObject("message", commonError);
 			model.setViewName(PageConstants.login);
+		}catch(Exception e){
+			logger.error("login : " + e.getMessage());
+			model.addObject("message", commonError);
+			model.setViewName(PageConstants.login);
 		}
 		return model;
 	}

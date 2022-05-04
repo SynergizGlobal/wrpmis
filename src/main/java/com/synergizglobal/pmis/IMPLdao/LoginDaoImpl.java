@@ -49,7 +49,7 @@ public class LoginDaoImpl implements LoginDao{
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public User validateUser(User user,String single_login_session_id) throws SQLException,NoKeyException,NotEnabledTestEnv {
+	public User validateUser(User user,String single_login_session_id) throws Exception,SQLException,NoKeyException,NotEnabledTestEnv {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -124,8 +124,8 @@ public class LoginDaoImpl implements LoginDao{
 				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk"))) {
 					userDetails.setSystem_ipa(user.getSystem_ipa());
 					userDetails.setPublic_ipa(user.getPublic_ipa());
-					
 					String user_login_details_id = addUserLoginDetails(userDetails,con);
+					
 					userDetails.setUser_login_details_id(user_login_details_id);
 				}else {
 					throw new NoKeyException(noKeyAssigned);
@@ -138,7 +138,7 @@ public class LoginDaoImpl implements LoginDao{
 				}
 				
 			}
-		}catch(Exception e){ 
+		}catch(SQLException e){ 
 			throw new SQLException(e.getMessage());
 		}
 		finally {

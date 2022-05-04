@@ -21,6 +21,7 @@ import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.TableauDashboardService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
+import com.synergizglobal.pmis.common.UrlGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
@@ -113,14 +114,21 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					UrlGenerator ugObj = new UrlGenerator();
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", ugObj.getIpAddress());
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
@@ -189,14 +197,20 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					UrlGenerator ugObj = new UrlGenerator();
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", ugObj.getIpAddress());
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
@@ -247,14 +261,20 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					UrlGenerator ugObj = new UrlGenerator();
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", ugObj.getIpAddress());
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+"&issue_id="+issue_id+"&issue_id_fk="+issue_id+CommonConstants.TABLEAU_PARAMS;
@@ -306,14 +326,20 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					UrlGenerator ugObj = new UrlGenerator();
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", ugObj.getIpAddress());
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+"&Assessment Date="+obj.getAssessment_date()+"&Work  ="+obj.getSub_work()+CommonConstants.TABLEAU_PARAMS;
@@ -365,14 +391,20 @@ public class TableauDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
 				if(vo.getTableauUrl().contains(".com/")) {
 					url = vo.getTableauUrl().split(".com/");
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {
 					url = vo.getTableauUrl().split(":8000/");
-					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					UrlGenerator ugObj = new UrlGenerator();
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", ugObj.getIpAddress());
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}
 				
 				String tableauUrl = baseUrl + url[1]+"&contract_id="+contract_id+"&contract_id_fk="+contract_id+CommonConstants.TABLEAU_PARAMS;

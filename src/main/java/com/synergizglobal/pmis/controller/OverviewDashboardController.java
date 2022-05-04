@@ -252,7 +252,7 @@ public class OverviewDashboardController {
 					url = dashboardUrl.split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", ugObj.getIpAddress());
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", ugObj.getIpAddress());
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}
 				

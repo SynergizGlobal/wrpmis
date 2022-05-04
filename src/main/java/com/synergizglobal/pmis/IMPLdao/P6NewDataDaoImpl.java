@@ -315,7 +315,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
 				stmt.addBatch();
-			}
+			} 
 			int[] c = stmt.executeBatch();		
 			for (int i = 0; i < c.length; i++) {
 				count = count + c[i];

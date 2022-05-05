@@ -17,4 +17,6 @@ public interface WebDocumentCategoryService {
 
 	public List<TrainingType> getDocumentType(TrainingType obj) throws Exception;
 
+	public List<TrainingType> getWebcategory(TrainingType obj) throws Exception;
+
 }

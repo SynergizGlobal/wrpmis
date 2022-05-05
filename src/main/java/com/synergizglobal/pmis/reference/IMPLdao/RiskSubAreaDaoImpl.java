@@ -246,11 +246,13 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 			String area  = obj.getRisk_area_fk_new();
 			String sub_area  = obj.getSub_area_new();
 			String item_no  = obj.getItem_no_new();
+			String value_old = obj.getValue_old();
 			//sub_area = sub_area.replaceFirst("^", "").replaceAll(",,", ",");
 			String [] areaArr = new String [0];
 			String [] Sub_areaArr = new String [0];
 			String [] itemNoArr = new String [0];
 			String [] Sub_areaArr1 = new String [0];
+			String [] value_oldArr1 = new String [0];
 			if(!StringUtils.isEmpty(area) && area.contains(",")) {
 				areaArr = area.split(",");
 				size = areaArr.length;
@@ -290,20 +292,17 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 						String insertQry = "INSERT INTO risk_sub_area"
 								+ "( sub_area, risk_area_fk, item_no) VALUES (:sub_area_new, :risk_area_fk_new, :item_no_new)";
 						paramSource = new BeanPropertySqlParameterSource(obj);		 
-						count = namedParamJdbcTemplate.update(insertQry, paramSource);	
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);
+						String oldVal =  value_old;
+						if(value_old.contains(",")) {
+							value_oldArr1 = value_old.split(",") ;
+							oldVal = value_oldArr1[j];
+						}
 						for (TrainingType bObj : obj.getdList()) {
-							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:sub_area_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
-							String valueOld = obj.getValue_old();
-							String oldVal = null;
-							String[] vlaue_old = new String[0];int sz = 0;
-							if(valueOld.contains(",")) {vlaue_old = valueOld.split(","); sz = valueOld.length();}else {sz = 1;}
-						
-							for(int k = 0; k <sz; k++ ) {
-								oldVal = (valueOld.contains(","))?  vlaue_old[k] :  valueOld;
-								obj.setValue_old(oldVal);
-								 paramSource = new BeanPropertySqlParameterSource(obj);		 
-								 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
-							}
+							 String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:sub_area_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+							 obj.setValue_old(oldVal);
+							 paramSource = new BeanPropertySqlParameterSource(obj);		 
+							 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
 						}
 					}
 				 }else {
@@ -319,20 +318,17 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 								+ "( sub_area, risk_area_fk, item_no) VALUES (:sub_area_new, :risk_area_fk_new, :item_no_new)";
 						paramSource = new BeanPropertySqlParameterSource(obj);		 
 						count = namedParamJdbcTemplate.update(insertQry, paramSource);	
+						String oldVal =  value_old;
+						if(value_old.contains(",")) {
+							value_oldArr1 = value_old.split(",") ;
+							oldVal = value_oldArr1[j];
+						}
 						for (TrainingType bObj : obj.getdList()) {
 							
 							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:sub_area_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
-							String valueOld = obj.getValue_old();
-							String oldVal = null;
-							String[] vlaue_old = new String[0];int sz = 0;
-							if(valueOld.contains(",")) {vlaue_old = valueOld.split(","); sz = valueOld.length();}else {sz = 1;}
-						
-							for(int k = 0; k <sz; k++ ) {
-								oldVal = (valueOld.contains(","))?  vlaue_old[k] :  valueOld;
-								obj.setValue_old(oldVal);
-								 paramSource = new BeanPropertySqlParameterSource(obj);		 
-								 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
-							}
+							 obj.setValue_old(oldVal);
+							 paramSource = new BeanPropertySqlParameterSource(obj);		 
+							 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
 						}
 					}
 			     }

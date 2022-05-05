@@ -9,9 +9,9 @@ public class TrainingType {
 	
 	private String training_type,binary,dashboard_type,id, la_sub_category,bg_type_old,bg_type_fk, la_category_fk,la_category,contractor_specialization,user_role_name,bg_type,status,contract_type,department,deliverable_type, department_name, contract_id_code,document_type, user_role_code,user_access_type,soft_delete_status,source_of_funds, user_access_table,requirement_stage,unit_type,execution_agency,old_training_type,new_training_type,insurance_type,training_status,training_category,drawing_type,utility_type;
 
-	private String Table_name,column_name,constraint_name,user_name,work_id_fk_old,risk_area_fk_old,la_land_status,approval_authority,resource_type,area_short_name,area_short_name_new,referenced_table_name,risk_work_completed,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
+	private String Table_name,column_name,constraint_name,user_name,work_id_fk_old,risk_area_fk_old,category_new,la_land_status,approval_authority,resource_type,area_short_name,area_short_name_new,referenced_table_name,risk_work_completed,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
 	
-	private String structure_file_type,design_file_type,department_new,stage,department_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
+	private String structure_file_type,design_file_type,department_new,stage,department_old,type_fk_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
 	,contractor_specialization_new,contract_type_old,contract_type_new,dashboard_type_old,dashboard_type_new,status_old,status_new,deliverable_type_old,
 	deliverable_type_new,document_type_old,document_type_new,value_old,value_new,general_status,execution_status,category,priority,status_of_new,status_of,manual_folders,module_name,module_incharge,incharge_user_id_fk
 	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
@@ -36,6 +36,22 @@ public class TrainingType {
 	List<TrainingType> landExecutivesList;
 	List<TrainingType> utilityExecutivesList;
 	
+	public String getType_fk_old() {
+		return type_fk_old;
+	}
+
+	public void setType_fk_old(String type_fk_old) {
+		this.type_fk_old = type_fk_old;
+	}
+
+	public String getCategory_new() {
+		return category_new;
+	}
+
+	public void setCategory_new(String category_new) {
+		this.category_new = category_new;
+	}
+
 	public String getRisk_area_fk_old() {
 		return risk_area_fk_old;
 	}

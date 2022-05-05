@@ -38,4 +38,9 @@ public class WebDocumentCategoryServiceImpl implements WebDocumentCategoryServic
 	public List<TrainingType> getDocumentType(TrainingType obj) throws Exception {
 		return dao.getDocumentType(obj);
 	}
+
+	@Override
+	public List<TrainingType> getWebcategory(TrainingType obj) throws Exception {
+		return dao.getWebcategory(obj);
+	}
 }

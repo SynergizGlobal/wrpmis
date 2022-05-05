@@ -140,7 +140,7 @@
 										<c:forEach var="obj" items="${webDocumentsCategoryDetails.dList1}" varStatus="indexs">
 											<tr>
 											<input type="hidden" id="id${indexs.count}" value="${obj.id }" />
-											<td>
+											<td style="font-weight: 600;">
 												<input type="hidden" id="type_fkId${indexs.count}" value="${obj.type_fk }" class="findLengths"/>
 												${obj.type_fk }</td>
 											<td>

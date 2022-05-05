@@ -158,7 +158,7 @@
                                     </thead>
                                     <tbody>
 										<c:forEach var="obj" items="${riskAreaDetails.dList1}" varStatus="indexs">
-											<tr><td>
+											<tr><td style="font-weight: 600;">
 												${obj.risk_area_fk }
 											</td>
 											<input type="hidden" id="risk_area_fk${indexs.count}" value="${obj.risk_area_fk }" name="risk_area_fk"   class="findLengths"/> 
@@ -614,7 +614,7 @@
                        /*  className: 'mdl-data-table__cell--non-numeric', */
                         targets: 'no-sort', orderable: false,
                     },
-                    { "width": "20px", "targets": [4] },
+                    { "width": "20px", "targets": [3] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,

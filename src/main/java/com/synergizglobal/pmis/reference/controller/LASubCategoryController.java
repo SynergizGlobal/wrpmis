@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -77,7 +78,18 @@ public class LASubCategoryController {
 		return model;
 	}
 	
-
+	@RequestMapping(value = "/ajax/getLASubCategory", method = { RequestMethod.GET,RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TrainingType> getLASubCategory(@ModelAttribute TrainingType obj) {
+		List<TrainingType> objList = null;
+		try {
+			objList = service.getLASubCategory(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getLASubCategory : " + e.getMessage());
+		}
+		return objList;
+	}
 	@RequestMapping(value = "/update-la-sub-category", method = {RequestMethod.POST})
 	@ResponseBody
 	public ModelAndView updateLandAcquisitionSubCategory(@ModelAttribute TrainingType obj,RedirectAttributes attributes){

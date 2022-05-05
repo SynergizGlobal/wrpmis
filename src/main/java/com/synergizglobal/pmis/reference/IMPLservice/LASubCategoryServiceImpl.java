@@ -40,4 +40,9 @@ public class LASubCategoryServiceImpl implements LASubCategoryService{
 		return dao.deleteLandAcquisitionSubCategory(obj);
 	}
 
+	@Override
+	public List<TrainingType> getLASubCategory(TrainingType obj) throws Exception {
+		return dao.getLASubCategory(obj);
+	}
+
 }

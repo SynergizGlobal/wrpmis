@@ -5,11 +5,14 @@ import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.synergizglobal.pmis.reference.Idao.LASubCategoryDao;
@@ -38,14 +41,66 @@ public class LASubCategoryDaoImpl implements LASubCategoryDao{
 
 	@Override
 	public boolean addLASubCategory(TrainingType obj) throws Exception {
-		boolean flag = false;
+		boolean flag = false;	int count = 0;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO la_sub_category"
-					+ "( la_category_fk,la_sub_category) VALUES (:la_category_fk,:la_sub_category)";
-			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			int size = 0,size2 = 0,size3=0;
+			String area  = obj.getLa_category_fk();
+			String sub_area  = obj.getLa_sub_category();
+			//sub_area = sub_area.replaceFirst("^", "").replaceAll(",,", ",");
+			String [] areaArr = new String [0];
+			String [] La_sub_categoryArr = new String [0];
+			String [] La_sub_categoryArr1 = new String [0];
+			if(!StringUtils.isEmpty(area) && area.contains(",")) {
+				areaArr = area.split(",");
+				size = areaArr.length;
+				La_sub_categoryArr = sub_area.split(",_,");
+				size2 = areaArr.length;
+				
+			}else if(!StringUtils.isEmpty(sub_area) && sub_area.contains(",")) {
+				La_sub_categoryArr1 = sub_area.split(",");
+				size3 = La_sub_categoryArr1.length;
+				size = 1;
+			}else if(!StringUtils.isEmpty(sub_area)) {
+				size = 1;
+				size3 = 1;
+			}
+			for(int i =0;i< size; i++) {
+				 if(areaArr.length > 0) {
+					String [] subName = null;
+					obj.setLa_category_fk(areaArr[i]);
+					if((!StringUtils.isEmpty(sub_area) && La_sub_categoryArr1.length > 0) 
+							|| (!StringUtils.isEmpty(sub_area) && La_sub_categoryArr.length > 0)) {
+						if(La_sub_categoryArr[i].contains(",")) {
+							subName = La_sub_categoryArr[i].split(",");
+							size3 = (La_sub_categoryArr1.length > 0) ? La_sub_categoryArr1.length : subName.length ;
+						}else {
+							subName = La_sub_categoryArr; size3 = 1;
+							String sub_name = La_sub_categoryArr[i];
+							subName[0] = sub_name;
+						}
+					}
+					for(int j =0;j< size3; j++) {
+						obj.setLa_sub_category(subName[j].replaceAll("&", ","));
+						String insertQry = "INSERT INTO la_sub_category"
+								+ "( la_category_fk,la_sub_category) VALUES (:la_category_fk,:la_sub_category)";
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(sub_area) && La_sub_categoryArr1.length > 0) {
+							obj.setLa_sub_category(La_sub_categoryArr1[j].replaceAll("&", ","));
+						}else {
+							obj.setLa_sub_category(sub_area.replaceAll("&", ","));
+						}
+						String insertQry = "INSERT INTO la_sub_category"
+								+ "( la_category_fk,la_sub_category) VALUES (:la_category_fk,:la_sub_category)";
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+			     }
+			}
 			if(count > 0) {
 				flag = true;
 			}
@@ -62,7 +117,7 @@ public class LASubCategoryDaoImpl implements LASubCategoryDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select id, la_sub_category, la_category_fk from la_sub_category ";
+			String qry ="select group_concat(id) id, group_concat(la_sub_category) la_sub_category, la_category_fk from la_sub_category group by la_category_fk";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -165,20 +220,115 @@ public class LASubCategoryDaoImpl implements LASubCategoryDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE la_sub_category SET `la_sub_category`= :la_sub_category_new,la_category_fk= :la_category_fk_new WHERE `id`= :id " ;
+			String deleteQry = "delete from la_sub_category where `la_category_fk`= :la_category_fk_old";
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
+			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
 			
-			for (TrainingType bObj : obj.getdList()) {
-					if(!(bObj.getReferenced_column_name().equalsIgnoreCase("id"))) {
-							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:la_sub_category_new WHERE "+bObj.getColumn_name()+"= :id " ;
-							
-							 paramSource = new BeanPropertySqlParameterSource(obj);		 
-							 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+			int size = 0,size2 = 0,size3=0;
+			String area  = obj.getLa_category_fk_new();
+			String sub_area  = obj.getLa_sub_category_new();
+			String value_old  = obj.getValue_old();
+			//sub_area = sub_area.replaceFirst("^", "").replaceAll(",,", ",");
+			String [] areaArr = new String [0];
+			String [] La_sub_categoryArr = new String [0];
+			String [] La_sub_categoryArr1 = new String [0];
+			String [] value_oldArr1 = new String [0];
+			if(!StringUtils.isEmpty(area) && area.contains(",")) {
+				areaArr = area.split(",");
+				size = areaArr.length;
+				La_sub_categoryArr = sub_area.split(",_,");
+				size2 = areaArr.length;
+				
+			}else if(!StringUtils.isEmpty(sub_area) && sub_area.contains(",")) {
+				La_sub_categoryArr1 = sub_area.split(",");
+				size3 = La_sub_categoryArr1.length;
+				size = 1;
+			}else if(!StringUtils.isEmpty(sub_area)) {
+				size = 1;
+				size3 = 1;
+			}
+			for(int i =0;i< size; i++) {
+				 if(areaArr.length > 0) {
+					String [] subName = null;
+					obj.setLa_category_fk_new(areaArr[i]);
+					if((!StringUtils.isEmpty(sub_area) && La_sub_categoryArr1.length > 0) 
+							|| (!StringUtils.isEmpty(sub_area) && La_sub_categoryArr.length > 0)) {
+						if(La_sub_categoryArr[i].contains(",")) {
+							subName = La_sub_categoryArr[i].split(",");
+							size3 = (La_sub_categoryArr1.length > 0) ? La_sub_categoryArr1.length : subName.length ;
+						}else {
+							subName = La_sub_categoryArr; size3 = 1;
+							String sub_name = La_sub_categoryArr[i];
+							subName[0] = sub_name;
+						}
 					}
-						
-				}
-					
+					for(int j =0;j< size3; j++) {
+						obj.setLa_sub_category_new(subName[j].replaceAll("&", ","));
+						String insertQry = "INSERT INTO la_sub_category"
+								+ "( la_category_fk,la_sub_category) VALUES (:la_category_fk_new,:la_sub_category_new)";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						KeyHolder keyHolder = new GeneratedKeyHolder();
+						count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+						 String id = null;
+							if(count > 0) {
+								id = String.valueOf(keyHolder.getKey().intValue());
+								 flag = true;
+							}
+							obj.setId(id);	
+							String idOld =  value_old;
+							if(value_old.contains(",")) {
+								value_oldArr1 = value_old.split(",") ;
+								try {
+									idOld = value_oldArr1[j];
+								}catch(Exception e) {
+									idOld = null;
+								}
+							}
+						for (TrainingType bObj : obj.getdList()) {
+							
+							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:id WHERE "+bObj.getColumn_name()+"= :value_old " ;
+							obj.setValue_old(idOld);
+							paramSource = new BeanPropertySqlParameterSource(obj);		 
+							namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+						}
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(sub_area) && La_sub_categoryArr1.length > 0) {
+							obj.setLa_sub_category_new(La_sub_categoryArr1[j].replaceAll("&", ","));
+						}else {
+							obj.setLa_sub_category_new(sub_area.replaceAll("&", ","));
+						}
+						String insertQry = "INSERT INTO la_sub_category"
+								+ "( la_category_fk,la_sub_category) VALUES (:la_category_fk_new,:la_sub_category_new)";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						KeyHolder keyHolder = new GeneratedKeyHolder();
+						count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+						 String id = null;
+							if(count > 0) {
+								id = String.valueOf(keyHolder.getKey().intValue());
+								 flag = true;
+							}
+							obj.setId(id);	
+							String idOld =  value_old;
+							if(value_old.contains(",")) {
+								value_oldArr1 = value_old.split(",") ;
+								try {
+									idOld = value_oldArr1[j];
+								}catch(Exception e) {
+									idOld = null;
+								}
+							}
+						for (TrainingType bObj : obj.getdList()) {
+							
+							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:id WHERE "+bObj.getColumn_name()+"= :value_old " ;
+							obj.setValue_old(idOld);
+							paramSource = new BeanPropertySqlParameterSource(obj);		 
+							namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+						}
+					}
+			     }
+			}
 			String  enableQry =	"SET foreign_key_checks = 1";
 			paramSource = new BeanPropertySqlParameterSource(obj);	
 			namedParamJdbcTemplate.update(enableQry, paramSource);
@@ -199,7 +349,7 @@ public class LASubCategoryDaoImpl implements LASubCategoryDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from la_sub_category WHERE `id`= :id; ";
+			String deleteQry ="DELETE from la_sub_category WHERE `la_category_fk`= :la_category_fk; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -209,5 +359,18 @@ public class LASubCategoryDaoImpl implements LASubCategoryDao{
 		throw new Exception(e);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<TrainingType> getLASubCategory(TrainingType obj) throws Exception {
+		List<TrainingType> objList = null;
+		try {
+			String qry = "SELECT la_sub_category  from la_sub_category where la_category_fk= '"+ obj.getLa_category_fk()+"'";
+			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
 	}
 }

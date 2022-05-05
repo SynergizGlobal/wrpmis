@@ -16,4 +16,6 @@ public interface LASubCategoryService {
 
 	public boolean deleteLandAcquisitionSubCategory(TrainingType obj) throws Exception;
 
+	public List<TrainingType> getLASubCategory(TrainingType obj) throws Exception;
+
 }

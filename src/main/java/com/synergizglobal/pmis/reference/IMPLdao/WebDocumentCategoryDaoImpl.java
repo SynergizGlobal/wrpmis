@@ -259,7 +259,11 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 							String idOld =  value_old;
 							if(value_old.contains(",")) {
 								value_oldArr1 = value_old.split(",") ;
-								idOld = value_oldArr1[j];
+								try {
+									idOld = value_oldArr1[j];
+								}catch(Exception e) {
+									idOld = null;
+								}
 							}
 						for (TrainingType bObj : obj.getdList()) {
 							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:id WHERE "+bObj.getColumn_name()+"= :value_old " ;
@@ -277,7 +281,6 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 						}
 						String insertQry = "INSERT INTO web_documents_category"
 								+ "( type_fk, category) VALUES (:type_fk_new, :category_new)";
-						paramSource = new BeanPropertySqlParameterSource(obj);		 
 						paramSource = new BeanPropertySqlParameterSource(obj);	
 						KeyHolder keyHolder = new GeneratedKeyHolder();
 						count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
@@ -290,7 +293,11 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 							String idOld =  value_old;
 							if(value_old.contains(",")) {
 								value_oldArr1 = value_old.split(",") ;
-								idOld = value_oldArr1[j];
+								try {
+									idOld = value_oldArr1[j];
+								}catch(Exception e) {
+									idOld = null;
+								}
 							}
 						for (TrainingType bObj : obj.getdList()) {
 							

@@ -296,7 +296,11 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 						String oldVal =  value_old;
 						if(value_old.contains(",")) {
 							value_oldArr1 = value_old.split(",") ;
-							oldVal = value_oldArr1[j];
+							try {
+								oldVal = value_oldArr1[j];
+							}catch(Exception e) {
+								oldVal = null;
+							}
 						}
 						for (TrainingType bObj : obj.getdList()) {
 							 String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:sub_area_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
@@ -321,7 +325,11 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 						String oldVal =  value_old;
 						if(value_old.contains(",")) {
 							value_oldArr1 = value_old.split(",") ;
-							oldVal = value_oldArr1[j];
+							try {
+								oldVal = value_oldArr1[j];
+							}catch(Exception e) {
+								oldVal = null;
+							}
 						}
 						for (TrainingType bObj : obj.getdList()) {
 							

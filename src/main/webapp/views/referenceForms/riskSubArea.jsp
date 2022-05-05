@@ -26,7 +26,78 @@
 		.dataTables_length{
 		    text-align: center;
 		}		
+		   		.r-flex{
+		    position: relative;
+		        right: -15em;
+    			top: -1.5em;
+		    }	
+		    .w-br{
+    		white-space: pre-line;
+    		line-height: 13px;
+    	}
+		.input-field {
+		    position: relative;
+		    margin-top: 0rem;
+		    margin-bottom: 0rem;
+		}	
+		.align-center{
+			    display: flex;
+    			align-items: center;
+		}
+		.mt1em{
+			margin-top: 1em;
+		}
+		.w50{
+			width: 50% !important;
+		}
+		.mov {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+		.pd0{padding: 0 !important;}
+		.mt-c{
+			    display: flex;
+			    flex-wrap: wrap;
+			    align-items: center;
+			    padding-bottom: 15px;
+		}
 		
+		 .box-grey{
+			background-color: #eee;
+		}
+		.bg-none{
+		 background: transparent !important;
+		}
+		.bd-none{
+			border: 0 !important;
+		}
+		.br20px{
+			border-radius: 20px;
+		}
+		.mdl-data-table tbody tr:hover {
+		    background-color: transparent;
+		}
+		.mdl-data-table tbody tr, .mdl-data-table tbody tr td{
+			padding: 1em;
+		}
+		@media(max-width: 575px){
+			.align-center{
+				display: block;
+			}
+			.w50{
+			width: 100% !important;
+			}
+			.mt-c{
+				display: block;
+			}
+			.mtm2em{
+				margin-top: -2em;
+			}
+			.box-grey{
+				margin-top: 1em;
+			}
+		}
 		@media (min-width: 480px) and (max-width: 839px){
 		    .mdl-cell--6-col, .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {
 		        width: 100%;
@@ -75,13 +146,13 @@
                                             <th> Area</th>
                                             <th>Sub Area</th>
                                             <th>Item No</th>
-                                            <c:forEach var="tObj" items="${riskAreaDetails.tablesList}" >
-                                            	<%--  <th>${tObj.tName } <br>(count)</th> --%>
+                                    <%--         <c:forEach var="tObj" items="${riskAreaDetails.tablesList}" >
+                                            	 <th>${tObj.tName } <br>(count)</th>
                                             	 <c:forEach var="TObj" items="${tObj.tName }" >
                                             	 	<c:set var = "mTObj" value = "${fn:replace(TObj, ' ', ' ')}" />
                                             	 	<th>${mTObj } </th>
                                             	</c:forEach>
-                                            </c:forEach>
+                                            </c:forEach> --%>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -93,12 +164,16 @@
 											<input type="hidden" id="risk_area_fk${indexs.count}" value="${obj.risk_area_fk }" name="risk_area_fk"   class="findLengths"/> 
 											<input type="hidden" id="sub_area${indexs.count}" value="${obj.sub_area }" class="findLengths1"/>
 											<input type="hidden" id="item_no${indexs.count}" value="${obj.item_no }" class="findLengths2"/>
-											<td>
-												${obj.sub_area }</td>
-											<td>
+											<td class="w-br">
+												 <c:forEach var="splt" items="${fn:split(obj.sub_area,'_')}">
+												   &#9656; ${splt} <br>
+												</c:forEach></td>
+											<td class="w-br">
 												
-												${obj.item_no }</td>
-											<c:forEach var="tObj" items="${riskAreaDetails.tablesList}" varStatus="index">
+												<c:forEach var="splt" items="${fn:split(obj.item_no,',')}">
+												   &#9656; ${splt} <br>
+												</c:forEach></td>
+								<%-- 			<c:forEach var="tObj" items="${riskAreaDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${riskAreaDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
@@ -114,13 +189,13 @@
 													   </c:otherwise>
 												</c:choose>
 												</c:forEach></td>
-                                            </c:forEach>
+                                            </c:forEach> --%>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${riskAreaDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
 												    <c:when test="${oSbj.sub_area eq obj.sub_area }"> 
-												      	<a onclick="deleteRow('${indexs.count}');"  class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												      	<a onclick="deleteRow('${obj.risk_area_fk}');"  class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -163,13 +238,13 @@
                             class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
-                        <div class="row no-mar">
+                    <div class="col m12 s12">
+                        <%-- <div class="row no-mar">
                            <!--  <div class="input-field col s12 m6">
                                 <input id="risk_area" type="text" class="validate">
                                 <label for="risk_area"> Area</label>
                             </div> -->
-                              <div class="col s12 m6 input-field">
+                              <div class="col s12 m4 input-field">
                                  <p class="searchable_label"> Area</p>
                                  <select class="searchable validate-dropdown" name="risk_area_fk" id="area" onchange="doValidate(this.value,null,null)">
                                      <option value="">Select</option>
@@ -181,18 +256,76 @@
                               </div>                            
                         <!-- </div>
                         <div class="row"> -->
-                        <div class="input-field col s12 m6">
+                        <div class="input-field col s12 m4">
                                 <input id="sub_area" type="text" name="sub_area" class="validate" onkeyup="doValidate(null,this.value,null)">
                                 <label for="sub_area">Sub Area</label>
                                 <span id="sub_areaError" class="error-msg" ></span>
                             </div>
-                            <div class="input-field col s12 m6">
+                            <div class="input-field col s12 m4">
                                 <input id="item_no" type="number" min="1" name="item_no" class="validate" onkeyup="doValidate(null,null,this.value)">
                                 <label for="item_no">Item No</label>
                                 <span id="item_noError" class="error-msg" ></span>
                             </div>
 
-                        </div>
+                        </div> --%>
+                       <div id="listOfLocationsAdd"> 
+                        <div id="archiveBody"> 
+                        <div class="row no-mar mt-c" id="actionRow0">
+							<div class="input-field col s11 m3">
+								<!-- <input id="rr_location_fk" name="rr_location_fk" type="text" class="validate"> -->
+								<p class="searchable_label"> Area</p>
+								<select name="risk_area_fk" id="area" class="searchable validate-dropdown">
+									<option value="">Select </option>
+									 <c:forEach var="obj" items="${riskAreaList }">
+											  <option value="${obj.area }">${obj.area }</option>
+									  </c:forEach>
+								</select>
+								<span id="risk_area_fkError" class="error-msg" ></span>
+							</div>
+							<div class="input-field col s11 m8 box-grey" id="subArchiveBody0">
+								<div id="subActionRow0">
+								<div class="col s5">
+								<input id="sub_area" name="sub_area" type="text" class="validate" placeholder="Sub Area">
+								<!-- <label for="rr_sub_location"> Sub Location </label> -->
+								<span id="sub_areaError" class="error-msg" ></span>	
+								</div>
+								 <div class="col s5">
+                                <input id="item_no" type="number" min="1" name="item_no" class="validate" placeholder="Item No">
+                                <span id="item_noError" class="error-msg" ></span>
+                            </div>
+							<span class="col s1"><a onclick="subRemoveAction('0');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span>
+							</div>
+						</div>
+						<span class="col s1 m1 input-field mtm2em"><a onclick="removeAction('0');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>
+						<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none">
+												<tbody>
+													<tr class="bd-none">
+														<td colspan="6" class="bd-none"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c br20px"
+															onclick="addSubRow('0')"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											<input type="hidden" id="rowNo" name="rowNo" value="0" />
+									</div>
+			                        </div> </div>
+			                        <table class="mdl-data-table col s12">
+											<tbody>
+												<tr>
+													<td colspan="6"><a
+														type="button"
+														class="btn waves-effect waves-light bg-m t-c"
+														onclick="addRow()"> <i
+															class="fa fa-plus"></i>
+													</a>
+												</tr>
+											</tbody>
+										</table>
+										<input type="hidden" id="rowNo1" name="rowNo1" value="0" />
+                        
                         <div class="row no-mar">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -225,9 +358,9 @@
                             class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                    <div class="col m12 s12">
                         
-                       <div class="row no-mar">
+                    <%--    <div class="row no-mar">
                            <!--  <div class="input-field col s12 m6">
                                 <input id="risk_area" type="text" class="validate">
                                 <label for="risk_area"> Area</label>
@@ -257,6 +390,55 @@
                             </div>
 
                         </div>
+                        start --%>
+                        <div id="listOfLocations">
+                         <div id="archiveBodyupdate">
+                           <input id="risk_area_fk_old" name="risk_area_fk_old" type="hidden" > 
+                          <input id="ids" name="id" type="hidden" > 
+                          <input id="value_old" name="value_old" type="hidden" > 
+             				<div class="row no-mar mt-c" id="actionRows0">
+             					<div class="input-field col s11 m3">
+									<p class="searchable_label"> Area</p>
+									
+									<select name="risk_area_fk_new" id="risk_area_fk_new" class="searchable validate-dropdown">
+										<option value="">Select </option>
+										 <c:forEach var="obj" items="${riskAreaList }">
+												  <option value="${obj.area }">${obj.area }</option>
+										  </c:forEach>
+									</select>
+									<span id="risk_area_fk0Error" class="error-msg" ></span>
+								</div>
+								<div class="input-field col s11 m8 box-grey" id="subArchiveBodys0">
+									<div id="subActionRows0">
+							
+									</div>
+							</div>
+				<span class="col s1 m1 input-field"><a onclick="removeActions(0);" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>
+				<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none">
+								<tbody>
+									<tr class="bd-none">
+										<td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRows(0)"> <i class="fa fa-plus"></i>
+										</a>
+									</tr>
+								</tbody>
+							</table>
+							   <input type="hidden" id="rowNu" name="rowNu" value="1" />
+							</div>
+	                        </div>
+                         </div>
+                        <table class="mdl-data-table col s12">
+								<tbody>
+									<tr>
+										<td colspan="6"><a
+											type="button"
+											class="btn waves-effect waves-light bg-m t-c"
+											onclick="addRows()"> <i
+												class="fa fa-plus"></i>
+										</a>
+									</tr>
+								</tbody>
+							</table>
+							<input type="hidden" id="rowNu1" name="rowNu1" value="0" />
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -285,7 +467,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="sub_area" id="sub_areas" />
+    	<input type="hidden" name="risk_area_fk" id="sub_areas" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -296,6 +478,129 @@
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
  	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
+    	function addRow() {        	
+        var rowNo = $("#rowNo1").val();
+        var rNo = Number(rowNo)+1;
+        var randNum = Math.floor((Math.random() * 9999));
+        var html = '<div class="row no-mar mt-c" id="actionRow' + rNo + '">'
+        + '<div class="input-field col s11 m3"><p class="searchable_label"> Area</p>'
+        + '<select name="risk_area_fk" id="area' + rNo +'" class="searchable validate-dropdown">'
+        + '<option value="">Select </option>'
+        + '<c:forEach var="obj" items="${riskAreaList }">'
+        + '<option value="${obj.area }">${obj.area }</option>'
+        + '</c:forEach></select>'
+        + '<span id="risk_area' + rNo +'_fkError" class="error-msg" ></span></div>'
+        + '<div class="input-field col s11 m8 box-grey"  id="subArchiveBody' + rNo +'">'
+        + '<div id="subActionRow' + rNo +randNum+'"><div class="col s5">'
+        + '<input id="sub_areass' + rNo +'" name="sub_area" type="hidden" value="_"> '
+        + '<input id="sub_area' + rNo +'" name="sub_area" type="text" class="validate" placeholder="Sub Area"> '
+        + '<span id="sub_area' + rNo + 'Error" class="error-msg"></span></div>'
+        + '<div class="col s5"><input id="item_no' + rNo +'" name="item_no" type="hidden" value="_"><input id="item_no" type="number" min="1" name="item_no" class="validate" placeholder="Item No">'
+        + '<span id="item_noError" class="error-msg" ></span></div>'
+        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo +randNum+ ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1 m1 input-field mtm2em"><a onclick="removeAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
+        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRow(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
+ 		$('#listOfLocationsAdd').append('<div id="archiveBody' + rNo + '" > </div>');
+        
+        $('#archiveBody' + rNo).append(html);
+        $("#rowNo1").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+    function removeAction(rowNo){
+        $("#actionRow"+rowNo).remove();
+    }
+    function addSubRow(idNo) {        	
+        var rowNo = $("#rowNo").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<div id="subActionRow' + rNo + '">'
+        + '<div class="input-field col s5">'
+        + '<input id="sub_area' + rNo +'" name="sub_area" type="text" class="validate" placeholder="Sub Area"> '
+        + '<span id="sub_area' + rNo + 'Error" class="error-msg"></span>'
+        + '</div>'
+        + '<div class="input-field col s5">'
+        + '<input id="item_no" type="number" min="1" name="item_no" class="validate" placeholder="Item No">'
+        + '<span id="item_noError" class="error-msg" ></span>'
+        + '</div>'
+        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div>';
+      
+        $('#subArchiveBodyAdd').append('<div id="subArchiveBody' + rNo + '" > </div>');
+        
+        $('#subArchiveBody' + idNo).append(html);
+        $("#rowNo").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+  
+    function subRemoveAction(rowNo){ 
+        $("#subActionRow"+rowNo).remove();
+    }
+    //add-1 end
+     function addRows() {        	
+        var rowNo = $("#rowNu1").val();
+        var rNo = Number(rowNo)+1;
+        var randNum = Math.floor((Math.random() * 9999));
+        var html = '<div class="row no-mar mt-c" id="actionRows' + rNo + '">'
+        + '<div class="input-field col s11 m3"><p class="searchable_label"> Area</p>'
+        + '<select name="risk_area_fk_new" id="area' + rNo +'" class="searchable validate-dropdown">'
+        + '<option value="">Select </option>'
+        + '<c:forEach var="obj" items="${riskAreaList }">'
+        + '<option value="${obj.area }">${obj.area }</option>'
+        + '</c:forEach></select>'
+        + '<span id="risk_area' + rNo +'_fkError" class="error-msg" ></span></div>'
+        + '<div class="input-field col s11 m8 box-grey"  id="subArchiveBodys' + rNo +'">'
+        + '<div id="subActionRows' + rNo +randNum+'"><div class="col s5">'
+        + '<input id="sub_areass' + rNo +'" name="sub_area_new" type="hidden" value="_"> '
+        + '<input id="sub_area' + rNo +'" name="sub_area_new" type="text" class="validate" placeholder="Sub Area"> '
+        + '<span id="sub_area_newError' + rNo + 'Error" class="error-msg"></span></div>'
+        + '<div class="col s5"><input id="item_no' + rNo +'" name="item_no_new" type="hidden" value="_"><input id="item_no" type="number" min="1" name="item_no_new" class="validate" placeholder="Item No">'
+        + '<span id="item_noError" class="error-msg" ></span></div>'
+        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo +randNum+ ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1 m1 input-field"><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
+        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRows(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
+
+        $('#listOfLocations').append('<div id="archiveBodyupdate' + rNo + '" > </div>');
+        
+        $('#archiveBodyupdate' + rNo).append(html);
+        $("#rowNu1").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+    function removeActions(rowNo){
+        $("#actionRows"+rowNo).remove();
+    }
+    function addSubRows(idNo) {        	
+        var rowNo = $("#rowNu").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<div id="subActionRows' + rNo + '">'
+        + '<div class="input-field col s5">'
+        + '<input id="sub_area' + rNo +'" name="sub_area_new" type="text" class="validate" placeholder="Sub Area"> '
+        + '<span id="sub_area' + rNo + 'Error" class="error-msg"></span>'
+        + '</div>'
+        + '<div class="input-field col s5">'
+        + '<input id="item_no_new' + rNo + '" type="number" min="1" name="item_no_new" class="validate" placeholder="Item No">'
+        + '<span id="item_noError" class="error-msg" ></span>'
+        + '</div>'
+        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div>';
+        $('#subArchiveBodyUpdate').append('<div id="subArchiveBody' + rNo + '" > </div>');
+        $('#subArchiveBodys' + idNo).append(html);
+        $("#rowNu").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+  
+    function subRemoveActions(rowNo){
+        $("#subActionRows"+rowNo).remove();
+    }
+    //add-2 end
         $(document).ready(function () {
         	 $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -497,11 +802,35 @@
         
         function addRiskSubArea(){
           	 if(validator.form()){ 
+          		$('input[name^="sub_area"]').each(function(){
+        			 var v =  $(this).val(); 
+            	   if(v.indexOf(",") != -1){
+        	    	v = v.replaceAll(',', '&');
+        	    	$(this).val(v);
+        	    	console.log(v)
+        	       }
+          		});
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
       			document.getElementById("riskSubAreaForm").submit();	
            }
         }
+        
+        function updateRiskAreaType(){
+         	 if(validator1.form()){ 
+         		$('input[name^="sub_area_new"]').each(function(){
+       			 var v =  $(this).val(); 
+           	   if(v.indexOf(",") != -1){
+       	    	v = v.replaceAll(',', '&');
+       	    	$(this).val(v);
+       	    	console.log(v)
+       	       }
+         		});
+     			$(".page-loader").show();
+     			$("#onlyUpdateModal").modal();
+     			document.getElementById("updateRiskSubAreaForm").submit();	
+          }
+       }
        
         var validator = $('#riskSubAreaForm').validate({
          ignore: ":hidden:not(.validate-dropdown)",
@@ -538,7 +867,7 @@
         var validator1 = $('#updateRiskSubAreaForm').validate({
             ignore: ":hidden:not(.validate-dropdown)",
           	 rules: {
-          		 	"value_new": {
+          		 	"sub_area_new": {
       			 		  required: true
           			 },"item_no_new":{
       					  required: true
@@ -546,7 +875,7 @@
     			 		  required: 'true'
      			 	 }
       			},messages: {
-      		 		 "value_new": {
+      		 		 "sub_area_new": {
       			 		  required: 'Required'
       			 	 }, "item_no_new": {
       			 		  required: 'Required'
@@ -554,9 +883,9 @@
       			 		  required: 'Required'
        			 	 }
       	        },errorPlacement:function(error, element){
-      	        	 if(element.attr("id") == "value_new" ){
-      				     document.getElementById("value_newError").innerHTML="";
-      			 	     error.appendTo('#value_newError');
+      	        	 if(element.attr("id") == "sub_area_new" ){
+      				     document.getElementById("sub_area_newError").innerHTML="";
+      			 	     error.appendTo('#sub_area_newError');
       			   }else if(element.attr("id") == "item_no_new" ){
       			     document.getElementById("item_no_newError").innerHTML="";
       		 	     error.appendTo('#item_no_newError');
@@ -580,11 +909,11 @@
            }
        });
       
-       $("#risk_sub_area_table td:not(:last-child)").each(function(){ 
+       /* $("#risk_sub_area_table td:not(:last-child)").each(function(){ 
     	    $(this).text($.trim($(this).text()));
-    	})
+    	}) */
        
-   function updateRow(no) {
+   /* function updateRow(no) {
     	   	  var risk_area_fk = $('#risk_area_fk'+no).val();
       	      var sub_area = $('#sub_area'+no).val();
       	      var item_no = $('#item_no'+no).val();
@@ -597,12 +926,59 @@
       	    	//$('#risk_area_fk_new option:contains(' + risk_area_fk + ')').attr('selected', 'selected');
       	    	$('select[name^="risk_area_fk_new"] option[value="'+ risk_area_fk +'"]').attr("selected","selected");
       	    	$('.searchable').select2();
-      	  }
+      	  } */
+       function updateRow(no) {
+     	  var html = '';
+     	  $("#subArchiveBodys0").empty();
+     	   var id = $('#id'+no).val();
+           var sub_area = $('#sub_area'+no).val();
+           var risk_area_fk = $('#risk_area_fk'+no).val();
+           $('#value_old').val($.trim(sub_area));
+           $('#risk_area_fk_old').val($.trim(risk_area_fk));
+           $('#ids').val($.trim(id));
+           if ($.trim(risk_area_fk) != "") {
+               var myParams = { risk_area_fk: risk_area_fk };
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getSubAreaDetails",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                         html = '<div id="subActionRows'+i+'">'+
+ 							'<div class="col s5 br20px">'+
+ 							'<input id="sub_area_new'+i+'" name="sub_area_new" type="text" class="validate" placeholder="Sub Area" value="'+val.sub_area+'">'+
+ 							'<span id="sub_area'+i+'Error" class="error-msg" ></span>	'+
+ 						'</div>'+
+ 						'<div class="col s5 br20px">'+
+							'<input id="item_no_new'+i+'" name="item_no_new" type="text" class="validate" placeholder="Item No" value="'+val.item_no+'">'+
+							'<span id="item_no'+i+'Error" class="error-msg" ></span>	'+
+						'</div>'+
+ 						'<span class="col s1"><a onclick="subRemoveActions('+i+');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span>'+
+ 						'</div><br>';
+ 	                        	$('#rowNu').val(data.length);
+ 	                        	$('#ids').val(id);
+                                 $("#subArchiveBodys0").append(html);
+                                 $('#onlyUpdateModal #sub_area #item_no'+i).focus();
+                                // $('#onlyUpdateModal #rr_sub_location_new'+i).val($.trim(rr_sub_location)).focus();
+                                 $('#onlyUpdateModal #risk_area_fk_new').val($.trim(risk_area_fk)).focus(); 
+                                // $('#onlyUpdateModal #rr_location_fk_new').val($.trim(rr_location_fk)); 
+                                 $('select[name^="risk_area_fk_new"] option[value="'+ risk_area_fk +'"]').attr("selected","selected");
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   }
+               });
+           }else{
+           	$(".page-loader").hide();
+           }
+           $('#onlyUpdateModal').modal('open');
+        
+           $('.searchable').select2();
+       }
       	  
-      	  function deleteRow(count){
-      		  var id = $("#sub_area"+count).val();
-      		  console.log(id);
-      	  	$("#sub_areas").val(id);
+      	  function deleteRow(risk_area_fk){
+      	  	$("#sub_areas").val(obj.risk_area_fk);
       	  	showCancelMessage(); 
       	 }
       	  	

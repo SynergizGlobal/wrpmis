@@ -44,4 +44,9 @@ public class RiskSubAreaServiceImpl implements RiskSubAreaService{
 	public boolean deleteRiskSubArea(TrainingType obj) throws Exception {
 		return dao.deleteRiskSubArea(obj);
 	}
+
+	@Override
+	public List<TrainingType> getSubAreaDetails(TrainingType obj) throws Exception {
+		return dao.getSubAreaDetails(obj);
+	}
 }

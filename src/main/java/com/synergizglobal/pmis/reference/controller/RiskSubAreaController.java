@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -77,7 +78,19 @@ public class RiskSubAreaController {
 		}
 		return model;
 	}
-	
+	 
+	@RequestMapping(value = "/ajax/getSubAreaDetails", method = { RequestMethod.GET,RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TrainingType> getSubAreaDetails(@ModelAttribute TrainingType obj) {
+		List<TrainingType> objList = null;
+		try {
+			objList = riskAreaSubService.getSubAreaDetails(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getSubAreaDetails : " + e.getMessage());
+		}
+		return objList;
+	}
 	@RequestMapping(value = "/update-risk-sub-area", method = {RequestMethod.POST})
 	@ResponseBody
 	public ModelAndView updateRiskSubArea(@ModelAttribute TrainingType obj,RedirectAttributes attributes){

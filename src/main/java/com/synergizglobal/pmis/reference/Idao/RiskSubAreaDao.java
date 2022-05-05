@@ -18,4 +18,6 @@ public interface RiskSubAreaDao {
 	public boolean updateRiskSubArea(TrainingType obj) throws Exception;
 
 	public boolean deleteRiskSubArea(TrainingType obj) throws Exception;
+
+	public List<TrainingType> getSubAreaDetails(TrainingType obj) throws Exception;
 }

@@ -39,13 +39,76 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 	@Override
 	public boolean addRiskSubArea(Risk obj) throws Exception {
 		boolean flag = false;
+		int count = 0;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO risk_sub_area"
-					+ "( sub_area, risk_area_fk, item_no) VALUES (:sub_area, :risk_area_fk, :item_no)";
+			int size = 0,size2 = 0,size3=0;
+			String area  = obj.getRisk_area_fk();
+			String sub_area  = obj.getSub_area();
+			String item_no  = obj.getItem_no();
+			//sub_area = sub_area.replaceFirst("^", "").replaceAll(",,", ",");
+			String [] areaArr = new String [0];
+			String [] Sub_areaArr = new String [0];
+			String [] itemNoArr = new String [0];
+			String [] Sub_areaArr1 = new String [0];
+			if(!StringUtils.isEmpty(area) && area.contains(",")) {
+				areaArr = area.split(",");
+				size = areaArr.length;
+				Sub_areaArr = sub_area.split(",_,");
+				itemNoArr = item_no.split(",_,");
+				size2 = areaArr.length;
+				
+			}else if(!StringUtils.isEmpty(sub_area) && sub_area.contains(",")) {
+				itemNoArr = item_no.split(",");
+				Sub_areaArr1 = sub_area.split(",");
+				size3 = Sub_areaArr1.length;
+				size = 1;
+			}else if(!StringUtils.isEmpty(sub_area)) {
+				size = 1;
+				size3 = 1;
+			}
+			for(int i =0;i< size; i++) {
+				 if(areaArr.length > 0) {
+					String [] subName = null;
+					String [] itemNo = null;
+					obj.setRisk_area_fk(areaArr[i]);
+					if((!StringUtils.isEmpty(sub_area) && Sub_areaArr1.length > 0) 
+							|| (!StringUtils.isEmpty(sub_area) && Sub_areaArr.length > 0)) {
+						if(Sub_areaArr[i].contains(",")) {
+							subName = Sub_areaArr[i].split(",");
+							itemNo = itemNoArr[i].split(",");
+							size3 = (Sub_areaArr1.length > 0) ? Sub_areaArr1.length : subName.length ;
+						}else {
+							subName = Sub_areaArr;itemNo = itemNoArr; size3 = 1;
+							String sub_name = Sub_areaArr[i];
+							subName[0] = sub_name;
+						}
+					}
+					for(int j =0;j< size3; j++) {
+						obj.setSub_area(subName[j].replaceAll("&", ","));
+						obj.setItem_no(itemNo[j]);
+						String insertQry = "INSERT INTO risk_sub_area"
+								+ "( sub_area, risk_area_fk, item_no) VALUES (:sub_area, :risk_area_fk, :item_no)";
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(sub_area) && Sub_areaArr1.length > 0) {
+							obj.setSub_area(Sub_areaArr1[j].replaceAll("&", ","));
+							obj.setItem_no(itemNoArr[j]);
+						}else {
+							obj.setSub_area(sub_area.replaceAll("&", ","));
+							obj.setItem_no(item_no);
+						}
+						String insertQry = "INSERT INTO risk_sub_area"
+								+ "( sub_area, risk_area_fk, item_no) VALUES (:sub_area, :risk_area_fk, :item_no)";
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+			     }
 			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			}
 			if(count > 0) {
 				flag = true;
 			}
@@ -62,7 +125,7 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select sub_area,risk_area_fk, item_no from risk_sub_area order by risk_area_fk,item_no ";
+			String qry ="select risk_area_fk,group_concat(sub_area SEPARATOR '_') as sub_area,group_concat(item_no) as item_no from risk_sub_area group by risk_area_fk ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -175,16 +238,104 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE risk_sub_area SET `sub_area`= :value_new,risk_area_fk= :risk_area_fk_new,item_no= :item_no_new WHERE `sub_area`= :value_old " ;
+			String deleteQry = "delete from risk_sub_area where `risk_area_fk`= :risk_area_fk_old";
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
+			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
 			
-			for (TrainingType bObj : obj.getdList()) {
+			int size = 0,size2 = 0,size3=0;
+			String area  = obj.getRisk_area_fk_new();
+			String sub_area  = obj.getSub_area_new();
+			String item_no  = obj.getItem_no_new();
+			//sub_area = sub_area.replaceFirst("^", "").replaceAll(",,", ",");
+			String [] areaArr = new String [0];
+			String [] Sub_areaArr = new String [0];
+			String [] itemNoArr = new String [0];
+			String [] Sub_areaArr1 = new String [0];
+			if(!StringUtils.isEmpty(area) && area.contains(",")) {
+				areaArr = area.split(",");
+				size = areaArr.length;
+				Sub_areaArr = sub_area.split(",_,");
+				itemNoArr = item_no.split(",_,");
+				size2 = areaArr.length;
 				
-				String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:value_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
-				
-				 paramSource = new BeanPropertySqlParameterSource(obj);		 
-				 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+			}else if(!StringUtils.isEmpty(sub_area) && sub_area.contains(",")) {
+				itemNoArr = item_no.split(",");
+				Sub_areaArr1 = sub_area.split(",");
+				size3 = Sub_areaArr1.length;
+				size = 1;
+			}else if(!StringUtils.isEmpty(sub_area)) {
+				size = 1;
+				size3 = 1;
+			}
+			for(int i =0;i< size; i++) {
+				 if(areaArr.length > 0) {
+					String [] subName = null;
+					String [] itemNo = null;
+					obj.setRisk_area_fk_new(areaArr[i]);
+					if((!StringUtils.isEmpty(sub_area) && Sub_areaArr1.length > 0) 
+							|| (!StringUtils.isEmpty(sub_area) && Sub_areaArr.length > 0)) {
+						if(Sub_areaArr[i].contains(",")) {
+							subName = Sub_areaArr[i].split(",");
+							itemNo = itemNoArr[i].split(",");
+							size3 = (Sub_areaArr1.length > 0) ? Sub_areaArr1.length : subName.length ;
+						}else {
+							subName = Sub_areaArr;itemNo = itemNoArr; size3 = 1;
+							String sub_name = Sub_areaArr[i];
+							subName[0] = sub_name;
+						}
+					}
+					for(int j =0;j< size3; j++) {
+						obj.setSub_area_new(subName[j].replaceAll("&", ","));
+						obj.setItem_no_new(itemNo[j]);
+						String insertQry = "INSERT INTO risk_sub_area"
+								+ "( sub_area, risk_area_fk, item_no) VALUES (:sub_area_new, :risk_area_fk_new, :item_no_new)";
+						paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);	
+						for (TrainingType bObj : obj.getdList()) {
+							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:sub_area_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+							String valueOld = obj.getValue_old();
+							String oldVal = null;
+							String[] vlaue_old = new String[0];int sz = 0;
+							if(valueOld.contains(",")) {vlaue_old = valueOld.split(","); sz = valueOld.length();}else {sz = 1;}
+						
+							for(int k = 0; k <sz; k++ ) {
+								oldVal = (valueOld.contains(","))?  vlaue_old[k] :  valueOld;
+								obj.setValue_old(oldVal);
+								 paramSource = new BeanPropertySqlParameterSource(obj);		 
+								 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+							}
+						}
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(sub_area) && Sub_areaArr1.length > 0) {
+							obj.setSub_area_new(Sub_areaArr1[j].replaceAll("&", ","));
+							obj.setItem_no_new(itemNoArr[j]);
+						}else {
+							obj.setSub_area_new(sub_area.replaceAll("&", ","));
+							obj.setItem_no_new(item_no);
+						}
+						String insertQry = "INSERT INTO risk_sub_area"
+								+ "( sub_area, risk_area_fk, item_no) VALUES (:sub_area_new, :risk_area_fk_new, :item_no_new)";
+						paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);	
+						for (TrainingType bObj : obj.getdList()) {
+							
+							String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:sub_area_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+							String valueOld = obj.getValue_old();
+							String oldVal = null;
+							String[] vlaue_old = new String[0];int sz = 0;
+							if(valueOld.contains(",")) {vlaue_old = valueOld.split(","); sz = valueOld.length();}else {sz = 1;}
+						
+							for(int k = 0; k <sz; k++ ) {
+								oldVal = (valueOld.contains(","))?  vlaue_old[k] :  valueOld;
+								obj.setValue_old(oldVal);
+								 paramSource = new BeanPropertySqlParameterSource(obj);		 
+								 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+							}
+						}
+					}
+			     }
 			}
 			String  enableQry =	"SET foreign_key_checks = 1";
 			paramSource = new BeanPropertySqlParameterSource(obj);	
@@ -216,6 +367,19 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 		throw new Exception(e);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<TrainingType> getSubAreaDetails(TrainingType obj) throws Exception {
+		List<TrainingType> objList = null;
+		try {
+			String qry = "SELECT sub_area,item_no  from risk_sub_area where risk_area_fk= '"+ obj.getRisk_area_fk()+"'";
+			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
 	}
 }
 

@@ -20,6 +20,9 @@ public class PageConstants2 {
 	
 	public static final String webDocuments = "forms/webDocuments";
 	
+	public static final String newBudgetGrid = "forms/newBudgetGrid";
+	public static final String addEditNewBudget = "forms/newBudgetForm";
+	
 	public static final String designAndDrawingReport = "forms/designAndDrawingReport";
 	
 	public static final String issuesReport = "forms/issuesReport";

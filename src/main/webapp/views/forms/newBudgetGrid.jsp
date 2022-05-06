@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget - Update Forms - PMIS</title>
+    <title>New Budget - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -91,45 +91,7 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 	<div class="row">
-		<%-- <div class="col s12 m12 hide-on-med-and-down">
-			<div class="card">
-				<div class="card-content">
-					<span class="card-title headbg">
-						<div class="center-align bg-m p-2 m-b-5">
-							<h6>Budget</h6>
-						</div>
-					</span>
-					<div class="">
-						<c:if test="${not empty success }">
-							<div class="center-align m-1 close-message">${success}</div>
-						</c:if>
-						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">${error}</div>
-						</c:if>
-						<div class="row plr-1 center-align">
-							<div class="col s12 m4"></div>
-
-							<div class="col s12 m4">
-								<div class="m-1 c-align">
-									<a href="<%=request.getContextPath()%>/add-budget-form"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add Budget</strong></a>
-								</div>
-							</div>
-
-							<div class="col s12 m4 r-align ">
-								<div class="m-1 ">
-									<a href="javascript:void(0);" onclick="exportBudget();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export Data</strong></a>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</div> --%>
+		
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="card">
@@ -137,10 +99,10 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<!-- <h6 class="hide-on-med-and-down">Update Budget</h6> -->
-								<h6 class="mob-mar">Budget</h6>
+								<h6 class="mob-mar">New Budget</h6>
 								<div class="col s12 m12 right-align exportButton">
     								<div class="m-n1">
-    									<a href="<%=request.getContextPath()%>/add-budget-form"
+    									<a href="<%=request.getContextPath()%>/add-new-budget-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
 										<a href="javascript:void(0);" onclick="exportBudget();"
@@ -161,9 +123,9 @@
 							        </c:if>
 							    </div>
 							</div>
-							<div class="col m10 s12 offset-m1 l10 offset-l1">
+							<div class="col m8 s12 offset-m2">
 								<div class="row no-mar">
-									<div class="col s6 m3 l3 input-field">
+									<div class="col s12 m3 input-field">
 										<p class="searchable_label">Project</p>
 										<select class="searchable" name="project_id_fk"
 											id="project_id_fk" onchange="addInQueProject(this.value);getBudgetList();">
@@ -171,7 +133,7 @@
 
 										</select>
 									</div>
-									<div class="col s6 m3 l3 input-field">
+									<div class="col s12 m3 input-field">
 										<p class="searchable_label">Work</p>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getBudgetList();" class="searchable">
@@ -179,22 +141,14 @@
 
 										</select>
 									</div>
-									<div class="col s6 m3 l3 input-field">
+									<div class="col s12 m3 input-field">
 										<p class="searchable_label">Contract</p>
 										<select class="searchable" name="contract_id_fk"
 											id="contract_id_fk" onchange="addInQueContract(this.value);getBudgetList();">
 											<option value="" selected>Select</option>
-
 										</select>
 									</div>
-									<!-- <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">Financial Year</p>
-                                        <select class="searchable" name="financial_year_fk" id="financial_year_fk" onchange="getBudgetList();">
-                                            <option value="" >Select</option>
-                                            	 
-                                        </select>
-                                    </div> -->
-									<div class="col s12 m3 l3 center-align">
+									<div class="col s12 m3 center-align">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
 											style="margin-top: 10px; width: 100%;"
@@ -211,8 +165,15 @@
 										<thead>
 											<tr>
 												<th class='fw-300'>Project</th>
-												<th>Work</th>
-												<th>Contract</th>
+												<th class='fw-300'>Work</th>
+												<th class='fw-300'>Contract</th>
+<!-- 												<th>Financial Year</th>
+												<th>Budget Estimate</th>
+												<th>Budget Grant</th>
+												<th>Reivised Estimate</th>
+												<th>Reivised Grant</th>
+												<th>Final Estimate</th>
+												<th>Final Grant</th> -->
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -277,12 +238,12 @@
      <form action="<%=request.getContextPath() %>/export-budget" name="exportBudgetForm" id="exportBudgetForm" target="_blank" method="post">	
          <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
          <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-         <input type="hidden" name="financial_year_fk" id="exportFinancial_year_fk" />
+         <input type="hidden" name="contract_id_fk" id="exportcontract_id_fk" />
 	</form>
 
     <script>
     
-    <%-- var filtersMap = new Object();
+    var filtersMap = new Object();
     
     $(document).ready(function () {
  	   $('select:not(.searchable)').formSelect();
@@ -299,6 +260,8 @@
 		        		  getProjectsFilterList(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
 		        		  getWorksFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+		        		  getContractsFilterList(temp2[1]);
 		        	  }
 	        	  }
 	          }
@@ -312,11 +275,11 @@
     function clearFilter(){
     	$("#project_id_fk").val("");
     	$("#work_id_fk").val("");
-    	$("#financial_year_fk").val("");
+    	$("#contract_id_fk").val("");
     	$('.searchable').select2();
     	window.localStorage.setItem("budgetFilters",'');
-    	window.location.href= "<%=request.getContextPath()%>/budget";
-    	//getBudgetList(); 
+    	window.location.href= "<%=request.getContextPath()%>/new-budget";
+    	getBudgetList(); 
     	var table = $('#datatable-budget').DataTable();
     	table.draw( true );
     }
@@ -337,19 +300,28 @@
       	if($.trim(work_id_fk) != ''){
         	filtersMap["work_id_fk"] = work_id_fk;
       	}
-    } --%>
+    }
     
-   <%--  var queue = 1;
+    function addInQueContract(contract_id_fk){
+      	Object.keys(filtersMap).forEach(function (key) {
+	   		if(key.match('contract_id_fk')) delete filtersMap[key];
+   	   	});
+      	if($.trim(contract_id_fk) != ''){
+        	filtersMap["contract_id_fk"] = contract_id_fk;
+      	}
+    }   
+    
+    var queue = 1;
     function getBudgetList() {
 		$(".page-loader-2").show();
 
 		getWorksFilterList('');
      	getProjectsFilterList('');
-     	getFinancialYearsFilterList('');
+     	getContractsFilterList('');
      	
     	var project_id_fk = $("#project_id_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
-    	var financial_year_fk = $("#financial_year_fk").val();
+    	var contract_id_fk = $("#contract_id_fk").val();
 
     	var filters = '';
     	Object.keys(filtersMap).forEach(function (key) {
@@ -363,7 +335,7 @@
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		var rowLen = 0;
     		var myParams =  "work_id_fk="
-    				+ work_id_fk + "&project_id_fk="+ project_id_fk+ "&financial_year_fk="+ financial_year_fk;
+    				+ work_id_fk + "&project_id_fk="+ project_id_fk+ "&contract_id="+ contract_id_fk;
 
     		/***************************************************************************************************/
 
@@ -445,9 +417,8 @@
     							columnDefs : [ {
     								"targets" : 'no-sort',
     								"orderable" : false,
-    							},{targets:[2,3,4,5,6,7],
-    			                       className: 'hideCOl td-align-right'},{ targets: [0], className: 'no-sort'  }
-    			                       ,{ targets: [1], className: 'td-align-center'  }
+    							},{ targets: [0], className: 'no-sort'  }
+    			                       ,{ targets: [1], className: 'td-align-left'  }
     			                ],
     							"sScrollX" : "100%",
     							"sScrollXInner" : "100%",
@@ -462,20 +433,48 @@
     							},
     							
     							"bDestroy" : true,
-    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-budget?"+myParams,
+    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-new-budget?"+myParams,
     		        "aoColumns": [
-    		        	
-    		        	{ "mData": function(data,type,row){ 
+    		            { "mData": function(data,type,row){ 
     		            	if($.trim(data.project_name) == ''){ return '-'; }else{ return data.project_name; }
     		            } },
-    		        	{ "mData": function(data,type,row){
-      		            	var work_short_name = '';
-                             if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+    		            { "mData": function(data,type,row){ 
+    		            	if($.trim(data.work_name) == ''){ return '-'; }else{ return data.work_name; }
+    		            } },      		        	
+      		            { "mData": function(data,type,row){
+      		            	var contract_name = '';
+                             if ($.trim(data.contract_name) != '') { contract_name = ' - ' + $.trim(data.contract_name) }    	
+                             if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id +contract_name; }
       		            } },
-      		         	{ "mData": function(data,type,row){
-                             if($.trim(data.contract_name) == ''){ return '-'; }else{ return data.contract_name ; }
+ 		            
+      		            
+/*       		         	{ "mData": function(data,type,row){
+                             if($.trim(data.financial_year_fk) == ''){ return '-'; }else{  
+                            	 var nc=data.financial_year_fk;
+                                 var tc=nc.toString();
+                                 var SplitStr=tc.split("-");
+                                 var nlcSplit=SplitStr[1];
+                             return getMonthName(nlcSplit)+" ,"+SplitStr[0]; }
       		            } },
+      		       
+    		            { "mData": function(data,type,row){ 
+    		            	if($.trim(data.budget_estimate) == ''){ return '-'; }else{ return data.budget_estimate; }
+    		            } },
+    		         	{ "mData": function(data,type,row){
+    		            	if($.trim(data.budget_grant) == ''){ return '-'; }else{ return data.budget_grant; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.revised_estimate) == ''){ return '-'; }else{ return data.revised_estimate; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.revised_grant) == ''){ return '-'; }else{ return data.revised_grant; }
+    		            }},
+    		         	{ "mData": function(data,type,row){
+    		            	if($.trim(data.final_estimate) == ''){ return '-'; }else{ return data.final_estimate; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.final_grant) == ''){ return '-'; }else{ return data.final_grant; }
+    		            } }, */ 
     		         	{ "mData": function(data,type,row){
     		         		var budget_id = "'"+data.budget_id+"'";
     	                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
@@ -488,9 +487,9 @@
     	
 	  $(".page-loader-2").hide();  		     
   	
- } --%>
+ }
 
-    <%-- 
+    
     function getBudgetList1(){
     	$(".page-loader-2").show();
     	
@@ -500,7 +499,7 @@
      	
     	var project_id_fk = $("#project_id_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
-    	var financial_year_fk = $("#financial_year_fk").val();
+    	var contract_id_fk = $("#contract_id_fk").val();
 
     	var filters = '';
     	Object.keys(filtersMap).forEach(function (key) {
@@ -540,8 +539,8 @@
         }).rows().remove().draw();
 		
 		table.state.clear();		
-	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, financial_year_fk : financial_year_fk};
-	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-budget",
+	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
+	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-new-budget",
 			type:"POST",
 			data:myParams, cache: false,async:false,
 			success : function(data){      				
@@ -555,10 +554,15 @@
                 	var workName = '';
                     if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                     
-                    rowArray.push($.trim(val.project_id_fk) + projectName);
-                    rowArray.push($.trim(val.work_id_fk) + workName);
-                   	rowArray.push($.trim(val.contract_fk));
-                   	 	                   	
+                   	rowArray.push($.trim(val.work_id_fk) + workName);
+                   	rowArray.push($.trim(val.contract_id_fk));
+                   	rowArray.push($.trim(val.budget_estimate));
+                   	rowArray.push($.trim(val.budget_grant));
+                   	rowArray.push($.trim(val.revised_estimate));
+                   	rowArray.push($.trim(val.revised_grant));
+                   	rowArray.push($.trim(val.final_estimate));
+                   	rowArray.push($.trim(val.final_grant));
+                   	rowArray.push($.trim(actions));   	                   	
                    	
                     table.row.add(rowArray).draw( true );
                     		                       
@@ -578,13 +582,13 @@
     function getWorksFilterList(work) {
     	$(".page-loader").show();
         var project_id_fk = $("#project_id_fk").val();
-        var financial_year_fk = $("#financial_year_fk").val();
+        var contract_id_fk = $("#contract_id_fk").val();
         var work_id_fk = $("#work_id_fk").val();
         if ($.trim(work_id_fk) == "") {
         	$("#work_id_fk option:not(:first)").remove();
-        	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk,work_id_fk: work_id_fk };
+        	var myParams = { project_id_fk: project_id_fk,contract_id_fk : contract_id_fk,work_id_fk: work_id_fk };
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInBudget",
+                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInNewBudget",
                 data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -611,12 +615,12 @@
     	$(".page-loader").show();
         var project_id_fk = $("#project_id_fk").val();
         var work_id_fk = $("#work_id_fk").val();
-        var financial_year_fk = $("#financial_year_fk").val();
+        var contract_id_fk = $("#contract_id_fk").val();
 		if ($.trim(project_id_fk) == "") {
         	$("#project_id_fk option:not(:first)").remove();
-        	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk,work_id_fk: work_id_fk };
+        	var myParams = { project_id_fk: project_id_fk,contract_id_fk : contract_id_fk,work_id_fk: work_id_fk };
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInBudget",
+                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInNewBudget",
                 data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -639,21 +643,21 @@
         }
     }
     
-    function getFinancialYearsFilterList(year) {
+    function getContractsFilterList() {
     	$(".page-loader").show();
         var project_id_fk = $("#project_id_fk").val();
         var work_id_fk = $("#work_id_fk").val();
-        var financial_year_fk = $("#financial_year_fk").val();
-        if ($.trim(financial_year_fk) == "") {
-        	$("#financial_year_fk option:not(:first)").remove();
-        	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk,work_id_fk: work_id_fk };
+        var contract_id_fk = $("#contract_id_fk").val();
+        if ($.trim(contract_id_fk) == "") {
+        	$("#contract_id_fk option:not(:first)").remove();
+        	var myParams = { project_id_fk: project_id_fk,contract_id_fk : contract_id_fk,work_id_fk: work_id_fk };
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getFinancialYearsFilterListInBudget",
+                url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInNewBudget",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-	                           $("#financial_year_fk").append('<option value="' + val.financial_year_fk + '">' + $.trim(val.financial_year_fk) +'</option>');
+	                           $("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_name) +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -670,7 +674,7 @@
     
     function getBudget(budget_id){
     	$("#budget_id").val(budget_id);
-    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-budget');
+    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-new-budget');
     	$('#getForm').submit();
     }
     function deleteBudget(budget_id){
@@ -678,6 +682,12 @@
     	showCancelMessage();
     }
     	
+    function getMonthName(month){
+    	  const d = new Date();
+    	  d.setMonth(month-1);
+    	  const monthName = d.toLocaleString("default", {month: "long"});
+    	  return monthName;
+    	}   
     
   	//This function is used to get error message for all ajax calls
     function getErrorMessage(jqXHR, exception) {
@@ -727,12 +737,12 @@
     function exportBudget(){
    	 var project_id_fk = $("#project_id_fk").val();
      var work_id_fk = $("#work_id_fk").val();
-   	 var financial_year_fk = $("#financial_year_fk").val();
+   	 var contract_id_fk = $("#contract_id_fk").val();
    	 $("#exportProject_id_fk").val(project_id_fk);
    	 $("#exportWork_id_fk").val(work_id_fk);
-   	 $("#exportFinancial_year_fk").val(financial_year_fk);
+   	 $("#exportcontract_id_fk").val(contract_id_fk);
    	 $("#exportBudgetForm").submit();
-	} --%>
+	}
     
     
     </script>

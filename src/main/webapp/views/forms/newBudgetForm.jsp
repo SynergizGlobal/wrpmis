@@ -163,14 +163,13 @@
                     </div>
                     <!-- form start-->
                      <c:if test="${action eq 'edit'}">				                
-		                	<form action="<%=request.getContextPath() %>/update-budget" id="budgetForm" name="budgetForm" method="post"   enctype="multipart/form-data">
+		                	<form action="<%=request.getContextPath() %>/update-new-budget" id="budgetForm" name="budgetForm" method="post"   enctype="multipart/form-data">
                       </c:if>
 		              <c:if test="${action eq 'add'}">				                
-		                	<form action="<%=request.getContextPath() %>/add-budget" id="budgetForm" name="budgetForm" method="post"   enctype="multipart/form-data">
+		                	<form action="<%=request.getContextPath() %>/add-new-budget" id="budgetForm" name="budgetForm" method="post"   enctype="multipart/form-data">
 					  </c:if>
                         
                     <div class="container container-no-margin">
-						   <c:if test="${action eq 'add'}">	
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Project <span class="required">*</span></p>
@@ -178,7 +177,7 @@
                                  	   onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${projectsList }">
-                                      	   <option value= "${ obj.project_id}">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                      	   <option value= "${ obj.project_id}" <c:if test="${budgetDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
@@ -186,45 +185,27 @@
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
-                                    		onchange="resetProjectsDropdowns(this.value);">
+                                    		onchange="resetProjectsContractsDropdowns(this.value);">
 	                                        <option value="">Select</option>
 	                                        <c:forEach var="obj" items="${worksList }">
-	                                      	   <option value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                      	   <option value= "${obj.work_id}" <c:if test="${budgetDetails.work_id_fk eq obj.work_id}">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
 	                                         </c:forEach>
                                     </select>
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Contract <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" 
+                                    <select class="searchable validate-dropdown" id="contract_id" name="contract_id" 
                                     		onchange="resetProjectsDropdowns(this.value);">
 	                                        <option value="">Select</option>
-	                                        <c:forEach var="obj" items="${contractList }">
-	                                      	   <option value= "${obj.contract_id}">${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
+	                                        <c:forEach var="obj" items="${contractsList }">
+	                                      	   <option value= "${obj.contract_id}" <c:if test="${budgetDetails.contract_id eq obj.contract_id}">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
 	                                         </c:forEach>
                                     </select>
-                                      <span id="contract_id_fkError" class="error-msg" ></span>
+                                      <span id="contract_idError" class="error-msg" ></span>
                                 </div>
                             </div>
-                             </c:if>
-                             <c:if test="${action eq 'edit'}">	
-                              <div class="row" id="center" style="text-align:center;">
-	                            
-	                       		  <div class="col s6 m4 l4 input-field">
-										<p class="searchable_label"> Project <span class="required">*</span></p>
-	                                    <input type="text" value="${budgetDetails.project_id_fk} - ${budgetDetails.project_name}" readonly />
-								  </div> 
-								  <div class="col s6 m4 l4 input-field"> 
-									    <p class="searchable_label"> Work <span class="required">*</span></p>
-                                     	<input type="text"  value="${budgetDetails.work_id_fk} - ${budgetDetails.work_short_name}" readonly />
-                                     	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${budgetDetails.work_id_fk}" readonly />
-	                              </div>
-	                              <div class="col s6 m4 l4 input-field offset-m2">
-										<p class="searchable_label"> Contract <span class="required">*</span></p>
-	                                    <input type="text" value="${budgetDetails.contract_id_fk} - ${budgetDetails.contract_name}" readonly />
-								  </div> 
-                              </div> 
-                             </c:if>
+
                              </div>
                     
 						<div class="row fixed-width">
@@ -251,7 +232,7 @@
                                        	  <c:forEach var="bObj" items="${budgetDetails.budget }" varStatus="index"> 
 										   <tr id="budgetRow${index.count }">
 											<td data-head="Financial Year" class="input-field">
-											   <div style="display:none"> <input type="month" class="validate" name="month_ids" id="month_ids${index.count }" value="${bObj.month_id}" /></div>
+											    <input type="month" class="validate" name="financial_year_fks" id="financial_year_fks${index.count }" value="${bObj.financial_year_fk}" />
 												
 											</td>
 											<td data-head="Budget Estimate (in Cr)" class="input-field">
@@ -290,60 +271,7 @@
 														class="validate" placeholder="Amount"
 														value="${bObj.final_grant }">
 											</td>
-											<%-- <td data-head="Attachment" class="input-field cell-disp-inb">
-												<c:set var="existingBudgetFilesLength" value="${fn:length(bObj.budgetFilesList )}"></c:set>
-													<c:if test="${fn:length(bObj.budgetFilesList ) gt 0}">
-														<c:set var="existingBudgetFilesLength" value="${fn:length(bObj.budgetFilesList )+1}"></c:set>
-													</c:if>
-													<div id="selectedFilesInput${index.count }">
-				                                    	<div class="file-field input-field" id="budgetFilesDiv${index.count }${fn:length(bObj.budgetFilesList) }" >
-					                                        <div class="btn bg-m t-c"> <span>Attach Files</span>
-					                                        	<c:if test="${ empty bObj.budgetFilesList }">
-					                                        			<input type="hidden" id="budgetFileNames${index.count }" name="budgetFileNames" value="">
-												           		 </c:if>
-					                                           		<input type="hidden" id="len${index.count }"  value="${fn:length(bObj.budgetFilesList) }">
-					                                           
-					                                            <input type="file" id="budgetFiles${index.count }${fn:length(bObj.budgetFilesList) }" name="budgetFiles"  onchange="selectFileUpdate('${index.count }${fn:length(bObj.budgetFilesList) }','${index.count }')">
-					                                        </div>
-					                                        
-					                                        <div class="file-path-wrapper">
-					                                            <input class="file-path validate" type="text">
-					                                        </div>                                       
-					                                    </div>
-													</div>
-				                                    
-				                                    <div id="selectedFiles${index.count }" class="disp-in">
-				                                    	<c:forEach var="obj" items="${bObj.budgetFilesList }" varStatus="indexx">
-															 <div id="budgetFilesNames${index.count }${indexx.count }">
-																<a href="<%=CommonConstants.BUDGET_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
-																<span onclick="removeFileUpdate('${index.count }${indexx.count }','${index.count }')" class="attachment-remove-btn">X</span>
-																<input type="hidden" id="budgetFileNames${index.count }${indexx.count }" name="budgetFileNames" value="${obj.attachment }">
-														     </div>
-														     <div style="clear:both" class="hide" id="hide${index.count }${indexx.count }"><input type="hidden" id="filecounts${index.count }${indexx.count }" name="filecounts" value="${indexx.count }"></div>
-														     <script>
-														     var count = ('${index.count }${indexx.count }') - 1;
-																var lastNo = $('#selectedFiles${index.count }${indexx.count }  input').last().val('${indexx.count }');
-																var s = $('#hide'+count+' input').val();
-																if(s != null){
-																	$('#hide'+count+' input').removeAttr('name');
-																	
-																}
-															</script>
-														</c:forEach>
-														<div id="hideVal${index.count }">
-														<c:if test="${ empty bObj.budgetFilesList }">
-														<input type="hidden" id="filecounts${index.count }" name="filecounts" value="0">
-												            </c:if></div>
-													</div>
-													
-												
-												 <div class="">
-                                                   	<input type="file" name="budgetFiles" id="budgetFile${index.count }"  onchange="getFileName('${index.count }')"  style="display:none"  />
-                                                   	<label for="budgetFile${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
-													<a id="fileVal${index.count }" class="filevalue" href="<%=CommonConstants.BUDGET_FILES %>${bObj.attachment }" download>${bObj.attachment }</a> 
-												 </div>                                              
-										         <input type="hidden" id="budgetFilesNames${index.count }" name="budgetFilesNames" value="${bObj.attachment }">
-											</td> --%>
+											
 											<td class="mobile_btn_close "><a onclick="removeBudget('${index.count }');"
 												class="btn waves-effect waves-light red t-c "> <i
 													class="fa fa-close"></i></a></td>
@@ -353,7 +281,7 @@
                                        	<c:otherwise>
                                        	 <tr id="budgetRow0">
 											<td data-head="Financial Year" class="input-field">
-													<input type="month" name="month_year_ids" class="validate" id="month_year_ids${index.count }" value="${bObj.month_year_id}" />
+													<input type="month" name="financial_year_fks" class="validate" id="financial_year_fks${index.count }" value="${bObj.financial_year_fk}" />
 											</td>
 											<td data-head="Budget Estimate (in Cr)" class="input-field">
 													<i class="material-icons prefix center-align">₹</i> <input
@@ -385,37 +313,10 @@
 														id="final_grants0" name="final_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount">
 											</td>
-											<!-- <td data-head="Attach" class="cell-disp-inb">
-												  <div id="selectedFilesInput">
-				                                    	<div class="file-field input-field" id="budgetFilesDiv1" >
-				                                    		<div class="btn bg-m t-c" >
-				                                            <span>Attach Files</span>
-					                                            <input type="file" id="budgetFiles1" name="budgetFiles"   onchange="selectFile('1')">
-					                                        </div> 
-					                                            <label for="budgetFiles1" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
-					                                        <div class="file-path-wrapper">
-					                                            <input class="file-path validate" type="text">
-					                                        </div>                                       
-					                                    </div>
-													</div>
-				                                    <div id="selectedFiles" class="disp-in">
-				                                    	<input type="hidden" id="budgetFileNames0" name="budgetFileNames" value="">
-				                                    	<div id="hideVal0">
-															<input type="hidden" id="filecounts0" name="filecounts" value="0">
-												        </div>
-													</div>
-											</td> -->
 											<td class="mobile_btn_close "><a onclick="removeBudget('0');"
 												class="btn waves-effect waves-light red t-c "> <i
 													class="fa fa-close"></i></a></td>
 										 </tr>
-										 <!-- <script>
-											 $("#budgetFile0").change(function () {
-	                                             filename1 = $('#budgetFile0')[0].files[0].name;
-	                                             $('#fileVal0').html(filename1);
-	                                             console.log(filename1)
-	                                         }); 
-										 </script> -->
 										</c:otherwise>
                                       </c:choose>
 									</tbody>
@@ -455,7 +356,7 @@
                                 </div>
                                 <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/budget" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/new-budget" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -493,153 +394,7 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script>
-	  function selectFile(no){
-		    files = $("#budgetFiles"+no)[0].files;
-		    var html = "";
-			var count = no - 1;
-				
-		    for (var i = 0; i < files.length ; i++) {
-		    	html =  html + '<div id=budgetFilesNames'+no+'>'
-				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+'<span onclick="removeFile('+no+','+count+')" class="attachment-remove-btn">X</span></a>'
-				 + '</div>'
-				 + '<div style="clear:both;" id="hide'+no+'"><input id="fileCounts'+no+'"  name="filecounts"  type="hidden"></div>';
-		    }
-		    $("#selectedFiles").append(html);
-		   
-		    $('#budgetFilesDiv'+no).hide();
-		    
-			var fileIndex = Number(no)+1;
-			var lastfieldsid = $('#hide'+no+' input').last().val(no);
-			var s = $('#hide'+count+' input').val();
-			 $('#hideVal'+count+' input').removeAttr('name');
-			if(s != null){
-				$('#hide'+count+' input').removeAttr('name');
-				
-			}
-			
-			moreFiles(fileIndex);
-		}
-	  function selectFileUpdate(no,bNo){
-		    files = $("#budgetFiles"+no)[0].files;
-		    var html = "";
-			var count = no - 1;
-		    var s = null;
-		    var fileIndex = Number(no)+1;
-			var id = (fileIndex/10);
-		    var str=id.toString();
-		    var splt = str.split('.')[1];
-		    var spli1 = str.split('.')[0];
-		    for (var i = 0; i < files.length ; i++) {
-		    	html =  html + '<div id=budgetFilesNames'+fileIndex+'>'
-				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+' <span onclick="removeFileUpdate('+fileIndex+','+bNo+')" class="attachment-remove-btn">X</span></a>'
-				 + '<input type="hidden" id="budgetFileNames'+fileIndex+'" name="budgetFileNames" value="'+$(this).get(0).files[i].name+'" >'
-				 + '</div>'
-				 + '<div style="clear:both;" class="hide" id="hide'+fileIndex+'"><input id="fileCounts'+fileIndex+'"  name="filecounts"  type="hidden"></div>';
-		    }
-		    $("#selectedFiles"+bNo).append(html);
-		   
-		    $('#budgetFilesDiv'+no).hide();
-		    var num = (splt-spli1);
-		    var posNum = (num < 0) ? num * -1 : num; // if num is negative multiple by negative one ... 
-		    var attr = $('#hide'+no+' input').attr('name');
-		    
-		    if (typeof attr == 'undefined' || attr == false) {
-		      	   s = 1;
-				    $('#hide'+fileIndex+' input').last().val(s);
-
-		    }else{
-		    	  s = $('#hide'+no+' input').val();
-				    if(s == null){
-				    	s = 0;
-				    }
-				    var d = $("#hide"+no+" input").attr("id");
-				    if(d != null){
-				    	 var v = $("#"+d).val();
-						 var splt2 = d.split('s')[1];
-				    }else{
-				    	v = 0;
-				    }
-				    var lastfieldsid = $('#hide'+fileIndex+' input').last().val(Number(v)+1);
-
-		    }
-		    $('#hide'+splt2+' input').removeAttr('name');
-		    $('#hideVal'+bNo+' input').removeAttr('name');
-			
-			//$('#budgetFileNames'+bNo).removeAttr('name');
-			if(s != null){
-				$('#hide'+count+' input').removeAttr('name');
-				
-			}
-			
-			moreFilesUpdate(no,bNo);
-		}
-		
-		function moreFilesUpdate(no,bNo){
-			var html = "";
-			var count = no;
-			 var fileIndex = Number(no)+1;
-			/* if(no >1 ){
-				var rNo=(no-1)
-				$("#fileCounts"+rNo).removeAttr('value');
-			} */
-			html =  html + '<div class="file-field input-field" id="budgetFilesDiv'+fileIndex+'" >'
-			+ '<div class="btn bg-m t-c"> <span>Attach Files</span>'
-			+ '<input type="file" id="budgetFiles'+fileIndex+'" name="budgetFiles"  onchange="selectFileUpdate('+fileIndex+','+bNo+')">'
-			
-
-			+ '</div>'
-			+ '<div class="file-path-wrapper">'
-			+ '<input class="file-path validate" type="text">'
-			+ '</div>'                          
-			+ '</div>'
-			$("#selectedFilesInput"+bNo).append(html);
-		}
-		function moreFiles(no){
-			var html = "";
-			var count = no;
-			/* if(no >1 ){
-				var rNo=(no-1)
-				$("#fileCounts"+rNo).removeAttr('value');
-			} */
-			html =  html + '<div class="file-field input-field" id="budgetFilesDiv'+no+'" >'
-			+ '<div class="btn bg-m t-c"> <span>Attach Files</span>'
-			+ '<input type="file" id="budgetFiles'+no+'" name="budgetFiles"  onchange="selectFile('+no+')">'
-			
-
-			+ '</div>'
-			+ '<div class="file-path-wrapper">'
-			+ '<input class="file-path validate" type="text">'
-			+ '</div>'                          
-			+ '</div>'
-			$("#selectedFilesInput").append(html);
-		}
-		
-		function removeFileUpdate(no,bNo){			
-	   	//$('#budgetFilesDiv'+no).remove();
-	   	$('#budgetFilesNames'+no).remove();
-	   	var id = Number(no)-1;
-	   	$('#hide'+id+' input').attr('name', 'filecounts');
-	   	var bId = $('#hide'+id+' input').val();
-	   	if(bId == null){
-			var html = '<input id="fileCounts'+bNo+'"  name="filecounts" value="0" type="hidden">'
-	   		$('#hideVal'+bNo).append(html);
-	   	}
-	   	$('#hide'+no+' input').removeAttr('name');
-	   	
-	  } 
-		function removeFile(no,bNo){			
-		   	$('#budgetFilesDiv'+no).remove();
-		   	$('#budgetFilesNames'+no).remove();
-		   	var id = Number(no)-1;
-		   	$('#hide'+id+' input').attr('name', 'filecounts');
-		   	var bId = $('#hide'+id+' input').val();
-		   	if(bId == null){
-		   		$('#hideVal'+id+' input').attr('name', 'filecounts');
-		   	}
-		   	$('#hide'+no+' input').removeAttr('name');
-		   	
-		  } 
-		
+	
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -649,6 +404,13 @@
             if($.trim(projectId) != ''){
             	getWorksList(projectId);
             } */
+            
+                if("${budgetDetails.contract_id}"!="")
+            	{
+                	$("#project_id_fk").attr("disabled",true);
+                	$("#work_id_fk").attr("disabled",true);
+                	$("#contract_id").attr("disabled",true);
+            	}
         });
      
         function getWorksList(projectId) {
@@ -684,18 +446,65 @@
         
         function resetProjectsDropdowns(workId){
         	var projectId = '';
+        	var work_Id = '';
         	if($.trim(workId) != ''){  
             	projectId = workId.substring(0, 3); 
+            	work_Id=workId.substring(0, 6);
        			$("#project_id_fk").val(projectId);
        			$("#project_id_fk").select2();
+  
+       			$("#work_id_fk").val(work_Id);
+       			$("#work_id_fk").select2();      			
+       			
        		}
        		
         }
+        
+        function resetProjectsContractsDropdowns(workId){
+        	var projectId = '';
+        	var work_Id = '';
+        	if($.trim(workId) != ''){  
+            	projectId = workId.substring(0, 3); 
+            	work_Id=workId.substring(0, 6);
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       			//getContractsFilterList(projectId,work_Id);
+       		}
+       		
+        }    
+        
+        
+        function getContractsFilterList(projectId,work_Id) {
+        	$(".page-loader").show();
+            if ($.trim(work_Id) == "") {
+            	$("#contract_id option:not(:first)").remove();
+            	var myParams = { project_id_fk: projectId,contract_id : contract_id,work_id_fk: work_Id };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInNewBudget",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_name) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }         
+        
         function addBudgetRowUp(){
     	    var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
             var value = rNo+1;
-        	var html ='<tr id="budgetRow'+rNo+'"><td data-head="Financial Year" class="input-field"> <input type="month" class="validate" name="month_ids" id="month_ids'+rNo+'" />'
+        	var html ='<tr id="budgetRow'+rNo+'"><td data-head="Financial Year" class="input-field"> <input type="month" name="financial_year_fks" class="validate" id="financial_year_fks'+rNo+'" />'
 		        		+'</td>'
 			            +'<td data-head="Budget Estimate (in Cr)" class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_estimates'+rNo+'" type="number" name="budget_estimates"'
 						    +'class="validate" placeholder="Amount" min="0.01" step="0.01"></td>'
@@ -718,8 +527,8 @@
     	    var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
             var value = rNo+1;
-        	var html ='<tr id="budgetRow'+rNo+'"><td data-head="Financial Year" class="input-field"> <input type="month" name="month_ids" id="month_ids'+rNo+'" />'
-		        		+'</td>'
+        	var html ='<tr id="budgetRow'+rNo+'"><td data-head="Financial Year" class="input-field"> <input type="hidden" name="budget_ids" id="budget_ids'+rNo+'" />'+
+        				'<input type="month" name="financial_year_fks" class="validate" id="financial_year_fks'+rNo+'" /></td>'
 			            +'<td data-head="Budget Estimate (in Cr)" class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_estimates'+rNo+'" type="number" name="budget_estimates"'
 						    +'class="validate" placeholder="Amount" min="0.01" step="0.01"></td>'
 			            +'<td data-head="Revised Estimate (in Cr)" class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="revised_estimates'+rNo+'" name="revised_estimates" type="number" min="0.01" step="0.01"'
@@ -737,63 +546,7 @@
 			$("#rowNo").val(rNo);
             $('.searchable').select2();
         }
-        function selectFiles(no,rNo){
-		    files = $("#budgetFiles"+no)[0].files;
-		    var id = (no/10);
-		    var str=id.toString();
-		    var splt = str.split('.')[1];
-		    var count = splt;
-			var fNo = no - 1
-		    var html = "";
-		    for (var i = 0; i < files.length ; i++) {
-		    	html =  html + '<div id=budgetFilesNames'+no+'>'
-				 + '<a href="#" class="filevalue" >'+$(this).get(0).files[i].name+'<span onclick="removeFiles('+no+','+rNo+')" class="attachment-remove-btn">X</span></a>'
-				 + '<input type="hidden" id="budgetFileNames'+no+'" name="budgetFileNames" value="'+$(this).get(0).files[i].name+'" >'
-				 + '</div>'
-				 + '<div style="clear:both;" class="hide" id="hide'+no+'"><input id="fileCounts'+no+'"  name="filecounts"  type="hidden"></div>';
-		    }
-		    $("#selectedFiles"+rNo).append(html);
-		    
-		    $('#budgetFilesDivs'+no).hide();
-		    
-			var fileIndex = Number(no)+1;
-			var lastfieldsid = $('#hide'+no+' input').last().val(count);
-			$('#hideVal'+rNo+' input').removeAttr('name');
-			//$('#budgetFiles'+fNo).removeAttr('name');
-			var s = $('#hide'+fNo+' input').val();
-			if(s != null){
-				$('#hide'+fNo+' input').removeAttr('name');
-				
-			}
-			moreFiles1(fileIndex,rNo);
-		}
-		
-		function moreFiles1(no,rNo){
-			var html = "";
-			html =  html + '<div class="file-field input-field" id="budgetFilesDivs'+no+'" >'
-			+ '<div class="btn bg-m t-c"> <span>Attach Files</span>'
-			+ '<input type="file" id="budgetFiles'+no+'" name="budgetFiles"  onchange="selectFiles('+no+','+rNo+')"></div>'
-			+ '<div class="file-path-wrapper">'
-			+ '<input class="file-path validate" type="text">'
-			+ '</div>'                          
-			+ '</div>'
-			$("#selectedFilesInput"+rNo).append(html);
-		}
-		
-		function removeFiles(no,rNo){			
-	   	$('#budgetFilesDiv'+no).remove();
-	   	$('#budgetFilesNames'+no).remove();
-		var id = Number(no)-1;
-	    $('#hide'+id+' input').attr('name', 'filecounts');
-		var bId = $('#hide'+id+' input').val();
-	   	if(bId == null){
-	   		var html = '<input id="fileCounts'+rNo+'"  name="filecounts" value="0" type="hidden">'
-	   		$('#hideVal'+rNo).append(html);
-	   	}
-		
-	   	$('#hide'+no+' input').removeAttr('name');
-	   	
-	   } 
+
 		
 		function removeBudget(rowNo){
 			$("#budgetRow"+rowNo).remove();

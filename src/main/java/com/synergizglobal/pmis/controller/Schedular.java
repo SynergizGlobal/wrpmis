@@ -53,11 +53,14 @@ public class Schedular {
 	@Value("${run.cron.jobs}")
 	public boolean is_cron_jobs_enabled;
 	
+	@Value("${run.cron.jobs.in.qa}")
+	public boolean is_cron_jobs_enabled_in_qa;
+	
 	/**********************************************************************************/
 	
 	@Scheduled(cron = "${cron.expression.user.login.timeout}")
 	public void userLoginTimeout(){
-		if(is_cron_jobs_enabled) {
+		if(is_cron_jobs_enabled || is_cron_jobs_enabled_in_qa) {
 			try {
 		    	 //logger.error("userLoginTimeout : Method executed at > "+new Date());
 	             boolean flag = homeService.userLoginTimeout();
@@ -72,7 +75,7 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.generate.alerts}")
 	public void generateAlertsByCronJob(){	
-		if(is_cron_jobs_enabled) {
+		if(is_cron_jobs_enabled || is_cron_jobs_enabled_in_qa) {
 		     logger.error("generateAlertsByCronJob : Method executed every day. Current time is :"+ new Date());	    
 		     try {
 		    	 
@@ -81,12 +84,14 @@ public class Schedular {
 	            //System.out.println("End "+ new Date());
 		    	logger.error("generateAlertsByCronJob : "+flag);
 		    	
-		    	flag = alertService.sendEMailNotificationWithRiskAlerts();
-				logger.error("sendEMailNotificationWithRiskAlerts >> Sent mails : "+ flag); 
-				
-				flag = alertService.sendEMailNotificationAlertsToITAdmins();
-				logger.error("sendEMailNotificationAlertsToITAdmins >> Sent mails : "+ flag); 
-				
+		    	if(is_cron_jobs_enabled) {
+			    	flag = alertService.sendEMailNotificationWithRiskAlerts();
+					logger.error("sendEMailNotificationWithRiskAlerts >> Sent mails : "+ flag); 
+					
+					flag = alertService.sendEMailNotificationAlertsToITAdmins();
+					logger.error("sendEMailNotificationAlertsToITAdmins >> Sent mails : "+ flag); 
+		    	}
+		    	
 				//Calling stored procedures
 				flag = alertService.callingStoredProcedures();
 				logger.error("callingStoredProcedures >> Run Procedures : "+ flag);
@@ -101,7 +106,7 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.generate.assign.responsibility}")
 	public void generateAutoResponsibilityByCronJob(){	
-		if(is_cron_jobs_enabled) {
+		if(is_cron_jobs_enabled || is_cron_jobs_enabled_in_qa) {
 		     logger.error("generateAutoResponsibilityByCronJob : Method executed every day. Current time is :"+ new Date());	    
 		     try {
 		    	 

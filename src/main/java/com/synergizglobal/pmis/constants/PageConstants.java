@@ -176,6 +176,7 @@ public class PageConstants {
 
 	public static final String overviewDashboard = "forms/overviewDashboard";
 	public static final String archiveOverviewDashboard = "forms/archiveOverviewDashboard";
+	public static final String overviewDashboardModules = "forms/overviewDashboardModules";
 	
 	public static final String structureGalleryPage ="forms/structureGalleryPage";
 

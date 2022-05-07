@@ -278,10 +278,11 @@
 														class="validate" placeholder="Amount"
 														value="${bObj.final_grant }">
 											</td>
-											
-											<td class="mobile_btn_close "><%-- <a onclick="removeBudget('${index.count }');"
-												class="btn waves-effect waves-light red t-c "> <i
-													class="fa fa-close"></i></a> --%></td>
+											<td class="mobile_btn_close ">
+												<c:if test="${index.count gt 1}">
+												<a onclick="removeBudget('${index.count }');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+												</c:if>
+											</td>
 										</tr>
 										 </c:forEach>
                                        </c:when>
@@ -601,73 +602,54 @@
         var checkFYArray=new Array();
         function checkFY(t)
         {
-    		var rowCount = $('#budgetFormTable tbody tr').length;
+        	checkFYArray=[];
+        	var rowCount = $('#budgetFormTable tbody tr').length;
     		$('#fyError').html("");
-        	if("${budgetDetails.contract_id}"=="")
-        	{
-        	
-	       		if(rowCount==1)
-       			{
-	       			checkFYArray.push(t);
-       			}       	
-        		for(var m=1;m<rowCount-1;m++)
-  				{
-  					
-       		       	  if(checkFYArray.indexOf($('#financial_year_fks'+m).val())==-1)
-       		    	   {
-       		    	   	 	if($('#financial_year_fks'+m).val()!="")
-       		    	   		 {
-       		       		  		checkFYArray.push($('#financial_year_fks'+m).val());
-       		    	   		 }
-       		    	   }
+      	
+    		if("${budgetDetails.contract_id}"=="")
+    			{
 
-        		       
-  				}
-				if(rowCount>1)
-				{
-     		       if(checkFYArray.indexOf(t)!=-1)
-		    	   {
-		    	   	 $('#fyError').html("Financial year alredy selected");
-		    	   	 return false;
-			       }
-		       	   else
-		    	   {
-			    	   	 $('#fyError').html("");
-
-		    	   }
-				}
-        	}
-            else
-           	{
-            		if(rowCount>=1)
-            		{
-                		for(var m=1;m<rowCount;m++)
-          				{
-          					
-               		       	  if(checkFYArray.indexOf($('#financial_year_fks'+m).val())==-1)
-               		    	   {
-               		    	   	 	if($('#financial_year_fks'+m).val()!="")
-               		    	   		 {
-               		       		  		checkFYArray.push($('#financial_year_fks'+m).val());
-               		    	   		 }
-               		    	   }
-
-                		       
-          				}  
-                		
-          		       if(checkFYArray.indexOf(t)!=-1)
-    		    	   {
-    		    	   	 $('#fyError').html("Financial year alredy selected");
-    		    	   	 return false;
-    			       }
-    		       	   else
-    		    	   {
-    			    	   	 $('#fyError').html("");
-
-    		    	   }               		
-            		}
-           	}
-
+	        		for(var m=0;m<rowCount;m++)
+	  				{
+	       		       	  if(checkFYArray.indexOf($('#financial_year_fks'+m).val())==-1)
+	       		    	   {
+	       		    	   	 	if($('#financial_year_fks'+m).val()!="")
+	       		    	   		 {
+	       		       		  		checkFYArray.push($('#financial_year_fks'+m).val());
+	       		       		 		$('#fyError').html("");
+	       		    	   		 }
+	       		    	   }
+	       		       	  else
+       		       		  {
+	     		    	   	 $('#fyError').html("Financial year alredy selected");
+	    		    	   	 return false;
+       		       		  }
+	
+	        		       
+	  				}
+    			
+    			}
+    		else
+    		{
+	        		for(var m=1;m<=rowCount;m++)
+	  				{
+	       		       	  if(checkFYArray.indexOf($('#financial_year_fks'+m).val())==-1)
+	       		    	   {
+	       		    	   	 	if($('#financial_year_fks'+m).val()!="")
+	       		    	   		 {
+	       		       		  		checkFYArray.push($('#financial_year_fks'+m).val());
+	       		       		 		$('#fyError').html("");
+	       		    	   		 }
+	       		    	   }
+	       		       	  else
+	       		       		  {
+		     		    	   	 $('#fyError').html("Financial year alredy selected");
+		    		    	   	 return false;
+	       		       		  }
+	
+	        		       
+	  				}
+    		}
         }
         
         function updateBudget(){

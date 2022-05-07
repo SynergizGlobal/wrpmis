@@ -140,6 +140,11 @@
 		    word-break: break-all;
 		    color: red !important;
 		}
+		
+		.my-error-class
+		{
+		color: red !important;
+		}
 
 		
     </style>
@@ -477,24 +482,25 @@
             	work_Id=workId.substring(0, 6);
        			$("#project_id_fk").val(projectId);
        			$("#project_id_fk").select2();
-       			//getContractsFilterList(projectId,work_Id);
+       			getContractsFilterList(projectId,work_Id);
        		}
        		
         }    
         
         
         function getContractsFilterList(projectId,work_Id) {
-        	$(".page-loader").show();
-            if ($.trim(work_Id) == "") {
+        
+            if ($.trim(work_Id) != "") {
             	$("#contract_id option:not(:first)").remove();
-            	var myParams = { project_id_fk: projectId,contract_id : contract_id,work_id_fk: work_Id };
+            	var myParams = { project_id_fk: projectId,work_id_fk: work_Id };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInNewBudget",
+                    url: "<%=request.getContextPath()%>/ajax/getContractsListForNewBudgetForm",
                     data: myParams, cache: false,
                     success: function (data) {
-                        if (data.length > 0) {
+                        
+                    	if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_name) +'</option>');
+    	                           $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) +' - ' + $.trim(val.contract_name) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -696,7 +702,7 @@
         
       
         var validator =	$('#budgetForm').validate({
-			 errorClass: "my-error-class",
+			 errorClass: "error-msg",
 			 validClass: "my-valid-class",
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {

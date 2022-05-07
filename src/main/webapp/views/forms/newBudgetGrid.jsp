@@ -279,7 +279,7 @@
     	$('.searchable').select2();
     	window.localStorage.setItem("budgetFilters",'');
     	window.location.href= "<%=request.getContextPath()%>/new-budget";
-    	getBudgetList(); 
+    	//getBudgetList(); 
     	var table = $('#datatable-budget').DataTable();
     	table.draw( true );
     }

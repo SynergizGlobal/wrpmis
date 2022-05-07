@@ -565,12 +565,28 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 	public List<Budget> getContractsListForBudgetForm(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry = "select contract_id,contract_short_name as contract_name from `contract`";
+			String qry = "select contract_id,contract_short_name as contract_name from `contract` WHERE 0=0 ";
 			
 			if(StringUtils.isEmpty(obj.getBudget_id())) {
-				qry = qry +" where contract_id not in(select contract_id_fk from new_budget) order by contract_id asc";
-			}			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));			
+				qry = qry +" and contract_id not in(select contract_id_fk from new_budget) ";
+			}
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry +" order by contract_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
+			
+			
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

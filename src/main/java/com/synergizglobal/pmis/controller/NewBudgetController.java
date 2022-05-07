@@ -229,10 +229,23 @@ public class NewBudgetController {
 			financialYearsList = newBudgetService.getNewBudgetContractsList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getFinancialYearsList : " + e.getMessage());
+			logger.error("getContractsList : " + e.getMessage());
 		}
 		return financialYearsList;
 	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForNewBudgetForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Budget> getContractsListForNewBudgetForm(@ModelAttribute Budget obj) {
+		List<Budget> financialYearsList = null;
+		try {
+			financialYearsList = newBudgetService.getContractsListForBudgetForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsList : " + e.getMessage());
+		}
+		return financialYearsList;
+	}	
 	
 	@RequestMapping(value = "/add-new-budget-form", method = {RequestMethod.GET})
 	public ModelAndView addNewBudgetForm(@ModelAttribute Budget obj){

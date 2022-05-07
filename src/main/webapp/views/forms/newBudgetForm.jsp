@@ -279,16 +279,16 @@
 														value="${bObj.final_grant }">
 											</td>
 											
-											<td class="mobile_btn_close "><a onclick="removeBudget('${index.count }');"
+											<td class="mobile_btn_close "><%-- <a onclick="removeBudget('${index.count }');"
 												class="btn waves-effect waves-light red t-c "> <i
-													class="fa fa-close"></i></a></td>
+													class="fa fa-close"></i></a> --%></td>
 										</tr>
 										 </c:forEach>
                                        </c:when>
                                        	<c:otherwise>
                                        	 <tr id="budgetRow0">
 											<td data-head="Financial Year" class="input-field">
-													<input type="month" name="financial_year_fks" onChange="checkFY(this.value);" class="validate" id="financial_year_fks${index.count }" value="${bObj.financial_year_fk}" />
+													<input type="month" name="financial_year_fks" onChange="checkFY(this.value);" class="validate" id="financial_year_fks0" value="${bObj.financial_year_fk}" />
 											</td>
 											<td data-head="Budget Estimate (in Cr)" class="input-field">
 													<i class="material-icons prefix center-align">₹</i> <input
@@ -320,9 +320,9 @@
 														id="final_grants0" name="final_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount">
 											</td>
-											<td class="mobile_btn_close "><a onclick="removeBudget('0');"
+											<td class="mobile_btn_close "><!-- <a onclick="removeBudget('0');"
 												class="btn waves-effect waves-light red t-c "> <i
-													class="fa fa-close"></i></a></td>
+													class="fa fa-close"></i></a> --></td>
 										 </tr>
 										</c:otherwise>
                                       </c:choose>
@@ -571,15 +571,31 @@
 	  			$('form input[name=budget_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=final_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			if($('#fyError').html()=="")
-  				{
-   					document.getElementById("budgetForm").submit();	
-  				}
-	  			else
-	  				{
-	  					$(".page-loader").hide();
-	  					return false;
-	  				}
+
+	  				var rowCount = $('#budgetFormTable tbody tr').length;
+	  					if(rowCount>0)
+	  					{
+	  					
+	                		for(var m=0;m<rowCount;m++)
+	          				{
+	                			if($('#financial_year_fks'+m).val()=="")
+             		    	   		 {
+	                					$(".page-loader").hide();   	 
+	                					$('#fyError').html("Financial year required");
+             				    	   	 return false;            		       		  		
+             		    	   		 }
+             			       	   else
+             			    	   {
+             				    	   	 $('#fyError').html("");
+
+             			    	   }	               		    	 
+	                		       
+	          				}
+	  					
+	  					}
+	  					
+	  				document.getElementById("budgetForm").submit();	
+
    	 	 }
         }
         var checkFYArray=new Array();
@@ -664,18 +680,35 @@
 	  			$('form input[name=budget_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=final_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			if($('#fyError').html()=="")
-  				{
-                	$("#project_id_fk").attr("disabled",false);
+
+                	
+	  				var rowCount = $('#budgetFormTable tbody tr').length;
+  					if(rowCount>0)
+  					{
+  					
+                		for(var m=0;m<rowCount;m++)
+          				{
+                			if($('#financial_year_fks'+m).val()=="")
+         		    	   		 {
+                					$(".page-loader").hide();   	 
+                					$('#fyError').html("Financial year required");
+         				    	   	 return false;            		       		  		
+         		    	   		 }
+         			       	   else
+         			    	   {
+         				    	   	 $('#fyError').html("");
+
+         			    	   }	               		    	 
+                		       
+          				}
+  					
+  					}	  				
+	  				
+	  				$("#project_id_fk").attr("disabled",false);
                 	$("#work_id_fk").attr("disabled",false);
                 	$("#contract_id").attr("disabled",false);
 	  				document.getElementById("budgetForm").submit();	
-  				}
-	  			else
-  				{
-	  				$(".page-loader").hide();	
-	  				return false;
-  				}	  			
+	  			
         	}
         }
         

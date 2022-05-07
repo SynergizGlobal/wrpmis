@@ -122,7 +122,34 @@ public class IssueCategoryTitleDaoImpl implements IssueCategoryTitleDao{
 		}
 		return flag;
 	}
+	private List<TrainingType> getTablesList(TrainingType obj) throws Exception {
+		List<TrainingType> tablesList = null;
+		try {
+			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'issue_category_title' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+			
+			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return tablesList;
+	}
 
+
+	private List<TrainingType> getDataDetails(TrainingType obj) throws Exception {
+		List<TrainingType> list = null;
+		try {
+			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'issue_category_title' and TABLE_SCHEMA = 'pmis'";
+			
+			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return list;
+	}
 	@Override
 	public boolean updateIssueCategoryTitle(TrainingType obj) throws Exception {
 		boolean flag = false;
@@ -130,19 +157,27 @@ public class IssueCategoryTitleDaoImpl implements IssueCategoryTitleDao{
 		try {
 			
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-		
+			List<TrainingType> tablesList = getTablesList(obj);
+			List<TrainingType> list = getDataDetails(obj);
+			obj.setdList(list);
+
+			String disableQry = "SET foreign_key_checks = 0 ";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			namedParamJdbcTemplate.update(disableQry, paramSource);	
 	
 			String deleteQry = "delete from issue_category_title where `issue_category_fk`= :issue_category_fk_old";
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			 paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
 			
 			int size = 0,size2 = 0,size3=0;
 			String area  = obj.getIssue_category_fk_new();
 			String sub_area  = obj.getShort_description_new();
+			String value_old  = obj.getValue_old();
 			//sub_area = sub_area.replaceFirst("^", "").replaceAll(",,", ",");
 			String [] areaArr = new String [0];
 			String [] Short_descriptionArr = new String [0];
 			String [] Short_descriptionArr1 = new String [0];
+			String [] value_oldArr1 = new String [0];
 			if(!StringUtils.isEmpty(area) && area.contains(",")) {
 				areaArr = area.split(",");
 				size = areaArr.length;
@@ -177,7 +212,22 @@ public class IssueCategoryTitleDaoImpl implements IssueCategoryTitleDao{
 						String insertQry = "INSERT INTO issue_category_title"
 								+ "(short_description, issue_category_fk) VALUES (:short_description_new,:issue_category_fk_new)";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
-						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);	
+						String idOld =  value_old;
+						if(value_old.contains(",")) {
+							value_oldArr1 = value_old.split(",") ;
+							try {
+								idOld = value_oldArr1[j];
+							}catch(Exception e) {
+								idOld = "no val";
+							}
+						}
+					for (TrainingType bObj : obj.getdList()) {
+						String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:short_description_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+						obj.setValue_old(idOld);
+						paramSource = new BeanPropertySqlParameterSource(obj);		 
+						namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+					}
 					}
 				 }else {
 					for(int j =0;j< size3; j++) {
@@ -190,6 +240,21 @@ public class IssueCategoryTitleDaoImpl implements IssueCategoryTitleDao{
 								+ "(short_description, issue_category_fk) VALUES (:short_description_new,:issue_category_fk_new)";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+						String idOld =  value_old;
+						if(value_old.contains(",")) {
+							value_oldArr1 = value_old.split(",") ;
+							try {
+								idOld = value_oldArr1[j];
+							}catch(Exception e) {
+								idOld = "no val";
+							}
+						}
+					for (TrainingType bObj : obj.getdList()) {
+						String updateTableQry = "UPDATE "+bObj.getTable_name()+" SET "+bObj.getColumn_name()+" =:short_description_new WHERE "+bObj.getColumn_name()+"= :value_old " ;
+						obj.setValue_old(idOld);
+						paramSource = new BeanPropertySqlParameterSource(obj);		 
+						namedParamJdbcTemplate.update(updateTableQry, paramSource);	
+					}
 					}
 			     }
 			

@@ -119,7 +119,7 @@
 											 	<input type="hidden" id="short_description${index.count}" value="${obj.short_description }" class="findLengths2"/>
 											</td>
 												
-										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
+										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.issue_category_fk }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
                                     </tbody>
                                 </table>
@@ -354,7 +354,7 @@
     <!-- footer  -->
 
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="id" id="idNo" />
+    	<input type="hidden" name="issue_category_fk" id="idNo" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -740,8 +740,8 @@
             $('.searchable').select2();
         }
      
-       function deleteRow(id){
-   	  	  $("#idNo").val(id);
+       function deleteRow(issue_category_fk){
+   	  	  $("#idNo").val(issue_category_fk);
    	  	  showCancelMessage(); 
    	 }
    	  	

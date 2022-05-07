@@ -18,4 +18,6 @@ public interface IssueContractCategoryDao {
 
 	boolean deleteIssueContractCategory(TrainingType obj) throws Exception ;
 
+	List<TrainingType> getContarctCategory(TrainingType obj) throws Exception ;
+
 }

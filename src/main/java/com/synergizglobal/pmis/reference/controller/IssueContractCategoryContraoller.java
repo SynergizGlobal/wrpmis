@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -51,6 +52,19 @@ public class IssueContractCategoryContraoller {
 			logger.error("issueContractCategory : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getContarctCategory", method = { RequestMethod.GET,RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TrainingType> getContarctCategory(@ModelAttribute TrainingType obj) {
+		List<TrainingType> objList = null;
+		try {
+			objList = service.getContarctCategory(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContarctCategory : " + e.getMessage());
+		}
+		return objList;
 	}
 	
 	@RequestMapping(value = "/add-issue-contract-category", method = {RequestMethod.POST})

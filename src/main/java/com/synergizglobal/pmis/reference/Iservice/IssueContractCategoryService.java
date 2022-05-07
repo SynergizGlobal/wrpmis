@@ -18,4 +18,6 @@ public interface IssueContractCategoryService {
 
 	boolean deleteIssueContractCategory(TrainingType obj) throws Exception;
 
+	List<TrainingType> getContarctCategory(TrainingType obj) throws Exception;
+
 }

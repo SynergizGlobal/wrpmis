@@ -44,4 +44,9 @@ public class IssueContractCategoryServiceIpml implements IssueContractCategorySe
 	public boolean deleteIssueContractCategory(TrainingType obj) throws Exception {
 		return dao.deleteIssueContractCategory(obj);
 	}
+
+	@Override
+	public List<TrainingType> getContarctCategory(TrainingType obj) throws Exception {
+		return dao.getContarctCategory(obj);
+	}
 }

@@ -55,6 +55,9 @@ public class PageConstants {
 	public static final String budgetGrid = "forms/budgetGrid";
 	public static final String addEditBudget = "forms/addEditBudget";
 	
+	public static final String newBudgetGrid = "forms/newBudgetGrid";
+	public static final String addEditNewBudget = "forms/newBudgetForm";	
+	
 	public static final String workContractModuleStatusGrid = "forms/workContractModuleStatusGrid";
 	public static final String addEditWorkContractModuleStatus = "forms/addEditWorkContractModuleStatus";
 
@@ -176,7 +179,6 @@ public class PageConstants {
 
 	public static final String overviewDashboard = "forms/overviewDashboard";
 	public static final String archiveOverviewDashboard = "forms/archiveOverviewDashboard";
-	public static final String overviewDashboardModules = "forms/overviewDashboardModules";
 	
 	public static final String structureGalleryPage ="forms/structureGalleryPage";
 

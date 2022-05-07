@@ -138,7 +138,9 @@
 		    position: relative;
 		    font-size: .85rem;
 		    word-break: break-all;
+		    color: red !important;
 		}
+
 		
     </style>
 </head>
@@ -172,7 +174,7 @@
                     <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label"> Project <span class="required">*</span></p>
+                                    <p class="searchable_label"> Project </p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -183,7 +185,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label"> Work <span class="required">*</span></p>
+                                    <p class="searchable_label"> Work </p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
                                     		onchange="resetProjectsContractsDropdowns(this.value);">
 	                                        <option value="">Select</option>
@@ -211,7 +213,12 @@
 						<div class="row fixed-width">
 							<h5 class="center-align">Budget Details</h5>
 							<div class="table-inside">
-							 <a type="button" class="btn waves-effect waves-light bg-m t-c right" onclick="addBudgetRowUp()">Add</a>
+							 <c:if test="${action eq 'add'}">
+							 <a type="button" class="btn waves-effect waves-light bg-m t-c right" onclick="addBudget();">Add</a>
+							 </c:if>
+                               <c:if test="${action eq 'edit'}">
+                                  <a type="button" class="btn waves-effect waves-light bg-m t-c right" onclick="updateBudget();">Update</a>
+                               </c:if>							 
 								<table id="budgetFormTable" class="mdl-data-table mobile_responsible_table">
 									<thead>
 										<tr>
@@ -232,7 +239,7 @@
                                        	  <c:forEach var="bObj" items="${budgetDetails.budget }" varStatus="index"> 
 										   <tr id="budgetRow${index.count }">
 											<td data-head="Financial Year" class="input-field">
-											    <input type="month" class="validate" name="financial_year_fks" id="financial_year_fks${index.count }" value="${bObj.financial_year_fk}" />
+											    <input type="month" class="validate" onChange="checkFY(this.value);" name="financial_year_fks" id="financial_year_fks${index.count }" value="${bObj.financial_year_fk}" />
 												
 											</td>
 											<td data-head="Budget Estimate (in Cr)" class="input-field">
@@ -281,7 +288,7 @@
                                        	<c:otherwise>
                                        	 <tr id="budgetRow0">
 											<td data-head="Financial Year" class="input-field">
-													<input type="month" name="financial_year_fks" class="validate" id="financial_year_fks${index.count }" value="${bObj.financial_year_fk}" />
+													<input type="month" name="financial_year_fks" onChange="checkFY(this.value);" class="validate" id="financial_year_fks${index.count }" value="${bObj.financial_year_fk}" />
 											</td>
 											<td data-head="Budget Estimate (in Cr)" class="input-field">
 													<i class="material-icons prefix center-align">₹</i> <input
@@ -321,6 +328,7 @@
                                       </c:choose>
 									</tbody>
 								</table>
+								<p id="fyError" style="color:red;"></p>
 								 <table class="mdl-data-table">
                                        <tbody>                                          
 	                                    <tr>
@@ -504,7 +512,7 @@
     	    var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
             var value = rNo+1;
-        	var html ='<tr id="budgetRow'+rNo+'"><td data-head="Financial Year" class="input-field"> <input type="month" name="financial_year_fks" class="validate" id="financial_year_fks'+rNo+'" />'
+        	var html ='<tr id="budgetRow'+rNo+'"><td data-head="Financial Year" class="input-field"> <input type="month" name="financial_year_fks" onChange="checkFY(this.value);" class="validate" id="financial_year_fks'+rNo+'" />'
 		        		+'</td>'
 			            +'<td data-head="Budget Estimate (in Cr)" class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_estimates'+rNo+'" type="number" name="budget_estimates"'
 						    +'class="validate" placeholder="Amount" min="0.01" step="0.01"></td>'
@@ -528,7 +536,7 @@
             var rNo = Number(rowNo)+1;
             var value = rNo+1;
         	var html ='<tr id="budgetRow'+rNo+'"><td data-head="Financial Year" class="input-field"> <input type="hidden" name="budget_ids" id="budget_ids'+rNo+'" />'+
-        				'<input type="month" name="financial_year_fks" class="validate" id="financial_year_fks'+rNo+'" /></td>'
+        				'<input type="month" name="financial_year_fks" onChange="checkFY(this.value);" class="validate" id="financial_year_fks'+rNo+'" /></td>'
 			            +'<td data-head="Budget Estimate (in Cr)" class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_estimates'+rNo+'" type="number" name="budget_estimates"'
 						    +'class="validate" placeholder="Amount" min="0.01" step="0.01"></td>'
 			            +'<td data-head="Revised Estimate (in Cr)" class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="revised_estimates'+rNo+'" name="revised_estimates" type="number" min="0.01" step="0.01"'
@@ -563,9 +571,89 @@
 	  			$('form input[name=budget_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=final_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	   			document.getElementById("budgetForm").submit();			
+	  			if($('#fyError').html()=="")
+  				{
+   					document.getElementById("budgetForm").submit();	
+  				}
+	  			else
+	  				{
+	  					$(".page-loader").hide();
+	  					return false;
+	  				}
    	 	 }
         }
+        var checkFYArray=new Array();
+        function checkFY(t)
+        {
+    		var rowCount = $('#budgetFormTable tbody tr').length;
+    		$('#fyError').html("");
+        	if("${budgetDetails.contract_id}"=="")
+        	{
+        	
+	       		if(rowCount==1)
+       			{
+	       			checkFYArray.push(t);
+       			}       	
+        		for(var m=1;m<rowCount-1;m++)
+  				{
+  					
+       		       	  if(checkFYArray.indexOf($('#financial_year_fks'+m).val())==-1)
+       		    	   {
+       		    	   	 	if($('#financial_year_fks'+m).val()!="")
+       		    	   		 {
+       		       		  		checkFYArray.push($('#financial_year_fks'+m).val());
+       		    	   		 }
+       		    	   }
+
+        		       
+  				}
+				if(rowCount>1)
+				{
+     		       if(checkFYArray.indexOf(t)!=-1)
+		    	   {
+		    	   	 $('#fyError').html("Financial year alredy selected");
+		    	   	 return false;
+			       }
+		       	   else
+		    	   {
+			    	   	 $('#fyError').html("");
+
+		    	   }
+				}
+        	}
+            else
+           	{
+            		if(rowCount>=1)
+            		{
+                		for(var m=1;m<rowCount;m++)
+          				{
+          					
+               		       	  if(checkFYArray.indexOf($('#financial_year_fks'+m).val())==-1)
+               		    	   {
+               		    	   	 	if($('#financial_year_fks'+m).val()!="")
+               		    	   		 {
+               		       		  		checkFYArray.push($('#financial_year_fks'+m).val());
+               		    	   		 }
+               		    	   }
+
+                		       
+          				}  
+                		
+          		       if(checkFYArray.indexOf(t)!=-1)
+    		    	   {
+    		    	   	 $('#fyError').html("Financial year alredy selected");
+    		    	   	 return false;
+    			       }
+    		       	   else
+    		    	   {
+    			    	   	 $('#fyError').html("");
+
+    		    	   }               		
+            		}
+           	}
+
+        }
+        
         function updateBudget(){
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	
@@ -576,7 +664,18 @@
 	  			$('form input[name=budget_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=final_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	   			document.getElementById("budgetForm").submit();	
+	  			if($('#fyError').html()=="")
+  				{
+                	$("#project_id_fk").attr("disabled",false);
+                	$("#work_id_fk").attr("disabled",false);
+                	$("#contract_id").attr("disabled",false);
+	  				document.getElementById("budgetForm").submit();	
+  				}
+	  			else
+  				{
+	  				$(".page-loader").hide();	
+	  				return false;
+  				}	  			
         	}
         }
         
@@ -586,26 +685,19 @@
 			 validClass: "my-valid-class",
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
-	  		 		   "project_id_fk": {
+	  		 		   "contract_id": {
 	  			 		  required: true
-	  			 	  },"work_id_fk": {
-	  			 		  required: true
-	  			 	  }	
+	  			 	  }
 	  		 	},
 	  		    messages: {
-	  		 		   "project_id_fk": {
-	  			 		  required: 'Required'
-	  			 	  },"work_id_fk": {
+	  		 		   "contract_id": {
 	  			 		  required: 'Required'
 	  			 	  }		
 		   		},
 		   		errorPlacement:function(error, element){
-		   		 	  if(element.attr("id") == "project_id_fk" ){
-					     document.getElementById("project_id_fkError").innerHTML="";
-				 	     error.appendTo('#project_id_fkError');
-					 }else if(element.attr("id") == "work_id_fk" ){
-					     document.getElementById("work_id_fkError").innerHTML="";
-				 	     error.appendTo('#work_id_fkError');
+		   		 	  if(element.attr("id") == "contract_id" ){
+					     document.getElementById("contract_idError").innerHTML="";
+				 	     error.appendTo('#contract_idError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 

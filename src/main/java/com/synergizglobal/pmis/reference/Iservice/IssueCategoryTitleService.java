@@ -16,4 +16,6 @@ public interface IssueCategoryTitleService {
 
 	boolean deleteIssueCategoryTitle(TrainingType obj) throws Exception;
 
+	List<TrainingType> getTitles(TrainingType obj) throws Exception;
+
 }

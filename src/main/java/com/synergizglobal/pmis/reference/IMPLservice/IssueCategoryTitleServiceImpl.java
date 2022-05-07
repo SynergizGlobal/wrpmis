@@ -42,4 +42,9 @@ public class IssueCategoryTitleServiceImpl implements IssueCategoryTitleService{
 		return dao.deleteIssueCategoryTitle(obj);
 
 	}
+
+	@Override
+	public List<TrainingType> getTitles(TrainingType obj) throws Exception {
+		return dao.getTitles(obj);
+	}
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.reference.Iservice.IssueCategoryTitleService;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 
@@ -44,6 +46,9 @@ public class IssueCategoryTitleController {
 			
 			List<TrainingType> issueCategoryTitleDetails = service.getIssueCategoryTitle(obj);
 			model.addObject("issueCategoryTitleDetails",issueCategoryTitleDetails);
+			
+			List<TrainingType> getTitles = service.getTitles(obj);
+			model.addObject("getTitles",getTitles);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("issueContractCategory : " + e.getMessage());
@@ -51,6 +56,19 @@ public class IssueCategoryTitleController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/ajax/getTitles", method = { RequestMethod.GET,RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TrainingType> getTitles(@ModelAttribute TrainingType obj) {
+		List<TrainingType> objList = null;
+		try {
+			objList = service.getTitles(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getTitles : " + e.getMessage());
+		}
+		return objList;
+	}
+
 	@RequestMapping(value = "/add-issue-category-title", method = {RequestMethod.POST})
 	@ResponseBody
 	public ModelAndView addIssueCategoryTitle(@ModelAttribute TrainingType obj,RedirectAttributes attributes){

@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.synergizglobal.pmis.reference.Idao.IssueCategoryTitleDao;
@@ -39,9 +41,8 @@ public class IssueCategoryTitleDaoImpl implements IssueCategoryTitleDao{
 	public List<TrainingType> getIssueCategoryTitle(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT id, issue_category_fk,short_description from issue_category_title";
-			
-			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
+			String qry = "SELECT id, issue_category_fk,GROUP_CONCAT(id) as id,GROUP_CONCAT(short_description) as short_description  from issue_category_title group by issue_category_fk";
+			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
@@ -51,14 +52,67 @@ public class IssueCategoryTitleDaoImpl implements IssueCategoryTitleDao{
 
 	@Override
 	public boolean addIssueCategoryTitle(TrainingType obj) throws Exception {
-		boolean flag = false;
+		boolean flag = false;	int count = 0;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO issue_category_title"
-					+ "(short_description, issue_category_fk) VALUES (:short_description,:issue_category_fk)";
+			int size = 0,size2 = 0,size3=0;
+			String area  = obj.getIssue_category_fk();
+			String sub_area  = obj.getShort_description();
+			//sub_area = sub_area.replaceFirst("^", "").replaceAll(",,", ",");
+			String [] areaArr = new String [0];
+			String [] Short_descriptionArr = new String [0];
+			String [] Short_descriptionArr1 = new String [0];
+			if(!StringUtils.isEmpty(area) && area.contains(",")) {
+				areaArr = area.split(",");
+				size = areaArr.length;
+				Short_descriptionArr = sub_area.split(",_,");
+				size2 = areaArr.length;
+				
+			}else if(!StringUtils.isEmpty(sub_area) && sub_area.contains(",")) {
+				Short_descriptionArr1 = sub_area.split(",");
+				size3 = Short_descriptionArr1.length;
+				size = 1;
+			}else if(!StringUtils.isEmpty(sub_area)) {
+				size = 1;
+				size3 = 1;
+			}
+			for(int i =0;i< size; i++) {
+				 if(areaArr.length > 0) {
+					String [] subName = null;
+					obj.setIssue_category_fk(areaArr[i]);
+					if((!StringUtils.isEmpty(sub_area) && Short_descriptionArr1.length > 0) 
+							|| (!StringUtils.isEmpty(sub_area) && Short_descriptionArr.length > 0)) {
+						if(Short_descriptionArr[i].contains(",")) {
+							subName = Short_descriptionArr[i].split(",");
+							size3 = (Short_descriptionArr1.length > 0) ? Short_descriptionArr1.length : subName.length ;
+						}else {
+							subName = Short_descriptionArr; size3 = 1;
+							String sub_name = Short_descriptionArr[i];
+							subName[0] = sub_name;
+						}
+					}
+					for(int j =0;j< size3; j++) {
+						obj.setShort_description(subName[j].replaceAll("&", ","));
+						String insertQry = "INSERT INTO issue_category_title"
+								+ "(short_description, issue_category_fk) VALUES (:short_description,:issue_category_fk)";
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(sub_area) && Short_descriptionArr1.length > 0) {
+							obj.setShort_description(Short_descriptionArr1[j].replaceAll("&", ","));
+						}else {
+							obj.setShort_description(sub_area.replaceAll("&", ","));
+						}
+						String insertQry = "INSERT INTO issue_category_title"
+								+ "(short_description, issue_category_fk) VALUES (:short_description,:issue_category_fk)";
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+			     }
 			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			}
 			if(count > 0) {
 				flag = true;
 			}
@@ -72,13 +126,74 @@ public class IssueCategoryTitleDaoImpl implements IssueCategoryTitleDao{
 	@Override
 	public boolean updateIssueCategoryTitle(TrainingType obj) throws Exception {
 		boolean flag = false;
+		int count = 0;
 		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "UPDATE issue_category_title set "
-					+ "short_description= :short_description_new, issue_category_fk= :issue_category_fk_new  where id = :id";
 			
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		
+	
+			String deleteQry = "delete from issue_category_title where `issue_category_fk`= :issue_category_fk_old";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+			
+			int size = 0,size2 = 0,size3=0;
+			String area  = obj.getIssue_category_fk_new();
+			String sub_area  = obj.getShort_description_new();
+			//sub_area = sub_area.replaceFirst("^", "").replaceAll(",,", ",");
+			String [] areaArr = new String [0];
+			String [] Short_descriptionArr = new String [0];
+			String [] Short_descriptionArr1 = new String [0];
+			if(!StringUtils.isEmpty(area) && area.contains(",")) {
+				areaArr = area.split(",");
+				size = areaArr.length;
+				Short_descriptionArr = sub_area.split(",_,");
+				size2 = areaArr.length;
+				
+			}else if(!StringUtils.isEmpty(sub_area) && sub_area.contains(",")) {
+				Short_descriptionArr1 = sub_area.split(",");
+				size3 = Short_descriptionArr1.length;
+				size = 1;
+			}else if(!StringUtils.isEmpty(sub_area)) {
+				size = 1;
+				size3 = 1;
+			}
+			for(int i =0;i< size; i++) {
+				 if(areaArr.length > 0) {
+					String [] subName = null;
+					obj.setIssue_category_fk_new(areaArr[i]);
+					if((!StringUtils.isEmpty(sub_area) && Short_descriptionArr1.length > 0) 
+							|| (!StringUtils.isEmpty(sub_area) && Short_descriptionArr.length > 0)) {
+						if(Short_descriptionArr[i].contains(",")) {
+							subName = Short_descriptionArr[i].split(",");
+							size3 = (Short_descriptionArr1.length > 0) ? Short_descriptionArr1.length : subName.length ;
+						}else {
+							subName = Short_descriptionArr; size3 = 1;
+							String sub_name = Short_descriptionArr[i];
+							subName[0] = sub_name;
+						}
+					}
+					for(int j =0;j< size3; j++) {
+						obj.setShort_description_new(subName[j].replaceAll("&", ","));
+						String insertQry = "INSERT INTO issue_category_title"
+								+ "(short_description, issue_category_fk) VALUES (:short_description_new,:issue_category_fk_new)";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+				 }else {
+					for(int j =0;j< size3; j++) {
+						if(!StringUtils.isEmpty(sub_area) && Short_descriptionArr1.length > 0) {
+							obj.setShort_description_new(Short_descriptionArr1[j].replaceAll("&", ","));
+						}else {
+							obj.setShort_description_new(sub_area.replaceAll("&", ","));
+						}
+						String insertQry = "INSERT INTO issue_category_title"
+								+ "(short_description, issue_category_fk) VALUES (:short_description_new,:issue_category_fk_new)";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						count = namedParamJdbcTemplate.update(insertQry, paramSource);		
+					}
+			     }
+			
+			}
 			if(count > 0) {
 				flag = true;
 			}
@@ -96,7 +211,7 @@ public class IssueCategoryTitleDaoImpl implements IssueCategoryTitleDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from issue_category_title WHERE `id`= :id ";
+			String deleteQry ="DELETE from issue_category_title WHERE `issue_category_fk`= :issue_category_fk ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -106,5 +221,18 @@ public class IssueCategoryTitleDaoImpl implements IssueCategoryTitleDao{
 		throw new Exception(e);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<TrainingType> getTitles(TrainingType obj) throws Exception {
+		List<TrainingType> objList = null;
+		try {
+			String qry = "SELECT short_description  from issue_category_title where issue_category_fk= '"+ obj.getIssue_category_fk()+"'";
+			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
 	}
 }

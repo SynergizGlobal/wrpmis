@@ -23,6 +23,47 @@
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
    <link rel="stylesheet" href="/pmis/resources/css/rightColumnFixed.css">--%>
+   <style type="text/css">
+   		.r-flex{
+		    position: relative;
+		        right: -15em;
+    			top: -1.5em;
+		    }	
+		.input-field {
+		    position: relative;
+		    margin-top: 0rem;
+		    margin-bottom: 0rem;
+		}	
+		.mt-c{
+			    display: flex;
+			    flex-wrap: wrap;
+			    align-items: center;
+			    padding-bottom: 15px;
+		}
+		.align-center{
+			    display: flex;
+    			align-items: center;
+		}
+		.mt1em{
+			margin-top: 1em;
+		}
+		.w50{
+			width: 50% !important;
+		}
+		.pd0{padding: 0 !important;}
+		
+		@media(max-width: 575px){
+			.align-center{
+				display: block;
+			}
+			.w50{
+			width: 100% !important;
+			}
+		}
+		.br20px{
+			border-radius: 20px;
+		}
+   </style>
 </head>
 
 <body>
@@ -67,12 +108,14 @@
                                     <tbody>
                                     	<c:forEach var="obj" items="${issueCategoryTitleDetails}" varStatus="index">
 											<tr>
-											<td>
+											<td style="font-weight: 600;">
 											 	<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
 												<input type="hidden" id="issue_category_fk${index.count}" value="${obj.issue_category_fk }" class="findLengths"/>
 												${obj.issue_category_fk }</td>
-											<td>
-											 	${obj.short_description }
+											<td   style="padding: 9px;!important">
+											 		<c:forEach var="splt" items="${fn:split(obj.short_description,',')}">
+												   &#9656; ${splt} <br>
+												</c:forEach>
 											 	<input type="hidden" id="short_description${index.count}" value="${obj.short_description }" class="findLengths2"/>
 											</td>
 												
@@ -81,7 +124,7 @@
                                     </tbody>
                                 </table>
                             </div>
-
+ 
                         </div>
                     </div>
                 </div>
@@ -99,8 +142,8 @@
                             class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
-                        <div class="row">
+                    <div class="col m12 s12">
+                        <%-- <div class="row">
                             <div class="input-field col s12 m6">
                                 <!-- <input id="issue_category_text" type="text" class="validate">
                                 <label for="issue_category_text">Issue Category</label> -->
@@ -118,11 +161,64 @@
                                 <!-- <textarea name="short_description" id="short_description" class="materialize-textarea"></textarea> -->
                                 <label for="short_description">Short Description</label>
                                  <span id="short_descriptionError" class="error-msg" ></span>
-                            </div>
+                            </div> --%>
+                             <div id="listOfLocationsAdd"> 
+                        <div id="archiveBody">
+                        <div class="row no-mar mt-c" id="actionRow0">
+							<div class="input-field col s11 m5">
+								<!-- <input id="rr_location_fk" name="rr_location_fk" type="text" class="validate"> -->
+								<p class="searchable_label"> Category</p>
+								<select name="issue_category_fk" id="issue_category_text" class="searchable validate-dropdown">
+									<option value="">Select </option>
+									 <c:forEach var="obj" items="${issueCategoryDetails }">
+											  <option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>
+									  </c:forEach>
+								</select>
+								<span id="issue_category_fkError" class="error-msg" ></span>
+							</div>
+							<div class="input-field col s11 m5 box-grey" id="subArchiveBody0">
+								<div id="subActionRow0">
+								<div class="col s10 pd0">
+								<input id="short_description" name="short_description" type="text" class="validate" placeholder="Short Description">
+								<!-- <label for="rr_sub_location"> Sub Location </label> -->
+								<span id="short_descriptionError" class="error-msg" ></span>	
+							</div>
+							<span class="col s1"><a onclick="subRemoveAction('0');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span>
+							</div>
+						</div>
+						<span class="col s1 m1 input-field"><a onclick="removeAction('0');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>
+						<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none">
+												<tbody>
+													<tr class="bd-none">
+														<td colspan="6" class="bd-none"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c br20px"
+															onclick="addSubRow('0')"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											<input type="hidden" id="rowNo" name="rowNo" value="0" />
+									</div>
+			                        </div> </div>
+			                        <table class="mdl-data-table col s12">
+											<tbody>
+												<tr>
+													<td colspan="6"><a
+														type="button"
+														class="btn waves-effect waves-light bg-m t-c"
+														onclick="addRow()"> <i
+															class="fa fa-plus"></i>
+													</a>
+												</tr>
+											</tbody>
+										</table>
+										<input type="hidden" id="rowNo1" name="rowNo1" value="0" />
+                            
                             <div  style="text-align:center">
                         		 <span id="DivError" class="error-msg" ></span> 
                           </div>
-                        </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -151,8 +247,8 @@
                             class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
-                        <div class="row">
+                    <div class="col m12 s12">
+                        <%-- <div class="row">
                         	<input type="hidden" id="id" name="id"  />
                         	<input type="hidden" id="no" name="no"  />
                             <div class="input-field col s12 m6">
@@ -172,11 +268,58 @@
                                 <input name="short_description_new_fk" id="short_description_new_fk" type="hidden">
                                 <label for="short_description_new">Short Description</label>
                                  <span id="short_description_newError" class="error-msg" ></span>
-                            </div>
+                            </div> --%>
+                            <div id="listOfLocations">
+	                         <div id="archiveBodyupdate">
+	                           <input id="update_issue_category_update" name="update_issue_category_update" type="hidden" > 
+	                         <input id="issue_category_fk_old" name="issue_category_fk_old" type="hidden" > 
+	                          <input id="ids" name="id" type="hidden" > 
+	                          <input id="value_old" name="value_old" type="hidden" > 
+	             					<div class="row no-mar mt-c" id="actionRows0"><div class="input-field col s11 m5">
+							<p class="searchable_label"> Category</p>
+							
+							<select name="issue_category_fk_new" id="update_issue_category_text" class="searchable validate-dropdown">
+								<option value="">Select </option>
+								 <c:forEach var="obj" items="${issueCategoryDetails }">
+										  <option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>
+								  </c:forEach>
+							</select>
+							<span id="issue_category_fk0Error" class="error-msg" ></span>
+						</div>
+						<div class="input-field col s11 m5 box-grey" id="subArchiveBodys0">
+							<div id="subActionRows0">
+					
+							</div>
+					</div>
+					<span class="col s1 m1 input-field"><a onclick="removeActions(0);" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>
+					<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none">
+									<tbody>
+										<tr class="bd-none">
+											<td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRows(0)"> <i class="fa fa-plus"></i>
+											</a>
+										</tr>
+									</tbody>
+								</table>
+								   <input type="hidden" id="rowNu" name="rowNu" value="1" />
+								</div>
+		                        </div>
+	                         </div>
+	                        <table class="mdl-data-table col s12">
+									<tbody>
+										<tr>
+											<td colspan="6"><a
+												type="button"
+												class="btn waves-effect waves-light bg-m t-c"
+												onclick="addRows()"> <i
+													class="fa fa-plus"></i>
+											</a>
+										</tr>
+									</tbody>
+								</table>
+								<input type="hidden" id="rowNu1" name="rowNu1" value="0" />
                              <div  style="text-align:center">
                         		 <span id="DivUpdateError" class="error-msg" ></span> 
                     		 </div>
-                        </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -222,6 +365,117 @@
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
+    function addRow() {        	
+        var rowNo = $("#rowNo1").val();
+        var rNo = Number(rowNo)+1;
+        var randNum = Math.floor((Math.random() * 1000));
+        var html = '<div class="row no-mar mt-c" id="actionRow' + rNo + '">'
+        + '<div class="input-field col s11 m5"><p class="searchable_label"> Category</p>'
+        + '<select name="issue_category_fk" id="issue_category' + rNo +'_text" class="searchable validate-dropdown">'
+        + '<option value="">Select </option>'
+        + '<c:forEach var="obj" items="${issueCategoryDetails }">'
+        + '<option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>'
+        + '</c:forEach></select>'
+        + '<span id="issue_category' + rNo +'_fkError" class="error-msg" ></span></div>'
+        + '<div class="input-field col s11 m5 box-grey"  id="subArchiveBody' + rNo +'">'
+        + '<div id="subActionRow' + rNo +randNum+'"><div class="col s10 pd0">'
+        + '<input id="short_descriptionss' + rNo +'" name="short_description" type="hidden" value="_"> '
+        + '<input id="short_description' + rNo +'" name="short_description" type="text" class="validate" placeholder="Short Description"> '
+        + '<span id="short_description' + rNo + 'Error" class="error-msg"></span></div>'
+        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo +randNum+ ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1 m1 input-field"><a onclick="removeAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
+        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRow(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
+ 		$('#listOfLocationsAdd').append('<div id="archiveBody' + rNo + '" > </div>');
+        
+        $('#archiveBody' + rNo).append(html);
+        $("#rowNo1").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+    function removeAction(rowNo){
+        $("#actionRow"+rowNo).remove();
+    }
+    function addSubRow(idNo) {        	
+        var rowNo = $("#rowNo").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<div id="subActionRow' + rNo + '">'
+        + '<div class="input-field col s10 pd0">'
+        + '<input id="short_description' + rNo +'" name="short_description" type="text" class="validate" placeholder="Short Description"> '
+        + '<span id="short_description' + rNo + 'Error" class="error-msg"></span>'
+        + '</div>'
+        + '<span class="col s1"><a onclick="subRemoveAction(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div>';
+      
+        $('#subArchiveBodyAdd').append('<div id="subArchiveBody' + rNo + '" > </div>');
+        
+        $('#subArchiveBody' + idNo).append(html);
+        $("#rowNo").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+  
+    function subRemoveAction(rowNo){ 
+        $("#subActionRow"+rowNo).remove();
+    }
+    //add-1 end
+     function addRows() {        	
+        var rowNo = $("#rowNu1").val();
+        var rNo = Number(rowNo)+1;
+        var randNum = Math.floor((Math.random() * 1000));
+        var html = '<div class="row no-mar mt-c" id="actionRows' + rNo + '">'
+        + '<div class="input-field col s11 m5"><p class="searchable_label"> Category</p>'
+        + '<select name="issue_category_fk_new" id="update_issue_category' + rNo +'_text" class="searchable validate-dropdown">'
+        + '<option value="">Select </option>'
+        + '<c:forEach var="obj" items="${issueCategoryDetails }">'
+        + '<option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>'
+        + '</c:forEach></select>'
+        + '<span id="issue_category' + rNo +'_fkError" class="error-msg" ></span></div>'
+        + '<div class="input-field col s11 m5 box-grey"  id="subArchiveBodys' + rNo +'">'
+        + '<div id="subActionRows' + rNo +randNum+'"><div class="col s10 pd0">'
+        + '<input id="short_descriptionss' + rNo +'" name="short_description_new" type="hidden" value="_"> '
+        + '<input id="short_description' + rNo +'" name="short_description_new" type="text" class="validate" placeholder="Short Description"> '
+        + '<span id="short_description' + rNo + 'Error" class="error-msg"></span></div>'
+        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo +randNum+ ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div></div>'
+        + '<span class="col s1 m1 input-field"><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em"><i class="fa fa-close"></i></a></span>'
+        + '<table class="mdl-data-table col offset-m5 w50 s12 bg-none bd-none"><tbody><tr class="bd-none"><td colspan="6" class="bd-none"><a type="button" class="btn waves-effect waves-light bg-m t-c br20px" onclick="addSubRows(' + rNo + ')"> <i class="fa fa-plus"></i></a></tr></tbody></table></div>';
+
+        $('#listOfLocations').append('<div id="archiveBodyupdate' + rNo + '" > </div>');
+        
+        $('#archiveBodyupdate' + rNo).append(html);
+        $("#rowNu1").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+    function removeActions(rowNo){
+        $("#actionRows"+rowNo).remove();
+    }
+    function addSubRows(idNo) {        	
+        var rowNo = $("#rowNu").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<div id="subActionRows' + rNo + '">'
+        + '<div class="input-field col s10 pd0">'
+        + '<input id="short_description' + rNo +'" name="short_description_new" type="text" class="validate" placeholder="Short Description"> '
+        + '<span id="short_description' + rNo + 'Error" class="error-msg"></span>'
+        + '</div>'
+        + '<span class="col s1"><a onclick="subRemoveActions(' + rNo + ');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span></div>';
+        $('#subArchiveBodyUpdate').append('<div id="subArchiveBody' + rNo + '" > </div>');
+        $('#subArchiveBodys' + idNo).append(html);
+        $("#rowNu").val(rNo);
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+
+  
+    function subRemoveActions(rowNo){
+        $("#subActionRows"+rowNo).remove();
+    }
+    //add-2 end
         $(document).ready(function () {
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
@@ -427,7 +681,7 @@
            }
        });
        
-        function updateRow(no) {
+        /* function updateRow(no) {
        	    var issue_category = $('#issue_category_fk'+no).val();
             var short_descriptions = $('#short_description'+no).val();
             var id = $('#id'+no).val();
@@ -439,6 +693,51 @@
             $('#onlyUpdateModal #short_description_new').val($.trim(short_descriptions)).focus();
             $('select[name^="issue_category_fk_new"] option[value="'+ $.trim(issue_category) +'"]').attr("selected","selected");
    	     $('.searchable').select2();
+        } */
+        function updateRow(no) {
+      	  var html = '';
+      	  $("#subArchiveBodys0").empty();
+      	  var id = $('#id'+no).val();
+            var short_descriptions = $('#short_description'+no).val();
+            var issue_category_fk = $('#issue_category_fk'+no).val();
+            $('#value_old').val($.trim(short_descriptions));
+            $('#issue_category_fk_old').val($.trim(issue_category_fk));
+            $('#ids').val($.trim(id));
+            if ($.trim(issue_category_fk) != "") {
+                var myParams = { issue_category_fk: issue_category_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getTitles",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                          html = '<div id="subActionRows'+i+'">'+
+  							'<div class="col s10 pd0 br20px">'+
+  							'<input id="short_description_new'+i+'" name="short_description_new" type="text" class="validate" placeholder="sShort Description" value="'+val.short_description+'">'+
+  							'<span id="short_description'+i+'Error" class="error-msg" ></span>	'+
+  						'</div>'+
+  						'<span class="col s1"><a onclick="subRemoveActions('+i+');" class="btn red waves-effect waves-light mt1em br20px"><i class="fa fa-close"></i></a></span>'+
+  						'</div><br>';
+  	                        	$('#rowNu').val(data.length);
+  	                        	$('#ids').val(id);
+                                  $("#subArchiveBodys0").append(html);
+                                  $('#onlyUpdateModal #short_description'+i).focus();
+                                 // $('#onlyUpdateModal #rr_sub_location_new'+i).val($.trim(rr_sub_location)).focus();
+                                  $('#onlyUpdateModal #issue_category_fk_new').val($.trim(issue_category_fk)).focus(); 
+                                 // $('#onlyUpdateModal #rr_location_fk_new').val($.trim(rr_location_fk)); 
+                                  $('select[name^="issue_category_fk_new"] option[value="'+ issue_category_fk +'"]').attr("selected","selected");
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+            $('#onlyUpdateModal').modal('open');
+         
+            $('.searchable').select2();
         }
      
        function deleteRow(id){

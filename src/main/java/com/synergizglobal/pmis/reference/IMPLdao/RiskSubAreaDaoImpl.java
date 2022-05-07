@@ -328,7 +328,7 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 							try {
 								oldVal = value_oldArr1[j];
 							}catch(Exception e) {
-								oldVal = null;
+								oldVal = "no val";
 							}
 						}
 						for (TrainingType bObj : obj.getdList()) {

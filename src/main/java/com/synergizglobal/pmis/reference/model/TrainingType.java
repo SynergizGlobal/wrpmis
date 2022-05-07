@@ -11,7 +11,7 @@ public class TrainingType {
 
 	private String Table_name,column_name,constraint_name,user_name,work_id_fk_old,risk_area_fk_old,category_new,la_land_status,approval_authority,resource_type,area_short_name,area_short_name_new,referenced_table_name,risk_work_completed,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
 	
-	private String structure_file_type,design_file_type,department_new,stage,department_old,type_fk_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
+	private String structure_file_type,design_file_type,department_new,issue_category_fk_old,stage,department_old,type_fk_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
 	,contractor_specialization_new,contract_type_old,contract_type_new,dashboard_type_old,dashboard_type_new,status_old,status_new,deliverable_type_old,
 	deliverable_type_new,document_type_old,document_type_new,value_old,value_new,general_status,execution_status,category,priority,status_of_new,status_of,manual_folders,module_name,module_incharge,incharge_user_id_fk
 	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
@@ -36,6 +36,14 @@ public class TrainingType {
 	List<TrainingType> landExecutivesList;
 	List<TrainingType> utilityExecutivesList;
 	
+	public String getIssue_category_fk_old() {
+		return issue_category_fk_old;
+	}
+
+	public void setIssue_category_fk_old(String issue_category_fk_old) {
+		this.issue_category_fk_old = issue_category_fk_old;
+	}
+
 	public String getType_fk_old() {
 		return type_fk_old;
 	}

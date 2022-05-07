@@ -262,7 +262,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 								try {
 									idOld = value_oldArr1[j];
 								}catch(Exception e) {
-									idOld = null;
+									idOld = "no val";
 								}
 							}
 						for (TrainingType bObj : obj.getdList()) {

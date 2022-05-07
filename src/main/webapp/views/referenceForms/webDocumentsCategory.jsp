@@ -143,7 +143,7 @@
 											<td style="font-weight: 600;">
 												<input type="hidden" id="type_fkId${indexs.count}" value="${obj.type_fk }" class="findLengths"/>
 												${obj.type_fk }</td>
-											<td>
+											<td   >
 												<input type="hidden" id="categoryId${indexs.count}" value="${obj.category }" class="findLengths2"/>
 												 <c:forEach var="splt" items="${fn:split(obj.category,',')}">
 												   &#9656; ${splt} <br>

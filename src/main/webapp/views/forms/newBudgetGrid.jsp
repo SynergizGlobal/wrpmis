@@ -235,7 +235,7 @@
     	<input type="hidden" name="budget_id" id="budget_id" />
     </form>
     
-     <form action="<%=request.getContextPath() %>/export-budget" name="exportBudgetForm" id="exportBudgetForm" target="_blank" method="post">	
+     <form action="<%=request.getContextPath() %>/export-new-budget" name="exportBudgetForm" id="exportBudgetForm" target="_blank" method="post">	
          <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
          <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
          <input type="hidden" name="contract_id_fk" id="exportcontract_id_fk" />

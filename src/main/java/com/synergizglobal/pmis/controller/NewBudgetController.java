@@ -413,8 +413,8 @@ public class NewBudgetController {
 		        workBook.setSheetOrder(budgetSheet.getSheetName(), 0);
 		        XSSFRow headingRow = budgetSheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("Budget ID");
-	            headingRow.createCell((short)1).setCellValue("Work");
-	            headingRow.createCell((short)2).setCellValue("Latest Financial Year");
+	            headingRow.createCell((short)1).setCellValue("Contract");
+	            headingRow.createCell((short)2).setCellValue("Financial Year");
 	         	headingRow.createCell((short)3).setCellValue("Budget Estimate");
 	            headingRow.createCell((short)4).setCellValue("Budget Grant");
 	            headingRow.createCell((short)5).setCellValue("Reivised Estimate");
@@ -427,7 +427,7 @@ public class NewBudgetController {
 	            for (Budget obj : dataList) {
 	                XSSFRow row = budgetSheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getBudget_id());
-	                row.createCell((short)1).setCellValue(obj.getWork_id_fk());
+	                row.createCell((short)1).setCellValue(obj.getContract_id());
 	                row.createCell((short)2).setCellValue(obj.getFinancial_year_fk());
 	                row.createCell((short)3).setCellValue(obj.getBudget_estimate());
 	                row.createCell((short)4).setCellValue(obj.getBudget_grant());

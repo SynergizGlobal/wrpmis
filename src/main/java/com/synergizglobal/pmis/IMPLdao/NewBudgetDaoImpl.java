@@ -507,13 +507,13 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 	public List<Budget> getNewBudgetExportList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="SELECT new_budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,b.financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate,cast(new_budget_grant as CHAR) as budget_grant, " 
+			String qry ="SELECT new_budget_id as budget_id,c.contract_id,work_id_fk,w.work_name,p.project_id,p.project_name,date_format(CONCAT(b.financial_year_fk,'-00'),'%Y-%m') AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate,cast(new_budget_grant as CHAR) as budget_grant, " 
 					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " 
 					+ " from new_budget b "+ 
 					"LEFT JOIN contract c on c.contract_id = b.contract_id_fk "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE new_budget_id is not null and status = ? ";
+					+ "WHERE new_budget_id is not null and b.status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id = ?";
@@ -618,8 +618,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 					"LEFT JOIN contract c on c.contract_id = b.contract_id_fk "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END) AS financial_year) " 
-					+ "AND new_budget_id is not null and b.status = ? ";
+					+ "WHERE new_budget_id is not null and b.status = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {

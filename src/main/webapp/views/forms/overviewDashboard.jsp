@@ -454,10 +454,10 @@
 						{
 							html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 						}
-						else
+/* 						else
 						{
 							html = html + '<a style="cursor: default;" href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'<span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></a>';
-						}
+						} */
 					}
 					if(value1.formsSubMenu != "" && value1.formsSubMenu != null && value1.formsSubMenu != 'undefined' && value1.formsSubMenu.length > 0){
 						html = html + '<div style="margin: 0 0 0 2em;"> <p>';

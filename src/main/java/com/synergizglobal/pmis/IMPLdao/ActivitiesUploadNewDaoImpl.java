@@ -121,8 +121,8 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 				}
 			}
 			
-			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,from_structure_id,to_structure_id,section,line,structure,component,component_id,`order_x`,`order_y`,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)";
+			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,from_structure_id,to_structure_id,section,line,structure,component,component_id,`order_x`,`order_y`,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk,p6_task_code) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?)";
 			stmt = con.prepareStatement(insertQry); 
 			
 			for (int i = 0;i < insertList.size();i++) {
@@ -158,12 +158,13 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
                 stmt.setString(p++, CD);	
                 stmt.setString(p++, insertList.get(i).getRemarks());
                 stmt.setString(p++, insertList.get(i).getCreated_by_user_id_fk());
+                stmt.setString(p++, insertList.get(i).getP6_task_code());
                 stmt.addBatch();
 			}
 			int[] insertCounts = stmt.executeBatch();
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
-			String updateQry = "UPDATE activities SET planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ? "
+			String updateQry = "UPDATE activities SET planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ?,p6_task_code = ? "
 					+ "WHERE (contract_id_fk = ? OR contract_id_fk IS NULL OR contract_id_fk = '') and (structure_type_fk = ? OR structure_type_fk IS NULL OR structure_type_fk = '') "
 					+ "and (from_structure_id = ? OR from_structure_id IS NULL OR from_structure_id = '') and (to_structure_id = ? OR to_structure_id IS NULL OR to_structure_id = '') and (section = ? OR section IS NULL OR section = '') and (line = ? OR line IS NULL OR line = '') and (structure = ? OR structure IS NULL OR structure = '') and (component = ? OR component IS NULL OR component = '') "
 					+ "and (component_id = ? OR component_id IS NULL OR component_id = '') and (activity_name = ? OR activity_name IS NULL OR activity_name = '') ";
@@ -189,6 +190,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
                 stmt.setString(p++, CD1);	
                 stmt.setString(p++, updateList.get(i).getRemarks());
                 stmt.setString(p++, updateList.get(i).getModified_by_user_id_fk());
+                stmt.setString(p++, insertList.get(i).getP6_task_code());
                 
                 stmt.setString(p++, updateList.get(i).getContract_id_fk());
                 stmt.setString(p++, updateList.get(i).getStructure_type());

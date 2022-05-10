@@ -130,7 +130,7 @@
 							<h6>Utility Shifting</h6>
 							<div class="col s12 m12 right-align exportButton">
 							    <div class="m-n1 hideCOl">
-								    <a href="/pmis/Utility_Shifting_Template.xlsx" download class="template-btn" title="Click to Download R&R Template">
+								    <a href="/pmis/Utility_Shifting_Template.xlsx" download class="template-btn" title="Click to Download Utility Shifting Template">
 											<i class="material-icons-outlined">download_for_offline</i>
 									</a>
 									<a href="javascript:void(0);"

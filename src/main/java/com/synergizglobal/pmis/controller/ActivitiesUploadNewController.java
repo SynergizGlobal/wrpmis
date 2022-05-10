@@ -356,7 +356,7 @@ public class ActivitiesUploadNewController {
 							
 							List<Activity> activityList = new ArrayList<Activity>();
 							
-							String activity_id = null,contract_id_fk = null,struture_type_fk = null,from_structure_id=null,to_structure_id=null,section = null,line = null,structure_type = null,structure_id = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
+							String activity_id = null,contract_id_fk = null,struture_type_fk = null,from_structure_id=null,to_structure_id=null,section = null,line = null,structure_type = null,structure_id = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null,p6_task_code = null;
 							String completed_scope_gt_total_scope = "",
 									planned_start_null = "",planned_finish_null = "",planned_start_gt_planned_finish = "",
 									actual_start_null = "",actual_start_gt_actual_finish = "";
@@ -612,6 +612,13 @@ public class ActivitiesUploadNewController {
 											remarks = getCellDataType(workbook,row.getCell(18));
 										}	
 										if(!StringUtils.isEmpty(remarks)) { activityObj.setRemarks(remarks);}
+										
+										if(count != 2) {
+											p6_task_code = getCellDataType(workbook,row.getCell(19));
+										}	
+										if(!StringUtils.isEmpty(p6_task_code)) { activityObj.setP6_task_code(p6_task_code);}										
+										
+										
 										
 										
 										double totalScope = 0;

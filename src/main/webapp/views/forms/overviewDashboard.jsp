@@ -332,7 +332,8 @@
 		    		{
 		    			$.ajax({
 			                 url: "<%=request.getContextPath()%>/ajax/getWorkId",
-			                 data: {sub_work:subworkid},type: 'POST',
+			                 data: {sub_work:subworkid.replace(/%20/g, " ")},
+			                 type: 'GET',
 			                 async: false,
 			                 dataType: 'json',
 			                 success: function (data) 

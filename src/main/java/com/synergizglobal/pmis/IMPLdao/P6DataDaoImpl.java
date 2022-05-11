@@ -66,7 +66,7 @@ public class P6DataDaoImpl implements P6DataDao {
 		try {
 			String qry ="SELECT contract_id_fk as contract_id,contract_name FROM p6_activity_data "
 					+ "LEFT OUTER JOIN contract ON contract_id_fk = contract_id "
-					+ "WHERE contract_id_fk is not null and contract_id_fk <> '' ";
+					+ "WHERE fob_id_fk is not null AND contract_id_fk is not null and contract_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				qry = qry + "and contract_id_fk = ? ";
@@ -159,7 +159,7 @@ public class P6DataDaoImpl implements P6DataDao {
 		List<P6Data> objsList = null;
 		try {
 			String qry ="SELECT upload_type FROM p6_activity_data "
-					+ "where upload_type is not null and upload_type <> '' ";
+					+ "where fob_id_fk is not null AND upload_type is not null and upload_type <> '' ";
 					
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -207,7 +207,7 @@ public class P6DataDaoImpl implements P6DataDao {
 		List<P6Data> objsList = null;
 		try {
 			String qry ="SELECT soft_delete_status_fk FROM p6_activity_data "
-					+ "where soft_delete_status_fk is not null and soft_delete_status_fk <> '' ";
+					+ "where fob_id_fk is not null AND soft_delete_status_fk is not null and soft_delete_status_fk <> '' ";
 					int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				qry = qry + "and contract_id_fk = ? ";
@@ -344,7 +344,7 @@ public class P6DataDaoImpl implements P6DataDao {
 			String qry ="select contract_id_fk, fob_id_fk,upload_type, DATE_FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk,"
 					+ " p6_file_path, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_date,'%d-%m-%Y') as uploaded_date  "
 					+ "from p6_activity_data "
-					+ "WHERE p6_activity_data_id is not null ";
+					+ "WHERE fob_id_fk is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + "and contract_id_fk = ? ";

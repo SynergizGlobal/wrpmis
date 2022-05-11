@@ -300,15 +300,15 @@
                                             </c:forEach> --%>	                                           
                                         </select>
                                     </div>
-                                    <div class="col s6 m4 l2 input-field">
+                                    <%-- <div class="col s6 m4 l2 input-field">
                                       <p class="searchable_label">FOB </p>
                                         <select id="fob_id" name="fob_id" onchange="addInQueFOB(this.value);getP6NewActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
-                                            <%-- <c:forEach var="obj" items="${fobListFilter }">
+                                            <c:forEach var="obj" items="${fobListFilter }">
                                             	<option value="${obj.fob_id }">${obj.fob_name }</option>
-                                            </c:forEach>  --%>                                           
+                                            </c:forEach>                                            
                                         </select>
-                                    </div>
+                                    </div> --%>
                                     <div class="col s6 m4 l2 input-field">
                                     	<p class="searchable_label">Data Type</p>
                                         <select id="upload_type" name="upload_type" onchange="addInQueDataType(this.value);getP6NewActivityDataList();" class="searchable">
@@ -342,7 +342,7 @@
                                     <thead>
                                         <tr>
                                             <th class="no-sort">Contract ID</th>
-                                            <th>FOB ID</th>
+                                            <!-- <th>FOB ID</th> -->
                                             <th>Data Type</th>
                                             <th>Data Date </th>
                                             <th>Status</th>
@@ -442,7 +442,7 @@
 		        	   if($.trim(temp2[0]) == 'contract_id'){
 		        		   getContractsListFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'fob_id'){
-		        		  getFobListFilter(temp2[1]);
+		        		  //getFobListFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'upload_type'){
 		        		  getUploadTypesFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'status_fk'){
@@ -680,7 +680,7 @@
 	       	$(".page-loader").show();
 	       	
 	    	getContractsListFilter('');
-	       	getFobListFilter('');
+	       	//getFobListFilter('');
 	       	getUploadTypesFilter('');
 	       	getStatusListFilter('');
 	       	
@@ -714,11 +714,11 @@
 	             columnDefs: [
 	                   
 	                   {
-	                	   targets:[2,3,4,5,6],
+	                	   targets:[2,3,4,5],
 	                       className: 'hideCOl'
 	                   },
 	                   {
-	                	   targets:[0,1,7],
+	                	   targets:[0,1,6],
 	                       className: 'cw-m'
 	                   },
 	                   { orderable: false, 'aTargets': ['nosort'] },
@@ -772,7 +772,7 @@
 	                        }
 	   	                   	
 	   	                   	rowArray.push($.trim(val.contract_id_fk) + contract_short_name);
-	   	                    rowArray.push($.trim(val.fob_id_fk));
+	   	                    /* rowArray.push($.trim(val.fob_id_fk)); */
 	   	                   	rowArray.push($.trim(val.upload_type));
 	   	                   	rowArray.push($.trim(val.data_date));
 	   	                   	rowArray.push($.trim(val.soft_delete_status_fk));

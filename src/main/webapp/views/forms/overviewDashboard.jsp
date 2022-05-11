@@ -327,22 +327,9 @@
 		   			
 
 		   			subworkid = getUrlVars()["sub_work"];
-		   			
-		    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
-		    		{
-		    			$.ajax({
-			                 url: "<%=request.getContextPath()%>/ajax/getWorkId",
-			                 data: {sub_work:subworkid.replace(/%20/g, " ")},
-			                 type: 'GET',
-			                 async: false,
-			                 dataType: 'json',
-			                 success: function (data) 
-			                 {
-			                	 subworkid=data;
-			                 }
-			             });		    			
-		   				assessmentdate = getUrlVars()["assessment_date"];
-		    		}
+	   				assessmentdate = getUrlVars()["assessment_date"];
+
+
 
 	    	}  
  	    	
@@ -672,7 +659,18 @@
          								
 					if(subworkid!="")
 					{
-							$("#work_id").val(subworkid).trigger('change');
+						var rlc=subworkid.replace(/%20/g, " ");
+			    	      	 $.ajax({
+			    	            url: "<%=request.getContextPath()%>/ajax/getWorkId",
+			    	            data: {sub_work:rlc},
+			    	            type: 'GET',
+			    	            dataType: 'json',
+			    	            success: function (data) 
+			    	            {
+									$("#work_id").val(data).trigger('change');
+
+			    	            }
+			    	        });		    			
 					}        								
 					if(assessmentdate!="")
 					{

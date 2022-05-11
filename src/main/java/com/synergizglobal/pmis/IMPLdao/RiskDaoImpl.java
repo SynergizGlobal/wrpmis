@@ -215,7 +215,11 @@ public class RiskDaoImpl implements RiskDao{
 				 }
 				  				 
 				 String messageType = "Risk";
-				 String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
+				 
+				 String riskQuery = "select dashboard_id from left_menu where dashboard_type_fk='modules' and dashboard_name='Risk'";
+				 String dashboardid = jdbcTemplate.queryForObject( riskQuery, String.class);
+					
+				 String redirect_url = "/overview-dashboard/"+dashboardid+"?&sub_work="+subWork+"&assessment_date="+assessmentDate;
 				 String message = "Risk Analysis Report of "+subWork+" has been uploaded.";
 				 
 				 Messages msgObj = new Messages();
@@ -798,7 +802,11 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 						 }
 						  				 
 						 String messageType = "Risk";
-						 String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+DateParser.parse(obj.getAssessment_date());
+						 
+							String riskQuery = "select dashboard_id from left_menu where dashboard_type_fk='modules' and dashboard_name='Risk' limit 1";
+							String dashboardid = jdbcTemplate.queryForObject( riskQuery, String.class);
+							
+						 String redirect_url = "/overview-dashboard/"+dashboardid+"?&sub_work="+obj.getSub_work()+"&assessment_date="+DateParser.parse(obj.getAssessment_date());
 						 String message = "ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.";
 						 
 						 Messages msgObj = new Messages();

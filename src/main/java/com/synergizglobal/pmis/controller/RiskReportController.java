@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -162,6 +163,18 @@ public class RiskReportController {
 		}
 		return worksList;
 	}
+	
+	@RequestMapping(value = "/ajax/getWorkId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String getWorkId(@ModelAttribute RiskReport obj) throws Exception {
+		String WorkId = "";
+		try {
+			WorkId = riskReportService.getWorkId(obj.getSub_work());
+		} catch (SQLException e) {
+			logger.error("getModulesCount : " + e.getMessage());
+		}
+		return WorkId;
+	}	
 	
 	@RequestMapping(value = "/ajax/getAssessmentDateListInRiskReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

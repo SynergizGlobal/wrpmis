@@ -309,7 +309,9 @@
 	    $(document).ready(function(){
 	    	
 	    	
- 		 	var currentHost = window.location.href;    	
+ 		 	var currentHost = window.location.href; 
+ 		 	var subworkid="";
+ 		 	var assessmentdate="";
 
  	    	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
      		{
@@ -318,7 +320,28 @@
  	    	else
 	    	{
 		   			$("#lefticon").hide();
+		   			
+
+		   			subworkid = getUrlVars()["sub_work"];
+		   			
+		    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
+		    		{
+		    			$.ajax({
+			                 url: "<%=request.getContextPath()%>/ajax/getWorkId",
+			                 data: {sub_work:subworkid},type: 'POST',
+			                 async: false,
+			                 dataType: 'json',
+			                 success: function (data) 
+			                 {
+			                	 subworkid=data;
+			                 }
+			             });		    			
+		   				assessmentdate = getUrlVars()["assessment_date"];
+		    		}
+
 	    	}  
+ 	    	
+
 	    	
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
@@ -340,7 +363,7 @@
 					  });
 					}
 					$( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
-					
+
 					$.each( data, function( index, value ){
 						if(index == 0 && $.trim(requestedDashboardId) == ''){
 							requestedDashboardId = value.dashboard_id;
@@ -348,6 +371,9 @@
 					});
 				}
 	        });
+		    
+		    
+		    
 		    
 		    if($.trim(requestedDashboardId) != ''){
 				var tempParentId = $('.bg-a#'+requestedDashboardId).attr("parent_id");
@@ -365,7 +391,31 @@
 				}
 			}
 		    $('.searchable').select2();
+			
+	    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
+	    		{
+ 	    			openDashboard(36);
+	    		}	
 	});
+	    
+	    function formatDate(dateString) {
+	    	var date = new Date(dateString);
+	    	  var month = date.getMonth();
+	    	  var day = date.getDay();	    	      
+	    	    return [
+	    	        date.getFullYear(),
+	    	        month > 9 ? month : "0" + month,
+	    	        day > 9 ? day : "0" + day
+	    	      ].join("-");  
+	    	}
+	    
+	    function getUrlVars() {
+	        var vars = {};
+	        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+	            vars[key] = value;
+	        });
+	        return vars;
+	    }	    
 	    
 	    
 	    function getArchiveDates(dashboardId,work_id)
@@ -577,7 +627,7 @@
 					         			+ '<label>'+value.filter_label_name+'</label>'
 					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
 					         			//+ '<option value="">All</option>'
-					         			
+
 					         			if((value.is_first_option_selected != 'YES')){
 					         				filters = filters + '<option value="" selected>All</option>';
 				         			    }
@@ -590,7 +640,19 @@
 					         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
 					         					selectedFlag = 'selected';
 					         				}
-					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+											if(assessmentdate!="" && value.filter_label_name=="Assessment Date" && filter_option_id==assessmentdate)
+											{
+						         				filters = filters + '<option value="'+filter_option_id+'" selected>'+value2.filter_option_value+'</option>';
+											}
+											else if(assessmentdate!="" && value.filter_label_name=="Work" && value2.filter_option_id==subworkid)
+											{
+						         				filters = filters + '<option value="'+filter_option_id+'" selected>'+value2.filter_option_value+'</option>';
+											}											
+											else
+											{
+				         						filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+											}
+					         				
 				                     	});
 					         			
 					         			filters = filters + '</select>'
@@ -602,6 +664,8 @@
          								+ '</div>'
          		   
          		   $("#filter-item-holder").html(filters);
+         								
+
          		   $('.searchable').select2();
          	   }else{
          		  	var currentHost = window.location.href;    	
@@ -787,4 +851,4 @@
 
  </script>
 </body>
-</html>
+</html>	

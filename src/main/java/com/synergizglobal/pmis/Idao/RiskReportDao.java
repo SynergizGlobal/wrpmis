@@ -23,4 +23,6 @@ public interface RiskReportDao {
 
 	Map<String,List<RiskReport>> getTop5RiskAreas() throws Exception;
 
+	String getWorkId(String sub_work) throws Exception;
+
 }

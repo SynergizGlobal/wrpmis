@@ -682,16 +682,10 @@
          		   
          		   $("#filter-item-holder").html(filters);
          								
-        								
-					if(assessmentdate!="")
-					{
-							$("#date").val(assessmentdate).trigger('change');
-					}  
-					
 					if(subworkid!="")
 					{
 							$("#work_id").val(subworkid).trigger('change');
-					}					
+					}        								
 
          		   $('.searchable').select2();
          	   }else{
@@ -733,8 +727,12 @@
 			 filterIds = filterIds.replace(/['"]+/g, '');
 	      	 ids = filterIds.split(",");
 		 }
-		 
+		if(assessmentdate!="")
+		{
+				$("#date").val(assessmentdate);
+		} 		 
 	     getFilteredOptions(filterIds,dashboardId);
+
 	     $(".page-loader").show();
 	    
 		 for(var  i=0;i<ids.length;i++){
@@ -858,6 +856,8 @@
 				         				}
 				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
 			                      });
+			         			  
+			         			  
 			         		  });
 			         		   $('.searchable').select2();
 			         	   }

@@ -682,14 +682,16 @@
          		   
          		   $("#filter-item-holder").html(filters);
          								
-					if(subworkid!="")
-					{
-							$("#work_id").val(subworkid).trigger('change');
-					}        								
+        								
 					if(assessmentdate!="")
 					{
 							$("#date").val(assessmentdate).trigger('change');
-					}          								
+					}  
+					
+					if(subworkid!="")
+					{
+							$("#work_id").val(subworkid).trigger('change');
+					}					
 
          		   $('.searchable').select2();
          	   }else{

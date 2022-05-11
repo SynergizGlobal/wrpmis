@@ -306,12 +306,16 @@
 	    }); */
 
 	    var requestedDashboardId = '';
+	    
+		 	var subworkid="";
+ 		 	var assessmentdate="";
+ 		 	
+ 		 	
 	    $(document).ready(function(){
 	    	
 	    	
  		 	var currentHost = window.location.href; 
- 		 	var subworkid="";
- 		 	var assessmentdate="";
+
 
  	    	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
      		{

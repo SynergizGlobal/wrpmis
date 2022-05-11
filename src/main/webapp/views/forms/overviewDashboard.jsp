@@ -727,11 +727,13 @@
 			 filterIds = filterIds.replace(/['"]+/g, '');
 	      	 ids = filterIds.split(",");
 		 }
-		if(assessmentdate!="")
-		{
-				$("#date").val(assessmentdate);
-		} 		 
+ 
 	     getFilteredOptions(filterIds,dashboardId);
+	     
+			if(assessmentdate!="")
+			{
+					$("#date").val(assessmentdate);
+			} 		     
 
 	     $(".page-loader").show();
 	    

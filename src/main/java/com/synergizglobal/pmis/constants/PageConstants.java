@@ -219,6 +219,8 @@ public class PageConstants {
 	
 	public static final String unitType = "referenceForms/unitType";
 	
+	public static final String wbsTree = "forms/wbsTree";
+	
 	public static final String issueStatus = "referenceForms/issueStatus";
 	public static final String issuePriority = "referenceForms/issuePriority";
 	public static final String issueCategory = "referenceForms/issueCategory";

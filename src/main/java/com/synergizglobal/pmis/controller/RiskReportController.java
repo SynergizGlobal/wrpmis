@@ -101,6 +101,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.OverviewDashboard;
 import com.synergizglobal.pmis.model.RiskReport;
 
 @Controller
@@ -163,18 +164,19 @@ public class RiskReportController {
 		}
 		return worksList;
 	}
-	
+
 	@RequestMapping(value = "/ajax/getWorkId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String getWorkId(@ModelAttribute RiskReport obj) throws Exception {
-		String WorkId = "";
-		try {
-			WorkId = riskReportService.getWorkId(obj.getSub_work());
-		} catch (SQLException e) {
-			logger.error("getModulesCount : " + e.getMessage());
+	public List<RiskReport> getWorkId(@ModelAttribute RiskReport dObj,HttpSession session){
+		List<RiskReport> objList = null;
+		try{
+			objList = riskReportService.getWorkId(dObj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFilters() : "+e.getMessage());
 		}
-		return WorkId;
-	}	
+		return objList;
+	}		
 	
 	@RequestMapping(value = "/ajax/getAssessmentDateListInRiskReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

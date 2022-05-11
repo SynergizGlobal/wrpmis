@@ -90,30 +90,17 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	}
 	
 	@Override
-	public String getWorkId(String sub_work) throws Exception {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-	    String work_id_fk = null;
-			try {
-				con = dataSource.getConnection();
-				String workIdQuery = "select work_id_fk from risk_work_hod where sub_work = ? limit 1";
-				stmt = con.prepareStatement(workIdQuery);
-				stmt.setString(1,sub_work);
-				rs = stmt.executeQuery(); 
-				while(rs.next()) 
-				{
-					work_id_fk=rs.getString("work_id_fk");
-				}
+	public List<RiskReport> getWorkId(RiskReport obj) throws Exception {
+		List<RiskReport> objsList = null;
+		try {
+			String qry = "select work_id_fk from risk_work_hod where sub_work = ? limit 1";	
+			Object[] pValues = new Object[] {obj.getSub_work()};
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			
-				
-			}catch(Exception e){ 
-				throw new Exception(e.getMessage());
-			}
-			finally {
-				DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
-			}
-			return work_id_fk;
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
 	}	
 	
 	@Override

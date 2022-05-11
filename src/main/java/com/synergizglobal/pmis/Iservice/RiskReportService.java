@@ -12,7 +12,7 @@ public interface RiskReportService {
 	List<RiskReport> getWorksListInRiskReport(RiskReport obj) throws Exception;
 
 	List<RiskReport> getSubWorksListInRiskReport(RiskReport obj) throws Exception;
-	String getWorkId(String sub_work) throws Exception;
+	List<RiskReport> getWorkId(RiskReport obj) throws Exception;
 
 	List<RiskReport> getAssessmentDateListInRiskReport(RiskReport obj) throws Exception;
 

@@ -56,8 +56,8 @@ public class RiskReportServiceImpl implements RiskReportService{
 		return dao.getTop5RiskAreas();
 	}
 	@Override
-	public String getWorkId(String sub_work) throws Exception {
-		return dao.getWorkId(sub_work);
+	public List<RiskReport> getWorkId(RiskReport obj) throws Exception {
+		return dao.getWorkId(obj);
 	}
 	
 

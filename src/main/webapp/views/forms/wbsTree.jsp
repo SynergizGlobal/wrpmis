@@ -231,6 +231,9 @@ input[type=checkbox] {
 		    .card{
 		    	background-color: #e3e7ea !important; 
 		    }
+		    .container-fluid{
+		    		  padding-top: 1.5em;
+		    }
    </style>
 </head>
 
@@ -312,13 +315,13 @@ input[type=checkbox] {
 		                   <div class="section-content" id="level4">
 								<div class="container-fluid">
 									<div class="row centered  multiple-columns "  id="level4Div">
-										<c:forEach var="obj" items="${level4List }">
-											<div class="col-sm-4 col-md-4 tree-body" onClick="getNextLevelData('${obj.wbs_4_name }','3','')">
+									<%-- 	<c:forEach var="obj" items="${level4List }" varStatus="index">
+											<div class="col-sm-4 col-md-4 tree-body" id="level-active1${index.count }" onClick="getNextLevelData('${obj.wbs_4_name }','3','','${index.count }')">
 												<p <c:choose><c:when test="${obj.planned > obj.actual }">style="background-color:red; color:white;" 
 												</c:when><c:otherwise>style="background-color:white; color:black;" </c:otherwise></c:choose> >${obj.wbs_4_name }</p>
 												<p style="background: #1f77b4;">${obj.planned } %</p><p style="background: #2ca02c;">${obj.actual } %</p><p style="background-color: #f27935;">${obj.weightage }</p>
 											</div>
-										</c:forEach> 
+										</c:forEach> --%> 
 									</div>
 								</div>
 							</div>		
@@ -337,16 +340,25 @@ input[type=checkbox] {
 							
 							<div class="section-content">	
 								<div class="container-fluid levels" id="level2" style="display: none;">
-									<div class="row centered  multiple-columns">
-									<%-- 	<c:forEach var="obj" items="${contracts }" varStatus="index">
-											<div class="col-sm-4 col-md-4 tree-body" id="level-active3${index.count }" onclick="getNextLevel('${obj.levelId}','${obj.levelName}','3','${index.count }');">
-												<p style="background-color: ${obj.backgroundColor };color:${obj.color };">${obj.levelName }</p><p style="background: #1f77b4;">${obj.plannedProgress } %</p><p style="background: #2ca02c;">${obj.actualProgress } %</p><p style="background-color: #f27935;">${obj.weightage }</p>
-											</div>
-										</c:forEach> --%>
+									<div class="row centered  multiple-columns"  id="level2Div">
 									</div>
 								</div>
 							</div>
 							
+								<div class="section-content">	
+								<div class="container-fluid levels" id="level1" style="display: none;">
+									<div class="row centered  multiple-columns"  id="level1Div">
+									</div>
+								</div>
+							</div>
+					<!-- 		
+								<div class="section-content">	
+								<div class="container-fluid levels" id="level0" style="display: none;">
+									<div class="row centered  multiple-columns"  id="level0Div">
+									</div>
+								</div>
+							</div> -->
+					
 							</form>
 							
 								
@@ -356,11 +368,11 @@ input[type=checkbox] {
 							<div id="level7"></div>	
 							<div id="level8"></div>	
 							
-							<div class="loading" style="display: none;">
+					<!-- 		<div class="loading" style="display: none;">
 					    		<div style="position: fixed; left: 0; top: 0; z-index: 202; background-color: rgba(0,0,0,0.5); width: 100%;Height: 100%;">
 									<i class="fa fa-spinner fa-spin" style="font-size:48px;color:red; position:fixed; margin-top: -24px%;margin-left: -24px;top:50%;left: 50%;"></i>
 								</div>
-							</div>                   
+							</div>  -->                  
 		                   
 		            
 		          </div>         
@@ -461,6 +473,7 @@ input[type=checkbox] {
             coverTrigger: false,
             closeOnClick: false,
         });
+        getP6DataList();
     });
   
 	/* $(document).on('click.bs.dropdown.data-api', '.dropdown', function (e) { e.stopPropagation() });    
@@ -589,12 +602,15 @@ function showCancelMessage() {
         confirmButtonText: "Okay"
     });
 }
-
+var wbs_4_name = '';
+var wbs_3_name = '';
+var wbs_2_name = '';
 function getP6DataList(){
 	$(".page-loader").show();
 	var contract_id = $('#contract_id').val();
 	$('#level4Div').empty();
-	 	var myParams = {contract_id : contract_id};
+	var work_id = '${work_id}';
+	 	var myParams = {contract_id : contract_id, work_id : work_id};
        $.ajax({
            url: "<%=request.getContextPath()%>/ajax/getWbslevelsList",
            data: myParams, cache: false,async: false,
@@ -603,21 +619,32 @@ function getP6DataList(){
                    $.each(data, function (i, val) {  
                 	   $('.levels').hide();
                 	   var style = 'style="background-color:white; color:black;"'
-                	   var wbs_4_name = "'"+val.wbs_4_name+"'";
-                	   contract_id = "'"+val.contract_id+"'";
-                   	   if(parseFloat(val.planned) >= parseFloat(val.actual)){
-                   			style = 'style="background-color:red; color:white;"'
-                   	   }
-                        var htmlText = '<div class="col-sm-4 col-md-4 tree-body " onClick="getNextLevelData('+wbs_4_name+','+3+','+contract_id+');">'+
+                	   var actual =  parseFloat(val.actual) /val.weightage;
+                	   var planned = parseFloat(val.planned) /val.weightage;
+                	   if(isNaN(actual)) {
+              	  		 actual = 0.00;
+	              	  	}
+	              	  	if(isNaN(planned)) {
+	              	  		 planned = 0.00;
+	              	  	}
+                	   actual =   actual.toFixed(2);
+                	  	planned =   planned.toFixed(2);
+                	  	var level4 = "'"+val.wbs_4_name+"'";
+                	  	 if(parseFloat(planned) >= parseFloat(actual)){
+                    			style = 'style="background-color:red; color:white;"'
+                    	   }
+                        var htmlText = '<div class="col-sm-4 col-md-4 tree-body point " id="level-active33'+i+'" onClick="getNextLevelData(\'' + val.wbs_4_name + '\',\'' + 3 + '\',\'' + contract_id + '\',\'' +i + '\');setLevel4val('+level4 +','+i+')">'+
 											'<p '+style+'>'+val.wbs_4_name+'</p>'+
-											'<p style="background: #1f77b4;">'+val.planned+' %</p><p style="background: #2ca02c;">'+val.actual+' %</p><p style="background-color: #f27935;">'+val.weightage+'</p>'+
+											'<p style="background: #1f77b4;">'+planned+' %</p><p style="background: #2ca02c;">'+actual+' %</p><p style="background-color: #f27935;">'+val.weightage+'</p>'+
 										'</div>';
-                        $("#level4Div").append(htmlText);
-	        
+                        $("#level4Div").append(htmlText).hide().show('slow');
+                        wbs_3_name = '';
+                        wbs_2_name = '';
+                        
                    }); 
                }else{
             	    $('.levels').hide();
-            	    var htmlText = '<span> No Records Found!</span>'
+            	    var htmlText = '<div class="col-sm-4 col-md-4 tree-body ">  <p style="color:black;padding-top: 0.5em">No Records Found! </p</div>'
             		$("#level4Div").append(htmlText);
                }
                $('.searchable').select2();
@@ -629,41 +656,85 @@ function getP6DataList(){
        });
 	
 }
-
-function getNextLevelData(levelName,levelNo,contract){
-	  $('#level'+levelNo).css("display", "block");
+var colorVal = 260;
+var levl3 = '';
+function setLevel4val(level4,key){
+	wbs_4_name = level4;
+	 $(".point").removeClass("active-node");
+	 $(".point").css({ boxShadow : "rgb(103 103 202 / 41%) 0px 0px 0px 0px" }); 
+	 $("#level-active33"+key).addClass("active-node");
+	 $("#level-active33"+key).css({ boxShadow : "rgb(103 103 202 / 41%) 4px 4px 5px 4px" }); 
+	console.log(wbs_4_name );
+}
+function getNextLevelData(levelName,levelNo,contract,key){
+	  var stageNo = Number(levelNo)+1;
+	  var work_id = '${work_id}';
 	  $("#level"+levelNo+"Div").empty();
-	  var level = Number(levelNo)+1;
-	  if(level == 4){
-		  var myParams = {wbs_4_name : levelName, contract_id : contract, levelNo : levelNo};
-	  }else if(level == 3){
-		  var myParams = {wbs_3_name : levelName, contract_id : contract, levelNo : levelNo};
-	  }else if(level == 3){
-		  var myParams = {wbs_2_name : levelName, contract_id : contract, levelNo : levelNo};
+	  var prevLevel = Number(levelNo)+1;
+	  var nxtLvl = Number(levelNo)-1;
+	  $(".point"+(stageNo+1)).removeClass("active-node");
+	  $(".point"+(stageNo+1)).css({ boxShadow : "rgb(103 103 202 / 41%) 0px 0px 0px 0px" });
+	  if(stageNo != 1){
+		  $("#level-active"+(stageNo+1)+key).addClass("active-node");
+		  $("#level-active"+(stageNo+1)+key).css({ boxShadow : "rgb(103 103 202 / 41%) 4px 4px 5px 4px" }); 
 	  }
+	  if(prevLevel == 4){
+		  var myParams = {wbs_4_name : levelName, contract_id : contract, levelNo : levelNo , work_id : work_id};
+		  $('.levels').hide();
+	  }else if(prevLevel == 3){
+		  levl3 = levelName;
+		  var myParams = {wbs_3_name : levelName,wbs_4_name : wbs_4_name, contract_id : contract, levelNo : levelNo, work_id : work_id};
+		  $("#level"+nxtLvl+"Div").empty();
+	  }else if(prevLevel == 2){
+		  var myParams = {wbs_2_name : levelName,wbs_3_name : levl3,wbs_4_name : wbs_4_name, contract_id : contract, levelNo : levelNo, work_id : work_id};
+	  }
+	  $('#level'+levelNo).css("display", "block");
        $.ajax({
            url: "<%=request.getContextPath()%>/ajax/getWbslevelsList",
            data: myParams, cache: false,async: false,
            success: function (data) {
                if (data.length > 0) {
                    $.each(data, function (i, val) {  
-                	 
                 	   var style = 'style="background-color:white; color:black;"'
-                	   var wbs_3_name = "'"+val.wbs_3_name+"'";
-                	   contract_id = "'"+val.contract_id+"'";
-                   	   if(parseFloat(val.planned) >= parseFloat(val.actual)){
+                		   var levelName = '';
+               		  if(levelNo == 3){
+               			 
+           				  levelName = val.wbs_3_name; wbs_3_name = val.wbs_3_name;
+           			  }else if(levelNo == 2){
+           				  levelName = val.wbs_2_name;  wbs_2_name = val.wbs_2_name;
+           			  }else if(levelNo == 1){
+           				  levelName = val.wbs_1_name; wbs_3_name = val.wbs_3_name; wbs_2_name = val.wbs_2_name;
+           			  }
+               		
+               		 console.log(wbs_3_name );
+                     console.log(wbs_2_name );
+               		 var actual =  parseFloat(val.actual) /val.weightage;
+              	     var planned = parseFloat(val.planned) /val.weightage;
+              	   if(isNaN(actual)) {
+          	  		 actual = 0.00;
+	          	  	}
+	          	  	if(isNaN(planned)) {
+	          	  		 planned = 0.00;
+	          	  	}
+	              	actual =   actual.toFixed(2);
+	           	  	planned =   planned.toFixed(2);
+                   	   if(parseFloat(planned) >= parseFloat(actual)){
                    			style = 'style="background-color:red; color:white;"'
                    	   }
-                        var htmlText = '<div class="col-sm-4 col-md-4 tree-body " onClick="getNextLevelData('+wbs_3_name+','+2+','+contract_id+')">'+
-											'<p '+style+'>'+val.wbs_3_name+'</p>'+
-											'<p style="background: #1f77b4;">'+val.planned+' %</p><p style="background: #2ca02c;">'+val.actual+' %</p><p style="background-color: #f27935;">'+val.weightage+'</p>'+
+                        var htmlText = '<div class="col-sm-4 col-md-4 tree-body point'+stageNo+'" id="level-active'+stageNo+i+'" onClick="getNextLevelData(\'' + levelName + '\',\'' +nxtLvl+ '\',\'' + contract + '\',\'' +i + '\');">'+
+											'<p '+style+'>'+levelName+'</p>'+
+											'<p style="background: #1f77b4;">'+planned+' %</p><p style="background: #2ca02c;">'+actual+' %</p><p style="background-color: #f27935;">'+val.weightage+'</p>'+
 										'</div>';
-                        $("#level"+levelNo+"Div").append(htmlText);
+                        $("#level"+levelNo+"Div").append(htmlText).hide().show('slow');;
+                       
+                        colorVal = colorVal - 7;
+                        $("#level"+levelNo).css({ backgroundColor : "rgb("+colorVal+","+colorVal+","+colorVal+")" });
 	       
                    }); 
                }else{
-            	    var htmlText = '<span> No Records Found!</span>'
+            	   var htmlText = '<div class="col-sm-4 col-md-4 tree-body ">  <p style="color:black;padding-top: 0.5em">No Records Found! </p</div>'
             	    	 $("#level"+levelNo+"Div").append(htmlText);
+            	  
                }
                $('.searchable').select2();
                $(".page-loader").hide();
@@ -672,7 +743,8 @@ function getNextLevelData(levelName,levelNo,contract){
   	          	  getErrorMessage(jqXHR, exception);
   	     	  }
        });
-	  
+       wbs_3_name = '';
+       wbs_2_name = '';
 }
 </script>
 </body>

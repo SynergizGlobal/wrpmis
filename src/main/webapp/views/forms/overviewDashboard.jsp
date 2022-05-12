@@ -762,6 +762,8 @@
 	            	var dashboard_url = data.dashboard_url;
 	            	if($.trim(dashboard_url) == 'structure-gallery-page'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
+	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
+	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;

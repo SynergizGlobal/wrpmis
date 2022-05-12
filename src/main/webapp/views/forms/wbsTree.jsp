@@ -19,8 +19,10 @@
    	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
    	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
    	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+   	<link href="/pmis/resources/css1/app_2.min.css" rel="stylesheet">
+   	<link href="/pmis/resources/css1/app_1.min.css" rel="stylesheet">
    	
-   	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   	<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link href="/pmis/resources/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
 		<link href="/pmis/resources/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
 		 
@@ -30,7 +32,7 @@
 		<link href="/pmis/resources/css1/app_1.min.css" rel="stylesheet">
 		<link href="/pmis/resources/css1/app_2.min.css" rel="stylesheet">
 		<link href="/pmis/resources/css1/style.css" rel="stylesheet">
-		<link href="/pmis/resources/css1/chosen.css" rel="stylesheet">
+		<link href="/pmis/resources/css1/chosen.css" rel="stylesheet"> -->
    <style>
    		/*  #imageFiles{
    		 	display: flex;
@@ -38,6 +40,12 @@
 		    justify-content: center;
 		    vertical-align: middle;
    		 } */
+   		 .select2-results__option{
+   		 	font-size: 13px;
+   		 }
+   		 .des h5{
+				font-size: 18px !important;
+			}
    		 .removed{
    		 	margin-left: 17em !important;
    		 }
@@ -130,10 +138,28 @@ input[type=checkbox] {
 .modal{width: 90%;}
 .removed{margin-left: 21em !important;}
 }
+@media (min-width: 768px){
+	p {
+	    font-size: 12px !important;
+	}
+	.select2-container--default .select2-selection--single .select2-selection__rendered{
+		font-size: 14px !important;
+	}
+}
 @media(max-width: 575px){
 	.w31{width: 95% !important;}
 	.cw{height: 6em;}
 	.ta-right{text-align:right;}
+	.tree-body p{
+		display: flex !important;
+	}
+	.des{
+		margin-top: 15px;
+	}
+	
+	.m-text-center{
+		text-align: center !important;
+	}
 }
 @media(max-width: 360px){
 	.removed{margin-left: 17.5em !important;}
@@ -282,7 +308,7 @@ input[type=checkbox] {
                                         </select>
                                     </div>
                                  
-                                    <div class="col s8 m8 offset-s4 offset-m2 l8 offset-l2">
+                                    <div class="col s12 m8 offset-m2 l8 offset-l2 m-text-center">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"  onclick="clearFilter();" 
                                         style="margin-top:20px;width: 100%;">Clear Filters</button>
                                     </div> 
@@ -300,7 +326,7 @@ input[type=checkbox] {
 		    <div class="container">       
 		      <div class="row">
 		      	<div class="col-sm-12 text-center">
-          			<div >
+          			<div class="des">
 	          			<h5 style="display: inline-block;"><span class="label label-default" style="background-color:#1f77b4;">Planned</span></h5>
 	      				<h5 style="display: inline-block;"><span class="label label-default" style="background-color:#2ca02c;">Actual</span></h5>
 	      				<h5 style="display: inline-block;"><span class="label label-default" style="background-color:#ff0000;">Variance</span></h5>
@@ -602,6 +628,7 @@ function showCancelMessage() {
         confirmButtonText: "Okay"
     });
 }
+var colorVal = '';
 var wbs_4_name = '';
 var wbs_3_name = '';
 var wbs_2_name = '';
@@ -609,6 +636,7 @@ function getP6DataList(){
 	$(".page-loader").show();
 	var contract_id = $('#contract_id').val();
 	$('#level4Div').empty();
+	colorVal = 260;
 	var work_id = '${work_id}';
 	 	var myParams = {contract_id : contract_id, work_id : work_id};
        $.ajax({
@@ -656,7 +684,7 @@ function getP6DataList(){
        });
 	
 }
-var colorVal = 260;
+
 var levl3 = '';
 function setLevel4val(level4,key){
 	wbs_4_name = level4;
@@ -679,6 +707,7 @@ function getNextLevelData(levelName,levelNo,contract,key){
 		  $("#level-active"+(stageNo+1)+key).css({ boxShadow : "rgb(103 103 202 / 41%) 4px 4px 5px 4px" }); 
 	  }
 	  if(prevLevel == 4){
+		  colorVal = 260;
 		  var myParams = {wbs_4_name : levelName, contract_id : contract, levelNo : levelNo , work_id : work_id};
 		  $('.levels').hide();
 	  }else if(prevLevel == 3){

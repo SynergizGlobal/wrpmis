@@ -30,9 +30,10 @@ public class WbsTreeDaoImpl implements WbsTreeDao{
 		String levelNo = "4";
 		if(!StringUtils.isEmpty(obj.getLevelNo())) {
 			levelNo = obj.getLevelNo();
+			if( levelNo.equals("0")) {levelNo = "1"; };
 		}
 		try {
-			String qry ="select wbs_4_name,wbs_3_name,wbs_2_name,wbs_1_name,"
+			String qry ="select pv.activity_name,wbs_4_name,wbs_3_name,wbs_2_name,wbs_1_name,"
 					+ "CAST(sum(ifnull((((completed)/(scope))*100) * (weightage),0)) AS DECIMAL(10,2)) as actual,"
 					+ "CAST(ifnull(sum(weightage),0) AS DECIMAL(10,2)) as weightage,"
 					+ " CASE  WHEN baseline_finish <= CURDATE() THEN 100 WHEN baseline_start > CURDATE() "
@@ -96,7 +97,10 @@ public class WbsTreeDaoImpl implements WbsTreeDao{
 		List<WbsTree> objsList = null;
 		try {
 			String qry ="select pv.contract_id,contract_short_name from contract c "
-					+ "left join p6_view pv on pv.contract_id = c.contract_id where pv.contract_id is not null and pv.contract_id <> '' ";
+					+ "left join p6_view pv on pv.contract_id = c.contract_id  "
+					 +"left join activities a on (a.activity_name = pv.activity_name and a.structure = pv.wbs_3_name " + 
+						"and a.contract_id_fk = pv.contract_id and a.structure_type_fk = pv.wbs_4_name and a.component = pv.wbs_2_name and a.component_id = pv.wbs_1_name " + 
+						") where wbs_4_name is not null and wbs_4_name <> '' and baseline_finish > CURDATE() and baseline_start < CURDATE() ";
 			
 			int arrSize = 0;
 

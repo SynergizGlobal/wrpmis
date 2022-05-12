@@ -65,6 +65,10 @@ public class WbsTreeDaoImpl implements WbsTreeDao{
 				qry = qry + "and wbs_2_name = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWbs_1_name())) {
+				qry = qry + "and wbs_1_name = ? ";
+				arrSize++;
+			}
 			qry = qry +" GROUP BY wbs_"+levelNo+"_name";
 
 			Object[] pValues = new Object[arrSize];
@@ -84,6 +88,9 @@ public class WbsTreeDaoImpl implements WbsTreeDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWbs_2_name())) {
 				pValues[i++] = obj.getWbs_2_name();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWbs_1_name())) {
+				pValues[i++] = obj.getWbs_1_name();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WbsTree>(WbsTree.class));
 

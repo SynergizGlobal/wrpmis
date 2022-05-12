@@ -665,7 +665,7 @@ function getP6DataList(){
 											'<p '+style+'>'+val.wbs_4_name+'</p>'+
 											'<p style="background: #1f77b4;">'+planned+' %</p><p style="background: #2ca02c;">'+actual+' %</p><p style="background-color: #f27935;">'+val.weightage+'</p>'+
 										'</div>';
-                        $("#level4Div").append(htmlText).hide().show('slow');
+                        $("#level4Div").append(htmlText).hide();
                         wbs_3_name = '';
                         wbs_2_name = '';
                         
@@ -675,6 +675,7 @@ function getP6DataList(){
             	    var htmlText = '<div class="col-sm-4 col-md-4 tree-body ">  <p style="color:black;padding-top: 0.5em">No Records Found! </p</div>'
             		$("#level4Div").append(htmlText);
                }
+               $("#level4Div").show('slow');
                $('.searchable').select2();
                $(".page-loader").hide();
            },error: function (jqXHR, exception) {
@@ -767,7 +768,7 @@ function getNextLevelData(levelName,levelNo,contract,key){
 											'<p '+style+'>'+levelName+'</p>'+
 											'<p style="background: #1f77b4;">'+planned+' %</p><p style="background: #2ca02c;">'+actual+' %</p><p style="background-color: #f27935;">'+val.weightage+'</p>'+
 										'</div>';
-                        $("#level"+levelNo+"Div").append(htmlText).hide().show('slow');;
+                        $("#level"+levelNo+"Div").append(htmlText);
                 	   }   
                    }); 
                 
@@ -776,6 +777,7 @@ function getNextLevelData(levelName,levelNo,contract,key){
             	    	 $("#level"+levelNo+"Div").append(htmlText);
             	  
                }
+               $("#level"+levelNo+"Div").hide().show('slow');;
                $('.searchable').select2();
                $(".page-loader").hide();
            },error: function (jqXHR, exception) {

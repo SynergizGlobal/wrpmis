@@ -40,6 +40,16 @@
 		    justify-content: center;
 		    vertical-align: middle;
    		 } */
+   		  .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
    		 .select2-results__option{
    		 	font-size: 13px;
    		 }
@@ -408,25 +418,9 @@ input[type=checkbox] {
 		  </section>
 		</section>
 
-
-		<%-- <div class="footercontainer">
-			<footer id=""> <jsp:include page="footer.jsp"></jsp:include> </footer> 
-		</div>	 --%>
-
 </div>
 </div>
-						<!-- update popup starts -->
-						<div>
-						
-						</div>
-						<div id="modal" class="modal">
-						    <div class="modal-content">
-						        <h4><div class="cw p-2 bg-m modal-title" id="modalhead"></div></h4>
-						          <img class="modal-content" id="img01" src="">
-						          
-						      </div>
-						  </div>
-				</div>
+</div>
 </div>
 </div>
 </div>
@@ -525,74 +519,7 @@ input[type=checkbox] {
 		    console.log(msg);
 	 }
 
-	 function getNextLevel(id,name,levelStage,key){
-		
-		 var stageNo = Number(levelStage)+1;
-		 var myParams = {levelId : id, stageNo : stageNo};
-		 
-		 for(var i=0;i<100;i++){
-			 $("#level-active"+levelStage+""+i).removeClass("active-node");
-		 }
-		 
-		 $(".loading").show();
-		 
-		 if(Number(levelStage) <= 7){
-		 
-			 $.ajax({
-				url:"<%=request.getContextPath()%>/getWbsActivities",
-				data:myParams,
-				type:"POST",
-				dataType:"json",
-				success:function(data){
-					
-					for(var i=Number(levelStage)+1;i<=8;i++){
-						 $("#level"+i).html('');
-					}
-					
-					if(data != null && data != '' && data.length > 0){
-						
-						$("#level-active"+levelStage+""+key).addClass("active-node");
-						
-						var html = "";
-						
-						if(stageNo%2 == 0){
-							html = html + '<div class="section-content row-bg">';									
-						}else{
-							html = html + '<div class="section-content">';
-						}
-						
-						html = html + '<div class="container-fluid">'
-   	            		+ '<div class="row centered  multiple-columns">'
-	   	            	$.each(data,function(key,val){
-	   	            		var lId = "'"+val.levelId+"'";
-	   	            		var lName = "'"+val.levelName+"'";
-	   	            		html = html + '<div class="col-sm-4 col-md-4 tree-body"  id="level-active'+stageNo+key+'" onclick="getNextLevel('+lId+','+lName+','+stageNo+','+key+');">'
-											+'<p style="background-color: '+val.backgroundColor+';color:'+val.color+'">'+val.levelName+'</p><p style="background: #1f77b4;">'+val.plannedProgress+' %</p><p style="background: #2ca02c;">'+val.actualProgress+' %</p><p style="background-color: #f27935;">'+val.weightage+'</p>'
-										+'</div>'
-	   	                });
-   	            		
-   	            		html = html +  '</div>'
-						+ '</div>'
-						+ '</div>'
-						
-						$("#level"+stageNo).html(html);
-						
-   	            		$(".loading").hide();
-	   				}else{
-	   					$(".loading").hide();
-	   				}
-	   				
-	   			},error: function (jqXHR, exception) {
-	   				$(".loading").hide();
-	   	            getErrorMessage(jqXHR, exception);
-	   	        }});
-		 
-		 }else{
-			 $(".loading").hide();
-		 }
-		 
-	  }
-  
+	
         $(".selectrow1").click(function(){
             $(".row1").prop("checked",$(this).prop("checked"));
         });
@@ -611,11 +538,11 @@ input[type=checkbox] {
  
 
 function clearFilter(){
-	
+	$(".page-loader").show();
 	$("#contract_id").val("");
 	$('.searchable').select2();
 	window.location.href= "<%=request.getContextPath()%>/wbs-tree/${work_id}";
-
+	$(".page-loader").hide();
 }
 
 
@@ -717,6 +644,7 @@ function getNextLevelData(levelName,levelNo,contract,key){
 		  levl3 = levelName;
 		  var myParams = {wbs_3_name : levelName,wbs_4_name : wbs_4_name, contract_id : contract, levelNo : levelNo, work_id : work_id};
 		  $("#level"+nxtLvl+"Div").empty();
+		  $("#level0Div").empty();
 	  }else if(prevLevel == 2){
 		  colorVal = 240;
 		  levl2 = levelName;

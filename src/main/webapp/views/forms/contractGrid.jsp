@@ -97,6 +97,16 @@
         margin: -2rem auto 0;
     }
 
+
+.sorting_asc:after, .sorting_desc:after {
+  content: "" !important;
+}
+
+.sorting_asc:before, .sorting_desc:before {
+  content: "" !important;
+}
+
+
     @media only screen and (max-width: 820px) {
         .mob-mar {
             text-align: left;
@@ -541,7 +551,7 @@
                 },
                 { targets:[3,4,5,6,7], className: 'hideCOl'},
                 { targets:[1], className: 'cw-m'},
-                { orderable: false, 'aTargets': ['nosort'] }
+                { orderable: false, targets: [0,1,2,3,4,5,6,7,8] }
             ],
             // "ScrollX": true,
             //"scrollCollapse": true,

@@ -549,7 +549,7 @@
                             
                             <div class="row">
                                 <div class="col s12 m4 l6 input-field offset-m2">
-                                <p class="searchable_label">Railway Agency</p>
+                                <p class="searchable_label">Railway Agency<span class="required">*</span></p>
                                  <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" multiple="multiple" >
                                   		 <option value="" disabled="disabled">Select</option>
                                           <c:forEach var="obj" items="${railwaysList}">
@@ -565,7 +565,7 @@
                                   <span id="railway_id_fkError"></span>
                                 </div>
                                 <div class="col s12 m4 l6 input-field">
-                                <p class="searchable_label">Executed By</p>
+                                <p class="searchable_label">Executed By<span class="required">*</span></p>
                                   <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple">
                                    <option value="" disabled="disabled">Select</option>
                                    <c:forEach var="obj" items="${railwaysList}">
@@ -1344,9 +1344,9 @@
 		  			 	  },"completion_cost": {
 		  			 		required: false
 		  			 	  }	,"railway_id_fk": {
-		  			 		required: false
+		  			 		required: true
 		  			 	  }	,"executed_by_id_fk": {
-		  			 		required: false
+		  			 		required: true
 		  			 	  }	,"remarks": {
 		  			 		required: false
 		  			 	  },"sanctioned_estimated_cost_unit":{

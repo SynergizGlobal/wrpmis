@@ -3683,7 +3683,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			List<Alerts> hodObjsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			for (Alerts hodObj : hodObjsList) {			
 				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
-						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url,"
+						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,w.work_id,w.work_name,c.contract_short_name,redirect_url,"
 						+ "a.details,DATE_FORMAT(a.valid_upto,'%d-%m-%y') as validity "
 						+ "from alerts a "; 
 						if(!"IT Admin".equals(obj.getUser_role_name())) {

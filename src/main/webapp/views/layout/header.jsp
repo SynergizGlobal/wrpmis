@@ -468,7 +468,7 @@
 				<li class="blue darken-3"><a
 					href="<%=request.getContextPath() %>/home"><span
 						class="material-icons-outlined">home</span>Home</a></li>
-				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Input User' }">
+				<%-- <c:if test="${sessionScope.USER_ROLE_NAME ne 'Input User' }"> --%>
 					<li class="blue darken-2 dropdown"><a href="#"
 						class='head-img'> <!-- 1st level Dropdown starts --> <!-- img src="/pmis/resources/images/dashboard-white.png"-->
 							<span class="material-icons-outlined">dashboard</span> Modules
@@ -640,7 +640,7 @@
 								</c:if>
 							</c:forEach>
 						</ul></li>
-				</c:if>
+				<%-- </c:if> --%>
 
 				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
 					<li class="blue dropdown">

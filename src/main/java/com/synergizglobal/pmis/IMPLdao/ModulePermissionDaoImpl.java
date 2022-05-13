@@ -132,13 +132,14 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 					if(!StringUtils.isEmpty(obj.getForm_ids()) && obj.getForm_ids().size() > 0 && !StringUtils.isEmpty(obj.getForm_ids().get(i))) {
 						pObj.setForm_id(obj.getForm_ids().get(i));
 					}
-					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(pObj);	
-					int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
+					/*BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(pObj);	
+					int count = namedParamJdbcTemplate.update(updateQry, paramSource);*/		
+					int count = 1;
 					if(count > 0) {
 						flag = true;
 						
 						String deleteQry ="delete from form_access where form_id_fk = :form_id ";
-						paramSource = new BeanPropertySqlParameterSource(pObj);		 
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(pObj);		 
 						count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 						
 						if(!StringUtils.isEmpty(obj.getAccess_user_roles()) && obj.getAccess_user_roles().size() > 0 && !StringUtils.isEmpty(obj.getAccess_user_roles().get(i))) {
@@ -300,16 +301,17 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-				String updateQry = "UPDATE form set "
+			String updateQry = "UPDATE form set "
 						+ "form_name= :form_name,web_form_url= :form_url "
 						+ "where form_id = :form_id";
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
-			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
+			/*BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
+			int count = namedParamJdbcTemplate.update(updateQry, paramSource);	*/	
+			int count = 1;
 			if(count > 0) {
 				flag = true;
 				
 				String deleteQry ="delete from form_access where form_id_fk = :form_id ";
-				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 				
 				if(!StringUtils.isEmpty(obj.getUser_role_access())) {

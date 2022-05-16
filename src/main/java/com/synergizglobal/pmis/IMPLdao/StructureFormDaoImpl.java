@@ -107,7 +107,8 @@ public class StructureFormDaoImpl implements StructureFormDao{
 	public List<Structure> getWorksListForFilter(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT s.work_id_fk,w.work_short_name,work_name FROM structure s " + 
+			String qry = "SELECT s.work_id_fk,w.work_short_name,work_name "
+					+ "FROM structure s " + 
 					"left join structure_contract_responsible_people cp on s.structure_id = cp.structure_id_fk " + 
 					"left join  work w on s.work_id_fk = w.work_id "+
 					"where s.work_id_fk is not null and s.status <> 'Inactive' ";
@@ -155,8 +156,9 @@ public class StructureFormDaoImpl implements StructureFormDao{
 	public List<Structure> getContractsListForFilter(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT cp.contract_id_fk ,c.contract_short_name,c.contract_name FROM structure_contract_responsible_people cp " + 
-					"left join structure s on cp.structure_id_fk = s.structure_id " + 
+			String qry = "SELECT cp.contract_id_fk ,c.contract_short_name,c.contract_name "
+					+ "FROM structure s " + 
+					"left join structure_contract_responsible_people cp on cp.structure_id_fk = s.structure_id " + 
 					"left join contract c on cp.contract_id_fk = c.contract_id "+
 					"where cp.contract_id_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
@@ -287,7 +289,8 @@ public class StructureFormDaoImpl implements StructureFormDao{
 		List<Structure> objsList = null;
 		try {
 			String qry ="SELECT structure_id,s.work_id_fk,w.work_short_name,work_name,cp.contract_id_fk,c.contract_name,c.contract_short_name,s.structure_name, " + 
-					"s.structure,s.work_status_fk,structure_type_fk FROM structure s " + 
+					"s.structure,s.work_status_fk,structure_type_fk "
+					+ "FROM structure s " + 
 					"left join structure_contract_responsible_people cp on s.structure_id =  cp.structure_id_fk " + 
 					"left join work w on s.work_id_fk = w.work_id " + 
 					"left join contract c on cp.contract_id_fk = c.contract_id  " + 
@@ -1055,8 +1058,9 @@ public class StructureFormDaoImpl implements StructureFormDao{
 	public List<Structure> getStructureTypeListForFilter(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT distinct s.structure_type_fk as structure_type FROM structure_contract_responsible_people cp " + 
-					"left join structure s on cp.structure_id_fk = s.structure_id " + 
+			String qry = "SELECT s.structure_type_fk as structure_type "
+					+ "FROM structure s " + 
+					"left join structure_contract_responsible_people cp on cp.structure_id_fk = s.structure_id " + 
 					"left join contract c on cp.contract_id_fk = c.contract_id "+
 					"where cp.contract_id_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
@@ -1076,7 +1080,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 				qry = qry + " and  cp.responsible_people_id_fk = ? ";
 				arrSize++;
 			}	
-			qry = qry + "GROUP BY cp.contract_id_fk ";
+			qry = qry + "GROUP BY s.structure_type_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -1103,8 +1107,8 @@ public class StructureFormDaoImpl implements StructureFormDao{
 	public List<Structure> getWorkStatusListForFilter(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT distinct work_status_fk FROM structure_contract_responsible_people cp " + 
-					"left join structure s on cp.structure_id_fk = s.structure_id " + 
+			String qry = "SELECT s.work_status_fk FROM structure s " + 
+					"left join structure_contract_responsible_people cp on cp.structure_id_fk = s.structure_id " + 
 					"left join contract c on cp.contract_id_fk = c.contract_id "+
 					"where cp.contract_id_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
@@ -1124,7 +1128,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 				qry = qry + " and  cp.responsible_people_id_fk = ? ";
 				arrSize++;
 			}	
-			qry = qry + "GROUP BY cp.contract_id_fk ";
+			qry = qry + "GROUP BY s.work_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){

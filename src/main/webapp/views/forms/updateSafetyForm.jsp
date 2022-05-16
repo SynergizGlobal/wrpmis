@@ -172,7 +172,7 @@
                             <div class="row ">
                                 <div class="col s6 m4 l4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker" value="${safety.date }">
-                                    <label for="date"> Date <span class="required">*</span></label>
+                                    <label for="date"> Date of Incident <span class="required">*</span></label>
                                     <button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>

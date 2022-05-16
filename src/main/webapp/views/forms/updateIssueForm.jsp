@@ -237,7 +237,7 @@
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                     <input id="location" name="location" type="text" class="" value="${issue.location }" readonly>
-                                    <label for="location">Location/Station/KM<span class="required">*</span></label>
+                                    <label for="location">Location/Station/KM<!-- <span class="required">*</span> --></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m8 l4 input-field offset-m2">
@@ -1478,7 +1478,7 @@
         				 	 dateBeforeToday2:"#assigned_date",
         				 	 dateBefore1:"#date"
     				 	  },"location": {
-    				 		required: true
+    				 		required: false
     				 	  },"latitude": {
     				 		required: false
     				 	  },"longitude": {

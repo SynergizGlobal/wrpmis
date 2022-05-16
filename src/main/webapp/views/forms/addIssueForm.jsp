@@ -212,7 +212,7 @@
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                     <input id="location" name="location" type="text" class="validate" value="${iObj.location}">
-                                    <label for="location">Location/Station/KM<span class="required">*</span></label>
+                                    <label for="location">Location/Station/KM<!-- <span class="required">*</span> --></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 offset-m2 m8 l4 input-field">
@@ -834,7 +834,7 @@
     				 		required: true,
        				 	 	dateBeforeToday1:"#date"
     				 	  },"location": {
-    				 		required: true
+    				 		required: false
     				 	  },"latitude": {
     				 		required: false
     				 	  },"longitude": {

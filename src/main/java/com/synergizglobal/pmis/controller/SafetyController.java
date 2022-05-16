@@ -139,8 +139,13 @@ public class SafetyController {
 		List<Safety> objList = null;
 		try {
 			
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_role_code(uObj.getUser_role_code());
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String user_role_name = (String) session.getAttribute("USER_ROLE_NAME");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(userId);
+			obj.setUser_role_code(user_role_code);
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
@@ -159,11 +164,18 @@ public class SafetyController {
 	public List<Safety> getContractsListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objList = null;
 		try {
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_role_code(uObj.getUser_role_code());
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String user_role_name = (String) session.getAttribute("USER_ROLE_NAME");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(userId);
+			obj.setUser_role_code(user_role_code);
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
 			}
+			
 			objList = safetyService.getContractsListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -177,8 +189,14 @@ public class SafetyController {
 	public List<Safety> getDepartmentsListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objList = null;
 		try {
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_role_code(uObj.getUser_role_code());	
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String user_role_name = (String) session.getAttribute("USER_ROLE_NAME");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(userId);
+			obj.setUser_role_code(user_role_code);
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
 			}
@@ -195,8 +213,14 @@ public class SafetyController {
 	public List<Safety> getCategoryListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objList = null;
 		try {
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_role_code(uObj.getUser_role_code());	
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String user_role_name = (String) session.getAttribute("USER_ROLE_NAME");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(userId);
+			obj.setUser_role_code(user_role_code);
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
 			}
@@ -213,8 +237,14 @@ public class SafetyController {
 	public List<Safety> getStatusListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objList = null;
 		try {
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_role_code(uObj.getUser_role_code());	
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String user_role_name = (String) session.getAttribute("USER_ROLE_NAME");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(userId);
+			obj.setUser_role_code(user_role_code);
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
 			}
@@ -231,8 +261,14 @@ public class SafetyController {
 	public List<Safety> getHODListFilterInSafety(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objsList = null;
 		try {
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_role_code(uObj.getUser_role_code());	
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String user_role_name = (String) session.getAttribute("USER_ROLE_NAME");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(userId);
+			obj.setUser_role_code(user_role_code);
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				obj.setDepartment_fk(decodeURIComponent(obj.getDepartment_fk()));
 			}

@@ -1178,7 +1178,7 @@ public class HomeDaoImpl implements HomeDao {
 							String paramLast = params[params.length - 1];
 							
 							tempQry = "LIKE";
-							tempURL = paramFirst + "%";
+							tempURL = paramFirst + "/%";
 							
 							/*if(!StringUtils.isEmpty(paramLast)) {
 								if("activity-progress".equalsIgnoreCase(paramFirst))

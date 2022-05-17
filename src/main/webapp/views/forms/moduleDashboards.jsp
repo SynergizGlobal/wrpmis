@@ -223,13 +223,13 @@
                </div>
 	        </div>
 	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
-				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
-	    	</div>
-
-	    	<div class="col m2 s12" id="archive-item-holder" style="display:none;" style="" data-select2-id="select2-data-archive-item-holder">
-	    	</div>	    	
+				<iframe id="dashboard_url" name="dashboard_url" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
+	    	</div>   	
 	    	
-	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;"></div>
+	    	<div class="col m2 s12" id="filterItemHolderDiv" style="display:none;">
+	    		<div id="filterItemHolder"></div>
+	    		<div id="filterItemHolderClear"></div>
+	    	</div>
 		</div>
 
 		<div class="page-loader" style="display: none;">
@@ -306,7 +306,6 @@
 					}else{
 						openDashboard(requestedDashboardId);
 					}
-					
 				}
 			}
 		    $('.searchable').select2();
@@ -418,6 +417,8 @@
         return bool;
 	}  
     
+
+    var filterIdsMain = "";
 	  
 	function openDashboard(dashboardId){
 		  $(".page-loader").show();
@@ -428,33 +429,30 @@
 		  requestedDashboardId = dashboardId;
           var params = "";
           var show_left_menu = '';
-          var filterIds = "";
-      	  
+          var filterIdsMainTemp = ''
+          
       	  $.ajax({
-      		url: "<%=request.getContextPath()%>/ajax/getFilters",
+      		url: "<%=request.getContextPath()%>/ajax/getFiltersForModuleDasboards",
             type: 'POST',
-            data:{dashboard_id : dashboardId,work_id : '${work_id}'},
+            data:{dashboard_id : dashboardId,filter_ids : filterIdsMain,work_id : '${work_id}'},
             async: false,
             dataType: 'json',
             success: function (data){
          	   if(data.length){
-         		   $("#filter-item-holder").show();
-     				$("#archive-item-holder").html("");
-
-         		   
+         		   $("#filterItemHolderDiv").show();
          		   $.each( data, function( index, value ){
          			   var filter_column = value.filter_column_name;
          			   if($.trim(value.filter_column_id) != ''){
          				  filter_column = value.filter_column_id;
          			   }     				  
-         			   if($.trim(filterIds) != ''){
-         				  filterIds = filterIds +","+ filter_column;
+         			   if($.trim(filterIdsMain) != ''){
+         				  filterIdsMain = filterIdsMain +","+ filter_column;
          			   }else{
-         				  filterIds = filter_column;
+         				  filterIdsMain = filter_column;
          			   }
          		   });
          		   
-         		   filterIds = "'"+ filterIds + "'";
+         		   filterIdsMainTemp = "'"+ filterIdsMain + "'";
          		   
          		   var dashboardIdTemp = "'"+ dashboardId + "'";
          		   
@@ -471,7 +469,7 @@
         			   
          			   filters = filters + '<div class="filterHolder">'
 					         			+ '<label>'+value.filter_label_name+'</label>'
-					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
+					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIdsMainTemp+','+dashboardIdTemp+');">'
 					         			//+ '<option value="">All</option>'
 					         			
 					         			if((value.is_first_option_selected != 'YES')){
@@ -493,12 +491,14 @@
 					         			+ '</div>';	
          		   });
          		   
-         		  filters = filters + '<div class="clearHolder">'
-         		 						+ '<button class="btn waves-effect waves-light t-c" onclick="clearFilter('+filterIds+','+dashboardIdTemp+');">Clear Filters</button>'
-         								+ '</div>'
-         		   
-         		   $("#filter-item-holder").html(filters);
+         		   $("#filterItemHolder").append(filters);
          		   $('.searchable').select2();
+         		   
+         		   var  filter_item_holder_clear = '<div class="clearHolder">'
+         		 						+ '<button class="btn waves-effect waves-light t-c" onclick="clearFilter('+filterIdsMainTemp+','+dashboardIdTemp+');">Clear Filters</button>'
+         								+ '</div>';
+         		   $("#filterItemHolderClear").html(filter_item_holder_clear);
+         		   
          	   }
          	   $(".page-loader").hide();
             },error: function(xhr){
@@ -507,11 +507,14 @@
             }
      	 });
 		 $(".page-loader").hide();
-		 getSelectedOption(filterIds,dashboardId);
+		 getSelectedOption(filterIdsMainTemp,dashboardId);
 	 }
 	
 	 function getSelectedOption(filterIds,dashboardId){
 		 $(".page-loader").show();	 
+		 if($.trim(filterIds) == ''){
+			 filterIds = filterIdsMain;
+		 }
 		 var show_left_menu = '';	 
 		 var params = "";
 		 var ids = [];
@@ -546,7 +549,7 @@
 	            	if($.trim(dashboard_url) == 'structure-gallery-page'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
-	         	    $("#dashboardOpen").attr("src",dashboard_url);
+	         	    $("#dashboard_url").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
 	         	    $(".page-loader").hide();
 	            },error: function(xhr){
@@ -557,25 +560,21 @@
 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
 	   		   $("#menu-item-holder").show();
 	   	 }else if($.trim(show_left_menu) == 'Yes'){
-	   		var currentHost = window.location.href;    	
-		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1"){
-		 		  $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
-		 	}else{
-		 		$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
-		 	}
-	   		 
+	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
 	   		   $("#menu-item-holder").show();
-	   		   $("#filter-item-holder").hide();
-		       $("#filter-item-holder").html("");
+	   		   $("#filterItemHolderDiv").hide();
+		       $("#filterItemHolder").html("");
+		       $("#filterItemHolderClear").html("");
 	   	 }else if(($.trim(show_left_menu) == 'No' || $.trim(show_left_menu) == '') && $.trim(filterIds) != ''){
  		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
 		      $("#menu-item-holder").hide();
-		      $("#filter-item-holder").show();
+		      $("#filterItemHolderDiv").show();
 	   	 }else {
  		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
 		      $("#menu-item-holder").hide();
-		      $("#filter-item-holder").hide();
-		      $("#filter-item-holder").html("");
+		      $("#filterItemHolderDiv").hide();
+		      $("#filterItemHolder").html("");
+		      $("#filterItemHolderClear").html("");
 	   	 }
 	 }
 	 

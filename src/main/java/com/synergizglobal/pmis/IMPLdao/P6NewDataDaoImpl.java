@@ -300,6 +300,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 					+ " where  p6_wbs_code_fk like CONCAT ('%', ?, '%') and p6_task_code = ? ";
 			
 			stmt = con.prepareStatement(updateActivitiesQry);
+			int lineNo = 1;
 			for (P6Data obj : p6dataList) {
 				p = 1;				
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
@@ -315,8 +316,13 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
 				stmt.addBatch();
+				lineNo++;
 			} 
-			int[] c = stmt.executeBatch();		
+			int[] c = stmt.executeBatch();
+			/*if(!(c.length > 0)) {
+				count=Integer.parseInt("["+lineNo+"] Row");  
+			
+			}*/
 			for (int i = 0; i < c.length; i++) {
 				count = count + c[i];
 			}

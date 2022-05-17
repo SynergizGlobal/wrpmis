@@ -479,9 +479,9 @@ public class P6NewDataController {
 									contarct = contarct.split("\\.")[0];
 								}
 							}
-							if(!p6data.getContract_id_fk().equalsIgnoreCase(contarct)) {
+							/*if(!p6data.getContract_id_fk().equalsIgnoreCase(contarct)) {
 								fob_mismatch = "selected Contract ID and WBS Code Mismatch at sheet (1) row [A3].";
-							}
+							}*/
 							if(activitiesList.size() == 0 ){
 								fob_mismatch = "Sheet is empty.";
 							}
@@ -510,8 +510,34 @@ public class P6NewDataController {
 			p6data.setData_date(DateParser.parse(p6data.getData_date()));
 			p6data.setUpload_type("Update");
 			if(StringUtils.isEmpty(fob_mismatch)){
-				int count  = p6newdataService.updateP6Activities(activitiesList,p6data);
-				attributes.addFlashAttribute("success", "Data date updated and "+ count + " Activities updated successfully.");	
+				int count  = 0;
+				try {
+					count  = p6newdataService.updateP6Activities(activitiesList,p6data);
+					String lineErr = Integer.toString(count);
+					if(count <= 0) {
+						fob_mismatch = "WBS Code or Activity ID Missmatch.  ";
+						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+					}else{
+						attributes.addFlashAttribute("success", "Data date updated and "+ count + " Activities updated successfully.");	
+					}
+				}catch(Exception e) {
+					String lineErr = e.getMessage();
+					if(lineErr.contains("Cannot add or update a child row")) {
+						if(lineErr.contains("p6_activity.p6_wbs_code_fk")) {
+							fob_mismatch = "Incorrect <b>WBS Code</b>, No such value in records, Please check and try again.  ";
+							attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+						}else if(lineErr.contains("p6_activity.status_fk")){
+							
+							fob_mismatch = "Incorrect data for column <b>Activity Status</b>, Please check and try again.  ";
+							attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+						}
+					}else if(lineErr.contains("Incorrect integer value")){
+						
+						fob_mismatch = "Incorrect data for column <b>Total Float</b>, Please check and try again.  ";
+						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+					}
+					
+				}
 				
 			}else {
 				attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");

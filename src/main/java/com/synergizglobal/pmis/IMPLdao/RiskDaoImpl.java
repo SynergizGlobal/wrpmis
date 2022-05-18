@@ -406,7 +406,8 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 				qry = qry + " and date = ?";
 				arrSize++;
 			}else {
-				qry = qry + " and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
+				//qry = qry + " and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
+				qry = qry + "  and date = (select date from risk_revision where risk_id_pk_fk = risk_id_pk and risk_revision_id=(select max(risk_revision_id) from risk_revision where risk_id_pk_fk = risk_id_pk)) ";
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
 				qry = qry + " and r.sub_work = ?";

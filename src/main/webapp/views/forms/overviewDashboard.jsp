@@ -845,7 +845,8 @@
 			         	   if(data.length){
 			         		   $.each( data, function( index, value ){
 			         			  var filterOptions = value.filter;
-			         			  if((value.is_first_option_selected != 'YES')){
+			         			  var length = filterOptions.length;
+			         			  if((value.is_first_option_selected != 'YES') && length > 1){
 			         				$("#"+id).append('<option value="" selected>All</option>');
 			         			  }
 			         			  $.each( value.filter, function( index2, value2 ){
@@ -853,12 +854,11 @@
 				         				if($.trim(value2.filter_option_id) != ''){
 				         					filter_option_id = value2.filter_option_id;
 				         				}
-				         				var length = filterOptions.length;
 				         				var selectedFlag = "";
 				         				/* if($.trim(length) != '' && length == 1){
 				         					selectedFlag = 'selected';
 				         				} */
-				         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
+				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0)) || length == 1){
 				         					selectedFlag = 'selected';
 				         				}
 				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');

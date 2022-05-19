@@ -482,8 +482,6 @@
             		if($("#status_fk").val()=="Closed")
             		{
             			$("#status_fk").attr("disabled",true);
-            			
-            			
             		}
             		else
            			{

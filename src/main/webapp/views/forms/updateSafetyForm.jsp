@@ -394,7 +394,7 @@
                                 <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <button type="button" onclick="updateSafety()"
-                                            class="btn waves-effect waves-light bg-m">Update </button>
+                                            id="btnUpdate" class="btn waves-effect waves-light bg-m">Update </button>
                                     </div>
                                 </div>
                                 <div class="col s6 m6 l6 mt-brdr">
@@ -475,10 +475,30 @@
             if($('#committee_required').is(":checked")){
            	 $('#committee_member_div').removeClass('hidden');
            }
-            if(user_type == 'HOD' || user_role == 'IT Admin'){}
-            else{
-            	$("#status_fk option[value='Closed']").remove();
+            if(user_type == 'HOD' || user_role == 'IT Admin'){
+            	
             }
+            else{
+            		if($("#status_fk").val()=="Closed")
+            		{
+            			$("#status_fk").attr("disabled",true);
+            			
+            			
+            		}
+            		else
+           			{
+           				$("#status_fk option[value='Closed']").remove();
+           			}
+            }
+            
+    		if($("#status_fk").val()=="Closed")
+    		{
+    			$("#btnUpdate").attr("disabled",true);
+    		}
+    		else
+   			{
+    			$("#btnUpdate").attr("disabled",false);
+   			}           
             dateShowAndHide();
            /*  $('#date_icon').click(function (event) {
                 event.stopPropagation();

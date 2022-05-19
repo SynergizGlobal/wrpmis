@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class RandRMain {
-private String rr_id, work_id,work_id_fk,work_short_name,work_name, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor, carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, estimate_approval_date, letter_to_mmrda, estimates_by_mmrda, payment_to_mmrda, alternate_housing_allotment,
+private String rr_id, work_id,work_id_fk,work_short_name,work_name, identification_no,project_id, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor, carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, estimate_approval_date, letter_to_mmrda, estimates_by_mmrda, payment_to_mmrda, alternate_housing_allotment,
 relocation, encroachment_removal, boundary_wall_status, boundary_wall_doc, handed_over_to_execution, occupier_name_during_verification,stage,id, rr_id_fk, name_of_activity, 
 year_of_establishment, monthly_turnover_amount, monthly_turnover_amount_units, number_of_employees, remarks,
  employee_name, employee_age, employee_gender, employee_literacy, employee_travel_time, employee_salary, employee_salary_units, employee_nature_of_work,
@@ -17,12 +17,36 @@ residential_name, residential_relation_with_head, residential_age, rr_location_f
 residential_maritual_status, residential_education, residential_employment, residential_salary, unit, value,com_carpet_area,com_remarks,estimated_by_mmrda_amount_units,estimation_amount_units,
 residential_salary_units,created_by_user_id_fk,modified_by,modified_date,user_id,user_name,designation,user_type_fk,user_role_code,executive_user_id_fk,rr_data_id, uploaded_file, status, uploaded_by_user_id_fk, uploaded_on;
 
-private List<RandRMain> residentialList,commercialList,comList,comFamList,resList,resFamList;
+private List<RandRMain> residentialList,commercialList,comList,comFamList,resList,resFamList,report1List,report2List;
 private MultipartFile RandRFile;
 private String [] values,genders,ids, rr_id_fks, employee_names, employee_ages, employee_genders, employee_literacys,employee_salary_unitsss, employee_travel_times
 , employee_salarys, employee_salary_unitss, employee_nature_of_works,
 residential_names, residential_relation_with_heads, residential_ages, residential_genders, residential_maritual_statuss,employee_attendeds, residential_educations, residential_employments
 , residential_salarys, residential_salary_unitss;
+
+public String getProject_id() {
+	return project_id;
+}
+
+public void setProject_id(String project_id) {
+	this.project_id = project_id;
+}
+
+public List<RandRMain> getReport1List() {
+	return report1List;
+}
+
+public void setReport1List(List<RandRMain> report1List) {
+	this.report1List = report1List;
+}
+
+public List<RandRMain> getReport2List() {
+	return report2List;
+}
+
+public void setReport2List(List<RandRMain> report2List) {
+	this.report2List = report2List;
+}
 
 public String getWork_code() {
 	return work_code;

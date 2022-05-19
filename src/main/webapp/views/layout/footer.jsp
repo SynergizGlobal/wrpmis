@@ -33,7 +33,7 @@
     <div class="container">
     	<c:if test="${sessionScope.IS_TEST_ENV_ENABLED eq 'true' }">
 	    	<span style="width: 15%;">
-			  <select class="browser-default" style="width: 15%;display: inline-block;" onchange="switchEnvironment(this.value);">
+			  <select class="browser-default" style="width: 15%;display: inline-block;height:auto;" onchange="switchEnvironment(this.value);">
 			    <option value="/pmis/" <c:if test="${context_path eq '/pmis' }">selected</c:if>>Production</option>
 			    <option value="/pmis_qa/" <c:if test="${context_path eq '/pmis_qa' }">selected</c:if>>Testing</option>
 			  </select>

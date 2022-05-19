@@ -181,8 +181,10 @@ public class PageConstants {
 
 	public static final String overviewDashboard = "forms/overviewDashboard";
 	public static final String archiveOverviewDashboard = "forms/archiveOverviewDashboard";
-	
+
 	public static final String moduleDashboards = "forms/moduleDashboards";
+	public static final String archiveDashboards = "forms/archiveDashboards";
+	public static final String archiveDashboardsMenu = "forms/archiveDashboardsMenu";
 	
 	public static final String structureGalleryPage ="forms/structureGalleryPage";
 

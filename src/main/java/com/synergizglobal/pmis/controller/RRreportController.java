@@ -385,7 +385,7 @@ public class RRreportController {
 				  	rrSheet1.setColumnWidth(columnIndex, 35 * 125);
 				   }
 						   // rrSheet1.setColumnWidth(0, 25 * 120);
-	       		 	XSSFSheet rrSheet2 = workBook.createSheet(WorkbookUtil.createSafeSheetName("RR Deatil Report"));
+	       		 	XSSFSheet rrSheet2 = workBook.createSheet(WorkbookUtil.createSafeSheetName("RR Detail Report"));
 	       		 	
 			        XSSFRow headRow2 = rrSheet2.createRow(0);
 			        
@@ -395,7 +395,7 @@ public class RRreportController {
 			        
 			        cell2 = mainHeadingRow2.createCell(0);
 			        cell2.setCellStyle(bluetyle);
-			        cell2.setCellValue(work_d+" R&R Deatil Report");
+			        cell2.setCellValue(work_d+" R&R Detail Report");
 			        
 			        for (int i = 1; i < 5; i++) {		        	
 				        cell2 = mainHeadingRow2.createCell(i);

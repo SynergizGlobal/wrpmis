@@ -22,21 +22,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
-import com.synergizglobal.pmis.Iservice.OverviewDashboardService;
-import com.synergizglobal.pmis.common.TableauTrustedTicket;
-import com.synergizglobal.pmis.common.UrlGenerator;
-import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.Iservice.ModuleDashboardsService;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.OverviewDashboard;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
 
 @Controller
-public class OverviewDashboardController {
-	Logger logger = Logger.getLogger(OverviewDashboardController.class);
+@RequestMapping("/modules")
+public class ModuleDashboardsController {
+	
+	Logger logger = Logger.getLogger(ModuleDashboardsController.class);
 	
 	@Autowired
-	OverviewDashboardService overviewDashboardService;
+	ModuleDashboardsService moduleDashboardsService;
 	
 	@Autowired
 	HomeService service;	
@@ -48,88 +47,15 @@ public class OverviewDashboardController {
 	public ModelAndView overviewDashboard(@PathVariable("dashboardId") String dashboardId,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
-		    model.setViewName(PageConstants.overviewDashboard);
+		    model.setViewName(PageConstants.moduleDashboards);
 			model.addObject("dashboardId", dashboardId);
 			model.addObject("dashboard_type", "Modules");
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("overviewDashboardByWork : " + e.getMessage());
+			logger.error("overviewDashboard : " + e.getMessage());
 		}
 		return model;
 	}
-	
-	@RequestMapping(value="/work-overview-dashboard/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView overviewDashboardByWork(@PathVariable("work_id") String work_id,HttpSession session,HttpServletRequest request) {
-		ModelAndView model = new ModelAndView();
-		try {
-		    model.setViewName(PageConstants.overviewDashboard);
-			model.addObject("work_id", work_id);
-			model.addObject("dashboard_type", "Works");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("overviewDashboardByWork : " + e.getMessage());
-		}
-		return model;
-	}
-	
-	@RequestMapping(value="/work-overview-dashboard/{work_id}/{dashboardId}",method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView overviewDashboardListByWork(@PathVariable("work_id") String work_id,@PathVariable("dashboardId") String dashboardId,HttpSession session) {
-		ModelAndView model = new ModelAndView();
-		try {
-		    model.setViewName(PageConstants.overviewDashboard);
-			
-			model.addObject("work_id", work_id);
-			model.addObject("dashboardId", dashboardId);
-			model.addObject("dashboard_type", "Works");
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("overviewDashboardListByWork : " + e.getMessage());
-		}
-		return model;
-	}	
-	
-	@RequestMapping(value="/archive-overview-dashboard",method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView archiveOverviewDashboard(HttpSession session,HttpServletRequest request) {
-		ModelAndView model = new ModelAndView();
-		try {
-		    model.setViewName(PageConstants.archiveDashboardsMenu);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("overviewDashboardByWork : " + e.getMessage());
-		}
-		return model;
-	}	
-	
-	@RequestMapping(value="/archive-overview-dashboard/{dashboardId}",method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView archiveOverviewDashboard(@PathVariable("dashboardId") String dashboardId,HttpSession session) {
-		ModelAndView model = new ModelAndView();
-		try {
-		    model.setViewName(PageConstants.archiveDashboards);
-			model.addObject("dashboardId", dashboardId);
-			model.addObject("dashboard_type", "Modules");
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("overviewDashboardByWork : " + e.getMessage());
-		}
-		return model;
-	}
-	
-	@RequestMapping(value="/archive-work-overview-dashboard/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView archiveOverviewDashboardByWork(@PathVariable("work_id") String work_id,HttpSession session,HttpServletRequest request) {
-		ModelAndView model = new ModelAndView();
-		try {
-		    model.setViewName(PageConstants.archiveDashboards);
-			model.addObject("work_id", work_id);
-			model.addObject("dashboard_type", "Works");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("overviewDashboardByWork : " + e.getMessage());
-		}
-		return model;
-	}	
-	
 	
 	@RequestMapping(value = "/ajax/getLeftNav", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -144,7 +70,7 @@ public class OverviewDashboardController {
  			obj.setUser_role_name_fk(uObj.getUser_role_name_fk());
 			obj.setUser_id(uObj.getUser_id());
 			
-			overviewDashboard = overviewDashboardService.getLeftNavNodes(obj);
+			overviewDashboard = moduleDashboardsService.getLeftNavNodes(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getLeftNavNodes : " + e.getMessage());
@@ -198,7 +124,7 @@ public class OverviewDashboardController {
 			obj.setDashboard_id(dashboard_id);
 			obj.setLevel(level);
 			try {
-				flag=overviewDashboardService.getDashboardLeftMenuAccess(obj);
+				flag=moduleDashboardsService.getDashboardLeftMenuAccess(obj);
 
 			} catch (SQLException e) {
 				logger.error("checkUserEmail : " + e.getMessage());
@@ -221,10 +147,9 @@ public class OverviewDashboardController {
 			String dashboard_id = dObj.getDashboard_id();
 			String work_id = dObj.getWork_id();
 			String params = dObj.getParams();
-			obj = overviewDashboardService.getTableauUrl(dashboard_id);
+			obj = moduleDashboardsService.getTableauUrl(dashboard_id);
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_url()) && !"structure-gallery-page".equals(obj.getDashboard_url()) 
-					 && !"wbs-tree".equals(obj.getDashboard_url())){
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_url()) && !"structure-gallery-page".equals(obj.getDashboard_url())){
 				String dashboardUrl = obj.getDashboard_url();
 				if(!StringUtils.isEmpty(params)) {
 					params = decodeURIComponent(params);
@@ -240,7 +165,7 @@ public class OverviewDashboardController {
 				}else {
 					server_name = "MRVC";
 				}
-				TableauTrustedTicket tObj = new TableauTrustedTicket();
+				/*TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
 				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 				baseUrl = baseUrl.replace("{1}", trustedTokenId);
@@ -262,7 +187,7 @@ public class OverviewDashboardController {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;
 				}else {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-				}
+				}*/
 				obj.setDashboard_url(tableauUrl.toString());	
 			}
 		} catch (Exception e) {
@@ -289,26 +214,13 @@ public class OverviewDashboardController {
 	public List<OverviewDashboard> getFilters(@ModelAttribute OverviewDashboard dObj,HttpSession session){
 		List<OverviewDashboard> objList = null;
 		try{
-			objList = overviewDashboardService.getFilters(dObj);
+			objList = moduleDashboardsService.getFilters(dObj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getFilters() : "+e.getMessage());
 		}
 		return objList;
 	}
-	
-	@RequestMapping(value = "/ajax/getArchiveDates", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<OverviewDashboard> getArchiveDates(@ModelAttribute OverviewDashboard dObj,HttpSession session){
-		List<OverviewDashboard> objList = null;
-		try{
-			objList = overviewDashboardService.getArchiveDates(dObj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getFilters() : "+e.getMessage());
-		}
-		return objList;
-	}	
 	
 	@RequestMapping(value = "/ajax/getFilteredOptions", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -320,12 +232,12 @@ public class OverviewDashboardController {
 				params = decodeURIComponent(params);
 				dObj.setParams(params);
 			}
-			objList = overviewDashboardService.getFilteredOptions(dObj);
+			objList = moduleDashboardsService.getFilteredOptions(dObj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getFilteredOptions() : "+e.getMessage());
 		}
 		return objList;
 	}
-			
+	
 }

@@ -214,40 +214,63 @@
 	<div class="" style="margin-top:2rem;">
 	    <div class="row">
 	        <div class="col s12 m2" id="menu-item-holder">
-	         <span id="lefticon" style="display:none;"><i class="fas fa-arrow-left" onclick="window.location.href='../archive-overview-dashboard'"></i></span>
-	        
-	       
-	        <br>
 	             <div class=" main-menu-collapse">
-	             	<div id="accordion"></div>
+	             	<div id="accordion">
+	                 <!-- <h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
+	                 	  <div class="ds-none">
+	                 		<p></p>
+	                 	  </div>
+						  <h3 class="bg-a"><a href="#">Section 2</a></h3>
+						  <div>
+						    <p>
+						    <a href="#" class="bd-bl bg-a">link1</a>
+						    <a href="#" class="bd-bl bg-a">link2</a>
+						    </p>
+						  </div>
+						  <h3 class="bg-a"><a href="#">Section 3</a></h3>
+						  <div>
+						    <p>
+						    <a href="#" class="bd-bl bg-a">link1</a>
+						    <a href="#" class="bd-bl bg-a">link2</a>
+						    </p>
+						  </div>
+						  <h3 class="bg-a"><a href="#">Section 4</a></h3>
+						  <div>
+						    <p>
+						    <a href="#" class="bd-bl bg-a">link1</a>
+						    <a href="#" class="bd-bl bg-a">link2</a>
+						    </p>
+						  </div> -->
+					  </div>
                </div>
 	        </div>
 	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
-				<iframe id="dashboard_url" name="dashboard_url" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
-	    	</div>   	
+				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
+	    	</div>    	
 	    	
-	    	<div class="col m2 s12" id="filterItemHolderDiv" style="display:none;">
-	    		<div id="filterItemHolder"></div>
-	    		<div id="filterItemHolderClear"></div>
+	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
+		    	<!-- <div class="clearHolder">
+		    		<button class="btn waves-effect waves-light t-c" onclick="clearFilter();">Clear Filters</button>
+		    	</div> -->
 	    	</div>
 		</div>
 
 		<div class="page-loader" style="display: none;">
-		<div class="preloader-wrapper big active">
-			<div class="spinner-layer spinner-blue-only">
-				<div class="circle-clipper left">
-					<div class="circle"></div>
-				</div>
-				<div class="gap-patch">
-					<div class="circle"></div>
-				</div>
-				<div class="circle-clipper right">
-					<div class="circle"></div>
+			<div class="preloader-wrapper big active">
+				<div class="spinner-layer spinner-blue-only">
+					<div class="circle-clipper left">
+						<div class="circle"></div>
+					</div>
+					<div class="gap-patch">
+						<div class="circle"></div>
+					</div>
+					<div class="circle-clipper right">
+						<div class="circle"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<!-- footer included -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include> 
 
@@ -264,7 +287,18 @@
   <script type="text/javascript">
 
 	    var requestedDashboardId = '';
-	    $(document).ready(function(){	    	
+	 	var subworkid="";
+		var assessmentdate=""; 		 	
+	    $(document).ready(function(){
+ 		 	subworkid = getUrlVars()["sub_work"];
+		   			
+    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
+    		{
+				var rlc=subworkid.replace(/%20/g, " ");
+				subworkid = getWorkId(rlc);
+   				assessmentdate = getUrlVars()["assessment_date"];
+    		}
+	    	
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
 		    var dashboard_type = '${dashboard_type}';
@@ -285,32 +319,79 @@
 					  });
 					}
 					$( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
-					
+
 					$.each( data, function( index, value ){
-						if(index == 0 && $.trim(requestedDashboardId) == ''){
+						var p = 0;
+						if(p == 0 && ($.trim(requestedDashboardId) == '')){
 							requestedDashboardId = value.dashboard_id;
+							p = p+1;
 						}
 					});
 				}
-	        });
+	        });		    
 		    
 		    if($.trim(requestedDashboardId) != ''){
 				var tempParentId = $('.bg-a#'+requestedDashboardId).attr("parent_id");
 				if($.trim(tempParentId) != '' && tempParentId != 'undefined'){
 					$('.bg-a#'+tempParentId).trigger("click");
 					requestedDashboardId = '${dashboardId}';
-					openDashboard(requestedDashboardId);
+					openDashboard(requestedDashboardId,'true');
 				}else{
 					if($('#'+requestedDashboardId).length){
 						$('.bg-a#'+requestedDashboardId).trigger("click");
 					}else{
-						openDashboard(requestedDashboardId);
+						openDashboard(requestedDashboardId,'true');
 					}
+					
 				}
 			}
 		    $('.searchable').select2();
+			
+    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
+    		{
+	    			openDashboard(36,'true');
+    		}	
 	});
 	    
+	    
+	function getWorkId(rlc)
+	{
+		var rworkid="";
+	   	 $.ajax({
+	      		url: "<%=request.getContextPath()%>/ajax/getWorkId",
+	            type: 'POST',
+	            data:{sub_work : rlc},
+	            async: false,
+	            dataType: 'json',
+	            success: function (data)
+	            {
+	            	 	 $.each( data, function( index, value ){
+	            	 		rworkid=value.work_id_fk
+	            	 	});
+	            }
+	            
+	   	 });
+   		return rworkid;
+	}
+	    
+	    function formatDate(dateString) {
+	    	var date = new Date(dateString);
+	    	  var month = date.getMonth();
+	    	  var day = date.getDay();	    	      
+	    	    return [
+	    	        date.getFullYear(),
+	    	        month > 9 ? month : "0" + month,
+	    	        day > 9 ? day : "0" + day
+	    	      ].join("-");  
+	    	}
+	    
+	    function getUrlVars() {
+	        var vars = {};
+	        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+	            vars[key] = value;
+	        });
+	        return vars;
+	    }
 	    
 	    
     function getData(data){
@@ -327,7 +408,7 @@
 				flag = flag + 1;
 			}
 			
-			if(getDashboardLeftMenuAccess(parentDashboardId,2)==true)
+			/* if(getDashboardLeftMenuAccess(parentDashboardId,2)==true)
 			{
 				if(getDashboardLeftMenuAccess(parentDashboardId,3)==true)
 					{
@@ -337,15 +418,36 @@
 					{
 						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
 					}
+			} */
+			var level2List = value.formsSubMenu;
+			var accessibility = "'"+value.accessibility+"'";
+			if(value.accessibility == 'true' || level2List.length > 0){
+				html = html + '<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+','+accessibility+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a>';
+				if(value.accessibility == 'false'){
+					html = html + '<span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span>';
+				}
+				html = html + '</h3>';
 			}
+			
 			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
 				
-				$.each( value.formsSubMenu, function( index1, value1 ){
+				/* $.each( value.formsSubMenu, function( index1, value1 ){
 					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
 					{
 						html = html + '<div> <p>';
 					}
+				}); */
+				var accessFlag = false;
+				$.each( value.formsSubMenu, function( index1, value1 ){
+					if(value1.accessibility == 'true'){
+						accessFlag = true;
+					}
 				});
+				
+				if(accessFlag){
+					html = html + '<div> <p>';
+				}
+				
 				$.each( value.formsSubMenu, function( index1, value1 ){
 					var dashboardId = value1.dashboard_id;
 					var liDisabled = '';
@@ -354,17 +456,20 @@
 						tempDashboardId = dashboardId;
 						flag = flag + 1;
 					}
-					if(getDashboardLeftMenuAccess(dashboardId,2)==true)
+					/* if(getDashboardLeftMenuAccess(dashboardId,2)==true)
 					{
 						if(getDashboardLeftMenuAccess(dashboardId,3)==true)
 						{
 							html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 						}
-						else
-						{
-							html = html + '<a style="cursor: default;" href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'<span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></a>';
-						}
+					} */
+					
+					var level3List = value1.formsSubMenu;
+					var accessibility = "'"+value1.accessibility+"'";
+					if(value1.accessibility == 'true' || level3List.length > 0){
+						html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 					}
+					
 					if(value1.formsSubMenu != "" && value1.formsSubMenu != null && value1.formsSubMenu != 'undefined' && value1.formsSubMenu.length > 0){
 						html = html + '<div style="margin: 0 0 0 2em;"> <p>';
 						$.each( value1.formsSubMenu, function( index2, value2 ){
@@ -375,20 +480,30 @@
 								tempDashboardId = dashboardId;
 								flag = flag + 1;
 							}
-							if(getDashboardLeftMenuAccess(value2.dashboard_id,3)==true)
+							/* if(getDashboardLeftMenuAccess(value2.dashboard_id,3)==true)
 							{
 								html = html + '<a href="javascript:openDashboard('+value2.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value2.dashboard_name+'</a>';
+							} */
+							var accessibility = "'"+value2.accessibility+"'";
+							if(value2.accessibility == 'true'){
+								html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 							}
+							
 						});
 						html = html + '</p></div> ';
 					}
 				});
-				$.each( value.formsSubMenu, function( index1, value1 ){
+				/* $.each( value.formsSubMenu, function( index1, value1 ){
 					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
 					{
 						html = html + '</p></div>';
 					}
-				});
+				}); */
+				
+				if(accessFlag){
+					html = html + '</p></div>';
+				}
+				
 			}else{
 				html = html+'<div class="ds-none"> <p></p> </div>';
 			}
@@ -417,10 +532,8 @@
         return bool;
 	}  
     
-
-    var filterIdsMain = "";
 	  
-	function openDashboard(dashboardId){
+	function openDashboard(dashboardId,accessibility){
 		  $(".page-loader").show();
 		  $(".bg-a").removeClass("active");
 		  $("#"+dashboardId).addClass("active");
@@ -429,92 +542,100 @@
 		  requestedDashboardId = dashboardId;
           var params = "";
           var show_left_menu = '';
-          var filterIdsMainTemp = ''
-          
-      	  $.ajax({
-      		url: "<%=request.getContextPath()%>/ajax/getFiltersForModuleDasboards",
-            type: 'POST',
-            data:{dashboard_id : dashboardId,filter_ids : filterIdsMain,work_id : '${work_id}'},
-            async: false,
-            dataType: 'json',
-            success: function (data){
-         	   if(data.length){
-         		   $("#filterItemHolderDiv").show();
-         		   $.each( data, function( index, value ){
-         			   var filter_column = value.filter_column_name;
-         			   if($.trim(value.filter_column_id) != ''){
-         				  filter_column = value.filter_column_id;
-         			   }     				  
-         			   if($.trim(filterIdsMain) != ''){
-         				  filterIdsMain = filterIdsMain +","+ filter_column;
-         			   }else{
-         				  filterIdsMain = filter_column;
-         			   }
-         		   });
-         		   
-         		   filterIdsMainTemp = "'"+ filterIdsMain + "'";
-         		   
-         		   var dashboardIdTemp = "'"+ dashboardId + "'";
-         		   
-         		   var filters = "";
-         		   $.each( data, function( index, value ){
-         			   var filter_column = value.filter_column_name;
-        			   if($.trim(value.filter_column_id) != ''){
-        				  filter_column = value.filter_column_id;
-        			   } 
-        			   
-        			   var filter_label_name = "'"+ value.filter_label_name + "'";
-        			   var filter_id = "'"+ value.filter_id + "'";
-        			   var filter_column_name = "'"+ filter_column + "'";
-        			   
-         			   filters = filters + '<div class="filterHolder">'
-					         			+ '<label>'+value.filter_label_name+'</label>'
-					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIdsMainTemp+','+dashboardIdTemp+');">'
-					         			//+ '<option value="">All</option>'
-					         			
-					         			if((value.is_first_option_selected != 'YES')){
-					         				filters = filters + '<option value="" selected>All</option>';
-				         			    }
-				         			  	$.each( value.filter, function( index2, value2 ){
-					         			  	var filter_option_id = value2.filter_option_value;
-					         				if($.trim(value2.filter_option_id) != ''){
-					         					filter_option_id = value2.filter_option_id;
-					         				}
-					         				var selectedFlag = "";
-					         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
-					         					selectedFlag = 'selected';
-					         				}
-					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
-				                     	});
-					         			
-					         			filters = filters + '</select>'
-					         			+ '</div>';	
-         		   });
-         		   
-         		   $("#filterItemHolder").append(filters);
-         		   $('.searchable').select2();
-         		   
-         		   var  filter_item_holder_clear = '<div class="clearHolder">'
-         		 						+ '<button class="btn waves-effect waves-light t-c" onclick="clearFilter('+filterIdsMainTemp+','+dashboardIdTemp+');">Clear Filters</button>'
-         								+ '</div>';
-         		   $("#filterItemHolderClear").html(filter_item_holder_clear);
-         		   
-         	   }
-         	   $(".page-loader").hide();
-            },error: function(xhr){
-            	$(".page-loader").hide();
-                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-            }
-     	 });
-		 $(".page-loader").hide();
-		 getSelectedOption(filterIdsMainTemp,dashboardId);
+          var filterIds = "";
+      	  if(accessibility == 'true'){
+	      	  $.ajax({
+	      		url: "<%=request.getContextPath()%>/ajax/getFilters",
+	            type: 'POST',
+	            data:{dashboard_id : dashboardId,work_id : '${work_id}'},
+	            async: false,
+	            dataType: 'json',
+	            success: function (data){
+	         	   if(data.length){
+	         		   $("#filter-item-holder").show();
+	         		   
+	         		   $.each( data, function( index, value ){
+	         			   var filter_column = value.filter_column_name;
+	         			   if($.trim(value.filter_column_id) != ''){
+	         				  filter_column = value.filter_column_id;
+	         			   }     				  
+	         			   if($.trim(filterIds) != ''){
+	         				  filterIds = filterIds +","+ filter_column;
+	         			   }else{
+	         				  filterIds = filter_column;
+	         			   }
+	         		   });         		   
+	         		   filterIds = "'"+ filterIds + "'";         		   
+	         		   var dashboardIdTemp = "'"+ dashboardId + "'";         		   
+	         		   var filters = "";			   		
+	         		   $.each( data, function( index, value ){
+	         			   var filter_column = value.filter_column_name;
+	        			   if($.trim(value.filter_column_id) != ''){
+	        				  filter_column = value.filter_column_id;
+	        			   }         			   
+	        			   var filter_label_name = "'"+ value.filter_label_name + "'";
+	        			   var filter_id = "'"+ value.filter_id + "'";
+	        			   var filter_column_name = "'"+ filter_column + "'";
+	        			   
+	         			   filters = filters + '<div class="filterHolder">'
+						         			+ '<label>'+value.filter_label_name+'</label>'
+						         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
+						         			//+ '<option value="">All</option>'
+	
+						         			if((value.is_first_option_selected != 'YES')){
+						         				filters = filters + '<option value="" selected>All</option>';
+					         			    }
+					         			  	$.each( value.filter, function( index2, value2 ){
+						         			  	var filter_option_id = value2.filter_option_value;
+						         				if($.trim(value2.filter_option_id) != ''){
+						         					filter_option_id = value2.filter_option_id;
+						         				}
+						         				var selectedFlag = "";
+						         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
+						         					selectedFlag = 'selected';
+						         				}
+						         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+												
+					                     	});
+						         			
+						         			filters = filters + '</select>'
+						         			+ '</div>';	
+	         		   });
+	         		   
+	         		  filters = filters + '<div class="clearHolder">'
+	         		 						+ '<button class="btn waves-effect waves-light t-c" onclick="clearFilter('+filterIds+','+dashboardIdTemp+');">Clear Filters</button>'
+	         								+ '</div>'
+	         		   
+	         		   $("#filter-item-holder").html(filters);
+	         								
+						if(subworkid!="")
+						{
+								$("#work_id").val(subworkid).trigger('change');
+						}        								
+						if(assessmentdate!="")
+						{
+								$("#date").val(assessmentdate).trigger('change');
+						}          								
+	
+	         		   $('.searchable').select2();
+	         	   }
+	         	   $(".page-loader").hide();
+	            },error: function(xhr){
+	            	$(".page-loader").hide();
+	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+	            }
+	     	 });
+			 $(".page-loader").hide();
+			 getSelectedOption(filterIds,dashboardId);
+      	 }else{
+      		$("#filter-item-holder").html('');
+      		$("#dashboardOpen").attr("src","");
+      		$(".page-loader").hide();
+      	 }
 	 }
 	
 	 function getSelectedOption(filterIds,dashboardId){
 		 $(".page-loader").show();	 
-		 if($.trim(filterIds) == ''){
-			 filterIds = filterIdsMain;
-		 }
 		 var show_left_menu = '';	 
 		 var params = "";
 		 var ids = [];
@@ -538,6 +659,11 @@
 			     }
 			 }
 		 }
+			if(subworkid!="")
+			{
+					$("#work_id").val(subworkid);
+			}  
+
 		 $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
 	            type: 'POST',
@@ -548,8 +674,10 @@
 	            	var dashboard_url = data.dashboard_url;
 	            	if($.trim(dashboard_url) == 'structure-gallery-page'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
+	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
+	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
-	         	    $("#dashboard_url").attr("src",dashboard_url);
+	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
 	         	    $(".page-loader").hide();
 	            },error: function(xhr){
@@ -562,19 +690,17 @@
 	   	 }else if($.trim(show_left_menu) == 'Yes'){
 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
 	   		   $("#menu-item-holder").show();
-	   		   $("#filterItemHolderDiv").hide();
-		       $("#filterItemHolder").html("");
-		       $("#filterItemHolderClear").html("");
+	   		   $("#filter-item-holder").hide();
+		       $("#filter-item-holder").html("");
 	   	 }else if(($.trim(show_left_menu) == 'No' || $.trim(show_left_menu) == '') && $.trim(filterIds) != ''){
  		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
 		      $("#menu-item-holder").hide();
-		      $("#filterItemHolderDiv").show();
+		      $("#filter-item-holder").show();
 	   	 }else {
  		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
 		      $("#menu-item-holder").hide();
-		      $("#filterItemHolderDiv").hide();
-		      $("#filterItemHolder").html("");
-		      $("#filterItemHolderClear").html("");
+		      $("#filter-item-holder").hide();
+		      $("#filter-item-holder").html("");
 	   	 }
 	 }
 	 
@@ -625,7 +751,8 @@
 			         	   if(data.length){
 			         		   $.each( data, function( index, value ){
 			         			  var filterOptions = value.filter;
-			         			  if((value.is_first_option_selected != 'YES')){
+			         			  var length = filterOptions.length;
+			         			  if((value.is_first_option_selected != 'YES') && length > 1){
 			         				$("#"+id).append('<option value="" selected>All</option>');
 			         			  }
 			         			  $.each( value.filter, function( index2, value2 ){
@@ -633,12 +760,11 @@
 				         				if($.trim(value2.filter_option_id) != ''){
 				         					filter_option_id = value2.filter_option_id;
 				         				}
-				         				var length = filterOptions.length;
 				         				var selectedFlag = "";
 				         				/* if($.trim(length) != '' && length == 1){
 				         					selectedFlag = 'selected';
 				         				} */
-				         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
+				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0)) || length == 1){
 				         					selectedFlag = 'selected';
 				         				}
 				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
@@ -663,4 +789,4 @@
 
  </script>
 </body>
-</html>
+</html>	

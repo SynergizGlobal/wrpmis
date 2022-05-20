@@ -8,22 +8,21 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.synergizglobal.pmis.Idao.OverviewDashboardDao;
+import com.synergizglobal.pmis.Idao.ModuleDashboardsDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.OverviewDashboard;
 import com.synergizglobal.pmis.model.User;
 
 @Repository
-public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
-	Logger logger = Logger.getLogger(OverviewDashboardDaoImpl.class);
+public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
+	
 	@Autowired
 	DataSource dataSource;
 	
@@ -39,26 +38,26 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
 		try {
 			connection = dataSource.getConnection();
-			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,"
-					+ "source_field_name,source_field_value,show_left_menu,"
-					+ "(SELECT (CASE WHEN COUNT(*)>0 THEN 'true' ELSE 'false' END) FROM left_menu_access lma WHERE lma.dashboard_id = lm.dashboard_id AND (access_value = ? or access_value = ? or access_value = ?)) AS accessibility "
-					+ "FROM left_menu lm "
-					+ "WHERE lm.status = ? and lm.parent_id = ? AND lm.show_left_menu = ? AND lm.dashboard_type_fk = ?";
-			if(!StringUtils.isEmpty(dObj.getDashboard_id()) && "Modules".equals(dObj.getDashboard_type())) {
-				qry = qry + " AND lm.dashboard_id = ?";
+			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value,show_left_menu "
+					+ "FROM left_menu "
+					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? AND dashboard_type_fk = ?";
+			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) {
+				qry = qry + " AND dashboard_id = ?";
 			}
 			qry = qry + " ORDER BY `order`";
 			statement = connection.prepareStatement(qry);
-			int p = 1;
-			statement.setString(p++, dObj.getUser_type_fk());
-			statement.setString(p++, dObj.getUser_role_name_fk());
-			statement.setString(p++, dObj.getUser_id());
-			statement.setString(p++, CommonConstants.ACTIVE);
-			statement.setString(p++, dObj.getParent_id());
-			statement.setString(p++, "Yes");
-			statement.setString(p++, dObj.getDashboard_type());
-			if(!StringUtils.isEmpty(dObj.getDashboard_id()) && "Modules".equals(dObj.getDashboard_type())){
-				statement.setString(p++, dObj.getDashboard_id());
+			statement.setString(1, CommonConstants.ACTIVE);
+			statement.setString(2, dObj.getParent_id());
+			statement.setString(3, "Yes");
+			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) 
+			{
+				String dType=getDashboardType(dObj.getDashboard_id(),connection);
+				statement.setString(4, dType);
+				statement.setString(5, dObj.getDashboard_id());
+			}
+			else
+			{
+				statement.setString(4, dObj.getDashboard_type());
 			}
 			resultSet = statement.executeQuery();  
 			
@@ -66,7 +65,7 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			while(resultSet.next()) {
 				OverviewDashboard obj = new OverviewDashboard();
 				String childParentId = resultSet.getString("dashboard_id");
-				List<OverviewDashboard> subList = getDashboardsSubList(dObj,work_id,childParentId,connection);
+				List<OverviewDashboard> subList = getDashboardsSubList(work_id,childParentId,connection);
 				obj.setFormsSubMenu(subList);
 				
 				obj.setDashboard_id(resultSet.getString("dashboard_id"));
@@ -75,8 +74,7 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 				obj.setDashboard_url(resultSet.getString("dashboard_url"));
 				obj.setSource_table_name(resultSet.getString("source_table_name"));
 				obj.setSource_field_name(resultSet.getString("source_field_name"));
-				obj.setSource_field_value(resultSet.getString("source_field_value"));	
-				obj.setAccessibility(resultSet.getString("accessibility"));
+				obj.setSource_field_value(resultSet.getString("source_field_value"));				
 				if(!StringUtils.isEmpty(work_id)) {
 					obj.setSource_field_value(work_id);
 				}
@@ -143,31 +141,25 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		return count;
 	}
 
-	private List<OverviewDashboard> getDashboardsSubList(OverviewDashboard dObj, String work_id, String parentId, Connection connection) throws Exception {
+	private List<OverviewDashboard> getDashboardsSubList(String work_id, String parentId, Connection connection) throws Exception {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
 		OverviewDashboard obj = null;
 		try {
-			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,"
-					+ "source_field_name,source_field_value,show_left_menu, "
-					+ "(SELECT (CASE WHEN COUNT(*)>0 THEN 'true' ELSE 'false' END) FROM left_menu_access lma WHERE lma.dashboard_id = lm.dashboard_id AND (access_value = ? or access_value = ? or access_value = ?)) AS accessibility "
-					+ "FROM left_menu lm "
+			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu "
+					+ "FROM left_menu "
 					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? ORDER BY `order`";
 			statement = connection.prepareStatement(qry);
-			int p = 1;
-			statement.setString(p++, dObj.getUser_type_fk());
-			statement.setString(p++, dObj.getUser_role_name_fk());
-			statement.setString(p++, dObj.getUser_id());
-			statement.setString(p++, CommonConstants.ACTIVE);
-			statement.setString(p++, parentId);
-			statement.setString(p++, "Yes");
+			statement.setString(1, CommonConstants.ACTIVE);
+			statement.setString(2, parentId);
+			statement.setString(3, "Yes");
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new OverviewDashboard();
 				
 				String childParentId = resultSet.getString("dashboard_id");
-				List<OverviewDashboard> subList = getDashboardsSubList(dObj,work_id,childParentId,connection);
+				List<OverviewDashboard> subList = getDashboardsSubList(work_id,childParentId,connection);
 				obj.setFormsSubMenu(subList);
 				
 				obj.setDashboard_id(resultSet.getString("dashboard_id"));
@@ -177,7 +169,6 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 				obj.setSource_table_name(resultSet.getString("source_table_name"));
 				obj.setSource_field_name(resultSet.getString("source_field_name"));
 				obj.setSource_field_value(resultSet.getString("source_field_value"));
-				obj.setAccessibility(resultSet.getString("accessibility"));
 				if(!StringUtils.isEmpty(work_id)) {
 					obj.setSource_field_value(work_id);
 				}
@@ -689,27 +680,4 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 		}
 		return flag;
 	}
-	
-	@Override
-	public List<OverviewDashboard> getArchiveDates(OverviewDashboard dObj) throws Exception {
-		List<OverviewDashboard> objsList;
-		try {
-			String qry = "SELECT DATE_FORMAT(archive_date ,'%d/%m/%Y') as dashboard_name,archive_url as dashboard_url FROM left_menu_archive_details WHERE dashboard_id = ?";
-			objsList = jdbcTemplate.query(qry, new Object[] { dObj.getDashboard_id() },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
-			if(StringUtils.isEmpty(objsList))
-			{
-				String qry1 = "SELECT dashboard_url FROM dashboard WHERE dashboard_id = ?";
-				String Dashboardurl = (String) jdbcTemplate.queryForObject(qry1, new Object[] { dObj.getDashboard_id() }, String.class);
-				String DId="";
-				if(!StringUtils.isEmpty(Dashboardurl)) {
-					String []SplitStr=Dashboardurl.split("/");
-					DId=SplitStr[1];
-				}
-				objsList = jdbcTemplate.query(qry, new Object[] { DId },new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));				
-			}
-		} catch (Exception e) {
-			throw new Exception(e);
-		}		
-		return objsList;
-	}	
 }

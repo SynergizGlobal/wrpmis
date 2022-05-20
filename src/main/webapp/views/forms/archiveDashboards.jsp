@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +18,9 @@
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	
 	<style>
+		.w100{
+			width: 100% !important;
+		}
 		.ui-icon, .ui-widget-content .ui-icon{
 			display:none;
 		}
@@ -212,20 +214,51 @@
 	<div class="" style="margin-top:2rem;">
 	    <div class="row">
 	        <div class="col s12 m2" id="menu-item-holder">
- 	             <div class=" main-menu-collapse" id="ar2">
-	             	<div id="accordion1">
-					</div>	
-                 </div> 
- 	             <div class=" main-menu-collapse" id="ar3">
-	             	<div id="accordion2">
-					</div>	
-                 </div>                                   
+	         <span id="lefticon" style="display:none;"><i class="fas fa-arrow-left" onclick="window.location.href='../archive-overview-dashboard'"></i></span>
+	        
+	       
+	        <br>
+	             <div class=" main-menu-collapse">
+	             	<div id="accordion">
+	                 <!-- <h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
+	                 	  <div class="ds-none">
+	                 		<p></p>
+	                 	  </div>
+						  <h3 class="bg-a"><a href="#">Section 2</a></h3>
+						  <div>
+						    <p>
+						    <a href="#" class="bd-bl bg-a">link1</a>
+						    <a href="#" class="bd-bl bg-a">link2</a>
+						    </p>
+						  </div>
+						  <h3 class="bg-a"><a href="#">Section 3</a></h3>
+						  <div>
+						    <p>
+						    <a href="#" class="bd-bl bg-a">link1</a>
+						    <a href="#" class="bd-bl bg-a">link2</a>
+						    </p>
+						  </div>
+						  <h3 class="bg-a"><a href="#">Section 4</a></h3>
+						  <div>
+						    <p>
+						    <a href="#" class="bd-bl bg-a">link1</a>
+						    <a href="#" class="bd-bl bg-a">link2</a>
+						    </p>
+						  </div> -->
+					  </div>
+               </div>
 	        </div>
 	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
 				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>
-	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
 
+	    	<div class="col m2 s12" id="archive-item-holder" style="display:none;" style="" data-select2-id="select2-data-archive-item-holder">
+	    	</div>	    	
+	    	
+	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
+		    	<!-- <div class="clearHolder">
+		    		<button class="btn waves-effect waves-light t-c" onclick="clearFilter();">Clear Filters</button>
+		    	</div> -->
 	    	</div>
 		</div>
 
@@ -259,20 +292,64 @@
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   
   <script type="text/javascript">
+	   /*  var header = document.getElementById("accordion");
+		var btns = header.getElementsByClassName("bg-a");
+		for (var i = 0; i < btns.length; i++) {
+		  btns[i].addEventListener("click", function() {
+		  var current = document.getElementsByClassName("active");
+		  current[0].className = current[0].className.replace(" active", "");
+		  this.className += " active";
+		  });
+		}
+		$( function() {
+			  $( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
+	    }); */
 
 	    var requestedDashboardId = '';
-	    $(document).ready(function(){	 
+	    
+		 	var subworkid="";
+ 		 	var assessmentdate="";
+ 		 	
+ 		 	
+	    $(document).ready(function(){
+	    	
+	    	
+ 		 	var currentHost = window.location.href; 
+
+
+ 	    	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
+     		{
+ 	    		$("#lefticon").show();
+     		}
+ 	    	else
+	    	{
+		   			$("#lefticon").hide();
+		   			
+
+		   			subworkid = getUrlVars()["sub_work"];
+		   			
+		    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
+		    		{
+						var rlc=subworkid.replace(/%20/g, " ");
+						subworkid = getWorkId(rlc);
+		   				assessmentdate = getUrlVars()["assessment_date"];
+		    		}
+
+	    	}  
+ 	    	
+
+	    	
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
 		    var dashboard_type = '${dashboard_type}';
-
-		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavArchiveModules",
+		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
 				type:"POST",
+				data:{dashboard_id : requestedDashboardId, work_id : overview_work_id, dashboard_type : dashboard_type},
 				cache: false,async:false,
 				success : function(data){   
-					$('#accordion1').append(getDataModules(data));
+					$('#accordion').append(getData(data));
 					
-					var header = document.getElementById("accordion1");
+					var header = document.getElementById("accordion");
 					var btns = header.getElementsByClassName("bg-a");
 					for (var i = 0; i < btns.length; i++) {
 					  btns[i].addEventListener("click", function() {
@@ -281,30 +358,17 @@
 					  this.className += " active";
 					  });
 					}
-					$( "#accordion1" ).accordion({ header: "h3", collapsible: false, active: false });
+					$( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
+
+					$.each( data, function( index, value ){
+						if(index == 0 && $.trim(requestedDashboardId) == ''){
+							requestedDashboardId = value.dashboard_id;
+						}
+					});
 				}
 	        });
 		    
 		    
-		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNavArchiveWorks",
-				type:"POST",
-				cache: false,async:false,
-				success : function(data){  
-					$('#accordion2').append(getDataWorks(data));
-					
-					var header = document.getElementById("accordion2");
-					var btns = header.getElementsByClassName("bg-a");
-					for (var i = 0; i < btns.length; i++) {
-					  btns[i].addEventListener("click", function() {
-					  var current = document.getElementsByClassName("active");
-					  current[0].className = current[0].className.replace(" active", "");
-					  this.className += " active";
-					  });
-					}
-					$( "#accordion2" ).accordion({ header: "h3", collapsible: false, active: false });
-				}
-	        });	
-		    $(".ui-accordion-content").hide();
 		    
 		    
 		    if($.trim(requestedDashboardId) != ''){
@@ -317,137 +381,199 @@
 					if($('#'+requestedDashboardId).length){
 						$('.bg-a#'+requestedDashboardId).trigger("click");
 					}else{
-						openDashboard(requestedDashboardId,1);
+						openDashboard(requestedDashboardId);
 					}
 					
 				}
 			}
 		    $('.searchable').select2();
+			
+	    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
+	    		{
+ 	    			openDashboard(36);
+	    		}	
 	});
-
 	    
-    function getDataModules(data)
-    {
-    	var html = '<h3 class="bg-a" id="" parent_id="" onclick="openModulesMenu();"><a href="javascript:void(0);">Modules</a></h3>';
-
+	    
+	function getWorkId(rlc)
+	{
+		var rworkid="";
+	   	 $.ajax({
+	      		url: "<%=request.getContextPath()%>/ajax/getWorkId",
+	            type: 'POST',
+	            data:{sub_work : rlc},
+	            async: false,
+	            dataType: 'json',
+	            success: function (data)
+	            {
+	            	 	 $.each( data, function( index, value ){
+	            	 		rworkid=value.work_id_fk
+	            	 	});
+	            }
+	            
+	   	 });
+   		return rworkid;
+	}
+	    
+	    function formatDate(dateString) {
+	    	var date = new Date(dateString);
+	    	  var month = date.getMonth();
+	    	  var day = date.getDay();	    	      
+	    	    return [
+	    	        date.getFullYear(),
+	    	        month > 9 ? month : "0" + month,
+	    	        day > 9 ? day : "0" + day
+	    	      ].join("-");  
+	    	}
+	    
+	    function getUrlVars() {
+	        var vars = {};
+	        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+	            vars[key] = value;
+	        });
+	        return vars;
+	    }	    
+	    
+	    
+	    function getArchiveDates(dashboardId,work_id)
+	    {
+	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible w100" id="archive_date" style="" data-select2-id="select2-data-archive-item-holder" onChange=changeUrl('+dashboardId+',"'+work_id+'");><option value="">Current</option>';
+	    	 $.ajax({
+	       		url: "<%=request.getContextPath()%>/ajax/getArchiveDates",
+	             type: 'POST',
+	             data:{dashboard_id : dashboardId},
+	             async: false,
+	             dataType: 'json',
+	             success: function (data)
+	             {
+	            	 $.each( data, function( index, value ){
+	            	 	rhtml += "<option value='"+value.dashboard_url+"'>"+value.dashboard_name+"</option>";
+	            	 });
+	             }
+	             
+	    	 });
+	    	rhtml +='</select></div>';
+	    	return rhtml;
+	    }
+	    
+	    function changeUrl(dashboardId,work_id)
+	    {
+			 $.ajax({
+		      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
+		            type: 'POST',
+		            data:{dashboard_id : dashboardId,work_id :work_id},
+		            async: false,
+		            dataType: 'json',
+		            success: function (data){
+		            	var dashboard_url = data.dashboard_url;
+		         	    $("#dashboardOpen").attr("src",dashboard_url);
+		            },error: function(xhr){
+		                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+		            }
+		     });
+	    }
+	    
+	    
+    function getData(data){
+    	var html= '';
 		var flag = 0;
-
-		html = html + '<div id="idnShowModules"> <p>';
-    	$.each( data, function( index, value ){
-			html = html + '<a href="archive-'+value.tableauUrl+'" class="bd-bl bg-a" id="'+value.tableauDashboardId+'">'+value.tableauDashboardName+'</a>';
-    	});
-    	html = html + '</p> </div>';
-    	return html;
-    }	    
-	    
-	    
-    function getDataWorks(data)
-    {
-    	
-		var html = '<h3 class="bg-a" id="" parent_id="" onclick="openWorksMenu();"><a href="javascript:void(0);">Works</a></h3>';
-
-		var flag = 0;  
-		
-		console.log(data);
-
-		html = html + '<div id="idnShowWorks" onclick="openChildWorksMenu();"> <p>';
-
-    	$.each( data, function( index, value ){
-			html = html + '<a href="#" class="bd-bl bg-a" id="'+value.tableauDashboardId+'" onclick="openChildWorksSubMenu('+index+','+value.tableauDashboardId+');">'+value.tableauDashboardName+'</a>';
-			if(value.tableauSubList != "" && value.tableauSubList != null && value.tableauSubList != 'undefined'){
-				html = html + '<div style="margin: 0 0 0 2em;display:none;" id="submenu'+index+'" class="submenucls"> <p>';
-				$.each( value.tableauSubList, function( index2, value2 ){
-					
-					html = html + '<a href="archive-'+value2.tableauUrl+'/'+value2.work_id_fk+'" class="bd-bl bg-a" id="'+value2.tableauDashboardId+'">'+value2.tableauDashboardName+'</a>';
-	
-				});
-				html = html + '</p> </div>';
+		var tempDashboardId = '';
+		$.each( data, function( index, value ){
+			var parentDashboardId = value.dashboard_id;
+			var liDisabled = '';
+			var notAvailable = '';
 			
+			if(flag == 0 && $.trim(notAvailable) == '' && $.trim(parentDashboardId) != ''){
+				tempDashboardId = parentDashboardId;
+				flag = flag + 1;
 			}
-    	});
-		html = html + '</p> </div>';
-
-    	return html;
-    }
-    
-    function openModulesMenu()
-    {
-    		if($("#idnShowModules").is(":visible"))
-    		{
-    			$("#idnShowModules").hide();
-    		}
-    		else
-   			{
-    			$("#idnShowModules").show();
-    			$("#idnShowWorks").hide();
-    			$("#ui-id-1").addClass("active");
-    			$("#ui-id-2").removeClass("active");
-    			
-   			}
-    }
-    
-    
-    function openWorksMenu()
-    {
-		if($("#idnShowWorks").is(":visible"))
-		{
-			$("#idnShowWorks").hide();
-			$("#idnShowChildWorks").hide();
-		}
-		else
+			
+			if(getDashboardLeftMenuAccess(parentDashboardId,2)==true)
 			{
-			$("#idnShowWorks").show();
-			$("#idnShowModules").hide();
-			$("#ui-id-1").removeClass("active");
-			$("#ui-id-2").addClass("active");			
-			
-			}    	
-    }   
+				if(getDashboardLeftMenuAccess(parentDashboardId,3)==true)
+					{
+						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a></h3>';
+					}
+				else
+					{
+						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
+					}
+			}
+			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
+				
+				$.each( value.formsSubMenu, function( index1, value1 ){
+					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
+					{
+						html = html + '<div> <p>';
+					}
+				});
+				$.each( value.formsSubMenu, function( index1, value1 ){
+					var dashboardId = value1.dashboard_id;
+					var liDisabled = '';
+					var notAvailable = '';
+					if(flag == 0 && $.trim(notAvailable) == '' && $.trim(dashboardId) != ''){
+						tempDashboardId = dashboardId;
+						flag = flag + 1;
+					}
+					if(getDashboardLeftMenuAccess(dashboardId,2)==true)
+					{
+						if(getDashboardLeftMenuAccess(dashboardId,3)==true)
+						{
+							html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
+						}
+					}
+					if(value1.formsSubMenu != "" && value1.formsSubMenu != null && value1.formsSubMenu != 'undefined' && value1.formsSubMenu.length > 0){
+						html = html + '<div style="margin: 0 0 0 2em;"> <p>';
+						$.each( value1.formsSubMenu, function( index2, value2 ){
+							var dashboardId = value2.dashboard_id;
+							var liDisabled = '';
+							var notAvailable = '';
+							if(flag == 0 && $.trim(notAvailable) == '' && $.trim(dashboardId) != ''){
+								tempDashboardId = dashboardId;
+								flag = flag + 1;
+							}
+							if(getDashboardLeftMenuAccess(value2.dashboard_id,3)==true)
+							{
+								html = html + '<a href="javascript:openDashboard('+value2.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value2.dashboard_name+'</a>';
+							}
+						});
+						html = html + '</p></div> ';
+					}
+				});
+				$.each( value.formsSubMenu, function( index1, value1 ){
+					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
+					{
+						html = html + '</p></div>';
+					}
+				});
+			}else{
+				html = html+'<div class="ds-none"> <p></p> </div>';
+			}
+		});
+	    return html;	
+	}
     
-    function openChildWorksSubMenu(t,id)
+    function getDashboardLeftMenuAccess(dashboard_id,level)
     {
-    	$(".submenucls").hide();
-		if($("#submenu"+t).is(":visible"))
-		{
-			$("#submenu"+t).hide();
-			$("#"+id).removeClass("active");
-		}
-		else
-		{
-			
-			$("#submenu"+t).show();
-			$("#"+id).addClass("active");
-			
-		}  	
-    }  
-  
-
-    
-    function getArchiveDates(dashboardId)
-    {
-    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible" id="archive_date" onChange="changeUrl(this.value);"><option value="">Current</option>';
-    	 $.ajax({
-       		url: "<%=request.getContextPath()%>/ajax/getArchiveDates",
-             type: 'POST',
-             data:{dashboard_id : dashboardId},
+    	var bool = false;
+       	 $.ajax({
+             url: "<%=request.getContextPath()%>/ajax/getDashboardLeftMenuAccess",
+             data: {dashboard_id:dashboard_id,level:level},type: 'POST',
              async: false,
              dataType: 'json',
-             success: function (data)
+             success: function (data) 
              {
-            	 $.each( data, function( index, value ){
-            	 	rhtml += "<option value='"+value.dashboard_url+"'>"+value.dashboard_name+"</option>";
-            	 });
+            	 if (data == true) {
+                     bool = true;
+                 }
              }
-             
-    	 });
-    	rhtml +='</select></div>';
-    	return rhtml;
+         });
+       	return trueOrFalse(bool);
     }
+    function trueOrFalse(bool){
+        return bool;
+	}  
     
-    function changeUrl(dashboard_url)
-    {
-    	 $("#dashboardOpen").attr("src",dashboard_url);
-    }
 	  
 	function openDashboard(dashboardId){
 		  $(".page-loader").show();
@@ -467,9 +593,10 @@
             async: false,
             dataType: 'json',
             success: function (data){
-           	
          	   if(data.length){
          		   $("#filter-item-holder").show();
+     				$("#archive-item-holder").html("");
+
          		   
          		   $.each( data, function( index, value ){
          			   var filter_column = value.filter_column_name;
@@ -487,8 +614,18 @@
          		   
          		   var dashboardIdTemp = "'"+ dashboardId + "'";
          		   
-         		   var filters = "";
-    			   		filters = filters+getArchiveDates(dashboardId);
+         		  var filters = "";
+         		  
+         		 	var currentHost = window.location.href;    	
+         		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
+	         		{
+	     	    		filters = filters+getArchiveDates(dashboardId,'${work_id}');
+	         		}
+	     	    	else
+     	    		{
+				   		
+     	    		}        		  
+			   		
          		   $.each( data, function( index, value ){
          			   var filter_column = value.filter_column_name;
         			   if($.trim(value.filter_column_id) != ''){
@@ -499,12 +636,11 @@
         			   var filter_id = "'"+ value.filter_id + "'";
         			   var filter_column_name = "'"+ filter_column + "'";
         			   
-        			   
          			   filters = filters + '<div class="filterHolder">'
 					         			+ '<label>'+value.filter_label_name+'</label>'
 					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
 					         			//+ '<option value="">All</option>'
-					         			
+
 					         			if((value.is_first_option_selected != 'YES')){
 					         				filters = filters + '<option value="" selected>All</option>';
 				         			    }
@@ -517,7 +653,19 @@
 					         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
 					         					selectedFlag = 'selected';
 					         				}
-					         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+/* 											if(assessmentdate!="" && value.filter_label_name=="Assessment Date" && filter_option_id==assessmentdate)
+											{
+						         				filters = filters + '<option value="'+filter_option_id+'" selected>'+value2.filter_option_value+'</option>';
+											}
+											if(subworkid!="" && value.filter_label_name=="Work" && value2.filter_option_id==subworkid)
+											{
+						         				filters = filters + '<option value="'+filter_option_id+'" selected>'+value2.filter_option_value+'</option>';
+											}											
+											if(assessmentdate==""  && subworkid=="")
+											{ */
+				         						filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+											/* } */
+					         				
 				                     	});
 					         			
 					         			filters = filters + '</select>'
@@ -529,14 +677,31 @@
          								+ '</div>'
          		   
          		   $("#filter-item-holder").html(filters);
+         								
+					if(subworkid!="")
+					{
+							$("#work_id").val(subworkid).trigger('change');
+					}        								
+					if(assessmentdate!="")
+					{
+							$("#date").val(assessmentdate).trigger('change');
+					}          								
+
          		   $('.searchable').select2();
          	   }else{
-/*          		   $("#filter-item-holder").hide();
-       		       $("#filter-item-holder").html(""); */
-       			$("#filter-item-holder").show();
-       		   var filters1 = getArchiveDates(dashboardId);      
-				  $("#filter-item-holder").html(filters1);      		       
-       		       
+         		  	var currentHost = window.location.href;    	
+        		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
+	         		{
+          				$("#archive-item-holder").show();
+          				$("#archive-item-holder").html("");
+            		   var filters1 = getArchiveDates(dashboardId,'${work_id}');  
+              		  filters1 = filters1 + '<div class="clearHolder">'
+						+ '<button class="btn waves-effect waves-light t-c" onclick="clearArchive();">Clear Filters</button>'
+						+ '</div>';          		   
+            		   
+     				  $("#archive-item-holder").html(filters1);  
+     				 $('.searchable').select2();
+	         		}
          	   }
          	   $(".page-loader").hide();
             },error: function(xhr){
@@ -547,6 +712,11 @@
 		 $(".page-loader").hide();
 		 getSelectedOption(filterIds,dashboardId);
 	 }
+	
+	function clearArchive()
+	{
+		$("#archive_date").val('').trigger('change');
+	}
 	
 	 function getSelectedOption(filterIds,dashboardId){
 		 $(".page-loader").show();	 
@@ -573,6 +743,11 @@
 			     }
 			 }
 		 }
+			if(subworkid!="")
+			{
+					$("#work_id").val(subworkid);
+			}  
+
 		 $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
 	            type: 'POST',
@@ -583,6 +758,8 @@
 	            	var dashboard_url = data.dashboard_url;
 	            	if($.trim(dashboard_url) == 'structure-gallery-page'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
+	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
+	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
@@ -591,7 +768,30 @@
 	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
 	            }
 	     });
-		 
+		 if($.trim(show_left_menu) == 'Yes' && $.trim(filterIds) != ''){
+	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
+	   		   $("#menu-item-holder").show();
+	   	 }else if($.trim(show_left_menu) == 'Yes'){
+	   		var currentHost = window.location.href;    	
+		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1"){
+		 		  $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
+		 	}else{
+		 		$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+		 	}
+	   		 
+	   		   $("#menu-item-holder").show();
+	   		   $("#filter-item-holder").hide();
+		       $("#filter-item-holder").html("");
+	   	 }else if(($.trim(show_left_menu) == 'No' || $.trim(show_left_menu) == '') && $.trim(filterIds) != ''){
+ 		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+		      $("#menu-item-holder").hide();
+		      $("#filter-item-holder").show();
+	   	 }else {
+ 		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
+		      $("#menu-item-holder").hide();
+		      $("#filter-item-holder").hide();
+		      $("#filter-item-holder").html("");
+	   	 }
 	 }
 	 
 	 function getFilteredOptions(filterIds,dashboardId){
@@ -641,7 +841,8 @@
 			         	   if(data.length){
 			         		   $.each( data, function( index, value ){
 			         			  var filterOptions = value.filter;
-			         			  if((value.is_first_option_selected != 'YES')){
+			         			  var length = filterOptions.length;
+			         			  if((value.is_first_option_selected != 'YES') && length > 1){
 			         				$("#"+id).append('<option value="" selected>All</option>');
 			         			  }
 			         			  $.each( value.filter, function( index2, value2 ){
@@ -649,12 +850,11 @@
 				         				if($.trim(value2.filter_option_id) != ''){
 				         					filter_option_id = value2.filter_option_id;
 				         				}
-				         				var length = filterOptions.length;
 				         				var selectedFlag = "";
 				         				/* if($.trim(length) != '' && length == 1){
 				         					selectedFlag = 'selected';
 				         				} */
-				         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
+				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0)) || length == 1){
 				         					selectedFlag = 'selected';
 				         				}
 				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
@@ -679,4 +879,4 @@
 
  </script>
 </body>
-</html>
+</html>	

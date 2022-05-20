@@ -11,7 +11,7 @@ public class OverviewDashboard {
 	default_filter_column,default_filter_value, selected_value, priority, 
 	filter_column_id,filters_reference_table,filter_option_id,filter_option_value,work_id,parent_id,params,
 	query_for_work_search,query_for_filter_options,source_table_alias_name,filters_table_alias_name,order_by,is_first_option_selected,union_all,dashboard_type,dashboard_type_fk,
-	 user_type_fk,user_role_name_fk,user_id,level,la_sub_category_fk,la_sub_category;
+	 user_type_fk,user_role_name_fk,user_id,level,la_sub_category_fk,la_sub_category,accessibility;
 	
 	private List<OverviewDashboard> filter;
 
@@ -355,6 +355,14 @@ public class OverviewDashboard {
 
 	public void setLevel(String level) {
 		this.level = level;
+	}
+
+	public String getAccessibility() {
+		return accessibility;
+	}
+
+	public void setAccessibility(String accessibility) {
+		this.accessibility = accessibility;
 	}
 	
 }

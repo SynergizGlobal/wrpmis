@@ -214,10 +214,6 @@
 	<div class="" style="margin-top:2rem;">
 	    <div class="row">
 	        <div class="col s12 m2" id="menu-item-holder">
-	         <span id="lefticon" style="display:none;"><i class="fas fa-arrow-left" onclick="window.location.href='../archive-overview-dashboard'"></i></span>
-	        
-	       
-	        <br>
 	             <div class=" main-menu-collapse">
 	             	<div id="accordion">
 	                 <!-- <h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
@@ -250,10 +246,7 @@
 	        </div>
 	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
 				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
-	    	</div>
-
-	    	<div class="col m2 s12" id="archive-item-holder" style="display:none;" style="" data-select2-id="select2-data-archive-item-holder">
-	    	</div>	    	
+	    	</div>    	
 	    	
 	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
 		    	<!-- <div class="clearHolder">
@@ -263,21 +256,21 @@
 		</div>
 
 		<div class="page-loader" style="display: none;">
-		<div class="preloader-wrapper big active">
-			<div class="spinner-layer spinner-blue-only">
-				<div class="circle-clipper left">
-					<div class="circle"></div>
-				</div>
-				<div class="gap-patch">
-					<div class="circle"></div>
-				</div>
-				<div class="circle-clipper right">
-					<div class="circle"></div>
+			<div class="preloader-wrapper big active">
+				<div class="spinner-layer spinner-blue-only">
+					<div class="circle-clipper left">
+						<div class="circle"></div>
+					</div>
+					<div class="gap-patch">
+						<div class="circle"></div>
+					</div>
+					<div class="circle-clipper right">
+						<div class="circle"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<!-- footer included -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include> 
 
@@ -292,52 +285,19 @@
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   
   <script type="text/javascript">
-	   /*  var header = document.getElementById("accordion");
-		var btns = header.getElementsByClassName("bg-a");
-		for (var i = 0; i < btns.length; i++) {
-		  btns[i].addEventListener("click", function() {
-		  var current = document.getElementsByClassName("active");
-		  current[0].className = current[0].className.replace(" active", "");
-		  this.className += " active";
-		  });
-		}
-		$( function() {
-			  $( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
-	    }); */
 
 	    var requestedDashboardId = '';
-	    
-		 	var subworkid="";
- 		 	var assessmentdate="";
- 		 	
- 		 	
+	 	var subworkid="";
+		var assessmentdate=""; 		 	
 	    $(document).ready(function(){
-	    	
-	    	
- 		 	var currentHost = window.location.href; 
-
-
- 	    	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
-     		{
- 	    		$("#lefticon").show();
-     		}
- 	    	else
-	    	{
-		   			$("#lefticon").hide();
+ 		 	subworkid = getUrlVars()["sub_work"];
 		   			
-
-		   			subworkid = getUrlVars()["sub_work"];
-		   			
-		    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
-		    		{
-						var rlc=subworkid.replace(/%20/g, " ");
-						subworkid = getWorkId(rlc);
-		   				assessmentdate = getUrlVars()["assessment_date"];
-		    		}
-
-	    	}  
- 	    	
-
+    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
+    		{
+				var rlc=subworkid.replace(/%20/g, " ");
+				subworkid = getWorkId(rlc);
+   				assessmentdate = getUrlVars()["assessment_date"];
+    		}
 	    	
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
@@ -361,37 +321,36 @@
 					$( "#accordion" ).accordion({ header: "h3", collapsible: false, active: false });
 
 					$.each( data, function( index, value ){
-						if(index == 0 && $.trim(requestedDashboardId) == ''){
+						var p = 0;
+						if(p == 0 && ($.trim(requestedDashboardId) == '')){
 							requestedDashboardId = value.dashboard_id;
+							p = p+1;
 						}
 					});
 				}
-	        });
-		    
-		    
-		    
+	        });		    
 		    
 		    if($.trim(requestedDashboardId) != ''){
 				var tempParentId = $('.bg-a#'+requestedDashboardId).attr("parent_id");
 				if($.trim(tempParentId) != '' && tempParentId != 'undefined'){
 					$('.bg-a#'+tempParentId).trigger("click");
 					requestedDashboardId = '${dashboardId}';
-					openDashboard(requestedDashboardId);
+					openDashboard(requestedDashboardId,'true');
 				}else{
 					if($('#'+requestedDashboardId).length){
 						$('.bg-a#'+requestedDashboardId).trigger("click");
 					}else{
-						openDashboard(requestedDashboardId);
+						openDashboard(requestedDashboardId,'true');
 					}
 					
 				}
 			}
 		    $('.searchable').select2();
 			
-	    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
-	    		{
- 	    			openDashboard(36);
-	    		}	
+    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
+    		{
+	    			openDashboard(36,'true');
+    		}	
 	});
 	    
 	    
@@ -432,45 +391,6 @@
 	            vars[key] = value;
 	        });
 	        return vars;
-	    }	    
-	    
-	    
-	    function getArchiveDates(dashboardId,work_id)
-	    {
-	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible w100" id="archive_date" style="" data-select2-id="select2-data-archive-item-holder" onChange=changeUrl('+dashboardId+',"'+work_id+'");><option value="">Current</option>';
-	    	 $.ajax({
-	       		url: "<%=request.getContextPath()%>/ajax/getArchiveDates",
-	             type: 'POST',
-	             data:{dashboard_id : dashboardId},
-	             async: false,
-	             dataType: 'json',
-	             success: function (data)
-	             {
-	            	 $.each( data, function( index, value ){
-	            	 	rhtml += "<option value='"+value.dashboard_url+"'>"+value.dashboard_name+"</option>";
-	            	 });
-	             }
-	             
-	    	 });
-	    	rhtml +='</select></div>';
-	    	return rhtml;
-	    }
-	    
-	    function changeUrl(dashboardId,work_id)
-	    {
-			 $.ajax({
-		      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
-		            type: 'POST',
-		            data:{dashboard_id : dashboardId,work_id :work_id},
-		            async: false,
-		            dataType: 'json',
-		            success: function (data){
-		            	var dashboard_url = data.dashboard_url;
-		         	    $("#dashboardOpen").attr("src",dashboard_url);
-		            },error: function(xhr){
-		                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-		            }
-		     });
 	    }
 	    
 	    
@@ -488,7 +408,7 @@
 				flag = flag + 1;
 			}
 			
-			if(getDashboardLeftMenuAccess(parentDashboardId,2)==true)
+			/* if(getDashboardLeftMenuAccess(parentDashboardId,2)==true)
 			{
 				if(getDashboardLeftMenuAccess(parentDashboardId,3)==true)
 					{
@@ -498,15 +418,36 @@
 					{
 						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
 					}
+			} */
+			var level2List = value.formsSubMenu;
+			var accessibility = "'"+value.accessibility+"'";
+			if(value.accessibility == 'true' || level2List.length > 0){
+				html = html + '<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+','+accessibility+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a>';
+				if(value.accessibility == 'false'){
+					html = html + '<span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span>';
+				}
+				html = html + '</h3>';
 			}
+			
 			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
 				
-				$.each( value.formsSubMenu, function( index1, value1 ){
+				/* $.each( value.formsSubMenu, function( index1, value1 ){
 					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
 					{
 						html = html + '<div> <p>';
 					}
+				}); */
+				var accessFlag = false;
+				$.each( value.formsSubMenu, function( index1, value1 ){
+					if(value1.accessibility == 'true'){
+						accessFlag = true;
+					}
 				});
+				
+				if(accessFlag){
+					html = html + '<div> <p>';
+				}
+				
 				$.each( value.formsSubMenu, function( index1, value1 ){
 					var dashboardId = value1.dashboard_id;
 					var liDisabled = '';
@@ -515,17 +456,20 @@
 						tempDashboardId = dashboardId;
 						flag = flag + 1;
 					}
-					if(getDashboardLeftMenuAccess(dashboardId,2)==true)
+					/* if(getDashboardLeftMenuAccess(dashboardId,2)==true)
 					{
 						if(getDashboardLeftMenuAccess(dashboardId,3)==true)
 						{
 							html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 						}
-/* 						else
-						{
-							html = html + '<a style="cursor: default;" href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'<span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></a>';
-						} */
+					} */
+					
+					var level3List = value1.formsSubMenu;
+					var accessibility = "'"+value1.accessibility+"'";
+					if(value1.accessibility == 'true' || level3List.length > 0){
+						html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 					}
+					
 					if(value1.formsSubMenu != "" && value1.formsSubMenu != null && value1.formsSubMenu != 'undefined' && value1.formsSubMenu.length > 0){
 						html = html + '<div style="margin: 0 0 0 2em;"> <p>';
 						$.each( value1.formsSubMenu, function( index2, value2 ){
@@ -536,20 +480,30 @@
 								tempDashboardId = dashboardId;
 								flag = flag + 1;
 							}
-							if(getDashboardLeftMenuAccess(value2.dashboard_id,3)==true)
+							/* if(getDashboardLeftMenuAccess(value2.dashboard_id,3)==true)
 							{
 								html = html + '<a href="javascript:openDashboard('+value2.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value2.dashboard_name+'</a>';
+							} */
+							var accessibility = "'"+value2.accessibility+"'";
+							if(value2.accessibility == 'true'){
+								html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 							}
+							
 						});
 						html = html + '</p></div> ';
 					}
 				});
-				$.each( value.formsSubMenu, function( index1, value1 ){
+				/* $.each( value.formsSubMenu, function( index1, value1 ){
 					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
 					{
 						html = html + '</p></div>';
 					}
-				});
+				}); */
+				
+				if(accessFlag){
+					html = html + '</p></div>';
+				}
+				
 			}else{
 				html = html+'<div class="ds-none"> <p></p> </div>';
 			}
@@ -579,7 +533,7 @@
 	}  
     
 	  
-	function openDashboard(dashboardId){
+	function openDashboard(dashboardId,accessibility){
 		  $(".page-loader").show();
 		  $(".bg-a").removeClass("active");
 		  $("#"+dashboardId).addClass("active");
@@ -589,138 +543,96 @@
           var params = "";
           var show_left_menu = '';
           var filterIds = "";
-      	  
-      	  $.ajax({
-      		url: "<%=request.getContextPath()%>/ajax/getFilters",
-            type: 'POST',
-            data:{dashboard_id : dashboardId,work_id : '${work_id}'},
-            async: false,
-            dataType: 'json',
-            success: function (data){
-         	   if(data.length){
-         		   $("#filter-item-holder").show();
-     				$("#archive-item-holder").html("");
-
-         		   
-         		   $.each( data, function( index, value ){
-         			   var filter_column = value.filter_column_name;
-         			   if($.trim(value.filter_column_id) != ''){
-         				  filter_column = value.filter_column_id;
-         			   }     				  
-         			   if($.trim(filterIds) != ''){
-         				  filterIds = filterIds +","+ filter_column;
-         			   }else{
-         				  filterIds = filter_column;
-         			   }
-         		   });
-         		   
-         		   filterIds = "'"+ filterIds + "'";
-         		   
-         		   var dashboardIdTemp = "'"+ dashboardId + "'";
-         		   
-         		  var filters = "";
-         		  
-         		 	var currentHost = window.location.href;    	
-         		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
-	         		{
-	     	    		filters = filters+getArchiveDates(dashboardId,'${work_id}');
-	         		}
-	     	    	else
-     	    		{
-				   		
-     	    		}        		  
-			   		
-         		   $.each( data, function( index, value ){
-         			   var filter_column = value.filter_column_name;
-        			   if($.trim(value.filter_column_id) != ''){
-        				  filter_column = value.filter_column_id;
-        			   } 
-        			   
-        			   var filter_label_name = "'"+ value.filter_label_name + "'";
-        			   var filter_id = "'"+ value.filter_id + "'";
-        			   var filter_column_name = "'"+ filter_column + "'";
-        			   
-         			   filters = filters + '<div class="filterHolder">'
-					         			+ '<label>'+value.filter_label_name+'</label>'
-					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
-					         			//+ '<option value="">All</option>'
-
-					         			if((value.is_first_option_selected != 'YES')){
-					         				filters = filters + '<option value="" selected>All</option>';
-				         			    }
-				         			  	$.each( value.filter, function( index2, value2 ){
-					         			  	var filter_option_id = value2.filter_option_value;
-					         				if($.trim(value2.filter_option_id) != ''){
-					         					filter_option_id = value2.filter_option_id;
-					         				}
-					         				var selectedFlag = "";
-					         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
-					         					selectedFlag = 'selected';
-					         				}
-/* 											if(assessmentdate!="" && value.filter_label_name=="Assessment Date" && filter_option_id==assessmentdate)
-											{
-						         				filters = filters + '<option value="'+filter_option_id+'" selected>'+value2.filter_option_value+'</option>';
-											}
-											if(subworkid!="" && value.filter_label_name=="Work" && value2.filter_option_id==subworkid)
-											{
-						         				filters = filters + '<option value="'+filter_option_id+'" selected>'+value2.filter_option_value+'</option>';
-											}											
-											if(assessmentdate==""  && subworkid=="")
-											{ */
-				         						filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
-											/* } */
-					         				
-				                     	});
-					         			
-					         			filters = filters + '</select>'
-					         			+ '</div>';	
-         		   });
-         		   
-         		  filters = filters + '<div class="clearHolder">'
-         		 						+ '<button class="btn waves-effect waves-light t-c" onclick="clearFilter('+filterIds+','+dashboardIdTemp+');">Clear Filters</button>'
-         								+ '</div>'
-         		   
-         		   $("#filter-item-holder").html(filters);
-         								
-					if(subworkid!="")
-					{
-							$("#work_id").val(subworkid).trigger('change');
-					}        								
-					if(assessmentdate!="")
-					{
-							$("#date").val(assessmentdate).trigger('change');
-					}          								
-
-         		   $('.searchable').select2();
-         	   }else{
-         		  	var currentHost = window.location.href;    	
-        		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1")
-	         		{
-          				$("#archive-item-holder").show();
-          				$("#archive-item-holder").html("");
-            		   var filters1 = getArchiveDates(dashboardId,'${work_id}');  
-              		  filters1 = filters1 + '<div class="clearHolder">'
-						+ '<button class="btn waves-effect waves-light t-c" onclick="clearArchive();">Clear Filters</button>'
-						+ '</div>';          		   
-            		   
-     				  $("#archive-item-holder").html(filters1);  
-     				 $('.searchable').select2();
-	         		}
-         	   }
-         	   $(".page-loader").hide();
-            },error: function(xhr){
-            	$(".page-loader").hide();
-                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-            }
-     	 });
-		 $(".page-loader").hide();
-		 getSelectedOption(filterIds,dashboardId);
-	 }
+      	  if(accessibility == 'true'){
+	      	  $.ajax({
+	      		url: "<%=request.getContextPath()%>/ajax/getFilters",
+	            type: 'POST',
+	            data:{dashboard_id : dashboardId,work_id : '${work_id}'},
+	            async: false,
+	            dataType: 'json',
+	            success: function (data){
+	         	   if(data.length){
+	         		   $("#filter-item-holder").show();
+	         		   
+	         		   $.each( data, function( index, value ){
+	         			   var filter_column = value.filter_column_name;
+	         			   if($.trim(value.filter_column_id) != ''){
+	         				  filter_column = value.filter_column_id;
+	         			   }     				  
+	         			   if($.trim(filterIds) != ''){
+	         				  filterIds = filterIds +","+ filter_column;
+	         			   }else{
+	         				  filterIds = filter_column;
+	         			   }
+	         		   });         		   
+	         		   filterIds = "'"+ filterIds + "'";         		   
+	         		   var dashboardIdTemp = "'"+ dashboardId + "'";         		   
+	         		   var filters = "";			   		
+	         		   $.each( data, function( index, value ){
+	         			   var filter_column = value.filter_column_name;
+	        			   if($.trim(value.filter_column_id) != ''){
+	        				  filter_column = value.filter_column_id;
+	        			   }         			   
+	        			   var filter_label_name = "'"+ value.filter_label_name + "'";
+	        			   var filter_id = "'"+ value.filter_id + "'";
+	        			   var filter_column_name = "'"+ filter_column + "'";
+	        			   
+	         			   filters = filters + '<div class="filterHolder">'
+						         			+ '<label>'+value.filter_label_name+'</label>'
+						         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
+						         			//+ '<option value="">All</option>'
 	
-	function clearArchive()
-	{
-		$("#archive_date").val('').trigger('change');
-	}
+						         			if((value.is_first_option_selected != 'YES')){
+						         				filters = filters + '<option value="" selected>All</option>';
+					         			    }
+					         			  	$.each( value.filter, function( index2, value2 ){
+						         			  	var filter_option_id = value2.filter_option_value;
+						         				if($.trim(value2.filter_option_id) != ''){
+						         					filter_option_id = value2.filter_option_id;
+						         				}
+						         				var selectedFlag = "";
+						         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
+						         					selectedFlag = 'selected';
+						         				}
+						         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+												
+					                     	});
+						         			
+						         			filters = filters + '</select>'
+						         			+ '</div>';	
+	         		   });
+	         		   
+	         		  filters = filters + '<div class="clearHolder">'
+	         		 						+ '<button class="btn waves-effect waves-light t-c" onclick="clearFilter('+filterIds+','+dashboardIdTemp+');">Clear Filters</button>'
+	         								+ '</div>'
+	         		   
+	         		   $("#filter-item-holder").html(filters);
+	         								
+						if(subworkid!="")
+						{
+								$("#work_id").val(subworkid).trigger('change');
+						}        								
+						if(assessmentdate!="")
+						{
+								$("#date").val(assessmentdate).trigger('change');
+						}          								
+	
+	         		   $('.searchable').select2();
+	         	   }
+	         	   $(".page-loader").hide();
+	            },error: function(xhr){
+	            	$(".page-loader").hide();
+	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+	            }
+	     	 });
+			 $(".page-loader").hide();
+			 getSelectedOption(filterIds,dashboardId);
+      	 }else{
+      		$("#filter-item-holder").html('');
+      		$("#dashboardOpen").attr("src","");
+      		$(".page-loader").hide();
+      	 }
+	 }
 	
 	 function getSelectedOption(filterIds,dashboardId){
 		 $(".page-loader").show();	 
@@ -776,13 +688,7 @@
 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
 	   		   $("#menu-item-holder").show();
 	   	 }else if($.trim(show_left_menu) == 'Yes'){
-	   		var currentHost = window.location.href;    	
-		 	if(currentHost.indexOf("archive-overview-dashboard")!="-1" || currentHost.indexOf("archive-work-overview-dashboard")!="-1"){
-		 		  $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
-		 	}else{
-		 		$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
-		 	}
-	   		 
+	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
 	   		   $("#menu-item-holder").show();
 	   		   $("#filter-item-holder").hide();
 		       $("#filter-item-holder").html("");

@@ -1,28 +1,17 @@
 package com.synergizglobal.pmis.controller;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFShape;
-import org.apache.poi.hssf.usermodel.HSSFTextbox;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -32,18 +21,11 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFComment;
-import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
-import org.apache.poi.xssf.usermodel.XSSFDrawing;
-import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xwpf.usermodel.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -58,27 +40,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.xlsx4j.sml.Worksheet;
 
-import com.synergizglobal.pmis.Iservice.RRreportService;
-import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.Iservice.LandReportService;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.RandRMain;
+import com.synergizglobal.pmis.model.LandAcquisition;
+import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.User;
-import java.awt.*;
-import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
+import com.synergizglobal.pmis.model.LandAcquisition;
 
 @Controller
-public class RRreportController {
+public class LandReportController {
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	}
 
-	public static Logger logger = Logger.getLogger(RRreportController.class);
+	public static Logger logger = Logger.getLogger(LandReportController.class);
 
 	@Autowired
-	RRreportService service;
+	LandReportService service;
 
 	@Value("${common.error.message}")
 	public String commonError;
@@ -95,85 +75,85 @@ public class RRreportController {
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
 	
-	@RequestMapping(value = "/rr-report", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView RRReport(@ModelAttribute RandRMain obj, RedirectAttributes attributes) {
-		ModelAndView model = new ModelAndView(PageConstants.rrReport);
+	@RequestMapping(value = "/la-report", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView LandReport(@ModelAttribute LandAcquisition obj, RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView(PageConstants.landReport);
 		try {
-			List<RandRMain> projectsList = service.getProjectsFilterListInRRReport(obj);
+			List<LandAcquisition> projectsList = service.getProjectsFilterListInLandReport(obj);
 			model.addObject("projectsList", projectsList);
 
-			List<RandRMain> worksList = service.getWorksFilterListInRRReport(obj);
+			List<LandAcquisition> worksList = service.getWorksFilterListInLandReport(obj);
 			model.addObject("worksList", worksList);
 
-			List<RandRMain> location = service.getLocationListInRRReport(obj);
-			model.addObject("location", location);
+			List<LandAcquisition> category = service.getTypeOfLandListInLandReport(obj);
+			model.addObject("category", category);
 
-			List<RandRMain> structure = service.getTypeOfStructuresFilterListInRRReport(obj);
-			model.addObject("structure", structure);
+			List<LandAcquisition> subCategory = service.getSubCategoryOfLandFilterListInLandReport(obj);
+			model.addObject("subCategory", subCategory);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("RRReport : " + e.getMessage());
+			logger.error("LandReport : " + e.getMessage());
 		}
 		return model;
 	}
 
-	@RequestMapping(value = "/ajax/getProjectListForRRReportForm", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/getProjectListForLandReportForm", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<RandRMain> getProjectListForRRReportForm(@ModelAttribute RandRMain obj) {
-		List<RandRMain> objList = null;
+	public List<LandAcquisition> getProjectListForLandReportForm(@ModelAttribute LandAcquisition obj) {
+		List<LandAcquisition> objList = null;
 		try {
-			objList = service.getProjectsFilterListInRRReport(obj);
+			objList = service.getProjectsFilterListInLandReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getProjectListForRRReportForm : " + e.getMessage());
+			logger.error("getProjectListForLandReportForm : " + e.getMessage());
 		}
 		return objList;
 	}
-	@RequestMapping(value = "/ajax/getWorksListForRRReportForm", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/getWorksListForLandReportForm", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<RandRMain> getWorksListForRRReportForm(@ModelAttribute RandRMain obj) {
-		List<RandRMain> objList = null;
+	public List<LandAcquisition> getWorksListForLandReportForm(@ModelAttribute LandAcquisition obj) {
+		List<LandAcquisition> objList = null;
 		try {
-			objList = service.getWorksFilterListInRRReport(obj);
+			objList = service.getWorksFilterListInLandReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getWorksListForRRReportForm : " + e.getMessage());
-		}
-		return objList;
-	}
-
-	@RequestMapping(value = "/ajax/getLocationsListForRRReportForm", method = { RequestMethod.GET,
-			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<RandRMain> getLocationsListForRRReportForm(@ModelAttribute RandRMain obj) {
-		List<RandRMain> objList = null;
-		try {
-			objList = service.getLocationListInRRReport(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getLocationsListForRRReportForm : " + e.getMessage());
+			logger.error("getWorksListForLandReportForm : " + e.getMessage());
 		}
 		return objList;
 	}
 
-	@RequestMapping(value = "/ajax/getTypeOfUsesListForRRReportForm", method = { RequestMethod.GET,
+	@RequestMapping(value = "/ajax/getTypeOfLandListForLAReportForm", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<RandRMain> getTypeOfUsesListForRRReportForm(@ModelAttribute RandRMain obj) {
-		List<RandRMain> objList = null;
+	public List<LandAcquisition> getTypeOfLandListInLandReport(@ModelAttribute LandAcquisition obj) {
+		List<LandAcquisition> objList = null;
 		try {
-			objList = service.getTypeOfStructuresFilterListInRRReport(obj);
+			objList = service.getTypeOfLandListInLandReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getTypeOfUsesListForRRReportForm : " + e.getMessage());
+			logger.error("getTypeOfLandListInLandReport : " + e.getMessage());
 		}
 		return objList;
 	}
 
-	@RequestMapping(value = "/generate-rr-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public void generateRandRReport(@ModelAttribute RandRMain obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+	@RequestMapping(value = "/ajax/getSubCategoryOfLandsListForLAReportForm", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<LandAcquisition> getSubCategoryOfLandFilterListInLandReport(@ModelAttribute LandAcquisition obj) {
+		List<LandAcquisition> objList = null;
+		try {
+			objList = service.getSubCategoryOfLandFilterListInLandReport(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getSubCategoryOfLandFilterListInLandReport : " + e.getMessage());
+		}
+		return objList;
+	}
+
+	@RequestMapping(value = "/generate-la-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public void generateLandReport(@ModelAttribute LandAcquisition obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		//ModelAndView model = new ModelAndView("redirect:/activities-progress-report");
 		try{
 			User uObj = (User) session.getAttribute("user");
@@ -185,9 +165,9 @@ public class RRreportController {
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("d-MMM-YY");
 		
-			//List<RandRMain> structuresList = service.getStructuresList(obj);
+			//List<LandAcquisition> structuresList = service.getStructuresList(obj);
 			
-			RandRMain reportData = service.getRandRMainData(obj);
+			LandAcquisition reportData = service.getLandAcquisitionData(obj);
 			
 			XSSFWorkbook  workBook = new XSSFWorkbook();
 			
@@ -228,7 +208,7 @@ public class RRreportController {
           
 	        if(!(StringUtils.isEmpty(reportData))){
 	        	
-       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("RR - Summary Report"));
+       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Land Acquisition - Summary Report"));
 		        XSSFRow headRow = rrSheet1.createRow(0);
 		        
 		        Cell cell = headRow.createCell(0);
@@ -238,10 +218,10 @@ public class RRreportController {
 		        cell = mainHeadingRow.createCell(0);
 		        cell.setCellStyle(bluetyle);
 		        String work_d = "";
-				if(!StringUtils.isEmpty(obj.getWork_id())) {
+				if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 					 work_d = reportData.getReport1List().get(0).getWork_short_name()+" - " ;
 		        }
-		        cell.setCellValue(work_d+" R&R Summary Report");
+		        cell.setCellValue(work_d+" Land Acquisition - Summary Report");
 		        
 		        for (int i = 1; i < 5; i++) {		        	
 			        cell = mainHeadingRow.createCell(i);
@@ -254,8 +234,7 @@ public class RRreportController {
         XSSFRow structureRow = rrSheet1.createRow(rowNo);
 
         /**********************************************************************/
-		String headerString = "Sr No.^Location^Type of Use^Total Structures (No's)^Physical Verification"
-				+ "^Removal of Encroachment^Boundry Wall Construction completed^Hand over to construction";
+		String headerString = "Sr No.^Type of Land^Sub Category of Land^Area to be Acquired (Ha)^Area  Acquired (Ha)^Balance Land Acquisition (HA)";
         String[] headerStringArr = headerString.split("\\^");
         
         XSSFRow headingRow = rrSheet1.createRow(rowNo);
@@ -266,18 +245,15 @@ public class RRreportController {
 				 cell.setCellValue(headerStringArr[i]);
 		}	
 
-        
-        
-        
-        int totalStructures = 0,totalPV = 0,totalRE = 0,totalHC = 0,totalBC = 0;
+        Double totalATB = 0.0,totalAE = 0.0,totalBal = 0.0;
         rowNo++; int rownum = 5;
-        String locName = null;
+        String categoty = null;
         int x = 0,z=0,sNo = 1;
-	        	 for (RandRMain zObj : reportData.getReport1List()) {  
+	        	 for (LandAcquisition zObj : reportData.getReport1List()) {  
 				            int c = 0;
 				            
-						   	if(!StringUtils.isEmpty(locName) &&  !locName.equals(zObj.getLocation_name())) {
-						   		System.out.println(locName);
+						   	if(!StringUtils.isEmpty(categoty) &&  !categoty.equals(zObj.getCategory_fk())) {
+						   		System.out.println(categoty);
 						   		 sNo++;
 							   	 int firstRow = rownum;
 					             int lastRow = rowNo;
@@ -288,7 +264,7 @@ public class RRreportController {
 					             }
 								 rownum = lastRow +1;
 							}
-					    	locName = zObj.getLocation_name();
+					    	categoty = zObj.getCategory_fk();
 			  /***********************************************************************/
 					        XSSFRow row = rrSheet1.createRow(rowNo);
 					        c=0;
@@ -300,39 +276,28 @@ public class RRreportController {
 				
 							cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle1);
-							cell.setCellValue(zObj.getLocation_name());
+							cell.setCellValue(zObj.getCategory_fk());
 						
 							
 					
 						    cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getType_of_use());
+							cell.setCellValue(zObj.getLa_sub_category());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle2);
-							cell.setCellValue(zObj.getStructure_id());
-							totalStructures = totalStructures + Integer.parseInt(zObj.getStructure_id());
+							cell.setCellValue(zObj.getArea_to_be_acquired());
+							totalATB = totalATB + Double.parseDouble(zObj.getArea_to_be_acquired());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle2);
-							cell.setCellValue(zObj.getPhysical_verification());
-							totalPV = totalPV + Integer.parseInt(zObj.getPhysical_verification());
+							cell.setCellValue(zObj.getArea_acquired());
+							totalAE = totalAE + Double.parseDouble(zObj.getArea_acquired());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle2);
-							cell.setCellValue(zObj.getEncroachment_removal());
-							totalRE = totalRE + Integer.parseInt(zObj.getEncroachment_removal());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle2);
-							cell.setCellValue(zObj.getBoundary_wall_doc());
-							totalBC = totalBC + Integer.parseInt(zObj.getBoundary_wall_doc());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle2);
-							cell.setCellValue(zObj.getHanded_over_to_execution());
-							totalHC = totalHC + Integer.parseInt(zObj.getHanded_over_to_execution());
-			
+							cell.setCellValue(zObj.getBalance_area());
+							totalBal = totalBal + Double.parseDouble(zObj.getBalance_area());
 					        rowNo++;
 								        
 	        	 }
@@ -361,31 +326,23 @@ public class RRreportController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(indexWhiteStyle2);
-					cell.setCellValue(totalStructures);
+					cell.setCellValue(totalATB);
 		
 					cell = row.createCell(c++);
 					cell.setCellStyle(indexWhiteStyle2);
-					cell.setCellValue(totalPV);
+					cell.setCellValue(totalAE);
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(indexWhiteStyle2);
-					cell.setCellValue(totalRE);
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(indexWhiteStyle2);
-					cell.setCellValue(totalBC);
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(indexWhiteStyle2);
-					cell.setCellValue(totalHC);
+					cell.setCellValue(totalBal);
 					
 				  for(int columnIndex = 1; columnIndex < headerStringArr.length; columnIndex++) {
 				  	rrSheet1.setColumnWidth(0, 25 * 60);
 				  	//rrSheet1.autoSizeColumn(columnIndex);
-				  	rrSheet1.setColumnWidth(columnIndex, 35 * 125);
+				  	rrSheet1.setColumnWidth(columnIndex, 35 * 130);
 				   }
 						   // rrSheet1.setColumnWidth(0, 25 * 120);
-	       		 	XSSFSheet rrSheet2 = workBook.createSheet(WorkbookUtil.createSafeSheetName("RR - Detail Report"));
+	       		 	XSSFSheet rrSheet2 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Land Acquisition - Detail Report"));
 	       		 	
 			        XSSFRow headRow2 = rrSheet2.createRow(0);
 			        
@@ -395,7 +352,7 @@ public class RRreportController {
 			        
 			        cell2 = mainHeadingRow2.createCell(0);
 			        cell2.setCellStyle(bluetyle);
-			        cell2.setCellValue(work_d+" R&R Detail Report");
+			        cell2.setCellValue(work_d+" Land Acquisition - Detail Report");
 			        
 			        for (int i = 1; i < 5; i++) {		        	
 				        cell2 = mainHeadingRow2.createCell(i);
@@ -409,8 +366,8 @@ public class RRreportController {
 	        XSSFRow structureRow2 = rrSheet2.createRow(rowNo2);
 
 	        /**********************************************************************/
-			String headerString2 = "Sr No.^R&R ID^Location^Sublocation^Type of Use^Physical Verification"
-					+ "^Removal of Encroachment^Boundry Wall Construction completed^Hand over to construction";
+			String headerString2 = "Sr No.^LA ID^Survey Number^Type of Land^Sub Category of Land"
+					+ "^Village ID^Area to be Acquired (Ha)^Area Acquired (Ha)^Balance Land Acquisition (Ha)^Land Status";
 	        String[] headerStringArr2 = headerString2.split("\\^");
 	        
 	        XSSFRow headingRow2 = rrSheet2.createRow(rowNo2);
@@ -421,7 +378,7 @@ public class RRreportController {
 					 cell2.setCellValue(headerStringArr2[i]);
 			}	
 	        rowNo2++; int sno2 = 1;
-	        for (RandRMain zObj : reportData.getReport2List()) {  
+	        for (LandAcquisition zObj : reportData.getReport2List()) {  
 	            int d = 0;
 	            XSSFRow row1 = rrSheet2.createRow(rowNo2);
 		        c=0;
@@ -433,42 +390,46 @@ public class RRreportController {
 	
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getRr_id());
+				cell2.setCellValue(zObj.getLa_id());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getLocation_name());
+				cell2.setCellValue(zObj.getSurvey_number());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getSub_location_name());
+				cell2.setCellValue(zObj.getCategory_fk());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getLa_sub_category());
 				
 			    cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle);
-				cell2.setCellValue(zObj.getType_of_use());
+				cell2.setCellValue(zObj.getVillage_id());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle2);
-				cell2.setCellValue(zObj.getPhysical_verification());
+				cell2.setCellValue(zObj.getArea_to_be_acquired());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle2);
-				cell2.setCellValue(zObj.getEncroachment_removal());
+				cell2.setCellValue(zObj.getArea_acquired());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle2);
-				cell2.setCellValue(zObj.getBoundary_wall_doc());
+				cell2.setCellValue(zObj.getBalance_area());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle2);
-				cell2.setCellValue(zObj.getHanded_over_to_execution());
+				cell2.setCellValue(zObj.getLa_land_status_fk());
 
 		        rowNo2++;
 			}
 	        for(int columnIndex = 1; columnIndex < headerStringArr2.length; columnIndex++) {
 			  	rrSheet2.setColumnWidth(0, 25 * 60);
 			  	//rrSheet2.autoSizeColumn(columnIndex);
-			  	rrSheet2.setColumnWidth(columnIndex, 35 * 125);
+			  	rrSheet2.setColumnWidth(columnIndex, 35 * 135);
 			   }    
 			        
 			        
@@ -479,7 +440,7 @@ public class RRreportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "RR_Report_"+dateFormat.format(date);
+            String fileName = "Land_Acquisition_Report_"+dateFormat.format(date);
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
@@ -510,16 +471,16 @@ public class RRreportController {
             	//workbook.close();
             }catch(FileNotFoundException e){
                 e.printStackTrace();
-                logger.error("generateRandRMain : " + e.getMessage());
+                logger.error("generateLandAcquisition : " + e.getMessage());
                 //attributes.addFlashAttribute("error",dataExportInvalid);
             }catch(IOException e){
                 e.printStackTrace();
-                logger.error("generateRandRMain : " + e.getMessage());
+                logger.error("generateLandAcquisition : " + e.getMessage());
                 //attributes.addFlashAttribute("error",dataExportError);
             }
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generateRandRMain : " + e.getMessage());
+			logger.error("generateLandAcquisition : " + e.getMessage());
 		}
 		//return model;
     }
@@ -567,6 +528,5 @@ public class RRreportController {
 
 		return style;
 	}
-	
 	
 }

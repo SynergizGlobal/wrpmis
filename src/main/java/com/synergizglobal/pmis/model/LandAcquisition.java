@@ -13,7 +13,7 @@ public class LandAcquisition {
 	,jm_fee_amount_units,value,unit,la_file_type,la_land_status,executive_user_id_fk,modified_by,modified_date,created_by_user_id_fk,user_id,user_name,designation,
 	//gov
 	id, la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,
-    area_acquired, remarks,gov_remarks,amount_demanded_units,amount_paid_units,user_type_fk,user_role_code,
+    area_acquired, remarks,gov_remarks,amount_demanded_units,amount_paid_units,user_type_fk,user_role_code,balance_area,
     
     //private
     name_of_the_owner,private_area_to_be_acquired,private_area_acquired, basic_rate,private_attachment_no, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos, forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, 
@@ -39,7 +39,7 @@ public class LandAcquisition {
 	publication_in_gazette_20f, publication_of_notice_in_2_local_news_papers_20f,la_file_type_fk, name,private_ira_collector;
 	private MultipartFile laUploadFile;
 	private MultipartFile [] laFiles;
-	private List<LandAcquisition> laFilesList;
+	private List<LandAcquisition> laFilesList,report1List,report2List;
 	private List<LandAcquisition> privateIRAList;
 	private List<LandAcquisition> privateLVList;
 	private List<LandAcquisition> privateLAList;
@@ -48,6 +48,30 @@ public class LandAcquisition {
 	private List<LandAcquisition> govList;
 	private String[] laFileNames,laDocumentFileNames,laDocumentNames,la_file_typess;
 	
+	public String getBalance_area() {
+		return balance_area;
+	}
+
+	public void setBalance_area(String balance_area) {
+		this.balance_area = balance_area;
+	}
+
+	public List<LandAcquisition> getReport1List() {
+		return report1List;
+	}
+
+	public void setReport1List(List<LandAcquisition> report1List) {
+		this.report1List = report1List;
+	}
+
+	public List<LandAcquisition> getReport2List() {
+		return report2List;
+	}
+
+	public void setReport2List(List<LandAcquisition> report2List) {
+		this.report2List = report2List;
+	}
+
 	public String getWork_code() {
 		return work_code;
 	}

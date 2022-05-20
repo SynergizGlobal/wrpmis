@@ -172,6 +172,7 @@ public class PageConstants {
 	public static final String inactiveUsersReport = "forms/inactiveUsersReport";
 
 	public static final String rrReport = "forms/rrReport";
+	public static final String landReport = "forms/landReport";
 	
 	public static final String structureGrid="forms/structureGrid";
 	public static final String addEditStructure="forms/addEditStructure";

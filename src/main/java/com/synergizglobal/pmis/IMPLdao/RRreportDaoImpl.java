@@ -24,9 +24,6 @@ public class RRreportDaoImpl implements RRreportDao{
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
-	@Autowired
-	DataSourceTransactionManager transactionManager;
-
 	@Override
 	public List<RandRMain> getWorksFilterListInRRReport(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;

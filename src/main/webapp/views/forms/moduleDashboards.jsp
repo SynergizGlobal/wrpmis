@@ -784,7 +784,7 @@
 		
 	
      function clearFilter(filterIds,dashboardId){
-       	openDashboard(dashboardId);
+       	openDashboard(dashboardId,'true');
      }
 
  </script>

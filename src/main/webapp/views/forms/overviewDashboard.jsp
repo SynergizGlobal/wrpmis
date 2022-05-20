@@ -752,7 +752,8 @@
 			         		   $.each( data, function( index, value ){
 			         			  var filterOptions = value.filter;
 			         			  var length = filterOptions.length;
-			         			  if((value.is_first_option_selected != 'YES') && length > 1){
+			         			  /* if((value.is_first_option_selected != 'YES') && length > 1){ */
+			         			  if((value.is_first_option_selected != 'YES')){
 			         				$("#"+id).append('<option value="" selected>All</option>');
 			         			  }
 			         			  $.each( value.filter, function( index2, value2 ){
@@ -764,7 +765,8 @@
 				         				/* if($.trim(length) != '' && length == 1){
 				         					selectedFlag = 'selected';
 				         				} */
-				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0)) || length == 1){
+				         				/* if(((value.is_first_option_selected == 'YES') && (index2 == 0)) || length == 1){ */
+				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0))){
 				         					selectedFlag = 'selected';
 				         				}
 				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');

@@ -288,9 +288,12 @@
 
 	    var requestedDashboardId = '';
 	 	var subworkid="";
-		var assessmentdate=""; 		 	
+		var assessmentdate="";
+		var safetyid=""; 
+		
 	    $(document).ready(function(){
  		 	subworkid = getUrlVars()["sub_work"];
+ 		 	safetyid = getUrlVars()["safety_id"];
 		   			
     		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
     		{
@@ -350,7 +353,12 @@
     		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
     		{
 	    			openDashboard(36,'true');
-    		}	
+    		}
+    		else   if(safetyid!="" && safetyid!=undefined && safetyid!=" ")
+    		{
+    			openDashboard(38,'true');
+    			$("#"+safetyid).click();
+			}
 	});
 	    
 	    

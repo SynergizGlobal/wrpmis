@@ -9,7 +9,7 @@ public class P6Data {
 	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk,work_id_fk,work_short_name,work_name, uploaded_date,upload_type,contract_id,
 	contract_name,fob_id,fob_name,created_by_user_id_fk,user_name,designation;
 
-	
+	 
 	private MultipartFile p6dataFile;
 	
 

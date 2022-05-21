@@ -13,7 +13,7 @@ public interface P6NewDataService {
 	public String uploadP6WBSActivities(List<P6Data> wbsList, List<P6Data> activitiesList, P6Data p6data) throws Exception;
 
 	public List<P6Data> getFobList(P6Data obj) throws Exception;
-
+ 
 	public List<P6Data> getContractsList(P6Data obj) throws Exception;
 
 	public List<P6Data> getFobListFilter(P6Data obj) throws Exception;

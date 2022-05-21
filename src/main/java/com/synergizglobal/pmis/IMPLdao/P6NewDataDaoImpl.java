@@ -28,7 +28,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	DataSource dataSource;
 	
 	@Autowired
-	JdbcTemplate jdbcTemplate ;
+	JdbcTemplate jdbcTemplate ; 
 	
 	@Autowired
 	FormsHistoryDao formsHistoryDao;

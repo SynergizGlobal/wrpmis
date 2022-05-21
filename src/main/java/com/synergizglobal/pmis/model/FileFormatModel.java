@@ -80,7 +80,7 @@ public class FileFormatModel {
 	public static List<String> getP6ActivitiesFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		String columns = "Task Code,Activity Status,WBS Code,Activity Name,Baseline Start,Baseline Finish,Start,Finish,Float";
-		String[] convertedColumnsArray = columns.split(",");
+		String[] convertedColumnsArray = columns.split(","); 
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
 		}

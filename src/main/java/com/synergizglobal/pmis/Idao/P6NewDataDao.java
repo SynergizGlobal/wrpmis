@@ -5,7 +5,7 @@ import java.util.List;
 import com.synergizglobal.pmis.model.P6Data;
 
 public interface P6NewDataDao {
-
+ 
 	
 	public int updateP6Activities(List<P6Data> p6dataList,P6Data p6Data) throws Exception;
 

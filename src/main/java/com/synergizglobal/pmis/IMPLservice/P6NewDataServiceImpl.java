@@ -15,7 +15,7 @@ public class P6NewDataServiceImpl implements P6NewDataService{
 	@Autowired
 	P6NewDataDao dao;
 
-
+ 
 	@Override
 	public int updateP6Activities(List<P6Data> p6dataList,P6Data p6Data) throws Exception {
 		return dao.updateP6Activities(p6dataList,p6Data);

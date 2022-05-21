@@ -147,7 +147,7 @@ public class P6NewDataController {
 		List<P6Data> objList = null;
 		try {
 			objList = p6newdataService.getStatusListFilter(obj);
-		}catch (Exception e) {
+		}catch (Exception e) { 
 			e.printStackTrace();
 			logger.error("getStatusListFilterInP6 : " + e.getMessage());
 		}

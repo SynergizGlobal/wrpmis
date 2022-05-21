@@ -605,7 +605,7 @@
             	$(".page-loader").hide();
             }
 
-        	
+        	 
         }
         function getFobList(contract_id_fk,fob_id_attr,fobHideShowId) {
         	$(".page-loader").show();

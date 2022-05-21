@@ -66,4 +66,10 @@ public class P6NewDataServiceImpl implements P6NewDataService{
 		return dao.getStatusListFilter(obj);
 	}
 
+
+	@Override
+	public List<P6Data> getWorksList(P6Data obj) throws Exception {
+		return dao.getWorksList(obj);
+	}
+
 }

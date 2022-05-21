@@ -25,5 +25,7 @@ public interface P6NewDataDao {
 
 	public List<P6Data> getStatusListFilter(P6Data obj) throws Exception;
 
+	public List<P6Data> getWorksList(P6Data obj) throws Exception;
+
 
 }

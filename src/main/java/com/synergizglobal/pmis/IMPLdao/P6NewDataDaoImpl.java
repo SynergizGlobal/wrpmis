@@ -37,8 +37,19 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public List<P6Data> getContractsList(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="SELECT contract_id,contract_name,contract_short_name FROM contract ";
-			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
+			String qry ="SELECT contract_id,contract_name,contract_short_name FROM contract c "
+					+ "left join work w on c.work_id_fk = w.work_id where contract_id is not null  ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and work_id_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize]; 
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -376,6 +387,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				qry = qry + "and soft_delete_status_fk = ? ";
 				arrSize++;
 			}
+			qry = qry + " ORDER BY  DATE_FORMAT(uploaded_date,'%y-%m-%d') desc ";
 			Object[] pValues = new Object[arrSize]; 
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -586,6 +598,20 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				laId = null;
 				return false;
 		}
+	}
+
+	@Override
+	public List<P6Data> getWorksList(P6Data obj) throws Exception {
+		List<P6Data> objsList = null;
+		try {
+			String qry ="SELECT c.work_id_fk,work_id,work_name,work_short_name FROM contract c  "
+					+ "left join work  on c.work_id_fk = work_id  group by work_id_fk ";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<P6Data>(P6Data.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 	

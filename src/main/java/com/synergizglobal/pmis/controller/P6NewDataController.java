@@ -58,6 +58,9 @@ public class P6NewDataController {
 	public ModelAndView P6Data(@ModelAttribute P6Data obj,HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.P6NewData);
 		try {
+			List<P6Data> worksList = p6newdataService.getWorksList(obj);
+			model.addObject("worksList", worksList);
+			
 			List<P6Data> contractsList = p6newdataService.getContractsList(obj);
 			model.addObject("contractsList", contractsList);
 			
@@ -82,6 +85,20 @@ public class P6NewDataController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/ajax/getContractListInP6New", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<P6Data> getContractListInP6New(@ModelAttribute P6Data obj) {
+		List<P6Data> objList = null;
+		try {
+			objList = p6newdataService.getContractsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractListInP6New : " + e.getMessage());
+		}
+		return objList;
+	}
+	
 	
 	@RequestMapping(value = "/ajax/getContractsListFilterInP6New", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -445,14 +462,14 @@ public class P6NewDataController {
 							XSSFRow headerRow = uploadFilesSheet.getRow(0);
 							//checking given file format
 							if(headerRow != null){
-								List<String> fileFormat = FileFormatModel.getP6UpdateFileFormat();;
+								List<String> fileFormat = FileFormatModel.getP6UpdateFileFormat();
 								int noOfColumns = headerRow.getLastCellNum();
 								if(noOfColumns == fileFormat.size()){
 									for (int i = 0; i < fileFormat.size();i++) {
 					                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
 					                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
 										String columnName = headerRow.getCell(i).getStringCellValue().trim();
-										if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+										if(!columnName.contains(fileFormat.get(i).trim())){
 					                		attributes.addFlashAttribute("error",uploadformatError);
 					                		return model;
 					                	}

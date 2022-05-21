@@ -6,12 +6,36 @@ public class P6Data {
 	
 	private String p6_activity_id, p6_task_code,p6_wbs_code_fk, p6_activity_name, status_fk, baseline_start, baseline_finish, 
 	start, finish, p6_float,p6_wbs_code, contract_id_fk, fob_id_fk, p6_wbs_name, p6_wbs_parent_code,contract_short_name, p6_wbs_category_fk,
-	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, uploaded_date,upload_type,contract_id,
+	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk,work_id_fk,work_short_name,work_name, uploaded_date,upload_type,contract_id,
 	contract_name,fob_id,fob_name,created_by_user_id_fk,user_name,designation;
 
 	
 	private MultipartFile p6dataFile;
 	
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
+	public String getWork_name() {
+		return work_name;
+	}
+
+	public void setWork_name(String work_name) {
+		this.work_name = work_name;
+	}
+
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
+	}
 
 	public String getContract_short_name() {
 		return contract_short_name;

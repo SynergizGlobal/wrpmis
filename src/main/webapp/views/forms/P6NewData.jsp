@@ -143,11 +143,21 @@
 			                        <li class="tab col s6" style="background-color:#f0f8ff"><a class="active" href="#existing">Update Existing</a></li>
 			                        <li class="tab col s6" style="background-color:#fafafa"><a  href="#baseline">Add Baseline</a></li>
 			                    </ul> -->
-			                    <div class="tab col s12 head" >Add Baseline</div>   
+			                    <div class="tab col s12 head" >Baseline</div>   
 				                  <div class="" id="baseline" style="background-color:#fafafa">
 				                   <!--  <div style="margin-top:20px"> -->
 				                        <form action="<%=request.getContextPath() %>/upload-p6-new-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
+				                              <div class="col s12 m6 input-field">
+				                                    <p  class="searchable_label"> Work <span class="required">*</span></p>
+				                                     <select id="work_id_fkUpload" name="work_id_fk"  class="searchable validate-dropdown" onchange="getContractList(this.value,'Upload');">
+				                                            <option value="" >Select</option>
+				                                            <c:forEach var="obj" items="${worksList}">
+				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_name }"> - ${obj.work_name }</c:if></option>
+				                                             </c:forEach>
+				                                     </select>
+				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
+				                                </div>
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label"> Contract <span class="required">*</span></p>
 				                                     <select id="contract_id_fkUpload" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpload','fobDropDownUpload');">
@@ -210,11 +220,97 @@
 				                   
 				                </div>
 				                
-				                <div class="tab col s12 head existing" >Update Existing</div>   
+				                <div class="tab col s12 head existing" >Revised Baseline</div>   
 			                    <div class="" id="existing" style="background-color:#f0f8ff">
 				                   <!--  <div style="margin-top:20px"> -->
 				                        <form action="<%=request.getContextPath() %>/update-p6-new-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
+				                             <div class="col s12 m6 input-field">
+				                                    <p  class="searchable_label"> Work <span class="required">*</span></p>
+				                                     <select id="work_id_fkResvised" name="work_id_fk"  class="searchable validate-dropdown" onchange="getContractList(this.value,'Revised');">
+				                                            <option value="" >Select</option>
+				                                            <c:forEach var="obj" items="${worksList}">
+				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_name }"> - ${obj.work_name }</c:if></option>
+				                                             </c:forEach>
+				                                     </select>
+				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s12 m6 input-field">
+				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>
+				                                     <select id="contract_id_fkRevised" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate','fobDropDownUpdate');">
+				                                            <option value="" >Select</option>
+				                                            <c:forEach var="obj" items="${contractsList}">
+				                       						  <option value="${obj.contract_id }">${obj.contract_id }<c:if test="${not empty obj.contract_short_name }"> - ${obj.contract_short_name }</c:if></option>
+				                                             </c:forEach>				                                             
+				                                     </select>
+				                                     <span id="contract_id_fkUpdateError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s12 m6 input-field" id="fobDropDownRevised" style="display: none;">
+				                                   <p class="searchable_label"> FOB <span class="required">*</span></p>
+				                                   <select id="fob_id_fkRevised" name="fob_id_fk"  class="browser-default searchable">
+				                                        <option value="">Select</option>
+				                                   </select>
+				                                   <span id="fob_id_fkUpdateError" class="error-msg" ></span>
+				                                </div>
+				                            </div>
+				                            <div class="row">
+				                                <div class="col s12 m6 input-field">
+				                                    <input id="data_dateUpdate" type="text" name="data_date" class="validate datepicker">
+				                                    <label for="data_dateUpdate"> Data Date <span class="required">*</span></label>
+				                                    <button type="button" id="data_dateUpdate_icon"><i class="fa fa-calendar"></i></button>
+				                                    <span id="data_dateUpdateError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s12 m6">
+				                                    <div class="file-field input-field">
+				                                        <div class="btn btn-outline">
+				                                            <span>Upload P6 Export File <span class="required">*</span></span>
+				                                            <input type="file" name="p6dataFile" id="p6dataFileUpdate">
+				                                        </div>
+				                                        <div class="file-path-wrapper">
+				                                            <input class="file-path validate" type="text">
+				                                        </div>
+				                                        <span id="updateFileError" class="error-msg"></span>
+				                                    </div>
+				                                </div> 
+				                            </div>
+				                            <div class="row">
+				                                <div class="col s12 center-align">
+				                                    <div style="display: inline-block;">
+				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Update();">
+				                                            Update Activities
+				                                        </button>
+				                                    </div>
+				
+				                                </div>
+				                            </div>
+				                        </form>
+				                   <!--  </div> -->
+				                        <div class="row center-align">
+				                            <div class="col m12 text-primary">
+				                                <p><strong>Note :</strong> Please make sure the uploading
+				                                    P6 data file will be in
+				                                    the given format. Click <a href="/pmis/P6RevisedFile.xlsx" download>here</a> for
+				                                    the file format</p>
+				                            </div>
+				
+				                        </div>
+				                </div>
+				                
+				                	                <div class="tab col s12 head existing" >Update</div>   
+			                    <div class="" id="existing" style="background-color:#f0f8ff">
+				                   <!--  <div style="margin-top:20px"> -->
+				                        <form action="<%=request.getContextPath() %>/update-p6-new-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
+				                            <div class="row">
+				                             <div class="col s12 m6 input-field">
+				                                    <p  class="searchable_label"> Work <span class="required">*</span></p>
+				                                     <select id="work_id_fkUpdate" name="work_id_fk"  class="searchable validate-dropdown" onchange="getContractList(this.value,'Update');">
+				                                            <option value="" >Select</option>
+				                                            <c:forEach var="obj" items="${worksList}">
+				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_name }"> - ${obj.work_name }</c:if></option>
+				                                             </c:forEach>
+				                                     </select>
+				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
+				                                </div>
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>
 				                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate','fobDropDownUpdate');">
@@ -481,7 +577,36 @@
             getP6NewActivityDataList();
            
         });
-        
+        function getContractList(workId,idVAl){
+        	$(".page-loader").show();
+            $("#contract_id_fk"+idVAl+" option:not(:first)").remove();
+            if ($.trim(workId) != "") {
+                var myParams = { work_id_fk: workId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractListInP6New",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contractName = '';
+                                if ($.trim(val.contract_short_name) != '') { contractName = ' - ' + $.trim(val.contract_short_name) }
+                                $("#contract_id_fk"+idVAl).append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id)  + contractName +'</option>');
+                            });
+                        }                    
+                       // $('#contract_id_fk'+idVAl).formSelect();
+                        $("#fob_id_fk"+idVAl).hide();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+      	   				$(".page-loader").hide();
+    	   	         	getErrorMessage(jqXHR, exception);
+    	   	     	}
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+
+        	
+        }
         function getFobList(contract_id_fk,fob_id_attr,fobHideShowId) {
         	$(".page-loader").show();
             $("#"+fob_id_attr+" option:not(:first)").remove();
@@ -630,6 +755,7 @@
        
        function clearFilter(){
 	       	$("#contract_id").val("");
+	     	$("#work_id_fk").val("");
 	       	$("#fob_id").val("");
 	       	$("#upload_type").val("");
 	       	$("#status_fk").val("");        	

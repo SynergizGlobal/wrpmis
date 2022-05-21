@@ -237,7 +237,7 @@
 				                                </div>
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>
-				                                     <select id="contract_id_fkRevised" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate','fobDropDownUpdate');">
+				                                     <select id="contract_id_fkRevised" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkRevised','fobDropDownRevised');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${contractsList}">
 				                       						  <option value="${obj.contract_id }">${obj.contract_id }<c:if test="${not empty obj.contract_short_name }"> - ${obj.contract_short_name }</c:if></option>
@@ -255,16 +255,16 @@
 				                            </div>
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
-				                                    <input id="data_dateUpdate" type="text" name="data_date" class="validate datepicker">
-				                                    <label for="data_dateUpdate"> Data Date <span class="required">*</span></label>
-				                                    <button type="button" id="data_dateUpdate_icon"><i class="fa fa-calendar"></i></button>
-				                                    <span id="data_dateUpdateError" class="error-msg" ></span>
+				                                    <input id="data_dateRevised" type="text" name="data_date" class="validate datepicker">
+				                                    <label for="data_dateRevised"> Data Date <span class="required">*</span></label>
+				                                    <button type="button" id="data_dateRevised_icon"><i class="fa fa-calendar"></i></button>
+				                                    <span id="data_dateRevisedError" class="error-msg" ></span>
 				                                </div>
 				                                <div class="col s12 m6">
 				                                    <div class="file-field input-field">
 				                                        <div class="btn btn-outline">
 				                                            <span>Upload P6 Export File <span class="required">*</span></span>
-				                                            <input type="file" name="p6dataFile" id="p6dataFileUpdate">
+				                                            <input type="file" name="p6dataFile" id="p6dataFileRevised">
 				                                        </div>
 				                                        <div class="file-path-wrapper">
 				                                            <input class="file-path validate" type="text">
@@ -525,6 +525,7 @@
     	var pageNo = window.localStorage.getItem("p6PageNo");
         $(document).ready(function () {
         	$('#fob_id_fkUpdate').formSelect();
+        	$('#fob_id_fkRevised').formSelect();
         	$('#fob_id_fkUpload').formSelect();
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -556,6 +557,13 @@
   	    	    autoClose:true,
   	    	  	onOpen: datePickerSelectAddClass
   	        });
+            $('#data_dateRevised').datepicker({
+  	    	    format:'dd-mm-yyyy',
+	  	    	endDate: "today",
+	            maxDate: today,
+  	    	    autoClose:true,
+  	    	  	onOpen: datePickerSelectAddClass
+  	        });
             
             $('#data_dateUpload').datepicker({
   	    	    format:'dd-mm-yyyy',
@@ -568,6 +576,10 @@
             $('#data_dateUpdate_icon').click(function () {
                 event.stopPropagation();
                 $('#data_dateUpdate').click();
+            });
+            $('#data_dateRevised_icon').click(function () {
+                event.stopPropagation();
+                $('#data_dateRevised').click();
             });
             $('#data_dateUpload_icon').click(function () {
                 event.stopPropagation();
@@ -650,7 +662,7 @@
 		}
 	    
 	    function  RevisedP6Update() {
-	    	if(validatorUpdate.form()){ // validation perform
+	    	if(validatorRevised.form()){ // validation perform
 				$(".page-loader").show();	    		
 				document.getElementById("p6RevisedFrom").submit();
 	    	}
@@ -662,7 +674,46 @@
 				document.getElementById("p6UpdateFrom").submit();
 	    	}
 		}
-        
+	    var validatorRevised =	$('#p6RevisedFrom').validate({
+			 errorClass: "my-error-class",
+			 validClass: "my-valid-class",
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		  "contract_id_fk": {
+	  			 		required: true
+	  			 	  },"data_date": {
+	  		 		    required: true
+	  			 	  },"p6dataFile": {
+	  		 		    required: true
+	  			 	  }	
+	  		 	},
+	  		    messages: {
+	  		 		 "contract_id_fk": {
+	  				 	required: 'This field is required',
+	  			 	  },"data_date": {
+	  		 			required: ' This field is required'
+	  		 	  	  },"p6dataFile": {
+	  		 			required: ' This field is required'
+	  		 	  	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	if (element.attr("id") == "contract_id_fkRevised" ){
+						document.getElementById("contract_id_fkRevisedError").innerHTML="";
+				 		error.appendTo('#contract_id_fkRevisedError');
+					} else if(element.attr("id") == "data_dateRevised" ){
+						document.getElementById("data_dateRevisedError").innerHTML="";
+					 	error.appendTo('#data_dateRevisedError');
+					} else if(element.attr("id") == "p6dataFileRevised" ){
+						document.getElementById("updateFileError").innerHTML="";
+					 	error.appendTo('#updateFileError');
+					} else{
+		 				error.insertAfter(element);
+				    } 
+		   		},submitHandler:function(form){
+			    	form.submit();
+			    }
+			}); 
+       
         var validatorUpload =	$('#p6UploadFrom').validate({
 			 errorClass: "my-error-class",
 			 validClass: "my-valid-class",

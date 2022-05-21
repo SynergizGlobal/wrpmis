@@ -21,6 +21,10 @@
     <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
+    	.bt-sh{
+    		font-size: 12px;
+    		padding: 0 5px;
+    	}
      	.text-primary p a:not(.btn) {
             color: blue;
         }
@@ -138,12 +142,13 @@
 							</div>
 						</c:if>     
 						<div class="row">
-							<div class="col s12 l8 offset-l2 m8 offset-m2">								
+							<div class="col s12 l12 m12 ">								
 			                  <!--   <ul class="tabs">
 			                        <li class="tab col s6" style="background-color:#f0f8ff"><a class="active" href="#existing">Update Existing</a></li>
 			                        <li class="tab col s6" style="background-color:#fafafa"><a  href="#baseline">Add Baseline</a></li>
 			                    </ul> -->
-			                    <div class="tab col s12 head" >Baseline</div>   
+			                    <div class="col s12 m4 l4">
+			                    	<div class="tab col s12 head" >Baseline</div>   
 				                  <div class="" id="baseline" style="background-color:#fafafa">
 				                   <!--  <div style="margin-top:20px"> -->
 				                        <form action="<%=request.getContextPath() %>/upload-p6-new-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
@@ -176,15 +181,15 @@
 				                                </div>
 				                            </div>
 				                            <div class="row">
-				                                <div class="col s12 m6 input-field">
+				                                <div class="col s12 m4 input-field">
 				                                    <input id="data_dateUpload" type="text" name="data_date" class="validate datepicker">
 				                                    <label for="data_dateUpload"> Data Date <span class="required">*</span></label>
 				                                    <button type="button" id="data_dateUpload_icon"><i class="fa fa-calendar"></i></button>
 				                                    <span id="data_dateUploadError" class="error-msg" ></span>
 				                                </div>
-				                                <div class="col s12 m6">
+				                                <div class="col s12 m8">
 				                                    <div class="file-field input-field">
-				                                        <div class="btn btn-outline">
+				                                        <div class="btn btn-outline bt-sh">
 				                                            <span>Upload P6 Export File <span class="required">*</span></span>
 				                                            <input type="file" name="p6dataFile" id="p6dataFileUpload">
 				                                        </div>
@@ -200,7 +205,7 @@
 				                                    <div style="display: inline-block;">
 				                                        <!-- <input type="submit" value="" > -->
 				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Baseline();">
-				                                            Upload Activities
+				                                            Upload
 				                                        </button>
 				                                    </div>
 				
@@ -219,8 +224,10 @@
 				                        </div>
 				                   
 				                </div>
+			                    </div>
 				                
-				                <div class="tab col s12 head existing" >Revised Baseline</div>   
+				                <div class="col s12 m4 l4">
+				                	<div class="tab col s12 head existing" >Revised Baseline</div>   
 			                    <div class="" id="existing" style="background-color:#f0f8ff">
 				                   <!--  <div style="margin-top:20px"> -->
 				                        <form action="<%=request.getContextPath() %>/revised-p6-new-activities" name="p6RevisedFrom" id="p6RevisedFrom" method="post" enctype="multipart/form-data">
@@ -254,15 +261,15 @@
 				                                </div>
 				                            </div>
 				                            <div class="row">
-				                                <div class="col s12 m6 input-field">
+				                                <div class="col s12 m4 input-field">
 				                                    <input id="data_dateRevised" type="text" name="data_date" class="validate datepicker">
 				                                    <label for="data_dateRevised"> Data Date <span class="required">*</span></label>
 				                                    <button type="button" id="data_dateRevised_icon"><i class="fa fa-calendar"></i></button>
 				                                    <span id="data_dateRevisedError" class="error-msg" ></span>
 				                                </div>
-				                                <div class="col s12 m6">
+				                                <div class="col s12 m8">
 				                                    <div class="file-field input-field">
-				                                        <div class="btn btn-outline">
+				                                        <div class="btn btn-outline bt-sh">
 				                                            <span>Upload P6 Export File <span class="required">*</span></span>
 				                                            <input type="file" name="p6dataFile" id="p6dataFileRevised">
 				                                        </div>
@@ -277,7 +284,7 @@
 				                                <div class="col s12 center-align">
 				                                    <div style="display: inline-block;">
 				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="RevisedP6Update();">
-				                                            Update Activities
+				                                            Update
 				                                        </button>
 				                                    </div>
 				
@@ -295,8 +302,10 @@
 				
 				                        </div>
 				                </div>
+				                </div>
 				                
-				                	                <div class="tab col s12 head existing" >Update</div>   
+				                <div class="col s12 m4 l4">
+				                	<div class="tab col s12 head existing" >Update</div>   
 			                    <div class="" id="existing" style="background-color:#f0f8ff">
 				                   <!--  <div style="margin-top:20px"> -->
 				                        <form action="<%=request.getContextPath() %>/update-p6-new-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
@@ -330,15 +339,15 @@
 				                                </div>
 				                            </div>
 				                            <div class="row">
-				                                <div class="col s12 m6 input-field">
+				                                <div class="col s12 m4 input-field">
 				                                    <input id="data_dateUpdate" type="text" name="data_date" class="validate datepicker">
 				                                    <label for="data_dateUpdate"> Data Date <span class="required">*</span></label>
 				                                    <button type="button" id="data_dateUpdate_icon"><i class="fa fa-calendar"></i></button>
 				                                    <span id="data_dateUpdateError" class="error-msg" ></span>
 				                                </div>
-				                                <div class="col s12 m6">
+				                                <div class="col s12 m8">
 				                                    <div class="file-field input-field">
-				                                        <div class="btn btn-outline">
+				                                        <div class="btn btn-outline bt-sh">
 				                                            <span>Upload P6 Export File <span class="required">*</span></span>
 				                                            <input type="file" name="p6dataFile" id="p6dataFileUpdate">
 				                                        </div>
@@ -353,7 +362,7 @@
 				                                <div class="col s12 center-align">
 				                                    <div style="display: inline-block;">
 				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Update();">
-				                                            Update Activities
+				                                            Update
 				                                        </button>
 				                                    </div>
 				
@@ -370,6 +379,7 @@
 				                            </div>
 				
 				                        </div>
+				                </div>
 				                </div>
 							</div>
 						</div>

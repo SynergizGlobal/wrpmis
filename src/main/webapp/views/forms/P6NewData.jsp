@@ -158,7 +158,7 @@
 				                                     <select id="work_id_fkUpload" name="work_id_fk"  class="searchable validate-dropdown" onchange="getContractList(this.value,'Upload');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${worksList}">
-				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_name }"> - ${obj.work_name }</c:if></option>
+				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_short_name }"> - ${obj.work_short_name }</c:if></option>
 				                                             </c:forEach>
 				                                     </select>
 				                                    <!--  <span id="contract_id_fkUploadError" class="error-msg" ></span> -->
@@ -237,7 +237,7 @@
 				                                     <select id="work_id_fkResvised" name="work_id_fk"  class="searchable validate-dropdown" onchange="getContractList(this.value,'Revised');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${worksList}">
-				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_name }"> - ${obj.work_name }</c:if></option>
+				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_short_name }"> - ${obj.work_short_name }</c:if></option>
 				                                             </c:forEach>
 				                                     </select>
 				                                    <!--  <span id="contract_id_fkUploadError" class="error-msg" ></span> -->
@@ -315,7 +315,7 @@
 				                                     <select id="work_id_fkUpdate" name="work_id_fk"  class="searchable validate-dropdown" onchange="getContractList(this.value,'Update');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${worksList}">
-				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_name }"> - ${obj.work_name }</c:if></option>
+				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_short_name }"> - ${obj.work_short_name }</c:if></option>
 				                                             </c:forEach>
 				                                     </select>
 				                                    <!--  <span id="contract_id_fkUploadError" class="error-msg" ></span> -->

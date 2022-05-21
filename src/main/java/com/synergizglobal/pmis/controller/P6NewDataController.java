@@ -548,7 +548,7 @@ public class P6NewDataController {
 							fob_mismatch = "Incorrect data for column <b>Activity Status</b>, Please check and try again.  ";
 							attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
 						}
-					}else if(lineErr.contains("Incorrect integer value")){
+					}else if(lineErr.contains("Incorrect integer value") || lineErr.contains("Data truncated for column 'float'")){
 						
 						fob_mismatch = "Incorrect data for column <b>Total Float</b>, Please check and try again.  ";
 						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
@@ -748,7 +748,7 @@ public class P6NewDataController {
 							fob_mismatch = "Incorrect data for column <b>Activity Status</b>, Please check and try again.  ";
 							attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
 						}
-					}else if(lineErr.contains("Incorrect integer value")){
+					}else if(lineErr.contains("Incorrect integer value") || lineErr.contains("Data truncated for column 'float'")){
 						
 						fob_mismatch = "Incorrect data for column <b>Total Float</b>, Please check and try again.  ";
 						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");

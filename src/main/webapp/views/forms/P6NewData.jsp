@@ -154,14 +154,14 @@
 				                        <form action="<%=request.getContextPath() %>/upload-p6-new-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                              <div class="col s12 m6 input-field">
-				                                    <p  class="searchable_label"> Work <span class="required">*</span></p>
+				                                    <p  class="searchable_label"> Work <span class="required"></span></p>
 				                                     <select id="work_id_fkUpload" name="work_id_fk"  class="searchable validate-dropdown" onchange="getContractList(this.value,'Upload');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${worksList}">
 				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_name }"> - ${obj.work_name }</c:if></option>
 				                                             </c:forEach>
 				                                     </select>
-				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
+				                                    <!--  <span id="contract_id_fkUploadError" class="error-msg" ></span> -->
 				                                </div>
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label"> Contract <span class="required">*</span></p>
@@ -233,14 +233,14 @@
 				                        <form action="<%=request.getContextPath() %>/revised-p6-new-activities" name="p6RevisedFrom" id="p6RevisedFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                             <div class="col s12 m6 input-field">
-				                                    <p  class="searchable_label"> Work <span class="required">*</span></p>
+				                                    <p  class="searchable_label"> Work <span class="required"></span></p>
 				                                     <select id="work_id_fkResvised" name="work_id_fk"  class="searchable validate-dropdown" onchange="getContractList(this.value,'Revised');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${worksList}">
 				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_name }"> - ${obj.work_name }</c:if></option>
 				                                             </c:forEach>
 				                                     </select>
-				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
+				                                    <!--  <span id="contract_id_fkUploadError" class="error-msg" ></span> -->
 				                                </div>
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>
@@ -250,14 +250,14 @@
 				                       						  <option value="${obj.contract_id }">${obj.contract_id }<c:if test="${not empty obj.contract_short_name }"> - ${obj.contract_short_name }</c:if></option>
 				                                             </c:forEach>				                                             
 				                                     </select>
-				                                     <span id="contract_id_fkUpdateError" class="error-msg" ></span>
+				                                     <span id="contract_id_fkRevisedError" class="error-msg" ></span>
 				                                </div>
 				                                <div class="col s12 m6 input-field" id="fobDropDownRevised" style="display: none;">
 				                                   <p class="searchable_label"> FOB <span class="required">*</span></p>
 				                                   <select id="fob_id_fkRevised" name="fob_id_fk"  class="browser-default searchable">
 				                                        <option value="">Select</option>
 				                                   </select>
-				                                   <span id="fob_id_fkUpdateError" class="error-msg" ></span>
+				                                   <span id="fob_id_fkRevisedError" class="error-msg" ></span>
 				                                </div>
 				                            </div>
 				                            <div class="row">
@@ -276,7 +276,7 @@
 				                                        <div class="file-path-wrapper">
 				                                            <input class="file-path validate" type="text">
 				                                        </div>
-				                                        <span id="updateFileError" class="error-msg"></span>
+				                                        <span id="RevisedFileError" class="error-msg"></span>
 				                                    </div>
 				                                </div> 
 				                            </div>
@@ -311,14 +311,14 @@
 				                        <form action="<%=request.getContextPath() %>/update-p6-new-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                             <div class="col s12 m6 input-field">
-				                                    <p  class="searchable_label"> Work <span class="required">*</span></p>
+				                                    <p  class="searchable_label"> Work <span class="required"></span></p>
 				                                     <select id="work_id_fkUpdate" name="work_id_fk"  class="searchable validate-dropdown" onchange="getContractList(this.value,'Update');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${worksList}">
 				                       						  <option value="${obj.work_id_fk }" >${obj.work_id_fk }<c:if test="${not empty obj.work_name }"> - ${obj.work_name }</c:if></option>
 				                                             </c:forEach>
 				                                     </select>
-				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
+				                                    <!--  <span id="contract_id_fkUploadError" class="error-msg" ></span> -->
 				                                </div>
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>
@@ -714,8 +714,8 @@
 						document.getElementById("data_dateRevisedError").innerHTML="";
 					 	error.appendTo('#data_dateRevisedError');
 					} else if(element.attr("id") == "p6dataFileRevised" ){
-						document.getElementById("updateFileError").innerHTML="";
-					 	error.appendTo('#updateFileError');
+						document.getElementById("RevisedFileError").innerHTML="";
+					 	error.appendTo('#RevisedFileError');
 					} else{
 		 				error.insertAfter(element);
 				    } 

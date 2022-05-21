@@ -87,9 +87,19 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
-	public static List<String> getP6UpdateFileFormat() {
+	public static List<String> getP6RevisedFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		String columns = "task_code,status_code,wbs_id,task_name,base_start_date,base_end_date,start_date,end_date,total_float";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}
+	
+	public static List<String> getP6UpdateFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "task_code,status_code,wbs_id,task_name,start_date,end_date,total_float";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

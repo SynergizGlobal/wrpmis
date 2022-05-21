@@ -223,7 +223,7 @@
 				                <div class="tab col s12 head existing" >Revised Baseline</div>   
 			                    <div class="" id="existing" style="background-color:#f0f8ff">
 				                   <!--  <div style="margin-top:20px"> -->
-				                        <form action="<%=request.getContextPath() %>/update-p6-new-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
+				                        <form action="<%=request.getContextPath() %>/revised-p6-new-activities" name="p6RevisedFrom" id="p6RevisedFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                             <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label"> Work <span class="required">*</span></p>
@@ -276,7 +276,7 @@
 				                            <div class="row">
 				                                <div class="col s12 center-align">
 				                                    <div style="display: inline-block;">
-				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Update();">
+				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="RevisedP6Update();">
 				                                            Update Activities
 				                                        </button>
 				                                    </div>
@@ -646,6 +646,13 @@
 	    	if(validatorUpload.form()){ // validation perform
 				$(".page-loader").show();	    		
 				document.getElementById("p6UploadFrom").submit();
+	    	}
+		}
+	    
+	    function  RevisedP6Update() {
+	    	if(validatorUpdate.form()){ // validation perform
+				$(".page-loader").show();	    		
+				document.getElementById("p6RevisedFrom").submit();
 	    	}
 		}
 	    

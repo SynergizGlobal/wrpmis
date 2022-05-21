@@ -307,8 +307,12 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			
 			String updateActivitiesQry ="UPDATE p6_activity set "
 					+ "p6_activity_name = ?,status_fk = ?,p6_wbs_code_fk = ?,"
-					+ " `start` = ?,finish = ?,`float` =  ?,baseline_start = ?,baseline_finish = ? "
-					+ " where  p6_wbs_code_fk like CONCAT ('%', ?, '%') and p6_task_code = ? ";
+					+ " `start` = ?,finish = ?,`float` =  ?";
+					if(pobj.getIsRevised().contentEquals("Yes")) {
+						updateActivitiesQry = updateActivitiesQry + ",baseline_start = ?,baseline_finish = ? ";
+
+					}
+			updateActivitiesQry	= updateActivitiesQry+ " where  p6_wbs_code_fk like CONCAT ('%', ?, '%') and p6_task_code = ? ";
 			
 			stmt = con.prepareStatement(updateActivitiesQry);
 			int lineNo = 1;
@@ -321,9 +325,11 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getStart())?obj.getStart():null);
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getFinish())?obj.getFinish():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);	
-				stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_start())?obj.getBaseline_start():null);
-				stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_finish())?obj.getBaseline_finish():null);
-				
+				if(pobj.getIsRevised().contentEquals("Yes")) {
+					stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_start())?obj.getBaseline_start():null);
+					stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_finish())?obj.getBaseline_finish():null);
+					
+				}
 				stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
 				stmt.addBatch();

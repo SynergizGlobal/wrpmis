@@ -362,39 +362,39 @@ public class UtilityReportController {
 				cell2.setCellValue(zObj.getUtility_description());
 				
 			    cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getUtility_type_fk());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getOwner_name());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getUtility_category_fk());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getExecution_agency_fk());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getRequirement_stage_fk());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getPlanned_completion_date());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getScope());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getCompleted());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getShifting_status_fk());
 
 		        rowNo2++;

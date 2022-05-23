@@ -12,17 +12,57 @@ public class UtilityShifting {
 	shifting_status_fk, shifting_completion_date, remarks, latitude, longitude, impacted_contract_id_fk, requirement_stage_fk, planned_completion_date,
 	contract_id,contract_name,work_name,project_id_fk,project_name,department_fk,Status_fk,work_short_name,contract_short_name,user_type_fk,
 	category_fk,user_role_code,hod_user_id_fk,unit_fk,attachment,progress_date,progress_of_work,executive_user_id_fk,name,utility_shifting_file_type,created_by_user_id_fk,modified_by,modified_date,
-	total,inprogress,pending,utility_data_id, uploaded_file, status, uploaded_by_user_id_fk, uploaded_on,Work_code;
+	total,inprogress,pending,utility_data_id, uploaded_file, status, uploaded_by_user_id_fk, uploaded_on,Work_code,utilities,balance,remaining;
 	
 	private String []  progress_dates, progress_of_works,attachment_file_types,attachmentNames;
 	
 	private List<MultipartFile> utilityShiftingFiles;
-	private List<UtilityShifting> utilityList,processList;
+	private List<UtilityShifting> utilityList,processList,report1List,report2List;;
 	private MultipartFile utilityFile;
 	
 	private List<UtilityShifting> utilityShiftingFilesList;
 	private List<UtilityShifting> utilityShiftingProgressDetailsList;
 	
+
+	public String getUtilities() {
+		return utilities;
+	}
+
+	public void setUtilities(String utilities) {
+		this.utilities = utilities;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+
+	public String getRemaining() {
+		return remaining;
+	}
+
+	public void setRemaining(String remaining) {
+		this.remaining = remaining;
+	}
+
+	public List<UtilityShifting> getReport1List() {
+		return report1List;
+	}
+
+	public void setReport1List(List<UtilityShifting> report1List) {
+		this.report1List = report1List;
+	}
+
+	public List<UtilityShifting> getReport2List() {
+		return report2List;
+	}
+
+	public void setReport2List(List<UtilityShifting> report2List) {
+		this.report2List = report2List;
+	}
 
 	public String getWork_code() {
 		return Work_code;

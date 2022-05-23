@@ -476,6 +476,9 @@
                                                         <th>Scope</th>
                                                         <th>Completed</th>
                                                         <th style="width: 100px">Units</th>
+                                                        <th>Weightage</th>
+                                                        <th>Component<br> Details</th>
+                                                        <th>P6 Task Code</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="filerList">
@@ -1280,7 +1283,10 @@
  	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td data-head="Completed" class="input-field"><span>' + Number($.trim(val.completed)) + '</span>'
  	            	 			+'<input type="hidden" name="ids"  id="ids'+num+'"  value="" class="ids" /></td>'
- 	            	 			+' <td data-head="Actual" class="input-field">'+$.trim(val.unit_fk)+'</td></tr>';
+ 	            	 			+' <td data-head="Actual" class="input-field">'+$.trim(val.unit_fk)+'</td>'
+ 	            	 			+' <td data-head="Actual" class="input-field">'+$.trim(val.weightage)+'</td>'
+ 	            	 			+' <td data-head="Actual" class="input-field">'+$.trim(val.component_details)+'</td>'
+ 	            	 			+' <td data-head="Actual" class="input-field">'+$.trim(val.p6_task_code)+'</td></tr>';
  	                    		$("#filerList").append(html);	
  	                    		
 	                    	 	

@@ -230,7 +230,7 @@ public class RRreportDaoImpl implements RRreportDao{
 	public RandRMain getRandRMainData(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "SELECT rr_id,r.work_id,work_short_name,location_name ,type_of_use,count(structure_id)structure_id,count(physical_verification)physical_verification,count(encroachment_removal)encroachment_removal," + 
+			String qry = "SELECT rr_id,r.work_id,work_short_name,location_name ,type_of_use,count(identification_no)structure_id,count(physical_verification)physical_verification,count(encroachment_removal)encroachment_removal," + 
 					"count(boundary_wall_doc)boundary_wall_doc" + 
 					",count(handed_over_to_execution)handed_over_to_execution " + 
 					"from rr r "

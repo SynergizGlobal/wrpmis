@@ -33,15 +33,19 @@
         .btn.disabled * {
             color: #999 !important;
         }
-       
+        
         td {
         	word-break: break-word;
     		white-space: initial;
 		}
+		.fw-135{
+	    	 	width:135px !important;
+	    	 	max-width:135px;
+	    	 }
 		@media only screen and (min-width: 820px){ 
 	 		.fw-250{
-	    	 	width:250px !important;
-	    	 	max-width:250px;
+	    	 	width:135px !important;
+	    	 	max-width:135px;
 	    	 }
 	    	 .fw-120{
 	    	 	width:120px !important;
@@ -73,7 +77,7 @@
 			padding:0 .5rem;
 		}
 		.w10em{width: 10em !important;}
-		.w20em{width:  23em !important;}
+		.w20em{width:  11em !important;}
 		@media screen and (max-width: 1300px) and (min-width: 1150px) {
 			.btn.bg-s{
 				font-size:1.5vmin;
@@ -118,8 +122,8 @@
 	        	top:30px;
 	        }
 	        .mob-50{
-	        	width:48vw !important;
-	        	max-width:48vw ;
+	        	width:40vw !important;
+	        	max-width:40vw ;
 	        }
 	        .dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
@@ -544,7 +548,7 @@
 	                                <table id="datatable-risk-uploads" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>                                            
-	                                            <th class="mob-50 no-sort">Work</th>											
+	                                            <th class="fw-135 no-sort">Work</th>											
 												<th class="mob-50">Uploaded File</th>
 												<th class="hideCOl">Status</th>
 												<th class="hideCOl w20em">Remarks</th>

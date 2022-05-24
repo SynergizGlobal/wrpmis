@@ -857,7 +857,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 	public List<Risk> getRiskAssessmentUploadsList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT risk_upload_id,sub_work,r.attachment,status,r.remarks,uploaded_by_user_id_fk,DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on,user_name as uploaded_by,DATE_FORMAT(assessment_date,'%d-%b-%Y') as assessment_date "
+			String qry = "SELECT risk_upload_id,sub_work,r.attachment,status,r.remarks,uploaded_by_user_id_fk,DATE_FORMAT(uploaded_on,'%d-%b-%Y %h:%i %p') as uploaded_on,user_name as uploaded_by,DATE_FORMAT(assessment_date,'%d-%b-%Y') as assessment_date "
 					+ "from risk_upload r " 
 					+ "LEFT JOIN user u ON r.uploaded_by_user_id_fk = u.user_id "
 					+ "where sub_work is not null";

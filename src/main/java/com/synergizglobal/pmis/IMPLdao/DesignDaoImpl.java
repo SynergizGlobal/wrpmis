@@ -1603,10 +1603,10 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getDesignUploadsList(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry = "SELECT design_data_id, uploaded_file, dd.status, dd.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
+			String qry = "SELECT design_data_id, uploaded_file, dd.status, dd.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y  %h:%i %p') as uploaded_on "
 					+ ",uploaded_on as date from design_data dd " 
 					+ "LEFT JOIN user u ON dd.uploaded_by_user_id_fk = u.user_id "
-					+ "where design_data_id is not null order by date desc ";
+					+ "where design_data_id is not null order by DATE_FORMAT(uploaded_on,'%y-%m-%d %H : %i : %s') desc ";
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
 

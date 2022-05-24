@@ -970,6 +970,14 @@ public class UtilityShiftingController {
 								}
 								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
 								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data too long for column")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Data too long for column";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Data too long for value in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
 							}
 						
 	                		obj.setUploaded_by_user_id_fk(userId);

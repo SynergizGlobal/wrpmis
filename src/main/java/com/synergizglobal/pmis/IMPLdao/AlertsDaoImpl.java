@@ -3619,7 +3619,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and u.designation is not null and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {

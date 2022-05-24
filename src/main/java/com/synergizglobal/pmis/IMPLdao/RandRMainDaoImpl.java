@@ -1962,10 +1962,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getRRUploadsList(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "SELECT rr_data_id, uploaded_file, rru.status, rru.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
+			String qry = "SELECT rr_data_id, uploaded_file, rru.status, rru.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y  %h:%i %p') as uploaded_on "
 					+ ",uploaded_on as date from rr_upload_data rru " 
 					+ "LEFT JOIN user u ON rru.uploaded_by_user_id_fk = u.user_id "
-					+ "where rr_data_id is not null order by date desc ";
+					+ "where rr_data_id is not null order by rr_data_id desc ";
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 

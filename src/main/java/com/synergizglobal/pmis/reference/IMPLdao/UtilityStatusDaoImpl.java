@@ -118,7 +118,7 @@ public class UtilityStatusDaoImpl implements UtilityStatusDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from utility_status WHERE `status`= :utility_status; ";
+			String deleteQry ="DELETE from utility_status WHERE `status`= :status; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -165,7 +165,7 @@ public class UtilityStatusDaoImpl implements UtilityStatusDao{
 	
 						int j =0, p=1;
 						for (Safety aObj : obj.getdList()) {
-							pValues[j++] = aObj.getRisk_priority();
+							pValues[j++] = aObj.getStatus();
 							if( objsList1.size() >  p) {
 								qry2 = qry2 + ",?";
 								p++;

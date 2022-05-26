@@ -167,7 +167,7 @@ public class UtilityReportController {
 	        
 	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Calibri";
 	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle greenStyle1 = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle1 = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle bluetyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
 	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -203,7 +203,7 @@ public class UtilityReportController {
 		        cell.setCellStyle(bluetyle);
 		        String work_d = "";
 				if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-					 work_d = reportData.getReport1List().get(0).getWork_short_name()+" - " ;
+					// work_d = reportData.getReport1List().get(0).getWork_short_name()+" - " ;
 		        }
 		        cell.setCellValue(work_d+" Utility Shifting Summary Report");
 		        
@@ -235,15 +235,36 @@ public class UtilityReportController {
         int totalStructures = 0,totalPV = 0,totalRE = 0,totalHC = 0,totalBC = 0;
         rowNo++; int rownum = 5;
         String locName = null;
-        int x = 0,z=0,sNo = 1;
+        int x = 0,z=0,sNo = 1;  String workId = null;
 	        	 for (UtilityShifting zObj : reportData.getReport1List()) {  
 				            int c = 0;
 		
 			  /***********************************************************************/
 					        XSSFRow row = rrSheet1.createRow(rowNo);
-					        c=0;
+					       
 					        row = rrSheet1.createRow(rowNo);
-					        
+					       	 if(!StringUtils.isEmpty(workId) && !workId.equals(zObj.getWork_short_name()) ){
+						       		x = 0;
+								   }
+						    	 
+						    	workId = zObj.getWork_short_name();
+						       if(!StringUtils.isEmpty(workId) &&  x == 0) {
+							   		System.out.println(workId);
+							   		cell = row.createCell(c++);
+							        cell.setCellStyle(greenStyle1);
+									cell.setCellValue(workId);
+									
+									for (int i = 1; i < 5; i++) {		        	
+								        cell = row.createCell(i);
+								        cell.setCellStyle(greenStyle1);
+										cell.setCellValue("");
+									}	
+									rrSheet1.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 0,4));
+									rowNo++;
+									x++;
+									row = rrSheet1.createRow(rowNo);
+								}
+						       c=0;
 					        cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle1);
 							cell.setCellValue(sNo);
@@ -338,13 +359,32 @@ public class UtilityReportController {
 	    	    	 cell2.setCellStyle(bluetyle);
 					 cell2.setCellValue(headerStringArr2[i]);
 			}	
-	        rowNo2++; int sno2 = 1;
+	        rowNo2++; int sno2 = 1;x = 0; workId = null;
 	        for (UtilityShifting zObj : reportData.getReport2List()) {  
-	            int d = 0;
-	            XSSFRow row1 = rrSheet2.createRow(rowNo2);
-		        c=0;
-		        row1 = rrSheet2.createRow(rowNo2);
-		        
+               int d = 0;
+               XSSFRow row1 = rrSheet2.createRow(rowNo2);
+	      	   if(!StringUtils.isEmpty(workId) && !workId.equals(zObj.getWork_short_name()) ){
+		       		x = 0;
+		       }
+			    	 
+		       workId = zObj.getWork_short_name();
+		       if(!StringUtils.isEmpty(workId) &&  x == 0) {
+			   		System.out.println(workId);
+			   		cell = row1.createCell(d++);
+			        cell.setCellStyle(greenStyle1);
+					cell.setCellValue(workId);
+					
+					for (int i = 1; i < 13; i++) {		        	
+				        cell = row1.createCell(i);
+				        cell.setCellStyle(greenStyle1);
+						cell.setCellValue("");
+					}	
+					rrSheet2.addMergedRegion(new CellRangeAddress(rowNo2,rowNo2, 0,12));
+					rowNo2++;
+					x++;
+					row1 = rrSheet2.createRow(rowNo2);
+				}
+		        d = 0;
 		        cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(sno2++);

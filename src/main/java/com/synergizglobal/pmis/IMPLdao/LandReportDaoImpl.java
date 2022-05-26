@@ -231,8 +231,8 @@ public class LandReportDaoImpl implements LandReportDao{
 	public LandAcquisition getLandAcquisitionData(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry = "SELECT la.work_id_fk,work_short_name,category_fk ,la_sub_category,CAST(IFNULL(area_to_be_acquired,0)AS DECIMAL(10,2))"
-					+ "area_to_be_acquired,CAST(IFNULL(area_acquired,0)AS DECIMAL(10,2))area_acquired,(CAST(IFNULL(area_to_be_acquired,0) - IFNULL(area_acquired,0)AS DECIMAL(10,2))) as balance_area "+
+			String qry = "SELECT la.work_id_fk,work_short_name,category_fk ,la_sub_category,CAST(IFNULL(sum(area_to_be_acquired),0)AS DECIMAL(10,2))"
+					+ "area_to_be_acquired,CAST(IFNULL(sum(area_acquired),0)AS DECIMAL(10,2))area_acquired,(CAST(IFNULL(sum(area_to_be_acquired),0) - IFNULL(sum(area_acquired),0)AS DECIMAL(10,2))) as balance_area "+
 					"from la_land_identification la  "+
 					"left join work w on la.work_id_fk = w.work_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
@@ -257,7 +257,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				qry = qry + " and la_sub_category_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY category_fk,la_sub_category_fk order by category_fk";
+			qry = qry + " GROUP BY work_id_fk,category_fk,la_sub_category_fk order by work_id_fk,category_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -277,7 +277,7 @@ public class LandReportDaoImpl implements LandReportDao{
 			obj.setReport1List(objsList);
 			if(objsList.size() > 0) {
 					
-				String qry2 = "SELECT la_id,category_fk,survey_number,la_sub_category,village,village_id," + 
+				String qry2 = "SELECT la.work_id_fk,work_short_name,la_id,category_fk,survey_number,la_sub_category,village,village_id," + 
 						"CAST(IFNULL(area_to_be_acquired,0)AS DECIMAL(10,2))area_to_be_acquired," + 
 						"CAST(IFNULL(area_acquired,0)AS DECIMAL(10,2))area_acquired," + 
 						"(CAST(IFNULL(area_to_be_acquired,0) - IFNULL(area_acquired,0)AS DECIMAL(10,2))) as balance_area " + 
@@ -305,7 +305,7 @@ public class LandReportDaoImpl implements LandReportDao{
 					qry2 = qry2 + " and la_sub_category_fk = ?";
 					arrSize1++;
 				}
-				
+				qry = qry + "  order by work_id_fk";
 				Object[] pValues1 = new Object[arrSize1];
 				int j = 0;
 				

@@ -12,8 +12,6 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.UtilityReportDao;
 import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.UtilityShifting;
 @Repository
 public class UtilityReportDaoImpl implements UtilityReportDao{
 	@Autowired
@@ -161,7 +159,7 @@ public class UtilityReportDaoImpl implements UtilityReportDao{
 	public UtilityShifting getUtilityShiftingData(UtilityShifting obj) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry = "SELECT work_short_name,count(*) as utilities,execution_agency_fk, sum(shifting_status_fk = 'Completed') as remaining,"
+			String qry = "SELECT work_short_name,work_id_fk,count(*) as utilities,execution_agency_fk, sum(shifting_status_fk = 'Completed') as remaining,"
 					+ "count(*)-sum(shifting_status_fk = 'Completed') as balance " + 
 					" FROM utility_shifting u "
 					+ "left join work w on u.work_id_fk = w.work_id "
@@ -199,7 +197,7 @@ public class UtilityReportDaoImpl implements UtilityReportDao{
 			obj.setReport1List(objsList);
 			if(objsList.size() > 0) {
 					
-				String qry2 = "SELECT id, utility_shifting_id, work_id_fk, identification, location_name, "
+				String qry2 = "SELECT id, utility_shifting_id, work_id_fk,work_short_name, identification, location_name, "
 						+ "reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, execution_agency_fk, "
 						+ "contract_id_fk, start_date, scope, completed, shifting_status_fk, shifting_completion_date, "
 						+ "impacted_contract_id_fk, requirement_stage_fk, DATE_FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date, unit_fk " + 

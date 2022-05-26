@@ -203,7 +203,7 @@ public class RRreportController {
 	        
 	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Calibri";
 	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle greenStyle1 = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle1 = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle bluetyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
 	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -212,6 +212,7 @@ public class RRreportController {
 	       
 	        CellStyle indexWhiteStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle indexWhiteStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle3 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
 	        
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Calibri";
@@ -238,9 +239,9 @@ public class RRreportController {
 		        cell = mainHeadingRow.createCell(0);
 		        cell.setCellStyle(bluetyle);
 		        String work_d = "";
-				if(!StringUtils.isEmpty(obj.getWork_id())) {
+				/*if(!StringUtils.isEmpty(obj.getWork_id())) {
 					 work_d = reportData.getReport1List().get(0).getWork_short_name()+" - " ;
-		        }
+				}*/
 		        cell.setCellValue(work_d+" R&R Summary Report");
 		        
 		        for (int i = 1; i < 5; i++) {		        	
@@ -270,12 +271,13 @@ public class RRreportController {
         
         
         int totalStructures = 0,totalPV = 0,totalRE = 0,totalHC = 0,totalBC = 0;
-        rowNo++; int rownum = 5;
+        rowNo++; int rownum = 6;
         String locName = null;
+        String workId = null;
         int x = 0,z=0,sNo = 1;
 	        	 for (RandRMain zObj : reportData.getReport1List()) {  
+	        		  XSSFRow row = rrSheet1.createRow(rowNo);
 				            int c = 0;
-				            
 						   	if(!StringUtils.isEmpty(locName) &&  !locName.equals(zObj.getLocation_name())) {
 						   		System.out.println(locName);
 						   		 sNo++;
@@ -283,23 +285,56 @@ public class RRreportController {
 					             int lastRow = rowNo;
 					             System.out.println("B"+firstRow+":B"+lastRow);
 					             if(firstRow != lastRow) {
-									 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("B"+firstRow+":B"+lastRow));
-									 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("A"+firstRow+":A"+lastRow));
-					             }
-								 rownum = lastRow +1;
+					            	 try {
+					            		 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("B"+firstRow+":B"+lastRow));
+										 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("A"+firstRow+":A"+lastRow));
+								  } catch (Exception e) {
+										lastRow = ++rowNo;
+										if(firstRow != lastRow) {
+											 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("B"+firstRow+":B"+lastRow));
+											 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("A"+firstRow+":A"+lastRow));
+											// rowNo--;
+										}
+								  }
+					           }
+								
+							   if(!workId.equals(zObj.getWork_short_name()) ){
+								 x = 0; 
+							   } 
+							   rownum = lastRow +1;
 							}
+						    
 					    	locName = zObj.getLocation_name();
 			  /***********************************************************************/
-					        XSSFRow row = rrSheet1.createRow(rowNo);
-					        c=0;
-					        row = rrSheet1.createRow(rowNo);
-					        
+					    	 if(!StringUtils.isEmpty(workId) && !workId.equals(zObj.getWork_short_name()) ){
+					    		 rownum++;
+							   }
+					    	 
+					    	workId = zObj.getWork_short_name();
+					       if(!StringUtils.isEmpty(workId) &&  x == 0) {
+						   		System.out.println(workId);
+						   		cell = row.createCell(c++);
+						        cell.setCellStyle(greenStyle1);
+								cell.setCellValue(workId);
+								
+								for (int i = 1; i < 8; i++) {		        	
+							        cell = row.createCell(i);
+							        cell.setCellStyle(greenStyle1);
+									cell.setCellValue("");
+								}	
+								rrSheet1.addMergedRegion(new CellRangeAddress(rowNo,rowNo, 0,7));
+								rowNo++;
+								x++;
+								row = rrSheet1.createRow(rowNo);
+							}
+							
+							c = 0;		
 					        cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle1);
 							cell.setCellValue(sNo);
 				
 							cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle1);
+							cell.setCellStyle(activityNameStyle3);
 							cell.setCellValue(zObj.getLocation_name());
 						
 							
@@ -420,10 +455,35 @@ public class RRreportController {
 	    	    	 cell2.setCellStyle(bluetyle);
 					 cell2.setCellValue(headerStringArr2[i]);
 			}	
+	        workId = null;x = 0;
 	        rowNo2++; int sno2 = 1;
 	        for (RandRMain zObj : reportData.getReport2List()) {  
-	            int d = 0;
-	            XSSFRow row1 = rrSheet2.createRow(rowNo2);
+	        	 XSSFRow row1 = rrSheet2.createRow(rowNo2);
+	             int d = 0;
+		       	 if(!StringUtils.isEmpty(workId) && !workId.equals(zObj.getWork_short_name()) ){
+		       		x = 0;
+				   }
+		    	 
+		    	workId = zObj.getWork_short_name();
+		       if(!StringUtils.isEmpty(workId) &&  x == 0) {
+			   		System.out.println(workId);
+			   		cell = row1.createCell(d++);
+			        cell.setCellStyle(greenStyle1);
+					cell.setCellValue(workId);
+					
+					for (int i = 1; i < 9; i++) {		        	
+				        cell = row1.createCell(i);
+				        cell.setCellStyle(greenStyle1);
+						cell.setCellValue("");
+					}	
+					rrSheet2.addMergedRegion(new CellRangeAddress(rowNo2,rowNo2, 0,8));
+					rowNo2++;
+					x++;
+					row1 = rrSheet2.createRow(rowNo2);
+				}
+				
+				d = 0;
+		           
 		        c=0;
 		        row1 = rrSheet2.createRow(rowNo2);
 		        
@@ -444,23 +504,23 @@ public class RRreportController {
 				cell2.setCellValue(zObj.getSub_location_name());
 				
 			    cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getType_of_use());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getPhysical_verification());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getEncroachment_removal());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getBoundary_wall_doc());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getHanded_over_to_execution());
 
 		        rowNo2++;

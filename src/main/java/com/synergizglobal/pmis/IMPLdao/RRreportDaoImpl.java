@@ -257,7 +257,7 @@ public class RRreportDaoImpl implements RRreportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY location_name,type_of_use";
+			qry = qry + " GROUP BY location_name,type_of_use order by work_id,location_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -277,7 +277,7 @@ public class RRreportDaoImpl implements RRreportDao{
 			obj.setReport1List(objsList);
 			if(objsList.size() > 0) {
 					
-				String qry2 = "SELECT rr_id,location_name ,sub_location_name,type_of_use," + 
+				String qry2 = "SELECT rr_id,location_name,work_short_name,r.work_id ,sub_location_name,type_of_use," + 
 						"DATE_FORMAT(physical_verification,'%d-%m-%Y') as physical_verification," + 
 						"DATE_FORMAT(encroachment_removal,'%d-%m-%Y') as encroachment_removal," + 
 						"DATE_FORMAT(boundary_wall_doc,'%d-%m-%Y') as boundary_wall_doc" + 

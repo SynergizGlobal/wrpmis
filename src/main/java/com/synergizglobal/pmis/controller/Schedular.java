@@ -91,14 +91,25 @@ public class Schedular {
 					flag = alertService.sendEMailNotificationAlertsToITAdmins();
 					logger.error("sendEMailNotificationAlertsToITAdmins >> Sent mails : "+ flag); 
 		    	}
-		    	
-				//Calling stored procedures
-				flag = alertService.callingStoredProcedures();
-				logger.error("callingStoredProcedures >> Run Procedures : "+ flag);
 				
 			 } catch (Exception e) {
 				 e.printStackTrace();
 				logger.error("generateAlertsByCronJob() : "+e.getMessage());
+			 }
+		}
+	}
+	
+	@Scheduled(cron = "${cron.expression.run.procedures}")
+	public void callingProceduresByCronJob(){	
+		if(is_cron_jobs_enabled) {    
+		     try {		    	
+				//Calling stored procedures
+				boolean flag = alertService.callingStoredProcedures();
+				logger.error("callingProceduresByCronJob >> Run Procedures : "+ flag);
+				
+			 } catch (Exception e) {
+				 e.printStackTrace();
+				logger.error("callingProceduresByCronJob() : "+e.getMessage());
 			 }
 		}
 	}

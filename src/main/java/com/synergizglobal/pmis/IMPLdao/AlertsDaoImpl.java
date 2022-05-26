@@ -3007,35 +3007,40 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			connection = dataSource.getConnection();
 			
-			/*String qry1 = "call 1_project_months()";			
+			logger.error("callingStoredProcedures Start 1_scurve_planned :"+ new Date());	
+			String qry1 = "call 1_scurve_planned()";			
 			stmt = connection.prepareCall(qry1);			
 			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);*/
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 1_scurve_planned :"+ new Date());
 			
-			String qry2 = "call 2_planned_normal_distribution_day()";			
+			logger.error("callingStoredProcedures Start 2_scurve_baseline :"+ new Date());	
+			String qry2 = "call 2_scurve_baseline()";			
 			stmt = connection.prepareCall(qry2);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 2_scurve_baseline :"+ new Date());
 			
-			/*String qry3 = "call 3_actual_normal_distribution_day()";			
+			logger.error("callingStoredProcedures Start 3_scurve_expected :"+ new Date());	
+			String qry3 = "call 3_scurve_expected()";			
 			stmt = connection.prepareCall(qry3);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 3_scurve_expected :"+ new Date());
 			
-			String qry4 = "call 4_progress_monthly_summary_bell()";			
-			stmt = connection.prepareCall(qry4);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);*/
-			
+			logger.error("callingStoredProcedures Start create_calendar_dates :"+ new Date());	
 			String qry5 = "call create_calendar_dates()";			
 			stmt = connection.prepareCall(qry5);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends create_calendar_dates :"+ new Date());
 			
+			logger.error("callingStoredProcedures Start create_user_calendar_dates :"+ new Date());
 			String qry6 = "call create_user_calendar_dates()";			
 			stmt = connection.prepareCall(qry6);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends create_user_calendar_dates :"+ new Date());
 			
 			flag = true;
 		}catch(Exception e){ 
@@ -4077,9 +4082,28 @@ public class AlertsDaoImpl implements AlertsDao{
 		boolean flag = false;
 		try {
 			connection = dataSource.getConnection();
-			String qry2 = "call 2_planned_normal_distribution_day()";			
+			
+			logger.error("runPlannedNormalDistributionDay Start 1_scurve_planned :"+ new Date());	
+			String qry1 = "call 1_scurve_planned()";			
+			stmt = connection.prepareCall(qry1);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("runPlannedNormalDistributionDay Ends 1_scurve_planned :"+ new Date());
+			
+			logger.error("runPlannedNormalDistributionDay Start 2_scurve_baseline :"+ new Date());	
+			String qry2 = "call 2_scurve_baseline()";			
 			stmt = connection.prepareCall(qry2);			
 			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("runPlannedNormalDistributionDay Ends 2_scurve_baseline :"+ new Date());
+			
+			logger.error("runPlannedNormalDistributionDay Start 3_scurve_expected :"+ new Date());	
+			String qry3 = "call 3_scurve_expected()";			
+			stmt = connection.prepareCall(qry3);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("runPlannedNormalDistributionDay Ends 3_scurve_expected :"+ new Date());
+			
 			flag = true;
 		}catch(Exception e){ 
 			throw new Exception(e);

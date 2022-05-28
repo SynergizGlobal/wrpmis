@@ -57,6 +57,16 @@
 	    #compensation_unitsError{
 	   		float:right;	
 	    }
+	    .character-counter {
+		  background-color: smoke;
+		  position: absolute;
+		  top: 25%;
+		  right: 1.5em;
+		}
+		.dp .character-counter {
+	
+		  right: -2.5em;
+		}
 	    @media(max-width: 575px){
 	     .row .col{margin: 10px auto;}
 	     .amount-dropdown input:not(.select-dropdown) {
@@ -194,12 +204,12 @@
 
                             <div class="row">                                
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="latitude" name="latitude" type="text" class="validate" value="${safety.latitude }">
+                                    <input id="latitude" name="latitude" type="text" class="validate" value="${safety.latitude }" maxlength="10" data-length="10">
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${safety.longitude }">
+                                    <input id="longitude" name="longitude" type="text" class="validate" value="${safety.longitude }" maxlength="11" data-length="11">
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
@@ -256,7 +266,7 @@
                                     <span id="investigation_completedError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m6 l6 input-field">
-                                    <input id="lti_hours" name="lti_hours" type="number" class="validate" value="${safety.lti_hours }">
+                                    <input id="lti_hours" name="lti_hours" maxlength="10" data-length="10" type="number" class="validate num" value="${safety.lti_hours }">
                                     <label for="lti_hours"> LTI  in hours</label>
                                     <span id="lti_hoursError" class="error-msg" ></span>
                                 </div>
@@ -344,9 +354,9 @@
                                     <button type="button" id="payment_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="payment_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m6 l6 input-field amount-dropdown">
+                                <div class="col s12 m6 l6 input-field amount-dropdown dp">
                                 	<i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate pdl-2em" value="${safety.compensation }">
+                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" max="100000000" class="validate pdl-2em num" maxlength="12" data-length="12" value="${safety.compensation }">
                                     <label for="compensation" class="pdl-2em"> Compensation </label>
                                     <span id="compensationError" class="error-msg" ></span>
                                 	<span id="compensation_unitsError" class="error-msg right" ></span>
@@ -420,7 +430,13 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script>
-
+	$(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
 	  $(document).on('focus', '.datepicker', function () {        	 
 			var id = $(this).attr('id');
 				var dt = this.value.split(/[^0-9]/);

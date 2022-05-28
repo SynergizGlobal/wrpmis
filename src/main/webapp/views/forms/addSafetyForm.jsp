@@ -30,6 +30,12 @@
         .pb-10{
         	padding-bottom:10px;
         }
+        .character-counter {
+		  background-color: smoke;
+		  position: absolute;
+		  top: 25%;
+		  right: 1.5em;
+		}
         @media only screen and (max-width:364px){
 			.fs-sm-67rem {
 			    font-size: .656rem !important;
@@ -259,12 +265,12 @@
 
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="latitude" name="latitude" type="text" class="validate">
+                                    <input id="latitude" name="latitude" type="text" class="validate"  maxlength="10" data-length="10">
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="longitude" name="longitude" type="text" class="validate">
+                                    <input id="longitude" name="longitude" type="text" class="validate"  maxlength="11" data-length="11">
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>

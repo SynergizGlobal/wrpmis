@@ -218,14 +218,14 @@
                             </div>
                             <div class="row">
                                  <div class="col s12 m12 l12 input-field">
-                                     <textarea id="title" name="title" class="pmis-textarea validate" data-length="100"></textarea>
+                                     <textarea id="title" name="title" class="pmis-textarea validate" data-length="100" maxlength="100"></textarea>
 	                                 <label for="title">Short Description <span class="required">*</span></label>
 	                                 <span id="titleError" class="error-msg" ></span>
                                  </div>
                             </div>
                             <div class="row">
                                   <div class="col s12 m12 l12 input-field">
-                                      <textarea id="description" name="description" class="pmis-textarea validate" data-length="1000"></textarea>
+                                      <textarea id="description" name="description" class="pmis-textarea validate" data-length="1000" maxlength="1000"></textarea>
                                    <label for="description">Full Description<span class="required">*</span></label>
                                    <span id="descriptionError" class="error-msg" ></span>
                                   </div>                                    
@@ -719,7 +719,8 @@
     			 	   	  },"title": {
     				 		required: true
     				 	  },"description": {
-    			 		    required: true
+    			 		    required: true,
+    			 		    maxlength:1000
     			 	   	  },"date": {
     				 		required: true
     				 	  },"location": {
@@ -791,7 +792,8 @@
    			 	   	  	 },"title": {
     			 			required: 'Required'
     			 	  	 },"description": {
-    			 			required: 'Required'
+    			 			required: 'Required',
+    			 			maxlength: 'Should not exceed 1000 characters'
     			 	  	 },"date": {
     			 			required: 'Required'
     			 	  	 },"location": {

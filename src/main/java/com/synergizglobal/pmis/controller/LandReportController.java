@@ -187,12 +187,12 @@ public class LandReportController {
 	        CellStyle bluetyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
 	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle activityNameStyle3 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-
+	        
 	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	       
 	        CellStyle indexWhiteStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle indexWhiteStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle3 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
 	        
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Calibri";
@@ -249,37 +249,46 @@ public class LandReportController {
         Double totalATB = 0.0,totalAE = 0.0,totalBal = 0.0;
         rowNo++; int rownum = 6;
         String categoty = null;
-        int x = 0,z=0,sNo = 1;    String workId = null;
+        String workId = null;
+        int x = 0,z=0,sNo = 1,v = 1;
+       
 	        	 for (LandAcquisition zObj : reportData.getReport1List()) {  
 				            int c = 0;
 				            XSSFRow row = rrSheet1.createRow(rowNo);
-						   	if(!StringUtils.isEmpty(categoty) &&  !categoty.equals(zObj.getCategory_fk())) {
+				          
+						   	if(!StringUtils.isEmpty(categoty) &&  !categoty.equals(zObj.getCategory_fk()) 
+						   			&& (StringUtils.isEmpty( obj.getType_of_land()) || StringUtils.isEmpty( obj.getType_of_land()) )) {
 						   		System.out.println(categoty);
 						   		 sNo++;
 							   	 int firstRow = rownum;
 					             int lastRow = rowNo;
 					             System.out.println("B"+firstRow+":B"+lastRow);
 					             if(firstRow != lastRow) {
-					            	 try {
-					            		 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("B"+firstRow+":B"+lastRow));
-										 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("A"+firstRow+":A"+lastRow));
-								  } catch (Exception e) {
-										lastRow = ++rowNo;
-										if(firstRow != lastRow) {
-											 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("B"+firstRow+":B"+lastRow));
-											 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("A"+firstRow+":A"+lastRow));
-											// rowNo--;
-										}
-								  }
+									 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("B"+firstRow+":B"+lastRow));
+									 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("A"+firstRow+":A"+lastRow));
 					             }
-					             if(!workId.equals(zObj.getWork_short_name()) ){
+								 rownum = lastRow +1;
+								 if(!workId.equals(zObj.getWork_short_name()) ){
 									 x = 0; 
 								   } 
+							}else if(!StringUtils.isEmpty(categoty) && !StringUtils.isEmpty(workId) && !workId.equals(zObj.getWork_short_name())){
+								System.out.println(categoty);
+						   		 sNo++;
+							   	 int firstRow = rownum;
+					             int lastRow = rowNo;
+					             System.out.println("B"+firstRow+":B"+lastRow);
+					             if(firstRow != lastRow) {
+									 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("B"+firstRow+":B"+lastRow));
+									 rrSheet1.addMergedRegion(CellRangeAddress.valueOf("A"+firstRow+":A"+lastRow));
+					             }
 								 rownum = lastRow +1;
+								 if(!workId.equals(zObj.getWork_short_name()) ){
+									 x = 0; 
+								   } 
+								
 							}
 					    	categoty = zObj.getCategory_fk();
 			  /***********************************************************************/
-					       
 					    	 if(!StringUtils.isEmpty(workId) && !workId.equals(zObj.getWork_short_name()) ){
 					    		 rownum++;
 							   }
@@ -301,7 +310,6 @@ public class LandReportController {
 								x++;
 								row = rrSheet1.createRow(rowNo);
 							}
-							
 					        c=0;
 					        
 					        cell = row.createCell(c++);
@@ -315,8 +323,11 @@ public class LandReportController {
 							
 					
 						    cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getLa_sub_category());
+							cell.setCellStyle(activityNameStyle1);
+							String subCat = "-";
+							if(!StringUtils.isEmpty( zObj.getLa_sub_category()))
+								 subCat = zObj.getLa_sub_category();
+							cell.setCellValue(subCat);
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle2);
@@ -375,6 +386,7 @@ public class LandReportController {
 				  	//rrSheet1.autoSizeColumn(columnIndex);
 				  	rrSheet1.setColumnWidth(columnIndex, 35 * 130);
 				   }
+	        
 						   // rrSheet1.setColumnWidth(0, 25 * 120);
 	       		 	XSSFSheet rrSheet2 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Land Acquisition - Detail Report"));
 	       		 	
@@ -403,7 +415,7 @@ public class LandReportController {
 			String headerString2 = "Sr No.^LA ID^Survey Number^Type of Land^Sub Category of Land"
 					+ "^Village ID^Area to be Acquired (Ha)^Area Acquired (Ha)^Balance Land Acquisition (Ha)^Land Status";
 	        String[] headerStringArr2 = headerString2.split("\\^");
-	        
+	        workId = null;x = 0;
 	        XSSFRow headingRow2 = rrSheet2.createRow(rowNo2);
 	        for (int i = 0; i < headerStringArr2.length ; i++) {	
 	        	
@@ -411,10 +423,10 @@ public class LandReportController {
 	    	    	 cell2.setCellStyle(bluetyle);
 					 cell2.setCellValue(headerStringArr2[i]);
 			}	
-	        rowNo2++; int sno2 = 1; workId = null;x = 0;
+	        rowNo2++; int sno2 = 1;
 	        for (LandAcquisition zObj : reportData.getReport2List()) {  
-	            int d = 0;
-	            XSSFRow row1 = rrSheet2.createRow(rowNo2);
+	        	 XSSFRow row1 = rrSheet2.createRow(rowNo2);
+	             int d = 0;
 	            if(!StringUtils.isEmpty(workId) && !workId.equals(zObj.getWork_short_name()) ){
 		       		x = 0;
 				   }
@@ -457,7 +469,10 @@ public class LandReportController {
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getLa_sub_category());
+				String subCat = "-";
+				if(!StringUtils.isEmpty( zObj.getLa_sub_category()))
+					 subCat = zObj.getLa_sub_category();
+				cell2.setCellValue(subCat);
 				
 			    cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle);
@@ -476,7 +491,7 @@ public class LandReportController {
 				cell2.setCellValue(zObj.getBalance_area());
 				
 				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle2);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getLa_land_status_fk());
 
 		        rowNo2++;

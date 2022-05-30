@@ -2185,7 +2185,7 @@
 		        		$('#structureRow,#structureIdRow').removeClass('l6').addClass('l4');
 		        		$('#hideResponsive').removeClass('m6').addClass('m12'); 
 		        		$('#hideResponsive1').removeClass('m6').addClass('m3');
-		        		$('#mrvc_drawing_no').removeClass('w85').addClass('w70');
+		        		$('#mrvc_drawing_no').removeClass('w70').addClass('w85');
 		        		$('#drawingType').removeClass('l6').addClass('l4');
 		        		$('#hideResponsive1').css("bottom","");
 		        		$('#approval_authority_fk').prop('disabled', false);
@@ -2198,7 +2198,7 @@
 		        		$('#structureRow,#structureIdRow').removeClass('l4').addClass('l6');
 		        		$('#hideResponsive').removeClass('m12').addClass('m6'); 
 		        		$('#hideResponsive1').removeClass('m3').addClass('m6');
-		        		$('#mrvc_drawing_no').removeClass('w70').addClass('w85');
+		        		$('#mrvc_drawing_no').removeClass('w85').addClass('w70');
 		        		$('#drawingType').removeClass('l4').addClass('l6');
 		        		$('#hideResponsive1').css("bottom","-1rem");
 		        		$('#approval_authority_fk').prop('disabled', true);

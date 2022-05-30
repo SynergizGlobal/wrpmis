@@ -209,7 +209,7 @@
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${safety.longitude }" maxlength="15" data-length="15">
+                                    <input id="longitude" name="longitude" type="text" class="validate" value="${safety.longitude }">
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
@@ -356,7 +356,7 @@
                                 </div>
                                 <div class="col s12 m6 l6 input-field amount-dropdown dp">
                                 	<i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" max="100000000" class="validate pdl-2em num" maxlength="12" data-length="12" value="${safety.compensation }">
+                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" max="1000000000" class="validate pdl-2em" value="${safety.compensation }">
                                     <label for="compensation" class="pdl-2em"> Compensation </label>
                                     <span id="compensationError" class="error-msg" ></span>
                                 	<span id="compensation_unitsError" class="error-msg right" ></span>

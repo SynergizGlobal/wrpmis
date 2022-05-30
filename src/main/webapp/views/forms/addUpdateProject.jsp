@@ -220,6 +220,36 @@
 		@media(max-width: 575px){
 		.row .col{margin: 6px auto !important;}
 		}
+		 #compensation_unitsError{
+	   		float:right;	
+	    }
+	   .character-counter {
+		  background-color: smoke;
+		  position: absolute;
+		  top: 25%;
+		  right: 1.5em;
+		}
+		.pdr3em{
+			padding-right: 3em !important;
+		} 
+		.pdr4em{
+			padding-right: 4em !important;
+		}
+		.pdr5em{
+			padding-right: 5em !important;
+		}
+		.w85{
+			width: 85% !important;
+		}
+		.w80{
+			width: 80% !important;
+		}
+		.w75{
+			width: 75% !important;
+		}
+		.w70{
+			width: 70% !important;
+		}
 
 	</style>
 </head>
@@ -313,7 +343,7 @@
 									<span id="project_statusError"></span>
 								</div>
                                 <div class="col s12 m4 l4 input-field md-pt-2px">
-                                    <input id="plan_head_number" type="text" class="validate" value="${projectDetails.plan_head_number }" name="plan_head_number">
+                                    <input id="plan_head_number" maxlength="15" data-length="15" type="text" class="validate w80 pdr4em" value="${projectDetails.plan_head_number }" name="plan_head_number">
                                     <label for="plan_head_number" class='fs-sm-8rem'>Plan Head Number<span class="required">*</span></label>
                                     <span  id="plan_head_numberError"> </span>
                                 </div>
@@ -340,7 +370,7 @@
 									</select>
 								 </div>
                                 <div class="col s12 m4 l4 input-field md-mt-0">
-                                    <input id="pink_book_item_numbers" class="validate" type="text" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="15"/>
+                                    <input id="pink_book_item_numbers" maxlength="15" data-length="15" class="validate w80 pdr4em" type="text" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="15"/>
                                     <label for="pink_book_item_numbers">PB Item No </label>                                   
                                     <span  id="pink_book_item_numbersError"> </span>
                                 </div>
@@ -350,12 +380,12 @@
 
 							<div class="row">
                               <div class="col s12 m6 l6 input-field">
-                                  <textarea id="benefits"  name="benefits" class="pmis-textarea" data-length="1000" maxlength="1000">${projectDetails.benefits }</textarea>
+                                  <textarea id="benefits"  name="benefits" class="pmis-textarea pdr4em w85" data-length="1000" maxlength="1000">${projectDetails.benefits }</textarea>
                                   <label for="benefits">Benefits</label>
                                    <span id="benefitsError"></span>
                               </div>
                               <div class="col s12 m6 l6 input-field">
-                                    <textarea id="remarks" class="pmis-textarea"  maxlength="1000" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
+                                    <textarea id="remarks" class="pmis-textarea pdr4em w85"  maxlength="1000" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                      <span id="remarksError"></span>
                                 </div>
@@ -622,7 +652,7 @@
 							                               				</select>
 																	</td>
 																	<td data-head="PB Item No" class="input-field">
-																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="text" class="validate" maxlength="15"  
+																		<input id="pink_book_item_numbers${index.count }" maxlength="15" data-length="15" name="pink_book_item_numbers" type="text" class="validate w85 pdr4em" maxlength="15"  
 	                                                        				placeholder="PB Item No" value="${pObj.pb_item_no }" autocomplete="off">
 	                                                        		</td>
 																	<td class="mobile_btn_close">
@@ -650,7 +680,7 @@
 						                               				</select>
 																</td>																	
 																<td data-head="PB Item No" class="input-field">
-																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="text" class="validate"  maxlength="15"
+																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="text" class="validate"  maxlength="15" data-length="15"
 	                                                        				placeholder="PB Item No" autocomplete="off">
 																</td>
 																<td class="mobile_btn_close">
@@ -744,6 +774,16 @@
  
 
     <script type="text/javascript">
+    $(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	 $("[data-length]").each(function(i,val){
+     	$('#'+val.id).characterCounter();;
+     });
 
 	/****************************************************************************************************/
 /*     let date_pickers = document.querySelectorAll('.datepicker');
@@ -915,12 +955,12 @@
 		  				+' <option value="WR">WR</option>'     
 		  				+' <option value="CR">CR</option>' 
 					+'  </select>	</td>'				
-			   +'<td data-head="PB Item No" class="input-field"><input  class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" type="text" placeholder="PB Item No" maxlength="15""></td>'
+			   +'<td data-head="PB Item No" class="input-field"><input  class="validate w85 pdr4em" id="pink_book_item_numbers'+rNo+'" maxlength="15" data-length="15" name="pink_book_item_numbers" type="text" placeholder="PB Item No""></td>'
 			+'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#pinkBookBody').append(html);
             $("#PBRowNo").val(rNo);          	
-            
+            $('#pink_book_item_numbers'+rNo).characterCounter();;
             //$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
 

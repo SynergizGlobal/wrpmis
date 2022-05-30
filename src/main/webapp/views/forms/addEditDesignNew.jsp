@@ -271,6 +271,30 @@
 		ul {
 		  list-style-type: none;
 		}
+		 #compensation_unitsError{
+	   		float:right;	
+	    }
+	   .character-counter {
+		  background-color: smoke;
+		  position: absolute;
+		  top: 25%;
+		  right: 1.5em;
+		}
+		.pdr3em{
+			padding-right: 3em !important;
+		} 
+		.pdr4em{
+			padding-right: 4em !important;
+		}
+		.pdr5em{
+			padding-right: 5em !important;
+		}
+		.w85{
+			width: 85% !important;
+		}
+		.w70{
+			width: 70% !important;
+		}
     </style>
 </head>
 <body>
@@ -524,27 +548,27 @@
                             <div class="row section scrollspy" id="drawingDetails">
                             	<h5 class="center-align">Drawing Details</h5>
                                 <div class="col s6 m12 input-field" id="hideResponsive">
-                                    <textarea id="drawing_title" name="drawing_title" class="pmis-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
+                                    <textarea id="drawing_title" maxlength="100" data-length="100" name="drawing_title" class="pmis-textarea num pdr5em">${designDetails.drawing_title }</textarea>
                                     <label for="drawing_title">Drawing Title<span class="required">*</span></label>
                                      <span id="drawing_titleError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field optionalFileds">
-                                     <input id="contractor_drawing_no" name="contractor_drawing_no" type="text" class="validate" value="${designDetails.contractor_drawing_no }">
+                                     <input id="contractor_drawing_no" maxlength="100" data-length="100" name="contractor_drawing_no" type="text" class="validate num w70 pdr4em" value="${designDetails.contractor_drawing_no }">
 		                             <label for="contractor_drawing_no" >Agency Drawing No </label>
 		                             <span id="contractor_drawing_noError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field" id="hideResponsive1">
-                                     <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate" value="${designDetails.mrvc_drawing_no }">
+                                     <input id="mrvc_drawing_no" maxlength="100" data-length="100" name="mrvc_drawing_no" type="text" class="validate num w70 pdr4em" value="${designDetails.mrvc_drawing_no }">
                                      <label for="mrvc_drawing_no">MRVC Drawing No <span class="required">*</span></label>
                                      <span id="mrvc_drawing_noError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field optionalFileds">
-                                     <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate" value="${designDetails.division_drawing_no }">
+                                     <input id="division_drawing_no" maxlength="100" data-length="100" name="division_drawing_no" type="text" class="validate num w70 pdr4em" value="${designDetails.division_drawing_no }">
 		                             <label for="division_drawing_no">Divisional Drawing No</label>
 		                             <span id="division_drawing_noError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field optionalFileds">
-                                     <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate" value="${designDetails.hq_drawing_no }">
+                                     <input id="hq_drawing_no" maxlength="100" data-length="100" name="hq_drawing_no" type="text" class="validate num w70 pdr4em" value="${designDetails.hq_drawing_no }">
 		                             <label for="hq_drawing_no">HQ Drawing No</label>
                                      <span id="hq_drawing_noError" class="error-msg" ></span>
                                 </div>
@@ -755,7 +779,7 @@
 	                                        	<c:forEach var="revObj" items="${designDetails.designRevisions }" varStatus="index">  
 		                                            <tr id="revisionRow${index.count }" class="revision-rows">                                                
 		                                                <td data-head="Revision" class="input-field">
-		                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate"
+		                                                    <input id="revisions${index.count }" maxlength="25" data-length="25" name="revisions" type="text" class="validate"
 		                                                        placeholder="Revision" value="${revObj.revision }">                                                        
 		                                                </td>
 		                                                <td data-head="Revision Date" class="input-field">
@@ -774,7 +798,7 @@
 		                                                    </select>
 		                                                </td>
 		                                                <td data-head="Remarks" class="input-field">
-		                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate"
+		                                                    <input id="remarkss${index.count }" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num pdr4em w70"
 		                                                        placeholder="Remarks" value="${revObj.remarks }">
 		                                                </td>
 		                                                <td data-head="Status" class="input-field center-align">
@@ -798,7 +822,7 @@
 	                                       <c:otherwise>
 	                                        	<tr id="revisionRow0" class="revision-rows">                                                
 	                                                <td data-head="Revision" class="input-field">
-	                                                    <input id="revisions0" name="revisions" type="text" class="validate"
+	                                                    <input id="revisions0" maxlength="25" data-length="25" name="revisions" type="text" class="validate num w70 pdr4em"
 	                                                        placeholder="Revision">                                                        
 	                                                </td>
 	                                                <td data-head="Revision Date" class="input-field">
@@ -817,7 +841,7 @@
 	                                                    </select>
 	                                                </td>
 	                                                <td data-head="Remarks" class="input-field">
-	                                                    <input id="remarkss0" name="remarkss" type="text" class="validate"
+	                                                    <input id="remarkss0" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num w70 pdr4em"
 	                                                        placeholder="Remarks">
 	                                                </td>
 	                                                <td data-head="Status" class="input-field center-align">
@@ -893,7 +917,7 @@
 					                               					  </select>
 					                               					  <span id="design_file_typess${index.count }Error" class="error-msg" ></span>
 															    </td>
-			                                                    <td data-head="Name" class="input-field"> <input id="designDocumentNames${index.count }" name="designDocumentNames" type="text" class="validate"
+			                                                    <td data-head="Name" class="input-field"> <input id="designDocumentNames${index.count }" maxlength="25" data-length="25" name="designDocumentNames" type="text num pdr4em w85" class="validate"
 			                                                            placeholder="Name" value="${docObj.name }">
 			                                                            <span id="designDocumentNames${index.count }Error" class="error-msg" ></span>
 			                                                    </td>
@@ -934,7 +958,7 @@
 				                               					  </select>
 				                               					   <span id="design_file_typess0Error" class="error-msg" ></span>
 															    </td>
-		                                                    <td data-head="Name " class="input-field"> <input id="designDocumentNames0" name="designDocumentNames" type="text" class="validate"
+		                                                    <td data-head="Name " class="input-field"> <input id="designDocumentNames0" maxlength="25" data-length="25" name="designDocumentNames" type="text" class="validate num pdr4em w85"
 		                                                            placeholder="Name">
 		                                                            <span id="designDocumentNames0Error" class="error-msg" ></span>
 		                                                    </td>
@@ -1046,7 +1070,7 @@
 
                             <div class="row optionalFileds">
                                 <div class="col s12 m12 input-field">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea " data-length="1000">${designDetails.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea pdr5em num" maxlength="1000" data-length="1000">${designDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>
@@ -1108,7 +1132,15 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
     <script>
-
+    $(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	$(".num").characterCounter();
+	
 	  /* commented because html responsible for this comented  
 	  function selectFile(no){
 		    files = $("#designFiles"+no)[0].files;
@@ -1181,6 +1213,7 @@
 	            $('#structureRow,#structureIdRow').removeClass('l4').addClass('l6'); 
 	            $('#hideResponsive').removeClass('m12').addClass('m6');
 	            $('#hideResponsive1').removeClass('m3').addClass('m6'); 
+	            $('#mrvc_drawing_no').removeClass('w70').addClass('w85');
 	            $('#drawingType').removeClass('l4').addClass('l6');
 	            $('#hideResponsive1').css("bottom","-1rem");
 	    		$('.hideAuthority').show();
@@ -1857,7 +1890,7 @@
 		      var rowNo = $("#rowNo").val();
 		      var rNo = Number(rowNo)+1;
 		      var html ='<tr id="revisionRow'+rNo+'" class="revision-rows"> '
-				      +'<td data-head="Revision" class="input-field"> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
+				      +'<td data-head="Revision" class="input-field"> <input id="revisions'+rNo+'" maxlength="25" data-length="25" name="revisions" type="text" class="validate num w70 pdr4em" placeholder="Revision"></td>'
 				      +'<td data-head="Revision Date" class="input-field"><input id="revision_date'+rNo+'" name="revision_dates" type="text" class="validate datepicker" placeholder="Revision Date"><button type="button" id="revision_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
 				     // +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_revieweds'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 				     // +'<td data-head="Divisional Approval" class="input-field"><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
@@ -1869,12 +1902,14 @@
 					  	  +'<option value="${obj.revision_status }">${obj.revision_status }</option>'
 						</c:forEach>
 					  +'</select></td>'
-					  +'<td data-head="Remarks" class="input-field"> <input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
+					  +'<td data-head="Remarks" class="input-field"> <input id="remarkss'+rNo+'" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num pdr4em w70" placeholder="Remarks"></td>'
 					  +'<td data-head="Status" class="input-field center-align"><p>	<label> <input type="checkbox" id="revision_status_checkbox'+rNo+'" class="revision_status_checkbox" name="current"/><span></span> </label> </p>  <input type="hidden" id="revision_status_checkbox'+rNo+'s"  name="currents" value="No" class="revision_status_checkbox" /></td>'
 					  +'<td class="mobile_btn_close"><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 						
 					  $('#revisionsTableBody').append(html);
 					  $("#rowNo").val(rNo);
+					  $('#remarkss'+rNo).characterCounter();;
+					  $('#revisions'+rNo).characterCounter();;
 				      $('.searchable').select2();
 				      
 			  }
@@ -1938,7 +1973,7 @@
 								  				+ '<option value="${obj.design_file_type }">${obj.design_file_type}</option>'
 					           			  </c:forEach>
 									+ '</select><span id="design_file_typess'+rNo+'Error" class="error-msg" ></span></td>'
-								 +'<td data-head="Name " class="input-field"> <input id="designDocumentNames'+rNo+'" name="designDocumentNames" type="text" class="validate" placeholder="Name"><span id="designDocumentNames'+rNo+'Error" class="error-msg" ></span> </td>'
+								 +'<td data-head="Name " class="input-field"> <input id="designDocumentNames'+rNo+'" maxlength="25" data-length="25" name="designDocumentNames" type="text" class="validate num w85 pdr4em" placeholder="Name"><span id="designDocumentNames'+rNo+'Error" class="error-msg" ></span> </td>'
 								 +'<td data-head="Attachment" class="input-field center-align">'
 								 +'<span class="normal-btn">'
 								 +'<input type="file" id="designDocumentFiles'+rNo+'" name="designDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
@@ -1960,6 +1995,7 @@
 						 $('#designDocumentTableBody').append(html);
 						 $("#documentRowNo").val(rNo);
 						 $('.searchable').select2();
+						 $('#designDocumentNames'+rNo).characterCounter();;
 				         $("#design_file_ids0").val('');
 				         
 				         $('select[name=design_file_typess]').change(function(key, element){
@@ -2149,6 +2185,7 @@
 		        		$('#structureRow,#structureIdRow').removeClass('l6').addClass('l4');
 		        		$('#hideResponsive').removeClass('m6').addClass('m12'); 
 		        		$('#hideResponsive1').removeClass('m6').addClass('m3');
+		        		$('#mrvc_drawing_no').removeClass('w85').addClass('w70');
 		        		$('#drawingType').removeClass('l6').addClass('l4');
 		        		$('#hideResponsive1').css("bottom","");
 		        		$('#approval_authority_fk').prop('disabled', false);
@@ -2161,6 +2198,7 @@
 		        		$('#structureRow,#structureIdRow').removeClass('l4').addClass('l6');
 		        		$('#hideResponsive').removeClass('m12').addClass('m6'); 
 		        		$('#hideResponsive1').removeClass('m3').addClass('m6');
+		        		$('#mrvc_drawing_no').removeClass('w70').addClass('w85');
 		        		$('#drawingType').removeClass('l4').addClass('l6');
 		        		$('#hideResponsive1').css("bottom","-1rem");
 		        		$('#approval_authority_fk').prop('disabled', true);

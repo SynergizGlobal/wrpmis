@@ -171,6 +171,7 @@ public class PageConstants {
 	public static final String userActivityReport = "forms/userActivityReport";
 	public static final String inactiveUsersReport = "forms/inactiveUsersReport";
 
+	public static final String activitiesExportReport = "forms/activitiesExportReport";
 	public static final String rrReport = "forms/rrReport";
 	public static final String landReport = "forms/landReport";
 	public static final String utilityReport = "forms/utilityReport";

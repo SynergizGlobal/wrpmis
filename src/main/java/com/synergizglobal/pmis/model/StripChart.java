@@ -8,11 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class StripChart {
 	private String strip_chart_id,activity_id_fk,activity_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_start,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
 	strip_chart_activity_id,strip_chart_activity_name, strip_chart_component,strip_chart_structure, strip_chart_component_id,strip_chart_component_id_name,contract_id_fk,
-	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longitude,activity_description,milestone_name,
-	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,id,total_scope,
+	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,activity_name,latitude,longitude,activity_description,milestone_name,
+	strip_chart_line, strip_chart_section_id,component,strip_chart_section_name,line, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,id,total_scope,
 	progress,progress_date,component_id_color,remaining,issue_description,issue_priority_id,issue_category_id,is_there_issue,attachment_url,created_by_user_id_fk,
-	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name,data_date,milestone_fk,reported_by
-	,user_role_code,p6_task_code,weightage,
+	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,unit,to_structure_id,from_structure_id,structure,section,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name,data_date,milestone_fk,reported_by
+	,user_role_code,p6_task_code,weightage,component_id,
 	user_type_fk,user_id,user_name,designation,structure_type_fk,pending,modified_date;
 
 	private MultipartFile stripChartFile,uploadFile;
@@ -22,8 +22,89 @@ public class StripChart {
 	private String reported_by_email_id,zonal_railway_fk,other_organization,department_fk,department_name;
 	
 	private List<MultipartFile> issueFiles;
+	private List<StripChart> report1List;
 	private MultipartFile[] structureFileNames;
 	
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getStructure() {
+		return structure;
+	}
+
+	public void setStructure(String structure) {
+		this.structure = structure;
+	}
+
+	public String getComponent() {
+		return component;
+	}
+
+	public void setComponent(String component) {
+		this.component = component;
+	}
+
+	public String getComponent_id() {
+		return component_id;
+	}
+
+	public void setComponent_id(String component_id) {
+		this.component_id = component_id;
+	}
+
+	public String getActivity_name() {
+		return activity_name;
+	}
+
+	public void setActivity_name(String activity_name) {
+		this.activity_name = activity_name;
+	}
+
+	public String getTo_structure_id() {
+		return to_structure_id;
+	}
+
+	public void setTo_structure_id(String to_structure_id) {
+		this.to_structure_id = to_structure_id;
+	}
+
+	public String getFrom_structure_id() {
+		return from_structure_id;
+	}
+
+	public void setFrom_structure_id(String from_structure_id) {
+		this.from_structure_id = from_structure_id;
+	}
+
+	public String getLine() {
+		return line;
+	}
+
+	public void setLine(String line) {
+		this.line = line;
+	}
+
+	public List<StripChart> getReport1List() {
+		return report1List;
+	}
+
+	public void setReport1List(List<StripChart> report1List) {
+		this.report1List = report1List;
+	}
+
 	public String getWeightage() {
 		return weightage;
 	}

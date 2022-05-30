@@ -307,7 +307,15 @@
 			    padding-left:1.5rem !important;
 			}
 		}
-		
+		.pdr3em{
+			padding-right: 3em !important;
+		} 
+		.pdr4em{
+			padding-right: 4em !important;
+		}
+		.pdr5em{
+			padding-right: 5em !important;
+		}
     </style>
 </head>
 <body>
@@ -371,13 +379,13 @@
 		                                    <span id="project_id_fkError"></span>
 		                               </div> 
 		                               <input type="hidden" name ="project_name" id="project_name"/>
-		                                <div class="col s12 m10 l7 input-field">
+		                                <div class="col s12 m9 l6 input-field">
 	                                    <textarea id="work_name" class="pmis-textarea h46px" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
 	                                    <label for="work_name">Work Name <span class="required">*</span></label>
 	                                     <span id="work_nameError"></span>
 	                                  </div>
-	                                  <div class="col s12 m2 l2 input-field">
-		                                    <input id="work_code" type="text" class="validate"  style="text-transform:uppercase"  onkeyup="workCodeVerify()"
+	                                  <div class="col s12 m3 l3 input-field">
+		                                    <input id="work_code" maxlength="10" data-length="10" type="text" class="validate w75 pdr4em"  style="text-transform:uppercase"  onkeyup="workCodeVerify()"
 		                                    maxlength="2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
 		                                    name="work_code" value="${workDetails.work_code }">
 		                                    <label for="work_code">Work Code<span class="required">*</span></label>
@@ -394,14 +402,14 @@
 			                               </div>
 			                                 <input id="work_id" type="hidden" class="form-control" name="work_id" value="${workDetails.work_id }" >  
 			                           
-		                              <div class="col s12 m10 l7 input-field">
+		                              <div class="col s12 m9 l6 input-field">
 	                                    <textarea id="work_name" class="pmis-textarea h46px" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
 	                                    <label for="work_name">Work Name <span class="required">*</span></label>
 	                                     <span id="work_nameError"></span>
 	                                  </div>
-	                                  <div class="col s12 m2 l2 input-field">
-		                                    <input id="work_code" type="text" class="validate txt-up" name="work_code"  onkeyup="workCodeVerify()"
-		                                     maxlength="2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+	                                  <div class="col s12 m3 l3 input-field">
+		                                    <input id="work_code" type="text" maxlength="10" data-length="10" class="validate txt-up w75 pdr4em" name="work_code"  onkeyup="workCodeVerify()"
+		                                      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
 		                                     value="${workDetails.work_code }" <c:if test="${not empty workDetails.work_code }"> readonly </c:if>>
 		                                    <label for="work_code">Work Code<span class="required">*</span></label>
 		                                     <span id="work_codeError"></span>
@@ -411,7 +419,7 @@
 		                        <div class="row">
 		                         <c:if test="${action eq 'add'}">
 		                          <div class="col s12 m12 l6 input-field">
-                                    <input id="work_short_name" type="text" class="validate pdtb6" name="work_short_name" value="${workDetails.work_short_name }">
+                                    <input id="work_short_name" maxlength="50" data-length="50" type="text" class="validate pdtb6 pdr4em" name="work_short_name" value="${workDetails.work_short_name }">
                                     <label for="work_short_name">Work Short Name<span class="required">*</span></label>
                                      <span id="work_short_nameError"></span>
                                 </div>
@@ -428,7 +436,7 @@
 		                          </c:if>
 		                     <c:if test="${action eq 'edit'}">
 		                           <div class="col s12 m12 l4 input-field">
-                                    <input id="work_short_name" type="text" class="validate pdtb6" name="work_short_name" value="${workDetails.work_short_name }">
+                                    <input id="work_short_name" maxlength="50" data-length="50" type="text" class="validate pdtb6 pdr4em" name="work_short_name" value="${workDetails.work_short_name }">
                                     <label for="work_short_name">Work Short Name<span class="required">*</span></label>
                                      <span id="work_short_nameError"></span>
                                 </div>
@@ -479,7 +487,7 @@
                                 </div>
                                 <div class="col s6 m4 l4 input-field amount-dropdown mt1em">
                        				<i class="material-icons amount-symbol cost">₹</i>
-                                    <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="0.01" step="0.01">
+                                    <input id="sanctioned_estimated_cost" maxlength="10" data-length="10" type="number" class="validate num pdr4em" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_estimated_cost" class="active fs-sm-8rem fs-md-9r fs7rem">Sanctioned Estimated Cost (in Cr)</label>
                                     <span id="sanctioned_estimated_costError"></span>
                                 	<%-- <span id="sanctioned_estimated_cost_unitError" class="error-msg right" ></span>
@@ -503,7 +511,7 @@
                                 </div> --%>
                                  <div class="col s12 m8 l4 input-field offset-m2 amount-dropdown">
                                   	<i class="material-icons amount-symbol cost">₹</i>
-                                    <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="0.01" step="0.01">
+                                    <input id="sanctioned_completion_cost" maxlength="10" data-length="10" type="number" class="validate num pdr4em" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_completion_cost" class="fs-sm-67rem fs-md-9r fs7rem"> Sanctioned Completion Cost (in Cr)</label>
                                     <span id="sanctioned_completion_costError"></span>
                                 	<%-- <span id="sanctioned_completion_cost_unitError" class="error-msg right" ></span>
@@ -521,7 +529,7 @@
                             
                                 <div class="col s6 m8 l3 input-field offset-m2 amount-dropdown"> 
                                   	<i class="material-icons amount-symbol cost">₹</i>
-                                    <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
+                                    <input id="anticipated_cost" maxlength="10" data-length="10" type="number" class="validate num pdr4em" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
                                     <label for="anticipated_cost" class="l20px fs-sm-67rem fs-md-9r fs7rem">Anticipated cost (in Cr)</label>
                                     <span id="anticipated_costError"></span>
                                 </div>
@@ -854,7 +862,7 @@
 	                                                <!-- </td> -->
 	                                                <td data-head="Latest Revised Cost (in Cr)" class="input-field amount-dropdown">
 	                                                	<i class="material-icons amount-symbol cost left-align">₹</i>
-	                                                	<input id="latest_revised_costs${index.count }" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
+	                                                	<input id="latest_revised_costs${index.count }" maxlength="10" data-length="10" name="latest_revised_costs" type="number" class="validate num pdr4em" value="${revObj.latest_revised_cost }"
 	                                                        placeholder="Latest Revised Cost">
 	                                                    <%-- <select class="validate-dropdown" id="latest_revised_cost_units${index.count}" name="latest_revised_cost_units">
 					                                		<option value="">Select</option>
@@ -883,7 +891,7 @@
 	                                                    </select>
 	                                                </td>
 	                                                <td data-head="Revision No" class="input-field">
-	                                                    <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
+	                                                    <input id="revision_numbers${index.count }" maxlength="10" data-length="10" name="revision_numbers" type="text" class="validate pdr4em" value="${revObj.revision_number }"
 	                                                        placeholder="Revision Number">
 	                                                </td>
 	                                                <td class="mobile_btn_close">
@@ -940,7 +948,7 @@
 	                                               <!--  </td> -->
 	                                               <td data-head="Latest Revised Cost (in Cr)" class="input-field amount-dropdown">
 	                                               		<i class="material-icons amount-symbol cost left-align">₹</i>
-	                                               		<input id="latest_revised_costs0" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
+	                                               		<input id="latest_revised_costs0" maxlength="10" data-length="10" name="latest_revised_costs" type="number" class="validate num pdr4em" value="${revObj.latest_revised_cost }"
 	                                                        placeholder="Latest Revised Cost">
 	                                                       <%--  <select class=" validate-dropdown" id="latest_revised_cost_units0" name="latest_revised_cost_units">
 					                                		<option value="">Select</option>
@@ -969,7 +977,7 @@
 	                                                    </select>
 	                                                </td>
 	                                                <td data-head="Revision No" class="input-field">
-	                                                    <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
+	                                                    <input id="revision_numbers0" maxlength="10" data-length="10" name="revision_numbers" type="text" class="validate pdr4em" 
 	                                                        placeholder="Revision Number">
 	                                                </td>
 	                                                <td class="mobile_btn_close">
@@ -1015,7 +1023,7 @@
                                 </div>
                                 <div class="col s12 m8 l6 input-field offset-m2 amount-dropdown">
                                 	<i class="material-icons amount-symbol cost">₹</i>
-                                    <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDetails.completion_cost }" min="0.01" step="0.01">
+                                    <input id="completion_cost" maxlength="10" data-length="10" type="number" class="validate num pdr4em" name="completion_cost" value="${workDetails.completion_cost }" min="0.01" step="0.01">
                                     <label for="completion_cost" class="fs-sm-8rem">Actual Completion cost (in Cr)</label>
                                     <span id="completion_costError"></span>
                                 	<%-- <span id="completion_cost_unitError" class="error-msg right" ></span>
@@ -1094,6 +1102,16 @@
 
 
     <script type="text/javascript">
+    $(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	 $("[data-length]").each(function(i,val){
+     	$('#'+val.id).characterCounter();;
+     });
     
     /**************************************************************************************************************/
     

@@ -109,6 +109,24 @@
 	   .cursor-no{
 	   		cursor:no-drop !important;
 	   }
+	   #compensation_unitsError{
+	   		float:right;	
+	    }
+	   .character-counter {
+		  background-color: smoke;
+		  position: absolute;
+		  top: 25%;
+		  right: 1.5em;
+		} 
+		.pdr4em{
+			padding-right: 4em !important;
+		}
+		.pdr5em{
+			padding-right: 5em !important;
+		}
+		.w85{
+			width: 85% !important;
+		}
     </style>
 </head>
 <body>
@@ -205,7 +223,7 @@
                               <c:choose>
 							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
                                 <div class="col s12 offset-m2 m8 l12 input-field">
-                                    <textarea id="description" name="description" class="pmis-textarea" data-length="1000">${issue.description }</textarea>
+                                    <textarea id="description" name="description" class="pmis-textarea pdr5em" data-length="1000" maxlength="1000">${issue.description }</textarea>
                                     <label for="description">Description of Issue</label>
                                     <span id="descriptionError" class="error-msg" ></span>
                                 </div>
@@ -220,7 +238,7 @@
                             </div>
                             <div class="row">                                 
                                 <div class="col s12 m8 l12 input-field offset-m2">
-                                    <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea"  data-length="1000">${issue.corrective_measure }</textarea>
+                                    <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea pdr5em" maxlength="1000" data-length="1000">${issue.corrective_measure }</textarea>
                                     <label for="corrective_measure">Action Taken<span class="required">*</span></label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                     <input type="hidden" name="comment" id="comment" />
@@ -309,12 +327,12 @@
                             <div class="row mar" id="other_organization_responsibles_holder" style="display:none;">
                                  
                                 <div class="col s12 m4 l6 input-field offset-m2">
-                                    <input id="other_org_resposible_person_name" name="other_org_resposible_person_name" type="text" class="validate" value="${issue.other_org_resposible_person_name }">
-                                    <label for="other_org_resposible_person_name">Responsible Person Name </label>
+                                    <input maxlength="100" data-length="100" id="other_org_resposible_person_name" name="other_org_resposible_person_name" type="text" class="validate num pdr4em w85" value="${issue.other_org_resposible_person_name }">
+                                    <label for="other_org_resposible_person_name">Responsible Person Name </label> 
                                     <span id="other_org_resposible_person_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 l6 input-field">
-                                    <input id="other_org_resposible_person_designation" name="other_org_resposible_person_designation" type="text" class="validate" value="${issue.other_org_resposible_person_designation }">
+                                    <input id="other_org_resposible_person_designation" name="other_org_resposible_person_designation" type="text" class="validate pdr4em w85" maxlength="100" data-length="100" value="${issue.other_org_resposible_person_designation }">
                                     <label for="other_org_resposible_person_designation" class="fs-sm-8rem">Responsible Person Designation</label>
                                     <span id="other_org_resposible_person_designationError" class="error-msg" ></span>
                                 </div>
@@ -567,7 +585,14 @@
 	
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script> -->
 	<script>
-	
+	$(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	$('input').characterCounter();
 		/*$(document).on('focus', '.datepicker',function(){
 				$(this).datepicker({
 		        	format:'dd-mm-yyyy',

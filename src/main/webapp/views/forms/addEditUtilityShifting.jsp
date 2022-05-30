@@ -1031,7 +1031,7 @@
         if ($.trim(projectId) != "") {
             var myParams = { project_id_fk: projectId };
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorkListForSafetyForm",
+                url: "<%=request.getContextPath()%>/ajax/getWorkListForUtilityForm",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {

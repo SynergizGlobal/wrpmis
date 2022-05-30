@@ -594,11 +594,42 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 
 	@Override
 	public List<UtilityShifting> getProjectsListForUtilityShifting(UtilityShifting obj) throws Exception {
-		List<UtilityShifting> objsList = null;
+		List<UtilityShifting> objsList = new ArrayList<UtilityShifting>();
 		try {
-			String qry = "select project_id as project_id_fk,project_name from `project` order by project_id asc";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));			
+			String qry = "select distinct project_id as project_id_fk,project_name "
+					+ "from `project` p "
+					+ "LEFT JOIN work w on w.project_id_fk = p.project_id "
+					+ "left join utility_shifting u on u.work_id_fk = w.work_id  "
+					+ "left join utility_shifting_executives us on u.work_id_fk = us.work_id_fk  "
+					+ "where project_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and us.executive_user_id_fk = ? ";
+				arrSize++;
+			}			
+			
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}			
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+			
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return objsList;
@@ -609,8 +640,10 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getWorkListForUtilityShifting(UtilityShifting obj) throws Exception {
 		List<UtilityShifting> objsList = new ArrayList<UtilityShifting>();
 		try {
-			String qry = "select work_id as work_id_fk,work_code,work_name,work_short_name,project_id_fk,project_name "
+			String qry = "select distinct work_id as work_id_fk,work_code,work_name,work_short_name,project_id_fk,project_name "
 					+ "from `work` w "
+					+ "left join utility_shifting u on u.work_id_fk = w.work_id  "
+					+ "left join utility_shifting_executives us on u.work_id_fk = us.work_id_fk  "
 					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
@@ -619,6 +652,11 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				qry = qry + "and project_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and us.executive_user_id_fk = ? ";
+				arrSize++;
+			}			
+			
 			
 			qry = qry + " order by work_id asc";
 			
@@ -628,6 +666,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
 			}	
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}			
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
 			
@@ -647,14 +688,20 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "from contract c "
 					+ "left join contract_executive c1 on c1.contract_id_fk = c.contract_id "
 					+ "left join work w on c.work_id_fk = w.work_id "
+					+ "left join utility_shifting u1 on u1.work_id_fk = w.work_id  "
+					+ "left join utility_shifting_executives us on u1.work_id_fk = us.work_id_fk  "					
 					+ "LEFT JOIN user u ON c.hod_user_id_fk= u.user_id "
 					+ "where c.contract_id is not null ";
 			
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and i.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}			
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
 			{			
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -662,6 +709,8 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					arrSize++;
 					arrSize++;
 				}
+				qry = qry + " and us.executive_user_id_fk = ? ";
+				arrSize++;				
 			}			
 			qry = qry + " order by c.contract_id asc";
 			
@@ -671,6 +720,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}				
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
 			{			
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -678,6 +730,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					pValues[i++] = obj.getDepartment_fk();
 				
 				}
+				pValues[i++] = obj.getUser_id();
 			}			
 				
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
@@ -1203,6 +1256,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "utility_category_fk, s.owner_name, execution_agency_fk, contract_id_fk,  DATE_FORMAT(s.start_date ,'%d-%m-%Y') AS start_date, s.scope, s.completed, s.shifting_status_fk, DATE_FORMAT(shifting_completion_date ,'%d-%m-%Y') AS shifting_completion_date, "
 					+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, DATE_FORMAT(s.planned_completion_date ,'%d-%m-%Y') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
 					+ " s.modified_date from utility_shifting s "
+					+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON s.work_id_fk = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
@@ -1230,6 +1284,10 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				qry = qry + " and shifting_status_fk =?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and us.executive_user_id_fk = ? ";
+				arrSize++;
+			}			
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -1250,7 +1308,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getShifting_status_fk())) {
 				pValues[i++] = obj.getShifting_status_fk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -1327,6 +1387,18 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		}
 		return objsList;
 	}
+	
+	
+	private int checkWorkinUtility(String work_id,String userId) throws Exception {
+		int Count=0;
+		try {
+			String qry = "SELECT count(*) AS count FROM utility_shifting_executives WHERE work_id_fk='"+work_id+"' and executive_user_id_fk='"+userId+"'";
+			Count = (int) jdbcTemplate.queryForObject(qry, new Object[] { work_id,userId }, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return Count;
+	}	
 
 	@Override
 	public String[] uploadUtilityShiftingData(List<UtilityShifting> ussList, UtilityShifting us) throws Exception {
@@ -1368,12 +1440,36 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				if(!StringUtils.isEmpty(utility_shifting_id)) {
 					obj.setUtility_shifting_id(utility_shifting_id);
 					//System.out.println(rNo++);
+					
+					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+						if(checkWorkinUtility(obj.getWork_id_fk(),obj.getUser_id())>0)
+						{
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+						    count = namedParamJdbcTemplate.update(updatetQry, paramSource);						
+						}
+					}					
+					else
+					{
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(updatetQry, paramSource);
+					}
 				}else {
 					//System.out.println(rNo++);
+					
+					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+					{
+						if(checkWorkinUtility(obj.getWork_id_fk(),obj.getUser_id())>0)
+						{
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+						    count = namedParamJdbcTemplate.update(insertQry, paramSource);					
+						}
+					}					
+					else
+					{
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(insertQry, paramSource);
+					}					
+
 				}
 				
 				if(!StringUtils.isEmpty(obj.getProcessList())) {

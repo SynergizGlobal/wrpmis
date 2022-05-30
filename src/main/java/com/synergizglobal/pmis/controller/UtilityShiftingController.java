@@ -65,6 +65,7 @@ import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
+import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.User;
 
@@ -135,7 +136,28 @@ public class UtilityShiftingController {
 			logger.error("getWorksListFilterInUtilityShifting : " + e.getMessage());
 		}
 		return objList;
-	}	
+	}
+
+	@RequestMapping(value = "/ajax/getWorkListForUtilityForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<UtilityShifting> getWorkListForUtilityForm(HttpSession session,@ModelAttribute UtilityShifting obj) {
+		List<UtilityShifting> objsList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			objsList = utilityShiftingService.getWorkListForUtilityShifting(obj);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForUtilityForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@RequestMapping(value = "/ajax/getLocationListFilter", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<UtilityShifting> getLocationListFilter(HttpSession session,@ModelAttribute UtilityShifting obj) {
@@ -217,14 +239,18 @@ public class UtilityShiftingController {
 			model.setViewName(PageConstants.addEditUtilityShifting);
 			model.addObject("action", "add");
 			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			
 			List<UtilityShifting> projectsList = utilityShiftingService.getProjectsListForUtilityShifting(obj);
 			model.addObject("projectsList", projectsList);
 			
 			List<UtilityShifting> worksList = utilityShiftingService.getWorkListForUtilityShifting(obj);
 			model.addObject("worksList", worksList);
 			
-			User uObj = (User) session.getAttribute("user");
-						
 			
 			List<UtilityShifting> contractsList = utilityShiftingService.getContractsListForUtilityShifting(obj);
 			model.addObject("contractsList", contractsList);
@@ -416,6 +442,11 @@ public class UtilityShiftingController {
 		ModelAndView model = new ModelAndView();
 		try {
 		
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			model.setViewName(PageConstants.addEditUtilityShifting);
 			model.addObject("action", "edit");
 			
@@ -425,10 +456,7 @@ public class UtilityShiftingController {
 			List<UtilityShifting> worksList = utilityShiftingService.getWorkListForUtilityShifting(obj);
 			model.addObject("worksList", worksList);
 			
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_type_fk(uObj.getUser_type_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
-			obj.setUser_id(uObj.getUser_id());
+
 			
 			List<UtilityShifting> contractsList = utilityShiftingService.getContractsListForUtilityShifting(obj);
 			model.addObject("contractsList", contractsList);
@@ -471,6 +499,11 @@ public class UtilityShiftingController {
 	public ModelAndView getUtilityShifting(@ModelAttribute UtilityShifting obj,@PathVariable("utility_shifting_id") String id,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 		
 			model.setViewName(PageConstants.addEditUtilityShifting);
 			model.addObject("action", "edit");
@@ -481,10 +514,7 @@ public class UtilityShiftingController {
 			List<UtilityShifting> worksList = utilityShiftingService.getWorkListForUtilityShifting(obj);
 			model.addObject("worksList", worksList);
 			
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_type_fk(uObj.getUser_type_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
-			obj.setUser_id(uObj.getUser_id());
+
 						
 			
 			List<UtilityShifting> contractsList = utilityShiftingService.getContractsListForUtilityShifting(obj);

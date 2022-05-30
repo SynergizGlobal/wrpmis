@@ -134,7 +134,36 @@
 			.input-field>label{font-size: 11px;line-height: 1;}
 			#private_div .radio-lbl{margin-left:0 !important;}
 		}
-		
+		 #compensation_unitsError{
+	   		float:right;	
+	    }
+	   .character-counter {
+		  background-color: smoke;
+		  position: absolute;
+		  top: 25%;
+		  right: 1.5em;
+		}
+		.pdr3em{
+			padding-right: 3em !important;
+		} 
+		.pdr4em{
+			padding-right: 4em !important;
+		}
+		.pdr5em{
+			padding-right: 5em !important;
+		}
+		.w85{
+			width: 85% !important;
+		}
+		.w80{
+			width: 80% !important;
+		}
+		.w75{
+			width: 75% !important;
+		}
+		.w70{
+			width: 70% !important;
+		}
     </style>
 </head>
 
@@ -274,18 +303,18 @@
 							
                             <div class="row">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
-                                    <input id="survey_number" name="survey_number" type="text" class="validate mt-10" value="${LADetails.survey_number }">
+                                    <input id="survey_number" maxlength="25" data-length="25" name="survey_number" type="text" class="validate mt-10 w80 pdr4em" value="${LADetails.survey_number }">
                                     <label for="survey_number">Survey Number </label>
 									<span id="survey_numberError" class="error-msg" ></span>                                    
                                 </div>
                                 <div class="col s6 m4 l4 input-field ">
-                                    <input id="village_id" name="village_id" type="text" class="validate mt-10" value="${LADetails.village_id }">
+                                    <input id="village_id" maxlength="50" data-length="50" name="village_id" type="text" class="validate mt-10 w80 pdr4em" value="${LADetails.village_id }">
                                     <label for="village_id">Village ID </label>
                                     <span id="village_idError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s12 m8 l4 input-field offset-m2">
-                                       <input id="special_feature" name="special_feature" type="text" value="${LADetails.special_feature }"
-                                           class="validate mt-10">
+                                       <input id="special_feature" maxlength="50" data-length="50" name="special_feature" type="text" value="${LADetails.special_feature }"
+                                           class="validate mt-10 w80 pdr4em">
                                        <label for="special_feature">Special Feature</label>
                                 </div>                                 
                             </div>
@@ -312,8 +341,8 @@
                                     <span id="sub_category_of_landError" class="error-msg" ></span>
                                 </div>  
                                 <div class="col s12 m8 l4 input-field  offset-m2">
-                                       <input id="required_area" name="area_acquired" type="number" 
-                                           class="validate mt-10">
+                                       <input id="required_area" maxlength="10" data-length="10" name="area_acquired" type="number" 
+                                           class="validate mt-10 w80 pdr4em num">
                                        <label for="required_area"> Acquired Area</label>
                                 </div>                                
                             </div>
@@ -329,8 +358,8 @@
 	                                    <label for="sub_category_of_land" class="fs-sm-8rem"> Sub Category of Land <span class="required">*</span></label>
 	                                </div>
 	                                <div class="col s12 m4 l4 offset-m2 input-field">
-                                       <input id="required_area" name="area_acquired" type="number" value="${LADetails.area_acquired }"
-                                           class="validate mt-10">
+                                       <input id="required_area" maxlength="10" data-length="10" name="area_acquired" type="number" value="${LADetails.area_acquired }"
+                                           class="validate mt-10 pdr4em w80 num">
                                        <label for="required_area"> Acquired Area</label>
                                 	</div> 	                                 
 	                            </div>
@@ -339,28 +368,28 @@
 						
                             <div class="row">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
-                                    <input id="village" name="village" type="text" class="validate" value="${LADetails.village }">
+                                    <input id="village" maxlength="100" data-length="100" name="village" type="text" class="validate w80 pdr4em" value="${LADetails.village }">
                                     <label for="village"> Village </label>
                                     <span id="villageError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="taluka" name="taluka" type="text" class="validate" value="${LADetails.taluka }">
+                                    <input id="taluka" maxlength="100" data-length="100" name="taluka" type="text" class="validate w80 pdr4em" value="${LADetails.taluka }">
                                     <label for="taluka"> Taluka </label>
                                     <span id="talukaError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m4 l4 input-field offset-m2">
-                                    <input id="dy_slr" name="dy_slr" type="text" class="validate" value="${LADetails.dy_slr }">
+                                    <input id="dy_slr" maxlength="100" data-length="100" name="dy_slr" type="text" class="validate w80 pdr4em" value="${LADetails.dy_slr }">
                                     <label for="dy_slr">Dy SLR </label>
                                     <span id="dy_slrError" class="error-msg" ></span>
                                 </div>                                
                             
                             <div class="col s6 m4 l6 input-field">
-                                    <input id="sdo" name="sdo" type="text" class="validate" value="${LADetails.sdo }">
+                                    <input id="sdo" maxlength="100" data-length="100" name="sdo" type="text" class="validate pdr4em w85" value="${LADetails.sdo }">
                                     <label for="sdo"> SDO</label>
                                     <span id="sdoError" class="error-msg" ></span>
                                 </div>                                 
                                 <div class="col s6 m8 l6 input-field offset-m2">
-                                    <input id="collector" name="collector" type="text" class="validate" value="${LADetails.collector }">
+                                    <input id="collector" maxlength="100" data-length="100" name="collector" type="text" class="validate w85 pdr4em" value="${LADetails.collector }">
                                     <label for="collector">Collector </label>
                                     <span id="collectorError" class="error-msg" ></span>
                                 </div>
@@ -368,12 +397,12 @@
                             </div>
 	  						<div class="row">                                 
                                 <div class="col s6 m4 l6 input-field offset-m2">
-                                    <input id="area_to_be_acquired" name="area_to_be_acquired" type="number" class="validate" value="${LADetails.area_to_be_acquired }">
+                                    <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" class="validate num w85 pdr4em" value="${LADetails.area_to_be_acquired }">
                                     <label for="area_to_be_acquired"> Area to be Acquired </label>
                                     <span id="area_to_be_acquiredError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 l6 input-field ">
-                                    <input id="area_of_plot" name="area_of_plot" type="number" class="validate" value="${LADetails.area_of_plot }">
+                                    <input id="area_of_plot" maxlength="10" data-length="10" name="area_of_plot" type="number" class="validate num w85 pdr4em" value="${LADetails.area_of_plot }">
                                     <label for="area_of_plot">Area of Plot </label>
                                 </div>                                 
                             </div>
@@ -411,12 +440,12 @@
                                	</div> --%>
                                	<!-- <div class="col m2 hide-on-small-only"></div> -->
                                	<div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="chainage_from" name="chainage_from" type="number" class="validate" value="${LADetails.chainage_from }">
+                                    <input id="chainage_from" maxlength="10" data-length="10" name="chainage_from" type="number" class="validate num w80 pdr4em" value="${LADetails.chainage_from }">
                                     <label for="chainage_from">Chainage From</label>
                                 </div>                               
                              
                             	<div class="col s6 m4 l4 input-field offset-m2">
-                                    <input id="chainage_to" name="chainage_to" type="number" class="validate" value="${LADetails.chainage_to }">
+                                    <input id="chainage_to" maxlength="10" data-length="10" name="chainage_to" type="number" class="validate num w80 pdr4em" value="${LADetails.chainage_to }">
                                     <label for="chainage_to"> Chainage To </label>
                                 </div>                                
                                 <div class="col s12 m4 l4 input-field ">
@@ -479,7 +508,7 @@
 
                             <div class="row">                                 
                                 <div class="col s12 m8 l12 input-field offset-m2">
-                                    <textarea id="jm_remarks" name="jm_remarks" class="pmis-textarea"
+                                    <textarea id="jm_remarks" name="jm_remarks" class="pmis-textarea" maxlength="500"
                                         data-length="500">${LADetails.jm_remarks }</textarea>
                                     <label for="jm_remarks"> JM Remarks</label>
                                 </div>                                 
@@ -2341,7 +2370,7 @@
 					                               					  </select>
 					                               					  <span id="la_file_typess${index.count }Error" class="error-msg" ></span>
 															    </td>
-			                                                    <td data-head="Name" class="input-field"> <input id="laDocumentNames${index.count }" name="laDocumentNames" type="text" class="validate"
+			                                                    <td data-head="Name" class="input-field"> <input id="laDocumentNames${index.count }" maxlength="50" data-length="50" name="laDocumentNames" type="text" class="validate w75 pdr4em"
 			                                                            placeholder="Name" value="${docObj.name }">
 			                                                            <span id="laDocumentNames${index.count }Error" class="error-msg" ></span>
 			                                                    </td>
@@ -2381,7 +2410,7 @@
 				                               					  </select>
 				                               					   <span id="la_file_typess0Error" class="error-msg" ></span>
 															    </td>
-		                                                    <td data-head="Name " class="input-field"> <input id="laDocumentNames0" name="laDocumentNames" type="text" class="validate"
+		                                                    <td data-head="Name " class="input-field"> <input id="laDocumentNames0" maxlength="100" data-length="100" name="laDocumentNames" type="text" class="validate w75 pdr4em"
 		                                                            placeholder="Name">
 		                                                            <span id="laDocumentNames0Error" class="error-msg" ></span>
 		                                                    </td>
@@ -2513,7 +2542,7 @@
 	                                <!-- row 10 -->
 	                                 
 		                                <div class="col s12 m8 l12 input-field offset-m2">
-		                                    <textarea id="remarks" name="remarks" class="pmis-textarea" 
+		                                    <textarea id="remarks" name="remarks" class="pmis-textarea" maxlength="1000"
 		                                        data-length="1000">${LADetails.remarks } </textarea>
 		                                    <label for="remarks">Remarks</label>
 		                                </div>
@@ -2522,7 +2551,7 @@
 	                                <!-- row 10 -->
 	                                 
 		                                <div class="col s12 m8 l12 input-field offset-m2">
-		                                    <textarea id="issues" name="issues" class="pmis-textarea" 
+		                                    <textarea id="issues" name="issues" class="pmis-textarea" maxlength="1000"
 		                                        data-length="1000">${LADetails.issues } </textarea>
 		                                    <label for="issues">Issues</label>
 		                                </div>
@@ -2612,6 +2641,16 @@
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	<script src="/pmis/resources/js/datetimepicker.js"></script>
     <script>
+    $(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	 $("[data-length]").each(function(i,val){
+     	$('#'+val.id).characterCounter();;
+     });
       /*   $(document).on('focus', '.datepicker', function () {
             $(this).datepicker({
                 format: 'dd-mm-yyyy',
@@ -3300,7 +3339,7 @@
 								  				+ '<option value="${obj.la_file_type }">${obj.la_file_type}</option>'
 					           			  </c:forEach>
 									+ '</select><span id="la_file_typess'+rNo+'Error" class="error-msg" ></span></td>'
-								 +'<td data-head="Name " class="input-field"> <input id="laDocumentNames'+rNo+'" name="laDocumentNames" type="text" class="validate" placeholder="Name"> <span id="laDocumentNames'+rNo+'Error" class="error-msg" ></span></td>'
+								 +'<td data-head="Name " class="input-field"> <input id="laDocumentNames'+rNo+'" maxlength="100" data-length="100" name="laDocumentNames" type="text" class="validate w75 pdr4em" placeholder="Name"> <span id="laDocumentNames'+rNo+'Error" class="error-msg" ></span></td>'
 								 +'<td data-head="Attachment" class="input-field center-align">'
 								 +'<span class="normal-btn">'
 								 +'<input type="file" id="laFiles'+rNo+'" name="laFiles" style="display:none" onchange="getFileName('+rNo+')" />'
@@ -3322,6 +3361,7 @@
 						 $('#laDocumentTableBody').append(html);
 						 $("#documentRowNo").val(rNo);
 						 $('.searchable').select2();
+						 $('#laDocumentNames'+rNo).characterCounter();;
 				         $("#la_file_ids0").val('');
 				         $('select[name=la_file_typess]').change(function(key, element){
 								$("select[name=la_file_typess]").each(function(){

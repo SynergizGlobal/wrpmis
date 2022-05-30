@@ -209,7 +209,7 @@
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${safety.longitude }">
+                                    <input id="longitude" name="longitude" type="text" class="validate" value="${safety.longitude }" maxlength="15" data-length="15">
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>

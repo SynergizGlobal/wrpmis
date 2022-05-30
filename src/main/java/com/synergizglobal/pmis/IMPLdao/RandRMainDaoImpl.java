@@ -1780,6 +1780,17 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		return objsList;
 	}
 
+	private int checkWorkinRandR(String work_id,String userId) throws Exception {
+		int Count=0;
+		try {
+			String qry = "SELECT count(*) AS count FROM rr_executives WHERE work_id_fk='"+work_id+"' and executive_user_id_fk='"+userId+"'";
+			Count = (int) jdbcTemplate.queryForObject(qry, new Object[] { work_id,userId }, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return Count;
+	}
+
 	@Override
 	public String[] uploadRRData(List<RandRMain> rrsList, RandRMain rr) throws Exception {
 		boolean flag = false;
@@ -1821,13 +1832,32 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				row++;sheet = 1;
 				if(!StringUtils.isEmpty(rr_id)) {
 					obj.setRr_id(rr_id);
-					//System.out.println(rNo++);
+					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+						if(checkWorkinRandR(obj.getWork_id_fk(),obj.getUser_id())>0)
+						{
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+						    count = namedParamJdbcTemplate.update(updatetQry, paramSource);						
+						}
+					}					
+					else
+					{
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(updatetQry, paramSource);
+					}
 				}else {
 					//System.out.println(rNo++);
+					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+						if(checkWorkinRandR(obj.getWork_id_fk(),obj.getUser_id())>0)
+						{
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+						    count = namedParamJdbcTemplate.update(insertQry, paramSource);						
+						}
+					}					
+					else
+					{
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(insertQry, paramSource);
+					}
 				}
 				
 				if(!StringUtils.isEmpty(obj.getResList())) {

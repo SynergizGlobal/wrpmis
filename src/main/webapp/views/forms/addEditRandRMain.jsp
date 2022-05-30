@@ -1122,14 +1122,6 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom:20px;">
-	                            <c:if test="${sessionScope.USER_ID ne rrDetails.executive_user_id_fk and sessionScope.USER_ROLE_NAME ne 'IT Admin'}">
-		                            <div class="col s12 offset-m2 m4 l12 mt-brdr">
-		                             <div class="center-align m-1">
-		                            	<a style="color:red;line-height:36px">Not Authorized to Edit</a>
-		                            	</div>
-		                            </div>
-	                            </c:if>
-	                            <c:if test="${sessionScope.USER_ID eq rrDetails.executive_user_id_fk or sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
 	                                <div class="col s6 offset-m2 m4 l6 mt-brdr">
 	                                    <div class="center-align m-1">
 	                                       <c:if test="${action eq 'edit'}">
@@ -1145,7 +1137,6 @@
 	                                        <a href="<%=request.getContextPath() %>/randr-main" class="btn waves-effect waves-light bg-s">Cancel</a>
 	                                    </div>
 	                                </div>
-	                                </c:if>
                             </div>
                            
                         </form>

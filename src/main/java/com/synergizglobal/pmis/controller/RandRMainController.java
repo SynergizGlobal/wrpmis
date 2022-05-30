@@ -368,9 +368,16 @@ public class RandRMainController {
 		return objList;
 	}
 	@RequestMapping(value = "/add-randr-main", method = {RequestMethod.GET})
-	public ModelAndView addRRForm(@ModelAttribute RandRMain obj){
+	public ModelAndView addRRForm(HttpSession session,@ModelAttribute RandRMain obj){
 		ModelAndView model = new ModelAndView();
 		try{
+
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			model.setViewName(PageConstants.addEditRandRMain);
 			model.addObject("action", "add");
 			List<RandRMain> projectsList = service.getProjectsListForRRForm(obj);
@@ -679,6 +686,12 @@ public class RandRMainController {
 		List<RandRMain> residentialList = new ArrayList<RandRMain>();
 		List<RandRMain> rDetailsList = new ArrayList<RandRMain>();
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			dObj.setUser_type_fk(uObj.getUser_type_fk());
+			dObj.setUser_role_code(uObj.getUser_role_code());
+			dObj.setUser_id(uObj.getUser_id());
+			
 			view.setViewName("redirect:/randr-main");
 			dataList =   service.getRandRMainList(dObj);
 		   

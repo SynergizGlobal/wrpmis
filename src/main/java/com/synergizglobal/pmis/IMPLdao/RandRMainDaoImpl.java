@@ -36,6 +36,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.RandRMain;
+import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.RandRMain;
@@ -668,30 +669,24 @@ public class RandRMainDaoImpl implements RandRMainDao{
 
 	@Override
 	public List<RandRMain> getProjectsListForRRForm(RandRMain obj) throws Exception {
-		List<RandRMain> objsList = null;
-		try {
-			String qry = "select project_id as project_id_fk,project_name from `project` order by project_id asc";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<RandRMain> getWorkListForRRForm(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = new ArrayList<RandRMain>();
 		try {
-			String qry = "select work_id as work_id_fk,work_name,work_code,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
-					+ "where work_id is not null ";
+			String qry = "select distinct project_id as project_id_fk,project_name "
+					+ "from `project` p "
+					+ "LEFT JOIN work w on w.project_id_fk = p.project_id "
+					+ "LEFT JOIN `rr_executives` r ON r.work_id_fk = w.work_id "
+					+ "where project_id is not null ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + "and project_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and r.executive_user_id_fk = ? ";
+				arrSize++;
+			}			
+			
 			
 			qry = qry + " order by work_id asc";
 			
@@ -701,7 +696,49 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
 			}	
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}			
 			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<RandRMain> getWorkListForRRForm(RandRMain obj) throws Exception {
+		List<RandRMain> objsList = new ArrayList<RandRMain>();
+		try {
+			String qry = "select distinct work_id as work_id_fk,work_name,work_code,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT JOIN `rr_executives` r ON r.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN `project` p ON p.project_id = w.project_id_fk "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and r.executive_user_id_fk = ? ";
+				arrSize++;
+			}				
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 			
 		}catch(Exception e){ 
@@ -1570,6 +1607,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "DATE_FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,"
 					+ "DATE_FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification, r.remarks from rr r " + 
 					" LEFT JOIN work w on r.work_id = w.work_id " + 
+					 "LEFT JOIN `rr_executives` re ON re.work_id_fk = w.work_id "+
 					"left join project p on w.project_id_fk = p.project_id  " + 
 					"left join money_unit m on r.estimated_by_mmrda_amount_units = m.value  " + 
 					"left join money_unit m1 on r.estimation_amount_units = m1.value  " + 
@@ -1599,6 +1637,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and type_of_use = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and re.executive_user_id_fk = ? ";
+				arrSize++;
+			}				
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1619,6 +1661,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
 				pValues[i++] = obj.getType_of_use();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}				
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 		}catch(Exception e){ 
 			e.printStackTrace();

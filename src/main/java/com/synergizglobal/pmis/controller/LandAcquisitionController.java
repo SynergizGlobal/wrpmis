@@ -332,9 +332,14 @@ public class LandAcquisitionController {
 	
 	@RequestMapping(value = "/ajax/getWorkListForLAForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getWorkListForLAForm(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getWorkListForLAForm(@ModelAttribute LandAcquisition obj,HttpSession session) {
 		List<LandAcquisition> objsList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			objsList = service.getWorkListForLAForm(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -370,13 +375,18 @@ public class LandAcquisitionController {
 	}
 	
 	@RequestMapping(value = "/add-land-acquisition-form", method = {RequestMethod.GET})
-	public ModelAndView addLandAcquisitionForm(@ModelAttribute LandAcquisition obj){
+	public ModelAndView addLandAcquisitionForm(HttpSession session,@ModelAttribute LandAcquisition obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.landAcquisitionForm);
 			model.addObject("action", "add");
 			List<LandAcquisition> statusList = service.getStatusList();
 			model.addObject("statusList", statusList);
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 			
 			List<LandAcquisition> projectsList = service.getProjectsList(obj);
 			model.addObject("projectsList", projectsList);
@@ -2061,6 +2071,12 @@ public class LandAcquisitionController {
 		List<LandAcquisition> forestList = new ArrayList<LandAcquisition>();
 		List<LandAcquisition> railwayList = new ArrayList<LandAcquisition>();
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			dObj.setUser_type_fk(uObj.getUser_type_fk());
+			dObj.setUser_role_code(uObj.getUser_role_code());
+			dObj.setUser_id(uObj.getUser_id());
+			
 			view.setViewName("redirect:/land-acquisition");
 			dataList =   service.getLandAcquisitionList(dObj);
 		   

@@ -40,6 +40,7 @@ import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.TAFinancials;
 import com.synergizglobal.pmis.model.Training;
+import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.LandAcquisition;
 
 @Repository
@@ -872,8 +873,10 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getWorkListForLAForm(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = new ArrayList<LandAcquisition>();
 		try {
-			String qry = "select work_id,work_name,work_short_name,work_code,project_id_fk,project_name "
+			String qry = "select distinct work_id,work_name,work_short_name,work_code,project_id_fk,project_name "
 					+ "from `work` w "
+					+ "left join la_land_identification u on u.work_id_fk = w.work_id  "
+					+ "left join land_executives us on u.work_id_fk = us.work_id_fk  "
 					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
@@ -882,6 +885,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				qry = qry + "and project_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and us.executive_user_id_fk = ? ";
+				arrSize++;
+			}			
+			
 			
 			qry = qry + " order by work_id asc";
 			
@@ -891,6 +899,9 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
 			}	
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}			
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 			
@@ -903,11 +914,42 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 
 	@Override
 	public List<LandAcquisition> getProjectsList(LandAcquisition obj) throws Exception {
-		List<LandAcquisition> objsList = null;
+		List<LandAcquisition> objsList = new ArrayList<LandAcquisition>();
 		try {
-			String qry = "select project_id,project_name from `project` order by project_id asc";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));			
+			String qry = "select distinct project_id,project_name "
+					+ "from `project` p "
+					+ "LEFT JOIN work w on w.project_id_fk = p.project_id "
+					+ "left join la_land_identification u on u.work_id_fk = w.work_id  "
+					+ "left join land_executives us on u.work_id_fk = us.work_id_fk  "
+					+ "where project_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and us.executive_user_id_fk = ? ";
+				arrSize++;
+			}			
+			
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}			
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return objsList;
@@ -1440,6 +1482,17 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		}
 		return objsList;
 	}
+	
+	private int checkWorkinLA(String work_id,String userId) throws Exception {
+		int Count=0;
+		try {
+			String qry = "SELECT count(*) AS count FROM land_executives WHERE work_id_fk='"+work_id+"' and executive_user_id_fk='"+userId+"'";
+			Count = (int) jdbcTemplate.queryForObject(qry, new Object[] { work_id,userId }, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return Count;
+	}	
 
 	@Override
 	public String[] uploadLAData(List<LandAcquisition> lasList, LandAcquisition la) throws Exception {
@@ -1481,12 +1534,32 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				if(!StringUtils.isEmpty(la_id)) {
 					obj.setLa_id(la_id);
 					//System.out.println(rNo++);
+					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+						if(checkWorkinLA(obj.getWork_id_fk(),obj.getUser_id())>0)
+						{
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+						    count = namedParamJdbcTemplate.update(updatetQry, paramSource);						
+						}
+					}					
+					else
+					{
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(updatetQry, paramSource);
+					}
 				}else {
 					//System.out.println(rNo++);
+					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+						if(checkWorkinLA(obj.getWork_id_fk(),obj.getUser_id())>0)
+						{
+							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+						    count = namedParamJdbcTemplate.update(insertQry, paramSource);						
+						}
+					}					
+					else
+					{
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(insertQry, paramSource);
+					}
 				}
 				if(!StringUtils.isEmpty(obj.getPrivateIRAList())) {
 					subRow = sheet1;
@@ -1804,9 +1877,10 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry ="select la_id,li.remarks,cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,IFNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk, work_id_fk,w.project_id_fk,p.project_name,w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo, li.collector, DATE_FORMAT(proposal_submission_date_to_collector,'%d-%m-%Y') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, jm_fee_amount,jm_fee_amount_units, " + 
+			String qry ="select la_id,li.remarks,cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,IFNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk, li.work_id_fk,w.project_id_fk,p.project_name,w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo, li.collector, DATE_FORMAT(proposal_submission_date_to_collector,'%d-%m-%Y') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, jm_fee_amount,jm_fee_amount_units, " + 
 					"li.special_feature,cast(li.area_acquired as CHAR) as area_acquired,li.private_land_process,cast(chainage_from as CHAR) as chainage_from,cast(chainage_to as CHAR) as chainage_to, DATE_FORMAT(jm_fee_letter_received_date,'%d-%m-%Y') AS jm_fee_letter_received_date,DATE_FORMAT(jm_fee_paid_date,'%d-%m-%Y') AS jm_fee_paid_date,DATE_FORMAT(jm_start_date,'%d-%m-%Y') AS  jm_start_date,DATE_FORMAT(jm_completion_date,'%d-%m-%Y') AS jm_completion_date, DATE_FORMAT(jm_sheet_date_to_sdo,'%d-%m-%Y') AS jm_sheet_date_to_sdo, jm_remarks, jm_approval, li.issues " + 
-					" from la_land_identification li " + 
+					" from la_land_identification li " +
+					"left join land_executives le on li.work_id_fk = le.work_id_fk  "+
 					"left join work w on li.work_id_fk = w.work_id "+
 					"left join project p on w.project_id_fk = p.project_id "
 					+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
@@ -1834,6 +1908,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				qry = qry + " and sc.la_sub_category = ?";
 				arrSize++;
 			}	
+ 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+ 				qry = qry + " and le.executive_user_id_fk = ? ";
+ 				arrSize++;
+			}
+ 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -1852,7 +1931,9 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
 				pValues[i++] = obj.getSub_category_of_land();
 			}
-		
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+			}			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 
 		}catch(Exception e){ 

@@ -282,7 +282,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				qry = qry + " and le.executive_user_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY li.work_id_fk ";
+			qry = qry + "GROUP BY li.work_id_fk ORDER BY li.work_id_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {

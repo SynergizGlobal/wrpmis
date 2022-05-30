@@ -426,7 +426,6 @@ public class UtilityShiftingController {
 
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_type_fk(uObj.getUser_type_fk());
-			
 			obj.setUser_role_code(uObj.getUser_role_code());
 			obj.setUser_id(uObj.getUser_id());
 			

@@ -498,7 +498,6 @@
 	                                 <span id="shifting_completion_dateError" class="error-msg" ></span>
                                 </div>
 							</div>
-							
 							<div class="col s12">
 										<div class="row fixed-width">
 									       <h6 class="center-align">Progress Details</span></h6>

@@ -1453,6 +1453,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(updatetQry, paramSource);
 					}
+					
 				}else {
 					//System.out.println(rNo++);
 					

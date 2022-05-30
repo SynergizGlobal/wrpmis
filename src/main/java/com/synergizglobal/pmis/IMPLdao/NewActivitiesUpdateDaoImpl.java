@@ -1416,7 +1416,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		        
 		        String qry = "INSERT INTO approvable_activity_progress_dyhod(dyhod_user_id_fk, progress_id_fk)values(?,?)";
 		        insertStmt = con.prepareStatement(qry);
-		        List<String> dyHodsList = getDyHodsOfActivity(obj.getStrip_chart_structure_id_fk());
+		        List<String> dyHodsList = getDyHodsOfActivity(obj.getContract_id_fk());
 		        for (String dyhod : dyHodsList) {
 					for (String generated_id : generatedIds) {
 						insertStmt.setString(1, dyhod);
@@ -1934,15 +1934,13 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		return flag;
 	}
 	
-	private List<String> getDyHodsOfActivity(String structure) throws Exception {
+	private List<String> getDyHodsOfActivity(String contract_id) throws Exception {
 		List<String>  dy_hods = null;
 		try {
 			String qryUsers ="SELECT c.dy_hod_user_id_fk "
-					+ "FROM structure_contract_responsible_people s1 "
-					+ "left join structure s on s.structure_id = s1.structure_id_fk "
-					+ "left join contract c on c.contract_id = s1.contract_id_fk "
-					+ "where c.dy_hod_user_id_fk is not null and structure = ? group by dy_hod_user_id_fk";
-			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{structure}, String.class);
+					+ "FROM contract c  "
+					+ "where c.dy_hod_user_id_fk is not null and contract_id = ?";
+			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{contract_id}, String.class);
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

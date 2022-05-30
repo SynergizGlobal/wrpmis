@@ -102,4 +102,9 @@ public class HomeServiceImpl implements HomeService {
 	public boolean checkURLAccessPermission(User obj, String requestURI) throws Exception {
 		return dao.checkURLAccessPermission(obj,requestURI);
 	}
+	
+	@Override
+	public boolean doFlushHosts() throws Exception{
+		return dao.doFlushHosts();
+	}
 }

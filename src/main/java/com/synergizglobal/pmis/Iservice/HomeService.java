@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.Iservice;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Admin;
-import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
@@ -46,6 +45,8 @@ public interface HomeService {
 	public List<Messages> getMessageTypes(Messages mObj) throws Exception;
 
 	public boolean checkURLAccessPermission(User obj, String requestURI) throws Exception;
+	
+	public boolean doFlushHosts() throws Exception;
 
 	
 }

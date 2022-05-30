@@ -1252,4 +1252,27 @@ public class HomeDaoImpl implements HomeDao {
 		return flag;
 	}
 	
+	
+	@Override
+	public boolean doFlushHosts() throws Exception {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		boolean flag = false;
+		try {
+			connection = dataSource.getConnection();
+			String qry ="flush hosts";
+			statement = connection.prepareStatement(qry); 
+			int count = statement.executeUpdate();
+			if(count > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return flag;
+	}
+	
 }

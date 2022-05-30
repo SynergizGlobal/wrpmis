@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/li-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
      <style type="text/css">
 		/* 3rd demo start */
         
@@ -765,6 +766,7 @@
 <!-- footer ends here  -->
   <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
   <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
+  <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
   <script type="text/javascript">
   	
   	$(document).ready(function () {
@@ -774,6 +776,16 @@
   		}
   		
   		$('#mapmodal').modal({ dismissible: true });
+  		
+  		var flushHostsSuccess = '${flushHostsSuccess}';
+		if($.trim(flushHostsSuccess) != ''){
+			swal("Success!", flushHostsSuccess);
+		}
+		
+        var flushHostsError = '${flushHostsError}';
+		if($.trim(flushHostsError) != ''){
+			swal("Failed!", flushHostsError, "error");
+		}
   	});
   	
 	function getProjectOverview(project_id){

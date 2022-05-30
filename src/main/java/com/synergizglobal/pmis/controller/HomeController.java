@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
@@ -284,6 +285,26 @@ public class HomeController {
 			logger.error("setGlobalVariables() : "+e.getMessage());
 		}
 		return view;
+	}
+	
+	@RequestMapping(value = "/do-flush-hosts", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView doFlushHosts(RedirectAttributes attributes){
+		boolean flag = false;
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/home");	 
+			flag = homeService.doFlushHosts();		
+			if(flag) {
+				attributes.addFlashAttribute("flushHostsSuccess", "Successfully completed");
+			}else {
+				attributes.addFlashAttribute("flushHostsSuccess", "No hosts found to flush");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("doFlustHosts() : "+e.getMessage());
+			attributes.addFlashAttribute("flushHostsError", commonError);
+		}
+		return model;
 	}
 	
 }

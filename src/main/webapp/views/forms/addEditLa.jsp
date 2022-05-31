@@ -497,7 +497,7 @@
                                                     <span>Accept</span>
                                                 </label> &nbsp; <label>
                                                     <input class="with-gap" name="jm_approval" type="radio"
-                                                        value="" />
+                                                        value="Rejected" <c:if test="${LADetails.jm_approval eq 'Rejected'}">checked</c:if>/>
                                                     <span>Reject</span>
                                                 </label>
                                             </p>
@@ -2784,7 +2784,7 @@
                         $('#railway_div').css("display", "none");
                     }
                 }
-                else if (jmapproval == '') {
+                else if (jmapproval == 'Rejected') {
                     $('#govt_div').css("display", "none");
                     $('#forest_div').css("display", "none");
                     $('#private_div').css("display", "none");

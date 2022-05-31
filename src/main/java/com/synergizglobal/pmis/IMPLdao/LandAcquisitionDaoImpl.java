@@ -735,6 +735,44 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 							 count = namedParamJdbcTemplate.update(privateInsertQry, paramSource);	
 						}
 					}
+					
+					String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
+							+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
+					String executives=getLandExecutives(obj.getWork_id_fk());
+					String [] SplitStr=executives.split(",");
+					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+					for(int i=0;i<SplitStr.length;i++)
+					{
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(SplitStr[i]);
+						String JMStatus="";
+						if(obj.getJm_approval().compareTo("Done")==0)
+						{
+							JMStatus="Approved";
+						}
+						else
+						{
+							JMStatus="Rejected";
+						}
+						msgObj.setMessage("A new Land Acquisition against "+obj.getWork_id_fk()+" has been JM "+JMStatus);
+						msgObj.setRedirect_url("/get-land-acquisition/"+la_id);
+						msgObj.setMessage_type("Land Acquisition");	
+						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
+						template.update(messageQry, paramSource1);						
+					}
+					if(!StringUtils.isEmpty(obj.getPossession_status_fk()) && obj.getPossession_status_fk().compareTo("Done")==0)
+					{
+						for(int i=0;i<SplitStr.length;i++)
+						{
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(SplitStr[i]);
+							msgObj.setMessage("A Land Acquisition against "+obj.getWork_id_fk()+" is Acquired.");
+							msgObj.setRedirect_url("/get-land-acquisition/"+la_id);
+							msgObj.setMessage_type("Land Acquisition");	
+							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
+							template.update(messageQry, paramSource1);						
+						}						
+					}					
 				}
 				if(flag) {
 					int arraySize = 0;

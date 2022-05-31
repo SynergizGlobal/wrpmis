@@ -77,6 +77,12 @@
             top: 25px;
             right:20px;
         }
+        .w90{
+        	width: 90% !important;
+        }
+        .pdr2-6em{
+        	padding-right: 2.6em !important;
+        }
         .mt9px{margin-top: 9px !important}
         .w7em{width: 7em;}
         .bd-none{border:none !important;background: transparent}
@@ -218,7 +224,7 @@
                             </div>
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
+                                    <input id="fob_name" maxlength="50" data-length="50" name="fob_name" type="text" class="validate pdr4em w85" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
                                     <label for="fob_name">FOB Name <span class="required">*</span></label>
                                     <span id="fob_nameError" class="error-msg" ></span>
                                 </div>
@@ -231,7 +237,7 @@
                            
                                  <%-- <c:if test="${empty fob.fob_id }"> --%>
 	                                <div class="col s6 m4 l4 input-field">
-	                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" onkeyup="doValidate(this.value)" <c:if test="${not empty fob.fob_id}">readonly</c:if>>
+	                                    <input id="fob_id" maxlength="50" data-length="50" name="fob_id" type="text" class="validate w85 pdr4em" value="${fob.fob_id }" onkeyup="doValidate(this.value)" <c:if test="${not empty fob.fob_id}">readonly</c:if>>
 	                                    <label for="fob_id">FOB ID <span class="required">*</span></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
@@ -476,12 +482,12 @@
                             <c:if test="${action eq 'edit'}">	
                             <div class="row">
                                 <div class="col s6 m6 l6 input-field">
-                                    <input id="latitude" name="latitude" type="text" class="validate" value="${fob.latitude }" <c:if test="${not empty fob.latitude}">readonly</c:if>>
+                                    <input id="latitude" maxlength="15" data-length="15" name="latitude" type="text" class="validate w85 pdr4em" value="${fob.latitude }" <c:if test="${not empty fob.latitude}">readonly</c:if>>
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m6 l6 input-field ">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${fob.longitude }" <c:if test="${not empty fob.longitude}">readonly</c:if>>
+                                    <input id="longitude" maxlength="15" data-length="15"  name="longitude" type="text" class="validate w85 pdr4em" value="${fob.longitude }" <c:if test="${not empty fob.longitude}">readonly</c:if>>
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
@@ -540,7 +546,7 @@
 			                                                     </select>
 			                                                </c:if>
 			                                                <c:if test="${(dObj.detail_name ne 'Type') and (dObj.detail_name ne 'Location of FOB') }">
-			                                                    <input id="fob_detail_values${index.count }" name="fob_detail_values" type="text" class="validate" value="${dObj.value }"
+			                                                    <input id="fob_detail_values${index.count }" maxlength="50" data-length="50"  name="fob_detail_values" type="text" class="validate w90 pdr2-6em" value="${dObj.value }"
 			                                                        placeholder="Value">
 			                                                </c:if>		                                                 
 		                                                </td>
@@ -639,7 +645,7 @@
 							                               					  </select>
 																	</td>
 																	<td data-head="Name" class="input-field"> 
-																		<input id="fobDocumentNames${index.count }" name="fobDocumentNames" type="text" class="validate" placeholder="Name"  value="${fObj.name }">
+																		<input id="fobDocumentNames${index.count }" maxlength="25" data-length="25" name="fobDocumentNames" type="text" class="validate pdr4em w75" placeholder="Name"  value="${fObj.name }">
 				                                                    </td>
 			                                                      	<!-- <td data-head="Photo Date" class="input-field">
 		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates${index.count }" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" /><button type="button" id="created_dates${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>
@@ -940,6 +946,16 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	
 	<script type="text/javascript">
+	$(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	 $("[data-length]").each(function(i,val){
+     	$('#'+val.id).characterCounter();;
+     });
       
   /*   let date_pickers = document.querySelectorAll('.datepicker');
     $.each(date_pickers, function(){
@@ -1361,7 +1377,7 @@
 		     </c:forEach>
    		   +'</select></td>'  		  			
 		   +'<td data-head="Name" class="input-field">'
-		   +'<input id="fobDocumentNames'+rNo+'" name="fobDocumentNames" type="text" class="validate" placeholder="Name">'
+		   +'<input id="fobDocumentNames'+rNo+'" maxlength="25" data-length="25" name="fobDocumentNames" type="text" class="validate w75 pdr4em" placeholder="Name">'
 		   +'</td>'
 		   //+'<td data-head="Photo Date" class="input-field">'
 		   //+'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>'
@@ -1380,7 +1396,7 @@
 	
 		$('#fobFilesBody').append(html);
         $("#rowNo").val(rNo);          	
-        
+        $('#fobDocumentNames'+rNo).characterCounter();;
         $('.searchable').select2();
         /* 
         $("#created_dates"+rNo).datepicker({

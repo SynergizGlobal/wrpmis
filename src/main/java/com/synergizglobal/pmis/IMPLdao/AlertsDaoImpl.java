@@ -402,7 +402,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(!StringUtils.isEmpty(cvQryAlert5List) && cvQryAlert5List.size() > 0) {
 				list.addAll(cvQryAlert5List);
 			}
-				
+	
 			
 			String cvQryAlert6 = "select w.work_id,'Flag' as alert_level,'R&R' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
 					+ "concat(structure_id,\" structures in \",location_name,\" not updated in last \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"

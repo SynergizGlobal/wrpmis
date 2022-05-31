@@ -1783,7 +1783,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	private int checkWorkinRandR(String work_id,String userId) throws Exception {
 		int Count=0;
 		try {
-			String qry = "SELECT count(*) AS count FROM rr_executives WHERE work_id_fk='"+work_id+"' and executive_user_id_fk='"+userId+"'";
+			String qry = "SELECT count(*) AS count FROM rr_executives WHERE work_id_fk=? and executive_user_id_fk=?";
 			Count = (int) jdbcTemplate.queryForObject(qry, new Object[] { work_id,userId }, int.class);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -1833,7 +1833,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				if(!StringUtils.isEmpty(rr_id)) {
 					obj.setRr_id(rr_id);
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-						if(checkWorkinRandR(obj.getWork_id_fk(),obj.getUser_id())>0)
+						if(checkWorkinRandR(obj.getWork_id_fk(),obj.getCreated_by_user_id_fk())>0)
 						{
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 						    count = namedParamJdbcTemplate.update(updatetQry, paramSource);						
@@ -1847,7 +1847,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				}else {
 					//System.out.println(rNo++);
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-						if(checkWorkinRandR(obj.getWork_id_fk(),obj.getUser_id())>0)
+						if(checkWorkinRandR(obj.getWork_id_fk(),obj.getCreated_by_user_id_fk())>0)
 						{
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 						    count = namedParamJdbcTemplate.update(insertQry, paramSource);						

@@ -84,8 +84,15 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 				if(!StringUtils.isEmpty(obj.getSource_table_name()) && !StringUtils.isEmpty(obj.getSource_field_name()) && !StringUtils.isEmpty(obj.getSource_field_value())) {
 					//obj.setWork_exists_or_not(getWorkExistsOrNot(obj,connection));
 				}
-				
-				objsList.add(obj);
+				boolean aFlag = false;
+				for (OverviewDashboard overviewDashboard : subList) {
+					if("true".equals(overviewDashboard.getAccessibility())) {
+						aFlag = true;
+					}
+				}
+				if("true".equals(obj.getAccessibility()) || aFlag) {
+					objsList.add(obj);
+				}
 			}
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -184,8 +191,15 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 				if(!StringUtils.isEmpty(obj.getSource_table_name()) && !StringUtils.isEmpty(obj.getSource_field_name()) && !StringUtils.isEmpty(obj.getSource_field_value())) {
 					//obj.setWork_exists_or_not(getWorkExistsOrNot(obj,connection));
 				}
-				
-				objsList.add(obj);				
+				boolean aFlag = false;
+				for (OverviewDashboard overviewDashboard : subList) {
+					if("true".equals(overviewDashboard.getAccessibility())) {
+						aFlag = true;
+					}
+				}
+				if("true".equals(obj.getAccessibility()) || aFlag) {
+					objsList.add(obj);
+				}		
 			}
 		
 		}catch(Exception e){ 

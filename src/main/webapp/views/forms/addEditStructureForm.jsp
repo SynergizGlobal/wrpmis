@@ -231,7 +231,7 @@
                             	</div>
                             	
                             	                                <div class="col s6 m4 l4 input-field">
-                                    <input id="structure_name" name="structure_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${structuresListDetails.structure_name }" >
+                                    <input id="structure_name" maxlength="100" data-length="100" name="structure_name" type="text" class="validate w75 pdr5em" <c:if test="${action eq 'edit'}">readonly</c:if> value="${structuresListDetails.structure_name }" >
                                     <label for="structure_name">Structure Name <span class="required">*</span></label>
                                     <span id="structure_nameError" class="error-msg" ></span>
                                 </div>
@@ -436,12 +436,12 @@
                             <c:if test="${action eq 'edit'}">	
                             <div class="row">
                                 <div class="col s6 m6 l6 input-field">
-                                    <input id="latitude" name="latitude" type="text" class="validate" value="${structuresListDetails.latitude }" <c:if test="${not empty structuresListDetails.latitude}">readonly</c:if>>
+                                    <input id="latitude" maxlength="15" data-length="15" name="latitude" type="text" class="validate w85 pdr4em" value="${structuresListDetails.latitude }" <c:if test="${not empty structuresListDetails.latitude}">readonly</c:if>>
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m6 l6 input-field ">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${structuresListDetails.longitude }" <c:if test="${not empty structuresListDetails.longitude}">readonly</c:if>>
+                                    <input id="longitude" maxlength="15" data-length="15" name="longitude" type="text" class="validate w85 pdr4em" value="${structuresListDetails.longitude }" <c:if test="${not empty structuresListDetails.longitude}">readonly</c:if>>
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
@@ -479,7 +479,7 @@
 	                                       		<c:forEach var="dObj" items="${structuresListDetails.structureDetailsList }" varStatus="index">                                        	
 		                                           <tr id="structureDetailsRow${index.count }">                                            	
 		                                               <td>
-		                                                    <input id="structure_detail_names${index.count }" name="structure_details" type="text" readonly class="validate" value="${dObj.structure_detail }"
+		                                                    <input id="structure_detail_names${index.count }" maxlength="100" data-length="100" name="structure_details" type="text" readonly class="validate w80 pdr5em" value="${dObj.structure_detail }"
 		                                                        placeholder="Detail name">
 		                                                </td>
 		                                                <td>
@@ -500,7 +500,7 @@
 			                                                     </select>
 			                                                </c:if>
 			                                                <c:if test="${(dObj.structure_detail ne 'Type') and (dObj.structure_detail ne 'Location of FOB') }">
-			                                                    <input id="structure_detail_values${index.count }" name="structure_values" type="text" class="validate" value="${dObj.structure_value }"
+			                                                    <input id="structure_detail_values${index.count }" maxlength="100" data-length="100" name="structure_values" type="text" class="validate w80 pdr5em" value="${dObj.structure_value }"
 			                                                        placeholder="Value">
 			                                                </c:if>		                                                 
 		                                                </td>
@@ -524,12 +524,12 @@
 											 <c:forEach var="valObj" items="${structuresListDetails.structureDetailsList1 }" varStatus="index"> 
 											  	<tr id="structureDetailsRow${index.count }${index.count }">
 							                        <td>
-							                            <input id="structure_detail_names${index.count }${index.count }" name="structure_details" type="text"
-							                                class="validate" placeholder="Detail name" value="${valObj.structure_detail }">
+							                            <input id="structure_detail_names${index.count }${index.count }" maxlength="100" data-length="100" name="structure_details" type="text"
+							                                class="validate pdr5em w80" placeholder="Detail name" value="${valObj.structure_detail }">
 							                        </td>
 							                        <td>
-							                            <input id="structure_detail_values${index.count }${index.count }" name="structure_values" type="text"
-							                                class="validate"  placeholder="Value" value="${valObj.structure_value }">
+							                            <input id="structure_detail_values${index.count }${index.count }" maxlength="100" data-length="100" name="structure_values" type="text"
+							                                class="validate w80 pdr5em"  placeholder="Value" value="${valObj.structure_value }">
 							                        </td>
 							                        <td class="mobile_btn_close">
 							                            <a onclick="removeStructureDetail(${index.count }${index.count });"
@@ -541,12 +541,12 @@
 												<c:otherwise>
 							                    <tr id="structureDetailsRow0">
 							                        <td>
-							                            <input id="structure_detail_names" name="structure_details" type="text"
-							                                class="validate" value="" placeholder="Detail name">
+							                            <input id="structure_detail_names" maxlength="100" data-length="100" name="structure_details" type="text"
+							                                class="validate w80 pdr5em" value="" placeholder="Detail name">
 							                        </td>
 							                        <td>
-							                            <input id="structure_detail_values" name="structure_values" type="text"
-							                                class="validate" value="" placeholder="Value">
+							                            <input id="structure_detail_values" maxlength="100" data-length="100" name="structure_values" type="text"
+							                                class="validate w80 pdr5em" value="" placeholder="Value">
 							                        </td>
 							                        <td class="mobile_btn_close">
 							                            <a onclick="removeStructureDetail(0);"
@@ -652,7 +652,7 @@
 							                               					  </select>
 																	</td>
 																	<td data-head="Name" class="input-field"> 
-																		<input id="structureDocumentNames${index.count }" name="structureDocumentNames" type="text" class="validate" placeholder="Name"  value="${fObj.name }">
+																		<input id="structureDocumentNames${index.count }" maxlength="50" data-length="50" name="structureDocumentNames" type="text" class="validate w75 pdr4em" placeholder="Name"  value="${fObj.name }">
 				                                                    </td>
 			                                                      	<!-- <td data-head="Photo Date" class="input-field">
 		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates${index.count }" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" /><button type="button" id="created_dates${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>
@@ -689,7 +689,7 @@
 						                               					  </select>
 																</td>
 																<td data-head="Name" class="input-field"> 
-																	<input id="structureDocumentNames0" name="structureDocumentNames" type="text" class="validate" placeholder="Name">
+																	<input id="structureDocumentNames0" maxlength="50" data-length="50" name="structureDocumentNames" type="text" class="validate w80 pdr4em" placeholder="Name">
 				                                                </td>
 				                                                <!-- <td data-head="Upload Date" class="input-field">
 		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>
@@ -799,7 +799,17 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script type="text/javascript">
-
+	 $(document).ready(function() {
+         $(".num").keypress(function() {
+             if ($(this).val().length == $(this).attr("maxlength")) {
+                 return false;
+             }
+         });
+     });
+ 	 $("[data-length]").each(function(i,val){
+      	$('#'+val.id).characterCounter();;
+      });
+ 	 //end
     let constructionstartdate = document.querySelectorAll('#construction_start_date');
     $.each(constructionstartdate, function(){
     	var dt = this.value.split(/[^0-9]/);
@@ -1025,12 +1035,14 @@
 		// var x = Math.floor(Math.random() * (500 - 900 + 1) + 900)
 		// var index = rNo+ind+x;
 		 var html = '<tr id="structureDetailsRow'+rNo+'">'
-	            +'<td><input id="structure_detail_names'+rNo+'" name="structure_details" type="text" class="validate" placeholder="Detail name"></td> <td>'
-	            +'<input id="structure_detail_values'+rNo+'" name="structure_values" type="text" class="validate" value="" placeholder="Value"></td> <td class="mobile_btn_close">'
+	            +'<td><input id="structure_detail_names'+rNo+'" maxlength="100" data-length="100" name="structure_details" type="text" class="validate w80 pdr5em" placeholder="Detail name"></td> <td>'
+	            +'<input id="structure_detail_values'+rNo+'" maxlength="100" data-length="100" name="structure_values" type="text" class="validate w80 pdr5em" value="" placeholder="Value"></td> <td class="mobile_btn_close">'
 	            +'<a onclick="removeStructureDetail('+rNo+');"class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
 	            
 		 $('#structureNonFobDetailsTableBody').append(html); 
 		 $("#structureDetailsLength").val(rNo);
+		 $('#structure_detail_names'+rNo).characterCounter();;
+		 $('#structure_detail_values'+rNo).characterCounter();;
 		  $('.searchable:not(.units)').select2(); 
 		 $('select:not(.searchable)').formSelect();
 	}
@@ -1161,7 +1173,7 @@
 		     </c:forEach>
    		   +'</select></td>'  		  			
 		   +'<td data-head="Name" class="input-field">'
-		   +'<input id="structureDocumentNames'+rNo+'" name="structureDocumentNames" type="text" class="validate" placeholder="Name">'
+		   +'<input id="structureDocumentNames'+rNo+'" maxlength="50" data-length="50" name="structureDocumentNames" type="text" class="validate w80 pdr4em" placeholder="Name">'
 		   +'</td>'
 		   //+'<td data-head="Photo Date" class="input-field">'
 		   //+'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>'
@@ -1180,7 +1192,7 @@
 	
 		$('#structureFilesBody').append(html);
         $("#rowNo").val(rNo);          	
-        
+        $('#structureDocumentNames'+rNo).characterCounter();;
          $('.searchable:not(.units)').select2();
         /* 
         $("#created_dates"+rNo).datepicker({

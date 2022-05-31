@@ -672,7 +672,9 @@
         fieldset.brdr legend{		    
 		    padding: 0 5px;
 	    }
-        
+        .w65{
+        	width:65% !important;
+        }
     </style>
 </head>
 <body>
@@ -898,7 +900,7 @@
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m4 s6 input-field left-align">
-		                                    <input id="remarks" name="remarks" type="text" class="validate valid" aria-invalid="false" disabled>
+		                                    <input id="remarks" maxlength="1000" data-length="1000" name="remarks" type="text" class="validate valid w65 pdr5em" aria-invalid="false" disabled>
 		                                    <label for="remarks" class="active">Remarks</label> 
 		                                    <span id="remarksError" class="error-msg"></span>
                                         </div> 
@@ -1126,7 +1128,16 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
-    
+    $(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	 $("[data-length]").each(function(i,val){
+     	$('#'+val.id).characterCounter();;
+     });
     function getUrlVars() {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {

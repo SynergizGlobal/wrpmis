@@ -338,7 +338,14 @@
   text-decoration: none;
   cursor: pointer;
 }
-
+.character-counter {
+    background-color: smoke;
+    position: relative;
+    margin-top: -4em;
+    margin-right: 0em;
+    right: 0em;
+    top: 0;
+}
 		
     </style>
     
@@ -483,11 +490,11 @@
 		                                             	<tr id="internalTableRow${indexx.count }_${index.count }">
 		                                              		<td> 
 		                                             			<input type="hidden" id="structure_type_fkss${sObj.structure_id}"  <c:if test="${indexx.count != 1}"> name="structure_type_fks"</c:if> value="${dObj.structure_type_fk }"/>
-		                                               			<input id="structure_id${indexx.count }${index.count }" name="structures" type="text" class="validate"  placeholder="Structure Id" value="${sObj.structure }">
+		                                               			<input id="structure_id${indexx.count }${index.count }" maxlength="100" data-length="100" name="structures" type="text" class="validate w85 pdr5em"  placeholder="Structure Id" value="${sObj.structure }">
 		                                               		</td>
 		                                               		<td>
 		                                              	   		<input type="hidden" name= "structure_ids" id="structure_ids${indexx.count }${index.count }" value="${sObj.structure_id}" />
-						                                		<input id="structure_name${indexx.count }${index.count }" name="structure_names" type="text"  placeholder="Structure Name" class="validate" value="${sObj.structure_name }" >
+						                                		<input id="structure_name${indexx.count }${index.count }" maxlength="100" data-length="100" name="structure_names" type="text"  placeholder="Structure Name" class="validate w85 pdr5em" value="${sObj.structure_name }" >
 						                                    	<span id="structure_name${indexx.count }${index.count }Error" class="error-msg" ></span>
 						                                	</td>
 															<td class="no-pad">
@@ -1463,6 +1470,16 @@
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     
         <script>
+        $(document).ready(function() {
+            $(".num").keypress(function() {
+                if ($(this).val().length == $(this).attr("maxlength")) {
+                    return false;
+                }
+            });
+        });
+    	 $("[data-length]").each(function(i,val){
+         	$('#'+val.id).characterCounter();;
+         });
 		 /* function countRows(item){
 			 var parents=$(item).parentsUntil('ul');
 			 var lengthOfTrs=$(parents[parents.length-1]).find('.collapsible-body tbody tr:not(.pos-rel)').length; 
@@ -1797,8 +1814,8 @@
 			               </c:forEach>
            				+'</select></td>'
            				+'<td data-head="Structure Id" class="input-field no-pad" colspan=2><input type="hidden" id="internalRow'+rNo+rNo+x+'"  name="internalRowNo" value="0" /> <table class="internal-table" id="structureRow'+rNo+'-internalTable"><tbody id="internalTable'+rNo+'">'
-           				+'<tr id="internalTableRow'+rNo+rNo+x+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fkss'+rNo+rNo+x+'"/> <input id="structure_id'+rNo+rNo+x+'" name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
-           				+'<td><input type="hidden" name= "structure_ids" id="structure_ids'+rNo+rNo+x+'" value="" /> <input id="structure_name'+rNo+rNo+x+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+rNo+x+'Error" class="error-msg" ></span></td>'
+           				+'<tr id="internalTableRow'+rNo+rNo+x+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fkss'+rNo+rNo+x+'"/> <input id="structure_id'+rNo+rNo+x+'" maxlength="100" data-length="100" name="structures" type="text" class="validate w85 pdr5em" placeholder="Structure Id"></td>'
+           				+'<td><input type="hidden" name= "structure_ids" id="structure_ids'+rNo+rNo+x+'" value="" /> <input id="structure_name'+rNo+rNo+x+'" maxlength="100" data-length="100" name="structure_names" type="text" class="validate w85 pdr5em" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+rNo+x+'Error" class="error-msg" ></span></td>'
            			/* 	+'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal">'
            			    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
            			    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p> <input type="hidden" name= "structure_ids" id="structure_ids'+rNo+rNo+x+'" value="" /><select id="work_status_fk'+rNo+rNo+x+'" '
@@ -1895,7 +1912,9 @@
 
     				 $('#structureTableBody').append(html);
     				 $("#rowNo").val(rNo);
-    				 $('.searchable').select2();  
+    				 $('.searchable').select2(); 
+    				 $('#structure_id'+rNo+rNo+x).characterCounter();;
+    				 $('#structure_name'+rNo+rNo+x).characterCounter();;
     				 $('select:not(.searchable)').formSelect();
     				 $('.modal').modal(); 
     		/* 		 var rowNumber = "rw"+1+rNo+rNo+rNo+x;
@@ -1925,9 +1944,9 @@
 				var structureType = $("#structure_type_fks"+tableNo).val();
 				var x = Math.floor(Math.random() * (100 - 500 + 1) + 500)
 				var y = Math.floor(Math.random() * (10 - 50 + 100) + 5)
-				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fkss'+rNo+tableNo+rNo+x+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" name="structures" type="text" class="validate"'
+				var html = '<tr id="internalTableRow'+rNo+tableNo+'"><td><input type = "hidden" name="structure_type_fks" id="structure_type_fkss'+rNo+tableNo+rNo+x+'"/> <input id="structure_id'+rNo+'_'+tableNo+'" maxlength="100" data-length="100" name="structures" type="text" class="validate w85 pdr5em"'
 						   +'placeholder="Structure Id"></td>'
-						   +'<td> <input type="hidden" name= "structure_ids" id="structure_ids'+rNo+'_'+tableNo+'" value="" /><input id="structure_name'+rNo+'_'+tableNo+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+'_'+tableNo+'Error" class="error-msg" ></span></td>'
+						   +'<td> <input type="hidden" name= "structure_ids" id="structure_ids'+rNo+'_'+tableNo+'" value="" /><input id="structure_name'+rNo+'_'+tableNo+'" maxlength="100" data-length="100" name="structure_names" type="text" class="validate w85 pdr5em" placeholder="Structure Name" value="" ><span id="structure_name'+rNo+'_'+tableNo+'Error" class="error-msg" ></span></td>'
 						  /*  +'<td style="text-align:center;"><div id="modal'+rNo+rNo+x+'" class="modal"> '
 						    +'<div class="modal-content"><h5 class="modal-header">Update structure <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>'
 						    +'<div class="container"><div class="row"><div class="col s6 input-field"><p class="searchable_label">Work Status </p>'+
@@ -2021,6 +2040,8 @@
 			   $("#internalRow"+ind).val(rNo);
 			  // $('#countNo'+tableNo).attr('count',rNo);
 			   $("#structure_type_fkss"+rNo+tableNo+rNo+x).val(structureType);
+			   $("#structure_id"+rNo+"_"+tableNo).characterCounter();;
+				 $('#structure_name'+rNo+'_'+tableNo).characterCounter();;
 			   $('.modal').modal(); 
 			   $('.searchable').select2(); 
 			   $('select:not(.searchable)').formSelect();
@@ -2118,15 +2139,17 @@
                    			+'<thead> <tr> <th>Structure Id</th><th>Structure Name</th> <th></th> </tr> </thead>'
 							+'<tbody id="internalTable'+rNo+'"> <tr id="internalTableRow'+cNo+''+rNo+'">'
 							+'<td><input id="structure_id" name="structuress" type="hidden"> <input id="structure_id'+cNo+'_'+rNo+'"'
-							+'name="structures" type="text" class="validate" placeholder="Structure Id"></td>'
+							+'maxlength="100" data-length="100" name="structures" type="text" class="validate w85 pdr5em" placeholder="Structure Id"></td>'
 							+'<td><input type="hidden" name="structure_ids"	id="structure_ids'+cNo+''+rNo+'" value="" /> <input '
-							+'id="structure_name'+cNo+''+rNo+'" name="structure_names" type="text" class="validate" placeholder="Structure Name" value="">'
+							+'id="structure_name'+cNo+''+rNo+'" maxlength="100" data-length="100" name="structure_names" type="text" class="validate w85 pdr5em" placeholder="Structure Name" value="">'
 							+'<span id="structure_name00Error" class="error-msg"></span></td> <td class="no-pad"><a  class="btn mob-btn waves-effect waves-light red t-c"'
 							+'onclick="removeStructureInternalRow('+rNo+''+rNo+','+rNo+');countChange('+rNo+')"> <i class="fa fa-close"></i></a></td> </tr>'
 							+'<tr class="mob-add-btn pos-rel"><td><a type="button" class="btn mob-btn waves-effect waves-light bg-m " '
 							+'onClick="addInternalTableRow('+rNo+','+rNo+');countChange('+rNo+')"> <i class="fa fa-plus"></i></a></td> </tr> </tbody> </table> </div> </div> </li>';
 			            
 				 $('#collapseHolder').append(html); 
+				 $('#structure_id'+cNo+'_'+rNo).characterCounter();;
+				 $('#structure_name'+cNo+''+rNo).characterCounter();;
 				 $("#collapseLength").val(rNo);
 				 cNo++;
 				 $('.searchable').select2(); 

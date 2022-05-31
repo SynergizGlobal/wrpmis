@@ -429,6 +429,7 @@
 			} */
 			var level2List = value.formsSubMenu;
 			var accessibility = "'"+value.accessibility+"'";
+
 			if(value.accessibility == 'true' || level2List.length > 0){
 				html = html + '<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+','+accessibility+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a>';
 				if(value.accessibility == 'false'){

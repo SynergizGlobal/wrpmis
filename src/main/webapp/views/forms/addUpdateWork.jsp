@@ -891,7 +891,7 @@
 	                                                    </select>
 	                                                </td>
 	                                                <td data-head="Revision No" class="input-field">
-	                                                    <input id="revision_numbers${index.count }" maxlength="10" data-length="10" name="revision_numbers" type="text" class="validate pdr4em" value="${revObj.revision_number }"
+	                                                    <input id="revision_numbers${index.count }" maxlength="10" data-length="10" name="revision_numbers" type="text" class="validate pdr4em w75" value="${revObj.revision_number }"
 	                                                        placeholder="Revision Number">
 	                                                </td>
 	                                                <td class="mobile_btn_close">
@@ -1542,7 +1542,7 @@
 		   		   +'</select></td>'
 				   //+'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
 				   //+'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
-				   +'<td data-head="Latest Revised Cost (in Cr)" class="input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i> <input id="latest_revised_costs'+rNo+'" name="latest_revised_costs" type="number" class="validate" value=""'
+				   +'<td data-head="Latest Revised Cost (in Cr)" class="input-field amount-dropdown"><i class="material-icons amount-symbol cost">₹</i> <input id="latest_revised_costs'+rNo+'" maxlength="10" data-length="10" name="latest_revised_costs" type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" class="validate pdr4em num" value=""'
 				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> '
 				  /*  +'<select class="validate-dropdown" id="latest_revised_cost_units'+rNo+'" name="latest_revised_cost_units">'
                	   +'<option value="">Select</option>'
@@ -1557,7 +1557,7 @@
 					   +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
 				     </c:forEach>
 				   +'</select></td>'
-				   +'<td data-head="Revision No " class="input-field"><input  type="text" class="validate" id="revision_numbers'+rNo+'" name="revision_numbers" placeholder="Revision Number"></td>'
+				   +'<td data-head="Revision No " class="input-field"><input  type="text" maxlength="10" data-length="10" class="validate pdr4em w75" id="revision_numbers'+rNo+'" name="revision_numbers" placeholder="Revision Number"></td>'
 				   
 			   	   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			 
@@ -1565,7 +1565,9 @@
 				 $("#RevrowNo").val(rNo);
 				 $('select:not(.searchable):not(.units)').formSelect();
 				 $('.searchable').select2();
-				 $('.units').select2({dropdownCssClass : 'cost_dropdown'});
+				 $('#revision_numbers'+rNo).characterCounter();;
+				 $('#latest_revised_costs'+rNo).characterCounter();;
+				 //$('.units').select2({dropdownCssClass : 'cost_dropdown'});
 				 
 				 /* $('#latest_revised_cost_units'+rNo).on('change', function(e){
 	            	 if($.trim($('#latest_revised_costs'+rNo).val()) != ""){
@@ -1591,7 +1593,7 @@
 		                  $(this).blur();
 		              }); */
      } 
-        
+  	 
      function removeRevision(rowNo){
     	//alert("#revisionRow"+rowNo);
     	$("#revisionRow"+rowNo).remove();

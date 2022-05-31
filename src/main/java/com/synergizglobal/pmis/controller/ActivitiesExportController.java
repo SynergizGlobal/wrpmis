@@ -225,7 +225,9 @@ public class ActivitiesExportController {
 				" ^Name of the Activity ^Unit of scope^Scope Quantity^Completed Quantity^"
 				+ "Weightage points of the Activity in structure^Expected start date of the activity (dd-mm-yyyy)^"
 				+ "Expected finish date of the activity (dd-mm-yyyy)^Actual start date of the activity (dd-mm-yyyy)^"
-				+ "Actual finish date of the activity (dd-mm-yyyy)^Detail of component if Any^for filtering of Section of Line  on Map	^^^"
+				+ "Actual finish date of the activity (dd-mm-yyyy)^Baseline start date of the activity (dd-mm-yyyy)"
+				+ "^Baseline finish date of the activity (dd-mm-yyyy)^Start date of the activity (dd-mm-yyyy)"
+				+ "^finish date of the activity (dd-mm-yyyy)^Status^Detail of component if Any^for filtering of Section of Line  on Map	^^^"
 				+ "Line of the activity (eg Up Line Down Line)^Any Additional Remarks";
         String[] headerStringArr = headerString.split("\\^");
         
@@ -241,7 +243,8 @@ public class ActivitiesExportController {
         structureRow = rrSheet1.createRow(rowNo);
         
         String headerString1 = "P6 Task Code^Structure Type^Structure ID^Component^Component ID^Activity^Unit^"
-        		+ "Total Scope^Completed^Weightage Point^Planned Start Date^Planned Finish Date^Actual Start Date^Actual Finish Date^Components Detail^"
+        		+ "Total Scope^Completed^Weightage Point^Planned Start Date^Planned Finish Date^Actual Start Date^Actual Finish Date"
+        		+ "^Baseline Start Date^Baseline Finish Date^Expected Start Date^Expected  Finish Date^P6 Status^Components Detail^"
         		+ "Section^From Structure ID^To Structure ID^Line^Remarks";
         String[] headerStringArr1 = headerString1.split("\\^");
         
@@ -323,6 +326,26 @@ public class ActivitiesExportController {
 								cell.setCellStyle(activityNameStyle);
 								cell.setCellValue(zObj.getActual_finish());
 							}
+						    
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getBaseline_start());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getBaseline_finish());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getStart());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getFinish());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getStatus());
 						
 							cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle);

@@ -806,28 +806,6 @@ public class ContractDaoImpl implements ContractDao {
 				
 				/**********************************************************************************************/
 				
-				if(!StringUtils.isEmpty(contract.getResponsible_people_id_fk())) {
-					String qry3 = "INSERT into contract_responsible_people (contract_id_fk,responsible_people_id_fk) VALUES (?,?)";
-					stmt = con.prepareStatement(qry3); 
-					if(contract.getResponsible_people_id_fk().contains(",")) {
-						String[] ids = contract.getResponsible_people_id_fk().split(",");					
-						for (int i = 0; i < ids.length; i++) {
-							int p = 1;				
-							stmt.setString(p++,contract_id);
-							stmt.setString(p++,(!StringUtils.isEmpty(ids[i])?ids[i]:null));	
-							stmt.addBatch();
-						}			
-					} else {
-						int p = 1;				
-						stmt.setString(p++,contract_id);
-						stmt.setString(p++,(!StringUtils.isEmpty(contract.getResponsible_people_id_fk())?contract.getResponsible_people_id_fk():null));	
-						stmt.addBatch();
-					}	
-					stmt.executeBatch();
-				}
-				
-				/**********************************************************************************************/
-				
 				con.commit();
 				
 				/********************************************************************************/
@@ -1047,7 +1025,6 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setContractKeyPersonnels(getContractKeyPersonnels(contract.getContract_id(),con));	
 				contract.setContractDocuments(getContractDocuments(contract.getContract_id(),con));
 				
-				contract.setResponsiblePeopleList(getResponsiblePeopleList(contract.getContract_id(),con));
 				contract.setDepartmentList(getDepartmentList(contract.getContract_id(),con));
 				
 			}
@@ -1127,31 +1104,6 @@ public class ContractDaoImpl implements ContractDao {
 				obj.setExecutive_user_id_fk(resultSet.getString("executive_user_id_fk"));
 				obj.setUser_name(resultSet.getString("u.user_name"));
 				obj.setDesignation(resultSet.getString("u.designation"));
-				objsList.add(obj);
-			}
-		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e);
-		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-		}
-		return objsList;
-	}
-
-	private List<Contract> getResponsiblePeopleList(String contract_id, Connection con) throws Exception {
-		PreparedStatement stmt = null;
-		ResultSet resultSet = null;
-		List<Contract> objsList = new ArrayList<Contract>();
-		Contract obj = null;
-		try {
-			String qry ="SELECT responsible_people_id_fk from contract_responsible_people where contract_id_fk = ?";
-			stmt = con.prepareStatement(qry);
-			stmt.setString(1, contract_id);
-			resultSet = stmt.executeQuery();
-			while(resultSet.next()) {
-				obj = new Contract();
-				obj.setResponsible_people_id_fk(resultSet.getString("responsible_people_id_fk"));
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
@@ -2004,36 +1956,6 @@ public class ContractDaoImpl implements ContractDao {
 					c = stmt.executeBatch();
 					int[] update_count = updateStmt.executeBatch();
 					DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
-					
-					
-					/**********************************************************************************************/
-					
-					deleteQry = "DELETE from contract_responsible_people where contract_id_fk = ?";		 
-					stmt = con.prepareStatement(deleteQry);
-					stmt.setString(1,contract.getContract_id()); 
-					stmt.executeUpdate();
-					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-					
-					if(!StringUtils.isEmpty(contract.getResponsible_people_id_fk())) {						
-						
-						String qry3 = "INSERT into contract_responsible_people (contract_id_fk,responsible_people_id_fk) VALUES (?,?)";
-						stmt = con.prepareStatement(qry3); 
-						if(contract.getResponsible_people_id_fk().contains(",")) {
-							String[] ids = contract.getResponsible_people_id_fk().split(",");					
-							for (int i = 0; i < ids.length; i++) {
-								p = 1;				
-								stmt.setString(p++,contract.getContract_id());
-								stmt.setString(p++,(!StringUtils.isEmpty(ids[i])?ids[i]:null));	
-								stmt.addBatch();
-							}			
-						} else {
-							p = 1;				
-							stmt.setString(p++,contract.getContract_id());
-							stmt.setString(p++,(!StringUtils.isEmpty(contract.getResponsible_people_id_fk())?contract.getResponsible_people_id_fk():null));	
-							stmt.addBatch();
-						}	
-						stmt.executeBatch();
-					}
 					
 					/**********************************************************************************************/
 					

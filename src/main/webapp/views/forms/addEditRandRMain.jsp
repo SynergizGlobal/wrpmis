@@ -364,7 +364,7 @@
 							</div>
 							<div class="row">
                                  <div class="col s6 m4 l4 input-field">
-                                     <input id="id_no" name="identification_no" type="text" class="validate" value="${rrDetails.identification_no }">
+                                     <input id="id_no" maxlength="25" data-length="25" name="identification_no" type="text" class="validate w80 pdr4em" value="${rrDetails.identification_no }">
 		                             <label for="id_no">Id No <span class="required">*</span></label>
 		                             <span id="id_noError" class="error-msg" ></span>
                                  </div>                                 
@@ -507,20 +507,20 @@
                                     <span id="carpet_areaError" class="error-msg" ></span>
 	                             </div>
                                 <div class="col s6 m3 input-field">
-	                                <input id="year_of_construction" name="year_of_construction" type="number" class="validate" value="${rrDetails.year_of_construction }"
-	                                maxlength="4" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
+	                                <input id="year_of_construction" name="year_of_construction" type="number" class="validate num w75 pdr4em" value="${rrDetails.year_of_construction }"
+	                                maxlength="4" data-length="4" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
                                     <!--  <button type="button" id="verification_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button> -->
 		                             <label for="year_of_construction">Year of Construction </label>
 	                                <span id="construction_yearError" class="error-msg" ></span>
                                  </div>		                         		
                                 <div class="col s6 m3 input-field">
-                                    <input id="owner_name" name="name_of_the_owner" type="text" class="validate " value="${rrDetails.name_of_the_owner }">
+                                    <input id="owner_name" maxlength="50" data-length="50" name="name_of_the_owner" type="text" class="validate w75 pdr4em" value="${rrDetails.name_of_the_owner }">
                                     <label for="owner_name" class="fs-sm-8rem fs-9">Owner Name </label>
                                     <span id="owner_nameError" class="error-msg" ></span>
                                 </div>  
                                 <div class="col s6 m3 input-field">
-                                    <input id="occupier_name" name="occupier_name_during_verification" type="text" class="validate " value="${rrDetails.occupier_name_during_verification }">
+                                    <input id="occupier_name" maxlength="50" data-length="50" name="occupier_name_during_verification" type="text" class="validate w75 pdr4em" value="${rrDetails.occupier_name_during_verification }">
                                     <label for="occupier_name" class="fs-sm-8rem fs-9">Occupier Name </label>
                                     <span id="occupier_nameError" class="error-msg" ></span>
                                 </div>  
@@ -537,12 +537,12 @@
                                     <span id="doc_typeError" class="error-msg" ></span>
                                 </div>                               
                                 <div class="col s6 m3 input-field">
-                                     <input id="document_no" name="document_no" type="text" class="validate" value="${rrDetails.document_no }">
+                                     <input id="document_no" maxlength="25" data-length="25" name="document_no" type="text" class="validate w75 pdr4em" value="${rrDetails.document_no }">
 		                             <label for="document_no" >Document No </label>
 		                             <span id="document_noError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field">
-                                     <input id="map_no" name="map_sr_no" type="text" class="validate" value="${rrDetails.map_sr_no }">
+                                     <input id="map_no" maxlength="25" data-length="25" name="map_sr_no" type="text" class="validate w75 pdr4em" value="${rrDetails.map_sr_no }">
 		                             <label for="map_no" >Map S.No </label>
 		                             <span id="map_noError" class="error-msg" ></span>
                                  </div>
@@ -933,7 +933,7 @@
                             		</div>                            		 
                             		<div class="row">
                             			<div class="col s12 m12 input-field">
-		                                    <textarea id="remarks" name="com_remarks" class="pmis-textarea" data-length="1000">${rrDetails.com_remarks }</textarea>
+		                                    <textarea id="com_remarks" maxlength="1000" name="com_remarks" class="pmis-textarea pdr5em" data-length="1000">${rrDetails.com_remarks }</textarea>
 		                                    <label for="remarks">Remarks</label>
 		                                </div>	
                             		</div>
@@ -1117,7 +1117,7 @@
                            
                             <div class="row">
                                 <div class="col s12 m12 input-field">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${rrDetails.remarks }</textarea>
+                                    <textarea id="remarks" maxlength="1000" data-length="1000" name="remarks" class="pmis-textarea pdr5em">${rrDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>
@@ -1179,6 +1179,18 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
    <script>
+   $(document).ready(function() {
+	   $("[data-length]").each(function(i,val){
+	    	$('#'+val.id).characterCounter();
+	    });
+       $(".num").keypress(function() {
+           if ($(this).val().length == $(this).attr("maxlength")) {
+               return false;
+           }
+       });
+   });
+	 
+	 
    $(document).on('focus', '.datepicker-max-today', function () {        	 
 		var id = $(this).attr('id');
 			var dt = this.value.split(/[^0-9]/);

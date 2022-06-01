@@ -1113,6 +1113,18 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		}
 		return objsList;
 	}
+	
+	private String getJMApprovalandLandStatus(String column,String laid) throws Exception {
+		String Status="";
+		try {
+			String qry = "SELECT "+column+" FROM la_land_identification WHERE la_id=?";
+			Status = (String) jdbcTemplate.queryForObject(qry, new Object[] { laid }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return Status;
+	}	
+	
 
 	@Override
 	public boolean updateLandAcquisition(LandAcquisition obj) throws Exception {
@@ -1121,6 +1133,9 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String jmapproval=getJMApprovalandLandStatus("jm_approval",obj.getLa_id());
+			String landstatus=getJMApprovalandLandStatus("la_land_status_fk",obj.getLa_id());
+			
 			String insertQry = "UPDATE la_land_identification SET "
 					+ "survey_number= :survey_number, village_id= :village_id, village= :village, taluka= :taluka, dy_slr= :dy_slr, sdo= :sdo, collector= :collector, proposal_submission_date_to_collector= :proposal_submission_date_to_collector,"
 					+ "area_of_plot= :area_of_plot, jm_fee_amount = :jm_fee_amount, chainage_from= :chainage_from, chainage_to= :chainage_to, jm_fee_letter_received_date= :jm_fee_letter_received_date, jm_fee_paid_date= :jm_fee_paid_date, jm_start_date= :jm_start_date, jm_completion_date= :jm_completion_date, "
@@ -1340,43 +1355,50 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 							}
 						}
 					
-					String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
-							+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
-					String executives=getLandExecutives(obj.getWork_id_fk());
-					String [] SplitStr=executives.split(",");
-					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-					for(int i=0;i<SplitStr.length;i++)
-					{
-						Messages msgObj = new Messages();
-						msgObj.setUser_id_fk(SplitStr[i]);
-						String JMStatus="";
-						if(obj.getJm_approval().compareTo("Done")==0)
-						{
-							JMStatus="Approved";
+
+						String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
+								+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
+						String executives=getLandExecutives(obj.getWork_id_fk());
+						String [] SplitStr=executives.split(",");
+						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+						if(obj.getJm_approval().compareTo(jmapproval)!=0)
+						{						
+							for(int i=0;i<SplitStr.length;i++)
+							{
+								Messages msgObj = new Messages();
+								msgObj.setUser_id_fk(SplitStr[i]);
+								String JMStatus="";
+								if(obj.getJm_approval().compareTo("Done")==0)
+								{
+									JMStatus="Approved";
+								}
+								else
+								{
+									JMStatus="Rejected";
+								}
+								msgObj.setMessage("A new Land Acquisition against "+obj.getWork_id_fk()+" has been JM "+JMStatus);
+								msgObj.setRedirect_url("/get-land-acquisition/"+obj.getLa_id());
+								msgObj.setMessage_type("Land Acquisition");	
+								BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
+								template.update(messageQry, paramSource1);						
+							}
 						}
-						else
+						if(obj.getLa_land_status_fk().compareTo(landstatus)!=0)
 						{
-							JMStatus="Rejected";
+							if(!StringUtils.isEmpty(obj.getLa_land_status_fk()))
+							{
+								for(int i=0;i<SplitStr.length;i++)
+								{
+									Messages msgObj = new Messages();
+									msgObj.setUser_id_fk(SplitStr[i]);
+									msgObj.setMessage("A Land Acquisition against "+obj.getWork_id_fk()+" for "+obj.getLa_land_status_fk()+" is Acquired.");
+									msgObj.setRedirect_url("/get-land-acquisition/"+obj.getLa_id());
+									msgObj.setMessage_type("Land Acquisition");	
+									BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
+									template.update(messageQry, paramSource1);						
+								}						
+							}	
 						}
-						msgObj.setMessage("A new Land Acquisition against "+obj.getWork_id_fk()+" has been JM "+JMStatus);
-						msgObj.setRedirect_url("/get-land-acquisition/"+obj.getLa_id());
-						msgObj.setMessage_type("Land Acquisition");	
-						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
-						template.update(messageQry, paramSource1);						
-					}
-					if(!StringUtils.isEmpty(obj.getLa_land_status_fk()))
-					{
-						for(int i=0;i<SplitStr.length;i++)
-						{
-							Messages msgObj = new Messages();
-							msgObj.setUser_id_fk(SplitStr[i]);
-							msgObj.setMessage("A Land Acquisition against "+obj.getWork_id_fk()+" for "+obj.getLa_land_status_fk()+" is Acquired.");
-							msgObj.setRedirect_url("/get-land-acquisition/"+obj.getLa_id());
-							msgObj.setMessage_type("Land Acquisition");	
-							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
-							template.update(messageQry, paramSource1);						
-						}						
-					}					
 					
 				}
 				if(flag) {

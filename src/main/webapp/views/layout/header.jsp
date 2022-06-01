@@ -741,14 +741,6 @@
 							<!-- 1st level Dropdown ends -->
 						</ul></li>
 				</c:if>
-				<%-- <li class="blue"><a href="<%=request.getContextPath()%>/dpr" class='head-img'>
-                                        <span class="material-icons-outlined">assignment</span> Reports</a>
-                                    </li> --%>
-
-				<%-- <li class="blue"><a href="<%=request.getContextPath()%>/manuals"
-                                            class='head-img'>
-                                            <span class="material-icons-outlined">assignment</span> Manuals</a>
-                                        </li> --%>
 				<li class="blue darken-2"><a href="javascript:void(0);"
 					class='head-img'> <span class="material-icons-outlined">description</span>
 						Documents

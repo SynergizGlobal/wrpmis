@@ -135,8 +135,6 @@ public class PageConstants {
 	
 	public static final String contractResources = "forms/contractResources";
 	
-	public static final String manuals = "forms/manuals";
-	
 	public static final String activitiesReport = "forms/activitiesReport";
 	public static final String dailyProgressReport = "forms/dailyProgressReport";
 	
@@ -294,10 +292,6 @@ public class PageConstants {
 	public static final String referenceFormsMainPage = "referenceForms/referenceFormsMainPage";
 	
 	public static final String zonalRailwayFunds = "referenceForms/zonalRailwayFunds";
-	
-	public static final String referenceFormsAccessGrid = "forms/referenceFormsAccessGrid";
-	
-	public static final String addEditReferenceFormsAccessForm = "forms/addEditReferenceFormsAccessForm";
 	
 	public static final String alertLevel = "referenceForms/alertLevel";
 	

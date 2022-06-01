@@ -77,6 +77,10 @@
 		@media(max-width: 575px){
 			.row .col{margin: 6px auto}
 		}
+		.w90{
+			width: 95% !important;
+		}
+		
 			
     </style>
 </head>
@@ -117,7 +121,7 @@
                                 </div> -->
                                 <c:if test="${action eq 'add'}">	
 	                                <div class="col s6 m4 l6 input-field offset-m2">
-	                                    <input id="pan_number" name="pan_number" maxlength="10" minlength="10" type="text" class="validate" onblur="panNumberVerify()" style="text-transform:uppercase">
+	                                    <input id="pan_number" name="pan_number" maxlength="10" data-length="10" type="text" class="validate w85 pdr4em" onblur="panNumberVerify()" style="text-transform:uppercase">
 	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
@@ -135,7 +139,7 @@
                                  <c:if test="${action eq 'edit'}">	
                                   <input id="contractor_id" type="hidden" class="form-control" name="contractor_id" value="${contractorDetails.contractor_id }" >   
 	                                <div class="col s6 m4 l6 input-field offset-m2">
-	                                    <input id="pan_number" name="pan_number"  maxlength="10" minlength="10" type="text" class="validate" style="text-transform:uppercase" value="${contractorDetails.pan_number }" <c:if test="${not empty contractorDetails.pan_number }"> readonly </c:if>>
+	                                    <input id="pan_number" name="pan_number"  maxlength="10" data-length="10" type="text" class="validate" style="text-transform:uppercase" value="${contractorDetails.pan_number }" <c:if test="${not empty contractorDetails.pan_number }"> readonly </c:if>>
 	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
@@ -151,7 +155,7 @@
                             <c:if test="${action eq 'add'}">
                             	<div class="row">
 	                                <div class="col s12 m8 l12 input-field offset-m2">
-	                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }">
+	                                    <input id="contractor_name" name="contractor_name" maxlength="100" data-length="100" type="text" class="validate w90 pdr4em" value="${contractorDetails.contractor_name }">
 	                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
 	                                    <span id="contractor_nameError" class="error-msg" ></span>
 	                                </div>
@@ -166,7 +170,7 @@
 	                                 </c:if> --!>
 	
 	                                <div class="col s12 m8 l12 input-field offset-m2">
-	                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }" readonly="readonly">
+	                                    <input id="contractor_name" name="contractor_name" maxlength="100" data-length="100" type="text" class="validate w90 pdr4em" value="${contractorDetails.contractor_name }" readonly="readonly">
 	                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
 	                                    <span id="contractor_nameError" class="error-msg" ></span>
 	                                </div>
@@ -190,32 +194,32 @@
                                      <span id="primary_contact_nameError" class="error-msg" ></span>
                                  </div>
                                  <div class="col s6 m4 l4 input-field">
-                                     <input id="phone_number" name="phone_number" type="number" class="validate" value="${contractorDetails.phone_number }">
+                                     <input id="phone_number" name="phone_number" maxlength="15" data-length="15" type="number" class="validate w85 pdr4em" value="${contractorDetails.phone_number }">
                                      <label for="phone_number">Phone Number<span class="required">*</span></label>
                                      <span id="phone_numberError" class="error-msg" ></span>
                                  </div>  
                                  <div class="col s6 m4 l4 input-field offset-m2">
-                                     <input id="email" name="email_id" type="text" class="validate" value="${contractorDetails.email_id }">
+                                     <input id="email" name="email_id" maxlength="100" data-length="100" type="text" class="validate w85 pdr4em" value="${contractorDetails.email_id }">
                                      <label for="email">Email Address</label>
                                      <span id="emailError" class="error-msg" ></span>
                                  </div> 
                                  <div class="col s6 m4 l4 input-field">
-		                               		<input id="gst_number" name="gst_number" type="text" class="validate" value="${contractorDetails.gst_number }">
+		                               		<input id="gst_number" name="gst_number" maxlength="50" data-length="50" type="text" class="validate w85 pdr4em" value="${contractorDetails.gst_number }">
 		                               		<label for="gst_number">GST Number<span class="required">*</span></label>
 		                               		<span id="gst_numberError" class="error-msg" ></span>
 		                         		</div>
                                         <div class="col s6 m4 l4 input-field offset-m2">
-                                            <input id="bank_name" name="bank_name" type="text" class="validate" value="${contractorDetails.bank_name }">
+                                            <input id="bank_name" name="bank_name" maxlength="100" data-length="100" type="text" class="validate w85 pdr4em" value="${contractorDetails.bank_name }">
                                             <label for="bank_name">Bank Name </label>
                                             <span id="bank_nameError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s6 m2 l2 input-field">
-                                            <input id="ifsc_code" name="ifsc_code" type="text" class="validate" value="${contractorDetails.ifsc_code }">
+                                            <input id="ifsc_code" name="ifsc_code" maxlength="25" data-length="25" type="text" class="validate w70 pdr4em" value="${contractorDetails.ifsc_code }">
                                             <label for="ifsc_code"> IFSC Code </label>
                                             <span id="ifsc_codeError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m2 l2 input-field">
-                                            <input id="ac_no" name="account_number" type="number" class="validate" value="${contractorDetails.account_number }">
+                                            <input id="ac_no" name="account_number" maxlength="25" data-length="25" type="number" class="validate w70 pdr4em" value="${contractorDetails.account_number }">
                                             <label for="ac_no">Account No </label>
                                             <span id="ac_noError" class="error-msg" ></span>
                                         </div>
@@ -224,7 +228,7 @@
                             <div class="row">
                                <div class="col m2 hide-on-small-only"></div>
                                <div class="col s12 m8 l12 input-field">
-                                   <textarea id="bank_address" name="bank_address" class="pmis-textarea" data-length="1000">${contractorDetails.bank_address }</textarea>
+                                   <textarea id="bank_address" name="bank_address" maxlength="1000" data-length="1000" class="pmis-textarea w95 pdr4em" data-length="1000">${contractorDetails.bank_address }</textarea>
                                    <label for="bank_address">Bank Address</label>
                                    <span id="bank_addressError" class="error-msg" ></span>
                                </div>
@@ -291,6 +295,17 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
    <script>
+   
+   $(document).ready(function() {
+       $(".num").keypress(function() {
+           if ($(this).val().length == $(this).attr("maxlength")) {
+               return false;
+           }
+       });
+   });
+	 $("[data-length]").each(function(i,val){
+    	$('#'+val.id).characterCounter();;
+    });
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();

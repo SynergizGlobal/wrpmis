@@ -256,6 +256,10 @@
 				padding-bottom:1rem;
 			}
 		}
+		.w90{
+			width: 95% !important;
+		}
+		
     </style>
 </head> 
 
@@ -388,7 +392,7 @@
                                 
                                 <div class="row">                            
 	                                <div class="col s12 m12 l12 input-field mt20px ">
-	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
+	                                    <input name="contract_short_name" maxlength="100" data-length="100" id="contract_short_name" type="text" class="validate w85 pdr5em " >
 	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
@@ -450,7 +454,7 @@
 								</div>
 	                            <div class="row">
 	                                <div class="col s12 m12 l12 input-field">
-	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate pmis-textarea" ></textarea>
+	                                    <textarea name="contract_name"  maxlength="1000" data-length="1000" id="contract_name" type="text" class="validate pmis-textarea w90 w90 pdr4em " ></textarea>
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>	                              
@@ -476,13 +480,13 @@
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s12 m8 l12 input-field offset-m2" id="scope_of_contract_div">
-	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000">${contractDeatils.scope_of_contract }</textarea>
+	                                    <textarea id="scope_of_contract" name="scope_of_contract"  maxlength="1000" class="pmis-textarea validate w90 pdr5em " data-length="1000">${contractDeatils.scope_of_contract }</textarea>
 	                                    <label for="scope_of_contract">Scope of Contract</label>
 	                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
 	                                </div>
 	                           
 	                                <div class="col s6 m4 l6 input-field offset-m2" id="loa_letter_number_div">
-	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate">
+	                                    <input id="loa_letter_number" name="loa_letter_number"  maxlength="25" data-length="25"type="text" class="validate w85 pdr5em">
 	                                    <label for="loa_letter_number">LOA Letter No</label>
 	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
 	                                </div>
@@ -528,8 +532,8 @@
 		                            </div>   
 		                            
 		                            <div class="row">
-		                                <div class="col s12 m12 l12 input-field ">
-		                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000" ></textarea>
+		                                <div class="col s12 m12 l12 input-field w95 pdr5em ">
+		                                    <textarea id="remarks" name ="remarks"  maxlength="100"  class="pmis-textarea" data-length="1000" ></textarea>
 		                                    <label for="remarks">Remarks</label>
 		                                    <span id="remarksError" class="error-msg"></span>
 		                                </div>
@@ -562,7 +566,7 @@
 					                                          			  </c:forEach>
 					                               					  </select>
 															    </td>
-			                                                    <td data-head="Name" class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
+			                                                    <td data-head="Name" class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames"  maxlength="25" data-length="25" type="text" class="validate w90 pdr4em"
 			                                                            placeholder="Name">
 			                                                    </td>
 			                                                    <td data-head="Attachment" class="input-field">
@@ -652,6 +656,16 @@
 
 
     <script>
+    $(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	 $("[data-length]").each(function(i,val){
+     	$('#'+val.id).characterCounter();;
+     });
 	   /*  let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);

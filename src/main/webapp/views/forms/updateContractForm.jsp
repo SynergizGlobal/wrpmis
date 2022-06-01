@@ -458,6 +458,19 @@
 			    width: 100%;
 			}
 		}
+		.w90{
+			width: 95% !important;
+		}
+		
+		.w90 {
+    	width: 90% !important;
+		}
+		.op .character-counter {
+    background-color: smoke;
+    position: relative;
+    top: 0;
+    right: 1.5em;
+}
     </style>
 </head>
 
@@ -704,7 +717,7 @@
 	                        
                            <div class="row">
 	                            <div class="col s12 m12 l12 input-field mt20px">
-	                                <input name="contract_short_name" id="contract_short_name" type="text" class="validate validate-dropdown" 
+	                                <input name="contract_short_name" maxlength="100" data-length="100" id="contract_short_name" type="text" class="validate validate-dropdown w90 pdr4em" 
 	                                <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
 	                                 value="${contractDeatils.contract_short_name }" >
 	                                <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
@@ -713,7 +726,7 @@
                            </div>
 	                        <div class="row">
 	                                <div class="col s12 m12 l12 input-field ">
-	                                    <textarea id="contract_name" name ="contract_name" class="pmis-textarea validate-dropdown" data-length="1000"
+	                                    <textarea id="contract_name" name ="contract_name" maxlength="1000" class="pmis-textarea validate-dropdown w95 pdr4em" data-length="1000"
 	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if> 
 	                                     > ${contractDeatils.contract_name }</textarea>
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
@@ -773,7 +786,7 @@
 						        
 	                            <div class="row" id="scope_of_contract_div">
 	                                <div class="col s12 m12 l12 input-field ">
-	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000" 
+	                                    <textarea id="scope_of_contract" name="scope_of_contract" maxlength="1000" class="pmis-textarea validate w95 pdr4em" data-length="1000" 
 	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if> 
 	                                     >${contractDeatils.scope_of_contract }</textarea>
 	                                    <label for="scope_of_contract">Scope of Contract</label>
@@ -782,7 +795,7 @@
 	                             </div>
 	                             <div class="row">
 	                                <div class="col s6 m6 l6 input-field " id="loa_letter_number_div">
-	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate" value="${contractDeatils.loa_letter_number }">
+	                                    <input id="loa_letter_number" name="loa_letter_number" maxlength="25" data-length="25" type="text" class="validate w90 pdr4em" value="${contractDeatils.loa_letter_number }">
 	                                    <label for="loa_letter_number">LOA Letter No <span class="required" id="loa_letter_number_req">*</span></label>
 	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
 	                                   
@@ -796,7 +809,7 @@
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s6 m6 l6 input-field " id="ca_no_div">
-	                                    <input id="ca_no" name="ca_no" type="text" class="validate" value="${contractDeatils.ca_no }">
+	                                    <input id="ca_no" name="ca_no" maxlength="25" data-length="25" type="text" class="validate w90 pdr4em" value="${contractDeatils.ca_no }">
 	                                    <label for="ca_no">CA No</label>
 	                                     <span id="ca_noError" class="error-msg" ></span>
 	                                </div>
@@ -871,9 +884,9 @@
                                 	
                                 </div>
                                 <div class="row">
-                                	<div class="col s12 m6 l6 input-field amount-dropdown" id="awarded_cost_div">
+                                	<div class="col s12 m6 l6 input-field amount-dropdown op" id="awarded_cost_div">
 	                                    <i class="material-icons amount-symbol cost">₹</i>
-	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate" value="${contractDeatils.awarded_cost }">
+	                                    <input id="awarded_cost"  name="awarded_cost" type="number" min="0.01" step="0.01" class="validate num" value="${contractDeatils.awarded_cost }">
 	                                    <label for="awarded_cost">Awarded cost <span class="required" id="awarded_cost_req">*</span></label>
 	                                    <span id="awarded_costError" class="error-msg" ></span>
 	                                	<span id="awarded_cost_unitsError" class="error-msg right" ></span>
@@ -1117,7 +1130,7 @@
                                     </p>
                                 </div>
                             	</div> 
-                                <div class="table-inside" id="bank_guarantee_div" style="display: none;">
+                                <div class="table-inside op" id="bank_guarantee_div" style="display: none;">
                                     <table id="bankTable" class="mdl-data-table mobile_responsible_table another">
                                         <thead>
                                             <tr>
@@ -1243,7 +1256,7 @@
                                                         placeholder="BG Type">
                                                 </td> -->
                                                 <td data-head="Issuing Bank " class="input-field">
-                                                    <input id="issuing_banks0" name="issuing_banks"  type="text" class="validate"
+                                                    <input id="issuing_banks0" name="issuing_banks" maxlength="25" data-length="25" type="text" class="validate w80 pdr4em"
                                                         placeholder="Issuing Bank">
                                                 </td>
                                                <!--  <td>
@@ -1257,7 +1270,7 @@
                                                 <td data-head="Amount " class="input-field">      
                                                		<span class="amount-dropdown">
                                                			<i class="material-icons amount-symbol cost left-align">₹</i>
-                                                    	<input id="bg_values0" name="bg_values" min="0.01" step="0.01" type="number" class="validate"     placeholder="Amount">
+                                                    	<input id="bg_values0" name="bg_values" maxlength="25" data-length="25" min="0.01" step="0.01" type="number" class="validate w95 pdr4em"     placeholder="Amount">
                                                     	<select class="validate-dropdown" id="bg_values_units0" name="bg_value_unitss">
 					                                		<!-- <option value="">Select</option> -->
 					                                		<c:forEach var="obj" items="${unitsList }">
@@ -1514,16 +1527,16 @@
                                                      <span id="insurance_type_fks0Error" class="my-error"></span>
                                                 </td>
                                                 <td data-head="Issuing Agency " class="input-field">
-                                                    <input id="issuing_agencys0" name="issuing_agencys" type="text" class="validate" 
+                                                    <input id="issuing_agencys0" name="issuing_agencys" maxlength="25" data-length="25" type="text" class="validate w80 pdr4em" 
                                                         placeholder="Issuing Agency">
                                                 </td>
                                                 <td data-head="Agency Address " class="input-field">
-                                                    <input id="agency_addresss0" name="agency_addresss" type="text" class="validate" 
+                                                    <input id="agency_addresss0" name="agency_addresss" maxlength="100" data-length="100" type="text" class="validate w80 pdr4em" 
                                                         placeholder="Agency Address">
                                                 </td>
 
                                                 <td data-head="Insurance Number " class="input-field">
-                                                    <input id="insurance_numbers0" name="insurance_numbers" type="text" class="validate" 
+                                                    <input id="insurance_numbers0" name="insurance_numbers" maxlength="50" data-length="50"type="text" class="validate w80 pdr4em" 
                                                         placeholder="Insurance Number">
                                                 </td>
                                                 <td data-head="Insurance Value " class="input-field amount-dropdown">
@@ -1667,7 +1680,7 @@
 	                                                        placeholder="Milestone ID " readonly>
 	                                                </td>                                 
 	                                                <td data-head="Milestone Name " class="input-field">
-	                                                    <input id="milestone_names${index.count }" name="milestone_names" type="text" class="validate" value="${milestonesObj.milestone_name }"
+	                                                    <input id="milestone_names${index.count }" name="milestone_names" maxlength="25" data-length="25" type="text" class="validate w80 pdr4em" value="${milestonesObj.milestone_name }"
 	                                                        placeholder="Milestone Name ">
 	                                                </td>
 	                                                <td data-head="Milestone Date " class="input-field">
@@ -1681,11 +1694,11 @@
 	                                                    <button type="button" id="actual_dates${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="Revision" class="input-field">
-	                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate" value="${milestonesObj.revision }"
+	                                                    <input id="revisions${index.count }" name="revisions" maxlength="25" data-length="25" type="text" class="validate w80 pdr4em" value="${milestonesObj.revision }"
 	                                                        placeholder="Revision">
 	                                                </td>
 	                                                <td data-head="Remarks " class="input-field">
-	                                                    <input id="mile_remarks${index.count }" name="mile_remarks" type="text" class="validate" value="${milestonesObj.remarks }"
+	                                                    <input id="mile_remarks${index.count }" name="mile_remarks" maxlength="100" data-length="100" type="text" class="validate w80 pdr4em" value="${milestonesObj.remarks }"
 	                                                        placeholder="Remarks">
 	                                                </td>
 	                                             <%--    <td class="mobile_btn_close"><a onclick="removeMilestone('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
@@ -1861,7 +1874,7 @@
                                                 	</label></p>
                                                 </td> 
                                                 <td data-head="Remarks " class="input-field "> 
-                                                    <input id="revision_remarks${index.count }" name="revision_remarks" type="text" class="validate" value="${revObj.remarks }"
+                                                    <input id="revision_remarks${index.count }" name="revision_remarks"type="text" class="validate" value="${revObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
                                                <%--  <td class="mobile_btn_close"><a onclick="removeRev('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
@@ -1963,7 +1976,7 @@
                                                  	</td>      
                                                
                                                 <td data-head="Remarks " class="input-field"> 
-                                                    <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
+                                                    <input id="revision_remarks0" name="revision_remarks" maxlength="100" data-length="100" type="text" class="validate w80 pdr4em" 
                                                         placeholder="Remarks">
                                                 </td>
                                                 <!-- <td class="mobile_btn_close"><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
@@ -2092,16 +2105,16 @@
 		                                             	<c:otherwise>
 		                                             		<tr id="keyPersonnelRow0">
 			                                                    <td data-head="Name " class="input-field"> 
-			                                                    	<input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">
+			                                                    	<input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" maxlength="100" data-length="100" type="text" class="validate w80 pdr4em" placeholder="Name">
 			                                                    </td>
 			                                                    <td data-head="Designation " class="input-field"> 
-			                                                    	<input id="contractKeyPersonnelDesignations0" name="contractKeyPersonnelDesignations" type="text" class="validate" placeholder="Designation">
+			                                                    	<input id="contractKeyPersonnelDesignations0" name="contractKeyPersonnelDesignations" maxlength="100" data-length="100" type="text" class="validate w80 pdr4em" placeholder="Designation">
 			                                                    </td>
 			                                                    <td data-head="Mobile No" class="input-field">
-			                                                        <input id="contractKeyPersonnelMobileNos0" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">
+			                                                        <input id="contractKeyPersonnelMobileNos0" name="contractKeyPersonnelMobileNos" maxlength="100" data-length="100" type="number" class="validate w80 pdr4em" placeholder="Mobile No">
 			                                                    </td>
 			                                                    <td data-head="Email ID " class="input-field">
-			                                                        <input id="contractKeyPersonnelEmailIds0" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">
+			                                                        <input id="contractKeyPersonnelEmailIds0" name="contractKeyPersonnelEmailIds" maxlength="100" data-length="100" type="text" class="validate w80 pdr4em" placeholder="Email">
 			                                                    </td>
 			                                                    <td class="mobile_btn_close">
 			                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('0');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
@@ -2205,7 +2218,7 @@
 				                                          			  </c:forEach>
 				                               					  </select>
 															    </td>
-		                                                    <td data-head="Name " class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
+		                                                    <td data-head="Name " class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames" maxlength="25" data-length="25" type="text" class="validate w80 pdr4em"
 		                                                            placeholder="Name">
 		                                                    </td>
 		                                                    <td data-head="Attachment" class="input-field">
@@ -2318,6 +2331,16 @@
 
 
     <script>
+    $(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	 $("[data-length]").each(function(i,val){
+     	$('#'+val.id).characterCounter();;
+     });
 	    $(document).on('focus', '.datepicker-max-today', function () {        	 
 			var id = $(this).attr('id');
 				var dt = this.value.split(/[^0-9]/);

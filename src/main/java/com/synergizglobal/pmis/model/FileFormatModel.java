@@ -150,7 +150,9 @@ public class FileFormatModel {
 	
 	public static List<String> getActivityData_new_FileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Section^From Structure ID^To Structure ID^Line^Structure Type^Structure ID^Component^Component ID^Activity^Unit^Total Scope^Completed^Weightage Point^Planned Start Date^Planned Finish Date^Actual Start Date^Actual Finish Date^Components Detail^Remarks^P6 Task Code";
+		String columns = "P6 Task Code^Structure Type^Structure ID^Component^Component ID^Activity^Unit^Total Scope^Completed^Weightage Point^"
+				+ "Planned Start Date^Planned Finish Date^Actual Start Date^Actual Finish Date^Components Detail^Section^From Structure ID^To Structure ID^"
+				+ "Line^Remarks";
 		String[] convertedColumnsArray = columns.split("\\^");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

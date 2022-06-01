@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.reference.Iservice.RailwayService;
 import com.synergizglobal.pmis.reference.model.Risk;
 import com.synergizglobal.pmis.reference.model.TrainingType;
-import com.synergizglobal.pmis.constants.PageConstants;
 
 @Controller
 public class RailwayController {
@@ -29,7 +29,7 @@ public class RailwayController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	Logger logger = Logger.getLogger(ReportTypeController.class);
+	Logger logger = Logger.getLogger(RailwayController.class);
 	
 	@Autowired
 	RailwayService service;

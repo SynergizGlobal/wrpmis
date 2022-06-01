@@ -288,7 +288,9 @@
 			    vertical-align: top;
 			}
 		}
-		
+		.w65{
+			width: 62% !important;
+		}
     </style>
 </head>
 <body>
@@ -367,29 +369,29 @@
 	                                 <span id="identificationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                     <input id="location_name" name="location_name" type="text" class="validate" value="${utilityShifting.location_name }">                                     
+                                     <input id="location_name" maxlength="50" data-length="50" name="location_name" type="text" class="validate w85 pdr4em" value="${utilityShifting.location_name }">                                     
                                      <label for="location_name">Location Name<span class="required">*</span></label>
 	                                 <span id="location_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="reference_number" name="reference_number" type="text" class="validate" value="${utilityShifting.reference_number }">                                     
+                                    <input id="reference_number" maxlength="25" data-length="25" name="reference_number" type="text" class="validate w85 pdr4em" value="${utilityShifting.reference_number }">                                     
                                      <label for="reference_number">Reference Number<span class="required">*</span> </label>
 	                                 <span id="reference_numberError" class="error-msg" ></span>
                                 </div>
 							</div>
 							<div class="row">
 								 <div class="col s6 m4 input-field">
-                                     <input id="latitude" name="latitude" type="text" class="validate" value="${utilityShifting.latitude }">                                     
+                                     <input id="latitude" maxlength="25" data-length="25" name="latitude" type="text" class="validate w85 pdr4em" value="${utilityShifting.latitude }">                                     
                                      <label for="latitude">Chainage</label>
 	                                 <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                     <input id="utility_description" name="utility_description" type="text" class="validate" value="${utilityShifting.utility_description }">                                     
+                                     <input id="utility_description" maxlength="50" data-length="50" name="utility_description" type="text" class="validate w85 pdr4em" value="${utilityShifting.utility_description }">                                     
                                      <label for="utility_description">Utility Description<span class="required">*</span></label>
 	                                 <span id="utility_descriptionError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="owner_name" name="owner_name" type="text" class="validate" value="${utilityShifting.owner_name }">                                     
+                                    <input id="owner_name" maxlength="25" data-length="25" name="owner_name" type="text" class="validate w85 pdr4em" value="${utilityShifting.owner_name }">                                     
                                      <label for="owner_name">Owner <span class="required">*</span></label>
 	                                 <span id="owner_nameError" class="error-msg" ></span>
                                 </div>
@@ -462,12 +464,12 @@
 							</div>
 							<div class="row">
 								<div class="col s6 m2 l2 input-field">
-                                     <input id="scope" name="scope" type="number" class="validate" value="${utilityShifting.scope }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
+                                     <input id="scope" maxlength="25" data-length="25" name="scope" type="number" class="validate w65 pdr3em num" value="${utilityShifting.scope }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
                                      <label for="scope">Scope <span class="required"></span></label>
 	                                 <span id="scopeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m2 l2 input-field">
-                                     <input id="completed" name="completed" type="number" class="validate" value="${utilityShifting.completed }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
+                                     <input id="completed" maxlength="25" data-length="25" name="completed" type="number" class="validate w65 pdr3em num" value="${utilityShifting.completed }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
                                      <label for="completed">Completed <span class="required"></span></label>
 	                                 <span id="completedError" class="error-msg" ></span>
                                 </div>
@@ -521,7 +523,7 @@
 										                                  <span id="progress_date${index.count}Error" class="error-msg" ></span>
 											                        </td>
 											                        <td data-head="Progress of Work" class="input-field">
-											                            <textarea id="progress_of_work${index.count }" name ="progress_of_works" class="pmis-textarea" placeholder="Progress of Work">${pObj.progress_of_work }</textarea>
+											                            <textarea id="progress_of_work${index.count }" maxlength="1000" data-length="1000" name ="progress_of_works" class="pmis-textarea pdr5em" placeholder="Progress of Work">${pObj.progress_of_work }</textarea>
 									                                    <span id="progress_of_work${index.count }Error" class="error-msg"></span>
 											                        </td>
 											                        <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
@@ -541,7 +543,7 @@
 								                                  <span id="progress_date0Error" class="error-msg" ></span>
 									                        </td>									                       
 									                        <td data-head="Progress of Work" class="input-field">
-									                            <textarea id="progress_of_work0" name ="progress_of_works" class="pmis-textarea" placeholder="Progress of Work"></textarea>
+									                            <textarea id="progress_of_work0" maxlength="1000" data-length="1000" name ="progress_of_works" class="pmis-textarea pdr5em" placeholder="Progress of Work"></textarea>
 							                                    <span id="progress_of_work0Error" class="error-msg"></span>
 									                        </td>
 									                        <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
@@ -608,7 +610,7 @@
 					                                          			  </c:forEach>
 					                               					  </select>
 															    </td>
-			                                                    <td data-head="Name " class="input-field"> <input id="attachmentNames${index.count }" name="attachmentNames" type="text" class="validate"
+			                                                    <td data-head="Name " class="input-field"> <input id="attachmentNames${index.count }" maxlength="50" data-length="50" name="attachmentNames" type="text" class="validate w85 pdr4em"
 			                                                            placeholder="Name" value="${docObj.name }">
 			                                                    </td>
 			                                                    <td data-head="Attachment" class="input-field">
@@ -645,7 +647,7 @@
 				                                          			  </c:forEach>
 				                               					  </select>
 															    </td>
-		                                                    <td data-head="Name " class="input-field"> <input id="attachmentNames0" name="attachmentNames" type="text" class="validate"
+		                                                    <td data-head="Name " class="input-field"> <input id="attachmentNames0" maxlength="50" data-length="50" name="attachmentNames" type="text" class="validate w85 pdr4em"
 		                                                            placeholder="Name">
 		                                                    </td>
 		                                                    <td data-head="Attachment" class="input-field">
@@ -695,7 +697,7 @@
                                                    
                             <div class="row">
                                 <div class="col s12 m12 input-field">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${utilityShifting.remarks }</textarea>
+                                    <textarea id="remarks" maxlength="1000" data-length="1000" name="remarks" class="pmis-textarea pdr5em" data-length="1000">${utilityShifting.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>
@@ -757,7 +759,16 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
    <script>
-   
+   $(document).ready(function() {
+       $(".num").keypress(function() {
+           if ($(this).val().length == $(this).attr("maxlength")) {
+               return false;
+           }
+       });
+   });
+	 $("[data-length]").each(function(i,val){
+    	$('#'+val.id).characterCounter();;
+    });
    
    $(document).ready(function () {
         $('select:not(.searchable)').formSelect();
@@ -954,7 +965,7 @@
 					  				+ '<option value="${obj.utility_shifting_file_type }">${obj.utility_shifting_file_type}</option>'
 		           			  </c:forEach> 
 						+ '</select></td>'
-					 +'<td data-head="Name " class="input-field"> <input id="attachmentNames'+rNo+'" name="attachmentNames" type="text" class="validate" placeholder="Name"> </td>'
+					 +'<td data-head="Name " class="input-field"> <input id="attachmentNames'+rNo+'" maxlength="50" data-length="50" name="attachmentNames" type="text" class="validate w85 pdr4em" placeholder="Name"> </td>'
 					 +'<td data-head="Attachment" class="input-field">'
 					 +'<span class="normal-btn">'
 					 +'<input type="file" id="utilityShiftingFiles'+rNo+'" name="utilityShiftingFiles" style="display:none" onchange="getFileName('+rNo+')" />'
@@ -975,6 +986,7 @@
 		
 			 $('#attachmentsTableBody').append(html);
 			 $("#attachmentRowNo").val(rNo);
+			 $('#attachmentNames'+rNo).characterCounter();;
 			 $('.searchable').select2();
 	         $("#attach_file_ids0").val('');
 	} 
@@ -998,7 +1010,7 @@
 		 			+'<td data-head="Progress Date" class="input-field"> <input id="progress_date'+rNo+'" name="progress_dates" type="text" class="validate datepicker" '
 		 			+'placeholder="Progress Date"> <button type="button" id="progress_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> '											                              
         			+'<span id="progress_date'+rNo+'Error" class="error-msg" ></span>   </td>'
-   					+'<td data-head="Progress of Work" class="input-field"> <textarea id="progress_of_work'+rNo+'" name ="progress_of_works" class="pmis-textarea" placeholder="Progress of Work"></textarea>'
+   					+'<td data-head="Progress of Work" class="input-field"> <textarea id="progress_of_work'+rNo+'" maxlength="1000" data-length="1000" name ="progress_of_works pdr5em" class="pmis-textarea pdr4em" placeholder="Progress of Work"></textarea>'
    					+'<span id="progress_of_work'+rNo+'Error" class="error-msg"></span>  </td>'
    				<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
       				+'<td class="mobile_btn_close"> <a onclick="removeProgressDetailsRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td>'
@@ -1006,6 +1018,7 @@
 					+'</tr>';
 		
 			 $('#progressDetailsTableBody').append(html); 
+			 $('#progress_of_work'+rNo).characterCounter();;
 			 $("#progressDetailsRowNo").val(rNo);
 			 $('.searchable').select2();
     }

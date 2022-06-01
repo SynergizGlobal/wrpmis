@@ -225,9 +225,6 @@ public class UserController {
 			List<User> reportingToList = userService.getUserReportingToList(null);
 			model.addObject("reportingToList", reportingToList);
 			
-			List<User> userAccessTypes = userService.getUserAccessTypes(null);
-			model.addObject("userAccessTypes", userAccessTypes);
-			
 			List<User> pmisKeys = userService.getPmisKeys();
 			model.addObject("pmisKeys", pmisKeys);
 			
@@ -235,58 +232,6 @@ public class UserController {
 			logger.error("addUserForm : " + e.getMessage());
 		}
 		return model;
-	}
-	
-	@RequestMapping(value = "/ajax/getContractsForUserAccessTypes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<User> getContractsForUserAccessTypes(@ModelAttribute User obj) {
-		List<User> contracts = null;
-		try {
-			contracts = userService.getContractsForUserAccessTypes(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getContractsForUserAccessTypes : " + e.getMessage());
-		}
-		return contracts;
-	}
-	
-	@RequestMapping(value = "/ajax/getDepartmentsForUserAccessTypes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<User> getDepartmentsForUserAccessTypes(@ModelAttribute User obj) {
-		List<User> departments = null;
-		try {
-			departments = userService.getDepartmentsForUserAccessTypes(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getDepartmentsForUserAccessTypes : " + e.getMessage());
-		}
-		return departments;
-	}
-	
-	@RequestMapping(value = "/ajax/getModulesForUserAccessTypes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<User> getModulesForUserAccessTypes(@ModelAttribute User obj) {
-		List<User> modules = null;
-		try {
-			modules = userService.getModulesForUserAccessTypes(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getModulesForUserAccessTypes : " + e.getMessage());
-		}
-		return modules;
-	}
-	
-	@RequestMapping(value = "/ajax/getWorksForUserAccessTypes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<User> getWorksForUserAccessTypes(@ModelAttribute User obj) {
-		List<User> works = null;
-		try {
-			works = userService.getWorksForUserAccessTypes(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getWorksForUserAccessTypes : " + e.getMessage());
-		}
-		return works;
 	}
 	
 	@RequestMapping(value="/add-user",method=RequestMethod.POST)
@@ -338,23 +283,8 @@ public class UserController {
 			List<User> departments = userService.getUserDepartments();
 			model.addObject("departments", departments);
 			
-			List<User> userAccessTypes = userService.getUserAccessTypes(null);
-			model.addObject("userAccessTypes", userAccessTypes);
-			
 			List<User> pmisKeys = userService.getPmisKeys();
 			model.addObject("pmisKeys", pmisKeys);
-			
-			List<User> contractsForAccess = userService.getContractsForUserAccessTypes(obj);
-			model.addObject("contractsForAccess", contractsForAccess);
-			
-			List<User> departmentsForAccess = userService.getDepartmentsForUserAccessTypes(obj);
-			model.addObject("departmentsForAccess", departmentsForAccess);
-			
-			List<User> modulesForAccess = userService.getModulesForUserAccessTypes(obj);
-			model.addObject("modulesForAccess", modulesForAccess);
-			
-			List<User> worksForAccess = userService.getWorksForUserAccessTypes(obj);
-			model.addObject("worksForAccess", worksForAccess);
 			
 			User user = userService.getUser(obj);			
 			model.addObject("usrObj", user);
@@ -387,23 +317,8 @@ public class UserController {
 			List<User> departments = userService.getUserDepartments();
 			model.addObject("departments", departments);
 			
-			List<User> userAccessTypes = userService.getUserAccessTypes(null);
-			model.addObject("userAccessTypes", userAccessTypes);
-			
 			List<User> pmisKeys = userService.getPmisKeys();
 			model.addObject("pmisKeys", pmisKeys);
-			
-			List<User> contractsForAccess = userService.getContractsForUserAccessTypes(obj);
-			model.addObject("contractsForAccess", contractsForAccess);
-			
-			List<User> departmentsForAccess = userService.getDepartmentsForUserAccessTypes(obj);
-			model.addObject("departmentsForAccess", departmentsForAccess);
-			
-			List<User> modulesForAccess = userService.getModulesForUserAccessTypes(obj);
-			model.addObject("modulesForAccess", modulesForAccess);
-			
-			List<User> worksForAccess = userService.getWorksForUserAccessTypes(obj);
-			model.addObject("worksForAccess", worksForAccess);
 			
 			User user = userService.getUser(obj);			
 			model.addObject("usrObj", user);

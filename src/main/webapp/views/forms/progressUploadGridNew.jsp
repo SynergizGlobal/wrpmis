@@ -161,7 +161,7 @@
 								<div class="col s12 m4 offset-m2 offset-l1">
 									<div class="center-align m-1">
 										<!-- <button type="button" class="btn waves-effect waves-light bg-s t-c"	style="width: 100%" onclick="clearFilters();">Clear Filters</button> -->
-										<p style="padding-top:1rem">Click <a href="/pmis/Activities_Template_demo.xlsx" download>here</a> for the template</p>
+										<p style="padding-top:1rem">Click <a href="/pmis/Activities_Template.xlsx" download>here</a> for the template</p>
 									</div>
 								</div>
 								<div class="col s12 m4 input-field center-align">

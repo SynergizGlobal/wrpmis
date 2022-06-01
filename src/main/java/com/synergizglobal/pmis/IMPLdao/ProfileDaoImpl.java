@@ -62,15 +62,6 @@ public class ProfileDaoImpl implements ProfileDao {
 			
 			userDetails = (User)jdbcTemplate.queryForObject( qry,  new Object[] {userId}, new BeanPropertyRowMapper<User>(User.class));	
 			
-			if(!StringUtils.isEmpty(userDetails) && !StringUtils.isEmpty(userDetails.getUser_id())) {
-				List<User> objsList = null;
-				String qryUserPermission = "select user_access_type_fk as user_access_type,access_value from user_access where user_id_fk = ? " ;
-				
-				objsList = jdbcTemplate.query(qryUserPermission, new Object[] {userId}, new BeanPropertyRowMapper<User>(User.class));	
-				
-				userDetails.setUserPermissions(objsList);
-			}
-			
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

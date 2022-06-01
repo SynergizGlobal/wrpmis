@@ -356,7 +356,8 @@ public class ActivitiesUploadNewController {
 							
 							List<Activity> activityList = new ArrayList<Activity>();
 							
-							String activity_id = null,contract_id_fk = null,struture_type_fk = null,from_structure_id=null,to_structure_id=null,section = null,line = null,structure_type = null,structure_id = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null,p6_task_code = null;
+							String activity_id = null,contract_id_fk = null,struture_type_fk = null,from_structure_id=null,to_structure_id=null,section = null,line = null,
+									structure_type = null,structure_id = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null,p6_task_code = null;
 							String completed_scope_gt_total_scope = "",
 									planned_start_null = "",planned_finish_null = "",planned_start_gt_planned_finish = "",
 									actual_start_null = "",actual_start_gt_actual_finish = "";
@@ -364,7 +365,7 @@ public class ActivitiesUploadNewController {
 								XSSFRow row = activityDataSheet.getRow(j);
 								if(!StringUtils.isEmpty(row)) {
 									String componentId_temp = null;
-									Cell cell = row.getCell(5);
+									Cell cell = row.getCell(4);
 									if(!StringUtils.isEmpty(cell)) {
 										componentId_temp = formatter.formatCellValue(cell).trim();
 									}
@@ -380,64 +381,81 @@ public class ActivitiesUploadNewController {
 										String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
 										int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											section = getCellDataType(workbook,row.getCell(0));
+											p6_task_code = getCellDataType(workbook,row.getCell(0));
 										}	
-										if(!StringUtils.isEmpty(section)) { activityObj.setSection(section);}
+										if(!StringUtils.isEmpty(p6_task_code)) { activityObj.setP6_task_code(p6_task_code);}	
 										
 										tempVal = formatter.formatCellValue(row.getCell(1)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										
 										if(count != 2) {
-											from_structure_id = getCellDataType(workbook,row.getCell(1));
-										}	
-										if(!StringUtils.isEmpty(from_structure_id)) { activityObj.setFrom_structure_id(from_structure_id);}
-										
-										tempVal = formatter.formatCellValue(row.getCell(2)).trim();
-										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										
-										if(count != 2) {
-											to_structure_id = getCellDataType(workbook,row.getCell(2));
-										}	
-										if(!StringUtils.isEmpty(to_structure_id)) { activityObj.setTo_structure_id(to_structure_id);}
-										
-										tempVal = formatter.formatCellValue(row.getCell(3)).trim();
-										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										
-										
-										
-										if(count != 2) {
-											line = getCellDataType(workbook,row.getCell(3));
-										}	
-										if(!StringUtils.isEmpty(line)) { activityObj.setLine(line);}
-										
-										tempVal = formatter.formatCellValue(row.getCell(2)).trim();
-										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										if(count != 2) {
-											structure_type = getCellDataType(workbook,row.getCell(4));
+											structure_type = getCellDataType(workbook,row.getCell(1));
 										}	
 										if(!StringUtils.isEmpty(structure_type)) { activityObj.setStructure_type(structure_type);}
 										
+										
+										
+										
+										tempVal = formatter.formatCellValue(row.getCell(2)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											structure_id = getCellDataType(workbook,row.getCell(2));
+										}	
+										if(!StringUtils.isEmpty(structure_id)) { activityObj.setStructure(structure_id);}
+										
+										
+										
+										
 										tempVal = formatter.formatCellValue(row.getCell(3)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											structure_id = getCellDataType(workbook,row.getCell(5));
+											component = getCellDataType(workbook,row.getCell(3));
 										}	
-										if(!StringUtils.isEmpty(structure_id)) { activityObj.setStructure(structure_id);}
+										if(!StringUtils.isEmpty(component)) { activityObj.setComponent(component);}
 										
 										tempVal = formatter.formatCellValue(row.getCell(4)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											component = getCellDataType(workbook,row.getCell(6));
+											component_id = getCellDataType(workbook,row.getCell(4));
 										}	
-										if(!StringUtils.isEmpty(component)) { activityObj.setComponent(component);}
+										if(!StringUtils.isEmpty(component_id)) { activityObj.setComponent_id(component_id);}
+										
+										
 										
 										tempVal = formatter.formatCellValue(row.getCell(5)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											component_id = getCellDataType(workbook,row.getCell(7));
+											activity_name = getCellDataType(workbook,row.getCell(5));
 										}	
-										if(!StringUtils.isEmpty(component_id)) { activityObj.setComponent_id(component_id);}
+										if(!StringUtils.isEmpty(activity_name)) { activityObj.setActivity_name(activity_name);}
 										
+										
+		
+										
+										tempVal = formatter.formatCellValue(row.getCell(6)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										
+
+										if(count != 2) {
+											unit = getCellDataType(workbook,row.getCell(6));
+										}	
+										if(!StringUtils.isEmpty(unit)) { activityObj.setUnit(unit);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(7)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											scope = getCellDataType(workbook,row.getCell(7));
+										}	
+										if(!StringUtils.isEmpty(scope)) { activityObj.setScope(scope);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(8)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											completed = getCellDataType(workbook,row.getCell(8));
+										}	
+										if(!StringUtils.isEmpty(completed)) { activityObj.setCompleted(completed);}
+										
+										
+					
 										
 										for (Activity cObj : structureIdList) {
 											if(cObj.getStructure().equals(activityObj.getStructure())) {
@@ -452,45 +470,20 @@ public class ActivitiesUploadNewController {
 											}
 										}
 										if(StringUtils.isEmpty(activityObj.getOrder_y())) { activityObj.setOrder_y("9999");}
-										
-										tempVal = formatter.formatCellValue(row.getCell(6)).trim();
-										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										if(count != 2) {
-											activity_name = getCellDataType(workbook,row.getCell(8));
-										}	
-										if(!StringUtils.isEmpty(activity_name)) { activityObj.setActivity_name(activity_name);}
-										
-										tempVal = formatter.formatCellValue(row.getCell(7)).trim();
-										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										
-
-										if(count != 2) {
-											unit = getCellDataType(workbook,row.getCell(9));
-										}	
-										if(!StringUtils.isEmpty(unit)) { activityObj.setUnit(unit);}
-										
-										tempVal = formatter.formatCellValue(row.getCell(8)).trim();
-										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										if(count != 2) {
-											scope = getCellDataType(workbook,row.getCell(10));
-										}	
-										if(!StringUtils.isEmpty(scope)) { activityObj.setScope(scope);}
+						
 										
 										tempVal = formatter.formatCellValue(row.getCell(9)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											completed = getCellDataType(workbook,row.getCell(11));
-										}	
-										if(!StringUtils.isEmpty(completed)) { activityObj.setCompleted(completed);}
-										
-										tempVal = formatter.formatCellValue(row.getCell(10)).trim();
-										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-										if(count != 2) {
-											weightage = getCellDataType(workbook,row.getCell(12));
+											weightage = getCellDataType(workbook,row.getCell(9));
 										}	
 										if(!StringUtils.isEmpty(weightage)) { activityObj.setWeightage(weightage);}
 										
-										tempVal = formatter.formatCellValue(row.getCell(11)).trim();
+										
+										
+			
+										
+										tempVal = formatter.formatCellValue(row.getCell(10)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");										
 
 										SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yy");
@@ -499,7 +492,7 @@ public class ActivitiesUploadNewController {
 										
 										
 										if(count != 2) {
-											planned_start = getCellDataType(workbook,row.getCell(13));
+											planned_start = getCellDataType(workbook,row.getCell(10));
 										}	
 										if(!StringUtils.isEmpty(planned_start)) 
 										{ 
@@ -521,10 +514,10 @@ public class ActivitiesUploadNewController {
 											}											
 										}
 										
-										tempVal = formatter.formatCellValue(row.getCell(12)).trim();
+										tempVal = formatter.formatCellValue(row.getCell(11)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											planned_finish = getCellDataType(workbook,row.getCell(14));
+											planned_finish = getCellDataType(workbook,row.getCell(11));
 										}	
 										if(!StringUtils.isEmpty(planned_finish)) 
 										{ 
@@ -546,10 +539,10 @@ public class ActivitiesUploadNewController {
 											}
 										}
 										
-										tempVal = formatter.formatCellValue(row.getCell(13)).trim();
+										tempVal = formatter.formatCellValue(row.getCell(12)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											actual_start = getCellDataType(workbook,row.getCell(15));
+											actual_start = getCellDataType(workbook,row.getCell(12));
 										}
 
 										if(!StringUtils.isEmpty(actual_start)) 
@@ -572,10 +565,10 @@ public class ActivitiesUploadNewController {
 											}
 										}
 										
-										tempVal = formatter.formatCellValue(row.getCell(14)).trim();
+										tempVal = formatter.formatCellValue(row.getCell(13)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											actual_finish = getCellDataType(workbook,row.getCell(16));
+											actual_finish = getCellDataType(workbook,row.getCell(13));
 										}	
 										if(!StringUtils.isEmpty(actual_finish)) 
 										{ 
@@ -597,30 +590,59 @@ public class ActivitiesUploadNewController {
 											}
 											
 										}
-										
-										tempVal = formatter.formatCellValue(row.getCell(15)).trim();
+
+										tempVal = formatter.formatCellValue(row.getCell(14)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 
 										if(count != 2) {
-											component_details = getCellDataType(workbook,row.getCell(17));
+											component_details = getCellDataType(workbook,row.getCell(14));
 										}	
 										if(!StringUtils.isEmpty(component_details)) { activityObj.setComponent_details(component_details);}
 										
-										tempVal = formatter.formatCellValue(row.getCell(16)).trim();
+										
+										tempVal = formatter.formatCellValue(row.getCell(15)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										if(count != 2) {
-											remarks = getCellDataType(workbook,row.getCell(18));
+											section = getCellDataType(workbook,row.getCell(15));
 										}	
-										if(!StringUtils.isEmpty(remarks)) { activityObj.setRemarks(remarks);}
+										if(!StringUtils.isEmpty(section)) { activityObj.setSection(section);}
+										
+										
+							
+										tempVal = formatter.formatCellValue(row.getCell(16)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 										
 										if(count != 2) {
-											p6_task_code = getCellDataType(workbook,row.getCell(19));
+											from_structure_id = getCellDataType(workbook,row.getCell(16));
 										}	
-										if(!StringUtils.isEmpty(p6_task_code)) { activityObj.setP6_task_code(p6_task_code);}										
+										if(!StringUtils.isEmpty(from_structure_id)) { activityObj.setFrom_structure_id(from_structure_id);}
+										
+										
+										tempVal = formatter.formatCellValue(row.getCell(17)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										
+										if(count != 2) {
+											to_structure_id = getCellDataType(workbook,row.getCell(17));
+										}	
+										if(!StringUtils.isEmpty(to_structure_id)) { activityObj.setTo_structure_id(to_structure_id);}
 										
 										
 										
+										tempVal = formatter.formatCellValue(row.getCell(18)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											line = getCellDataType(workbook,row.getCell(18));
+										}	
+										if(!StringUtils.isEmpty(line)) { activityObj.setLine(line);}
+						
 										
+										tempVal = formatter.formatCellValue(row.getCell(19)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											remarks = getCellDataType(workbook,row.getCell(19));
+										}	
+										if(!StringUtils.isEmpty(remarks)) { activityObj.setRemarks(remarks);}
+									
 										double totalScope = 0;
 										double completedScope = 0;
 										if(!StringUtils.isEmpty(activityObj.getScope())) {

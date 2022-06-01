@@ -760,7 +760,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
 						template.update(messageQry, paramSource1);						
 					}
-					if(!StringUtils.isEmpty(obj.getPossession_status_fk()) && obj.getPossession_status_fk().compareTo("Done")==0)
+					if(!StringUtils.isEmpty(obj.getPossession_status_fk()))
 					{
 						for(int i=0;i<SplitStr.length;i++)
 						{
@@ -1364,7 +1364,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
 						template.update(messageQry, paramSource1);						
 					}
-					if(!StringUtils.isEmpty(obj.getPossession_status_fk()) && obj.getPossession_status_fk().compareTo("Done")==0)
+					if(!StringUtils.isEmpty(obj.getPossession_status_fk()))
 					{
 						for(int i=0;i<SplitStr.length;i++)
 						{

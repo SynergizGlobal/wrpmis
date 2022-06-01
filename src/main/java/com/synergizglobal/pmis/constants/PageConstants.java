@@ -218,8 +218,6 @@ public class PageConstants {
 	
 	public static final String p6wbsCategory = "referenceForms/p6WbsCategory";
 	
-	public static final String manualFolders = "referenceForms/manualFolders";
-	
 	public static final String module = "referenceForms/module";
 
 	public static final String leftMenu = "referenceForms/leftMenu";
@@ -250,7 +248,6 @@ public class PageConstants {
 	public static final String utilityShiftingFileType = "referenceForms/usUtilityShiftingFileType";
 	
 	public static final String userRole = "referenceForms/userRole";
-	public static final String userAccessType = "referenceForms/userAccessType";
 	
 	public static final String sourceOfFunds = "referenceForms/sourceOfFund";
 	public static final String softDeleteStatus = "referenceForms/softDeleteStatus";
@@ -266,13 +263,9 @@ public class PageConstants {
 	
 	public static final String revisionStatus = "referenceForms/revisionStatus";
 	
-	public static final String reportType = "referenceForms/reportType";
-	
 	public static final String binaryValues = "referenceForms/binaryValues";
 	
 	public static final String railway = "referenceForms/railway";
-	
-	public static final String notificationType = "referenceForms/notificationType";
 	
 	public static final String laStatus = "referenceForms/laStatus";
 	public static final String laCategory = "referenceForms/laCategory";
@@ -315,8 +308,6 @@ public class PageConstants {
 	public static final String asBuiltStatus = "referenceForms/asBuiltStatus";
 	
 	public static final String userType = "referenceForms/userType";
-	
-	public static final String userLoginEventType = "referenceForms/userLoginEventType";
 	
 	public static final String yesOrNoStatus = "referenceForms/yesOrNoStatus";
 	

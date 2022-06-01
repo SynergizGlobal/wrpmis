@@ -18,15 +18,10 @@ public class ReportsAccessServiceImpl implements ReportsAccessService{
 	public List<Report> getReportsList(Report obj) throws Exception {
 		return dao.getReportsList(obj);
 	}
-
+	
 	@Override
-	public List<Report> getModulesFilterListInReport(Report obj) throws Exception {
-		return dao.getModulesFilterListInReport(obj);
-	}
-
-	@Override
-	public List<Report> getStatusFilterListInReport(Report obj) throws Exception {
-		return dao.getStatusFilterListInReport(obj);
+	public Report getReport(Report obj) throws Exception {
+		return dao.getReport(obj);
 	}
 
 	@Override
@@ -42,21 +37,6 @@ public class ReportsAccessServiceImpl implements ReportsAccessService{
 	@Override
 	public List<Report> getStatusListForReportAccess(Report obj) throws Exception {
 		return dao.getStatusListForReportAccess(obj);
-	}
-
-	@Override
-	public Report getReport(Report obj) throws Exception {
-		return dao.getReport(obj);
-	}
-
-	@Override
-	public boolean addReport(Report obj) throws Exception {
-		return dao.addReport(obj);
-	}
-
-	@Override
-	public boolean updateReport(Report obj) throws Exception {
-		return dao.updateReport(obj);
 	}
 
 	@Override
@@ -77,6 +57,16 @@ public class ReportsAccessServiceImpl implements ReportsAccessService{
 	@Override
 	public boolean updateAccessReport(Report obj) throws Exception {
 		return dao.updateAccessReport(obj);
+	}
+
+	@Override
+	public List<Report> getModulesFilterListInReport(Report obj) throws Exception {
+		return dao.getModulesFilterListInReport(obj);
+	}
+
+	@Override
+	public List<Report> getStatusFilterListInReport(Report obj) throws Exception {
+		return dao.getStatusFilterListInReport(obj);
 	}
 
 }

@@ -36,14 +36,14 @@ public class ReportsAccessController {
 	@Autowired
 	ReportsAccessService service;
 	
-	@RequestMapping(value="/reports",method={RequestMethod.GET})
-	public ModelAndView reports(HttpSession session){
-		ModelAndView model = new ModelAndView(PageConstants.reportsAccessGrid);
+	@RequestMapping(value="/access-reports",method={RequestMethod.GET})
+	public ModelAndView accessReports(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants2.reportsAccessGridNew);
 		try {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("reports : " + e.getMessage());
+			logger.error("accessReports : " + e.getMessage());
 		}
 		return model;
 	}
@@ -87,38 +87,6 @@ public class ReportsAccessController {
 		return objList;
 	}
 	
-	@RequestMapping(value = "/add-report-access", method = {RequestMethod.GET})
-	public ModelAndView addReportAccess(@ModelAttribute Report obj){
-		ModelAndView model = new ModelAndView();
-		try{
-			model.setViewName(PageConstants.addEditReportAccessForm);
-			model.addObject("action", "add");
-			
-			List<Report> modulesList = service.getModulesListForReportAccess(obj);
-			model.addObject("modulesList", modulesList);
-			
-			List<Report> foldersList = service.getFolderssListForReportAccess(obj);
-			model.addObject("foldersList", foldersList);
-			
-			List<Report> statusList = service.getStatusListForReportAccess(obj);
-			model.addObject("statusList", statusList);
-			
-			List<Report> user_roles = service.getUserRolesInReportAccess(obj);
-			model.addObject("user_roles", user_roles);
-			
-			List<Report> user_types = service.getUserTypesInReportAccess(obj);
-			model.addObject("user_types", user_types);
-			
-			List<Report> users = service.getUsersInReportAccess(obj);
-			model.addObject("users", users);
-			
-			
-		}catch (Exception e) {
-				logger.error("addReportAccess : " + e.getMessage());
-		}
-		return model;
-	}
-	
 	@RequestMapping(value = "/ajax/getUserRolesInReportAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Report> getUserRolesInDashboardAccess(@ModelAttribute Report obj) {
@@ -158,93 +126,7 @@ public class ReportsAccessController {
 		return objsList;
 	}
 	
-	@RequestMapping(value = "/get-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getReport(@ModelAttribute Report obj ){
-		ModelAndView model = new ModelAndView();
-		try{
-			model.setViewName(PageConstants.addEditReportAccessForm);
-			model.addObject("action", "edit");
-			
-			List<Report> modulesList = service.getModulesListForReportAccess(obj);
-			model.addObject("modulesList", modulesList);
-			
-			List<Report> foldersList = service.getFolderssListForReportAccess(obj);
-			model.addObject("foldersList", foldersList);
-			
-			List<Report> statusList = service.getStatusListForReportAccess(obj);
-			model.addObject("statusList", statusList);
-			
-			List<Report> user_roles = service.getUserRolesInReportAccess(obj);
-			model.addObject("user_roles", user_roles);
-			
-			List<Report> user_types = service.getUserTypesInReportAccess(obj);
-			model.addObject("user_types", user_types);
-			
-			List<Report> users = service.getUsersInReportAccess(obj);
-			model.addObject("users", users);
-			
-			Report reportDetails = service.getReport(obj);
-			model.addObject("reportDetails", reportDetails);
-		
-		}catch (Exception e) {
-				e.printStackTrace();
-				logger.error("getReport : " + e.getMessage());
-		}
-		return model;
-	 }
 	
-	@RequestMapping(value = "/add-report", method = {RequestMethod.POST})
-	public ModelAndView addReport(@ModelAttribute Report obj,RedirectAttributes attributes,HttpSession session){
-		ModelAndView model = new ModelAndView();
-		try{
-			String user_Id = (String) session.getAttribute("USER_ID");
-			String userName = (String) session.getAttribute("USER_NAME");
-			model.setViewName("redirect:/reports");
-			boolean flag =  service.addReport(obj);
-			if(flag) {
-				attributes.addFlashAttribute("success", "Report Added Succesfully.");
-			}
-			else {
-				attributes.addFlashAttribute("error","Adding Report is failed. Try again.");
-			}
-		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Report is failed. Try again.");
-			logger.error("addReport : " + e.getMessage());
-		}
-		return model;
-	}
-	
-	@RequestMapping(value = "/update-report", method = {RequestMethod.POST})
-	public ModelAndView updateReport(@ModelAttribute Report obj,RedirectAttributes attributes,HttpSession session){
-		ModelAndView model = new ModelAndView();
-		try{
-			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
-			model.setViewName("redirect:/reports");
-			boolean flag =  service.updateReport(obj);
-			if(flag) {
-				attributes.addFlashAttribute("success", "Report Updated Succesfully.");
-			}
-			else {
-				attributes.addFlashAttribute("error","Updating Report is failed. Try again.");
-			}
-		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Updating Report is failed. Try again.");
-			logger.error("updateReport : " + e.getMessage());
-		}
-		return model;
-	}
-	
-	@RequestMapping(value="/access-reports",method={RequestMethod.GET})
-	public ModelAndView accessReports(HttpSession session){
-		ModelAndView model = new ModelAndView(PageConstants2.reportsAccessGridNew);
-		try {
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("accessReports : " + e.getMessage());
-		}
-		return model;
-	}
 	
 	@RequestMapping(value="/get-access-report",method={RequestMethod.POST})
 	public ModelAndView getAccessReportDetails(@ModelAttribute Report obj,HttpSession session){

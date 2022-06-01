@@ -7,16 +7,8 @@ import com.synergizglobal.pmis.model.Report;
 public interface ReportsAccessService {
 	
 	public List<Report> getReportsList(Report obj) throws Exception;
-
-	public List<Report> getModulesFilterListInReport(Report obj) throws Exception;
-
-	public List<Report> getStatusFilterListInReport(Report obj) throws Exception;
-
+	
 	public Report getReport(Report obj) throws Exception;
-
-	public boolean addReport(Report obj) throws Exception;
-
-	public boolean updateReport(Report obj) throws Exception;
 
 	public List<Report> getUserRolesInReportAccess(Report obj) throws Exception;
 
@@ -31,5 +23,9 @@ public interface ReportsAccessService {
 	public List<Report> getStatusListForReportAccess(Report obj) throws Exception;
 
 	public boolean updateAccessReport(Report obj) throws Exception;
+
+	public List<Report> getModulesFilterListInReport(Report obj) throws Exception;
+
+	public List<Report> getStatusFilterListInReport(Report obj) throws Exception;
 
 }

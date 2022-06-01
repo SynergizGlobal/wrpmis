@@ -271,7 +271,7 @@
              $('.searchable').select2();
              getReportsList(); 
              window.localStorage.setItem("reportFilters",'');
-          	 window.location.href= "<%=request.getContextPath()%>/reports";
+          	 window.location.href= "<%=request.getContextPath()%>/access-reports";
         }
         
         function getReportsList(){

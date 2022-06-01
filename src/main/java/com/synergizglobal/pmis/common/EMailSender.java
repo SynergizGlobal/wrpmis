@@ -37,6 +37,7 @@ import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.Training;
+import com.synergizglobal.pmis.model.UtilityShifting;
 
 public class EMailSender {    
 	
@@ -736,7 +737,111 @@ public class EMailSender {
 			throw new Exception(e);
 		}
 	}		
-	
+
+	public void sendEmailWithUtilityShiftingAlert(Mail mail, UtilityShifting iObj, String today_date, String current_year) throws Exception {
+		try {
+			  MimeMessage message = new MimeMessage( getSession() );
+			  Multipart multipart = new MimeMultipart( "alternative" );
+
+			  VelocityEngine velocityEngine = new VelocityEngine();
+			  Properties p = new Properties();
+			  //p.setProperty("resource.loader", "class");
+			  //p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+			  
+			  p.setProperty("resource.loader", "class");
+			  p.setProperty("class.resource.loader.description", "Velocity Classpath Resource Loader");
+			  p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+			  
+			  p.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
+			  
+			  //p.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS,    NullLogChute.class.getName());
+			  try {
+				  velocityEngine.init( p );    
+			  }catch (Exception e) {
+				  throw new Exception(e);
+			  }
+			     
+			 			  
+			  Template template = velocityEngine.getTemplate("templates/"+ mail.getTemplateName());
+				
+			  VelocityContext velocityContext = new VelocityContext();
+			  velocityContext.put("alert", iObj);
+			  velocityContext.put("today_date", today_date);
+			  velocityContext.put("current_year", current_year);
+			  
+			  StringWriter stringWriter = new StringWriter();
+			  
+			  template.merge(velocityContext, stringWriter);
+
+
+			  MimeBodyPart htmlPart = new MimeBodyPart();
+			  htmlPart.setContent( stringWriter.toString(), "text/html; charset=utf-8" );
+
+			  //multipart.addBodyPart( htmlPart );
+
+			  
+			  //Multipart multiPart = new MimeMultipart();
+			  multipart.addBodyPart(htmlPart);
+			  
+			  
+			  message.setContent( multipart );
+		    
+			  message.setFrom(new InternetAddress(mailId));
+			  
+			  
+			  ArrayList<String> recipientsArray = new ArrayList<String>();
+			  StringTokenizer stringTokenizer = new StringTokenizer(mail.getMailTo(), ",");
+			 
+			  while (stringTokenizer.hasMoreTokens()) {
+				 recipientsArray.add(stringTokenizer.nextToken());
+			  }
+			  int sizeTo = recipientsArray.size();
+			  InternetAddress[] addressTo = new InternetAddress[sizeTo];
+			  for (int i = 0; i < sizeTo; i++) {
+				 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
+			  }	 
+			  message.setRecipients(Message.RecipientType.TO, addressTo);
+			  
+			  /*********************************************************************/
+			  
+			  ArrayList<String> ccArray = new ArrayList<String>();
+			  StringTokenizer stringTokenizerCc = new StringTokenizer(mail.getMailCc(), ",");
+			 
+			  while (stringTokenizerCc.hasMoreTokens()) {
+				  ccArray.add(stringTokenizerCc.nextToken());
+			  }
+			  int sizeCc = ccArray.size();
+			  InternetAddress[] addressCc = new InternetAddress[sizeCc];
+			  for (int i = 0; i < sizeCc; i++) {
+				 addressCc[i] = new InternetAddress(ccArray.get(i).toString());
+			  }	 
+			  message.setRecipients(Message.RecipientType.CC, addressCc);
+			  /*********************************************************************/
+			  
+			  if(!StringUtils.isEmpty(mail.getMailBcc())) {
+				  ArrayList<String> bccArray = new ArrayList<String>();
+				  StringTokenizer stringTokenizerBcc = new StringTokenizer(mail.getMailBcc(), ",");
+				 
+				  while (stringTokenizerBcc.hasMoreTokens()) {
+					  bccArray.add(stringTokenizerBcc.nextToken());
+				  }
+				  int sizeBcc = bccArray.size();
+				  InternetAddress[] addressBcc = new InternetAddress[sizeBcc];
+				  for (int i = 0; i < sizeBcc; i++) {
+					  addressBcc[i] = new InternetAddress(bccArray.get(i).toString());
+				  }	 
+				  message.setRecipients(Message.RecipientType.BCC, addressBcc);
+			  }
+				 
+			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
+			  message.setSubject(mail.getMailSubject());
+			  
+			  Transport.send(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+	}
 	
 	public void sendEmailWithSafetyStatusAlert(Mail mail, Safety iObj, String today_date, String current_year) throws Exception {
 		try {

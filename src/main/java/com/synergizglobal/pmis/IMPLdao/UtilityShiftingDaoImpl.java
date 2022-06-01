@@ -984,7 +984,88 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					
 					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 					/********************************************************************************/
+					
+					String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
+							+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
+					String executives=getUtilityExecutives(obj.getWork_id_fk());
+					String executivesEmail=getUtilityExecutivesEmail(obj.getWork_id_fk());
+					String [] SplitStr=executives.split(",");
+					String [] SplitEmail=executivesEmail.split(",");
+						
+					for(int i=0;i<SplitStr.length;i++)
+					{
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(SplitStr[i]);
+						msgObj.setMessage("A new Utility Shifting against "+obj.getWork_id_fk()+" has been added");
+						msgObj.setRedirect_url("/get-utility-shifting/"+obj.getUtility_shifting_id());
+						msgObj.setMessage_type("Utility Shifting");	
+						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
+						template.update(messageQry, paramSource1);						
+					}
+					
+					
+					/*********************************************************************************************/
+					String mailTo = "";
+					String mailCC = "";
+					for(int i=0;i<SplitEmail.length;i++)
+					{
+						if (!StringUtils.isEmpty(SplitEmail[i])) {
+							mailTo = mailTo + SplitEmail[i] + ",";
+						}
+					}
 
+					if (!StringUtils.isEmpty(mailTo)) {
+						mailTo = org.apache.commons.lang3.StringUtils.chop(mailTo);
+					}
+
+					if (!StringUtils.isEmpty(mailCC)) {
+						mailCC = org.apache.commons.lang3.StringUtils.chop(mailCC);
+					}
+
+					String mailBodyHeader =  "A new Utility Shifting against "+obj.getWork_id_fk()+" has been added";
+					
+					
+					UtilityShifting sobj = null;
+
+					String query = "SELECT s.*,DATE_FORMAT(identification,'%d-%m-%Y') as identification,DATE_FORMAT(start_date,'%d-%m-%Y') as start_date,"
+							+ "DATE_FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date,DATE_FORMAT(shifting_completion_date,'%d-%m-%Y') as shifting_completion_date,"
+							+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk "
+							+ "from utility_shifting s "
+							+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+							+ "LEFT OUTER JOIN work w ON s.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+							+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
+							+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+							+ "where utility_shifting_id =? " ;
+					Object[] pValues = new Object[] { USID };
+							
+					sobj = (UtilityShifting)jdbcTemplate.queryForObject( query, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));						
+
+					sobj.setMail_body_header(mailBodyHeader);
+
+					String emailSubject = "PMIS Utility Shifting Notification - Utility Shifting ";
+
+					Mail mail = new Mail();
+					mail.setMailTo(mailTo);
+					mail.setMailCc(mailCC);
+					mail.setMailBcc(CommonConstants.BCC_MAIL);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("UtilityShiftingAlert.vm");
+
+					SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+					String today_date = monthFormat.format(new Date()).toUpperCase();
+
+					SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+					String current_year = yearFormat.format(new Date()).toUpperCase();
+
+					if (!StringUtils.isEmpty(mailTo)) {
+						EMailSender emailSender = new EMailSender();
+						logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": Start ");
+						logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": Start ");
+						emailSender.sendEmailWithUtilityShiftingAlert(mail, sobj, today_date, current_year);
+						logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": end ");
+						logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": end ");
+					}					
+					
 					
 				}
 			}
@@ -995,6 +1076,31 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		}
 		return flag;
 	}
+	
+	private String getUtilityExecutives(String work_id) throws Exception {
+		String executives="";
+		try {
+			String qry = "SELECT  GROUP_CONCAT(DISTINCT (u.user_id) SEPARATOR ',') user_id FROM utility_shifting_executives re " + 
+					"left join user u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
+			executives = (String) jdbcTemplate.queryForObject(qry, new Object[] { work_id }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return executives;
+	}
+	
+	private String getUtilityExecutivesEmail(String work_id) throws Exception {
+		String executivesEmail="";
+		try {
+			String qry = "SELECT  GROUP_CONCAT(DISTINCT (u.email_id) SEPARATOR ',') email_id FROM utility_shifting_executives re " + 
+					"left join user u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
+			executivesEmail = (String) jdbcTemplate.queryForObject(qry, new Object[] { work_id }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return executivesEmail;
+	}	
+	
 	
 	
 	@Override

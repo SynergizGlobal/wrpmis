@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -27,7 +26,6 @@ import com.synergizglobal.pmis.Idao.UserDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.User;
 @Repository
 public class UserDaoImpl implements UserDao{
@@ -96,71 +94,6 @@ public class UserDaoImpl implements UserDao{
 		}
 		return objsList;
 	}
-	
-	@Override
-	public List<User> getUserAccessTypes(User obj) throws Exception {
-		List<User> objsList = null;
-		try {
-			String qry = "select user_access_type,user_access_table from user_access_type";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-	
-	@Override
-	public List<User> getContractsForUserAccessTypes(User obj) throws Exception {
-		List<User> objsList = null;
-		try {
-			String qry = "select contract_id as access_value_id,contract_name as access_value_name from contract";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-	
-	@Override
-	public List<User> getDepartmentsForUserAccessTypes(User obj) throws Exception {
-		List<User> objsList = null;
-		try {
-			String qry = "select department as access_value_id,department_name as access_value_name from department";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-	
-	@Override
-	public List<User> getModulesForUserAccessTypes(User obj) throws Exception {
-		List<User> objsList = null;
-		try {
-			String qry = "select module_name as access_value_id,module_name as access_value_name from module";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-	
-	@Override
-	public List<User> getWorksForUserAccessTypes(User obj) throws Exception {
-		List<User> objsList = null;
-		try {
-			String qry = "select work_id as access_value_id,work_name as access_value_name from work";
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}	
 
 	@Override
 	public List<User> getUsersList(User obj) throws Exception {
@@ -242,49 +175,6 @@ public class UserDaoImpl implements UserDao{
 			if(count > 0) {
 				userId = user_id;
 			}
-			if(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
-				obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
-			}
-			if(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
-				obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
-			}
-			
-			if(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {				
-				
-				String[] types = obj.getUser_access_types();
-				String[] values = obj.getUser_access_values();
-				
-				String qryUserPermissions = "INSERT INTO user_access (user_id_fk,user_access_type_fk,access_value) VALUES  (?,?,?)";		
-				
-				int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
-			            new BatchPreparedStatementSetter() {
-			                 
-			                @Override
-			                public void setValues(PreparedStatement ps, int i) throws SQLException {
-			                    ps.setString(1, obj.getUser_id());
-			                    ps.setString(2, types.length > 0?types[i]:null);
-			                    ps.setString(3, values.length > 0?values[i]:null);			                    
-			                }
-			                @Override  
-			                public int getBatchSize() {
-			                	int arraySize = 0;
-			    				if(!StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
-			    					obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
-			    					if(arraySize < obj.getUser_access_types().length) {
-			    						arraySize = obj.getUser_access_types().length;
-			    					}
-			    				}
-			    				if(!StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
-			    					obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
-			    					if(arraySize < obj.getUser_access_values().length) {
-			    						arraySize = obj.getUser_access_values().length;
-			    					}
-			    				}
-			                    return arraySize;
-			                }
-			            });
-				
-			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
@@ -358,14 +248,6 @@ public class UserDaoImpl implements UserDao{
 			
 			uobj = (User)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 			
-			if(!StringUtils.isEmpty(uobj) && !StringUtils.isEmpty(uobj.getUser_id())) {
-				String qryUserPermission = "select user_access_type_fk as user_access_type,access_value from user_access where user_id_fk = ? " ;
-				
-				List<User> permObjsList = jdbcTemplate.query(qryUserPermission, new Object[] {uobj.getUser_id()}, new BeanPropertyRowMapper<User>(User.class));	
-				
-				uobj.setUserPermissions(permObjsList);
-			}
-			
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}
@@ -388,54 +270,6 @@ public class UserDaoImpl implements UserDao{
 				flag = true;
 			}
 			
-			if(flag && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
-				obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
-			}
-			if(flag && !StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
-				obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
-			}
-			
-			if(flag && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
-				
-				String deleteQry = "DELETE from user_access where user_id_fk = :user_id";		 
-				paramSource = new BeanPropertySqlParameterSource(obj);		 
-				count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
-				
-				String[] types = obj.getUser_access_types();
-				String[] values = obj.getUser_access_values();
-				
-				String qryUserPermissions = "INSERT INTO user_access (user_id_fk,user_access_type_fk,access_value) VALUES  (?,?,?)";		
-				
-				int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
-			            new BatchPreparedStatementSetter() {
-			                 
-						 @Override
-			                public void setValues(PreparedStatement ps, int i) throws SQLException {
-			                    ps.setString(1, obj.getUser_id());
-			                    ps.setString(2, types.length > 0?types[i]:null);
-			                    ps.setString(3, values.length > 0?values[i]:null);			                    
-			                }
-			                @Override  
-			                public int getBatchSize() {
-			                	int arraySize = 0;
-			    				if(!StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
-			    					obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
-			    					if(arraySize < obj.getUser_access_types().length) {
-			    						arraySize = obj.getUser_access_types().length;
-			    					}
-			    				}
-			    				if(!StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
-			    					obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
-			    					if(arraySize < obj.getUser_access_values().length) {
-			    						arraySize = obj.getUser_access_values().length;
-			    					}
-			    				}
-			                    return arraySize;
-			                }
-			            });
-				
-			}
-			
 			transactionManager.commit(status);
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -454,7 +288,6 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public int uploadUsers(List<User> usersList) throws Exception {
 		int count = 0;
-		boolean flag = false;
 		int uploadedCount = 0;
 		try {
 			for (User user : usersList) {				
@@ -514,31 +347,6 @@ public class UserDaoImpl implements UserDao{
 						count = namedParamJdbcTemplate.update(qry, paramSource);
 					}
 					uploadedCount++;
-				}
-				
-				if(count > 0) {
-					flag = true;
-				}
-				
-				if(flag && !StringUtils.isEmpty(user.getUserPermissions()) && user.getUserPermissions().size() > 0) {
-					String qryUserPermissions = "INSERT INTO user_access (user_id_fk,user_access_type_fk,access_value) VALUES  (?,?,?)";		
-					
-					int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
-				            new BatchPreparedStatementSetter() {				                 
-				                @Override
-				                public void setValues(PreparedStatement ps, int i) throws SQLException {
-				                	String permission = user.getUserPermissions().get(i).getUser_access_type();
-				                	String value = user.getUserPermissions().get(i).getAccess_value();
-				                    ps.setString(1, user.getUser_id());
-				                    ps.setString(2, !StringUtils.isEmpty(permission)?permission:null);
-				                    ps.setString(3, !StringUtils.isEmpty(value)?value:null);			                    
-				                }
-				                @Override  
-				                public int getBatchSize() {
-				                    return user.getUserPermissions().size();
-				                }
-				            });
-					
 				}
 			}
 			

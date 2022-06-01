@@ -227,8 +227,8 @@
 			                    </div>
 				                
 				                <div class="col s12 m4 l4">
-				                	<div class="tab col s12 head existing" >Revised Baseline</div>   
-			                    <div class="" id="existing" style="background-color:#f0f8ff">
+				                	<div class="tab col s12 head" >Revised Baseline</div>   
+			                    <div class="" id="existing" style="background-color:#fafafa">
 				                   <!--  <div style="margin-top:20px"> -->
 				                        <form action="<%=request.getContextPath() %>/revised-p6-new-activities" name="p6RevisedFrom" id="p6RevisedFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
@@ -305,8 +305,8 @@
 				                </div>
 				                
 				                <div class="col s12 m4 l4">
-				                	<div class="tab col s12 head existing" >Update</div>   
-			                    <div class="" id="existing" style="background-color:#f0f8ff">
+				                	<div class="tab col s12 head" >Update</div>   
+			                    <div class="" id="existing" style="background-color:#fafafa">
 				                   <!--  <div style="margin-top:20px"> -->
 				                        <form action="<%=request.getContextPath() %>/update-p6-new-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">

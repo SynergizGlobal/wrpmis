@@ -760,13 +760,13 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
 						template.update(messageQry, paramSource1);						
 					}
-					if(!StringUtils.isEmpty(obj.getPossession_status_fk()))
+					if(!StringUtils.isEmpty(obj.getLa_land_status_fk()))
 					{
 						for(int i=0;i<SplitStr.length;i++)
 						{
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(SplitStr[i]);
-							msgObj.setMessage("A Land Acquisition against "+obj.getWork_id_fk()+" is Acquired.");
+							msgObj.setMessage("A Land Acquisition against "+obj.getWork_id_fk()+" for "+obj.getLa_land_status_fk()+" is Acquired.");
 							msgObj.setRedirect_url("/get-land-acquisition/"+la_id);
 							msgObj.setMessage_type("Land Acquisition");	
 							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
@@ -1364,13 +1364,13 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
 						template.update(messageQry, paramSource1);						
 					}
-					if(!StringUtils.isEmpty(obj.getPossession_status_fk()))
+					if(!StringUtils.isEmpty(obj.getLa_land_status_fk()))
 					{
 						for(int i=0;i<SplitStr.length;i++)
 						{
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(SplitStr[i]);
-							msgObj.setMessage("A Land Acquisition against "+obj.getWork_id_fk()+" is Acquired.");
+							msgObj.setMessage("A Land Acquisition against "+obj.getWork_id_fk()+" for "+obj.getLa_land_status_fk()+" is Acquired.");
 							msgObj.setRedirect_url("/get-land-acquisition/"+obj.getLa_id());
 							msgObj.setMessage_type("Land Acquisition");	
 							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);

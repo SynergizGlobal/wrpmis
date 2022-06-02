@@ -1101,6 +1101,59 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		return executivesEmail;
 	}	
 	
+	private int checkUtilityAnyColumnUpdate(UtilityShifting obj) throws Exception {
+		int checkCnt=0;
+		List<UtilityShifting> objsList = null;
+		try {
+			String qry = "SELECT * from utility_shifting where utility_shifting_id='"+obj.getUtility_shifting_id()+"'";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));	
+
+			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0)
+			{
+					if(objsList.get(0).getWork_id_fk().compareTo(obj.getWork_id_fk())!=0)
+					{
+						checkCnt=1;
+					}
+					if(objsList.get(0).getLocation_name().compareTo(obj.getLocation_name())!=0)
+					{
+						checkCnt=1;
+					}
+					if(objsList.get(0).getReference_number().compareTo(obj.getReference_number())!=0)
+					{
+						checkCnt=1;
+					}
+					if(objsList.get(0).getUtility_description().compareTo(obj.getUtility_description())!=0)
+					{
+						checkCnt=1;
+					}
+					if(objsList.get(0).getOwner_name().compareTo(obj.getOwner_name())!=0)
+					{
+						checkCnt=1;
+					}
+					if(objsList.get(0).getUtility_type_fk().compareTo(obj.getUtility_type_fk())!=0)
+					{
+						checkCnt=1;
+					}
+					if(objsList.get(0).getUtility_category_fk().compareTo(obj.getUtility_category_fk())!=0)
+					{
+						checkCnt=1;
+					}
+					if(objsList.get(0).getExecution_agency_fk().compareTo(obj.getExecution_agency_fk())!=0)
+					{
+						checkCnt=1;
+					}
+					if(objsList.get(0).getPlanned_completion_date().compareTo(obj.getPlanned_completion_date())!=0)
+					{
+						checkCnt=1;
+					}
+			
+			}
+			
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return checkCnt;
+	}	
 	
 	
 	@Override
@@ -1108,6 +1161,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
+		int checkCnt=checkUtilityAnyColumnUpdate(obj);
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE utility_shifting SET work_id_fk=:work_id_fk, identification=:identification, location_name=:location_name,"
@@ -1224,9 +1278,79 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					formHistory.setContract_id_fk(obj.getContract_id_fk());
 					
 					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
-					/********************************************************************************/
-
+					
 				}
+					/********************************************************************************/
+					
+					String executivesEmail=getUtilityExecutivesEmail(obj.getWork_id_fk());
+					String [] SplitEmail=executivesEmail.split(",");
+					
+					if(checkCnt>0)
+					{
+					
+						String mailTo = "";
+						String mailCC = "";
+						for(int i=0;i<SplitEmail.length;i++)
+						{
+							if (!StringUtils.isEmpty(SplitEmail[i])) {
+								mailTo = mailTo + SplitEmail[i] + ",";
+							}
+						}
+	
+						if (!StringUtils.isEmpty(mailTo)) {
+							mailTo = org.apache.commons.lang3.StringUtils.chop(mailTo);
+						}
+	
+						if (!StringUtils.isEmpty(mailCC)) {
+							mailCC = org.apache.commons.lang3.StringUtils.chop(mailCC);
+						}
+	
+						String mailBodyHeader =  "A new Utility Shifting against "+obj.getWork_id_fk()+" has been updated";
+						
+						
+						UtilityShifting sobj = null;
+
+						String query = "SELECT distinct s.id, utility_shifting_id, s.work_id_fk, identification, location_name, reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, execution_agency_fk, contract_id_fk, start_date, scope, completed, shifting_status_fk, shifting_completion_date, s.remarks, latitude, longitude, impacted_contract_id_fk, requirement_stage_fk,  unit_fk, s.created_by, s.created_date, s.modified_by, s.modified_date, project_name, work_short_name, contract_short_name, project_id_fk,DATE_FORMAT(identification,'%d-%m-%Y') as identification,DATE_FORMAT(start_date,'%d-%m-%Y') as start_date,"
+								+ "DATE_FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date,DATE_FORMAT(shifting_completion_date,'%d-%m-%Y') as shifting_completion_date,"
+								+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk "
+								+ "from utility_shifting s "
+								+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+								+ "LEFT OUTER JOIN work w ON s.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+								+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
+								+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+								+ "where utility_shifting_id =? " ;
+						Object[] pValues = new Object[] { obj.getUtility_shifting_id() };
+								
+						sobj = (UtilityShifting)jdbcTemplate.queryForObject( query, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));				
+	
+						sobj.setMail_body_header(mailBodyHeader);
+	
+						String emailSubject = "PMIS Utility Shifting Notification - Utility Shifting ";
+	
+						Mail mail = new Mail();
+						mail.setMailTo(mailTo);
+						mail.setMailCc(mailCC);
+						mail.setMailBcc(CommonConstants.BCC_MAIL);
+						mail.setMailSubject(emailSubject);
+						mail.setTemplateName("UtilityShiftingAlert.vm");
+	
+						SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+						String today_date = monthFormat.format(new Date()).toUpperCase();
+	
+						SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+						String current_year = yearFormat.format(new Date()).toUpperCase();
+	
+						if (!StringUtils.isEmpty(mailTo)) {
+							EMailSender emailSender = new EMailSender();
+							logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": Start ");
+							logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": Start ");
+							emailSender.sendEmailWithUtilityShiftingAlert(mail, sobj, today_date, current_year);
+							logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": end ");
+							logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": end ");
+						}					
+					
+					}
+				
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

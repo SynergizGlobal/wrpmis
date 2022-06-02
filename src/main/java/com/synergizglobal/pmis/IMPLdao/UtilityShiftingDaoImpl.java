@@ -1294,7 +1294,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 						{
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(SplitStr[i]);
-							msgObj.setMessage("A new Utility Shifting against "+obj.getWork_id_fk()+" has been added");
+							msgObj.setMessage("A new Utility Shifting against "+obj.getWork_id_fk()+" has been updated");
 							msgObj.setRedirect_url("/get-utility-shifting/"+obj.getUtility_shifting_id());
 							msgObj.setMessage_type("Utility Shifting");	
 							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);

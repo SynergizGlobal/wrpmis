@@ -997,7 +997,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(SplitStr[i]);
 						msgObj.setMessage("A new Utility Shifting against "+obj.getWork_id_fk()+" has been added");
-						msgObj.setRedirect_url("/get-utility-shifting/"+obj.getUtility_shifting_id());
+						msgObj.setRedirect_url("/get-utility-shifting/"+USID);
 						msgObj.setMessage_type("Utility Shifting");	
 						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
 						template.update(messageQry, paramSource1);						
@@ -1282,72 +1282,24 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				}
 					/********************************************************************************/
 					
-					String executivesEmail=getUtilityExecutivesEmail(obj.getWork_id_fk());
-					String [] SplitEmail=executivesEmail.split(",");
-					
 					if(checkCnt>0)
 					{
 					
-						String mailTo = "";
-						String mailCC = "";
-						for(int i=0;i<SplitEmail.length;i++)
+						String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
+								+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
+						String executives=getUtilityExecutives(obj.getWork_id_fk());
+						String [] SplitStr=executives.split(",");
+							
+						for(int i=0;i<SplitStr.length;i++)
 						{
-							if (!StringUtils.isEmpty(SplitEmail[i])) {
-								mailTo = mailTo + SplitEmail[i] + ",";
-							}
-						}
-	
-						if (!StringUtils.isEmpty(mailTo)) {
-							mailTo = org.apache.commons.lang3.StringUtils.chop(mailTo);
-						}
-	
-						if (!StringUtils.isEmpty(mailCC)) {
-							mailCC = org.apache.commons.lang3.StringUtils.chop(mailCC);
-						}
-	
-						String mailBodyHeader =  "A new Utility Shifting against "+obj.getWork_id_fk()+" has been updated";
-						
-						
-						UtilityShifting sobj = null;
-
-						String query = "SELECT distinct s.id, utility_shifting_id, s.work_id_fk, identification, location_name, reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, execution_agency_fk, contract_id_fk, start_date, scope, completed, shifting_status_fk, shifting_completion_date, s.remarks, latitude, longitude, impacted_contract_id_fk, requirement_stage_fk,  unit_fk, s.created_by, s.created_date, s.modified_by, s.modified_date, project_name, work_short_name, contract_short_name, project_id_fk,DATE_FORMAT(identification,'%d-%m-%Y') as identification,DATE_FORMAT(start_date,'%d-%m-%Y') as start_date,"
-								+ "DATE_FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date,DATE_FORMAT(shifting_completion_date,'%d-%m-%Y') as shifting_completion_date,"
-								+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk "
-								+ "from utility_shifting s "
-								+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-								+ "LEFT OUTER JOIN work w ON s.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-								+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
-								+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-								+ "where utility_shifting_id =? " ;
-						Object[] pValues = new Object[] { obj.getUtility_shifting_id() };
-								
-						sobj = (UtilityShifting)jdbcTemplate.queryForObject( query, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));				
-	
-						sobj.setMail_body_header(mailBodyHeader);
-	
-						String emailSubject = "PMIS Utility Shifting Notification - Utility Shifting ";
-	
-						Mail mail = new Mail();
-						mail.setMailTo(mailTo);
-						mail.setMailCc(mailCC);
-						mail.setMailBcc(CommonConstants.BCC_MAIL);
-						mail.setMailSubject(emailSubject);
-						mail.setTemplateName("UtilityShiftingAlert.vm");
-	
-						SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
-						String today_date = monthFormat.format(new Date()).toUpperCase();
-	
-						SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
-						String current_year = yearFormat.format(new Date()).toUpperCase();
-	
-						if (!StringUtils.isEmpty(mailTo)) {
-							EMailSender emailSender = new EMailSender();
-							logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": Start ");
-							logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": Start ");
-							emailSender.sendEmailWithUtilityShiftingAlert(mail, sobj, today_date, current_year);
-							logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": end ");
-							logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": end ");
-						}					
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(SplitStr[i]);
+							msgObj.setMessage("A new Utility Shifting against "+obj.getWork_id_fk()+" has been added");
+							msgObj.setRedirect_url("/get-utility-shifting/"+obj.getUtility_shifting_id());
+							msgObj.setMessage_type("Utility Shifting");	
+							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
+							template.update(messageQry, paramSource1);						
+						}				
 					
 					}
 				

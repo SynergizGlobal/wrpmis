@@ -70,16 +70,6 @@ public class DashboardsAccessServiceImpl implements DashboardsAccessService{
 	}
 
 	@Override
-	public boolean addDashboard(Dashboard obj) throws Exception {
-		return dao.addDashboard(obj);
-	}
-
-	@Override
-	public boolean updateDashboard(Dashboard obj) throws Exception {
-		return dao.updateDashboard(obj);
-	}
-
-	@Override
 	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception {
 		return dao.getUserRolesInDashboardAccess(obj);
 	}

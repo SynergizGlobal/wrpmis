@@ -27,10 +27,6 @@ public interface DashboardsAccessDao {
 	public List<Dashboard> getStatusListForDashboardForm(Dashboard obj) throws Exception;
 
 	public Dashboard getDashboardForm(Dashboard obj) throws Exception;
-
-	public boolean addDashboard(Dashboard obj) throws Exception;
-
-	public boolean updateDashboard(Dashboard obj) throws Exception;
 	
 	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception;
 

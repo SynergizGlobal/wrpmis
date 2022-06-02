@@ -28,10 +28,6 @@ public interface DashboardsAccessService {
 
 	public Dashboard getDashboardForm(Dashboard obj) throws Exception;
 
-	public boolean addDashboard(Dashboard obj) throws Exception;
-
-	public boolean updateDashboard(Dashboard obj) throws Exception;
-
 	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception;
 
 	public List<Dashboard> getUserTypesInDashboardAccess(Dashboard obj) throws Exception;

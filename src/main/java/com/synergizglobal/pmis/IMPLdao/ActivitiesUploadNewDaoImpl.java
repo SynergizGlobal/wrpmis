@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -32,6 +30,7 @@ import com.synergizglobal.pmis.Idao.ActivitiesUploadNewDao;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.FormHistory;
@@ -54,11 +53,61 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 	public List<Activity> getWorksInActivitiesUpload(Activity obj) throws Exception {
 		List<Activity> objsList = null;
 		try {
-			String qry = "select work_id,work_name,work_short_name "
+			/*String qry = "select work_id,work_name,work_short_name "
 					+ "from work "
-					+ "where work_id is not null " ;
+					+ "where work_id is not null " ;*/
 			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Activity>(Activity.class));
+			String qry = "select c.work_id_fk,w.work_id,w.work_name ,w.work_short_name "
+					+ "from contract c "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "WHERE c.contract_id IN ("
+					+ "select a.contract_id_fk "
+					+ "from activities a "
+					+ "left outer join contract c on a.contract_id_fk = c.contract_id "					
+					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and structure_type_fk!='FOB' and a.scope <> IFNULL('Completed',0) " ;
+					
+					int arrSize = 0;
+					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+						qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk) "
+								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk) "
+								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk) "
+								+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
+								+ ")";
+						arrSize++;
+						arrSize++;
+						arrSize++;
+						arrSize++;
+						arrSize++;
+						arrSize++;
+					}else {
+						qry = qry + ")";
+					}
+					
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk ASC";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
 				
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -70,7 +119,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 	public List<Activity> getContractsInActivitiesUpload(Activity obj) throws Exception {
 		List<Activity> objsList = null;
 		try {
-			String qry = "select contract_id,contract_name,contract_short_name "
+			/*String qry = "select contract_id,contract_name,contract_short_name "
 					+ "from contract "
 					+ "where contract_id is not null " ;
 			
@@ -89,7 +138,49 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
 				pValues[i++] = obj.getWork_id();
-			}	
+			}	*/
+			
+			
+			String qry = "select distinct a.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
+					+ "from activities a "
+					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
+					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
+					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and structure_type_fk!='FOB' and a.scope <> IFNULL('Completed',0) " ;
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and c1.department_id_fk=? and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from structure_contract_responsible_people where structure_id_fk in(select structure_id_fk from structure_contract_responsible_people where responsible_people_id_fk = ?))) )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+
+			}
+			
+			
+			qry = qry + " group by a.contract_id_fk ORDER BY a.contract_id_fk ASC ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				
+				pValues[i++] = obj.getDepartment_fk();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+
+				//objsList1 = getExecutivesList(obj);	
+			
+			}
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
 				

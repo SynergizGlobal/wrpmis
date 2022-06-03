@@ -11,7 +11,7 @@ public class Activity {
 	approved_on,rejected_on,approval_status_fk,department_name,user_role_code,updated_on,updated_by,cumulative_completed,actual_for_the_day,
 	total_scope,remaining_scope,approved_or_rejected_by,message_id,updated_scope,designation,from_structure_id,to_structure_id,order_x,order_y;
 	
-	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on,p6_task_code;
+	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on,p6_task_code,project_id_fk,user_type_fk;
 	
 	private boolean message_flag;
 	private String message;
@@ -593,6 +593,22 @@ public class Activity {
 
 	public void setP6_task_code(String p6_task_code) {
 		this.p6_task_code = p6_task_code;
+	}
+
+	public String getProject_id_fk() {
+		return project_id_fk;
+	}
+
+	public void setProject_id_fk(String project_id_fk) {
+		this.project_id_fk = project_id_fk;
+	}
+
+	public String getUser_type_fk() {
+		return user_type_fk;
+	}
+
+	public void setUser_type_fk(String user_type_fk) {
+		this.user_type_fk = user_type_fk;
 	}
 	
 	

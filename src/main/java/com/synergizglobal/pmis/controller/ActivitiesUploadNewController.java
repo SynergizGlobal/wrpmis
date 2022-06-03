@@ -41,6 +41,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class ActivitiesUploadNewController {
@@ -91,9 +92,16 @@ public class ActivitiesUploadNewController {
 	@RequestMapping(value = "/ajax/demo/getWorksInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Activity> getWorksInActivitiesUpload(@ModelAttribute Activity obj) {
+	public List<Activity> getWorksInActivitiesUpload(@ModelAttribute Activity obj,HttpSession session) {
 		List<Activity> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			if(!StringUtils.isEmpty(uObj)) {
+				obj.setUser_type_fk(uObj.getUser_type_fk());
+				obj.setUser_role_code(uObj.getUser_role_code());
+				obj.setUser_id(uObj.getUser_id());
+				obj.setDepartment_fk(uObj.getDepartment_fk());
+			}
 			objList = service.getWorksInActivitiesUpload(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -105,9 +113,16 @@ public class ActivitiesUploadNewController {
 	@RequestMapping(value = "/ajax/demo/getContractsInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Activity> getContractsInActivitiesUpload(@ModelAttribute Activity obj) {
+	public List<Activity> getContractsInActivitiesUpload(@ModelAttribute Activity obj,HttpSession session) {
 		List<Activity> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			if(!StringUtils.isEmpty(uObj)) {
+				obj.setUser_type_fk(uObj.getUser_type_fk());
+				obj.setUser_role_code(uObj.getUser_role_code());
+				obj.setUser_id(uObj.getUser_id());
+				obj.setDepartment_fk(uObj.getDepartment_fk());
+			}
 			objList = service.getContractsInActivitiesUpload(obj);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -167,7 +167,7 @@
 									 <!-- <a href="/pmis/RR_Drawings.xlsx" download class="template-btn" title="Download Template">
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a> -->
-									<a href="/<%=request.getContextPath()%>/R&R_Template.xlsx" download class="template-btn" title="Click to Download R&R Template">
+									<a href="<%=request.getContextPath()%>/R&R_Template.xlsx" download class="template-btn" title="Click to Download R&R Template">
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a>
 									<a href="javascript:void(0);"

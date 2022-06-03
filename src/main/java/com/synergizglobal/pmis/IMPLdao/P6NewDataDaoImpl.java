@@ -310,7 +310,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			String updateActivitiesQry ="UPDATE p6_activities set "
 					+ "status_fk = ?,`start` = ?,finish = ?,`float` =  ?";
 					if(pobj.getIsRevised().contentEquals("Yes")) {
-						updateActivitiesQry = updateActivitiesQry + ",p6_activity_name = ?,baseline_start = ?,baseline_finish = ? ";
+						updateActivitiesQry = updateActivitiesQry + "baseline_start = ?,baseline_finish = ? ";
 
 					}
 			updateActivitiesQry	= updateActivitiesQry+ ",modified_by_user_id_fk = ?, modified_date = CURRENT_TIMESTAMP where  contract_id_fk = ? and task_code = ? ";
@@ -327,7 +327,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);	
 				
 				if(pobj.getIsRevised().contentEquals("Yes")) {
-					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
+					//stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
 					stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_start())?obj.getBaseline_start():null);
 					stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_finish())?obj.getBaseline_finish():null);
 					

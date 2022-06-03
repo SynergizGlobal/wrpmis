@@ -281,7 +281,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
                 stmt.setString(p++, CD1);	
                 stmt.setString(p++, updateList.get(i).getRemarks());
                 stmt.setString(p++, updateList.get(i).getModified_by_user_id_fk());
-                stmt.setString(p++, insertList.get(i).getP6_task_code());
+                stmt.setString(p++, updateList.get(i).getP6_task_code());
                 
                 stmt.setString(p++, updateList.get(i).getContract_id_fk());
                 stmt.setString(p++, updateList.get(i).getStructure_type());

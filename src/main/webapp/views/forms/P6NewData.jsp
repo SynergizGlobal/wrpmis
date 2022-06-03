@@ -217,7 +217,7 @@
 				                            <div class="col m12 text-primary">
 				                                <p><strong>Note :</strong> Please make sure the uploading
 				                                    P6 data file will be in
-				                                    the given format. Click <a href="/pmis/P6BaselineFile.xlsx" download>here</a> for
+				                                    the given format. Click <a href="<%=request.getContextPath()%>/P6BaselineFile.xlsx" download>here</a> for
 				                                    the file format</p>
 				                            </div>
 				
@@ -296,7 +296,7 @@
 				                            <div class="col m12 text-primary">
 				                                <p><strong>Note :</strong> Please make sure the uploading
 				                                    P6 data file will be in
-				                                    the given format. Click <a href="/pmis/P6RevisedFile.xlsx" download>here</a> for
+				                                    the given format. Click <a href="<%=request.getContextPath()%>/P6RevisedFile.xlsx" download>here</a> for
 				                                    the file format</p>
 				                            </div>
 				
@@ -374,7 +374,7 @@
 				                            <div class="col m12 text-primary">
 				                                <p><strong>Note :</strong> Please make sure the uploading
 				                                    P6 data file will be in
-				                                    the given format. Click <a href="/pmis/P6UpdateFile.xlsx" download>here</a> for
+				                                    the given format. Click <a href="<%=request.getContextPath()%>/P6UpdateFile.xlsx" download>here</a> for
 				                                    the file format</p>
 				                            </div>
 				

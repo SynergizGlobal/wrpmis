@@ -76,7 +76,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public List<P6Data> getContractsListFilter(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="SELECT contract_id_fk as contract_id,contract_name,contract_short_name FROM p6_activity_data "
+			String qry ="SELECT contract_id_fk as contract_id,contract_name,contract_short_name FROM p6_data "
 					+ "LEFT OUTER JOIN contract ON contract_id_fk = contract_id "
 					+ "WHERE (fob_id_fk is null OR fob_id_fk = '') AND contract_id_fk is not null and contract_id_fk <> '' ";
 			int arrSize = 0;
@@ -122,7 +122,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public List<P6Data> getFobListFilter(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="SELECT fob_id_fk as fob_id,fob_name FROM p6_activity_data p "
+			String qry ="SELECT fob_id_fk as fob_id,fob_name FROM p6_data p "
 					+ "LEFT OUTER JOIN fob f ON fob_id_fk = fob_id "
 					+ "where (fob_id_fk is null OR fob_id_fk = '') AND and fob_id <> '' ";
 			
@@ -170,7 +170,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public List<P6Data> getUploadTypesFilter(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="SELECT upload_type FROM p6_activity_data "
+			String qry ="SELECT upload_type FROM p6_data "
 					+ "where (fob_id_fk is null OR fob_id_fk = '') AND upload_type is not null and upload_type <> '' ";
 					
 					int arrSize = 0;
@@ -218,7 +218,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public List<P6Data> getStatusListFilter(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="SELECT soft_delete_status_fk FROM p6_activity_data "
+			String qry ="SELECT soft_delete_status_fk FROM p6_data "
 					+ "where (fob_id_fk is null OR fob_id_fk = '') AND soft_delete_status_fk is not null and soft_delete_status_fk <> '' ";
 					int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -390,7 +390,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 		try {
 			String qry ="select contract_id_fk, fob_id_fk,upload_type, DATE_FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk,"
 					+ " p6_file_path, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_date,'%d-%m-%Y  %h:%i %p') uploaded_date  "
-					+ "from p6_activity_data "
+					+ "from p6_data "
 					+ "WHERE (fob_id_fk is null OR fob_id_fk = '') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

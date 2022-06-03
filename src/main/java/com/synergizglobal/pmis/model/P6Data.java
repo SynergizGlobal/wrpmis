@@ -7,9 +7,163 @@ public class P6Data {
 	private String p6_activity_id, p6_task_code,p6_wbs_code_fk, p6_activity_name, status_fk, baseline_start, baseline_finish, 
 	start, finish, p6_float,p6_wbs_code, contract_id_fk, fob_id_fk, p6_wbs_name, p6_wbs_parent_code,contract_short_name, p6_wbs_category_fk,
 	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk,work_id_fk,work_short_name,work_name, uploaded_date,upload_type,contract_id,
-	contract_name,fob_id,fob_name,created_by_user_id_fk,user_name,designation,isRevised;
+	contract_name,fob_id,fob_name,created_by_user_id_fk,user_name,designation,isRevised,structure_type_fk,structure,
+	 task_code, structure_id_fk , from_structure_id, to_structure_id, section, line, component, component_id , 
+	unit, scope, completed, weightage, component_details, remarks, created_date, modified_date, modified_by_user_id_fk;
 
 	 
+	public String getStructure_type_fk() {
+		return structure_type_fk;
+	}
+
+	public void setStructure_type_fk(String structure_type_fk) {
+		this.structure_type_fk = structure_type_fk;
+	}
+
+	public String getStructure() {
+		return structure;
+	}
+
+	public void setStructure(String structure) {
+		this.structure = structure;
+	}
+
+	public String getTask_code() {
+		return task_code;
+	}
+
+	public void setTask_code(String task_code) {
+		this.task_code = task_code;
+	}
+
+	public String getStructure_id_fk() {
+		return structure_id_fk;
+	}
+
+	public void setStructure_id_fk(String structure_id_fk) {
+		this.structure_id_fk = structure_id_fk;
+	}
+
+	public String getFrom_structure_id() {
+		return from_structure_id;
+	}
+
+	public void setFrom_structure_id(String from_structure_id) {
+		this.from_structure_id = from_structure_id;
+	}
+
+	public String getTo_structure_id() {
+		return to_structure_id;
+	}
+
+	public void setTo_structure_id(String to_structure_id) {
+		this.to_structure_id = to_structure_id;
+	}
+
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+
+	public String getLine() {
+		return line;
+	}
+
+	public void setLine(String line) {
+		this.line = line;
+	}
+
+	public String getComponent() {
+		return component;
+	}
+
+	public void setComponent(String component) {
+		this.component = component;
+	}
+
+	public String getComponent_id() {
+		return component_id;
+	}
+
+	public void setComponent_id(String component_id) {
+		this.component_id = component_id;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+
+	public String getCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(String completed) {
+		this.completed = completed;
+	}
+
+	public String getWeightage() {
+		return weightage;
+	}
+
+	public void setWeightage(String weightage) {
+		this.weightage = weightage;
+	}
+
+	public String getComponent_details() {
+		return component_details;
+	}
+
+	public void setComponent_details(String component_details) {
+		this.component_details = component_details;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public String getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(String created_date) {
+		this.created_date = created_date;
+	}
+
+	public String getModified_date() {
+		return modified_date;
+	}
+
+	public void setModified_date(String modified_date) {
+		this.modified_date = modified_date;
+	}
+
+	public String getModified_by_user_id_fk() {
+		return modified_by_user_id_fk;
+	}
+
+	public void setModified_by_user_id_fk(String modified_by_user_id_fk) {
+		this.modified_by_user_id_fk = modified_by_user_id_fk;
+	}
+
 	private MultipartFile p6dataFile;
 	
 

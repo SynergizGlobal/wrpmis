@@ -262,16 +262,18 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	
 
 	@Override
-	public int updateP6Activities(List<P6Data> p6dataList,P6Data pobj) throws Exception {
+	public String updateP6Activities(List<P6Data> p6dataList,P6Data pobj) throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		int count = 0;
+		String count = "";
+		int counts = 0;
+		String lineNos = null;
 		try {
 			con = dataSource.getConnection();
 			
 			con.setAutoCommit(false);
-			String updateQry ="update p6_activity_data set soft_delete_status_fk  = ? "
+			String updateQry ="update p6_data set soft_delete_status_fk  = ? "
 					+ "where contract_id_fk = ?";
 			
 			if(!StringUtils.isEmpty((pobj.getFob_id_fk()))) {
@@ -288,7 +290,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			stmt.executeUpdate();	
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 	
-			String activityDataqry = "INSERT INTO p6_activity_data (contract_id_fk, fob_id_fk,upload_type,data_date, "
+			String activityDataqry = "INSERT INTO p6_data (contract_id_fk, fob_id_fk,upload_type,data_date, "
 					+ "soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, uploaded_date)"
 					+ " VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
 			
@@ -305,44 +307,58 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
-			String updateActivitiesQry ="UPDATE p6_activity set "
-					+ "p6_activity_name = ?,status_fk = ?,p6_wbs_code_fk = ?,"
-					+ " `start` = ?,finish = ?,`float` =  ?";
+			String updateActivitiesQry ="UPDATE p6_activities set "
+					+ "status_fk = ?,`start` = ?,finish = ?,`float` =  ?";
 					if(pobj.getIsRevised().contentEquals("Yes")) {
-						updateActivitiesQry = updateActivitiesQry + ",baseline_start = ?,baseline_finish = ? ";
+						updateActivitiesQry = updateActivitiesQry + ",p6_activity_name = ?,baseline_start = ?,baseline_finish = ? ";
 
 					}
-			updateActivitiesQry	= updateActivitiesQry+ " where  p6_wbs_code_fk like CONCAT ('%', ?, '%') and p6_task_code = ? ";
+			updateActivitiesQry	= updateActivitiesQry+ ",modified_by_user_id_fk = ?, modified_date = CURRENT_TIMESTAMP where  contract_id_fk = ? and task_code = ? ";
 			
 			stmt = con.prepareStatement(updateActivitiesQry);
-			int lineNo = 1;
+			int lineNo = 3;
 			for (P6Data obj : p6dataList) {
 				p = 1;				
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
+				//stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_code_fk()))?obj.getP6_wbs_code_fk():null);
 
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getStart())?obj.getStart():null);
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getFinish())?obj.getFinish():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);	
+				
 				if(pobj.getIsRevised().contentEquals("Yes")) {
+					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
 					stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_start())?obj.getBaseline_start():null);
 					stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_finish())?obj.getBaseline_finish():null);
 					
 				}
+				stmt.setString(p++,!StringUtils.isEmpty((pobj.getModified_by_user_id_fk()))?pobj.getModified_by_user_id_fk():null);
 				stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
 				stmt.addBatch();
-				lineNo++;
+				
 			} 
 			int[] c = stmt.executeBatch();
-			/*if(!(c.length > 0)) {
-				count=Integer.parseInt("["+lineNo+"] Row");  
-			
-			}*/
+			String noErr = "",err = "";
 			for (int i = 0; i < c.length; i++) {
-				count = count + c[i];
+				if((c[i] > 0)) {
+					counts = counts + c[i];
+					noErr = Integer.toString(counts);
+				}else {
+					if(lineNos != null) {
+						lineNos = lineNos +", "+ lineNo;
+					}else {
+						lineNos = lineNo+"";
+					}
+					if(!lineNos.contains(",")) {
+						err = "^ row "+lineNos+ " Not Updated Because Contract or Activity ID Missmatch";
+					}else {
+						err = "^ rows "+lineNos+ " Not Updated Because Contract or Activity ID Missmatch";
+					}
+			    }
+				lineNo++;
 			}
+			count = noErr + err;
 			con.commit();
 			
 			FormHistory formHistory = new FormHistory();
@@ -351,7 +367,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			formHistory.setModule_name_fk("Execution &  Monitoring");
 			formHistory.setForm_name("P6 Data");
 			formHistory.setForm_action_type("Update");
-			formHistory.setForm_details("Data date updated and "+ count + " activities updated");
+			formHistory.setForm_details("Data date updated and "+ counts + " activities updated");
 			//formHistory.setWork(pobj.getWork_id_fk());
 			formHistory.setContract_id_fk(pobj.getContract_id_fk());
 			
@@ -423,16 +439,21 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public String uploadP6WBSActivities(List<P6Data> wbsList, List<P6Data> activitiesList, P6Data pobj) throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
+		PreparedStatement stmtUpdate = null;
 		ResultSet rs = null;
 		String counts = null;
+		String rows = null;
+		String norows = null;
 		int wbsCount = 0;
+		int wbsCountUpdate = 0;
 		int activitiesCount = 0;
+		int rowNo = 3;
 		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
 			
 			con.setAutoCommit(false);
-			String updateQry ="update p6_activity_data set soft_delete_status_fk  = ? "
+			String updateQry ="update p6_data set soft_delete_status_fk  = ? "
 					+ "where contract_id_fk = ?";
 			
 			if(!StringUtils.isEmpty((pobj.getFob_id_fk()))) {
@@ -450,7 +471,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			stmt.executeUpdate();	
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 	
-			String activityDataqry = "INSERT INTO p6_activity_data (contract_id_fk, fob_id_fk,upload_type, data_date, "
+			String activityDataqry = "INSERT INTO p6_data (contract_id_fk, fob_id_fk,upload_type, data_date, "
 					+ "soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, uploaded_date)"
 					+ " VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
 			
@@ -467,103 +488,145 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			int row =3;
-			String wbsQry = "INSERT INTO p6_wbs (contract_id_fk,fob_id_fk,p6_wbs_code,p6_wbs_name,p6_wbs_parent_code,p6_wbs_category_fk)"
-					+ " VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE p6_wbs_code = p6_wbs_code";
+			String wbsQry = "INSERT INTO p6_activities (task_code, contract_id_fk, structure_id_fk, p6_activity_name, from_structure_id, to_structure_id, "
+					+ "section, line, component, component_id, baseline_start, baseline_finish, start, finish, `float`, status_fk, unit, scope, "
+					+ "completed, weightage, component_details, remarks, created_by_user_id_fk,created_date)"
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP) ";
+			
+			String wbsUpdateQry = "Update p6_activities set structure_id_fk = ?, p6_activity_name = ?, from_structure_id = ?, to_structure_id = ?, "
+					+ "section = ?, line = ?, component = ?, component_id = ?, baseline_start = ?, baseline_finish = ?, start = ?, finish = ?, `float` = ?, status_fk = ?, unit = ?, scope = ?, "
+					+ "completed = ?, weightage = ?, component_details = ?, remarks = ?, modified_by_user_id_fk = ?, modified_date = CURRENT_TIMESTAMP where task_code = ? and contract_id_fk = ?";
 			stmt = con.prepareStatement(wbsQry);
-			for (P6Data obj : wbsList) {
+			stmtUpdate = con.prepareStatement(wbsUpdateQry);
+			for (P6Data obj : activitiesList) {
+						PreparedStatement pstmt = con.prepareStatement("SELECT COUNT(*) as total FROM p6_activities WHERE task_code = ? and contract_id_fk = ?");
+						p = 1;
+						pstmt.setString(p++,obj.getP6_task_code());
+						pstmt.setString(p++,pobj.getContract_id_fk());
+						rs = pstmt.executeQuery();		
+						int count = 0;
+						if(rs.next()) {
+							count = rs.getInt("total");
+						}
+						DBConnectionHandler.closeJDBCResoucrs(null, pstmt, rs);
+						PreparedStatement structureStmt = con.prepareStatement("SELECT structure_id as structure_id_fk FROM structure WHERE structure_type_fk = ? and structure = ?");
+						p = 1;
+						structureStmt.setString(p++,obj.getStructure_type_fk());
+						structureStmt.setString(p++,obj.getStructure());
+						rs = structureStmt.executeQuery();		
+						String val = null;
+						if(rs.next()) {
+							val = rs.getString("structure_id_fk");
+						}
+						DBConnectionHandler.closeJDBCResoucrs(null, structureStmt, rs);
+						obj.setStructure_id_fk(val);
+						String ContractIs_Available = "";
+						if(!StringUtils.isEmpty(obj.getStructure_id_fk())) {
+							DBConnectionHandler.closeJDBCResoucrs(null, pstmt, rs);
+							PreparedStatement contarctStmt = con.prepareStatement("SELECT contract_id_fk as contract_id_fk FROM structure_contract_responsible_people WHERE contract_id_fk = ? and structure_id_fk = ?");
+							p = 1;
+							contarctStmt.setString(p++,pobj.getContract_id_fk());
+							contarctStmt.setString(p++,val);
+							rs = contarctStmt.executeQuery();		
+							
+							if(rs.next()) {
+								ContractIs_Available = rs.getString("contract_id_fk");
+							}
+							DBConnectionHandler.closeJDBCResoucrs(null, contarctStmt, rs);
+						}
 				
-				PreparedStatement pstmt = con.prepareStatement("SELECT COUNT(*) as total FROM p6_wbs WHERE p6_wbs_code = ?");
-				p = 1;
-				pstmt.setString(p++,obj.getP6_wbs_code());
-				rs = pstmt.executeQuery();		
-				int count = 0;
-				if(rs.next()) {
-					count = rs.getInt("total");
-				}
-				DBConnectionHandler.closeJDBCResoucrs(null, pstmt, rs);
-				if(count == 0) {
-					p = 1;
-					stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
-					stmt.setString(p++,!StringUtils.isEmpty((obj.getFob_id_fk()))?obj.getFob_id_fk():null);
-					stmt.setString(p++,obj.getP6_wbs_code());
-					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_name()))?obj.getP6_wbs_name():null);
-					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_parent_code()))?obj.getP6_wbs_parent_code():null);
-					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_category_fk()))?obj.getP6_wbs_category_fk():null);
-					System.out.println(obj.getP6_wbs_name());
-					stmt.addBatch();
-				}				
+						if(!StringUtils.isEmpty(ContractIs_Available) ) {
+							if(count == 0) {
+								p = 1;
+								
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
+								stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
+								stmt.setString(p++,obj.getStructure_id_fk());
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getFrom_structure_id()))?obj.getFrom_structure_id():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getTo_structure_id()))?obj.getTo_structure_id():null);
+								
+								stmt.setString(p++,!StringUtils.isEmpty((pobj.getSection()))?pobj.getSection():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getLine()))?obj.getLine():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getComponent()))?obj.getComponent():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getComponent_id()))?obj.getComponent_id():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getBaseline_start()))?obj.getBaseline_start():null);
+								
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getBaseline_finish()))?obj.getBaseline_finish():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getStart()))?obj.getStart():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getFinish()))?obj.getFinish():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getUnit()))?obj.getUnit():null);
+								
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getScope()))?obj.getScope():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getCompleted()))?obj.getCompleted():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getWeightage()))?obj.getWeightage():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getComponent_details()))?obj.getComponent_details():null);
+								stmt.setString(p++,!StringUtils.isEmpty((obj.getRemarks()))?obj.getRemarks():null);
+								stmt.setString(p++,!StringUtils.isEmpty((pobj.getCreated_by_user_id_fk()))?pobj.getCreated_by_user_id_fk():null);
+								stmt.addBatch();
+							}else {
+								p = 1;
+								stmtUpdate.setString(p++,obj.getStructure_id_fk());
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getFrom_structure_id()))?obj.getFrom_structure_id():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getTo_structure_id()))?obj.getTo_structure_id():null);
+								
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getSection()))?obj.getSection():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getLine()))?obj.getLine():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getComponent()))?obj.getComponent():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getComponent_id()))?obj.getComponent_id():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getBaseline_start()))?obj.getBaseline_start():null);
+								
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getBaseline_finish()))?obj.getBaseline_finish():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getStart()))?obj.getStart():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getFinish()))?obj.getFinish():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getUnit()))?obj.getUnit():null);
+								
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getScope()))?obj.getScope():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getCompleted()))?obj.getCompleted():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getWeightage()))?obj.getWeightage():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getComponent_details()))?obj.getComponent_details():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getRemarks()))?obj.getRemarks():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((pobj.getModified_by_user_id_fk()))?pobj.getModified_by_user_id_fk():null);
+								
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
+								stmtUpdate.addBatch();
+								
+							}
+							rowNo ++;
+						}else {
+							if(norows != null) {
+								norows = norows +", "+ rowNo;
+							}else {
+								norows = rowNo+"";
+							}
+							rowNo ++;
+						}
 			}
-			int[] c = stmt.executeBatch();		
+			int[] c = stmt.executeBatch();	
+			int[] d = stmtUpdate.executeBatch();	
 			for (int i = 0; i < c.length; i++) {
 				wbsCount = wbsCount + c[i];
 			}
-			
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-			//con.commit();
-			String activitiesQry ="INSERT INTO p6_activity(p6_task_code,p6_wbs_code_fk,p6_activity_name,status_fk,baseline_start,baseline_finish,`start`,finish,`float`)"
-					+ "VALUES(?,?,?,?,?,?,?,?,?)";
-			
-			stmt = con.prepareStatement(activitiesQry);
-			for (P6Data obj : activitiesList) {
-				
-				PreparedStatement pstmt = con.prepareStatement("SELECT COUNT(*) as total FROM p6_activity WHERE p6_task_code = ? and p6_wbs_code_fk = ?");
-				p = 1;
-				pstmt.setString(p++,obj.getP6_task_code());
-				pstmt.setString(p++,obj.getP6_wbs_code_fk());
-				rs = pstmt.executeQuery();		
-				int count = 0;
-				if(rs.next()) {
-					count = rs.getInt("total");
-				}
-				DBConnectionHandler.closeJDBCResoucrs(null, pstmt, rs);
-				if(count == 0) {
-					p = 1;
-				    stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
-					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_code_fk()))?obj.getP6_wbs_code_fk():null);
-					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
-				    stmt.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
-				    stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_start())?obj.getBaseline_start():null);
-				    stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_finish())?obj.getBaseline_finish():null);
-				    stmt.setString(p++,!StringUtils.isEmpty(obj.getStart())?obj.getStart():null);
-				    stmt.setString(p++,!StringUtils.isEmpty(obj.getFinish())?obj.getFinish():null);
-				    stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);
-					
-				    stmt.addBatch();
+			for (int i = 0; i < d.length; i++) {
+				wbsCountUpdate = wbsCountUpdate + d[i];
+			}
+			DBConnectionHandler.closeJDBCResoucrs(null, stmtUpdate, rs);
+			counts = wbsCount + "," + wbsCountUpdate;
+			rows = "<span style='color:green;'> "+wbsCount + " records Added, " + wbsCountUpdate+" records Updated </span><br>";	
+			if(!StringUtils.isEmpty(norows)) {
+				if(!norows.contains(",")) {
+					rows = rows +"<span style='color:red;'> row no ( "+ norows+" )  Not Inserted Because Selected Contract & Structure Type & Structure combination is not present in Structure</span> ";
+				}else {
+					rows = rows +"<span style='color:red;'> row nos ( "+ norows+" )  Not Inserted Because Selected Contract & Structure Type & Structure combination is not present in Structure</span> ";
 				}
 			}
-			c = stmt.executeBatch();	
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-			for (int i = 0; i < c.length; i++) {
-				activitiesCount = activitiesCount + c[i];
-			}
-			counts = wbsCount + "," + activitiesCount;	
-
 			con.commit();
-			con.setAutoCommit(false);
-			String wbsUpdateQry = "update p6_wbs set p6_wbs_parent_code = ? where p6_wbs_code = ?";
-			stmt = con.prepareStatement(wbsUpdateQry);
-			for (P6Data obj : wbsList) {
-					String p6_wbs_parent_code = obj.getP6_wbs_code();
-					if(!(StringUtils.isEmpty(obj.getP6_wbs_code())) && obj.getP6_wbs_code().contains(".")) {
-						int endIndex = p6_wbs_parent_code.lastIndexOf(".");
-				 	    if (endIndex != -1) {
-				 	        String newstr = p6_wbs_parent_code.substring(0, endIndex);
-				 	       flag = getP6_wbs_name(newstr);
-				 	       if(!flag) {
-				 	    	   return counts = "Error"+row;
-				 	       }
-				 	      obj.setP6_wbs_parent_code(newstr);
-				 	    }
-					}
-					p = 1;
-					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_parent_code()))?obj.getP6_wbs_parent_code():null);
-					stmt.setString(p++,obj.getP6_wbs_code());
-					stmt.addBatch();
-			}
-			int[] d = stmt.executeBatch();		
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-			con.commit();
-			
 			FormHistory formHistory = new FormHistory();
 			formHistory.setCreated_by_user_id_fk(pobj.getCreated_by_user_id_fk());
 			formHistory.setUser(pobj.getDesignation()+" - "+pobj.getUser_name());
@@ -582,7 +645,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
-		return counts;
+		return rows;
 	}
 
 

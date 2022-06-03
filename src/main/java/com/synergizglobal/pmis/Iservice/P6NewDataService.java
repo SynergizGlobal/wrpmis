@@ -6,7 +6,7 @@ import com.synergizglobal.pmis.model.P6Data;
 
 public interface P6NewDataService {
 
-	public int updateP6Activities(List<P6Data> p6dataList1,P6Data obj) throws Exception;
+	public String updateP6Activities(List<P6Data> p6dataList1,P6Data obj) throws Exception;
 
 	public List<P6Data> getActivityDataList(P6Data obj) throws Exception;
 

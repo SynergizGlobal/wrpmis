@@ -1,7 +1,5 @@
 package com.synergizglobal.pmis.reference.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -17,11 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.reference.Iservice.RRSVerificationByService;
-import com.synergizglobal.pmis.reference.Iservice.RRStatusService;
-import com.synergizglobal.pmis.reference.model.Safety;
-import com.synergizglobal.pmis.reference.model.TrainingType;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.reference.Iservice.RRSVerificationByService;
+import com.synergizglobal.pmis.reference.model.TrainingType;
 
 @Controller
 public class RRSVerificationByController {

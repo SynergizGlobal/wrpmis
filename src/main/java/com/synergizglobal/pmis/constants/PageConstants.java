@@ -56,10 +56,7 @@ public class PageConstants {
 	public static final String addEditBudget = "forms/addEditBudget";
 	
 	public static final String newBudgetGrid = "forms/newBudgetGrid";
-	public static final String addEditNewBudget = "forms/newBudgetForm";	
-	
-	public static final String workContractModuleStatusGrid = "forms/workContractModuleStatusGrid";
-	public static final String addEditWorkContractModuleStatus = "forms/addEditWorkContractModuleStatus";
+	public static final String addEditNewBudget = "forms/newBudgetForm";
 
 	public static final String P6Data = "forms/P6Data";
 	public static final String P6NewData = "forms/P6NewData";
@@ -109,9 +106,6 @@ public class PageConstants {
 	public static final String RandRMain = "forms/RandRMain";
 	public static final String addEditRandRMain = "forms/addEditRandRMain";
 	public static final String addEditRandRMainTabs = "forms/addEditRandRMainTabs";
-	
-	public static final String bsesGrid="/forms/RandRBses";
-	public static final String addEditBses="/forms/addEditRandRBses";
 
 	public static final String utilityShifting="/forms/utilityShifting";
 	public static final String addEditUtilityShifting="/forms/addEditUtilityShifting";
@@ -245,11 +239,6 @@ public class PageConstants {
 	public static final String softDeleteStatus = "referenceForms/softDeleteStatus";
 
 	public static final String structureFileType = "referenceForms/structureFileType";
-	
-	public static final String rrStatus = "referenceForms/rrStatus";
-	public static final String rrLandType = "referenceForms/rrLandType";
-	public static final String rrDocumentType = "referenceForms/rrDocumentType";
-	public static final String rrApprovalStatus = "referenceForms/rrApprovalStatus";
 
 	public static final String rrDocType = "referenceForms/rrDocType";
 	
@@ -342,8 +331,6 @@ public class PageConstants {
 	public static final String rrLocation = "referenceForms/rrLocation"; 
 
 	public static final String rrBoundarywallStatus = "referenceForms/rrBoundaryWallStatus"; 
-
-	public static final String rrBsesFileType = "referenceForms/bsesFileType"; 
 
 	public static final String rrOccupancyStatus = "referenceForms/rrOccupancyStatus"; 
 

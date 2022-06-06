@@ -34,6 +34,7 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.P6Data;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class P6NewDataController {
@@ -59,6 +60,11 @@ public class P6NewDataController {
 	public ModelAndView P6Data(@ModelAttribute P6Data obj,HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.P6NewData);
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			List<P6Data> worksList = p6newdataService.getWorksList(obj);
 			model.addObject("worksList", worksList);
 			
@@ -89,9 +95,13 @@ public class P6NewDataController {
 	
 	@RequestMapping(value = "/ajax/getContractListInP6New", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<P6Data> getContractListInP6New(@ModelAttribute P6Data obj) {
+	public List<P6Data> getContractListInP6New(@ModelAttribute P6Data obj,HttpSession session) {
 		List<P6Data> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = p6newdataService.getContractsList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();

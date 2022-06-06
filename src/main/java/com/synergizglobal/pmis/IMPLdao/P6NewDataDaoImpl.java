@@ -38,16 +38,36 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 		List<P6Data> objsList = null;
 		try {
 			String qry ="SELECT contract_id,contract_name,contract_short_name FROM contract c "
-					+ "left join work w on c.work_id_fk = w.work_id where contract_id is not null  ";
+					+ "left join work w on c.work_id_fk = w.work_id where contract_id is not null ";
+				;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + "and work_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + "and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or"
+						+ " contract_id in(select contract_id_fk from contract_executive where  executive_user_id_fk = ?) "
+						+ " or contract_id in(select contract_id_fk from structure_contract_responsible_people where  responsible_people_id_fk = ?) )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}
+				
+			
 			Object[] pValues = new Object[arrSize]; 
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
 			}
 			objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
 		}catch(Exception e){ 
@@ -674,9 +694,34 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 		List<P6Data> objsList = null;
 		try {
 			String qry ="SELECT c.work_id_fk,work_id,work_name,work_short_name FROM contract c  "
-					+ "left join work  on c.work_id_fk = work_id  group by work_id_fk ";
+					+ "left join work  on c.work_id_fk = work_id  where work_id is not null ";
 			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<P6Data>(P6Data.class));	
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + "and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or"
+						+ " contract_id in(select contract_id_fk from contract_executive where  executive_user_id_fk = ?) "
+						+ " or contract_id in(select contract_id_fk from structure_contract_responsible_people where  responsible_people_id_fk = ?) ) ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}
+			qry = qry +"group by c.work_id_fk ";
+			Object[] pValues = new Object[arrSize]; 
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<P6Data>(P6Data.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}

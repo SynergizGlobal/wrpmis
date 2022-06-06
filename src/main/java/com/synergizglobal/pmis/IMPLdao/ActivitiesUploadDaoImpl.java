@@ -136,7 +136,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				}
 			}
 			
-			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order_x,order_y,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk) "
+			String insertQry = "INSERT INTO p6_activities (contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order_x,order_y,activity_name,baseline_start,baseline_finish,start,finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk) "
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)";
 			
 			stmt = con.prepareStatement(insertQry); 
@@ -172,7 +172,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			int[] insertCounts = stmt.executeBatch();
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);			
 			
-			String updateQry = "UPDATE activities SET order_x = ?,order_y = ?,planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ? "
+			String updateQry = "UPDATE p6_activities SET order_x = ?,order_y = ?,baseline_start = ?,baseline_finish = ?,start = ?,finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ? "
 					+ "WHERE (contract_id_fk = ? OR contract_id_fk IS NULL OR contract_id_fk = '') and (structure_type_fk = ? OR structure_type_fk IS NULL OR structure_type_fk = '') "
 					+ "and (section = ? OR section IS NULL OR section = '') and (line = ? OR line IS NULL OR line = '') and (structure = ? OR structure IS NULL OR structure = '') and (component = ? OR component IS NULL OR component = '') "
 					+ "and (component_id = ? OR component_id IS NULL OR component_id = '') and (activity_name = ? OR activity_name IS NULL OR activity_name = '') ";
@@ -234,7 +234,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				
 				if(!StringUtils.isEmpty(activity_id) && total_scope != 0 && completed_scope != 0 && !StringUtils.isEmpty(actual_start_date)) {					
 					aObj.setActivity_id_fk(activity_id);
-					String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
+					String deleteQry = "DELETE FROM p6_activity_progress where activity_id_fk = ? ";
 					stmt = con.prepareStatement(deleteQry);  
 					stmt.setString(1, activity_id);
 					int cNo = stmt.executeUpdate();
@@ -246,7 +246,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 					String progress_date = null;
 					
 					
-					String insert_qry = "INSERT into activity_progress (progress_date,activity_id_fk,completed_scope,attachment_url,remarks,created_date,created_by_user_id_fk) "
+					String insert_qry = "INSERT into p6_activity_progress (progress_date,activity_id_fk,completed_scope,attachment_url,remarks,created_date,created_by_user_id_fk) "
 							+"VALUES (?,?,?,?,?,CURRENT_TIMESTAMP,?)";
 					stmt = con.prepareStatement(insert_qry); 
 					
@@ -313,8 +313,8 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		ResultSet rs = null;
 		String progress_date = null;
 		try {
-			String qry = "select (actual_start + INTERVAL (((TO_DAYS(?) - TO_DAYS(actual_start)) * ?) / 8) DAY) AS date "
-	    			+ "from activities where activity_id = ? ";
+			String qry = "select (start + INTERVAL (((TO_DAYS(?) - TO_DAYS(start)) * ?) / 8) DAY) AS date "
+	    			+ "from p6_activities where p6_activity_id = ? ";
 	    	
 			
 			stmt = con.prepareStatement(qry);
@@ -341,8 +341,8 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		ResultSet rs = null;
 		boolean flag = false;
 		try {
-			String qry = "select contract_id_fk from activities "
-					+ "where activity_id is not null";
+			String qry = "select contract_id_fk from p6_activities "
+					+ "where p6_activity_id is not null";
 			if(!StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
 			} else {
@@ -443,8 +443,8 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		ResultSet rs = null;
 		String activity_id = null;
 		try {
-			String qry = "select activity_id from activities "
-					+ "where activity_id is not null";
+			String qry = "select p6_activity_id as activity_id from p6_activities "
+					+ "where p6_activity_id is not null";
 			if(!StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
 			} else {
@@ -555,7 +555,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			obj.setRemarks(data_remarks);
 			obj.setStatus("Success");
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
-			String qry = "INSERT INTO activities_data"
+			String qry = "INSERT INTO p6_data"
 					+ "(contract_id_fk,structure_type_fk,uploaded_file,status,remarks,uploaded_by_user_id_fk,uploaded_on) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:structure_type_fk,:uploaded_file,:status,:remarks,:uploaded_by_user_id_fk,CURRENT_TIMESTAMP)";	
@@ -574,7 +574,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 					FileUploads.singleFileSaving(file, saveDirectory, fileName);
 					
 					obj.setUploaded_file(fileName);
-					String updateQry = "UPDATE activities_data set uploaded_file= :uploaded_file where activities_data_id= :activities_data_id ";
+					String updateQry = "UPDATE p6_data set uploaded_file= :uploaded_file where p6_data_id= :activities_data_id ";
 					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
 					template.update(updateQry, paramSource1);
 				}
@@ -592,7 +592,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select c.work_id_fk,w.work_id,w.work_name,w.work_short_name "
-					+ "from activities_data ad "
+					+ "from p6_data ad "
 					+ "left join contract c on ad.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "WHERE ad.contract_id_fk IS NOT NULL ";
@@ -641,7 +641,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select ad.contract_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
-					+ "from activities_data ad "
+					+ "from p6_data ad "
 					+ "left join contract c on ad.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "WHERE ad.contract_id_fk IS NOT NULL ";
@@ -690,7 +690,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select ad.structure_type_fk "
-					+ "from activities_data ad "
+					+ "from p6_data ad "
 					+ "left join contract c on ad.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "WHERE ad.structure_type_fk IS NOT NULL ";
@@ -738,14 +738,14 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 	public List<Activity> getActivitiesUploadFilesList(Activity obj) throws Exception {
 		List<Activity> objsList = null;
 		try {
-			String qry = "select activities_data_id,contract_id_fk,structure_type_fk,uploaded_file,ad.status,ad.remarks,"
+			String qry = "select p6_data_id as activities_data_id,contract_id_fk,structure_type_fk,uploaded_file,ad.status,ad.remarks,"
 					+ "uploaded_by_user_id_fk,DATE_FORMAT(ad.uploaded_on,'%d-%m-%Y  %h:%i %p') as uploaded_on,"
 					+ "c.work_id_fk,w.work_id,w.work_name,w.work_short_name,"
 					+ "c.contract_id,c.contract_name,c.contract_short_name "
-					+ "from activities_data ad "
+					+ "from p6_data ad "
 					+ "left join contract c on ad.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "WHERE ad.activities_data_id IS NOT NULL ";
+					+ "WHERE ad.p6_data_id IS NOT NULL ";
 					
 			
 			int arrSize = 0;

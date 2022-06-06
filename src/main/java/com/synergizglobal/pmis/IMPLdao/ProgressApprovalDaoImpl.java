@@ -45,16 +45,17 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select progress_id,progress_date,activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,"
+			String qry = "select progress_id,progress_date,a.p6_activity_id as activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,"
 					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 					+ "ap.created_by_user_id_fk,aph.dyhod_user_id_fk,u.user_name as updated_by,approved_or_rejected_by,"
 					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
-					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope,ap.planned_start,ap.planned_finish "
-					+ "from approvable_activity_progress_dyhod aph "
-					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
+					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,p6_activity_name as activity_name,updated_scope "
+					+ "from p6_validation_dyhod aph "
+					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
-					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
+					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
+					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN user u1  ON u1.user_id = c.hod_user_id_fk "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
@@ -157,9 +158,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select c.work_id_fk,work_short_name "
-					+ "from approvable_activity_progress_dyhod aph "
-					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
-					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
+					+ "from p6_validation_dyhod aph "
+					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
+					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
 					+ "where progress_id is not null";
@@ -235,9 +236,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select a.contract_id_fk,contract_short_name "
-					+ "from approvable_activity_progress_dyhod aph "
-					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
-					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
+					+ "from p6_validation_dyhod aph "
+					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
+					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
 					+ "where progress_id is not null";
@@ -312,9 +313,10 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select structure "
-					+ "from approvable_activity_progress_dyhod aph "
-					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
-					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
+					+ "from p6_validation_dyhod aph "
+					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
+					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
+					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "where progress_id is not null";
 					
@@ -349,7 +351,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			
-			qry = qry + " group by a.structure order by a.structure";
+			qry = qry + " group by s.structure order by s.structure";
 			
 			Object[] pValues = new Object[arrSize];			
 			
@@ -388,9 +390,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select c.department_fk,department_name "
-					+ "from approvable_activity_progress_dyhod aph "
-					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
-					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
+					+ "from p6_validation_dyhod aph "
+					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
+					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN department d ON c.department_fk = d.department "
 					+ "where progress_id is not null";
@@ -465,9 +467,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select ap.created_by_user_id_fk as user_id,user_name "
-					+ "from approvable_activity_progress_dyhod aph "
-					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
-					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
+					+ "from p6_validation_dyhod aph "
+					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
+					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
 					+ "where progress_id is not null";
@@ -545,15 +547,16 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		//TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			
-			String qry = "select progress_id,progress_date,activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
+			String qry = "select progress_id,progress_date,ap.p6_activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
 					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 					+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
 					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
-					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope,ap.planned_start,ap.planned_finish "
-					+ "from approvable_activity_progress ap "
+					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,p6_activity_name as activity_name,updated_scope "
+					+ "from p6_validation ap "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
-					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
+					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
+					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
 					+ "where progress_id  = ?";			
@@ -574,11 +577,11 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				
 				
 				if((completed+actual_for_the_day) <= scope) {
-					String updateQry = "UPDATE activities SET completed = ? + ?";	
+					String updateQry = "UPDATE p6_activities SET completed = ? + ?";	
 					int arrSize = 3;
 					
 					if(completed == 0) {
-						updateQry = updateQry + ", actual_start = ?";
+						updateQry = updateQry + ", start = ?";
 						arrSize++;
 					}
 					
@@ -586,7 +589,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					
 					if(scope == (completed+actual_for_the_day)) 
 					{
-						updateQry = updateQry + ", actual_finish = ?";
+						updateQry = updateQry + ", finish = ?";
 						arrSize++;
 					}					
 					
@@ -599,18 +602,18 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					if(aObj.getPlanned_start()!=null)
 					{
 						
-						updateQry = updateQry + ", planned_start = ?";
+						updateQry = updateQry + ", baseline_start = ?";
 						arrSize++;						
 					}
 					
 					if(aObj.getPlanned_finish()!=null)
 					{
 						
-						updateQry = updateQry + ", planned_finish = ?";
+						updateQry = updateQry + ", baseline_finish = ?";
 						arrSize++;						
 					}					
 					
-					updateQry = updateQry + " WHERE activity_id = ?";
+					updateQry = updateQry + " WHERE p6_activity_id = ?";
 					
 					pValues = new Object[arrSize];
 					int i = 0;	
@@ -702,12 +705,12 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					
 					int count = jdbcTemplate.update( updateQry, pValues);			
 					if(count > 0) {
-						jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
+						jdbcTemplate.update( "UPDATE p6_validation set approval_status_fk = ?,approved_or_rejected_by = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
 								new Object[]{"Approved",obj.getDyhod_user_id_fk(),aObj.getProgress_id()});	
 						
-						String pQry = "INSERT INTO activity_progress(progress_date,activity_id_fk,completed_scope,remarks,created_by_user_id_fk,approval_datails_id_fk)"
-								+ "SELECT progress_date,activity_id_fk,completed_scope,remarks,created_by_user_id_fk,progress_id "
-								+ "FROM approvable_activity_progress "
+						String pQry = "INSERT INTO p6_activity_progress(progress_date,p6_activity_id_fk,completed_scope,remarks,created_by_user_id_fk,approval_datails_id_fk)"
+								+ "SELECT progress_date,p6_activity_id_fk,completed_scope,remarks,created_by_user_id_fk,progress_id "
+								+ "FROM p6_validation "
 								+ "WHERE progress_id = ?";
 						jdbcTemplate.update( pQry,new Object[]{aObj.getProgress_id()});
 						
@@ -720,7 +723,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 								PreparedStatement stmt = null;
 								con = dataSource.getConnection();
 								
-								String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
+								String deleteQry = "DELETE FROM p6_activity_progress where p6_activity_id_fk = ? ";
 								stmt = con.prepareStatement(deleteQry);
 								stmt.setString(1,aObj.getActivity_id());
 								stmt.executeUpdate();
@@ -767,7 +770,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	{
 		String Completed="";
 		try {
-			String qry = "select IFNULL(Completed,0) as Completed from activities where activity_id = ?";
+			String qry = "select IFNULL(Completed,0) as Completed from p6_activities where p6_activity_id = ?";
 			Completed = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -779,7 +782,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	public Activity rejectActivityProgress(Activity obj) throws Exception {
 		Activity aObj = new Activity();
 		try {
-			int c = jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, rejected_on = CURRENT_TIMESTAMP where progress_id = ?",
+			int c = jdbcTemplate.update( "UPDATE p6_validation set approval_status_fk = ?,approved_or_rejected_by = ?, rejected_on = CURRENT_TIMESTAMP where progress_id = ?",
 						new Object[]{"Rejected",obj.getDyhod_user_id_fk(),obj.getProgress_id()});	
 			if(c > 0) {
 				aObj.setMessage_flag(true);
@@ -818,15 +821,16 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			con = dataSource.getConnection();
 			List<Activity> approvableList = new ArrayList<Activity>();
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProgress_id())) {
-				String qry = "select progress_id,progress_date,activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
+				String qry = "select progress_id,progress_date,ap.p6_activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
 						+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
 						+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 						+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
 						+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
-						+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope,ap.planned_start,ap.planned_finish "
-						+ "from approvable_activity_progress ap "
+						+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,p6_activity_name as activity_name,updated_scope "
+						+ "from p6_validation ap "
 						+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
-						+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
+						+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
+						+ "left join structure s on s.structure_id = a.structure_id_fk "
 						+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 						+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
 						+ "where progress_id  in (";
@@ -866,18 +870,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					float remaining = Float.parseFloat(activity.getRemaining_scope());
 					float actual_for_the_day = Float.parseFloat(activity.getActual_for_the_day()==null?"0":activity.getActual_for_the_day());
 					if((completed+actual_for_the_day) <= scope) {
-						String updateQry = "UPDATE activities SET completed = ? + ?";	
+						String updateQry = "UPDATE p6_activities SET completed = ? + ?";	
 						int arrSize = 3;
 						
-						if(completed == 0) {
-							updateQry = updateQry + ", actual_start = ?";
-							arrSize++;
-						}				
-						if(scope == (completed+actual_for_the_day)) 
-						{
-							updateQry = updateQry + ", actual_finish = ?";
-							arrSize++;
-						}
 						
 						if(activity.getUpdated_scope()!=null && Float.parseFloat(activity.getUpdated_scope())>=0)
 						{
@@ -889,20 +884,20 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						if(activity.getPlanned_start()!=null)
 						{
 							
-							updateQry = updateQry + ", planned_start = ?";
+							updateQry = updateQry + ", baseline_start = ?";
 							arrSize++;						
 						}
 						
 						if(activity.getPlanned_finish()!=null)
 						{
 							
-							updateQry = updateQry + ", planned_finish = ?";
+							updateQry = updateQry + ", baseline_finish = ?";
 							arrSize++;						
 						}						
 						
 						
 						
-						updateQry = updateQry + " WHERE activity_id = ?";
+						updateQry = updateQry + " WHERE p6_activity_id = ?";
 						
 						Object[] pValues = new Object[arrSize];
 						int i = 0;			
@@ -932,48 +927,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						{
 							pValues[i++] = 0;
 						}
-						if(completed == 0) 
-						{
-							
-							if(activity.getUpdated_scope()==null)
-							{
-								pValues[i++] = activity.getProgress_date();	
 
-							}
-							else
-							{
-								if(Float.parseFloat(activity.getUpdated_scope())==0)
-								{
-									pValues[i++] = null;	
-								}
-								else
-								{
-									pValues[i++] = activity.getProgress_date();	
-								}
-							}								
-						
-						}
-						if(scope == (completed+actual_for_the_day))
-						{
-							
-							if(activity.getUpdated_scope()==null)
-							{
-								pValues[i++] = getActivityMaxProgressDate(activity.getActivity_id());
-
-							}
-							else
-							{
-								if(Float.parseFloat(activity.getUpdated_scope())==0)
-								{
-									pValues[i++] = null;	
-								}
-								else
-								{
-									pValues[i++] = getActivityMaxProgressDate(activity.getActivity_id());
-								}
-							}							
-						
-						}
 						if(activity.getUpdated_scope()!=null && Float.parseFloat(activity.getUpdated_scope())>=0)
 						{
 							pValues[i++] = activity.getUpdated_scope();
@@ -997,12 +951,12 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						
 						int count = jdbcTemplate.update( updateQry, pValues);			
 						if(count > 0) {							
-							jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
+							jdbcTemplate.update( "UPDATE p6_validation set approval_status_fk = ?,approved_or_rejected_by = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
 									new Object[]{"Approved",obj.getDyhod_user_id_fk(),activity.getProgress_id()});	
 							
-							String pQry = "INSERT INTO activity_progress(progress_date,activity_id_fk,completed_scope,remarks,created_by_user_id_fk,approval_datails_id_fk)"
-									+ "SELECT progress_date,activity_id_fk,completed_scope,remarks,created_by_user_id_fk,progress_id "
-									+ "FROM approvable_activity_progress "
+							String pQry = "INSERT INTO p6_activity_progress(progress_date,p6_activity_id_fk,completed_scope,remarks,created_by_user_id_fk,approval_datails_id_fk)"
+									+ "SELECT progress_date,p6_activity_id_fk,completed_scope,remarks,created_by_user_id_fk,progress_id "
+									+ "FROM p6_validation "
 									+ "WHERE progress_id = ?";
 							jdbcTemplate.update( pQry,new Object[]{activity.getProgress_id()});
 						
@@ -1011,7 +965,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 							{
 								if(Float.parseFloat(activity.getUpdated_scope())==0)
 								{
-									String deleteQry = "DELETE FROM activity_progress where activity_id_fk = ? ";
+									String deleteQry = "DELETE FROM p6_activity_progress where p6_activity_id_fk = ? ";
 									stmt = con.prepareStatement(deleteQry);
 									stmt.setString(1,activity.getActivity_id());
 									stmt.executeUpdate();
@@ -1067,7 +1021,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	{
 		String progressdate="";
 		try {
-			String qry = "select Max(progress_date) as  progress_date from activity_progress where activity_id_fk= ?";
+			String qry = "select Max(progress_date) as  progress_date from p6_activity_progress where p6_activity_id_fk= ?";
 			progressdate = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -1080,7 +1034,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		Activity aObj = new Activity();
 		try {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProgress_id())) {
-				String qry  = "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, rejected_on = CURRENT_TIMESTAMP where progress_id in(";				
+				String qry  = "UPDATE p6_validation set approval_status_fk = ?,approved_or_rejected_by = ?, rejected_on = CURRENT_TIMESTAMP where progress_id in(";				
 				
 				String progress_id = obj.getProgress_id().replaceAll("'", "");
 				String[] progress_ids = progress_id.split(",");

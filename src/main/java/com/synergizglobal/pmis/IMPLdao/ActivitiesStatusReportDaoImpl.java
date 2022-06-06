@@ -40,10 +40,11 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			String contractsQry = "select contract_id,c.work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name,f.work_status_fk " + 
 					"from contract c " + 
 					"left outer join work w on work_id_fk = work_id " + 
-					"left outer join activities a on c.contract_id = a.contract_id_fk " + 
+					"left outer join p6_activities a on c.contract_id = a.contract_id_fk " 
+					+ "left join structure s on s.structure_id = a.structure_id_fk "+
 					"left outer join fob f on f.fob_id = a.structure " +
 					"left outer join contractor cr on contractor_id_fk = contractor_id " + 
-					"where contract_id is not null and a.structure_type_fk='FOB' " ;
+					"where contract_id is not null and s.structure_type_fk='FOB' " ;
 			int arrSize = 0;
 			String []structures = null;
 			if(!StringUtils.isEmpty(obj.getFob_id_fks())) {
@@ -101,10 +102,11 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			
 			/***********************************************************************/
 			String structureQry = "select a.contract_id_fk,contract_id,a.structure as fob_id_fk,component,f.fob_name "
-					+ "from activities a "
+					+ "from p6_activities a "
+					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+"left outer join fob f on f.fob_id = a.structure " 
 					+ "left join contract c on a.contract_id_fk = c.contract_id "  
-					+ "where a.contract_id_fk = ? and a.structure_type_fk='FOB' ";
+					+ "where a.contract_id_fk = ? and s.structure_type_fk='FOB' ";
 			arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(structures)) {
 				structureQry = structureQry + " and a.structure  in (?";
@@ -136,9 +138,10 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			/***********************************************************************/
 			for (ActivitiesProgressReport componentObj : structuresList) {
 			String progressStructuresQry = "select a.contract_id_fk,contract_id,a.structure as fob_id_fk,component "
-						+ "from activities a "  
+						+ "from p6_activities a "
+						+ "left join structure s on s.structure_id = a.structure_id_fk "
 						+ "left join contract c on a.contract_id_fk = c.contract_id "  
-						+ "where a.contract_id_fk = ? and a.structure_type_fk='FOB' ";
+						+ "where a.contract_id_fk = ? and s.structure_type_fk='FOB' ";
 				arrSize = 1;
 				if(!StringUtils.isEmpty(componentObj) && !StringUtils.isEmpty(componentObj.getFob_id_fk())) {
 					progressStructuresQry = progressStructuresQry + " and a.structure =?";
@@ -158,12 +161,19 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 				List<ActivitiesProgressReport> totalContractProgresList = new ArrayList<ActivitiesProgressReport>();
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select activity_id,activity_name,structure as fob_id_fk,DATE_FORMAT(planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish,unit,IFNULL(NULLIF(scope, '' ), 0) AS scope,IFNULL(NULLIF(completed, '' ), 0) AS completed,contract_id_fk,work_id,project_id,project_name "
-							+ "from  activities a " 
+					String contractProgressDatesQry = "select p6_activity_id as activity_id,activity_name,structure as fob_id_fk,DATE_FORMAT(baseline_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(baseline_finish,'%d-%m-%Y') AS planned_finish,case  " + 
+							"  when (IFNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
+							"  when IFNULL(NULLIF(completed, '' ), 0)>=IFNULL(NULLIF(scope, '' ), 0) then (select DATE_FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+							"  else (select DATE_FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
+							"  when (IFNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
+							"  when IFNULL(NULLIF(completed, '' ), 0)>=IFNULL(NULLIF(scope, '' ), 0) then (select DATE_FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+							"  else '' end as actual_finish,unit,IFNULL(NULLIF(scope, '' ), 0) AS scope,IFNULL(NULLIF(completed, '' ), 0) AS completed,contract_id_fk,work_id,project_id,project_name "
+							+ "from  p6_activities a "
+							+ "left join structure s on s.structure_id = a.structure_id_fk "
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 							+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-							+ "where a.scope>0 and a.contract_id_fk = ? and a.structure_type_fk='FOB' ";
+							+ "where a.scope>0 and a.contract_id_fk = ? and s.structure_type_fk='FOB' ";
 					
 					arrSize = 1;
 					
@@ -204,8 +214,8 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 	public List<ActivitiesProgressReport> getStructuresList(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qryDetails = "select structure as fob_id_fk,contract_id_fk as contract_id from activities a "
-					+"where contract_id_fk = ?  and a.structure_type_fk='FOB' group by structure";
+			String qryDetails = "select structure as fob_id_fk,contract_id_fk as contract_id from p6_activities a left join structure s on s.structure_id = a.structure_id_fk  "
+					+"where contract_id_fk = ?  and s.structure_type_fk='FOB' group by structure";
 			
 			objsList = jdbcTemplate.query(qryDetails, new Object[] {obj.getContract_id()}, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 		}catch(Exception e){ 
@@ -220,12 +230,13 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT p.project_id,p.project_name "+
-					"from activities a " +
-					"LEFT JOIN fob f on a.structure = f.fob_id " +
+					"from p6_activities a " 
+					+ "left join structure s on s.structure_id = a.structure_id_fk "+
+					"LEFT JOIN fob f on s.structure = f.fob_id " +
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where project_id is not null and project_id <> ''   and fob_id is not null and fob_id <> '' and a.structure_type_fk='FOB' ";
+					"where project_id is not null and project_id <> ''   and fob_id is not null and fob_id <> '' and s.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -274,12 +285,13 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name "+
-					"from activities a " + 
-					"LEFT JOIN fob f on a.structure = f.fob_id " +
+					"from p6_activities a " 
+					+ "left join structure s on s.structure_id = a.structure_id_fk "+
+					"LEFT JOIN fob f on s.structure = f.fob_id " +
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where w.work_id is not null and w.work_id <> ''   and fob_id is not null and fob_id <> '' and a.structure_type_fk='FOB' ";
+					"where w.work_id is not null and w.work_id <> ''   and fob_id is not null and fob_id <> '' and s.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -309,12 +321,13 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT w.project_id_fk as project_id,c.work_id_fk as work_id,c.contract_id,c.contract_name,c.contract_short_name "+
-					"from activities a " + 
-					"LEFT JOIN fob f on a.structure = f.fob_id " +
+					"from p6_activities a " 
+					+ "left join structure s on s.structure_id = a.structure_id_fk "+
+					"LEFT JOIN fob f on s.structure = f.fob_id " +
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.contract_id is not null and c.contract_id <> ''   and fob_id is not null and fob_id <> '' and a.structure_type_fk='FOB' ";
+					"where c.contract_id is not null and c.contract_id <> ''   and fob_id is not null and fob_id <> '' and s.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -353,12 +366,13 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 		try {
 			
 			String qry = "SELECT fob_id,fob_name "+
-					"from activities a " + 
-					"LEFT JOIN fob f on a.structure = f.fob_id " + 
+					"from p6_activities a "  
+					+ "left join structure s on s.structure_id = a.structure_id_fk "+
+					"LEFT JOIN fob f on s.structure = f.fob_id " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where fob_id is not null and fob_id <> ''  and a.structure_type_fk='FOB' ";
+					"where fob_id is not null and fob_id <> ''  and s.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -387,9 +401,9 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 	public List<ActivitiesProgressReport> getContractsListInActivities() throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qryDetails = "select contract_id_fk as contract_id,c.contract_short_name from activities a "
+			String qryDetails = "select contract_id_fk as contract_id,c.contract_short_name from p6_activities a left join structure s on s.structure_id = a.structure_id_fk  "
 					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
-					+"where contract_id_fk is not null and contract_id_fk <> ''  and a.structure_type_fk='FOB' group by contract_id";
+					+"where contract_id_fk is not null and contract_id_fk <> ''  and s.structure_type_fk='FOB' group by contract_id";
 			
 			objsList = jdbcTemplate.query(qryDetails, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 		}catch(Exception e){ 

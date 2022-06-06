@@ -40,11 +40,11 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT p.project_id,p.project_name "+
-					"from activities a " + 
+					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where project_id is not null and project_id <> '' and a.structure_type_fk='FOB' ";
+					"where project_id is not null and project_id <> '' and s11.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -115,11 +115,11 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name "+
-					"from activities a " + 
+					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where w.work_id is not null and w.work_id <> '' and a.structure_type_fk='FOB' ";
+					"where w.work_id is not null and w.work_id <> '' and s11.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -192,11 +192,11 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name "+
-					"from activities a " + 
+					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.contract_id is not null and c.contract_id <> '' and a.structure_type_fk='FOB' ";
+					"where c.contract_id is not null and c.contract_id <> '' and s11.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -273,12 +273,11 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		try {
 			
 			String qry = "SELECT fob_id,fob_name "+
-					"from activities a " + 
-					"LEFT JOIN fob f on a.structure = f.fob_id " + 
+					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where fob_id is not null and fob_id <> '' and a.structure_type_fk='FOB' ";
+					"where fob_id is not null and fob_id <> '' and s11.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -352,12 +351,12 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		try {
 			
 			String qry = "SELECT c.contractor_id_fk,contractor_id,contractor_name "+
-					"from activities a " + 
+					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN contractor ctr on c.contractor_id_fk = ctr.contractor_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.contractor_id_fk is not null and c.contractor_id_fk <> '' and a.structure_type_fk='FOB' ";
+					"where c.contractor_id_fk is not null and c.contractor_id_fk <> '' and s11.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -430,12 +429,12 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {			
 			String qry = "SELECT user_id,user_name,designation "+
-					"from activities a " + 
+					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN user u on c.hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' and a.structure_type_fk='FOB' ";
+					"where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' and s11.structure_type_fk='FOB' ";
 			
 			
 			int arrSize = 0;
@@ -510,12 +509,12 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT user_id,user_name,designation "+
-					"from activities a " + 
+					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' and a.structure_type_fk='FOB' ";
+					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' and s11.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -592,12 +591,13 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		try {
 			
 			String contractsQry = "select activity_id_fk,contract_id_fk,c.contract_short_name,work_id,project_id,project_name,a.unit "
-					+ "from activity_progress ap " 
-					+ "LEFT JOIN activities a on activity_id_fk = activity_id " 
+					+ "from p6_activity_progress ap " 
+					+ "LEFT JOIN p6_activities a on activity_id_fk = p6_activity_id " 
+					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-					+ "where progress_date is not null and completed_scope is not null and a.structure_type_fk='FOB' ";
+					+ "where progress_date is not null and completed_scope is not null and s.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -684,10 +684,11 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				ActivitiesProgressReport sObj = new ActivitiesProgressReport();
 				/*******************************************************************************************************************/
 				String progressStructuresQry = "select ap.activity_id_fk,a.contract_id_fk,contract_short_name,a.structure,a.unit "
-						+ "from activity_progress ap "  
-						+ "left join activities a on ap.activity_id_fk = a.activity_id "  
+						+ "from p6_activity_progress ap "  
+						+ "left join p6_activities a on ap.activity_id_fk = a.p6_activity_id "
+						+ "left join structure s on s.structure_id = a.structure_id_fk "
 						+ "left join contract c on a.contract_id_fk = c.contract_id "  
-						+ "where completed_scope is not null and a.contract_id_fk = ? and a.structure_type_fk='FOB' ";
+						+ "where completed_scope is not null and a.contract_id_fk = ? and s.structure_type_fk='FOB' ";
 				
 				
 				arrSize = 1;
@@ -730,12 +731,13 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
 					String contractProgressDatesQry = "select activity_id_fk,MAX(ap.progress_date) AS progress_date,contract_id_fk,contract_short_name,work_id,project_id,project_name,a.unit "
-							+ "from activity_progress ap " 
-							+ "LEFT JOIN activities a on activity_id_fk = activity_id  " 
+							+ "from p6_activity_progress ap " 
+							+ "LEFT JOIN p6_activities a on activity_id_fk = p6_activity_id  "
+							+ "left join structure s on s.structure_id = a.structure_id_fk "
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 							+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-							+ "where completed_scope is not null and a.contract_id_fk = ? and a.structure_type_fk='FOB' ";
+							+ "where completed_scope is not null and a.contract_id_fk = ? and s.structure_type_fk='FOB' ";
 					
 					arrSize = 1;
 					
@@ -774,17 +776,19 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					List<ActivitiesProgressReport> totalContractProgresList = new ArrayList<ActivitiesProgressReport>();
 					for (ActivitiesProgressReport contractProgressDate : contractProgressDatesList) {
 						
-						String progressQry = "select distinct ap.progress_date,ap.activity_id_fk,sum(ap.completed_scope) as completed_scope,a.activity_id,a.contract_id_fk,a.structure_type_fk,a.component_id," + 
+						String progressQry = "select distinct ap.progress_date,ap.activity_id_fk,sum(ap.completed_scope) as completed_scope,a.p6_activity_id as activity_id,a.contract_id_fk,s1.structure_type_fk,a.component_id," + 
 								"a.component,a.activity_name,a.unit,a.structure,a.scope,a.completed,c.contract_name,c.contract_short_name," + 
 								"(a.completed - IFNULL((select sum(completed_scope) " + 
-								"from activity_progress ap1 " + 
-								"left outer join activities a1 on ap1.activity_id_fk = a1.activity_id " + 
+								"from p6_activity_progress ap1 " + 
+								"left outer join p6_activities a1 on ap1.activity_id_fk = a1.p6_activity_id " 
+								+ "left join structure s1 on s1.structure_id = a1.structure_id_fk "+
 								"left outer join contract c1 on a1.contract_id_fk = c1.contract_id " + 
 								"where ap1.completed_scope is not null and a1.structure_type_fk='FOB' and a1.contract_id_fk = ? and a1.structure = ? and ap1.progress_date > ? and ap1.activity_id_fk = ap.activity_id_fk),0)) as cumulative_completed " + 
-								"from activity_progress ap " + 
-								"left outer join activities a on ap.activity_id_fk = a.activity_id " + 
+								"from p6_activity_progress ap " + 
+								"left outer join p6_activities a on ap.activity_id_fk = a.p6_activity_id " 
+								+ "left join structure s on s.structure_id = a.structure_id_fk "+
 								"left outer join contract c on a.contract_id_fk = c.contract_id " + 
-								"where completed_scope is not null and a.contract_id_fk = ? and a.structure = ? and a.structure_type_fk='FOB' ";
+								"where completed_scope is not null and a.contract_id_fk = ? and a.structure = ? and s.structure_type_fk='FOB' ";
 						
 						arrSize = 5;
 						
@@ -964,14 +968,15 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,u1.designation as hod_designation,u.designation as dyhod_designation,cr.contractor_name,c.dy_hod_user_id_fk as dyhod ,c.hod_user_id_fk as hod,c.contractor_id_fk as contractor_id "+
-					"from activities a " + 
+					"from p6_activities a "  
+					+ "left join structure s on s.structure_id = a.structure_id_fk "+
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
 					"LEFT JOIN user u1 on c.hod_user_id_fk = u1.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id " +
-					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' and a.structure_type_fk='FOB' ";
+					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' and s.structure_type_fk='FOB' ";
 			
 			int arrSize = 0;
 			
@@ -1046,9 +1051,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			ActivitiesProgressReport sObj = new ActivitiesProgressReport();
 			String progressStructuresQry = "select ap.remarks,ap.structure "
 					+ "from fobdailyupdate ap "  
-					+ "left join activities a on ap.contract_id_fk = a.contract_id_fk and a.structure=ap.structure "  
+					+ "left join p6_activities a on ap.contract_id_fk = a.contract_id_fk left join structure s on s.structure_id = a.structure_id_fk  "  
 					+ "left join contract c on a.contract_id_fk = c.contract_id and c.contract_id=ap.contract_id_fk "  
-					+ " where a.contract_id_fk = ? and a.structure_type_fk='FOB' ";
+					+ " where a.contract_id_fk = ? and s.structure_type_fk='FOB' ";
 			
 			
 			int arrSize = 1;

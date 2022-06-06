@@ -968,8 +968,10 @@
                                                        <!--  <th>Component <br>ID</th>
                                                         <th>Component</th> -->
                                                         <th style="width: 350px">Activity</th>
-                                                        <th >&nbsp;Planned Start</th>
-                                                        <th>&nbsp;Planned Finish</th>
+                                                        <th >&nbsp;Baseline Start</th>
+                                                        <th>&nbsp;Baseline Finish</th>
+                                                        <th >&nbsp;Expected Start</th>
+                                                        <th>&nbsp;Expected Finish</th>                                                        
                                                         <!-- <th>A S</th>
                                                         <th>A F</th> -->
                                                         <th>Scope</th>
@@ -1967,18 +1969,23 @@
  	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>';
  	            	 			
          	 					var disDisabled="";
- 	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
+ 	            	 			/*  if("${sessionScope.USER_ROLE_NAME}"=='IT Admin'){ */
  	            	 					if($.trim(val.scope)==$.trim(val.completed)){
             	 							disDisabled="readonly";
             	 						}
-		 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
-		 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
+		 	            	 			html +='<td data-head="Planned Start" class="input-field"><input disabled id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"></button><span id="planned_startError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Planned Finish" class="input-field"><input disabled id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"></button><span id="planned_finishError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Expected Start" class="input-field"><input disabled id="start'+num+'" name="start" type="text" class="validate datepicker-max" value="' + $.trim(val.start) + '"><button type="button" id="start'+num+'_icon" class="datepicker-max-button"></button><span id="startError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Expected Finish" class="input-field"><input disabled id="finish'+num+'" name="finish" type="text" class="validate datepicker-max" value="' + $.trim(val.finish) + '"><button type="button" id="finish'+num+'_icon" class="datepicker-max-button"></button><span id="finishError" class="error-msg" ></span></td>'
+
 		 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
-		 	            	 	}else{
+		 	            	 	/* }else{ 
 		 	            	 			html +='<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'
 		 	            	 			+'<td data-head="Planned Finish" class="input-field">' + $.trim(val.planned_finish) + '</td>'
+		 	            	 			+'<td data-head="Expected Start" class="input-field">' + $.trim(val.start) + '</td>'
+		 	            	 			+'<td data-head="Expected Finish" class="input-field">' + $.trim(val.finish) + '</td>'
 		 	            	 			//+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>';
- 	            	 			}
+ 	            	 			 }  */
  	            	 			
  	            	 			html +='<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + Number($.trim(val.scope)) + '" size="6"></span>';
  	            	 			

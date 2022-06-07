@@ -2,7 +2,13 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.LandAcquisition;
+import com.synergizglobal.pmis.model.RandRMain;
+import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.Structure;
 import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.UtilityShifting;
 
 public interface UserService {
 
@@ -44,6 +50,18 @@ public interface UserService {
 
 	List<User> getAllUsersList(User obj) throws Exception;
 	List<User> getResponsiblePersonUsers(User obj) throws Exception;
+
+	List<Contract> getContractsList(User obj) throws Exception;
+
+	List<Structure> getStructuresList(User obj) throws Exception;
+
+	List<Risk> getRiskList(User obj) throws Exception;
+
+	List<LandAcquisition> getLandList(User obj) throws Exception;
+
+	List<UtilityShifting> getUtilityList(User obj) throws Exception;
+
+	List<RandRMain> getRRList(User obj) throws Exception;
 
 	
 }

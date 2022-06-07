@@ -7,7 +7,13 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.UserDao;
 import com.synergizglobal.pmis.Iservice.UserService;
+import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.LandAcquisition;
+import com.synergizglobal.pmis.model.RandRMain;
+import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.Structure;
 import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.UtilityShifting;
 @Service
 public class UserServiceImpl implements UserService{
 	@Autowired
@@ -110,6 +116,36 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> getResponsiblePersonUsers(User obj) throws Exception {
 		return userDao.getResponsiblePersonUsers(obj);
+	}
+
+	@Override
+	public List<Contract> getContractsList(User obj) throws Exception {
+		return userDao.getContractsList( obj);
+	}
+
+	@Override
+	public List<Structure> getStructuresList(User obj) throws Exception {
+		return userDao.getStructuresList( obj);
+	}
+
+	@Override
+	public List<Risk> getRiskList(User obj) throws Exception {
+		return userDao.getRiskList( obj);
+	}
+
+	@Override
+	public List<LandAcquisition> getLandList(User obj) throws Exception {
+		return userDao.getLandList( obj);
+	}
+
+	@Override
+	public List<UtilityShifting> getUtilityList(User obj) throws Exception {
+		return userDao.getUtilityList( obj);
+	}
+
+	@Override
+	public List<RandRMain> getRRList(User obj) throws Exception {
+		return userDao.getRRList( obj);
 	}	
 
 }

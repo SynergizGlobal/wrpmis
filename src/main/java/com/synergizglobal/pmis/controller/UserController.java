@@ -52,8 +52,14 @@ import com.synergizglobal.pmis.Iservice.UserService;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.LandAcquisition;
+import com.synergizglobal.pmis.model.RandRMain;
+import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.Structure;
 import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.UtilityShifting;
 
 @Controller
 public class UserController {
@@ -206,7 +212,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/add-user-form",method=RequestMethod.GET)
-	public ModelAndView addUserForm(HttpSession session) {
+	public ModelAndView addUserForm(HttpSession session, @ModelAttribute User obj) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.addEditUser);
@@ -227,6 +233,24 @@ public class UserController {
 			
 			List<User> pmisKeys = userService.getPmisKeys();
 			model.addObject("pmisKeys", pmisKeys);
+			
+			List<Contract> contractsList = userService.getContractsList(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<Structure> structuresList = userService.getStructuresList(obj);
+			model.addObject("structuresList", structuresList);
+			
+			List<Risk> riskList = userService.getRiskList(obj);
+			model.addObject("riskList", riskList);
+			
+			List<LandAcquisition> landList = userService.getLandList(obj);
+			model.addObject("landList", landList);
+			
+			List<UtilityShifting> utilityList = userService.getUtilityList(obj);
+			model.addObject("utilityList", utilityList);
+			
+			List<RandRMain> rrList = userService.getRRList(obj);
+			model.addObject("rrList", rrList);
 			
 		} catch (Exception e) {
 			logger.error("addUserForm : " + e.getMessage());
@@ -286,6 +310,24 @@ public class UserController {
 			List<User> pmisKeys = userService.getPmisKeys();
 			model.addObject("pmisKeys", pmisKeys);
 			
+			List<Contract> contractsList = userService.getContractsList(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<Structure> structuresList = userService.getStructuresList(obj);
+			model.addObject("structuresList", structuresList);
+			
+			List<Risk> riskList = userService.getRiskList(obj);
+			model.addObject("riskList", riskList);
+			
+			List<LandAcquisition> landList = userService.getLandList(obj);
+			model.addObject("landList", landList);
+			
+			List<UtilityShifting> utilityList = userService.getUtilityList(obj);
+			model.addObject("utilityList", utilityList);
+			
+			List<RandRMain> rrList = userService.getRRList(obj);
+			model.addObject("rrList", rrList);
+			
 			User user = userService.getUser(obj);			
 			model.addObject("usrObj", user);
 			
@@ -319,6 +361,24 @@ public class UserController {
 			
 			List<User> pmisKeys = userService.getPmisKeys();
 			model.addObject("pmisKeys", pmisKeys);
+			
+			List<Contract> contractsList = userService.getContractsList(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<Structure> structuresList = userService.getStructuresList(obj);
+			model.addObject("structuresList", structuresList);
+			
+			List<Risk> riskList = userService.getRiskList(obj);
+			model.addObject("riskList", riskList);
+			
+			List<LandAcquisition> landList = userService.getLandList(obj);
+			model.addObject("landList", landList);
+			
+			List<UtilityShifting> utilityList = userService.getUtilityList(obj);
+			model.addObject("utilityList", utilityList);
+			
+			List<RandRMain> rrList = userService.getRRList(obj);
+			model.addObject("rrList", rrList);
 			
 			User user = userService.getUser(obj);			
 			model.addObject("usrObj", user);

@@ -316,32 +316,32 @@
                                 	<div class="ch-list center-align">
                                 		<p>
 									      <label>
-									        <input type="checkbox" name="contract_permission_checkbox" class="con-ch" onchange="valueChanged()"/>
+									        <input type="checkbox" id="contract" name="contract_permission_checkbox" value="no" class="con-ch" onchange="valueChanged('contract')"/>
 									        <span>Contract</span>
 									      </label>
 									    
-									      <label>
-									        <input type="checkbox" name="execution_permission_checkbox" class="exe-ch" onchange="valueChanged()"/>
+								<!-- 	      <label>
+									        <input type="checkbox" id="execution" name="execution_permission_checkbox" value="no" class="exe-ch" onchange="valueChanged('execution')"/>
 									        <span>Execution</span>
 									      </label>
 									    
 									      <label>
-									        <input type="checkbox" name="risk_permission_checkbox" class="risk-ch" onchange="valueChanged()"/>
+									        <input type="checkbox" id="risk" name="risk_permission_checkbox" class="risk-ch" value="no" onchange="valueChanged('risk')"/>
 									        <span>Risk</span>
 									      </label>
-									    
+									     -->
 									      <label>
-									        <input type="checkbox" name="la_permission_checkbox" class="la-ch" onchange="valueChanged()"/>
+									        <input type="checkbox" id="land" name="la_permission_checkbox" class="la-ch" value="no" onchange="valueChanged('land')"/>
 									        <span>Land Acquisition</span>
 									      </label>
 									    
 									      <label>
-									        <input type="checkbox" name="us_permission_checkbox" class="us-ch" onchange="valueChanged()"/>
+									        <input type="checkbox" id="utility" name="us_permission_checkbox" class="us-ch" value="no" onchange="valueChanged('utility')"/>
 									        <span>Utility Shifting</span>
 									      </label>
 									    
 									      <label>
-									        <input type="checkbox" name="rr_permission_checkbox" class="rr-ch" onchange="valueChanged()"/>
+									        <input type="checkbox" id="rr" name="rr_permission_checkbox" class="rr-ch" value="no" onchange="valueChanged('rr')"/>
 									        <span>R&R</span>
 									      </label>
 									    </p>
@@ -362,8 +362,15 @@
                                                     <tr>
                                                         <td class="input-field">
                                                             <select id="contract_permission" class="searchable"
-                                                                name="user_type" multiple placeholder="Contract">
-                                                                <option value="Select">Select</option>
+                                                                name="contract_id" multiple placeholder="Contract">
+                                                                <option value="">Select</option>
+                                                                 <c:forEach var="obj" items="${contractsList }">
+						                                        	<option value="${obj.contract_id }" 
+						                                        				<c:forEach var="tempobj" items="${usrObj.contractExecutivesList}">
+																		 			<c:if test="${tempobj.contract_id_fk eq obj.contract_id}">selected</c:if>
+									                                          	</c:forEach>
+						                                        	>${obj.contract_short_name }</option>
+						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_value0Error" class="error-msg"></span>
                                                         </td>
@@ -384,7 +391,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="exe-box">
+                   <%--              <li class="exe-box">
                                     <div class="row fixed-width">
                                         <!-- <h5 class="center-align">User Details</h5> -->
                                         <div class="table-inside">
@@ -399,6 +406,9 @@
                                                             <select id="str_dep" class="searchable"
                                                                 name="user_type" multiple placeholder="Structure">
                                                                 <option value="Select">Select</option>
+                                                                <c:forEach var="obj" items="${structuresList }">
+						                                        	<option value="${obj.structure_id }">${obj.structure }</option>
+						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_value0Error" class="error-msg"></span>
                                                         </td>
@@ -453,7 +463,7 @@
 
                                         </div>
                                     </div>
-                                </li>
+                                </li> --%>
                             
                                     <li class="la-box">
                                     <div class="row fixed-width">
@@ -468,8 +478,15 @@
                                                     <tr>
                                                         <td class="input-field">
                                                             <select id="la_work" class="searchable"
-                                                                name="user_type" multiple placeholder="Work">
-                                                                <option value="Select">Select</option>
+                                                                name="land_work" multiple placeholder="Work">
+                                                                <option value="">Select</option>
+                                                                <c:forEach var="obj" items="${landList }">
+						                                        	<option value="${obj.work_id_fk }" 
+						                                        				<c:forEach var="tempobj" items="${usrObj.landExecutivesList}">
+																		 			<c:if test="${tempobj.work_id_fk eq obj.work_id_fk}">selected</c:if>
+									                                          	</c:forEach>
+						                                        	>${obj.work_short_name }</option>
+						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_value0Error" class="error-msg"></span>
                                                         </td>
@@ -503,8 +520,15 @@
                                                     <tr>
                                                         <td class="input-field">
                                                             <select id="us_work" class="searchable"
-                                                                name="user_type" multiple placeholder="Work">
-                                                                <option value="Select">Select</option>
+                                                                name="us_work" multiple placeholder="Work">
+                                                                <option value="">Select</option>
+                                                                <c:forEach var="obj" items="${utilityList }">
+						                                        	<option value="${obj.work_id_fk }" 
+						                                        				<c:forEach var="tempobj" items="${usrObj.utilityExecutivesList}">
+																		 			<c:if test="${tempobj.work_id_fk eq obj.work_id_fk}">selected</c:if>
+									                                          	</c:forEach>
+						                                        	>${obj.work_short_name }</option>
+						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_value0Error" class="error-msg"></span>
                                                         </td>
@@ -538,8 +562,16 @@
                                                     <tr>
                                                         <td class="input-field">
                                                             <select id="rr_work" class="searchable"
-                                                                name="user_type" multiple placeholder="Work">
-                                                                <option value="Select">Select</option>
+                                                                name="rr_work" multiple placeholder="Work">
+                                                                <option value="">Select</option>
+                                                                <c:forEach var="obj" items="${rrList }">
+                                                                
+						                                        	<option value="${obj.work_id_fk }"  
+						                                        				<c:forEach var="tempobj" items="${usrObj.rrExecutivesList}">
+																		 			<c:if test="${tempobj.work_id_fk eq obj.work_id_fk}">selected</c:if>
+									                                          	</c:forEach>
+						                                        	>${obj.work_short_name }</option>
+						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_value0Error" class="error-msg"></span>
                                                         </td>
@@ -636,7 +668,11 @@
 	    $('.rr-ch').change(function () {
 	        $('.rr-box').toggleClass('show');
 	    });
-    	
+
+	   function valueChanged(idVal){
+	        $('#'+idVal).val(idVal);
+	    };
+	    
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             //$('.searchable').select2();

@@ -12,14 +12,17 @@ public class User  {
 	private String is_password_encrypted,is_test_env_enabled,current_url,decrypted_password;
 	
 	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,loginCount,
-	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
+	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_id_fk,work_name,
 	access_value_id,access_value_name,user_role_code,last7DaysLogins,last30DaysLogins,login_event_date,login_event_type,login_event_type_fk,single_login_session_id,OTP,
-	from_date,to_date,Created_by_user_id_fk;
+	from_date,to_date,Created_by_user_id_fk,contract_short_name,contract_id_fk,contract_permission_checkbox,execution_permission_checkbox,risk_permission_checkbox
+	,la_permission_checkbox,department_id_fk,us_permission_checkbox,rr_permission_checkbox,executive_user_id_fk,land_work,us_work,rr_work,id, module_fk, executive_id_fk, soft_delete_status;
 	long user_leave_id;
 	
 	private List<User> departmentList,DesignationsList,UserLoginList;
 	
 	private List<User> userPermissions,reportingToPersonsList;
+	
+	private List<User>  contractExecutivesList, structureExecutivesList, riskExecutivesList, landExecutivesList, utilityExecutivesList, rrExecutivesList;
 	
 	private MultipartFile fileName;
 	
@@ -33,6 +36,246 @@ public class User  {
 	private String system_ipa,public_ipa;
 	
 	private String user_login_details_id;
+
+
+	public String getDepartment_id_fk() {
+		return department_id_fk;
+	}
+
+
+	public void setDepartment_id_fk(String department_id_fk) {
+		this.department_id_fk = department_id_fk;
+	}
+
+
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public String getModule_fk() {
+		return module_fk;
+	}
+
+
+	public void setModule_fk(String module_fk) {
+		this.module_fk = module_fk;
+	}
+
+
+	public String getExecutive_id_fk() {
+		return executive_id_fk;
+	}
+
+
+	public void setExecutive_id_fk(String executive_id_fk) {
+		this.executive_id_fk = executive_id_fk;
+	}
+
+
+	public String getSoft_delete_status() {
+		return soft_delete_status;
+	}
+
+
+	public void setSoft_delete_status(String soft_delete_status) {
+		this.soft_delete_status = soft_delete_status;
+	}
+
+
+	public String getLand_work() {
+		return land_work;
+	}
+
+
+	public void setLand_work(String land_work) {
+		this.land_work = land_work;
+	}
+
+
+	public String getUs_work() {
+		return us_work;
+	}
+
+
+	public void setUs_work(String us_work) {
+		this.us_work = us_work;
+	}
+
+
+	public String getRr_work() {
+		return rr_work;
+	}
+
+
+	public void setRr_work(String rr_work) {
+		this.rr_work = rr_work;
+	}
+
+
+	public String getExecutive_user_id_fk() {
+		return executive_user_id_fk;
+	}
+
+
+	public void setExecutive_user_id_fk(String executive_user_id_fk) {
+		this.executive_user_id_fk = executive_user_id_fk;
+	}
+
+
+	public String getContract_permission_checkbox() {
+		return contract_permission_checkbox;
+	}
+
+
+	public void setContract_permission_checkbox(String contract_permission_checkbox) {
+		this.contract_permission_checkbox = contract_permission_checkbox;
+	}
+
+
+	public String getExecution_permission_checkbox() {
+		return execution_permission_checkbox;
+	}
+
+
+	public void setExecution_permission_checkbox(String execution_permission_checkbox) {
+		this.execution_permission_checkbox = execution_permission_checkbox;
+	}
+
+
+	public String getRisk_permission_checkbox() {
+		return risk_permission_checkbox;
+	}
+
+
+	public void setRisk_permission_checkbox(String risk_permission_checkbox) {
+		this.risk_permission_checkbox = risk_permission_checkbox;
+	}
+
+
+	public String getLa_permission_checkbox() {
+		return la_permission_checkbox;
+	}
+
+
+	public void setLa_permission_checkbox(String la_permission_checkbox) {
+		this.la_permission_checkbox = la_permission_checkbox;
+	}
+
+
+	public String getUs_permission_checkbox() {
+		return us_permission_checkbox;
+	}
+
+
+	public void setUs_permission_checkbox(String us_permission_checkbox) {
+		this.us_permission_checkbox = us_permission_checkbox;
+	}
+
+
+	public String getRr_permission_checkbox() {
+		return rr_permission_checkbox;
+	}
+
+
+	public void setRr_permission_checkbox(String rr_permission_checkbox) {
+		this.rr_permission_checkbox = rr_permission_checkbox;
+	}
+
+
+	public String getContract_id_fk() {
+		return contract_id_fk;
+	}
+
+
+	public void setContract_id_fk(String contract_id_fk) {
+		this.contract_id_fk = contract_id_fk;
+	}
+
+
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+
+
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
+	}
+
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
+	}
+
+
+	public List<User> getContractExecutivesList() {
+		return contractExecutivesList;
+	}
+
+
+	public void setContractExecutivesList(List<User> contractExecutivesList) {
+		this.contractExecutivesList = contractExecutivesList;
+	}
+
+
+	public List<User> getStructureExecutivesList() {
+		return structureExecutivesList;
+	}
+
+
+	public void setStructureExecutivesList(List<User> structureExecutivesList) {
+		this.structureExecutivesList = structureExecutivesList;
+	}
+
+
+	public List<User> getRiskExecutivesList() {
+		return riskExecutivesList;
+	}
+
+
+	public void setRiskExecutivesList(List<User> riskExecutivesList) {
+		this.riskExecutivesList = riskExecutivesList;
+	}
+
+
+	public List<User> getLandExecutivesList() {
+		return landExecutivesList;
+	}
+
+
+	public void setLandExecutivesList(List<User> landExecutivesList) {
+		this.landExecutivesList = landExecutivesList;
+	}
+
+
+	public List<User> getUtilityExecutivesList() {
+		return utilityExecutivesList;
+	}
+
+
+	public void setUtilityExecutivesList(List<User> utilityExecutivesList) {
+		this.utilityExecutivesList = utilityExecutivesList;
+	}
+
+
+	public List<User> getRrExecutivesList() {
+		return rrExecutivesList;
+	}
+
+
+	public void setRrExecutivesList(List<User> rrExecutivesList) {
+		this.rrExecutivesList = rrExecutivesList;
+	}
 
 
 	public String getContract_id_code() {

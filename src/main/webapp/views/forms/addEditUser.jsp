@@ -22,6 +22,17 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
     <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
 	<style>
+		.con-box, .exe-box, .risk-box, .la-box, .us-box, .rr-box{display: none;}
+		.per-box-list li{
+			width: 33%;
+			margin: 10px 0;
+		}
+		.show {
+		    display: inline-flex !important;
+		}
+		[type="checkbox"]+span:not(.lever){
+			padding: 0 25px;
+		}
         #example3 .datepicker~button,
         #example4 .datepicker~button {
             top: 26px;
@@ -301,6 +312,256 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                	<div class="ch-list center-align">
+                                		<p>
+									      <label>
+									        <input type="checkbox" name="contract_permission_checkbox" class="con-ch" onchange="valueChanged()"/>
+									        <span>Contract</span>
+									      </label>
+									    
+									      <label>
+									        <input type="checkbox" name="execution_permission_checkbox" class="exe-ch" onchange="valueChanged()"/>
+									        <span>Execution</span>
+									      </label>
+									    
+									      <label>
+									        <input type="checkbox" name="risk_permission_checkbox" class="risk-ch" onchange="valueChanged()"/>
+									        <span>Risk</span>
+									      </label>
+									    
+									      <label>
+									        <input type="checkbox" name="la_permission_checkbox" class="la-ch" onchange="valueChanged()"/>
+									        <span>Land Acquisition</span>
+									      </label>
+									    
+									      <label>
+									        <input type="checkbox" name="us_permission_checkbox" class="us-ch" onchange="valueChanged()"/>
+									        <span>Utility Shifting</span>
+									      </label>
+									    
+									      <label>
+									        <input type="checkbox" name="rr_permission_checkbox" class="rr-ch" onchange="valueChanged()"/>
+									        <span>R&R</span>
+									      </label>
+									    </p>
+                                	</div>
+                                </div>
+                                 <div class="row no-container" style="margin-bottom: 20px;">
+                                <ul class="per-box-list">
+                                	<li class="con-box">
+                                    <div class="row fixed-width">
+                                        <!-- <h5 class="center-align">User Details</h5> -->
+                                        <div class="table-inside">
+                                            <table id="dashboard_form_table" class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="center-align" colspan="3">Contract Permission</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="input-field">
+                                                            <select id="contract_permission" class="searchable"
+                                                                name="user_type" multiple placeholder="Contract">
+                                                                <option value="Select">Select</option>
+                                                            </select>
+                                                            <span id="access_value0Error" class="error-msg"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <td></td>
+                                                        <td><a href="#" class="btn waves-effect waves-light bg-m t-c"
+                                                                onclick="addRow()">
+                                                                <i class="fa fa-plus"></i></a></td>
+                                                        <td>
+                                                            
+                                                        </td>
+
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="exe-box">
+                                    <div class="row fixed-width">
+                                        <!-- <h5 class="center-align">User Details</h5> -->
+                                        <div class="table-inside">
+                                            <table id="dashboard_form_table" class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="center-align" colspan="3">Structure Permission</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="input-field">
+                                                            <select id="str_dep" class="searchable"
+                                                                name="user_type" multiple placeholder="Structure">
+                                                                <option value="Select">Select</option>
+                                                            </select>
+                                                            <span id="access_value0Error" class="error-msg"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <td></td>
+                                                        <td><a href="#" class="btn waves-effect waves-light bg-m t-c"
+                                                                onclick="addRow()">
+                                                                <i class="fa fa-plus"></i></a></td>
+                                                        <td>
+                                                            
+                                                        </td>
+
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="risk-box">
+                                    <div class="row fixed-width">
+                                        <!-- <h5 class="center-align">User Details</h5> -->
+                                        <div class="table-inside">
+                                            <table id="dashboard_form_table" class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="center-align" colspan="3">Risk Permission</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="input-field">
+                                                            <select id="risk_work" class="searchable"
+                                                                name="user_type" multiple placeholder="Work">
+                                                                <option value="Select">Select</option>
+                                                            </select>
+                                                            <span id="access_value0Error" class="error-msg"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <td></td>
+                                                        <td><a href="#" class="btn waves-effect waves-light bg-m t-c"
+                                                                onclick="addRow()">
+                                                                <i class="fa fa-plus"></i></a></td>
+                                                        <td>
+                                                            
+                                                        </td>
+
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </li>
+                            
+                                    <li class="la-box">
+                                    <div class="row fixed-width">
+                                        <!-- <h5 class="center-align">User Details</h5> -->
+                                        <div class="table-inside">
+                                            <table id="dashboard_form_table" class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="center-align" colspan="3">Land Acquisition Permission</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="input-field">
+                                                            <select id="la_work" class="searchable"
+                                                                name="user_type" multiple placeholder="Work">
+                                                                <option value="Select">Select</option>
+                                                            </select>
+                                                            <span id="access_value0Error" class="error-msg"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <td></td>
+                                                        <td><a href="#" class="btn waves-effect waves-light bg-m t-c"
+                                                                onclick="addRow()">
+                                                                <i class="fa fa-plus"></i></a></td>
+                                                        <td>
+                                                            
+                                                        </td>
+
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="us-box">
+                                    <div class="row fixed-width">
+                                        <!-- <h5 class="center-align">User Details</h5> -->
+                                        <div class="table-inside">
+                                            <table id="dashboard_form_table" class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="center-align" colspan="3">Utility Shifting Permission</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="input-field">
+                                                            <select id="us_work" class="searchable"
+                                                                name="user_type" multiple placeholder="Work">
+                                                                <option value="Select">Select</option>
+                                                            </select>
+                                                            <span id="access_value0Error" class="error-msg"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <td></td>
+                                                        <td><a href="#" class="btn waves-effect waves-light bg-m t-c"
+                                                                onclick="addRow()">
+                                                                <i class="fa fa-plus"></i></a></td>
+                                                        <td>
+                                                            
+                                                        </td>
+
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class=" rr-box">
+                                    <div class="row fixed-width">
+                                        <!-- <h5 class="center-align">User Details</h5> -->
+                                        <div class="table-inside">
+                                            <table id="dashboard_form_table" class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="center-align" colspan="3">R&R Permission</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="input-field">
+                                                            <select id="rr_work" class="searchable"
+                                                                name="user_type" multiple placeholder="Work">
+                                                                <option value="Select">Select</option>
+                                                            </select>
+                                                            <span id="access_value0Error" class="error-msg"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <td></td>
+                                                        <td><a href="#" class="btn waves-effect waves-light bg-m t-c"
+                                                                onclick="addRow()">
+                                                                <i class="fa fa-plus"></i></a></td>
+                                                        <td>
+                                                            
+                                                        </td>
+
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </li>
+                                </ul>
+                                </div>
                                                      
                             </div>
                             
@@ -357,10 +618,31 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script>
+	    $('.con-ch').change(function () {
+	        $('.con-box').toggleClass('show');
+	    });
+	    $('.exe-ch').change(function () {
+	        $('.exe-box').toggleClass('show');
+	    });
+	    $('.risk-ch').change(function () {
+	        $('.risk-box').toggleClass('show');
+	    });
+	    $('.la-ch').change(function () {
+	        $('.la-box').toggleClass('show');
+	    });
+	    $('.us-ch').change(function () {
+	        $('.us-box').toggleClass('show');
+	    });
+	    $('.rr-ch').change(function () {
+	        $('.rr-box').toggleClass('show');
+	    });
     	
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
+            //$('.searchable').select2();
+            $( ".searchable" ).each(function( index,val ) {
+            	   $( this ).select2({                placeholder:      $( this ).attr('placeholder')       });
+            	});
             $('#remarks').characterCounter();
             if('${action}' == 'edit'){
            	 //$('#pmis_key_fk').rules('remove',  'required');

@@ -145,6 +145,18 @@
 				width: 110%;
 			}
 		}
+		
+		 .select2-container--default .select2-selection--multiple .select2-selection__choice__display{
+			white-space: pre-wrap;
+			word-break: break-word;
+		}
+		.select2-container--default .select2-selection--multiple .select2-selection__choice{
+			display: inherit;
+		}
+		/*.select2-selection__rendered li{
+			display: block;
+			float: left;
+		} */
     </style>
 </head>
 <body>

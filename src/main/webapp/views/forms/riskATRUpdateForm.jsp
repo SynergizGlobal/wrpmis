@@ -294,7 +294,7 @@
 																</td>
 																<td data-head="Action Taken" class="input-field"><textarea id="action_takens0"
 																		name="action_takens" class="materialize-textarea"
-																		placeholder="Action Taken" style="height: 44px;"></textarea>
+																		placeholder="Action Taken" style="height: 44px;" data-length="1000"></textarea>
 																		<p id="action_takens0Error" class="error-msg" ></p>
 																		
 																		<textarea style="display:none;" id="action_takens_old0" name="action_takens_old" data-length="1000"></textarea>

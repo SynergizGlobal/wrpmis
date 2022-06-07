@@ -548,12 +548,12 @@
 												<tr id="internalTableRow11">
 													<td><input id="structure_id" name="structuress"
 														type="hidden"> <input id="structure_id1_1"
-														name="structures" type="text" class="validate"
+														name="structures" maxlength="100" data-length="100" type="text" class="validate w85 pdr5em"
 														placeholder="Structure Id"></td>
 													<td><input type="hidden" name="structure_ids"
 														id="structure_ids11" value="" /> <input
-														id="structure_name11" name="structure_names" type="text"
-														class="validate" placeholder="Structure Name" value="">
+														id="structure_name11" maxlength="100" data-length="100" name="structure_names" type="text"
+														class="validate w85 pdr5em" placeholder="Structure Name" value="">
 														<span id="structure_name11Error" class="error-msg"></span>
 													</td>
 													<td class="no-pad"><a 

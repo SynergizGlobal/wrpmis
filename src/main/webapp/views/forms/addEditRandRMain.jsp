@@ -502,7 +502,7 @@
                             <div class="row ">
                             	<h6 class="center-align">Identification Details</h6>
                                  <div class="col s6 m3 input-field">
-                                    <input id="carpet_area" name="carpet_area" type="text" class="validate" value="${rrDetails.carpet_area }">
+                                    <input id="carpet_area" maxlength="50" data-length="50" name="carpet_area" type="text" class="validate w75 pdr4em" value="${rrDetails.carpet_area }">
                                     <label for="carpet_area" class="fs-sm-8rem fs-9">Carpet Area (sft)</label>
                                     <span id="carpet_areaError" class="error-msg" ></span>
 	                             </div>

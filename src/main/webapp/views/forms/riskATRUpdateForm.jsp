@@ -242,10 +242,10 @@
 																	<td data-head="Action Taken" class="input-field">
 																		<textarea 
 																			id="action_takens${index.count }"
-																			name="action_takens" class="materialize-textarea"
+																			name="action_takens" class="materialize-textarea pdr5em" maxlength="1000"
 																			 data-length="1000" placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>
 																			<p id="action_takens${index.count }Error" class="error-msg" ></p>
-																			<textarea style="display:none;" id="action_takens_old${index.count }" name="action_takens_old" data-length="1000" >${aObj.action_taken }</textarea>
+																			<textarea style="display:none;" id="action_takens_old${index.count }" class="pdr5em" maxlength="1000" name="action_takens_old" data-length="1000" >${aObj.action_taken }</textarea>
 																	</td>
 																	<td class="mobile_btn_close">
 																	<%-- <a onclick="removeActions('${index.count }');" class="btn waves-effect waves-light red t-c "> 
@@ -293,7 +293,7 @@
 																		<input type="hidden" id="atr_dates_old0" name="atr_dates_old" value="" />
 																</td>
 																<td data-head="Action Taken" class="input-field"><textarea id="action_takens0"
-																		name="action_takens" class="materialize-textarea"
+																		name="action_takens" class="materialize-textarea pdr5em" maxlength="1000"
 																		placeholder="Action Taken" style="height: 44px;" data-length="1000"></textarea>
 																		<p id="action_takens0Error" class="error-msg" ></p>
 																		
@@ -577,7 +577,7 @@
 			+'<button type="button" id="atr_dates' + rNo + '_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
 			+'<p id="atr_dates' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="atr_dates_old' + rNo +'" name="atr_dates_old" value="" /></td>'
 			+'<td data-head="Action Taken" class="input-field"><textarea id="action_takens' + rNo +'"  name="action_takens" '
-			+'class="materialize-textarea"  placeholder="Action Taken" style="height: 44px;" data-length="1000"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><textarea style="display:none;" id="action_takens_old' + rNo + '" name="action_takens_old" data-length="1000"></textarea></td>'
+			+'class="materialize-textarea pdr5em"  placeholder="Action Taken" style="height: 44px;" maxlength="1000" data-length="1000"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><textarea style="display:none;" id="action_takens_old' + rNo + '" name="action_takens_old" data-length="1000"></textarea></td>'
 			+'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);

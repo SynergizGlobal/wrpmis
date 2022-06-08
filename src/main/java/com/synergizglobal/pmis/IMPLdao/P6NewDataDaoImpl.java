@@ -330,7 +330,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			String updateActivitiesQry ="UPDATE p6_activities set "
 					+ "status_fk = ?,`start` = ?,finish = ?,`float` =  ?";
 					if(pobj.getIsRevised().contentEquals("Yes")) {
-						updateActivitiesQry = updateActivitiesQry + "baseline_start = ?,baseline_finish = ? ";
+						updateActivitiesQry = updateActivitiesQry + ",baseline_start = ?,baseline_finish = ? ";
 
 					}
 			updateActivitiesQry	= updateActivitiesQry+ ",modified_by_user_id_fk = ?, modified_date = CURRENT_TIMESTAMP where  contract_id_fk = ? and task_code = ? ";

@@ -388,15 +388,8 @@
     </div>
 	<div id="modal" class="modal">
        <div class="modal-content">
-           <h5 class="modal-header">Character limit for Action Taken 
-	           <span class="right modal-action modal-close">
-	           <span class="material-icons">close</span></span>
-           </h5>
-           <div class="row" style="text-align:center;">
-           		Maximum of 1000 characters is allowed.
-           </div>
-		    <div class="modal-footer">
-		      <button type="button" style="text-align:right;width: auto;" class="btn waves-effect waves-light bg-s modal-close">Ok</button>
+           <div class="row" style="text-align:center;height:20px;">
+           		Maximum of 1000 characters is allowed.<br><button type="button" style="text-align:center;width: auto;" class="btn waves-effect waves-light bg-s modal-close">Ok</button>
 		    </div>
 	 </div> 
    </div> 

@@ -243,7 +243,7 @@
 																		<textarea 
 																			id="action_takens${index.count }"
 																			name="action_takens" class="materialize-textarea pdr5em" maxlength="1000"
-																			 data-length="1000" placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>
+																			 data-length="1000" placeholder="Action Taken" style="height: 44px;" onkeypress="checkCharacters();">${aObj.action_taken}</textarea>
 																			<p id="action_takens${index.count }Error" class="error-msg" ></p>
 																			<textarea style="display:none;" id="action_takens_old${index.count }" class="pdr5em" maxlength="1000" name="action_takens_old" data-length="1000" >${aObj.action_taken }</textarea>
 																	</td>
@@ -294,7 +294,7 @@
 																</td>
 																<td data-head="Action Taken" class="input-field"><textarea id="action_takens0"
 																		name="action_takens" class="materialize-textarea pdr5em" maxlength="1000"
-																		placeholder="Action Taken" style="height: 44px;" data-length="1000"></textarea>
+																		placeholder="Action Taken" style="height: 44px;" data-length="1000" onkeypress="checkCharacters();"></textarea>
 																		<p id="action_takens0Error" class="error-msg" ></p>
 																		
 																		<textarea style="display:none;" id="action_takens_old0" name="action_takens_old" data-length="1000"></textarea>
@@ -386,6 +386,20 @@
             </div>
         </div>
     </div>
+	<div id="modal" class="modal">
+       <div class="modal-content">
+           <h5 class="modal-header">Character limit for Action Taken 
+	           <span class="right modal-action modal-close">
+	           <span class="material-icons">close</span></span>
+           </h5>
+           <div class="row" style="text-align:center;">
+           		Maximum of 1000 characters is allowed.
+           </div>
+		    <div class="modal-footer">
+		      <button type="button" style="text-align:right;width: auto;" class="btn waves-effect waves-light bg-s modal-close">Ok</button>
+		    </div>
+	 </div> 
+   </div> 
     <!-- Page Loader -->
 	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
@@ -511,6 +525,8 @@
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             
+            $('#modal').modal();
+            
             $("textarea[name='action_takens']").characterCounter();
             
             if('${risk.readonlyForm}' == 'true'){
@@ -526,6 +542,18 @@
            }
             
         });
+        
+        
+        function checkCharacters()
+        {
+	        if($('.pdr5em').val().length>=1000) 
+	        {
+	        	$('#modal').modal('open'); 
+	           return true;
+	        } else {
+	           return false;
+	        }
+        }
         
         function closeTab(){
         	 window.top.close();
@@ -576,7 +604,7 @@
 			+'<td data-head="ATR Date" class="input-field"> <input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
 			+'<button type="button" id="atr_dates' + rNo + '_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
 			+'<p id="atr_dates' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="atr_dates_old' + rNo +'" name="atr_dates_old" value="" /></td>'
-			+'<td data-head="Action Taken" class="input-field"><textarea id="action_takens' + rNo +'"  name="action_takens" '
+			+'<td data-head="Action Taken" class="input-field"><textarea id="action_takens' + rNo +'"  onkeypress="checkCharacters();" name="action_takens" '
 			+'class="materialize-textarea pdr5em"  placeholder="Action Taken" style="height: 44px;" maxlength="1000" data-length="1000"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><textarea style="display:none;" id="action_takens_old' + rNo + '" name="action_takens_old" data-length="1000"></textarea></td>'
 			+'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		

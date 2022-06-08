@@ -166,8 +166,8 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public StripChart generateActivitiesExportReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT a.p6_activity_id as activity_id, DATE_FORMAT(pcv.baseline_start,'%d-%m-%Y') as baseline_start, DATE_FORMAT(pcv.baseline_finish,'%d-%m-%Y') as baseline_finish,"
-					+ " DATE_FORMAT(pcv.start,'%d-%m-%Y') as start, DATE_FORMAT(pcv.finish,'%d-%m-%Y') as finish,pcv.status, a.contract_id_fk,contract_short_name, a.from_structure_id, a.to_structure_id, s11.structure_type_fk, a.section, a.line, s11.structure, a.component, a.component_id, a.order_x, a.order_y, "
+			String qry = "SELECT a.p6_activity_id as activity_id, DATE_FORMAT(a.baseline_start,'%d-%m-%Y') as baseline_start, DATE_FORMAT(a.baseline_finish,'%d-%m-%Y') as baseline_finish,"
+					+ " DATE_FORMAT(a.start,'%d-%m-%Y') as start, DATE_FORMAT(a.finish,'%d-%m-%Y') as finish,pcv.status, a.contract_id_fk,contract_short_name, a.from_structure_id, a.to_structure_id, s11.structure_type_fk, a.section, a.line, s11.structure, a.component, a.component_id, a.order_x, a.order_y, "
 					+ "a.p6_activity_name as activity_name, DATE_FORMAT(a.baseline_start,'%d-%m-%Y') as planned_start, DATE_FORMAT(a.baseline_finish,'%d-%m-%Y') as planned_finish, "
 					+ "case  " + 
 					" when (IFNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 

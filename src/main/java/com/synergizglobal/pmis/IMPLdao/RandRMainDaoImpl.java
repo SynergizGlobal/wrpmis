@@ -1988,7 +1988,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			}
 		   //count = rrsList.size();
 			count=cnt;
-		   transactionManager.commit(status);
+			transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			e.printStackTrace();

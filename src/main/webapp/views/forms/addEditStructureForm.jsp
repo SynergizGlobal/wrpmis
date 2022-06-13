@@ -401,7 +401,7 @@
 									</div>
 								</div>
 							</div>
-                            
+                            <div id="divContractExecutionExecutives" style="color:red;"></div>
                             <br>
                            <div class="row">
 	                            <div class="col s12 m6 l6 input-field">
@@ -953,11 +953,12 @@
     
     
     function executivesToStringMethod(Rno){
+    	$("#divContractExecutionExecutives").html("");
     	var vals =  $('#responsible_people_id_fks'+Rno).val();
   	    vals = vals.join(',');
   	   $('#responsible_people_id_fk'+Rno).val(vals);
     }   
-    
+    	
     
     function addStructureContractRow(){
    	 var rowNo = $("#structureContractRowNo").val();
@@ -1052,6 +1053,7 @@
 	}
     function getResponsibleExecutives(num)
     {
+    		$("#divContractExecutionExecutives").html("");
         	$(".page-loader").show();
         	var count = Number(num);
         	$('#deptError'+count).hide();
@@ -1430,6 +1432,42 @@
   			else
   				{
   					$("#commissioning_dateError").html("");
+  				}
+  			
+  			
+  			var rowCount = $("#structureContractResponsibleTableBody tbody tr").length;4
+  			
+  			if(rowCount>0)
+  				{
+  					if(rowCount!=1)
+  					{
+  						for(var r=1;r<=rowCount;r++)
+  						{
+  								if($("#contract_id_fk"+r).val()=="")
+  								{
+  									$("#divContractExecutionExecutives").html("Contract is Required.");
+  									return false;
+  								}
+  								if($("#responsible_people_id_fks"+r).val()=="")
+  								{
+  									$("#divContractExecutionExecutives").html("Responsible Executives is Required.");
+  									return false;
+  								} 								
+  						}
+  					}
+  					else
+ 					{
+							if($("#contract_id_fk0").val()=="")
+							{
+								$("#divContractExecutionExecutives").html("Contract is Required.");
+								return false;
+							}
+							if($("#responsible_people_id_fks0").val()=="")
+							{
+								$("#divContractExecutionExecutives").html("Responsible Executives is Required.");
+								return false;
+							}  						
+ 					}
   				}
   			$(".page-loader").show();
   			document.getElementById("structuresForm").submit();			

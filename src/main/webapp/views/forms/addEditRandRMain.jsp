@@ -18,7 +18,10 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
 	
     <style>
-       
+       	.cf .character-counter{
+       		position: relative;
+    		right: 1.5em;
+       	}
         .mdl-data-table{
         	border:1px solid #ccc;	
         }
@@ -584,9 +587,9 @@
                             </div>
                             <div class="row">
                             	
-                                <div class="col s6 m4 l4 input-field amount-dropdown">
+                                <div class="col s6 m4 l4 input-field amount-dropdown cf">
                                     <i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="estimated_by_mmrda_amount" name="estimates_by_mmrda" type="number" class="validate" value="${rrDetails.estimates_by_mmrda }" min="0" step="0.00001">
+                                    <input id="estimated_by_mmrda_amount" name="estimates_by_mmrda" maxlength="10" data-length="10" type="number" class="validate num" value="${rrDetails.estimates_by_mmrda }" min="0" step="0.00001">
                                     <label for="estimated_by_mmrda_amount">Estimate by MMRDA</label>
                                     <span id="estimated_by_mmrda_amountError" class="error-msg"></span>
                                 	<span id="estimated_by_mmrda_amount_unitsError" class="error-msg right" ></span>

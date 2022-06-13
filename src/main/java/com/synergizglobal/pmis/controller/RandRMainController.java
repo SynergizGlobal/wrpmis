@@ -1292,11 +1292,13 @@ public class RandRMainController {
 			userId = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			String userRole = (String) session.getAttribute("USER_ROLE_CODE");
 			
 			obj.setCreated_by_user_id_fk(userId);
 			obj.setUser_id(userId);
 			obj.setUser_name(userName);
 			obj.setDesignation(userDesignation);
+			obj.setUser_role_code(userRole);
 			model.setViewName("redirect:/randr-main");
 			
 			if(!StringUtils.isEmpty(obj.getRandRFile())){
@@ -1825,6 +1827,7 @@ public class RandRMainController {
 						}
 						rr.setResFamList(gObjList);
 						}
+					    rr.setUser_role_code(obj.getUser_role_code());
 						boolean flag = rr.checkNullOrEmpty();
 						if(!flag && !StringUtils.isEmpty(rr.getRr_id())) {
 							rrsList.add(rr);

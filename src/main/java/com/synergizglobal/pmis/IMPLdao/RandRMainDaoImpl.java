@@ -1794,7 +1794,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	@Override
 	public String[] uploadRRData(List<RandRMain> rrsList, RandRMain rr) throws Exception {
 		boolean flag = false;
-		int count = 0,row =1,sheet = 1,subRow = 1;
+		int count = 0,row =1,sheet = 1,subRow = 1,cnt=0;
 		int sheet1 =1,sheet2=1,sheet3=1,sheet4=1;
 		String errMsg = null;
 		TransactionDefinition def = new DefaultTransactionDefinition();
@@ -1836,13 +1836,15 @@ public class RandRMainDaoImpl implements RandRMainDao{
 						if(checkWorkinRandR(obj.getWork_id(),obj.getCreated_by_user_id_fk())>0)
 						{
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
-						    count = namedParamJdbcTemplate.update(updatetQry, paramSource);						
+						    count = namedParamJdbcTemplate.update(updatetQry, paramSource);	
+						    cnt=cnt+1;
 						}
 					}					
 					else
 					{
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(updatetQry, paramSource);
+					    cnt=cnt+1;
 					}
 				}else {
 					//System.out.println(rNo++);
@@ -1850,13 +1852,15 @@ public class RandRMainDaoImpl implements RandRMainDao{
 						if(checkWorkinRandR(obj.getWork_id(),obj.getCreated_by_user_id_fk())>0)
 						{
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
-						    count = namedParamJdbcTemplate.update(insertQry, paramSource);						
+						    count = namedParamJdbcTemplate.update(insertQry, paramSource);	
+						    cnt=cnt+1;
 						}
 					}					
 					else
 					{
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(insertQry, paramSource);
+					    cnt=cnt+1;
 					}
 				}
 				
@@ -1982,7 +1986,8 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				}
 			   
 			}
-		   count = rrsList.size();
+		   //count = rrsList.size();
+			count=cnt;
 		   transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);

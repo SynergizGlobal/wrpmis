@@ -1691,6 +1691,7 @@
 	                                                <td data-head="Milestone Name " class="input-field">
 	                                                    <input id="milestone_names${index.count }" name="milestone_names" maxlength="25" data-length="25" type="text" class="validate w80 pdr4em" value="${milestonesObj.milestone_name }"
 	                                                        placeholder="Milestone Name ">
+	                                                         <span id="milestone_names${index.count }Error" class="error-msg" ></span>
 	                                                </td>
 	                                                <td data-head="Milestone Date " class="input-field">
 	                                                    <input id="milestone_dates${index.count }" name="milestone_dates" type="text" class="validate datepicker" value="${milestonesObj.milestone_date }"
@@ -1724,8 +1725,9 @@
 	                                                        placeholder="Milestone ID" value="K-1" readonly>
 	                                                </td>                                        
 	                                                <td data-head="Milestone Name " class="input-field">
-	                                                    <input id="milestone_names0" name="milestone_names" type="text" class="validate" 
+	                                                    <input id="milestone_names0" name="milestone_names" maxlength="25" data-length="25" type="text" class="validate" 
 	                                                        placeholder="Milestone Name ">
+	                                                        <span id="milestone_names0Error" class="error-msg" ></span>
 	                                                </td>
 	                                                <td data-head="Milestone Date " class="input-field">
 	                                                    <input id="milestone_dates0" name="milestone_dates" type="text" class="validate datepicker" 
@@ -3213,11 +3215,13 @@
         		 	  },"estimated_cost": {
         		 		required: false
         		 	  },"loa_letter_number": {
-        		 		required: false
+        		 		 required: false,
+        		 	      maxlength: 25
         		 	  },"loa_date":{
         		 		 required: false
         		 	  },"ca_no": {
-        	 		    required: false
+        		 		 required: false,
+       		 	     	 maxlength: 25
         	 	   	  },"ca_date": {
         	 	   		dateBeforeCA:"#loa_date",
         		 		required: false
@@ -3299,11 +3303,13 @@
        			 	  },"estimated_cost": {
        			 		required: 'Required'
        			 	  },"loa_letter_number": {
-       			 		required: 'Required'
+       			 		required: 'Required',
+       			 		maxlength:"Max Length is only 25 characters"
        			 	  },"loa_date":{
        			 		 required: 'Required'
        			 	  },"ca_no": {
-       		 		    required: 'Required',
+       			 		required: 'Required',
+       			 		maxlength:"Max Length is only 25 characters"
        		 	   	  },"ca_date": {
        			 		required: 'Required'
        			 	  },"actual_completion_date": {
@@ -3818,7 +3824,7 @@
 		    
 		    var html = '<tr id="mileRow'+rNo+'">'
 		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID" value="K-'+(mId)+'" readonly></td>'
-			   +'<td data-head="Milestone Name " class="input-field"><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
+			   +'<td data-head="Milestone Name " class="input-field"><input id="milestone_names'+rNo+'" maxlength="25" data-length="25" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
 			   +'<td data-head="Milestone Date " class="input-field"><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker-max-today"   placeholder="Actual Date">  <button type="button" id="actual_dates'+rNo+'_icon" class="datepicker-button"><i  class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Revision" class="input-field" ><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
@@ -3842,6 +3848,11 @@
 				    	     $('.confirmation-btns .datepicker-done').click();
 				    	  }
 			      }); */
+					$("input[name=milestone_names]").each(function(){
+			       		$('#milestone_names'+rNo).characterCounter();;
+			 		});
+					
+				
 		
 		} 
 		
@@ -4124,8 +4135,40 @@
 					flag = false;
 				} 
 			});
+			
+			$("input[name=milestone_names]").each(function(){
+	       		var idNo = (this.id).replace('milestone_names','');
+	       		var milestone_names = $("#milestone_names"+idNo).val();
+	       		if(idNo === ""){idNo = 0;}
+	       		var milestone_name_length= $.trim(milestone_names).length
+	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 25 ){
+					$('#milestone_names'+idNo+'Error').text('Max Length is only 25 characters.');
+					$('#milestone_names'+idNo).slideDown(100,function(){
+						$(this).focus();
+					});
+					flag = false;
+				} 
+			});
+			
 			return flag;
 		}
+		
+		$('input[name=milestone_names]').keyup(function(key, element){
+			$("input[name=milestone_names]").each(function(){
+	       		var idNo = (this.id).replace('milestone_names','');
+	       		var milestone_names = $("#milestone_names"+idNo).val();
+	       		if(idNo === ""){idNo = 0;}
+	       		var milestone_name_length= $.trim(milestone_names).length
+	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 25 ){
+					$('#milestone_names'+idNo+'Error').text('Max Length is only 25 characters.');
+					flag = false;
+				} else{
+					$('#milestone_names'+idNo+'Error').text('');
+				}
+	       		
+			});
+			
+		});
 		
 		$('select[name=bg_value_unitss]').change(function(key, element){
 			$("input[name=bg_values]").each(function(){

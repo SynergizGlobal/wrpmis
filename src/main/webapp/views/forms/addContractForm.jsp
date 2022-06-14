@@ -498,38 +498,47 @@
 	                                </div>
 	                            </div>
 	                            <div class="row">
-	                                <div class="col s12 m6 l6 input-field amount-dropdown" id="estimated_cost_div">
-	                                    <i class="material-icons amount-symbol cost">₹</i>
-	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate">
-	                                    <label for="estimated_cost">Detailed Estimated cost</label>
-	                                    <span id="estimated_costError" class="error-msg" ></span>
-	                                	<span id="estimated_cost_unitsError" class="error-msg right" ></span>
-	                                    <select class=" validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
-	                                		<c:forEach var="obj" items="${unitsList }">
-                                  			   <option value="${obj.value }">${obj.unit }</option>
-                                   		    </c:forEach>
-	                                	</select>
+	                            	<div class="row">
+		                            	<div class="col s12 m6 l6 input-field" id="contract_status_fk_div">
+			                                   <!-- <p class="searchable_label">Status of Work <span class="required">*</span></p> -->			                                   
+			                                   <label class="selected" for="contract_status_fk">Status of Work <span class="required">*</span></label>			                                   
+			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select">
+			                                        <option value="" selected>Select</option>
+			                                            <c:forEach var="obj" items="${contract_Statustype }">
+			                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
+					                                    		<option value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'In Progres'}">selected</c:if>>${obj.contract_status_fk }</option>
+					                                    	</c:if>
+					                                    </c:forEach>
+			                                    </select>
+			                                     <span id="contract_status_fkError" class="error-msg" ></span>
+			                            </div>
+		                                <div class="col s12 m6 l6 input-field amount-dropdown" id="estimated_cost_div">
+		                                    <i class="material-icons amount-symbol cost">₹</i>
+		                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate">
+		                                    <label for="estimated_cost">Detailed Estimated cost</label>
+		                                    <span id="estimated_costError" class="error-msg" ></span>
+		                                	<span id="estimated_cost_unitsError" class="error-msg right" ></span>
+		                                    <select class=" validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
+		                                		<c:forEach var="obj" items="${unitsList }">
+	                                  			   <option value="${obj.value }">${obj.unit }</option>
+	                                   		    </c:forEach>
+		                                	</select>
+		                                </div>
 	                                </div>
-	                                <div class="col s12 m6 l6 input-field" id="planned_date_of_award_div">
-	                                    <input id="planned_date_of_award" name="planned_date_of_award" type="text" class="validate datepicker">
-	                                    <label for="planned_date_of_award">Planned date of award</label>
-	                                    <span id="planned_date_of_awardError" class="error-msg" ></span>
-	                                    <button type="button" id="planned_date_of_award_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                <div class="row">
+		                                <div class="col s12 m6 l6 input-field" id="planned_date_of_award_div">
+		                                    <input id="planned_date_of_award" name="planned_date_of_award" type="text" class="validate datepicker">
+		                                    <label for="planned_date_of_award">Planned date of award</label>
+		                                    <span id="planned_date_of_awardError" class="error-msg" ></span>
+		                                    <button type="button" id="planned_date_of_award_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+		                                </div>
+		                                <div class="col s12 m6 l6 input-field" id="planned_date_of_completion_div">
+		                                    <input id="planned_date_of_completion" name="planned_date_of_completion" type="text" class="validate datepicker">
+		                                    <label for="planned_date_of_completion">Planned date of completion</label>
+		                                    <span id="planned_date_of_completionError" class="error-msg" ></span>
+		                                    <button type="button" id="planned_date_of_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+		                                </div>
 	                                </div>
-	                                
-	                                <div class="col s12 m6 l6 input-field" id="contract_status_fk_div">
-		                                   <!-- <p class="searchable_label">Status of Work <span class="required">*</span></p> -->			                                   
-		                                   <label class="selected" for="contract_status_fk">Status of Work <span class="required">*</span></label>			                                   
-		                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select">
-		                                        <option value="" selected>Select</option>
-		                                            <c:forEach var="obj" items="${contract_Statustype }">
-		                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
-				                                    		<option value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'In Progres'}">selected</c:if>>${obj.contract_status_fk }</option>
-				                                    	</c:if>
-				                                    </c:forEach>
-		                                    </select>
-		                                     <span id="contract_status_fkError" class="error-msg" ></span>
-		                            </div>   
 		                            
 		                            <div class="row">
 		                                <div class="col s12 m12 l12 input-field w95 pdr5em ">
@@ -540,7 +549,6 @@
 		                            </div>               
 	                        
  									<div class="table-div">
-	
 			                    		<div class="">
 			                    		<div class=" col m12 s12 l12" style="margin-bottom:30px; padding:0;">
 			                                <div class="row fixed-width">
@@ -698,6 +706,9 @@
 		  	$(".page-loader").show();
 		  	//var contract_status = $('#contract_status').val();
 		  	var contract_status = $('input[name="contract_status"]:checked').val();
+		  	if($.trim(contract_status) == ""){
+		  		contract_status =  'No';
+		  	}
             $("#contract_status_fk option:not(:first)").remove();
             if ($.trim(contract_status) != "") {
                 var myParams = { contract_status: contract_status };
@@ -706,9 +717,13 @@
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
+                        	var selected_flag = '';
+                        	if(data.length == 1){
+                        		selected_flag = 'selected';
+                    		}
                             $.each(data, function (i, val) {
-                            	if(val.contract_status != 'Completed'){
-                                	$("#contract_status_fk").append('<option status="'+val.contract_status +'" value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +  '</option>');
+                            	if(val.contract_status != 'Completed' ){
+                                	$("#contract_status_fk").append('<option status="'+val.contract_status +'" value="' + val.contract_status_fk + '" '+selected_flag+'>' + $.trim(val.contract_status_fk) +  '</option>');
                             	}
                             });
                         }
@@ -736,6 +751,7 @@
             	$('#contract_status_fk').val('');
             	$('#estimated_cost_units').val('1').focus();
             	$('#planned_date_of_award').val('').focus();
+            	$('#planned_date_of_completion').val('').focus();
             	
             	$('.searchable').select2();
             	
@@ -747,11 +763,11 @@
 	        	$('#ca_date_div').hide();
 	        	//$('#estimated_cost_div').hide();
 	        	//$('#estimated_cost_units_div').hide();
-	        	$('#contract_status_fk_div').hide();
+	        	//$('#contract_status_fk_div').hide();
 	        	//$('#planned_date_of_award_div').hide();
 	        	
 	        	$('#contract_type_fk').rules('remove',  'required');
-	        	$('#contract_status_fk').rules('remove',  'required');
+	        	//$('#contract_status_fk').rules('remove',  'required');
         	}else{
         		$("#contract_type_fk_div").show();
 				$('#scope_of_contract_div').show();
@@ -761,11 +777,12 @@
 	        	$('#ca_date_div').show();
 	        	$('#estimated_cost_div').show();
 	        	$('#estimated_cost_units_div').show();
-	        	$('#contract_status_fk_div').show();
+	        	//$('#contract_status_fk_div').show();
 	        	$('#planned_date_of_award_div').show();
+	        	$('#planned_date_of_completion_div').show();
 	        	
 	        	$('#contract_type_fk').rules('add',  { required: true });
-	        	$('#contract_status_fk').rules('add',  { required: true });
+	        	//$('#contract_status_fk').rules('add',  { required: true });
         	}
         }
      

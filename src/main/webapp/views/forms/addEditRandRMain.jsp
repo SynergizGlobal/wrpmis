@@ -466,11 +466,11 @@
 		                             <span id="encroachment_removalError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label mb-8">Boundary Wall Status <!-- <span class="required">*</span> --></p>
+                                    <p class="searchable_label mb-8">Boundary Wall Status <span class="required">*</span> </p>
                                     <select class="searchable validate-dropdown" name="boundary_wall_status" id="boundary_wall_status">
                                         <option value="" selected>Select</option>
                                         <c:forEach var="obj" items="${status }">
-                                      	   <option value= "${ obj.boundary_wall_status}" <c:if test="${rrDetails.boundary_wall_status eq obj.boundary_wall_status}">selected</c:if>> ${obj.boundary_wall_status }</option>
+                                      	   <option value= "${ obj.boundary_wall_status}" <c:if test="${rrDetails.boundary_wall_status eq obj.boundary_wall_status}">selected</c:if><c:if test="${obj.boundary_wall_status eq 'null'}">selected</c:if>> ${obj.boundary_wall_status }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="boundary_wall_statusError" class="error-msg" ></span>
@@ -1619,6 +1619,8 @@
 			          required: true
 			      }	, "type_of_use"	: {
 			          required: true
+			      }, "boundary_wall_status"	: {
+			          required: true
 			      },"letter_to_mmrda": { 
      		 		 required: false,
 				 	 dateBeforeLTM:"#verification_date"
@@ -1647,6 +1649,8 @@
  			      }, "sub_location_name": {
  			          required: 'Required'
  			      }, "type_of_use"	: {
+ 			          required: 'Required'
+ 			      }, "boundary_wall_status"	: {
  			          required: 'Required'
  			      },"letter_to_mmrda": {
      			 		required: 'Required'
@@ -1684,6 +1688,9 @@
 				 }else if(element.attr("id") == "type_of_use" ){
 				     document.getElementById("type_of_useError").innerHTML="";
 			 	     error.appendTo('#type_of_useError');
+				 }else if(element.attr("id") == "boundary_wall_status" ){
+				     document.getElementById("boundary_wall_statusError").innerHTML="";
+			 	     error.appendTo('#boundary_wall_statusError');
 				 }else if(element.attr("id") == "letter_to_mmrda" ){
 				     document.getElementById("letter_to_mmrdaError").innerHTML="";
 			 	     error.appendTo('#letter_to_mmrdaError');

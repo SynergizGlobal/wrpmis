@@ -15,7 +15,7 @@ year_of_establishment, monthly_turnover_amount, monthly_turnover_amount_units, n
 number_of_married_couple, family_income_amount, vulnerable_category,project_id_fk,project_name,structure,work_code,
 residential_name, residential_relation_with_head, residential_age, rr_location_fk,maritua_status, rr_sub_location,rr_tenure_status,residential_gender, 
 residential_maritual_status, residential_education, residential_employment, residential_salary, unit, value,com_carpet_area,com_remarks,estimated_by_mmrda_amount_units,estimation_amount_units,
-residential_salary_units,created_by_user_id_fk,modified_by,modified_date,user_id,user_name,designation,user_type_fk,user_role_code,executive_user_id_fk,rr_data_id, uploaded_file, status, uploaded_by_user_id_fk, uploaded_on;
+residential_salary_units,created_by_user_id_fk,modified_by,modified_date,user_id,user_name,designation,user_type_fk,user_role_code,executive_user_id_fk,rr_data_id, uploaded_file, status, uploaded_by_user_id_fk, uploaded_on,mail_body_header;
 
 private List<RandRMain> residentialList,commercialList,comList,comFamList,resList,resFamList,report1List,report2List;
 private MultipartFile RandRFile;
@@ -1119,7 +1119,12 @@ public boolean checkNullOrEmpty() throws IllegalAccessException {
     return flag;            
 }
 
+public String getMail_body_header() {
+	return mail_body_header;
+}
 
-
+public void setMail_body_header(String mail_body_header) {
+	this.mail_body_header = mail_body_header;
+}
 
 }

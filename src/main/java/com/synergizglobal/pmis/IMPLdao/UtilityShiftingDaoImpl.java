@@ -40,13 +40,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.FormHistory;
-import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.Messages;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.Safety;
 
 @Repository
 public class UtilityShiftingDaoImpl implements UtilityShiftingDao {

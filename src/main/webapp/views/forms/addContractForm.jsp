@@ -486,7 +486,7 @@
 	                                </div>
 	                           
 	                                <div class="col s6 m4 l6 input-field offset-m2" id="loa_letter_number_div">
-	                                    <input id="loa_letter_number" name="loa_letter_number"  maxlength="25" data-length="25"type="text" class="validate w85 pdr5em">
+	                                    <input id="loa_letter_number" name="loa_letter_number"  maxlength="50" data-length="50"type="text" class="validate w85 pdr5em">
 	                                    <label for="loa_letter_number">LOA Letter No</label>
 	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
 	                                </div>

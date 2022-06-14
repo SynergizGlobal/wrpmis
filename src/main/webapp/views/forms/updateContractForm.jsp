@@ -795,7 +795,7 @@
 	                             </div>
 	                             <div class="row">
 	                                <div class="col s6 m6 l6 input-field " id="loa_letter_number_div">
-	                                    <input id="loa_letter_number" name="loa_letter_number" maxlength="25" data-length="25" type="text" class="validate w90 pdr4em" value="${contractDeatils.loa_letter_number }">
+	                                    <input id="loa_letter_number" name="loa_letter_number" maxlength="50" data-length="50" type="text" class="validate w90 pdr4em" value="${contractDeatils.loa_letter_number }">
 	                                    <label for="loa_letter_number">LOA Letter No <span class="required" id="loa_letter_number_req">*</span></label>
 	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
 	                                   
@@ -809,7 +809,7 @@
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s6 m6 l6 input-field " id="ca_no_div">
-	                                    <input id="ca_no" name="ca_no" maxlength="25" data-length="25" type="text" class="validate w90 pdr4em" value="${contractDeatils.ca_no }">
+	                                    <input id="ca_no" name="ca_no" maxlength="50" data-length="50" type="text" class="validate w90 pdr4em" value="${contractDeatils.ca_no }">
 	                                    <label for="ca_no">CA No</label>
 	                                     <span id="ca_noError" class="error-msg" ></span>
 	                                </div>
@@ -1689,7 +1689,7 @@
 	                                                        placeholder="Milestone ID " readonly>
 	                                                </td>                                 
 	                                                <td data-head="Milestone Name " class="input-field">
-	                                                    <input id="milestone_names${index.count }" name="milestone_names" maxlength="25" data-length="25" type="text" class="validate w80 pdr4em" value="${milestonesObj.milestone_name }"
+	                                                    <input id="milestone_names${index.count }" name="milestone_names" maxlength="100" data-length="100" type="text" class="validate w80 pdr4em" value="${milestonesObj.milestone_name }"
 	                                                        placeholder="Milestone Name ">
 	                                                         <span id="milestone_names${index.count }Error" class="error-msg" ></span>
 	                                                </td>
@@ -1725,7 +1725,7 @@
 	                                                        placeholder="Milestone ID" value="K-1" readonly>
 	                                                </td>                                        
 	                                                <td data-head="Milestone Name " class="input-field">
-	                                                    <input id="milestone_names0" name="milestone_names" maxlength="25" data-length="25" type="text" class="validate" 
+	                                                    <input id="milestone_names0" name="milestone_names" maxlength="100" data-length="100" type="text" class="validate" 
 	                                                        placeholder="Milestone Name ">
 	                                                        <span id="milestone_names0Error" class="error-msg" ></span>
 	                                                </td>
@@ -3216,12 +3216,12 @@
         		 		required: false
         		 	  },"loa_letter_number": {
         		 		 required: false,
-        		 	      maxlength: 25
+        		 	      maxlength: 50
         		 	  },"loa_date":{
         		 		 required: false
         		 	  },"ca_no": {
         		 		 required: false,
-       		 	     	 maxlength: 25
+       		 	     	 maxlength: 50
         	 	   	  },"ca_date": {
         	 	   		dateBeforeCA:"#loa_date",
         		 		required: false
@@ -3304,12 +3304,12 @@
        			 		required: 'Required'
        			 	  },"loa_letter_number": {
        			 		required: 'Required',
-       			 		maxlength:"Max Length is only 25 characters"
+       			 		maxlength:"Max Length is only 50 characters"
        			 	  },"loa_date":{
        			 		 required: 'Required'
        			 	  },"ca_no": {
        			 		required: 'Required',
-       			 		maxlength:"Max Length is only 25 characters"
+       			 		maxlength:"Max Length is only 50 characters"
        		 	   	  },"ca_date": {
        			 		required: 'Required'
        			 	  },"actual_completion_date": {
@@ -3824,7 +3824,7 @@
 		    
 		    var html = '<tr id="mileRow'+rNo+'">'
 		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID" value="K-'+(mId)+'" readonly></td>'
-			   +'<td data-head="Milestone Name " class="input-field"><input id="milestone_names'+rNo+'" maxlength="25" data-length="25" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
+			   +'<td data-head="Milestone Name " class="input-field"><input id="milestone_names'+rNo+'" maxlength="100" data-length="100" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
 			   +'<td data-head="Milestone Date " class="input-field"><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker-max-today"   placeholder="Actual Date">  <button type="button" id="actual_dates'+rNo+'_icon" class="datepicker-button"><i  class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Revision" class="input-field" ><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
@@ -4142,7 +4142,7 @@
 	       		if(idNo === ""){idNo = 0;}
 	       		var milestone_name_length= $.trim(milestone_names).length
 	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 25 ){
-					$('#milestone_names'+idNo+'Error').text('Max Length is only 25 characters.');
+					$('#milestone_names'+idNo+'Error').text('Max Length is only 100 characters.');
 					$('#milestone_names'+idNo).slideDown(100,function(){
 						$(this).focus();
 					});
@@ -4160,7 +4160,7 @@
 	       		if(idNo === ""){idNo = 0;}
 	       		var milestone_name_length= $.trim(milestone_names).length
 	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 25 ){
-					$('#milestone_names'+idNo+'Error').text('Max Length is only 25 characters.');
+					$('#milestone_names'+idNo+'Error').text('Max Length is only 100 characters.');
 					flag = false;
 				} else{
 					$('#milestone_names'+idNo+'Error').text('');

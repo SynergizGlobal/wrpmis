@@ -4142,7 +4142,7 @@
 	       		if(idNo === ""){idNo = 0;}
 	       		var radio = '${contractDeatils.milestone_requried}';
 	       		var milestone_name_length= $.trim(milestone_names).length
-	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 25 && radio.includes("yes")){
+	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 100 && radio.includes("Yes")){
 					$('#milestone_names'+idNo+'Error').text('Max Length is only 100 characters.');
 					$('#milestone_names'+idNo).slideDown(100,function(){
 						$(this).focus();
@@ -4160,7 +4160,7 @@
 	       		var milestone_names = $("#milestone_names"+idNo).val();
 	       		if(idNo === ""){idNo = 0;}
 	       		var milestone_name_length= $.trim(milestone_names).length
-	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 25 ){
+	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 100 ){
 					$('#milestone_names'+idNo+'Error').text('Max Length is only 100 characters.');
 					flag = false;
 				} else{

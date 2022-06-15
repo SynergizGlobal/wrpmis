@@ -230,7 +230,7 @@
 										</select>
 									</div>
 									<div class="col s6 m4 l2 input-field">
-										<p class="searchable_label">Status</p>
+										<p class="searchable_label">Boundary Wall Status</p>
 										<select id="boundary_wall_status" name="boundary_wall_status" class="searchable" onchange="addInQueStatus(this.value);getRRList();">
 											<option value="">Select</option>											
 										</select>

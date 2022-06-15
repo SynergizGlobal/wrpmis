@@ -1733,8 +1733,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					{
 						checkCnt=1;
 					}
-				
-			
+					if(objsList.get(0).getBoundary_wall_status().compareTo(obj.getBoundary_wall_status())!=0)
+					{
+						checkCnt=1;
+					}					
 			}
 			
 		} catch (Exception e) {

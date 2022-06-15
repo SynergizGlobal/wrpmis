@@ -957,7 +957,7 @@ public class UtilityShiftingController {
 						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
 						if(!StringUtils.isEmpty(errMsg)){
 							if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
-								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and Utility Shifting Id Mismatch at row: ("+row+")</b> please check and Uplaod again.</span>");
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and Utility Shifting Id Mismatch at row: ("+row+")</b> please check and Upload again.</span>");
 								msg = "Work and Utility Shifting Id Mismatch at row: "+row;
 							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
 								actualVal = Integer.toString(subRow);
@@ -965,7 +965,7 @@ public class UtilityShiftingController {
 									String error = "Data truncated";
 									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
 								} 
-								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
 								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
 							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
 								actualVal = Integer.toString(subRow);
@@ -973,7 +973,7 @@ public class UtilityShiftingController {
 									String error = "Cannot add or update a child row";
 									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
 								}
-								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
 								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
 							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
 								actualVal = Integer.toString(subRow);
@@ -981,7 +981,7 @@ public class UtilityShiftingController {
 									String error = "Incorrect date value";
 									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
 								}
-								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect date value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect date value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
 								msg = "Incorrect date value identified in Sheet: "+sheet+" at row: "+actualVal;
 							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect integer value")) {
 								actualVal = Integer.toString(subRow);
@@ -989,7 +989,7 @@ public class UtilityShiftingController {
 									String error = "Incorrect integer value";
 									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
 								}
-								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect integer value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect integer value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
 								msg = "Incorrect integer value identified in Sheet: "+sheet+" at row: "+actualVal;
 							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect decimal value")) {
 								actualVal = Integer.toString(subRow);
@@ -997,7 +997,7 @@ public class UtilityShiftingController {
 									String error = "Incorrect decimal value";
 									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
 								}
-								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
 								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
 							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data too long for column")) {
 								actualVal = Integer.toString(subRow);
@@ -1005,7 +1005,7 @@ public class UtilityShiftingController {
 									String error = "Data too long for column";
 									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
 								}
-								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Data too long for value in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Uplaod again.</span>");
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Data too long for value in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
 								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
 							}
 						

@@ -1700,9 +1700,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	public StripChart getNewAcivitiesUpdateData(StripChart obj) throws Exception {
 		StripChart sObj = null;
 		try {
-			String qry = "select a.p6_activity_id as activity_id,a.contract_id_fk AS contract_id,a.structure AS strip_chart_structure_id,a.component_id AS strip_chart_component_id,"
-					+ "a.component AS strip_chart_component,a.p6_activity_id AS strip_chart_activity_id,a.activity_name AS strip_chart_activity_name,"
-					+ "a.line AS strip_chart_line,a.structure_type_fk AS structure_type,a.section AS strip_chart_section_id,"
+			String qry = "select a.p6_activity_id as activity_id,a.contract_id_fk AS contract_id,s11.structure AS strip_chart_structure_id,a.component_id AS strip_chart_component_id,"
+					+ "a.component AS strip_chart_component,a.p6_activity_id AS strip_chart_activity_id,a.p6_activity_name AS strip_chart_activity_name,"
+					+ "a.line AS strip_chart_line,s11.structure_type_fk AS structure_type,a.section AS strip_chart_section_id,"
 					+ "c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
 					+ "from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "

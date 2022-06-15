@@ -4141,8 +4141,9 @@
 	       		var milestone_names = $("#milestone_names"+idNo).val();
 	       		if(idNo === ""){idNo = 0;}
 	       		var radio = '${contractDeatils.milestone_requried}';
+	       		var radio1 = $('input[name="milestone_requried"]:checked').val();
 	       		var milestone_name_length= $.trim(milestone_names).length
-	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 100 && radio.includes("Yes")){
+	       		if($.trim(milestone_names) != "" &&  milestone_name_length > 100 && radio1.includes("Yes")){
 					$('#milestone_names'+idNo+'Error').text('Max Length is only 100 characters.');
 					$('#milestone_names'+idNo).slideDown(100,function(){
 						$(this).focus();

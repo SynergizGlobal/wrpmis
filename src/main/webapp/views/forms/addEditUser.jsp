@@ -21,14 +21,24 @@
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
     <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
 	<style>
 		.con-box, .exe-box, .risk-box, .la-box, .us-box, .rr-box{display: none;}
+		.per-box-list{
+			margin: 0!important;
+		}
 		.per-box-list li{
-			width: 33%;
+			width: 24.62%;
 			margin: 10px 0;
+		}
+		.marob{
+			margin: 0 0 10px;
 		}
 		.show {
 		    display: inline-flex !important;
+		}
+		.w100{
+			width: 100%;
 		}
 		[type="checkbox"]+span:not(.lever){
 			padding: 0 25px;
@@ -128,9 +138,27 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:17%;}
     	}
-    	@media(max-width: 820px){
+    	@media(max-width: 912px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
+    	.per-box-list li {
+			    width: 49.5%;
+			    margin: 10px 0;
+			}
+		.mobile_responsible_table>tbody tr td.mobile_btn_close a {
+		    float: right;
+		    margin-right: -25px;
+		    margin-top: 1em;
+		}
+		.no-bd{
+			border: 0 !important;
+		}
+		.mdl-data-table td, .mdl-data-table th {
+		    text-align: center;
+		}
+		.mobile_responsible_table tbody tr td .select2-container{
+			width: 90% !important;
+		}
     	}
 		 @media only screen and (max-width:820px) {          
 			.input-field input[type="email"]{
@@ -157,6 +185,15 @@
 			display: block;
 			float: left;
 		} */
+		@media(max-width: 575px){
+			.per-box-list li {
+			    width: 100%;
+			    margin: 10px 0;
+			}
+			.mobile_responsible_table tbody tr td .select2-container{
+				width: 100% !important;
+			}
+		}
     </style>
 </head>
 <body>
@@ -303,8 +340,6 @@
                              <div class="row">
                                 
                             </div>
-                            
-                           
                             <div class="row">
                                 
                                 <div class="col l12 m8 s12 offset-m2">
@@ -324,7 +359,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                
+                            
+                           </div>
+                            </div>
+                                <div class="row no-container">
                                 	<div class="ch-list center-align">
                                 		<p>
 									      <label>
@@ -332,12 +371,9 @@
 									        <span>Contract</span>
 									      </label>
 									    
-								<!-- 	      <label>
-									        <input type="checkbox" id="execution" name="execution_permission_checkbox" value="no" class="exe-ch" onchange="valueChanged('execution')"/>
-									        <span>Execution</span>
-									      </label>
+								     	 
 									    
-									      <label>
+								<!-- 		      <label>
 									        <input type="checkbox" id="risk" name="risk_permission_checkbox" class="risk-ch" value="no" onchange="valueChanged('risk')"/>
 									        <span>Risk</span>
 									      </label>
@@ -356,10 +392,16 @@
 									        <input type="checkbox" id="rr" name="rr_permission_checkbox" class="rr-ch" value="no" onchange="valueChanged('rr')"/>
 									        <span>R&R</span>
 									      </label>
+									      
+									      <label>
+									        <input type="checkbox" id="execution" name="execution_permission_checkbox" value="no" class="exe-ch" onchange="valueChanged('execution')"/>
+									        <span>Execution</span>
+									      </label>
 									    </p>
                                 	</div>
                                 </div>
-                                 <div class="row no-container" style="margin-bottom: 20px;">
+                                
+                                 <div class="row no-container center-align no-mar">
                                 <ul class="per-box-list">
                                 	<li class="con-box">
                                     <div class="row fixed-width">
@@ -606,9 +648,71 @@
                                 </li>
                                 </ul>
                                 </div>
-                                                     
-                            </div>
-                            
+                             <div class="container container-no-margin">
+                             <div class="row exe-box w100" style="margin-bottom: 20px;">
+                             	<div class="col s12 m12">
+                                    <div class="row fixed-width">
+                                        <h5 class="center-align marob">Structure Permission</h5>
+                                        <div class="table-inside">
+                                            <table id="dashboard_form_table" class="mdl-data-table mobile_responsible_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="w20em">Contract </th>
+                                                        <th class="w20em">Structure </th>
+                                                        <th class="">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="stBody">
+                                                    <tr id="actionStRow0">
+                                                        <td data-head="Contract" class="input-field">
+
+                                                            <select id="str_con" class="searchable"
+                                                                name="user_role" placeholder="User Role">
+                                                                <option value="select">Select</option>
+                                                            </select>
+                                                            <span id="access_type0Error" class="error-msg"></span>
+                                                        </td>
+                                                        <td data-head="Structure" class="input-field">
+                                                            <select id="str_per" class="searchable"
+                                                                name="user_type" multiple placeholder="User Type">
+                                                                <option value="Select">Select</option>
+                                                            </select>
+                                                            <span id="access_value0Error" class="error-msg"></span>
+                                                        </td>
+                                                        <td class="input-field mobile_btn_close">
+                                                            <a href="#" onclick="removeStActions('0');" class="btn waves-effect waves-light red t-c ">
+                                                                <i class="fa fa-close"></i></a>
+                                                                <!-- <select id="user" class="searchable"
+                                                                name="user" multiple placeholder="User">
+                                                                <option value="Select">Select</option>
+                                                            </select> -->
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <table class="mdl-data-table table-add bd-none">
+												<tbody class="bd-none">
+													<tr class="bd-none">
+														<td colspan="3" class="bd-none"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c add-align"
+															onclick="addStRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+                                            
+												
+													<input type="hidden" id="rowNo" name="rowNo" value="" />
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+												
+											
+
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
                             <div class="row">
                                 <div class="col s6 m4 l6 mt-brdr offset-m2">
                                     <div class="center-align m-1">
@@ -680,6 +784,33 @@
 	    $('.rr-ch').change(function () {
 	        $('.rr-box').toggleClass('show');
 	    });
+	    
+	    function addStRow(){
+			var rowNo = $("#rowNo").val();
+	        var rNo = Number(rowNo)+1;
+	        var html = '<tr id="actionStRow' + rNo + '">'
+	           +'<td data-head="Contract" class="input-field">'
+	           +'<select name="user_role" id="str_con'+rNo+'"  class="validate-dropdown searchable">'	   			
+	   		   +'<option value="" >Select</option>'
+	   		   +'</select><span id="access_type0Error" class="error-msg"></span></td>' 			
+	   		   +'<td data-head="Structure" class="input-field">'	
+			   +'<select name="user_type" id="str_per'+rNo+'"  class="searchable" multiple placeholder="Structure">'	
+			   +'<option value="" >Select</option>'	
+			   +'</select><span id="access_value0Error" class="error-msg"></span></td>'
+			   +'<td class="input-field mobile_btn_close"><a href="#" onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>'
+			   +'</tr>';
+		
+			$('#stBody').append(html);
+	        $("#rowNo").val(rNo);          	
+	        
+	        $('.searchable').select2();
+	    }
+	    
+	    function removeStActions(rowNo){
+	    	$("#actionStRow"+rowNo).remove();
+	    }
+	
+	/****************************************************************************************************/
 
 	   function valueChanged(idVal){
 	        $('#'+idVal).val(idVal);

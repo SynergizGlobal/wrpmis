@@ -803,7 +803,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select p6_activity_id as activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name,DATE_FORMAT(baseline_start,'%d-%b-%y') AS planned_start "  
-					+",DATE_FORMAT(baseline_finish,'%d-%b-%y') AS planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " 
+					+",DATE_FORMAT(baseline_finish,'%d-%b-%y') AS planned_finish,DATE_FORMAT(start,'%d-%b-%y') AS start,DATE_FORMAT(finish,'%d-%b-%y') AS finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " 
 					+ " where p6_activity_id is not null and (component_details != 'OBC' or component_details is null) and s11.structure_type_fk!='FOB' ";
 			
 				if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))
@@ -1962,7 +1962,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select p6_activity_id as activity_id,weightage,component_details,task_code as p6_task_code,component_id as strip_chart_component_id_name,component as strip_chart_component,p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name,DATE_FORMAT(baseline_start,'%d-%b-%y') AS planned_start "  
-					+",DATE_FORMAT(baseline_finish,'%d-%b-%y') AS planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities  a left join structure s11 on s11.structure_id = a.structure_id_fk" 
+					+",DATE_FORMAT(baseline_finish,'%d-%b-%y') AS planned_finish,DATE_FORMAT(start,'%d-%b-%y') AS start,DATE_FORMAT(finish,'%d-%b-%y') AS finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities  a left join structure s11 on s11.structure_id = a.structure_id_fk" 
 					+ " where p6_activity_id is not null  ";
 			
 		

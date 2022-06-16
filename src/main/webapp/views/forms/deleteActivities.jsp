@@ -471,8 +471,10 @@
 		                                                </th>
 		                                                <th>Component</th>                                                    	
                                                         <th style="width: 350px">Activity</th>
-                                                        <th>Planned Start</th>
-                                                        <th>Planned Finish</th>
+                                                        <th>Baseline Start</th>
+                                                        <th>Baseline Finish</th>
+                                                        <th>Expected Start</th>
+                                                        <th>Expected Finish</th>                                                        
                                                         <th>Scope</th>
                                                         <th>Completed</th>
                                                         <th style="width: 100px">Units</th>
@@ -1276,6 +1278,8 @@
 
 		 	            	 			html +='<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'
 		 	            	 			+'<td data-head="Planned Finish" class="input-field">' + $.trim(val.planned_finish) + '</td>'
+		 	            	 			html +='<td data-head="Planned Start" class="input-field">' + $.trim(val.start) + '</td>'
+		 	            	 			+'<td data-head="Planned Finish" class="input-field">' + $.trim(val.finish) + '</td>'		 	            	 			
  	            	 			
  	            	 			html +='<td data-head="Scope" class="input-field"><span>'+$.trim(val.scope)+'</span>';
  	            	 			

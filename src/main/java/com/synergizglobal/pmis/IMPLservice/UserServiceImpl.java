@@ -151,6 +151,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> getModuleList(User obj) throws Exception {
 		return userDao.getModuleList( obj);
+	}
+
+	@Override
+	public List<User> getModuleSList(User obj) throws Exception {
+		return userDao.getModuleSList( obj);
 	}	
 
 }

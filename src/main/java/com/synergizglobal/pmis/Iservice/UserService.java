@@ -65,5 +65,7 @@ public interface UserService {
 
 	List<User> getModuleList(User obj) throws Exception;
 
+	List<User> getModuleSList(User obj) throws Exception;
+
 	
 }

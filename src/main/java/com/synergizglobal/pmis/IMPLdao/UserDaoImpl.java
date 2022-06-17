@@ -180,18 +180,16 @@ public class UserDaoImpl implements UserDao{
 				userId = user_id;
 				String [] permissions = obj.getPermissions_check();
 				if(permissions.length > 0) {
-					String qry2 = "Update user_module set soft_delete_status = :soft_delete_status" + 
-							" where executive_id_fk = :executive_user_id_fk and module_fk = :module_fk";	
+					String qry2 = "INSERT INTO user_module  (soft_delete_status,executive_id_fk,module_fk  )VALUES (:soft_delete_status, :executive_id_fk ,:module_fk)" ;
 					for(int k = 0; k <= (permissions.length - 1); k++) {
-						if(permissions[k].contains("Inactive")) {
 							String[] permissionVal = permissions[k].split("_");
 							obj.setModule_fk(permissionVal[0]);
 							obj.setExecutive_id_fk(userId);
-							obj.setSoft_delete_status(CommonConstants.INACTIVE);
+							obj.setSoft_delete_status(CommonConstants.ACTIVE);
 							
 							paramSource = new BeanPropertySqlParameterSource(obj);		 
 							namedParamJdbcTemplate.update(qry2, paramSource);
-						}
+						
 						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Contracts")) {
 							int c = 0;
 							String contarctIds = obj.getContract_id();
@@ -218,7 +216,7 @@ public class UserDaoImpl implements UserDao{
 							}
 						}
 						
-						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Land_Acquisition")) {
+						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Land Acquisition")) {
 							int c = 0;
 							String workIds = obj.getLand_work();
 							String qry1 = "INSERT INTO land_executives"
@@ -242,7 +240,7 @@ public class UserDaoImpl implements UserDao{
 								}
 							}
 						}
-						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Utility_Shifting")) {
+						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Utility Shifting")) {
 							int c = 0;
 							String workIds = obj.getUs_work();
 							String qry1 = "INSERT INTO utility_shifting_executives"
@@ -266,7 +264,7 @@ public class UserDaoImpl implements UserDao{
 							}
 						
 						 }
-							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("R__R")) {
+							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("R & R")) {
 								int c = 0;
 								String workIds = obj.getRr_work();
 								String qry1 = "INSERT INTO rr_executives"
@@ -289,7 +287,7 @@ public class UserDaoImpl implements UserDao{
 								
 							   }
 						  }
-							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Execution___Monitoring")) {
+							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Execution &  Monitoring")) {
 								int c = 0;
 								String workIds = obj.getRr_work();
 								String qry1 = "INSERT INTO structure_contract_responsible_people"
@@ -311,7 +309,7 @@ public class UserDaoImpl implements UserDao{
 			    				}
 								
 								obj.setResponsible_people_id_fk(userId); 
-								if(!StringUtils.isEmpty(obj.getContract_ids())) {
+								if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
 								
 									if( obj.getStructure().contains("^")){
 										String [] value = obj.getStructure().split("\\^,");
@@ -564,7 +562,7 @@ public class UserDaoImpl implements UserDao{
 							}
 						}
 						
-						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Land_Acquisition")) {
+						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Land Acquisition")) {
 							int c = 0;
 							String workIds = obj.getLand_work();
 							String qry1 = "INSERT INTO land_executives"
@@ -592,7 +590,7 @@ public class UserDaoImpl implements UserDao{
 								}
 							}
 						}
-						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Utility_Shifting")) {
+						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Utility Shifting")) {
 							int c = 0;
 							String workIds = obj.getUs_work();
 							String qry1 = "INSERT INTO utility_shifting_executives"
@@ -620,7 +618,7 @@ public class UserDaoImpl implements UserDao{
 							}
 						
 						 }
-							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("R__R")) {
+							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("R & R")) {
 								int c = 0;
 								String workIds = obj.getRr_work();
 								String qry1 = "INSERT INTO rr_executives"
@@ -649,7 +647,7 @@ public class UserDaoImpl implements UserDao{
 							   }
 						  }
 							
-							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Execution___Monitoring")) {
+							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Execution &  Monitoring")) {
 								int c = 0;
 								String workIds = obj.getRr_work();
 								String qry1 = "INSERT INTO structure_contract_responsible_people"
@@ -671,7 +669,7 @@ public class UserDaoImpl implements UserDao{
 			    				}
 								
 								obj.setResponsible_people_id_fk(userId); 
-								if(!StringUtils.isEmpty(obj.getContract_ids())) {
+								if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
 									String deleteFilesQry = "delete from structure_contract_responsible_people  where responsible_people_id_fk = :responsible_people_id_fk";		 
 									User fileObj = new User();
 									fileObj.setExecutive_user_id_fk(userId);
@@ -1367,6 +1365,24 @@ public class UserDaoImpl implements UserDao{
 			int i = 0;
 			pValues[i++] = obj.getUser_id();
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<User> getModuleSList(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select module_name from module m "
+					+ " where module_name in ('Contracts','Design','Execution &  Monitoring','Finance',"
+					+ "'Issues','Land Acquisition','R & R','Risk','Safety','Training','Unmanned Aerial Vehicle','Utility Shifting','Works')"
+					+ " and soft_delete_status_fk = 'Active' "
+					+ "order by field(module_name,'Contracts','Risk','Land Acquisition','R & R','Utility Shifting',"
+					+ "'Works','Safety','Design','Execution &  Monitoring','Finance','Issues','Training','Unmanned Aerial Vehicle')";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

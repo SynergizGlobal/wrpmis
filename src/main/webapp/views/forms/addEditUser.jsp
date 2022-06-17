@@ -365,8 +365,9 @@
                             </div>
                                 <div class="row no-container">
                                 	<div class="ch-list center-align">
-                                		<p>
-                                		 <c:forEach var="obj" items="${moduleList }">
+                                		 <c:if test="${action eq 'edit'}">
+                           				 <p>
+                           	     		 <c:forEach var="obj" items="${moduleList }">
 									      <label>
 									        <input type="checkbox" id="${fn:replace((fn:replace(obj.module_name,'&','' )),' ','_')}" name="permissions_check" value="${obj.module_name }_Active" class="${fn:replace((fn:replace(obj.module_name,'&','' )),' ','_')}-ch"
 									         <c:if test="${obj.soft_delete_status eq 'Active'}">checked
@@ -375,6 +376,21 @@
 									      </label>
 									     </c:forEach>
 									    </p>
+                            
+                            </c:if>
+							<c:if test="${action eq 'add'}"> 
+										<p>
+                                		 <c:forEach var="obj" items="${moduleList }">
+									      <label>
+									        <input type="checkbox" id="${fn:replace((fn:replace(obj.module_name,'&','' )),' ','_')}" name="permissions_check" value="${obj.module_name }_Active" class="${fn:replace((fn:replace(obj.module_name,'&','' )),' ','_')}-ch"
+									        checked
+	                                            onchange="valueChanged('${fn:replace((fn:replace(obj.module_name,'&','' )),' ','_')}','${obj.module_name }')"/>
+									        <span>${obj.module_name }</span>
+									      </label>
+									     </c:forEach>
+									    </p>
+							
+							</c:if>
                                 	</div>
                                 </div>
                                 
@@ -645,18 +661,16 @@
                                                 	 <c:forEach var="contractObj" items="${usrObj.executivesList }" varStatus="index"> 
                                                 	   <tr id="actionStRow0">
                                                         <td data-head="Contract" class="input-field">
-                                                            <select id="str_con${index.count }" class="searchable"
-                                                                name="contract_ids" placeholder="User Role">
-                                                                <option value="select">Select</option>
+                                                            <select id="str_con${index.count }" class="searchable" name="contract_ids" >
+                                                                <option value="">Select</option>
                                                                 <c:forEach var="obj" items="${contractsList }">
 						                                        	<option value="${obj.contract_id }" <c:if test="${contractObj.contract_id_fk eq obj.contract_id}">selected</c:if>>${obj.contract_short_name }</option>
 						                                        </c:forEach>
                                                             </select>
-                                                            <span id="access_type0Error" class="error-msg"></span>
+                                                            <span id="access_type${index.count }Error" class="error-msg"></span>
                                                         </td>
                                                         <td data-head="Structure" class="input-field">
-                                                            <select id="str_per${index.count }" class="searchable"
-                                                                name="Structure" multiple placeholder="User Type">
+                                                            <select id="str_per${index.count }" class="searchable"  name="Structure" multiple >
                                                                 <option value="Select">Select</option>
                                                                  <c:forEach var="obj" items="${structuresList }">
 						                                        	<option value="${obj.structure_id }"
@@ -666,7 +680,7 @@
 						                                        	>${obj.structure }</option>
 						                                        </c:forEach>
                                                             </select>
-                                                            <span id="access_value0Error" class="error-msg"></span>
+                                                            <span id="access_value${index.count }Error" class="error-msg"></span>
                                                             <input type="hidden" name="Structure" id="str_pers${index.count }" value="^" />
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
@@ -681,8 +695,8 @@
                                                        <tr id="actionStRow0">
                                                         <td data-head="Contract" class="input-field">
                                                             <select id="str_con" class="searchable"
-                                                                name="contract_ids" placeholder="User Role">
-                                                                <option value="select">Select</option>
+                                                                name="contract_ids" >
+                                                                <option value="">Select</option>
                                                                 <c:forEach var="obj" items="${contractsList }">
 						                                        	<option value="${obj.contract_id }">${obj.contract_short_name }</option>
 						                                        </c:forEach>
@@ -724,11 +738,15 @@
 													</tr>
 												</tbody>
 											</table>
-                                            
 												
-													<input type="hidden" id="rowNo" name="rowNo" value="" />
-													<input type="hidden" id="rowNo" name="rowNo" value="0" />
-												
+												    <c:choose>
+				                                    <c:when test="${not empty usrObj.executivesList && fn:length(usrObj.executivesList) gt 0 }">
+				                                		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(usrObj.executivesList) }" />
+				                                	</c:when>
+				                                 	<c:otherwise>
+				                                 		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+				                                 	</c:otherwise>
+				                                 </c:choose>
 											
 
                                         </div>
@@ -812,19 +830,19 @@
 	        var rNo = Number(rowNo)+1;
 	        var html = '<tr id="actionStRow' + rNo + '">'
 	           +'<td data-head="Contract" class="input-field">'
-	           +'<select name="contract_ids" id="str_con'+rNo+'"  class="validate-dropdown searchable">'	   			
+	           +'<select id="str_con' + rNo + '" class="searchable" name="contract_ids" >'	   			
 	   		   +'<option value="" >Select</option>'
 			   	   <c:forEach var="obj" items="${contractsList }">
 		             	+'<option value="${obj.contract_id }">${obj.contract_short_name }</option>'
 		           </c:forEach>
-	   		   +'</select><span id="access_type0Error" class="error-msg"></span></td>' 			
+	   		   +'</select><span id="access_type' + rNo + 'Error" class="error-msg"></span></td>' 			
 	   		   +'<td data-head="Structure" class="input-field"><input type="hidden" name="Structure" id="str_pers'+rNo+'" value="^" />'	
-			   +'<select name="Structure" id="str_per'+rNo+'"  class="searchable" multiple placeholder="Structure">'	
+			   +'  <select id="str_per' + rNo + '" class="searchable"  name="Structure" multiple >'	
 			   +'<option value="" >Select</option>'	
 				   <c:forEach var="obj" items="${structuresList }">
 	            	+'<option value="${obj.structure_id }">${obj.structure }</option>'
 	         	   </c:forEach>
-			   +'</select><span id="access_value0Error" class="error-msg"></span> </td>'
+			   +'</select><span id="access_value' + rNo + 'Error" class="error-msg"></span> </td>'
 			   +'<td class="input-field mobile_btn_close"><a href="#" onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>'
 			   +'</tr>';
 		
@@ -941,6 +959,9 @@
         
         function addUser(){
     		if(validator.form()){ 
+    			$('form select[name=contract_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form select[name=Structure]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			
     			//if(flag){
         			$(".page-loader").show();
         			document.getElementById("userForm").submit();		
@@ -950,6 +971,9 @@
     	
         function updateUser(){
       		if(validator.form()){ // validation perform
+      			$('form select[name=contract_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form select[name=Structure]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			
       			if(flag){
         			$(".page-loader").show();
         			document.getElementById("userForm").submit();	

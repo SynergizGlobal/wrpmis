@@ -252,7 +252,7 @@ public class UserController {
 			List<RandRMain> rrList = userService.getRRList(obj);
 			model.addObject("rrList", rrList);
 			
-			List<User> moduleList = userService.getModuleList(obj);
+			List<User> moduleList = userService.getModuleSList(obj);
 			model.addObject("moduleList", moduleList);
 			
 		} catch (Exception e) {

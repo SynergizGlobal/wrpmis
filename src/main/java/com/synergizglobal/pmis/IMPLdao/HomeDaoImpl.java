@@ -60,8 +60,9 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,dashboard_url,tum.priority,icon_path,mobile_view,work_id_fk "
 					+ "FROM dashboard tum "
-					+ "left join module m on tum.module_name_fk = m.module_name "
-					+ "WHERE m.soft_delete_status_fk = ? AND parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? ";
+					//+ "left join module m on tum.module_name_fk = m.module_name "
+					+ "left join user_module m on tum.module_name_fk = m.module_fk "
+					+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? ";
 					
 					//qry = qry + " and (select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 
@@ -72,6 +73,7 @@ public class HomeDaoImpl implements HomeDao {
 			
 			statement = connection.prepareStatement(qry);
 			int p = 1;
+			statement.setString(p++, uObj.getUser_id());
 			statement.setString(p++, CommonConstants.ACTIVE);
 			statement.setString(p++, CommonConstants.ACTIVE);
 			statement.setString(p++, dashboardType);
@@ -251,8 +253,9 @@ public class HomeDaoImpl implements HomeDao {
 			
 			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,f.soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
-					+ "left join module m on f.module_name_fk = m.module_name "
-					+ "WHERE m.soft_delete_status_fk = ? AND parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
+					//+ "left join module m on f.module_name_fk = m.module_name "
+					+ "left join user_module m on f.module_name_fk = m.module_fk "
+					+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
 			
 			
 			/*if(!StringUtils.isEmpty(base) && base.equals("web")) {
@@ -270,6 +273,7 @@ public class HomeDaoImpl implements HomeDao {
 			qry = qry + " ORDER BY priority ASC";
 			statement = connection.prepareStatement(qry);
 			int p = 1;
+			statement.setString(p++, uObj.getUser_id());
 			statement.setString(p++, CommonConstants.ACTIVE);
 			statement.setString(p++, CommonConstants.ACTIVE);
 			statement.setString(p++, uObj.getUser_type_fk());
@@ -506,8 +510,9 @@ public class HomeDaoImpl implements HomeDao {
 			
 			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,f.soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
-					+ "left join module m on f.module_name_fk = m.module_name "
-					+ "WHERE m.soft_delete_status_fk = ? AND parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
+					//+ "left join module m on f.module_name_fk = m.module_name "
+					+ "left join user_module m on f.module_name_fk = m.module_fk "
+					+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
 			
 			
 			/*if(!StringUtils.isEmpty(base) && base.equals("web")) {
@@ -525,6 +530,7 @@ public class HomeDaoImpl implements HomeDao {
 			qry = qry + " ORDER BY priority ASC";
 			statement = connection.prepareStatement(qry);
 			int p = 1;
+			statement.setString(p++, uObj.getUser_id());
 			statement.setString(p++, CommonConstants.ACTIVE);
 			statement.setString(p++, CommonConstants.ACTIVE);
 			
@@ -1151,10 +1157,16 @@ public class HomeDaoImpl implements HomeDao {
 						dashboardName = dashboardName.replaceAll("-", " ").toLowerCase();
 					}
 					
-					String qry = "select count(*) as count from dashboard_access where dashboard_id_fk = (SELECT dashboard_id FROM dashboard d left join module m on d.module_name_fk = m.module_name WHERE m.soft_delete_status_fk = ? AND dashboard_url is not null and dashboard_url <> '' and d.soft_delete_status_fk = ? and LOWER(dashboard_name) = ?)"
-							+ " and (access_value = ? or access_value = ? or access_value = ?)";
+					String qry = "select count(*) as count from dashboard_access "
+							+ "where dashboard_id_fk = "
+							+ "(SELECT dashboard_id FROM dashboard d "
+							//+ "left join module m on d.module_name_fk = m.module_name "
+							+ "left join user_module m on d.module_name_fk = m.module_fk "
+							+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND dashboard_url is not null and dashboard_url <> '' and d.soft_delete_status_fk = ? and LOWER(dashboard_name) = ?) "
+							+ "and (access_value = ? or access_value = ? or access_value = ?)";
 					statement = connection.prepareStatement(qry); 
 					int p = 1;
+					statement.setString(p++, obj.getUser_id());
 					statement.setString(p++, CommonConstants.ACTIVE);
 					statement.setString(p++, CommonConstants.ACTIVE);
 					statement.setString(p++, dashboardName);
@@ -1177,7 +1189,7 @@ public class HomeDaoImpl implements HomeDao {
 					else 
 						tempURL = requestURI;
 					
-					if(!StringUtils.isEmpty(tempURL) && tempURL.contains("/")) {
+					if(!StringUtils.isEmpty(tempURL) && tempURL.contains("/") && !tempURL.startsWith("overview-dashboard/")) {
 						String[] params = tempURL.split("/");
 						if(!StringUtils.isEmpty(params) && params.length > 0){
 							String paramFirst = params[0];
@@ -1185,46 +1197,36 @@ public class HomeDaoImpl implements HomeDao {
 							
 							tempQry = "LIKE";
 							tempURL = paramFirst + "/%";
-							
-							/*if(!StringUtils.isEmpty(paramLast)) {
-								if("activity-progress".equalsIgnoreCase(paramFirst))
-									tempURL = "activity-progress/{activityId}";
-								else if("get-alerts".equalsIgnoreCase(paramFirst))
-									tempURL = "get-alerts/{alert_id}";
-								else if("get-contract".equalsIgnoreCase(paramFirst))
-									tempURL = "get-contract/{contract_id}";
-								else if("get-issue".equalsIgnoreCase(paramFirst))
-									tempURL = "get-issue/{issue_id}";
-								else if("get-issues-details-report".equalsIgnoreCase(paramFirst))
-									tempURL = "get-issues-details-report/{issue_id}";
-								else if("get-safety".equalsIgnoreCase(paramFirst))
-									tempURL = "get-safety/{safety_id}";
-								else if("get-safety-details-report".equalsIgnoreCase(paramFirst))
-									tempURL = "get-safety-details-report/{safety_id}";
-								else if("activities-bulk-update".equalsIgnoreCase(paramFirst))
-									tempURL = "activities-bulk-update/{activityId}";
-								else if("new-activities-update".equalsIgnoreCase(paramFirst))
-									tempURL = "new-activities-update/{activity_id}";
-								else if("get-fob".equalsIgnoreCase(paramFirst))
-									tempURL = "get-fob/{fob_id}";
-								
-							}*/
-							
 						}
+					}else if(tempURL.startsWith("overview-dashboard/")) {
+						tempURL = tempURL.replace("/", "");
 					}
 					
 					/********************************************************************************/
-					
 					String qry = "select count(*) as count from form_access "
 							+ "where form_id_fk = (SELECT form_id FROM form f "
-							+ "left join module m on f.module_name_fk = m.module_name "
-							+ "WHERE m.soft_delete_status_fk = ? AND f.web_form_url is not null and f.web_form_url <> '' "
+							//+ "left join module m on f.module_name_fk = m.module_name "
+							+ "left join user_module m on f.module_name_fk = m.module_fk "
+							+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND f.web_form_url is not null and f.web_form_url <> '' "
 							+ "and f.soft_delete_status_fk = ? and (f.web_form_url "
 							+ tempQry
 							+ " ?) limit 1)"
 							+ " and (access_value = ? or access_value = ? or access_value = ?)";
+					
+					if(tempURL.startsWith("overview-dashboard")) {
+						qry = "select count(*) as count from dashboard_access "
+								+ "where dashboard_id_fk = "
+								+ "(SELECT dashboard_id FROM dashboard d "
+								//+ "left join module m on d.module_name_fk = m.module_name "
+								+ "left join user_module m on d.module_name_fk = m.module_fk "
+								+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? and d.soft_delete_status_fk = ? and REPLACE(LOWER(dashboard_url),'/','') = ?) "
+								+ "and (access_value = ? or access_value = ? or access_value = ?)";
+					
+					}
+					
 					statement = connection.prepareStatement(qry); 
 					int p = 1;
+					statement.setString(p++, obj.getUser_id());
 					statement.setString(p++, CommonConstants.ACTIVE);
 					statement.setString(p++, CommonConstants.ACTIVE);
 					statement.setString(p++, tempURL);

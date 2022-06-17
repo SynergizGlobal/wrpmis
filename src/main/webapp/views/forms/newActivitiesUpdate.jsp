@@ -1444,7 +1444,9 @@
 		   		if(key.match('strip_chart_component')) delete filtersMap[key];
 	   	   	});
 	      	if($.trim(strip_chart_component) != ''){
+	      		storeValues();
             	filtersMap["strip_chart_component"] = strip_chart_component;
+            	
 	      	}
         }
         function addInQueComponentID(strip_chart_component_id){
@@ -1453,9 +1455,31 @@
 		   		if(key.match('strip_chart_component_id')) delete filtersMap[key];
 	   	   	});
 	      	if($.trim(strip_chart_component_id) != ''){
+	      		storeValueswithComponent();
             	filtersMap["strip_chart_component_id"] = strip_chart_component_id;
 	      	}
-        }       
+        }   
+        
+        function storeValues()
+        {
+        	var project_id = $("#project_id").val();addInQueProject(project_id);
+        	
+        	var work_id_fk = $("#work_id_fk").val();addInQueWork(work_id_fk);
+        	var contract_id_fk = $("#contract_id_fk").val();addInQueContract(contract_id_fk);
+        	var structure_type_fk = $("#structure_type_fk").val();addInQueStructureType(structure_type_fk);
+        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();addInQueStructure(strip_chart_structure_id_fk);
+        }
+      
+        function storeValueswithComponent()
+        {
+        	var project_id = $("#project_id").val();addInQueProject(project_id);
+        	
+        	var work_id_fk = $("#work_id_fk").val();addInQueWork(work_id_fk);
+        	var contract_id_fk = $("#contract_id_fk").val();addInQueContract(contract_id_fk);
+        	var structure_type_fk = $("#structure_type_fk").val();addInQueStructureType(structure_type_fk);
+        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();addInQueStructure(strip_chart_structure_id_fk);
+        	var strip_chart_component = $("#strip_chart_component").val();addInQueComponent(strip_chart_component); 
+        }        
         
        
         function clearFilters(){

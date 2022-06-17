@@ -23,7 +23,7 @@
     <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
     <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
 	<style>
-		/* .con-box, .exe-box, .risk-box, .la-box, .us-box, .rr-box{display: none;} */
+		.con-box, .exe-box, .risk-box, .la-box, .us-box, .rr-box{display: none;}
 		.per-box-list{
 			margin: 0!important;
 		}
@@ -806,23 +806,35 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script>
+    $(function(){
 	    $('.Contracts-ch').change(function () {
-	        $('.con-box').toggleClass('show');
+	        $('.con-box').toggleClass('show', this.checked)
+	    }).change();
 	    });
+    $(function(){
 	    $('.Execution___Monitoring-ch').change(function () {
-	        $('.exe-box').toggleClass('show');
+	        $('.exe-box').toggleClass('show', this.checked)
+	    }).change();
 	    }); 
+    $(function(){
 	    $('.Risk-ch').change(function () {
-	        $('.risk-box').toggleClass('show');
+	        $('.risk-box').toggleClass('show', this.checked)
+	    }).change();
 	    });
+    $(function(){
 	    $('.Land_Acquisition-ch').change(function () {
-	        $('.la-box').toggleClass('show');
+	        $('.la-box').toggleClass('show', this.checked)
+	    }).change();
 	    });
+    $(function(){
 	    $('.Utility_Shifting-ch').change(function () { 
-	        $('.us-box').toggleClass('show');
+	        $('.us-box').toggleClass('show', this.checked)
+	    }).change();
 	    });
+    $(function(){
 	    $('.R__R-ch').change(function () {
-	        $('.rr-box').toggleClass('show');
+	        $('.rr-box').toggleClass('show', this.checked)
+	    }).change();
 	    });
 	    
 	    function addStRow(){

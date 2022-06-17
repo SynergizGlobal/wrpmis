@@ -1102,7 +1102,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			    }
 			}
 			int[] insertCount = insertStmt.executeBatch();
-			
+			NamedParameterJdbcTemplate template1 = new NamedParameterJdbcTemplate(dataSource);			
 			if(insertCount.length > 0) {
 				flag = true;
 				List<String> generatedIds = new ArrayList<String>();
@@ -1124,6 +1124,17 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					    insertStmt.setString(2, generated_id);
 					    insertStmt.addBatch();
 					}
+					String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
+							+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
+
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(dyhod);
+						msgObj.setMessage("New Activities has been updated");
+						msgObj.setRedirect_url("/progress-approval-page/");
+						msgObj.setMessage_type("Execution");	
+						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
+						template1.update(messageQry, paramSource1);						
+											
 				}
 		        insertStmt.executeBatch();
 		        

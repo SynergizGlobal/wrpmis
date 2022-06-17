@@ -23,7 +23,7 @@
     <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
     <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
 	<style>
-		.con-box, .exe-box, .risk-box, .la-box, .us-box, .rr-box{display: none;}
+		/* .con-box, .exe-box, .risk-box, .la-box, .us-box, .rr-box{display: none;} */
 		.per-box-list{
 			margin: 0!important;
 		}
@@ -366,37 +366,14 @@
                                 <div class="row no-container">
                                 	<div class="ch-list center-align">
                                 		<p>
+                                		 <c:forEach var="obj" items="${moduleList }">
 									      <label>
-									        <input type="checkbox" id="contract" name="contract_permission_checkbox" value="no" class="con-ch" onchange="valueChanged('contract')"/>
-									        <span>Contract</span>
+									        <input type="checkbox" id="${fn:replace((fn:replace(obj.module_name,'&','' )),' ','_')}" name="permissions_check" value="${obj.module_name }_Active" class="${fn:replace((fn:replace(obj.module_name,'&','' )),' ','_')}-ch"
+									         <c:if test="${obj.soft_delete_status eq 'Active'}">checked
+	                                            </c:if> onchange="valueChanged('${fn:replace((fn:replace(obj.module_name,'&','' )),' ','_')}','${obj.module_name }')"/>
+									        <span>${obj.module_name }</span>
 									      </label>
-									    
-								     	 
-									    
-								<!-- 		      <label>
-									        <input type="checkbox" id="risk" name="risk_permission_checkbox" class="risk-ch" value="no" onchange="valueChanged('risk')"/>
-									        <span>Risk</span>
-									      </label>
-									     -->
-									      <label>
-									        <input type="checkbox" id="land" name="la_permission_checkbox" class="la-ch" value="no" onchange="valueChanged('land')"/>
-									        <span>Land Acquisition</span>
-									      </label>
-									    
-									      <label>
-									        <input type="checkbox" id="utility" name="us_permission_checkbox" class="us-ch" value="no" onchange="valueChanged('utility')"/>
-									        <span>Utility Shifting</span>
-									      </label>
-									    
-									      <label>
-									        <input type="checkbox" id="rr" name="rr_permission_checkbox" class="rr-ch" value="no" onchange="valueChanged('rr')"/>
-									        <span>R&R</span>
-									      </label>
-									      
-									      <label>
-									        <input type="checkbox" id="execution" name="execution_permission_checkbox" value="no" class="exe-ch" onchange="valueChanged('execution')"/>
-									        <span>Execution</span>
-									      </label>
+									     </c:forEach>
 									    </p>
                                 	</div>
                                 </div>
@@ -663,31 +640,76 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="stBody">
-                                                    <tr id="actionStRow0">
+                                                <c:choose>
+                                                	<c:when test="${not empty usrObj.executivesList && fn:length(usrObj.executivesList) gt 0 }">
+                                                	 <c:forEach var="contractObj" items="${usrObj.executivesList }" varStatus="index"> 
+                                                	   <tr id="actionStRow0">
                                                         <td data-head="Contract" class="input-field">
-
-                                                            <select id="str_con" class="searchable"
-                                                                name="user_role" placeholder="User Role">
+                                                            <select id="str_con${index.count }" class="searchable"
+                                                                name="contract_ids" placeholder="User Role">
                                                                 <option value="select">Select</option>
+                                                                <c:forEach var="obj" items="${contractsList }">
+						                                        	<option value="${obj.contract_id }" <c:if test="${contractObj.contract_id_fk eq obj.contract_id}">selected</c:if>>${obj.contract_short_name }</option>
+						                                        </c:forEach>
+                                                            </select>
+                                                            <span id="access_type0Error" class="error-msg"></span>
+                                                        </td>
+                                                        <td data-head="Structure" class="input-field">
+                                                            <select id="str_per${index.count }" class="searchable"
+                                                                name="Structure" multiple placeholder="User Type">
+                                                                <option value="Select">Select</option>
+                                                                 <c:forEach var="obj" items="${structuresList }">
+						                                        	<option value="${obj.structure_id }"
+						                                        	<c:forEach var="tempobj" items="${contractObj.structureExecutivesList}">
+																		 			<c:if test="${tempobj.structure_id_fk eq obj.structure_id}">selected</c:if>
+									                                          	</c:forEach>
+						                                        	>${obj.structure }</option>
+						                                        </c:forEach>
+                                                            </select>
+                                                            <span id="access_value0Error" class="error-msg"></span>
+                                                            <input type="hidden" name="Structure" id="str_pers${index.count }" value="^" />
+                                                        </td>
+                                                        <td class="input-field mobile_btn_close">
+                                                            <a href="#" onclick="removeStActions('0');" class="btn waves-effect waves-light red t-c ">
+                                                                <i class="fa fa-close"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                	 
+                                                	 </c:forEach>
+                                                	</c:when>
+                                                <c:otherwise>
+                                                       <tr id="actionStRow0">
+                                                        <td data-head="Contract" class="input-field">
+                                                            <select id="str_con" class="searchable"
+                                                                name="contract_ids" placeholder="User Role">
+                                                                <option value="select">Select</option>
+                                                                <c:forEach var="obj" items="${contractsList }">
+						                                        	<option value="${obj.contract_id }">${obj.contract_short_name }</option>
+						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_type0Error" class="error-msg"></span>
                                                         </td>
                                                         <td data-head="Structure" class="input-field">
                                                             <select id="str_per" class="searchable"
-                                                                name="user_type" multiple placeholder="User Type">
+                                                                name="Structure" multiple placeholder="User Type">
                                                                 <option value="Select">Select</option>
+                                                                 <c:forEach var="obj" items="${structuresList }">
+						                                        	<option value="${obj.structure_id }">${obj.structure }</option>
+						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_value0Error" class="error-msg"></span>
+                                                           
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
                                                             <a href="#" onclick="removeStActions('0');" class="btn waves-effect waves-light red t-c ">
                                                                 <i class="fa fa-close"></i></a>
-                                                                <!-- <select id="user" class="searchable"
-                                                                name="user" multiple placeholder="User">
-                                                                <option value="Select">Select</option>
-                                                            </select> -->
                                                         </td>
                                                     </tr>
+                                                
+                                                
+                                                </c:otherwise>
+                                                </c:choose>
+                                             
                                                 </tbody>
                                             </table>
                                             <table class="mdl-data-table table-add bd-none">
@@ -766,22 +788,22 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script>
-	    $('.con-ch').change(function () {
+	    $('.Contracts-ch').change(function () {
 	        $('.con-box').toggleClass('show');
 	    });
-	    $('.exe-ch').change(function () {
+	    $('.Execution___Monitoring-ch').change(function () {
 	        $('.exe-box').toggleClass('show');
-	    });
-	    $('.risk-ch').change(function () {
+	    }); 
+	    $('.Risk-ch').change(function () {
 	        $('.risk-box').toggleClass('show');
 	    });
-	    $('.la-ch').change(function () {
+	    $('.Land_Acquisition-ch').change(function () {
 	        $('.la-box').toggleClass('show');
 	    });
-	    $('.us-ch').change(function () {
+	    $('.Utility_Shifting-ch').change(function () { 
 	        $('.us-box').toggleClass('show');
 	    });
-	    $('.rr-ch').change(function () {
+	    $('.R__R-ch').change(function () {
 	        $('.rr-box').toggleClass('show');
 	    });
 	    
@@ -790,13 +812,19 @@
 	        var rNo = Number(rowNo)+1;
 	        var html = '<tr id="actionStRow' + rNo + '">'
 	           +'<td data-head="Contract" class="input-field">'
-	           +'<select name="user_role" id="str_con'+rNo+'"  class="validate-dropdown searchable">'	   			
+	           +'<select name="contract_ids" id="str_con'+rNo+'"  class="validate-dropdown searchable">'	   			
 	   		   +'<option value="" >Select</option>'
+			   	   <c:forEach var="obj" items="${contractsList }">
+		             	+'<option value="${obj.contract_id }">${obj.contract_short_name }</option>'
+		           </c:forEach>
 	   		   +'</select><span id="access_type0Error" class="error-msg"></span></td>' 			
-	   		   +'<td data-head="Structure" class="input-field">'	
-			   +'<select name="user_type" id="str_per'+rNo+'"  class="searchable" multiple placeholder="Structure">'	
+	   		   +'<td data-head="Structure" class="input-field"><input type="hidden" name="Structure" id="str_pers'+rNo+'" value="^" />'	
+			   +'<select name="Structure" id="str_per'+rNo+'"  class="searchable" multiple placeholder="Structure">'	
 			   +'<option value="" >Select</option>'	
-			   +'</select><span id="access_value0Error" class="error-msg"></span></td>'
+				   <c:forEach var="obj" items="${structuresList }">
+	            	+'<option value="${obj.structure_id }">${obj.structure }</option>'
+	         	   </c:forEach>
+			   +'</select><span id="access_value0Error" class="error-msg"></span> </td>'
 			   +'<td class="input-field mobile_btn_close"><a href="#" onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>'
 			   +'</tr>';
 		
@@ -812,8 +840,12 @@
 	
 	/****************************************************************************************************/
 
-	   function valueChanged(idVal){
-	        $('#'+idVal).val(idVal);
+	   function valueChanged(idVal,actualVal){
+			if($("#"+idVal).is(":checked")){
+				 $('#'+idVal).val(actualVal+"_Active");
+			}else{
+				 $('#'+idVal).val(actualVal+"_Inactive");
+			}
 	    };
 	    
         $(document).ready(function () {

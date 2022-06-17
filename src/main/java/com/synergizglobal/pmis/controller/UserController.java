@@ -252,6 +252,9 @@ public class UserController {
 			List<RandRMain> rrList = userService.getRRList(obj);
 			model.addObject("rrList", rrList);
 			
+			List<User> moduleList = userService.getModuleList(obj);
+			model.addObject("moduleList", moduleList);
+			
 		} catch (Exception e) {
 			logger.error("addUserForm : " + e.getMessage());
 		}
@@ -328,6 +331,9 @@ public class UserController {
 			List<RandRMain> rrList = userService.getRRList(obj);
 			model.addObject("rrList", rrList);
 			
+			List<User> moduleList = userService.getModuleList(obj);
+			model.addObject("moduleList", moduleList);
+			
 			User user = userService.getUser(obj);			
 			model.addObject("usrObj", user);
 			
@@ -379,6 +385,9 @@ public class UserController {
 			
 			List<RandRMain> rrList = userService.getRRList(obj);
 			model.addObject("rrList", rrList);
+			
+			List<User> moduleList = userService.getModuleList(obj);
+			model.addObject("moduleList", moduleList);
 			
 			User user = userService.getUser(obj);			
 			model.addObject("usrObj", user);

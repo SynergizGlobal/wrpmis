@@ -63,5 +63,7 @@ public interface UserService {
 
 	List<RandRMain> getRRList(User obj) throws Exception;
 
+	List<User> getModuleList(User obj) throws Exception;
+
 	
 }

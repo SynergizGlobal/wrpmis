@@ -588,10 +588,12 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 								stmt.setString(p++,!StringUtils.isEmpty((pobj.getOriginal_duration()))?pobj.getOriginal_duration():null);
 								stmt.addBatch();
 							}else {
-								PreparedStatement deleteExistingIDStmt = con.prepareStatement("DELETE FROM p6_activity_progress WHERE p6_activity_id_fk = ? ");
-								p = 1;
-								deleteExistingIDStmt.setString(p++,p6_activity_id);
-								rs = deleteExistingIDStmt.executeQuery();		
+								PreparedStatement deleteExistingIDStmt = null;
+								
+								String qry = "DELETE FROM p6_activity_progress WHERE p6_activity_id_fk = ? ";
+								stmt = con.prepareStatement(qry);
+								stmt.setString(1, p6_activity_id);
+								int c = stmt.executeUpdate();  
 								DBConnectionHandler.closeJDBCResoucrs(null, deleteExistingIDStmt, rs);
 								
 								p = 1;

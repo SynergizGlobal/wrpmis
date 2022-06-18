@@ -161,7 +161,7 @@
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                <p class="searchable_label"> Impact <span class="required">*</span></p>
+                                <p class="searchable_label"> Impact </p>
                                     <select class="searchable validate-dropdown" id="impact_fk" name="impact_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${safetyImpactList }">
@@ -717,7 +717,7 @@
     				 	  },"category_fk": {
     				 		required: true
     				 	  },"impact_fk": {
-    				 		required: true
+    				 		required: false
     				 	  },"status_fk": {
     			 		    required: true,
     			 	   	  },"root_cause_fk": {

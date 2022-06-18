@@ -1273,20 +1273,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						
 						String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = IFNULL(NULLIF(completed, '' ), 0) ";
 						
-						
-						if(!StringUtils.isEmpty(obj.getProgress_date())) 
-						{
-							if(completed == 0) {
-								updateQry = updateQry + ", start = ?";
-							}
-							
-							
-							if((completed+actual) > 0 && Str == (completed+actual)) 
-							{
-								updateQry = updateQry + ", finish = ? ";						
-							}
-						}
-						
 						if(StrVar.length>0)
 						{
 							if(!StringUtils.isEmpty(StrVar[i])) 
@@ -1343,41 +1329,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						}						
 						
 
-						
-						if(!StringUtils.isEmpty(obj.getProgress_date())) 
-						{	
-
-							
-					    	Calendar c4 = Calendar.getInstance();
-					    	String[] SplitWith4=obj.getProgress_date().split("-");
-							
-				            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
-				            c4.setTime(PrFormat.parse(SplitWith4[1]));
-				            c4.set(Calendar.DATE, Integer.parseInt(SplitWith4[0]));
-				            
-							DateFormat dfm = new SimpleDateFormat("dd-MM-yy");
-							DateFormat rdfm = new SimpleDateFormat("YYYY");
-							Date Cdfm=dfm.parse(SplitWith4[0]+'-'+c4.get(Calendar.MONTH)+'-'+SplitWith4[2]);	
-							
-				            String gdate=rdfm.format(Cdfm);
-				            
-				            c4.set(Calendar.YEAR, Integer.parseInt(gdate));		            
-				            
-				            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-				            
-				            String Prdate=df.format(c4.getTime());						
-							
-						
-						
-							if(completed == 0) {
-								updateStmt.setString(k++, Prdate );	
-							}
-							if((completed+actual) > 0 && Str == (completed+actual)) 
-							{
-								updateStmt.setString(k++, Prdate);						
-							}
-						}
-						
 						if(StrVar.length>0)
 						{
 							if(!StringUtils.isEmpty(StrVar[i])) 
@@ -1420,20 +1371,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						{
 						
 							String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = IFNULL(NULLIF(completed, '' ), 0) ";
-							
-							
-							if(!StringUtils.isEmpty(obj.getProgress_date())) 
-							{
-								if(completed == 0) {
-									updateQry = updateQry + ", start = ?";
-								}
-								
-								
-								if((completed+actual) > 0 && Str == (completed+actual)) 
-								{
-									updateQry = updateQry + ", finish = ? ";						
-								}
-							}
 				
 							
 							updateQry = updateQry + " WHERE p6_activity_id = ? ";
@@ -1468,40 +1405,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							else
 							{
 								updateStmt.setString(k++, null );
-							}
-							
-							if(!StringUtils.isEmpty(obj.getProgress_date())) 
-							{	
-
-								
-						    	Calendar c4 = Calendar.getInstance();
-						    	String[] SplitWith4=obj.getProgress_date().split("-");
-								
-					            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
-					            c4.setTime(PrFormat.parse(SplitWith4[1]));
-					            c4.set(Calendar.DATE, Integer.parseInt(SplitWith4[0]));
-					            
-								DateFormat dfm = new SimpleDateFormat("dd-MM-yy");
-								DateFormat rdfm = new SimpleDateFormat("YYYY");
-								Date Cdfm=dfm.parse(SplitWith4[0]+'-'+c4.get(Calendar.MONTH)+'-'+SplitWith4[2]);	
-								
-					            String gdate=rdfm.format(Cdfm);
-					            
-					            c4.set(Calendar.YEAR, Integer.parseInt(gdate));		            
-					            
-					            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-					            
-					            String Prdate=df.format(c4.getTime());						
-								
-							
-							
-								if(completed == 0) {
-									updateStmt.setString(k++, Prdate );	
-								}
-								if((completed+actual) > 0 && Str == (completed+actual)) 
-								{
-									updateStmt.setString(k++, Prdate);						
-								}
 							}
 							updateStmt.setString(k++,(obj.getActivity_ids()[i]));
 							updateStmt.executeUpdate();

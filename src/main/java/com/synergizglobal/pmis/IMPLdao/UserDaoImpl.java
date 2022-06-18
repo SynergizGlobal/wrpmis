@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -287,11 +288,13 @@ public class UserDaoImpl implements UserDao{
 								
 							   }
 						  }
+							obj.setResponsible_people_id_fk(userId);
 							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Execution &  Monitoring")) {
 								int c = 0;
-								String workIds = obj.getRr_work();
 								String qry1 = "INSERT INTO structure_contract_responsible_people"
 										+ "( structure_id_fk, contract_id_fk, responsible_people_id_fk) VALUES (:structure_id_fk,:contract_id_fk,:responsible_people_id_fk)";	
+								
+								int len = obj.getContract_ids().length;
 								
 								int size = 0;
 								if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
@@ -300,52 +303,40 @@ public class UserDaoImpl implements UserDao{
 			    						size = obj.getContract_ids().length;
 			    					}
 			    				}
-								int strctureSize = 0;
+								if(size == 1 ) {
+						    		String joined = String.join(",", obj.getStructures());
+						    		String[] strArray = new String[] {joined};
+						    		obj.setStructures(strArray);
+						    	}
 								if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
 			    					obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
-			    					if(strctureSize < obj.getStructures().length) {
-			    						strctureSize = obj.getStructures().length;
+			    					if(size < obj.getStructures().length) {
+			    						size = obj.getStructures().length;
 			    					}
 			    				}
-								
-								obj.setResponsible_people_id_fk(userId); 
-								if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
-								
-									if( obj.getStructure().contains("^")){
-										String [] value = obj.getStructure().split("\\^,");
-										for(int j = 0; j<= (value.length- 1); j++) {
-											obj.setContract_id_fk(obj.getContract_ids()[j]);
-											String [] value2 = value[j].split(",");
-												for(int z = 0; z<= (value2.length - 1); z++) {
-													String value3 = value2[z];
-													obj.setStructure_id_fk(value3.replace("^", ""));
-													if(!StringUtils.isEmpty(obj.getStructure_id_fk()) && obj.getStructure_id_fk() != "") {
-														paramSource = new BeanPropertySqlParameterSource(obj);		 
-														c = namedParamJdbcTemplate.update(qry1, paramSource);
-													}
-												}
-											}
+								for (int i = 0; i < size; i++){
+									List<String> executives = null;
+									if(!StringUtils.isEmpty(obj.getStructures()[i])){
+										if(obj.getStructures()[i].contains(",")) {
+											executives = new ArrayList<String>(Arrays.asList(obj.getStructures()[i].split(",")));
 										}else {
-											if(obj.getStructure().contains(",")) {
-												String [] value2 = obj.getStructure().split(",");
-												obj.setContract_id_fk(obj.getContract_ids()[0]);
-												for(int z = 0; z<= (value2.length - 1); z++) {
-													String value3 = value2[z];
-													obj.setStructure_id_fk(value3.replace("^", ""));
-													paramSource = new BeanPropertySqlParameterSource(obj);		 
-													c = namedParamJdbcTemplate.update(qry1, paramSource);
-												}
-											}else {
-													obj.setContract_id_fk(obj.getContract_ids()[0]);
-												    obj.setStructure_id_fk(obj.getStructure().replace("^", ""));
-													paramSource = new BeanPropertySqlParameterSource(obj);		 
-													c = namedParamJdbcTemplate.update(qry1, paramSource);
+											executives = new ArrayList<String>(Arrays.asList(obj.getStructures()[i]));
+										}
+										for(String eObj : executives) {
+											if(!eObj.equals("null") && !StringUtils.isEmpty(obj.getContract_ids()[i]) &&  !StringUtils.isEmpty(eObj)) {
+												User filesObj = new User();
+												filesObj.setResponsible_people_id_fk(obj.getResponsible_people_id_fk());
+												filesObj.setContract_id_fk(obj.getContract_ids()[i]);
+												filesObj.setStructure_id_fk(eObj);
+												paramSource = new BeanPropertySqlParameterSource(filesObj);
+												namedParamJdbcTemplate.update(qry1, paramSource);
 											}
 										}
-									
-									
+									}
 								
-							   }
+								}
+								
+								
 						  }
 					 }
 	
@@ -648,26 +639,8 @@ public class UserDaoImpl implements UserDao{
 						  }
 							
 							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Execution &  Monitoring")) {
-								int c = 0;
-								String workIds = obj.getRr_work();
 								String qry1 = "INSERT INTO structure_contract_responsible_people"
 										+ "( structure_id_fk, contract_id_fk, responsible_people_id_fk) VALUES (:structure_id_fk,:contract_id_fk,:responsible_people_id_fk)";	
-								
-								int size = 0;
-								if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
-			    					obj.setContract_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getContract_ids()));
-			    					if(size < obj.getContract_ids().length) {
-			    						size = obj.getContract_ids().length;
-			    					}
-			    				}
-								int strctureSize = 0;
-								if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
-			    					obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
-			    					if(strctureSize < obj.getStructures().length) {
-			    						strctureSize = obj.getStructures().length;
-			    					}
-			    				}
-								
 								obj.setResponsible_people_id_fk(userId); 
 								if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
 									String deleteFilesQry = "delete from structure_contract_responsible_people  where responsible_people_id_fk = :responsible_people_id_fk";		 
@@ -676,37 +649,47 @@ public class UserDaoImpl implements UserDao{
 									paramSource = new BeanPropertySqlParameterSource(obj);	
 									namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
 									
-									if( obj.getStructure().contains("^")){
-										String [] value = obj.getStructure().split("\\^,");
-										for(int j = 0; j<= (value.length- 1); j++) {
-											obj.setContract_id_fk(obj.getContract_ids()[j]);
-											String [] value2 = value[j].split(",");
-												for(int z = 0; z<= (value2.length - 1); z++) {
-													String value3 = value2[z];
-													obj.setStructure_id_fk(value3.replace("^", ""));
-													if(!StringUtils.isEmpty(obj.getStructure_id_fk()) && obj.getStructure_id_fk() != "") {
-														paramSource = new BeanPropertySqlParameterSource(obj);		 
-														c = namedParamJdbcTemplate.update(qry1, paramSource);
-													}
-												}
-											}
-										}else {
-											if(obj.getStructure().contains(",")) {
-												String [] value2 = obj.getStructure().split(",");
-												obj.setContract_id_fk(obj.getContract_ids()[0]);
-												for(int z = 0; z<= (value2.length - 1); z++) {
-													String value3 = value2[z];
-													obj.setStructure_id_fk(value3.replace("^", ""));
-													paramSource = new BeanPropertySqlParameterSource(obj);		 
-													c = namedParamJdbcTemplate.update(qry1, paramSource);
-												}
+									int len = obj.getContract_ids().length;
+									
+									int size = 0;
+									if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
+				    					obj.setContract_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getContract_ids()));
+				    					if(size < obj.getContract_ids().length) {
+				    						size = obj.getContract_ids().length;
+				    					}
+				    				}
+									if(size == 1 ) {
+							    		String joined = String.join(",", obj.getStructures());
+							    		String[] strArray = new String[] {joined};
+							    		obj.setStructures(strArray);
+							    	}
+									if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
+				    					obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
+				    					if(size < obj.getStructures().length) {
+				    						size = obj.getStructures().length;
+				    					}
+				    				}
+									for (int i = 0; i < size; i++){
+										List<String> executives = null;
+										if(!StringUtils.isEmpty(obj.getStructures()[i])){
+											if(obj.getStructures()[i].contains(",")) {
+												executives = new ArrayList<String>(Arrays.asList(obj.getStructures()[i].split(",")));
 											}else {
-													obj.setContract_id_fk(obj.getContract_ids()[0]);
-												    obj.setStructure_id_fk(obj.getStructure().replace("^", ""));
-													paramSource = new BeanPropertySqlParameterSource(obj);		 
-													c = namedParamJdbcTemplate.update(qry1, paramSource);
+												executives = new ArrayList<String>(Arrays.asList(obj.getStructures()[i]));
+											}
+											for(String eObj : executives) {
+												if(!eObj.equals("null") && !StringUtils.isEmpty(obj.getContract_ids()[i]) &&  !StringUtils.isEmpty(eObj)) {
+													User filesObj = new User();
+													filesObj.setResponsible_people_id_fk(obj.getResponsible_people_id_fk());
+													filesObj.setContract_id_fk(obj.getContract_ids()[i]);
+													filesObj.setStructure_id_fk(eObj);
+													paramSource = new BeanPropertySqlParameterSource(filesObj);
+													namedParamJdbcTemplate.update(qry1, paramSource);
+												}
 											}
 										}
+									
+									}
 									
 									
 								

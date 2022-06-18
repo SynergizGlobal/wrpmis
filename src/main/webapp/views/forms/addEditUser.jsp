@@ -215,14 +215,15 @@
                             </div>
                         </span>
                     </div>
-                    <!-- form start-->
-                    <div class="container container-no-margin">
-                          <c:if test="${action eq 'edit'}">				                
+                           <c:if test="${action eq 'edit'}">				                
 			                	<form action="<%=request.getContextPath() %>/update-user" id="userForm" name="userForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
 			                	<form action="<%=request.getContextPath() %>/add-user" id="userForm" name="userForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
+                    <!-- form start-->
+                    <div class="container container-no-margin">
+                   
                             <div class="row">
                             	<div class="col s6 m4 l4 input-field">
                                     <input id="user_name" name="user_name" type="text" class="validate" value="${usrObj.user_name }">
@@ -659,7 +660,7 @@
                                                 <c:choose>
                                                 	<c:when test="${not empty usrObj.executivesList && fn:length(usrObj.executivesList) gt 0 }">
                                                 	 <c:forEach var="contractObj" items="${usrObj.executivesList }" varStatus="index"> 
-                                                	   <tr id="actionStRow0">
+                                                	   <tr id="actionStRow${index.count }">
                                                         <td data-head="Contract" class="input-field">
                                                             <select id="str_con${index.count }" class="searchable" name="contract_ids" >
                                                                 <option value="">Select</option>
@@ -670,7 +671,8 @@
                                                             <span id="access_type${index.count }Error" class="error-msg"></span>
                                                         </td>
                                                         <td data-head="Structure" class="input-field">
-                                                            <select id="str_per${index.count }" class="searchable"  name="Structure" multiple >
+                                                        <input type="hidden"  id="structure${index.count }" name="structures" />
+                                                            <select id="structures${index.count }" class="searchable"  name="Structure" multiple onchange="executivesToStringMethod('${index.count }');">
                                                                 <option value="Select">Select</option>
                                                                  <c:forEach var="obj" items="${structuresList }">
 						                                        	<option value="${obj.structure_id }"
@@ -681,14 +683,17 @@
 						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_value${index.count }Error" class="error-msg"></span>
-                                                            <input type="hidden" name="Structure" id="str_pers${index.count }" value="^" />
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
-                                                            <a href="#" onclick="removeStActions('0');" class="btn waves-effect waves-light red t-c ">
+                                                            <a href="#" onclick="removeStActions('${index.count }');" class="btn waves-effect waves-light red t-c ">
                                                                 <i class="fa fa-close"></i></a>
                                                         </td>
                                                     </tr>
-                                                	 
+                                                	 <script>
+													     			   var exvals =  $('#structures${index.count }').val();
+													     			   exvals = exvals.join(',');
+													            	   $('#structure${index.count }').val(exvals);
+											                     </script>
                                                 	 </c:forEach>
                                                 	</c:when>
                                                 <c:otherwise>
@@ -704,8 +709,9 @@
                                                             <span id="access_type0Error" class="error-msg"></span>
                                                         </td>
                                                         <td data-head="Structure" class="input-field">
-                                                            <select id="str_per" class="searchable"
-                                                                name="Structure" multiple placeholder="User Type">
+                                                         <input type="hidden"  id="structure0" name="structures" />
+                                                            <select id="structures0" class="searchable"
+                                                                name="Structure" multiple   onchange="executivesToStringMethod('0');">
                                                                 <option value="Select">Select</option>
                                                                  <c:forEach var="obj" items="${structuresList }">
 						                                        	<option value="${obj.structure_id }">${obj.structure }</option>
@@ -770,11 +776,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                      
                     </div>
                     <!-- form ends  -->
                 </div>
-
+  </form>
             </div>
         </div>
     </div>
@@ -806,6 +812,14 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script>
+    function executivesToStringMethod(Rno){
+    	//$("#divContractExecutionExecutives").html("");
+    	var vals =  $('#structures'+Rno).val();
+  	    vals = vals.join(',');
+  	   $('#structure'+Rno).val(vals);
+    }   
+    	
+    
     $(function(){
 	    $('.Contracts-ch').change(function () {
 	        $('.con-box').toggleClass('show', this.checked)
@@ -842,14 +856,15 @@
 	        var rNo = Number(rowNo)+1;
 	        var html = '<tr id="actionStRow' + rNo + '">'
 	           +'<td data-head="Contract" class="input-field">'
+	           
 	           +'<select id="str_con' + rNo + '" class="searchable" name="contract_ids" >'	   			
 	   		   +'<option value="" >Select</option>'
 			   	   <c:forEach var="obj" items="${contractsList }">
 		             	+'<option value="${obj.contract_id }">${obj.contract_short_name }</option>'
 		           </c:forEach>
 	   		   +'</select><span id="access_type' + rNo + 'Error" class="error-msg"></span></td>' 			
-	   		   +'<td data-head="Structure" class="input-field"><input type="hidden" name="Structure" id="str_pers'+rNo+'" value="^" />'	
-			   +'  <select id="str_per' + rNo + '" class="searchable"  name="Structure" multiple >'	
+	   		   +'<td data-head="Structure" class="input-field"> <input type="hidden"  id="structure'+rNo+'" name="structures" />'
+			   +'  <select id="structures' + rNo + '" class="searchable"  name="Structure" multiple onchange="executivesToStringMethod('+rNo+');">'	
 			   +'<option value="" >Select</option>'	
 				   <c:forEach var="obj" items="${structuresList }">
 	            	+'<option value="${obj.structure_id }">${obj.structure }</option>'
@@ -972,7 +987,6 @@
         function addUser(){
     		if(validator.form()){ 
     			$('form select[name=contract_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-      			$('form select[name=Structure]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
       			
     			//if(flag){
         			$(".page-loader").show();
@@ -984,7 +998,6 @@
         function updateUser(){
       		if(validator.form()){ // validation perform
       			$('form select[name=contract_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-      			$('form select[name=Structure]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
       			
       			if(flag){
         			$(".page-loader").show();

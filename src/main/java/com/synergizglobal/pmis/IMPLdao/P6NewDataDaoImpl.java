@@ -328,7 +328,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			String updateActivitiesQry ="UPDATE p6_activities set "
-					+ "status_fk = ?,`start` = ?,finish = ?,`float` =  ?";
+					+ "status_fk = ?,`start` = ?,finish = ?,`float` =  ? ,p6_activity_name = ?";
 					if(pobj.getIsRevised().contentEquals("Yes")) {
 						updateActivitiesQry = updateActivitiesQry + ",baseline_start = ?,baseline_finish = ? ";
 
@@ -339,13 +339,13 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			int lineNo = 3;
 			for (P6Data obj : p6dataList) {
 				p = 1;				
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
+				
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
 
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getStart())?obj.getStart():null);
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getFinish())?obj.getFinish():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);	
-				
+				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
 				if(pobj.getIsRevised().contentEquals("Yes")) {
 					//stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
 					stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_start())?obj.getBaseline_start():null);

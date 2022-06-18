@@ -339,7 +339,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			int lineNo = 3;
 			for (P6Data obj : p6dataList) {
 				p = 1;				
-				//stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
+				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
 				stmt.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
 
 				stmt.setString(p++,!StringUtils.isEmpty(obj.getStart())?obj.getStart():null);
@@ -510,23 +510,23 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			int row =3;
 			String wbsQry = "INSERT INTO p6_activities (task_code, contract_id_fk, structure_id_fk, p6_activity_name, from_structure_id, to_structure_id, "
 					+ "section, line, component, component_id, baseline_start, baseline_finish, start, finish, `float`, status_fk, unit, scope, "
-					+ "completed, weightage, component_details, remarks, created_by_user_id_fk,created_date)"
-					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP) ";
+					+ "completed, weightage, component_details, remarks, created_by_user_id_fk,original_duration,created_date)"
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP) ";
 			
 			String wbsUpdateQry = "Update p6_activities set structure_id_fk = ?, p6_activity_name = ?, from_structure_id = ?, to_structure_id = ?, "
 					+ "section = ?, line = ?, component = ?, component_id = ?, baseline_start = ?, baseline_finish = ?, start = ?, finish = ?, `float` = ?, status_fk = ?, unit = ?, scope = ?, "
-					+ "completed = ?, weightage = ?, component_details = ?, remarks = ?, modified_by_user_id_fk = ?, modified_date = CURRENT_TIMESTAMP where task_code = ? and contract_id_fk = ?";
+					+ "completed = ?, weightage = ?, component_details = ?, remarks = ?, modified_by_user_id_fk = ?,original_duration = ?, modified_date = CURRENT_TIMESTAMP where task_code = ? and contract_id_fk = ?";
 			stmt = con.prepareStatement(wbsQry);
 			stmtUpdate = con.prepareStatement(wbsUpdateQry);
 			for (P6Data obj : activitiesList) {
-						PreparedStatement pstmt = con.prepareStatement("SELECT COUNT(*) as total FROM p6_activities WHERE task_code = ? and contract_id_fk = ?");
+						PreparedStatement pstmt = con.prepareStatement("SELECT p6_activity_id as p6_activity_id FROM p6_activities WHERE task_code = ? and contract_id_fk = ?");
 						p = 1;
 						pstmt.setString(p++,obj.getP6_task_code());
 						pstmt.setString(p++,pobj.getContract_id_fk());
 						rs = pstmt.executeQuery();		
-						int count = 0;
+						String p6_activity_id = null;
 						if(rs.next()) {
-							count = rs.getInt("total");
+							p6_activity_id = rs.getString("p6_activity_id");
 						}
 						DBConnectionHandler.closeJDBCResoucrs(null, pstmt, rs);
 						PreparedStatement structureStmt = con.prepareStatement("SELECT structure_id as structure_id_fk FROM structure WHERE structure_type_fk = ? and structure = ?");
@@ -556,7 +556,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 						}
 				
 						if(!StringUtils.isEmpty(ContractIs_Available) ) {
-							if(count == 0) {
+							if( StringUtils.isEmpty(p6_activity_id) && p6_activity_id == null) {
 								p = 1;
 								
 								stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
@@ -585,8 +585,15 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 								stmt.setString(p++,!StringUtils.isEmpty((obj.getComponent_details()))?obj.getComponent_details():null);
 								stmt.setString(p++,!StringUtils.isEmpty((obj.getRemarks()))?obj.getRemarks():null);
 								stmt.setString(p++,!StringUtils.isEmpty((pobj.getCreated_by_user_id_fk()))?pobj.getCreated_by_user_id_fk():null);
+								stmt.setString(p++,!StringUtils.isEmpty((pobj.getOriginal_duration()))?pobj.getOriginal_duration():null);
 								stmt.addBatch();
 							}else {
+								PreparedStatement deleteExistingIDStmt = con.prepareStatement("DELETE FROM p6_activity_progress WHERE p6_activity_id_fk = ? ");
+								p = 1;
+								deleteExistingIDStmt.setString(p++,p6_activity_id);
+								rs = deleteExistingIDStmt.executeQuery();		
+								DBConnectionHandler.closeJDBCResoucrs(null, deleteExistingIDStmt, rs);
+								
 								p = 1;
 								stmtUpdate.setString(p++,obj.getStructure_id_fk());
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
@@ -612,6 +619,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getComponent_details()))?obj.getComponent_details():null);
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getRemarks()))?obj.getRemarks():null);
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((pobj.getModified_by_user_id_fk()))?pobj.getModified_by_user_id_fk():null);
+								stmtUpdate.setString(p++,!StringUtils.isEmpty((pobj.getOriginal_duration()))?pobj.getOriginal_duration():null);
 								
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);

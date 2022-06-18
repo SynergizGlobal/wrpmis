@@ -8,10 +8,18 @@ public class P6Data {
 	start, finish, p6_float,p6_wbs_code, contract_id_fk, fob_id_fk, p6_wbs_name, p6_wbs_parent_code,contract_short_name, p6_wbs_category_fk,
 	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk,work_id_fk,work_short_name,work_name, uploaded_date,upload_type,contract_id,
 	contract_name,fob_id,fob_name,created_by_user_id_fk,user_name,designation,isRevised,structure_type_fk,structure,
-	 task_code, structure_id_fk , from_structure_id, to_structure_id, section, line, component, component_id , 
+	 task_code, structure_id_fk , from_structure_id, to_structure_id, section, line, component, component_id , original_duration,
 	unit, scope, completed, weightage, component_details, remarks, created_date, modified_date, modified_by_user_id_fk,user_role_code,user_type_fk,user_id;
 
 	 
+	public String getOriginal_duration() {
+		return original_duration;
+	}
+
+	public void setOriginal_duration(String original_duration) {
+		this.original_duration = original_duration;
+	}
+
 	public String getUser_type_fk() {
 		return user_type_fk;
 	}

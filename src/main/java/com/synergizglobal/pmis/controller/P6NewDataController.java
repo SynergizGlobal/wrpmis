@@ -442,35 +442,38 @@ public class P6NewDataController {
 						p6data.setBaseline_finish(formatter.formatCellValue(row.getCell(11)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(12)).trim()))
-						p6data.setSection(formatter.formatCellValue(row.getCell(12)).trim());
+						p6data.setStart(formatter.formatCellValue(row.getCell(12)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(13)).trim()))
-						p6data.setLine(formatter.formatCellValue(row.getCell(13)).trim());
+						p6data.setFinish(formatter.formatCellValue(row.getCell(13)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(14)).trim()))
-						p6data.setFrom_structure_id(formatter.formatCellValue(row.getCell(14)).trim());
+						p6data.setSection(formatter.formatCellValue(row.getCell(14)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(15)).trim()))
-						p6data.setTo_structure_id(formatter.formatCellValue(row.getCell(15)).trim());
+						p6data.setLine(formatter.formatCellValue(row.getCell(15)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(16)).trim()))
-						p6data.setRemarks(formatter.formatCellValue(row.getCell(16)).trim());
-					
+						p6data.setFrom_structure_id(formatter.formatCellValue(row.getCell(16)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(17)).trim()))
-						p6data.setStatus_fk(formatter.formatCellValue(row.getCell(17)).trim());
+						p6data.setTo_structure_id(formatter.formatCellValue(row.getCell(17)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(18)).trim()))
-						p6data.setP6_wbs_code_fk(formatter.formatCellValue(row.getCell(18)).trim());
+						p6data.setRemarks(formatter.formatCellValue(row.getCell(18)).trim());
+					
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(19)).trim()))
-						p6data.setStart(formatter.formatCellValue(row.getCell(19)).trim());
+						p6data.setStatus_fk(formatter.formatCellValue(row.getCell(19)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(20)).trim()))
-						p6data.setFinish(formatter.formatCellValue(row.getCell(20)).trim());
+						p6data.setP6_wbs_code_fk(formatter.formatCellValue(row.getCell(20)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(21)).trim()))
-						p6data.setP6_float(formatter.formatCellValue(row.getCell(21)).trim());
+						p6data.setOriginal_duration(formatter.formatCellValue(row.getCell(21)).trim());
+					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(22)).trim()))
+						p6data.setP6_float(formatter.formatCellValue(row.getCell(22)).trim());
 					
 					p6data.setBaseline_start(DateParser.parse(p6data.getBaseline_start()));
 					p6data.setBaseline_finish(DateParser.parse(p6data.getBaseline_finish()));
@@ -818,15 +821,17 @@ public class P6NewDataController {
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
 						p6data.setP6_wbs_code_fk(formatter.formatCellValue(row.getCell(2)).trim());
 					
-				
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
-						p6data.setStart(formatter.formatCellValue(row.getCell(3)).trim());
-					
+						p6data.setP6_activity_name(formatter.formatCellValue(row.getCell(3)).trim());
+				
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
-						p6data.setFinish(formatter.formatCellValue(row.getCell(4)).trim());
+						p6data.setStart(formatter.formatCellValue(row.getCell(4)).trim());
 					
 					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
-						p6data.setP6_float(formatter.formatCellValue(row.getCell(5)).trim());
+						p6data.setFinish(formatter.formatCellValue(row.getCell(5)).trim());
+					
+					if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
+						p6data.setP6_float(formatter.formatCellValue(row.getCell(6)).trim());
 					
 					p6data.setStart(DateParser.parse(p6data.getStart()));
 					p6data.setFinish(DateParser.parse(p6data.getFinish()));

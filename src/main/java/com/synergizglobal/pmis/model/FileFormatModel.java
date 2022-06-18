@@ -79,9 +79,9 @@ public class FileFormatModel {
 	}
 	public static List<String> getP6ActivitiesFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Activity ID,structure_type_fk,structure,component,component_id,Activity Name,Weightages,Unit,Scope,Completed,"
-			+ "(*)BL Project Start,(*)BL Project Finish,Section,Line,From Structure,To Structure,Remarks,Activity Status,WBS Code,"
-				+ "(*)Start,(*)Finish,(*)Total Float(h),Delete This Row";
+		String columns = "Activity ID,structure_type_fk,structure,component,component_id,Activity Name,Weightages,Unit,Scope,Completed,(*)BL Project Start,"
+				+ "(*)BL Project Finish,(*)Start,(*)Finish,Section,Line,From Structure,To Structure,Remarks,Activity Status,WBS Code,Original Duration(h)"
+				+ ",(*)Total Float(h),Delete This Row";
 		String[] convertedColumnsArray = columns.split(","); 
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
@@ -101,7 +101,7 @@ public class FileFormatModel {
 	
 	public static List<String> getP6UpdateFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "task_code,status_code,wbs_id,start_date,end_date,total_float,delete_record_flag";
+		String columns = "task_code,status_code,wbs_id,task_name,start_date,end_date,total_float,delete_record_flag";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

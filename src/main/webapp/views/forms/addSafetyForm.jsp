@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -249,18 +250,6 @@
                                     <label for="location" class="fs-sm-8rem">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field">
-                                    <!-- <input id="responsible_person" name="responsible_person" type="text" class="validate">
-                                    <label for="responsible_person" class="fs-sm-67rem"></label> -->                                    
-                                    <p class="searchable_label fs-sm-67rem pb-10">Person Responsible in MRVC</p>
-                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person">
-                                		<option value="">Select</option>
-                                		<%-- <c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }">${obj.unit }</option>
-	                                	</c:forEach> --%>
-                                	</select>
-                                    <span id="responsible_personError" class="error-msg" ></span>
-                                </div>
                             </div>
 
                             <div class="row">
@@ -280,95 +269,17 @@
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                             </div>
-									
-                            
-                          <%--   <div class="row">
-                               /*  <div class="col s12 m4 input-field ">
-                                    <input id="closure_date" name="closure_date" type="text" class="validate datepicker">
-                                    <label for="closure_date">Closure Date</label>
-                                    <button type="button" id="closure_date_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="closure_dateError" class="error-msg" ></span>
-                                </div> */
-                                 <div class="col s12 offset-m2 m4 input-field ">
-                                    <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker">
-                                    <label for="investigation_completed">Investigation Completion Date</label>
-                                    <button type="button" id="investigation_completed_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="investigation_completedError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="lti_hours" name="lti_hours" type="text" class="validate">
-                                    <label for="lti_hours">Loss Time Injury (LTI) Hours</label>
-                                    <span id="lti_hoursError" class="error-msg" ></span>
-                                </div>
-                               </div>
                             <div class="row">
-                                <div class="col s6 offset-m2 m4 input-field ">
-                                    <input id="equipment_impact" name="equipment_impact" type="text" class="validate">
-                                    <label for="equipment_impact"> Equipment Impact </label>
-                                    <span id="equipment_impactError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
-                                    <input id="people_impact" name="people_impact" type="text" class="validate">
-                                    <label for="people_impact">People Impact</label>
-                                    <span id="people_impactError" class="error-msg" ></span>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
-                                    <input id="work_impact" name="work_impact" type="text" class="validate">
-                                    <label for="work_impact"> Work Impact </label>
-                                    <span id="work_impactError" class="error-msg" ></span>
-                                </div>                   
-                            </div>
-
-                            <div class="row">
-                                <div class="col s12 offset-m2 m4 input-field">
-                                    <input id="payment_date" name="payment_date" type="text" class="validate datepicker">
-                                    <label for="payment_date">Payment Date</label>
-                                    <button type="button" id="payment_date_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="payment_dateError" class="error-msg" ></span>
-                                </div>
-                               <div class="col s8 m3 input-field">
-                               		<i class="material-icons prefix center-align">₹</i>
-                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate">
-                                    <label for="compensation"> Compensation </label>
-                                    <span id="compensationError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s4 m1 input-field pt-10">
-                                	<p class="searchable_label">Unit</p>
-                                	<select class="units searchable validate-dropdown" id="compensation_units" name="compensation_units">
-                                		<option value="">Select</option>
-                                		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }">${obj.unit }</option>
-	                                	</c:forEach>
-                                	</select>
-                                	<span id="compensation_unitsError" class="error-msg" ></span>
-                               	</div> 
-                             </div>
-                            <div class="row">                               
-                                <div class="col s12 m8 offset-m2 input-field">
-                                   <textarea id="corrective_measure_short_term" name="corrective_measure_short_term" class="pmis-textarea validate" data-length="1000"></textarea>  
-                                    <label for="corrective_measure_short_term">Corrective Measure (Short Term) </label>
-                                    <span id="corrective_measure_short_termError" class="error-msg" ></span>
-                                </div>
-                            </div>
-                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="pmis-textarea validate" data-length="1000"></textarea>  
-                                    <!-- <input id="corrective_measure_long_term" name="corrective_measure_long_term" type="text" class="validate"> -->
-                                    <label for="corrective_measure_long_term">Corrective Measure (Long Term) </label>
-                                    <span id="corrective_measure_long_termError" class="error-msg" ></span>
-                                </div>
-                            </div>                          
-
-                            <div class="row">
-	                            <div class="col s12 m8 offset-m2">
-                            		<div id="selectedFilesInput">
-                                    	<div class="file-field input-field" id="safetyFilesDiv1" >
+                            	<div class="col s12 m12 l12 input-field">
+									<c:set var="existingsafetyFilesLength" value="${fn:length(safety.safetyFilesList )}"></c:set>
+									<c:if test="${fn:length(safety.safetyFilesList ) gt 0}">
+										<c:set var="existingSafetyFilesLength" value="${fn:length(safety.safetyFilesList )+1}"></c:set>
+									</c:if>
+									<div id="selectedFilesInput">
+                                    	<div class="file-field input-field" id="safetyFilesDiv${existingSafetyFilesLength }" >
 	                                        <div class="btn bg-m t-c">
 	                                            <span>Attach Files</span>
-	                                            <input type="file" id="safetyFiles1" name="safetyFiles" onchange="selectFile('1')">
+	                                            <input type="file" id="safetyFiles${existingSafetyFilesLength }" name="safetyFiles" onchange="selectFile('${existingSafetyFilesLength }')">
 	                                        </div>
 	                                        <div class="file-path-wrapper">
 	                                            <input class="file-path validate" type="text">
@@ -377,18 +288,18 @@
 									</div>
                                     
                                     <div id="selectedFiles">
-                                    	
+                                    	<c:forEach var="obj" items="${safety.safetyFilesList }" varStatus="index">
+											 <div id="safetyFileName${index.count }">
+												<a href="<%=CommonConstants2.SAFETY_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
+												<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+												<input type="hidden" name="safetyFileNames" value="${obj.attachment }">
+										     </div>
+										     <div style="clear:both" ></div>
+										</c:forEach>
 									</div>
-								</div>
+									
+                                </div>                              
                             </div>
-                            <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000"></textarea>
-                                    <label for="remarks">Remarks</label>
-                                    <span id="remarksError" class="error-msg" ></span>
-                                </div>
-                            </div>
- --%>
                             <div class="row">
                                 <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
@@ -421,47 +332,47 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
-		/* function selectFile(no){
-		    files = $("#safetyFiles"+no)[0].files;
-		    var html = "";
-		    for (var i = 0; i < files.length ; i++) {
-		    	html =  html + '<div id=safetyFileName'+no+'>'
-				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
-				 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
-				 + '</div>'
-				 + '<div style="clear:both;"></div>';
-		    }
-		    $("#selectedFiles").append(html);
-		    
-		    $('#safetyFilesDiv'+no).hide();
-		    
-			var fileIndex = Number(no)+1;
-			moreFiles(fileIndex);
-		}
+    function selectFile(no){
+	    files = $("#safetyFiles"+no)[0].files;
+	    var html = "";
+	    for (var i = 0; i < files.length ; i++) {
+	    	html =  html + '<div id=safetyFileName'+no+'>'
+			 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+			 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+			 + '</div>'
+			 + '<div style="clear:both;"></div>';
+	    }
+	    $("#selectedFiles").append(html);
+	    
+	    $('#safetyFilesDiv'+no).hide();
+	    
+		var fileIndex = Number(no)+1;
+		moreFiles(fileIndex);
+	}
+	
+	function moreFiles(no){
+		var html = "";
+		html =  html + '<div class="file-field input-field" id="safetyFilesDiv'+no+'" >'
+		+ '<div class="btn bg-m t-c">'
+		+ '<span>Attach Files</span>'
+		+ '<input type="file" id="safetyFiles'+no+'" name="safetyFiles" onchange="selectFile('+no+')">'
+		+ '</div>'
+		+ '<div class="file-path-wrapper">'
+		+ '<input class="file-path validate" type="text">'
+		+ '</div>'                          
+		+ '</div>'
+		$("#selectedFilesInput").append(html);
+	}
 		
-		function moreFiles(no){
-			var html = "";
-			html =  html + '<div class="file-field input-field" id="safetyFilesDiv'+no+'" >'
-			+ '<div class="btn bg-m t-c">'
-			+ '<span>Attach Files</span>'
-			+ '<input type="file" id="safetyFiles'+no+'" name="safetyFiles" onchange="selectFile('+no+')">'
-			+ '</div>'
-			+ '<div class="file-path-wrapper">'
-			+ '<input class="file-path validate" type="text">'
-			+ '</div>'                          
-			+ '</div>'
-			$("#selectedFilesInput").append(html);
-		}
-		
-		function removeFile(no){			
-	     	$('#safetyFilesDiv'+no).remove();
-	     	$('#safetyFileName'+no).remove();
-	    }  */
+	
+	function removeFile(no){			
+     	$('#safetyFilesDiv'+no).remove();
+     	$('#safetyFileName'+no).remove();
+    }
 
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            //$('#remarks').characterCounter();
               
             var today = new Date();
 	        var dd = today.getDate();
@@ -617,31 +528,6 @@
             	$(".page-loader").hide();
             }
         }
-        function getResponsiblePersonsList(){
-        	$(".page-loader").show();
-            $("#responsible_person option:not(:first)").remove();
-            var reporting_to_id_srfk = $("#contract_id_fk").find('option:selected').attr("hod_user_id");
-            if ($.trim(reporting_to_id_srfk) != "") {
-                var myParams = { reporting_to_id_srfk: reporting_to_id_srfk };
-                $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsListForSafetyForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var userName = '';
-                                if ($.trim(val.user_name) != '') { userName = ' - ' + $.trim(val.user_name) }
-                                $("#responsible_person").append('<option  value="' + val.user_id + '">' + $.trim(val.designation) + userName + '</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        }
         function resetWorksAndProjectsDropdowns(){
         	$(".page-loader").show();        	
         	var projectId = '';
@@ -737,8 +623,6 @@
     				 		required: false
     				 	  },"reported_by": {
     				 		required: false
-    				 	  },"responsible_person":{	
-    				 		 required: false
     				 	  },"closure_date": {
     			 		    required: false,
     			 		    dateBefore1: "#date",
@@ -810,8 +694,6 @@
 	   				 		required: 'Required'
 	   				 	  },"reported_by": {
 	   				 		required: 'Required'
-	   				 	  },"responsible_person":{
-	   				 		 required: 'Required'
 	   				 	  },"closure_date": {
 	   			 		    required: 'Required',
 	   			 	   	  },"committee_formed_fk": {
@@ -890,9 +772,6 @@
 	  			 	    }else if (element.attr("id") == "reported_by" ){
 	  			 		     document.getElementById("reported_byError").innerHTML="";
 	  			 			 error.appendTo('#reported_byError');
-	  			 	    }else if (element.attr("id") == "responsible_person" ){
-	  			 		     document.getElementById("responsible_personError").innerHTML="";
-	  			 			 error.appendTo('#responsible_personError');
 	  			 	    }else if (element.attr("id") == "closure_date" ){
 	  			 		     document.getElementById("closure_dateError").innerHTML="";
 	  			 			 error.appendTo('#closure_dateError');

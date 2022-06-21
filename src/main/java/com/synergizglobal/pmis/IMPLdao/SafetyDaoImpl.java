@@ -1,6 +1,9 @@
 package com.synergizglobal.pmis.IMPLdao;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -209,11 +212,11 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry = "INSERT INTO safety"
 					+ "(contract_id_fk,hod_user_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,category_fk,impact_fk,root_cause_fk,status_fk,"
 					+ "closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,investigation_completed,corrective_measure_short_term,"
-					+ "corrective_measure_long_term,compensation,payment_date,remarks,compensation_units,committee_member_name,created_by,created_date) "
+					+ "corrective_measure_long_term,compensation,payment_date,remarks,compensation_units,committee_member_name,created_by,created_date,nominated_authority) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:hod_user_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:category_fk,:impact_fk,:root_cause_fk,:status_fk,:"
 					+ "closure_date,:lti_hours,:equipment_impact,:people_impact,:work_impact,:committee_formed_fk,:committee_required_fk,:investigation_completed,:corrective_measure_short_term,:"
-					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:compensation_units,:committee_member_name,:created_by_user_id_fk,CURRENT_TIMESTAMP)";	
+					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:compensation_units,:committee_member_name,:created_by_user_id_fk,CURRENT_TIMESTAMP,:nominated_authority)";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 		    int count = template.update(qry, paramSource, keyHolder);
@@ -438,6 +441,12 @@ public class SafetyDaoImpl implements SafetyDao {
 						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 							mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
 						}
+						else
+						{
+							if(!StringUtils.isEmpty(reported_by_user_id)) {
+								mailTo = mailTo + getReported_by_email_id(reported_by_user_id) + ",";
+							}							
+						}
 						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
 							mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
 						}
@@ -531,6 +540,18 @@ public class SafetyDaoImpl implements SafetyDao {
 			throw new Exception(e);
 		}
 
+	}
+	
+	private String getReported_by_email_id(String reported_by_user_id) throws Exception
+	{
+		String Reported_by_email_id="";
+		try {
+			String qry = "select email_id from user where user_name = ?";
+			Reported_by_email_id = (String) jdbcTemplate.queryForObject(qry, new Object[] { reported_by_user_id }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return Reported_by_email_id;
 	}	
 
 	@Override
@@ -541,7 +562,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
 					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,"
 					+ "work_id_fk,work_name,project_id_fk,project_name,s.compensation_units,s.committee_member_name,"
-					+ "(select group_concat(committee_member_name) from safety_committee_members where safety_id_fk = ?) as committe_members "
+					+ "(select group_concat(committee_member_name) from safety_committee_members where safety_id_fk = ?) as committe_members,nominated_authority "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
@@ -575,11 +596,14 @@ public class SafetyDaoImpl implements SafetyDao {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
+		PreparedStatement stmt = null;
+		Connection connection = null;
 		try {
-			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+			connection = dataSource.getConnection();
 			String qry = "UPDATE safety SET contract_id_fk=:contract_id_fk,hod_user_id_fk=:hod_user_id_fk,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,category_fk=:category_fk,impact_fk=:impact_fk,root_cause_fk=:root_cause_fk,status_fk=:status_fk,"
 					+ "closure_date=:closure_date,lti_hours=:lti_hours,equipment_impact=:equipment_impact,people_impact=:people_impact,work_impact=:work_impact,committee_formed_fk=:committee_formed_fk,committee_required_fk = :committee_required_fk,investigation_completed=:investigation_completed,corrective_measure_short_term=:corrective_measure_short_term,"
-					+ "corrective_measure_long_term=:corrective_measure_long_term,compensation=:compensation,payment_date=:payment_date,remarks=:remarks,compensation_units=:compensation_units,committee_member_name=:committee_member_name,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP  "
+					+ "corrective_measure_long_term=:corrective_measure_long_term,compensation=:compensation,payment_date=:payment_date,remarks=:remarks,compensation_units=:compensation_units,committee_member_name=:committee_member_name,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,nominated_authority=:nominated_authority  "
 					+ "WHERE safety_id = :safety_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			
@@ -587,6 +611,24 @@ public class SafetyDaoImpl implements SafetyDao {
 				flag = true;
 			}
 			if(flag) {
+				
+				
+				String qryDelete = "select * from safety_files where safety_id_fk = ?";
+				stmt = connection.prepareStatement(qryDelete);
+				stmt.setString(1,obj.getSafety_id());
+				ResultSet rs = null;
+				rs = stmt.executeQuery();
+				
+		        if (rs != null) 
+		        {
+		            while (rs.next()) 
+		            {
+		            	String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH;
+		            	File file = new File(saveDirectory);
+		            	deleteFiles(file,rs.getString("attachment"));
+		            }
+		        }
+		        
 				String deleteFilesQry = "delete from safety_files where safety_id_fk = :safety_id";
 				
 				Safety fileObj = new Safety();
@@ -683,6 +725,18 @@ public class SafetyDaoImpl implements SafetyDao {
 		}
 		return flag;
 	}
+	
+	public static void deleteFiles(File dirPath,String filename) {
+	      File filesList[] = dirPath.listFiles();
+	      for(File file : filesList) 
+	      {
+	    	 String pathName=file.getName();
+	         if(file.isFile() && pathName.compareTo(filename)==0) 
+	         {
+	            file.delete();
+	         } 
+	      }
+	   }	
 
 	@Override
 	public boolean deleteSafety(Safety obj) throws Exception {

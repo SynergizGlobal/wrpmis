@@ -191,15 +191,6 @@
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field">
-                                    <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${safety.responsible_person }">
-                                    <label for="responsible_person" class="fs-sm-67rem serchable_label">Person Responsible in MRVC</label> --%>
-                                    <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC</p>
-                                    <select id="responsible_person" name="responsible_person" class="searchable">
-                                        <option value="">Select</option>
-                                    </select>
-                                    <span id="responsible_personError" class="error-msg" ></span>
-                                </div>
                             </div>
 
                             <div class="row">                                
@@ -219,94 +210,142 @@
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                             </div>
-
-                            
-                            <div class="row" style="margin-bottom:10px;">                               
-                                <div class="col s6 m4 l4 input-field mti-5">
-	                                 <p>
-									      <label>
-									        <input type="checkbox" id="committee_required" name="committee_required" <c:if test="${safety.committee_required_fk eq 'Yes'}">checked</c:if>/>
-									        <span>Committee Required</span>
-									      </label>
-									      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
-								    </p>
-							    </div>
-							    <div class="col s6 m4 l4 hidden input-field mti-5" id="committee_formed_div" >
-	                                 <p>
-									      <label>
-									        <input type="checkbox" id="committee_formed" name="committee_formed" <c:if test="${safety.committee_formed_fk eq 'Yes'}">checked</c:if>/>
-									        <span>Committee Formed</span>
-									      </label>
-									      
-								    </p>
-								    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
-							    </div>
-                                <div class="col s12 m4 l4 input-field hidden" id="committee_member_div">                                 	
-                                   <%--  <input id="committee_member_name" name="committee_member_name" type="text" class="validate" value="${safety.committee_member_name }">
-                                    <label for="committee_member_name">Name of Committee member</label> --%>
-                                     <p style="color: #aaa;font-size:0.85rem;" >Name of Committee members</p>
-                                    <select id="committee_member_name" name="committee_member_names" class="searchable validate-dropdown" multiple="multiple">
-                                   <option value="" disabled="disabled">Select</option>
-                                   <c:forEach var="obj" items="${usersList}">
-           					  			 <option value="${obj.user_id }"            					  			 
-           					  			 		<c:forEach var="tempobj" items="${safety.safetyCommitteeMembersList}">
-										 			<c:if test="${tempobj.committee_member_name eq obj.user_id}">selected</c:if>
-	                                          	</c:forEach>           					  			 
-           					  			 > ${obj.designation} - ${obj.user_name}</option>
-                                   </c:forEach>
-                                    </select>
-                                    <span id="committee_member_nameError" class="error-msg" ></span> 
-                                </div>  
+                            <div class="row">                                
+                                 <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
+                                    <p class="prio">Safety Incident</p>
+                                    <p class="radiogroup">
+                                        <label>
+                                            <input class="with-gap" name="safety_incident" type="radio"
+                                                value="Yes" />
+                                            <span>Yes</span>
+                                        </label>
+                                        &nbsp;
+                                        <label>
+                                            <input class="with-gap" name="safety_incident" type="radio"
+                                                value="No" />
+                                            <span>No</span>
+                                        </label>
+                                    </p>
+                                </div>                               
                             </div>
-                            <div class="row">                             
-                                 <div class="col s12 m6 l6 input-field">
-                                    <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker" value="${safety.investigation_completed }">
-                                    <label for="investigation_completed">Investigation Completion Date</label>
-                                    <button type="button" id="investigation_completed_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-                                    <span id="investigation_completedError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m6 l6 input-field">
-                                    <input id="lti_hours" name="lti_hours" maxlength="10" data-length="10" type="number" class="validate num" value="${safety.lti_hours }">
-                                    <label for="lti_hours"> LTI  in hours</label>
-                                    <span id="lti_hoursError" class="error-msg" ></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6 m6 l6 input-field">
-                                    <input id="equipment_impact" name="equipment_impact" type="text" class="validate charCount" value="${safety.equipment_impact }" data-length="100">
-                                    <label for="equipment_impact"> Equipment Impact </label>
-                                    <span id="equipment_impactError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m6 l6 input-field">
-                                    <input id="people_impact" name="people_impact" type="text" class="validate charCount" value="${safety.people_impact }" data-length="100">
-                                    <label for="people_impact">People Impact</label>
-                                    <span id="people_impactError" class="error-msg" ></span>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col s12 m12 l12 input-field">
-                                    <input id="work_impact" name="work_impact" type="text" class="validate charCount" value="${safety.work_impact }" data-length="100">
-                                    <label for="work_impact"> Work Impact </label>
-                                    <span id="work_impactError" class="error-msg" ></span>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col s12 m12 l12 input-field">
-                                    <textarea id="corrective_measure_short_term" name="corrective_measure_short_term" class="pmis-textarea validate" data-length="1000">${safety.corrective_measure_short_term }</textarea>  
-                                    <label for="corrective_measure_short_term">Corrective Measure (Short Term) </label>
-                                    <span id="corrective_measure_short_termError" class="error-msg" ></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m12 l12 input-field">
-                               		<textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="pmis-textarea validate" data-length="1000">${safety.corrective_measure_long_term }</textarea>  
-                                    <label for="corrective_measure_long_term">Corrective Measure (Long Term) </label>
-                                    <span id="corrective_measure_long_termError" class="error-msg" ></span>
-                                </div>
-                            </div>                          
-
+                            <div id="nominatedDiv" style="display:none;">
+	                            <div class="row" style="margin-bottom:10px;">                               
+	                                <div class="col s6 m3 l3 input-field mti-5">
+		                                 <p>
+										      <label>
+										        <input type="checkbox" id="committee_required" name="committee_required" <c:if test="${safety.committee_required_fk eq 'Yes'}">checked</c:if>/>
+										        <span>Committee Required</span>
+										      </label>
+										      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
+									    </p>
+								    </div>
+	                                <div class="col s12 m3 l3 input-field">
+	                                     <p style="color: #aaa;font-size:0.85rem;" >Nominated Authority</p>
+	                                    <select id="nominated_authority" name="nominated_authority" class="searchable">
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span id="nominated_authorityError" class="error-msg" ></span>
+	                                </div>								    
+	                                <div class="col s12 m3 l3 input-field">
+	                                    
+	                                    <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC</p>
+	                                    <select id="responsible_person" name="responsible_person" class="searchable">
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span id="responsible_personError" class="error-msg" ></span>
+	                                </div>							    
+	<%-- 							    <div class="col s6 m4 l4 hidden input-field mti-5" id="committee_formed_div" style="display:none;">
+		                                 <p>
+										      <label>
+										        <input type="checkbox" id="committee_formed" name="committee_formed" <c:if test="${safety.committee_formed_fk eq 'Yes'}">checked</c:if>/>
+										        <span>Committee Formed</span>
+										      </label>
+										      
+									    </p>
+									    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
+								    </div> --%>
+	                                <div class="col s12 m3 l3 input-field hidden" id="committee_member_div">                                 	
+	                                   <%--  <input id="committee_member_name" name="committee_member_name" type="text" class="validate" value="${safety.committee_member_name }">
+	                                    <label for="committee_member_name">Name of Committee member</label> --%>
+	                                     <p style="color: #aaa;font-size:0.85rem;" >Name of Committee members</p>
+	                                    <select id="committee_member_name" name="committee_member_names" class="searchable validate-dropdown" multiple="multiple">
+	                                   <option value="" disabled="disabled">Select</option>
+	                                   <c:forEach var="obj" items="${usersList}">
+	           					  			 <option value="${obj.user_id }"            					  			 
+	           					  			 		<c:forEach var="tempobj" items="${safety.safetyCommitteeMembersList}">
+											 			<c:if test="${tempobj.committee_member_name eq obj.user_id}">selected</c:if>
+		                                          	</c:forEach>           					  			 
+	           					  			 > ${obj.designation} - ${obj.user_name}</option>
+	                                   </c:forEach>
+	                                    </select>
+	                                    <span id="committee_member_nameError" class="error-msg" ></span> 
+	                                </div>  
+	                            </div>
+	                            <div class="row">                             
+	                                 <div class="col s12 m6 l6 input-field">
+	                                    <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker" value="${safety.investigation_completed }">
+	                                    <label for="investigation_completed">Investigation Completion Date</label>
+	                                    <button type="button" id="investigation_completed_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <span id="investigation_completedError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m6 l6 input-field">
+	                                    <input id="lti_hours" name="lti_hours" maxlength="10" data-length="10" type="number" class="validate num" value="${safety.lti_hours }">
+	                                    <label for="lti_hours"> LTI  in hours</label>
+	                                    <span id="lti_hoursError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col s6 m6 l6 input-field">
+	                                    <input id="equipment_impact" name="equipment_impact" type="text" class="validate charCount" value="${safety.equipment_impact }" data-length="100">
+	                                    <label for="equipment_impact"> Equipment Impact </label>
+	                                    <span id="equipment_impactError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s6 m6 l6 input-field">
+	                                    <input id="people_impact" name="people_impact" type="text" class="validate charCount" value="${safety.people_impact }" data-length="100">
+	                                    <label for="people_impact">People Impact</label>
+	                                    <span id="people_impactError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
+	
+	                            <div class="row">
+	                                <div class="col s12 m12 l12 input-field">
+	                                    <input id="work_impact" name="work_impact" type="text" class="validate charCount" value="${safety.work_impact }" data-length="100">
+	                                    <label for="work_impact"> Work Impact </label>
+	                                    <span id="work_impactError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="row">
+	                                <div class="col s12 m12 l12 input-field">
+	                                    <textarea id="corrective_measure_short_term" name="corrective_measure_short_term" class="pmis-textarea validate" data-length="1000">${safety.corrective_measure_short_term }</textarea>  
+	                                    <label for="corrective_measure_short_term">Corrective Measure (Short Term) <span class="required">*</span></label>
+	                                    <span id="corrective_measure_short_termError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col s12 m12 l12 input-field">
+	                               		<textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="pmis-textarea validate" data-length="1000">${safety.corrective_measure_long_term }</textarea>  
+	                                    <label for="corrective_measure_long_term">Corrective Measure (Long Term) </label>
+	                                    <span id="corrective_measure_long_termError" class="error-msg" ></span>
+	                                </div>
+	                            </div>                          
+							</div>
+                            <div class="row" id="divApproveCorrectiveMeasure" style="display:none;">                                
+                                 <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
+                                    <p class="prio">Approve Corrective Measure</p>
+                                    <p class="radiogroup">
+                                        <label>
+                                            <input class="with-gap" name="approve_corrective_measure" type="radio" value="Yes" />
+                                            <span>Accepted</span>
+                                        </label>
+                                        &nbsp;
+                                        <label>
+                                            <input class="with-gap" name="approve_corrective_measure" type="radio" value="No" />
+                                            <span>Not Accepted</span>
+                                        </label>
+                                    </p>
+                                </div>                               
+                            </div>							
                             <div class="row">
                             	<div class="col s12 m12 l12 input-field">
 									<c:set var="existingsafetyFilesLength" value="${fn:length(safety.safetyFilesList )}"></c:set>
@@ -436,6 +475,32 @@
                 return false;
             }
         });
+        
+        alert("${safety.nominated_authority}"+'----------'+'${sessionScope.USER_ID}');
+        
+       	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}')
+       	{
+       		$("#divApproveCorrectiveMeasure").show();
+       	}
+       	else
+    	{
+    		$("#divApproveCorrectiveMeasure").hide();
+    	}
+        
+        $('input[name^=safety_incident]').click(function(){
+            
+           	   if($(this).val()=="Yes")
+        	   {
+           			$("#nominatedDiv").show();
+           			$("#status_fk").val("Open").trigger('change');
+        	   }
+           	   else 
+           		   if($(this).val()=="No")
+          		   {	$("#nominatedDiv").hide();
+           				$("#status_fk").val("Closed").trigger('change');
+          		   }
+            
+        });       
     });
 	  $(document).on('focus', '.datepicker', function () {        	 
 			var id = $(this).attr('id');
@@ -705,6 +770,18 @@
 	  			if(compensation == ""){
 	  				$('#compensation_units').val("");
 	  			}
+	  			if ($('input[name=safety_incident]:checked').val() == "Yes")
+  				{
+		  			if($('#committee_required').is(":checked") && $('#nominated_authority').val()=="")
+		  			{
+		  				$('#nominated_authorityError').html("Required");
+		  				return false;
+		  			}
+		  			else
+	  				{
+	  					$('#nominated_authorityError').html("");
+	  				}
+  				}
     			document.getElementById("safetyForm").submit();			
     	 	}
     	}
@@ -779,7 +856,7 @@
      			 		    dateBefore2 : "#date",
     				 		//statusCheck3: true
     			 	   	  },"corrective_measure_short_term": {
-    				 		required: false
+    				 		required: true
     				 	  },"corrective_measure_long_term":{
     				 		 required: false
     				 	  },"remarks":{
@@ -1138,6 +1215,13 @@
 	                                }else{
 	                                	$("#responsible_person").append('<option  value="' + val.user_id + '">' + $.trim(val.designation) + userName + '</option>');
 	                                }
+	                                
+	                                if(val.user_id == "${safety.nominated_authority}"){
+		                                $("#nominated_authority").append('<option  value="' + val.user_id + '" selected>' + $.trim(val.designation) + userName + '</option>');
+	                                }else{
+	                                	$("#nominated_authority").append('<option  value="' + val.user_id + '">' + $.trim(val.designation) + userName + '</option>');
+	                                }
+	                                
 	                            });
 	                        }
 	                        $('.searchable').select2();

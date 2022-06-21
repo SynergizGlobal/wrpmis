@@ -1362,7 +1362,7 @@ public class RandRMainController {
 						if(!StringUtils.isEmpty(errMsg)) {
 							if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
 								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and RR Id Mismatch at row: ("+row+")</b> please check and Upload again.</span>");
-								msg = "Work and Utility Shifting Id Mismatch at row: "+row;
+								msg = "Work and R & R Id Mismatch at row: "+row;
 							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
 								actualVal = Integer.toString(subRow);
 								if(sheet == 1) {subRow = row; 

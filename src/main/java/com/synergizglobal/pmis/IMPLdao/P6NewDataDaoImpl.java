@@ -466,7 +466,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 		String norows = null;
 		int wbsCount = 0;
 		int wbsCountUpdate = 0;
-		int activitiesCount = 0;
+		int activitiesCount = 3;
 		int rowNo = 3;
 		boolean flag = false;
 		try {
@@ -558,7 +558,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 						if(!StringUtils.isEmpty(ContractIs_Available) ) {
 							if( StringUtils.isEmpty(p6_activity_id) && p6_activity_id == null) {
 								p = 1;
-								
+								System.out.println(activitiesCount++);
 								stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
 								stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
 								stmt.setString(p++,obj.getStructure_id_fk());
@@ -588,14 +588,13 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 								stmt.setString(p++,!StringUtils.isEmpty((pobj.getOriginal_duration()))?pobj.getOriginal_duration():null);
 								stmt.addBatch();
 							}else {
-								PreparedStatement deleteExistingIDStmt = null;
 								
 								String qry = "DELETE FROM p6_activity_progress WHERE p6_activity_id_fk = ? ";
-								stmt = con.prepareStatement(qry);
-								stmt.setString(1, p6_activity_id);
-								int c = stmt.executeUpdate();  
+								PreparedStatement deleteExistingIDStmt = con.prepareStatement(qry);
+								deleteExistingIDStmt.setString(1, p6_activity_id);
+								int c = deleteExistingIDStmt.executeUpdate();  
 								DBConnectionHandler.closeJDBCResoucrs(null, deleteExistingIDStmt, rs);
-								
+								System.out.println("update "+activitiesCount++);
 								p = 1;
 								stmtUpdate.setString(p++,obj.getStructure_id_fk());
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);

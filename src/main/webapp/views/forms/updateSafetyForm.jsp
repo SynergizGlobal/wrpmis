@@ -476,7 +476,6 @@
             }
         });
      
-        
        	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}')
        	{
        		$("#divApproveCorrectiveMeasure").show();
@@ -485,6 +484,18 @@
     	{
     		$("#divApproveCorrectiveMeasure").hide();
     	}
+
+       	if("${safety.nominated_authority}"!="")
+       	{
+       	 	$('input[name^=safety_incident][value="Yes"]').prop("checked",true);
+       	 	$("#nominatedDiv").show();
+       	}
+       	else
+    	{
+       	 	$('input[name^=safety_incident][value="No"]').prop("checked",true);
+       	 	$("#nominatedDiv").hide();
+    	}
+       	
         
         $('input[name^=safety_incident]').click(function(){
             
@@ -499,7 +510,22 @@
            				$("#status_fk").val("Closed").trigger('change');
           		   }
             
-        });       
+        });
+        
+        $('input[name^=approve_corrective_measure]').click(function(){
+            
+        	   if($(this).val()=="Yes")
+     	   		{
+        		   $("#status_fk").prop("disabled",false);
+     	   		}
+        	   else if($(this).val()=="No")
+       		   {	
+        		   $("#status_fk").val("Open").trigger('change');	
+        		   $("#status_fk").prop("disabled",true);
+       		   }
+         
+     });      
+        
     });
 	  $(document).on('focus', '.datepicker', function () {        	 
 			var id = $(this).attr('id');
@@ -565,7 +591,10 @@
             		}
             		else
            			{
-           				$("#status_fk option[value='Closed']").remove();
+            			if("${safety.nominated_authority}"!='${sessionScope.USER_ID}')
+            				{
+           						$("#status_fk option[value='Closed']").remove();
+            				}
            			}
             }
             

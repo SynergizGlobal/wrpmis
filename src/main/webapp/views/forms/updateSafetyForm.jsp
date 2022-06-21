@@ -475,8 +475,7 @@
                 return false;
             }
         });
-        
-        alert("${safety.nominated_authority}"+'----------'+'${sessionScope.USER_ID}');
+     
         
        	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}')
        	{

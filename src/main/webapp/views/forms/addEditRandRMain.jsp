@@ -22,6 +22,16 @@
        		position: relative;
     		right: 1.5em;
        	}
+       	.cf2 .character-counter{
+       		position: relative;
+    		right: 1.5em;
+    		top: 4em;
+       	}
+       	.cf3 .character-counter{
+       		position: relative;
+    		right: 1.5em;
+    		top: 0em;
+       	}
         .mdl-data-table{
         	border:1px solid #ccc;	
         }
@@ -894,7 +904,7 @@
                             		<div class="row">
                             			<h6 class="center-align">Commercial Details</h6>	
                             			 <div class="col s6 m4 l2 input-field">
-		                                     <input id="name_of_activity" name="name_of_activity" type="text" class="validate" value="${rrDetails.name_of_activity }">
+		                                     <input id="name_of_activity" name="name_of_activity" type="text" maxlength="50" data-length="50" class="validate pdr4em w70" value="${rrDetails.name_of_activity }">
 				                             <label for="name_of_activity" >Name of Activity </label>
 				                             <span id="name_of_activityError" class="error-msg" ></span>
 		                                 </div>
@@ -907,18 +917,18 @@
 		                                          </c:forEach>
 		                                    </select>
 		                                    <span id="year_of_establishmentError" class="error-msg" ></span> --%>
-		                                    <input id="year_of_establishment" name="year_of_establishment" type="number" class="validate" value="${rrDetails.year_of_establishment }">
+		                                    <input id="year_of_establishment" name="year_of_establishment" maxlength="4" data-length="4" type="number" class="validate pdr4em w70 num" value="${rrDetails.year_of_establishment }">
 			                                <label for="year_of_establishment">Year of Establishment </label>
 			                                <span id="year_of_establishmentError" class="error-msg" ></span>
 		                                </div>
 		                                <div class="col s6 m4 l2 input-field">
-	                                       <input id="com_carpet_area" name="com_carpet_area" type="number" class="validate" value="${rrDetails.com_carpet_area }">
+	                                       <input id="com_carpet_area" name="com_carpet_area" maxlength="10" data-length="10" type="number" class="validate num w70 pdr4em" value="${rrDetails.com_carpet_area }">
 			                               <label for="com_carpet_area">Carpet Area (in sqft) </label>
 			                               <span id="com_carpet_areaError" class="error-msg" ></span>
 	                                    </div>
-		                                <div class="col s6 m4 l3 input-field amount-dropdown">
+		                                <div class="col s6 m4 l3 input-field amount-dropdown cf2">
 		                                    <i class="material-icons amount-symbol center-align">₹</i>
-		                                    <input id="monthly_turnover_amount" name="monthly_turnover_amount" type="number" class="validate" value="${rrDetails.monthly_turnover_amount }" min="0" step="0.00001">
+		                                    <input id="monthly_turnover_amount" name="monthly_turnover_amount" maxlength="15" data-length="15" type="number" class="validate num pdr4em w70" value="${rrDetails.monthly_turnover_amount }" min="0" step="0.00001">
 		                                    <label for="monthly_turnover_amount">Monthly Turnover</label>
 		                                    <span id="monthly_turnover_amountError" class="error-msg"></span>
 		                                	<span id="monthly_turnover_amount_unitsError" class="error-msg right" ></span>
@@ -929,7 +939,7 @@
 		                                	</select>
 		                                </div>
 	                                   <div class="col s6 m4 l3 input-field">
-	                                      <input id="number_of_employees" name="number_of_employees" type="number" class="validate" value="${rrDetails.number_of_employees }">
+	                                      <input id="number_of_employees" name="number_of_employees" maxlength="5" data-length="5" type="number" class="validate num pdr4em w70" value="${rrDetails.number_of_employees }">
 			                              <label for="number_of_employees">Number of Employees </label>
 			                              <span id="number_of_employeesError" class="error-msg" ></span>
 	                                   </div>
@@ -965,7 +975,7 @@
                                           <c:forEach var="comObj" items="${rrDetails.commercialList }" varStatus="index">  
                                             <tr id="employeeDetailRow${index.count }" class="">
                                                 <td data-head="Name" class="input-field">
-                                                    <input id="employee_name${index.count }" name="employee_names" type="text" class="validate"  value="${comObj.employee_name}"
+                                                    <input id="employee_name${index.count }" name="employee_names" maxlength="50" data-length="50" type="text" class="validate w70 pdr4em"  value="${comObj.employee_name}"
                                                         placeholder="Name">
                                                 </td>
                                                 <td data-head="Age" class="input-field">
@@ -997,9 +1007,9 @@
                                                     <input id="employee_travel_time${index.count }" name="employee_travel_times" type="number" class="validate"  value="${comObj.employee_travel_time}"
                                                         placeholder="Travel Time">
                                                 </td>                                                                                     
-                                                <td data-head="Monthly Salary" class="input-field amount-dropdown">
+                                                <td data-head="Monthly Salary" class="input-field amount-dropdown cf2">
                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
-                                                   	<input id="employee_salary${index.count }" name="employee_salarys" min="0.01" step="0.01" type="number" class="validate" value="${comObj.employee_salary}"
+                                                   	<input id="employee_salary${index.count }" name="employee_salarys" maxlength="15" data-length="15" min="0.01" step="0.01" type="number" class="validate num w70 pdr4em" value="${comObj.employee_salary}"
                                                        placeholder="Salary">
                                                        <select class="validate-dropdown" id="employee_salary_units${index.count }" name="employee_salary_unitss">
 				                                		 <c:forEach var="obj" items="${units }">
@@ -1038,7 +1048,7 @@
                                              
                                               <tr id="employeeDetailRow0">
                                                 <td data-head="Name" class="input-field">
-                                                    <input id="employee_name0" name="employee_names" type="text" class="validate"  value=""
+                                                    <input id="employee_name0" name="employee_names" type="text" maxlength="50" data-length="50" class="validate pdr4em w70"  value=""
                                                         placeholder="Name">
                                                 </td>
                                                 <td data-head="Age" class="input-field">
@@ -1070,9 +1080,9 @@
                                                     <input id="employee_travel_time${index.count }" name="employee_travel_times" type="number" class="validate"  value=""
                                                         placeholder="Travel Time">
                                                 </td>                                                                                     
-                                                <td data-head="Monthly Salary" class="input-field amount-dropdown">
+                                                <td data-head="Monthly Salary" class="input-field amount-dropdown cf2">
                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
-                                                   	<input id="employee_salary0" name="employee_salarys" min="0.01" step="0.01" type="number" class="validate" value=""
+                                                   	<input id="employee_salary0" name="employee_salarys" maxlength="15" data-length="15" min="0.01" step="0.01" type="number" class="validate num pdr4em w70" value=""
                                                        placeholder="Salary">
                                                        <select class="validate-dropdown" id="employee_salary_units0" name="employee_salary_unitss">
 				                                		 <c:forEach var="obj" items="${units }">
@@ -1387,7 +1397,7 @@
    function addEmployeeDetailRow(){
 	    var rowNo = $("#employeeDetailRowNo").val();
 	    var rNo = Number(rowNo)+1;
-	    var html = '<tr id="employeeDetailRow'+rNo+'"> <td data-head="Name" class="input-field"> <input id="employee_name'+rNo+'" name="employee_names" type="text" class="validate"'
+	    var html = '<tr id="employeeDetailRow'+rNo+'"> <td data-head="Name" class="input-field"> <input id="employee_name'+rNo+'" name="employee_names" maxlength="50" data-length="50" type="text" class="validate pdr4em w70"'
 	    		  +' value="" placeholder="Name"> </td> <td data-head="Age" class="input-field"> <input id="employee_age'+rNo+'" name="employee_ages" type="number" class="validate" '
 	    		  +' value="" placeholder="Age"> </td> <td data-head="Gender" class="input-field"> <select id="employee_gender'+rNo+'" name="employee_genders" class="searchable">'
 	    		  +' <option value="">Select</option> '
@@ -1399,8 +1409,8 @@
     			  +'<input type="checkbox" id="employee_literacy'+rNo+'" > <span></span> </label> </p></td> '
     			  +'<td data-head="Class Attended" class="input-field"> <input id="employee_attended'+rNo+'" name="employee_attendeds" type="text" class="validate"  value="" placeholder="Class Attended"> </td>'
     			  +'<td data-head="Travel Time" class="input-field"> <input id="employee_travel_time'+rNo+'" name="employee_travel_times" type="number" class="validate"  value="" placeholder="Travel Time"> </td>'
-    			  +'<td data-head="Monthly Salary" class="input-field amount-dropdown"> <i class="material-icons amount-symbol cost left-align">₹</i> <input id="employee_salary'+rNo+'" name="employee_salarys" min="0.01"'
-    			  +' step="0.01" type="number" class="validate" value="" placeholder="Salary"> <select class="validate-dropdown" id="employee_salary_units'+rNo+'" name="employee_salary_unitss">'
+    			  +'<td data-head="Monthly Salary" class="input-field amount-dropdown cf3"> <i class="material-icons amount-symbol cost left-align">₹</i> <input id="employee_salary'+rNo+'" maxlength="15" data-length="15" name="employee_salarys" min="0.01"'
+    			  +' step="0.01" type="number" class="validate num" value="" placeholder="Salary"> <select class="validate-dropdown" id="employee_salary_units'+rNo+'" name="employee_salary_unitss">'
 		    		 <c:forEach var="obj" items="${units }">
 		    		  +' <option value= "${ obj.value}"> ${obj.unit }</option>'
                      </c:forEach>
@@ -1414,6 +1424,13 @@
 		 $("#employeeDetailRowNo").val(rNo);
 		 $('.searchable').select2();
 		 $('select:not(.searchable):not(.units)').formSelect();
+		 $('#employee_name'+rNo).characterCounter();
+		 $('#employee_salary'+rNo).characterCounter();
+		 $('#employee_salary'+rNo).keypress(function() {
+	           if ($(this).val().length == $(this).attr("maxlength")) {
+	               return false;
+	           }
+	       });
 		 $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
 		  $('#employee_literacy'+rNo).on('change', function(e){
               if($(this).prop('checked'))

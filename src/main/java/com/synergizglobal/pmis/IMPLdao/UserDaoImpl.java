@@ -167,7 +167,6 @@ public class UserDaoImpl implements UserDao{
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
-			
 			String user_id = getMaxUserId(obj.getUser_role_code());
 			obj.setUser_id(user_id);
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
@@ -179,6 +178,17 @@ public class UserDaoImpl implements UserDao{
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
 				userId = user_id;
+				obj.setUser_id(userId);
+				List<User> module =  getModuleSList(obj);
+				String qryM = "INSERT INTO user_module  (soft_delete_status,executive_id_fk,module_fk  )VALUES (:soft_delete_status, :executive_id_fk ,:module_fk)" ;
+				for(User uObj : module) {
+					obj.setModule_fk(uObj.getModule_name());
+					obj.setExecutive_id_fk(userId);
+					obj.setSoft_delete_status(CommonConstants.INACTIVE);
+					
+					paramSource = new BeanPropertySqlParameterSource(obj);		 
+					namedParamJdbcTemplate.update(qryM, paramSource);
+				}
 				String [] permissions = obj.getPermissions_check();
 				if(permissions.length > 0) {
 					String qry2 = "INSERT INTO user_module  (soft_delete_status,executive_id_fk,module_fk  )VALUES (:soft_delete_status, :executive_id_fk ,:module_fk)" ;
@@ -216,7 +226,6 @@ public class UserDaoImpl implements UserDao{
 								}
 							}
 						}
-						
 						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Land Acquisition")) {
 							int c = 0;
 							String workIds = obj.getLand_work();
@@ -333,17 +342,26 @@ public class UserDaoImpl implements UserDao{
 											}
 										}
 									}
-								
 								}
-								
-								
 						  }
 					 }
-	
 				}
 			}
-			
 			transactionManager.commit(status);
+			String [] permissions = obj.getPermissions_check();
+			String qryU = "Update user_module set soft_delete_status = :soft_delete_status" + 
+					" where executive_id_fk = :executive_id_fk and module_fk = :module_fk";	
+			for(int k = 0; k <= (permissions.length - 1); k++) {
+				if(permissions[k].contains("Active")) {
+					String[] permissionVal = permissions[k].split("_");
+					obj.setModule_fk(permissionVal[0]);
+					obj.setExecutive_id_fk(userId);
+					obj.setSoft_delete_status(CommonConstants.ACTIVE);
+					
+					paramSource = new BeanPropertySqlParameterSource(obj);		 
+					namedParamJdbcTemplate.update(qryU, paramSource);
+				}
+			}
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			throw new Exception(e);
@@ -502,121 +520,93 @@ public class UserDaoImpl implements UserDao{
 				flag = true;
 				String userId = obj.getUser_id();
 				String [] permissions = obj.getPermissions_check();
-				if(permissions.length > 0) {
+				
 					String qryy = "Update user_module set soft_delete_status = :soft_delete_status" + 
 							" where executive_id_fk = :executive_id_fk and module_fk <> 'Others' ";	
 					obj.setExecutive_id_fk(userId);
 					obj.setSoft_delete_status(CommonConstants.INACTIVE);
 					paramSource = new BeanPropertySqlParameterSource(obj);		 
 					namedParamJdbcTemplate.update(qryy, paramSource);
-					
-					String qry2 = "Update user_module set soft_delete_status = :soft_delete_status" + 
-							" where executive_id_fk = :executive_id_fk and module_fk = :module_fk";	
-					for(int k = 0; k <= (permissions.length - 1); k++) {
-						if(permissions[k].contains("Active")) {
-							String[] permissionVal = permissions[k].split("_");
-							obj.setModule_fk(permissionVal[0]);
-							obj.setExecutive_id_fk(userId);
-							obj.setSoft_delete_status(CommonConstants.ACTIVE);
-							
-							paramSource = new BeanPropertySqlParameterSource(obj);		 
-							namedParamJdbcTemplate.update(qry2, paramSource);
-						}
-						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Contracts")) {
-							int c = 0;
-							String contarctIds = obj.getContract_id();
-							obj.setDepartment_id_fk(obj.getDepartment_fk());
-							String qry1 = "INSERT INTO contract_executive"
-									+ "(contract_id_fk,department_id_fk,executive_user_id_fk) VALUES (:contract_id_fk,:department_id_fk,:executive_user_id_fk)";	
-							obj.setExecutive_user_id_fk(userId); 
-							if(!StringUtils.isEmpty(contarctIds)) {
+					if(!StringUtils.isEmpty(permissions) && permissions.length > 0) {
+						String qry2 = "Update user_module set soft_delete_status = :soft_delete_status" + 
+								" where executive_id_fk = :executive_id_fk and module_fk = :module_fk";	
+						for(int k = 0; k <= (permissions.length - 1); k++) {
+							if(permissions[k].contains("Active")) {
+								String[] permissionVal = permissions[k].split("_");
+								obj.setModule_fk(permissionVal[0]);
+								obj.setExecutive_id_fk(userId);
+								obj.setSoft_delete_status(CommonConstants.ACTIVE);
 								
-								String deleteFilesQry = "delete from contract_executive  where executive_user_id_fk = :executive_user_id_fk";		 
-								User fileObj = new User();
-								fileObj.setExecutive_user_id_fk(userId);
-								paramSource = new BeanPropertySqlParameterSource(obj);	
-								namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
-								
-								if(contarctIds.contains(",")) {
-									String [] values = contarctIds.split(",");
-									int arrSz = values.length;
-									for(int i = 0; i < arrSz; i++) {
-										obj.setContract_id_fk(values[i]);
-										paramSource = new BeanPropertySqlParameterSource(obj);		 
-										c = namedParamJdbcTemplate.update(qry1, paramSource);
-									}
-								}else {
-									obj.setContract_id_fk(contarctIds);
-									paramSource = new BeanPropertySqlParameterSource(obj);		 
-									c = namedParamJdbcTemplate.update(qry1, paramSource);
-								}
+								paramSource = new BeanPropertySqlParameterSource(obj);		 
+								namedParamJdbcTemplate.update(qry2, paramSource);
 							}
-						}
-						
-						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Land Acquisition")) {
-							int c = 0;
-							String workIds = obj.getLand_work();
-							String qry1 = "INSERT INTO land_executives"
-									+ "(work_id_fk,executive_user_id_fk) VALUES (:work_id_fk,:executive_user_id_fk)";	
-							obj.setExecutive_user_id_fk(userId); 
-							if(!StringUtils.isEmpty(workIds)) {
-								String deleteFilesQry = "delete from land_executives  where executive_user_id_fk = :executive_user_id_fk";		 
-								User fileObj = new User();
-								fileObj.setExecutive_user_id_fk(userId);
-								paramSource = new BeanPropertySqlParameterSource(obj);	
-								namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
-								
-								if(workIds.contains(",")) {
-									String [] values = workIds.split(",");
-									int arrSz = values.length;
-									for(int i = 0; i < arrSz; i++) {
-										obj.setWork_id_fk(values[i]);
-										paramSource = new BeanPropertySqlParameterSource(obj);		 
-										c = namedParamJdbcTemplate.update(qry1, paramSource);
-									}
-								}else {
-									obj.setWork_id_fk(workIds);
-									paramSource = new BeanPropertySqlParameterSource(obj);		 
-									c = namedParamJdbcTemplate.update(qry1, paramSource);
-								}
-							}
-						}
-						if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Utility Shifting")) {
-							int c = 0;
-							String workIds = obj.getUs_work();
-							String qry1 = "INSERT INTO utility_shifting_executives"
-									+ "(work_id_fk,executive_user_id_fk) VALUES (:work_id_fk,:executive_user_id_fk)";	
-							obj.setExecutive_user_id_fk(userId); 
-							if(!StringUtils.isEmpty(workIds)) {
-								String deleteFilesQry = "delete from utility_shifting_executives  where executive_user_id_fk = :executive_user_id_fk";		 
-								User fileObj = new User();
-								fileObj.setExecutive_user_id_fk(userId);
-								paramSource = new BeanPropertySqlParameterSource(obj);	
-								namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
-								if(workIds.contains(",")) {
-									String [] values = workIds.split(",");
-									int arrSz = values.length;
-									for(int i = 0; i < arrSz; i++) {
-										obj.setWork_id_fk(values[i]);
-										paramSource = new BeanPropertySqlParameterSource(obj);		 
-										c = namedParamJdbcTemplate.update(qry1, paramSource);
-									}
-								}else {
-									obj.setWork_id_fk(workIds);
-									paramSource = new BeanPropertySqlParameterSource(obj);		 
-									c = namedParamJdbcTemplate.update(qry1, paramSource);
-								}
-							}
-						
-						 }
-							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("R & R")) {
+							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Contracts")) {
 								int c = 0;
-								String workIds = obj.getRr_work();
-								String qry1 = "INSERT INTO rr_executives"
+								String contarctIds = obj.getContract_id();
+								obj.setDepartment_id_fk(obj.getDepartment_fk());
+								String qry1 = "INSERT INTO contract_executive"
+										+ "(contract_id_fk,department_id_fk,executive_user_id_fk) VALUES (:contract_id_fk,:department_id_fk,:executive_user_id_fk)";	
+								obj.setExecutive_user_id_fk(userId); 
+								if(!StringUtils.isEmpty(contarctIds)) {
+									
+									String deleteFilesQry = "delete from contract_executive  where executive_user_id_fk = :executive_user_id_fk";		 
+									User fileObj = new User();
+									fileObj.setExecutive_user_id_fk(userId);
+									paramSource = new BeanPropertySqlParameterSource(obj);	
+									namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
+									
+									if(contarctIds.contains(",")) {
+										String [] values = contarctIds.split(",");
+										int arrSz = values.length;
+										for(int i = 0; i < arrSz; i++) {
+											obj.setContract_id_fk(values[i]);
+											paramSource = new BeanPropertySqlParameterSource(obj);		 
+											c = namedParamJdbcTemplate.update(qry1, paramSource);
+										}
+									}else {
+										obj.setContract_id_fk(contarctIds);
+										paramSource = new BeanPropertySqlParameterSource(obj);		 
+										c = namedParamJdbcTemplate.update(qry1, paramSource);
+									}
+								}
+							}
+							
+							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Land Acquisition")) {
+								int c = 0;
+								String workIds = obj.getLand_work();
+								String qry1 = "INSERT INTO land_executives"
 										+ "(work_id_fk,executive_user_id_fk) VALUES (:work_id_fk,:executive_user_id_fk)";	
 								obj.setExecutive_user_id_fk(userId); 
 								if(!StringUtils.isEmpty(workIds)) {
-									String deleteFilesQry = "delete from rr_executives  where executive_user_id_fk = :executive_user_id_fk";		 
+									String deleteFilesQry = "delete from land_executives  where executive_user_id_fk = :executive_user_id_fk";		 
+									User fileObj = new User();
+									fileObj.setExecutive_user_id_fk(userId);
+									paramSource = new BeanPropertySqlParameterSource(obj);	
+									namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
+									
+									if(workIds.contains(",")) {
+										String [] values = workIds.split(",");
+										int arrSz = values.length;
+										for(int i = 0; i < arrSz; i++) {
+											obj.setWork_id_fk(values[i]);
+											paramSource = new BeanPropertySqlParameterSource(obj);		 
+											c = namedParamJdbcTemplate.update(qry1, paramSource);
+										}
+									}else {
+										obj.setWork_id_fk(workIds);
+										paramSource = new BeanPropertySqlParameterSource(obj);		 
+										c = namedParamJdbcTemplate.update(qry1, paramSource);
+									}
+								}
+							}
+							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Utility Shifting")) {
+								int c = 0;
+								String workIds = obj.getUs_work();
+								String qry1 = "INSERT INTO utility_shifting_executives"
+										+ "(work_id_fk,executive_user_id_fk) VALUES (:work_id_fk,:executive_user_id_fk)";	
+								obj.setExecutive_user_id_fk(userId); 
+								if(!StringUtils.isEmpty(workIds)) {
+									String deleteFilesQry = "delete from utility_shifting_executives  where executive_user_id_fk = :executive_user_id_fk";		 
 									User fileObj = new User();
 									fileObj.setExecutive_user_id_fk(userId);
 									paramSource = new BeanPropertySqlParameterSource(obj);	
@@ -634,66 +624,94 @@ public class UserDaoImpl implements UserDao{
 										paramSource = new BeanPropertySqlParameterSource(obj);		 
 										c = namedParamJdbcTemplate.update(qry1, paramSource);
 									}
-								
-							   }
-						  }
+								}
 							
-							if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Execution &  Monitoring")) {
-								String qry1 = "INSERT INTO structure_contract_responsible_people"
-										+ "( structure_id_fk, contract_id_fk, responsible_people_id_fk) VALUES (:structure_id_fk,:contract_id_fk,:responsible_people_id_fk)";	
-								obj.setResponsible_people_id_fk(userId); 
-								if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
-									String deleteFilesQry = "delete from structure_contract_responsible_people  where responsible_people_id_fk = :responsible_people_id_fk";		 
-									User fileObj = new User();
-									fileObj.setExecutive_user_id_fk(userId);
-									paramSource = new BeanPropertySqlParameterSource(obj);	
-									namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
-									
-									int len = obj.getContract_ids().length;
-									
-									int size = 0;
-									if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
-				    					obj.setContract_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getContract_ids()));
-				    					if(size < obj.getContract_ids().length) {
-				    						size = obj.getContract_ids().length;
-				    					}
-				    				}
-									if(size == 1 ) {
-							    		String joined = String.join(",", obj.getStructures());
-							    		String[] strArray = new String[] {joined};
-							    		obj.setStructures(strArray);
-							    	}
-									if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
-				    					obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
-				    					if(size < obj.getStructures().length) {
-				    						size = obj.getStructures().length;
-				    					}
-				    				}
-									for (int i = 0; i < size; i++){
-										List<String> executives = null;
-										if(!StringUtils.isEmpty(obj.getStructures()[i])){
-											if(obj.getStructures()[i].contains(",")) {
-												executives = new ArrayList<String>(Arrays.asList(obj.getStructures()[i].split(",")));
-											}else {
-												executives = new ArrayList<String>(Arrays.asList(obj.getStructures()[i]));
+							 }
+								if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("R & R")) {
+									int c = 0;
+									String workIds = obj.getRr_work();
+									String qry1 = "INSERT INTO rr_executives"
+											+ "(work_id_fk,executive_user_id_fk) VALUES (:work_id_fk,:executive_user_id_fk)";	
+									obj.setExecutive_user_id_fk(userId); 
+									if(!StringUtils.isEmpty(workIds)) {
+										String deleteFilesQry = "delete from rr_executives  where executive_user_id_fk = :executive_user_id_fk";		 
+										User fileObj = new User();
+										fileObj.setExecutive_user_id_fk(userId);
+										paramSource = new BeanPropertySqlParameterSource(obj);	
+										namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
+										if(workIds.contains(",")) {
+											String [] values = workIds.split(",");
+											int arrSz = values.length;
+											for(int i = 0; i < arrSz; i++) {
+												obj.setWork_id_fk(values[i]);
+												paramSource = new BeanPropertySqlParameterSource(obj);		 
+												c = namedParamJdbcTemplate.update(qry1, paramSource);
 											}
-											for(String eObj : executives) {
-												if(!eObj.equals("null") && !StringUtils.isEmpty(obj.getContract_ids()[i]) &&  !StringUtils.isEmpty(eObj)) {
-													User filesObj = new User();
-													filesObj.setResponsible_people_id_fk(obj.getResponsible_people_id_fk());
-													filesObj.setContract_id_fk(obj.getContract_ids()[i]);
-													filesObj.setStructure_id_fk(eObj);
-													paramSource = new BeanPropertySqlParameterSource(filesObj);
-													namedParamJdbcTemplate.update(qry1, paramSource);
-												}
-											}
+										}else {
+											obj.setWork_id_fk(workIds);
+											paramSource = new BeanPropertySqlParameterSource(obj);		 
+											c = namedParamJdbcTemplate.update(qry1, paramSource);
 										}
 									
-									}
-									
-									
+								   }
+							  }
 								
-							   }
+								if(!StringUtils.isEmpty(permissions[k]) && permissions[k].contains("Execution &  Monitoring")) {
+									String qry1 = "INSERT INTO structure_contract_responsible_people"
+											+ "( structure_id_fk, contract_id_fk, responsible_people_id_fk) VALUES (:structure_id_fk,:contract_id_fk,:responsible_people_id_fk)";	
+									obj.setResponsible_people_id_fk(userId); 
+									if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
+										String deleteFilesQry = "delete from structure_contract_responsible_people  where responsible_people_id_fk = :responsible_people_id_fk";		 
+										User fileObj = new User();
+										fileObj.setExecutive_user_id_fk(userId);
+										paramSource = new BeanPropertySqlParameterSource(obj);	
+										namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
+										
+										int len = obj.getContract_ids().length;
+										
+										int size = 0;
+										if(!StringUtils.isEmpty(obj.getContract_ids()) && obj.getContract_ids().length > 0) {
+					    					obj.setContract_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getContract_ids()));
+					    					if(size < obj.getContract_ids().length) {
+					    						size = obj.getContract_ids().length;
+					    					}
+					    				}
+										if(size == 1 ) {
+								    		String joined = String.join(",", obj.getStructures());
+								    		String[] strArray = new String[] {joined};
+								    		obj.setStructures(strArray);
+								    	}
+										if(!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
+					    					obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
+					    					if(size < obj.getStructures().length) {
+					    						size = obj.getStructures().length;
+					    					}
+					    				}
+										for (int i = 0; i < size; i++){
+											List<String> executives = null;
+											if(!StringUtils.isEmpty(obj.getStructures()[i])){
+												if(obj.getStructures()[i].contains(",")) {
+													executives = new ArrayList<String>(Arrays.asList(obj.getStructures()[i].split(",")));
+												}else {
+													executives = new ArrayList<String>(Arrays.asList(obj.getStructures()[i]));
+												}
+												for(String eObj : executives) {
+													if(!eObj.equals("null") && !StringUtils.isEmpty(obj.getContract_ids()[i]) &&  !StringUtils.isEmpty(eObj)) {
+														User filesObj = new User();
+														filesObj.setResponsible_people_id_fk(obj.getResponsible_people_id_fk());
+														filesObj.setContract_id_fk(obj.getContract_ids()[i]);
+														filesObj.setStructure_id_fk(eObj);
+														paramSource = new BeanPropertySqlParameterSource(filesObj);
+														namedParamJdbcTemplate.update(qry1, paramSource);
+													}
+												}
+											}
+										
+										}
+										
+										
+									
+								   }
 						  }
 					 }
 	
@@ -1339,7 +1357,7 @@ public class UserDaoImpl implements UserDao{
 			String qry = "select module_name, um.executive_id_fk, um.soft_delete_status from module m"
 					+ " left join user_module um on m.module_name = um.module_fk where module_name in ('Contracts','Design','Execution &  Monitoring','Finance',"
 					+ "'Issues','Land Acquisition','R & R','Risk','Safety','Training','Unmanned Aerial Vehicle','Utility Shifting','Works')"
-					+ " and soft_delete_status_fk = 'Active' and executive_id_fk = ?"
+					+ " and soft_delete_status_fk = 'Active' and executive_id_fk = ?  group by module_name "
 					+ "order by field(module_name,'Contracts','Risk','Land Acquisition','R & R','Utility Shifting',"
 					+ "'Works','Safety','Design','Execution &  Monitoring','Finance','Issues','Training','Unmanned Aerial Vehicle')";
 			
@@ -1361,7 +1379,7 @@ public class UserDaoImpl implements UserDao{
 			String qry = "select module_name from module m "
 					+ " where module_name in ('Contracts','Design','Execution &  Monitoring','Finance',"
 					+ "'Issues','Land Acquisition','R & R','Risk','Safety','Training','Unmanned Aerial Vehicle','Utility Shifting','Works')"
-					+ " and soft_delete_status_fk = 'Active' "
+					+ " and soft_delete_status_fk = 'Active' group by module_name  "
 					+ "order by field(module_name,'Contracts','Risk','Land Acquisition','R & R','Utility Shifting',"
 					+ "'Works','Safety','Design','Execution &  Monitoring','Finance','Issues','Training','Unmanned Aerial Vehicle')";
 			

@@ -248,6 +248,17 @@
                                 
                                 </div>
                                 <div class="row">
+                                 <div class="col s6 m4 l4 input-field">
+                                     <p class="searchable_label">User Type <span class="required">*</span></p>
+                                      <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown"  onchange="getReportingToPersonsList();">
+                                          <option value="">Select</option>
+                                          <c:forEach var="obj" items="${types }">
+                                          	<option value="${obj.user_type_fk }" <c:if test="${obj.user_type_fk eq usrObj.user_type_fk}">selected</c:if>>${obj.user_type_fk }</option>
+                                          </c:forEach>
+                                      </select> 
+                                      <span id="user_type_fkError" class="error-msg" ></span>
+                                </div>
+                                <input id="user_id" name="user_id" type="hidden" value="${usrObj.user_id }">
                                 <div class="col s6 m4 l4 input-field">
                                    <p class="searchable_label">Reporting To <span class="required">*</span></p>
                                    <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
@@ -273,17 +284,7 @@
                                     <br><br>
                                 </div>
                                 </c:if> --%>
-                                 <div class="col s6 m4 l4 input-field">
-                                     <p class="searchable_label">User Type <span class="required">*</span></p>
-                                      <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown"  onchange="getReportingToPersonsList();">
-                                          <option value="">Select</option>
-                                          <c:forEach var="obj" items="${types }">
-                                          	<option value="${obj.user_type_fk }" <c:if test="${obj.user_type_fk eq usrObj.user_type_fk}">selected</c:if>>${obj.user_type_fk }</option>
-                                          </c:forEach>
-                                      </select> 
-                                      <span id="user_type_fkError" class="error-msg" ></span>
-                                </div>
-                                <input id="user_id" name="user_id" type="hidden" value="${usrObj.user_id }">
+                           
                                 <div class="col s12 m4 l4 input-field">
                                      <p class="searchable_label">User Role <span class="required">*</span></p>
                                       <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown" onchange="setUserRoleCode();">

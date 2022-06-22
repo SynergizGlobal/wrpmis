@@ -548,22 +548,21 @@
 		    $("#status_fk").val("");   
          	 	
        	}
-       	else
-    	{
+       	else if("${safety.safety_incident}"=="No")
+       	{
        	 	$('input[name^=safety_incident][value="No"]').prop("checked",true);
        	 	$("#nominatedDiv").hide();
  		    $("#status_fk").val("Closed").trigger('change');	
-		    $("#status_fk").prop("disabled",true);         	 	
-       	 	
-      	 	
-    	}
+		    $("#status_fk").prop("disabled",true);     
+         	 	
+       	}       	
        	
        	if("${safety.approve_corrective_measure}"=="Yes")
        	{
        	 	$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",true);
        	 	$("#status_fk").prop("disabled",false);
        	}
-       	else
+       	else if("${safety.approve_corrective_measure}"=="No")
     	{
        	 	$('input[name^=approve_corrective_measure][value="No"]').prop("checked",true);
  		    $("#status_fk").val("Open").trigger('change');	
@@ -577,12 +576,14 @@
         	   {
            			$("#nominatedDiv").show();
            			$("#status_fk").val("Open").trigger('change');
+           			$("#status_fk").prop("disabled",false);  
        			
         	   }
            	   else 
            		   if($(this).val()=="No")
           		   {	$("#nominatedDiv").hide();
            				$("#status_fk").val("Closed").trigger('change');
+           				$("#status_fk").prop("disabled",true);   
            				
           		   }
             
@@ -600,6 +601,7 @@
 		       		   {	
 		        		   $("#status_fk").val("Open").trigger('change');	
 		        		   $("#status_fk").prop("disabled",true);
+		        		   
 		       		   }
         		}
         	else

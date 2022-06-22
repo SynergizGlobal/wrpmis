@@ -212,11 +212,11 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry = "INSERT INTO safety"
 					+ "(contract_id_fk,hod_user_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,category_fk,impact_fk,root_cause_fk,status_fk,"
 					+ "closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,investigation_completed,corrective_measure_short_term,"
-					+ "corrective_measure_long_term,compensation,payment_date,remarks,compensation_units,committee_member_name,created_by,created_date,nominated_authority) "
+					+ "corrective_measure_long_term,compensation,payment_date,remarks,compensation_units,committee_member_name,created_by,created_date,nominated_authority,approve_corrective_measure) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:hod_user_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:category_fk,:impact_fk,:root_cause_fk,:status_fk,:"
 					+ "closure_date,:lti_hours,:equipment_impact,:people_impact,:work_impact,:committee_formed_fk,:committee_required_fk,:investigation_completed,:corrective_measure_short_term,:"
-					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:compensation_units,:committee_member_name,:created_by_user_id_fk,CURRENT_TIMESTAMP,:nominated_authority)";	
+					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:compensation_units,:committee_member_name,:created_by_user_id_fk,CURRENT_TIMESTAMP,:nominated_authority,:approve_corrective_measure)";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 		    int count = template.update(qry, paramSource, keyHolder);
@@ -273,7 +273,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			throws Exception {
 
 		try {
-			String emailsQry = "select i.safety_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,"
+			String emailsQry = "select i.safety_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,nominated_authority,approve_corrective_measure,w.work_name,"
 					+ "c.contract_name,i.category_fk,i.title,i.location,i.remarks,"
 					+ "u2.user_name as responsible_person,"
 					+ "u2.designation as responsible_person_designation,"
@@ -500,7 +500,14 @@ public class SafetyDaoImpl implements SafetyDao {
 				if(!"Update".equals(action_type)) {
 					mailBodyHeader = mailBodyHeader + "added.";
 				}else if(!"Closed".equals(iObj.getStatus_fk())){
-					mailBodyHeader = mailBodyHeader + "updated ";
+					
+					if(!StringUtils.isEmpty(iObj.getNominated_authority())) {
+						mailBodyHeader = mailBodyHeader + "for nominated authority is assigned. ";
+					}
+					else
+					{
+						mailBodyHeader = mailBodyHeader + "updated ";
+					}					
 				}else{
 					mailBodyHeader = mailBodyHeader + iObj.getStatus_fk();
 				}
@@ -513,7 +520,14 @@ public class SafetyDaoImpl implements SafetyDao {
 				if(!"Update".equals(action_type)) {
 					emailSubject = emailSubject + "added.";
 				}else if(!"Closed".equals(iObj.getStatus_fk())){
-					emailSubject = emailSubject  + "updated.";
+
+					if(!StringUtils.isEmpty(iObj.getNominated_authority())) {
+						emailSubject = emailSubject  + "for nominated authority is assigned.";
+					}
+					else
+					{
+						emailSubject = emailSubject  + "updated.";
+					}
 				}else{
 					emailSubject = emailSubject + iObj.getStatus_fk();
 				}
@@ -562,7 +576,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
 					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,"
 					+ "work_id_fk,work_name,project_id_fk,project_name,s.compensation_units,s.committee_member_name,"
-					+ "(select group_concat(committee_member_name) from safety_committee_members where safety_id_fk = ?) as committe_members,nominated_authority "
+					+ "(select group_concat(committee_member_name) from safety_committee_members where safety_id_fk = ?) as committe_members,nominated_authority,approve_corrective_measure "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
@@ -603,7 +617,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			connection = dataSource.getConnection();
 			String qry = "UPDATE safety SET contract_id_fk=:contract_id_fk,hod_user_id_fk=:hod_user_id_fk,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,category_fk=:category_fk,impact_fk=:impact_fk,root_cause_fk=:root_cause_fk,status_fk=:status_fk,"
 					+ "closure_date=:closure_date,lti_hours=:lti_hours,equipment_impact=:equipment_impact,people_impact=:people_impact,work_impact=:work_impact,committee_formed_fk=:committee_formed_fk,committee_required_fk = :committee_required_fk,investigation_completed=:investigation_completed,corrective_measure_short_term=:corrective_measure_short_term,"
-					+ "corrective_measure_long_term=:corrective_measure_long_term,compensation=:compensation,payment_date=:payment_date,remarks=:remarks,compensation_units=:compensation_units,committee_member_name=:committee_member_name,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,nominated_authority=:nominated_authority  "
+					+ "corrective_measure_long_term=:corrective_measure_long_term,compensation=:compensation,payment_date=:payment_date,remarks=:remarks,compensation_units=:compensation_units,committee_member_name=:committee_member_name,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,nominated_authority=:nominated_authority,approve_corrective_measure=:approve_corrective_measure  "
 					+ "WHERE safety_id = :safety_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			
@@ -611,8 +625,6 @@ public class SafetyDaoImpl implements SafetyDao {
 				flag = true;
 			}
 			if(flag) {
-				
-				
 				String qryDelete = "select * from safety_files where safety_id_fk = ?";
 				stmt = connection.prepareStatement(qryDelete);
 				stmt.setString(1,obj.getSafety_id());

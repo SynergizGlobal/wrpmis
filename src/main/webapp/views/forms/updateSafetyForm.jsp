@@ -496,6 +496,18 @@
        	 	$("#nominatedDiv").hide();
     	}
        	
+       	if("${safety.approve_corrective_measure}"=="Yes")
+       	{
+       	 	$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",true);
+       	 	$("#status_fk").prop("disabled",false);
+       	}
+       	else
+    	{
+       	 	$('input[name^=approve_corrective_measure][value="No"]').prop("checked",true);
+ 		    $("#status_fk").val("Open").trigger('change');	
+		    $("#status_fk").prop("disabled",true);      	 	
+    	}       	
+       	
         
         $('input[name^=safety_incident]').click(function(){
             

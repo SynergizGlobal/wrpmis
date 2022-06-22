@@ -210,6 +210,7 @@
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                             </div>
+                            <div id="safetyYesNoDiv">
                             <div class="row">                                
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
                                     <p class="prio">Safety Incident</p>
@@ -240,7 +241,7 @@
 									    </p>
 								    </div>
 	                                <div class="col s12 m3 l3 input-field">
-	                                     <p style="color: #aaa;font-size:0.85rem;" >Nominated Authority</p>
+	                                     <p style="color: #aaa;font-size:0.85rem;" >Nominated Authority<span class="required">*</span></p>
 	                                    <select id="nominated_authority" name="nominated_authority" class="searchable">
 	                                        <option value="">Select</option>
 	                                    </select>
@@ -248,7 +249,7 @@
 	                                </div>								    
 	                                <div class="col s12 m3 l3 input-field">
 	                                    
-	                                    <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC</p>
+	                                    <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC<span class="required">*</span></p>
 	                                    <select id="responsible_person" name="responsible_person" class="searchable">
 	                                        <option value="">Select</option>
 	                                    </select>
@@ -267,7 +268,7 @@
 	                                <div class="col s12 m3 l3 input-field hidden" id="committee_member_div">                                 	
 	                                   <%--  <input id="committee_member_name" name="committee_member_name" type="text" class="validate" value="${safety.committee_member_name }">
 	                                    <label for="committee_member_name">Name of Committee member</label> --%>
-	                                     <p style="color: #aaa;font-size:0.85rem;" >Name of Committee members</p>
+	                                     <p style="color: #aaa;font-size:0.85rem;" >Name of Committee members<span class="required" id="spCom" style="display:none;">*</span></p>
 	                                    <select id="committee_member_name" name="committee_member_names" class="searchable validate-dropdown" multiple="multiple">
 	                                   <option value="" disabled="disabled">Select</option>
 	                                   <c:forEach var="obj" items="${usersList}">
@@ -281,6 +282,9 @@
 	                                    <span id="committee_member_nameError" class="error-msg" ></span> 
 	                                </div>  
 	                            </div>
+	                            </div>
+	                            
+	                            <div id="secondDiv" style="display:none;">
 	                            <div class="row">                             
 	                                 <div class="col s12 m6 l6 input-field">
 	                                    <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker" value="${safety.investigation_completed }">
@@ -328,9 +332,10 @@
 	                                    <label for="corrective_measure_long_term">Corrective Measure (Long Term) </label>
 	                                    <span id="corrective_measure_long_termError" class="error-msg" ></span>
 	                                </div>
-	                            </div>                          
+	                            </div> 
+	                           </div>                         
 							</div>
-                            <div class="row" id="divApproveCorrectiveMeasure" style="display:none;">                                
+                            <div class="row" id="divApproveCorrectiveMeasure">                                
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
                                     <p class="prio">Approve Corrective Measure</p>
                                     <p class="radiogroup">
@@ -475,25 +480,77 @@
                 return false;
             }
         });
+        
+        	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || '${sessionScope.USER_TYPE}'=="HOD" || '${sessionScope.USER_TYPE}'=="DyHOD")
+        	{
+        		$("#nominated_authority").prop("disabled",false);
+        		$("#committee_required").prop("disabled",false);
+        		$("#committee_member_name").prop("disabled",false);
+        		
+        	}
+        	else
+       		{
+        		$("#nominated_authority").prop("disabled",true);
+        		$("#committee_required").prop("disabled",true);
+        		$("#committee_member_name").prop("disabled",true);
+       		}
+        	
+        	var arrayCommittee=new Array();
+        	if("${(fn:length(safety.safetyCommitteeMembersList))>0}")
+    		{
+           					  			 
+		 		<c:forEach var="tempobj" items="${safety.safetyCommitteeMembersList}">
+		 			arrayCommittee.push("${tempobj.committee_member_name}");
+                </c:forEach>           					  			 
+
+    		}  
+        	
+        	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
+        	{
+           		$("#secondDiv").show();
+    			$("#hidden_date").show();
+      			$("#divPayment").show();         		
+        	}
+        	else
+       		{
+           		$("#secondDiv").hide();
+    			$("#hidden_date").hide();
+      			$("#divPayment").hide(); 
+       		}       	
+        	
+        	
      
-       	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}')
+       	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.nominated_authority}"!="")
        	{
        		$("#divApproveCorrectiveMeasure").show();
+       		$("#secondDiv").show();
+       		
+			$("#hidden_date").show();
+  			$("#divPayment").show(); 
+       		
        	}
        	else
     	{
     		$("#divApproveCorrectiveMeasure").hide();
+    		$("#secondDiv").hide();
+    		
+			$("#hidden_date").hide();
+  			$("#divPayment").hide();    		
+    		
     	}
 
        	if("${safety.nominated_authority}"!="")
        	{
        	 	$('input[name^=safety_incident][value="Yes"]').prop("checked",true);
        	 	$("#nominatedDiv").show();
+         	 	
        	}
        	else
     	{
        	 	$('input[name^=safety_incident][value="No"]').prop("checked",true);
        	 	$("#nominatedDiv").hide();
+       	 	
+      	 	
     	}
        	
        	if("${safety.approve_corrective_measure}"=="Yes")
@@ -515,16 +572,12 @@
         	   {
            			$("#nominatedDiv").show();
            			$("#status_fk").val("Open").trigger('change');
-       				$("#hidden_date").show();
-       				$("#divPayment").show();           			
+       			
         	   }
            	   else 
            		   if($(this).val()=="No")
           		   {	$("#nominatedDiv").hide();
            				$("#status_fk").val("Closed").trigger('change');
-           				
-           				$("#hidden_date").hide();
-           				$("#divPayment").hide();
            				
           		   }
             
@@ -532,15 +585,22 @@
         
         $('input[name^=approve_corrective_measure]').click(function(){
             
-        	   if($(this).val()=="Yes")
-     	   		{
-        		   $("#status_fk").prop("disabled",false);
-     	   		}
-        	   else if($(this).val()=="No")
-       		   {	
-        		   $("#status_fk").val("Open").trigger('change');	
-        		   $("#status_fk").prop("disabled",true);
-       		   }
+        	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || '${sessionScope.USER_ROLE_NAME}'=="IT Admin")
+        		{
+		        	   if($(this).val()=="Yes")
+		     	   		{
+		        		   $("#status_fk").prop("disabled",false);
+		     	   		}
+		        	   else if($(this).val()=="No")
+		       		   {	
+		        		   $("#status_fk").val("Open").trigger('change');	
+		        		   $("#status_fk").prop("disabled",true);
+		       		   }
+        		}
+        	else
+        		{
+        			alert("You are not authorised person to Accepted / Not Accepted");
+        		}
          
      });      
         
@@ -598,6 +658,7 @@
             
             if($('#committee_required').is(":checked")){
            	 $('#committee_member_div').removeClass('hidden');
+           	 $('#spCom').show();
            }
             if(user_type == 'HOD' || user_role == 'IT Admin'){
             	
@@ -676,10 +737,13 @@
             $('#committee_required').change(function(){
                 if(this.checked){
                     $('#committee_formed_div').removeClass('hidden');
+                    $('#spCom').show();
+                    
                 }else{
                     $('#committee_formed_div').addClass('hidden');
                     $("#committee_formed_fk").val("No");
                     $('#committee_formed').prop('checked', false);
+                    $('#spCom').hide();
                 }
             });
             $('#committee_formed').change(function(){
@@ -823,10 +887,40 @@
 		  				$('#nominated_authorityError').html("Required");
 		  				return false;
 		  			}
+		  			if($('#committee_required').is(":checked") && $('#responsible_person').val()=="")
+		  			{
+		  				$('#responsible_personError').html("Required");
+		  				return false;
+		  			}
+		  			if($('#committee_required').is(":checked") && $('#committee_member_name').val()=="")
+		  			{
+		  				$('#committee_member_nameError').html("Required");
+		  				return false;
+		  			}		  			
 		  			else
 	  				{
 	  					$('#nominated_authorityError').html("");
+	  					$('#responsible_personError').html("");
+	  					$('#committee_member_nameError').html("");
 	  				}
+  				}
+	  			else
+  				{
+		  			if($('#committee_required').is(":checked")==false && $('#nominated_authority').val()=="")
+		  			{
+		  				$('#nominated_authorityError').html("Required");
+		  				return false;
+		  			}
+		  			if($('#committee_required').is(":checked")==false && $('#responsible_person').val()=="")
+		  			{
+		  				$('#responsible_personError').html("Required");
+		  				return false;
+		  			}		  			
+		  			else
+	  				{
+	  					$('#nominated_authorityError').html("");
+	  					$('#responsible_personError').html("");
+	  				}  				
   				}
     			document.getElementById("safetyForm").submit();			
     	 	}

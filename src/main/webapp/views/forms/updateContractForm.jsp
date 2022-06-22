@@ -795,7 +795,7 @@
 	                             </div>
 	                             <div class="row">
 	                                <div class="col s6 m6 l6 input-field " id="loa_letter_number_div">
-	                                    <input id="loa_letter_number" name="loa_letter_number" maxlength="50" data-length="50" type="text" class="validate w90 pdr4em" value="${contractDeatils.loa_letter_number }">
+	                                    <input id="loa_letter_number" name="loa_letter_number" maxlength="100" data-length="100" type="text" class="validate w90 pdr4em" value="${contractDeatils.loa_letter_number }">
 	                                    <label for="loa_letter_number">LOA Letter No <span class="required" id="loa_letter_number_req">*</span></label>
 	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
 	                                   
@@ -809,7 +809,7 @@
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s6 m6 l6 input-field " id="ca_no_div">
-	                                    <input id="ca_no" name="ca_no" maxlength="50" data-length="50" type="text" class="validate w90 pdr4em" value="${contractDeatils.ca_no }">
+	                                    <input id="ca_no" name="ca_no" maxlength="100" data-length="100" type="text" class="validate w90 pdr4em" value="${contractDeatils.ca_no }">
 	                                    <label for="ca_no">CA No</label>
 	                                     <span id="ca_noError" class="error-msg" ></span>
 	                                </div>
@@ -3216,12 +3216,12 @@
         		 		required: false
         		 	  },"loa_letter_number": {
         		 		 required: false,
-        		 	      maxlength: 50
+        		 	      maxlength: 100
         		 	  },"loa_date":{
         		 		 required: false
         		 	  },"ca_no": {
         		 		 required: false,
-       		 	     	 maxlength: 50
+       		 	     	 maxlength: 100
         	 	   	  },"ca_date": {
         	 	   		dateBeforeCA:"#loa_date",
         		 		required: false
@@ -3304,12 +3304,12 @@
        			 		required: 'Required'
        			 	  },"loa_letter_number": {
        			 		required: 'Required',
-       			 		maxlength:"Max Length is only 50 characters"
+       			 		maxlength:"Max Length is only 100 characters"
        			 	  },"loa_date":{
        			 		 required: 'Required'
        			 	  },"ca_no": {
        			 		required: 'Required',
-       			 		maxlength:"Max Length is only 50 characters"
+       			 		maxlength:"Max Length is only 100 characters"
        		 	   	  },"ca_date": {
        			 		required: 'Required'
        			 	  },"actual_completion_date": {

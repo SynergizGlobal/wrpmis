@@ -607,6 +607,8 @@
         	else
         		{
         			alert("You are not authorised person to Accepted / Not Accepted");
+        			$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",false);
+        			$('input[name^=approve_corrective_measure][value="No"]').prop("checked",false);
         		}
          
      });      

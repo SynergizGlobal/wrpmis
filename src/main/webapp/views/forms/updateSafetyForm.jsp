@@ -662,6 +662,7 @@
             $('#remarks').characterCounter();
             var reporting_to_id_srfk = "${safety.hod_user_id_fk }";
             getResponsiblePersonsList(reporting_to_id_srfk);
+            getNomonatedAuthorityList();
             
             if($('#committee_required').is(":checked")){
            	 $('#committee_member_div').removeClass('hidden');
@@ -1376,6 +1377,29 @@
 	                                	$("#responsible_person").append('<option  value="' + val.user_id + '">' + $.trim(val.designation) + userName + '</option>');
 	                                }
 	                                
+	                            });
+	                        }
+	                        $('.searchable').select2();
+	                        $(".page-loader").hide();
+	                    }
+	                });
+	            }else{
+	            	$(".page-loader").hide();
+	            }
+	        }
+			
+			
+			
+			function getNomonatedAuthorityList(){
+	        	$(".page-loader").show();
+	                $.ajax({
+	                	url: "<%=request.getContextPath()%>/ajax/getNominatedAuthorityListForSafetyForm",
+	                     cache: false,
+	                    success: function (data) {
+	                        if (data.length > 0) {
+	                            $.each(data, function (i, val) {
+	                            	var userName = '';
+	                                if ($.trim(val.user_name) != '') { userName = ' - ' + $.trim(val.user_name) }
 	                                if(val.user_id == "${safety.nominated_authority}"){
 		                                $("#nominated_authority").append('<option  value="' + val.user_id + '" selected>' + $.trim(val.designation) + userName + '</option>');
 	                                }else{
@@ -1388,10 +1412,7 @@
 	                        $(".page-loader").hide();
 	                    }
 	                });
-	            }else{
-	            	$(".page-loader").hide();
-	            }
-	        }
+	        }			
 			
 			$(document).ready(function () {
 				var hod_user_id = '${safety.hod_user_id_fk}';

@@ -135,6 +135,11 @@ public class SafetyServiceImpl implements SafetyService {
 	}
 
 	@Override
+	public List<Safety> getNominatedAuthorityListForSafetyForm(Safety obj) throws Exception {
+		return safetyDao.getNominatedAuthorityListForSafetyForm(obj);
+	}
+
+	@Override
 	public List<Safety> getUersList(Safety obj) throws Exception {
 		return safetyDao.getUersList(obj);
 	}

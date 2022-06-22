@@ -1707,6 +1707,18 @@ public class SafetyDaoImpl implements SafetyDao {
 		}
 		return objsList;
 	}
+	
+	@Override
+	public List<Safety> getNominatedAuthorityListForSafetyForm(Safety obj) throws Exception {
+		List<Safety> objsList = null;
+		try {
+			String qry = "SELECT designation,user_name,user_id,reporting_to_id_srfk from user where user_type_fk is not null and user_type_fk in('HOD','DyHOD','Management') ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}	
 
 	@Override
 	public List<Safety> getUersList(Safety obj) throws Exception {

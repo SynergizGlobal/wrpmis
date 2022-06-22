@@ -53,6 +53,7 @@ public interface SafetyDao {
 	List<Safety> getUnitsList(Safety obj) throws Exception;
 
 	List<Safety> getResponsiblePersonsListForSafetyForm(Safety obj) throws Exception;
+	List<Safety> getNominatedAuthorityListForSafetyForm(Safety obj) throws Exception;
 
 	List<Safety> getUersList(Safety obj) throws Exception;
 }

@@ -386,7 +386,7 @@
                                 </div>
                             </div>
                             
-                            <div class="row">                               
+                            <div class="row" id="divPayment">                               
                                 <div class="col s12 m6 l6 input-field">
                                     <input id="payment_date" name="payment_date" type="text" class="validate datepicker" value="${safety.payment_date }">
                                     <label for="payment_date">Payment Date</label>
@@ -515,11 +515,17 @@
         	   {
            			$("#nominatedDiv").show();
            			$("#status_fk").val("Open").trigger('change');
+       				$("#hidden_date").show();
+       				$("#divPayment").show();           			
         	   }
            	   else 
            		   if($(this).val()=="No")
           		   {	$("#nominatedDiv").hide();
            				$("#status_fk").val("Closed").trigger('change');
+           				
+           				$("#hidden_date").hide();
+           				$("#divPayment").hide();
+           				
           		   }
             
         });

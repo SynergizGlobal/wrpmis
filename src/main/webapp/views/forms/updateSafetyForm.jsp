@@ -210,6 +210,7 @@
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                             </div>
+                            <div id="safetyYesNoDiv">
                             <div class="row">                                
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
                                     <p class="prio">Safety Incident</p>
@@ -267,7 +268,7 @@
 	                                <div class="col s12 m3 l3 input-field hidden" id="committee_member_div">                                 	
 	                                   <%--  <input id="committee_member_name" name="committee_member_name" type="text" class="validate" value="${safety.committee_member_name }">
 	                                    <label for="committee_member_name">Name of Committee member</label> --%>
-	                                     <p style="color: #aaa;font-size:0.85rem;" >Name of Committee members<span class="required" id="spCom">*</span></p>
+	                                     <p style="color: #aaa;font-size:0.85rem;" >Name of Committee members<span class="required" id="spCom" style="display:none;">*</span></p>
 	                                    <select id="committee_member_name" name="committee_member_names" class="searchable validate-dropdown" multiple="multiple">
 	                                   <option value="" disabled="disabled">Select</option>
 	                                   <c:forEach var="obj" items="${usersList}">
@@ -281,6 +282,8 @@
 	                                    <span id="committee_member_nameError" class="error-msg" ></span> 
 	                                </div>  
 	                            </div>
+	                            </div>
+	                            
 	                            <div id="secondDiv" style="display:none;">
 	                            <div class="row">                             
 	                                 <div class="col s12 m6 l6 input-field">
@@ -332,7 +335,7 @@
 	                            </div> 
 	                           </div>                         
 							</div>
-                            <div class="row" id="divApproveCorrectiveMeasure" style="display:none;">                                
+                            <div class="row" id="divApproveCorrectiveMeasure">                                
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
                                     <p class="prio">Approve Corrective Measure</p>
                                     <p class="radiogroup">
@@ -477,8 +480,47 @@
                 return false;
             }
         });
+        
+        	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || '${sessionScope.USER_TYPE}'=="HOD" || '${sessionScope.USER_TYPE}'=="DyHOD")
+        	{
+        		$("#nominated_authority").prop("disabled",false);
+        		$("#committee_required").prop("disabled",false);
+        		$("#committee_member_name").prop("disabled",false);
+        		
+        	}
+        	else
+       		{
+        		$("#nominated_authority").prop("disabled",true);
+        		$("#committee_required").prop("disabled",true);
+        		$("#committee_member_name").prop("disabled",true);
+       		}
+        	
+        	var arrayCommittee=new Array();
+        	if("${(fn:length(safety.safetyCommitteeMembersList))>0}")
+    		{
+           					  			 
+		 		<c:forEach var="tempobj" items="${safety.safetyCommitteeMembersList}">
+		 			arrayCommittee.push("${tempobj.committee_member_name}");
+                </c:forEach>           					  			 
+
+    		}  
+        	
+        	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
+        	{
+           		$("#secondDiv").show();
+    			$("#hidden_date").show();
+      			$("#divPayment").show();         		
+        	}
+        	else
+       		{
+           		$("#secondDiv").hide();
+    			$("#hidden_date").hide();
+      			$("#divPayment").hide(); 
+       		}       	
+        	
+        	
      
-       	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}')
+       	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.nominated_authority}"!="")
        	{
        		$("#divApproveCorrectiveMeasure").show();
        		$("#secondDiv").show();
@@ -543,15 +585,22 @@
         
         $('input[name^=approve_corrective_measure]').click(function(){
             
-        	   if($(this).val()=="Yes")
-     	   		{
-        		   $("#status_fk").prop("disabled",false);
-     	   		}
-        	   else if($(this).val()=="No")
-       		   {	
-        		   $("#status_fk").val("Open").trigger('change');	
-        		   $("#status_fk").prop("disabled",true);
-       		   }
+        	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || '${sessionScope.USER_ROLE_NAME}'=="IT Admin")
+        		{
+		        	   if($(this).val()=="Yes")
+		     	   		{
+		        		   $("#status_fk").prop("disabled",false);
+		     	   		}
+		        	   else if($(this).val()=="No")
+		       		   {	
+		        		   $("#status_fk").val("Open").trigger('change');	
+		        		   $("#status_fk").prop("disabled",true);
+		       		   }
+        		}
+        	else
+        		{
+        			alert("You are not authorised person to Accepted / Not Accepted");
+        		}
          
      });      
         
@@ -609,6 +658,7 @@
             
             if($('#committee_required').is(":checked")){
            	 $('#committee_member_div').removeClass('hidden');
+           	 $('#spCom').show();
            }
             if(user_type == 'HOD' || user_role == 'IT Admin'){
             	

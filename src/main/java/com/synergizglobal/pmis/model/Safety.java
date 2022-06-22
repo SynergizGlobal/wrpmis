@@ -12,7 +12,7 @@ public class Safety {
 	department,department_name,attachment,contract_short_name,hod_user_id_fk,dy_hod_user_id_fk,committee_member_name,designation,hod_name,reporting_to_id_srfk,user_name,user_id,
 	contractor_name,safety_id_fk,compensation_units,id, unit, value,compensation_unit,hod_designation,dyhod_designation,reported_by_email_id,responsible_person_email_id,existing_status_fk,
 	existing_responsible_person,existing_escalated_to,contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,responsible_person_user_id,contract_hod_email_id,
-	contract_dyhod_email_id,created_by_email_id,user_role_code,modified_by,modified_date,reported_by_user_id,committe_members,existing_committe_members,nominated_authority,approve_corrective_measure;
+	contract_dyhod_email_id,created_by_email_id,user_role_code,modified_by,modified_date,reported_by_user_id,committe_members,existing_committe_members,nominated_authority,approve_corrective_measure,safety_incident;
 
 	private MultipartFile safetyFile;
 	
@@ -734,6 +734,14 @@ public class Safety {
 
 	public void setApprove_corrective_measure(String approve_corrective_measure) {
 		this.approve_corrective_measure = approve_corrective_measure;
+	}
+
+	public String getSafety_incident() {
+		return safety_incident;
+	}
+
+	public void setSafety_incident(String safety_incident) {
+		this.safety_incident = safety_incident;
 	}
 	
 }

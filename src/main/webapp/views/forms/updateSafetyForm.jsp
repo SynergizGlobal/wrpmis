@@ -540,16 +540,20 @@
     		
     	}
 
-       	if("${safety.nominated_authority}"!="")
+       	if("${safety.safety_incident}"=="Yes")
        	{
        	 	$('input[name^=safety_incident][value="Yes"]').prop("checked",true);
        	 	$("#nominatedDiv").show();
+		    $("#status_fk").prop("disabled",false);
+		    $("#status_fk").val("");   
          	 	
        	}
        	else
     	{
        	 	$('input[name^=safety_incident][value="No"]').prop("checked",true);
        	 	$("#nominatedDiv").hide();
+ 		    $("#status_fk").val("Closed").trigger('change');	
+		    $("#status_fk").prop("disabled",true);         	 	
        	 	
       	 	
     	}
@@ -903,16 +907,7 @@
 		  			{
 		  				$('#committee_member_nameError').html("Required");
 		  				return false;
-		  			}		  			
-		  			else
-	  				{
-	  					$('#nominated_authorityError').html("");
-	  					$('#responsible_personError').html("");
-	  					$('#committee_member_nameError').html("");
-	  				}
-  				}
-	  			else
-  				{
+		  			}
 		  			if($('#committee_required').is(":checked")==false && $('#nominated_authority').val()=="")
 		  			{
 		  				$('#nominated_authorityError').html("Required");
@@ -922,12 +917,28 @@
 		  			{
 		  				$('#responsible_personError').html("Required");
 		  				return false;
-		  			}		  			
+		  			}			  			
 		  			else
 	  				{
 	  					$('#nominated_authorityError').html("");
 	  					$('#responsible_personError').html("");
-	  				}  				
+	  					$('#committee_member_nameError').html("");
+	  				}
+  				}
+	  			else
+  				{
+	  				
+	  					$('#nominated_authority').val("");
+	  					$('#responsible_person').val("");
+	  					$('#committee_member_name').val("");
+	  					document.getElementById("nominated_authority").required = false;
+	  					$("#nominated_authority").prop("disabled",true);
+	  					$("#committee_required").prop("checked",false);
+ 					
+	  					$('#nominated_authorityError').html("");
+	  					$('#responsible_personError').html("");
+	  					$('#committee_member_nameError').html("");
+	  					
   				}
     			document.getElementById("safetyForm").submit();			
     	 	}

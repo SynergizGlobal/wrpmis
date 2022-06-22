@@ -240,31 +240,6 @@
 										      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
 									    </p>
 								    </div>
-	                                <div class="col s12 m3 l3 input-field">
-	                                     <p style="color: #aaa;font-size:0.85rem;" >Nominated Authority<span class="required">*</span></p>
-	                                    <select id="nominated_authority" name="nominated_authority" class="searchable">
-	                                        <option value="">Select</option>
-	                                    </select>
-	                                    <span id="nominated_authorityError" class="error-msg" ></span>
-	                                </div>								    
-	                                <div class="col s12 m3 l3 input-field">
-	                                    
-	                                    <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC<span class="required">*</span></p>
-	                                    <select id="responsible_person" name="responsible_person" class="searchable">
-	                                        <option value="">Select</option>
-	                                    </select>
-	                                    <span id="responsible_personError" class="error-msg" ></span>
-	                                </div>							    
-	<%-- 							    <div class="col s6 m4 l4 hidden input-field mti-5" id="committee_formed_div" style="display:none;">
-		                                 <p>
-										      <label>
-										        <input type="checkbox" id="committee_formed" name="committee_formed" <c:if test="${safety.committee_formed_fk eq 'Yes'}">checked</c:if>/>
-										        <span>Committee Formed</span>
-										      </label>
-										      
-									    </p>
-									    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
-								    </div> --%>
 	                                <div class="col s12 m3 l3 input-field hidden" id="committee_member_div">                                 	
 	                                   <%--  <input id="committee_member_name" name="committee_member_name" type="text" class="validate" value="${safety.committee_member_name }">
 	                                    <label for="committee_member_name">Name of Committee member</label> --%>
@@ -280,7 +255,33 @@
 	                                   </c:forEach>
 	                                    </select>
 	                                    <span id="committee_member_nameError" class="error-msg" ></span> 
-	                                </div>  
+	                                </div> 
+	                                <div class="col s12 m3 l3 input-field">
+	                                    
+	                                    <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC<span class="required">*</span></p>
+	                                    <select id="responsible_person" name="responsible_person" class="searchable">
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span id="responsible_personError" class="error-msg" ></span>
+	                                </div>		                                 								    
+	                                <div class="col s12 m3 l3 input-field">
+	                                     <p style="color: #aaa;font-size:0.85rem;" >Nominated Authority<span class="required">*</span></p>
+	                                    <select id="nominated_authority" name="nominated_authority" class="searchable">
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span id="nominated_authorityError" class="error-msg" ></span>
+	                                </div>								    
+						    
+	<%-- 							    <div class="col s6 m4 l4 hidden input-field mti-5" id="committee_formed_div" style="display:none;">
+		                                 <p>
+										      <label>
+										        <input type="checkbox" id="committee_formed" name="committee_formed" <c:if test="${safety.committee_formed_fk eq 'Yes'}">checked</c:if>/>
+										        <span>Committee Formed</span>
+										      </label>
+										      
+									    </p>
+									    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
+								    </div> --%>
 	                            </div>
 	                            </div>
 	                            
@@ -660,6 +661,10 @@
            	 $('#committee_member_div').removeClass('hidden');
            	 $('#spCom').show();
            }
+            else
+            	{
+            	 	$('#committee_member_div').hide();
+            	}
             if(user_type == 'HOD' || user_role == 'IT Admin'){
             	
             }
@@ -738,9 +743,11 @@
                 if(this.checked){
                     $('#committee_formed_div').removeClass('hidden');
                     $('#spCom').show();
+                    $('#committee_member_div').show();
+
                     
                 }else{
-                    $('#committee_formed_div').addClass('hidden');
+                	$('#committee_member_div').hide();
                     $("#committee_formed_fk").val("No");
                     $('#committee_formed').prop('checked', false);
                     $('#spCom').hide();

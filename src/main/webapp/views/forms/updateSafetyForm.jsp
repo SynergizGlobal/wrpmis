@@ -520,7 +520,6 @@
     				
 					if('${safety.corrective_measure_short_term }'=="")
 					{
-						alert("1");
 	    				$("#divApproveCorrectiveMeasure *").attr("disabled",true);
 					}
 	    			else
@@ -612,7 +611,7 @@
         		}
         	else
         		{
-        			alert("You are not authorised person to Accepted / Not Accepted");
+        			alert("Nominated Authority selected from the dropdown and PMIS User do not match to update this field");
         			$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",false);
         			$('input[name^=approve_corrective_measure][value="No"]').prop("checked",false);
         		}

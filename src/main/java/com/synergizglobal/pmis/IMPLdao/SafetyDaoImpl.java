@@ -471,6 +471,20 @@ public class SafetyDaoImpl implements SafetyDao {
 					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 						mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
 					}
+					if(!StringUtils.isEmpty(iObj.getNominated_authority())) {
+						mailTo = mailTo + getReported_by_email_id(iObj.getNominated_authority()) + ",";
+					}
+					
+					if(!StringUtils.isEmpty(committe_user_email_ids)) {
+						for (String committe_user_email_id : committe_user_email_ids) {
+							mailTo = mailTo + committe_user_email_id + ",";
+						}
+					}					
+
+					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+						mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
+					}	
+
 					if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
 						mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
 					}
@@ -535,7 +549,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				}else if(!"Closed".equals(iObj.getStatus_fk())){
 
 					if(!StringUtils.isEmpty(iObj.getNominated_authority())) {
-						emailSubject = emailSubject  + "for nominated authority is assigned.";
+						emailSubject = "Nomination of Responsible Person & Approval Authority for Safety Incident.";
 					}
 					else
 					{
@@ -1703,7 +1717,7 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT designation,user_name,user_id,reporting_to_id_srfk FROM user where designation <> '' ";
-			int arrSize = 0;
+			/*int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				qry = qry + " and reporting_to_id_srfk = ?";
 				arrSize++;
@@ -1714,7 +1728,10 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				pValues[i++] = obj.getReporting_to_id_srfk();
 			}
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));*/
+
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));
+			
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

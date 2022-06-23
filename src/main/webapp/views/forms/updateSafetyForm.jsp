@@ -504,10 +504,12 @@
 		 			arrayCommittee.push("${tempobj.committee_member_name}");
                 </c:forEach>           					  			 
 
-    		}  
+    		} 
+        	
         	
         	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
         	{
+
            		$("#secondDiv").show();
     			$("#hidden_date").show();
       			$("#divPayment").show();         		
@@ -521,7 +523,7 @@
         	
         	
      
-       	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.nominated_authority}"!="")
+       	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && "${safety.nominated_authority}"!="")
        	{
        		$("#divApproveCorrectiveMeasure").show();
        		$("#secondDiv").show();
@@ -590,7 +592,6 @@
         });
         
         $('input[name^=approve_corrective_measure]').click(function(){
-            
         	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || '${sessionScope.USER_ROLE_NAME}'=="IT Admin")
         		{
 		        	   if($(this).val()=="Yes")

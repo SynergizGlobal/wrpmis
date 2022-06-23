@@ -441,17 +441,30 @@ public class SafetyDaoImpl implements SafetyDao {
 						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 							mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
 						}
-						else
+						else if(!StringUtils.isEmpty(reported_by_user_id)) 
 						{
-							if(!StringUtils.isEmpty(reported_by_user_id)) {
-								mailTo = mailTo + getReported_by_email_id(reported_by_user_id) + ",";
-							}							
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
+								if(getReported_by_email_id(reported_by_user_id)!=null)
+								{
+									mailTo = mailTo + getReported_by_email_id(reported_by_user_id) + ",";
+								}
+								else
+								{
+									if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+										mailTo = mailTo + iObj.getContract_dyhod_email_id() + ",";
+									}
+									if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+										mailTo = mailTo + iObj.getContract_hod_email_id() + ",";
+									}									
+								}
+						}							
+						if(getReported_by_email_id(reported_by_user_id)!=null)
+						{
+							if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+								mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
+							}
+							if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+								mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
+							}
 						}
 					}					
 				} else {
@@ -560,7 +573,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	{
 		String Reported_by_email_id="";
 		try {
-			String qry = "select email_id from user where user_name = ?";
+			String qry = "select email_id from user where user_id = ?";
 			Reported_by_email_id = (String) jdbcTemplate.queryForObject(qry, new Object[] { reported_by_user_id }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);

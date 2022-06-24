@@ -504,41 +504,47 @@
 		 			arrayCommittee.push("${tempobj.committee_member_name}");
                 </c:forEach>           					  			 
 
-    		}  
+    		} 
         	
-        	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
+        	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || ("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && "${safety.nominated_authority}"!=""))
         	{
+        		$("#divApproveCorrectiveMeasure").show();
            		$("#secondDiv").show();
     			$("#hidden_date").show();
-      			$("#divPayment").show();         		
+      			$("#divPayment").show(); 
+    			if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && "${safety.nominated_authority}"!="") || '${sessionScope.USER_ROLE_NAME}'=="IT Admin")
+    			{
+    				$("#secondDiv *").attr("disabled",true);
+    				$("#hidden_date *").attr("disabled",true);
+    				$("#divPayment *").attr("disabled",true);
+    				
+					if('${safety.corrective_measure_short_term }'=="")
+					{
+	    				$("#divApproveCorrectiveMeasure *").attr("disabled",true);
+					}
+	    			else
+	   				{
+	    				$("#divApproveCorrectiveMeasure *").attr("disabled",false);
+	   				}
+    				
+    			}
+    			else if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
+    			{
+    				$("#secondDiv *").attr("disabled",false);
+    				$("#hidden_date *").attr("disabled",false);
+    				$("#divPayment *").attr("disabled",false);
+        			$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",false);
+        			$('input[name^=approve_corrective_measure][value="No"]').prop("checked",false);
+    			}    			
+
         	}
         	else
        		{
+        		$("#divApproveCorrectiveMeasure").hide();
            		$("#secondDiv").hide();
     			$("#hidden_date").hide();
       			$("#divPayment").hide(); 
        		}       	
-        	
-        	
-     
-       	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.nominated_authority}"!="")
-       	{
-       		$("#divApproveCorrectiveMeasure").show();
-       		$("#secondDiv").show();
-       		
-			$("#hidden_date").show();
-  			$("#divPayment").show(); 
-       		
-       	}
-       	else
-    	{
-    		$("#divApproveCorrectiveMeasure").hide();
-    		$("#secondDiv").hide();
-    		
-			$("#hidden_date").hide();
-  			$("#divPayment").hide();    		
-    		
-    	}
 
        	if("${safety.safety_incident}"=="Yes")
        	{
@@ -590,8 +596,7 @@
         });
         
         $('input[name^=approve_corrective_measure]').click(function(){
-            
-        	if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || '${sessionScope.USER_ROLE_NAME}'=="IT Admin")
+        	if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}') || ('${sessionScope.USER_ROLE_NAME}'=="IT Admin"))
         		{
 		        	   if($(this).val()=="Yes")
 		     	   		{
@@ -606,7 +611,7 @@
         		}
         	else
         		{
-        			alert("You are not authorised person to Accepted / Not Accepted");
+        			alert("Nominated Authority selected from the dropdown and PMIS User do not match to update this field");
         			$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",false);
         			$('input[name^=approve_corrective_measure][value="No"]').prop("checked",false);
         		}
@@ -614,6 +619,8 @@
      });      
         
     });
+
+	
 	  $(document).on('focus', '.datepicker', function () {        	 
 			var id = $(this).attr('id');
 				var dt = this.value.split(/[^0-9]/);

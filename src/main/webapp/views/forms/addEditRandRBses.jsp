@@ -471,7 +471,7 @@
                                                          <span id="rep_email${index.count }Error" class="error-msg" ></span>
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
-                                                            <a onclick="removeStActions('${index.count }');" class="btn waves-effect waves-light red t-c ">
+                                                            <a onclick="removeStActions('${index.count }');" class="btn waves-effect waves-light red t-c remove">
                                                                 <i class="fa fa-close"></i></a>
                                                         </td>
                                                     </tr>
@@ -500,7 +500,7 @@
                                                          <span id="rep_emailError" class="error-msg" ></span>
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
-                                                            <a onclick="removeStActions('0');" class="btn waves-effect waves-light red t-c ">
+                                                            <a onclick="removeStActions('0');" class="btn waves-effect waves-light red t-c remove">
                                                                 <i class="fa fa-close"></i></a>
                                                         </td>
                                                     </tr>

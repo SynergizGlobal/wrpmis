@@ -1,27 +1,157 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R&R Agency Grid</title>
-    <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">     
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
+    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="../nginx-1.9.9/html/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style type="text/css">
         [type="checkbox"]:not(:checked), [type="checkbox"]:checked{position: relative; opacity: 1;pointer-events: auto;}
+         .input-field .searchable_label{
+        	font-size:0.85rem;
+        }   
+    	 .fw-400{
+    	 	width:400px !important;
+    	 	max-width:400px;
+    	 }
+    	 .fw-300{
+    	 	width:300px !important;
+    	 	max-width:300px;
+    	 }
+    	 .fw-200{
+    	 	width:200px !important;
+    	 	max-width:200px;
+    	 }
+         .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns1 .fa{
+         	position:relative;
+         	top:-35px;
+         }
+        
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
+          .right-btns1 .fa+.fa{
+         	right:-10px;
+         }
+         .row.no-mar{
+         	margin-bottom:0;
+         }
+         .d-none{
+         	display: none;
+         }
+
+      @media only screen and (max-width: 820px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			} 
+			.r-300{
+				width:30vw !important;
+        		max-width:30vw;
+			}
+			 .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+	        .fw-111{
+	        	width:30vw !important;
+	        	min-width:30vw;
+	        }
+		}
+		#datatable-randr_mob td > .btn.t-c{
+			padding: 0 10px;
+		}
+		.fw-38w{
+			width: 38vw !important;
+		}
+		.right-btns{ display:none;}
+
+		.right-btns:last-of-type {
+		  display:block;
+		}
+		.no-sort.sorting_asc:before,
+.no-sort.sorting_asc:after{
+    opacity:0 !important;
+    content:'' !important;
+}
+	.m-n1 {
+   		 margin: -2rem auto 0;
+	}
+	.template-btn{
+		text-shadow:1px 1px 1px black;
+	}
+	@media only screen and (max-width: 820px){
+		.mob-mar{
+			text-align: center;
+		    margin-top: -1rem;
+		    margin-bottom: 2.2rem;
+		}
+		.exportButton .btn{
+			padding-left: 6px;
+	   		padding-right: 6px;
+		}
+	}
+	
+	thead th{
+		text-transform: capitalize;
+	}
+	@media(max-width: 575px){
+		.fw-200{
+			width: 120px !important;
+    		max-width: 75px;
+		}
+		.mdl-data-table thead tr th {
+		    vertical-align: middle;
+		    text-align: center;
+		    word-break: break-word;
+		    white-space: initial;
+		}
+		.fw-10{
+			width: 120px !important;
+    		max-width: 110px;
+		}
+	}
     </style>
 </head>
 
 <body>
 
     <!-- header  starts-->
-
+	<jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
 
     <div class="row">
@@ -31,11 +161,23 @@
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
                             <h6> R&R Agency</h6>
+                            <div class="col s12 m12 right-align exportButton hideCOl" >
+								
+								<div class="m-n1">
+									 <!-- <a href="/pmis/RR_Drawings.xlsx" download class="template-btn" title="Download Template">
+										<i class="material-icons-outlined">download_for_offline</i>
+									</a> -->
+									<a href="<%=request.getContextPath()%>/add-rr-bses" class="btn waves-effect waves-light bg-s t-c right-align">
+                                        <strong><i class="fa fa-plus-circle"></i> Add Contract</strong></a>
+								</div>
+							</div>
+                            
+                            
                         </div>
                     </span>
                     <div class="">
 
-                        <div class="row plr-1 center-align">
+                        <%-- <div class="row plr-1 center-align">
                             <div class="col s12 m4">
                             </div>
 
@@ -44,7 +186,7 @@
                                     <a href="<%=request.getContextPath()%>/add-rr-bses" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Contract</strong></a>
                                 </div>
-                            </div> </div>
+                            </div> </div> --%>
  <!--
                             <div class="col s12 m4 r-align">
                                 <div class="m-1 ">
@@ -63,6 +205,11 @@
 													<div class="center-align m-1 close-message">${error}</div>
 												</c:if>
 											</div>
+											<div class="col s12 hide-on-large-only mb-md-2 center-align">
+									    <a href="<%=request.getContextPath()%>/add-randr-form"
+									        class="btn waves-effect waves-light bg-s t-c"> <strong><i
+									            class="fa fa-plus-circle"></i> Add R & R</strong></a>
+									</div>
 										</div>
                             <div class="col m3 hide-on-small-only"></div>
                             <div class="col m8 s12 ">
@@ -119,6 +266,8 @@
     </div>
 
     <!-- footer  -->
+    <jsp:include page="../layout/footer.jsp"></jsp:include>
+    
  <form action="<%=request.getContextPath()%>/get-rr-bses" id="getForm" name="getForm" method="post" >
   		<input type="hidden" name="rrbses_id" id="rrbses_id"/>
     </form>

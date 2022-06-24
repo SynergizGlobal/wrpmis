@@ -194,6 +194,7 @@
         }
         .input-field>label{
         	font-size: .9rem !important;
+        	line-height: 16px;
         }
         .w20em{width: 20em;}
         .w60{
@@ -540,10 +541,16 @@
                             <div class="row">
                                 <div class="col s12 m6 l6 mt-brdr ">
                                       <c:if test="${action eq 'edit'}">
-		                                       <button type="button" onclick="updateRR();" class="btn waves-effect waves-light bg-m">Update</button>
+		                                      <div class="center-align m-1">
+		                                          <button type="button" onclick="updateRR();" class="btn waves-effect waves-light bg-m">Update</button>
+		                                    </div>	
+		                                       
 		                                    </c:if>
 		                                    <c:if test="${action eq 'add'}">
-		                                        <button type="button" id="disabled" onclick="addRR();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+			                                    <div class="center-align m-1">
+			                                          <button type="button" id="disabled" onclick="addRR();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+			                                    </div>
+		                                        
 		                                    </c:if>
                                 </div>
                                 <div class="col s12 m6 l6 mt-brdr ">

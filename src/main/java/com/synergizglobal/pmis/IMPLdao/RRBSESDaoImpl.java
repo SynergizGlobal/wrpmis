@@ -127,6 +127,8 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		try {
 			String qry ="select count(id) as total_records from rr_agency r "
 					+ "LEFT JOIN work w on r.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u on r.hod = u.user_id "
+					+ "LEFT JOIN user uu on r.mrvc_responsible_person = uu.user_id "
 					+ "where id is not null  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -140,7 +142,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 	
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (r.id like ? or r.work_id_fk like ? or work_short_name like ?"
-						+ " or user_name like ? or designation like ? or bses_agency_name like ? or agency_responsible_person like ? )";
+						+ " or u.user_name like ? or u.designation like ? or bses_agency_name like ? or agency_responsible_person like ? )";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -200,7 +202,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (r.id like ? or r.work_id_fk like ? or work_short_name like ?"
-						+ " or user_name like ? or designation like ? or bses_agency_name like ? or agency_responsible_person like ? )";
+						+ " or u.user_name like ? or u.designation like ? or bses_agency_name like ? or agency_responsible_person like ? )";
 				arrSize++;
 				arrSize++;
 				arrSize++;

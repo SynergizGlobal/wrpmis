@@ -303,9 +303,13 @@ public class SafetyDaoImpl implements SafetyDao {
 				
 				String committe_user_ids_query = "select user_name as committee_member_name from safety_committee_members m left join user u on u.user_id=m.committee_member_name where safety_id_fk = ? group by committee_member_name";
 				String committe_user_email_ids_query = "select email_id from user where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
+				String committe_users_query = "select user_id from user where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
+
 				
 				List<String> committe_user_ids = jdbcTemplate.queryForList(committe_user_ids_query,new Object[]{safety_id}, String.class);
 				List<String> committe_user_email_ids = jdbcTemplate.queryForList( committe_user_email_ids_query,new Object[]{safety_id},String.class);
+				List<String> committe_users = jdbcTemplate.queryForList( committe_users_query,new Object[]{safety_id},String.class);
+				
 				
 				/*********************************************************************************************/
 				NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -349,7 +353,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				} else {
 					if(!StringUtils.isEmpty(iObj.getStatus_fk()) && "Closed".equals(iObj.getStatus_fk())) {
 						
-						for (String user_id : committe_user_ids) {
+						for (String user_id : committe_users) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(user_id);
 							msgObj.setMessage(message4);
@@ -397,7 +401,7 @@ public class SafetyDaoImpl implements SafetyDao {
 						}
 					}else if(!StringUtils.isEmpty(iObj.getStatus_fk())
 							&& iObj.getStatus_fk().equals(existing_status_fk)) {
-						for (String user_id : committe_user_ids) {
+						for (String user_id : committe_users) {
 							boolean exst_flag = false;
 							if(!StringUtils.isEmpty(existing_committe_members_arr)) {
 								for (String existing_committe_member : existing_committe_members_arr) {

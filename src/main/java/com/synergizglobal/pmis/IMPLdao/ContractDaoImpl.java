@@ -3853,7 +3853,7 @@ public class ContractDaoImpl implements ContractDao {
 		try {
 			String qry = "select * from detailsofcontractshistory where 0=0 ";
 			
-			int arrSize = 1;
+			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and department_fk = ?";
 				arrSize++;
@@ -3869,7 +3869,6 @@ public class ContractDaoImpl implements ContractDao {
 			qry = qry + " ORDER BY FIELD(department_fk,'Engg','Elec','S&T'),FIELD(c.contract_status_fk,'In Progress','Not Awarded','Completed')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			pValues[i++] = "Actual";
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}

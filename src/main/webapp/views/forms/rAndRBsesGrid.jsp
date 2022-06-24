@@ -183,7 +183,7 @@
 	    	$(".page-loader").show();
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var hod = $("#hod").val();
-	        if ($.trim(hod) == "") {
+	        if ($.trim(hod) == "") { 
 	        	$("#hod option:not(:first)").remove();
 	        	var myParams = { hod: hod,work_id_fk : work_id_fk};
 	        	$.ajax({

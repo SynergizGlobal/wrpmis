@@ -44,7 +44,7 @@ public class RRBSESContriller {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	Logger logger = Logger.getLogger(RRBSESContriller.class);
+	Logger logger = Logger.getLogger(RRBSESContriller.class); 
 	
 	
 	@Autowired

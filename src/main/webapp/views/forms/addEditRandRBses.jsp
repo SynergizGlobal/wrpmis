@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R & R - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">

@@ -16,7 +16,7 @@ public interface RRBSESService {
 
 	List<RandRMain> getPeopleListForRRForm(RandRMain rr) throws Exception;
 
-	RandRMain getRRBSES(RandRMain rr) throws Exception;
+	RandRMain getRRBSES(RandRMain rr) throws Exception;  
 
 	boolean addRRBSES(RandRMain obj) throws Exception;
 

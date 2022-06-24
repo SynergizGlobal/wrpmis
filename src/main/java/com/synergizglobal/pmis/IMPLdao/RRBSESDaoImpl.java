@@ -117,7 +117,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
-		}
+		} 
 		return objsList;
 	}
 
@@ -280,7 +280,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 					+ " uu.user_name as res_user_name,uu.designation as res_designation,mrvc_responsible_person, bses_agency_name, agency_responsible_person, r.contact_number, r.email_id as bses_email, "
 					+ "submission_date_report_ca, actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, report_submission_date_to_mrvc, "
 					+ "approval_date_by_mrvc from rr_agency r "
-					+ "LEFT JOIN work w on r.work_id_fk = w.work_id "
+					+ "LEFT JOIN work w on r.work_id_fk = w.work_id " 
 					+ "LEFT JOIN user u on r.hod = u.user_id "
 					+ "LEFT JOIN user uu on r.mrvc_responsible_person = uu.user_id "
 					+ "WHERE id is not null ";

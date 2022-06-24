@@ -15,7 +15,7 @@ public interface RRBSESDao {
 	List<RandRMain> getRRBSESList(RandRMain obj, int startIndex, int offset, String searchParameter) throws Exception;
 
 	List<RandRMain> getPeopleListForRRForm(RandRMain obj) throws Exception;
-
+ 
 	RandRMain getRRBSES(RandRMain obj) throws Exception;
 
 	boolean addRRBSES(RandRMain obj) throws Exception;

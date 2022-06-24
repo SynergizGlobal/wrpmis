@@ -295,58 +295,79 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+                     <c:if test="${action eq 'edit'}">	
+			                	<form action="<%=request.getContextPath() %>/update-rr-bses" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                          </c:if>
+			              <c:if test="${action eq 'add'}">				                
+			                	<form action="<%=request.getContextPath() %>/add-rr-bses" id="RandRForm" name="RandRForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+						  </c:if>
+						  
                         <div class="container container-no-margin">
                             <div class="row">  
+                            <input type="hidden" name="rr_id" value="${rrDetails.rrbses_id }"/>
                                 <h5 class="center-align" style="margin-bottom: 40px;">BSES Consultant Details</h5>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Work </p>
-                                    <select id="work_id" class="searchable" name="work_id">
+                                <c:if test="${action eq 'add'}">	
+
+                                    <p class="searchable_label"> Work <span class="required">*</span></p>
+                                    <select id="work_id_fk" class="searchable validate-dropdown" name="work_id_fk">
                                         <option value="">Select</option>
+                                        <c:forEach var="obj" items="${worksList }">
+                                      	   <option value= "${ obj.work_id_fk}" <c:if test="${rrDetails.work_id_fk eq obj.work_id_fk}">selected</c:if>>${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                         </c:forEach> 
                                     </select>
+                                     <span id="work_id_fkError" class="error-msg" ></span>
+	                           </c:if>
+				              <c:if test="${action eq 'edit'}">				                
+	                                     <input type="text" class="validate w80 pdr4em" value="${rrDetails.work_short_name } - ${rrDetails.work_id_fk}" readonly>
+							  </c:if>
+						  
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> MRVC HOD </p>
-                                    <select id="mrvc_hod" class="searchable" name="mrvc_hod">
+                                    <p class="searchable_label"> MRVC HOD <span class="required">*</span></p>
+                                    <select id="hod" class="searchable validate-dropdown" name="hod" onchange="getResponsible(this.value);">
                                         <option value="">Select</option>
+                                        <c:forEach var="obj" items="${hodList }">
+                                      	   <option value= "${ obj.hod}" <c:if test="${rrDetails.hod eq obj.hod}">selected</c:if>>${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>
+                                         </c:forEach> 
                                     </select>
+                                     <span id="hodError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> MRVC Responsible Person </p>
-                                    <select id="mrvc_res_person" class="searchable" name="mrvc_res_person">
+                                    <p class="searchable_label"> MRVC Responsible Person <span class="required">*</span></p>
+                                    <select id="mrvc_responsible_person" class="searchable validate-dropdown
+                                    " name="mrvc_responsible_person">
                                         <option value="">Select</option>
-                                        <option value="Govt">Govt </option>
                                     </select>
+                                     <span id="mrvc_responsible_personError" class="error-msg" ></span>
                                 </div>  
-                                
-                                
                             </div>
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
-                                     <input id="bses_agency_name" maxlength="100" data-length="100" name="bses_agency_name" type="text" class="validate w80 pdr4em" value="">
-                                     <label for="bses_agency_name">BSES Agency Name</label>
+                                     <input id="bses_agency_name" maxlength="100" data-length="100" name="bses_agency_name" type="text" class="validate w80 pdr4em" value="${rrDetails.bses_agency_name }">
+                                     <label for="bses_agency_name">BSES Agency Name<span class="required">*</span></label>
                                      <span id="bses_agency_nameError" class="error-msg" ></span>
                                  </div> 
                                  <div class="col s6 m4 l4 input-field">
-                                     <input id="res_person_agency" maxlength="50" data-length="50" name="res_person_agency" type="text" class="validate w80 pdr4em" value="">
+                                     <input id="res_person_agency" maxlength="50" data-length="50" name="agency_responsible_person" type="text" class="validate w80 pdr4em" value="${rrDetails.agency_responsible_person }">
                                      <label for="res_person_agency">Responsible Person From Agency</label>
                                      <span id="res_person_agencyError" class="error-msg" ></span>
                                  </div> 
                                 
                                 <div class="col s12 m4 input-field">
-                                    <input id="contact_number" maxlength="10" data-length="10" name="contact_number" type="number" class="validate num w80 pdr4em">
+                                    <input id="contact_number" maxlength="10" data-length="10" name="contact_number" type="number" value="${rrDetails.contact_number }" class="validate num w80 pdr4em">
                                     <label for="contact_number">Contact Number </label>
                                     <span id="contact_numberError" class="error-msg"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
-                                     <input id="bses_email" maxlength="100" data-length="100" name="bses_email" type="email" class="validate w80 pdr4em" value="">
+                                     <input id="bses_email" maxlength="100" data-length="100" name="bses_email" type="email" class="validate w80 pdr4em" value="${rrDetails.bses_email }">
                                      <label for="bses_email">Email ID</label>
                                      <span id="bses_emailError" class="error-msg" ></span>
                                  </div> 
                                  <div class="col s6 m4 input-field">
-                                     <input id="submission_date_report_ca" name="submission_date_report_ca" type="text" class="validate datepicker" value="">
+                                     <input id="submission_date_report_ca" name="submission_date_report_ca" type="text" class="validate datepicker" value="${rrDetails.submission_date_report_ca }">
                                      <button type="button" id="submission_date_report_ca_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                      <label for="submission_date_report_ca">Submission date of report as per CA <!-- <span class="required" id="verification_date_req"></span> --></label>
@@ -354,7 +375,7 @@
                                 </div> 
                                 
                                 <div class="col s6 m4 input-field">
-                                     <input id="actual_date_report_mrvc" name="actual_date_report_mrvc" type="text" class="validate datepicker" value="">
+                                     <input id="actual_date_report_mrvc" name="actual_submission_date_bses_report_to_mrvc" type="text" class="validate datepicker" value="${rrDetails.actual_submission_date_bses_report_to_mrvc }">
                                      <button type="button" id="actual_date_report_mrvc_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                      <label for="actual_date_report_mrvc">Actual Submission date of BSES report to MRVC </label>
@@ -372,12 +393,12 @@
                                         <div class="col s5 m7 input-field">
                                             <p class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
                                                 <label>
-                                                    <input id="approval_yes" class="with-gap" name="mrvc_approval" type="radio"
-                                                        value="yes" />
+                                                    <input id="approval_yes" class="with-gap" name="approval_by_mrvc_responsible_person" type="radio"
+                                                       <c:if test="${(rrDetails.approval_by_mrvc_responsible_person eq 'yes')}">checked</c:if> value="yes" />
                                                     <span>Yes</span>
                                                 </label> &nbsp; <label>
-                                                    <input class="with-gap" name="mrvc_approval" type="radio"
-                                                        value="no" checked/>
+                                                    <input class="with-gap" name="approval_by_mrvc_responsible_person" type="radio"
+                                                        value="no"  <c:if test="${(rrDetails.approval_by_mrvc_responsible_person eq '') or (rrDetails.approval_by_mrvc_responsible_person ne 'yes')}">checked</c:if>/>
                                                     <span>No</span>
                                                 </label>
                                             </p>
@@ -387,14 +408,14 @@
                                 <div id='show-me' style='display:none;margin-top: 20px;'>
                                     <div class="row">
                                         <div class="col s6 m4 input-field offset-m2">
-                                             <input id="submission_date_report_mrvc" name="submission_date_report_mrvc" type="text" class="validate datepicker" value="">
+                                             <input id="submission_date_report_mrvc" name="report_submission_date_to_mrvc" type="text" class="validate datepicker" value="${rrDetails.report_submission_date_to_mrvc }">
                                              <button type="button" id="submission_date_report_mrvc_icon" class="datepicker-button"><i
                                                     class="fa fa-calendar"></i></button>
                                              <label for="submission_date_report_mrvc">Report Submission Date to MRVC </label>
                                              <span id="submission_date_report_mrvcError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s6 m4 input-field">
-                                             <input id="approval_date_mrvc" name="approval_date_mrvc" type="text" class="validate datepicker" value="">
+                                             <input id="approval_date_mrvc" name="approval_date_by_mrvc" type="text" class="validate datepicker" value="${rrDetails.approval_date_by_mrvc }">
                                              <button type="button" id="approval_date_mrvc_icon" class="datepicker-button"><i
                                                     class="fa fa-calendar"></i></button>
                                              <label for="approval_date_mrvc">Approval Date by MRVC </label>
@@ -423,25 +444,58 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="stBody">
-                                                <input type="hidden" id="sNo" value="1">
-                                                       <tr id="actionStRow0">
+                                               
+                                               <c:choose>
+		                                        <c:when test="${not empty rrDetails.rrBSESLIst && fn:length(rrDetails.rrBSESLIst) gt 0 }">
+		                                         <input type="hidden" id="sNo" value="${fn:length(rDetails.rrBSESLIst) }">
+		                                		  <c:forEach var="rrObj" items="${rrDetails.rrBSESLIst }" varStatus="index">   
+                                                       <tr id="actionStRow${index.count }">
                                                         <td>&nbsp;</td>
                                                         <td data-head="Date of Appointment" class="input-field">
-                                                            <input id="appointment_date_committee" name="appointment_date_committee" type="text" class="validate datepicker" value="">
+                                                            <input id="appointment_date_committee${index.count }" name="date_of_appointments" type="text" class="validate datepicker" value="${rrObj.date_of_appointment }">
+                                                                 <button type="button" id="appointment_date_committee_icon" class="datepicker-button"><i
+                                                                        class="fa fa-calendar"></i></button>
+                                                                 <span id="appointment_date_committee${index.count }Error" class="error-msg" ></span>
+                                                        </td>
+                                                        <td data-head="Name of Representative${index.count }" class="input-field">
+                                                        <input id="name_representative" maxlength="50" data-length="50" name="name_of_representatives" type="text" class="validate w70 pdr4em" value="${rrObj.name_of_representative }">
+                                                         <span id="name_representative${index.count }Error" class="error-msg" ></span>
+                                                        </td>
+                                                        <td data-head="Contact Number" class="input-field">
+                                                            <input id="contact_number_rep${index.count }" maxlength="10" data-length="10" name="phone_nos" type="number" value="${rrObj.phone_no }" class="validate num w70 pdr4em">
+                                                            <span id="contact_number_rep${index.count }Error" class="error-msg"></span>
+                                                        </td>
+                                                        <td data-head="Email" class="input-field">
+                                                        <input id="rep_email${index.count }" maxlength="50" data-length="50" name="email_ids" type="email" class="validate w70 pdr4em" value="${rrObj.email_id }">
+                                                         <span id="rep_email${index.count }Error" class="error-msg" ></span>
+                                                        </td>
+                                                        <td class="input-field mobile_btn_close">
+                                                            <a onclick="removeStActions('${index.count }');" class="btn waves-effect waves-light red t-c ">
+                                                                <i class="fa fa-close"></i></a>
+                                                        </td>
+                                                    </tr>
+	                                             </c:forEach>
+	                                           </c:when>
+                                             <c:otherwise>
+                                              <input type="hidden" id="sNo" value="1">
+                                              <tr id="actionStRow0">
+                                                        <td>&nbsp;</td>
+                                                        <td data-head="Date of Appointment" class="input-field">
+                                                            <input id="appointment_date_committee0" name="date_of_appointments" type="text" class="validate datepicker" value="">
                                                                  <button type="button" id="appointment_date_committee_icon" class="datepicker-button"><i
                                                                         class="fa fa-calendar"></i></button>
                                                                  <span id="appointment_date_committeeError" class="error-msg" ></span>
                                                         </td>
-                                                        <td data-head="Name of Representative" class="input-field">
-                                                        <input id="name_representative" maxlength="50" data-length="50" name="name_representative" type="text" class="validate w70 pdr4em" value="">
+                                                        <td data-head="Name of Representative0" class="input-field">
+                                                        <input id="name_representative" maxlength="50" data-length="50" name="name_of_representatives" type="text" class="validate w70 pdr4em" value="">
                                                          <span id="name_representativeError" class="error-msg" ></span>
                                                         </td>
                                                         <td data-head="Contact Number" class="input-field">
-                                                            <input id="contact_number_rep" maxlength="10" data-length="10" name="contact_number_rep" type="number" class="validate num w70 pdr4em">
+                                                            <input id="contact_number_rep0" maxlength="10" data-length="10" name="phone_nos" type="number" value="" class="validate num w70 pdr4em">
                                                             <span id="contact_number_repError" class="error-msg"></span>
                                                         </td>
                                                         <td data-head="Email" class="input-field">
-                                                        <input id="rep_email" maxlength="50" data-length="50" name="rep_email" type="email" class="validate w70 pdr4em" value="">
+                                                        <input id="rep_email0" maxlength="50" data-length="50" name="email_ids" type="email" class="validate w70 pdr4em" value="">
                                                          <span id="rep_emailError" class="error-msg" ></span>
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
@@ -449,7 +503,8 @@
                                                                 <i class="fa fa-close"></i></a>
                                                         </td>
                                                     </tr>
-                                             
+                                             </c:otherwise>
+                                            </c:choose>
                                                 </tbody>
                                             </table>
                                             <table class="mdl-data-table table-add bd-none">
@@ -464,12 +519,14 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                                
-                                                    
-                                                        <input type="hidden" id="rowNo"  name="rowNo" value="" />
-                                                    
-                                                        <input type="hidden" id="rowNo"  name="rowNo" value="0" />
-                                                    
+                                      <c:choose>
+                                        <c:when test="${not empty rDetails.rrBSESLIst && fn:length(rDetails.rrBSESLIst) gt 0 }">
+                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(rDetails.rrBSESLIst) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose>
                                             
 
                                         </div>
@@ -482,14 +539,16 @@
                             <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col s12 m6 l6 mt-brdr ">
-                                    <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-m">Add /
-                                            Edit</button>
-                                    </div>
+                                      <c:if test="${action eq 'edit'}">
+		                                       <button type="button" onclick="updateRR();" class="btn waves-effect waves-light bg-m">Update</button>
+		                                    </c:if>
+		                                    <c:if test="${action eq 'add'}">
+		                                        <button type="button" id="disabled" onclick="addRR();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+		                                    </c:if>
                                 </div>
                                 <div class="col s12 m6 l6 mt-brdr ">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s">Cancel</button>
+                                          <a href="<%=request.getContextPath() %>/rr-bses" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -543,6 +602,11 @@
                return false;
            }
        });
+       
+       if('yes' == '${rrDetails.approval_by_mrvc_responsible_person}' ) {
+           $('#show-me').show();           
+      }
+       getResponsible('${rrDetails.hod}');
    });
 	 
 	 
@@ -566,6 +630,36 @@ $('input[type="radio"]').click(function() {
 });
 });
 
+function getResponsible(hod){
+   	$(".page-loader").show();
+    $("#mrvc_responsible_person option:not(:first)").remove();
+    if ($.trim(hod) != "") {
+        var myParams = { hod: hod };
+        $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getResponsibleListInRRBSES",
+            data: myParams, cache: false,
+            success: function (data) {
+                if (data.length > 0) {
+                    $.each(data, function (i, val) {
+                        var workName = '';
+                        if ($.trim(val.user_name) != '') { workName = ' - ' + $.trim(val.user_name) }
+                        var user_id = "${rrDetails.mrvc_responsible_person}";
+                        if ($.trim(user_id) != '' && val.user_id == $.trim(user_id)) {
+                            $("#mrvc_responsible_person").append('<option  value="' + val.user_id + '" selected>' + $.trim(val.designation) + $.trim(workName) + '</option>');
+                        } else {
+                            $("#mrvc_responsible_person").append('<option  value="' + val.user_id + '">' + $.trim(val.designation) + $.trim(workName) + '</option>');
+                        }
+                    });
+                }
+                $('.searchable').select2();
+                $(".page-loader").hide();
+            }
+        });
+    }else{
+    	$(".page-loader").hide();
+    }
+	
+}
   function addStRow(){
        var rowNo = $("#rowNo").val();
        var rowNo1 = $("#sNo").val();
@@ -574,20 +668,20 @@ $('input[type="radio"]').click(function() {
        var html = '<tr id="actionStRow' + rNo + '"><td></td>'
 
           +'<td data-head="Date of Appointment" class="input-field">'
-          +'<input id="appointment_date_committee' + rNo + '" type="text" class="validate datepicker" name="appointment_date_committee" value="">'              
+          +'<input id="appointment_date_committee' + rNo + '" type="text" class="validate datepicker" name="date_of_appointments" value="">'              
           +'<button type="button" id="appointment_date_committee_icon' + rNo + '" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
           +'<span id="appointment_date_committee' + rNo + 'Error" class="error-msg"></span></td>'
 
           +'<td data-head="Name Of Representative" class="input-field">'
-          +'<input type="text"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_representative" onchange="executivesToStringMethod('+rNo+');" value="">' 
-          +'<span id="name_representative' + rNo + 'Error" class="error-msg"></span> </td>'
+          +'<input type="text"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_of_representatives" onchange="executivesToStringMethod('+rNo+');" value="">' 
+          +'<span id="name_of_representative' + rNo + 'Error" class="error-msg"></span> </td>'
 
           +'<td data-head="Contact Number" class="input-field">'
-          +'<input type="number"  maxlength="10" data-length="10" id="contact_number_rep' + rNo + '" class="validate w70 pdr4em num"  name="contact_number_rep" value="">' 
+          +'<input type="number"  maxlength="10" data-length="10" id="contact_number_rep' + rNo + '" class="validate w70 pdr4em num"  name="phone_nos" value="">' 
           +'<span id="contact_number_rep' + rNo + 'Error" class="error-msg"></span> </td>'
 
           +'<td data-head="Email" class="input-field">'
-          +'<input type="email"  maxlength="50" data-length="50" id="rep_email' + rNo + '" class="validate w70 pdr4em"  name="rep_email" value="">' 
+          +'<input type="email"  maxlength="50" data-length="50" id="rep_email' + rNo + '" class="validate w70 pdr4em"  name="email_ids" value="">' 
           +'<span id="rep_email' + rNo + 'Error" class="error-msg"></span> </td>'
 
           +'<td class="input-field mobile_btn_close"><a onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></a></td>'
@@ -619,8 +713,106 @@ $('input[type="radio"]').click(function() {
 		});
 	}); 
    
-  
+
+	   function addRR(){
+	   	 if(validator.form()){ // validation perform
+	       	$(".page-loader").show();	
+	       	    $('form input[name=date_of_appointments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	 			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	 			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	 			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			document.getElementById("RandRForm").submit();			
+		 	 }
+	   }
+	   function updateRR(){
+	   	if(validator.form()){ // validation perform
+	       	$(".page-loader").show();	
+	       	$('form input[name=financial_year_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	        $('form input[name=date_of_appointments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+ 			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+ 			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+ 			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			document.getElementById("RandRForm").submit();	
+	   	}
+	   }
      
+
+	   var validator =	$('#RandRForm').validate({
+			 errorClass: "my-error-class",
+			 validClass: "my-valid-class",
+			 ignore: ":hidden:not(.validate-dropdown)",
+	 		    rules: {
+	 		 		   "work_id_fk": {
+	 			 		  required: true
+	 			 	  },"hod": {
+	 			 		  required: true
+	 			 	  }	,"mrvc_responsible_person"	:{
+	 			 		  required:true
+	 			 	  },"bses_agency_name"	:{
+	 			 		  required:true
+	 			 	  }
+	 		 	},
+	 		    messages: {
+	 		 		   "work_id_fk": {
+	 			 		  required: 'Required'
+	 			 	  },"hod": {
+	 			 		  required: 'Required'
+	 			 	  }	,"mrvc_responsible_person"	:{
+	 			 		  required:'Required'
+	 			 	  },"bses_agency_name"	:{
+	 			 		  required:'Required'
+	 			 	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	  if(element.attr("id") == "work_id_fk" ){
+					     document.getElementById("work_id_fkError").innerHTML="";
+				 	     error.appendTo('#work_id_fkError');
+					 }else if(element.attr("id") == "hod" ){
+					     document.getElementById("hodError").innerHTML="";
+				 	     error.appendTo('#hodError');
+					 }else if(element.attr("id") == "mrvc_responsible_person" ){
+					     document.getElementById("mrvc_responsible_personError").innerHTML="";
+				 	     error.appendTo('#mrvc_responsible_personError');
+					 }else if(element.attr("id") == "bses_agency_name" ){
+					     document.getElementById("bses_agency_nameError").innerHTML="";
+				 	     error.appendTo('#bses_agency_nameError');
+					 }else{
+						 error.insertAfter(element);
+			        } 
+		   		 	  
+		   		},invalidHandler: function (form, validator) {
+	                var errors = validator.numberOfInvalids();
+	                if (errors) {
+	                    var position = validator.errorList[0].element;
+	                    jQuery('html, body').animate({
+	                        scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+	                    }, 1000);
+	                }
+	            },
+		   		submitHandler:function(form){
+			    	//form.submit();
+			    }
+			});   
+	  	 $.validator.addMethod("dateFormat",
+	   	    function(value, element) {
+	   	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+	   	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+	   	    	//return dtRegex.test(value);
+	   	    },
+	   	    //"Date format (Aug 02,2020)"
+	   	    "Date format (DD-MM-YYYY)"
+	   	);
+	      $('select').change(function(){
+	          if ($(this).val() != ""){
+	              $(this).valid();
+	          }
+	      });
+
+	      $('input').change(function(){
+	          if ($(this).val() != ""){
+	              $(this).valid();
+	          }
+	      });
    </script>
 
 </body>

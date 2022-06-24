@@ -5,7 +5,7 @@ import java.util.List;
 public class RRBsesPaginationObject {
 	private int iTotalDisplayRecords; 
 	private int iTotalRecords;
-	private List<RRBses> aaData;
+	private List<RandRMain> aaData;
 	
 	public int getiTotalRecords() {
 		return iTotalRecords;
@@ -13,10 +13,10 @@ public class RRBsesPaginationObject {
 	public void setiTotalRecords(int iTotalRecords) {
 		this.iTotalRecords = iTotalRecords;
 	}
-	public List<RRBses> getAaData() {
+	public List<RandRMain> getAaData() {
 		return aaData;
 	}
-	public void setAaData(List<RRBses> aaData) {
+	public void setAaData(List<RandRMain> aaData) {
 		this.aaData = aaData;
 	}
 	public int getiTotalDisplayRecords() {
@@ -25,5 +25,6 @@ public class RRBsesPaginationObject {
 	public void setiTotalDisplayRecords(int iTotalDisplayRecords) {
 		this.iTotalDisplayRecords = iTotalDisplayRecords;
 	}
+	
 }
 

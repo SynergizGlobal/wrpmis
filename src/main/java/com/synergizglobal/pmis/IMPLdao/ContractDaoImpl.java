@@ -3866,7 +3866,7 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and contract_status_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY FIELD(department_fk,'Engg','Elec','S&T'),FIELD(c.contract_status_fk,'In Progress','Not Awarded','Completed')";
+			qry = qry + " ORDER BY FIELD(department_fk,'Engg','Elec','S&T'),FIELD(contract_status_fk,'In Progress','Not Awarded','Completed')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {

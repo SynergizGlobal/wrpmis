@@ -273,7 +273,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			throws Exception {
 
 		try {
-			String emailsQry = "select i.safety_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,nominated_authority,safety_incident,approve_corrective_measure,w.work_name,"
+			String emailsQry = "select i.safety_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,u8.user_name as nominated_authority,i.nominated_authority as nominated_authority_email_id,safety_incident,approve_corrective_measure,w.work_name,"
 					+ "c.contract_name,i.category_fk,i.title,i.location,i.remarks,"
 					+ "u2.user_name as responsible_person,"
 					+ "u2.designation as responsible_person_designation,"
@@ -283,13 +283,15 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,impact_fk,"
 					+ " i.remarks,corrective_measure_long_term,i.created_by as reported_by_user_id,u6.email_id as reported_by_email_id,"
 					+ "corrective_measure_short_term,"
-					+ "(select group_concat(user_name) from safety_committee_members cmb left join user u7 on cmb.committee_member_name = u7.user_id where safety_id_fk = i.safety_id) as committe_members "
+					+ "(select group_concat(user_name) from safety_committee_members cmb left join user u7 on cmb.committee_member_name = u7.user_id where safety_id_fk = i.safety_id) as committe_members,u7.user_name as modified_by "
 					+ "from safety i " 
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
 					+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
 					+ "LEFT OUTER JOIN user u6 on i.created_by = u6.user_id "
+					+ "LEFT OUTER JOIN user u7 on i.modified_by = u7.user_id "
+					+ "LEFT OUTER JOIN user u8 on i.nominated_authority = u8.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "where safety_id = ? ";
 
@@ -299,7 +301,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			
 			if(!StringUtils.isEmpty(iObj)) {
 				
-				String committe_user_ids_query = "select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name";
+				String committe_user_ids_query = "select user_name as committee_member_name from safety_committee_members m left join user u on u.user_id=m.committee_member_name where safety_id_fk = ? group by committee_member_name";
 				String committe_user_email_ids_query = "select email_id from user where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
 				
 				List<String> committe_user_ids = jdbcTemplate.queryForList(committe_user_ids_query,new Object[]{safety_id}, String.class);
@@ -472,7 +474,7 @@ public class SafetyDaoImpl implements SafetyDao {
 						mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
 					}
 					if(!StringUtils.isEmpty(iObj.getNominated_authority())) {
-						mailTo = mailTo + getReported_by_email_id(iObj.getNominated_authority()) + ",";
+						mailTo = mailTo + getReported_by_email_id(iObj.getNominated_authority_email_id()) + ",";
 					}
 					
 					if(!StringUtils.isEmpty(committe_user_email_ids)) {
@@ -529,7 +531,17 @@ public class SafetyDaoImpl implements SafetyDao {
 				}else if(!"Closed".equals(iObj.getStatus_fk())){
 					
 					if(!StringUtils.isEmpty(iObj.getNominated_authority())) {
-						mailBodyHeader = mailBodyHeader + "for nominated authority is assigned. ";
+						mailBodyHeader = mailBodyHeader+" "+iObj.getResponsible_person() + " You have been added for updating the safety incident details by "+iObj.getModified_by();
+						String CommitteUsers="";
+						if(!StringUtils.isEmpty(committe_user_ids)) 
+						{
+							for (String committe_user : committe_user_ids) 
+							{
+								CommitteUsers = CommitteUsers + committe_user + ",";
+							}
+						}
+						mailBodyHeader = mailBodyHeader+" Committee members are "+CommitteUsers;
+						mailBodyHeader = mailBodyHeader+" "+iObj.getNominated_authority()+" "+": You have been added for reviewing and approving the safety incident details proposed by " ;
 					}
 					else
 					{

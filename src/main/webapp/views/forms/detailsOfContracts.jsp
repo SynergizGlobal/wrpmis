@@ -164,8 +164,8 @@
         
 		
 		.fw-200{
-        	width:200px !important;
-        	min-width:200px !important;
+        	width:430px !important;
+        	min-width:430px !important;
         }
                 
         .fw-250{
@@ -173,15 +173,15 @@
         	min-width:250px !important;
         }
         .fw-155{
-        	width:155px !important;
-        	min-width:155px !important;
+        	width:200px !important;
+        	min-width:200px !important;
         }
         .fw-150{
         	width:150px !important;
         	min-width:150px !important;
         }
         
-        
+.mdl-data-table td {text-align:center;}        
 
 		.legends {
             padding: 2px;
@@ -336,6 +336,16 @@
 		    padding-top: 12px;
 		    vertical-align: middle;
 		}   
+		
+/* .mdl-data-table td:not([colspan]):not(.mobile_btn_close):not(.td-align-right):not(.td-align-center) {
+    text-align: center !important;
+} */	
+
+.textalignment{
+   	width:430px !important;
+   	min-width:430px !important;
+	text-align: left  !important;
+}
 	
     </style>
 </head>
@@ -436,7 +446,7 @@
 										<th class="fs16rem" style="background-color: #162D6E;">Contract Value(Cr)</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Expenditure(Cr)</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Physical Progress</th>
-										<th class="fs16rem" style="background-color: #162D6E;" class="w100">LOA Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;">LOA Date</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Completion Date</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Remarks</th>
 									</tr>
@@ -651,7 +661,7 @@
                 //{targets: [5],className: 'red'},
                 //{targets: [6],className: 'fw-200'},
                 {targets: [6,7],className: 'fw-155'},
-                {targets: [2,8],className: 'fw-200'},
+                {targets: [2,8],className: 'textalignment'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,
@@ -726,8 +736,8 @@
 			                        var loa_date = val.loa_date;
 			                        var awarded_cost = val.awarded_cost;
 			                        if ($.trim(val.contract_status_fk) == 'Not Awarded'){
-			                        	loa_date = '<span class="red">'+val.planned_date_of_award+'</span>'
-			                        	awarded_cost = '<span class="red">'+val.awarded_cost+'</span>'
+			                        	loa_date = '<span style="color:red;">'+val.planned_date_of_award+'</span>'
+			                        	awarded_cost = '<span style="color:red;">'+val.awarded_cost+'</span>'
 			                        }
 				                   	rowArray.push($.trim(lp));
 				                   	rowArray.push($.trim(val.contract_status_fk));

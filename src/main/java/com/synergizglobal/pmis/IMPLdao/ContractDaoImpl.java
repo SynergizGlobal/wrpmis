@@ -3851,39 +3851,22 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select w.work_name,w.work_short_name,dt.department_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,c.department_fk, " + 
-					"c.status as contract_status, contract_status_fk,estimated_cost_units,awarded_cost_units,completed_cost_units,mu1.unit as estimated_cost_unit,mu2.unit as awarded_cost_unit,mu3.unit as completed_cost_unit, " + 
-					"cast(c.estimated_cost*c.estimated_cost_units as CHAR) as estimated_cost," + 
-					"IFNULL((SELECT (revised_amount * revised_amount_units) FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.revision_amounts_status = 'Yes' limit 1),cast(c.awarded_cost*c.awarded_cost_units as CHAR)) as awarded_cost, " + 
-					"(SELECT cast(SUM(gross_work_done) as CHAR) FROM expenditure e WHERE e.contract_id_fk = c.contract_id) AS cumulative_expenditure,"+
-					"ifnull(DATE_FORMAT(planned_date_of_award,'%d-%m-%Y'),'') as planned_date_of_award, " + 
-					"ifnull(DATE_FORMAT(loa_date,'%d-%m-%Y'),'') as loa_date, " + 
-					"(SELECT sum(contract_per) FROM activities_scurve where contract_id = c.contract_id AND category = ?) as physical_progress, " + 
-					"IFNULL((SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1),(case when (SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1) is null then DATE_FORMAT(doc,'%d-%m-%Y') else (SELECT DATE_FORMAT(revised_doc,'%d-%m-%Y') FROM contract_revision cr WHERE cr.contract_id_fk = c.contract_id AND cr.action = 'Yes' limit 1) end )) as actual_completion_date, " + 
-					"c.remarks " + 
-					"FROM contract c " + 
-					"LEFT join work w ON c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
-					"left join user u on c.hod_user_id_fk = u.user_id " +
-					"left join department dt on u.department_fk = dt.department " +
-					"LEFT join money_unit mu1 ON c.estimated_cost_units = mu1.value " + 
-					"LEFT join money_unit mu2 ON c.awarded_cost_units = mu2.value " + 
-					"LEFT join money_unit mu3 ON c.completed_cost_units = mu3.value " + 
-					"WHERE contract_id IS NOT NULL ";
+			String qry = "select * from detailsofcontractshistory where 0=0 ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and u.department_fk = ?";
+				qry = qry + " and department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				qry = qry + " and c.contract_status_fk = ?";
+				qry = qry + " and contract_status_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY FIELD(u.department_fk,'Engg','Elec','S&T'),FIELD(c.contract_status_fk,'In Progress','Not Awarded','Completed')";
+			qry = qry + " ORDER BY FIELD(department_fk,'Engg','Elec','S&T'),FIELD(c.contract_status_fk,'In Progress','Not Awarded','Completed')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = "Actual";

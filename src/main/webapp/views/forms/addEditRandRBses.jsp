@@ -453,21 +453,21 @@
                                                        <tr id="actionStRow${index.count }">
                                                         <td>&nbsp;</td>
                                                         <td data-head="Date of Appointment" class="input-field">
-                                                            <input id="appointment_date_committee${index.count }" name="date_of_appointments" type="text" class="validate datepicker" value="${rrObj.date_of_appointment }">
+                                                            <input id="appointment_date_committee${index.count }" placeholder="Date" name="date_of_appointments" type="text" class="validate datepicker" value="${rrObj.date_of_appointment }">
                                                                  <button type="button" id="appointment_date_committee_icon" class="datepicker-button"><i
                                                                         class="fa fa-calendar"></i></button>
                                                                  <span id="appointment_date_committee${index.count }Error" class="error-msg" ></span>
                                                         </td>
                                                         <td data-head="Name of Representative${index.count }" class="input-field">
-                                                        <input id="name_representative" maxlength="50" data-length="50" name="name_of_representatives" type="text" class="validate w70 pdr4em" value="${rrObj.name_of_representative }">
+                                                        <input id="name_representative" maxlength="50" placeholder="Name" data-length="50" name="name_of_representatives" type="text" class="validate w70 pdr4em" value="${rrObj.name_of_representative }">
                                                          <span id="name_representative${index.count }Error" class="error-msg" ></span>
                                                         </td>
                                                         <td data-head="Contact Number" class="input-field">
-                                                            <input id="contact_number_rep${index.count }" maxlength="10" data-length="10" name="phone_nos" type="number" value="${rrObj.phone_no }" class="validate num w70 pdr4em">
+                                                            <input id="contact_number_rep${index.count }" placeholder="Number" maxlength="10" data-length="10" name="phone_nos" type="number" value="${rrObj.phone_no }" class="validate num w70 pdr4em">
                                                             <span id="contact_number_rep${index.count }Error" class="error-msg"></span>
                                                         </td>
                                                         <td data-head="Email" class="input-field">
-                                                        <input id="rep_email${index.count }" maxlength="50" data-length="50" name="email_ids" type="email" class="validate w70 pdr4em" value="${rrObj.email_id }">
+                                                        <input id="rep_email${index.count }" maxlength="50" placeholder="Email" data-length="50" name="email_ids" type="email" class="validate w70 pdr4em" value="${rrObj.email_id }">
                                                          <span id="rep_email${index.count }Error" class="error-msg" ></span>
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
@@ -482,21 +482,21 @@
                                               <tr id="actionStRow0">
                                                         <td>&nbsp;</td>
                                                         <td data-head="Date of Appointment" class="input-field">
-                                                            <input id="appointment_date_committee0" name="date_of_appointments" type="text" class="validate datepicker" value="">
+                                                            <input id="appointment_date_committee0" name="date_of_appointments" type="text" placeholder="Date" class="validate datepicker" value="">
                                                                  <button type="button" id="appointment_date_committee_icon" class="datepicker-button"><i
                                                                         class="fa fa-calendar"></i></button>
                                                                  <span id="appointment_date_committeeError" class="error-msg" ></span>
                                                         </td>
                                                         <td data-head="Name of Representative0" class="input-field">
-                                                        <input id="name_representative" maxlength="50" data-length="50" name="name_of_representatives" type="text" class="validate w70 pdr4em" value="">
+                                                        <input id="name_representative" placeholder="Name" maxlength="50" data-length="50" name="name_of_representatives" type="text" class="validate w70 pdr4em" value="">
                                                          <span id="name_representativeError" class="error-msg" ></span>
                                                         </td>
                                                         <td data-head="Contact Number" class="input-field">
-                                                            <input id="contact_number_rep0" maxlength="10" data-length="10" name="phone_nos" type="number" value="" class="validate num w70 pdr4em">
+                                                            <input id="contact_number_rep0" placeholder="Number" maxlength="10" data-length="10" name="phone_nos" type="number" value="" class="validate num w70 pdr4em">
                                                             <span id="contact_number_repError" class="error-msg"></span>
                                                         </td>
                                                         <td data-head="Email" class="input-field">
-                                                        <input id="rep_email0" maxlength="50" data-length="50" name="email_ids" type="email" class="validate w70 pdr4em" value="">
+                                                        <input id="rep_email0" placeholder="Email" maxlength="50" data-length="50" name="email_ids" type="email" class="validate w70 pdr4em" value="">
                                                          <span id="rep_emailError" class="error-msg" ></span>
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
@@ -675,20 +675,20 @@ function getResponsible(hod){
        var html = '<tr id="actionStRow' + rNo + '"><td></td>'
 
           +'<td data-head="Date of Appointment" class="input-field">'
-          +'<input id="appointment_date_committee' + rNo + '" type="text" class="validate datepicker" name="date_of_appointments" value="">'              
+          +'<input id="appointment_date_committee' + rNo + '" type="text" placeholder="Date" class="validate datepicker" name="date_of_appointments" value="">'              
           +'<button type="button" id="appointment_date_committee_icon' + rNo + '" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
           +'<span id="appointment_date_committee' + rNo + 'Error" class="error-msg"></span></td>'
 
           +'<td data-head="Name Of Representative" class="input-field">'
-          +'<input type="text"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_of_representatives" onchange="executivesToStringMethod('+rNo+');" value="">' 
+          +'<input type="text" placeholder="Name"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_of_representatives" onchange="executivesToStringMethod('+rNo+');" value="">' 
           +'<span id="name_of_representative' + rNo + 'Error" class="error-msg"></span> </td>'
 
           +'<td data-head="Contact Number" class="input-field">'
-          +'<input type="number"  maxlength="10" data-length="10" id="contact_number_rep' + rNo + '" class="validate w70 pdr4em num"  name="phone_nos" value="">' 
+          +'<input type="number" placeholder="Number" maxlength="10" data-length="10" id="contact_number_rep' + rNo + '" class="validate w70 pdr4em num"  name="phone_nos" value="">' 
           +'<span id="contact_number_rep' + rNo + 'Error" class="error-msg"></span> </td>'
 
           +'<td data-head="Email" class="input-field">'
-          +'<input type="email"  maxlength="50" data-length="50" id="rep_email' + rNo + '" class="validate w70 pdr4em"  name="email_ids" value="">' 
+          +'<input type="email" placeholder="Email"  maxlength="50" data-length="50" id="rep_email' + rNo + '" class="validate w70 pdr4em"  name="email_ids" value="">' 
           +'<span id="rep_email' + rNo + 'Error" class="error-msg"></span> </td>'
 
           +'<td class="input-field mobile_btn_close"><a onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></a></td>'

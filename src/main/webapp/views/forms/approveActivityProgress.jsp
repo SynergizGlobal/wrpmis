@@ -483,8 +483,6 @@
                 $(".errMsgCheck").hide();
                 $('.searchable').select2();
                 $('.tabs').tabs();
-              
-                
                 approval_status_fk = 'Pending';
                 if(approval_status_fk == 'Pending'){
         			tab = "pending_";
@@ -718,7 +716,7 @@
            	    	filtersMap[tab+"updated_by_user_id_fk"] = updated_by_user_id_fk;
             	}
             }
-             var counter = 0;   
+                
             function getActivities(){
             	$(".page-loader-2").show();
 
@@ -752,8 +750,8 @@
             	 
        			});
             	table = $('#datatable-table-pending').DataTable();
+
         		table.destroy();
-        		
         		$.fn.dataTable.moment('DD-MMM-YYYY');
         		table = $('#datatable-table-pending').DataTable({
         			"sort" : [],
@@ -761,38 +759,13 @@
             		//stateSave : true,
             		fixedHeader: true,
             		//Default: Page display length
-    				"iDisplayLength" : 10, 
+    				"iDisplayLength" : 10,
     				"iData" : {
     					"start" : 52
     				},"iDisplayStart" : 1,
             		"drawCallback" : function() {
     					var info = table.page.info();
     					window.localStorage.setItem("approvePageNo", info.page);
-    					if(pageNo != info.page){
-    						counter = 0;
-    					}
-    					if(counter == 0){
-	    					if ($('#pending_select-all').is(':checked')) {
-		    					 $('input[name="pending_activity_check"]').map(function() {
-		    	                	 //console.log($(this).attr("id"))
-		    	                	 var id=$(this).attr("id");
-		                      		var isDisabled =$('#'+id).is(':disabled');
-		                      		if(isDisabled == false){
-		                        		$(this).prop('checked', true);
-		                        		$('#approve-btn').removeClass('disabled');
-		                                $('#reject-btn').removeClass('disabled');
-		                      		} else 
-		                            {
-		                               	$(this).prop('checked', false);
-		                                   $('#approve-btn').addClass('disabled');
-		                                   $('#reject-btn').addClass('disabled');
-		                               }
-		    	                 })
-	    					 }else{
-	    						 $('input[type="checkbox"]').prop('checked', false);
-	    					 }
-	    					counter++;
-    					}
     				},
                     columnDefs: [
                         { targets: [10], className: 'btn-holder' },
@@ -904,7 +877,7 @@
         	                    		    concat='&nbsp;&nbsp;&nbsp;<a href="#" style="font-size:15px;"><span class="fa fa-info-circle fa-2x" style="color:#469408;" data-toggle="tooltip" title="Activity Scope Completed"></span></a>';
         	                    		}
         	                    		
-	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'"  '+disabledval+' onchange="validateChecckBox('+key+')"/><span></span></label></p>';
+	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'"  '+disabledval+' /><span></span></label></p>';
 	        	                   	
 	        	                   	var replaceStmystring = progress_id.replace(/["']/g, "");
 
@@ -983,37 +956,7 @@
            	
             }
             
-            function validateChecckBox(key){
-                if ($('#pending_activity_check_'+key).is(':checked')) 
-                {
-                	$('#pending_activity_check_'+key).prop('checked', true);
-                    $('#approve-btn').removeClass('disabled');
-                    $('#reject-btn').removeClass('disabled');
-                } 
-                else 
-                {
-                	var t=0;
-                	
-                	$('input[name="pending_activity_check"]').each(function () {
-                		if ($(this).is(':checked')) 
-                        {
-                            t++;
-                        } 
-                    }); 
-                	
-						if(t>=1)
-						{
-                        	$('#pending_activity_check_'+key).prop('checked', false);
-                            $('#approve-btn').removeClass('disabled');
-                            $('#reject-btn').removeClass('disabled');
-						}
-						else
-						{
-                            $('#approve-btn').addClass('disabled');
-                            $('#reject-btn').addClass('disabled');												
-						}
-                }
-            }
+            
             
 			function approveActivityProgress(structure,progress_id,work_id_fk,contract_id_fk){
 				$(".page-loader").show();
@@ -1320,35 +1263,34 @@
                  	   $(".page-loader").hide();
                  }
             }
-            var oTable = $('#datatable-table-pending').dataTable();
-        	
+
             // select or deselect all checkboxes
             $('#pending_select-all').change(function () {
-            	
                 var _this = this;
-                //$('input[type="checkbox"]', allPages).prop('checked', true);
                 $('input[name="pending_activity_check"]').each(function () {
                     if ($(_this).is(':checked')) 
                     {
                     	$("input:checkbox").each(function () {
-                    		 var id=$(this).attr("id");
-                      		var isDisabled =$('#'+id).is(':disabled');
-                      		if(isDisabled == false){
+                    		var id=$(this).attr("id");
+                    		var isDisabled =$('#'+id).is(':disabled');
+                    		if(isDisabled == false)
+                    		{
                         		$(this).prop('checked', true);
-                    		} 
+                    		}
+
                     	});
                         $('#approve-btn').removeClass('disabled');
                         $('#reject-btn').removeClass('disabled');
                     } else 
                     {
-                    	$(this).prop('checked', false);
+                        $(this).prop('checked', false);
                         $('#approve-btn').addClass('disabled');
                         $('#reject-btn').addClass('disabled');
                     }
                 });
             });
 
-           
+
             /* $("#reject-btn").on("click", function (event) {
                 // event.preventDefault();
                 swal({
@@ -1371,17 +1313,8 @@
             
             function approveMultipleActivityProgress(){
 				$(".page-loader").show();				
-				var allPages = oTable.fnGetNodes();
-            	
-            	var table_length =  $('input[name="pending_activity_check"]' , allPages).length;
-            	 var oSettings = oTable.fnSettings();
-                 oSettings._iDisplayLength = table_length;
-                 oTable.fnDraw();
-				
-				console.log($('input[name="pending_activity_check"]:checked').length)
 				var progress_id = $('input[name="pending_activity_check"]:checked').map(function() {
-						return $(this).val();
-		            
+		            return $(this).val();
 		        }).get().join(",");
 				
 				
@@ -1442,7 +1375,7 @@
 				
 
 				
-				if ($.trim(progress_id) == "") {
+				if ($.trim(progress_id) != "") {
                     var myParams = {structure:distinctStructures.toString(),progress_id : progress_id,work_id_fk:distinctWorks.toString(),contract_id_fk:distinctContracts.toString() };
                     $.ajax({
                         url: "<%=request.getContextPath()%>/ajax/approveMultipleActivityProgress",
@@ -1481,8 +1414,6 @@
                 	  $(".page-loader").hide();
                 	  swal("Please select atleast one checkbox","", "error");
                 }
-				 oSettings._iDisplayLength = 10;
-                 oTable.fnDraw();
             }
             
             
@@ -1506,13 +1437,6 @@
 			
 			function confirmRejectMultipleActivityProgress(){
 				$(".page-loader").show();
-			    var allPages = oTable.fnGetNodes();
-            	
-            	var table_length =  $('input[name="pending_activity_check"]' , allPages).length;
-            	 var oSettings = oTable.fnSettings();
-                 oSettings._iDisplayLength = table_length;
-                 oTable.fnDraw();
-				
 				var progress_id = $('input[name="pending_activity_check"]:checked').map(function() {
 		            return $(this).val();
 		        }).get().join(",");
@@ -1561,8 +1485,6 @@
                 	 $(".page-loader").hide();
                 	 swal("Please select atleast one checkbox","", "error");
                 }
-                oSettings._iDisplayLength = 10;
-                oTable.fnDraw();
             }
             
             

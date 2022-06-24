@@ -712,7 +712,7 @@ function getResponsible(hod){
 		
 		$(document).on('click', '.remove', function() {
 			var trIndex = $(this).closest("tr").index();
-				if(trIndex>1) {
+				if(trIndex>0) {
 				$(this).closest("tr").remove();
 			} else {
 				

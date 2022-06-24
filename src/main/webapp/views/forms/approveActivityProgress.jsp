@@ -514,7 +514,7 @@
                 }
              
             	getActivities();
-            	
+            	var btnClicked = false
            		if(window.localStorage.getItem("tabname")=="1")
            		{
            			setActivityProgressStatus('Approved');
@@ -643,7 +643,7 @@
         		}
             	getActivities();
             }
-
+            var oTable = $('#datatable-table-pending').dataTable();
             // clear filter functionality for all divs
             function clearFilter() {
             	$("#"+tab+"work_id_fk").val("");
@@ -716,7 +716,7 @@
            	    	filtersMap[tab+"updated_by_user_id_fk"] = updated_by_user_id_fk;
             	}
             }
-                
+            
             function getActivities(){
             	$(".page-loader-2").show();
 
@@ -766,6 +766,26 @@
             		"drawCallback" : function() {
     					var info = table.page.info();
     					window.localStorage.setItem("approvePageNo", info.page);
+    			/* 		
+    					$('#datatable-table-pending').on( 'draw.dt', function () {
+    					
+        					if ($('#pending_select-all').is(':checked')) {
+    	    					 $('input[name="pending_activity_check"]').map(function() {
+    	    	                	 //console.log($(this).attr("id"))
+    	    	                	 var id=$(this).attr("id");
+    	                      		var isDisabled =$('#'+id).is(':disabled');
+    	                      		var ischecked =$('#'+id).is(':checked');
+    	                      		if((isDisabled == false || ischecked == true) && btnClicked == false){
+    	                        		$(this).prop('checked', true);
+    	                        		$('#approve-btn').removeClass('disabled');
+    	                                $('#reject-btn').removeClass('disabled');
+    	                      		}
+    	    	                 })
+       					 }else{
+       						 $('input[type="checkbox"]').prop('checked', false);
+       					 }
+    					}).DataTable(); */
+    				
     				},
                     columnDefs: [
                         { targets: [10], className: 'btn-holder' },
@@ -877,7 +897,7 @@
         	                    		    concat='&nbsp;&nbsp;&nbsp;<a href="#" style="font-size:15px;"><span class="fa fa-info-circle fa-2x" style="color:#469408;" data-toggle="tooltip" title="Activity Scope Completed"></span></a>';
         	                    		}
         	                    		
-	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'"  '+disabledval+' /><span></span></label></p>';
+	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'"  '+disabledval+' onchange="validateChecckBox('+key+')"/><span></span></label></p>';
 	        	                   	
 	        	                   	var replaceStmystring = progress_id.replace(/["']/g, "");
 
@@ -955,9 +975,49 @@
         	     }});
            	
             }
-            
-            
-            
+            function validateChecckBox(key){
+                if ($('#pending_activity_check_'+key).is(':checked')) 
+                {
+                	$('#pending_activity_check_'+key).prop('checked', true);
+                    $('#approve-btn').removeClass('disabled');
+                    $('#reject-btn').removeClass('disabled');
+                } 
+                else 
+                {
+                	$('#pending_select-all').prop('checked', false);
+                	var t=0;
+                	
+                	$('input[name="pending_activity_check"]').each(function () {
+                		if ($(this).is(':checked')) 
+                        {
+                            t++;
+                        } 
+                    }); 
+                	
+						if(t>=1)
+						{
+                        	$('#pending_activity_check_'+key).prop('checked', false);
+                            $('#approve-btn').removeClass('disabled');
+                            $('#reject-btn').removeClass('disabled');
+						}
+						else
+						{
+                            $('#approve-btn').addClass('disabled');
+                            $('#reject-btn').addClass('disabled');												
+						}
+                }
+                var allPages = oTable.fnGetNodes();
+                var table_length =  $('input[name="pending_activity_check"]' , allPages).length;
+                table_length = table_length -1;
+           
+                for(var c = 0; c <= (table_length); c++){
+                	 if ($('#pending_activity_check_'+c).is(':checked')) {
+                		 $('#approve-btn').removeClass('disabled');
+                         $('#reject-btn').removeClass('disabled');
+                	 }
+                }
+            }
+        
 			function approveActivityProgress(structure,progress_id,work_id_fk,contract_id_fk){
 				$(".page-loader").show();
                 if ($.trim(progress_id) != "") {
@@ -1267,6 +1327,8 @@
             // select or deselect all checkboxes
             $('#pending_select-all').change(function () {
                 var _this = this;
+                var allPages = oTable.fnGetNodes();
+              $('input[type="checkbox"]', allPages).not(':disabled').prop('checked', true);
                 $('input[name="pending_activity_check"]').each(function () {
                     if ($(_this).is(':checked')) 
                     {
@@ -1310,9 +1372,16 @@
                 }
               );
             }); */
-            
+           
             function approveMultipleActivityProgress(){
-				$(".page-loader").show();				
+				$(".page-loader").show();	
+				btnClicked = true;
+				var allPages = oTable.fnGetNodes();
+            	
+            	var table_length =  $('input[name="pending_activity_check"]' , allPages).length;
+            	 var oSettings = oTable.fnSettings();
+                 oSettings._iDisplayLength = table_length;
+                 oTable.fnDraw();
 				var progress_id = $('input[name="pending_activity_check"]:checked').map(function() {
 		            return $(this).val();
 		        }).get().join(",");
@@ -1414,6 +1483,8 @@
                 	  $(".page-loader").hide();
                 	  swal("Please select atleast one checkbox","", "error");
                 }
+				  oSettings._iDisplayLength = 10;
+	                oTable.fnDraw();
             }
             
             
@@ -1437,6 +1508,13 @@
 			
 			function confirmRejectMultipleActivityProgress(){
 				$(".page-loader").show();
+				btnClicked = true;
+				var allPages = oTable.fnGetNodes();
+            	
+            	var table_length =  $('input[name="pending_activity_check"]' , allPages).length;
+            	 var oSettings = oTable.fnSettings();
+                 oSettings._iDisplayLength = table_length;
+                 oTable.fnDraw();
 				var progress_id = $('input[name="pending_activity_check"]:checked').map(function() {
 		            return $(this).val();
 		        }).get().join(",");
@@ -1485,6 +1563,8 @@
                 	 $(".page-loader").hide();
                 	 swal("Please select atleast one checkbox","", "error");
                 }
+                oSettings._iDisplayLength = 10;
+                oTable.fnDraw();
             }
             
             

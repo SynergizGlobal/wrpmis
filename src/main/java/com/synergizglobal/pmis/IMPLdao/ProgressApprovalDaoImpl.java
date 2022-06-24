@@ -76,7 +76,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
-				qry = qry + " and a.structure = ?";
+				qry = qry + " and s.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -161,6 +161,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "from p6_validation_dyhod aph "
 					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
+					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
 					+ "where progress_id is not null";
@@ -181,7 +182,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
-				qry = qry + " and a.structure = ?";
+				qry = qry + " and s.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -239,6 +240,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "from p6_validation_dyhod aph "
 					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
+					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
 					+ "where progress_id is not null";
@@ -258,7 +260,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
-				qry = qry + " and a.structure = ?";
+				qry = qry + " and s.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -335,7 +337,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
-				qry = qry + " and a.structure = ?";
+				qry = qry + " and s.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -393,6 +395,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "from p6_validation_dyhod aph "
 					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
+					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN department d ON c.department_fk = d.department "
 					+ "where progress_id is not null";
@@ -412,7 +415,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
-				qry = qry + " and a.structure = ?";
+				qry = qry + " and s.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -470,6 +473,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "from p6_validation_dyhod aph "
 					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
+					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
 					+ "where progress_id is not null";
@@ -489,7 +493,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
-				qry = qry + " and a.structure = ?";
+				qry = qry + " and s.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {

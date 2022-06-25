@@ -206,38 +206,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getExecutionOverviewReportList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select * from (select distinct contract_id,s.structure_type_fk,structure as strip_chart_structure_id,'%' as unit_fk,\r\n"
-					+ "    '100%' as Scope,work_id_fk as work_id,d.department_name as department,\r\n"
-					+ "    ifnull((select DATE_FORMAT(MAX(modified_date),'%d-%b-%y') from p6_activities a1 where a1.structure=a.structure),'') as modified_date,\r\n"
-					+ "    ifnull((select remarks from p6_activities a1 where a1.structure=a.structure and a1.remarks is not null limit 1),'') as remarks,u.designation as hod,\r\n"
-					+ "\r\n"
-					+ "\r\n"
-					+ "        ifnull(ROUND( SUM( (`a`.`weightage` * `p`.`completed_scope`) / `a`.`scope`)  / (SELECT \r\n"
-					+ "                SUM(`d`.`baseline_weight`)\r\n"
-					+ "            FROM\r\n"
-					+ "                `activities_structure_department_weight` `d`\r\n"
-					+ "            WHERE\r\n"
-					+ "                (`d`.`structure` = `a`.`structure`)\r\n"
-					+ "            GROUP BY `d`.`structure`)*100,2),0) AS `completed`,\r\n"
-					+ "	ifnull(ROUND(100-( SUM( (`a`.`weightage` * `p`.`completed_scope`) / `a`.`scope`)  / (SELECT \r\n"
-					+ "                SUM(`d`.`baseline_weight`)\r\n"
-					+ "            FROM\r\n"
-					+ "                `activities_structure_department_weight` `d`\r\n"
-					+ "            WHERE\r\n"
-					+ "                (`d`.`structure` = `a`.`structure`)\r\n"
-					+ "            GROUP BY `d`.`structure`)*100),2),0) as pending\r\n"
-					+ "    \r\n"
-					+ "    from p6_activities a\r\n"
-					+ "left join structure s on s.structure_id = a.structure_id_fk "
-					+ "    \r\n"
-					+ "    left join p6_activity_progress p on `p`.`activity_id_fk` = `a`.`p6_activity_id`\r\n"
-					+ "    \r\n"
-					+ "    inner join contract c on c.contract_id=a.contract_id_fk \r\n"
-					+ "    left join user u on u.user_id=c.hod_user_id_fk\r\n"
-					+ "    \r\n"
-					+ "     left join department d on d.department=c.department_fk\r\n"
-					+ "    \r\n"
-					+ "    where 0=0 group by contract_id,structure order by FIELD(s.structure_type_fk,'Earthwork', 'Major Bridge', 'Minor Bridge', 'RUB', 'Drain', 'Ballast'),structure) as eor where 0=0 ";
+			String qry = "select * from executionreporthistory where 0=0 ";
 
 			
 			int arrSize = 0;
@@ -256,7 +225,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
-				qry = qry + " and s.structure_type_fk = ? ";
+				qry = qry + " and structure_type_fk = ? ";
 				arrSize++;
 			}
 			

@@ -393,6 +393,9 @@ width: 90%;
      white-space: nowrap;
 }
 	
+.mdl-data-table th:nth-child(7) {
+     text-align: center !important;
+}	
 	
     </style>
 </head>
@@ -487,15 +490,15 @@ width: 90%;
 							<table id="datatable-contract-details" class="mdl-data-table" style="background-color:#162D6E;">
 								<thead>
 									<tr id="topDivCss">
-										<th class="fs16rem" style="background-color: #162D6E;">S.No</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:5%">S.No</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Contract Status</th>
-										<th class="fs16rem" style="background-color: #162D6E;">Contract</th>
-										<th class="fs16rem" style="background-color: #162D6E;">Contract Value(Cr)</th>
-										<th class="fs16rem" style="background-color: #162D6E;">Expenditure(Cr)</th>
-										<th class="fs16rem" style="background-color: #162D6E;">Physical Progress</th>
-										<th class="fs16rem" style="background-color: #162D6E;">LOA Date</th>
-										<th class="fs16rem" style="background-color: #162D6E;">Completion Date</th>
-										<th class="fs16rem" style="background-color: #162D6E;">Remarks</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:25%">Contract</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">Contract Value<br>(Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">Expenditure<br>(Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">Physical <br>Progress</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">LOA <br>Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">Completion<br> Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:20%">Remarks</th>
 									</tr>
 								</thead>
 								<tbody class="fs16rem" style="background-color: #162D6E;">

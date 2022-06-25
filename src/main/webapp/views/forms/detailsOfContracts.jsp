@@ -912,12 +912,12 @@ width: 90%;
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
                         	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+                             if ($.trim(val.work_short_name) != '') { workShortName = $.trim(val.work_short_name) }
                              var selectedFlag = (work == val.work_id_fk)?'selected':'';
                              if(data.length == 1 ){
                             	 selectedFlag = 'selected';
                              }
-	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>'+ workShortName +'</option>');
                         });
                     }
                     $('.searchable').select2();

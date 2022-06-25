@@ -173,7 +173,7 @@
         	min-width:250px !important;
         }
         .fw-155{
-        	width:200px !important;
+        	width:155px !important;
         	min-width:155px !important;
         }
         .fw-150{
@@ -342,10 +342,57 @@
 } */	
 
 .textalignment{
-   	width:430px !important;
-   	min-width:430px !important;
+   	width:360px !important;
+   	min-width:360px !important;
 	text-align: left  !important;
 }
+
+.textalignment2{
+   	width:280px !important;
+   	min-width:280px !important;
+	text-align: left  !important;
+}
+
+.textalignment3{
+	text-align: center  !important;
+}
+
+
+.mdl-data-table {
+    position: relative;
+    border: 1px solid rgba(0,0,0,.12);
+    border-collapse: collapse;
+    white-space: nowrap;
+    font-size: 13px;
+    background-color: #fff;
+    
+overflow-x: hidden;
+table-layout: fixed;
+width: 90%;    
+}
+
+.mdl-data-table td:nth-child(4) {
+     text-align: center !important;
+     white-space: nowrap;
+}
+.mdl-data-table td:nth-child(5) {
+     text-align: center !important
+     white-space: nowrap;
+}
+.mdl-data-table td:nth-child(6) {
+     text-align: center !important;
+     white-space: nowrap;
+}
+
+.mdl-data-table td:nth-child(7) {
+     text-align: center !important
+     white-space: nowrap;
+}
+.mdl-data-table td:nth-child(8) {
+     text-align: center !important;
+     white-space: nowrap;
+}
+	
 	
     </style>
 </head>
@@ -656,12 +703,13 @@
                 {targets: [0, 2],className: 'mdl-data-table__cell--non-numeric'},
                 {targets: [1],className: 'hide-column'},
                 {targets: [0],className: 'w50px'},
-                {targets: [1, 3, 4, 5, 6, 8],className: 'hideCOl'},
-                {targets: [0, 3, 4, 5, 7],className: 'center-column'},
+                {targets: [1, 3,  5, 6, 8],className: 'hideCOl'},
+                {targets: [0, 3, 4, 5, 7],className: 'textalignment3'},
                 //{targets: [5],className: 'red'},
                 //{targets: [6],className: 'fw-200'},
                 {targets: [6,7],className: 'fw-155'},
-                {targets: [2,8],className: 'textalignment'},
+                {targets: [2],className: 'textalignment'},
+                {targets: [8],className: 'textalignment2'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,

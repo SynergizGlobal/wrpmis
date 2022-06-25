@@ -417,7 +417,7 @@ width: 90%;
  								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
     								<div class="m-n1">
     									<a href="javascript:exportContractDetails();" class="btn waves-effect waves-light bg-s t-c"> 
-    									<strong style="font-size:19px;font-weight:bold;"><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
+    									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
     									</a>										
     								</div>
     							</c:if>   								
@@ -493,11 +493,11 @@ width: 90%;
 										<th class="fs16rem" style="background-color: #162D6E;width:5%">S.No</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Contract Status</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:25%">Contract</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">Contract Value<br>(Cr)</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">Expenditure<br>(Cr)</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">Physical <br>Progress</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">LOA <br>Date</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space: -moz-pre-wrap !important;white-space: -pre-wrap;white-space: -o-pre-wrap;white-space: pre-wrap;word-wrap: break-word; word-break: break-all;white-space: normal;">Completion<br> Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Contract Value<br>(Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Expenditure<br>(Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Physical <br>Progress</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">LOA <br>Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Completion<br> Date</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:20%">Remarks</th>
 									</tr>
 								</thead>

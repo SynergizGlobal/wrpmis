@@ -174,7 +174,7 @@
         }
         .fw-155{
         	width:200px !important;
-        	min-width:200px !important;
+        	min-width:155px !important;
         }
         .fw-150{
         	width:150px !important;
@@ -367,7 +367,7 @@
  								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
     								<div class="m-n1">
     									<a href="javascript:exportContractDetails();" class="btn waves-effect waves-light bg-s t-c"> 
-    									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
+    									<strong style="font-size:19px;font-weight:bold;"><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
     									</a>										
     								</div>
     							</c:if>   								

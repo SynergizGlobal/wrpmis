@@ -3014,19 +3014,19 @@ public class AlertsDaoImpl implements AlertsDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends 1_scurve_planned :"+ new Date());
 			
-			logger.error("callingStoredProcedures Start 2_scurve_baseline :"+ new Date());	
-			String qry2 = "call 2_scurve_baseline()";			
+			logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
+			String qry2 = "call 2_scurve_expected()";			
 			stmt = connection.prepareCall(qry2);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 2_scurve_baseline :"+ new Date());
+			logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
 			
-			logger.error("callingStoredProcedures Start 3_scurve_expected :"+ new Date());	
-			String qry3 = "call 3_scurve_expected()";			
+			logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
+			String qry3 = "call 3_scurve_obc()";			
 			stmt = connection.prepareCall(qry3);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 3_scurve_expected :"+ new Date());
+			logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
 			
 			logger.error("callingStoredProcedures Start create_calendar_dates :"+ new Date());	
 			String qry5 = "call create_calendar_dates()";			
@@ -4083,26 +4083,26 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			connection = dataSource.getConnection();
 			
-			logger.error("runPlannedNormalDistributionDay Start 1_scurve_planned :"+ new Date());	
+			logger.error("callingStoredProcedures Start 1_scurve_planned :"+ new Date());	
 			String qry1 = "call 1_scurve_planned()";			
 			stmt = connection.prepareCall(qry1);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("runPlannedNormalDistributionDay Ends 1_scurve_planned :"+ new Date());
+			logger.error("callingStoredProcedures Ends 1_scurve_planned :"+ new Date());
 			
-			logger.error("runPlannedNormalDistributionDay Start 2_scurve_baseline :"+ new Date());	
-			String qry2 = "call 2_scurve_baseline()";			
+			logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
+			String qry2 = "call 2_scurve_expected()";			
 			stmt = connection.prepareCall(qry2);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("runPlannedNormalDistributionDay Ends 2_scurve_baseline :"+ new Date());
+			logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
 			
-			logger.error("runPlannedNormalDistributionDay Start 3_scurve_expected :"+ new Date());	
-			String qry3 = "call 3_scurve_expected()";			
+			logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
+			String qry3 = "call 3_scurve_obc()";			
 			stmt = connection.prepareCall(qry3);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("runPlannedNormalDistributionDay Ends 3_scurve_expected :"+ new Date());
+			logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
 			
 			flag = true;
 		}catch(Exception e){ 

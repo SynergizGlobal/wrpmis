@@ -223,7 +223,7 @@
                                 </div>
                                   <div class="col s12 m8 l4 input-field offset-m2">
                                 	 <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
-                                 	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk">
+                                 	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" onchange="checkLStatus(this);">
                                      	<option value="" >Select</option>
                                      	<c:forEach var="obj" items="${laLandStatus }">
                                     	   	<option value= "${obj.la_land_status}">${obj.la_land_status}</option>
@@ -246,7 +246,7 @@
 	                              </div>
 	                              <div class="col s12 m8 l4 input-field offset-m2">
 	                                 <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
-                                    	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" >
+                                    	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" onchange="checkLStatus(this);">
                                         	<option value="" >Select</option>
                                         	<c:forEach var="obj" items="${laLandStatus }">
 	                                      	   	<option value= "${obj.la_land_status}" <c:if test="${LADetails.la_land_status_fk eq obj.la_land_status}">selected</c:if>>${obj.la_land_status}</option>
@@ -343,7 +343,8 @@
                                 <div class="col s12 m8 l4 input-field  offset-m2">
                                        <input id="required_area" maxlength="10" data-length="10" name="area_acquired" type="number" 
                                            class="validate mt-10 w80 pdr4em num">
-                                       <label for="required_area"> Acquired Area</label>
+                                       <label for="required_area"> Acquired Area (Ha)<span class="required" id="acr" style="display:none;">*</span></label>
+                                       <span id="required_areaError" class="error-msg" ></span>  
                                 </div>                                
                             </div>
 							</c:if>
@@ -360,7 +361,8 @@
 	                                <div class="col s12 m4 l4 offset-m2 input-field">
                                        <input id="required_area" maxlength="10" data-length="10" name="area_acquired" type="number" value="${LADetails.area_acquired }"
                                            class="validate mt-10 pdr4em w80 num">
-                                       <label for="required_area"> Acquired Area</label>
+                                       <label for="required_area"> Acquired Area (Ha)<span class="required" id="acr" style="display:none;">*</span></label>
+                                       <span id="required_areaError" class="error-msg" ></span> 
                                 	</div> 	                                 
 	                            </div>
 							
@@ -2718,6 +2720,18 @@
 			$("#selectedFilesInput").append(html);
 		}
 		
+		function checkLStatus(t)
+		{
+				if($(t).val()=="Acquired")
+				{
+					$("#acr").show();
+				}
+				else
+				{
+					$("#acr").hide();
+				}
+		}
+		
 		function removeFile(no){			
 	     	$('#laFilesDiv'+no).remove();
 	     	$('#laFileNames'+no).remove();
@@ -2998,6 +3012,18 @@
 	  			if(railway_payment_amount == ""){$('#payment_amount_units_railway').val("");}
 	  			var flag = validateLA();
 	        	if(flag){
+					if($("#la_land_status_fk").val()=="Acquired")
+					{
+						if($("#required_area").val()=="")
+						{
+    						$("#required_areaError").html("required");
+    						return false;
+						}
+    					else
+    					{
+    						$("#required_areaError").html();
+    					}
+					}        		
 	        		document.getElementById("landAcquisitionForm").submit();		
     	 		}else{
     	        	$(".page-loader").hide();
@@ -3035,6 +3061,20 @@
     	  			if(railway_payment_amount == ""){$('#payment_amount_units_railway').val("");}
     	  			var flag = validateLA();
     	        	if(flag){
+    	        		
+    					if($("#la_land_status_fk").val()=="Acquired")
+    					{
+    						if($("#required_area").val()=="")
+    						{
+	    						$("#required_areaError").html("required");
+	    						return false;
+    						}
+	    					else
+	    					{
+	    						$("#required_areaError").html();
+	    					}
+    					}
+    					
     	        		document.getElementById("landAcquisitionForm").submit();
         	 		}else{
         	        	$(".page-loader").hide();

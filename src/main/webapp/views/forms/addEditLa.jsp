@@ -400,7 +400,7 @@
 	  						<div class="row">                                 
                                 <div class="col s6 m4 l6 input-field offset-m2">
                                     <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" class="validate num w85 pdr4em" value="${LADetails.area_to_be_acquired }">
-                                    <label for="area_to_be_acquired"> Area to be Acquired (Ha)</label>
+                                    <label for="area_to_be_acquired"> Area to be Acquired (Ha)<span class="required" id="atacq" style="display:none;">*</span></label>
                                     <span id="area_to_be_acquiredError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 l6 input-field ">
@@ -2725,10 +2725,12 @@
 				if($(t).val()=="Acquired")
 				{
 					$("#acr").show();
+					$("#atacq").show();
 				}
 				else
 				{
 					$("#acr").hide();
+					$("#atacq").hide();
 				}
 		}
 		
@@ -3023,7 +3025,17 @@
     					{
     						$("#required_areaError").html();
     					}
-					}        		
+						if($("#area_to_be_acquired").val()=="")
+						{
+    						$("#area_to_be_acquiredError").html("required");
+    						return false;
+						}
+    					else
+    					{
+    						$("#area_to_be_acquiredError").html();
+    					}						
+					}
+					$('input[name=jm_approval][value=Done]').prop('checked', true);
 	        		document.getElementById("landAcquisitionForm").submit();		
     	 		}else{
     	        	$(".page-loader").hide();
@@ -3073,8 +3085,17 @@
 	    					{
 	    						$("#required_areaError").html();
 	    					}
+    						if($("#area_to_be_acquired").val()=="")
+    						{
+        						$("#area_to_be_acquiredError").html("required");
+        						return false;
+    						}
+        					else
+        					{
+        						$("#area_to_be_acquiredError").html();
+        					}    						
     					}
-    					
+    					$('input[name=jm_approval][value=Done]').prop('checked', true);
     	        		document.getElementById("landAcquisitionForm").submit();
         	 		}else{
         	        	$(".page-loader").hide();

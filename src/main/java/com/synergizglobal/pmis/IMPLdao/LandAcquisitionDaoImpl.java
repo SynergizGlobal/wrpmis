@@ -164,7 +164,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public int getTotalRecords(LandAcquisition obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
 		try {
-			String qry ="select count(*) as total_records from la_land_identification li " + 
+			String qry ="select count(distinct la_id) as total_records from la_land_identification li " + 
 					"left join work w on li.work_id_fk = w.work_id "
 					+ "left join land_executives le on li.work_id_fk = le.work_id_fk  "+
 					"left join project p on w.project_id_fk = p.project_id "
@@ -1117,7 +1117,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	private String getJMApprovalandLandStatus(String column,String laid) throws Exception {
 		String Status="";
 		try {
-			String qry = "SELECT "+column+" FROM la_land_identification WHERE la_id=?";
+			String qry = "SELECT IFNULL("+column+",'') AS "+column+" FROM la_land_identification WHERE la_id=?";
 			Status = (String) jdbcTemplate.queryForObject(qry, new Object[] { laid }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -1990,7 +1990,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry ="select la_id,li.remarks,cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,IFNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk, li.work_id_fk,w.project_id_fk,p.project_name,w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo, li.collector, DATE_FORMAT(proposal_submission_date_to_collector,'%d-%m-%Y') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, jm_fee_amount,jm_fee_amount_units, " + 
+			String qry ="select distinct la_id,li.remarks,cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,IFNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk, li.work_id_fk,w.project_id_fk,p.project_name,w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo, li.collector, DATE_FORMAT(proposal_submission_date_to_collector,'%d-%m-%Y') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, jm_fee_amount,jm_fee_amount_units, " + 
 					"li.special_feature,cast(li.area_acquired as CHAR) as area_acquired,li.private_land_process,cast(chainage_from as CHAR) as chainage_from,cast(chainage_to as CHAR) as chainage_to, DATE_FORMAT(jm_fee_letter_received_date,'%d-%m-%Y') AS jm_fee_letter_received_date,DATE_FORMAT(jm_fee_paid_date,'%d-%m-%Y') AS jm_fee_paid_date,DATE_FORMAT(jm_start_date,'%d-%m-%Y') AS  jm_start_date,DATE_FORMAT(jm_completion_date,'%d-%m-%Y') AS jm_completion_date, DATE_FORMAT(jm_sheet_date_to_sdo,'%d-%m-%Y') AS jm_sheet_date_to_sdo, jm_remarks, jm_approval, li.issues " + 
 					" from la_land_identification li " +
 					"left join land_executives le on li.work_id_fk = le.work_id_fk  "+

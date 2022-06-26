@@ -288,7 +288,7 @@
                                             <th> Village</th>
                                             <th> Type of Land</th>
                                             <th> Sub Category <br>of Land</th>
-                                            <th> Area of Plot (Ha)</th>
+                                            <th> Area to be acquired (Ha)</th>
                                             <th>Last Update</th>                                           
                                             <th class="no-sort">Action</th>
                                         </tr>

@@ -398,12 +398,12 @@
 	  						<div class="row">                                 
                                 <div class="col s6 m4 l6 input-field offset-m2">
                                     <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" class="validate num w85 pdr4em" value="${LADetails.area_to_be_acquired }">
-                                    <label for="area_to_be_acquired"> Area to be Acquired </label>
+                                    <label for="area_to_be_acquired"> Area to be Acquired (Ha)</label>
                                     <span id="area_to_be_acquiredError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 l6 input-field ">
                                     <input id="area_of_plot" maxlength="10" data-length="10" name="area_of_plot" type="number" class="validate num w85 pdr4em" value="${LADetails.area_of_plot }">
-                                    <label for="area_of_plot">Area of Plot </label>
+                                    <label for="area_of_plot">Area of Plot (Ha)</label>
                                 </div>                                 
                             </div>
                             <div class="row">      
@@ -441,12 +441,14 @@
                                	<!-- <div class="col m2 hide-on-small-only"></div> -->
                                	<div class="col s6 m8 l4 input-field offset-m2">
                                     <input id="chainage_from" maxlength="10" data-length="10" name="chainage_from" type="number" class="validate num w80 pdr4em" value="${LADetails.chainage_from }">
-                                    <label for="chainage_from">Chainage From</label>
+                                    <label for="chainage_from">Chainage From <span class="required">*</span></label>
+                                    <span id="chainage_fromError" class="error-msg" ></span>
                                 </div>                               
                              
                             	<div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="chainage_to" maxlength="10" data-length="10" name="chainage_to" type="number" class="validate num w80 pdr4em" value="${LADetails.chainage_to }">
-                                    <label for="chainage_to"> Chainage To </label>
+                                    <label for="chainage_to"> Chainage To<span class="required">*</span> </label>
+                                    <span id="chainage_toError" class="error-msg" ></span>
                                 </div>                                
                                 <div class="col s12 m4 l4 input-field ">
                                     <input id="jm_fee_letter_received_date" name="jm_fee_letter_received_date" type="text" value="${LADetails.jm_fee_letter_received_date }"
@@ -528,7 +530,7 @@
                                     <div class="col s12 m4 l4 input-field">
                                         <input id="govt_area_acquired" name="area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.area_acquired }"
                                             class="validate">
-                                        <label for="govt_area_acquired"> Area Acquired </label>
+                                        <label for="govt_area_acquired"> Area Acquired (Ha) </label>
                                         <span class="units">units</span>
                                         <span id="govt_area_acquiredError" class="error-msg"></span>
                                     </div> --%>
@@ -682,7 +684,7 @@
                                      <div class="col s6 m4 l4 input-field">
                                         <input id="forest_area_acquired" name="forest_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.forest_area_acquired }"
                                             class="validate">
-                                        <label for="forest_area_acquired"> Area Acquired </label>
+                                        <label for="forest_area_acquired"> Area Acquired (Ha) </label>
                                         <span class="units">units</span>
                                         <span id="forest_area_acquiredError" class="error-msg"></span>
                                     </div> --%>
@@ -1166,7 +1168,7 @@
                                      <div class="col s12 m4 l4 input-field">
                                         <input id="private_area_acquired" name="private_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.private_area_acquired }"
                                             class="validate">
-                                        <label for="private_area_acquired"> Area Acquired </label>
+                                        <label for="private_area_acquired"> Area Acquired (Ha) </label>
                                         <span class="units">units</span>
                                         <span id="private_area_acquiredError" class="error-msg"></span>
                                     </div> --%>
@@ -1672,7 +1674,7 @@
                                      <div class="col s12 m4 l4 input-field">
                                         <input id="private_area_acquired" name="private_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.private_area_acquired }"
                                             class="validate">
-                                        <label for="private_area_acquired"> Area Acquired </label>
+                                        <label for="private_area_acquired"> Area Acquired (Ha) </label>
                                         <span class="units">units</span>
                                         <span id="private_area_acquiredError" class="error-msg"></span>
                                     </div>
@@ -2107,7 +2109,7 @@
                                     <div class="col s12 m4 l4 input-field">
                                         <input id="railway_area_acquired" name="railway_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.railway_area_acquired }"
                                             class="validate">
-                                        <label for="railway_area_acquired"> Area Acquired </label>
+                                        <label for="railway_area_acquired"> Area Acquired (Ha) </label>
                                         <span class="units">units</span>
                                         <span id="railway_area_acquiredError" class="error-msg"></span>
                                     </div> --%>
@@ -2636,6 +2638,36 @@
                 return false;
             }
         });
+        
+        
+        $('#payment_amount_units').val('1');
+        $('#demanded_amount_units').val('1'); 
+        $('#payment_amount_units_railway').val('1'); 
+        $('#demanded_amount_units_forest').val('1');
+        $('#payment_amount_units_forest').val('1');  
+        $('#basic_rate_units').val('1');  
+        $('#agriculture_tree_rate_units').val('1');  
+        $('#forest_tree_rate_units').val('1');  
+        $('#gross_amount_dpm_units').val('1'); 
+        $('#jm_fee_amount_units').val('1');  
+        $('#amount_demanded_units').val('1');  
+        $('#amount_paid_units').val('1');         
+        
+        $('#payment_amount_units').prop('disabled', true);
+        $('#demanded_amount_units').prop('disabled', true);  
+        $('#payment_amount_units_railway').prop('disabled', true);  
+        $('#demanded_amount_units_forest').prop('disabled', true);  
+        $('#payment_amount_units_forest').prop('disabled', true);  
+        $('#basic_rate_units').prop('disabled', true);  
+        $('#agriculture_tree_rate_units').prop('disabled', true);  
+        $('#forest_tree_rate_units').prop('disabled', true);  
+        $('#gross_amount_dpm_units').prop('disabled', true);  
+        $('#jm_fee_amount_units').prop('disabled', true);  
+        $('#amount_demanded_units').prop('disabled', true);  
+        $('#amount_paid_units').prop('disabled', true);  
+        
+        
+        
     });
 	 $("[data-length]").each(function(i,val){
      	$('#'+val.id).characterCounter();;
@@ -3025,6 +3057,10 @@
 	  			 		required: true
 	  			 	  },"jm_fee_amount":{
 		  			 	required: false
+	  			 	  },"chainage_from":{
+		  			 	required: true
+	  			 	  },"chainage_to":{
+		  			 	required: true
 	  			 	  },"area_acquired":{
 		  			 	required: false
 	  			 	  },"govt_area_to_be_acquired":{
@@ -3130,7 +3166,12 @@
 	  			 		required: ' This field is required'
 	  			 	  },"jm_fee_amount_units": {
 	  			 		required: ' Rrequired'
-	  			 	  },"demanded_amount_units": {
+	  			 	  },"chainage_from":{
+		  			 	required: 'This field is required'
+	  			 	  },"chainage_to":{
+		  			 	required: 'This field is required'
+	  			 	  },
+	  			 	  "demanded_amount_units": {
 	  			 		required: ' Rrequired'
 	  			 	  },"payment_amount_units": {
 	  			 		required: ' Rrequired'
@@ -3165,6 +3206,12 @@
 					}else if(element.attr("id") == "type_of_land" ){
 						   document.getElementById("type_of_landError").innerHTML="";
 					 	   error.appendTo('#type_of_landError');
+					}else if(element.attr("id") == "chainage_from" ){
+						   document.getElementById("chainage_fromError").innerHTML="";
+					 	   error.appendTo('#chainage_fromError');
+					}else if(element.attr("id") == "chainage_to" ){
+						   document.getElementById("chainage_toError").innerHTML="";
+					 	   error.appendTo('#chainage_toError');
 					}else if(element.attr("id") == "sub_category_of_land" ){
 						   document.getElementById("sub_category_of_landError").innerHTML="";
 					 	   error.appendTo('#sub_category_of_landError');

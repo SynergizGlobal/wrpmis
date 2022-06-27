@@ -675,7 +675,7 @@
 			            	if($.trim(data.sub_category_of_land) == ''){ return '-'; }else{ return data.sub_category_of_land; }
 			            } },
 			            { "mData": function(data,type,row){
-			            	if($.trim(data.area_of_plot) == ''){ return '-'; }else{ return data.area_of_plot; }
+			            	if($.trim(data.area_to_be_acquired) == ''){ return '-'; }else{ return data.area_to_be_acquired; }
 			            } },
 			            { "mData": function(data,type,row){
 			            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }

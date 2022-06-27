@@ -760,7 +760,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						{
 							JMStatus="Rejected";
 						}
-						msgObj.setMessage("A new Land Acquisition against "+obj.getWork_id_fk()+" has been JM "+JMStatus);
+						msgObj.setMessage("A new Land Acquisition against "+obj.getWork_short_name()+" has been JM "+JMStatus);
 						msgObj.setRedirect_url("/get-land-acquisition/"+la_id);
 						msgObj.setMessage_type("Land Acquisition");	
 						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
@@ -1399,7 +1399,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 								Messages msgObj = new Messages();
 								msgObj.setUser_id_fk(SplitStr[i]);
 
-								msgObj.setMessage("A new Land Acquisition against "+obj.getWork_id_fk()+" has been JM "+JMStatus);
+								msgObj.setMessage("A new Land Acquisition against "+obj.getWork_short_name()+" has been JM "+JMStatus);
 								msgObj.setRedirect_url("/get-land-acquisition/"+obj.getLa_id());
 								msgObj.setMessage_type("Land Acquisition");	
 								BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
@@ -1424,7 +1424,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 								mailCC = org.apache.commons.lang3.StringUtils.chop(mailCC);
 							}
 
-							String mailBodyHeader =  "A Land Acquisition against "+obj.getWork_id_fk()+" has been JM "+JMStatus;
+							String mailBodyHeader =  "A Land Acquisition against "+obj.getWork_short_name()+" has been JM "+JMStatus;
 							
 							
 							LandAcquisition sobj = null;

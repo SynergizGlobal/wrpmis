@@ -419,7 +419,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			String cvQryAlert7 = "select w.work_id,'Flag' as alert_level,'Land Acquisition' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
 					+ "concat(\"Land activity of for \",chainage_from,\" to \",chainage_to,\" not updated in last \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
 					+ "concat('/get-land-acquisition/',r.la_id) as redirect_url\r\n"
-					+ " from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join land_executives re on re.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and r.la_land_status_fk <> 'Land available for Execution' group by village,w.work_id";
+					+ " from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join land_executives re on re.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and r.la_land_status_fk <> 'Acquired' group by village,w.work_id";
 	
 	
 			List<Alerts> cvQryAlert7List = jdbcTemplate.query( cvQryAlert7, new BeanPropertyRowMapper<Alerts>(Alerts.class));

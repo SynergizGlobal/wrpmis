@@ -371,12 +371,12 @@
                             <div class="row">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="village" maxlength="100" data-length="100" name="village" type="text" class="validate w80 pdr4em" value="${LADetails.village }">
-                                    <label for="village"> Village </label>
+                                    <label for="village"> Village <span class="required">*</span></label>
                                     <span id="villageError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                     <input id="taluka" maxlength="100" data-length="100" name="taluka" type="text" class="validate w80 pdr4em" value="${LADetails.taluka }">
-                                    <label for="taluka"> Taluka </label>
+                                    <label for="taluka"> Taluka <span class="required">*</span></label>
                                     <span id="talukaError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m4 l4 input-field offset-m2">
@@ -3130,6 +3130,10 @@
 		  			 	required: true
 	  			 	  },"area_acquired":{
 		  			 	required: false
+	  			 	  },"village":{
+		  			 	required: true
+	  			 	  },"taluka":{
+		  			 	required: true
 	  			 	  },"govt_area_to_be_acquired":{
 		  			 	required: false
 	  			 	  },"forest_area_to_be_acquired":{
@@ -3231,6 +3235,10 @@
 	  			 		required: ' This field is required'
 	  			 	  },"id": {
 	  			 		required: ' This field is required'
+	  			 	  },"village":{
+		  			 	required: ' This field is required'
+	  			 	  },"taluka":{
+		  			 	required: ' This field is required'
 	  			 	  },"jm_fee_amount_units": {
 	  			 		required: ' Rrequired'
 	  			 	  },"chainage_from":{
@@ -3273,6 +3281,12 @@
 					}else if(element.attr("id") == "type_of_land" ){
 						   document.getElementById("type_of_landError").innerHTML="";
 					 	   error.appendTo('#type_of_landError');
+					}else if(element.attr("id") == "village" ){
+						   document.getElementById("villageError").innerHTML="";
+					 	   error.appendTo('#villageError');
+					}else if(element.attr("id") == "taluka" ){
+						   document.getElementById("talukaError").innerHTML="";
+					 	   error.appendTo('#talukaError');
 					}else if(element.attr("id") == "chainage_from" ){
 						   document.getElementById("chainage_fromError").innerHTML="";
 					 	   error.appendTo('#chainage_fromError');

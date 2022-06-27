@@ -755,11 +755,13 @@ public class LandAcquisitionController {
 			String userId = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			String userRoleCode = (String) session.getAttribute("USER_ROLE_CODE");
 			
 			obj.setCreated_by_user_id_fk(userId);
 			obj.setUser_id(userId);
 			obj.setUser_name(userName);
 			obj.setDesignation(userDesignation);
+			obj.setUser_role_code(userRoleCode);
 			model.setViewName("redirect:/land-acquisition");
 			
 			if(!StringUtils.isEmpty(obj.getLaUploadFile())){
@@ -934,6 +936,8 @@ public class LandAcquisitionController {
 						// String j_username = formatter.formatCellValue(row.getCell(0));
 						//System.out.println(i);
 						la = new LandAcquisition();
+						la.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+						la.setUser_role_code(obj.getUser_role_code());
 						String val = null;
 						if(!StringUtils.isEmpty(row)) {								
 							val = formatter.formatCellValue(row.getCell(0)).trim();

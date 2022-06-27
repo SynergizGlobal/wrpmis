@@ -275,7 +275,7 @@
                             <div class="row">
                              <div class="col s12 m4 l3 amount-dropdown input-field offset-m2">
                                     <i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="gross_work_done" min="0.01" step="0.01" type="number" class="validate" name="gross_work_done" value="${expenditureDetails.gross_work_done }"> 
+                                    <input id="gross_work_done" step="0.01" type="number" class="validate" name="gross_work_done" value="${expenditureDetails.gross_work_done }"> 
                                     <label for="gross_work_done" class=""> Gross Work Done </label>
                                     <span id="gross_work_doneError" class="error-msg" ></span>
                                 	<span id="gross_work_done_unitsError" class="error-msg right" ></span>
@@ -298,7 +298,7 @@
                                  </div> --%>
                                 <div class="col s12 m4 l3 amount-dropdown input-field">
                                     <i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="net_paid" min="0.01" step="0.01" type="number" class="validate" name="net_paid" value="${expenditureDetails.net_paid }">
+                                    <input id="net_paid" step="0.01" type="number" class="validate" name="net_paid" value="${expenditureDetails.net_paid }">
                                     <label for="net_paid"> Net Paid </label>
                                     <span id="net_paidError" class="error-msg" ></span>
                                 	<span id="net_paid_unitsError" class="error-msg right" ></span>

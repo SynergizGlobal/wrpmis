@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
+import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -29,7 +32,9 @@ import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.LandAcquisitionDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Design;
@@ -47,6 +52,7 @@ import com.synergizglobal.pmis.model.Messages;
 
 @Repository
 public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
+	public static Logger logger = Logger.getLogger(LandAcquisitionDaoImpl.class);
 
 	@Autowired
 	DataSource dataSource;
@@ -895,7 +901,19 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			throw new Exception(e);
 		}		
 		return executives;
-	}		
+	}	
+	
+	private String getLandExecutivesEmail(String work_id) throws Exception {
+		String executivesEmail="";
+		try {
+			String qry = "SELECT  GROUP_CONCAT(DISTINCT (u.email_id) SEPARATOR ',') email_id FROM land_executives re " + 
+					"left join user u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
+			executivesEmail = (String) jdbcTemplate.queryForObject(qry, new Object[] { work_id }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return executivesEmail;
+	}	
 
 	private String getSubCategoryLand(String id) throws Exception {
 		Connection con = null;
@@ -1359,31 +1377,139 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
 								+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
 						String executives=getLandExecutives(obj.getWork_id_fk());
+						String executivesEmail=getLandExecutivesEmail(obj.getWork_id_fk());
+						
 						String [] SplitStr=executives.split(",");
+						String [] SplitEmail=executivesEmail.split(",");
+						
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-						if(obj.getJm_approval().compareTo(jmapproval)!=0)
-						{						
+						if(obj.getJm_approval().compareTo(jmapproval)==0)
+						{	
+							String JMStatus="";
+							if(obj.getJm_approval().compareTo("Done")==0)
+							{
+								JMStatus="Approved";
+							}
+							else
+							{
+								JMStatus="Rejected";
+							}							
 							for(int i=0;i<SplitStr.length;i++)
 							{
 								Messages msgObj = new Messages();
 								msgObj.setUser_id_fk(SplitStr[i]);
-								String JMStatus="";
-								if(obj.getJm_approval().compareTo("Done")==0)
-								{
-									JMStatus="Approved";
-								}
-								else
-								{
-									JMStatus="Rejected";
-								}
+
 								msgObj.setMessage("A new Land Acquisition against "+obj.getWork_id_fk()+" has been JM "+JMStatus);
 								msgObj.setRedirect_url("/get-land-acquisition/"+obj.getLa_id());
 								msgObj.setMessage_type("Land Acquisition");	
 								BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
 								template.update(messageQry, paramSource1);						
 							}
+							
+							
+							String mailTo = "";
+							String mailCC = "";
+							for(int i=0;i<SplitEmail.length;i++)
+							{
+								if (!StringUtils.isEmpty(SplitEmail[i])) {
+									mailTo = mailTo + SplitEmail[i] + ",";
+								}
+							}
+
+							if (!StringUtils.isEmpty(mailTo)) {
+								mailTo = org.apache.commons.lang3.StringUtils.chop(mailTo);
+							}
+
+							if (!StringUtils.isEmpty(mailCC)) {
+								mailCC = org.apache.commons.lang3.StringUtils.chop(mailCC);
+							}
+
+							String mailBodyHeader =  "A Land Acquisition against "+obj.getWork_id_fk()+" has been JM "+JMStatus;
+							
+							
+							LandAcquisition sobj = null;
+
+							String qry = "select distinct la_id,li.remarks,cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,IFNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk, work_id_fk,w.project_id_fk,p.project_name,w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo, li.collector, DATE_FORMAT(proposal_submission_date_to_collector,'%d-%m-%Y') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, jm_fee_amount,jm_fee_amount_units, "
+									+ "li.special_feature,cast(li.area_acquired as CHAR) as area_acquired,li.private_land_process,cast(chainage_from as CHAR) as chainage_from,cast(chainage_to as CHAR) as chainage_to, DATE_FORMAT(jm_fee_letter_received_date,'%d-%m-%Y') AS jm_fee_letter_received_date,DATE_FORMAT(jm_fee_paid_date,'%d-%m-%Y') AS jm_fee_paid_date,DATE_FORMAT(jm_start_date,'%d-%m-%Y') AS  jm_start_date,DATE_FORMAT(jm_completion_date,'%d-%m-%Y') AS jm_completion_date, DATE_FORMAT(jm_sheet_date_to_sdo,'%d-%m-%Y') AS jm_sheet_date_to_sdo, jm_remarks, jm_approval, li.issues"
+									
+									+ ",lg.id, lg.la_id_fk,DATE_FORMAT(lg.proposal_submission,'%d-%m-%Y') AS proposal_submission, lg.proposal_submission_status_fk, DATE_FORMAT(lg.valuation_date,'%d-%m-%Y') AS valuation_date, DATE_FORMAT(lg.letter_for_payment,'%d-%m-%Y') AS letter_for_payment,"
+									+ "lg.amount_demanded,cast(lg.lfp_status_fk as CHAR) as lfp_status_fk,DATE_FORMAT(lg.approval_for_payment,'%d-%m-%Y') AS approval_for_payment,DATE_FORMAT(lg.payment_date,'%d-%m-%Y') AS payment_date, lg.amount_paid, lg.payment_status_fk, DATE_FORMAT(lg.possession_date,'%d-%m-%Y') AS possession_date,"
+									+ "lg.possession_status_fk,lf.demanded_amount_units as demanded_amount_units_forest,lf.payment_amount_units as payment_amount_units_forest, "
+									//lg.special_feature, 
+									+ "lg.amount_demanded_units,lg.amount_paid_units, DATE_FORMAT(lf.on_line_submission,'%d-%m-%Y') AS forest_online_submission, DATE_FORMAT(lf.submission_date_to_dycfo,'%d-%m-%Y') AS forest_submission_date_to_dycfo, DATE_FORMAT(lf.submission_date_to_ccf_thane,'%d-%m-%Y') AS forest_submission_date_to_ccf_thane, "
+									+ "DATE_FORMAT(lf.submission_date_to_nodal_officer,'%d-%m-%Y') AS forest_submission_date_to_nodal_officer, DATE_FORMAT(lf.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS forest_submission_date_to_revenue_secretary_mantralaya, DATE_FORMAT(lf.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS forest_submission_date_to_regional_office_nagpur,"
+									+ " DATE_FORMAT(lf.date_of_approval_by_regional_office_nagpur,'%d-%m-%Y') AS forest_date_of_approval_by_regional_office_nagpur, DATE_FORMAT(lf.valuation_by_dycfo,'%d-%m-%Y') AS forest_valuation_by_dycfo,cast(lf.demanded_amount as CHAR) as forest_demanded_amount,cast(lf.payment_amount  as CHAR) as forest_payment_amount, DATE_FORMAT(lf.approval_for_payment,'%d-%m-%Y') AS forest_approval_for_payment"
+									+ ", DATE_FORMAT(lf.payment_date,'%d-%m-%Y') AS forest_payment_date,DATE_FORMAT(lf.possession_date,'%d-%m-%Y') AS forest_possession_date,lf.possession_status_fk as forest_possession_status_fk,"
+									+ "lf.payment_status_fk as forest_payment_status_fk"
+									//lf.special_feature as forest_special_feature, 
+									+ " ,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,DATE_FORMAT(lr.online_submission,'%d-%m-%Y') AS railway_online_submission,"
+									+ "DATE_FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, DATE_FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, DATE_FORMAT(lr.`submission_date_to_nodal_officer/CCF Nagpur`,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, "
+									+ " DATE_FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS railway_submission_date_to_revenue_secretary_mantralaya, DATE_FORMAT(lr.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS railway_submission_date_to_regional_office_nagpur, DATE_FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'%d-%m-%Y') AS railway_date_of_approval_by_Rregional_Office_agpur,"
+									+ "DATE_FORMAT(lr.valuation_by_DyCFO ,'%d-%m-%Y') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, DATE_FORMAT(lr.approval_for_payment,'%d-%m-%Y') AS railway_approval_for_payment, DATE_FORMAT(lr.payment_date,'%d-%m-%Y') AS railway_payment_date,cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, DATE_FORMAT(lr.possession_date,'%d-%m-%Y') AS railway_possession_date, lr.possession_status as railway_possession_status, "
+									+ " "
+									//lr.special_feature as railway_special_feature, 
+									+ "lpa.basic_rate_units,lpa.agriculture_tree_rate_units,lpa.forest_tree_rate_units, lpa.name_of_the_owner, lpa.basic_rate, lpa.agriculture_tree_nos, lpa.agriculture_tree_rate, lpa.forest_tree_nos,"
+									+ "lpa.forest_tree_rate,DATE_FORMAT(lpa.consent_from_owner,'%d-%m-%Y') AS consent_from_owner, DATE_FORMAT(lpa.legal_search_report,'%d-%m-%Y') AS legal_search_report, DATE_FORMAT(lpa.date_of_registration,'%d-%m-%Y') AS date_of_registration, DATE_FORMAT(lpa.date_of_possession,'%d-%m-%Y') AS date_of_possession, lpa.possession_status_fk as private_possession_status_fk, "
+									+ "cast(lpa.hundred_percent_Solatium as CHAR) as hundred_percent_Solatium,cast(lpa.extra_25_percent as CHAR) as extra_25_percent, cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation, "
+									+ "cast(lpa.agriculture_tree_compensation as CHAR) as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,cast(lpa.structure_compensation as CHAR) as structure_compensation,cast(lpa.borewell_compensation as CHAR) as borewell_compensation,cast(lpa.total_compensation as CHAR) as total_compensation,"
+									//lpa.special_feature as private_special_feature, 
+									+ "lpv.payment_amount_units,DATE_FORMAT(lpv.forest_tree_survey ,'%d-%m-%Y') AS forest_tree_survey,DATE_FORMAT(lpv.forest_tree_valuation ,'%d-%m-%Y') AS forest_tree_valuation, lpv.forest_tree_valuation_status_fk,DATE_FORMAT(lpv.horticulture_tree_survey ,'%d-%m-%Y') AS horticulture_tree_survey,DATE_FORMAT(lpv.horticulture_tree_valuation ,'%d-%m-%Y') AS horticulture_tree_valuation, "
+									+ "DATE_FORMAT(lpv.structure_survey ,'%d-%m-%Y') AS structure_survey,DATE_FORMAT(lpv.structure_valuation ,'%d-%m-%Y') AS structure_valuation,DATE_FORMAT(lpv.borewell_survey ,'%d-%m-%Y') AS borewell_survey,DATE_FORMAT(lpv.borewell_valuation ,'%d-%m-%Y') AS borewell_valuation, lpv.horticulture_tree_valuation_status_fk, lpv.structure_valuation_status_fk, "
+									+ "lpv.borewell_valuation_status_fk, lpv.rfp_to_adtp_status_fk, DATE_FORMAT(lpv.date_of_rfp_to_adtp ,'%d-%m-%Y') AS date_of_rfp_to_adtp,DATE_FORMAT(lpv.date_of_rate_fixation_of_land ,'%d-%m-%Y') AS date_of_rate_fixation_of_land, DATE_FORMAT(lpv.sdo_demand_for_payment ,'%d-%m-%Y') AS sdo_demand_for_payment,DATE_FORMAT(lpv.date_of_approval_for_payment ,'%d-%m-%Y') AS date_of_approval_for_payment, "
+									+ "cast(lpv.payment_amount as CHAR) as payment_amount, DATE_FORMAT(lpv.payment_date ,'%d-%m-%Y') AS private_payment_date  "
+									
+									+ " ,ira.collector as private_ira_collector, DATE_FORMAT(submission_of_proposal_to_GM ,'%d-%m-%Y') AS submission_of_proposal_to_GM,DATE_FORMAT(approval_of_GM ,'%d-%m-%Y') AS  approval_of_GM,DATE_FORMAT(draft_letter_to_con_for_approval_rp ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_rp,DATE_FORMAT(date_of_approval_of_construction_rp ,'%d-%m-%Y') AS  date_of_approval_of_construction_rp,DATE_FORMAT(date_of_uploading_of_gazette_notification_rp ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_rp,"
+									+ "DATE_FORMAT(publication_in_gazette_rp ,'%d-%m-%Y') AS publication_in_gazette_rp,DATE_FORMAT(date_of_proposal_to_DC_for_nomination ,'%d-%m-%Y') AS  date_of_proposal_to_DC_for_nomination, DATE_FORMAT(date_of_nomination_of_competenta_authority ,'%d-%m-%Y') AS date_of_nomination_of_competenta_authority, DATE_FORMAT(draft_letter_to_con_for_approval_ca ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_ca, DATE_FORMAT(date_of_approval_of_construction_ca ,'%d-%m-%Y') AS date_of_approval_of_construction_ca, "
+									+ "DATE_FORMAT(date_of_uploading_of_gazette_notification_ca ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_ca, DATE_FORMAT(publication_in_gazette_ca ,'%d-%m-%Y') AS publication_in_gazette_ca, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA,DATE_FORMAT(approval_of_CALA_20a ,'%d-%m-%Y') AS approval_of_CALA_20a,DATE_FORMAT(draft_letter_to_con_for_approval_20a ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20a,"
+									+ "DATE_FORMAT(date_of_approval_of_construction_20a ,'%d-%m-%Y') AS date_of_approval_of_construction_20a,DATE_FORMAT(date_of_uploading_of_gazette_notification_20a ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20a,DATE_FORMAT(publication_in_gazette_20a ,'%d-%m-%Y') AS publication_in_gazette_20a,DATE_FORMAT(publication_in_2_local_news_papers_20a ,'%d-%m-%Y') AS publication_in_2_local_news_papers_20a,DATE_FORMAT(pasting_of_notification_in_villages_20a ,'%d-%m-%Y') AS pasting_of_notification_in_villages_20a,"
+									+ "DATE_FORMAT(receipt_of_grievances ,'%d-%m-%Y') AS  receipt_of_grievances, DATE_FORMAT(disposal_of_grievances ,'%d-%m-%Y') AS disposal_of_grievances, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20e ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20e, DATE_FORMAT(approval_of_CALA_20e ,'%d-%m-%Y') AS  approval_of_CALA_20e,DATE_FORMAT(draft_letter_to_con_for_approval_20e ,'%d-%m-%Y') AS  draft_letter_to_con_for_approval_20e,"  
+									+"DATE_FORMAT(date_of_approval_of_construction_20e ,'%d-%m-%Y') AS  date_of_approval_of_construction_20e,DATE_FORMAT(date_of_uploading_of_gazette_notification_20e ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20e,DATE_FORMAT(publication_in_gazette_20e ,'%d-%m-%Y') AS  publication_in_gazette_20e,DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20e ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20e,DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20f ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20f," 
+									+"DATE_FORMAT(approval_of_CALA_20f ,'%d-%m-%Y') AS approval_of_CALA_20f,DATE_FORMAT(draft_letter_to_con_for_approval_20f ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20f,DATE_FORMAT(date_of_approval_of_construction_20f ,'%d-%m-%Y') AS date_of_approval_of_construction_20f,DATE_FORMAT(date_of_uploading_of_gazette_notification_20f ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20f,DATE_FORMAT(publication_in_gazette_20f ,'%d-%m-%Y') AS publication_in_gazette_20f,"
+									+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f "
+									+"from la_land_identification li "
+									+"left join la_government_land_acquisition lg on li.la_id = lg.la_id_fk " 
+									+"left join la_forest_land_acquisition lf on li.la_id = lf.la_id_fk " 
+									+"left join la_railway_land_acquisition lr on li.la_id = lr.la_id_fk " 
+									+"left join la_private_land_acquisition lpa on li.la_id = lpa.la_id_fk " 
+									+"left join la_private_land_valuation lpv on li.la_id = lpv.la_id_fk " 
+									+"left join la_private_ira ira on li.la_id = ira.la_id_fk " 
+									+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
+									+"left join work w on li.work_id_fk = w.work_id "
+									+"left join project p on w.project_id_fk = p.project_id "
+									+"left join la_category c on sc.la_category_fk = c.la_category "+
+									" where la_id is not null and la_id=?" ; 
+							Object[] pValues = new Object[] { obj.getLa_id() };
+									
+							sobj = (LandAcquisition)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));						
+
+							sobj.setMail_body_header(mailBodyHeader);
+
+							String emailSubject = "PMIS Land Acquisition Notification - Land Acquisition ";
+
+							Mail mail = new Mail();
+							mail.setMailTo(mailTo);
+							mail.setMailCc(mailCC);
+							mail.setMailBcc(CommonConstants.BCC_MAIL);
+							mail.setMailSubject(emailSubject);
+							mail.setTemplateName("LandAcquisitionAlert.vm");
+
+							SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+							String today_date = monthFormat.format(new Date()).toUpperCase();
+
+							SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+							String current_year = yearFormat.format(new Date()).toUpperCase();
+
+							if (!StringUtils.isEmpty(mailTo)) {
+								EMailSender emailSender = new EMailSender();
+								logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": Start ");
+								logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": Start ");
+								emailSender.sendEmailWithLandAcquisitionAlert(mail, sobj, today_date, current_year);
+								logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": end ");
+								logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": end ");
+							}							
+							
 						}
-						if(obj.getLa_land_status_fk().compareTo(landstatus)!=0)
+						if(obj.getLa_land_status_fk().compareTo(landstatus)==0)
 						{
 							if(!StringUtils.isEmpty(obj.getLa_land_status_fk()))
 							{
@@ -1396,8 +1522,113 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 									msgObj.setMessage_type("Land Acquisition");	
 									BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
 									template.update(messageQry, paramSource1);						
-								}						
-							}	
+								}
+
+								String mailTo = "";
+								String mailCC = "";
+								for(int i=0;i<SplitEmail.length;i++)
+								{
+									if (!StringUtils.isEmpty(SplitEmail[i])) {
+										mailTo = mailTo + SplitEmail[i] + ",";
+									}
+								}
+
+								if (!StringUtils.isEmpty(mailTo)) {
+									mailTo = org.apache.commons.lang3.StringUtils.chop(mailTo);
+								}
+
+								if (!StringUtils.isEmpty(mailCC)) {
+									mailCC = org.apache.commons.lang3.StringUtils.chop(mailCC);
+								}
+
+								String mailBodyHeader =  "A Land Acquisition against "+obj.getWork_id_fk()+" "+obj.getLa_land_status_fk();
+								
+								
+								LandAcquisition sobj = null;
+
+								String qry = "select distinct la_id,li.remarks,cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,IFNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk, work_id_fk,w.project_id_fk,p.project_name,w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo, li.collector, DATE_FORMAT(proposal_submission_date_to_collector,'%d-%m-%Y') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, jm_fee_amount,jm_fee_amount_units, "
+										+ "li.special_feature,cast(li.area_acquired as CHAR) as area_acquired,li.private_land_process,cast(chainage_from as CHAR) as chainage_from,cast(chainage_to as CHAR) as chainage_to, DATE_FORMAT(jm_fee_letter_received_date,'%d-%m-%Y') AS jm_fee_letter_received_date,DATE_FORMAT(jm_fee_paid_date,'%d-%m-%Y') AS jm_fee_paid_date,DATE_FORMAT(jm_start_date,'%d-%m-%Y') AS  jm_start_date,DATE_FORMAT(jm_completion_date,'%d-%m-%Y') AS jm_completion_date, DATE_FORMAT(jm_sheet_date_to_sdo,'%d-%m-%Y') AS jm_sheet_date_to_sdo, jm_remarks, jm_approval, li.issues"
+										
+										+ ",lg.id, lg.la_id_fk,DATE_FORMAT(lg.proposal_submission,'%d-%m-%Y') AS proposal_submission, lg.proposal_submission_status_fk, DATE_FORMAT(lg.valuation_date,'%d-%m-%Y') AS valuation_date, DATE_FORMAT(lg.letter_for_payment,'%d-%m-%Y') AS letter_for_payment,"
+										+ "lg.amount_demanded,cast(lg.lfp_status_fk as CHAR) as lfp_status_fk,DATE_FORMAT(lg.approval_for_payment,'%d-%m-%Y') AS approval_for_payment,DATE_FORMAT(lg.payment_date,'%d-%m-%Y') AS payment_date, lg.amount_paid, lg.payment_status_fk, DATE_FORMAT(lg.possession_date,'%d-%m-%Y') AS possession_date,"
+										+ "lg.possession_status_fk,lf.demanded_amount_units as demanded_amount_units_forest,lf.payment_amount_units as payment_amount_units_forest, "
+										//lg.special_feature, 
+										+ "lg.amount_demanded_units,lg.amount_paid_units, DATE_FORMAT(lf.on_line_submission,'%d-%m-%Y') AS forest_online_submission, DATE_FORMAT(lf.submission_date_to_dycfo,'%d-%m-%Y') AS forest_submission_date_to_dycfo, DATE_FORMAT(lf.submission_date_to_ccf_thane,'%d-%m-%Y') AS forest_submission_date_to_ccf_thane, "
+										+ "DATE_FORMAT(lf.submission_date_to_nodal_officer,'%d-%m-%Y') AS forest_submission_date_to_nodal_officer, DATE_FORMAT(lf.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS forest_submission_date_to_revenue_secretary_mantralaya, DATE_FORMAT(lf.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS forest_submission_date_to_regional_office_nagpur,"
+										+ " DATE_FORMAT(lf.date_of_approval_by_regional_office_nagpur,'%d-%m-%Y') AS forest_date_of_approval_by_regional_office_nagpur, DATE_FORMAT(lf.valuation_by_dycfo,'%d-%m-%Y') AS forest_valuation_by_dycfo,cast(lf.demanded_amount as CHAR) as forest_demanded_amount,cast(lf.payment_amount  as CHAR) as forest_payment_amount, DATE_FORMAT(lf.approval_for_payment,'%d-%m-%Y') AS forest_approval_for_payment"
+										+ ", DATE_FORMAT(lf.payment_date,'%d-%m-%Y') AS forest_payment_date,DATE_FORMAT(lf.possession_date,'%d-%m-%Y') AS forest_possession_date,lf.possession_status_fk as forest_possession_status_fk,"
+										+ "lf.payment_status_fk as forest_payment_status_fk"
+										//lf.special_feature as forest_special_feature, 
+										+ " ,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,DATE_FORMAT(lr.online_submission,'%d-%m-%Y') AS railway_online_submission,"
+										+ "DATE_FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, DATE_FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, DATE_FORMAT(lr.`submission_date_to_nodal_officer/CCF Nagpur`,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, "
+										+ " DATE_FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS railway_submission_date_to_revenue_secretary_mantralaya, DATE_FORMAT(lr.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS railway_submission_date_to_regional_office_nagpur, DATE_FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'%d-%m-%Y') AS railway_date_of_approval_by_Rregional_Office_agpur,"
+										+ "DATE_FORMAT(lr.valuation_by_DyCFO ,'%d-%m-%Y') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, DATE_FORMAT(lr.approval_for_payment,'%d-%m-%Y') AS railway_approval_for_payment, DATE_FORMAT(lr.payment_date,'%d-%m-%Y') AS railway_payment_date,cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, DATE_FORMAT(lr.possession_date,'%d-%m-%Y') AS railway_possession_date, lr.possession_status as railway_possession_status, "
+										+ " "
+										//lr.special_feature as railway_special_feature, 
+										+ "lpa.basic_rate_units,lpa.agriculture_tree_rate_units,lpa.forest_tree_rate_units, lpa.name_of_the_owner, lpa.basic_rate, lpa.agriculture_tree_nos, lpa.agriculture_tree_rate, lpa.forest_tree_nos,"
+										+ "lpa.forest_tree_rate,DATE_FORMAT(lpa.consent_from_owner,'%d-%m-%Y') AS consent_from_owner, DATE_FORMAT(lpa.legal_search_report,'%d-%m-%Y') AS legal_search_report, DATE_FORMAT(lpa.date_of_registration,'%d-%m-%Y') AS date_of_registration, DATE_FORMAT(lpa.date_of_possession,'%d-%m-%Y') AS date_of_possession, lpa.possession_status_fk as private_possession_status_fk, "
+										+ "cast(lpa.hundred_percent_Solatium as CHAR) as hundred_percent_Solatium,cast(lpa.extra_25_percent as CHAR) as extra_25_percent, cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation, "
+										+ "cast(lpa.agriculture_tree_compensation as CHAR) as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,cast(lpa.structure_compensation as CHAR) as structure_compensation,cast(lpa.borewell_compensation as CHAR) as borewell_compensation,cast(lpa.total_compensation as CHAR) as total_compensation,"
+										//lpa.special_feature as private_special_feature, 
+										+ "lpv.payment_amount_units,DATE_FORMAT(lpv.forest_tree_survey ,'%d-%m-%Y') AS forest_tree_survey,DATE_FORMAT(lpv.forest_tree_valuation ,'%d-%m-%Y') AS forest_tree_valuation, lpv.forest_tree_valuation_status_fk,DATE_FORMAT(lpv.horticulture_tree_survey ,'%d-%m-%Y') AS horticulture_tree_survey,DATE_FORMAT(lpv.horticulture_tree_valuation ,'%d-%m-%Y') AS horticulture_tree_valuation, "
+										+ "DATE_FORMAT(lpv.structure_survey ,'%d-%m-%Y') AS structure_survey,DATE_FORMAT(lpv.structure_valuation ,'%d-%m-%Y') AS structure_valuation,DATE_FORMAT(lpv.borewell_survey ,'%d-%m-%Y') AS borewell_survey,DATE_FORMAT(lpv.borewell_valuation ,'%d-%m-%Y') AS borewell_valuation, lpv.horticulture_tree_valuation_status_fk, lpv.structure_valuation_status_fk, "
+										+ "lpv.borewell_valuation_status_fk, lpv.rfp_to_adtp_status_fk, DATE_FORMAT(lpv.date_of_rfp_to_adtp ,'%d-%m-%Y') AS date_of_rfp_to_adtp,DATE_FORMAT(lpv.date_of_rate_fixation_of_land ,'%d-%m-%Y') AS date_of_rate_fixation_of_land, DATE_FORMAT(lpv.sdo_demand_for_payment ,'%d-%m-%Y') AS sdo_demand_for_payment,DATE_FORMAT(lpv.date_of_approval_for_payment ,'%d-%m-%Y') AS date_of_approval_for_payment, "
+										+ "cast(lpv.payment_amount as CHAR) as payment_amount, DATE_FORMAT(lpv.payment_date ,'%d-%m-%Y') AS private_payment_date  "
+										
+										+ " ,ira.collector as private_ira_collector, DATE_FORMAT(submission_of_proposal_to_GM ,'%d-%m-%Y') AS submission_of_proposal_to_GM,DATE_FORMAT(approval_of_GM ,'%d-%m-%Y') AS  approval_of_GM,DATE_FORMAT(draft_letter_to_con_for_approval_rp ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_rp,DATE_FORMAT(date_of_approval_of_construction_rp ,'%d-%m-%Y') AS  date_of_approval_of_construction_rp,DATE_FORMAT(date_of_uploading_of_gazette_notification_rp ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_rp,"
+										+ "DATE_FORMAT(publication_in_gazette_rp ,'%d-%m-%Y') AS publication_in_gazette_rp,DATE_FORMAT(date_of_proposal_to_DC_for_nomination ,'%d-%m-%Y') AS  date_of_proposal_to_DC_for_nomination, DATE_FORMAT(date_of_nomination_of_competenta_authority ,'%d-%m-%Y') AS date_of_nomination_of_competenta_authority, DATE_FORMAT(draft_letter_to_con_for_approval_ca ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_ca, DATE_FORMAT(date_of_approval_of_construction_ca ,'%d-%m-%Y') AS date_of_approval_of_construction_ca, "
+										+ "DATE_FORMAT(date_of_uploading_of_gazette_notification_ca ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_ca, DATE_FORMAT(publication_in_gazette_ca ,'%d-%m-%Y') AS publication_in_gazette_ca, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA,DATE_FORMAT(approval_of_CALA_20a ,'%d-%m-%Y') AS approval_of_CALA_20a,DATE_FORMAT(draft_letter_to_con_for_approval_20a ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20a,"
+										+ "DATE_FORMAT(date_of_approval_of_construction_20a ,'%d-%m-%Y') AS date_of_approval_of_construction_20a,DATE_FORMAT(date_of_uploading_of_gazette_notification_20a ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20a,DATE_FORMAT(publication_in_gazette_20a ,'%d-%m-%Y') AS publication_in_gazette_20a,DATE_FORMAT(publication_in_2_local_news_papers_20a ,'%d-%m-%Y') AS publication_in_2_local_news_papers_20a,DATE_FORMAT(pasting_of_notification_in_villages_20a ,'%d-%m-%Y') AS pasting_of_notification_in_villages_20a,"
+										+ "DATE_FORMAT(receipt_of_grievances ,'%d-%m-%Y') AS  receipt_of_grievances, DATE_FORMAT(disposal_of_grievances ,'%d-%m-%Y') AS disposal_of_grievances, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20e ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20e, DATE_FORMAT(approval_of_CALA_20e ,'%d-%m-%Y') AS  approval_of_CALA_20e,DATE_FORMAT(draft_letter_to_con_for_approval_20e ,'%d-%m-%Y') AS  draft_letter_to_con_for_approval_20e,"  
+										+"DATE_FORMAT(date_of_approval_of_construction_20e ,'%d-%m-%Y') AS  date_of_approval_of_construction_20e,DATE_FORMAT(date_of_uploading_of_gazette_notification_20e ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20e,DATE_FORMAT(publication_in_gazette_20e ,'%d-%m-%Y') AS  publication_in_gazette_20e,DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20e ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20e,DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20f ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20f," 
+										+"DATE_FORMAT(approval_of_CALA_20f ,'%d-%m-%Y') AS approval_of_CALA_20f,DATE_FORMAT(draft_letter_to_con_for_approval_20f ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20f,DATE_FORMAT(date_of_approval_of_construction_20f ,'%d-%m-%Y') AS date_of_approval_of_construction_20f,DATE_FORMAT(date_of_uploading_of_gazette_notification_20f ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20f,DATE_FORMAT(publication_in_gazette_20f ,'%d-%m-%Y') AS publication_in_gazette_20f,"
+										+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f "
+										+"from la_land_identification li "
+										+"left join la_government_land_acquisition lg on li.la_id = lg.la_id_fk " 
+										+"left join la_forest_land_acquisition lf on li.la_id = lf.la_id_fk " 
+										+"left join la_railway_land_acquisition lr on li.la_id = lr.la_id_fk " 
+										+"left join la_private_land_acquisition lpa on li.la_id = lpa.la_id_fk " 
+										+"left join la_private_land_valuation lpv on li.la_id = lpv.la_id_fk " 
+										+"left join la_private_ira ira on li.la_id = ira.la_id_fk " 
+										+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
+										+"left join work w on li.work_id_fk = w.work_id "
+										+"left join project p on w.project_id_fk = p.project_id "
+										+"left join la_category c on sc.la_category_fk = c.la_category "+
+										" where la_id is not null and la_id=?" ; 
+								Object[] pValues = new Object[] { obj.getLa_id() };
+										
+								sobj = (LandAcquisition)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));						
+
+								sobj.setMail_body_header(mailBodyHeader);
+
+								String emailSubject = "PMIS Land Acquisition Notification - Land Acquisition ";
+
+								Mail mail = new Mail();
+								mail.setMailTo(mailTo);
+								mail.setMailCc(mailCC);
+								mail.setMailBcc(CommonConstants.BCC_MAIL);
+								mail.setMailSubject(emailSubject);
+								mail.setTemplateName("LandAcquisitionAlert.vm");
+
+								SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+								String today_date = monthFormat.format(new Date()).toUpperCase();
+
+								SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+								String current_year = yearFormat.format(new Date()).toUpperCase();
+
+								if (!StringUtils.isEmpty(mailTo)) {
+									EMailSender emailSender = new EMailSender();
+									logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": Start ");
+									logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": Start ");
+									emailSender.sendEmailWithLandAcquisitionAlert(mail, sobj, today_date, current_year);
+									logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail to " + mailTo + ": end ");
+									logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": end ");
+								}
+								
+								
+							}
+							
+							
 						}
 					
 				}

@@ -2726,11 +2726,13 @@
 				{
 					$("#acr").show();
 					$("#atacq").show();
+					$('input[name=jm_approval][value=Done]').prop('checked', true);
 				}
 				else
 				{
 					$("#acr").hide();
 					$("#atacq").hide();
+					$('input[name=jm_approval][value=Done]').prop('checked', false);
 				}
 		}
 		
@@ -3033,9 +3035,11 @@
     					else
     					{
     						$("#area_to_be_acquiredError").html();
-    					}						
+    					}
+						$('input[name=jm_approval][value=Done]').prop('checked', true);
 					}
-					$('input[name=jm_approval][value=Done]').prop('checked', true);
+
+					
 	        		document.getElementById("landAcquisitionForm").submit();		
     	 		}else{
     	        	$(".page-loader").hide();
@@ -3093,9 +3097,11 @@
         					else
         					{
         						$("#area_to_be_acquiredError").html();
-        					}    						
+        					} 
+    						$('input[name=jm_approval][value=Done]').prop('checked', true);
     					}
-    					$('input[name=jm_approval][value=Done]').prop('checked', true);
+    					
+    					
     	        		document.getElementById("landAcquisitionForm").submit();
         	 		}else{
         	        	$(".page-loader").hide();

@@ -25,6 +25,111 @@
 		    bottom: 31px;
 		    top: inherit !important;
 		}
+		.fm-none{
+			width: 15%;
+			display: inline-block !important;
+			height:auto;
+		}
+		.tooltiptext{
+			display: none;
+		}
+		.tooltiptext2{
+			display: none;
+		}
+		@media(max-width: 575px){
+			.fm-none{
+				display:none !important;
+			}
+			.md-none{
+				display: none !important;
+			}
+		
+		.tooltiptext{
+			display: block;
+		}
+		.tooltip {
+		  position: relative;
+		}
+		.tooltip .tooltiptext {
+		  visibility: hidden;
+		  width: 120px;
+		  background-color: black;
+		  color: #fff;
+		  text-align: center;
+		  border-radius: 6px;
+		  padding: 5px 0;
+		  position: absolute;
+		  z-index: 1;
+		  bottom: 150%;
+		  left: 50%;
+		  margin-left: -60px;
+		  opacity: 0;
+		  transition: opacity 1s;
+		}
+		
+		.tooltip .tooltiptext::after {
+		  content: "";
+		  position: absolute;
+		  top: 100%;
+		  left: 50%;
+		  margin-left: -5px;
+		  border-width: 5px;
+		  border-style: solid;
+		  border-color: black transparent transparent transparent;
+		}
+		
+		.tooltip:hover .tooltiptext {
+		  visibility: visible;
+		  opacity: 1;
+		}
+		.tooltiptext2{
+			display: block;
+		}
+		.tooltip .tooltiptext2 {
+		  visibility: hidden;
+		  width: 120px;
+		  background-color: black;
+		  color: #fff;
+		  text-align: center;
+		  border-radius: 6px;
+		  padding: 5px 0;
+		  position: absolute;
+		  z-index: 1;
+		  top: -5px;
+  			right: 110%;
+		  margin-left: -60px;
+		  opacity: 0;
+		  transition: opacity 1s;
+		}
+		
+		.tooltip .tooltiptext2::after {
+		  content: "";
+		  position: absolute;
+		  top: 50%;
+  			left: 100%;
+		  margin-left: -5px;
+		  border-width: 5px;
+		  border-style: solid;
+		  border-color: black transparent transparent transparent;
+		}
+		
+		.tooltip:hover .tooltiptext2 {
+		  visibility: visible;
+		  opacity: 1;
+		}
+		.footer-img{
+			width: 25%;
+		}
+		.help-icon{
+			
+			float: right;
+		}
+		.help-icon img{
+			bottom: 0;
+			right: 0;
+			height: 35px;
+		}
+		}
 	</style>
 </head>
 <body>
@@ -33,17 +138,17 @@
     <div class="container">
     	<c:if test="${sessionScope.IS_TEST_ENV_ENABLED eq 'true' }">
 	    	<span style="width: 15%;">
-			  <select class="browser-default" style="width: 15%;display: inline-block;height:auto;" onchange="switchEnvironment(this.value);">
+			  <select class="browser-default fm-none" style="" onchange="switchEnvironment(this.value);">
 			    <option value="/pmis/" <c:if test="${context_path eq '/pmis' }">selected</c:if>>Production</option>
 			    <option value="/pmis_qa/" <c:if test="${context_path eq '/pmis_qa' }">selected</c:if>>Testing</option>
 			  </select>
 			</span>
 		</c:if>
-      	<span> &copy; <span id="currentYear"></span> @ <a href="https://mrvc.indianrailways.gov.in/" target="_blank" style="color:blue"><b>MRVC </b> 
-      	<img src="/pmis/resources/images/mrvclogo.png" alt="Logo" class="f-logo"> </a> | Designed & Developed by</span> 
-      		<a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image"></a>
-        <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
-        	<span class="help-txt">Help desk</span><img src="/pmis/resources/images/help_icon.svg">
+      	<span> &copy; <span id="currentYear"></span> <span class="md-none">@</span> <a href="https://mrvc.indianrailways.gov.in/" target="_blank" style="color:blue" class="tooltip"><b class="md-none">MRVC </b> 
+      	<img src="/pmis/resources/images/mrvclogo.png" alt="Logo" class="f-logo"><span class="tooltiptext">MRVC </span> </a> | <span class="md-none"> Designed & Developed by</span></span> 
+      		<a href="https://www.synergizglobal.com" target="_blank" class="tooltip"> <img src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image"><span class="tooltiptext">Designed & Developed by </span></a>
+        <a class="help-icon dropdown-trigger tooltip"  href='#' data-target='help-dropdown'>
+        	<span class="help-txt md-none">Help desk</span><img src="/pmis/resources/images/help_icon.svg"><span class="tooltiptext2">Help desk </span>
         </a>
 
 	  <!-- Dropdown Structure -->

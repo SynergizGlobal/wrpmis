@@ -16,7 +16,7 @@
 	/* body .brand-logo img{
 	     		width: 53rem! important;
 	     	} */
-	.nav-wrapper{z-index: 1000;}
+	.nav-wrapper{z-index: 1000;padding-left: 0;}
 	nav .menu-active, nav .menu-active.blue {
 		background-color: #f56661 !important;
 		box-shadow: 0 0 5px #bababa inset;
@@ -273,7 +273,7 @@
 			width: 26rem;
 		}
 		.brand-logo.fs {
-		    width: 60%;
+		    width: 68%;
 		}
 	}
 		

@@ -133,28 +133,15 @@
 															<tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Chainage from
+                                                                     Chainage
                                                                 </td>
 																<td align="left" width="100px"
-                                                                    style="white-space: pre-wrap;padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
                                                                     #if($alert.chainage_from && !$alert.chainage_from.empty) 
-                                                                    	$alert.chainage_from
+                                                                    	$alert.chainage_from - $alert.chainage_to
                                                                     #end
                                                                 </td>
                                                             </tr>
-                                                            #if($alert.chainage_to && !$alert.chainage_to.empty) 
-															<tr>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                      Chainage to
-                                                                </td>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $alert.chainage_to
-                                                                </td>
-                                                            </tr>
-                                                            #end
-                                                            
                                                             #if($alert.jm_remarks && !$alert.jm_remarks.empty) 
                                                             <tr>
 																<td align="left" width="100px"
@@ -172,7 +159,7 @@
                                                             <tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Jm Approval
+                                                                     JM Approval
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">

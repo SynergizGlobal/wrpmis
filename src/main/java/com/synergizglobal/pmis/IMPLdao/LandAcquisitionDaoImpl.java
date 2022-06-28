@@ -1151,8 +1151,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String jmapproval=getJMApprovalandLandStatus("jm_approval",obj.getLa_id());
-			String landstatus=getJMApprovalandLandStatus("la_land_status_fk",obj.getLa_id());
+			//String jmapproval=getJMApprovalandLandStatus("jm_approval",obj.getLa_id());
+			//String landstatus=getJMApprovalandLandStatus("la_land_status_fk",obj.getLa_id());
 			
 			String insertQry = "UPDATE la_land_identification SET "
 					+ "survey_number= :survey_number, village_id= :village_id, village= :village, taluka= :taluka, dy_slr= :dy_slr, sdo= :sdo, collector= :collector, proposal_submission_date_to_collector= :proposal_submission_date_to_collector,"
@@ -1385,8 +1385,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 						if (!StringUtils.isEmpty(obj.getJm_approval())) 
 						{						
-						if(obj.getJm_approval().compareTo(jmapproval)==0)
-						{	
+						//if(obj.getJm_approval().compareTo(jmapproval)==0)
+						//{	
 							String JMStatus="";
 							if(obj.getJm_approval().compareTo("Done")==0)
 							{
@@ -1510,12 +1510,12 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 								logger.error("sendEmailWithUtilityShiftingAlert() >> Sending mail CC " + mailCC + ": end ");
 							}							
 							
-						}
+						//}
 						}
 						if (!StringUtils.isEmpty(obj.getLa_land_status_fk())) 
 						{
-						if(obj.getLa_land_status_fk().compareTo(landstatus)==0)
-						{
+						//if(obj.getLa_land_status_fk().compareTo(landstatus)==0)
+						//{
 							if(!StringUtils.isEmpty(obj.getLa_land_status_fk()))
 							{
 								for(int i=0;i<SplitStr.length;i++)
@@ -1635,7 +1635,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 							
 							
 						}
-					}
+					//}
 					
 				}
 				if(flag) {

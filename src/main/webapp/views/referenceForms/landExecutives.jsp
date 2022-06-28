@@ -471,10 +471,7 @@
         		  
         	  }else{ */
         		  var array = user_id.split(",").map(item => item.trim());
-                  for(var i=0; i< array.length; i++){ 
-                	   // $('select[name^="executive_user_id_fk"] option[value='+array[i]+']').attr("selected", "selected");
-                	    $('#u_responsible_executives_id_fks0 option[value='+array[i]+']').attr("selected", "selected");
-                	} 
+                  $('#u_responsible_executives_id_fks0').val(array).trigger("change");
         	  //}
         	 
           }

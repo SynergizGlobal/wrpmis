@@ -228,7 +228,7 @@ public class RrResponsibleExecutivesDaoImpl implements RrResponsibleExecutivesDa
 	public List<TrainingType> getUsersDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation FROM user u where user_id is not null and user_type_fk <> ''  and u.user_type_fk not in('Others')   and u.user_type_fk not in('Management')";
+			String qry = "SELECT user_id,user_name,designation FROM user u where user_id is not null and user_type_fk <> '' and u.user_type_fk not in('Management')";
 			qry = qry + " and user_name not like '%user%' and pmis_key_fk not like '%SGS%'";// and department_fk in('Engg','Elec','S&T') 
 			
 			qry = qry + " ORDER BY FIELD(user_type_fk,'HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others'),"

@@ -421,7 +421,7 @@
 	                    <div class="card-content">
 	                        <span class="card-title center-align">${pObj.project_name }</span>
 	                        <div class="line">
-	                            <p class="alignleft">Original Sanctioned Cost </p>
+	                            <p class="alignleft">Sanctioned Estimated Cost (in Cr) </p>
 	                            <p class="aligncenter">:</p>
 	                            <p class="alignright"><c:if test="${not empty pObj.sanctioned_estimated_cost }">₹  ${pObj.sanctioned_estimated_cost } Cr </c:if></p>
 	                        </div>
@@ -602,7 +602,7 @@
 		                                            <div class="card-content" style="cursor: pointer;" >
 		                                                <span class="card-title center-align">${wObj.work_short_name }</span>
 		                                                <div class="line">
-		                                                    <p class="alignleft">Original Sanctioned Cost </p>
+		                                                    <p class="alignleft">Sanctioned Estimated Cost (in Cr) </p>
 		                                                    <p class="aligncenter">:</p>
 		                                                    <p class="alignright"><c:if test="${not empty wObj.sanctioned_estimated_cost }">₹  ${wObj.sanctioned_estimated_cost } Cr </c:if></p>
 		                                                </div>

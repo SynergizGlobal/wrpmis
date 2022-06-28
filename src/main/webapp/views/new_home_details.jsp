@@ -737,7 +737,7 @@
                                             ${projectOverview.pink_book_item_number }</p>
                                     </div>
                                     <div class="line">
-                                        <p class="alignleft w150">Original Sanctioned Cost </p>
+                                        <p class="alignleft w150">Sanctioned Estimated Cost (in Cr) </p>
                                         <p class="aligncenter">:</p>
                                         <p class="alignleft pdlr20px">
                                             <c:if
@@ -875,7 +875,7 @@
                                         <%-- <span class="card-title center-align">
                                             ${wObj.work_short_name }</span> --%>
                                             <div class="line">
-                                                <p class="alignleft">Original Sanctioned Cost </p>
+                                                <p class="alignleft">Sanctioned Estimated Cost (in Cr) </p>
                                                 <p class="aligncenter">:</p>
                                                 <p class="alignleft pdlr20px">
                                                     <c:if

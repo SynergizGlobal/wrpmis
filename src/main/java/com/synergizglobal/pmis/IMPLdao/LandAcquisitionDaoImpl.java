@@ -1383,6 +1383,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						String [] SplitEmail=executivesEmail.split(",");
 						
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+						if (!StringUtils.isEmpty(obj.getJm_approval())) 
+						{						
 						if(obj.getJm_approval().compareTo(jmapproval)==0)
 						{	
 							String JMStatus="";
@@ -1509,6 +1511,9 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 							}							
 							
 						}
+						}
+						if (!StringUtils.isEmpty(obj.getLa_land_status_fk())) 
+						{
 						if(obj.getLa_land_status_fk().compareTo(landstatus)==0)
 						{
 							if(!StringUtils.isEmpty(obj.getLa_land_status_fk()))
@@ -1630,6 +1635,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 							
 							
 						}
+					}
 					
 				}
 				if(flag) {

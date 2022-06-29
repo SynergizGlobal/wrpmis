@@ -316,6 +316,14 @@
 		.pdr5em{
 			padding-right: 5em !important;
 		}
+		@media(max-width: 360px){
+			.mdl-data-table td, .mdl-data-table th{
+				padding: 5px;
+			}
+			.mdl-data-table .amount-dropdown .select-wrapper, .mdl-data-table .amount-dropdown .amount-symbol{
+				    top: 0.5rem;
+			}
+		}
     </style>
 </head>
 <body>
@@ -402,7 +410,7 @@
 			                               </div>
 			                                 <input id="work_id" type="hidden" class="form-control" name="work_id" value="${workDetails.work_id }" >  
 			                           
-		                              <div class="col s12 m9 l6 input-field">
+		                              <div class="col s12 m8 l6 input-field">
 	                                    <textarea id="work_name" class="pmis-textarea h46px" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
 	                                    <label for="work_name">Work Name <span class="required">*</span></label>
 	                                     <span id="work_nameError"></span>

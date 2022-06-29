@@ -1524,8 +1524,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							
 							fileObj.setStructure_file_type_fk("Site photograph");
 							
-							String qryStructure ="select structure_id from structure where structure=? ";
-							String StructureText= jdbcTemplate.queryForObject( qryStructure,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);
+							String qryStructure ="select structure_id from structure where structure=? and structure_type_fk=?";
+							String StructureText= jdbcTemplate.queryForObject( qryStructure,new Object[]{obj.getStrip_chart_structure_id_fk(),obj.getStructure_type_fk()}, String.class);
 							
 							
 							fileObj.setStructure_id(StructureText);

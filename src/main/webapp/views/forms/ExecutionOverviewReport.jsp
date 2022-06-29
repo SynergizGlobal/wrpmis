@@ -352,13 +352,13 @@
 								<div class="row no-mar">
 									<div class="col s6 m4 l4 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Work ID</p><br>
-										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getExecutionOverviewReportList();">
+										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getExecutionDeptOverviewReportList();">
 											<option value="">Select</option>										
 										</select> 
 									</div>		
 									<div class="col s6 m4 l4 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Department/HOD</p><br>
-										<select id="department_fk" name="department_fk" class="searchable" onChange="getExecutionOverviewReportList();">
+										<select id="department_fk" name="department_fk" class="searchable" onChange="getExecutionDeptOverviewReportList();">
 											<option value="">Select</option>
 										</select>
 									</div>
@@ -536,7 +536,7 @@
            } 
     	   $('.close-message').delay(3000).fadeOut('slow');
     	
-    	   getExecutionOverviewReportList();
+    	   getExecutionDeptOverviewReportList();
     	
     });
     
@@ -551,6 +551,135 @@
     	window.location.href= "<%=request.getContextPath()%>/execution-overview-report";
 
     }
+    
+    function getExecutionDeptOverviewReportList(){
+    	$(".page-loader-2").show();
+    	$('#divCollapase ul').html("");
+    	$("#contract_id_fk").val("");
+    	getDepartmentFilterList('');
+    	getContractIdFilterList('');
+    	
+    	getWorkFilterList('');
+    	
+    	    	
+    	var work_id_fk = $("#work_id_fk").val();
+    	var department_fk = $("#department_fk").val();
+    	var contract_id_fk = $("#contract_id_fk").val();
+
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("executionOverviewReprtFilter", filters);
+		});
+
+		var StructureTypeArray=new Array(); 
+		var CalStructureTypeValuesArray=new Array();
+	 
+	 	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk};
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getExecutionOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){    				
+				if(data != null && data != '' && data.length > 0){  
+					var CheckLp=1;
+	         		$.each(data,function(key,val)
+	         				{
+	         			
+		         				var cval1=0;
+		         				var pval2=0;
+		         				var cnt=0;
+		         				
+		                   		if(CalStructureTypeValuesArray.indexOf(val.structure_type_fk)==-1)
+		                   		{   
+		                   				CalStructureTypeValuesArray.push(val.structure_type_fk);
+				    	         		$.each(data,function(key1,val1){
+				    	         					if(val.structure_type_fk==val1.structure_type_fk)
+				    	         						{
+				    	         								var a1=0,a2=0;
+				    	         								if(val1.pending!="" && val1.pending!=null && val1.pending!=undefined)
+				    	         								{a1=val1.pending;}
+				    	         								if(val1.completed!="" && val1.completed!=null && val1.completed!=undefined)
+				    	         								{a2=val1.completed;}
+				    	         								cval1=parseFloat(cval1)+parseFloat(a2);
+				    	         								pval2=parseFloat(pval2)+parseFloat(a1);
+				    	         								cnt++;
+				    	         						}
+				    	         				});
+				    	         		
+				    	         		
+		                   		}	
+
+		                   		
+		                   		/*if(val.structure_type_fk=="Earthwork")
+		                   		{cval1=10.3;}
+		                   		else if(val.structure_type_fk=="Major Bridge")
+	                   			{
+		                   				if($("#contract_id_fk").val()=="P04W01EN04")
+		                   				{
+		                   					cval1=1.1;
+		                   				}
+		                   				else
+		                   					{
+		                   						cval1=0;
+		                   					}
+		                   		}		                   		
+		                   		else if(val.structure_type_fk=="Minor Bridge")
+	                   			{cval1=8.5;}
+		                   		else
+	                   			{
+			                   		cval1=cval1/cnt;
+			                   		pval2=100-cval1;
+			                   		 pval2=pval2/cnt; 
+	                   			}*/
+		                   		
+ 		                   		if(cval1>0)
+	                   			{
+			                   		cval1=cval1/cnt;
+			                   		pval2=pval2/cnt;
+	                   			} 
+         			
+		                   		
+		                   		if(StructureTypeArray.indexOf(val.structure_type_fk)==-1)
+		                   		{   
+		                   				StructureTypeArray.push(val.structure_type_fk);
+					         			var html="<li>";
+					         			var lmVal=parseFloat(100)-cval1;
+					                    html=html+'<div class="collapsible-header fs-th" style="color:#000000 !important;"><table><thead><tr><th class="w-1" style="font-weight:normal;width:5%;max-width:5%;">'+CheckLp+'</th><th class="w-18" style="font-weight:normal;">'+val.structure_type_fk+'</th><th class="w-11" style="font-weight:normal;">%</th><th class="w-16" style="font-weight:normal;">100</th><th class="w-17" style="font-weight:normal;">'+cval1.toFixed(2)+'</th><th class="w-11" style="font-weight:normal;">'+lmVal.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-body">';
+				
+				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table fs16rem" style="background-color: #E3F0EF;color:#000000 !important;">'+
+
+										'<tbody>';
+				    	         		$.each(data,function(key1,val1)
+				    	         				{
+				    	         					if(val.structure_type_fk==val1.structure_type_fk)
+				    	         						{
+						    	         					html=html+'<tr>';
+						    	         						html=html+'<td style="width:21%">'+$.trim(val1.strip_chart_structure_id)+'</td>';
+						    	         						html=html+'<td style="width:11.9%">'+val1.unit_fk+'</td>';
+						    	         						html=html+'<td class="w-16">'+val1.scope.replace('%','')+'</td>';
+						    	         						html=html+'<td style="width:17.5%">'+val1.completed+'</td>';
+						    	         						html=html+'<td>'+val1.pending+'</td>';
+						    	         						html=html+'<td></td>';
+						    	         						//html=html+'<td>'+val1.remarks+'</td>';
+						    	         						html=html+'<td></td>';
+						    	         					html=html+'</tr>';
+				    	         						}
+				    	         				});
+				    	         		html=html+'</tbody></table></div>';
+				    	         		$('.collapsible').append(html);
+				    	         		CheckLp++;
+				    	         		
+		                   		}
+							});
+      		
+	         		
+
+	         			
+				}
+         		$(".page-loader-2").hide();
+
+			}
+		});
+    }    
+    
         
     function getExecutionOverviewReportList(){
     	$(".page-loader-2").show();

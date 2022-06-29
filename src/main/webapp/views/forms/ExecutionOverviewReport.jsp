@@ -548,7 +548,7 @@
     	$('.searchable').select2();
     	
     	window.localStorage.setItem("executionOverviewReprtFilter",'');
-    	window.location.href= "<%=request.getContextPath()%>/execution-overview-report";
+    	window.location.href= "<%=request.getContextPath()%>/execution-overview-report?work_id="+cid;
 
     }
     

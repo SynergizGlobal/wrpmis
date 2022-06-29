@@ -18,8 +18,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
     <style>
         .dataTables_filter label::after{
          	content:'';
@@ -38,7 +38,7 @@
         	width:12vw;
         	min-width:12vw;
         }
-        @media only screen and (max-width: 769px){ 
+        @media only screen and (max-width: 820px){ 
 		
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
@@ -79,12 +79,12 @@
 	.m-n1 {
         margin: -2rem auto 0;
     }
-	 @media only screen and (max-width: 767px) {
+	 @media only screen and (max-width: 820px) {
         .mob-mar {
             text-align: left;
         }
      }
-	 @media only screen and (max-width: 767px) {
+	 @media only screen and (max-width: 820px) {
 
         .exportButton .btn {
             padding-left: 6px;

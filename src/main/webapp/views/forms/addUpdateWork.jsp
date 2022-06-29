@@ -13,14 +13,14 @@
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">    
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">    
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <!-- <link rel="stylesheet" href="/pmis/resources/css/work.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
- 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+ 	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
     	/* .select2-container .select2-selection--multiple{height: 5em;} */
     	/* .l20px{margin-left: 20px !important;}
@@ -64,12 +64,12 @@
         @media(max-width: 1380px){
 			.fs7rem{font-size: .7rem !important;}
 		}
-		@media(max-width: 768px){
+		@media(max-width: 820px){
 			.mt1em {
 			    margin-top: 2em !important;
 			}
 		}
-        @media only screen and (min-width: 768px){
+        @media only screen and (min-width: 820px){
 	        .fs-md-9r{
 	        	font-size:.9rem;
 	        }
@@ -165,7 +165,7 @@
 		.lh{
 			line-height:inherit;
 		}
-		@media only screen and (max-width: 768px){
+		@media only screen and (max-width: 820px){
 			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
 			#revisionsTableBody tr .input-field .datepicker~button {
 			    position: relative;
@@ -256,7 +256,7 @@
 		    margin-top: -16px !important;
 		}
 		
-		@media only screen and (max-width: 769px) and (min-width: 500px){
+		@media only screen and (max-width: 820px) and (min-width: 500px){
 			#revisionsTableBody .select2-container--default,
 			.mobile_responsible_table .select2-container--default {
 			    width: 93% !important;
@@ -379,7 +379,7 @@
 		                                    <span id="project_id_fkError"></span>
 		                               </div> 
 		                               <input type="hidden" name ="project_name" id="project_name"/>
-		                                <div class="col s12 m9 l6 input-field">
+		                                <div class="col s12 m8 l6 input-field">
 	                                    <textarea id="work_name" class="pmis-textarea h46px" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
 	                                    <label for="work_name">Work Name <span class="required">*</span></label>
 	                                     <span id="work_nameError"></span>
@@ -541,7 +541,7 @@
                                
                                  <div class="col s6 m4 l3 input-field offset-m2 ">
                                     <input id="projected_completion" name="projected_completion" type="text" class="validate datepicker" value="${workDetails.projected_completion }">
-                                    <label for="projected_completion">Original completion date<span class="required">*</span></label>
+                                    <label for="projected_completion" class="fs7rem">Original completion date<span class="required">*</span></label>
                                     <button type="button" id="projected_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="projected_completionError" class="error-msg" ></span>
                                 </div>

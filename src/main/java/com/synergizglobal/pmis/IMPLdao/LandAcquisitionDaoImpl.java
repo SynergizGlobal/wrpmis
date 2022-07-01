@@ -451,7 +451,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getLandAcquisitionSubCategoryList(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry = "SELECT sc.la_sub_category as sub_category_of_land from la_land_identification li " + 
+			String qry = "SELECT distinct sc.la_sub_category as sub_category_of_land from la_land_identification li " + 
 					"LEFT JOIN work w on li.work_id_fk = w.work_id "+
 					 "left join land_executives le on li.work_id_fk = le.work_id_fk  "+
 					"left join project p on w.project_id_fk = p.project_id "+

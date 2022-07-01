@@ -202,7 +202,7 @@
 							<h6 class="mob-mar">Land Acquisition</h6>
 							<div class="col s12 m12 right-align exportButton">
     							<div class="m-n1">
-    								<a href="/pmis/Land_Aquisition_Templete.xlsx" download class="template-btn" title="Click to Download Land Acquisition Template">
+    								<a href="/pmis/Land_Acquisition_Templete.xlsx" download class="template-btn" title="Click to Download Land Acquisition Template">
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a>
     							 	<a href="javascript:void(0);"
@@ -538,6 +538,7 @@
         var queue = 1;
         function getLandAcquisitionList(){
         	$(".page-loader-2").show();
+        	
 
         	getStatussFilterList('');
         	getWorksFilterList('');
@@ -593,7 +594,8 @@
 			        //"sDom": 'l<"toolbar">frtip',
    	                "initComplete": function () {
    	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px ', 'display': 'inline-block' });
-   	                   
+   	                 	$('.dataTables_filter div').remove();
+   	                    $('.dataTables_filter div i').remove();
    	                  var input = $('.dataTables_filter input').unbind()
 						.bind('keyup',function(e){
 						    if (e.which == 13){
@@ -917,11 +919,29 @@
                     url: "<%=request.getContextPath()%>/ajax/getSubCategoryFilterListInLandAcquisition",
                     data: myParams, cache: false,
                     success: function (data) {
-                        if (data.length > 0) {
+                        if (data.length > 0) 
+                        {
+                        	$("#sub_category_of_land option:not(:first)").remove();
                             $.each(data, function (i, val) {
                             		var selectedFlag = (subCategory == val.sub_category_of_land)?'selected':'';
     	                            $("#sub_category_of_land").append('<option value="' + val.sub_category_of_land + '"'+selectedFlag+'>' + $.trim(val.sub_category_of_land) +'</option>');
                             });
+                            var filters = window.localStorage.getItem("laFilters");
+              	          
+                            if($.trim(filters) != '' && $.trim(filters) != null){
+                        	  var temp = filters.split('^'); 
+                        	  for(var i=0;i< temp.length;i++){
+                	        	  if($.trim(temp[i]) != '' ){
+                	        		  var temp2 = temp[i].split('=');
+									  if($.trim(temp2[0]) == 'sub_category_of_land')
+									  {
+										  $("#sub_category_of_land").val(temp2[1]).trigger('change');
+                		        	  }
+									  
+                	        	  }
+                	          }
+                            }
+
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();

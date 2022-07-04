@@ -86,6 +86,9 @@
         .mt9px{margin-top: 9px !important}
         .w7em{width: 7em;}
         .bd-none{border:none !important;background: transparent}
+        .character-counter {
+			    right: 0.5em;
+			}
 		@media(max-width: 2200px){
 		.table-add{position: absolute;}
 		.add-align{position: absolute;
@@ -96,9 +99,23 @@
     	@media(max-Width: 2000px){
     	.add-align{margin-left:36%;}
     	}
+    	@media(max-width: 1024px){
+    		.w85 {
+		    width: 75% !important;
+		}
+    	}
     	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
+    	.w85{
+		    		width: 70% !important;
+		    	}
+		.character-counter {
+		    right: 1.5em;
+		}
+		.input-field p.searchable_label{
+			margin-bottom: 0px;
+		}
     	}
         @media only screen and (max-width: 768px){
         	.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
@@ -167,6 +184,12 @@
 			    white-space: break-spaces; 
 		}
 		td{word-break: break-all;}
+		.w85 {
+		    width: 60% !important;
+		}
+		.character-counter{
+			right: 0.6em;
+		}
 		
     }
     </style>
@@ -474,7 +497,7 @@
                             
                             <div class="row">
                                 <div class="col s12 m12 l12 input-field">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000" maxlength="1000">${fob.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea pdr5em" data-length="1000" maxlength="1000">${fob.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>

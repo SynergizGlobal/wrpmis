@@ -179,6 +179,7 @@ public class PageConstants {
 	public static final String archiveDashboardsMenu = "forms/archiveDashboardsMenu";
 	
 	public static final String structureGalleryPage ="forms/structureGalleryPage";
+	public static final String newFile ="forms/newFile";
 
 	//******************************************************************************************
 	//REFERENCE FORMS

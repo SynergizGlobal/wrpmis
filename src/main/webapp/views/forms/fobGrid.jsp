@@ -102,7 +102,7 @@
 
     @media only screen and (max-width: 767px) {
         .mob-mar {
-            text-align: left;
+            text-align: center;
         }
 
         .exportButton .btn {

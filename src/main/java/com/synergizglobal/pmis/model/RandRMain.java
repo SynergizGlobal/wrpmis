@@ -19,7 +19,7 @@ residential_salary_units,created_by_user_id_fk,modified_by,modified_date,user_id
  hod, mrvc_responsible_person, bses_agency_name, agency_responsible_person,rrbses_id,
  rr_agency_id_fk, date_of_appointment, name_of_representative, phone_no,
  contact_number, email_id, submission_date_report_ca, actual_submission_date_bses_report_to_mrvc,res_designation,res_user_name,
- approval_by_mrvc_responsible_person, report_submission_date_to_mrvc, approval_date_by_mrvc,res_user_id;
+ approval_by_mrvc_responsible_person, report_submission_date_to_mrvc, approval_date_by_mrvc,res_user_id,planned_date_of_completion;
 
 private List<RandRMain> residentialList,rrBSESLIst,commercialList,comList,comFamList,resList,resFamList,report1List,report2List;
 private MultipartFile RandRFile;
@@ -1329,6 +1329,14 @@ public String getMail_body_header() {
 
 public void setMail_body_header(String mail_body_header) {
 	this.mail_body_header = mail_body_header;
+}
+
+public String getPlanned_date_of_completion() {
+	return planned_date_of_completion;
+}
+
+public void setPlanned_date_of_completion(String planned_date_of_completion) {
+	this.planned_date_of_completion = planned_date_of_completion;
 }
 
 }

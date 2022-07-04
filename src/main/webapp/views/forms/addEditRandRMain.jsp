@@ -509,7 +509,13 @@
 		                             <label for="handover_to_execution">Handover to Execution</label>
 		                             <span id="handover_to_executionError" class="error-msg" ></span>
                                 </div>
-                                                          
+                                <div class="col s12 m4 input-field">
+								     <input id="planned_date_of_completion" name="planned_date_of_completion" type="text" class="validate datepicker-max-today" value="${rrDetails.planned_date_of_completion }">
+                                     <button type="button" id="planned_date_of_completion_icon" class="datepicker-max-today-button"><i
+                                            class="fa fa-calendar"></i></button>
+		                             <label for="planned_date_of_completion">Planned date of completion</label>
+		                             <span id="planned_date_of_completionError" class="error-msg" ></span>
+                                </div>                                                          
                             </div>
 						</div>
                             <div class="row ">
@@ -1583,6 +1589,12 @@
  			$('form input[name=residential_employments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=residential_salarys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=residential_salary_unitss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+ 			
+ 			var planneddateofcompletion = $("#planned_date_of_completion").val().split('-');
+ 			planneddateofcompletion.reverse();
+ 			var planneddateofcompletionreversed = planneddateofcompletion.join('-');
+ 			$("#planned_date_of_completion").val(planneddateofcompletionreversed);
+ 			
   			document.getElementById("RandRForm").submit();			
 	 	 }
    }
@@ -1608,6 +1620,12 @@
 			$('form input[name=residential_employments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=residential_salarys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=residential_salary_unitss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			
+ 			var planneddateofcompletion = $("#planned_date_of_completion").val().split('-');
+ 			planneddateofcompletion.reverse();
+ 			var planneddateofcompletionreversed = planneddateofcompletion.join('-');
+ 			$("#planned_date_of_completion").val(planneddateofcompletionreversed);
+ 			
   			document.getElementById("RandRForm").submit();	
    	}
    }

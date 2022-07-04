@@ -985,7 +985,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "DATE_FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc, estimation_amount,DATE_FORMAT(estimate_approval_date ,'%d-%m-%Y') AS estimate_approval_date,DATE_FORMAT(letter_to_mmrda ,'%d-%m-%Y') AS letter_to_mmrda, estimates_by_mmrda, DATE_FORMAT(payment_to_mmrda ,'%d-%m-%Y') AS payment_to_mmrda, DATE_FORMAT(alternate_housing_allotment ,'%d-%m-%Y') AS alternate_housing_allotment,DATE_FORMAT(relocation ,'%d-%m-%Y') AS relocation,DATE_FORMAT(encroachment_removal ,'%d-%m-%Y') AS encroachment_removal, boundary_wall_status, "
 					+ "DATE_FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,DATE_FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification,"
 					+ "rr1.id, rr1.rr_id_fk, rr1.name_of_activity, rr1.year_of_establishment, rr1.carpet_area as com_carpet_area, rr1.monthly_turnover_amount, rr1.monthly_turnover_amount_units, rr1.number_of_employees, rr1.remarks as com_remarks,"
-					+ "rr2.id, rr2.rr_id_fk, rr2.occupancy_status, rr2.gender, rr2.family_income_amount_units,rr2.tenure_status, rr2.caste, rr2.mother_tongue, rr2.type_of_family, rr2.family_size, rr2.number_of_married_couple, rr2.family_income_amount, rr2.vulnerable_category"
+					+ "rr2.id, rr2.rr_id_fk, rr2.occupancy_status, rr2.gender, rr2.family_income_amount_units,rr2.tenure_status, rr2.caste, rr2.mother_tongue, rr2.type_of_family, rr2.family_size, rr2.number_of_married_couple, rr2.family_income_amount, rr2.vulnerable_category, DATE_FORMAT(r.planned_date_of_completion ,'%d-%m-%Y') as planned_date_of_completion"
 					+ " from rr r " + 
 					"left join work w on r.work_id = w.work_id  "
 					+ "left join rr_executives re on r.work_id = re.work_id_fk  "+
@@ -1050,12 +1050,12 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "( rr_id, work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor,"
 					+ "carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, "
 					+ "approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, letter_to_mmrda, estimate_approval_date,estimates_by_mmrda,"
-					+ "payment_to_mmrda,alternate_housing_allotment,relocation,encroachment_removal,boundary_wall_status,boundary_wall_doc,handed_over_to_execution,occupier_name_during_verification,remarks,estimated_by_mmrda_amount_units,estimation_amount_units)"
+					+ "payment_to_mmrda,alternate_housing_allotment,relocation,encroachment_removal,boundary_wall_status,boundary_wall_doc,handed_over_to_execution,occupier_name_during_verification,remarks,estimated_by_mmrda_amount_units,estimation_amount_units,planned_date_of_completion)"
 					+ "VALUES"
 					+ "(:rr_id, :work_id, :identification_no, :map_sr_no, :location_name, :sub_location_name, :phase, :structure_id, :type_of_structure_roof, :type_of_structure_wall, :type_of_structure_floor, "
 					+ ":carpet_area, :year_of_construction, :name_of_the_owner, :type_of_use, :document_type, :document_no, :physical_verification, :verification_by, "
 					+ ":approval_by_committee, :rr_approval_status_by_mrvc, :estimation_amount, :letter_to_mmrda, :estimate_approval_date , :estimates_by_mmrda, :payment_to_mmrda, :alternate_housing_allotment, "
-					+ ":relocation, :encroachment_removal, :boundary_wall_status, :boundary_wall_doc, :handed_over_to_execution, :occupier_name_during_verification, :remarks, :estimated_by_mmrda_amount_units, :estimation_amount_units)";
+					+ ":relocation, :encroachment_removal, :boundary_wall_status, :boundary_wall_doc, :handed_over_to_execution, :occupier_name_during_verification, :remarks, :estimated_by_mmrda_amount_units, :estimation_amount_units,:planned_date_of_completion)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -1425,7 +1425,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ ", letter_to_mmrda= :letter_to_mmrda, estimate_approval_date= :estimate_approval_date,estimates_by_mmrda= :estimates_by_mmrda,"
 					+ "payment_to_mmrda= :payment_to_mmrda,alternate_housing_allotment= :alternate_housing_allotment,relocation= :relocation,encroachment_removal= :encroachment_removal"
 					+ ",boundary_wall_status= :boundary_wall_status,boundary_wall_doc= :boundary_wall_doc,handed_over_to_execution= :handed_over_to_execution"
-					+ ",occupier_name_during_verification= :occupier_name_during_verification, remarks= :remarks, estimation_amount_units= :estimation_amount_units, estimated_by_mmrda_amount_units= :estimated_by_mmrda_amount_units,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP  "
+					+ ",occupier_name_during_verification= :occupier_name_during_verification, remarks= :remarks, estimation_amount_units= :estimation_amount_units, estimated_by_mmrda_amount_units= :estimated_by_mmrda_amount_units,planned_date_of_completion= :planned_date_of_completion,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP  "
 					+ " WHERE   rr_id= :rr_id ";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 

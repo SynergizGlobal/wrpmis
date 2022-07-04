@@ -19,8 +19,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
     
 	 <style>
 	 	.input-field>label{
@@ -160,7 +160,7 @@
     #fobDocumentTableBody .select2-container--default .select2-selection--single {
     	background-color:transparent;
     }
-    @media(max-width: 768px){
+    @media(max-width: 820px){
     	.mobile_responsible_table tbody tr td .select2-container {
 		    width: 93% !important;
 		}

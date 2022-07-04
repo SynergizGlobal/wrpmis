@@ -132,6 +132,14 @@ thead tr th:last-of-type{
     	.dataTables_scrollBody tbody tr td:last-of-type, .no-sort{
     		max-width: 200px !important;
     	}
+    	.w200{
+    		width: 100px !important;
+    	}
+    }
+    @media(max-width: 360px){
+    	.w200{
+    		width: 80px !important;
+    	}
     }
     </style>
 </head>

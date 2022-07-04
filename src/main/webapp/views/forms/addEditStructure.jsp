@@ -21,8 +21,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" > 	
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
     <style>
 
         .input-field .searchable_label {
@@ -345,6 +346,49 @@
     margin-right: 0em;
     right: 0em;
     top: 0;
+}
+@media(max-width: 575px){
+	.w85 {
+	    width: 45% !important;
+	}
+	.character-counter{
+		font-size: 9px !important;
+	}
+	.collapsible-body{
+		padding: 1.5rem;
+	}
+	.internal-table .mob-add-btn >td>a.mob-btn {
+	    position: absolute;
+	    top: 0;
+	    right: 10rem;
+	}
+	.collapsible .bg-m.t-c.btn {
+	    position: absolute;
+	    bottom: 1em;
+	    right: -2rem;
+	    padding: 0 5px;
+	    }
+	.collapsible-header-holder a.btn.red {
+	    padding: 0 7px;
+	    right: 1rem;
+	}
+}
+@media(max-width: 360px){
+	.w85 {
+	    width: 40% !important;
+	}
+	.pdr5em {
+	    padding-right: 4em !important;
+	}
+	.character-counter{
+		font-size: 9px !important;
+	}
+	.collapsible .bg-m.t-c.btn {
+	    position: absolute;
+	    bottom: 1em;
+	    right: -2rem;
+	    padding: 0 5px;
+	}
 }
 		
     </style>

@@ -350,10 +350,10 @@
                                     <span id="sub_category_of_landError" class="error-msg" ></span>
                                 </div>  
                                 <div class="col s12 m8 l4 input-field  offset-m2">
-                                       <input id="required_area" maxlength="10" data-length="10" name="area_acquired" type="number" 
+                                       <input id="area_acquired" maxlength="10" data-length="10" name="area_acquired" type="number" 
                                            class="validate mt-10 w80 pdr4em num">
-                                       <label for="required_area"> Acquired Area (Ha)<span class="required" id="acr" style="display:none;">*</span></label>
-                                       <span id="required_areaError" class="error-msg" ></span>  
+                                       <label for="area_acquired"> Acquired Area (Ha)<span class="required" id="acr">*</span></label>
+                                       <span id="area_acquiredError" class="error-msg" ></span>  
                                 </div>                                
                             </div>
 							</c:if>
@@ -368,10 +368,10 @@
 	                                    <label for="sub_category_of_land" class="fs-sm-8rem"> Sub Category of Land <span class="required">*</span></label>
 	                                </div>
 	                                <div class="col s12 m4 l4 offset-m2 input-field">
-                                       <input id="required_area" maxlength="10" data-length="10" name="area_acquired" type="number" value="${LADetails.area_acquired }"
+                                       <input id="area_acquired" maxlength="10" data-length="10" name="area_acquired" type="number" value="${LADetails.area_acquired }"
                                            class="validate mt-10 pdr4em w80 num">
-                                       <label for="required_area"> Acquired Area (Ha)<span class="required" id="acr" style="display:none;">*</span></label>
-                                       <span id="required_areaError" class="error-msg" ></span> 
+                                       <label for="area_acquired"> Acquired Area (Ha)<span class="required" id="acr">*</span></label>
+                                       <span id="area_acquiredError" class="error-msg" ></span> 
                                 	</div> 	                                 
 	                            </div>
 							
@@ -409,7 +409,7 @@
 	  						<div class="row">                                 
                                 <div class="col s6 m4 l6 input-field offset-m2">
                                     <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" class="validate num w85 pdr4em" value="${LADetails.area_to_be_acquired }">
-                                    <label for="area_to_be_acquired"> Area to be Acquired (Ha)<span class="required" id="atacq" style="display:none;">*</span></label>
+                                    <label for="area_to_be_acquired">Total Area to be Acquired (Ha)<span class="required" id="atacq">*</span></label>
                                     <span id="area_to_be_acquiredError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 l6 input-field ">
@@ -2768,15 +2768,17 @@
 		{
 				if($(t).val()=="Acquired")
 				{
-					$("#acr").show();
-					$("#atacq").show();
+/* 					$("#acr").show();
+					$("#atacq").show();*/
 					$('input[name=jm_approval][value=Done]').prop('checked', true);
+					$("#area_acquired").val("");
 				}
 				else
 				{
-					$("#acr").hide();
-					$("#atacq").hide();
-					$('input[name=jm_approval][value=Done]').prop('checked', false);
+/* 					$("#acr").hide();
+					$("#atacq").hide();*/
+					$('input[name=jm_approval][value=Done]').prop('checked', false); 
+					$("#area_acquired").val(0);
 				}
 		}
 		
@@ -3060,9 +3062,9 @@
 	  			if(railway_payment_amount == ""){$('#payment_amount_units_railway').val("");}
 	  			var flag = validateLA();
 	        	if(flag){
-					if($("#la_land_status_fk").val()=="Acquired")
+ 					if($("#la_land_status_fk").val()=="Acquired")
 					{
-						if($("#required_area").val()=="")
+						/*if($("#required_area").val()=="")
 						{
     						$("#required_areaError").html("required");
     						return false;
@@ -3079,10 +3081,15 @@
     					else
     					{
     						$("#area_to_be_acquiredError").html();
-    					}
+    					}*/
 						$('input[name=jm_approval][value=Done]').prop('checked', true);
-					}
+					} 
 
+					if(parseFloat($("#area_acquired").val())>=parseFloat($("#area_to_be_acquired").val()))
+					{
+						$("#area_to_be_acquiredError").html("Acquired Area (Ha) should be less than or equal to Area to be Acquired (Ha)");
+						return false;
+					} 
 		 			
 	        		document.getElementById("landAcquisitionForm").submit();		
     	 		}else{
@@ -3122,9 +3129,9 @@
     	  			var flag = validateLA();
     	        	if(flag){
     	        		
-    					if($("#la_land_status_fk").val()=="Acquired")
+     					if($("#la_land_status_fk").val()=="Acquired")
     					{
-    						if($("#required_area").val()=="")
+    						/*if($("#required_area").val()=="")
     						{
 	    						$("#required_areaError").html("required");
 	    						return false;
@@ -3141,9 +3148,16 @@
         					else
         					{
         						$("#area_to_be_acquiredError").html();
-        					} 
+        					} */
+       					
     						$('input[name=jm_approval][value=Done]').prop('checked', true);
-    					}
+    					} 
+     					
+    					if(parseFloat($("#area_acquired").val())>=parseFloat($("#area_to_be_acquired").val()))
+    					{
+    						$("#area_to_be_acquiredError").html("Acquired Area (Ha) should be less than or equal to Area to be Acquired (Ha)");
+    						return false;
+    					}    					
     		 			
     	        		document.getElementById("landAcquisitionForm").submit();
         	 		}else{
@@ -3172,7 +3186,9 @@
 	  			 	  },"chainage_to":{
 		  			 	required: true
 	  			 	  },"area_acquired":{
-		  			 	required: false
+		  			 	required: true
+	  			 	  },"area_to_be_acquired":{
+		  			 	required: true
 	  			 	  },"village":{
 		  			 	required: true
 	  			 	  },"taluka":{
@@ -3274,6 +3290,10 @@
 	  			 		required: ' This field is required'
 	  			 	  },"la_id": {
 	  			 		required: ' This field is required'
+	  			 	  },"area_acquired":{
+		  			 	required: ' This field is required'
+	  			 	  },"area_to_be_acquired":{
+		  			 	required: ' This field is required'
 	  			 	  },"type_of_land": {
 	  			 		required: ' This field is required'
 	  			 	  },"id": {
@@ -3321,6 +3341,12 @@
 					}else if(element.attr("id") == "la_id" ){
 						   document.getElementById("la_idError").innerHTML="";
 					 	   error.appendTo('#la_idError');
+					}else if(element.attr("id") == "area_acquired" ){
+						   document.getElementById("area_acquiredError").innerHTML="";
+					 	   error.appendTo('#area_acquiredError');
+					}else if(element.attr("id") == "area_to_be_acquired" ){
+						   document.getElementById("area_to_be_acquiredError").innerHTML="";
+					 	   error.appendTo('#area_to_be_acquiredError');
 					}else if(element.attr("id") == "type_of_land" ){
 						   document.getElementById("type_of_landError").innerHTML="";
 					 	   error.appendTo('#type_of_landError');

@@ -313,7 +313,7 @@
                             <div class="row">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="survey_number" maxlength="25" data-length="25" name="survey_number" type="text" class="validate mt-10 w80 pdr4em" value="${LADetails.survey_number }">
-                                    <label for="survey_number">Survey Number </label>
+                                    <label for="survey_number">Survey Number<span class="required">*</span></label>
 									<span id="survey_numberError" class="error-msg" ></span>                                    
                                 </div>
                                 <div class="col s6 m4 l4 input-field ">
@@ -368,7 +368,7 @@
 	                                    <label for="sub_category_of_land" class="fs-sm-8rem"> Sub Category of Land <span class="required">*</span></label>
 	                                </div>
 	                                <div class="col s12 m4 l4 offset-m2 input-field">
-                                       <input id="area_acquired" maxlength="10" data-length="10" name="area_acquired" type="number" value="${LADetails.area_acquired }"
+                                       <input id="area_acquired" maxlength="10" data-length="10" name="area_acquired" type="number" step="any" value="${LADetails.area_acquired }"
                                            class="validate mt-10 pdr4em w80 num">
                                        <label for="area_acquired"> Acquired Area (Ha)<span class="required" id="acr">*</span></label>
                                        <span id="area_acquiredError" class="error-msg" ></span> 
@@ -408,8 +408,8 @@
                             </div>
 	  						<div class="row">                                 
                                 <div class="col s6 m4 l6 input-field offset-m2">
-                                    <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" class="validate num w85 pdr4em" value="${LADetails.area_to_be_acquired }">
-                                    <label for="area_to_be_acquired">Total Area to be Acquired (Ha)<span class="required" id="atacq">*</span></label>
+                                    <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" step="any" class="validate num w85 pdr4em" value="${LADetails.area_to_be_acquired }">
+                                    <label for="area_to_be_acquired">Total Area to be Acquired (Ha)<span class="required" id="atacq">*</span></label><br>
                                     <span id="area_to_be_acquiredError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 l6 input-field ">
@@ -653,11 +653,11 @@
                                 
                                 <div class="row">
                                     <div class="col s6 m4 l4 input-field offset-m2">
-									     <input id="planned_date_of_completion" name="planned_date_of_completion" type="text" class="validate datepicker-min-today" value="${LADetails.planned_date_of_completion }">
-	                                     <button type="button" id="planned_date_of_completion_icon" class="datepicker-min-today-button"><i
-	                                            class="fa fa-calendar"></i></button>
-			                             <label for="planned_date_of_completion">Planned date of completion</label>
-			                             <span id="planned_date_of_completionError" class="error-msg" ></span>
+                                        <input id="planned_date_of_possession" name="planned_date_of_possession" type="text" value="${LADetails.planned_date_of_possession }"
+                                            class="validate datepicker">
+                                        <label for="planned_date_of_possession">Planned Date of Possession </label>
+                                        <button type="button" id="planned_date_of_possession_icon" class="datepicker-button"><i
+                                                class="fa fa-calendar"></i></button>
                                     </div>   
                                     <div class="col s6 m4 l4 input-field">
                                         <input id="possession_date" name="possession_date" type="text" value="${LADetails.possession_date }"
@@ -674,15 +674,6 @@
                                                 class="fa fa-calendar"></i></button>                                            
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col s6 m4 l4 input-field offset-m2">
-                                        <input id="planned_date_of_possession" name="planned_date_of_possession" type="text" value="${LADetails.planned_date_of_possession }"
-                                            class="validate datepicker">
-                                        <label for="planned_date_of_possession">Planned Date of Possession </label>
-                                        <button type="button" id="planned_date_of_possession_icon" class="datepicker-button"><i
-                                                class="fa fa-calendar"></i></button>
-                                    </div>   
-                                </div>                                
                             </div>
 
         <!-- if selected forest this div shown  -->
@@ -3085,11 +3076,15 @@
 						$('input[name=jm_approval][value=Done]').prop('checked', true);
 					} 
 
-					if(parseFloat($("#area_acquired").val())>=parseFloat($("#area_to_be_acquired").val()))
+					if(parseFloat($("#area_acquired").val())>parseFloat($("#area_to_be_acquired").val()))
 					{
 						$("#area_to_be_acquiredError").html("Acquired Area (Ha) should be less than or equal to Area to be Acquired (Ha)");
 						return false;
-					} 
+					}
+					else
+						{
+							$("#area_to_be_acquiredError").html("");
+						}
 		 			
 	        		document.getElementById("landAcquisitionForm").submit();		
     	 		}else{
@@ -3153,11 +3148,15 @@
     						$('input[name=jm_approval][value=Done]').prop('checked', true);
     					} 
      					
-    					if(parseFloat($("#area_acquired").val())>=parseFloat($("#area_to_be_acquired").val()))
+    					if(parseFloat($("#area_acquired").val())>parseFloat($("#area_to_be_acquired").val()))
     					{
     						$("#area_to_be_acquiredError").html("Acquired Area (Ha) should be less than or equal to Area to be Acquired (Ha)");
     						return false;
-    					}    					
+    					}  
+    					else
+						{
+							$("#area_to_be_acquiredError").html("");
+						}    					
     		 			
     	        		document.getElementById("landAcquisitionForm").submit();
         	 		}else{
@@ -3172,6 +3171,8 @@
 	  		 		  "project_id_fk": {
 	  			 		required: true
 	  			 	  },"work_id_fk": {
+	  			 		required: true
+	  			 	  },"survey_number": {
 	  			 		required: true
 	  			 	  },"la_id": {
 	  			 		required: true
@@ -3288,6 +3289,8 @@
 	  				 	required: 'This field is required',
 	  			 	  },"work_id_fk": {
 	  			 		required: ' This field is required'
+	  			 	  },"survey_number": {
+	  			 		required: ' This field is required'
 	  			 	  },"la_id": {
 	  			 		required: ' This field is required'
 	  			 	  },"area_acquired":{
@@ -3338,6 +3341,9 @@
 					}else if(element.attr("id") == "work_id_fk" ){
 					   document.getElementById("work_id_fkError").innerHTML="";
 				 	   error.appendTo('#work_id_fkError');
+					}else if(element.attr("id") == "survey_number" ){
+					   document.getElementById("survey_numberError").innerHTML="";
+				 	   error.appendTo('#survey_numberError');
 					}else if(element.attr("id") == "la_id" ){
 						   document.getElementById("la_idError").innerHTML="";
 					 	   error.appendTo('#la_idError');

@@ -544,7 +544,6 @@ public class LandAcquisitionController {
 			obj.setValuation_date(DateParser.parse(obj.getValuation_date()));
 			
 			obj.setPlanned_date_of_possession(DateParser.parse(obj.getPlanned_date_of_possession()));
-			obj.setPlanned_date_of_completion(DateParser.parse(obj.getPlanned_date_of_completion()));
 			
 			obj.setRailway_online_submission(DateParser.parse(obj.getRailway_online_submission()));
 			obj.setRailway_submission_date_to_DyCFO(DateParser.parse(obj.getRailway_submission_date_to_DyCFO()));
@@ -670,7 +669,6 @@ public class LandAcquisitionController {
 			obj.setValuation_date(DateParser.parse(obj.getValuation_date()));
 			
 			obj.setPlanned_date_of_possession(DateParser.parse(obj.getPlanned_date_of_possession()));
-			obj.setPlanned_date_of_completion(DateParser.parse(obj.getPlanned_date_of_completion()));			
 			
 			obj.setRailway_online_submission(DateParser.parse(obj.getRailway_online_submission()));
 			obj.setRailway_submission_date_to_DyCFO(DateParser.parse(obj.getRailway_submission_date_to_DyCFO()));

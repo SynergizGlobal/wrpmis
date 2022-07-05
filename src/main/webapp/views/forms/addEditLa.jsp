@@ -164,6 +164,15 @@
 		.w70{
 			width: 70% !important;
 		}
+         .datepicker-min-today ~button{
+			    position: absolute;
+			    right: 15px;
+			    top: 15px;
+			    border: 0;
+			    opacity: 0.7;
+			    cursor: pointer;
+			    background-color: transparent;
+		}			
     </style>
 </head>
 
@@ -610,11 +619,11 @@
                                 <div class="row">                                     
                                   
                                     <div class="col s12 m4 l4 input-field offset-m2">
-                                        <input id="payment_date" name="payment_date" type="text" value="${LADetails.payment_date }"
-                                            class="validate datepicker">
-                                        <label for="payment_date">Payment date </label>
-                                        <button type="button" id="payment_date_icon" class="datepicker-button"><i
-                                                class="fa fa-calendar"></i></button>
+                                        <input id="valuation_date" type="text" value="${LADetails.valuation_date }"
+                                            name="valuation_date" class="validate datepicker mt-10">
+                                        <label for="valuation_date">Valuation Date</label>
+                                        <button type="button" id="valuation_date_icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div> 
                                     <div class="col s12 m4 l4 input-field amount-dropdown">
                                         <i class="material-icons amount-symbol center-align">₹</i>
@@ -644,15 +653,11 @@
                                 
                                 <div class="row">
                                     <div class="col s6 m4 l4 input-field offset-m2">
-                                        <p class="searchable_label">Possession Status </p>
-                                        <select class="searchable" id="possession_status_fk"
-                                            name="possession_status_fk">
-                                            <option value="" selected>Select</option>
-                                            <c:forEach var="obj" items="${statusList}">
-												<option value="${obj.status }"
-													<c:if test="${LADetails.possession_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
-											</c:forEach>
-                                        </select>
+									     <input id="planned_date_of_completion" name="planned_date_of_completion" type="text" class="validate datepicker-min-today" value="${LADetails.planned_date_of_completion }">
+	                                     <button type="button" id="planned_date_of_completion_icon" class="datepicker-min-today-button"><i
+	                                            class="fa fa-calendar"></i></button>
+			                             <label for="planned_date_of_completion">Planned date of completion</label>
+			                             <span id="planned_date_of_completionError" class="error-msg" ></span>
                                     </div>   
                                     <div class="col s6 m4 l4 input-field">
                                         <input id="possession_date" name="possession_date" type="text" value="${LADetails.possession_date }"
@@ -662,13 +667,22 @@
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                    
                                     <div class="col s6 m8 l4 input-field offset-m2 ">
-                                        <input id="valuation_date" type="text" value="${LADetails.valuation_date }"
-                                            name="valuation_date" class="validate datepicker mt-10">
-                                        <label for="valuation_date">Valuation Date</label>
-                                        <button type="button" id="valuation_date_icon"
-                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                        <input id="payment_date" name="payment_date" type="text" value="${LADetails.payment_date }"
+                                            class="validate datepicker">
+                                        <label for="payment_date">Payment date </label>
+                                        <button type="button" id="payment_date_icon" class="datepicker-button"><i
+                                                class="fa fa-calendar"></i></button>                                            
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col s6 m4 l4 input-field offset-m2">
+                                        <input id="planned_date_of_possession" name="planned_date_of_possession" type="text" value="${LADetails.planned_date_of_possession }"
+                                            class="validate datepicker">
+                                        <label for="planned_date_of_possession">Planned Date of Possession </label>
+                                        <button type="button" id="planned_date_of_possession_icon" class="datepicker-button"><i
+                                                class="fa fa-calendar"></i></button>
+                                    </div>   
+                                </div>                                
                             </div>
 
         <!-- if selected forest this div shown  -->
@@ -2688,6 +2702,36 @@
 			}
         }); */
         
+ 	   $(document).on('focus', '.datepicker-min-today', function () {        	 
+			var id = $(this).attr('id');
+				var dt = this.value.split(/[^0-9]/);
+			    this.value = "";
+			    var options = {
+			    	minDate: new Date(),
+			        format: 'dd-mm-yyyy',
+			        autoClose: true,
+			        onOpen: datePickerSelectAddClass,
+			        showClearBtn: true,
+			        onClose: function () {
+			            if (!$(this.el).val()) {
+			                $(this.el).siblings('label').removeClass('active');
+			            }
+			        }
+			    };
+			    if (dt.length > 1) {
+			        options.setDefaultDate = true,
+			        options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+			    }
+			    M.Datepicker.init(this, options);		       
+		 });
+		 $(document).on('focus', '.datepicker-min-today-button', function () { 
+			 var id = $(this).attr('id').split('_i')[0];
+		     $('#'+id+'_icon').click(function () {
+		         event.stopPropagation();
+		         $('#'+id).focus().click();
+		     });
+		 });       
+        
         function selectFile(no){
 		    files = $("#laFiles"+no)[0].files;
 		    var html = "";
@@ -3039,7 +3083,7 @@
 						$('input[name=jm_approval][value=Done]').prop('checked', true);
 					}
 
-					
+		 			
 	        		document.getElementById("landAcquisitionForm").submit();		
     	 		}else{
     	        	$(".page-loader").hide();
@@ -3100,8 +3144,7 @@
         					} 
     						$('input[name=jm_approval][value=Done]').prop('checked', true);
     					}
-    					
-    					
+    		 			
     	        		document.getElementById("landAcquisitionForm").submit();
         	 		}else{
         	        	$(".page-loader").hide();

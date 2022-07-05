@@ -91,6 +91,15 @@
 			    cursor: pointer;
 			    background-color: transparent;
 		}
+         .datepicker-min-today ~button{
+			    position: absolute;
+			    right: 15px;
+			    top: 15px;
+			    border: 0;
+			    opacity: 0.7;
+			    cursor: pointer;
+			    background-color: transparent;
+		}		
         .my-error-class {
    			 color:red;
 		}
@@ -510,8 +519,8 @@
 		                             <span id="handover_to_executionError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-								     <input id="planned_date_of_completion" name="planned_date_of_completion" type="text" class="validate datepicker-max-today" value="${rrDetails.planned_date_of_completion }">
-                                     <button type="button" id="planned_date_of_completion_icon" class="datepicker-max-today-button"><i
+								     <input id="planned_date_of_completion" name="planned_date_of_completion" type="text" class="validate datepicker-min-today" value="${rrDetails.planned_date_of_completion }">
+                                     <button type="button" id="planned_date_of_completion_icon" class="datepicker-min-today-button"><i
                                             class="fa fa-calendar"></i></button>
 		                             <label for="planned_date_of_completion">Planned date of completion</label>
 		                             <span id="planned_date_of_completionError" class="error-msg" ></span>
@@ -1238,7 +1247,38 @@
 	         event.stopPropagation();
 	         $('#'+id).focus().click();
 	     });
-	 });         
+	 });  
+	 
+	 
+	   $(document).on('focus', '.datepicker-min-today', function () {        	 
+			var id = $(this).attr('id');
+				var dt = this.value.split(/[^0-9]/);
+			    this.value = "";
+			    var options = {
+			    	minDate: new Date(),
+			        format: 'dd-mm-yyyy',
+			        autoClose: true,
+			        onOpen: datePickerSelectAddClass,
+			        showClearBtn: true,
+			        onClose: function () {
+			            if (!$(this.el).val()) {
+			                $(this.el).siblings('label').removeClass('active');
+			            }
+			        }
+			    };
+			    if (dt.length > 1) {
+			        options.setDefaultDate = true,
+			        options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+			    }
+			    M.Datepicker.init(this, options);		       
+		 });
+		 $(document).on('focus', '.datepicker-min-today-button', function () { 
+			 var id = $(this).attr('id').split('_i')[0];
+		     $('#'+id+'_icon').click(function () {
+		         event.stopPropagation();
+		         $('#'+id).focus().click();
+		     });
+		 });	 
 	 
    $(document).ready(function () {
         $('select:not(.searchable)').formSelect();
@@ -1590,11 +1630,6 @@
  			$('form input[name=residential_salarys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=residential_salary_unitss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			
- 			var planneddateofcompletion = $("#planned_date_of_completion").val().split('-');
- 			planneddateofcompletion.reverse();
- 			var planneddateofcompletionreversed = planneddateofcompletion.join('-');
- 			$("#planned_date_of_completion").val(planneddateofcompletionreversed);
- 			
   			document.getElementById("RandRForm").submit();			
 	 	 }
    }
@@ -1620,11 +1655,6 @@
 			$('form input[name=residential_employments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=residential_salarys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=residential_salary_unitss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-			
- 			var planneddateofcompletion = $("#planned_date_of_completion").val().split('-');
- 			planneddateofcompletion.reverse();
- 			var planneddateofcompletionreversed = planneddateofcompletion.join('-');
- 			$("#planned_date_of_completion").val(planneddateofcompletionreversed);
  			
   			document.getElementById("RandRForm").submit();	
    	}

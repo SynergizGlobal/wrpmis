@@ -563,7 +563,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "DATE_FORMAT(receipt_of_grievances ,'%d-%m-%Y') AS  receipt_of_grievances, DATE_FORMAT(disposal_of_grievances ,'%d-%m-%Y') AS disposal_of_grievances, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20e ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20e, DATE_FORMAT(approval_of_CALA_20e ,'%d-%m-%Y') AS  approval_of_CALA_20e,DATE_FORMAT(draft_letter_to_con_for_approval_20e ,'%d-%m-%Y') AS  draft_letter_to_con_for_approval_20e,"  
 					+"DATE_FORMAT(date_of_approval_of_construction_20e ,'%d-%m-%Y') AS  date_of_approval_of_construction_20e,DATE_FORMAT(date_of_uploading_of_gazette_notification_20e ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20e,DATE_FORMAT(publication_in_gazette_20e ,'%d-%m-%Y') AS  publication_in_gazette_20e,DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20e ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20e,DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20f ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20f," 
 					+"DATE_FORMAT(approval_of_CALA_20f ,'%d-%m-%Y') AS approval_of_CALA_20f,DATE_FORMAT(draft_letter_to_con_for_approval_20f ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20f,DATE_FORMAT(date_of_approval_of_construction_20f ,'%d-%m-%Y') AS date_of_approval_of_construction_20f,DATE_FORMAT(date_of_uploading_of_gazette_notification_20f ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20f,DATE_FORMAT(publication_in_gazette_20f ,'%d-%m-%Y') AS publication_in_gazette_20f,"
-					+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f "
+					+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f,DATE_FORMAT(lg.planned_date_of_possession ,'%d-%m-%Y') as planned_date_of_possession,DATE_FORMAT(lg.planned_date_of_completion ,'%d-%m-%Y') as planned_date_of_completion "
 					+"from la_land_identification li "
 					+"left join la_government_land_acquisition lg on li.la_id = lg.la_id_fk " 
 					+"left join la_forest_land_acquisition lf on li.la_id = lf.la_id_fk " 
@@ -652,11 +652,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						String govInsertQry = "INSERT INTO la_government_land_acquisition"
 								+ "( la_id_fk, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, "
 								+ "lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk,"//special_feature
-								+ "amount_demanded_units, amount_paid_units)"
+								+ "amount_demanded_units, amount_paid_units,planned_date_of_possession,planned_date_of_completion)"
 								+ "VALUES"
 								+ "(:la_id, :proposal_submission, :proposal_submission_status_fk, :valuation_date, :letter_for_payment,:amount_demanded, "
 								+ " :lfp_status_fk, :approval_for_payment, :payment_date, :amount_paid, :payment_status_fk, :possession_date, :possession_status_fk," // :special_feature, 
-								+ " :amount_demanded_units, :amount_paid_units)";
+								+ " :amount_demanded_units, :amount_paid_units,:planned_date_of_possession,:planned_date_of_completion)";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						 count = namedParamJdbcTemplate.update(govInsertQry, paramSource);	
 							
@@ -1172,16 +1172,16 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						String govInsertQry = "INSERT INTO la_government_land_acquisition"
 								+ "( la_id_fk, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, "
 								+ "lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk,"//special_feature
-								+ "amount_demanded_units, amount_paid_units)"
+								+ "amount_demanded_units, amount_paid_units,planned_date_of_possession,planned_date_of_completion)"
 								+ "VALUES"
 								+ "(:la_id, :proposal_submission, :proposal_submission_status_fk, :valuation_date, :letter_for_payment,:amount_demanded, "
 								+ " :lfp_status_fk, :approval_for_payment, :payment_date, :amount_paid, :payment_status_fk, :possession_date, :possession_status_fk," // :special_feature, 
-								+ "  :amount_demanded_units, :amount_paid_units)";
+								+ "  :amount_demanded_units, :amount_paid_units,:planned_date_of_possession,:planned_date_of_completion)";
 						
 						String govUpdateQry = "UPDATE  la_government_land_acquisition SET "
 								+ " proposal_submission= :proposal_submission, proposal_submission_status_fk= :proposal_submission_status_fk, valuation_date= :valuation_date, letter_for_payment= :letter_for_payment, amount_demanded= :amount_demanded, "
 								+ "lfp_status_fk= :lfp_status_fk, approval_for_payment= :approval_for_payment, payment_date= :payment_date, amount_paid= :amount_paid, payment_status_fk= :payment_status_fk, possession_date= :possession_date, possession_status_fk= :possession_status_fk,"
-								+ "amount_demanded_units= :amount_demanded_units, amount_paid_units= :amount_paid_units "
+								+ "amount_demanded_units= :amount_demanded_units, amount_paid_units= :amount_paid_units,planned_date_of_possession= :planned_date_of_possession,planned_date_of_completion= :planned_date_of_completion "
 								+ "where  la_id_fk= :la_id";
 						
 						String table_name = "la_government_land_acquisition";
@@ -1467,7 +1467,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 									+ "DATE_FORMAT(receipt_of_grievances ,'%d-%m-%Y') AS  receipt_of_grievances, DATE_FORMAT(disposal_of_grievances ,'%d-%m-%Y') AS disposal_of_grievances, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20e ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20e, DATE_FORMAT(approval_of_CALA_20e ,'%d-%m-%Y') AS  approval_of_CALA_20e,DATE_FORMAT(draft_letter_to_con_for_approval_20e ,'%d-%m-%Y') AS  draft_letter_to_con_for_approval_20e,"  
 									+"DATE_FORMAT(date_of_approval_of_construction_20e ,'%d-%m-%Y') AS  date_of_approval_of_construction_20e,DATE_FORMAT(date_of_uploading_of_gazette_notification_20e ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20e,DATE_FORMAT(publication_in_gazette_20e ,'%d-%m-%Y') AS  publication_in_gazette_20e,DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20e ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20e,DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20f ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20f," 
 									+"DATE_FORMAT(approval_of_CALA_20f ,'%d-%m-%Y') AS approval_of_CALA_20f,DATE_FORMAT(draft_letter_to_con_for_approval_20f ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20f,DATE_FORMAT(date_of_approval_of_construction_20f ,'%d-%m-%Y') AS date_of_approval_of_construction_20f,DATE_FORMAT(date_of_uploading_of_gazette_notification_20f ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20f,DATE_FORMAT(publication_in_gazette_20f ,'%d-%m-%Y') AS publication_in_gazette_20f,"
-									+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f "
+									+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f, DATE_FORMAT(lg.planned_date_of_possession ,'%d-%m-%Y') as planned_date_of_possession,DATE_FORMAT(lg.planned_date_of_completion ,'%d-%m-%Y') as planned_date_of_completion "
 									+"from la_land_identification li "
 									+"left join la_government_land_acquisition lg on li.la_id = lg.la_id_fk " 
 									+"left join la_forest_land_acquisition lf on li.la_id = lf.la_id_fk " 
@@ -1587,7 +1587,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 										+ "DATE_FORMAT(receipt_of_grievances ,'%d-%m-%Y') AS  receipt_of_grievances, DATE_FORMAT(disposal_of_grievances ,'%d-%m-%Y') AS disposal_of_grievances, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20e ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20e, DATE_FORMAT(approval_of_CALA_20e ,'%d-%m-%Y') AS  approval_of_CALA_20e,DATE_FORMAT(draft_letter_to_con_for_approval_20e ,'%d-%m-%Y') AS  draft_letter_to_con_for_approval_20e,"  
 										+"DATE_FORMAT(date_of_approval_of_construction_20e ,'%d-%m-%Y') AS  date_of_approval_of_construction_20e,DATE_FORMAT(date_of_uploading_of_gazette_notification_20e ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20e,DATE_FORMAT(publication_in_gazette_20e ,'%d-%m-%Y') AS  publication_in_gazette_20e,DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20e ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20e,DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20f ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20f," 
 										+"DATE_FORMAT(approval_of_CALA_20f ,'%d-%m-%Y') AS approval_of_CALA_20f,DATE_FORMAT(draft_letter_to_con_for_approval_20f ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20f,DATE_FORMAT(date_of_approval_of_construction_20f ,'%d-%m-%Y') AS date_of_approval_of_construction_20f,DATE_FORMAT(date_of_uploading_of_gazette_notification_20f ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20f,DATE_FORMAT(publication_in_gazette_20f ,'%d-%m-%Y') AS publication_in_gazette_20f,"
-										+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f "
+										+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f,DATE_FORMAT(lg.planned_date_of_possession ,'%d-%m-%Y') as planned_date_of_possession,DATE_FORMAT(lg.planned_date_of_completion ,'%d-%m-%Y') as planned_date_of_completion "
 										+"from la_land_identification li "
 										+"left join la_government_land_acquisition lg on li.la_id = lg.la_id_fk " 
 										+"left join la_forest_land_acquisition lf on li.la_id = lf.la_id_fk " 
@@ -2377,7 +2377,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		try {
 			String qry = "select la_id_fk,lg.id, lg.la_id_fk,DATE_FORMAT(lg.proposal_submission,'%d-%m-%Y') AS proposal_submission, lg.proposal_submission_status_fk, DATE_FORMAT(lg.valuation_date,'%d-%m-%Y') AS valuation_date, DATE_FORMAT(lg.letter_for_payment,'%d-%m-%Y') AS letter_for_payment," + 
 					"lg.amount_demanded,cast(lg.lfp_status_fk as CHAR) as lfp_status_fk,DATE_FORMAT(lg.approval_for_payment,'%d-%m-%Y') AS approval_for_payment,DATE_FORMAT(lg.payment_date,'%d-%m-%Y') AS payment_date, lg.amount_paid, lg.payment_status_fk, DATE_FORMAT(lg.possession_date,'%d-%m-%Y') AS possession_date," + 
-					"lg.possession_status_fk " + 
+					"lg.possession_status_fk,DATE_FORMAT(lg.planned_date_of_possession ,'%d-%m-%Y') as planned_date_of_possession,DATE_FORMAT(lg.planned_date_of_completion ,'%d-%m-%Y') as planned_date_of_completion " + 
 					" from la_government_land_acquisition lg " + 
 					"left join la_land_identification li on lg.la_id_fk = li.la_id  " + 
 					"where la_id_fk = ? ";

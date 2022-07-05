@@ -607,6 +607,9 @@ public class RandRMainController {
 			obj.setEncroachment_removal(DateParser.parse(obj.getEncroachment_removal()));
 			obj.setBoundary_wall_doc(DateParser.parse(obj.getBoundary_wall_doc()));
 			obj.setHanded_over_to_execution(DateParser.parse(obj.getHanded_over_to_execution()));
+			
+			obj.setPlanned_date_of_completion(DateParser.parse(obj.getPlanned_date_of_completion()));
+			
 			//obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
 			obj.setRelocation(DateParser.parse(obj.getRelocation()));
 			boolean flag =  service.addRR(obj);
@@ -647,6 +650,8 @@ public class RandRMainController {
 			obj.setEncroachment_removal(DateParser.parse(obj.getEncroachment_removal()));
 			obj.setBoundary_wall_doc(DateParser.parse(obj.getBoundary_wall_doc()));
 			obj.setHanded_over_to_execution(DateParser.parse(obj.getHanded_over_to_execution()));
+			obj.setPlanned_date_of_completion(DateParser.parse(obj.getPlanned_date_of_completion()));
+			
 			//obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
 			obj.setRelocation(DateParser.parse(obj.getRelocation()));
 			

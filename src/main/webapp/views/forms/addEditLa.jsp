@@ -253,6 +253,7 @@
                                     	<input type="text"  value="${LADetails.work_id_fk} - ${LADetails.work_short_name}" readonly />
                                     	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${LADetails.work_id_fk}"  />
 	                              </div>
+	                              
 	                              <div class="col s12 m8 l4 input-field offset-m2">
 	                                 <p class="searchable_label"> Land Status <span class="required">*</span></p>
                                     	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" onchange="checkLStatus(this);">

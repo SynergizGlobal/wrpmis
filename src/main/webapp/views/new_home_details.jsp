@@ -539,6 +539,12 @@
 			.sub ul li {
 			    margin: 0 1.1rem;
 			}
+			#projectsList ul li{margin: 0;}
+			.align-center{
+				display: flex;
+    			align-items: center;
+				
+			}
         }
     </style>
 </head>
@@ -550,7 +556,7 @@
     <!-- header ends  -->
     <div class="">
         <div class="row">
-            <div class="col s12 m10 offset-m1">
+            <div class="col s12 m10 offset-m1 align-center">
                 <div class="col s3 m3">
                 <div id="projectsBtns">
                     <c:if test="${not empty projectOverview.benefits }">

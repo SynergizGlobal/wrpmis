@@ -71,6 +71,9 @@
          .w10px{
          	width: 10px !important;
          }
+         .pdla{
+         	padding-left: 8px !important;
+         }
 
       @media only screen and (max-width: 820px){ 
 			
@@ -261,14 +264,14 @@
                                 	<table id="app_com_table" class="mdl-data-table mobile_responsible_table auto-index">
                                     <thead>
                                         <tr>
-                                            <th>S.No</th>
+                                            <th class="w10px">S.No</th>
                                             <th class="w20em">Contract</th>
-                                            <th>Category</th>
-                                            <th>Critical Item</th>
-                                            <th>Total Items</th>
-                                            <th>Cummulative Planned Last Fortnight</th>
-                                            <th>Cummulative Actual Last Fortnight</th>
-                                            <th>Current Fortnight Planned</th>
+                                            <th class="pdla">Category</th>
+                                            <th class="pdla">Critical Item</th>
+                                            <th class="pdla">Total Items</th>
+                                            <th class="pdla">Cumulative Planned Last Fortnight</th>
+                                            <th class="pdla">Cumulative Actual Last Fortnight</th>
+                                            <th class="pdla">Current Fortnight Planned</th>
                                             <th class="no-sort w10px">Action</th>
                                         </tr>
                                     </thead>
@@ -364,6 +367,10 @@
                 {
                     targets: [2,3,4,5,6,7],
                     className: 'w10',
+                },
+                {
+                    targets: [1],
+                    className: 'w20em',
                 },
                 { "width": "20px", "targets": [7] },
             ], "scrollCollapse": true,

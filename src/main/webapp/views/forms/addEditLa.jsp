@@ -231,14 +231,14 @@
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                   <div class="col s12 m8 l4 input-field offset-m2">
-                                	 <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
+                                	 <p class="searchable_label"> Land Status  <span class="required">*</span></p>
                                  	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" onchange="checkLStatus(this);">
                                      	<option value="" >Select</option>
                                      	<c:forEach var="obj" items="${laLandStatus }">
                                     	   	<option value= "${obj.la_land_status}">${obj.la_land_status}</option>
                                   	 </c:forEach>
                                  	</select>
-                                		<span id="type_of_landError" class="error-msg" ></span> 
+                                		<span id="la_land_status_fkError" class="error-msg" ></span>  
                                </div>
                             </div>
 							</c:if>
@@ -254,14 +254,14 @@
                                     	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${LADetails.work_id_fk}"  />
 	                              </div>
 	                              <div class="col s12 m8 l4 input-field offset-m2">
-	                                 <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
+	                                 <p class="searchable_label"> Land Status <span class="required">*</span></p>
                                     	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" onchange="checkLStatus(this);">
                                         	<option value="" >Select</option>
                                         	<c:forEach var="obj" items="${laLandStatus }">
 	                                      	   	<option value= "${obj.la_land_status}" <c:if test="${LADetails.la_land_status_fk eq obj.la_land_status}">selected</c:if>>${obj.la_land_status}</option>
 	                                    	 </c:forEach>
                                     	</select>
-                                   		<span id="type_of_landError" class="error-msg" ></span> 
+                                   		<span id="la_land_status_fkError" class="error-msg" ></span> 
 	                                </div> 
 	                                <input type="hidden" id="la_id" name="la_id" value="${LADetails.la_id }">
                               </div> 
@@ -3172,6 +3172,8 @@
 	  			 		required: true
 	  			 	  },"work_id_fk": {
 	  			 		required: true
+	  			 	  },"la_land_status_fk": {
+	  			 		required: true
 	  			 	  },"survey_number": {
 	  			 		required: true
 	  			 	  },"la_id": {
@@ -3289,6 +3291,8 @@
 	  				 	required: 'This field is required',
 	  			 	  },"work_id_fk": {
 	  			 		required: ' This field is required'
+	  			 	  },"la_land_status_fk": {
+	  			 		required: ' This field is required'
 	  			 	  },"survey_number": {
 	  			 		required: ' This field is required'
 	  			 	  },"la_id": {
@@ -3341,6 +3345,9 @@
 					}else if(element.attr("id") == "work_id_fk" ){
 					   document.getElementById("work_id_fkError").innerHTML="";
 				 	   error.appendTo('#work_id_fkError');
+					}else if(element.attr("id") == "la_land_status_fk" ){
+					   document.getElementById("la_land_status_fkError").innerHTML="";
+				 	   error.appendTo('#la_land_status_fkError');
 					}else if(element.attr("id") == "survey_number" ){
 					   document.getElementById("survey_numberError").innerHTML="";
 				 	   error.appendTo('#survey_numberError');

@@ -513,7 +513,7 @@
 			    left: 100%;
 			    border-left-color: #1565C0;
 			} */
-        	.diamond{height: 50px;margin: 5px auto;width: 155px;}
+        	.diamond{height: 70px;margin: 5px auto;width: 155px;}
         	.diamond:before, .diamond:after{
         		border: 25px solid transparent;
         	}
@@ -525,7 +525,7 @@
 			    left: 100%;
 			    border-left-color: #fff;
 			}
-			.diamond span{width: 60px;}
+			.diamond span{width: initial;}
 			.map-btn-holder .fa{font-size: 2rem;}
 			.map-btn-holder .btn{padding: 0 20px;}
 			.map-btn-holder .btn{height: 3rem;padding: 2px 10px;}

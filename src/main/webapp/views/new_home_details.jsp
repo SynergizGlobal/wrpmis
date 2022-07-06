@@ -539,6 +539,7 @@
 			.sub ul li {
 			    margin: 0 1.1rem;
 			}
+			#projectsList ul li{margin: 0;}
         }
     </style>
 </head>

@@ -11,7 +11,7 @@ public class FortnightPlan {
 	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk;
 
 	public String getFortnightly_plan_id() {
-		return fortnightly_plan_id;
+		return fortnightly_plan_id; 
 	}
 
 	public void setFortnightly_plan_id(String fortnightly_plan_id) {

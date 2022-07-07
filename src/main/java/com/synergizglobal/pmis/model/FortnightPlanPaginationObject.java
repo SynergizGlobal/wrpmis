@@ -8,7 +8,7 @@ public class FortnightPlanPaginationObject {
 	private List<FortnightPlan> aaData;
 	
 	public int getiTotalRecords() {
-		return iTotalRecords;
+		return iTotalRecords; 
 	}
 	public void setiTotalRecords(int iTotalRecords) {
 		this.iTotalRecords = iTotalRecords;

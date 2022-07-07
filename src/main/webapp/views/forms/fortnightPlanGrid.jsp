@@ -476,7 +476,7 @@ $(function(){
        	    	filtersMap["contract_id_fk"] = contract_id_fk;
         	}
         }
-		 
+		  
 
  		function getWorksListFilter(work) {
  	    	var work_id_fk = $("#work_id_fk").val();

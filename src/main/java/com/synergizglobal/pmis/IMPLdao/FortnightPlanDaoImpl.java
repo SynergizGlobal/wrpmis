@@ -460,7 +460,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		}
 		return objsList;
 	}
-
+ 
 	@Override
 	public List<FortnightPlan> getWorksListFilter(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;

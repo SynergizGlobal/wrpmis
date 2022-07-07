@@ -31,3 +31,4 @@ public interface FortnightPlanDao {
 
 	List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception;
 }
+ 

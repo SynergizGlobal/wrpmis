@@ -30,4 +30,4 @@ public interface FortnightPlanService {
 	
 	public List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception;
 
-}
+} 

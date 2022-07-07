@@ -86,7 +86,7 @@ public class FortnightPlanController {
 		}
 		return model;
 	}
-	
+	 
 	@RequestMapping(value = "/ajax/getWorksListFilterInFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<FortnightPlan> getWorksListFilter(@ModelAttribute FortnightPlan obj) {

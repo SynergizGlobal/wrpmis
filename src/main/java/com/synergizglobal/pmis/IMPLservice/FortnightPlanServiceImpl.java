@@ -60,7 +60,7 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	public List<FortnightPlan> getFortnightPlanCriticalItemList() throws Exception {
 		return fortnightPlanDao.getFortnightPlanCriticalItemList();
 	}
-
+ 
 	@Override
 	public List<FortnightPlan> getFortnightPlanPeriodList() throws Exception {
 		return fortnightPlanDao.getFortnightPlanPeriodList();

@@ -36,6 +36,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Messages;
@@ -458,6 +459,77 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> getWorksListFilter(FortnightPlan obj) throws Exception {
+		List<FortnightPlan> objsList = null;
+		try {
+			String qry = "select work_id as work_id_fk,w.work_short_name from work a"
+					+ "LEFT JOIN work w on a.work_id_fk =w.work_id"
+					+ "where work_id_fk is not null and work_id_fk <>'' ";
+			
+			int arrSize =0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}	
+			qry = qry+ " group by work_id_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj)&& !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query(qry, pValues,new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		
+		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception {
+		List<FortnightPlan> objList = null;
+		try {
+			String qry = "select contract_id_fk from fortnightly_plan where contract_id_fk is not null ";
+			
+			int arrSize=0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and fortnightly_plan_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}	
+			qry = qry+" group by contract_id_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if (!StringUtils.isEmpty(obj)&& !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			objList = jdbcTemplate.query(qry, pValues,new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+
+			
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return objList;
 	}
 
 	

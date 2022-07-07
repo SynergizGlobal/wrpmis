@@ -1,205 +1,244 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
 <head>
 <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fortnightly Plan</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
-    <style type="text/css">
-        [type="checkbox"]:not(:checked), [type="checkbox"]:checked{position: relative; opacity: 1;pointer-events: auto;}
-         .input-field .searchable_label{
-        	font-size:0.85rem;
-        }   
-    	 .fw-400{
-    	 	width:400px !important;
-    	 	max-width:400px;
-    	 }
-    	 .fw-300{
-    	 	width:300px !important;
-    	 	max-width:300px;
-    	 }
-    	 .fw-200{
-    	 	width:200px !important;
-    	 	max-width:200px;
-    	 }
-         .dataTables_filter label::after{
-         	content:'';
-         }
-         .right-btns1 .fa{
-         	position:relative;
-         	top:-35px;
-         }
-        
-         .right-btns .fa{
-         	position:relative;
-         	top:-35px;
-         }
-         .right-btns .fa+.fa{
-         	right:-10px;
-         }
-          .right-btns1 .fa+.fa{
-         	right:-10px;
-         }
-         .row.no-mar{
-         	margin-bottom:0;
-         }
-         .d-none{
-         	display: none;
-         }
-         .w10{
-         	width: 10em !important;
-         	white-space: break-spaces;
-         }
-         .w20em{
-         	width: 20em !important;
-         }
-         .w10px{
-         	width: 10px !important;
-         }
-         .pdla{
-         	padding-left: 8px !important;
-         }
-
-      @media only screen and (max-width: 820px){ 
-			
-			.dataTables_scrollBody tbody tr td:last-of-type,
-			.no-sort{
-				padding:3px !important;
-				max-width: 45px;
-			}
-			.mob-btn{
-				padding:0 12px;
-			}
-			.hideCOl{
-				display:none;
-			} 
-			.r-300{
-				width:30vw !important;
-        		max-width:30vw;
-			}
-			 .dataTables_filter label{
-	        	position:relative;
-	        }
-	        .dataTables_filter label::after{
-	        	position:absolute;
-	        	right:5px;
-	        	top:30px;
-	        }
-	        .fw-111{
-	        	width:30vw !important;
-	        	min-width:30vw;
-	        }
-		}
-		#datatable-randr_mob td > .btn.t-c{
-			padding: 0 10px;
-		}
-		.fw-38w{
-			width: 38vw !important;
-		}
-		.right-btns{ display:none;}
-
-		.right-btns:last-of-type {
-		  display:block;
-		}
-		.no-sort.sorting_asc:before,
-.no-sort.sorting_asc:after{
-    opacity:0 !important;
-    content:'' !important;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fortnightly Plan</title>
+<link rel="icon" type="image/png" sizes="96x96"
+	href="/pmis/resources/images/favicon.png">
+<link rel="stylesheet"
+	href="/pmis/resources/css/materialize-v.1.0.min.css">
+<link rel="stylesheet"
+	href="/pmis/resources/css/material-design-lite-v.1.0.css">
+<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+<link rel="stylesheet" href="/pmis/resources/css/rits.css">
+<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+<link rel="stylesheet"
+	href="/pmis/resources/css/searchable-dropdown.css">
+<link rel="stylesheet" media="screen and (max-device-width: 820px)"
+	href="/pmis/resources/css/mobile-form-template.css" />
+<link rel="stylesheet" media="screen and (max-device-width: 820px)"
+	href="/pmis/resources/css/mobile-grid-template.css" />
+<style type="text/css">
+[type="checkbox"]:not (:checked ), [type="checkbox"]:checked {
+	position: relative;
+	opacity: 1;
+	pointer-events: auto;
 }
-	.m-n1 {
-   		 margin: -2rem auto 0;
+
+.input-field .searchable_label {
+	font-size: 0.85rem;
+}
+
+.fw-400 {
+	width: 400px !important;
+	max-width: 400px;
+}
+
+.fw-300 {
+	width: 300px !important;
+	max-width: 300px;
+}
+
+.fw-200 {
+	width: 200px !important;
+	max-width: 200px;
+}
+
+.dataTables_filter label::after {
+	content: '';
+}
+
+.right-btns1 .fa {
+	position: relative;
+	top: -35px;
+}
+
+.right-btns .fa {
+	position: relative;
+	top: -35px;
+}
+
+.right-btns .fa+.fa {
+	right: -10px;
+}
+
+.right-btns1 .fa+.fa {
+	right: -10px;
+}
+
+.row.no-mar {
+	margin-bottom: 0;
+}
+
+.d-none {
+	display: none;
+}
+
+.w10 {
+	width: 10em !important;
+	white-space: break-spaces;
+}
+
+.w20em {
+	width: 20em !important;
+}
+
+.w10px {
+	width: 10px !important;
+}
+
+.pdla {
+	padding-left: 8px !important;
+}
+
+@media only screen and (max-width: 820px) {
+	.dataTables_scrollBody tbody tr td:last-of-type, .no-sort {
+		padding: 3px !important;
+		max-width: 45px;
 	}
-	.template-btn{
-		text-shadow:1px 1px 1px black;
+	.mob-btn {
+		padding: 0 12px;
 	}
-	@media only screen and (max-width: 820px){
-		.mob-mar{
-			text-align: center;
-		    margin-top: -1rem;
-		    margin-bottom: 2.2rem;
-		}
-		.exportButton .btn{
-			padding-left: 6px;
-	   		padding-right: 6px;
-		}
+	.hideCOl {
+		display: none;
 	}
-	
-	thead th{
-		text-transform: capitalize;
+	.r-300 {
+		width: 30vw !important;
+		max-width: 30vw;
 	}
-	 .select2-container--default .select2-selection--multiple .select2-selection__choice__display{
-			white-space: pre-wrap;
-			word-break: break-word;
-		}
-		.select2-container--default .select2-selection--multiple .select2-selection__choice{
-			display: inherit;
-		}
-		/*.select2-selection__rendered li{
+	.dataTables_filter label {
+		position: relative;
+	}
+	.dataTables_filter label::after {
+		position: absolute;
+		right: 5px;
+		top: 30px;
+	}
+	.fw-111 {
+		width: 30vw !important;
+		min-width: 30vw;
+	}
+}
+
+#datatable-randr_mob td>.btn.t-c {
+	padding: 0 10px;
+}
+
+.fw-38w {
+	width: 38vw !important;
+}
+
+.right-btns {
+	display: none;
+}
+
+.right-btns:last-of-type {
+	display: block;
+}
+
+.no-sort.sorting_asc:before, .no-sort.sorting_asc:after {
+	opacity: 0 !important;
+	content: '' !important;
+}
+
+.m-n1 {
+	margin: -2rem auto 0;
+}
+
+.template-btn {
+	text-shadow: 1px 1px 1px black;
+}
+
+@media only screen and (max-width: 820px) {
+	.mob-mar {
+		text-align: center;
+		margin-top: -1rem;
+		margin-bottom: 2.2rem;
+	}
+	.exportButton .btn {
+		padding-left: 6px;
+		padding-right: 6px;
+	}
+}
+
+thead th {
+	text-transform: capitalize;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display
+	{
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice
+	{
+	display: inherit;
+}
+/*.select2-selection__rendered li{
 			display: block;
 			float: left;
 		} */
-			#app_com_table {
-		counter-reset: serial-number;  /* Set the serial number counter to 0 */
-		}
-		#app_com_table td:first-child:before {
-		counter-increment: serial-number;  /* Increment the serial number counter */
-		content: counter(serial-number);  /* Display the counter */
-		}
-		#app_com_table .datepicker-table td:first-child:before {
-		    content: none !important;
-		}
-	@media(max-width: 575px){
-		.fw-200{
-			width: 120px !important;
-    		max-width: 75px;
-		}
-		.mdl-data-table thead tr th {
-		    vertical-align: middle;
-		    text-align: center;
-		    word-break: break-word;
-		    white-space: initial;
-		}
-		.fw-10{
-			width: 120px !important;
-    		max-width: 110px;
-		}
+#app_com_table {
+	counter-reset: serial-number; /* Set the serial number counter to 0 */
+}
+
+#app_com_table td:first-child:before {
+	counter-increment: serial-number;
+	/* Increment the serial number counter */
+	content: counter(serial-number); /* Display the counter */
+}
+
+#app_com_table .datepicker-table td:first-child:before {
+	content: none !important;
+}
+
+@media ( max-width : 575px) {
+	.fw-200 {
+		width: 120px !important;
+		max-width: 75px;
 	}
-    </style>
+	.mdl-data-table thead tr th {
+		vertical-align: middle;
+		text-align: center;
+		word-break: break-word;
+		white-space: initial;
+	}
+	.fw-10 {
+		width: 120px !important;
+		max-width: 110px;
+	}
+}
+</style>
 </head>
 
 <body>
 
-    <!-- header  starts-->
+	<!-- header  starts-->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
-    <!-- header ends  -->
+	<!-- header ends  -->
 
-  <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Fortnightly Plan</h6>
-                        </div>
-                    </span>
-                    <div class="">
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Fortnightly Plan</h6>
+						</div>
+					</span>
+					<div class="">
 
-                        <!-- <div class="row plr-1 center-align">
+						<!-- <div class="row plr-1 center-align">
                             <div class="col s12 m4">
                             </div>
 
@@ -217,138 +256,145 @@
                                 </div>
                             </div>
                         </div> -->
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12 ">
-                                <div class="row" style="margin-bottom: 0;" id="filters">
-                                    <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">Work </p>
-                                        <select id="work_id_fk" class="searchable">
-                                            <option value="" disabled selected>Select Work</option>
-                                            <option value="1">Option 1</option>
+						<div class="row no-mar" style="margin-bottom: 0;">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col m8 s12 ">
+								<div class="row" style="margin-bottom: 0;" id="filters">
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Work</p>
+										<select id="work_id_fk" name="work_id_fk"
+											onchange="addInQueWork(this.value);getFortnightList();"
+											class="searchable">
+											<option value="" disabled selected>Select Work</option>
+											<!--  <option value="1">Option 1</option>
                                             <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">Contract</p>
-                                        <select id="dept_fk" class="searchable">
-                                            <option value="" disabled selected>Select Contract</option>
-                                            <option value="1">Option 1</option>
+                                            <option value="3">Option 3</option> -->
+										</select>
+									</div>
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Contract</p>
+										<select id="contract_id_fk" name="contract_id_fk"
+											onchange="addInQueContract(this.value);getFortnightList();"
+											class="searchable">
+											<option value="" disabled selected>Select Contract</option>
+											<!--   <option value="1">Option 1</option>
                                             <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">Period</p>
-                                        <select id="contractor_fk" class="searchable">
-                                            <option value="" disabled selected>Select Period</option>
-                                            <option value="1">Option 1</option>
+                                            <option value="3">Option 3</option> -->
+										</select>
+									</div>
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Period</p>
+										<select id="period_fk" name="period_fk"
+											onchange="addInQuePeriod(this.value);getFortnightList();"
+											class="searchable">
+											<option value="" disabled selected>Select Period</option>
+											<!--  <option value="1">Option 1</option>
                                             <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m3">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 20px;width: 100%;">Clear Filters</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col m2 hide-on-small-only"></div>
-                        </div>
+                                            <option value="3">Option 3</option> -->
+										</select>
+									</div>
+									<div class="col s12 m3">
+										<button
+											class="btn bg-m waves-effect waves-light t-c clear-filters"
+											style="margin-top: 20px; width: 100%;">Clear Filters</button>
+									</div>
+								</div>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
 
-                        <div class="row">
-                            <div class="col m12 s12">
+						<div class="row">
+							<div class="col m12 s12">
 
-                                <div class="">
-                                	<table id="app_com_table" class="mdl-data-table mobile_responsible_table auto-index">
-                                    <thead>
-                                        <tr>
-                                            <th class="w10px">S.No</th>
-                                            <th class="w20em">Contract</th>
-                                            <th class="pdla">Category</th>
-                                            <th class="pdla">Critical Item</th>
-                                            <th class="pdla">Total Items</th>
-                                            <th class="pdla">Cumulative Planned Last Fortnight</th>
-                                            <th class="pdla">Cumulative Actual Last Fortnight</th>
-                                            <th class="pdla">Current Fortnight Planned</th>
-                                            <th class="no-sort w10px">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+								<div class="">
+									<table id="app_com_table"
+										class="mdl-data-table mobile_responsible_table auto-index">
+										<thead>
+											<tr>
+												<th class="w10px">S.No</th>
+												<th class="w20em">Contract</th>
+												<th class="pdla">Category</th>
+												<th class="pdla">Critical Item</th>
+												<th class="pdla">Total Items</th>
+												<th class="pdla">Cumulative Planned Last Fortnight</th>
+												<th class="pdla">Cumulative Actual Last Fortnight</th>
+												<th class="pdla">Current Fortnight Planned</th>
+												<th class="no-sort w10px">Action</th>
+											</tr>
+										</thead>
+										<tbody>
 
-                                        <tr>
+											<tr>
 
-                                            <td>&nbsp;</td>
-                                            <td>Contracts</td>
-                                            <td>Category</td>
-                                            <td>Critical Item</td>
-                                            <td>Total Items</td>
-                                            <td>Last Fortnight Progress</td>
-                                            <td>Plan for Current Fortnight</td>
-                                            <td>Actual Progress</td>
-                                            
-                                            <td class="last-column"> <a href="#"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                               <!--  <a href="#" class="btn waves-effect waves-light bg-m t-c "><i
+												<td>&nbsp;</td>
+												<td>Contracts</td>
+												<td>Category</td>
+												<td>Critical Item</td>
+												<td>Total Items</td>
+												<td>Last Fortnight Progress</td>
+												<td>Plan for Current Fortnight</td>
+												<td>Actual Progress</td>
+
+												<td class="last-column"><a href="#"
+													class="btn waves-effect waves-light bg-m t-c "><i
+														class="fa fa-pencil"></i> </a> <!--  <a href="#" class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-share"></i></a> -->
-                                            </td>
+												</td>
 
-                                        </tr>
-                                        <tr>
+											</tr>
+											<tr>
 
-                                            <td>&nbsp;</td>
-                                            <td>Contracts</td>
-                                            <td>Category</td>
-                                            <td>Critical Item</td>
-                                            <td>Total Items</td>
-                                            <td>Last Fortnight Progress</td>
-                                            <td>Plan for Current Fortnight</td>
-                                            <td>Actual Progress</td>
-                                            
-                                            <td class="last-column"> <a href="#"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                               <!--  <a href="#" class="btn waves-effect waves-light bg-m t-c "><i
+												<td>&nbsp;</td>
+												<td>Contracts</td>
+												<td>Category</td>
+												<td>Critical Item</td>
+												<td>Total Items</td>
+												<td>Last Fortnight Progress</td>
+												<td>Plan for Current Fortnight</td>
+												<td>Actual Progress</td>
+
+												<td class="last-column"><a href="#"
+													class="btn waves-effect waves-light bg-m t-c "><i
+														class="fa fa-pencil"></i> </a> <!--  <a href="#" class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-share"></i></a> -->
-                                            </td>
+												</td>
 
-                                        </tr>
-                                        
-
-                                    </tbody>
-
-                                </table>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+											</tr>
 
 
+										</tbody>
+
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
-    <!-- footer  -->
-    <jsp:include page="../layout/footer.jsp"></jsp:include>
-    
- <form action="<%=request.getContextPath()%>/get-rr-bses" id="getForm" name="getForm" method="post" >
-  		<input type="hidden" name="rrbses_id" id="rrbses_id"/>
-    </form>
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-    
-    <script>
+
+
+	<!-- footer  -->
+	<jsp:include page="../layout/footer.jsp"></jsp:include>
+
+	<form action="<%=request.getContextPath()%>/get-rr-bses" id="getForm"
+		name="getForm" method="post">
+		<input type="hidden" name="rrbses_id" id="rrbses_id" />
+	</form>
+	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+
+	<script>
 
     $(document).ready(function () {
         $('select:not(.searchable)').formSelect();
@@ -412,6 +458,94 @@ $(function(){
 			}
 		});
 	});
+			 var filtersMap = new Object();
+
+		function addInQueWork(work_id_fk){
+		  	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
+			   	});
+		  	if($.trim(work_id_fk) != ''){
+		    	filtersMap["work_id_fk"] = work_id_fk;
+		  	}
+		}
+		function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	}
+        }
+		 
+
+ 		function getWorksListFilter(work) {
+ 	    	var work_id_fk = $("#work_id_fk").val();
+ 	    	var contract_id_fk = $("#contract_id_fk").val();
+ 	    //	var department_id_fk = $("#period_fk").val();
+   	       
+          	$(".page-loader").show();
+
+             if ($.trim(work_id_fk) == "") {
+                 $("#work_id_fk option:not(:first)").remove();
+      		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk};
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInFortnight",
+                     data: myParams, cache: false,async: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                             	var contract_short_name = '';
+                             	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
+                             	var selectedFlag = (work == val.work_id_fk)?'selected':'';
+  	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+      	   			  $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+                 });
+             }else{
+             	  $(".page-loader").hide();
+             }
+         }
+ 		
+ 		function getContractListFilter(work) {
+ 	    	var work_id_fk = $("#work_id_fk").val();
+ 	    	var contract_id_fk = $("#contract_id_fk").val();
+ 	    //	var department_id_fk = $("#period_fk").val();
+   	       
+          	$(".page-loader").show();
+
+             if ($.trim(work_id_fk) == "") {
+                 $("#work_id_fk option:not(:first)").remove();
+      		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk};
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getContractListFilterInFortnight",
+                     data: myParams, cache: false,async: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                             	var contract_short_name = '';
+                             	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
+                             	var selectedFlag = (work == val.work_id_fk)?'selected':'';
+  	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+      	   			  $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+                 });
+             }else{
+             	  $(".page-loader").hide();
+             }
+         }
+
     	//multiple modal end
     	 
     	/* $(function(){

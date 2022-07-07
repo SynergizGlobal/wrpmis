@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FortnightPlan;
 
 public interface FortnightPlanDao {
@@ -25,5 +26,8 @@ public interface FortnightPlanDao {
 	int getTotalRecords(FortnightPlan obj, String searchParameter) throws Exception;
 
 	List<FortnightPlan> getFortnightPlanList(FortnightPlan obj, int startIndex, int offset, String searchParameter) throws Exception;
+	
+	List<FortnightPlan> getWorksListFilter(FortnightPlan obj) throws Exception;
 
+	List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception;
 }

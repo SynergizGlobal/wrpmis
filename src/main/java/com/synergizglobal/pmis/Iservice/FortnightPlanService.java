@@ -25,4 +25,9 @@ public interface FortnightPlanService {
 	int getTotalRecords(FortnightPlan obj, String searchParameter) throws Exception;
 
 	List<FortnightPlan> getFortnightPlanList(FortnightPlan obj, int startIndex, int offset, String searchParameter) throws Exception;
+
+	public List<FortnightPlan> getWorksListFilter(FortnightPlan obj) throws Exception;
+	
+	public List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception;
+
 }

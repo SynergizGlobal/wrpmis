@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,6 +38,7 @@ import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.FortnightPlanService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FortnightPlan;
 import com.synergizglobal.pmis.model.FortnightPlanPaginationObject;
 import com.synergizglobal.pmis.model.Project;
@@ -84,7 +86,34 @@ public class FortnightPlanController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/ajax/getWorksListFilterInFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FortnightPlan> getWorksListFilter(@ModelAttribute FortnightPlan obj) {
+		List<FortnightPlan> fortnight = null;
+		try {
+			fortnight = FortnightPlanService.getWorksListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListFilter : " + e.getMessage());
+		}
+		return fortnight;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractListFilterInFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FortnightPlan> getContractListFilter(@ModelAttribute FortnightPlan obj) {
+		List<FortnightPlan> fortnight = null;
+		try {
+			fortnight = FortnightPlanService.getWorksListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListFilter : " + e.getMessage());
+		}
+		return fortnight;
+	}
 
+	
 	@RequestMapping(value = "/ajax/getFortnightPlanList", method = { RequestMethod.POST, RequestMethod.GET })
 	public void getFortnightPlansList(@ModelAttribute FortnightPlan obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {

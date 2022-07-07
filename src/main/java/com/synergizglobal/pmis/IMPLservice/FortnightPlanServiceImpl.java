@@ -1,0 +1,70 @@
+package com.synergizglobal.pmis.IMPLservice;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.synergizglobal.pmis.Idao.FortnightPlanDao;
+import com.synergizglobal.pmis.Iservice.FortnightPlanService;
+import com.synergizglobal.pmis.model.FortnightPlan;
+
+@Service
+public class FortnightPlanServiceImpl implements FortnightPlanService {
+	@Autowired
+	FortnightPlanDao fortnightPlanDao;
+	
+	@Override
+	public List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.getFortnightPlanList(obj);
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightPlanCategoryList() throws Exception {
+		return fortnightPlanDao.getFortnightPlanCategoryList();
+	}
+
+
+	@Override
+	public FortnightPlan getFortnightPlan(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.getFortnightPlan(obj);
+	}
+
+	@Override
+	public boolean updateFortnightPlan(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.updateFortnightPlan(obj);
+	}
+
+
+	@Override
+	public int getTotalRecords(FortnightPlan obj, String searchParameter) throws Exception {
+		return fortnightPlanDao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightPlanList(FortnightPlan obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return fortnightPlanDao.getFortnightPlanList(obj,startIndex,offset,searchParameter);
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightPlanWorkList() throws Exception {
+		return fortnightPlanDao.getFortnightPlanWorkList();
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightPlanContractList(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.getFortnightPlanContractList(obj);
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightPlanCriticalItemList() throws Exception {
+		return fortnightPlanDao.getFortnightPlanCriticalItemList();
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightPlanPeriodList() throws Exception {
+		return fortnightPlanDao.getFortnightPlanPeriodList();
+	}
+
+	
+}

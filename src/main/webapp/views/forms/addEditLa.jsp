@@ -2795,19 +2795,19 @@
 		{
 				if($(t).val()=="Acquired")
 				{
-/* 					$("#acr").show();
-					$("#atacq").show();*/
+
 					$('input[name=jm_approval][value=Done]').prop('checked', true);
 					$("#area_acquired").val("");
 					$("#area_acquired").val($("#area_to_be_acquired").val());
+					$("#area_acquired").prop("disabled",true);
 					
 				}
 				else
 				{
-/* 					$("#acr").hide();
-					$("#atacq").hide();*/
+
 					$('input[name=jm_approval][value=Done]').prop('checked', false); 
 					$("#area_acquired").val(0);
+					$("#area_acquired").prop("disabled",false);
 				}
 		}
 		
@@ -3123,7 +3123,7 @@
 						{
 							$("#area_to_be_acquiredError").html("");
 						}
-		 			
+					$("#area_acquired").prop("disabled",false);
 	        		document.getElementById("landAcquisitionForm").submit();		
     	 		}else{
     	        	$(".page-loader").hide();
@@ -3195,7 +3195,7 @@
 						{
 							$("#area_to_be_acquiredError").html("");
 						}    					
-    		 			
+    					$("#area_acquired").prop("disabled",false);
     	        		document.getElementById("landAcquisitionForm").submit();
         	 		}else{
         	        	$(".page-loader").hide();

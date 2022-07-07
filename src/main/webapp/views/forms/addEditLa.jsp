@@ -2672,7 +2672,13 @@
         $('#gross_amount_dpm_units').prop('disabled', true);  
         $('#jm_fee_amount_units').prop('disabled', true);  
         $('#amount_demanded_units').prop('disabled', true);  
-        $('#amount_paid_units').prop('disabled', true);  
+        $('#amount_paid_units').prop('disabled', true); 
+        
+        
+       	   if("${LADetails.la_land_status_fk}"=='Acquired')
+    	   {
+    	   	$("#area_acquired").prop("disabled",true);
+    	   }
         
         
         

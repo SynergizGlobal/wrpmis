@@ -314,7 +314,7 @@
                             <div class="row">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="survey_number" maxlength="25" data-length="25" name="survey_number" type="text" class="validate mt-10 w80 pdr4em" value="${LADetails.survey_number }">
-                                    <label for="survey_number">Survey Number<span class="required">*</span></label>
+                                    <label for="survey_number">Survey Number<!-- <span class="required">*</span> --></label>
 									<span id="survey_numberError" class="error-msg" ></span>                                    
                                 </div>
                                 <div class="col s6 m4 l4 input-field ">
@@ -351,7 +351,7 @@
                                     <span id="sub_category_of_landError" class="error-msg" ></span>
                                 </div>  
                                 <div class="col s12 m8 l4 input-field  offset-m2">
-                                       <input id="area_acquired" maxlength="10" data-length="10" name="area_acquired" type="number" 
+                                       <input id="area_acquired" maxlength="10" data-length="10" name="area_acquired" type="number" step="any" onkeyup="doValidateAquired(this.value)" 
                                            class="validate mt-10 w80 pdr4em num">
                                        <label for="area_acquired"> Acquired Area (Ha)<span class="required" id="acr">*</span></label>
                                        <span id="area_acquiredError" class="error-msg" ></span>  
@@ -369,7 +369,7 @@
 	                                    <label for="sub_category_of_land" class="fs-sm-8rem"> Sub Category of Land <span class="required">*</span></label>
 	                                </div>
 	                                <div class="col s12 m4 l4 offset-m2 input-field">
-                                       <input id="area_acquired" maxlength="10" data-length="10" name="area_acquired" type="number" step="any" value="${LADetails.area_acquired }"
+                                       <input id="area_acquired" maxlength="10" data-length="10" name="area_acquired" type="number" step="any" onkeyup="doValidateAquired(this.value)" value="${LADetails.area_acquired }"
                                            class="validate mt-10 pdr4em w80 num">
                                        <label for="area_acquired"> Acquired Area (Ha)<span class="required" id="acr">*</span></label>
                                        <span id="area_acquiredError" class="error-msg" ></span> 
@@ -409,7 +409,7 @@
                             </div>
 	  						<div class="row">                                 
                                 <div class="col s6 m4 l6 input-field offset-m2">
-                                    <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" step="any" class="validate num w85 pdr4em" value="${LADetails.area_to_be_acquired }">
+                                    <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" step="any" onkeyup="doValidate(this.value)"  class="validate num w85 pdr4em" value="${LADetails.area_to_be_acquired }">
                                     <label for="area_to_be_acquired">Total Area to be Acquired (Ha)<span class="required" id="atacq">*</span></label><br>
                                     <span id="area_to_be_acquiredError" class="error-msg" ></span>
                                 </div>
@@ -2741,6 +2741,41 @@
 			var fileIndex = Number(no)+1;
 			moreFiles(fileIndex);
 		}
+        
+        
+	    function doValidate(value){
+	    	
+				if($("#la_land_status_fk").val()=="Acquired")
+				{	    	
+			 	   var valuetrim = value.trim();
+			 	  $("#area_acquired").val(valuetrim);
+				}
+
+			if(parseFloat($("#area_acquired").val())>parseFloat($("#area_to_be_acquired").val()))
+			{
+				$("#area_to_be_acquiredError").html("Acquired Area (Ha) should be less than or equal to Area to be Acquired (Ha)");
+				return false;
+			}  
+			else
+			{
+				$("#area_to_be_acquiredError").html("");
+			}
+		 	  
+	    } 
+	    
+	    function doValidateAquired(value){
+
+			if(parseFloat($("#area_acquired").val())>parseFloat($("#area_to_be_acquired").val()))
+			{
+				$("#area_to_be_acquiredError").html("Acquired Area (Ha) should be less than or equal to Area to be Acquired (Ha)");
+				return false;
+			}  
+			else
+			{
+				$("#area_to_be_acquiredError").html("");
+			}
+		 	  
+	    }  	    
 		
 		function moreFiles(no){
 			var html = "";
@@ -2764,6 +2799,8 @@
 					$("#atacq").show();*/
 					$('input[name=jm_approval][value=Done]').prop('checked', true);
 					$("#area_acquired").val("");
+					$("#area_acquired").val($("#area_to_be_acquired").val());
+					
 				}
 				else
 				{
@@ -3176,7 +3213,7 @@
 	  			 	  },"la_land_status_fk": {
 	  			 		required: true
 	  			 	  },"survey_number": {
-	  			 		required: true
+	  			 		required: false
 	  			 	  },"la_id": {
 	  			 		required: true
 	  			 	  },"type_of_land": {

@@ -63,12 +63,13 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT * "
+			String qry = "SELECT category,contract_short_name,structure,structure_type_fk,structure,sum(cum_planned_last_st) as cum_planned_last_st,sum(cum_actual_last_st) as cum_actual_last_st,sum(planned_current_st) as planned_current_st "
 					+ "from fortnightly_plan f "
-					+ "LEFT contract c ON c.contract_id  = f.contract_id_fk "
-					+ "LEFT fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
-					+ "LEFT fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
-					+ "where fortnightly_plan_id is not null " ;
+					+ "LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk "
+					+ "LEFT JOIN fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
+					+ "LEFT join structure st ON st.structure_id  = s.structure_id_fk "
+					+ "LEFT JOIN fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
+					+ "where f.fortnightly_plan_id is not null " ;
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -92,6 +93,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				qry = qry + " and period = ?";
 				arrSize++;
 			}
+			
+			qry = qry + " group by category,contract_short_name,structure,structure_type_fk,structure";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -124,7 +127,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightPlanCategoryList() throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "select module_name from module";			
+			String qry = "select module_name from module ";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -136,15 +139,16 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public FortnightPlan getFortnightPlan(FortnightPlan obj) throws Exception {
 		FortnightPlan sobj = null;
 		try {
-			String qry = "SELECT * "
+			String qry = "SELECT w.work_id as work_id_fk,contract_id_fk,category,critical_item,period  "
 					+ "from fortnightly_plan f "
-					+ "LEFT contract c ON c.contract_id  = f.contract_id_fk "
-					+ "LEFT fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
-					+ "LEFT fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
-					+ "where fortnightly_plan_id = ? ";
+					+ "LEFT join contract c ON c.contract_id  = f.contract_id_fk "
+					+ "LEFT JOIN work w on c.work_id_fk =w.work_id "
+					+ "LEFT JOIN fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
+					+ "LEFT JOIN fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
+					+ "where f.fortnightly_plan_id = ? ";
 			
 			
-			sobj = (FortnightPlan)jdbcTemplate.queryForObject( qry, new Object[]{obj.getFortnightly_plan_id(),obj.getFortnightly_plan_id()}, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
+			sobj = (FortnightPlan)jdbcTemplate.queryForObject( qry, new Object[]{obj.getFortnightly_plan_id()}, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -198,9 +202,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		try {
 			String qry = "SELECT count(*) as total_records "
 					+ "from fortnightly_plan f "
-					+ "LEFT contract c ON c.contract_id  = f.contract_id_fk "
-					+ "LEFT fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
-					+ "LEFT fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
+					+ "LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk "
+					+ "LEFT JOIN fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
+					+ "LEFT JOIN fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
 					+ "where fortnightly_plan_id is not null " ;
 			
 			int arrSize = 0;
@@ -283,9 +287,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		try {
 			String qry = "SELECT *  "
 					+ "from fortnightly_plan f "
-					+ "LEFT contract c ON c.contract_id  = f.contract_id_fk "
-					+ "LEFT fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
-					+ "LEFT fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
+					+ "LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk "
+					+ "LEFT JOIN fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
+					+ "LEFT JOIN fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
 					+ "where fortnightly_plan_id is not null " ;
 
 			int arrSize = 0;
@@ -441,7 +445,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightPlanCriticalItemList() throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "select critical_item from structure_type";			
+			String qry = "select structure_type as critical_item from structure_type";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -465,9 +469,14 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getWorksListFilter(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "select work_id as work_id_fk,w.work_short_name from work a"
-					+ "LEFT JOIN work w on a.work_id_fk =w.work_id"
-					+ "where work_id_fk is not null and work_id_fk <>'' ";
+		
+			String qry = "SELECT w.work_id as work_id_fk,w.work_short_name  "
+					+ "from fortnightly_plan f "
+					+ "LEFT join contract c ON c.contract_id  = f.contract_id_fk "
+					+ "LEFT JOIN work w on c.work_id_fk =w.work_id "
+					+ "LEFT JOIN fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
+					+ "LEFT JOIN fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
+					+ "where f.fortnightly_plan_id is not null " ;			
 			
 			int arrSize =0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -501,11 +510,17 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objList = null;
 		try {
-			String qry = "select contract_id_fk from fortnightly_plan where contract_id_fk is not null ";
+			String qry = "SELECT f.contract_id_fk,c.contract_short_name  "
+					+ "from fortnightly_plan f "
+					+ "LEFT join contract c ON c.contract_id  = f.contract_id_fk "
+					+ "LEFT JOIN work w on c.work_id_fk =w.work_id "
+					+ "LEFT JOIN fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
+					+ "LEFT JOIN fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
+					+ "where f.fortnightly_plan_id is not null " ;
 			
 			int arrSize=0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and fortnightly_plan_id = ?";
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

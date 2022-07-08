@@ -8,7 +8,7 @@ public class FortnightPlan {
 	private String fortnightly_plan_id,contract_id_fk,category,critical_item,fortnightly_plan_structure_id,
 	component,fortnightly_plan_update_id,  period, cum_planned_last_structure, 
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,remarks,work_id_fk,total_items,
-	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk;
+	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,contract_short_name,structure,user_type_fk,structure_type_fk;
 
 	public String getFortnightly_plan_id() {
 		return fortnightly_plan_id; 
@@ -216,6 +216,38 @@ public class FortnightPlan {
 
 	public void setDepartment_fk(String department_fk) {
 		this.department_fk = department_fk;
+	}
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
+	}
+
+	public String getStructure() {
+		return structure;
+	}
+
+	public void setStructure(String structure) {
+		this.structure = structure;
+	}
+
+	public String getUser_type_fk() {
+		return user_type_fk;
+	}
+
+	public void setUser_type_fk(String user_type_fk) {
+		this.user_type_fk = user_type_fk;
+	}
+
+	public String getStructure_type_fk() {
+		return structure_type_fk;
+	}
+
+	public void setStructure_type_fk(String structure_type_fk) {
+		this.structure_type_fk = structure_type_fk;
 	}
 
 }

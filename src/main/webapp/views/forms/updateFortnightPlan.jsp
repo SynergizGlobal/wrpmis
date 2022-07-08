@@ -321,31 +321,50 @@
                                 <h5 class="center-align" style="margin-bottom: 40px;"></h5>
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Work: </p>
-                                    <!-- <select id="work_id" class="searchable" name="work_id">
+                                    <select id="work_id_fk" class="searchable" name="work_id_fk" disabled>
                                         <option value="">Select</option>
-                                    </select> -->
-                                    <p>P04W01 - Virar-Dahanu </p>
+                                       	<c:forEach var="obj" items="${FortnightPlanWorkList }">
+                                      	   	<option value= "${obj.work_id_fk}" <c:if test="${FortnightPlan.work_id_fk eq obj.work_id_fk}">selected</c:if>>${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                    	 </c:forEach>                                                                               
+                                    </select>
                                 </div>
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Contract: </p>
-                                    <p>P04W01EN04 - MRVC/W/101 - LOT-I - Virar-Dahanu</p>
+                                    <select id="contract_id_fk" class="searchable" name="contract_id_fk" disabled>
+                                        <option value="">Select</option>
+                                         <c:forEach var="obj" items="${FortnightPlanContractList }">
+                                            <option value= "${obj.contract_id_fk}" <c:if test="${FortnightPlan.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                        </c:forEach>                                       
+                                    </select>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Category: </p>
-                                    <p>Execution</p>
-                                </div>  
+                                    <select id="category" class="searchable" name="category" disabled>
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${FortnightPlanCategoryList }">
+                                            <option value= "${obj.module_name}" <c:if test="${FortnightPlan.category eq obj.category}">selected</c:if>>${obj.module_name}</option>
+                                        </c:forEach>                                        
+                                    </select>
+                                </div>   
                                 
                                 
                             </div>
                             <div class="row" style="margin-top: 20px;">
-                                <div class="col s6 m4 input-field">
+                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Critical Item: </p>
-                                    <p>Major Bridge</p>
+                                    <select id="critical_item" class="searchable" name="critical_item" disabled>
+                                        <option value="">Select</option>
+                                         <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
+                                            <option value= "${obj.critical_item}" <c:if test="${FortnightPlan.critical_item eq obj.critical_item}">selected</c:if>>${obj.critical_item}</option>
+                                        </c:forEach>                                       
+                                    </select>
                                 </div>
                                  <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Period: </p>
-                                    <p>1<sup>st</sup> July,22 - 15<sup>th</sup> July,22</p>
-                                </div> 
+                                    <select id="period" class="searchable" name="period" disabled>
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>  
                             </div>
 
                             
@@ -355,7 +374,6 @@
                              <div class="row exe-box w100" style="margin-top: 20px;">
                                 <div class="col s12 m12">
                                     <div class="row fixed-width">
-                                       <!--  <h5 class="center-align marob">Appointment of Committee</h5> -->
                                         <div class="table-inside">
                                             <table id="app_com_table" class="mdl-data-table mobile_responsible_table auto-index">
                                                 <thead>
@@ -371,7 +389,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="stBody">
-                                                <input type="hidden" id="sNo" value="1">
                                                        <tr>
                                                         <td data-head="S No">&nbsp;</td>
                                                         <td data-head="Structure" class="input-field">Minor Bridge #103
@@ -381,8 +398,6 @@
                                                                  <span id="appointment_date_committeeError" class="error-msg" ></span> -->
                                                         </td>
                                                         <td data-head="Component" class="input-field">Foundation
-                                                        <!-- <input id="name_representative" maxlength="50" data-length="50" name="name_representative" type="text" class="validate w70 pdr4em" value="">
-                                                         <span id="name_representativeError" class="error-msg" ></span> -->
                                                         </td>
                                                         <td data-head="Cumulative Planned Last Fortnight" class="input-field">2% </td>
                                                         <td data-head="Cumulative Actual Last Fortnight" class="input-field">0.50% </td>
@@ -398,14 +413,8 @@
                                                     <tr>
                                                         <td data-head="S No">&nbsp;</td>
                                                         <td data-head="Structure" class="input-field">Minor Bridge #103
-                                                            <!-- <input id="appointment_date_committee" name="appointment_date_committee" type="text" class="validate datepicker" value="">
-                                                                 <button type="button" id="appointment_date_committee_icon" class="datepicker-button"><i
-                                                                        class="fa fa-calendar"></i></button>
-                                                                 <span id="appointment_date_committeeError" class="error-msg" ></span> -->
                                                         </td>
                                                         <td data-head="Component" class="input-field">Foundation
-                                                        <!-- <input id="name_representative" maxlength="50" data-length="50" name="name_representative" type="text" class="validate w70 pdr4em" value="">
-                                                         <span id="name_representativeError" class="error-msg" ></span> -->
                                                         </td>
                                                         <td data-head="Cumulative Planned Last Fortnight" class="input-field">2% </td>
                                                         <td data-head="Cumulative Actual Last Fortnight" class="input-field">0.50% </td>
@@ -421,19 +430,7 @@
                                              
                                                 </tbody>
                                             </table>
-                                            <!-- <table class="mdl-data-table table-add bd-none">
-                                                <tbody class="bd-none">
-                                                    <tr class="bd-none">
-                                                        <td colspan="3" class="bd-none"><a
-                                                            type="button"
-                                                            class="btn waves-effect waves-light bg-m t-c add-align"
-                                                            onclick="addStRow()"> <i
-                                                                class="fa fa-plus"></i>
-                                                        </a>
-                                                    </tr>
-                                                </tbody>
-                                            </table> -->
-                                                
+                                               
                                                     
                                                         <input type="hidden" id="rowNo"  name="rowNo" value="" />
                                                     
@@ -512,6 +509,60 @@
                return false;
            }
        });
+       
+       var today = new Date();
+       var dd = today.getDate();
+       var mm = today.getMonth() + 1;
+ 
+       var yyyy = today.getFullYear();
+       if (dd < 10) {
+           dd = '0' + dd;
+       }
+       if (mm < 10) {
+           mm = '0' + mm;
+       }
+       var today = dd + '/' + mm + '/' + yyyy;
+       
+       var dateFrom = "01/"+ mm + '/' + yyyy;
+       var dateTo = "15/"+ mm + '/' + yyyy;
+       
+       var dateFrom1 = "16/"+ mm + '/' + yyyy;
+       var dateTo1 = "15/"+ mm + '/' + yyyy;      
+       
+       
+       var dateCheck = today;
+
+       var d1 = dateFrom.split("/");
+       var d2 = dateTo.split("/");
+       var c = dateCheck.split("/");
+
+       var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  
+       var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+       var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+       
+       
+       
+       var d11 = dateFrom1.split("/");
+       var d21 = dateTo1.split("/");
+       var c1 = dateCheck.split("/");
+
+       var from1 = new Date(d11[2], parseInt(d11[1])-1, d11[0]);  
+       var to1   = new Date(d21[2], parseInt(d21[1])-1, d21[0]);
+       var check = new Date(c1[2], parseInt(c1[1])-1, c1[0]);     
+
+       		if(check > from && check < to)   
+    	    {
+       			alert("1");
+    	   		$("#period").val(1);
+    	    }
+       		else if(check > from1 && check < to1)
+     		{
+       			alert("2");
+       			$("#period").val(2);
+     		}
+       
+       
+       
    });
 	 
 	 

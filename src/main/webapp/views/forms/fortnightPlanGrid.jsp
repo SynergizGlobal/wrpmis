@@ -44,8 +44,8 @@
 	        	min-width:15vw !important;
 	      }
 	     .fw-10vw{
-		       	width:50px !important;
-		       	min-width:50px;
+        		width:8vw !important;
+	        	min-width:8vw !important;
 	      } 
          @media only screen and (max-width: 769px){ 
 		.mdl-data-table thead tr th{
@@ -351,7 +351,8 @@
  				},
                 columnDefs: [ 
                 	{targets: [2,3], className: 'hideCOl'},
-                    { targets: [ 2,4], className: 'fw-12vw'  },
+                    { targets: [ 1,2,4], className: 'fw-12vw'  },
+                    { targets: [ 5,6,7], className: 'fw-10vw'  },
                     { targets: [0,1], className: 'fw-111'  },
                     { "width": "20px", "targets": [0] },
                     { orderable: false, 'aTargets': ['no-sort'] } 
@@ -397,7 +398,7 @@
 	    			{    	
     					if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
-    	         			var fortnightly_plan_id = "'"+val.fortnightly_plan_id+"'";
+    	         			var fortnightly_plan_id = val.fortnightly_plan_id;
     	                    var actions = '<a href="javascript:void(0);"  onclick="getFortnightPlan('+fortnightly_plan_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
     	                   	var rowArray = [];    	                  
     	                   	var workName = '';
@@ -548,7 +549,7 @@
         
         function getFortnightPlan(fortnightly_plan_id) {
     		$("#fortnightly_plan_id").val(fortnightly_plan_id);
-    		$("#getForm").submit();
+    		window.location.href="/pmis/get-FortnightPlan/"+fortnightly_plan_id;
     	}
 
     </script>

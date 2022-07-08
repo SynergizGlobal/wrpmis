@@ -19,7 +19,7 @@ public interface FortnightPlanDao {
 	
 	List<FortnightPlan> getFortnightPlanPeriodList() throws Exception;
 
-	FortnightPlan getFortnightPlan(FortnightPlan obj) throws Exception;
+	List<FortnightPlan> getFortnightPlan(FortnightPlan obj) throws Exception;
 
 	boolean updateFortnightPlan(FortnightPlan obj) throws Exception;
 
@@ -30,5 +30,7 @@ public interface FortnightPlanDao {
 	List<FortnightPlan> getWorksListFilter(FortnightPlan obj) throws Exception;
 
 	List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception;
+
+	List<FortnightPlan> getPeriodListFilter(FortnightPlan obj) throws Exception;
 }
  

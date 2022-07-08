@@ -99,6 +99,19 @@ public class FortnightPlanController {
 		return fortnight;
 	}
 	
+	@RequestMapping(value = "/ajax/getPeriodsListFilterInFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FortnightPlan> getPeriodsListFilterInFortnight(@ModelAttribute FortnightPlan obj) {
+		List<FortnightPlan> fortnight = null;
+		try {
+			fortnight = FortnightPlanService.getPeriodListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListFilter : " + e.getMessage());
+		}
+		return fortnight;
+	}
+	
 	@RequestMapping(value = "/ajax/getContractListFilterInFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<FortnightPlan> getContractListFilterInFortnight(@ModelAttribute FortnightPlan obj) {
@@ -110,7 +123,8 @@ public class FortnightPlanController {
 			logger.error("getWorksListFilter : " + e.getMessage());
 		}
 		return fortnight;
-	}
+	}	
+	
 	
 	@RequestMapping(value = "/ajax/getFortnightPlanList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -188,7 +202,7 @@ public class FortnightPlanController {
 			model.addObject("FortnightPlanPeriodList", FortnightPlanPeriodList);			
 			
 			
-			FortnightPlan FortnightPlan = FortnightPlanService.getFortnightPlan(obj);
+			List<FortnightPlan> FortnightPlan = FortnightPlanService.getFortnightPlan(obj);
 			model.addObject("FortnightPlan", FortnightPlan);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -220,7 +234,7 @@ public class FortnightPlanController {
 			model.addObject("FortnightPlanPeriodList", FortnightPlanPeriodList);
 			
 			obj.setFortnightly_plan_id(FortnightPlan_id);
-			FortnightPlan FortnightPlan = FortnightPlanService.getFortnightPlan(obj);
+			List<FortnightPlan> FortnightPlan = FortnightPlanService.getFortnightPlan(obj);
 			model.addObject("FortnightPlan", FortnightPlan);
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);

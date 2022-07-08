@@ -1153,7 +1153,18 @@
 	    {
 	    	$("#contract_id_fk").val(cid);
 	    	getStructureTypesListFilter(cid);resetWorksAndProjectsDropdowns(null);
-	    }     
+	    }  
+	    
+
+	    	if(sessionStorage.getItem("contract_id_fk")!="")
+	    	{
+		    	$("#contract_id_fk").val(sessionStorage.getItem("contract_id_fk"));
+		    	getStructureTypesListFilter(cid);resetWorksAndProjectsDropdowns(null);	  
+		    	$("#structure_type_fk").val(sessionStorage.getItem("critical_item"));
+		    	getNewActivitiesUpdateStructures();
+		    	$("#strip_chart_structure_id_fk").val(sessionStorage.getItem("structure"));
+	    	}
+	    
     
     	var monthShortCode=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 	    var datePickerSelectAddClass = function () {
@@ -1823,6 +1834,12 @@
                      			$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) + '</option>');
                       		 }
                          });
+                         
+             	    	if(sessionStorage.getItem("contract_id_fk")!="")
+            	    	{
+            		    	$("#strip_chart_component").val(sessionStorage.getItem("component")).trigger('change');
+            	    	}
+             	    	
                      }
                      $('.searchable').select2();
                      $(".page-loader-5").hide();

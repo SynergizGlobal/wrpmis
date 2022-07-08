@@ -18,7 +18,7 @@ public interface FortnightPlanService {
 	
 	List<FortnightPlan> getFortnightPlanPeriodList() throws Exception;
 
-	FortnightPlan getFortnightPlan(FortnightPlan obj) throws Exception;
+	List<FortnightPlan> getFortnightPlan(FortnightPlan obj) throws Exception;
 
 	boolean updateFortnightPlan(FortnightPlan obj) throws Exception;
 
@@ -27,6 +27,7 @@ public interface FortnightPlanService {
 	List<FortnightPlan> getFortnightPlanList(FortnightPlan obj, int startIndex, int offset, String searchParameter) throws Exception;
 
 	public List<FortnightPlan> getWorksListFilter(FortnightPlan obj) throws Exception;
+	public List<FortnightPlan> getPeriodListFilter(FortnightPlan obj) throws Exception;
 	
 	public List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception;
 

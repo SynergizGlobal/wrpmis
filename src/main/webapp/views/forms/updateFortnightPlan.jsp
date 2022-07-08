@@ -195,12 +195,12 @@
         .input-field>label{
         	font-size: .9rem !important;
         }
-        .w20em{width: 20em;}
+        .w20em{width: 15em;}
         .w60{
-            width: 60px;
+            width: 40px;
         }
         .w2em{
-        	width: 2em;
+        	width: 3em;
         }
         .w1em{
         	width: 1em;
@@ -297,6 +297,12 @@
 				width: 100% !important;
 			}
 		}
+		
+.col .row {
+    margin-left: -.25rem !important;
+    margin-right: -.25rem !important;
+}		
+		
     </style>
 </head>
 <body>
@@ -315,7 +321,7 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+                    <form action="<%=request.getContextPath()%>/update-FortnightPlan" id="getForm" name="getForm" method="post">
                         <div class="container container-no-margin">
                             <div class="row">  
                                 <h5 class="center-align" style="margin-bottom: 40px;"></h5>
@@ -324,7 +330,7 @@
                                     <select id="work_id_fk" class="searchable" name="work_id_fk" disabled>
                                         <option value="">Select</option>
                                        	<c:forEach var="obj" items="${FortnightPlanWorkList }">
-                                      	   	<option value= "${obj.work_id_fk}" <c:if test="${FortnightPlan.work_id_fk eq obj.work_id_fk}">selected</c:if>>${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                      	   	<option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
                                     	 </c:forEach>                                                                               
                                     </select>
                                 </div>
@@ -333,7 +339,7 @@
                                     <select id="contract_id_fk" class="searchable" name="contract_id_fk" disabled>
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${FortnightPlanContractList }">
-                                            <option value= "${obj.contract_id_fk}" <c:if test="${FortnightPlan.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                            <option value= "${obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                         </c:forEach>                                       
                                     </select>
                                 </div>
@@ -342,7 +348,7 @@
                                     <select id="category" class="searchable" name="category" disabled>
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${FortnightPlanCategoryList }">
-                                            <option value= "${obj.module_name}" <c:if test="${FortnightPlan.category eq obj.category}">selected</c:if>>${obj.module_name}</option>
+                                            <option value= "${obj.module_name}">${obj.module_name}</option>
                                         </c:forEach>                                        
                                     </select>
                                 </div>   
@@ -355,15 +361,13 @@
                                     <select id="critical_item" class="searchable" name="critical_item" disabled>
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
-                                            <option value= "${obj.critical_item}" <c:if test="${FortnightPlan.critical_item eq obj.critical_item}">selected</c:if>>${obj.critical_item}</option>
+                                            <option value= "${obj.critical_item}">${obj.critical_item}</option>
                                         </c:forEach>                                       
                                     </select>
                                 </div>
                                  <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Period: </p>
-                                    <select id="period" class="searchable" name="period" disabled>
-                                        <option value="">Select</option>
-                                    </select>
+                                    <input type="text" id="period" name="period" disabled>
                                 </div>  
                             </div>
 
@@ -389,55 +393,29 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="stBody">
-                                                       <tr>
-                                                        <td data-head="S No">&nbsp;</td>
-                                                        <td data-head="Structure" class="input-field">Minor Bridge #103
-                                                            <!-- <input id="appointment_date_committee" name="appointment_date_committee" type="text" class="validate datepicker" value="">
-                                                                 <button type="button" id="appointment_date_committee_icon" class="datepicker-button"><i
-                                                                        class="fa fa-calendar"></i></button>
-                                                                 <span id="appointment_date_committeeError" class="error-msg" ></span> -->
-                                                        </td>
-                                                        <td data-head="Component" class="input-field">Foundation
-                                                        </td>
-                                                        <td data-head="Cumulative Planned Last Fortnight" class="input-field">2% </td>
-                                                        <td data-head="Cumulative Actual Last Fortnight" class="input-field">0.50% </td>
-                                                        <td data-head="Current Fortnight Planned" class="input-field">1.00% </td>  
-                                                        <td data-head="Navigation" class="input-field">
-                                                            <a onclick="removeStActions('0');" class="btn waves-effect waves-light t-c ">
-                                                                <i class="fa fa-link" aria-hidden="true"></i></a>
-                                                        </td>
-                                                        <td data-head="Remarks" class="input-field">
-                                                        <textarea id="remarks" name="remarks" class="pmis-textarea pdr4em w85 my-valid-class" data-length="1000" maxlength="1000"></textarea>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td data-head="S No">&nbsp;</td>
-                                                        <td data-head="Structure" class="input-field">Minor Bridge #103
-                                                        </td>
-                                                        <td data-head="Component" class="input-field">Foundation
-                                                        </td>
-                                                        <td data-head="Cumulative Planned Last Fortnight" class="input-field">2% </td>
-                                                        <td data-head="Cumulative Actual Last Fortnight" class="input-field">0.50% </td>
-                                                        <td data-head="Current Fortnight Planned" class="input-field">1.00% </td>  
-                                                        <td data-head="Navigation" class="input-field">
-                                                            <a onclick="removeStActions('0');" class="btn waves-effect waves-light t-c ">
-                                                                <i class="fa fa-link" aria-hidden="true"></i></a>
-                                                        </td>
-                                                        <td data-head="Remarks" class="input-field">
-                                                        <textarea id="remarks" name="remarks" class="pmis-textarea pdr4em w85 my-valid-class" data-length="1000" maxlength="1000"></textarea>
-                                                        </td>
-                                                    </tr>
-                                             
+                                                	<c:set var="count" value="1" />
+					                                   <c:forEach var="obj" items="${FortnightPlan}">
+					           					  			 <tr>
+						           					  			 <td></td>
+						           					  			 <td><input type="text" name="structure" id="structure" value="${obj.structure}"></td>
+						           					  			 <td><input type="text" name="component" id="component" value="${obj.component}"></td>
+						           					  			 <td>${obj.cum_planned_last_structure}</td>
+						           					  			 <td>${obj.planned_current_structure}</td>
+						           					  			 <td>${obj.cum_actual_last_structure}</td>
+		                                                        <td data-head="Navigation" class="input-field">
+		                                                            <a onclick="reDirectUrl('${obj.contract_id_fk}','${obj.critical_item}','${obj.structure}','${obj.component}');" class="btn waves-effect waves-light t-c ">
+		                                                                <i class="fa fa-link" aria-hidden="true"></i></a>
+		                                                        </td>
+		                                                        <td data-head="Remarks" class="input-field">
+		                                                        <textarea id="remarks" name="remarks" class="pmis-textarea pdr4em w85 my-valid-class" data-length="1000" maxlength="1000"></textarea>
+		                                                        <input type="hidden" name="fortnightly_plan_update_id" id="fortnightly_plan_update_id" value="${obj.fortnightly_plan_update_id}">
+		                                                        </td>
+					           					  			 </tr>
+					           					  			 <c:set var="count" value="${count+1}" />  
+					                                   </c:forEach>
+                                             		
                                                 </tbody>
                                             </table>
-                                               
-                                                    
-                                                        <input type="hidden" id="rowNo"  name="rowNo" value="" />
-                                                    
-                                                        <input type="hidden" id="rowNo"  name="rowNo" value="0" />
-                                                    
-                                            
-
                                         </div>
                                     </div>
                                 </div>
@@ -449,8 +427,7 @@
                             <div class="row">
                                 <div class="col s12 m6 l6 mt-brdr ">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-m">Add /
-                                            Edit</button>
+                                        <button class="btn waves-effect waves-light bg-m">Update</button>
                                     </div>
                                 </div>
                                 <div class="col s12 m6 l6 mt-brdr ">
@@ -501,6 +478,13 @@
 
    <script>
    $(document).ready(function() {
+	   
+	   $("#work_id_fk").val("${FortnightPlan[0].work_id_fk}");
+	   $("#contract_id_fk").val("${FortnightPlan[0].contract_id_fk}");
+	   $("#category").val("${FortnightPlan[0].category}");
+	   $("#critical_item").val("${FortnightPlan[0].critical_item}");
+	   
+	   
 	   $("[data-length]").each(function(i,val){
 	    	$('#'+val.id).characterCounter();
 	    });
@@ -515,6 +499,7 @@
        var mm = today.getMonth() + 1;
  
        var yyyy = today.getFullYear();
+       
        if (dd < 10) {
            dd = '0' + dd;
        }
@@ -527,7 +512,7 @@
        var dateTo = "15/"+ mm + '/' + yyyy;
        
        var dateFrom1 = "16/"+ mm + '/' + yyyy;
-       var dateTo1 = "15/"+ mm + '/' + yyyy;      
+       var dateTo1 = daysInMonth(mm,yyyy)+ mm + '/' + yyyy;      
        
        
        var dateCheck = today;
@@ -550,20 +535,119 @@
        var to1   = new Date(d21[2], parseInt(d21[1])-1, d21[0]);
        var check = new Date(c1[2], parseInt(c1[1])-1, c1[0]);     
 
-       		if(check > from && check < to)   
-    	    {
-       			alert("1");
-    	   		$("#period").val(1);
-    	    }
-       		else if(check > from1 && check < to1)
-     		{
-       			alert("2");
-       			$("#period").val(2);
-     		}
-       
+       		
+       		var months = ["January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"];
+
+
+  
+		if(check > from && check < to)   
+	    {
+			
+			
+			  var dateNow = from;
+			  var yearNow = dateNow.getFullYear();
+			  var monthNow = months[dateNow.getMonth()];
+			  var dayNow = dateNow.getDate();
+			  var daySuffix;
+
+			  switch (dayNow) {
+			      case 1:
+			      case 21:
+			      case 31:
+			          daySuffix = "st";
+			          break;
+			      case 2:
+			      case 22:
+			          daySuffix = "nd";
+			          break;
+			      case 3:
+			      case 23:
+			          daySuffix = "rd";
+			          break;
+			      default:
+			          daySuffix = "th";
+			          break;
+			  }			
+			var strPeriod=dayNow+daySuffix+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2)+" - "+"15th"+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2);
+			
+			
+	   		$("#period").val(strPeriod);
+	    }
+   		else if(check > from1 && check < to1)
+ 		{
+			  var dateNow = from1;
+			  var yearNow = dateNow.getFullYear();
+			  var monthNow = months[dateNow.getMonth()];
+			  var dayNow = dateNow.getDate();
+			  var daySuffix;
+
+			  switch (dayNow) {
+			      case 1:
+			      case 21:
+			      case 31:
+			          daySuffix = "st";
+			          break;
+			      case 2:
+			      case 22:
+			          daySuffix = "nd";
+			          break;
+			      case 3:
+			      case 23:
+			          daySuffix = "rd";
+			          break;
+			      default:
+			          daySuffix = "th";
+			          break;
+			  }	
+			  
+			  var dateNow1 = to1;
+			  var yearNow1 = dateNow1.getFullYear();
+			  var monthNow1 = months[dateNow1.getMonth()];
+			  var dayNow1 = dateNow1.getDate();
+			  var daySuffix1;
+
+			  switch (dayNow1) {
+			      case 1:
+			      case 21:
+			      case 31:
+			          daySuffix1 = "st";
+			          break;
+			      case 2:
+			      case 22:
+			          daySuffix1 = "nd";
+			          break;
+			      case 3:
+			      case 23:
+			          daySuffix1 = "rd";
+			          break;
+			      default:
+			          daySuffix1 = "th";
+			          break;
+			  }			  
+			  
+			var strPeriod=dayNow+daySuffix+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2)+" - "+dayNow1+daySuffix1+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2);
+	   		$("#period").val(strPeriod);
+ 		}   		
+       		
+       		
        
        
    });
+   
+   function reDirectUrl(Param1,Param2,Param3,Param4)
+   {
+	   sessionStorage.clear();
+	   sessionStorage.setItem("contract_id_fk",Param1);
+	   sessionStorage.setItem("critical_item",Param2);
+	   sessionStorage.setItem("structure",Param3);
+	   sessionStorage.setItem("component",Param4);
+	   window.open("/pmis/new-activities-update", '_blank');
+   }
+   
+   function daysInMonth(month, year) {
+	    return new Date(year, month, 0).getDate();
+	}  
 	 
 	 
    $(document).ready(function () {
@@ -571,256 +655,12 @@
        $( ".searchable" ).each(function( index,val ) {
 $( this ).select2({                placeholder:      $( this ).attr('placeholder')       });
 });
-      // $('').select2({                placeholder            });
+      
    });
 
-$(function() {
-$('input[type="radio"]').click(function() {
-  if($(this).attr('id') == 'approval_yes') {
-       $('#show-me').show();           
-  }
 
-  else {
-       $('#show-me').hide();   
-  }
-});
-});
 
-/*   function addStRow(){
-       var rowNo = $("#rowNo").val();
-       var rowNo1 = $("#sNo").val();
-       var rNo = Number(rowNo)+1;
-       var sNo = Number(rowNo1)+1;
-       var html = '<tr id="actionStRow' + rNo + '"><td></td>'
 
-          +'<td data-head="Date of Appointment" class="input-field">'
-          +'<input id="appointment_date_committee' + rNo + '" type="text" class="validate datepicker" name="appointment_date_committee" value="">'              
-          +'<button type="button" id="appointment_date_committee_icon' + rNo + '" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
-          +'<span id="appointment_date_committee' + rNo + 'Error" class="error-msg"></span></td>'
-
-          +'<td data-head="Name Of Representative" class="input-field">'
-          +'<input type="text"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_representative" onchange="executivesToStringMethod('+rNo+');" value="">' 
-          +'<span id="name_representative' + rNo + 'Error" class="error-msg"></span> </td>'
-
-          +'<td data-head="Contact Number" class="input-field">'
-          +'<input type="number"  maxlength="10" data-length="10" id="contact_number_rep' + rNo + '" class="validate w70 pdr4em num"  name="contact_number_rep" value="">' 
-          +'<span id="contact_number_rep' + rNo + 'Error" class="error-msg"></span> </td>'
-
-          +'<td data-head="Email" class="input-field">'
-          +'<input type="email"  maxlength="50" data-length="50" id="rep_email' + rNo + '" class="validate w70 pdr4em"  name="rep_email" value="">' 
-          +'<span id="rep_email' + rNo + 'Error" class="error-msg"></span> </td>'
-
-          +'<td class="input-field mobile_btn_close"><a onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></a></td>'
-          +'</tr>';
-   
-       $('#stBody').append(html);
-       $("#rowNo").val(rNo);   
-       var rowCount = $("#stBody tr").length;
-       $("#sNo").val(rowCount);    
-       $('#name_representative'+rNo).characterCounter();
-		 $('#contact_number_rep'+rNo).characterCounter();
-		 $('#rep_email'+rNo).characterCounter();
-		 $('#contact_number_rep'+rNo).keypress(function() {
-	           if ($(this).val().length == $(this).attr("maxlength")) {
-	               return false;
-	           }
-	       });
-       $('.searchable').select2();
-   }
-	$(function(){
-		
-		$(document).on('click', '.remove', function() {
-			var trIndex = $(this).closest("tr").index();
-				if(trIndex>1) {
-				$(this).closest("tr").remove();
-			} else {
-				
-			}
-		});
-	});  */
-	function getResponsible(hod){
-	   	$(".page-loader").show();
-	    $("#mrvc_responsible_person option:not(:first)").remove();
-	    if ($.trim(hod) != "") {
-	        var myParams = { hod: hod };
-	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getResponsibleListInRRBSES",
-	            data: myParams, cache: false,
-	            success: function (data) {
-	                if (data.length > 0) {
-	                    $.each(data, function (i, val) {
-	                        var workName = '';
-	                        if ($.trim(val.user_name) != '') { workName = ' - ' + $.trim(val.user_name) }
-	                        var user_id = "${rrDetails.mrvc_responsible_person}";
-	                        if ($.trim(user_id) != '' && val.user_id == $.trim(user_id)) {
-	                            $("#mrvc_responsible_person").append('<option  value="' + val.user_id + '" selected>' + $.trim(val.designation) + $.trim(workName) + '</option>');
-	                        } else {
-	                            $("#mrvc_responsible_person").append('<option  value="' + val.user_id + '">' + $.trim(val.designation) + $.trim(workName) + '</option>');
-	                        }
-	                    });
-	                }
-	                $('.searchable').select2();
-	                $(".page-loader").hide();
-	            }
-	        });
-	    }else{
-	    	$(".page-loader").hide();
-	    }
-		
-	}
-/* 	  function addStRow(){
-	       var rowNo = $("#rowNo").val();
-	       var rowNo1 = $("#sNo").val();
-	       var rNo = Number(rowNo)+1;
-	       var sNo = Number(rowNo1)+1;
-	       var html = '<tr id="actionStRow' + rNo + '"><td></td>'
-
-	          +'<td data-head="Date of Appointment" class="input-field">'
-	          +'<input id="appointment_date_committee' + rNo + '" type="text" placeholder="Date" class="validate datepicker" name="date_of_appointments" value="">'              
-	          +'<button type="button" id="appointment_date_committee_icon' + rNo + '" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
-	          +'<span id="appointment_date_committee' + rNo + 'Error" class="error-msg"></span></td>'
-
-	          +'<td data-head="Name Of Representative" class="input-field">'
-	          +'<input type="text" placeholder="Name"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_of_representatives" onchange="executivesToStringMethod('+rNo+');" value="">' 
-	          +'<span id="name_of_representative' + rNo + 'Error" class="error-msg"></span> </td>'
-
-	          +'<td data-head="Contact Number" class="input-field">'
-	          +'<input type="number" placeholder="Number" maxlength="10" data-length="10" id="contact_number_rep' + rNo + '" class="validate w70 pdr4em num"  name="phone_nos" value="">' 
-	          +'<span id="contact_number_rep' + rNo + 'Error" class="error-msg"></span> </td>'
-
-	          +'<td data-head="Email" class="input-field">'
-	          +'<input type="email" placeholder="Email"  maxlength="50" data-length="50" id="rep_email' + rNo + '" class="validate w70 pdr4em"  name="email_ids" value="">' 
-	          +'<span id="rep_email' + rNo + 'Error" class="error-msg"></span> </td>'
-
-	          +'<td class="input-field mobile_btn_close"><a onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></a></td>'
-	          +'</tr>';
-	   
-	       $('#stBody').append(html);
-	       $("#rowNo").val(rNo);   
-	       var rowCount = $("#stBody tr").length;
-	       $("#sNo").val(rowCount);    
-	       $('#name_representative'+rNo).characterCounter();
-			 $('#contact_number_rep'+rNo).characterCounter();
-			 $('#rep_email'+rNo).characterCounter();
-			 $('#contact_number_rep'+rNo).keypress(function() {
-		           if ($(this).val().length == $(this).attr("maxlength")) {
-		               return false;
-		           }
-		       });
-	       $('.searchable').select2();
-	   }
-		$(function(){
-			
-			$(document).on('click', '.remove', function() {
-				var trIndex = $(this).closest("tr").index();
-					if(trIndex>0) {
-					$(this).closest("tr").remove();
-				} else {
-					
-				}
-			});
-		}); */ 
-	   
-
-/* 		   function addRR(){
-		   	 if(validator.form()){ // validation perform
-		       	$(".page-loader").show();	
-		       	    $('form input[name=date_of_appointments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		 			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		 			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		 			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			document.getElementById("RandRForm").submit();			
-			 	 }
-		   }
-		   function updateRR(){
-		   	if(validator.form()){ // validation perform
-		       	$(".page-loader").show();	
-		       	$('form input[name=financial_year_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		        $('form input[name=date_of_appointments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	 			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	 			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	 			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-		  			document.getElementById("RandRForm").submit();	
-		   	}
-		   }
-	     
-
-		   var validator =	$('#RandRForm').validate({
-				 errorClass: "my-error-class",
-				 validClass: "my-valid-class",
-				 ignore: ":hidden:not(.validate-dropdown)",
-		 		    rules: {
-		 		 		   "work_id_fk": {
-		 			 		  required: true
-		 			 	  },"hod": {
-		 			 		  required: true
-		 			 	  }	,"mrvc_responsible_person"	:{
-		 			 		  required:true
-		 			 	  },"bses_agency_name"	:{
-		 			 		  required:true
-		 			 	  }
-		 		 	},
-		 		    messages: {
-		 		 		   "work_id_fk": {
-		 			 		  required: 'Required'
-		 			 	  },"hod": {
-		 			 		  required: 'Required'
-		 			 	  }	,"mrvc_responsible_person"	:{
-		 			 		  required:'Required'
-		 			 	  },"bses_agency_name"	:{
-		 			 		  required:'Required'
-		 			 	  }
-			   		},
-			   		errorPlacement:function(error, element){
-			   		 	  if(element.attr("id") == "work_id_fk" ){
-						     document.getElementById("work_id_fkError").innerHTML="";
-					 	     error.appendTo('#work_id_fkError');
-						 }else if(element.attr("id") == "hod" ){
-						     document.getElementById("hodError").innerHTML="";
-					 	     error.appendTo('#hodError');
-						 }else if(element.attr("id") == "mrvc_responsible_person" ){
-						     document.getElementById("mrvc_responsible_personError").innerHTML="";
-					 	     error.appendTo('#mrvc_responsible_personError');
-						 }else if(element.attr("id") == "bses_agency_name" ){
-						     document.getElementById("bses_agency_nameError").innerHTML="";
-					 	     error.appendTo('#bses_agency_nameError');
-						 }else{
-							 error.insertAfter(element);
-				        } 
-			   		 	  
-			   		},invalidHandler: function (form, validator) {
-		                var errors = validator.numberOfInvalids();
-		                if (errors) {
-		                    var position = validator.errorList[0].element;
-		                    jQuery('html, body').animate({
-		                        scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-		                    }, 1000);
-		                }
-		            },
-			   		submitHandler:function(form){
-				    	//form.submit();
-				    }
-				});   
-		  	 $.validator.addMethod("dateFormat",
-		   	    function(value, element) {
-		   	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
-		   	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
-		   	    	//return dtRegex.test(value);
-		   	    },
-		   	    //"Date format (Aug 02,2020)"
-		   	    "Date format (DD-MM-YYYY)"
-		   	);
-		      $('select').change(function(){
-		          if ($(this).val() != ""){
-		              $(this).valid();
-		          }
-		      });
-
-		      $('input').change(function(){
-		          if ($(this).val() != ""){
-		              $(this).valid();
-		          }
-		      }); */
   
      
    </script>

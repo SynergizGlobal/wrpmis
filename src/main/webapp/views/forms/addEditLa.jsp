@@ -156,7 +156,7 @@
 			width: 85% !important;
 		}
 		.w80{
-			width: 80% !important;
+			width: 79% !important;
 		}
 		.w75{
 			width: 75% !important;
@@ -395,28 +395,40 @@
                                     <span id="dy_slrError" class="error-msg" ></span>
                                 </div>                                
                             
-                            <div class="col s6 m4 l6 input-field">
-                                    <input id="sdo" maxlength="100" data-length="100" name="sdo" type="text" class="validate pdr4em w85" value="${LADetails.sdo }">
+                            <div class="col s6 m4 l4 input-field">
+                                    <input id="sdo" maxlength="100" data-length="100" name="sdo" type="text" class="validate pdr4em w80" value="${LADetails.sdo }">
                                     <label for="sdo"> SDO</label>
                                     <span id="sdoError" class="error-msg" ></span>
                                 </div>                                 
-                                <div class="col s6 m8 l6 input-field offset-m2">
-                                    <input id="collector" maxlength="100" data-length="100" name="collector" type="text" class="validate w85 pdr4em" value="${LADetails.collector }">
+                                <div class="col s8 m8 l4 input-field offset-m2">
+                                    <input id="collector" maxlength="100" data-length="100" name="collector" type="text" class="validate w80 pdr4em" value="${LADetails.collector }">
                                     <label for="collector">Collector </label>
                                     <span id="collectorError" class="error-msg" ></span>
                                 </div>
-                                                                                    
-                            </div>
-	  						<div class="row">                                 
-                                <div class="col s6 m4 l6 input-field offset-m2">
-                                    <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" step="any" onkeyup="doValidate(this.value)"  class="validate num w85 pdr4em" value="${LADetails.area_to_be_acquired }">
+                                <div class="col s6 m4 l4 input-field offset-m2">
+                                    <input id="area_to_be_acquired" maxlength="10" data-length="10" name="area_to_be_acquired" type="number" step="any" onkeyup="doValidate(this.value)"  class="validate num w80 pdr4em" value="${LADetails.area_to_be_acquired }">
                                     <label for="area_to_be_acquired">Total Area to be Acquired (Ha)<span class="required" id="atacq">*</span></label><br>
                                     <span id="area_to_be_acquiredError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s6 m4 l6 input-field ">
-                                    <input id="area_of_plot" maxlength="10" data-length="10" name="area_of_plot" type="number" class="validate num w85 pdr4em" value="${LADetails.area_of_plot }">
+                                
+                                                                                    
+                            </div>
+	  						<div class="row">                                 
+                                
+                                 <div class="col s6 m4 l4 input-field ">
+                                    <input id="area_of_plot" maxlength="10" data-length="10" name="area_of_plot" type="number" class="validate num w80 pdr4em" value="${LADetails.area_of_plot }">
                                     <label for="area_of_plot">Area of Plot (Ha)</label>
-                                </div>                                 
+                                </div> 
+                                <div class="col s6 m8 l4 input-field offset-m2">
+                                    <input id="la_lattitude" maxlength="15" data-length="15" name="la_lattitude" type="number" class="validate w80 pdr4em num" value="">
+                                    <label for="la_lattitude">Lattitude </label>
+                                    <span id="la_lattitudeError" class="error-msg" ></span>
+                                </div> 
+                                <div class="col s6 m8 l4 input-field offset-m2">
+                                    <input id="la_longitude" maxlength="15" data-length="15" name="la_longitude" type="number" class="validate w80 pdr4em num" value="">
+                                    <label for="la_longitude">Longitude </label>
+                                    <span id="la_longitudeError" class="error-msg" ></span>
+                                </div>                               
                             </div>
                             <div class="row">      
                                <div class="col s12 m4 l4 input-field offset-m2">

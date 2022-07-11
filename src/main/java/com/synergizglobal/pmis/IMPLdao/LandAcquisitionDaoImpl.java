@@ -563,7 +563,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "DATE_FORMAT(receipt_of_grievances ,'%d-%m-%Y') AS  receipt_of_grievances, DATE_FORMAT(disposal_of_grievances ,'%d-%m-%Y') AS disposal_of_grievances, DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20e ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20e, DATE_FORMAT(approval_of_CALA_20e ,'%d-%m-%Y') AS  approval_of_CALA_20e,DATE_FORMAT(draft_letter_to_con_for_approval_20e ,'%d-%m-%Y') AS  draft_letter_to_con_for_approval_20e,"  
 					+"DATE_FORMAT(date_of_approval_of_construction_20e ,'%d-%m-%Y') AS  date_of_approval_of_construction_20e,DATE_FORMAT(date_of_uploading_of_gazette_notification_20e ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20e,DATE_FORMAT(publication_in_gazette_20e ,'%d-%m-%Y') AS  publication_in_gazette_20e,DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20e ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20e,DATE_FORMAT(date_of_submission_of_draft_notification_to_CALA_20f ,'%d-%m-%Y') AS date_of_submission_of_draft_notification_to_CALA_20f," 
 					+"DATE_FORMAT(approval_of_CALA_20f ,'%d-%m-%Y') AS approval_of_CALA_20f,DATE_FORMAT(draft_letter_to_con_for_approval_20f ,'%d-%m-%Y') AS draft_letter_to_con_for_approval_20f,DATE_FORMAT(date_of_approval_of_construction_20f ,'%d-%m-%Y') AS date_of_approval_of_construction_20f,DATE_FORMAT(date_of_uploading_of_gazette_notification_20f ,'%d-%m-%Y') AS date_of_uploading_of_gazette_notification_20f,DATE_FORMAT(publication_in_gazette_20f ,'%d-%m-%Y') AS publication_in_gazette_20f,"
-					+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f,DATE_FORMAT(lg.planned_date_of_possession ,'%d-%m-%Y') as planned_date_of_possession "
+					+ "DATE_FORMAT(publication_of_notice_in_2_local_news_papers_20f ,'%d-%m-%Y') AS publication_of_notice_in_2_local_news_papers_20f,DATE_FORMAT(lg.planned_date_of_possession ,'%d-%m-%Y') as planned_date_of_possession,latitude,longitude "
 					+"from la_land_identification li "
 					+"left join la_government_land_acquisition lg on li.la_id = lg.la_id_fk " 
 					+"left join la_forest_land_acquisition lf on li.la_id = lf.la_id_fk " 
@@ -634,12 +634,12 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "( la_id, work_id_fk, survey_number, village_id, la_sub_category_fk, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector,"
 					+ "area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, jm_start_date, jm_completion_date, "
 					+ "jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues, jm_fee_amount_units,special_feature,"
-					+ "area_acquired,private_land_process,la_land_status_fk,category_fk,area_to_be_acquired,remarks,created_by,created_date)"
+					+ "area_acquired,private_land_process,la_land_status_fk,category_fk,area_to_be_acquired,remarks,created_by,created_date,latitude,longitude)"
 					+ "VALUES"
 					+ "(:la_id, :work_id_fk, :survey_number, :village_id, :id, :village, :taluka, :dy_slr, :sdo, :collector, :proposal_submission_date_to_collector, "
 					+ ":area_of_plot, :jm_fee_amount, :chainage_from, :chainage_to, :jm_fee_letter_received_date, :jm_fee_paid_date, :jm_start_date, :jm_completion_date, "
 					+ ":jm_sheet_date_to_sdo, :jm_remarks, :jm_approval, :issues, :jm_fee_amount_units , :special_feature, :area_acquired, :private_land_process, "
-					+ ":la_land_status_fk, :category_fk, :area_to_be_acquired, :remarks, :created_by_user_id_fk, CURRENT_TIMESTAMP)";
+					+ ":la_land_status_fk, :category_fk, :area_to_be_acquired, :remarks, :created_by_user_id_fk, CURRENT_TIMESTAMP,:latitude,:longitude)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -1159,7 +1159,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "area_of_plot= :area_of_plot, jm_fee_amount = :jm_fee_amount, chainage_from= :chainage_from, chainage_to= :chainage_to, jm_fee_letter_received_date= :jm_fee_letter_received_date, jm_fee_paid_date= :jm_fee_paid_date, jm_start_date= :jm_start_date, jm_completion_date= :jm_completion_date, "
 					+ "jm_sheet_date_to_sdo= :jm_sheet_date_to_sdo, jm_remarks= :jm_remarks, jm_approval= :jm_approval, issues= :issues, jm_fee_amount_units= :jm_fee_amount_units,"
 					+ "la_land_status_fk= :la_land_status_fk, special_feature= :special_feature,private_land_process= :private_land_process,area_acquired= :area_acquired,"
-					+ "category_fk= :category_fk,area_to_be_acquired= :area_to_be_acquired,remarks= :remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP    "
+					+ "category_fk= :category_fk,area_to_be_acquired= :area_to_be_acquired,remarks= :remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,latitude=:latitude,longitude=:longitude    "
 					+ "where la_id= :la_id ";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -1717,6 +1717,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 									ps.setString(i++, !StringUtils.isEmpty(obj.getRemarks())?obj.getRemarks():null);
 									return ps;
 								}
+								
 							});
 						}
 					}

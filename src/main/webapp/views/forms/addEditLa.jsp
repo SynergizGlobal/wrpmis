@@ -420,14 +420,14 @@
                                     <label for="area_of_plot">Area of Plot (Ha)</label>
                                 </div> 
                                 <div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="la_lattitude" maxlength="15" data-length="15" name="la_lattitude" type="number" class="validate w80 pdr4em num" value="">
-                                    <label for="la_lattitude">Lattitude </label>
-                                    <span id="la_lattitudeError" class="error-msg" ></span>
+                                    <input id="latitude" maxlength="15" data-length="15" name="latitude" type="number" class="validate w80 pdr4em num" value="${LADetails.latitude }">
+                                    <label for="latitude">Latitude </label>
+                                    <span id="latitudeError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="la_longitude" maxlength="15" data-length="15" name="la_longitude" type="number" class="validate w80 pdr4em num" value="">
-                                    <label for="la_longitude">Longitude </label>
-                                    <span id="la_longitudeError" class="error-msg" ></span>
+                                    <input id="longitude" maxlength="15" data-length="15" name="longitude" type="number" class="validate w80 pdr4em num" value="${LADetails.longitude }">
+                                    <label for="longitude">Longitude </label>
+                                    <span id="longitudeError" class="error-msg" ></span>
                                 </div>                               
                             </div>
                             <div class="row">      

@@ -36,7 +36,7 @@ public class LandAcquisition {
 	
 	//private indian Act
 	private String submission_of_proposal_to_GM,la_file_id, requried_area,approval_of_GM, draft_letter_to_con_for_approval_rp, date_of_approval_of_construction_rp, date_of_uploading_of_gazette_notification_rp, publication_in_gazette_rp, date_of_proposal_to_DC_for_nomination, date_of_nomination_of_competenta_authority, draft_letter_to_con_for_approval_ca, date_of_approval_of_construction_ca, date_of_uploading_of_gazette_notification_ca, publication_in_gazette_ca, date_of_submission_of_draft_notification_to_CALA, approval_of_CALA_20a, draft_letter_to_con_for_approval_20a, date_of_approval_of_construction_20a, date_of_uploading_of_gazette_notification_20a, publication_in_gazette_20a, publication_in_2_local_news_papers_20a, pasting_of_notification_in_villages_20a, receipt_of_grievances, disposal_of_grievances, date_of_submission_of_draft_notification_to_CALA_20e, approval_of_CALA_20e, draft_letter_to_con_for_approval_20e, date_of_approval_of_construction_20e, date_of_uploading_of_gazette_notification_20e, publication_in_gazette_20e, publication_of_notice_in_2_local_news_papers_20e, date_of_submission_of_draft_notification_to_CALA_20f, approval_of_CALA_20f, draft_letter_to_con_for_approval_20f, date_of_approval_of_construction_20f, date_of_uploading_of_gazette_notification_20f, 
-	publication_in_gazette_20f, publication_of_notice_in_2_local_news_papers_20f,la_file_type_fk, name,private_ira_collector,mail_body_header;
+	publication_in_gazette_20f, publication_of_notice_in_2_local_news_papers_20f,la_file_type_fk, name,private_ira_collector,mail_body_header,latitude,longitude;
 	private MultipartFile laUploadFile;
 	private MultipartFile [] laFiles;
 	private List<LandAcquisition> laFilesList,report1List,report2List;
@@ -1994,6 +1994,22 @@ public class LandAcquisition {
 
 	public void setPlanned_date_of_possession(String planned_date_of_possession) {
 		this.planned_date_of_possession = planned_date_of_possession;
+	}
+
+	public String getLattitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 
 }

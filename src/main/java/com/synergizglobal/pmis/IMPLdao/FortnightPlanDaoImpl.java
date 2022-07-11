@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.FortnightPlanDao;
 import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
@@ -164,9 +165,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
-		PreparedStatement stmt = null;
 		Connection connection = null;
-		Connection con = null;
 		PreparedStatement updateStmt = null;		
 		try {
 			connection = dataSource.getConnection();
@@ -205,11 +204,15 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 
 			transactionManager.commit(status);
-		}catch(Exception e){ 
+		}
+		catch(Exception e){ 
 			e.printStackTrace();
 			transactionManager.rollback(status);
 			throw new Exception(e);
-		}
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, updateStmt, null);
+		}		
+
 		return flag;
 	}
 	

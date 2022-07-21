@@ -40,13 +40,24 @@
         	min-width:50px;
 	      }
 	     .fw-12vw{
-	        	width:15vw !important;
-	        	min-width:15vw !important;
+	        	width:20vw !important;
+	        	min-width:20vw !important;
 	      }
 	     .fw-10vw{
-        		width:8vw !important;
-	        	min-width:8vw !important;
+        		width:20vw !important;
+	        	min-width:20vw !important;
 	      } 
+	      .w-30vw{
+	      		width: 30vw !important;
+	      	}
+	      @media(max-width: 1280px){
+	      	.mdl-data-table thead tr th, .mdl-data-table tfoot tr th{
+	      		font-size: 10px;
+	      		white-space: break-spaces;
+	      		line-height: 20px;
+	      	}
+	      	
+	      }
          @media only screen and (max-width: 769px){ 
 		.mdl-data-table thead tr th{
 			text-align:left !important;
@@ -74,14 +85,14 @@
         	right:5px;
         	top:30px;
         }
-        .fw-111{
+        /* .fw-111{
         	width:30vw;
         	min-width:30vw;
         }
         .fw-12vw {
 	  	     width:15vw !important;
         	min-width:15vw !important;
-		}
+		} */
        .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {
 		    text-align: center;
 		}
@@ -112,6 +123,9 @@
     @media(max-width: 820px){
     	.m-d-none{display:none;}
     	.mb2em{margin-bottom: 2em;}
+    	.w10px{
+    	width: 10px !important;
+    	}
     }
     
     </style>
@@ -181,8 +195,8 @@
 								<table id="datatable-fortnightplan" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th class="w10px">S.No</th>
-												<th class="pdla">Category</th>
+												<th class="w10px w10px">S.No</th>
+												<th class="pdla w-30vw">Category</th>
 												<th class="w20em">Contract</th>
 												<th class="pdla">Critical Item</th>
 												<th class="pdla">Structure</th>

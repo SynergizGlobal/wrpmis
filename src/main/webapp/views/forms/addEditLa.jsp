@@ -315,7 +315,7 @@
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="survey_number" maxlength="25" data-length="25" name="survey_number" type="text" class="validate mt-10 w80 pdr4em" value="${LADetails.survey_number }">
                                     <label for="survey_number">Survey Number<!-- <span class="required">*</span> --></label>
-									<span id="survey_numberError" class="error-msg" ></span>                                    
+									<br><span id="survey_numberError" class="error-msg" ></span>                                    
                                 </div>
                                 <div class="col s6 m4 l4 input-field ">
                                     <input id="village_id" maxlength="50" data-length="50" name="village_id" type="text" class="validate mt-10 w80 pdr4em" value="${LADetails.village_id }">
@@ -420,12 +420,12 @@
                                     <label for="area_of_plot">Area of Plot (Ha)</label>
                                 </div> 
                                 <div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="latitude" maxlength="15" data-length="15" name="latitude" type="number" class="validate w80 pdr4em num" value="${LADetails.latitude }">
+                                    <input id="latitude" maxlength="10" data-length="10" name="latitude" type="number" class="validate w80 pdr4em num" value="${LADetails.latitude }">
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="longitude" maxlength="15" data-length="15" name="longitude" type="number" class="validate w80 pdr4em num" value="${LADetails.longitude }">
+                                    <input id="longitude" maxlength="10" data-length="10" name="longitude" type="number" class="validate w80 pdr4em num" value="${LADetails.longitude }">
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>                               
@@ -3142,12 +3142,45 @@
 							$("#area_to_be_acquiredError").html("");
 						}
 					$("#area_acquired").prop("disabled",false);
-	        		document.getElementById("landAcquisitionForm").submit();		
+					if(checkSurveyNumber()==true)
+					{
+						
+						$("#survey_numberError").html(" In 1 village there cant be duplicate survey numbers");
+						return false;						
+					}
+					else
+						{
+							document.getElementById("landAcquisitionForm").submit();	
+						}
+	        			
     	 		}else{
     	        	$(".page-loader").hide();
     	 		}
         	}
         }
+        
+        function checkSurveyNumber()
+        {
+
+        	var bool = false;
+           	 $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/checkSurveyNumber",
+                 data: {survey_number:$("#survey_number").val(),village_id:$("#village_id").val(),la_id:$("#la_id").val()},type: 'POST',
+                 async: false,
+                 dataType: 'json',
+                 success: function (data) 
+                 {
+                	 if (data == true) {
+                         bool = true;
+                     }
+                 }
+             });
+           	return trueOrFalse(bool);
+        }	
+        
+        function trueOrFalse(bool){
+            return bool;
+    	}        
         
         function updateLAFrom(){
          	if(validator.form()){ // validation perform
@@ -3214,7 +3247,16 @@
 							$("#area_to_be_acquiredError").html("");
 						}    					
     					$("#area_acquired").prop("disabled",false);
-    	        		document.getElementById("landAcquisitionForm").submit();
+    					if(checkSurveyNumber()==true)
+    					{
+    						
+    						$("#survey_numberError").html(" In 1 village there cant be duplicate survey numbers");
+    						return false;						
+    					}
+    					else
+    						{
+    							document.getElementById("landAcquisitionForm").submit();	
+    						}
         	 		}else{
         	        	$(".page-loader").hide();
         	 		}

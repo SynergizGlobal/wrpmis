@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -373,6 +374,18 @@ public class LandAcquisitionController {
 		}
 		return objList;
 	}
+	
+	@RequestMapping(value = "/ajax/checkSurveyNumber", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean checkSurveyNumber(String survey_number,String village_id,String la_id) throws Exception {
+		boolean flag = false;
+		try {
+			flag = service.checkSurveyNumber(survey_number,village_id,la_id);
+		} catch (SQLException e) {
+			logger.error("checkSurveyNumber : " + e.getMessage());
+		}
+		return flag;
+	}	
 	
 	@RequestMapping(value = "/add-land-acquisition-form", method = {RequestMethod.GET})
 	public ModelAndView addLandAcquisitionForm(HttpSession session,@ModelAttribute LandAcquisition obj){
@@ -2128,7 +2141,7 @@ public class LandAcquisitionController {
 		        
 	            XSSFRow headingRow = Landsheet.createRow(0);
 	            String headerString = "Work ID^LA_ID^Survey Number^Type of Land^Sub Category of Land^Village ID^Area^Area to be Acquired^Area Acquired^Land Status^Chainage From"
-	            		+ "^Chainage To^Village^Taluka^Dy SLR^SDO^Collector^Proposal submission Date to collector^JM Fee Letter received Date^JM Fee Amount^JM Fee Paid Date^"
+	            		+ "^Chainage To^Village^Taluka^Latitude^Longitude^Dy SLR^SDO^Collector^Proposal submission Date to collector^JM Fee Letter received Date^JM Fee Amount^JM Fee Paid Date^"
 	            		+ "JM Start Date^JM Completion Date^JM Sheet Date to SDO^JM Remarks^JM Approval^Special Feature^Remarks^Issues";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
@@ -2910,6 +2923,14 @@ public class LandAcquisitionController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getTaluka());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getLatitude());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getLongitude());					
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

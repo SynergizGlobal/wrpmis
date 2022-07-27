@@ -1996,7 +1996,7 @@ public class LandAcquisition {
 		this.planned_date_of_possession = planned_date_of_possession;
 	}
 
-	public String getLattitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 

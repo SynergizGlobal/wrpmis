@@ -28,24 +28,24 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 	public Issue getIssue(Issue obj) throws Exception {
 		Issue iObj = new Issue();
 		try {
-			String qry = "select issue_id,contract_id_fk,title,i.description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
-					+ "d.department_name,priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,"
+			String qry = "select issue_id,contract_id_fk,title,i.description,FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
+					+ "d.department_name,priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,"
 					+ "c.contract_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,other_organization,"
-					+ "DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date,DATE_FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date,DATEDIFF(CURDATE(),date) AS pending_Since, "
+					+ "FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date,FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date,DATEDIFF(CURDATE(),date) AS pending_Since, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,ctr.contractor_id,ctr.contractor_name,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,u4.designation as hod_designation,u5.designation as dyHod_designation,i.status_fk as existing_status_fk,"
-					+ "DATE_FORMAT(i.created_date,'%d-%m-%Y') AS created_date,other_org_resposible_person_name,other_org_resposible_person_designation "
+					+ "FORMAT(i.created_date,'%d-%m-%Y') AS created_date,other_org_resposible_person_name,other_org_resposible_person_designation "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
-					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
 					+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
 					+ "LEFT OUTER JOIN contractor ctr ON c.contractor_id_fk= ctr.contractor_id "
-					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
+					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk  = r.railway_id "
 					+ "where issue_id = ? " ;
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -92,7 +92,7 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 						iObj.setIssueFilesList(objsList);
 					}
 					
-					String fileNamesQry ="select group_concat(file_name) as attachments from issue_files where issue_id_fk = ? ";					
+					String fileNamesQry ="select STRING_AGG(file_name) as attachments from issue_files where issue_id_fk = ? ";					
 					Issue fileNames = jdbcTemplate.queryForObject( fileNamesQry,new Object[] {obj.getIssue_id()}, new BeanPropertyRowMapper<Issue>(Issue.class));					
 					if(!StringUtils.isEmpty(fileNames)) {
 						iObj.setAttachments(fileNames.getAttachments());
@@ -130,7 +130,7 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 		List<Issue> objList = null;
 		try {
 			String qry = "select id, issue_id_fk, issue_status_fk as status_fk, u.designation,assigned_person_user_id_fk,"
-					+ "DATE_FORMAT(created_date,'%d-%b-%Y %h:%m %p') AS created_date,comment,u2.designation as created_by "
+					+ "FORMAT(created_date,'%d-%b-%Y %h:%m %p') AS created_date,comment,u2.designation as created_by "
 					+ "from issue_history ih "
 					+ "LEFT OUTER JOIN user u on ih.assigned_person_user_id_fk = u.user_id "
 					+ "LEFT OUTER JOIN user u2 on ih.created_by = u2.user_id "

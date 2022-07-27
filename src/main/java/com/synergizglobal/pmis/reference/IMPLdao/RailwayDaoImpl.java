@@ -75,7 +75,7 @@ public class RailwayDaoImpl implements RailwayDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `railway_id`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as railway_id,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -86,7 +86,7 @@ public class RailwayDaoImpl implements RailwayDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select railway_id, railway_name from railway where `railway_id` NOT IN (?";
+					  String qry2 = "select railway_id, railway_name from railway where railway_id NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -156,7 +156,7 @@ public class RailwayDaoImpl implements RailwayDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE railway SET railway_id= :value_new   ,`railway_name`= :railway_name_new WHERE `railway_id`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE railway SET railway_id= :value_new   ,railway_name= :railway_name_new WHERE railway_id= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -187,7 +187,7 @@ public class RailwayDaoImpl implements RailwayDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from railway WHERE `railway_id`= :railway_id_val; ";
+			String deleteQry ="DELETE from railway WHERE railway_id= :railway_id_val; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

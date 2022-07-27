@@ -34,10 +34,10 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 	public List<ContractResource> getProjectsListForContractResourceForm(ContractResource obj) throws Exception {
 		List<ContractResource> objsList = null;
 		try {
-			String qry = "select project_id as project_id_fk,project_name from `contract_resource` cr "
+			String qry = "select project_id as project_id_fk,project_name from contract_resource cr "
 					+ "LEFT JOIN contract c on cr.contract_id_fk = c.contract_id "
-					+ "LEFT OUTER JOIN `work` w ON c.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN `project` p ON w.project_id_fk = project_id where contract_id is not null  ";
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = project_id where contract_id is not null  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + "and work_id_fk = ?";
@@ -70,10 +70,10 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 		List<ContractResource> objsList = new ArrayList<ContractResource>();
 		try {
 			String qry = "select c.work_id_fk,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `contract_resource` cr "
+					+ "from contract_resource cr "
 					+ "LEFT JOIN contract c on cr.contract_id_fk = c.contract_id "
-					+ "LEFT OUTER JOIN `work` w ON c.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN `project` p ON w.project_id_fk = project_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -116,8 +116,8 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 					+ "LEFT JOIN contract c on cr.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id "
-					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
-					+ "where designation is not null and designation <>'' and user_type_fk = ?";
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where designation is not null and designation <> and user_type_fk = ?";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id_fk = ?";
@@ -128,7 +128,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + "  group by user_id ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),designation" ;
+			qry = qry + "  group by user_id ORDER BY FIELD(designation,ED Civil,CPM I,CPM II,CPM III,CPM V,CE,GGM Civil,ED S&T,CSTE,GM Electrical,CEE Project I,CEE Project II,ED Finance & Planning,FA&CAO,GM GA&S,CPO,COM,GM Procurement,OSD,CVO,Demo-HOD-Elec,Demo-HOD-Engg,Demo-HOD-S&T),designation" ;
 
 
 			Object[] pValues = new Object[arrSize];
@@ -196,7 +196,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 	@Override
 	public ContractResource getContarctResourceReportData(ContractResource obj) throws Exception {
 		try {
-			String qry = "SELECT resource_id, contract_id_fk, date,contract_name,contract_short_name,work_name,work_short_name, resource_type, resource_name, quantity, created_by_user_id, cr.created_date,unit FROM `contract_resource` cr "
+			String qry = "SELECT resource_id, contract_id_fk, date,contract_name,contract_short_name,work_name,work_short_name, resource_type, resource_name, quantity, created_by_user_id, cr.created_date,unit FROM contract_resource cr "
 					+ " LEFT JOIN contract c on cr.contract_id_fk = c.contract_id "
 					+ " LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id ";
@@ -240,7 +240,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 			List<ContractResource> contractList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));
 			obj.setContarctsList(contractList);
 				
-		    /*String datesQry = " select DATE_ADD(?, INTERVAL (@i:=@i+1)-1 DAY)  as `date` from ACTIVITIES,(SELECT @i:=0) gen_sub ";
+		    /*String datesQry = " select DATE_ADD(?, INTERVAL (@i:=@i+1)-1 DAY)  as date from ACTIVITIES,(SELECT @i:=0) gen_sub ";
 			
 			datesQry = datesQry + "where DATE_ADD(?,INTERVAL @i DAY) BETWEEN ? AND ?";*/
 			
@@ -259,7 +259,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 			for (ContractResource dataList : contractList) {
 				
 				String dataQry = "SELECT resource_type,resource_name,sum(quantity) As quantity,unit,format((sum(quantity)/(SELECT  DATEDIFF( ?, ? )+1  AS days FROM contract_resource limit 1)),2)+0 as average  "
-						+ " FROM `contract_resource` ";
+						+ " FROM contract_resource ";
 			
 				dataQry = dataQry + "WHERE (date BETWEEN ? AND ? ) ";
 				int arrSz = 4;

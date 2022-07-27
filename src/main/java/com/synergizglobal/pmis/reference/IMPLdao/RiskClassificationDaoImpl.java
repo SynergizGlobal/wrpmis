@@ -75,7 +75,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `classification`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as classification,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -86,7 +86,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select risk_classification_id, classification, minimum, maximum from risk_classification where `area` NOT IN (?";
+					  String qry2 = "select risk_classification_id, classification, minimum, maximum from risk_classification where area NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -158,7 +158,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE risk_classification SET `classification`= :value_new,minimum= :risk_minimum_new,maximum= :risk_maximum_new WHERE `classification`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE risk_classification SET classification= :value_new,minimum= :risk_minimum_new,maximum= :risk_maximum_new WHERE classification= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -189,7 +189,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from risk_classification WHERE `risk_classification_id`= :risk_classification_id; ";
+			String deleteQry ="DELETE from risk_classification WHERE risk_classification_id= :risk_classification_id; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

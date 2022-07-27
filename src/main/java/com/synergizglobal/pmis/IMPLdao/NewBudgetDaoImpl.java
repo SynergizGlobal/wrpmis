@@ -111,7 +111,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 			budget = (Budget)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Budget>(Budget.class));	
 			if(!StringUtils.isEmpty(budget) && !StringUtils.isEmpty(budget.getBudget_id())) {
 				List<Budget> objsList = null;
-				String qryDetails = "select new_budget_id as budget_id,date_format(CONCAT(b.financial_year_fk,'-00'),'%Y-%m') AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate,"+
+				String qryDetails = "select new_budget_id as budget_id,FORMAT(CONCAT(b.financial_year_fk,'-00'),'%Y-%m') AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate,"+
 						"cast(new_budget_grant as CHAR) as budget_grant, cast(revised_grant as CHAR) as revised_grant, cast(final_grant as CHAR) as final_grant "
 						+ "from new_budget b " 
 						+" where contract_id_fk = ?  ORDER BY financial_year_fk DESC";
@@ -507,7 +507,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 	public List<Budget> getNewBudgetExportList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="SELECT new_budget_id as budget_id,c.contract_id,work_id_fk,w.work_name,p.project_id,p.project_name,date_format(CONCAT(b.financial_year_fk,'-00'),'%Y-%m') AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate,cast(new_budget_grant as CHAR) as budget_grant, " 
+			String qry ="SELECT new_budget_id as budget_id,c.contract_id,work_id_fk,w.work_name,p.project_id,p.project_name,FORMAT(CONCAT(b.financial_year_fk,'-00'),'%Y-%m') AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate,cast(new_budget_grant as CHAR) as budget_grant, " 
 					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " 
 					+ " from new_budget b "+ 
 					"LEFT JOIN contract c on c.contract_id = b.contract_id_fk "+
@@ -553,7 +553,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 	public List<Budget> getProjectsListForBudgetForm(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry = "select project_id,project_name from `project` order by project_id asc";
+			String qry = "select project_id,project_name from project order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -565,7 +565,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 	public List<Budget> getContractsListForBudgetForm(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry = "select contract_id,contract_short_name as contract_name from `contract` WHERE 0=0 ";
+			String qry = "select contract_id,contract_short_name as contract_name from contract WHERE 0=0 ";
 			
 			if(StringUtils.isEmpty(obj.getBudget_id())) {
 				qry = qry +" and contract_id not in(select contract_id_fk from new_budget) ";
@@ -598,8 +598,8 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 		List<Budget> objsList = new ArrayList<Budget>();
 		try {
 			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -733,7 +733,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY contract_id_fk ORDER BY new_budget_id ASC limit ?,?";
+				qry = qry + " GROUP BY contract_id_fk ORDER BY new_budget_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}

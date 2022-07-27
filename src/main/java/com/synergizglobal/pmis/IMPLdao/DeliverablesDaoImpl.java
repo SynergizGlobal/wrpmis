@@ -55,7 +55,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		List<Deliverables> objsList = null;
 		try {
 			String qry ="select id,project_priority_fk,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type_fk,"
-					+ "deliverable_description, status_fk,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS finish_date,d.remarks "
+					+ "deliverable_description, status_fk,FORMAT(target_date,'%d-%m-%Y') AS target_date,FORMAT(start_date,'%d-%m-%Y') AS start_date,FORMAT(finish_date,'%d-%m-%Y') AS finish_date,d.remarks "
 					+ " from deliverables d " + 
 					"LEFT join work w on d.work_id_fk = w.work_id "
 					+"LEFT JOIN project p on w.project_id_fk = p.project_id  "
@@ -336,7 +336,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public Deliverables getDeliverables(Deliverables obj) throws Exception {
 		Deliverables deliverables = null;
 		try {
-			String qry = "select id, project_priority_fk, d.project_id_fk,p.project_name,w.work_name,c.contract_name, d.work_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date, DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS  finish_date, status_fk, d.remarks from deliverables d " + 
+			String qry = "select id, project_priority_fk, d.project_id_fk,p.project_name,w.work_name,c.contract_name, d.work_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description,FORMAT(target_date,'%d-%m-%Y') AS target_date, FORMAT(start_date,'%d-%m-%Y') AS start_date,FORMAT(finish_date,'%d-%m-%Y') AS  finish_date, status_fk, d.remarks from deliverables d " + 
 						 "LEFT JOIN work w on d.work_id_fk = w.work_id "
 						 +"LEFT JOIN project p on d.project_id_fk = p.project_id "
 						 +"LEFT JOIN contract c on d.contract_id_fk = c.contract_id where id is not null ";
@@ -514,8 +514,8 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		List<Deliverables> objsList = new ArrayList<Deliverables>();
 		try {
 			String qry = "select work_id as work_id_fk,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -651,7 +651,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		List<Deliverables> objsList = null;
 		try {
 			String qry ="select id,project_priority_fk,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type_fk,"
-					+ "deliverable_description, status_fk,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS finish_date,d.remarks"
+					+ "deliverable_description, status_fk,FORMAT(target_date,'%d-%m-%Y') AS target_date,FORMAT(start_date,'%d-%m-%Y') AS start_date,FORMAT(finish_date,'%d-%m-%Y') AS finish_date,d.remarks"
 					+ " from deliverables d " + 
 					"LEFT join work w on d.work_id_fk = w.work_id "
 					+"LEFT JOIN project p on w.project_id_fk = p.project_id  "
@@ -687,7 +687,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY id ASC limit ?,?";
+				qry = qry + " ORDER BY id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}	

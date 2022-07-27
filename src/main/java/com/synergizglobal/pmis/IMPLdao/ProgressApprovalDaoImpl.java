@@ -46,18 +46,18 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String qry = "select progress_id,progress_date,a.p6_activity_id as activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,"
-					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
-					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
+					+ "ap.completed_scope as actual_for_the_day,(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,"
+					+ "attachment_url,ap.remarks,FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 					+ "ap.created_by_user_id_fk,aph.dyhod_user_id_fk,u.user_name as updated_by,approved_or_rejected_by,"
-					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
+					+ "FORMAT(approved_on,'%d-%m-%Y') as approved_on,FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
 					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,p6_activity_name as activity_name,updated_scope "
 					+ "from p6_validation_dyhod aph "
 					+ "LEFT JOIN p6_validation ap ON aph.progress_id_fk = ap.progress_id "
-					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
+					+ "LEFT JOIN [user] u ON ap.created_by_user_id_fk = u.user_id "
 					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN user u1  ON u1.user_id = c.hod_user_id_fk "
+					+ "LEFT JOIN [user] u1  ON u1.user_id = c.hod_user_id_fk "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
 					+ "where progress_id is not null";
 			int arrSize = 0;			
@@ -98,15 +98,17 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			{
 				if(obj.getApproval_status_fk().equals("Approved"))
 				{
-					qry = qry + " order by date(approved_on) desc";
+					qry = qry + " order by DATENAME(dw, approved_on)+','+convert(varchar, approved_on, 106) desc";
+					 
 				}
 				else if(obj.getApproval_status_fk().equals("Rejected"))
 				{
-					qry = qry + " order by date(rejected_on) desc";
+					qry = qry + " order by DATENAME(dw, rejected_on)+','+convert(varchar, rejected_on, 106) desc";
 				}	
 				else if(obj.getApproval_status_fk().equals("Pending"))
 				{
-					qry = qry + " order by date(ap.created_date) desc";
+					qry = qry + " order by DATENAME(dw, ap.created_date)+','+convert(varchar, ap.created_date, 106) desc";
+
 				}					
 			}			
 			
@@ -475,7 +477,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
+					+ "LEFT JOIN [user] u ON ap.created_by_user_id_fk = u.user_id "
 					+ "where progress_id is not null";
 					
 			int arrSize = 0;			
@@ -509,7 +511,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			
-			qry = qry + " group by ap.created_by_user_id_fk order by ap.created_by_user_id_fk";
+			qry = qry + " group by ap.created_by_user_id_fk,user_name order by ap.created_by_user_id_fk";
 			
 			Object[] pValues = new Object[arrSize];			
 			
@@ -551,14 +553,14 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		//TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			
-			String qry = "select progress_id,progress_date,ap.p6_activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
-					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
-					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
+			String qry = "select progress_id,progress_date,ap.p6_activity_id_fk as activity_id,ISNULL(a.scope,0) as scope,ISNULL(a.completed,0) as completed,"
+					+ "ap.completed_scope as actual_for_the_day,(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,"
+					+ "attachment_url,ap.remarks,FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 					+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
-					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
+					+ "FORMAT(approved_on,'%d-%m-%Y') as approved_on,FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
 					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,p6_activity_name as activity_name,updated_scope "
 					+ "from p6_validation ap "
-					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
+					+ "LEFT JOIN [user] u ON ap.created_by_user_id_fk = u.user_id "
 					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
@@ -774,7 +776,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	{
 		String Completed="";
 		try {
-			String qry = "select IFNULL(Completed,0) as Completed from p6_activities where p6_activity_id = ?";
+			String qry = "select ISNULL(Completed,0) as Completed from p6_activities where p6_activity_id = ?";
 			Completed = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -825,14 +827,14 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			con = dataSource.getConnection();
 			List<Activity> approvableList = new ArrayList<Activity>();
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProgress_id())) {
-				String qry = "select progress_id,progress_date,ap.p6_activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
-						+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
-						+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
+				String qry = "select progress_id,progress_date,ap.p6_activity_id_fk as activity_id,ISNULL(a.scope,0) as scope,ISNULL(a.completed,0) as completed,"
+						+ "ap.completed_scope as actual_for_the_day,(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,"
+						+ "attachment_url,ap.remarks,FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 						+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
-						+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
+						+ "FORMAT(approved_on,'%d-%m-%Y') as approved_on,FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
 						+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,p6_activity_name as activity_name,updated_scope "
 						+ "from p6_validation ap "
-						+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
+						+ "LEFT JOIN [user] u ON ap.created_by_user_id_fk = u.user_id "
 						+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
 						+ "left join structure s on s.structure_id = a.structure_id_fk "
 						+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "

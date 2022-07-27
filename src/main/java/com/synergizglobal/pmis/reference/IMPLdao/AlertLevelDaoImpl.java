@@ -34,7 +34,7 @@ public class AlertLevelDaoImpl implements AlertLevelDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `alert_level` from alert_level ";
+			String qry ="select alert_level from alert_level ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -48,7 +48,7 @@ public class AlertLevelDaoImpl implements AlertLevelDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `alert_level`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as alert_level,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -59,7 +59,7 @@ public class AlertLevelDaoImpl implements AlertLevelDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `alert_level` from alert_level where `alert_level` NOT IN (?";
+					  String qry2 = "select alert_level from alert_level where alert_level NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -151,7 +151,7 @@ public class AlertLevelDaoImpl implements AlertLevelDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE alert_level SET `alert_level`= :value_new WHERE `alert_level`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE alert_level SET alert_level= :value_new WHERE alert_level= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -182,7 +182,7 @@ public class AlertLevelDaoImpl implements AlertLevelDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from alert_level WHERE `alert_level`= :alert_level; ";
+			String deleteQry ="DELETE from alert_level WHERE alert_level= :alert_level; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

@@ -74,7 +74,7 @@ public class UserRoleDaoImpl implements UserRoleDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `user_role_name`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as user_role_name,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -85,7 +85,7 @@ public class UserRoleDaoImpl implements UserRoleDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select user_role_name, user_role_code from user_role where `user_role_name` NOT IN (?";
+					  String qry2 = "select user_role_name, user_role_code from user_role where user_role_name NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -156,7 +156,7 @@ public class UserRoleDaoImpl implements UserRoleDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE user_role SET `user_role_name`= :value_new,user_role_code= :user_role_code_new WHERE `user_role_name`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE user_role SET user_role_name= :value_new,user_role_code= :user_role_code_new WHERE user_role_name= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -187,7 +187,7 @@ public class UserRoleDaoImpl implements UserRoleDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from user_role WHERE `user_role_name`= :user_role_name; ";
+			String deleteQry ="DELETE from user_role WHERE user_role_name= :user_role_name; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

@@ -294,7 +294,7 @@ public class P6DataDaoImpl implements P6DataDao {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			String updateActivitiesQry ="UPDATE p6_activity set p6_activity_name = ?,status_fk = ?,"
-					+ " `start` = ?,finish = ?,`float` =  ? where  p6_wbs_code_fk = ? and p6_task_code = ? ";
+					+ " start = ?,finish = ?,float =  ? where  p6_wbs_code_fk = ? and p6_task_code = ? ";
 			
 			stmt = con.prepareStatement(updateActivitiesQry);
 			for (P6Data obj : p6dataList) {
@@ -341,8 +341,8 @@ public class P6DataDaoImpl implements P6DataDao {
 	public List<P6Data> getActivityDataList(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="select contract_id_fk, fob_id_fk,upload_type, DATE_FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk,"
-					+ " p6_file_path, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_date,'%d-%m-%Y  %h:%i %p')  uploaded_date  "
+			String qry ="select contract_id_fk, fob_id_fk,upload_type, FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk,"
+					+ " p6_file_path, uploaded_by_user_id_fk, FORMAT(uploaded_date,'%d-%m-%Y  %h:%i %p')  uploaded_date  "
 					+ "from p6_activity_data "
 					+ "WHERE fob_id_fk is not null ";
 			int arrSize = 0;
@@ -362,7 +362,7 @@ public class P6DataDaoImpl implements P6DataDao {
 				qry = qry + "and soft_delete_status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY  DATE_FORMAT(uploaded_date,'%y-%m-%d %H : %i : %s') desc ";
+			qry = qry + " ORDER BY  FORMAT(uploaded_date,'%y-%m-%d %H : %i : %s') desc ";
 			Object[] pValues = new Object[arrSize]; 
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -468,7 +468,7 @@ public class P6DataDaoImpl implements P6DataDao {
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
-			String activitiesQry ="INSERT INTO p6_activity(p6_task_code,p6_wbs_code_fk,p6_activity_name,status_fk,baseline_start,baseline_finish,`start`,finish,`float`)"
+			String activitiesQry ="INSERT INTO p6_activity(p6_task_code,p6_wbs_code_fk,p6_activity_name,status_fk,baseline_start,baseline_finish,start,finish,float)"
 					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			
 			stmt = con.prepareStatement(activitiesQry);

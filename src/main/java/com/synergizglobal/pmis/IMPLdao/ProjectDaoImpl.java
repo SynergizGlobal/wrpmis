@@ -226,7 +226,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		ResultSet rs = null;
 		List<Project> filesObj = new ArrayList<Project>();
 		try{
-			String qry = "select id,file_name,project_id_fk,DATE_FORMAT(created_date,'%d-%m-%Y') AS created_date,created_by from project_gallery where project_id_fk = ?";
+			String qry = "select id,file_name,project_id_fk,FORMAT(created_date,'%d-%m-%Y') AS created_date,created_by from project_gallery where project_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1,project_id);
 			rs = stmt.executeQuery();  
@@ -595,7 +595,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				
 				/********************************************************************************/
 				
-				String qryUsers ="SELECT incharge_user_id_fk as user_id FROM `module` where module_name = 'Works' ";
+				String qryUsers ="SELECT incharge_user_id_fk as user_id FROM module where module_name = 'Works' ";
 				List<String> users = jdbcTemplate.queryForList( qryUsers, String.class);	
 				if(!StringUtils.isEmpty(users) && users.size() > 0) {
 					String userIds[]  = new String[users.size()];	
@@ -787,7 +787,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY project_id ASC limit ?,?";
+				qry = qry + " ORDER BY project_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}

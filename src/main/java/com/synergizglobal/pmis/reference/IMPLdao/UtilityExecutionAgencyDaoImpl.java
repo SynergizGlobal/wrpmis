@@ -87,7 +87,7 @@ public class UtilityExecutionAgencyDaoImpl implements UtilityExecutionAgencyDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE utility_execution_agency SET `execution_agency`= :value_new WHERE `execution_agency`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE utility_execution_agency SET execution_agency= :value_new WHERE execution_agency= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -118,7 +118,7 @@ public class UtilityExecutionAgencyDaoImpl implements UtilityExecutionAgencyDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from utility_execution_agency WHERE `execution_agency`= :execution_agency; ";
+			String deleteQry ="DELETE from utility_execution_agency WHERE execution_agency= :execution_agency; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -150,7 +150,7 @@ public class UtilityExecutionAgencyDaoImpl implements UtilityExecutionAgencyDao{
 				int i = 1;
 				for (Safety bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `execution_agency`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as execution_agency,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -161,7 +161,7 @@ public class UtilityExecutionAgencyDaoImpl implements UtilityExecutionAgencyDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select execution_agency from utility_execution_agency where `execution_agency` NOT IN (?";
+					  String qry2 = "select execution_agency from utility_execution_agency where execution_agency NOT IN (?";
 	
 						int j =0, p=1;
 						for (Safety aObj : obj.getdList()) {

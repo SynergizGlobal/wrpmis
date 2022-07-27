@@ -29,7 +29,7 @@ public class RRLocationDaoImpl implements RRLocationDao{
 		List<TrainingType> objsList1 = null;
 		//TrainingType sObj =null;
 		try {
-			String qry ="select `rr_location` from rr_location ";
+			String qry ="select rr_location from rr_location ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -43,7 +43,7 @@ public class RRLocationDaoImpl implements RRLocationDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `rr_location`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as rr_location,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -54,7 +54,7 @@ public class RRLocationDaoImpl implements RRLocationDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `rr_location` from rr_location where `rr_location` NOT IN (?";
+					  String qry2 = "select rr_location from rr_location where rr_location NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -137,7 +137,7 @@ public class RRLocationDaoImpl implements RRLocationDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from rr_location WHERE `rr_location`= :rr_location; ";
+			String deleteQry ="DELETE from rr_location WHERE rr_location= :rr_location; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -163,7 +163,7 @@ public class RRLocationDaoImpl implements RRLocationDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE rr_location SET `rr_location`= :value_new WHERE `rr_location`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE rr_location SET rr_location= :value_new WHERE rr_location= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			

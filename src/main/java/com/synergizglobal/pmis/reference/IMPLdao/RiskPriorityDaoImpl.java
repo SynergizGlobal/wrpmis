@@ -77,7 +77,7 @@ public class RiskPriorityDaoImpl  implements RiskPriorityDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `risk_priority`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as risk_priority,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -88,7 +88,7 @@ public class RiskPriorityDaoImpl  implements RiskPriorityDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select risk_priority from risk_priority where `risk_priority` NOT IN (?";
+					  String qry2 = "select risk_priority from risk_priority where risk_priority NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -171,7 +171,7 @@ public class RiskPriorityDaoImpl  implements RiskPriorityDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE risk_priority SET `risk_priority`= :value_new WHERE `risk_priority`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE risk_priority SET risk_priority= :value_new WHERE risk_priority= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -202,7 +202,7 @@ public class RiskPriorityDaoImpl  implements RiskPriorityDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from risk_priority WHERE `risk_priority`= :risk_priority; ";
+			String deleteQry ="DELETE from risk_priority WHERE risk_priority= :risk_priority; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

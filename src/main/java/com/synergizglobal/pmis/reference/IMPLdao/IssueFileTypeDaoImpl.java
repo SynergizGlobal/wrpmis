@@ -81,7 +81,7 @@ public class IssueFileTypeDaoImpl implements IssueFileTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from issue_file_type WHERE `issue_file_type`= :issue_file_type ";
+			String deleteQry ="DELETE from issue_file_type WHERE issue_file_type= :issue_file_type ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

@@ -26,10 +26,10 @@ public class UserLoginReportDaoImpl implements UserLoginReportDao{
 		List<User> objsList = null;
 		try {
 			String qry = "SELECT login_date_time,department_name,u2.designation as reporting_to_designation,u2.user_name as reporting_to_name, u.designation, u.user_name, count(*) as loginCount " + 
-					"FROM user_login_details left join user u on user_id_fk = u.user_id  " + 
-					"left join user u2 on u2.user_id = u.reporting_to_id_srfk " + 
+					"FROM user_login_details left join [user] u on user_id_fk = u.user_id  " + 
+					"left join [user] u2 on u2.user_id = u.reporting_to_id_srfk " + 
 					"left join department on u.department_fk = department " + 
-					"where u.department_fk IS NOT NULL and u.department_fk <> '' and user_id_fk like 'PMIS_%' and login_date_time >= DATE(NOW()) - INTERVAL 7 DAY " + 
+					"where u.department_fk IS NOT NULL and u.department_fk <> '' and user_id_fk like 'PMIS_%' and login_date_time >= DATE(GETDATE()) - INTERVAL 7 DAY " + 
 					"group by department_name " + 
 					"order by department_name, u2.designation, u.designation";
 			
@@ -52,10 +52,10 @@ public class UserLoginReportDaoImpl implements UserLoginReportDao{
 		List<User> objsList = null;
 		try {
 			String qry = "SELECT login_date_time,department_name,u2.designation as reporting_to_designation,u2.user_name as reporting_to_name, u.designation, u.user_name, count(*) as loginCount " + 
-					"FROM user_login_details left join user u on user_id_fk = u.user_id  " + 
-					"left join user u2 on u2.user_id = u.reporting_to_id_srfk " + 
+					"FROM user_login_details left join [user] u on user_id_fk = u.user_id  " + 
+					"left join [user] u2 on u2.user_id = u.reporting_to_id_srfk " + 
 					"left join department on u.department_fk = department " + 
-					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(NOW()) - INTERVAL 7 DAY and department_name = ? " + 
+					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(GETDATE()) - INTERVAL 7 DAY and department_name = ? " + 
 					"group by u2.designation " + 
 					"order by department_name, u2.designation, u.designation";
 			
@@ -72,10 +72,10 @@ public class UserLoginReportDaoImpl implements UserLoginReportDao{
 		List<User> objsList = null;
 		try {
 			String qry = "SELECT login_date_time,department_name,u2.designation as reporting_to_designation,u2.user_name as reporting_to_name, u.designation, u.user_name, count(*) as loginCount " + 
-					"FROM user_login_details left join user u on user_id_fk = u.user_id  " + 
-					"left join user u2 on u2.user_id = u.reporting_to_id_srfk " + 
+					"FROM user_login_details left join [user] u on user_id_fk = u.user_id  " + 
+					"left join [user] u2 on u2.user_id = u.reporting_to_id_srfk " + 
 					"left join department on u.department_fk = department " + 
-					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(NOW()) - INTERVAL 7 DAY and department_name = ? and u2.designation = ? " + 
+					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(GETDATE()) - INTERVAL 7 DAY and department_name = ? and u2.designation = ? " + 
 					"group by department_name, u2.designation, u.designation " + 
 					"order by department_name, u2.designation, u.designation";
 			

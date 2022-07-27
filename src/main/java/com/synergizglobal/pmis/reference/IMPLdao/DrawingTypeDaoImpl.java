@@ -62,7 +62,7 @@ public class DrawingTypeDaoImpl implements DrawingTypeDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `drawing_type` from drawing_type ";
+			String qry ="select drawing_type from drawing_type ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -76,7 +76,7 @@ public class DrawingTypeDaoImpl implements DrawingTypeDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `drawing_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as drawing_type,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -87,7 +87,7 @@ public class DrawingTypeDaoImpl implements DrawingTypeDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `drawing_type` from drawing_type where `drawing_type` NOT IN (?";
+					  String qry2 = "select drawing_type from drawing_type where drawing_type NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -166,7 +166,7 @@ public class DrawingTypeDaoImpl implements DrawingTypeDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE drawing_type SET `drawing_type`= :value_new WHERE `drawing_type`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE drawing_type SET drawing_type= :value_new WHERE drawing_type= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -197,7 +197,7 @@ public class DrawingTypeDaoImpl implements DrawingTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from drawing_type WHERE `drawing_type`= :drawing_type; ";
+			String deleteQry ="DELETE from drawing_type WHERE drawing_type= :drawing_type; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

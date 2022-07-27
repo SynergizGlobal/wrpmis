@@ -39,7 +39,7 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 			
 			String qry ="SELECT module_name,incharge_user_id_fk,user_name as incharge_user_name,soft_delete_status_fk "
 					+ "FROM module m "
-					+ "left join user u on incharge_user_id_fk = user_id "
+					+ "left join [user] u on incharge_user_id_fk = user_id "
 					+ "where module_name = ?";
 			
 			
@@ -55,9 +55,9 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 			mObj.setUrlTypes(urlTypesList);
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUrl_type())) {
 				String urls_qry ="SELECT f1.form_id,f1.module_name_fk,f1.form_name,f1.web_form_url as form_url,f1.priority,f1.soft_delete_status_fk, "
-						+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
-						+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
-						+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
+						+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
+						+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
+						+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
 						+ "FROM form f1 "
 						+ "where f1.web_form_url is not null ";
 				
@@ -224,7 +224,7 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 		try {
 			String qry ="SELECT module_name,incharge_user_id_fk,user_name as incharge_user_name,soft_delete_status_fk "
 					+ "FROM module m "
-					+ "left join user u on incharge_user_id_fk = user_id "
+					+ "left join [user] u on incharge_user_id_fk = user_id "
 					+ "WHERE module_name IS NOT NULL ";
 			
 			int arrSize = 0;
@@ -285,7 +285,7 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 	public List<ModulePermission> getUsers(ModulePermission obj) throws Exception {
 		List<ModulePermission> objsList = null;
 		try {
-			String qry = "select user_id as access_value_id,user_name as access_value_name from user";
+			String qry = "select user_id as access_value_id,user_name as access_value_name from [user]";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ModulePermission>(ModulePermission.class));			
 		}catch(Exception e){ 
@@ -394,7 +394,7 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 		try {
 			String qry = "SELECT module_name,incharge_user_id_fk,user_name as incharge_user_name,soft_delete_status_fk "
 					+ "FROM module m "
-					+ "left join user u on incharge_user_id_fk = user_id "
+					+ "left join [user] u on incharge_user_id_fk = user_id "
 					+ "WHERE module_name IS NOT NULL ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name())) {
@@ -429,7 +429,7 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 		try {
 			String qry ="SELECT module_name,incharge_user_id_fk,user_name as incharge_user_name,soft_delete_status_fk "
 					+ "FROM module m "
-					+ "left join user u on incharge_user_id_fk = user_id "
+					+ "left join [user] u on incharge_user_id_fk = user_id "
 					+ "WHERE soft_delete_status_fk IS NOT NULL ";
 			
 			int arrSize = 0;

@@ -45,7 +45,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 	public List<DesignReport> getHodListInDesignReport(DesignReport obj) throws Exception {
 		List<DesignReport> objsList = null;
 		try {
-			String qry = "select hod from design d left join user u on d.hod = u.designation where hod is not null  ";
+			String qry = "select hod from design d LEFT JOIN [user] u on d.hod = u.designation where hod is not null  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {

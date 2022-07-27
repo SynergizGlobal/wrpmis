@@ -29,7 +29,7 @@ public class ResourceTypeDaoImpl implements ResourceTypeDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `resource_type` from resource_type ";
+			String qry ="select resource_type from resource_type ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -43,7 +43,7 @@ public class ResourceTypeDaoImpl implements ResourceTypeDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `resource_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as resource_type,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -54,7 +54,7 @@ public class ResourceTypeDaoImpl implements ResourceTypeDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `resource_type` from resource_type where `resource_type` NOT IN (?";
+					  String qry2 = "select resource_type from resource_type where resource_type NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -153,7 +153,7 @@ public class ResourceTypeDaoImpl implements ResourceTypeDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE resource_type SET `resource_type`= :value_new WHERE `resource_type`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE resource_type SET resource_type= :value_new WHERE resource_type= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -184,7 +184,7 @@ public class ResourceTypeDaoImpl implements ResourceTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from resource_type WHERE `resource_type`= :resource_type; ";
+			String deleteQry ="DELETE from resource_type WHERE resource_type= :resource_type; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

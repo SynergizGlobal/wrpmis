@@ -28,7 +28,7 @@ public class RRTypeOfUseDaoImpl implements RRTypeOfUseDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `rr_type_of_use` from rr_type_of_use ";
+			String qry ="select rr_type_of_use from rr_type_of_use ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -42,7 +42,7 @@ public class RRTypeOfUseDaoImpl implements RRTypeOfUseDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `rr_type_of_use`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as rr_type_of_use,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -53,7 +53,7 @@ public class RRTypeOfUseDaoImpl implements RRTypeOfUseDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `rr_type_of_use` from rr_type_of_use where `rr_type_of_use` NOT IN (?";
+					  String qry2 = "select rr_type_of_use from rr_type_of_use where rr_type_of_use NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -143,7 +143,7 @@ public class RRTypeOfUseDaoImpl implements RRTypeOfUseDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE rr_type_of_use SET `rr_type_of_use`= :value_new WHERE `rr_type_of_use`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE rr_type_of_use SET rr_type_of_use= :value_new WHERE rr_type_of_use= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -174,7 +174,7 @@ public class RRTypeOfUseDaoImpl implements RRTypeOfUseDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from rr_type_of_use WHERE `rr_type_of_use`= :rr_type_of_use; ";
+			String deleteQry ="DELETE from rr_type_of_use WHERE rr_type_of_use= :rr_type_of_use; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

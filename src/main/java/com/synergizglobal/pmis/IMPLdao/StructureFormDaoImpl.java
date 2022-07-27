@@ -245,7 +245,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 				arrSize++;
 				arrSize++;
 			}	
-			qry = qry + " group by  IFNULL(cp.contract_id_fk,structure_id), structure_id) as total_records ";
+			qry = qry + " group by  ISNULL(cp.contract_id_fk,structure_id), structure_id) as total_records ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -330,7 +330,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + "group by  IFNULL(cp.contract_id_fk,structure_id), structure_id  ORDER BY structure_id ASC limit ?,?";
+				qry = qry + "group by  ISNULL(cp.contract_id_fk,structure_id), structure_id  ORDER BY structure_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -404,9 +404,9 @@ public class StructureFormDaoImpl implements StructureFormDao{
 		Structure structure = null;
 		try {
 			String qry = "select structure_id, s.work_id_fk, structure_type_fk, structure,w.work_name,p.project_name,w.work_short_name,w.project_id_fk, "
-					+ "s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude,  DATE_FORMAT(s.target_date,'%d-%m-%Y') AS target_date, "
-					+ "s.estimated_cost,s.completion_cost,s.completion_cost_units,DATE_FORMAT(s.commissioning_date,'%d-%m-%Y') AS commissioning_date,DATE_FORMAT(s.actual_completion_date,'%d-%m-%Y') AS actual_completion_date, s.estimated_cost_units,"
-					+ " DATE_FORMAT(s.construction_start_date,'%d-%m-%Y') AS construction_start_date, DATE_FORMAT(s.revised_completion,'%d-%m-%Y') AS revised_completion, s.remarks "
+					+ "s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude,  FORMAT(s.target_date,'%d-%m-%Y') AS target_date, "
+					+ "s.estimated_cost,s.completion_cost,s.completion_cost_units,FORMAT(s.commissioning_date,'%d-%m-%Y') AS commissioning_date,FORMAT(s.actual_completion_date,'%d-%m-%Y') AS actual_completion_date, s.estimated_cost_units,"
+					+ " FORMAT(s.construction_start_date,'%d-%m-%Y') AS construction_start_date, FORMAT(s.revised_completion,'%d-%m-%Y') AS revised_completion, s.remarks "
 					+ "from structure s " + 
 					"left join work w on s.work_id_fk = w.work_id " +
 					"left join project p on w.project_id_fk = p.project_id where s.status <> 'Inactive' and structure_id is not null " ; 
@@ -427,7 +427,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					List<Structure> executivesList = jdbcTemplate.query( executivesQry,new Object[] {structure.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 					structure.setExecutivesList(executivesList);
 					for(Structure peopleList : structure.getExecutivesList()) {
-						String peopleQry ="select id, structure_id_fk, contract_id_fk,designation,user_name, responsible_people_id_fk from structure_contract_responsible_people sp left join user u on u.user_id=sp.responsible_people_id_fk where contract_id_fk = ? and  structure_id_fk = ? ";
+						String peopleQry ="select id, structure_id_fk, contract_id_fk,designation,user_name, responsible_people_id_fk from structure_contract_responsible_people sp LEFT JOIN [user] u on u.user_id=sp.responsible_people_id_fk where contract_id_fk = ? and  structure_id_fk = ? ";
 						List<Structure> peopleLists = jdbcTemplate.query( peopleQry,new Object[] {peopleList.getContract_id_fk(),peopleList.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 						peopleList.setResponsiblePeopleLists(peopleLists);
 					}

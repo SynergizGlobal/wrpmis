@@ -37,7 +37,9 @@ import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.FortnightPlanService;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FortnightPlan;
@@ -85,6 +87,24 @@ public class FortnightPlanController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/add-fortnightly-plan", method = {RequestMethod.GET})
+	public ModelAndView addBudgetForm(@ModelAttribute Budget obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants2.addFortnightlyPlan);
+			model.addObject("action", "add");
+			List<FortnightPlan> FortnightPlanWorkList = FortnightPlanService.getFortnightPlanWorkList();
+			model.addObject("FortnightPlanWorkList", FortnightPlanWorkList);
+			
+			List<FortnightPlan> FortnightPlanCategoryList = FortnightPlanService.getFortnightPlanCategoryList();
+			model.addObject("FortnightPlanCategoryList", FortnightPlanCategoryList);
+			
+		}catch (Exception e) {
+				logger.error("addFortnightlyPlan : " + e.getMessage());
+		}
+		return model;
+	}	
 	 
 	@RequestMapping(value = "/ajax/getWorksListFilterInFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -118,6 +138,19 @@ public class FortnightPlanController {
 		List<FortnightPlan> fortnight = null;
 		try {
 			fortnight = FortnightPlanService.getContractListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListFilter : " + e.getMessage());
+		}
+		return fortnight;
+	}	
+	
+	@RequestMapping(value = "/ajax/getCategoryListFilterInFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FortnightPlan> getCategoryListFilterInFortnight(@ModelAttribute FortnightPlan obj) {
+		List<FortnightPlan> fortnight = null;
+		try {
+			fortnight = FortnightPlanService.getFortnightPlanCategoryList();
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getWorksListFilter : " + e.getMessage());
@@ -232,8 +265,20 @@ public class FortnightPlanController {
 			
 			List<FortnightPlan> FortnightPlanPeriodList = FortnightPlanService.getFortnightPlanPeriodList();
 			model.addObject("FortnightPlanPeriodList", FortnightPlanPeriodList);
+
 			
+			String Str="c-";
+			
+			if(FortnightPlan_id.indexOf(Str)!=-1)
+			{
+			}
+			else
+			{
+				obj.setContract_short_name("Yes");
+			}
+			FortnightPlan_id=FortnightPlan_id.replace("c-", "");
 			obj.setFortnightly_plan_id(FortnightPlan_id);
+			
 			List<FortnightPlan> FortnightPlan = FortnightPlanService.getFortnightPlan(obj);
 			model.addObject("FortnightPlan", FortnightPlan);
 		} catch (Exception e) {
@@ -242,7 +287,29 @@ public class FortnightPlanController {
 		}
 		return model;
 	}
-	
+	@RequestMapping(value="/update-fortnight-plan",method=RequestMethod.POST)
+	public ModelAndView updateFortnightlyPlan(@ModelAttribute FortnightPlan obj,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName("redirect:/FortnightPlan");
+
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+
+			
+			boolean flag = FortnightPlanService.updateFortnightlyPlan(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "FortnightPlan updated successfully");
+			}else {
+				attributes.addFlashAttribute("error", "Updating FortnightPlan is failed. Try again.");
+			}
+		} catch (Exception e) {
+			attributes.addFlashAttribute("error", commonError);
+			logger.error("updateFortnightPlan : " + e.getMessage());
+		}
+		return model;
+	}		
 	@RequestMapping(value="/update-FortnightPlan",method=RequestMethod.POST)
 	public ModelAndView updateFortnightPlan(@ModelAttribute FortnightPlan obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();

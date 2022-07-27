@@ -35,9 +35,9 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 		try {
 			String qry ="SELECT f1.form_id,f1.module_name_fk,f1.form_name,f1.parent_form_id_sr_fk,f1.web_form_url,f1.mobile_form_url,f1.priority,f1.soft_delete_status_fk,"
 					+ "f2.form_name as folder_name,f1.display_in_mobile, "
-					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
-					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
-					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
+					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
+					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
+					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
 					+ "FROM form f1 "
 					+ "LEFT OUTER JOIN form f2 on f1.parent_form_id_sr_fk = f2.form_id "
 					+ "where f1.parent_form_id_sr_fk is not null ";
@@ -187,9 +187,9 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 		try {
 			String qry ="SELECT f1.form_id,f1.module_name_fk,f1.form_name,f1.parent_form_id_sr_fk,f1.web_form_url,f1.mobile_form_url,f1.priority,f1.soft_delete_status_fk,"
 					+ "f2.form_name as folder_name,f1.display_in_mobile,f1.url_type, "
-					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
-					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
-					+ "(select group_concat(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
+					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
+					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
+					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
 					+ "FROM form f1 " 
 					+ "LEFT OUTER JOIN form f2 on f1.parent_form_id_sr_fk = f2.form_id "
 					+ "where f1.form_id = ?" ;
@@ -250,7 +250,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 	public List<Report> getUsersInReportAccess(Report obj) throws Exception {
 		List<Report> objsList = null;
 		try {
-			String qry = "select user_id as access_value_id,user_name as access_value_name from user";
+			String qry = "select user_id as access_value_id,user_name as access_value_name from [user]";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Report>(Report.class));			
 		}catch(Exception e){ 

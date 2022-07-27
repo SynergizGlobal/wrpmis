@@ -42,7 +42,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		try {
 			String qry ="select hod_user_id_fk,user_id,user_name,designation "
 					+ "from contract c "
-					+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+					+ "left join [user] u ON hod_user_id_fk = user_id "
 					+ "where hod_user_id_fk IS NOT NULL and user_type_fk='HOD' and hod_user_id_fk <> ''";
 
 			int arrSize = 0;
@@ -118,7 +118,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			String qry ="select work_id_fk,work_id,work_name,work_short_name "
 					+ "from contract c "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
-					+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+					+ "left join [user] u ON hod_user_id_fk = user_id "
 					+ "where c.work_id_fk IS NOT NULL and c.work_id_fk <> ''";
 
 			int arrSize = 0;
@@ -192,7 +192,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			String qry ="select contractor_id_fk,contractor_id,contractor_name "
 					+ "from contract c "
 					+ "LEFT JOIN contractor ctr ON contractor_id_fk = contractor_id "
-					+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+					+ "left join [user] u ON hod_user_id_fk = user_id "
 					+ "where contractor_id_fk IS NOT NULL and contractor_id_fk <> ''";
 
 			int arrSize = 0;			
@@ -267,7 +267,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			String qry ="select distinct contract_status_fk "
 					+ "from contract c "
 					+ "LEFT JOIN contractor ctr ON contractor_id_fk = contractor_id "
-					+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+					+ "left join [user] u ON hod_user_id_fk = user_id "
 					+ "where contract_status_fk IS NOT NULL and contract_status_fk <> ''";
 
 			int arrSize = 0;			
@@ -360,7 +360,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			String qry ="select contract_status_fk "
 					+ "from contract c "
 					+ "LEFT JOIN contractor ctr ON contractor_id_fk = contractor_id "
-					+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+					+ "left join [user] u ON hod_user_id_fk = user_id "
 					+ "where contract_status_fk IS NOT NULL and contract_status_fk <> ''";
 
 			int arrSize = 0;			
@@ -441,7 +441,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		try {
 			String qry ="select contract_id,contract_name,contract_short_name "
 					+ "from contract c "
-					+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+					+ "left join [user] u ON hod_user_id_fk = user_id "
 					+ "where contract_id IS NOT NULL and contract_id <> ''";
 
 			int arrSize = 0;
@@ -522,8 +522,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					+ "left join work w on c.work_id_fk = w.work_id "  
 					+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "  
 					+ "left join project p on w.project_id_fk = p.project_id "  
-					+ "left join user u on c.hod_user_id_fk = u.user_id "
-					+ "left join user us on c.dy_hod_user_id_fk = us.user_id "
+					+ "left join [user] u on c.hod_user_id_fk = u.user_id "
+					+ "left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 					+ "left join department dt on u.department_fk = dt.department "
 					+ "where c.contract_id is not null ";
 			
@@ -601,7 +601,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				obj.setHod_designation(hodObj.getHod_designation());
 				
 				String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,"  
-						+"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%y') AS doc,doc as doc_date,TRUNCATE(cast((IFNULL(awarded_cost,0)*IFNULL(awarded_cost_units,0)/10000000) as CHAR),2) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%y') AS actual_completion_date,"
+						+"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%y') AS doc,doc as doc_date,TRUNCATE(cast((ISNULL(awarded_cost,0)*ISNULL(awarded_cost_units,0)/10000000) as CHAR),2) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%y') AS actual_completion_date,"
 						+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 						+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required, "
 						/*+ "(select revision_number from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revision_number," 
@@ -612,22 +612,22 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select remarks from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revision_remarks " */
 						+ "(select revision_number from contract_revision where revision_number is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revision_number," 
 						/*						+ "(select revision_date from contract_revision where revision_date is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revision_date," 
-						*/						+ "(select cast((IFNULL(revised_amount,0)/10000000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and revision_amounts_status = 'Yes' and contract_id_fk = c.contract_id) as  revised_amount,"
+						*/						+ "(select cast((ISNULL(revised_amount,0)/10000000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and revision_amounts_status = 'Yes' and contract_id_fk = c.contract_id) as  revised_amount,"
 						+ "(select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revised_doc," 
 						+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revised_doc_temp," 
 						+ "(select remarks from contract_revision where action = 'Yes' and contract_id_fk = c.contract_id limit 1) as revision_remarks,"
 						
-						+ "(select cast((IFNULL(SUM(gross_work_done),0)/10000000) as CHAR) AS gross_work_done from expenditure where contract_id_fk = c.contract_id) as cumulative_expenditure, "
-						+ "(select GROUP_CONCAT(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') SEPARATOR '\n<space>' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes')) as insurance_valid_till, "
-						+ "(select GROUP_CONCAT(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') SEPARATOR '\n<space>' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null) as pbg_valid_till, "
-						+ "(SELECT TRUNCATE(sum(contract_per)*100,1) FROM activities_scurve where contract_id = c.contract_id and category COLLATE utf8mb4_unicode_ci= 'Actual' COLLATE utf8mb4_unicode_ci) as PhysicalProgress,"
+						+ "(select cast((ISNULL(SUM(gross_work_done),0)/10000000) as CHAR) AS gross_work_done from expenditure where contract_id_fk = c.contract_id) as cumulative_expenditure, "
+						+ "(select STRING_AGG(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') SEPARATOR '\n<space>' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes')) as insurance_valid_till, "
+						+ "(select STRING_AGG(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') SEPARATOR '\n<space>' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null) as pbg_valid_till, "
+						+ "(SELECT TRUNCATE(sum(contract_per)*100,1) FROM activities_scurve where contract_id = c.contract_id and category = 'Actual' ) as PhysicalProgress,"
 						+ "DATE_FORMAT(c.target_doc,'%d-%b-%y') AS target_doc,status  "
 						+ " from contract c "  
 						+ "left join work w on c.work_id_fk = w.work_id "  
 						+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "  
 						+ "left join project p on w.project_id_fk = p.project_id "  
-						+ "left join user u on c.hod_user_id_fk = u.user_id "
-						+ "left join user us on c.dy_hod_user_id_fk = us.user_id "
+						+ "left join [user] u on c.hod_user_id_fk = u.user_id "
+						+ "left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 						+ "left join department dt on c.department_fk = dt.department "
 						+ "where contract_id is not null and status is not null ";
 				
@@ -746,11 +746,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			String hodQry ="select u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name " + 
 					"from bank_guarantee bg " +
 					"left join contract c on bg.contract_id_fk = c.contract_id " +
-					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join work w on c.work_id_fk = w.work_id  " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					"left join [user] u on c.hod_user_id_fk = u.user_id "+
+					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 					+"left join department dt on c.department_fk = dt.department "
 					+"where contract_id is not null and bg.release_date is null ";
 			
@@ -822,7 +822,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
-				String qry ="select DISTINCT contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT bg_number order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_number,GROUP_CONCAT(DISTINCT bg_value order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_value,GROUP_CONCAT(bg_valid_upto order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from(select distinct bank_guarantee_id,bg.contract_id_fk,bg_type_fk,issuing_bank,bg_number,TRUNCATE(cast((IFNULL(bg_value,0)*IFNULL(bg_value_units,0)/100000) as CHAR),2) as bg_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS bg_valid_upto,DATE_FORMAT(bg_date,'%d-%b-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%b-%Y') AS release_date,"
+				String qry ="select DISTINCT contract_short_name,contractor_name,STRING_AGG(DISTINCT bg_number order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_number,STRING_AGG(DISTINCT bg_value order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_value,STRING_AGG(bg_valid_upto order by bank_guarantee_id,bg_valid_upto desc SEPARATOR '\n<space>' ) as bg_valid_upto,STRING_AGG(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from(select distinct bank_guarantee_id,bg.contract_id_fk,bg_type_fk,issuing_bank,bg_number,TRUNCATE(cast((ISNULL(bg_value,0)*ISNULL(bg_value_units,0)/100000) as CHAR),2) as bg_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS bg_valid_upto,DATE_FORMAT(bg_date,'%d-%b-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%b-%Y') AS release_date,"
 						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
 						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
 						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
@@ -838,11 +838,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						
 						"from bank_guarantee bg " +
 						"left join contract c on bg.contract_id_fk = c.contract_id " +
-						"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+						"left join work w on c.work_id_fk = w.work_id  " + 
 						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 						"left join project p on w.project_id_fk = p.project_id " + 
-						"left join user u on c.hod_user_id_fk = u.user_id "+
-						"left join user us on c.dy_hod_user_id_fk = us.user_id "
+						"left join [user] u on c.hod_user_id_fk = u.user_id "+
+						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 						+"left join department dt on c.department_fk = dt.department "
 						+"where contract_id is not null and bg.release_date is null ";
 				
@@ -921,11 +921,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					+"from contract c " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id " +
 					"left join insurance i on i.contract_id_fk = c.contract_id " +
-					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join work w on c.work_id_fk = w.work_id  " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					"left join [user] u on c.hod_user_id_fk = u.user_id "+
+					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 					+"left join department dt on c.department_fk = dt.department "
 					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 			
@@ -1033,19 +1033,19 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {		
 				
-				var conCatBGQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null )";
+				var conCatBGQry="(select STRING_AGG(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null )";
 				
-				var conCatQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes') )";
+				var conCatQry="(select STRING_AGG(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes') )";
 				
 				var conCatDocQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end ";
 				
 
-				String qry ="select contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT doc SEPARATOR '\n' ) as doc,GROUP_CONCAT(DISTINCT bg_valid_upto SEPARATOR '\n' ) as bg_valid_upto,GROUP_CONCAT(DISTINCT insurance_valid_upto SEPARATOR '\n' ) as insurance_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "+conCatQry+" AS insurance_valid_upto,"
+				String qry ="select contract_short_name,contractor_name,STRING_AGG(DISTINCT doc SEPARATOR '\n' ) as doc,STRING_AGG(DISTINCT bg_valid_upto SEPARATOR '\n' ) as bg_valid_upto,STRING_AGG(DISTINCT insurance_valid_upto SEPARATOR '\n' ) as insurance_valid_upto,STRING_AGG(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "+conCatQry+" AS insurance_valid_upto,"
 						+ "c.contract_short_name,cr.contractor_name," + 
 						conCatDocQry+" AS doc,"
 						+conCatBGQry+" AS bg_valid_upto, "
 						
-						+"GROUP_CONCAT(distinct CONCAT(replace(replace((coalesce((select CONCAT('DOC-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
+						+"STRING_AGG(distinct CONCAT(replace(replace((coalesce((select CONCAT('DOC-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
 
 					+ "(case when (cr1.action = 'Yes' and cr1.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr1.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end )),'')),'DOC-NO Data',''),'DOC-.',''),"+			
@@ -1075,11 +1075,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id " +
 						"left join insurance i on i.contract_id_fk = c.contract_id " +
 						"LEFT JOIN contract_revision cr1 on cr1.contract_id_fk = c.contract_id and cr1.action = 'Yes' and cr1.revised_doc is not null "+
-						"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+						"left join work w on c.work_id_fk = w.work_id  " + 
 						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 						"left join project p on w.project_id_fk = p.project_id " + 
-						"left join user u on c.hod_user_id_fk = u.user_id "+
-						"left join user us on c.dy_hod_user_id_fk = us.user_id "
+						"left join [user] u on c.hod_user_id_fk = u.user_id "+
+						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 						+"left join department dt on c.department_fk = dt.department "
 						+"where contract_id is not null ";
 				
@@ -1190,11 +1190,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					+"from contract c " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id " +
 					"left join insurance i on i.contract_id_fk = c.contract_id " +
-					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join work w on c.work_id_fk = w.work_id  " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					"left join [user] u on c.hod_user_id_fk = u.user_id "+
+					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 					+"left join department dt on c.department_fk = dt.department "
 					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) and c.contract_status_fk in ('In Progress') ";
 			
@@ -1302,19 +1302,19 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {		
 				
-				var conCatBGQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null )";
+				var conCatBGQry="(select STRING_AGG(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null )";
 				
-				var conCatQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes') )";
+				var conCatQry="(select STRING_AGG(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes') )";
 				
 				var conCatDocQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end ";
 				
 
-				String qry ="select contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT doc SEPARATOR '\n' ) as doc,GROUP_CONCAT(DISTINCT bg_valid_upto SEPARATOR '\n' ) as bg_valid_upto,GROUP_CONCAT(DISTINCT insurance_valid_upto SEPARATOR '\n' ) as insurance_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "+conCatQry+" AS insurance_valid_upto,"
+				String qry ="select contract_short_name,contractor_name,STRING_AGG(DISTINCT doc SEPARATOR '\n' ) as doc,STRING_AGG(DISTINCT bg_valid_upto SEPARATOR '\n' ) as bg_valid_upto,STRING_AGG(DISTINCT insurance_valid_upto SEPARATOR '\n' ) as insurance_valid_upto,STRING_AGG(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "+conCatQry+" AS insurance_valid_upto,"
 						+ "c.contract_short_name,cr.contractor_name," + 
 						conCatDocQry+" AS doc,"
 						+conCatBGQry+" AS bg_valid_upto, "
 						
-						+"GROUP_CONCAT(distinct CONCAT(replace(replace((coalesce((select CONCAT('DOC-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
+						+"STRING_AGG(distinct CONCAT(replace(replace((coalesce((select CONCAT('DOC-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
 
 					+ "(case when (cr1.action = 'Yes' and cr1.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr1.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end )),'')),'DOC-NO Data',''),'DOC-.',''),"+			
@@ -1344,11 +1344,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id " +
 						"left join insurance i on i.contract_id_fk = c.contract_id " +
 						"LEFT JOIN contract_revision cr1 on cr1.contract_id_fk = c.contract_id and cr1.action = 'Yes' and cr1.revised_doc is not null "+
-						"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+						"left join work w on c.work_id_fk = w.work_id  " + 
 						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 						"left join project p on w.project_id_fk = p.project_id " + 
-						"left join user u on c.hod_user_id_fk = u.user_id "+
-						"left join user us on c.dy_hod_user_id_fk = us.user_id "
+						"left join [user] u on c.hod_user_id_fk = u.user_id "+
+						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 						+"left join department dt on c.department_fk = dt.department "
 						+"where contract_id is not null and c.contract_status_fk in ('In Progress') ";
 				
@@ -1459,11 +1459,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			String hodQry ="select u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name "
 					+"from insurance i " + 
 					"left join contract c on i.contract_id_fk = c.contract_id " +
-					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join work w on c.work_id_fk = w.work_id  " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					"left join [user] u on c.hod_user_id_fk = u.user_id "+
+					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 					+"left join department dt on c.department_fk = dt.department "
 					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 			
@@ -1545,7 +1545,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				}
 								
 				
-				String qry ="select contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT loa_date SEPARATOR '\n' ) as loa_date,GROUP_CONCAT(DISTINCT doc SEPARATOR '\n' ) as doc,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "
+				String qry ="select contract_short_name,contractor_name,STRING_AGG(DISTINCT loa_date SEPARATOR '\n' ) as loa_date,STRING_AGG(DISTINCT doc SEPARATOR '\n' ) as doc,STRING_AGG(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "
 						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
 						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,"
 						+conCatQry+ " AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,"
@@ -1558,11 +1558,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						
 						+"from contract c " + 
 						"LEFT JOIN contract_revision cr1 on cr1.contract_id_fk = c.contract_id and cr1.action = 'Yes' and cr1.revised_doc is not null "+
-						"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+						"left join work w on c.work_id_fk = w.work_id  " + 
 						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 						"left join project p on w.project_id_fk = p.project_id " + 
-						"left join user u on c.hod_user_id_fk = u.user_id "+
-						"left join user us on c.dy_hod_user_id_fk = us.user_id "
+						"left join [user] u on c.hod_user_id_fk = u.user_id "+
+						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 						+"left join department dt on c.department_fk = dt.department "
 						+"where contract_id is not null ";	
 				
@@ -1641,11 +1641,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			String hodQry ="select u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name "
 					+"from insurance i " + 
 					"left join contract c on i.contract_id_fk = c.contract_id " +
-					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join work w on c.work_id_fk = w.work_id  " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					"left join [user] u on c.hod_user_id_fk = u.user_id "+
+					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 					+"left join department dt on c.department_fk = dt.department "
 					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 			
@@ -1718,7 +1718,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
-				String qry ="select contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT insurance_number order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_number,GROUP_CONCAT(DISTINCT insurance_value order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_value,GROUP_CONCAT(insurance_valid_upto order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from(select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,TRUNCATE(cast((IFNULL(insurance_value,0)*IFNULL(insurance_value_units,0)/100000) as CHAR),2) as insurance_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS insurance_valid_upto,released_fk,"
+				String qry ="select contract_short_name,contractor_name,STRING_AGG(DISTINCT insurance_number order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_number,STRING_AGG(DISTINCT insurance_value order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_value,STRING_AGG(insurance_valid_upto order by insurance_id,insurance_valid_upto desc SEPARATOR '\n<space>' ) as insurance_valid_upto,STRING_AGG(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from(select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,TRUNCATE(cast((ISNULL(insurance_value,0)*ISNULL(insurance_value_units,0)/100000) as CHAR),2) as insurance_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS insurance_valid_upto,released_fk,"
 						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
 						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,"
 						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%b-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
@@ -1734,11 +1734,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						
 						+"from insurance i " + 
 						"left join contract c on i.contract_id_fk = c.contract_id " +
-						"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+						"left join work w on c.work_id_fk = w.work_id  " + 
 						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 						"left join project p on w.project_id_fk = p.project_id " + 
-						"left join user u on c.hod_user_id_fk = u.user_id "+
-						"left join user us on c.dy_hod_user_id_fk = us.user_id "
+						"left join [user] u on c.hod_user_id_fk = u.user_id "+
+						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 						+"left join department dt on c.department_fk = dt.department "
 						+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 				
@@ -1821,11 +1821,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,c.status,bg_required,insurance_required,department_name,"
 									+ "u.designation as hod_designation,us.designation as dy_hod_designation,revision_requried,milestone_requried " + 
 									"from contract c " + 
-									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+									"left join work w on c.work_id_fk = w.work_id  " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 									"left join project p on w.project_id_fk = p.project_id " + 
-									"left join user u on c.hod_user_id_fk = u.user_id "+
-									"left join user us on c.dy_hod_user_id_fk = us.user_id "
+									"left join [user] u on c.hod_user_id_fk = u.user_id "+
+									"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 									+"left join department dt on u.department_fk = dt.department "
 									+ "where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
@@ -1927,10 +1927,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String qry ="select contract_status_fk,"
-					+ "(select cast(IFNULL(sum(gross_work_done * gross_work_done_units),0) as CHAR) from expenditure where contract_id_fk = c.contract_id) as payment_made, "
-					+ "(select cast(IFNULL(revised_amount,0) as CHAR) from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as revised_amount,"
+					+ "(select cast(ISNULL(sum(gross_work_done * gross_work_done_units),0) as CHAR) from expenditure where contract_id_fk = c.contract_id) as payment_made, "
+					+ "(select cast(ISNULL(revised_amount,0) as CHAR) from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as revised_amount,"
 					+ "cast(awarded_cost as CHAR) as awarded_cost,"
-					+ "(SELECT TRUNCATE(sum(contract_per)*100,2) FROM activities_scurve where contract_id = c.contract_id and category COLLATE utf8mb4_unicode_ci = 'Actual') as actual_physical_progress,"
+					+ "(SELECT TRUNCATE(sum(contract_per)*100,2) FROM activities_scurve where contract_id = c.contract_id and category  = 'Actual') as actual_physical_progress,"
 					+ "DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc "
 					+ "from contract c "
 					+ "where c.contract_id = ?";
@@ -2108,11 +2108,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast((completed_cost * completed_cost_units) as CHAR) as completed_cost,"
 									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required " + 
 									"from contract c " + 
-									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+									"left join work w on c.work_id_fk = w.work_id  " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 									"left join project p on w.project_id_fk = p.project_id " + 
-									"left join user u on c.hod_user_id_fk = u.user_id "+
-									"left join user us on c.dy_hod_user_id_fk = us.user_id "
+									"left join [user] u on c.hod_user_id_fk = u.user_id "+
+									"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
 									+"left join department dt on u.department_fk = dt.department "
 									+ "where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
@@ -2224,11 +2224,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		try {
 			String qry = "";
 			if(!StringUtils.isEmpty(management) && management.equals("CMD&DF")) {
-				qry = "select group_concat(email_id) from user where designation in('CMD','DIR Finance') and EMAIL_ID is not null";
+				qry = "select STRING_AGG(email_id) FROM [user] where designation in('CMD','DIR Finance') and EMAIL_ID is not null";
 			}else if(!StringUtils.isEmpty(management) && management.equals("DP&CE")) {
-				qry = "select group_concat(email_id) from user where designation in('CE','DIR Project') and EMAIL_ID is not null";
+				qry = "select STRING_AGG(email_id) FROM [user] where designation in('CE','DIR Project') and EMAIL_ID is not null";
 			}else if(!StringUtils.isEmpty(management) && management.equals("DT")) {
-				qry = "select group_concat(email_id) from user where designation in('DIR Technical') and EMAIL_ID is not null";
+				qry = "select STRING_AGG(email_id) FROM [user] where designation in('DIR Technical') and EMAIL_ID is not null";
 			}
 			if(!StringUtils.isEmpty(qry)) {
 				email_ids = jdbcTemplate.queryForObject( qry, String.class);	
@@ -2244,7 +2244,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		List<Contract> objsList = null;
 		try {
 			String qry ="select status from contract c "
-					+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+					+ "left join [user] u ON hod_user_id_fk = user_id "
 					+ "where status IS NOT NULL and status <> ''";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())){

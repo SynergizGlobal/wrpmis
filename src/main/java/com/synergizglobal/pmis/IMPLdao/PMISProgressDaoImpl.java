@@ -36,9 +36,9 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 	public List<StripChart> getMileStoneFilterList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select id,milestone_fk,cm.milestone_name,activity_description,DATE_FORMAT(planned_start_date,'%d-%m-%Y') as planned_start "  
-					+",DATE_FORMAT(planned_finish_date,'%d-%m-%Y') as planned_finish,DATE_FORMAT(actual_start_date,'%d-%m-%Y') as actual_start,DATE_FORMAT(actual_finish_date,'%d-%m-%Y') as actual_finish,"
-					+ "IFNULL(NULLIF(total_scope, '' ), 0) as total_scope,IFNULL(NULLIF(completed, '' ), 0) as completed from pmis_strip_chart psc "
+			String qry = "select id,milestone_fk,cm.milestone_name,activity_description,FORMAT(planned_start_date,'%d-%m-%Y') as planned_start "  
+					+",FORMAT(planned_finish_date,'%d-%m-%Y') as planned_finish,FORMAT(actual_start_date,'%d-%m-%Y') as actual_start,FORMAT(actual_finish_date,'%d-%m-%Y') as actual_finish,"
+					+ "ISNULL(NULLIF(total_scope, '' ), 0) as total_scope,ISNULL(NULLIF(completed, '' ), 0) as completed from pmis_strip_chart psc "
 					+ "LEFT JOIN contract_milestones cm on milestone_fk = contract_milestones_id "
 					+ "LEFT JOIN contract c  on psc.contract_id_fk = c.contract_id  "  
 					+"LEFT JOIN work w  on c.work_id_fk = w.work_id  "  
@@ -142,7 +142,7 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
-			String updateQry = "UPDATE  pmis_strip_chart set completed = IFNULL(NULLIF(completed, '' ), 0) + ?,actual_start_date = ?,actual_finish_date = ?   where id = ?";	
+			String updateQry = "UPDATE  pmis_strip_chart set completed = ISNULL(NULLIF(completed, '' ), 0) + ?,actual_start_date = ?,actual_finish_date = ?   where id = ?";	
 			stmt = con.prepareStatement(updateQry);
 			int	arraySize = 0;
 			if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {

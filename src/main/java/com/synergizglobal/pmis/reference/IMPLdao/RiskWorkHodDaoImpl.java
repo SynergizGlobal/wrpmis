@@ -34,7 +34,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 			String qry ="select risk_work_hod_id, work_id_fk,sub_work, risk_work_completed,hod_user_id_fk,u.designation,w.work_short_name,priority,wh.short_name "
 					+ "from risk_work_hod wh "
 					+ "left join work w on wh.work_id_fk = w.work_id "
-					+ "left join user u on wh.hod_user_id_fk = u.user_id "
+					+ "left join [user] u on wh.hod_user_id_fk = u.user_id "
 					+ "ORDER BY priority ASC";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
@@ -59,7 +59,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 	public List<TrainingType> getHODDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select user_id as hod_user_id_fk,user_name,designation from user where user_type_fk = 'HOD'";
+			String qry ="select user_id as hod_user_id_fk,user_name,designation FROM [user] where user_type_fk = 'HOD'";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
@@ -146,7 +146,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 	{
 		String Designation="";
 		try {
-			String qry = "select designation from user where user_id = ?";
+			String qry = "select designation FROM [user] where user_id = ?";
 			Designation = (String) jdbcTemplate.queryForObject(qry, new Object[] { hod_user_id }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -163,7 +163,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from risk_work_hod WHERE `risk_work_hod_id`= :risk_work_hod_id ";
+			String deleteQry ="DELETE from risk_work_hod WHERE risk_work_hod_id= :risk_work_hod_id ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

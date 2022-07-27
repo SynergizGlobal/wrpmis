@@ -81,7 +81,7 @@ public class RiskDeleteDaoImpl implements RiskDeleteDao{
 			}
 			int riskCaunt = getRiskCount(obj.getSub_work(),obj);
 			if(riskCaunt == 0) {
-				 String deleteRiskQry ="DELETE from risk WHERE `sub_work`= :sub_work; ";
+				 String deleteRiskQry ="DELETE from risk WHERE sub_work= :sub_work; ";
 				 BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 				 count = namedParamJdbcTemplate.update(deleteRiskQry, paramSource);
 			}

@@ -60,7 +60,7 @@ public class DeliverableTypeDaoImpl implements DeliverableTypeDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `deliverable_type` from deliverable_type ";
+			String qry ="select deliverable_type from deliverable_type ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -74,7 +74,7 @@ public class DeliverableTypeDaoImpl implements DeliverableTypeDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `deliverable_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as deliverable_type,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -85,7 +85,7 @@ public class DeliverableTypeDaoImpl implements DeliverableTypeDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `deliverable_type` from deliverable_type where `deliverable_type` NOT IN (?";
+					  String qry2 = "select deliverable_type from deliverable_type where deliverable_type NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -155,7 +155,7 @@ public class DeliverableTypeDaoImpl implements DeliverableTypeDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE deliverable_type SET `deliverable_type`= :deliverable_type_new WHERE `deliverable_type`= :deliverable_type_old " ;
+			String  updatereferenceTableQry = "UPDATE deliverable_type SET deliverable_type= :deliverable_type_new WHERE deliverable_type= :deliverable_type_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -186,7 +186,7 @@ public class DeliverableTypeDaoImpl implements DeliverableTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from deliverable_type WHERE `deliverable_type`= :deliverable_type; ";
+			String deleteQry ="DELETE from deliverable_type WHERE deliverable_type= :deliverable_type; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

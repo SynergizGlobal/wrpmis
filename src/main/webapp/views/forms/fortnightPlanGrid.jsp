@@ -40,24 +40,13 @@
         	min-width:50px;
 	      }
 	     .fw-12vw{
-	        	width:20vw !important;
-	        	min-width:20vw !important;
+	        	width:15vw !important;
+	        	min-width:15vw !important;
 	      }
 	     .fw-10vw{
-        		width:20vw !important;
-	        	min-width:20vw !important;
+        		width:8vw !important;
+	        	min-width:8vw !important;
 	      } 
-	      .w-30vw{
-	      		width: 30vw !important;
-	      	}
-	      @media(max-width: 1280px){
-	      	.mdl-data-table thead tr th, .mdl-data-table tfoot tr th{
-	      		font-size: 10px;
-	      		white-space: break-spaces;
-	      		line-height: 20px;
-	      	}
-	      	
-	      }
          @media only screen and (max-width: 769px){ 
 		.mdl-data-table thead tr th{
 			text-align:left !important;
@@ -85,14 +74,14 @@
         	right:5px;
         	top:30px;
         }
-        /* .fw-111{
+        .fw-111{
         	width:30vw;
         	min-width:30vw;
         }
         .fw-12vw {
 	  	     width:15vw !important;
         	min-width:15vw !important;
-		} */
+		}
        .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {
 		    text-align: center;
 		}
@@ -123,9 +112,6 @@
     @media(max-width: 820px){
     	.m-d-none{display:none;}
     	.mb2em{margin-bottom: 2em;}
-    	.w10px{
-    	width: 10px !important;
-    	}
     }
     
     </style>
@@ -141,7 +127,18 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
+								<!-- <h6 class="hide-on-med-and-down">Update Budget</h6> -->
 								<h6 class="mob-mar">Fortnightly Plan</h6>
+								<div class="col s12 m12 right-align exportButton">
+    								<div class="m-n1">
+    									<a href="<%=request.getContextPath()%>/add-fortnightly-plan"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add</strong></a>
+										<a href="javascript:void(0);" onclick="exportBudget();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export</strong></a>
+    								</div>
+    							</div>								
 							</div>
 						</span>
 						
@@ -156,7 +153,7 @@
 							<div class="col s12 l8 offset-l2 m9 offset-m2">
 								<div class="row no-mar">
 									
-									<div class="col s6 m3 input-field">
+									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Work</p>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getFortnightlyPlanList();" class="searchable">
@@ -164,16 +161,26 @@
 
 										</select>
 									</div>
-									
-									<div class="col s6 m3 input-field">
-										<p class="searchable_label">Contract</p>
-										<select id="contract_id_fk" name="contract_id_fk"
-											onchange="addInQueContract(this.value);getFortnightlyPlanList();" class="searchable">
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Category</p>
+										<select id="category" name="category" onchange="addInQueCategory(this.value);getFortnightlyPlanList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
-									
-									<div class="col s6 m3 input-field">
+                                	<div class="col s12 m2 input-field">
+	                                    <p>Critical</p>
+	                                    <p>
+	                                        <label>
+	                                            <input class="with-gap" name="critical" id="critical" type="radio" value="Yes" />
+	                                            <span>Yes</span>
+	                                        </label>
+	                                        <label>
+	                                            <input class="with-gap" name="critical" id="critical" type="radio" value="No" />
+	                                            <span>No</span>
+	                                        </label>
+	                                    </p>
+                                	</div>									
+									<div class="col s12 m3 input-field">
 										<p class="searchable_label">Period</p>
 										<select id="period" name="period"
 											onchange="addInQuePeriod(this.value);getFortnightlyPlanList();" class="searchable">
@@ -181,12 +188,14 @@
 
 										</select>
 									</div>
-									<div class="col s12 m3 input-field center-align">
+									<div class="col s12 m2 input-field center-align">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
 											style="width: 100%;"
 											onclick="clearFilter();">Clear Filters</button>
-									</div>
+									</div>									
+								</div>
+
 								</div>
 							</div>
 						</div>
@@ -195,15 +204,16 @@
 								<table id="datatable-fortnightplan" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th class="w10px w10px">S.No</th>
-												<th class="pdla w-30vw">Category</th>
+												<th class="w10px">S.No</th>
+												<th class="pdla">Category</th>
 												<th class="w20em">Contract</th>
 												<th class="pdla">Critical Item</th>
-												<th class="pdla">Structure</th>
-												<th class="pdla">Cumulative Planned Last Fortnight</th>
-												<th class="pdla">Cumulative Actual Last Fortnight</th>
-												<th class="pdla">Current Fortnight Planned</th>
-												<th class="no-sort w10px">Action</th>
+												<th class="pdla">Structure ID</th>
+												<th class="pdla">Cum Planned Last Fortnight</th>
+												<th class="pdla">Cum Actual Last Fortnight</th>
+												<th class="pdla">Plan for Current Fortnight</th>
+												<th class="pdla">Actual progress</th>
+												<th class="no-sort w10px">Update</th>
 											</tr>
 										</thead>
 									<tbody>
@@ -243,7 +253,7 @@
 	<form action="<%=request.getContextPath() %>/export-fortnightplans" name="exportFortnightplanForm" id="exportFortnightplanForm" target="_blank" method="post">	
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="period" id="exportperiod" />
-         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
+         <input type="hidden" name="category" id="exportcategory" />
 	</form>
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -272,8 +282,8 @@
   		        		getPeriodFilterList(temp2[1]);
   		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
   		        		getWorksFilterList(temp2[1]);
-  	        		  }else if($.trim(temp2[0]) == 'contract_id_fk'){
-  	        			getContractsFilterList(temp2[1]);
+  	        		  }else if($.trim(temp2[0]) == 'category'){
+  	        			getCategoryFilterList(temp2[1]);
 		        	  }
   	        	  }
   	            }
@@ -291,7 +301,7 @@
         function clearFilter(){
         	$("#work_id_fk").val('');
         	$("#period").val('');
-        	$("#contract_id_fk").val('');
+        	$("#category").val('');
         	$(".searchable").select2();
         	window.localStorage.setItem("fortnightPlanFilters",'');
         	window.location.href="<%=request.getContextPath()%>/FortnightPlan"
@@ -318,12 +328,12 @@
        	    	filtersMap["period"] = period;
         	}
         }
-        function addInQueContract(contract_id_fk){
+        function addInQueCategory(category){
         	Object.keys(filtersMap).forEach(function (key) {
-	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+	   			if(key.match('category')) delete filtersMap[key];
 	   		});
-        	if($.trim(contract_id_fk) != ''){
-       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	if($.trim(category) != ''){
+       	    	filtersMap["category"] = category;
         	}
         }
 
@@ -333,11 +343,11 @@
         	
         	getPeriodFilterList('');
         	getWorksFilterList('');
-        	getContractsFilterList('');
+        	getCategoryFilterList('');
         	
         	var work_id_fk = $("#work_id_fk").val();
         	var period = $("#period").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
+        	var category = $("#category").val();
         	
         	var filters = '';
         	Object.keys(filtersMap).forEach(function (key) {
@@ -404,7 +414,7 @@
             }).rows().remove().draw();
     		table.state.clear();		
     	 
-    	 	var myParams = {work_id_fk : work_id_fk, period : period, contract_id_fk:contract_id_fk};
+    	 	var myParams = {work_id_fk : work_id_fk, period : period, category:category};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFortnightPlanList",
 	    			type:"POST",
 	    			data:myParams,cache: false,async:false,
@@ -413,7 +423,10 @@
     					if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var fortnightly_plan_id = val.fortnightly_plan_id;
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getFortnightPlan('+fortnightly_plan_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+    	         			var cname="";
+    	         			if ($.trim(val.contract_short_name) != '') { cname =  "Yes" } 
+    	         			
+    	                    var actions = '<a href="javascript:void(0);"  onclick=getFortnightPlan('+fortnightly_plan_id+',"'+cname+'"); class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
     	                   	var rowArray = [];    	                  
     	                   	var workName = '';
                             if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
@@ -425,6 +438,7 @@
     	                   	rowArray.push($.trim(val.structure));
     	                   	rowArray.push($.trim(val.cum_planned_last_st));
     	                   	rowArray.push($.trim(val.cum_actual_last_st));
+    	                   	rowArray.push($.trim(val.planned_current_st));
     	                   	rowArray.push($.trim(val.planned_current_st));
     	                   	rowArray.push($.trim(actions));    	                   	
     	                   	
@@ -448,10 +462,10 @@
         	$(".page-loader").show();
     	 	var work_id_fk = $("#work_id_fk").val();
     	 	var period = $("#period").val(); 
-    	 	var contract_id_fk = $("#contract_id_fk").val();
+    	 	var category = $("#category").val();
     	    if ($.trim(period) == "") {
     	    	$("#period option:not(:first)").remove();
-    	    	var myParams = {work_id_fk : work_id_fk,period : period,contract_id_fk : contract_id_fk};
+    	    	var myParams = {work_id_fk : work_id_fk,period : period,category : category};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getPeriodsListFilterInFortnight",
                     data: myParams, cache: false,async: false,
@@ -478,10 +492,10 @@
     	 	$(".page-loader").show();
     	 	var period = $("#period").val();
     	 	var work_id_fk = $("#work_id_fk").val();
-    	 	var contract_id_fk = $("#contract_id_fk").val();
+    	 	var category = $("#category").val();
     	    if ($.trim(work_id_fk) == "") {
     	    	$("#work_id_fk option:not(:first)").remove();
-    	    	var myParams = {work_id_fk : work_id_fk,period : period,contract_id_fk : contract_id_fk};
+    	    	var myParams = {work_id_fk : work_id_fk,period : period,category : category};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInFortnight",
                     data: myParams, cache: false,async: false,
@@ -507,24 +521,23 @@
     	 }
         
         
-        function getContractsFilterList(contract_id){
+        function getCategoryFilterList(category){
     	 	$(".page-loader").show();
     		var work_id_fk = $("#work_id_fk").val();
     	 	var period = $("#period").val();
-    	 	var contract_id_fk = $("#contract_id_fk").val();
-    	    if ($.trim(contract_id_fk) == "") {
-    	    	$("#contract_id_fk option:not(:first)").remove();
-    	    	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk,period : period};
+    	 	var category = $("#category").val();
+    	    if ($.trim(category) == "") {
+    	    	$("#category option:not(:first)").remove();
+    	    	var myParams = {work_id_fk : work_id_fk,category : category,period : period};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractListFilterInFortnight",
+                    url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInFortnight",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                     	if(data != null && data != '' && data.length > 0){  
                             $.each(data, function (i, val) {
-                            	 var contract_short_name = '';
-                                 if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
-                                 var selectedFlag = (contract_id == val.contract_id_fk)?'selected':'';
-    	                         $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '"'+selectedFlag+'>' + $.trim(val.contract_id_fk) + contract_short_name + '</option>');
+                                 if ($.trim(val.category) != '') { category = ' - ' + $.trim(val.category) }
+                                 var selectedFlag = (category == val.module_name)?'selected':'';
+    	                         $("#category").append('<option value="' + val.module_name + '"'+selectedFlag+'>'+$.trim(val.module_name)+'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -561,9 +574,16 @@
          }
         
         
-        function getFortnightPlan(fortnightly_plan_id) {
+        function getFortnightPlan(fortnightly_plan_id,cname) {
     		$("#fortnightly_plan_id").val(fortnightly_plan_id);
-    		window.location.href="/pmis/get-FortnightPlan/"+fortnightly_plan_id;
+    			if(cname=="")
+    			{
+    				window.location.href="/pmis/get-FortnightPlan/c-"+fortnightly_plan_id;
+    			}
+    			else
+    			{
+    				window.location.href="/pmis/get-FortnightPlan/"+fortnightly_plan_id;
+    			}
     	}
 
     </script>

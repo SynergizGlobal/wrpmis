@@ -28,7 +28,7 @@ public class SalientFeaturesCategoryDaoImpl implements SalientFeaturesCategoryDa
 		List<WorkFeatures> objsList1 = null;
 		WorkFeatures sObj =null;
 		try {
-			String qry ="select `category` from salient_features_category ";
+			String qry ="select category from salient_features_category ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkFeatures>(WorkFeatures.class));		
 			obj.setdList1(objsList);
@@ -42,7 +42,7 @@ public class SalientFeaturesCategoryDaoImpl implements SalientFeaturesCategoryDa
 				int i = 1;
 				for (WorkFeatures bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `category`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as category,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -53,7 +53,7 @@ public class SalientFeaturesCategoryDaoImpl implements SalientFeaturesCategoryDa
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `category` from salient_features_category where `category` NOT IN (?";
+					  String qry2 = "select category from salient_features_category where category NOT IN (?";
 	
 						int j =0, p=1;
 						for (WorkFeatures aObj : obj.getdList()) {
@@ -145,7 +145,7 @@ public class SalientFeaturesCategoryDaoImpl implements SalientFeaturesCategoryDa
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE salient_features_category SET `category`= :value_new WHERE `category`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE salient_features_category SET category= :value_new WHERE category= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -176,7 +176,7 @@ public class SalientFeaturesCategoryDaoImpl implements SalientFeaturesCategoryDa
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from salient_features_category WHERE `category`= :category; ";
+			String deleteQry ="DELETE from salient_features_category WHERE category= :category; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

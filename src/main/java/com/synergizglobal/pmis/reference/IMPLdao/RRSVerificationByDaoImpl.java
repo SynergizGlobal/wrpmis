@@ -27,7 +27,7 @@ public class RRSVerificationByDaoImpl implements RRSVerificationByDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `rr_verification_by` from rr_verification_by ";
+			String qry ="select rr_verification_by from rr_verification_by ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -41,7 +41,7 @@ public class RRSVerificationByDaoImpl implements RRSVerificationByDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `rr_verification_by`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as rr_verification_by,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -52,7 +52,7 @@ public class RRSVerificationByDaoImpl implements RRSVerificationByDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `rr_verification_by` from rr_verification_by where `rr_verification_by` NOT IN (?";
+					  String qry2 = "select rr_verification_by from rr_verification_by where rr_verification_by NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -141,7 +141,7 @@ public class RRSVerificationByDaoImpl implements RRSVerificationByDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE rr_verification_by SET `rr_verification_by`= :value_new WHERE `rr_verification_by`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE rr_verification_by SET rr_verification_by= :value_new WHERE rr_verification_by= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -172,7 +172,7 @@ public class RRSVerificationByDaoImpl implements RRSVerificationByDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from rr_verification_by WHERE `rr_verification_by`= :rr_verification_by; ";
+			String deleteQry ="DELETE from rr_verification_by WHERE rr_verification_by= :rr_verification_by; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

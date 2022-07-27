@@ -55,7 +55,7 @@ public class SubLocationDaoImpl implements SubLocationDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select group_concat(rr_sub_location SEPARATOR '?') as rr_sub_location,group_concat(id) as id,rr_location_fk from rr_sub_location group by rr_location_fk ";
+			String qry ="select STRING_AGG(rr_sub_location SEPARATOR '?') as rr_sub_location,STRING_AGG(id) as id,rr_location_fk from rr_sub_location group by rr_location_fk ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -69,7 +69,7 @@ public class SubLocationDaoImpl implements SubLocationDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `rr_sub_location`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as rr_sub_location,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -80,7 +80,7 @@ public class SubLocationDaoImpl implements SubLocationDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select rr_sub_location,rr_location_fk from rr_sub_location where `rr_sub_location` NOT IN (?";
+					  String qry2 = "select rr_sub_location,rr_location_fk from rr_sub_location where rr_sub_location NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -224,7 +224,7 @@ public class SubLocationDaoImpl implements SubLocationDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String deleteQry = "delete from rr_sub_location where `rr_location_fk`= :rr_location_fk_old";
+			String deleteQry = "delete from rr_sub_location where rr_location_fk= :rr_location_fk_old";
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
 			int size = 0,size2 = 0,size3=0;
@@ -319,7 +319,7 @@ public class SubLocationDaoImpl implements SubLocationDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from rr_sub_location WHERE `rr_location_fk`= :rr_location_fk; ";
+			String deleteQry ="DELETE from rr_sub_location WHERE rr_location_fk= :rr_location_fk; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

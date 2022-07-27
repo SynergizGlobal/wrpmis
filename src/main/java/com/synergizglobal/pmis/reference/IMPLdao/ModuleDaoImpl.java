@@ -31,7 +31,7 @@ public class ModuleDaoImpl implements ModuleDao{
 		try {
 			String qry ="select module_name,incharge_user_id_fk,user_name as module_incharge,soft_delete_status_fk "
 					+ "from module m "
-					+ "left join `user` u on incharge_user_id_fk = user_id";
+					+ "LEFT JOIN [user] u on incharge_user_id_fk = user_id";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -43,7 +43,7 @@ public class ModuleDaoImpl implements ModuleDao{
 	public List<User> getModuleInchargeList() throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry ="select user_id,user_name,designation from `user` where user_type_fk in('HOD','DyHOD','Management')";
+			String qry ="select user_id,user_name,designation from user where user_type_fk in('HOD','DyHOD','Management')";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -79,7 +79,7 @@ public class ModuleDaoImpl implements ModuleDao{
 		try {
 			String qry ="select module_name,incharge_user_id_fk,user_name as module_incharge,soft_delete_status_fk "
 					+ "from module m "
-					+ "left join `user` u on incharge_user_id_fk = user_id";
+					+ "LEFT JOIN [user] u on incharge_user_id_fk = user_id";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -93,7 +93,7 @@ public class ModuleDaoImpl implements ModuleDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `module_name`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as module_name,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -104,7 +104,7 @@ public class ModuleDaoImpl implements ModuleDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `module_name` from module where `module_name` NOT IN (?";
+					  String qry2 = "select module_name from module where module_name NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -175,7 +175,7 @@ public class ModuleDaoImpl implements ModuleDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE module SET `module_name`= :value_new,incharge_user_id_fk=:incharge_user_id_fk,soft_delete_status_fk=:soft_delete_status_fk WHERE `module_name`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE module SET module_name= :value_new,incharge_user_id_fk=:incharge_user_id_fk,soft_delete_status_fk=:soft_delete_status_fk WHERE module_name= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -206,7 +206,7 @@ public class ModuleDaoImpl implements ModuleDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from module WHERE `module_name`= :module_name; ";
+			String deleteQry ="DELETE from module WHERE module_name= :module_name; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

@@ -82,7 +82,7 @@ public class StructureFileTypeDaoImpl implements StructureFileTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from structure_file_type WHERE `structure_file_type`= :structure_file_type ";
+			String deleteQry ="DELETE from structure_file_type WHERE structure_file_type= :structure_file_type ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

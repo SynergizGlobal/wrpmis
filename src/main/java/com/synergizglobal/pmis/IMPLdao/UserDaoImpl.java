@@ -74,7 +74,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserReportingToList(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select user_id,designation,user_name from user u where u.user_name not like '%user%' and u.pmis_key_fk not like '%SGS%' ";
+			String qry = "select user_id,designation,user_name FROM [user] u where u.user_name not like '%user%' and u.pmis_key_fk not like '%SGS%' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and (department_fk = ? or department_fk = ?)";
@@ -106,12 +106,12 @@ public class UserDaoImpl implements UserDao{
 		try {
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name,"
-					+ "(select DATE_FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
-					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 7 DAY) as last7DaysLogins,"
-					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 30 DAY) as last30DaysLogins "
-					+ "from user u "
+					+ "(select FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
+					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(GETDATE()) - INTERVAL 7 DAY) as last7DaysLogins,"
+					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(GETDATE()) - INTERVAL 30 DAY) as last30DaysLogins "
+					+ "FROM [user] u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
-					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id "
 					+ "where u.user_id is not null" ;
 			
 			int arrSize = 0;
@@ -377,7 +377,7 @@ public class UserDaoImpl implements UserDao{
 		try{
 			connection = dataSource.getConnection();
 			String maxIdQry = "SELECT CONCAT(SUBSTRING(user_id, 1, LENGTH(user_id)-7),'_"+role_code+"_',LPAD(MAX(SUBSTRING(user_id, 9, LENGTH(user_id)))+1,3,'0') ) AS maxId "
-					+ "FROM user WHERE user_id LIKE 'PMIS_%'";
+					+ "FROM [user] WHERE user_id LIKE 'PMIS_%'";
 			
 			stmt = connection.prepareStatement(maxIdQry);
 			rs = stmt.executeQuery();  
@@ -399,9 +399,9 @@ public class UserDaoImpl implements UserDao{
 		try {
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.user_name as reporting_to_name "
-					+ "from user u "
+					+ "FROM [user] u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
-					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id "
 					+ "where u.user_id = ? " ;
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
@@ -464,7 +464,7 @@ public class UserDaoImpl implements UserDao{
 				}
 				
 				List<User> riskList = null;
-				String risk_qry = "select user_id from user  where designation = ?";
+				String risk_qry = "select user_id FROM [user]  where designation = ?";
 				int risk_arrSize = 1;
 				Object[] pValues3 = new Object[risk_arrSize];
 				pValues3[0] = uobj.getUser_id();
@@ -809,7 +809,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select user_id from user  where designation = ?";
+			String qry = "select user_id FROM [user]  where designation = ?";
 			int arrSize = 1;
 			Object[] pValues = new Object[arrSize];
 			pValues[0] = reporting_to_id_srfk;
@@ -827,7 +827,7 @@ public class UserDaoImpl implements UserDao{
 		String userId = null;
 		try{
 			con = dataSource.getConnection();
-			String maxIdQry = "select user_id from user where user_id = ?";
+			String maxIdQry = "select user_id FROM [user] where user_id = ?";
 			stmt = con.prepareStatement(maxIdQry);
 			stmt.setString(1, user_id);
 			rs = stmt.executeQuery();  
@@ -868,7 +868,7 @@ public class UserDaoImpl implements UserDao{
 			
 			if(count > 0) {
 				pmis_key = "Available";
-				qry = "select count(*) from user where pmis_key_fk = ?";				
+				qry = "select count(*) FROM [user] where pmis_key_fk = ?";				
 				count = jdbcTemplate.queryForObject( qry,new Object[] {obj.getPmis_key_fk()}, Integer.class);	
 				if(count > 0) {
 					pmis_key = "Taken";
@@ -884,7 +884,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserRolesFilter(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select user_role_name_fk from user u "
+			String qry = "select user_role_name_fk FROM [user] u "
 					+ "where user_role_name_fk is not null and user_role_name_fk <> '' " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
@@ -931,7 +931,7 @@ public class UserDaoImpl implements UserDao{
 		List<User> objsList = null;
 		try {
 			String qry = "select u.department_fk,department_name "
-					+ "from user u "
+					+ "FROM [user] u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
 					+ "where u.department_fk is not null and u.department_fk <> '' " ;
 			int arrSize = 0;
@@ -978,8 +978,8 @@ public class UserDaoImpl implements UserDao{
 		List<User> objsList = null;
 		try {
 			String qry = "select usr.designation,u.reporting_to_id_srfk AS user_id,usr.user_name as reporting_to_name "
-					+ "from user u "
-					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "FROM [user] u "
+					+ "left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id "
 					+ "where u.reporting_to_id_srfk is not null and u.reporting_to_id_srfk <> ''" ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
@@ -1029,10 +1029,10 @@ public class UserDaoImpl implements UserDao{
 		try {
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_image,department_name,usr.user_name as reporting_to_name,usr.designation as reporting_to_designation,u.user_type_fk  "
-					+ "from user u "
+					+ "FROM [user] u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
-					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
-					+ "LEFT OUTER JOIN user_type ut ON u.user_type_fk = ut.user_type "
+					+ "left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "left outer join [user]_type ut ON u.user_type_fk = ut.user_type "
 					+ "where u.user_id is not null and u.user_id <> ?" ;
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
@@ -1096,8 +1096,8 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserTypesFilter(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select u.user_type_fk from user u "
-					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+			String qry = "select u.user_type_fk FROM [user] u "
+					+ "left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id "
 					+ "where u.user_type_fk is not null and u.user_type_fk <> '' " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
@@ -1146,12 +1146,12 @@ public class UserDaoImpl implements UserDao{
 		try {
 			String qry = "select distinct u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name,"
-					+ "(select DATE_FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
-					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 7 DAY) as last7DaysLogins,"
-					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 30 DAY) as last30DaysLogins "
-					+ "from user u "
+					+ "(select FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
+					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(GETDATE()) - INTERVAL 7 DAY) as last7DaysLogins,"
+					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(GETDATE()) - INTERVAL 30 DAY) as last30DaysLogins "
+					+ "FROM [user] u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
-					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id "
 					+ "where u.user_id is not null" ;
 			
 			int arrSize = 0;
@@ -1226,12 +1226,12 @@ public class UserDaoImpl implements UserDao{
 		try {
 			String qry = "select distinct u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name,"
-					+ "(select DATE_FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
-					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 7 DAY) as last7DaysLogins,"
-					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 30 DAY) as last30DaysLogins "
-					+ "from user u "
+					+ "(select FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
+					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(GETDATE()) - INTERVAL 7 DAY) as last7DaysLogins,"
+					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(GETDATE()) - INTERVAL 30 DAY) as last30DaysLogins "
+					+ "FROM [user] u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
-					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id "
 					+ "where u.user_id is not null" ;
 			
 			int arrSize = 0;

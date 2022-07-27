@@ -34,10 +34,10 @@ public class WbsTreeDaoImpl implements WbsTreeDao{
 		}
 		try {
 			String qry ="select pv.activity_name,wbs_4_name,wbs_3_name,wbs_2_name,wbs_1_name,"
-					+ "CAST(sum(ifnull((((completed)/(scope))*100) * (weightage),0)) AS DECIMAL(10,2)) as actual,"
-					+ "CAST(ifnull(sum(weightage),0) AS DECIMAL(10,2)) as weightage,"
+					+ "CAST(sum(ISNULL((((completed)/(scope))*100) * (weightage),0)) AS DECIMAL(10,2)) as actual,"
+					+ "CAST(ISNULL(sum(weightage),0) AS DECIMAL(10,2)) as weightage,"
 					+ " CASE  WHEN baseline_finish <= CURDATE() THEN 100 WHEN baseline_start > CURDATE() "
-					+ " THEN 0 ELSE CAST(sum(( ((datediff(now(),baseline_start)+1)/(datediff(baseline_finish , baseline_start)+1))*100 ) * (weightage)) AS DECIMAL(10,2)) END as 'planned' " + 
+					+ " THEN 0 ELSE CAST(sum(( ((datediff(GETDATE(),baseline_start)+1)/(datediff(baseline_finish , baseline_start)+1))*100 ) * (weightage)) AS DECIMAL(10,2)) END as 'planned' " + 
 					" from p6_view pv "
 					+ "left join activities a on (a.activity_name = pv.activity_name and a.structure = pv.wbs_3_name " + 
 					"and a.contract_id_fk = pv.contract_id and a.structure_type_fk = pv.wbs_4_name and a.component = pv.wbs_2_name and a.component_id = pv.wbs_1_name " + 

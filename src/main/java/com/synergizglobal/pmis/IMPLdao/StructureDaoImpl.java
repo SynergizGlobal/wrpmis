@@ -241,7 +241,7 @@ public class StructureDaoImpl implements StructureDao {
 		try {
 
 			String qry = "select count(DISTINCT(s.work_id_fk)) as total_records " + "from structure s "
-					+ "left join work w on s.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci "
+					+ "left join work w on s.work_id_fk = w.work_id  "
 					+ "left join project p on w.project_id_fk = p.project_id "
 					+ "where structure_id is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
@@ -305,10 +305,10 @@ public class StructureDaoImpl implements StructureDao {
 		List<Structure> objsList = null;
 		try {
 			String qry = "SELECT s.structure_id,s.status,s.structure,w.work_name,w.work_short_name,w.project_id_fk,p.project_name,s.work_id_fk,"
-					+ "GROUP_CONCAT(CONCAT(structure_type_fk, ' - ', count) SEPARATOR ',') as structure_type_fk "
+					+ "STRING_AGG(CONCAT(structure_type_fk, ' - ', count) SEPARATOR ',') as structure_type_fk "
 					+ "FROM ( SELECT structure_id,status,structure, work_id_fk, structure_type_fk, COUNT(structure_type_fk) AS count FROM structure "
 					+ "JOIN work ON work.work_id = structure.work_id_fk where status = 'Active' GROUP BY work_id_fk, structure_type_fk) s "
-					+ "left join work w on s.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci   "
+					+ "left join work w on s.work_id_fk = w.work_id    "
 					+ "left join project p on w.project_id_fk = p.project_id  "
 					+ "where structure_id is not null and s.status <> 'Inactive' ";
 
@@ -335,7 +335,7 @@ public class StructureDaoImpl implements StructureDao {
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + "GROUP BY s.work_id_fk ORDER BY structure_id ASC limit ?,?";
+				qry = qry + "GROUP BY s.work_id_fk ORDER BY structure_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -373,7 +373,7 @@ public class StructureDaoImpl implements StructureDao {
 	public List<Structure> getProjectsListForStructureForm(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "select project_id as project_id_fk,project_name from `project` order by project_id asc";
+			String qry = "select project_id as project_id_fk,project_name from project order by project_id asc";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Structure>(Structure.class));
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -386,7 +386,7 @@ public class StructureDaoImpl implements StructureDao {
 		List<Structure> objsList = null;
 		try {
 			String qry = "select work_id as work_id_fk,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w " + "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from work w " + "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 
 			int arrSize = 0;
@@ -415,8 +415,8 @@ public class StructureDaoImpl implements StructureDao {
 		List<Structure> objsList = null;
 		try {
 			String qry = "select contract_id as contract_id_fk,contract_name,contract_short_name,c.work_id_fk,w.work_short_name,w.project_id_fk,project_name "
-					+ "from `contract` c " + "LEFT JOIN `work` w ON c.work_id_fk = work_id "
-					+ "LEFT JOIN `project` p ON w.project_id_fk = project_id " + "where contract_id is not null ";
+					+ "from contract c " + "LEFT JOIN work w ON c.work_id_fk = work_id "
+					+ "LEFT JOIN project p ON w.project_id_fk = project_id " + "where contract_id is not null ";
 
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -530,7 +530,7 @@ public class StructureDaoImpl implements StructureDao {
 					}
 						/*if(!StringUtils.isEmpty(objList1)) {
 							for(Structure subdetails : list.getStructureSubList()) {
-								String subdetailsQry ="select structure_id, structure,s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude, DATE_FORMAT(s.target_date,'%d-%m-%Y') AS target_date, s.estimated_cost, s.estimated_cost_units, DATE_FORMAT(s.construction_start_date,'%d-%m-%Y') AS construction_start_date, DATE_FORMAT(s.revised_completion,'%d-%m-%Y') AS revised_completion, s.remarks"
+								String subdetailsQry ="select structure_id, structure,s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude, FORMAT(s.target_date,'%d-%m-%Y') AS target_date, s.estimated_cost, s.estimated_cost_units, FORMAT(s.construction_start_date,'%d-%m-%Y') AS construction_start_date, FORMAT(s.revised_completion,'%d-%m-%Y') AS revised_completion, s.remarks"
 										+ " from structure s where  structure_id = ? ";
 								List<Structure> subdetailsList = jdbcTemplate.query( subdetailsQry,new Object[] {subdetails.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 								subdetails.setStructureSubList2(subdetailsList);
@@ -542,7 +542,7 @@ public class StructureDaoImpl implements StructureDao {
 								List<Structure> executivesList = jdbcTemplate.query( executivesQry,new Object[] {executives.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 								executives.setExecutivesList(executivesList);
 								for(Structure peopleList : executives.getExecutivesList()) {
-									String peopleQry ="select id, structure_id_fk, contract_id_fk,designation,user_name, responsible_people_id_fk from structure_contract_responsible_people sp left join user u on u.user_id=sp.responsible_people_id_fk where contract_id_fk = ? and  structure_id_fk = ? ";
+									String peopleQry ="select id, structure_id_fk, contract_id_fk,designation,user_name, responsible_people_id_fk from structure_contract_responsible_people sp left join [user] u on u.user_id=sp.responsible_people_id_fk where contract_id_fk = ? and  structure_id_fk = ? ";
 									List<Structure> peopleLists = jdbcTemplate.query( peopleQry,new Object[] {peopleList.getContract_id_fk(),peopleList.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 									peopleList.setResponsiblePeopleLists(peopleLists);
 								}
@@ -550,7 +550,7 @@ public class StructureDaoImpl implements StructureDao {
 						}
 						if(!StringUtils.isEmpty(objList1)) {
 							for(Structure executives : list.getStructureSubList()) {
-								String executivesQry ="select id, structure_id_fk, contract_id_fk,designation,user_name, responsible_people_id_fk from structure_contract_responsible_people sp left join user u on u.user_id=sp.responsible_people_id_fk where  structure_id_fk = ? ";
+								String executivesQry ="select id, structure_id_fk, contract_id_fk,designation,user_name, responsible_people_id_fk from structure_contract_responsible_people sp left join [user] u on u.user_id=sp.responsible_people_id_fk where  structure_id_fk = ? ";
 								List<Structure> executivesList = jdbcTemplate.query( executivesQry,new Object[] {executives.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 								executives.setResponsiblePeopleLists(executivesList);
 							}
@@ -824,7 +824,7 @@ public class StructureDaoImpl implements StructureDao {
 							}
 							}
 							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-							LocalDateTime now = LocalDateTime.now();
+							LocalDateTime now = LocalDateTime.GETDATE();
 							obj.setCreated_date(dtf.format(now));
 							String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date)"
 									+ " VALUES (?,?,?,?,CURDATE())";
@@ -1503,8 +1503,8 @@ public class StructureDaoImpl implements StructureDao {
 	public List<Structure> getStructureUploadsList(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT id, uploaded_file, sd.status, sd.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
-					+ "from structure_data sd " + "LEFT JOIN user u ON sd.uploaded_by_user_id_fk = u.user_id "
+			String qry = "SELECT id, uploaded_file, sd.status, sd.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
+					+ "from structure_data sd " + "left join [user] u ON sd.uploaded_by_user_id_fk = u.user_id "
 					+ "where id is not null";
 
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Structure>(Structure.class));
@@ -1522,7 +1522,7 @@ public class StructureDaoImpl implements StructureDao {
 			String qry = "SELECT s.structure_id,s.structure,w.work_name,w.work_short_name,dt.department_name,w.project_id_fk,p.project_name,s.work_id_fk,c.contract_name,"
 					+ "c.contract_short_name, structure_type_fk  " + "FROM structure s "
 					+ "left join contract c on s.contract_id_fk = c.contract_id    "
-					+ "left join work w on s.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci   "
+					+ "left join work w on s.work_id_fk = w.work_id    "
 					+ "left join project p on w.project_id_fk = p.project_id  "
 					+ "left join department dt on s.department_fk = dt.department " + "where structure_id is not null ";
 
@@ -1567,7 +1567,7 @@ public class StructureDaoImpl implements StructureDao {
 	public List<Structure> getResponsiblePeopleListForStructureForm(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,department_fk FROM user u where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM [user] u where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
 			qry = qry + " ORDER BY FIELD(user_type_fk,'HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others'),"
 					+ "FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','AGM Civil',"
 					+ " 'DyCPM Civil','DyCPM III','DyCPM V','DyCE EE','DyCE Badlapur','DyCPM Pune','DyCE Proj','DyCEE I','DyCEE Projects','DyCEE PSI','DyCSTE I','DyCSTE IT','DyCSTE Projects','XEN Consultant',"

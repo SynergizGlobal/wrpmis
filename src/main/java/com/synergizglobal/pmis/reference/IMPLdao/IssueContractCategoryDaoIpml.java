@@ -58,7 +58,7 @@ public class IssueContractCategoryDaoIpml implements  IssueContractCategoryDao{
 	public List<TrainingType> getIssueContractCategory(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT id, group_concat(contract_category_fk) contract_category_fk, issue_category_fk from issue_contarct_category group by issue_category_fk ";
+			String qry = "SELECT id, STRING_AGG(contract_category_fk) contract_category_fk, issue_category_fk from issue_contarct_category group by issue_category_fk ";
 			
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -182,7 +182,7 @@ public class IssueContractCategoryDaoIpml implements  IssueContractCategoryDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String deleteQry = "delete from issue_contarct_category where `issue_category_fk`= :issue_category_fk_old";
+			String deleteQry = "delete from issue_contarct_category where issue_category_fk= :issue_category_fk_old";
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
 			
@@ -312,7 +312,7 @@ public class IssueContractCategoryDaoIpml implements  IssueContractCategoryDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from issue_contarct_category WHERE `id`= :id ";
+			String deleteQry ="DELETE from issue_contarct_category WHERE id= :id ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

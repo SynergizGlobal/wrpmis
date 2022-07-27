@@ -61,7 +61,7 @@ public class GeneralStatusDaoImpl implements GeneralStatusDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `general_status`,contract_status from general_status ";
+			String qry ="select general_status,contract_status from general_status ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -75,7 +75,7 @@ public class GeneralStatusDaoImpl implements GeneralStatusDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `general_status`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as general_status,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -86,7 +86,7 @@ public class GeneralStatusDaoImpl implements GeneralStatusDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `general_status` from general_status where `general_status` NOT IN (?";
+					  String qry2 = "select general_status from general_status where general_status NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -156,7 +156,7 @@ public class GeneralStatusDaoImpl implements GeneralStatusDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE general_status SET `general_status`= :value_new,contract_status = :contract_status_new WHERE `general_status`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE general_status SET general_status= :value_new,contract_status = :contract_status_new WHERE general_status= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -187,7 +187,7 @@ public class GeneralStatusDaoImpl implements GeneralStatusDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from general_status WHERE `general_status`= :general_status; ";
+			String deleteQry ="DELETE from general_status WHERE general_status= :general_status; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

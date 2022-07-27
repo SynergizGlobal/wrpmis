@@ -54,8 +54,8 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		List<RandRMain> objsList = new ArrayList<RandRMain>();
 		try {
 			String qry = "select work_id_fk,work_name,work_short_name "
-					+ "from `rr_agency` rr "
-					+ "LEFT OUTER JOIN `work` w ON w.work_id = rr.work_id_fk "
+					+ "from rr_agency rr "
+					+ "LEFT OUTER JOIN work w ON w.work_id = rr.work_id_fk "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -90,8 +90,8 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		List<RandRMain> objsList = new ArrayList<RandRMain>();
 		try {
 			String qry = "select hod,user_name,designation "
-					+ "from `rr_agency` rr "
-					+ "LEFT OUTER JOIN `user` w ON rr.hod = w.user_id  "
+					+ "from rr_agency rr "
+					+ "LEFT OUTER JOIN [user] w ON rr.hod = w.user_id  "
 					+ "where hod is not null ";
 					
 			int arrSize = 0;
@@ -127,8 +127,8 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		try {
 			String qry ="select count(id) as total_records from rr_agency r "
 					+ "LEFT JOIN work w on r.work_id_fk = w.work_id "
-					+ "LEFT JOIN user u on r.hod = u.user_id "
-					+ "LEFT JOIN user uu on r.mrvc_responsible_person = uu.user_id "
+					+ "left join [user] u on r.hod = u.user_id "
+					+ "left join [user] uu on r.mrvc_responsible_person = uu.user_id "
 					+ "where id is not null  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -187,8 +187,8 @@ public class RRBSESDaoImpl implements RRBSESDao{
 					+ "submission_date_report_ca, actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, report_submission_date_to_mrvc, "
 					+ "approval_date_by_mrvc from rr_agency r "
 					+ "LEFT JOIN work w on r.work_id_fk = w.work_id "
-					+ "LEFT JOIN user u on r.hod = u.user_id "
-					+ "LEFT JOIN user uu on r.mrvc_responsible_person = uu.user_id "
+					+ "left join [user] u on r.hod = u.user_id "
+					+ "left join [user] uu on r.mrvc_responsible_person = uu.user_id "
 					+ "WHERE id is not null ";
 			
 			int arrSize = 0;
@@ -212,7 +212,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY id ORDER BY id ASC limit ?,?";
+				qry = qry + " GROUP BY id ORDER BY id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -252,7 +252,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		List<RandRMain> objsList = new ArrayList<RandRMain>();
 		try {
 			String qry = "select user_id,user_name,designation "
-					+ "from `user` "
+					+ "from [user] "
 					+ "where user_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -280,11 +280,11 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		try {
 			String qry ="select id as rrbses_id, work_id_fk,work_short_name, hod,u.user_name,u.designation as designation,"
 					+ " uu.user_name as res_user_name,uu.designation as res_designation,mrvc_responsible_person, bses_agency_name, agency_responsible_person, r.contact_number, r.email_id as bses_email, "
-					+ "DATE_FORMAT(submission_date_report_ca,'%d-%m-%Y') AS submission_date_report_ca, DATE_FORMAT(actual_submission_date_bses_report_to_mrvc,'%d-%m-%Y') AS actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, DATE_FORMAT(report_submission_date_to_mrvc,'%d-%m-%Y') AS report_submission_date_to_mrvc, "
-					+ "DATE_FORMAT(approval_date_by_mrvc,'%d-%m-%Y') AS approval_date_by_mrvc from rr_agency r "
+					+ "FORMAT(submission_date_report_ca,'%d-%m-%Y') AS submission_date_report_ca, FORMAT(actual_submission_date_bses_report_to_mrvc,'%d-%m-%Y') AS actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, FORMAT(report_submission_date_to_mrvc,'%d-%m-%Y') AS report_submission_date_to_mrvc, "
+					+ "FORMAT(approval_date_by_mrvc,'%d-%m-%Y') AS approval_date_by_mrvc from rr_agency r "
 					+ "LEFT JOIN work w on r.work_id_fk = w.work_id " 
-					+ "LEFT JOIN user u on r.hod = u.user_id "
-					+ "LEFT JOIN user uu on r.mrvc_responsible_person = uu.user_id "
+					+ "left join [user] u on r.hod = u.user_id "
+					+ "left join [user] uu on r.mrvc_responsible_person = uu.user_id "
 					+ "WHERE id is not null ";
 			
 			int arrSize = 0;
@@ -303,7 +303,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 			obj = (RandRMain)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRrbses_id())) {
 				List<RandRMain> objsList = null;
-				String qryDetails = "select rrr.id, rr_agency_id_fk, DATE_FORMAT(date_of_appointment,'%d-%m-%Y') AS date_of_appointment, name_of_representative, phone_no, rrr.email_id "
+				String qryDetails = "select rrr.id, rr_agency_id_fk, FORMAT(date_of_appointment,'%d-%m-%Y') AS date_of_appointment, name_of_representative, phone_no, rrr.email_id "
 						+ "from rr_appointment_of_committee rrr " 
 						+"left join rr_agency r1 on rrr.rr_agency_id_fk = r1.id where rr_agency_id_fk = ?  ";
 				
@@ -535,7 +535,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 	public List<RandRMain> getHodFilterList(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "select user_id as hod,user_name,designation from user where user_type_fk = 'HOD' ";
+			String qry = "select user_id as hod,user_name,designation from [user] where user_type_fk = 'HOD' ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);

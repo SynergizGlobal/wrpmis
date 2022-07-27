@@ -82,7 +82,7 @@ public class WorkFileTypeDaoImpl implements WorkFileTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from work_file_type WHERE `work_file_type`= :work_file_type ";
+			String deleteQry ="DELETE from work_file_type WHERE work_file_type= :work_file_type ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

@@ -30,7 +30,7 @@ public class PurposeOfSubmissionDaoImpl implements PurposeOfSubmissionDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `submission_purpose` from design_status_submission_purpose ";
+			String qry ="select submission_purpose from design_status_submission_purpose ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -44,7 +44,7 @@ public class PurposeOfSubmissionDaoImpl implements PurposeOfSubmissionDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `submission_purpose`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as submission_purpose,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -55,7 +55,7 @@ public class PurposeOfSubmissionDaoImpl implements PurposeOfSubmissionDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `submission_purpose` from design_status_submission_purpose where `submission_purpose` NOT IN (?";
+					  String qry2 = "select submission_purpose from design_status_submission_purpose where submission_purpose NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -116,7 +116,7 @@ public class PurposeOfSubmissionDaoImpl implements PurposeOfSubmissionDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE design_status_submission_purpose SET `submission_purpose`= :value_new WHERE `submission_purpose`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE design_status_submission_purpose SET submission_purpose= :value_new WHERE submission_purpose= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -147,7 +147,7 @@ public class PurposeOfSubmissionDaoImpl implements PurposeOfSubmissionDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from design_status_submission_purpose WHERE `submission_purpose`= :submission_purpose; ";
+			String deleteQry ="DELETE from design_status_submission_purpose WHERE submission_purpose= :submission_purpose; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

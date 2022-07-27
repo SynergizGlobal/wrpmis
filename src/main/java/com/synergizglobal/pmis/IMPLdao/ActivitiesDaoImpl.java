@@ -393,7 +393,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 				qry = qry + " and s1.section = ?";
 			}
 			qry = qry + ") = 0) then 'completed' "
-			//+" when ((select count(*) from activities where (select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') from activities s2 where "
+			//+" when ((select count(*) from activities where (select FORMAT(max(planned_finish),'%Y-%m-%d') from activities s2 where "
 			//+ " s2.completed <> 0 and s2.contract_id_fk = ? and s2.structure = ? and s2.component_id = ? ";
 			//	if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 			//		qry = qry + " and s2.line = ?";
@@ -532,8 +532,8 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 		StripChart sObj = null;
 		try {
 			String qry = "select activity_id,"
-					+ "DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish,DATE_FORMAT(planned_start,'%d-%m-%Y') AS planned_start,"
-					+ "DATE_FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,"
+					+ "FORMAT(actual_start,'%d-%m-%Y') AS actual_start,FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish,FORMAT(planned_start,'%d-%m-%Y') AS planned_start,"
+					+ "FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,"
 					+ "component_id as strip_chart_component_id_name,completed as completed,scope as scope,(scope - completed) as remaining, unit as unit_fk "
 					+ "from activities "
 					+ "where activity_id is not null and component_id = ? and structure = ? and activity_id = ? ";
@@ -863,8 +863,8 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			String qry = "select a.activity_id,a.contract_id_fk AS contract_id,a.structure AS strip_chart_structure_id,a.component_id AS strip_chart_component_id,"
 					+ "a.component AS strip_chart_component,a.activity_id AS strip_chart_activity_id,a.activity_name AS strip_chart_activity_name,"
 					+ "a.line AS strip_chart_line,a.structure AS structure_type,a.section AS strip_chart_section_id,completed,scope,(scope - completed) as remaining,unit as unit_fk,a.remarks,"
-					+ "DATE_FORMAT(a.actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(a.actual_finish,'%d-%m-%Y') AS actual_finish,DATE_FORMAT(a.planned_start,'%d-%m-%Y') AS planned_start,"
-					+ "DATE_FORMAT(a.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
+					+ "FORMAT(a.actual_start,'%d-%m-%Y') AS actual_start,FORMAT(a.actual_finish,'%d-%m-%Y') AS actual_finish,FORMAT(a.planned_start,'%d-%m-%Y') AS planned_start,"
+					+ "FORMAT(a.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
 					+ "from activities a " + "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id " + "where activity_id = ? ";
 

@@ -43,8 +43,8 @@ public class RrResponsibleExecutivesDaoImpl implements RrResponsibleExecutivesDa
 	public List<TrainingType> getExecutivesDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT  work_id_fk, work_short_name, GROUP_CONCAT(DISTINCT (u.user_name) SEPARATOR ',') user_name,GROUP_CONCAT(DISTINCT (u.user_id) SEPARATOR ',') user_id FROM rr_executives re "
-					+ "left join user u on re.executive_user_id_fk = u.user_id "
+			String qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(DISTINCT (u.user_name) SEPARATOR ',') user_name,STRING_AGG(DISTINCT (u.user_id) SEPARATOR ',') user_id FROM rr_executives re "
+					+ "left join [user] u on re.executive_user_id_fk = u.user_id "
 					+ "left join work w on re.work_id_fk = w.work_id "
 					+ "GROUP BY work_id_fk;";
 			
@@ -191,8 +191,8 @@ public class RrResponsibleExecutivesDaoImpl implements RrResponsibleExecutivesDa
 	public List<TrainingType> executivesList(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT  work_id_fk, work_short_name, GROUP_CONCAT(u.user_name SEPARATOR ', ') user_name FROM rr_executives re "
-					+ "left join user u on re.executive_user_id_fk = u.user_id "
+			String qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name SEPARATOR ', ') user_name FROM rr_executives re "
+					+ "left join [user] u on re.executive_user_id_fk = u.user_id "
 					+ "left join work w on re.work_id_fk = w.work_id "
 					+ "where  work_id_fk = ?";
 			Object[] pValues = new Object[1];
@@ -228,7 +228,7 @@ public class RrResponsibleExecutivesDaoImpl implements RrResponsibleExecutivesDa
 	public List<TrainingType> getUsersDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation FROM user u where user_id is not null and user_type_fk <> '' and u.user_type_fk not in('Management')";
+			String qry = "SELECT user_id,user_name,designation FROM [user] u where user_id is not null and user_type_fk <> '' and u.user_type_fk not in('Management')";
 			qry = qry + " and user_name not like '%user%' and pmis_key_fk not like '%SGS%'";// and department_fk in('Engg','Elec','S&T') 
 			
 			qry = qry + " ORDER BY FIELD(user_type_fk,'HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others'),"

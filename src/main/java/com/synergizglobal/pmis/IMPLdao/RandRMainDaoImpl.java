@@ -573,7 +573,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		List<RandRMain> objsList = null;
 		try {
 			String qry ="select rr_id, r.work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor, carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, estimate_approval_date, letter_to_mmrda, estimates_by_mmrda, payment_to_mmrda, alternate_housing_allotment,"
-					+ " relocation, encroachment_removal, boundary_wall_status, boundary_wall_doc, handed_over_to_execution, occupier_name_during_verification,modified_by,DATE_FORMAT(modified_date,'%d-%m-%Y') as modified_date from rr r "
+					+ " relocation, encroachment_removal, boundary_wall_status, boundary_wall_doc, handed_over_to_execution, occupier_name_during_verification,modified_by,FORMAT(modified_date,'%d-%m-%Y') as modified_date from rr r "
 					+ "LEFT JOIN work w on r.work_id = w.work_id "
 					+ "left join rr_executives re on r.work_id = re.work_id_fk  "
 					+ "WHERE rr_id is not null ";
@@ -621,7 +621,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY rr_id ORDER BY rr_id ASC limit ?,?";
+				qry = qry + " GROUP BY rr_id ORDER BY rr_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -675,9 +675,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		List<RandRMain> objsList = new ArrayList<RandRMain>();
 		try {
 			String qry = "select distinct project_id as project_id_fk,project_name "
-					+ "from `project` p "
+					+ "from project p "
 					+ "LEFT JOIN work w on w.project_id_fk = p.project_id "
-					+ "LEFT JOIN `rr_executives` r ON r.work_id_fk = w.work_id "
+					+ "LEFT JOIN rr_executives r ON r.work_id_fk = w.work_id "
 					+ "where project_id is not null ";
 					
 			int arrSize = 0;
@@ -717,9 +717,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		List<RandRMain> objsList = new ArrayList<RandRMain>();
 		try {
 			String qry = "select distinct work_id as work_id_fk,work_name,work_code,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT JOIN `rr_executives` r ON r.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN `project` p ON p.project_id = w.project_id_fk "
+					+ "from work w "
+					+ "LEFT JOIN rr_executives r ON r.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON p.project_id = w.project_id_fk "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -981,11 +981,11 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		RandRMain obj = null;
 		try {
 			String qry = "select rr_id, r.work_id,(select executive_user_id_fk from rr_executives re where r.work_id = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk, identification_no,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, "
-					+ "type_of_structure_wall, type_of_structure_floor, r.carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, DATE_FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,DATE_FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,r.remarks,estimation_amount_units,estimated_by_mmrda_amount_units,"
-					+ "DATE_FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc, estimation_amount,DATE_FORMAT(estimate_approval_date ,'%d-%m-%Y') AS estimate_approval_date,DATE_FORMAT(letter_to_mmrda ,'%d-%m-%Y') AS letter_to_mmrda, estimates_by_mmrda, DATE_FORMAT(payment_to_mmrda ,'%d-%m-%Y') AS payment_to_mmrda, DATE_FORMAT(alternate_housing_allotment ,'%d-%m-%Y') AS alternate_housing_allotment,DATE_FORMAT(relocation ,'%d-%m-%Y') AS relocation,DATE_FORMAT(encroachment_removal ,'%d-%m-%Y') AS encroachment_removal, boundary_wall_status, "
-					+ "DATE_FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,DATE_FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification,"
+					+ "type_of_structure_wall, type_of_structure_floor, r.carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,r.remarks,estimation_amount_units,estimated_by_mmrda_amount_units,"
+					+ "FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc, estimation_amount,FORMAT(estimate_approval_date ,'%d-%m-%Y') AS estimate_approval_date,FORMAT(letter_to_mmrda ,'%d-%m-%Y') AS letter_to_mmrda, estimates_by_mmrda, FORMAT(payment_to_mmrda ,'%d-%m-%Y') AS payment_to_mmrda, FORMAT(alternate_housing_allotment ,'%d-%m-%Y') AS alternate_housing_allotment,FORMAT(relocation ,'%d-%m-%Y') AS relocation,FORMAT(encroachment_removal ,'%d-%m-%Y') AS encroachment_removal, boundary_wall_status, "
+					+ "FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification,"
 					+ "rr1.id, rr1.rr_id_fk, rr1.name_of_activity, rr1.year_of_establishment, rr1.carpet_area as com_carpet_area, rr1.monthly_turnover_amount, rr1.monthly_turnover_amount_units, rr1.number_of_employees, rr1.remarks as com_remarks,"
-					+ "rr2.id, rr2.rr_id_fk, rr2.occupancy_status, rr2.gender, rr2.family_income_amount_units,rr2.tenure_status, rr2.caste, rr2.mother_tongue, rr2.type_of_family, rr2.family_size, rr2.number_of_married_couple, rr2.family_income_amount, rr2.vulnerable_category, DATE_FORMAT(r.planned_date_of_completion ,'%d-%m-%Y') as planned_date_of_completion"
+					+ "rr2.id, rr2.rr_id_fk, rr2.occupancy_status, rr2.gender, rr2.family_income_amount_units,rr2.tenure_status, rr2.caste, rr2.mother_tongue, rr2.type_of_family, rr2.family_size, rr2.number_of_married_couple, rr2.family_income_amount, rr2.vulnerable_category, FORMAT(r.planned_date_of_completion ,'%d-%m-%Y') as planned_date_of_completion"
 					+ " from rr r " + 
 					"left join work w on r.work_id = w.work_id  "
 					+ "left join rr_executives re on r.work_id = re.work_id_fk  "+
@@ -1302,9 +1302,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				RandRMain sobj = null;
 
 				String query = "select distinct rr_id, r.work_id, identification_no,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, "
-						+ "type_of_structure_wall, type_of_structure_floor, r.carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, DATE_FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,DATE_FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,r.remarks,estimation_amount_units,estimated_by_mmrda_amount_units,"
-						+ "DATE_FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc, estimation_amount,DATE_FORMAT(estimate_approval_date ,'%d-%m-%Y') AS estimate_approval_date,DATE_FORMAT(letter_to_mmrda ,'%d-%m-%Y') AS letter_to_mmrda, estimates_by_mmrda, DATE_FORMAT(payment_to_mmrda ,'%d-%m-%Y') AS payment_to_mmrda, DATE_FORMAT(alternate_housing_allotment ,'%d-%m-%Y') AS alternate_housing_allotment,DATE_FORMAT(relocation ,'%d-%m-%Y') AS relocation,DATE_FORMAT(encroachment_removal ,'%d-%m-%Y') AS encroachment_removal, boundary_wall_status, "
-						+ "DATE_FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,DATE_FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification,"
+						+ "type_of_structure_wall, type_of_structure_floor, r.carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,r.remarks,estimation_amount_units,estimated_by_mmrda_amount_units,"
+						+ "FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc, estimation_amount,FORMAT(estimate_approval_date ,'%d-%m-%Y') AS estimate_approval_date,FORMAT(letter_to_mmrda ,'%d-%m-%Y') AS letter_to_mmrda, estimates_by_mmrda, FORMAT(payment_to_mmrda ,'%d-%m-%Y') AS payment_to_mmrda, FORMAT(alternate_housing_allotment ,'%d-%m-%Y') AS alternate_housing_allotment,FORMAT(relocation ,'%d-%m-%Y') AS relocation,FORMAT(encroachment_removal ,'%d-%m-%Y') AS encroachment_removal, boundary_wall_status, "
+						+ "FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification,"
 						+ "rr1.id, rr1.rr_id_fk, rr1.name_of_activity, rr1.year_of_establishment, rr1.carpet_area as com_carpet_area, rr1.monthly_turnover_amount, rr1.monthly_turnover_amount_units, rr1.number_of_employees, rr1.remarks as com_remarks,"
 						+ "rr2.id, rr2.rr_id_fk, rr2.occupancy_status, rr2.gender, rr2.family_income_amount_units,rr2.tenure_status, rr2.caste, rr2.mother_tongue, rr2.type_of_family, rr2.family_size, rr2.number_of_married_couple, rr2.family_income_amount, rr2.vulnerable_category"
 						+ " from rr r " + 
@@ -1360,8 +1360,8 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	private String getRRExecutives(String work_id) throws Exception {
 		String executives="";
 		try {
-			String qry = "SELECT  GROUP_CONCAT(DISTINCT (u.user_id) SEPARATOR ',') user_id FROM rr_executives re " + 
-					"left join user u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
+			String qry = "SELECT  STRING_AGG(DISTINCT (u.user_id) SEPARATOR ',') user_id FROM rr_executives re " + 
+					"LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
 			executives = (String) jdbcTemplate.queryForObject(qry, new Object[] { work_id }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -1372,8 +1372,8 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	private String getRRExecutivesEmail(String work_id) throws Exception {
 		String executivesEmail="";
 		try {
-			String qry = "SELECT  GROUP_CONCAT(DISTINCT (u.email_id) SEPARATOR ',') email_id FROM rr_executives re " + 
-					"left join user u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
+			String qry = "SELECT  STRING_AGG(DISTINCT (u.email_id) SEPARATOR ',') email_id FROM rr_executives re " + 
+					"LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
 			executivesEmail = (String) jdbcTemplate.queryForObject(qry, new Object[] { work_id }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -1778,17 +1778,17 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		try {
 			String qry ="select rr_id, r.work_id as work_id_fk, identification_no ,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall," + 
 					"  type_of_structure_floor, carpet_area,  year_of_construction, name_of_the_owner, type_of_use,"
-					+ " document_type, document_no, DATE_FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,"
-					+ "DATE_FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,"
-					+ "DATE_FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc,cast(estimation_amount as CHAR) as  estimation_amount, m1.unit as estimation_amount_units, "
-					+ "DATE_FORMAT(estimate_approval_date ,'%d-%m-%Y') AS estimate_approval_date,DATE_FORMAT(letter_to_mmrda ,'%d-%m-%Y') AS letter_to_mmrda, "
-					+ "cast(estimates_by_mmrda as CHAR) as estimates_by_mmrda, m.unit as estimated_by_mmrda_amount_units, DATE_FORMAT(payment_to_mmrda ,'%d-%m-%Y') AS payment_to_mmrda, "
-					+ "DATE_FORMAT(alternate_housing_allotment ,'%d-%m-%Y') AS alternate_housing_allotment,"
-					+ "DATE_FORMAT(relocation ,'%d-%m-%Y') AS relocation,DATE_FORMAT(encroachment_removal ,'%d-%m-%Y') AS encroachment_removal,"
-					+ "DATE_FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,"
-					+ "DATE_FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification, r.remarks from rr r " + 
+					+ " document_type, document_no, FORMAT(physical_verification ,'%d-%m-%Y') AS physical_verification, verification_by,"
+					+ "FORMAT(approval_by_committee ,'%d-%m-%Y') AS  approval_by_committee,"
+					+ "FORMAT(rr_approval_status_by_mrvc ,'%d-%m-%Y') AS  rr_approval_status_by_mrvc,cast(estimation_amount as CHAR) as  estimation_amount, m1.unit as estimation_amount_units, "
+					+ "FORMAT(estimate_approval_date ,'%d-%m-%Y') AS estimate_approval_date,FORMAT(letter_to_mmrda ,'%d-%m-%Y') AS letter_to_mmrda, "
+					+ "cast(estimates_by_mmrda as CHAR) as estimates_by_mmrda, m.unit as estimated_by_mmrda_amount_units, FORMAT(payment_to_mmrda ,'%d-%m-%Y') AS payment_to_mmrda, "
+					+ "FORMAT(alternate_housing_allotment ,'%d-%m-%Y') AS alternate_housing_allotment,"
+					+ "FORMAT(relocation ,'%d-%m-%Y') AS relocation,FORMAT(encroachment_removal ,'%d-%m-%Y') AS encroachment_removal,"
+					+ "FORMAT(boundary_wall_doc ,'%d-%m-%Y') AS boundary_wall_doc,"
+					+ "FORMAT(handed_over_to_execution ,'%d-%m-%Y') AS handed_over_to_execution, occupier_name_during_verification, r.remarks from rr r " + 
 					" LEFT JOIN work w on r.work_id = w.work_id " + 
-					 "LEFT JOIN `rr_executives` re ON re.work_id_fk = w.work_id "+
+					 "LEFT JOIN rr_executives re ON re.work_id_fk = w.work_id "+
 					"left join project p on w.project_id_fk = p.project_id  " + 
 					"left join money_unit m on r.estimated_by_mmrda_amount_units = m.value  " + 
 					"left join money_unit m1 on r.estimation_amount_units = m1.value  " + 
@@ -2223,9 +2223,9 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getRRUploadsList(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "SELECT rr_data_id, uploaded_file, rru.status, rru.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y  %h:%i %p') as uploaded_on "
+			String qry = "SELECT rr_data_id, uploaded_file, rru.status, rru.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'%d-%b-%Y  %h:%i %p') as uploaded_on "
 					+ ",uploaded_on as date from rr_upload_data rru " 
-					+ "LEFT JOIN user u ON rru.uploaded_by_user_id_fk = u.user_id "
+					+ "LEFT JOIN [user] u ON rru.uploaded_by_user_id_fk = u.user_id "
 					+ "where rr_data_id is not null order by rr_data_id desc ";
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));

@@ -41,7 +41,7 @@ public class UrlGenerator {
 		    //return requestURL.getProtocol() + "://" + requestURL.getHost() + port;
 		    //ip_address = requestURL.getHost();
 		    ip_address = request.getServerName().toString();
-			/*if("10.203.10.157".equals(ip_address)) {
+			/*if("10.203.10.158".equals(ip_address)) {
 				ip_address = "pmis.mrvc.gov.in";
 			}*/
 		} catch (Exception e) {
@@ -71,15 +71,15 @@ public class UrlGenerator {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
 			        .getRequestAttributes()).getRequest();
 			String ip_address = request.getServerName().toString();
-			/*if("10.203.10.157".equals(ip_address)) {
+			/*if("10.203.10.158".equals(ip_address)) {
 				ip_address = "pmis.mrvc.gov.in";
 			}*/
 		    
-		    if("10.203.10.157".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) {
-		    	base_path = "D:/PMISApplicationServer/nginx-1.9.9/html/"+getContextPath();
+		    if("10.203.10.158".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) {
+		    	base_path = "C:/Development/nginx-1.9.9/html/"+getContextPath();
 		    }else if("13.235.73.61".equals(ip_address)) {
 		    	base_path = "usr/share/nginx/html/"+getContextPath();
-		    }else if("127.0.0.1".equals(ip_address) || "localhost".equals(ip_address)) {
+		    }else if("127.0.0.1".equals(ip_address) || "localhost:90".equals(ip_address)) {
 		    	base_path = "C:/Development/nginx-1.9.9/html/"+getContextPath();
 		    }
 		} catch (Exception e) {
@@ -94,15 +94,15 @@ public class UrlGenerator {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
 			        .getRequestAttributes()).getRequest();
 			String ip_address = request.getServerName().toString();
-			/*if("10.203.10.157".equals(ip_address)) {
+			/*if("10.203.10.158".equals(ip_address)) {
 				ip_address = "pmis.mrvc.gov.in";
 			}*/
 		    
-		    if("10.203.10.157".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) {
+		    if("10.203.10.158".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) {
 		    	user_login_report_mail_id = "dycste2@mrvc.gov.in";
 		    }else if("13.235.73.61".equals(ip_address)) {
 		    	user_login_report_mail_id = "raviteja.reddy@synergizglobal.com";
-		    }else if("127.0.0.1".equals(ip_address) || "localhost".equals(ip_address)) {
+		    }else if("127.0.0.1".equals(ip_address) || "localhost:90".equals(ip_address)) {
 		    	user_login_report_mail_id = "gkalluri@ghsltechnologies.com";
 		    }
 		} catch (Exception e) {
@@ -117,15 +117,15 @@ public class UrlGenerator {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
 			        .getRequestAttributes()).getRequest();
 			String ip_address = request.getServerName().toString();
-			/*if("10.203.10.157".equals(ip_address)) {
+			/*if("10.203.10.158".equals(ip_address)) {
 				ip_address = "pmis.mrvc.gov.in";
 			}*/
 		    
-		    if("10.203.10.157".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) {
+		    if("10.203.10.158".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) {
 		    	managers_mail_ids = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";
 		    }else if("13.235.73.61".equals(ip_address)) {
 		    	managers_mail_ids = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";
-		    }else if("127.0.0.1".equals(ip_address) || "localhost".equals(ip_address)) {
+		    }else if("127.0.0.1".equals(ip_address) || "localhost:90".equals(ip_address)) {
 		    	managers_mail_ids = "kallurigurappa@gmail.com,gkalluri@ghsltechnologies.com";
 		    }
 		} catch (Exception e) {

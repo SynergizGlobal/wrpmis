@@ -37,12 +37,12 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getLeftMenuList(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url, `order`, parent_id, dashboard_url, status,source_field_name, "  
-					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_role') as user_roles, "
-					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_type') as user_types, "
-					+ "(select group_concat(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user') as users, "	
-					+ "(select group_concat(archive_date) from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_dates, "
-					+ "(select group_concat(archive_url) from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_urls "
+			String qry ="SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url, order, parent_id, dashboard_url, status,source_field_name, "  
+					+ "(select STRING_AGG(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_role') as user_roles, "
+					+ "(select STRING_AGG(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_type') as user_types, "
+					+ "(select STRING_AGG(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user') as users, "	
+					+ "(select STRING_AGG(archive_date) from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_dates, "
+					+ "(select STRING_AGG(archive_url) from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_urls "
 					+" FROM left_menu l where dashboard_id is not null and show_left_menu = ?";
 			
 			int arrSize = 1;
@@ -54,7 +54,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 				qry = qry + " and status = ? ";
 				arrSize++;
 			}
-			qry = qry + "  order by `order` asc";
+			qry = qry + "  order by [order] asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = "Yes";
@@ -141,7 +141,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			connection = dataSource.getConnection();
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO left_menu"
-					+ "(dashboard_name,`order`, parent_id,dashboard_url,status,source_field_name) VALUES (?,?,?,?,?,?)";
+					+ "(dashboard_name,order, parent_id,dashboard_url,status,source_field_name) VALUES (?,?,?,?,?,?)";
 			
 			stmt = connection.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, obj.getDashboard_name());
@@ -276,7 +276,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE left_menu SET dashboard_name= :value_new,`order`= :order,"
+			String  updatereferenceTableQry = "UPDATE left_menu SET dashboard_name= :value_new,order= :order,"
 					+ "parent_id= :parent_id, dashboard_url= :dashboard_url, status= :status,source_field_name = :source_field_name WHERE dashboard_id= :dashboard_id " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	

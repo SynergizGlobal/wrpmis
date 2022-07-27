@@ -37,7 +37,7 @@ public class WorkDetailsDaoImpl implements WorkDetailsDao{
 	public List<WorkFeatures> getWorkDetailsList(WorkFeatures obj) throws Exception {
 		List<WorkFeatures> objsList = null;
 		try {
-			String qry ="select group_concat(title_fk) as title_fk,work_id_fk,work_id,work_short_name "
+			String qry ="select STRING_AGG(title_fk) as title_fk,work_id_fk,work_id,work_short_name "
 					+ "from work_details wd "
 					+ "LEFT JOIN work ON wd.work_id_fk = work_id "		
 					+ "WHERE wd.work_id_fk IS NOT NULL ";

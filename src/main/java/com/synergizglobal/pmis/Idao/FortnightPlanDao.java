@@ -22,6 +22,8 @@ public interface FortnightPlanDao {
 	List<FortnightPlan> getFortnightPlan(FortnightPlan obj) throws Exception;
 
 	boolean updateFortnightPlan(FortnightPlan obj) throws Exception;
+	
+	boolean updateFortnightlyPlan(FortnightPlan obj) throws Exception;
 
 	int getTotalRecords(FortnightPlan obj, String searchParameter) throws Exception;
 

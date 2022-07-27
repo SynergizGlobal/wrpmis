@@ -288,7 +288,7 @@ public class ContractorDaoImpl implements ContractorDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY contractor_id ASC limit ?,?";
+				qry = qry + " ORDER BY contractor_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}

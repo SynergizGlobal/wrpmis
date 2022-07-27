@@ -161,13 +161,13 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 				List<ActivitiesProgressReport> totalContractProgresList = new ArrayList<ActivitiesProgressReport>();
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select p6_activity_id as activity_id,activity_name,structure as fob_id_fk,DATE_FORMAT(baseline_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(baseline_finish,'%d-%m-%Y') AS planned_finish,case  " + 
-							"  when (IFNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-							"  when IFNULL(NULLIF(completed, '' ), 0)>=IFNULL(NULLIF(scope, '' ), 0) then (select DATE_FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
-							"  else (select DATE_FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
-							"  when (IFNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-							"  when IFNULL(NULLIF(completed, '' ), 0)>=IFNULL(NULLIF(scope, '' ), 0) then (select DATE_FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
-							"  else '' end as actual_finish,unit,IFNULL(NULLIF(scope, '' ), 0) AS scope,IFNULL(NULLIF(completed, '' ), 0) AS completed,contract_id_fk,work_id,project_id,project_name "
+					String contractProgressDatesQry = "select p6_activity_id as activity_id,activity_name,structure as fob_id_fk,FORMAT(baseline_start,'%d-%m-%Y') AS planned_start,FORMAT(baseline_finish,'%d-%m-%Y') AS planned_finish,case  " + 
+							"  when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
+							"  when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+							"  else (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
+							"  when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
+							"  when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+							"  else '' end as actual_finish,unit,ISNULL(NULLIF(scope, '' ), 0) AS scope,ISNULL(NULLIF(completed, '' ), 0) AS completed,contract_id_fk,work_id,project_id,project_name "
 							+ "from  p6_activities a "
 							+ "left join structure s on s.structure_id = a.structure_id_fk "
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "

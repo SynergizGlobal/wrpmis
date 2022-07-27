@@ -61,7 +61,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `soft_delete_status` from soft_delete_status ";
+			String qry ="select soft_delete_status from soft_delete_status ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -75,7 +75,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `soft_delete_status`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as soft_delete_status,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -86,7 +86,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `soft_delete_status` from soft_delete_status where `soft_delete_status` NOT IN (?";
+					  String qry2 = "select soft_delete_status from soft_delete_status where soft_delete_status NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -155,7 +155,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE soft_delete_status SET `soft_delete_status`= :status_new WHERE `soft_delete_status`= :status_old " ;
+			String  updatereferenceTableQry = "UPDATE soft_delete_status SET soft_delete_status= :status_new WHERE soft_delete_status= :status_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -186,7 +186,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from soft_delete_status WHERE `soft_delete_status`= :status; ";
+			String deleteQry ="DELETE from soft_delete_status WHERE soft_delete_status= :status; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

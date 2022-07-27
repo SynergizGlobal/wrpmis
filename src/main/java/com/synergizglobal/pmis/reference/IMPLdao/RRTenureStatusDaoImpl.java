@@ -28,7 +28,7 @@ public class RRTenureStatusDaoImpl implements RRTenureStatusDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `rr_tenure_status` from rr_tenure_status ";
+			String qry ="select rr_tenure_status from rr_tenure_status ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -42,7 +42,7 @@ public class RRTenureStatusDaoImpl implements RRTenureStatusDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `rr_tenure_status`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as rr_tenure_status,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -53,7 +53,7 @@ public class RRTenureStatusDaoImpl implements RRTenureStatusDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `rr_tenure_status` from rr_tenure_status where `rr_tenure_status` NOT IN (?";
+					  String qry2 = "select rr_tenure_status from rr_tenure_status where rr_tenure_status NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -143,7 +143,7 @@ public class RRTenureStatusDaoImpl implements RRTenureStatusDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE rr_tenure_status SET `rr_tenure_status`= :value_new WHERE `rr_tenure_status`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE rr_tenure_status SET rr_tenure_status= :value_new WHERE rr_tenure_status= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -174,7 +174,7 @@ public class RRTenureStatusDaoImpl implements RRTenureStatusDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from rr_tenure_status WHERE `rr_tenure_status`= :rr_tenure_status; ";
+			String deleteQry ="DELETE from rr_tenure_status WHERE rr_tenure_status= :rr_tenure_status; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

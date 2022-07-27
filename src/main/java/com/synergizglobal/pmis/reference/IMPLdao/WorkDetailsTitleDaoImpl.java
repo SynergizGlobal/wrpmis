@@ -28,7 +28,7 @@ public class WorkDetailsTitleDaoImpl implements WorkDetailsTitleDao{
 		List<WorkFeatures> objsList1 = null;
 		WorkFeatures sObj =null;
 		try {
-			String qry ="select `title` from work_details_title ";
+			String qry ="select title from work_details_title ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkFeatures>(WorkFeatures.class));		
 			obj.setdList1(objsList);
@@ -42,7 +42,7 @@ public class WorkDetailsTitleDaoImpl implements WorkDetailsTitleDao{
 				int i = 1;
 				for (WorkFeatures bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `title`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as title,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -53,7 +53,7 @@ public class WorkDetailsTitleDaoImpl implements WorkDetailsTitleDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `title` from work_details_title where `title` NOT IN (?";
+					  String qry2 = "select title from work_details_title where title NOT IN (?";
 	
 						int j =0, p=1;
 						for (WorkFeatures aObj : obj.getdList()) {
@@ -145,7 +145,7 @@ public class WorkDetailsTitleDaoImpl implements WorkDetailsTitleDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE work_details_title SET `title`= :value_new WHERE `title`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE work_details_title SET title= :value_new WHERE title= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -176,7 +176,7 @@ public class WorkDetailsTitleDaoImpl implements WorkDetailsTitleDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from work_details_title WHERE `title`= :title; ";
+			String deleteQry ="DELETE from work_details_title WHERE title= :title; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

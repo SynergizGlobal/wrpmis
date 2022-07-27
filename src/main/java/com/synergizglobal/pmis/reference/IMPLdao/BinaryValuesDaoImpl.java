@@ -27,7 +27,7 @@ public class BinaryValuesDaoImpl implements BinaryValuesDao{
 	public List<TrainingType> getBinaryValuesList() throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select `binary` from binary_values ";
+			String qry ="select binary from binary_values ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
@@ -41,7 +41,7 @@ public class BinaryValuesDaoImpl implements BinaryValuesDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO binary_values"
-					+ "(`binary`) VALUES (:binary)";
+					+ "(binary) VALUES (:binary)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -61,7 +61,7 @@ public class BinaryValuesDaoImpl implements BinaryValuesDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `binary` from binary_values ";
+			String qry ="select binary from binary_values ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -75,7 +75,7 @@ public class BinaryValuesDaoImpl implements BinaryValuesDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `binary`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as binary,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -86,7 +86,7 @@ public class BinaryValuesDaoImpl implements BinaryValuesDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `binary` from binary_values where `binary` NOT IN (?";
+					  String qry2 = "select binary from binary_values where binary NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -155,7 +155,7 @@ public class BinaryValuesDaoImpl implements BinaryValuesDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE binary_values SET `binary`= :binary_new WHERE `binary`= :binary_old " ;
+			String  updatereferenceTableQry = "UPDATE binary_values SET binary= :binary_new WHERE binary= :binary_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -186,7 +186,7 @@ public class BinaryValuesDaoImpl implements BinaryValuesDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE FROM binary_values WHERE `binary`= :binary; ";
+			String deleteQry ="DELETE FROM binary_values WHERE binary= :binary; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

@@ -24,7 +24,7 @@ public class FOBGalleryDaoImpl implements FOBGalleryDao{
 	public List<FOBGallery> getFOBGalleryList(String fob_id) throws Exception {
 		List<FOBGallery> objsList = null;
 		try {
-			String qry = "select fob_id_fk,attachment,DATE_FORMAT(created_date,'%d-%b-%Y') as created_date from fob_files where fob_id_fk = ? " ;
+			String qry = "select fob_id_fk,attachment,FORMAT(created_date,'%d-%b-%Y') as created_date from fob_files where fob_id_fk = ? " ;
 			
 			objsList = jdbcTemplate.query( qry, new Object[] {fob_id}, new BeanPropertyRowMapper<FOBGallery>(FOBGallery.class));	
 		}catch(Exception e){ 

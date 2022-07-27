@@ -645,7 +645,7 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Project> getProjectsList() throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry = "select project_id,project_name,plan_head_number,remarks from `project`";
+			String qry = "select project_id,project_name,plan_head_number,remarks from project";
 			//objsList = jdbcTemplate.query( qry, BeanPropertyRowMapper.newInstance(Project.class));
 			//OR
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));
@@ -662,8 +662,8 @@ public class HomeDaoImpl implements HomeDao {
 		try {
 			String qry = "select work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,"
 					+ "sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,w.remarks,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id ";
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -727,12 +727,12 @@ public class HomeDaoImpl implements HomeDao {
 		List<Work> workDocs = null;
 		try {
 			String projectQry = "select project_id,project_name,plan_head_number,remarks,project_status,benefits "
-					+ "from `project`";
+					+ "from project";
 			
 			/*String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
 					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, " 
 					+ "max(wr.projected_completion) as projected_completion_year,"
-					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join `work` w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
+					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join work w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? group by wr.project_id_fk";
 			
 			String workQry = "select wr.work_id,wr.work_short_name,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
@@ -748,7 +748,7 @@ public class HomeDaoImpl implements HomeDao {
 					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, "
 					+ "(SELECT (CASE WHEN MONTH(max(wr.projected_completion)) >= 4 THEN concat(YEAR(max(wr.projected_completion)), '-',SUBSTR(YEAR(max(wr.projected_completion))+1,3,2)) ELSE concat(YEAR(max(wr.projected_completion))-1,'-', SUBSTR(YEAR(max(wr.projected_completion)),3,2)) END) AS financial_year) as projected_completion_year," 
 					//+ "max(wr.projected_completion) as projected_completion_year,"
-					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join `work` w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
+					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join work w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? group by wr.project_id_fk";
 			
 			String workQry = "select wr.work_id,wr.work_short_name,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
@@ -764,9 +764,9 @@ public class HomeDaoImpl implements HomeDao {
 			
 			String projectGalleryQry = "select id,file_name,project_id_fk,created_date,created_by from project_gallery where project_id_fk = ? ";
 			
-			String projectDocumentsQry = "select id, project_id_fk, attachment, project_file_type_fk,DATE_FORMAT(created_date,'%d-%m-%Y') AS created_date from project_files where project_id_fk = ? ";
+			String projectDocumentsQry = "select id, project_id_fk, attachment, project_file_type_fk,FORMAT(created_date,'%d-%m-%Y') AS created_date from project_files where project_id_fk = ? ";
 			
-			String workDocumentsQry = "select id, work_id_fk, attachment, work_file_type_fk,DATE_FORMAT(created_date,'%d-%m-%Y') AS created_date from work_files where work_id_fk = ? ";
+			String workDocumentsQry = "select id, work_id_fk, attachment, work_file_type_fk,FORMAT(created_date,'%d-%m-%Y') AS created_date from work_files where work_id_fk = ? ";
 
 			objsList = jdbcTemplate.query( projectQry, new BeanPropertyRowMapper<Project>(Project.class));
 			
@@ -984,7 +984,7 @@ public class HomeDaoImpl implements HomeDao {
 			con.setAutoCommit(false);
 			
 			List<User> user_ids = new ArrayList<User>();
-			String qry = "SELECT user_login_id,user_id_fk FROM user_login_details WHERE logout_date_time is null and last_active_date_time < (NOW() - INTERVAL 30 MINUTE)";
+			String qry = "SELECT user_login_id,user_id_fk FROM [user]_login_details WHERE logout_date_time is null and last_active_date_time < (GETDATE() - INTERVAL 30 MINUTE)";
 			stmt = con.prepareStatement(qry);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -996,7 +996,7 @@ public class HomeDaoImpl implements HomeDao {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			String insertQry = "UPDATE user_login_details SET logout_date_time = CURRENT_TIMESTAMP,logout_type_fk = ? "
-					+ "WHERE logout_date_time is null and last_active_date_time < (NOW() - INTERVAL 30 MINUTE)";
+					+ "WHERE logout_date_time is null and last_active_date_time < (GETDATE() - INTERVAL 30 MINUTE)";
 			stmt = con.prepareStatement(insertQry);
 			int p = 1;
 			stmt.setString(p++,CommonConstants2.LOGOUT_TYPE_TIMEOUT);			
@@ -1030,27 +1030,30 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Messages> getMessages(Messages mObj) throws Exception {
 		List<Messages> objsList = null;
 		try {
-			String qry ="select distinct message_id, message, user_id_fk, redirect_url, created_date, created_date_24hr_format, read_time, message_type from (select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,created_date as created_date_24hr_format, "
+			String qry ="select message_id, message, user_id_fk, redirect_url, created_date, created_date_24hr_format, read_time, message_type from (select message_id,message,user_id_fk,redirect_url,FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,created_date as created_date_24hr_format, "
 					+ "read_time,message_type "
 					+ "from messages where user_id_fk = ? "
-					+ " and ((read_time is null and created_date> (NOW() - INTERVAL 3 DAY)) or (read_time is not null and read_time > (NOW() - INTERVAL 1 DAY))) and message_type not in ('Risk') union all "
+					+ " and ((read_time is null and created_date> (GETDATE() - 3)) or (read_time is not null and read_time > (GETDATE() - 1))) and message_type not in ('Risk') union all "
 				    + " select distinct (SELECT max(message_id) FROM messages m where m.redirect_url=redirect_url and left(m.created_date,10)=left(m2.created_date,10) "
-				    + "and m.message_type=m2.message_type and user_id_fk = ?) as message_id,message,user_id_fk,redirect_url,left(DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p'),10) as created_date,"
+				    + "and m.message_type=m2.message_type and user_id_fk = ?) as message_id,message,user_id_fk,redirect_url,left(FORMAT(created_date,'%d-%m-%Y %h:%i %p'),10) as created_date,"
 				    + "(SELECT MAX(created_date) FROM messages m where m.redirect_url=redirect_url and left(m.created_date,10)=left(m2.created_date,10) "
 					+ "and m.message_type=m2.message_type and user_id_fk = ? "
 					+ ") as created_date_24hr_format, "
 					+ "(select read_time from messages m where m.message_id=(SELECT max(message_id) " + 
 					" FROM messages m where m.redirect_url=redirect_url and left(m.created_date,10)=left(m2.created_date,10) " + 
-					" and m.message_type=m2.message_type and user_id_fk = ?)  order by read_time desc limit 1),message_type "
+					" and m.message_type=m2.message_type and user_id_fk = ?)  order by read_time desc  offset 0 rows " + 
+					"fetch next 1 rows only),message_type "
 					+ "from messages m2 where user_id_fk = ? "
-					+ " and ((read_time is null and created_date> (NOW() - INTERVAL 3 DAY)) or (read_time is not null and read_time > (NOW() - INTERVAL 1 DAY))) and message_type in ('Risk')) as a ";
+					+ " and ((read_time is null and created_date> (GETDATE() - 3)) or (read_time is not null and read_time > (GETDATE() - 1))) and message_type in ('Risk')) as a ";
 			
 			int arrSize = 5;		
 			if(!StringUtils.isEmpty(mObj.getMessage_type())) {
 				qry = qry + "where message_type = ? ";
 				arrSize++;
 			}
-			qry = qry + " group by message_id order by created_date_24hr_format desc,DATE_FORMAT(created_date_24hr_format,'%H:%i:%s') DESC";
+			//qry = qry + " group by message_id order by created_date_24hr_format desc,FORMAT(created_date_24hr_format,'%H:%i:%s') DESC";
+			
+			qry = qry + " order by created_date_24hr_format desc,FORMAT(created_date_24hr_format,'%H:%i:%s') DESC";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = mObj.getUser_id_fk();
@@ -1087,7 +1090,7 @@ public class HomeDaoImpl implements HomeDao {
 		try {
 			String qry ="select message_type "
 					+ "from messages where user_id_fk = ? "
-					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) "
+					+ "and (read_time is null or read_time > (GETDATE() - 3)) "
 					+ "group by message_type order by message_type ASC";
 			objsList = jdbcTemplate.query( qry,new Object[] {mObj.getUser_id_fk()}, new BeanPropertyRowMapper<Messages>(Messages.class));	
 		}catch(Exception e){ 

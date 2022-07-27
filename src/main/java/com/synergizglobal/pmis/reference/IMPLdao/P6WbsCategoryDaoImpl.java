@@ -63,7 +63,7 @@ public class P6WbsCategoryDaoImpl implements P6WbsCategoryDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `p6_wbs_category` from p6_wbs_category ";
+			String qry ="select p6_wbs_category from p6_wbs_category ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -77,7 +77,7 @@ public class P6WbsCategoryDaoImpl implements P6WbsCategoryDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `p6_wbs_category`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as p6_wbs_category,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -88,7 +88,7 @@ public class P6WbsCategoryDaoImpl implements P6WbsCategoryDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `p6_wbs_category` from p6_wbs_category where `p6_wbs_category` NOT IN (?";
+					  String qry2 = "select p6_wbs_category from p6_wbs_category where p6_wbs_category NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -166,7 +166,7 @@ public class P6WbsCategoryDaoImpl implements P6WbsCategoryDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE p6_wbs_category SET `p6_wbs_category`= :value_new WHERE `p6_wbs_category`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE p6_wbs_category SET p6_wbs_category= :value_new WHERE p6_wbs_category= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -197,7 +197,7 @@ public class P6WbsCategoryDaoImpl implements P6WbsCategoryDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from p6_wbs_category WHERE `p6_wbs_category`= :p6_wbs_category; ";
+			String deleteQry ="DELETE from p6_wbs_category WHERE p6_wbs_category= :p6_wbs_category; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

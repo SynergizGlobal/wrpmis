@@ -52,11 +52,11 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> objsList = null;
 		try {
 			String qry ="SELECT DISTINCT work_id,work_name,work_short_name,work_code,work_code,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost,"
-					+ "(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`," 
-					+ "(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`,"
+					+ "(SELECT STRING_AGG(work_railway.railway_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway," 
+					+ "(SELECT STRING_AGG(work_railway.executed_by_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
-					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
+					+ ",w.remarks,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
+					+ "FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
 					+ "FROM work w "  
 					+"LEFT JOIN project p ON w.project_id_fk = p.project_id ";
 		
@@ -74,7 +74,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getWorkStatusList(Work obj) throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry = "SELECT execution_status as work_status_fk from execution_status where execution_status in('Not Started','In Progress','Completed')";
+			String qry = "SELECT execution_status as work_status_fk from execution_status where execution_status in(Not Started,In Progress,Completed)";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -93,8 +93,8 @@ public class WorkDaoImpl implements WorkDao {
 			connection = dataSource.getConnection();
 			String qry ="SELECT work_id,work_name,work_short_name,work_code,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," 
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
-					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
+					+ ",w.remarks,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
+					+ "FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
 					+ "FROM work w " 
 					+ "LEFT JOIN project p ON w.project_id_fk = p.project_id " 
 				    + "where work_id = ?";
@@ -505,7 +505,7 @@ public class WorkDaoImpl implements WorkDao {
 				
 				/********************************************************************************/
 				if("Completed".equals(work.getWork_status_fk()) && !"Completed".equals(work.getExisting_work_status_fk())) {
-					String qryUsers ="SELECT incharge_user_id_fk as user_id FROM `module` where module_name = 'Works' ";
+					String qryUsers ="SELECT incharge_user_id_fk as user_id FROM module where module_name = Works ";
 					List<String> users = jdbcTemplate.queryForList( qryUsers, String.class);	
 					if(!StringUtils.isEmpty(users) && users.size() > 0) {
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -730,7 +730,7 @@ public class WorkDaoImpl implements WorkDao {
 				
 				/********************************************************************************/
 				
-				String qryUsers ="SELECT incharge_user_id_fk as user_id FROM `module` where module_name = 'Works' ";
+				String qryUsers ="SELECT incharge_user_id_fk as user_id FROM module where module_name = Works ";
 				List<String> users = jdbcTemplate.queryForList( qryUsers, String.class);	
 				if(!StringUtils.isEmpty(users) && users.size() > 0) {
 					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -784,7 +784,7 @@ public class WorkDaoImpl implements WorkDao {
 		ResultSet rs = null;
 		String workId = null;
 		try{			
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(work_id, 1, LENGTH(work_id)-3),'W',LPAD(MAX(SUBSTRING(work_id, 5, LENGTH(work_id)))+1,2,'0') ) AS maxId FROM work WHERE work_id LIKE ?";
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(work_id, 1, LENGTH(work_id)-3),W,LPAD(MAX(SUBSTRING(work_id, 5, LENGTH(work_id)))+1,2,0) ) AS maxId FROM work WHERE work_id LIKE ?";
 			stmt = con.prepareStatement(maxIdQry);
 			stmt.setString(1, projectId+"%");
 			rs = stmt.executeQuery();  
@@ -808,7 +808,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Railway> getRailwayList()throws Exception{
 		List<Railway> objsList = null;
 		try {
-			String qry = "select railway_id,railway_name from `railway`";
+			String qry = "select railway_id,railway_name from railway";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Railway>(Railway.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -820,7 +820,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Railway> getExcecuteList()throws Exception{
 		List<Railway> objsList = null;
 		try {
-			String qry = "SELECT DISTINCT executed_by_id_fk FROM `work_railway` WHERE executed_by_id_fk IS NOT NULL";
+			String qry = "SELECT DISTINCT executed_by_id_fk FROM work_railway WHERE executed_by_id_fk IS NOT NULL";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Railway>(Railway.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -930,11 +930,11 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> objsList = null;
 		try {
 			String qry = "SELECT DISTINCT work_id,work_name,work_short_name,work_code,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost, " + 
-					"(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`, " + 
-					"(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`, " + 
+					"(SELECT STRING_AGG(work_railway.railway_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway, " + 
+					"(SELECT STRING_AGG(work_railway.executed_by_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by, " + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost "  + 
-					",w.remarks,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion, " + 
-					"DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
+					",w.remarks,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion, " + 
+					"FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
 					+ "FROM work w  " + 
 					"LEFT JOIN project p ON w.project_id_fk = p.project_id  "+
 					//"LEFT JOIN money_unit m ON w.sanctioned_estimated_cost_unit = m.value  "+
@@ -969,7 +969,7 @@ public class WorkDaoImpl implements WorkDao {
 		try {
 			String qry = "SELECT w.project_id_fk,p.project_name from work w " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where project_id_fk is not null and project_id_fk <> '' ";
+					"where project_id_fk is not null and project_id_fk <>  ";
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -1010,7 +1010,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getWorkTypeList() throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry = "SELECT work_type as work_type_fk from work_type where work_type is not null and work_type <> '' ";
+			String qry = "SELECT work_type as work_type_fk from work_type where work_type is not null and work_type <>  ";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1023,7 +1023,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getworkCodeList(Work obj) throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry = "SELECT work_code from work where work_code is not null and work_code <> '' and work_code = '"+obj.getWork_code()+"'";
+			String qry = "SELECT work_code from work where work_code is not null and work_code <>  and work_code = "+obj.getWork_code()+"";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1076,10 +1076,10 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> objsList = null;
 		try {
 			String qry ="SELECT DISTINCT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost,"
-					+ "(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`," 
-					+ "(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`,"
+					+ "(SELECT STRING_AGG(work_railway.railway_id_fk SEPARATOR ,) FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway," 
+					+ "(SELECT STRING_AGG(work_railway.executed_by_id_fk SEPARATOR ,) FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion "
+					+ ",w.remarks,w.attachment,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion "
 					+ "FROM work w "  
 					+"LEFT JOIN project p ON w.project_id_fk = p.project_id where work_id is not null ";
 			int arrSize = 0;
@@ -1095,7 +1095,7 @@ public class WorkDaoImpl implements WorkDao {
 				//arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY work_id ASC limit ?,?";
+				qry = qry + " ORDER BY work_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}

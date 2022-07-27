@@ -30,7 +30,7 @@ public class LaLandStatusDaoImpl implements LaLandStatusDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `la_land_status` from la_land_status ";
+			String qry ="select la_land_status from la_land_status ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -44,7 +44,7 @@ public class LaLandStatusDaoImpl implements LaLandStatusDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `la_land_status`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as la_land_status,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -55,7 +55,7 @@ public class LaLandStatusDaoImpl implements LaLandStatusDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `la_land_status` from la_land_status where `la_land_status` NOT IN (?";
+					  String qry2 = "select la_land_status from la_land_status where la_land_status NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -153,7 +153,7 @@ public class LaLandStatusDaoImpl implements LaLandStatusDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE la_land_status SET `la_land_status`= :status_new WHERE `la_land_status`= :status_old " ;
+			String  updatereferenceTableQry = "UPDATE la_land_status SET la_land_status= :status_new WHERE la_land_status= :status_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -184,7 +184,7 @@ public class LaLandStatusDaoImpl implements LaLandStatusDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from la_land_status WHERE `la_land_status`= :la_land_status; ";
+			String deleteQry ="DELETE from la_land_status WHERE la_land_status= :la_land_status; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

@@ -44,7 +44,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) {
 				qry = qry + " AND dashboard_id = ?";
 			}
-			qry = qry + " ORDER BY `order`";
+			qry = qry + " ORDER BY [order]";
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
 			statement.setString(2, dObj.getParent_id());
@@ -126,7 +126,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 		ResultSet resultSet = null;
 		int count = 0;
 		try {
-			String qry = "SELECT count(*) AS count FROM `"+obj.getSource_table_name()+"` WHERE `"+obj.getSource_field_name()+"` = '"+obj.getSource_field_value()+"'";
+			String qry = "SELECT count(*) AS count FROM '"+obj.getSource_table_name()+"' WHERE '"+obj.getSource_field_name()+"' = '"+obj.getSource_field_value()+"'";
 			statement = connection.prepareStatement(qry);
 			resultSet = statement.executeQuery();  
 			if(resultSet.next()) {
@@ -149,7 +149,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 		try {
 			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
-					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? ORDER BY `order`";
+					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? ORDER BY [order]";
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
 			statement.setString(2, parentId);
@@ -360,25 +360,25 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 						obj.setFilter(filter);
 					}else if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
 						String filterQry = "SELECT "
-						+ "`" + obj.getFilter_column_name() + "` as filter_option_value ";
+						+ "'" + obj.getFilter_column_name() + "' as filter_option_value ";
 						if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
-							filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
+							filterQry = filterQry + ",'" + obj.getFilter_column_id() + "' as filter_option_id ";
 						}
 						filterQry = filterQry + " FROM "
-						+ "`"+ obj.getFilters_table()+ "`";
+						+ "'"+ obj.getFilters_table()+ "'";
 						
 						filterQry = filterQry + " WHERE "
-								+ "`"+ obj.getFilter_column_id()+ "`"
+								+ "'"+ obj.getFilter_column_id()+ "'"
 								+ " IS NOT NULL ";
 						if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
 							filterQry = filterQry + " AND "
-							+ "`"+ tempObj.getSource_field_name()+ "`"
+							+ "'"+ tempObj.getSource_field_name()+ "'"
 							+ " = "
 							+ "'"+ dObj.getWork_id()+ "'";
 						}
 						if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
 							filterQry = filterQry + " AND "
-							+ "`"+ obj.getDefault_filter_column()+ "`"
+							+ "'"+ obj.getDefault_filter_column()+ "'"
 							+ " = "
 							+ "'"+ obj.getDefault_filter_value()+ "'";
 						}
@@ -388,7 +388,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 						}
 						
 						
-						filterQry = filterQry + " GROUP BY " + "`"+ obj.getFilter_column_id()+ "`";
+						filterQry = filterQry + " GROUP BY " + "'"+ obj.getFilter_column_id()+ "'";
 						if(!StringUtils.isEmpty(obj.getOrder_by())) {
 							filterQry = filterQry + " ORDER BY ";
 							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {
@@ -575,25 +575,25 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 					obj.setFilter(filter);
 				}else if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
 					String filterQry = "SELECT "
-					+ "`" + obj.getFilter_column_name() + "` as filter_option_value ";
+					+ "'" + obj.getFilter_column_name() + "' as filter_option_value ";
 					if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
-						filterQry = filterQry + ",`" + obj.getFilter_column_id() + "` as filter_option_id ";
+						filterQry = filterQry + ",'" + obj.getFilter_column_id() + "' as filter_option_id ";
 					}
 					filterQry = filterQry + " FROM "
-					+ "`"+ obj.getFilters_table()+ "`";
+					+ "'"+ obj.getFilters_table()+ "'";
 					
 					filterQry = filterQry + " WHERE "
-							+ "`"+ obj.getFilter_column_id()+ "`"
+							+ "'"+ obj.getFilter_column_id()+ "'"
 							+ " IS NOT NULL ";
 					if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
 						filterQry = filterQry + " AND "
-						+ "`"+ tempObj.getSource_field_name()+ "`"
+						+ "'"+ tempObj.getSource_field_name()+ "'"
 						+ " = "
 						+ "'"+ dObj.getWork_id()+ "'";
 					}
 					if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
 						filterQry = filterQry + " AND "
-						+ "`"+ obj.getDefault_filter_column()+ "`"
+						+ "'"+ obj.getDefault_filter_column()+ "'"
 						+ " = "
 						+ "'"+ obj.getDefault_filter_value()+ "'";
 					}
@@ -603,7 +603,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 					}
 					
 					
-					filterQry = filterQry + " GROUP BY " + "`"+ obj.getFilter_column_id()+ "`";
+					filterQry = filterQry + " GROUP BY " + "'"+ obj.getFilter_column_id()+ "'";
 					if(!StringUtils.isEmpty(obj.getOrder_by())) {
 						filterQry = filterQry + " ORDER BY ";
 						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {

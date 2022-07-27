@@ -39,9 +39,9 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		List<ContractResource> objsList = null;
 		List<ContractResource> objsList1 = null;
 		try {
-			String qry = "select project_id as project_id_fk,project_name from `contract` c "
-					+ "LEFT OUTER JOIN `work` w ON c.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN `project` p ON w.project_id_fk = project_id where contract_id is not null  ";
+			String qry = "select project_id as project_id_fk,project_name from contract c "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = project_id where contract_id is not null  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
@@ -88,9 +88,9 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		List<ContractResource> objsList1 = null;
 		try {
 			String qry = "select work_id as work_id_fk,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `contract` c "
-					+ "LEFT OUTER JOIN `work` w ON c.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN `project` p ON w.project_id_fk = project_id "
+					+ "from contract c "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -203,13 +203,13 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 					+ "c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk, department_id_fk as department_fk,"
 					+ " executive_user_id_fk FROM contract_executive ce "
 					+ "LEFT JOIN contract c on ce.contract_id_fk = c.contract_id "+
-					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join work w on c.work_id_fk = w.work_id  " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
+					"LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join department hoddt on u.department_fk = hoddt.department "
 					+"left join department dt on ce.department_id_fk = dt.department "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id where contract_id is not null ";
+					"LEFT JOIN [user] us on c.dy_hod_user_id_fk = us.user_id where contract_id is not null ";
 			
 			int arrSize = 0;
 		
@@ -375,7 +375,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 	public List<ContractResource> getSubResourceTypeListForContractResourceForm(ContractResource obj) throws Exception {
 		List<ContractResource> objsList = null;
 		try {
-			String qry ="select resource_type_fk as resource_type,sub_resource_type from sub_resource_type where sub_resource_type is not null and sub_resource_type <> ''  ";
+			String qry ="select resource_type_fk as resource_type,sub_resource_type from sub_resource_type where sub_resource_type is not null and sub_resource_type <>   ";
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResource_type())) {
 				qry = qry + " and resource_type_fk = ?";

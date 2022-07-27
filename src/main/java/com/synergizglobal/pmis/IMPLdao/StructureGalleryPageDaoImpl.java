@@ -27,7 +27,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 		List<Structure> objsList = null;
 		try {
 		
-			String qry ="select id, structure_id_fk, name, sd.attachment,w.work_short_name,w.work_name, structure_file_type_fk, DATE_FORMAT(sd.created_date,'%d-%m-%Y') AS created_date " 
+			String qry ="select id, structure_id_fk, name, sd.attachment,w.work_short_name,w.work_name, structure_file_type_fk, FORMAT(sd.created_date,'%d-%m-%Y') AS created_date " 
 					+ " from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
 					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "
@@ -35,7 +35,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
-				qry = qry + " and DATE_FORMAT(sd.created_date,'%Y-%m') = ?";
+				qry = qry + " and FORMAT(sd.created_date,'%Y-%m') = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
@@ -78,7 +78,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 	public List<Structure> getMonthList(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry ="select date_format(created_date,'%b-%y') as created_date,w.work_short_name, DATE_FORMAT(created_date,'%Y-%m')as valueDate  " 
+			String qry ="select FORMAT(created_date,'%b-%y') as created_date,w.work_short_name, FORMAT(created_date,'%Y-%m')as valueDate  " 
 					+ " from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
 					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "
@@ -86,7 +86,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
-				qry = qry + " and DATE_FORMAT(sd.created_date,'%Y-%m') = ?";
+				qry = qry + " and FORMAT(sd.created_date,'%Y-%m') = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
@@ -101,7 +101,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 				qry = qry + " and s.work_id_fk = ?";
 				arrSize++;
 			}	
-			qry = qry +" GROUP BY DATE_FORMAT(created_date,'%Y-%m') order by sd.created_date desc";
+			qry = qry +" GROUP BY FORMAT(created_date,'%Y-%m') order by sd.created_date desc";
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -137,7 +137,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
-				qry = qry + " and DATE_FORMAT(sd.created_date,'%Y-%m') = ?";
+				qry = qry + " and FORMAT(sd.created_date,'%Y-%m') = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
@@ -188,7 +188,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCreated_date())) {
-				qry = qry + " and DATE_FORMAT(sd.created_date,'%Y-%m') = ?";
+				qry = qry + " and FORMAT(sd.created_date,'%Y-%m') = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {

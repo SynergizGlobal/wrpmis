@@ -56,7 +56,7 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null; 
 		try {
-			String qry ="select id, resource_type_fk, group_concat(sub_resource_type) as sub_resource_type from sub_resource_type group by resource_type_fk ";
+			String qry ="select id, resource_type_fk, STRING_AGG(sub_resource_type) as sub_resource_type from sub_resource_type group by resource_type_fk ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -70,7 +70,7 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `sub_resource_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as sub_resource_type,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -81,7 +81,7 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select id, resource_type_fk, sub_resource_type from sub_resource_type where `sub_resource_type` NOT IN (?";
+					  String qry2 = "select id, resource_type_fk, sub_resource_type from sub_resource_type where sub_resource_type NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -231,7 +231,7 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String deleteQry = "delete from sub_resource_type where `resource_type_fk`= :resource_type_fk_old";
+			String deleteQry = "delete from sub_resource_type where resource_type_fk= :resource_type_fk_old";
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
 			int size = 0,size2 = 0,size3=0;
@@ -328,7 +328,7 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from sub_resource_type WHERE `id`= :id; ";
+			String deleteQry ="DELETE from sub_resource_type WHERE id= :id; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

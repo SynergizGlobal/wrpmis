@@ -62,7 +62,7 @@ public class ProjectPriorityDaoImpl  implements ProjectPriorityDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `project_priority` from project_priority ";
+			String qry ="select project_priority from project_priority ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -76,7 +76,7 @@ public class ProjectPriorityDaoImpl  implements ProjectPriorityDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `project_priority`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as project_priority,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -87,7 +87,7 @@ public class ProjectPriorityDaoImpl  implements ProjectPriorityDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `project_priority` from project_priority where `project_priority` NOT IN (?";
+					  String qry2 = "select project_priority from project_priority where project_priority NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -158,7 +158,7 @@ public class ProjectPriorityDaoImpl  implements ProjectPriorityDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE project_priority SET `project_priority`= :value_new WHERE `project_priority`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE project_priority SET project_priority= :value_new WHERE project_priority= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -189,7 +189,7 @@ public class ProjectPriorityDaoImpl  implements ProjectPriorityDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from project_priority WHERE `project_priority`= :project_priority; ";
+			String deleteQry ="DELETE from project_priority WHERE project_priority= :project_priority; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

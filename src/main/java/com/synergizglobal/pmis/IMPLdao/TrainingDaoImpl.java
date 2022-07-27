@@ -78,7 +78,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList = null;
 		try {
 			String qry ="select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,title,faculty_name,status_fk,t.designation, description, training_center, status_fk, t.remarks,"
-					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
+					+ "FORMAT(start_time,'%d-%m-%Y')  as date,FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
 					+ " FROM training_session ts where ts.training_id_fk  = training_id group by training_id_fk) as hours "
 					+ "from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
@@ -383,7 +383,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 				List<Training> objsList = null;
 				String qryDetails = "select training_session_id,training_id_fk as training_id,session_no,"
-						+" DATE_FORMAT(start_time,'%d-%m-%Y %H:%i:%s') AS start_time, DATE_FORMAT(end_time,'%d-%m-%Y %H:%i:%s') AS end_time "
+						+" FORMAT(start_time,'%d-%m-%Y %H:%i:%s') AS start_time, FORMAT(end_time,'%d-%m-%Y %H:%i:%s') AS end_time "
 						+ "from training_session "
 						+"where training_id_fk is not null and training_id_fk = ? ";
 				
@@ -427,7 +427,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			
 			String qry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, u.department_fk, u.user_name as attendee,u.designation as trainee_designation, reporting_to_id_srfk as hod_user_id_fk,u.mobile_number as mobile_no, required_fk, participated_fk, email_id as email " + 
 					"from training_attendees ta "
-					+ "LEFT JOIN user u on ta.user_id = u.user_id  "
+					+ "left join [user] u on ta.user_id = u.user_id  "
 					+ "LEFT JOIN department d on d.department = u.department_fk  "
 					+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user = ?";
 			stmt = con.prepareStatement(qry);
@@ -473,7 +473,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			String qry = "select distinct training_attendees_id,d.department_name, training_id_fk,reporting_to_id_srfk as hod_user_id_fk,mobile_number as mobile_no,"
 					+ " training_session_id_fk, u.department_fk, u.user_name as attendee,u.designation as designation, required_fk, participated_fk,email_id as email "
 					+ " from training_attendees ta "
-					+ "LEFT JOIN user u on ta.user_id = u.user_id  "
+					+ "left join [user] u on ta.user_id = u.user_id  "
 					+ "LEFT JOIN department d on d.department = u.department_fk  " 
 					+"where training_id_fk = ? and  training_session_id_fk = ?  ";
 			stmt = con.prepareStatement(qry);
@@ -854,7 +854,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		try{
 			connection = dataSource.getConnection();
 			String maxIdQry = "SELECT CONCAT(SUBSTRING(user_id, 1, LENGTH(user_id)-7),'_"+role_code+"_',LPAD(MAX(SUBSTRING(user_id, 9, LENGTH(user_id)))+1,3,'0') ) AS maxId "
-					+ "FROM user WHERE user_id LIKE 'PMIS_%'";
+					+ "FROM [user] WHERE user_id LIKE 'PMIS_%'";
 			
 			stmt = connection.prepareStatement(maxIdQry);
 			rs = stmt.executeQuery();  
@@ -1077,7 +1077,7 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getUsersList(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select user_id as hod_user_id_fk,designation,department_fk,user_name from user where user_type_fk = ? ";
+			String qry ="select user_id as hod_user_id_fk,designation,department_fk,user_name FROM [user] where user_type_fk = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -1203,7 +1203,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		 Connection con = null;
 		try{
 			con = dataSource.getConnection();
-			String deptFkQry = "SELECT user_id from user where designation = ? ";
+			String deptFkQry = "SELECT user_id FROM [user] where designation = ? ";
 			stmt = con.prepareStatement(deptFkQry);
 			int k =1;
 			stmt.setString(k++, hod);
@@ -1228,7 +1228,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		 Connection con = null;
 		try{
 			con = dataSource.getConnection();
-			String deptFkQry = "SELECT user_id from user where user_name = ? ";
+			String deptFkQry = "SELECT user_id FROM [user] where user_name = ? ";
 			stmt = con.prepareStatement(deptFkQry);
 			int k =1;
 			stmt.setString(k++, Attendee);
@@ -1278,7 +1278,7 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getTrainingSessionsList(String id) throws Exception {
 		List<Training> sessionsList = null;
 		try {
-			  String qry = "select training_session_id,ts.training_id_fk as training_id,sum(ta.required_fk = ?) as nominated,t.description,sum(ta.participated_fk = ?) as attended,session_no,DATE_FORMAT(start_time,'%d-%m-%Y')  as date,"
+			  String qry = "select training_session_id,ts.training_id_fk as training_id,sum(ta.required_fk = ?) as nominated,t.description,sum(ta.participated_fk = ?) as attended,session_no,FORMAT(start_time,'%d-%m-%Y')  as date,"
 	  					+" time_format(start_time,'%h:%i:%s') as start_time,time_format(end_time,'%h:%i:%s') as end_time  "
 	  					+ "from training_session ts "
 	  					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
@@ -1302,8 +1302,8 @@ public class TrainingDaoImpl implements TrainingDao{
 			String qry = "select training_attendees_id,d.department_name,ts.session_no,u.designation,t.description,u.email_id as email, ta.training_id_fk as training_id, training_session_id_fk as training_session_id, u.department_fk"
 					+ ", u.user_name as attendee,u.designation as trainee_designation, u1.designation as hod_user_id_fk,u.mobile_number as mobile_no, required_fk, participated_fk " + 
 					"from training_attendees ta " + 
-					"LEFT JOIN user u on ta.user_id = u.user_id  " + 
-					"LEFT JOIN user u1 on u.reporting_to_id_srfk = u1.user_id "+
+					"left join [user] u on ta.user_id = u.user_id  " + 
+					"left join [user] u1 on u.reporting_to_id_srfk = u1.user_id "+
 					"LEFT JOIN department d on d.department=u.department_fk " + 
 					"left join training t on ta.training_id_fk = t.training_id "+
 					"LEFT JOIN training_session ts on ta.training_session_id_fk = ts.training_session_id " + 
@@ -1324,7 +1324,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList1 = null;
 		try {
 			int arrSize = 0;
-			String qry ="SELECT  user_id,user_name as attendee,department_fk,designation FROM user u where user_name NOT LIKE '%User%'  and user_id LIKE 'PMIS%'  " ;
+			String qry ="SELECT  user_id,user_name as attendee,department_fk,designation FROM [user] u where user_name NOT LIKE '%User%'  and user_id LIKE 'PMIS%'  " ;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and u.department_fk = ?";
 				arrSize++;
@@ -1364,7 +1364,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		try {
 			int arrSize = 0;
 			String qry ="select  u.user_name as attendee,u.department_fk,u.designation from training_attendees ta "
-					+ "LEFT JOIN user u on ta.user_id = u.user_id  "
+					+ "left join [user] u on ta.user_id = u.user_id  "
 					+ "LEFT JOIN department d on d.department = u.department_fk  "
 					+ "  where u.user_name <> '' ";
 			
@@ -1392,7 +1392,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		int totalRecords = 0;
 		try {
 			String qry ="select count(distinct training_id) as total_records from(select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = 'Yes') as nominated,sum(ta.participated_fk = 'Yes') as attended,title,faculty_name,t.designation, description, training_center, status_fk, t.remarks,"
-					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
+					+ "FORMAT(start_time,'%d-%m-%Y')  as date,FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
 					+ " FROM training_session ts where ts.training_id_fk  = training_id group by training_id_fk) as hours "
 					+ "from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
@@ -1467,7 +1467,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList = null;
 		try {
 			String qry ="select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,title,faculty_name,status_fk,t.designation, description, training_center, status_fk, t.remarks,"
-					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
+					+ "FORMAT(start_time,'%d-%m-%Y')  as date,FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
 					+ " FROM training_session ts where ts.training_id_fk  = training_id group by training_id_fk) as hours "
 					+ "from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
@@ -1503,7 +1503,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + "group by ts.training_id_fk order by ts.start_time desc limit ?,?";
+				qry = qry + "group by ts.training_id_fk order by ts.start_time desc offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}	

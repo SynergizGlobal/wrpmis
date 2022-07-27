@@ -73,7 +73,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "FROM p6_activities a "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract co on a.contract_id_fk = co.contract_id "	
-					+ "WHERE a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> IFNULL('Completed',0) ";
+					+ "WHERE a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL('Completed',0) ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -126,7 +126,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "from p6_activities a "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "					
-					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> IFNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL('Completed',0) " ;
 					
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -193,7 +193,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
-					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> IFNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL('Completed',0) " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -250,7 +250,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "left join structure s1 on s1.structure_id = s.structure_id_fk "
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
 					+ "WHERE s1.structure is not null and (s.component_details != 'OBC' or s.component_details is null) and s1.structure_type_fk!='FOB' and s1.structure_type_fk = ? AND s1.structure <> '' AND s.contract_id_fk = ? "
-					+ "AND (select count(*) from p6_activities WHERE scope <> IFNULL(completed,0) and (component_details != 'OBC' or component_details is null) and s1.structure_type_fk!='FOB' and s1.structure_type_fk = ? and contract_id_fk = ? AND structure = s1.structure ) > 0 ";
+					+ "AND (select count(*) from p6_activities WHERE scope <> ISNULL(completed,0) and (component_details != 'OBC' or component_details is null) and s1.structure_type_fk!='FOB' and s1.structure_type_fk = ? and contract_id_fk = ? AND structure = s1.structure ) > 0 ";
 			int arrSize = 4;
 			
 		
@@ -301,7 +301,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "FROM p6_activities s left join structure s1 on s1.structure_id = s.structure_id_fk "
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
 					+ "WHERE s.structure is not null and (s.component_details != 'OBC' or s.component_details is null) and s.structure_type_fk!='FOB' and f.work_status_fk='In Progress' AND s.structure <> '' AND s.contract_id_fk = ? "
-					+ "AND (select count(*) from p6_activities WHERE scope <> IFNULL(completed,0) and (component_details != 'OBC' or component_details is null) and s.structure_type_fk!='FOB' and contract_id_fk = ? AND structure = s.structure ) > 0 ";
+					+ "AND (select count(*) from p6_activities WHERE scope <> ISNULL(completed,0) and (component_details != 'OBC' or component_details is null) and s.structure_type_fk!='FOB' and contract_id_fk = ? AND structure = s.structure ) > 0 ";
 			int arrSize = 2;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and ( "
@@ -420,15 +420,15 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		try {
 			String qry = "select p6_activity_id AS strip_chart_activity_id,scv.contract_id_fk AS contract_id,scv.structure AS strip_chart_structure_id,scv.component_id AS strip_chart_component_id_name,"
 					+ "scv.component AS strip_chart_component,scv.activity_name AS strip_chart_activity_name,"
-					+ "scv.line AS strip_chart_line,scv.structure AS structure_type,scv.section AS strip_chart_section_name,completed,scope,remaining,units as unit_fk,scv.`status` AS status_name,scv.remarks,"
+					+ "scv.line AS strip_chart_line,scv.structure AS structure_type,scv.section AS strip_chart_section_name,completed,scope,remaining,units as unit_fk,scv.status AS status_name,scv.remarks,"
 					+ "case  " + 
-					" when (IFNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-					" when IFNULL(NULLIF(completed, '' ), 0)>=IFNULL(NULLIF(scope, '' ), 0) then (select DATE_FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
-					" else (select DATE_FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
-					" when (IFNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-					" when IFNULL(NULLIF(completed, '' ), 0)>=IFNULL(NULLIF(scope, '' ), 0) then (select DATE_FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
-					" else '' end as actual_finish,DATE_FORMAT(scv.baseline_start,'%d-%m-%Y') AS planned_start,"
-					+ "DATE_FORMAT(scv.baseline_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
+					" when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
+					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+					" else (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
+					" when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
+					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+					" else '' end as actual_finish,FORMAT(scv.baseline_start,'%d-%m-%Y') AS planned_start,"
+					+ "FORMAT(scv.baseline_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
 					+ "from p6_activities scv "
 					+ "left join structure s on s.structure_id = scv.structure_id_fk "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
@@ -570,7 +570,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		String color = "";
 		try {	
 			String qry = " select * from (select (case "  
-					+" when ((select count(*) from p6_activities s1 left join structure s11 on s11.structure_id = s1.structure_id_fk where s11.structure_type_fk!='FOB' and (s1.component_details != 'OBC' or s1.component_details is null) and (s1.scope - IFNULL(s1.completed,0)) <> 0 "
+					+" when ((select count(*) from p6_activities s1 left join structure s11 on s11.structure_id = s1.structure_id_fk where s11.structure_type_fk!='FOB' and (s1.component_details != 'OBC' or s1.component_details is null) and (s1.scope - ISNULL(s1.completed,0)) <> 0 "
 					+ " and s1.contract_id_fk = ? and s11.structure = ? and s1.component_id = ? and s1.component = ? AND p6_activity_id=a.p6_activity_id ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s1.line = ?";
@@ -579,7 +579,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						qry = qry + " and s1.section = ?";
 					}	
 					qry = qry + ") = 0) then 'over' "  
-					//+" when ((select count(*) from activities where (select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') from activities s2 where "
+					//+" when ((select count(*) from activities where (select FORMAT(max(planned_finish),'%Y-%m-%d') from activities s2 where "
 					//+ " s2.completed <> 0 and s2.contract_id_fk = ? and s2.structure = ? and s2.component_id = ? ";
 				//	if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 				//		qry = qry + " and s2.line = ?";
@@ -588,7 +588,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					//	qry = qry + " and s2.section = ?";
 					//}	
 					//qry = qry + ") < CURDATE() ) > 0) then 'delayed' "  
-					+" when ((select count(*) from p6_activities s3 left join structure s11 on s11.structure_id = s3.structure_id_fk where s11.structure_type_fk!='FOB' and (s3.component_details != 'OBC' or s3.component_details is null) and IFNULL(s3.completed,0) = 0 and scope <> 0 "
+					+" when ((select count(*) from p6_activities s3 left join structure s11 on s11.structure_id = s3.structure_id_fk where s11.structure_type_fk!='FOB' and (s3.component_details != 'OBC' or s3.component_details is null) and ISNULL(s3.completed,0) = 0 and scope <> 0 "
 					+ "and s3.contract_id_fk = ? and s11.structure = ? and s3.component_id = ? and s3.component = ? AND p6_activity_id=a.p6_activity_id ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s3.line = ?";
@@ -719,7 +719,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			String qry = "select p6_activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name "
 					+ "from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk"
 					
-					+ "where p6_activity_id is not null and s11.structure_type_fk!='FOB' and (component_details != 'OBC' or component_details is null)  and scope <> IFNULL(completed,0)  "
+					+ "where p6_activity_id is not null and s11.structure_type_fk!='FOB' and (component_details != 'OBC' or component_details is null)  and scope <> ISNULL(completed,0)  "
 					+ "and component_id = ? and structure = ? and component = ? ";
 			int arrSize = 2;			
 			
@@ -760,8 +760,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		StripChart sObj = null;
 		try {
 			String qry = "select p6_activity_id as activity_id,"
-					+ "DATE_FORMAT(start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(finish,'%d-%m-%Y') AS actual_finish,DATE_FORMAT(baseline_start,'%d-%m-%Y') AS planned_start,"
-					+ "DATE_FORMAT(baseline_finish,'%d-%m-%Y') AS planned_finish,"
+					+ "FORMAT(start,'%d-%m-%Y') AS actual_start,FORMAT(finish,'%d-%m-%Y') AS actual_finish,FORMAT(baseline_start,'%d-%m-%Y') AS planned_start,"
+					+ "FORMAT(baseline_finish,'%d-%m-%Y') AS planned_finish,"
 					+ "component_id as strip_chart_component_id_name,completed as completed,scope as scope,remaining as remaining, units as unit_fk "
 					+ "from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk"
 					+ "where p6_activity_id is not null and s11.structure_type_fk!='FOB' and (component_details != 'OBC' or component_details is null) and component_id = ? and structure = ? and activity_id = ? ";
@@ -802,8 +802,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	public List<StripChart> getActivitiesfiltersList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select p6_activity_id as activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name,DATE_FORMAT(baseline_start,'%d-%b-%y') AS planned_start "  
-					+",DATE_FORMAT(baseline_finish,'%d-%b-%y') AS planned_finish,DATE_FORMAT(start,'%d-%b-%y') AS start,DATE_FORMAT(finish,'%d-%b-%y') AS finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " 
+			String qry = "select p6_activity_id as activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name,FORMAT(baseline_start,'%d-%b-%y') AS planned_start "  
+					+",FORMAT(baseline_finish,'%d-%b-%y') AS planned_finish,FORMAT(start,'%d-%b-%y') AS start,FORMAT(finish,'%d-%b-%y') AS finish,ISNULL(NULLIF(scope, '' ), 0) as scope,ISNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " 
 					+ " where p6_activity_id is not null and (component_details != 'OBC' or component_details is null) and s11.structure_type_fk!='FOB' ";
 			
 				if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))
@@ -1269,9 +1269,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		            
 					if(Float.parseFloat(StrVar2[i])>=completed && date2.compareTo(date1)>=0 && ((Str1.compareTo(String.valueOf(Str))!=0) || ( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) ) )
 					{
-						//String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
+						//String updateQry = "UPDATE  activities set completed = ISNULL(NULLIF(completed, '' ), 0) + ?";	
 						
-						String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = IFNULL(NULLIF(completed, '' ), 0) ";
+						String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = ISNULL(NULLIF(completed, '' ), 0) ";
 						
 						if(StrVar.length>0)
 						{
@@ -1370,7 +1370,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						if(Float.parseFloat(StrVar2[i])>=completed && ((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") ) )
 						{
 						
-							String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = IFNULL(NULLIF(completed, '' ), 0) ";
+							String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = ISNULL(NULLIF(completed, '' ), 0) ";
 				
 							
 							updateQry = updateQry + " WHERE p6_activity_id = ? ";
@@ -1648,7 +1648,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "select a.contract_id_fk "
 					+ "FROM p6_activities a "
 					+ "left outer join contract co on a.contract_id_fk = co.contract_id "	
-					+ "WHERE a.contract_id_fk is not null  and a.scope <> IFNULL('Completed',0) ";
+					+ "WHERE a.contract_id_fk is not null  and a.scope <> ISNULL('Completed',0) ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -1721,7 +1721,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "select a.contract_id_fk "
 					+ "from p6_activities a "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "					
-					+ "where a.contract_id_fk is not null  and a.scope <> IFNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null  and a.scope <> ISNULL('Completed',0) " ;
 					
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -1809,7 +1809,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "from p6_activities a "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
-					+ "where a.contract_id_fk is not null  and a.scope <> IFNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null  and a.scope <> ISNULL('Completed',0) " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -1875,8 +1875,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	public List<StripChart> getDeleteActivitiesfiltersList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select p6_activity_id as activity_id,weightage,component_details,task_code as p6_task_code,component_id as strip_chart_component_id_name,component as strip_chart_component,p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name,DATE_FORMAT(baseline_start,'%d-%b-%y') AS planned_start "  
-					+",DATE_FORMAT(baseline_finish,'%d-%b-%y') AS planned_finish,DATE_FORMAT(start,'%d-%b-%y') AS start,DATE_FORMAT(finish,'%d-%b-%y') AS finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities  a left join structure s11 on s11.structure_id = a.structure_id_fk" 
+			String qry = "select p6_activity_id as activity_id,weightage,component_details,task_code as p6_task_code,component_id as strip_chart_component_id_name,component as strip_chart_component,p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name,FORMAT(baseline_start,'%d-%b-%y') AS planned_start "  
+					+",FORMAT(baseline_finish,'%d-%b-%y') AS planned_finish,FORMAT(start,'%d-%b-%y') AS start,FORMAT(finish,'%d-%b-%y') AS finish,ISNULL(NULLIF(scope, '' ), 0) as scope,ISNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities  a left join structure s11 on s11.structure_id = a.structure_id_fk" 
 					+ " where p6_activity_id is not null  ";
 			
 		
@@ -1946,7 +1946,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "FROM p6_activities s left join structure s11 on s11.structure_id = s.structure_id_fk "
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
 					+ "WHERE s11.structure is not null and (s.component_details != 'OBC' or s.component_details is null) and s11.structure_type_fk = ? AND s11.structure <> '' AND s.contract_id_fk = ? "
-					+ "AND (select count(*) from p6_activities a left join structure s12 on s12.structure_id = a.structure_id_fk WHERE scope <> IFNULL(completed,0) and  s11.structure_type_fk = ? and s.contract_id_fk = ? AND structure = s11.structure ) > 0 ";
+					+ "AND (select count(*) from p6_activities a left join structure s12 on s12.structure_id = a.structure_id_fk WHERE scope <> ISNULL(completed,0) and  s11.structure_type_fk = ? and s.contract_id_fk = ? AND structure = s11.structure ) > 0 ";
 			int arrSize = 4;
 			
 		

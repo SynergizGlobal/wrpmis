@@ -84,7 +84,7 @@ public class IssueOtherOrganizationDaoImpl implements IssueOtherOrganizationDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from issue_other_organization WHERE `issue_other_organization`= :issue_other_organization ";
+			String deleteQry ="DELETE from issue_other_organization WHERE issue_other_organization= :issue_other_organization ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

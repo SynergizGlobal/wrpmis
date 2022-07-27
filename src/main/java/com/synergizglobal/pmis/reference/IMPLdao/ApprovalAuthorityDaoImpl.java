@@ -28,7 +28,7 @@ public class ApprovalAuthorityDaoImpl implements ApprovalAuthorityDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `approval_authority` from approval_authority ";
+			String qry ="select approval_authority from approval_authority ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -42,7 +42,7 @@ public class ApprovalAuthorityDaoImpl implements ApprovalAuthorityDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `approval_authority`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as approval_authority,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -53,7 +53,7 @@ public class ApprovalAuthorityDaoImpl implements ApprovalAuthorityDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `approval_authority` from approval_authority where `approval_authority` NOT IN (?";
+					  String qry2 = "select approval_authority from approval_authority where approval_authority NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -114,7 +114,7 @@ public class ApprovalAuthorityDaoImpl implements ApprovalAuthorityDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE approval_authority SET `approval_authority`= :value_new WHERE `approval_authority`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE approval_authority SET approval_authority= :value_new WHERE approval_authority= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -145,7 +145,7 @@ public class ApprovalAuthorityDaoImpl implements ApprovalAuthorityDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from approval_authority WHERE `approval_authority`= :approval_authority; ";
+			String deleteQry ="DELETE from approval_authority WHERE approval_authority= :approval_authority; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

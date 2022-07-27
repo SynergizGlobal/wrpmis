@@ -29,7 +29,7 @@ public class YesOrNoStatusDaoImpl implements YesOrNoStatusDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `yesorno` from yesorno_status ";
+			String qry ="select yesorno from yesorno_status ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -43,7 +43,7 @@ public class YesOrNoStatusDaoImpl implements YesOrNoStatusDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `yesorno`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as yesorno,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -54,7 +54,7 @@ public class YesOrNoStatusDaoImpl implements YesOrNoStatusDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `yesorno` from yesorno_status where `yesorno` NOT IN (?";
+					  String qry2 = "select yesorno from yesorno_status where yesorno NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -146,7 +146,7 @@ public class YesOrNoStatusDaoImpl implements YesOrNoStatusDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE yesorno_status SET `yesorno`= :value_new WHERE `yesorno`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE yesorno_status SET yesorno= :value_new WHERE yesorno= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -177,7 +177,7 @@ public class YesOrNoStatusDaoImpl implements YesOrNoStatusDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from yesorno_status WHERE `yesorno`= :yesorno; ";
+			String deleteQry ="DELETE from yesorno_status WHERE yesorno= :yesorno; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

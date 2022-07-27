@@ -27,7 +27,7 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `mother_tongue` from mother_tongue ";
+			String qry ="select mother_tongue from mother_tongue ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -41,7 +41,7 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `mother_tongue`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as mother_tongue,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -52,7 +52,7 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `mother_tongue` from mother_tongue where `mother_tongue` NOT IN (?";
+					  String qry2 = "select mother_tongue from mother_tongue where mother_tongue NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -140,7 +140,7 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE mother_tongue SET `mother_tongue`= :value_new WHERE `mother_tongue`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE mother_tongue SET mother_tongue= :value_new WHERE mother_tongue= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -171,7 +171,7 @@ public class MotherTongueDaoImpl implements MotherTongueDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from mother_tongue WHERE `mother_tongue`= :mother_tongue; ";
+			String deleteQry ="DELETE from mother_tongue WHERE mother_tongue= :mother_tongue; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

@@ -188,8 +188,8 @@ public class RiskDaoImpl implements RiskDao{
 				}
 				String qry = "SELECT u.user_id as owner_user_id,u1.user_id as responsible_user_id,owner,responsible_person,u.reporting_to_id_srfk as reporting_to_user_id "
 						+ "from risk_revision rr "
-						+ "left join user u on rr.owner = u.designation "
-						+ "left join user u1 on rr.responsible_person = u1.designation where owner = ? and responsible_person = ? group by owner";
+						+ "LEFT JOIN [user] u on rr.owner = u.designation "
+						+ "LEFT JOIN [user] u1 on rr.responsible_person = u1.designation where owner = ? and responsible_person = ? group by owner";
 				
 				Object[] pValues = new Object[] {obj.getOwner(),obj.getResponsible_person()};
 				sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
@@ -368,7 +368,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		ResultSet rs = null;
 		String risk_id_pk = null;
 		try{
-			String riskIdQry = "select IFNULL(max(risk_id_pk),1) as risk_id_pk from risk";
+			String riskIdQry = "select ISNULL(max(risk_id_pk),1) as risk_id_pk from risk";
 			stmt = con.prepareStatement(riskIdQry);
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
@@ -390,7 +390,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		try {
 			String qry = "SELECT risk_id_pk,r.sub_work,w.work_id,w.work_name,w.work_short_name,project_id_fk,"
 					+ "ra.area,ra.item_no as area_item_no,p.project_name,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no, "
-					+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date,"
+					+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,FORMAT(date,'%d-%m-%Y') AS date,"
 					+ "rr.owner,rr.responsible_person "+
 					"from risk r  "+
 					"left join risk_work_hod rwh on r.sub_work = rwh.sub_work " + 
@@ -547,7 +547,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 	public List<Risk> getAssessmentDatesFilterListInRiskAssessment(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {			
-			String qry = "SELECT DATE_FORMAT(date,'%d-%b-%Y') AS assessment_date "+
+			String qry = "SELECT FORMAT(date,'%d-%b-%Y') AS assessment_date "+
 					"from risk r " + 
 					"LEFT JOIN risk_sub_area rs on r.sub_area_fk = rs.sub_area "+
 					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
@@ -603,7 +603,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 	public List<Risk> getRiskAssessmentDates(Risk obj) throws Exception {
 		List<Risk> objsList =null;		
 		try {
-			String qry = "SELECT risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date "
+			String qry = "SELECT risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,FORMAT(date,'%d-%m-%Y') AS assessment_date "
 					+"from risk_revision "
 					+"where risk_id_pk_fk = ? ";
 			
@@ -625,12 +625,12 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		try {
 			/*String qry = "SELECT risk_id_pk,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
 					+ "ra.area,p.project_name,risk_id,sub_area_fk,"
-					//+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date "+
+					//+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,FORMAT(date,'%d-%m-%Y') AS date "+
 					+ "(select owner from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as owner,"
 					+ "(select responsible_person from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as responsible_person, "
 					+ "(select priority_fk from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as priority_fk,"
 					+ "(select mitigation_plan from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as mitigation_plan, "
-					+ "(select DATE_FORMAT(max(date),'%d-%m-%Y') from risk_revision where risk_id_pk_fk = ? ) as assessment_date "
+					+ "(select FORMAT(max(date),'%d-%m-%Y') from risk_revision where risk_id_pk_fk = ? ) as assessment_date "
 					+"from risk r "+
 					"LEFT OUTER join work w on r.work_id_fk = w.work_id " + 
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
@@ -642,14 +642,14 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 			*/
 			String qry = "SELECT risk_id_pk,r.sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
 					+ "ra.area,p.project_name,sub_area_fk,"
-					+ "risk_revision_id,risk_id_pk_fk,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date,"
+					+ "risk_revision_id,risk_id_pk_fk,FORMAT(date,'%d-%m-%Y') AS assessment_date,"
 					+ "u.user_id as owner_user_id,u1.user_id as responsible_user_id,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "priority_fk,probability,impact,owner,responsible_person,mitigation_plan,rwh.hod_user_id_fk "
 					+ "from risk_revision rr "
 					+ "LEFT OUTER join risk r on rr.risk_id_pk_fk = r.risk_id_pk "
 					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work "
-					+ "left join user u on rr.owner = u.designation "
-					+ "left join user u1 on rr.responsible_person = u1.designation "
+					+ "LEFT JOIN [user] u on rr.owner = u.designation "
+					+ "LEFT JOIN [user] u1 on rr.responsible_person = u1.designation "
 					+ "LEFT OUTER join work w on rwh.work_id_fk = w.work_id " 
 					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area " 
 					+ "left join risk_area ra on rsa.risk_area_fk = ra.area "
@@ -660,7 +660,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 			sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
 			
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getRisk_id_pk())) {
-				String qryDetails = "select risk_action_id,risk_revision_id_fk,action_taken,DATE_FORMAT(atr_date,'%d-%m-%Y') AS atr_date " + 
+				String qryDetails = "select risk_action_id,risk_revision_id_fk,action_taken,FORMAT(atr_date,'%d-%m-%Y') AS atr_date " + 
 						"from risk_action "
 						+"where risk_revision_id_fk = ? "; 
 				
@@ -857,9 +857,9 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 	public List<Risk> getRiskAssessmentUploadsList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT risk_upload_id,sub_work,r.attachment,status,r.remarks,uploaded_by_user_id_fk,DATE_FORMAT(uploaded_on,'%d-%b-%Y %h:%i %p') as uploaded_on,user_name as uploaded_by,DATE_FORMAT(assessment_date,'%d-%b-%Y') as assessment_date "
+			String qry = "SELECT risk_upload_id,sub_work,r.attachment,status,r.remarks,uploaded_by_user_id_fk,FORMAT(uploaded_on,'%d-%b-%Y %h:%i %p') as uploaded_on,user_name as uploaded_by,FORMAT(assessment_date,'%d-%b-%Y') as assessment_date "
 					+ "from risk_upload r " 
-					+ "LEFT JOIN user u ON r.uploaded_by_user_id_fk = u.user_id "
+					+ "LEFT JOIN [user] u ON r.uploaded_by_user_id_fk = u.user_id "
 					+ "where sub_work is not null";
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {

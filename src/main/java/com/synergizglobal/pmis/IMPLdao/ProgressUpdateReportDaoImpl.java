@@ -272,7 +272,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 					"from p6_validation acp "
 					+"left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk  " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
-					"LEFT JOIN user u on c.hod_user_id_fk = u.user_id " +
+					"LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' ";
@@ -354,7 +354,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 					"from p6_validation acp "
 					+"left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk  " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
-					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
+					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' ";
@@ -587,7 +587,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 		List<ActivitiesProgressReport> datāL̥īśt = null;
 		
 		try {
-			String progressQry = "SELECT distinct date_format(progress_date,'%d-%b-%y') as progress_date,"
+			String progressQry = "SELECT distinct FORMAT(progress_date,'%d-%b-%y') as progress_date,"
 					//+ "d.department_name,"
 					+ "a.contract_id_fk,c.hod_user_id_fk,"
 					+ "u2.designation as hod_designation,u3.designation as dyhod_designation,c.work_id_fk,w.work_short_name,p.project_name, c.contract_short_name,structure as structure_type_fk,u.user_id,u.designation,u.user_name,c.department_fk," 
@@ -608,9 +608,9 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 					+ "left join project p on w.project_id_fk = p.project_id "
 					//+ "left join department d on c.department_fk = d.department "
 					//+ "left join contract_executive cr1 on cr1.contract_id_fk = c.contract_id  and cr1.department_id_fk=d.department "
-				    + "left join user u2 on c.hod_user_id_fk = u2.user_id " 
-					+ "left join user u3 on c.dy_hod_user_id_fk = u3.user_id " + 
-					" left join user u on acp.created_by_user_id_fk = u.user_id where acp.created_by_user_id_fk is not null ";
+				    + "LEFT JOIN [user] u2 on c.hod_user_id_fk = u2.user_id " 
+					+ "LEFT JOIN [user] u3 on c.dy_hod_user_id_fk = u3.user_id " + 
+					" LEFT JOIN [user] u on acp.created_by_user_id_fk = u.user_id where acp.created_by_user_id_fk is not null ";
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFrom_date()) && !StringUtils.isEmpty(obj.getTo_date())) {

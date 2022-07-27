@@ -125,7 +125,7 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select risk_area_fk,group_concat(sub_area SEPARATOR '_') as sub_area,group_concat(item_no) as item_no from risk_sub_area group by risk_area_fk ";
+			String qry ="select risk_area_fk,STRING_AGG(sub_area SEPARATOR '_') as sub_area,STRING_AGG(item_no) as item_no from risk_sub_area group by risk_area_fk ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -139,7 +139,7 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `sub_area`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as sub_area,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -150,7 +150,7 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select sub_area,risk_area_fk, item_no from risk_sub_area where `sub_area` NOT IN (?";
+					  String qry2 = "select sub_area,risk_area_fk, item_no from risk_sub_area where sub_area NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -238,7 +238,7 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String deleteQry = "delete from risk_sub_area where `risk_area_fk`= :risk_area_fk_old";
+			String deleteQry = "delete from risk_sub_area where risk_area_fk= :risk_area_fk_old";
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
 			
@@ -361,7 +361,7 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from risk_sub_area WHERE `sub_area`= :sub_area; ";
+			String deleteQry ="DELETE from risk_sub_area WHERE sub_area= :sub_area; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

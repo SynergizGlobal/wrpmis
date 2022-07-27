@@ -50,13 +50,13 @@ public class ProfileDaoImpl implements ProfileDao {
 		try{  
 			
 			/*String qry = "select user_id,user_name,password,designation,email_id,cast(mobile_number as CHAR) as mobile_number,cast(landline as CHAR) as landline,cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks "
-					+ "from user "
+					+ "FROM [user] "
 					+ "where user_id = BINARY ?";*/
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.user_type_fk,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_image,department_name,usr.user_name as reporting_to_name,usr.designation as reporting_to_designation "
-					+ "from user u "
+					+ "FROM [user] u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
-					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id "
 					+ "where u.user_id = ? " ;
 			
 			
@@ -196,9 +196,9 @@ public class ProfileDaoImpl implements ProfileDao {
 		List<User> objsList = null;
 		try {
 			String qry = "SELECT distinct l.user_leave_id,employee_id as user_id,from_date,to_date,"
-					+ "group_concat(module) as modules,group_concat(concat(u.designation,'-',u.user_name)) as responsible_persons "
+					+ "STRING_AGG(module) as modules,STRING_AGG(concat(u.designation,'-',u.user_name)) as responsible_persons "
 					+ " FROM pmis.user_leave_responsibility l "
-					+ "inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id inner join user u on u.user_id=a.responsible_person COLLATE utf8mb4_unicode_ci where employee_id=? and delete_status='No' "
+					+ "inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id inner join user u on u.user_id=a.responsible_person  where employee_id=? and delete_status='No' "
 					+ " group by l.user_leave_id order by user_leave_id " ;
 			objsList = jdbcTemplate.query( qry,new Object[] { obj.getUser_id() },new BeanPropertyRowMapper<User>(User.class));
 	
@@ -215,7 +215,7 @@ public class ProfileDaoImpl implements ProfileDao {
 		List<User> objsList = null;
 		try {
 			String qry = "SELECT distinct l.user_leave_id,employee_id as user_id,from_date,to_date,"
-					+ "group_concat(module) as modules,group_concat(responsible_person) as responsible_persons "
+					+ "STRING_AGG(module) as modules,STRING_AGG(responsible_person) as responsible_persons "
 					+ " FROM pmis.user_leave_responsibility l "
 					+ "inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id where delete_status='No' and employee_id=? and from_date>=? and to_date>=CURDATE() ";
 					
@@ -292,12 +292,12 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("hod_user_id_fk")==0)
 							{
-								qry5 = "select group_concat(contract_id) as contract_id from contract where hod_user_id_fk=?";
+								qry5 = "select STRING_AGG(contract_id) as contract_id from contract where hod_user_id_fk=?";
 								qryString = "select contract_id  from contract where hod_user_id_fk=?";
 							}
 							else if(columnname.compareTo("dy_hod_user_id_fk")==0)
 							{
-								qry5 = "select group_concat(contract_id) as group_concat from contract where dy_hod_user_id_fk=?";
+								qry5 = "select STRING_AGG(contract_id) as group_concat from contract where dy_hod_user_id_fk=?";
 								qryString = "select contract_id from contract where dy_hod_user_id_fk=?";
 							}
 						}
@@ -305,7 +305,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("executive_user_id_fk")==0)
 							{
-								qry5 = "select group_concat(id) as id from contract_executive where executive_user_id_fk=?";
+								qry5 = "select STRING_AGG(id) as id from contract_executive where executive_user_id_fk=?";
 								qryString = "select id from contract_executive where executive_user_id_fk=?";
 							}
 						}
@@ -313,7 +313,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("hod_user_id_fk")==0)
 							{							
-								qry5 = "select group_concat(risk_work_hod_id) as risk_work_hod_id from risk_work_hod where hod_user_id_fk=?";
+								qry5 = "select STRING_AGG(risk_work_hod_id) as risk_work_hod_id from risk_work_hod where hod_user_id_fk=?";
 								qryString = "select risk_work_hod_id from risk_work_hod where hod_user_id_fk=?";
 							}
 						}
@@ -321,7 +321,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("responsible_people_id_fk")==0)
 							{							
-								qry5 = "select group_concat(id) as id from fob_contract_responsible_people where responsible_people_id_fk=?";
+								qry5 = "select STRING_AGG(id) as id from fob_contract_responsible_people where responsible_people_id_fk=?";
 								qryString = "select id from fob_contract_responsible_people where responsible_people_id_fk=?";
 							}
 						}						
@@ -329,7 +329,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("responsible_person")==0)
 							{							
-								qry5 = "select group_concat(safety_id) as safety_id from safety where responsible_person=?";
+								qry5 = "select STRING_AGG(safety_id) as safety_id from safety where responsible_person=?";
 								qryString = "select safety_id from safety where responsible_person=?";
 							}
 						}	
@@ -337,7 +337,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("committee_member_name")==0)
 							{							
-								qry5 = "select group_concat(id) as id from safety_committee_members where committee_member_name=?";
+								qry5 = "select STRING_AGG(id) as id from safety_committee_members where committee_member_name=?";
 								qryString = "select id from safety_committee_members where committee_member_name=?";
 							}
 						}
@@ -345,12 +345,12 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("responsible_person")==0)
 							{
-								qry5 = "select group_concat(issue_id) as issue_id  from issue where responsible_person=?";
+								qry5 = "select STRING_AGG(issue_id) as issue_id  from issue where responsible_person=?";
 								qryString = "select issue_id  from issue where responsible_person=?";
 							}
 							else if(columnname.compareTo("escalated_to")==0)
 							{
-								qry5 = "select group_concat(issue_id) as issue_id from issue where escalated_to=?";
+								qry5 = "select STRING_AGG(issue_id) as issue_id from issue where escalated_to=?";
 								qryString = "select issue_id from issue where escalated_to=?";
 							}
 						}
@@ -358,12 +358,12 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("hod")==0)
 							{
-								qry5 = "select group_concat(design_id) as design_id from design where hod=?";
+								qry5 = "select STRING_AGG(design_id) as design_id from design where hod=?";
 								qryString = "select design_id from design where hod=?";
 							}
 							else if(columnname.compareTo("dy_hod")==0)
 							{
-								qry5 = "select group_concat(design_id) as design_id from design where dy_hod=?";
+								qry5 = "select STRING_AGG(design_id) as design_id from design where dy_hod=?";
 								qryString = "select design_id from design where dy_hod=?";
 							}
 						}						
@@ -607,68 +607,68 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("hod_user_id_fk")==0)
 							{
-								qry3 = "update contract a inner join ("+qryString+") b on a.contract_id=b.contract_id COLLATE utf8mb4_unicode_ci set hod_user_id_fk=?";
+								qry3 = "update contract a inner join ("+qryString+") b on a.contract_id=b.contract_id  set hod_user_id_fk=?";
 							}
 							else if(columnname.compareTo("dy_hod_user_id_fk")==0)
 							{
-								qry3 = "update contract a inner join ("+qryString+") b on a.contract_id=b.contract_id COLLATE utf8mb4_unicode_ci set dy_hod_user_id_fk=?";
+								qry3 = "update contract a inner join ("+qryString+") b on a.contract_id=b.contract_id  set dy_hod_user_id_fk=?";
 							}
 						}
 						else if(tablename.compareTo("contract_executive")==0)
 						{
 							if(columnname.compareTo("executive_user_id_fk")==0)
 							{
-								qry3 = "update contract_executive a inner join ("+qryString+") b on a.id=b.id COLLATE utf8mb4_unicode_ci set executive_user_id_fk=?";
+								qry3 = "update contract_executive a inner join ("+qryString+") b on a.id=b.id  set executive_user_id_fk=?";
 							}
 						}
 						else if(tablename.compareTo("risk_work_hod")==0)
 						{
 							if(columnname.compareTo("hod_user_id_fk")==0)
 							{							
-								qry3 = "update risk_work_hod a inner join ("+qryString+") b on a.risk_work_hod_id=b.risk_work_hod_id COLLATE utf8mb4_unicode_ci set hod_user_id_fk=?";
+								qry3 = "update risk_work_hod a inner join ("+qryString+") b on a.risk_work_hod_id=b.risk_work_hod_id  set hod_user_id_fk=?";
 							}
 						}
 						else if(tablename.compareTo("fob_contract_responsible_people")==0)
 						{
 							if(columnname.compareTo("responsible_people_id_fk")==0)
 							{							
-								qry3 = "update fob_contract_responsible_people a inner join ("+qryString+") b on a.id=b.id COLLATE utf8mb4_unicode_ci set responsible_people_id_fk=?";
+								qry3 = "update fob_contract_responsible_people a inner join ("+qryString+") b on a.id=b.id  set responsible_people_id_fk=?";
 							}
 						}						
 						else if(tablename.compareTo("safety")==0)
 						{
 							if(columnname.compareTo("responsible_person")==0)
 							{							
-								qry3 = "update safety a inner join ("+qryString+") b on a.safety_id=b.safety_id COLLATE utf8mb4_unicode_ci set responsible_person=?";
+								qry3 = "update safety a inner join ("+qryString+") b on a.safety_id=b.safety_id  set responsible_person=?";
 							}
 						}	
 						else if(tablename.compareTo("safety_committee_members")==0)
 						{
 							if(columnname.compareTo("committee_member_name")==0)
 							{							
-								qry3 = "update safety_committee_members a inner join ("+qryString+") b on a.id=b.id COLLATE utf8mb4_unicode_ci set committee_member_name=?";
+								qry3 = "update safety_committee_members a inner join ("+qryString+") b on a.id=b.id  set committee_member_name=?";
 							}
 						}
 						else if(tablename.compareTo("issue")==0)
 						{
 							if(columnname.compareTo("responsible_person")==0)
 							{
-								qry3 = "update issue a inner join ("+qryString+") b on a.issue_id=b.issue_id COLLATE utf8mb4_unicode_ci set responsible_person=?";
+								qry3 = "update issue a inner join ("+qryString+") b on a.issue_id=b.issue_id  set responsible_person=?";
 							}
 							else if(columnname.compareTo("escalated_to")==0)
 							{
-								qry3 = "update issue a inner join ("+qryString+") b on a.issue_id=b.issue_id COLLATE utf8mb4_unicode_ci set escalated_to=?";
+								qry3 = "update issue a inner join ("+qryString+") b on a.issue_id=b.issue_id  set escalated_to=?";
 							}
 						}
 						else if(tablename.compareTo("design")==0)
 						{
 							if(columnname.compareTo("hod")==0)
 							{
-								qry3 = "update design a inner join ("+qryString+") b on a.design_id=b.design_id COLLATE utf8mb4_unicode_ci set hod=?";
+								qry3 = "update design a inner join ("+qryString+") b on a.design_id=b.design_id  set hod=?";
 							}
 							else if(columnname.compareTo("dy_hod")==0)
 							{
-								qry3 = "update design a inner join ("+qryString+") b on a.design_id=b.design_id COLLATE utf8mb4_unicode_ci set dy_hod=?";
+								qry3 = "update design a inner join ("+qryString+") b on a.design_id=b.design_id  set dy_hod=?";
 							}
 						}						
 						

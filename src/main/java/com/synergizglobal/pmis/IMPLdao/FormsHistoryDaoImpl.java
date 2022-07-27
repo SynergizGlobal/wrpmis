@@ -28,7 +28,7 @@ public class FormsHistoryDaoImpl implements FormsHistoryDao{
 			if(obj.getModule_name_fk().equalsIgnoreCase("Risk")) {
 				qry = ":sub_work";
 			}else {
-				qry = "IFNULL((select work_short_name from work where work_id=:work_id_fk),:sub_work)";
+				qry = "ISNULL((select work_short_name from work where work_id=:work_id_fk),:sub_work)";
 			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO forms_history"

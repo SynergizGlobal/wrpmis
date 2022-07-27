@@ -200,7 +200,7 @@ public class UtilityReportDaoImpl implements UtilityReportDao{
 				String qry2 = "SELECT id, utility_shifting_id, work_id_fk,work_short_name, identification, location_name, "
 						+ "reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, execution_agency_fk, "
 						+ "contract_id_fk, start_date, scope, completed, shifting_status_fk, shifting_completion_date, "
-						+ "impacted_contract_id_fk, requirement_stage_fk, DATE_FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date, unit_fk " + 
+						+ "impacted_contract_id_fk, requirement_stage_fk, FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date, unit_fk " + 
 						"from utility_shifting u "
 						+ "left join work w on u.work_id_fk = w.work_id "
 						+ "left join project p on w.project_id_fk = p.project_id "

@@ -34,8 +34,10 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	public boolean updateFortnightPlan(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.updateFortnightPlan(obj);
 	}
-
-
+	@Override
+	public boolean updateFortnightlyPlan(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.updateFortnightlyPlan(obj);
+	}	
 	@Override
 	public int getTotalRecords(FortnightPlan obj, String searchParameter) throws Exception {
 		return fortnightPlanDao.getTotalRecords(obj,searchParameter);
@@ -80,6 +82,5 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	public List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.getContractListFilter(obj);
 	}
-
 	
 }

@@ -41,7 +41,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_short_name,w.work_short_name,c.contract_short_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
 					" FROM ta_financials t " + 
 					" left join contract c on c.contract_id = t.contract_id_fk " + 
-					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and status = ? ";
+					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(GETDATE()) and status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -176,7 +176,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(obj.getID())) {
 			
 				List<TAFinancials> objsList = null;
-			String qryDetails = "select ID,contract_id_fk, DATE_FORMAT(month,'%Y-%m') AS month,"
+			String qryDetails = "select ID,contract_id_fk, FORMAT(month,'%Y-%m') AS month,"
 					+ "cast(planned as CHAR) as planned,cast(actual as CHAR) as actual,cast(payment_received as CHAR) as payment_received,planned_units as planned_unit,actual_units as actual_unit,payment_received_units as payment_unit "
 					+ "from ta_financials "
 					+"where contract_id_fk = ? and status = ? order by month desc";
@@ -448,8 +448,8 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		List<TAFinancials> objsList = new ArrayList<TAFinancials>();
 		try {
 			String qry = "select work_id as work_id_fk,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -512,7 +512,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		try {
 			String qry ="SELECT  count(DISTINCT contract_id_fk) as total_records FROM ta_financials t " + 
 					" left join contract c on c.contract_id = t.contract_id_fk " + 
-					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and t.status = ? ";
+					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(GETDATE()) and t.status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -568,7 +568,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_short_name,w.work_short_name,c.contract_short_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
 					" FROM ta_financials t " + 
 					" left join contract c on c.contract_id = t.contract_id_fk " + 
-					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and t.status = ? ";
+					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(GETDATE()) and t.status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -591,7 +591,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			}	
 			
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY contract_id_fk ORDER BY ID ASC limit ?,?";
+				qry = qry + " GROUP BY contract_id_fk ORDER BY ID ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}	

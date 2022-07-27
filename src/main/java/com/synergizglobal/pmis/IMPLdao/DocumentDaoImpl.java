@@ -366,7 +366,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			
 			List<Document> objsList = null;
 			String qryDetails = "select id,document_no_fk,revision_no, status_fk,document_attachment,"
-					+" DATE_FORMAT(submission_date,'%d-%m-%Y') AS submission_date,remarks, DATE_FORMAT(approval_date,'%d-%m-%Y') AS approval_date "
+					+" FORMAT(submission_date,'%d-%m-%Y') AS submission_date,remarks, FORMAT(approval_date,'%d-%m-%Y') AS approval_date "
 					+ "from documents_revisions "
 					+"where document_no_fk is not null and document_no_fk = ? ";
 			
@@ -421,7 +421,7 @@ public class DocumentDaoImpl implements DocumentDao{
 	public List<Document> getUserList() throws Exception {
 		List<Document> objsList = null;
 		try {
-			String qry ="select user_id,user_name,designation  as responsible_for_approval from user where designation  is not null and designation <>'' ";
+			String qry ="select user_id,user_name,designation  as responsible_for_approval FROM [user] where designation  is not null and designation <>'' ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Document>(Document.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
@@ -765,8 +765,8 @@ public class DocumentDaoImpl implements DocumentDao{
 		List<Document> objsList = new ArrayList<Document>();
 		try {
 			String qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -1094,7 +1094,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			}	
 			
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY document_no ASC limit ?,?";
+				qry = qry + " ORDER BY document_no ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}	

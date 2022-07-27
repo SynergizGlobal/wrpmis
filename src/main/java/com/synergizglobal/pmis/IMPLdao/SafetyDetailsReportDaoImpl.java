@@ -27,7 +27,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name from safety s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where contract_id_fk is not null and contract_id_fk <> '' ";
 			int arrSize = 0;
@@ -78,7 +78,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 		try {
 			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name,c.hod_user_id_fk,u.designation,u.user_name as hod_name "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' ";
@@ -185,7 +185,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 		try {
 			String qry = "SELECT status_fk "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where status_fk is not null and status_fk <> '' ";
 			int arrSize = 0;
@@ -236,7 +236,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 		try {
 			String qry = "SELECT location "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where location is not null and location <> '' ";
 			int arrSize = 0;
@@ -287,7 +287,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 		try {
 			String qry = "SELECT safety_id,title,c.work_id_fk,contract_id_fk,status_fk,c.hod_user_id_fk,location,category_fk "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where title is not null and title <> '' ";
 			int arrSize = 0;
@@ -351,7 +351,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 		try {
 			String qry = "SELECT category_fk "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where category_fk is not null and category_fk <> '' ";
 			int arrSize = 0;
@@ -407,23 +407,23 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 	public Safety getSafetyDetails(Safety obj) throws Exception {
 		Safety sobj = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,DATE_FORMAT(date,'%d-%b-%y') AS date,"
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,FORMAT(date,'%d-%b-%y') AS date,"
 					+ "location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,d.department_name,"
-					+ "c.contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,u.designation as hod_designation,u1.designation as dyhod_designation,category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%b-%y') AS closure_date,"
-					+ "cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,ifnull(committee_formed_fk,'') as committee_formed_fk,ifnull(committee_required_fk,'') as committee_required_fk,"
-					+ "DATE_FORMAT(investigation_completed,'%d-%b-%y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation * compensation_units as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%b-%y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,"
-					+ "(SELECT GROUP_CONCAT( attachment SEPARATOR ',')  as attachment FROM safety_files where safety_id_fk = ?) as attachment,s.compensation_units,  "
+					+ "c.contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,u.designation as hod_designation,u1.designation as dyhod_designation,category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'%d-%b-%y') AS closure_date,"
+					+ "cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,ISNULL(committee_formed_fk,'') as committee_formed_fk,ISNULL(committee_required_fk,'') as committee_required_fk,"
+					+ "FORMAT(investigation_completed,'%d-%b-%y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation * compensation_units as CHAR) as compensation,FORMAT(payment_date,'%d-%b-%y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,"
+					+ "(SELECT STRING_AGG( attachment SEPARATOR ',')  as attachment FROM safety_files where safety_id_fk = ?) as attachment,s.compensation_units,  "
 					+ " "
-					+ "GROUP_CONCAT(u2.user_name SEPARATOR ',') as committee_member_name from safety s "
+					+ "STRING_AGG(u2.user_name SEPARATOR ',') as committee_member_name from safety s "
 					+ "left join safety_committee_members sc on sc.safety_id_fk=s.safety_id "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN contractor cr ON c.contractor_id_fk= cr.contractor_id  "
 					+ "LEFT OUTER JOIN department d ON c.department_fk= d.department "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT OUTER JOIN user u1 ON c.dy_hod_user_id_fk= u1.user_id "
 					+ "LEFT OUTER JOIN user u2 ON sc.committee_member_name= u2.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "where safety_id = ? ";
 			
 			int arrSize = 2;

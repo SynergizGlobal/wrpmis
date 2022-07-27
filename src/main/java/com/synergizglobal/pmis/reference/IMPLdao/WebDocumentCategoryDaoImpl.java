@@ -31,7 +31,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select group_concat(id) id, type_fk, group_concat(category) category from web_documents_category  group by type_fk";
+			String qry ="select STRING_AGG(id) id, type_fk, STRING_AGG(category) category from web_documents_category  group by type_fk";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -45,7 +45,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `category`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as category,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -56,7 +56,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select id, type_fk, category from web_documents_category where `id` NOT IN (?";
+					  String qry2 = "select id, type_fk, category from web_documents_category where id NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -199,7 +199,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String deleteQry = "delete from web_documents_category where `type_fk`= :type_fk_old";
+			String deleteQry = "delete from web_documents_category where type_fk= :type_fk_old";
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
 			
@@ -330,7 +330,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from web_documents_category WHERE `type_fk`= :type_fk; ";
+			String deleteQry ="DELETE from web_documents_category WHERE type_fk= :type_fk; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

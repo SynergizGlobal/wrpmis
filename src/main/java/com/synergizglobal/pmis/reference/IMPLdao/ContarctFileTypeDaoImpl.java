@@ -82,7 +82,7 @@ public class ContarctFileTypeDaoImpl implements ContarctFileTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from contract_file_type WHERE `contract_file_type`= :contract_file_type ";
+			String deleteQry ="DELETE from contract_file_type WHERE contract_file_type= :contract_file_type ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

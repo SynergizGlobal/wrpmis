@@ -59,7 +59,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTR(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
@@ -489,7 +489,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name from budget b " + 
 					"LEFT JOIN work w on b.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where work_id_fk is not null and work_id_fk <> '' ";
+					"where work_id_fk is not null and work_id_fk <>  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id_fk = ?";
@@ -529,7 +529,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			String qry = "SELECT p.project_id as project_id_fk,p.project_name from budget b " + 
 					"LEFT JOIN work w on b.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where project_id_fk is not null and project_id_fk <> '' ";
+					"where project_id_fk is not null and project_id_fk <>  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -569,7 +569,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			String qry = "SELECT b.financial_year_fk  from budget b " + 
 					"LEFT JOIN work w on b.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where financial_year_fk is not null and financial_year_fk <> '' ";
+					"where financial_year_fk is not null and financial_year_fk <>  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -612,7 +612,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTR(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -646,7 +646,7 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> getProjectsListForBudgetForm(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry = "select project_id,project_name from `project` order by project_id asc";
+			String qry = "select project_id,project_name from project order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -659,8 +659,8 @@ public class BudgetDaoImpl implements BudgetDao {
 		List<Budget> objsList = new ArrayList<Budget>();
 		try {
 			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -695,7 +695,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTR(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
@@ -758,7 +758,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTR(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
@@ -784,7 +784,7 @@ public class BudgetDaoImpl implements BudgetDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY work_id_fk ORDER BY budget_id ASC limit ?,?";
+				qry = qry + " GROUP BY work_id_fk ORDER BY budget_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}

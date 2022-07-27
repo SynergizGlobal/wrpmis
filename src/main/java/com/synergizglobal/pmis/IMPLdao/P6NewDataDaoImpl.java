@@ -328,7 +328,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			String updateActivitiesQry ="UPDATE p6_activities set "
-					+ "status_fk = ?,`start` = ?,finish = ?,`float` =  ? ,p6_activity_name = ?";
+					+ "status_fk = ?,start = ?,finish = ?,float =  ? ,p6_activity_name = ?";
 					if(pobj.getIsRevised().contentEquals("Yes")) {
 						updateActivitiesQry = updateActivitiesQry + ",baseline_start = ?,baseline_finish = ? ";
 
@@ -408,8 +408,8 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public List<P6Data> getActivityDataList(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="select contract_id_fk, fob_id_fk,upload_type, DATE_FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk,"
-					+ " p6_file_path, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_date,'%d-%m-%Y  %h:%i %p') uploaded_date  "
+			String qry ="select contract_id_fk, fob_id_fk,upload_type, FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk,"
+					+ " p6_file_path, uploaded_by_user_id_fk, FORMAT(uploaded_date,'%d-%m-%Y  %h:%i %p') uploaded_date  "
 					+ "from p6_data "
 					+ "WHERE (fob_id_fk is null OR fob_id_fk = '') ";
 			int arrSize = 0;
@@ -429,7 +429,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				qry = qry + "and soft_delete_status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY  DATE_FORMAT(uploaded_date,'%y-%m-%d %H : %i : %s') desc ";
+			qry = qry + " ORDER BY  FORMAT(uploaded_date,'%y-%m-%d %H : %i : %s') desc ";
 			Object[] pValues = new Object[arrSize]; 
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -509,12 +509,12 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			int row =3;
 			String wbsQry = "INSERT INTO p6_activities (task_code, contract_id_fk, structure_id_fk, p6_activity_name, from_structure_id, to_structure_id, "
-					+ "section, line, component, component_id, baseline_start, baseline_finish, start, finish, `float`, status_fk, unit, scope, "
+					+ "section, line, component, component_id, baseline_start, baseline_finish, start, finish, float, status_fk, unit, scope, "
 					+ "completed, weightage, component_details, remarks, created_by_user_id_fk,original_duration,created_date)"
 					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP) ";
 			
 			String wbsUpdateQry = "Update p6_activities set structure_id_fk = ?, p6_activity_name = ?, from_structure_id = ?, to_structure_id = ?, "
-					+ "section = ?, line = ?, component = ?, component_id = ?, baseline_start = ?, baseline_finish = ?, start = ?, finish = ?, `float` = ?, status_fk = ?, unit = ?, scope = ?, "
+					+ "section = ?, line = ?, component = ?, component_id = ?, baseline_start = ?, baseline_finish = ?, start = ?, finish = ?, float = ?, status_fk = ?, unit = ?, scope = ?, "
 					+ "completed = ?, weightage = ?, component_details = ?, remarks = ?, modified_by_user_id_fk = ?,original_duration = ?, modified_date = CURRENT_TIMESTAMP where task_code = ? and contract_id_fk = ?";
 			stmt = con.prepareStatement(wbsQry);
 			stmtUpdate = con.prepareStatement(wbsUpdateQry);

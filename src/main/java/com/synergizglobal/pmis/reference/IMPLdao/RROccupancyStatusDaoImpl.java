@@ -28,7 +28,7 @@ public class RROccupancyStatusDaoImpl implements RROccupancyStatusDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `rr_occupancy_status` from rr_occupancy_status ";
+			String qry ="select rr_occupancy_status from rr_occupancy_status ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -42,7 +42,7 @@ public class RROccupancyStatusDaoImpl implements RROccupancyStatusDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `rr_occupancy_status`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as rr_occupancy_status,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -53,7 +53,7 @@ public class RROccupancyStatusDaoImpl implements RROccupancyStatusDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `rr_occupancy_status` from rr_occupancy_status where `rr_occupancy_status` NOT IN (?";
+					  String qry2 = "select rr_occupancy_status from rr_occupancy_status where rr_occupancy_status NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -144,7 +144,7 @@ public class RROccupancyStatusDaoImpl implements RROccupancyStatusDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE rr_occupancy_status SET `rr_occupancy_status`= :value_new WHERE `rr_occupancy_status`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE rr_occupancy_status SET rr_occupancy_status= :value_new WHERE rr_occupancy_status= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -175,7 +175,7 @@ public class RROccupancyStatusDaoImpl implements RROccupancyStatusDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from rr_occupancy_status WHERE `rr_occupancy_status`= :rr_occupancy_status; ";
+			String deleteQry ="DELETE from rr_occupancy_status WHERE rr_occupancy_status= :rr_occupancy_status; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

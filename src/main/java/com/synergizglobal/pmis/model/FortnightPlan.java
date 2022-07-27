@@ -7,8 +7,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class FortnightPlan {
 	private String fortnightly_plan_id,contract_id_fk,category,critical_item,fortnightly_plan_structure_id,
 	component,fortnightly_plan_update_id,  period, cum_planned_last_structure, 
-	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,remarks,work_id_fk,total_items,
-	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,contract_short_name,structure,user_type_fk,structure_type_fk;
+	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
+	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,contract_short_name,structure,user_type_fk,structure_type_fk,remarks;
+	
+	
+	private String [] activity,scope_of_work,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,chkcompletion_status;
+
 
 	public String getFortnightly_plan_id() {
 		return fortnightly_plan_id; 
@@ -249,5 +253,62 @@ public class FortnightPlan {
 	public void setStructure_type_fk(String structure_type_fk) {
 		this.structure_type_fk = structure_type_fk;
 	}
+
+	public String [] getActivity() {
+		return activity;
+	}
+
+	public void setActivity(String [] activity) {
+		this.activity = activity;
+	}
+
+	public String [] getScope_of_work() {
+		return scope_of_work;
+	}
+
+	public void setScope_of_work(String [] scope_of_work) {
+		this.scope_of_work = scope_of_work;
+	}
+
+	public String [] getCompletion_status() {
+		return completion_status;
+	}
+
+	public void setCompletion_status(String [] completion_status) {
+		this.completion_status = completion_status;
+	}
+
+	public String [] getPlanned_progress_on_last_fortnight() {
+		return planned_progress_on_last_fortnight;
+	}
+
+	public void setPlanned_progress_on_last_fortnight(String [] planned_progress_on_last_fortnight) {
+		this.planned_progress_on_last_fortnight = planned_progress_on_last_fortnight;
+	}
+
+	public String [] getActual_progress_on_last_fortnight() {
+		return actual_progress_on_last_fortnight;
+	}
+
+	public void setActual_progress_on_last_fortnight(String [] actual_progress_on_last_fortnight) {
+		this.actual_progress_on_last_fortnight = actual_progress_on_last_fortnight;
+	}
+
+	public String [] getPlan_for_the_current_fortnight() {
+		return plan_for_the_current_fortnight;
+	}
+
+	public void setPlan_for_the_current_fortnight(String [] plan_for_the_current_fortnight) {
+		this.plan_for_the_current_fortnight = plan_for_the_current_fortnight;
+	}
+
+	public String [] getChkcompletion_status() {
+		return chkcompletion_status;
+	}
+
+	public void setChkcompletion_status(String [] chkcompletion_status) {
+		this.chkcompletion_status = chkcompletion_status;
+	}
+
 
 }

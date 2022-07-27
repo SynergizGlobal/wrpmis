@@ -58,16 +58,16 @@ public class FOBDaoImpl implements FOBDao {
 		List<FOB> objsList = null;
 		List<FOB> objsList1 = null;
 		try {
-			String qry = "select distinct fob_id,fob_name,f.work_id_fk,w.work_short_name,revised_completion,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
-					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
+			String qry = "select distinct fob_id,fob_name,f.work_id_fk,w.work_short_name,revised_completion,FORMAT(target_date,'%d-%m-%Y') AS target_date,"
+					+ "FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
+					+ "FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
 					+ "work_name,w.project_id_fk,p.project_name,c.contract_short_name "
 					+ "from fob f "
 					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "
 					+ "left join fob_contract_responsible_people ce on f.fob_id = ce.fob_id_fk "
 					+ "LEFT JOIN contract c ON c.contract_id = ce.contract_id_fk "
-					+"left join user u on c.hod_user_id_fk = u.user_id "
-					+"left join user us on c.dy_hod_user_id_fk = us.user_id "				
+					+"left join [user] u on c.hod_user_id_fk = u.user_id "
+					+"left join [user] us on c.dy_hod_user_id_fk = us.user_id "				
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "	
 					+ "where fob_id is not null " ;
 			int arrSize = 0;
@@ -148,11 +148,11 @@ public class FOBDaoImpl implements FOBDao {
 					+ " FROM fob_contract_responsible_people ce "
 					+ "LEFT JOIN fob f on f.fob_id = ce.fob_id_fk "
 					+ "LEFT JOIN contract c on c.contract_id = ce.contract_id_fk "+
-					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join work w on c.work_id_fk = w.work_id  " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id where contract_id is not null ";
+					"left join [user] u on c.hod_user_id_fk = u.user_id "+
+					"left join [user] us on c.dy_hod_user_id_fk = us.user_id where contract_id is not null ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -197,13 +197,13 @@ public class FOBDaoImpl implements FOBDao {
 		try {
 			
 			String qry ="SELECT u.user_id as user_id,u.user_name,u.designation,u.department_fk "
-					+ "FROM user u " 
+					+ "FROM [user] u " 
 					+ "left join department d on u.department_fk = d.department "
 					+ "where  user_id is not null and user_type_fk <> ''  and u.user_type_fk not in('Others')  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and u.department_fk in( select u.department_fk from contract c left join user u on u.user_id=c.hod_user_id_fk where c.contract_id= ? )";
+				qry = qry + " and u.department_fk in( select u.department_fk from contract c left join [user] u on u.user_id=c.hod_user_id_fk where c.contract_id= ? )";
 				arrSize++;
 			}
 			qry = qry + " and user_name not like '%user%' and pmis_key_fk not like '%SGS%'";// and department_fk in('Engg','Elec','S&T') 
@@ -513,9 +513,9 @@ public class FOBDaoImpl implements FOBDao {
 	public FOB getFOB(FOB obj) throws Exception {
 		FOB fobj = null;
 		try {
-			String qry = "select fob_id,fob_name,f.work_id_fk,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
-					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(revised_completion,'%d-%m-%Y') AS revised_completion,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,"
+			String qry = "select fob_id,fob_name,f.work_id_fk,FORMAT(target_date,'%d-%m-%Y') AS target_date,"
+					+ "FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,FORMAT(revised_completion,'%d-%m-%Y') AS revised_completion,FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
+					+ "FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,"
 					+ "cast(f.completion_cost as CHAR) as completion_cost,"
 					+ "f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
 					+ "work_name,w.project_id_fk,p.project_name,estimated_cost_units,completion_cost_units "
@@ -555,7 +555,7 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
-				String qryFOBImages = "select id as fob_file_id,fob_id_fk,attachment,DATE_FORMAT(created_date,'%d-%m-%Y') as created_date,fob_file_type_fk,name from fob_files where fob_id_fk = ? " ;
+				String qryFOBImages = "select id as fob_file_id,fob_id_fk,attachment,FORMAT(created_date,'%d-%m-%Y') as created_date,fob_file_type_fk,name from fob_files where fob_id_fk = ? " ;
 				
 				objsList = jdbcTemplate.query(qryFOBImages, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
 				
@@ -573,7 +573,7 @@ public class FOBDaoImpl implements FOBDao {
 			
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
-				String qryFOBResponsiblePeople = "select responsible_people_id_fk as responsible_people_id_fk,contract_id_fk,designation,user_name from fob_contract_responsible_people r left join user u on u.user_id=r.responsible_people_id_fk where fob_id_fk = ?" ;
+				String qryFOBResponsiblePeople = "select responsible_people_id_fk as responsible_people_id_fk,contract_id_fk,designation,user_name from fob_contract_responsible_people r left join [user] u on u.user_id=r.responsible_people_id_fk where fob_id_fk = ?" ;
 				
 				objsList = jdbcTemplate.query(qryFOBResponsiblePeople, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
 				
@@ -1214,7 +1214,7 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getProjectsListForFOBForm(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "select project_id,project_name from `project` order by project_id asc";
+			String qry = "select project_id,project_name from project order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1227,8 +1227,8 @@ public class FOBDaoImpl implements FOBDao {
 		List<FOB> objsList = new ArrayList<FOB>();
 		try {
 			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -1298,9 +1298,9 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getFOBsList(FOB obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "select fob_id,fob_name,f.contract_id_fk,c.contract_short_name,w.work_short_name,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,revised_completion,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
-					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,cast(f.completion_cost as CHAR) as completion_cost,work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
+			String qry = "select fob_id,fob_name,f.contract_id_fk,c.contract_short_name,w.work_short_name,FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,revised_completion,FORMAT(target_date,'%d-%m-%Y') AS target_date,"
+					+ "FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
+					+ "FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,cast(f.completion_cost as CHAR) as completion_cost,work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
 					+ "contract_name,c.work_id_fk,work_name,module_name_fk,month,status_as_on_month,w.project_id_fk,p.project_name "
 					+ "from fob f "
 					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id "
@@ -1329,7 +1329,7 @@ public class FOBDaoImpl implements FOBDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY contract_id ASC limit ?,?";
+				qry = qry + " ORDER BY contract_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -1519,7 +1519,7 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM [user] where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);

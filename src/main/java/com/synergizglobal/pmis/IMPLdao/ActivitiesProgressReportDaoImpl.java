@@ -431,7 +431,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			String qry = "SELECT user_id,user_name,designation "+
 					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
-					"LEFT JOIN user u on c.hod_user_id_fk = u.user_id " +
+					"LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' and s11.structure_type_fk='FOB' ";
@@ -511,7 +511,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			String qry = "SELECT user_id,user_name,designation "+
 					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
-					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
+					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' and s11.structure_type_fk='FOB' ";
@@ -778,7 +778,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 						
 						String progressQry = "select distinct ap.progress_date,ap.activity_id_fk,sum(ap.completed_scope) as completed_scope,a.p6_activity_id as activity_id,a.contract_id_fk,s1.structure_type_fk,a.component_id," + 
 								"a.component,a.activity_name,a.unit,a.structure,a.scope,a.completed,c.contract_name,c.contract_short_name," + 
-								"(a.completed - IFNULL((select sum(completed_scope) " + 
+								"(a.completed - ISNULL((select sum(completed_scope) " + 
 								"from p6_activity_progress ap1 " + 
 								"left outer join p6_activities a1 on ap1.activity_id_fk = a1.p6_activity_id " 
 								+ "left join structure s1 on s1.structure_id = a1.structure_id_fk "+
@@ -971,8 +971,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					"from p6_activities a "  
 					+ "left join structure s on s.structure_id = a.structure_id_fk "+
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
-					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
-					"LEFT JOIN user u1 on c.hod_user_id_fk = u1.user_id " +
+					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +
+					"LEFT JOIN [user] u1 on c.hod_user_id_fk = u1.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id " +
@@ -1100,7 +1100,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	    String remarks = null;
 			try {
 				con = dataSource.getConnection();
-				String qry = "select group_concat(DISTINCT concat(DATE_FORMAT(reporting_date,'%d-%m-%Y'),' - ',remarks) SEPARATOR '\n') as remarks from fobdailyupdate where structure =? and reporting_date>=? and reporting_date<=?";
+				String qry = "select STRING_AGG(DISTINCT concat(FORMAT(reporting_date,'%d-%m-%Y'),' - ',remarks) SEPARATOR '\n') as remarks from fobdailyupdate where structure =? and reporting_date>=? and reporting_date<=?";
 				stmt = con.prepareStatement(qry);
 				stmt.setString(1,structure);
 				stmt.setString(2,from_date);

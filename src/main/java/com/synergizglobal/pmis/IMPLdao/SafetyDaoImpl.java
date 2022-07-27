@@ -60,16 +60,16 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getSafetyList(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,u.department_fk,"
-					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name, "
-					+ "compensation_units,m.unit as compensation_unit,s.modified_by,DATE_FORMAT(s.modified_date,'%d-%m-%Y') as modified_date,reported_by,u2.designation as responsible_person "
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,u.department_fk,"
+					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name, "
+					+ "compensation_units,m.unit as compensation_unit,s.modified_by,FORMAT(s.modified_date,'%d-%m-%Y') as modified_date,reported_by,u2.designation as responsible_person "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
 					+ "LEFT OUTER JOIN money_unit m ON s.compensation_units  = m.value  "
 					+ "where safety_id is not null " ;
@@ -283,16 +283,16 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,impact_fk,"
 					+ " i.remarks,corrective_measure_long_term,i.created_by as reported_by_user_id,u6.email_id as reported_by_email_id,"
 					+ "corrective_measure_short_term,"
-					+ "(select group_concat(user_name) from safety_committee_members cmb left join user u7 on cmb.committee_member_name = u7.user_id where safety_id_fk = i.safety_id) as committe_members,u7.user_name as modified_by "
+					+ "(select STRING_AGG(user_name) from safety_committee_members cmb left join [user] u7 on cmb.committee_member_name = u7.user_id where safety_id_fk = i.safety_id) as committe_members,u7.user_name as modified_by "
 					+ "from safety i " 
-					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
-					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
-					+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
-					+ "LEFT OUTER JOIN user u6 on i.created_by = u6.user_id "
-					+ "LEFT OUTER JOIN user u7 on i.modified_by = u7.user_id "
-					+ "LEFT OUTER JOIN user u8 on i.nominated_authority = u8.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "left outer join [user] u2 on i.responsible_person = u2.user_id "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u4 on c.hod_user_id_fk = u4.user_id "
+					+ "left outer join [user] u5 on c.dy_hod_user_id_fk = u5.user_id "
+					+ "left outer join [user] u6 on i.created_by = u6.user_id "
+					+ "left outer join [user] u7 on i.modified_by = u7.user_id "
+					+ "left outer join [user] u8 on i.nominated_authority = u8.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "where safety_id = ? ";
 
 			Object[] pValues = new Object[] { safety_id };
@@ -301,9 +301,9 @@ public class SafetyDaoImpl implements SafetyDao {
 			
 			if(!StringUtils.isEmpty(iObj)) {
 				
-				String committe_user_ids_query = "select user_name as committee_member_name from safety_committee_members m left join user u on u.user_id=m.committee_member_name where safety_id_fk = ? group by committee_member_name";
-				String committe_user_email_ids_query = "select email_id from user where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
-				String committe_users_query = "select user_id from user where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
+				String committe_user_ids_query = "select user_name as committee_member_name from safety_committee_members m left join [user] u on u.user_id=m.committee_member_name where safety_id_fk = ? group by committee_member_name";
+				String committe_user_email_ids_query = "select email_id FROM [user] where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
+				String committe_users_query = "select user_id FROM [user] where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
 
 				
 				List<String> committe_user_ids = jdbcTemplate.queryForList(committe_user_ids_query,new Object[]{safety_id}, String.class);
@@ -603,7 +603,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	{
 		String Reported_by_email_id="";
 		try {
-			String qry = "select email_id from user where user_id = ?";
+			String qry = "select email_id FROM [user] where user_id = ?";
 			Reported_by_email_id = (String) jdbcTemplate.queryForObject(qry, new Object[] { reported_by_user_id }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -615,16 +615,16 @@ public class SafetyDaoImpl implements SafetyDao {
 	public Safety getSafety(Safety obj) throws Exception {
 		Safety sobj = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,w.work_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,u.department_fk,"
-					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,"
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,w.work_short_name,title,description,FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,u.department_fk,"
+					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,"
 					+ "work_id_fk,work_name,project_id_fk,project_name,s.compensation_units,s.committee_member_name,"
-					+ "(select group_concat(committee_member_name) from safety_committee_members where safety_id_fk = ?) as committe_members,nominated_authority,safety_incident,approve_corrective_measure "
+					+ "(select STRING_AGG(committee_member_name) from safety_committee_members where safety_id_fk = ?) as committe_members,nominated_authority,safety_incident,approve_corrective_measure "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "where safety_id = ? ";
 			
 			
@@ -816,11 +816,11 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name from safety s "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ "where contract_id_fk is not null and contract_id_fk <> '' ";
 					
@@ -909,11 +909,11 @@ public class SafetyDaoImpl implements SafetyDao {
 		try {
 			String qry = "SELECT u.department_fk,department,department_name "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ "where u.department_fk is not null and u.department_fk <> '' ";
 			int arrSize = 0;
@@ -1001,11 +1001,11 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT category_fk from safety s "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ " where category_fk is not null and category_fk <> '' ";
 			
@@ -1094,11 +1094,11 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT status_fk from safety s "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ " where status_fk is not null and status_fk <> '' ";
 			
@@ -1186,11 +1186,11 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry = "SELECT work_id as work_id_fk,work_short_name from safety s "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ " where work_id_fk is not null and work_id_fk <> '' ";
 			
@@ -1280,11 +1280,11 @@ public class SafetyDaoImpl implements SafetyDao {
 		try {
 			String qry = "SELECT c.hod_user_id_fk,u.designation,u.user_name as hod_name "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ "where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' ";
 					
@@ -1372,7 +1372,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getProjectsListForSafetyForm(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "select project_id as project_id_fk,project_name from `project` order by project_id asc";
+			String qry = "select project_id as project_id_fk,project_name from project order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1385,8 +1385,8 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = new ArrayList<Safety>();
 		try {
 			String qry = "select work_id as work_id_fk,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -1420,7 +1420,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry ="select distinct c.contract_id as contract_id_fk,c.hod_user_id_fk,c.contract_name,c.contract_short_name,c.work_id_fk "
 					+ "from contract c "
 					+ "left join contract_executive c1 on c1.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN user u ON c.hod_user_id_fk= u.user_id "
+					+ "left join [user] u ON c.hod_user_id_fk= u.user_id "
 					+ "where c.contract_id is not null ";
 			
 			int arrSize = 0;			
@@ -1466,7 +1466,7 @@ public class SafetyDaoImpl implements SafetyDao {
 		List<Safety> objsList = null;
 		try {
 			String qry ="select user_id as hod_user_id_fk,designation "
-					+ "from user "
+					+ "FROM [user] "
 					+ "where user_type_fk = ? order by designation asc";
 			
 			Object[] pValues = new Object[] {CommonConstants.USER_TYPE_HOD};
@@ -1484,11 +1484,11 @@ public class SafetyDaoImpl implements SafetyDao {
 		int totalRecords = 0;
 		try {
 			String qry = "SELECT count(*) as total_records from safety s "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ "where safety_id is not null " ;
 			int arrSize = 0;
@@ -1596,15 +1596,15 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getSafetyList(Safety obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,u2.designation as responsible_person,u.department_fk,"
-					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,s.modified_by,DATE_FORMAT(s.modified_date,'%d-%m-%Y') as modified_date  "
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,u2.designation as responsible_person,u.department_fk,"
+					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,s.modified_by,FORMAT(s.modified_date,'%d-%m-%Y') as modified_date  "
 					+ "from safety s "
-					+ "LEFT OUTER JOIN user u2 on s.responsible_person = u2.user_id "					
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "					
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ "where safety_id is not null " ;
 			int arrSize = 0;
@@ -1658,7 +1658,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " order by safety_id ASC limit ?,?";
+				qry = qry + " order by safety_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -1732,7 +1732,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getResponsiblePersonsListForSafetyForm(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT designation,user_name,user_id,reporting_to_id_srfk FROM user where designation <> '' ";
+			String qry = "SELECT designation,user_name,user_id,reporting_to_id_srfk FROM [user] where designation <> '' ";
 			/*int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				qry = qry + " and reporting_to_id_srfk = ?";
@@ -1758,7 +1758,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getNominatedAuthorityListForSafetyForm(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT designation,user_name,user_id,reporting_to_id_srfk from user where user_type_fk is not null and user_type_fk in('HOD','DyHOD','Management') ";
+			String qry = "SELECT designation,user_name,user_id,reporting_to_id_srfk FROM [user] where user_type_fk is not null and user_type_fk in('HOD','DyHOD','Management') ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1770,7 +1770,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getUersList(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,user_type_fk FROM user where user_type_fk in ('HOD','DyHOD') ORDER BY FIELD(user_type_fk,'HOD','DyHOD') ";
+			String qry = "SELECT user_id,user_name,designation,user_type_fk FROM [user] where user_type_fk in ('HOD','DyHOD') ORDER BY FIELD(user_type_fk,'HOD','DyHOD') ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);

@@ -66,7 +66,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no"
 					+",d.hq_drawing_no,d.drawing_title,"+
-					 "DATE_FORMAT(d.required_date,'%d-%m-%Y') AS required_date, DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,"
+					 "FORMAT(d.required_date,'%d-%m-%Y') AS required_date, FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,"
 					 + "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
 					 "then  (SELECT submssion_purpose FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc) " + 
 					 "else (SELECT submssion_purpose FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submission_purpose," + 
@@ -79,7 +79,7 @@ public class DesignDaoImpl implements DesignDao{
 					 "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
 					 "then  (SELECT submitted_to FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc) " + 
 					 "else (SELECT submitted_to FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submitted_to ,"
-					 + "DATE_FORMAT(max(ds.submitted_date) ,'%d-%m-%Y') AS submitted_date, DATE_FORMAT(required_date ,'%d-%m-%Y') AS required_date ,"
+					 + "FORMAT(max(ds.submitted_date) ,'%d-%m-%Y') AS submitted_date, FORMAT(required_date ,'%d-%m-%Y') AS required_date ,"
 					 + "u.user_name,u.designation as hod_designation,u1.user_name,u1.designation as dy_hod_designation,dt.department_name ,"
 					 + "c1.contract_short_name as consult_contarct, c2.contract_short_name as proof_consult_contarct  "
 					+ "from design d "  
@@ -88,8 +88,8 @@ public class DesignDaoImpl implements DesignDao{
 					+"LEFT OUTER JOIN contract c2 ON d.proof_consultant_contract_id_fk = c2.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
 					+"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
-					+"LEFT OUTER JOIN user u  ON d.hod  =  u.user_id " 
-					+"LEFT OUTER JOIN user u1  ON d.dy_hod  =  u1.user_id " 
+					+"left outer join [user] u  ON d.hod  =  u.user_id " 
+					+"left outer join [user] u1  ON d.dy_hod  =  u1.user_id " 
 					+"LEFT OUTER JOIN department dt  ON d.department_id_fk  =  dt.department " 
 					+ " left join design_status ds on d.design_id = ds.design_id_fk "
 					+ " where design_id is not null";
@@ -157,7 +157,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,w.work_name,d.structure_id_fk,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"
-					+",DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,d.modified_by,DATE_FORMAT(d.modified_date,'%d-%m-%Y') as modified_date   "
+					+",FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,d.modified_by,FORMAT(d.modified_date,'%d-%m-%Y') as modified_date   "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
@@ -205,7 +205,7 @@ public class DesignDaoImpl implements DesignDao{
 			}	
 			
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY design_id ASC limit ?,?";
+				qry = qry + " ORDER BY design_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}	
@@ -432,10 +432,10 @@ public class DesignDaoImpl implements DesignDao{
 	public Design getDesignDetails(Design obj)throws Exception{
 		Design dObj = null;
 		try {
-			String qry ="select design_id,approving_railway,approval_authority_fk,structure_id_fk,DATE_FORMAT(d.required_date,'%d-%m-%Y') AS required_date,d.work_id_fk,w.project_id_fk,p.project_name,c.contract_short_name,w.work_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
+			String qry ="select design_id,approving_railway,approval_authority_fk,structure_id_fk,FORMAT(d.required_date,'%d-%m-%Y') AS required_date,d.work_id_fk,w.project_id_fk,p.project_name,c.contract_short_name,w.work_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"+
-					",DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,"
+					",FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,"
 					+ "d.remarks "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
@@ -444,9 +444,9 @@ public class DesignDaoImpl implements DesignDao{
 					+ "where design_id is not null and design_id = ?" ;
 			
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
-			//DATE_FORMAT(consultant_submission,'%d-%m-%Y') AS consultant_submission,
+			//FORMAT(consultant_submission,'%d-%m-%Y') AS consultant_submission,
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry2 ="select revision,current,DATE_FORMAT(revision_date,'%d-%m-%Y') AS revision_date,remarks,revision_status_fk from design_revisions where design_id_fk = ?";
+				String qry2 ="select revision,current,FORMAT(revision_date,'%d-%m-%Y') AS revision_date,remarks,revision_status_fk from design_revisions where design_id_fk = ?";
 				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignRevisions(objList);
 			}
@@ -457,7 +457,7 @@ public class DesignDaoImpl implements DesignDao{
 				dObj.setDesignFilesList(objList);
 			}
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,DATE_FORMAT(submitted_date,'%d-%m-%Y') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and (latest is null or latest = 'Yes' ) order by DATE(submitted_date) DESC, id DESC ";
+				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,FORMAT(submitted_date,'%d-%m-%Y') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and (latest is null or latest = 'Yes' ) order by DATE(submitted_date) DESC, id DESC ";
 				List<Design> objList = jdbcTemplate.query( qry3,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignStatusList(objList);
 			}
@@ -1107,7 +1107,7 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = null;
 		try {
 			String qry ="select user_id,u.designation as hod,u.user_name from design d "
-					+ " left join user u on d.hod = u.user_id "
+					+ " left join [user] u on d.hod = u.user_id "
 					+ " where hod is not null and hod <> '' ";
 				
 			int arrSize = 0;
@@ -1488,7 +1488,7 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getProjectsListForDesignForm(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry = "select project_id,project_name from `project` order by project_id asc";
+			String qry = "select project_id,project_name from project order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1501,8 +1501,8 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = new ArrayList<Design>();
 		try {
 			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -1603,10 +1603,10 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getDesignUploadsList(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry = "SELECT design_data_id, uploaded_file, dd.status, dd.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y  %h:%i %p') as uploaded_on "
+			String qry = "SELECT design_data_id, uploaded_file, dd.status, dd.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'%d-%b-%Y  %h:%i %p') as uploaded_on "
 					+ ",uploaded_on as date from design_data dd " 
-					+ "LEFT JOIN user u ON dd.uploaded_by_user_id_fk = u.user_id "
-					+ "where design_data_id is not null order by DATE_FORMAT(uploaded_on,'%y-%m-%d %H : %i : %s') desc ";
+					+ "left join [user] u ON dd.uploaded_by_user_id_fk = u.user_id "
+					+ "where design_data_id is not null order by FORMAT(uploaded_on,'%y-%m-%d %H : %i : %s') desc ";
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
 
@@ -1622,8 +1622,8 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = null;
 		try {
 			String qry ="SELECT u.user_id as hod,u.user_name,u.designation "
-					+ "FROM user u " 
-					+ "left join user u1 on u.reporting_to_id_srfk = u1.user_id "
+					+ "FROM [user] u " 
+					+ "left join [user] u1 on u.reporting_to_id_srfk = u1.user_id "
 					+ "LEFT JOIN department d on u.department_fk = d.department "
 					+ "where  u.user_type_fk = ?  ";
 			
@@ -1655,8 +1655,8 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = null;
 		try {
 			String qry ="SELECT u.user_id as dy_hod,u.user_name,u.designation "
-					+ "FROM user u " 
-					+ "left join user u1 on u.reporting_to_id_srfk = u1.user_id " 
+					+ "FROM [user] u " 
+					+ "left join [user] u1 on u.reporting_to_id_srfk = u1.user_id " 
 					+ "where u.user_type_fk = ?  ";
 			
 			int arrSize = 1;
@@ -1891,7 +1891,7 @@ public class DesignDaoImpl implements DesignDao{
 		Design dObj = null;
 		String userId = null;
 		try {
-			String qry ="select user_id from user where designation = ?" ;
+			String qry ="select user_id FROM [user] where designation = ?" ;
 			
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {dy_hod}, new BeanPropertyRowMapper<Design>(Design.class));
 			userId = dObj.getUser_id();
@@ -1907,7 +1907,7 @@ public class DesignDaoImpl implements DesignDao{
 		Design dObj = null;
 		String userId = null;
 		try {
-			String qry ="select user_id from user where designation = ?" ;
+			String qry ="select user_id FROM [user] where designation = ?" ;
 			
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {hod}, new BeanPropertyRowMapper<Design>(Design.class));
 			userId = dObj.getUser_id();

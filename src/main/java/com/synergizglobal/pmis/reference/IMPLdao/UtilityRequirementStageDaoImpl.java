@@ -87,7 +87,7 @@ public class UtilityRequirementStageDaoImpl implements UtilityRequirementStageDa
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE utility_requirement_stage SET `requirement_stage`= :value_new WHERE `requirement_stage`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE utility_requirement_stage SET requirement_stage= :value_new WHERE requirement_stage= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -118,7 +118,7 @@ public class UtilityRequirementStageDaoImpl implements UtilityRequirementStageDa
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from utility_requirement_stage WHERE `requirement_stage`= :requirement_stage; ";
+			String deleteQry ="DELETE from utility_requirement_stage WHERE requirement_stage= :requirement_stage; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -150,7 +150,7 @@ public class UtilityRequirementStageDaoImpl implements UtilityRequirementStageDa
 				int i = 1;
 				for (Safety bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `utility_requirement_stage`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as utility_requirement_stage,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -161,7 +161,7 @@ public class UtilityRequirementStageDaoImpl implements UtilityRequirementStageDa
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select requirement_stage from utility_requirement_stage where `requirement_stage` NOT IN (?";
+					  String qry2 = "select requirement_stage from utility_requirement_stage where requirement_stage NOT IN (?";
 	
 						int j =0, p=1;
 						for (Safety aObj : obj.getdList()) {

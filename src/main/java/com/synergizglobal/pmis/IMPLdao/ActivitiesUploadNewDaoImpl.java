@@ -120,7 +120,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 				}
 			}
 			
-			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,from_structure_id,to_structure_id,section,line,structure,component,component_id,`order_x`,`order_y`,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk,p6_task_code) "
+			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,from_structure_id,to_structure_id,section,line,structure,component,component_id,order_x,order_y,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk,p6_task_code) "
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?)";
 			stmt = con.prepareStatement(insertQry); 
 			
@@ -738,7 +738,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select activities_data_id,contract_id_fk,structure_type_fk,uploaded_file,ad.status,ad.remarks,"
-					+ "uploaded_by_user_id_fk,DATE_FORMAT(ad.uploaded_on,'%d-%m-%Y  %h:%i %p') as uploaded_on,"
+					+ "uploaded_by_user_id_fk,FORMAT(ad.uploaded_on,'%d-%m-%Y  %h:%i %p') as uploaded_on,"
 					+ "c.work_id_fk,w.work_id,w.work_name,w.work_short_name,"
 					+ "c.contract_id,c.contract_name,c.contract_short_name "
 					+ "from activities_data ad "
@@ -762,7 +762,7 @@ public class ActivitiesUploadNewDaoImpl implements ActivitiesUploadNewDao{
 				arrSize++;
 			}	
 			
-			qry = qry + " ORDER BY DATE_FORMAT(ad.uploaded_on,'%y-%m-%d %H : %i : %s') desc";
+			qry = qry + " ORDER BY FORMAT(ad.uploaded_on,'%y-%m-%d %H : %i : %s') desc";
 			
 			Object[] pValues = new Object[arrSize];
 			

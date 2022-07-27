@@ -41,9 +41,9 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		try {
 			String qry ="SELECT d.dashboard_id,d1.dashboard_name as folder,c.contract_short_name,w.work_short_name,d.dashboard_name,d.work_id_fk,d.contract_id_fk,d.module_name_fk,d.parent_dashboard_id_sr_fk,d.dashboard_url,d.mobile_view,d.dashboard_type_fk,d.priority, " + 
 					" d.icon_path,d.published_by_user_id_fk,d.published_on,d.modified_by_user_id_fk,d.modified_on,d.soft_delete_status_fk,"
-					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
-					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
-					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
+					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
+					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
+					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
 					+ "FROM dashboard d " + 
 					" left join dashboard d1 on d.parent_dashboard_id_sr_fk = d1.dashboard_id " + 
 					" left join work w on d.work_id_fk = w.work_id " + 
@@ -52,7 +52,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			
 			int arrSize = 3;
 			if("MRVC".equals(obj.getUser_type_access())) {
-				qry = qry + " and d.dashboard_url IS NOT NULL and d.dashboard_url <> '' ";
+				qry = qry + " and d.dashboard_url IS NOT NULL and d.dashboard_url <>  ";
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and d.module_name_fk = ?";
@@ -95,7 +95,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		List<Dashboard> objsList = null;
 		try {
 			String qry = "SELECT module_name_fk from dashboard  " + 
-					"where module_name_fk is not null and module_name_fk <> '' ";
+					"where module_name_fk is not null and module_name_fk <>  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ?";
@@ -133,7 +133,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		List<Dashboard> objsList = null;
 		try {
 			String qry = "SELECT dashboard_type_fk from dashboard  " + 
-					"where dashboard_type_fk is not null and dashboard_type_fk <> '' ";
+					"where dashboard_type_fk is not null and dashboard_type_fk <>  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ?";
@@ -171,7 +171,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		List<Dashboard> objsList = null;
 		try {
 			String qry = "SELECT soft_delete_status_fk from dashboard  " + 
-					"where soft_delete_status_fk is not null and soft_delete_status_fk <> '' ";
+					"where soft_delete_status_fk is not null and soft_delete_status_fk <>  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ?";
@@ -209,7 +209,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		List<Dashboard> objsList = new ArrayList<Dashboard>();
 		try {
 			String qry = "select work_id as work_id_fk,work_name,work_short_name "
-					+ "from `work` "
+					+ "from work "
 					+ "where work_id is not null ";
 			
 			qry = qry + " order by work_id asc";
@@ -284,7 +284,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		List<Dashboard> objsList = null;
 		try {
 			String qry = "SELECT d1.dashboard_id,d1.dashboard_name as folder FROM dashboard d " + 
-					" left join dashboard d1 on  d.parent_dashboard_id_sr_fk = d1.dashboard_id where d.dashboard_url <> ''";
+					" left join dashboard d1 on  d.parent_dashboard_id_sr_fk = d1.dashboard_id where d.dashboard_url <> ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -312,9 +312,9 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		try {
 			String qry ="SELECT d.dashboard_id,d1.dashboard_name as folder,c.contract_short_name,w.work_short_name,d.dashboard_name,d.work_id_fk,d.contract_id_fk,d.module_name_fk,d.parent_dashboard_id_sr_fk,d.dashboard_url,d.mobile_view,d.dashboard_type_fk,d.priority, " + 
 					"d.icon_path,d.published_by_user_id_fk,d.published_on,d.modified_by_user_id_fk,d.modified_on,d.soft_delete_status_fk, "
-					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
-					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
-					+ "(select group_concat(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
+					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
+					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
+					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
 					+ "FROM dashboard d  " + 
 					"left join dashboard d1 on d.parent_dashboard_id_sr_fk = d1.dashboard_id  " + 
 					"left join work w on d.work_id_fk = w.work_id  " + 
@@ -351,7 +351,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception {
 		List<Dashboard> objsList = null;
 		try {
-			String qry = "select user_role_name as access_value_id from user_role";
+			String qry = "select user_role_name as access_value_id FROM [user]_role";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
 		}catch(Exception e){ 
@@ -364,7 +364,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 	public List<Dashboard> getUserTypesInDashboardAccess(Dashboard obj) throws Exception {
 		List<Dashboard> objsList = null;
 		try {
-			String qry = "select user_type as access_value_id from user_type";
+			String qry = "select user_type as access_value_id FROM [user]_type";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
 		}catch(Exception e){ 
@@ -377,7 +377,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 	public List<Dashboard> getUsersInDashboardAccess(Dashboard obj) throws Exception {
 		List<Dashboard> objsList = null;
 		try {
-			String qry = "select user_id as access_value_id,user_name as access_value_name from user";
+			String qry = "select user_id as access_value_id,user_name as access_value_name FROM [user]";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
 		}catch(Exception e){ 

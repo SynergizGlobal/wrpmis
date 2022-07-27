@@ -139,13 +139,13 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				/**********************************************************************************************************************************/				
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select distinct p6_activity_name as activity_name,component_id,DATE_FORMAT(baseline_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(baseline_finish,'%d-%m-%Y') AS planned_finish,case \r\n" + 
-							"	   when (IFNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then ''\r\n" + 
-							"	   when IFNULL(NULLIF(completed, '' ), 0)>=IFNULL(NULLIF(scope, '' ), 0) then (select DATE_FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)\r\n" + 
-							"	   else (select DATE_FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case \r\n" + 
-							"	   when (IFNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then ''\r\n" + 
-							"	   when IFNULL(NULLIF(completed, '' ), 0)>=IFNULL(NULLIF(scope, '' ), 0) then (select DATE_FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)\r\n" + 
-							"	   else '' end as actual_finish,unit,IFNULL(NULLIF(scope, '' ), 0) AS scope,IFNULL(NULLIF(completed, '' ), 0) AS completed,a.contract_id_fk,work_id,project_id,project_name "
+					String contractProgressDatesQry = "select distinct p6_activity_name as activity_name,component_id,FORMAT(baseline_start,'%d-%m-%Y') AS planned_start,FORMAT(baseline_finish,'%d-%m-%Y') AS planned_finish,case \r\n" + 
+							"	   when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then ''\r\n" + 
+							"	   when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)\r\n" + 
+							"	   else (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case \r\n" + 
+							"	   when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then ''\r\n" + 
+							"	   when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)\r\n" + 
+							"	   else '' end as actual_finish,unit,ISNULL(NULLIF(scope, '' ), 0) AS scope,ISNULL(NULLIF(completed, '' ), 0) AS completed,a.contract_id_fk,work_id,project_id,project_name "
 							+ "from  p6_activities a left join structure s on s.structure_id = a.structure_id_fk "
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
@@ -395,7 +395,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			String qry = "SELECT user_id,user_name,designation "+
 					"from p6_activities a left join structure s on s.structure_id = a.structure_id_fk " +
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
-					"LEFT JOIN user u on c.hod_user_id_fk = u.user_id " +
+					"LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' and s.structure_type_fk<>'FOB' ";
@@ -475,7 +475,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			String qry = "SELECT user_id,user_name,designation "+
 					"from p6_activities a left join structure s on s.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
-					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
+					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> ''  and s.structure_type_fk<>'FOB' ";
@@ -817,7 +817,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 						
 						String progressQry = "select distinct ap.progress_date,ap.p6_activity_id_fk as activity_id_fk,sum(ap.completed_scope) as completed_scope,a.p6_activity_id as activity_id,a.contract_id_fk,s2.structure_type_fk as structure_type,s2.structure_type_fk,a.component_id," + 
 								"a.component,a.p6_activity_name as activity_name,a.unit,s2.structure,a.scope,a.completed,c.contract_name,c.contract_short_name," + 
-								"(a.completed - IFNULL((select sum(completed_scope) " + 
+								"(a.completed - ISNULL((select sum(completed_scope) " + 
 								"from p6_activity_progress ap1 " + 
 								"left outer join p6_activities a1 on ap1.p6_activity_id_fk = a1.p6_activity_id "
 								+ "left join structure s on s.structure_id = a1.structure_id_fk "+ 
@@ -1008,8 +1008,8 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			String qry = "SELECT contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,u1.designation as hod_designation,u.designation as dyhod_designation,cr.contractor_name,c.dy_hod_user_id_fk as dyhod ,c.hod_user_id_fk as hod,c.contractor_id_fk as contractor_id,s.structure_type_fk "+
 					"from p6_activities a left join structure s on s.structure_id = a.structure_id_fk " +
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
-					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
-					"LEFT JOIN user u1 on c.hod_user_id_fk = u1.user_id " +
+					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +
+					"LEFT JOIN [user] u1 on c.hod_user_id_fk = u1.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id " +
@@ -1095,8 +1095,8 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			String qry = "SELECT contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,u1.designation as hod_designation,u.designation as dyhod_designation,cr.contractor_name,c.dy_hod_user_id_fk as dyhod ,c.hod_user_id_fk as hod,c.contractor_id_fk as contractor_id "+
 					"from p6_activities a left join structure s on s.structure_id = a.structure_id_fk " +
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
-					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
-					"LEFT JOIN user u1 on c.hod_user_id_fk = u1.user_id " +
+					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +
+					"LEFT JOIN [user] u1 on c.hod_user_id_fk = u1.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id " +
@@ -1230,7 +1230,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 	    String remarks = null;
 			try {
 				con = dataSource.getConnection();
-				String qry = "select group_concat(DISTINCT concat(DATE_FORMAT(reporting_date,'%d-%m-%Y'),' - ',remarks) SEPARATOR '\n') as remarks from fobdailyupdate where structure =? and reporting_date>=? and reporting_date<=?";
+				String qry = "select STRING_AGG(DISTINCT concat(FORMAT(reporting_date,'%d-%m-%Y'),' - ',remarks) SEPARATOR '\n') as remarks from fobdailyupdate where structure =? and reporting_date>=? and reporting_date<=?";
 				stmt = con.prepareStatement(qry);
 				stmt.setString(1,structure);
 				stmt.setString(2,from_date);

@@ -76,7 +76,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `root_cause`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as root_cause,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -87,7 +87,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select root_cause from safety_root_cause where `root_cause` NOT IN (?";
+					  String qry2 = "select root_cause from safety_root_cause where root_cause NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -157,7 +157,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE safety_root_cause SET `root_cause`= :value_new WHERE `root_cause`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE safety_root_cause SET root_cause= :value_new WHERE root_cause= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -188,7 +188,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from safety_root_cause WHERE `root_cause`= :root_cause; ";
+			String deleteQry ="DELETE from safety_root_cause WHERE root_cause= :root_cause; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

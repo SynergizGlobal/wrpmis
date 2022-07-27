@@ -313,7 +313,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		ResultSet rs = null;
 		String progress_date = null;
 		try {
-			String qry = "select (start + INTERVAL (((TO_DAYS(?) - TO_DAYS(start)) * ?) / 8) DAY) AS date "
+			String qry = "select (start +  (((TO_DAYS(?) - TO_DAYS(start)) * ?) / 8) DAY) AS date "
 	    			+ "from p6_activities where p6_activity_id = ? ";
 	    	
 			
@@ -739,7 +739,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select p6_data_id as activities_data_id,contract_id_fk,structure_type_fk,uploaded_file,ad.status,ad.remarks,"
-					+ "uploaded_by_user_id_fk,DATE_FORMAT(ad.uploaded_on,'%d-%m-%Y  %h:%i %p') as uploaded_on,"
+					+ "uploaded_by_user_id_fk,FORMAT(ad.uploaded_on,'%d-%m-%Y  %h:%i %p') as uploaded_on,"
 					+ "c.work_id_fk,w.work_id,w.work_name,w.work_short_name,"
 					+ "c.contract_id,c.contract_name,c.contract_short_name "
 					+ "from p6_data ad "
@@ -763,7 +763,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				arrSize++;
 			}	
 			
-			qry = qry + " ORDER BY DATE_FORMAT(ad.uploaded_on,'%y-%m-%d %H : %i : %s')  desc";
+			qry = qry + " ORDER BY FORMAT(ad.uploaded_on,'%y-%m-%d %H : %i : %s')  desc";
 			
 			Object[] pValues = new Object[arrSize];
 			

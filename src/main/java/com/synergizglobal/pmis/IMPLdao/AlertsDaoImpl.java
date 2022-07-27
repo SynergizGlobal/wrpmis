@@ -71,72 +71,72 @@ public class AlertsDaoImpl implements AlertsDao{
 			connection = dataSource.getConnection();
 			
 			/***************************** BG alerts*******************************************************/
-			String bgQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Bank Guarantee' as alert_type,"
-					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
-					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "bg.bg_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity " 
+			String bgQryAlert1 = "select bg.contract_id_fk as contract_id, 1st Alert as alert_level,Bank Guarantee as alert_type,"
+					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,',' ,bg.bg_number,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) " 
+					+ "else CONCAT(Bank guarantee valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
+					+ "concat(/get-contract?contract_id=,bg.contract_id_fk,&tab_name=bgDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "bg.bg_number as details,FORMAT(valid_upto,'%Y-%m-%d') as validity " 
 					+ "from contract c " 
 					+ "left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk "
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk in ('In Progress') and "
-					+ "(DATEDIFF(valid_upto ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Bank Guarantee' and alert_level_fk = '1st Alert') and DATEDIFF(valid_upto ,NOW()) > (select second_condition_value from alert_conditions where alert_type_fk = 'Bank Guarantee' and alert_level_fk = '1st Alert')) and release_date is null";
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk in (In Progress) and "
+					+ "(DATEDIFF(valid_upto ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Bank Guarantee and alert_level_fk = 1st Alert) and DATEDIFF(valid_upto ,GETDATE()) > (select second_condition_value from alert_conditions where alert_type_fk = Bank Guarantee and alert_level_fk = 1st Alert)) and release_date is null";
 			
 			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert1List) && bgQryAlert1List.size() > 0) {
 				list.addAll(bgQryAlert1List);
 			}			
 			
-			String bgQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Bank Guarantee' as alert_type,"
-					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
-					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "bg.bg_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity " 
+			String bgQryAlert2 = "select bg.contract_id_fk as contract_id, 2nd Alert as alert_level,Bank Guarantee as alert_type,"
+					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,',' ,bg.bg_number,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) " 
+					+ "else CONCAT(Bank guarantee valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
+					+ "concat(/get-contract?contract_id=,bg.contract_id_fk,&tab_name=bgDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "bg.bg_number as details,FORMAT(valid_upto,'%Y-%m-%d') as validity " 
 					+ "from contract c "
 					+ "left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk "
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk in ('In Progress') and "
-					+ "(DATEDIFF(valid_upto ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Bank Guarantee' and alert_level_fk = '2nd Alert') and DATEDIFF(valid_upto ,NOW()) > (select second_condition_value from alert_conditions where alert_type_fk = 'Bank Guarantee' and alert_level_fk = '2nd Alert')) and release_date is null";
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk in (In Progress) and "
+					+ "(DATEDIFF(valid_upto ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Bank Guarantee and alert_level_fk = 2nd Alert) and DATEDIFF(valid_upto ,GETDATE()) > (select second_condition_value from alert_conditions where alert_type_fk = Bank Guarantee and alert_level_fk = 2nd Alert)) and release_date is null";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert2List) && bgQryAlert2List.size() > 0) {
 				list.addAll(bgQryAlert2List);
 			}	
 			
-			String bgQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Bank Guarantee' as alert_type,"
-					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
-					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "bg.bg_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity " 
+			String bgQryAlert3 = "select bg.contract_id_fk as contract_id, 3rd Alert as alert_level,Bank Guarantee as alert_type,"
+					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,',' ,bg.bg_number,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) " 
+					+ "else CONCAT(Bank guarantee valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
+					+ "concat(/get-contract?contract_id=,bg.contract_id_fk,&tab_name=bgDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "bg.bg_number as details,FORMAT(valid_upto,'%Y-%m-%d') as validity " 
 					+ "from contract c " 
 					+ "left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk in ('In Progress') and "
-					+ "(DATEDIFF(valid_upto ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Bank Guarantee' and alert_level_fk = '3rd Alert') and DATEDIFF(valid_upto ,NOW()) > (select second_condition_value from alert_conditions where alert_type_fk = 'Bank Guarantee' and alert_level_fk = '3rd Alert')) and release_date is null";
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk in (In Progress) and "
+					+ "(DATEDIFF(valid_upto ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Bank Guarantee and alert_level_fk = 3rd Alert) and DATEDIFF(valid_upto ,GETDATE()) > (select second_condition_value from alert_conditions where alert_type_fk = Bank Guarantee and alert_level_fk = 3rd Alert)) and release_date is null";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert3List) && bgQryAlert3List.size() > 0) {
 				list.addAll(bgQryAlert3List);
 			}
 			
-			String bgQryAlert4 = "select bg.contract_id_fk as contract_id, 'Overdue' as alert_level,'Bank Guarantee' as alert_type,"
-					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
-					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "bg.bg_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity  " 
+			String bgQryAlert4 = "select bg.contract_id_fk as contract_id, Overdue as alert_level,Bank Guarantee as alert_type,"
+					+ "(case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,',' ,bg.bg_number,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk,  valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) " 
+					+ "else CONCAT(Bank guarantee valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
+					+ "concat(/get-contract?contract_id=,bg.contract_id_fk,&tab_name=bgDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "bg.bg_number as details,FORMAT(valid_upto,'%Y-%m-%d') as validity  " 
 					+ "from contract c " 
 					+ "left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk in ('In Progress') and "
-					+ "DATEDIFF(valid_upto ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Bank Guarantee' and alert_level_fk = 'Overdue') and release_date is null";
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk in (In Progress) and "
+					+ "DATEDIFF(valid_upto ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Bank Guarantee and alert_level_fk = Overdue) and release_date is null";
 			
 			List<Alerts> bgQryAlert4List = jdbcTemplate.query( bgQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert4List) && bgQryAlert4List.size() > 0) {
@@ -149,72 +149,72 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			/***************************** Insurance alerts*******************************************************/
-			String insuranceQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Insurance' as alert_type,"
-					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
-					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "bg.insurance_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity "
+			String insuranceQryAlert1 = "select bg.contract_id_fk as contract_id, 1st Alert as alert_level,Insurance as alert_type,"
+					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,',' ,bg.insurance_number,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "else CONCAT(Insurance valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
+					+ "concat(/get-contract?contract_id=,bg.contract_id_fk,&tab_name=insuranceDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "bg.insurance_number as details,FORMAT(valid_upto,'%Y-%m-%d') as validity "
 					+ "from contract c " 
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk in ('In Progress') and "
-					+ "(DATEDIFF(valid_upto ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Insurance' and alert_level_fk = '1st Alert') and DATEDIFF(valid_upto ,NOW()) > (select second_condition_value from alert_conditions where alert_type_fk = 'Insurance' and alert_level_fk = '1st Alert')) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk in (In Progress) and "
+					+ "(DATEDIFF(valid_upto ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Insurance and alert_level_fk = 1st Alert) and DATEDIFF(valid_upto ,GETDATE()) > (select second_condition_value from alert_conditions where alert_type_fk = Insurance and alert_level_fk = 1st Alert)) and (bg.released_fk = No or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert1List = jdbcTemplate.query( insuranceQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert1List) && insuranceQryAlert1List.size() > 0) {
 				list.addAll(insuranceQryAlert1List);
 			}
 			
-			String insuranceQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Insurance' as alert_type,"
-					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
-					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "bg.insurance_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity "
+			String insuranceQryAlert2 = "select bg.contract_id_fk as contract_id, 2nd Alert as alert_level,Insurance as alert_type,"
+					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,',' ,bg.insurance_number,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "else CONCAT(Insurance valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
+					+ "concat(/get-contract?contract_id=,bg.contract_id_fk,&tab_name=insuranceDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "bg.insurance_number as details,FORMAT(valid_upto,'%Y-%m-%d') as validity "
 					+ "from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk in ('In Progress') and "
-					+ "(DATEDIFF(valid_upto ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Insurance' and alert_level_fk = '2nd Alert') and DATEDIFF(valid_upto ,NOW()) > (select second_condition_value from alert_conditions where alert_type_fk = 'Insurance' and alert_level_fk = '2nd Alert')) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk in (In Progress) and "
+					+ "(DATEDIFF(valid_upto ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Insurance and alert_level_fk = 2nd Alert) and DATEDIFF(valid_upto ,GETDATE()) > (select second_condition_value from alert_conditions where alert_type_fk = Insurance and alert_level_fk = 2nd Alert)) and (bg.released_fk = No or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert2List = jdbcTemplate.query( insuranceQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert2List) && insuranceQryAlert2List.size() > 0) {
 				list.addAll(insuranceQryAlert2List);
 			}
 			
-			String insuranceQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Insurance' as alert_type,"
-					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
-					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "bg.insurance_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity "
+			String insuranceQryAlert3 = "select bg.contract_id_fk as contract_id, 3rd Alert as alert_level,Insurance as alert_type,"
+					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,',' ,bg.insurance_number,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "else CONCAT(Insurance valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
+					+ "concat(/get-contract?contract_id=,bg.contract_id_fk,&tab_name=insuranceDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "bg.insurance_number as details,FORMAT(valid_upto,'%Y-%m-%d') as validity "
 					+ "from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk in ('In Progress') and "
-					+ "(DATEDIFF(valid_upto ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Insurance' and alert_level_fk = '3rd Alert') and DATEDIFF(valid_upto ,NOW()) > (select second_condition_value from alert_conditions where alert_type_fk = 'Insurance' and alert_level_fk = '3rd Alert')) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk in (In Progress) and "
+					+ "(DATEDIFF(valid_upto ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Insurance and alert_level_fk = 3rd Alert) and DATEDIFF(valid_upto ,GETDATE()) > (select second_condition_value from alert_conditions where alert_type_fk = Insurance and alert_level_fk = 3rd Alert)) and (bg.released_fk = No or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert3List = jdbcTemplate.query( insuranceQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert3List) && insuranceQryAlert3List.size() > 0) {
 				list.addAll(insuranceQryAlert3List);
 			}
 			
-			String insuranceQryAlert4 = "select bg.contract_id_fk as contract_id, 'Overdue' as alert_level,'Insurance' as alert_type,"
-					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) "
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
-					+ "concat('/get-contract?contract_id=',bg.contract_id_fk,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "bg.insurance_number as details,DATE_FORMAT(valid_upto,'%Y-%m-%d') as validity "
+			String insuranceQryAlert4 = "select bg.contract_id_fk as contract_id, Overdue as alert_level,Insurance as alert_type,"
+					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,',' ,bg.insurance_number,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is null and bg.insurance_number is not null) then CONCAT(bg.insurance_number,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "when (bg.insurance_type_fk is not null and bg.insurance_number is null) then CONCAT(bg.insurance_type_fk,  Valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) "
+					+ "else CONCAT(Insurance valid upto ,FORMAT(valid_upto,'%d/%m/%Y') ) end ) as alert_value,"
+					+ "concat(/get-contract?contract_id=,bg.contract_id_fk,&tab_name=insuranceDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "bg.insurance_number as details,FORMAT(valid_upto,'%Y-%m-%d') as validity "
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk in ('In Progress') and "
-					+ "DATEDIFF(valid_upto ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Insurance' and alert_level_fk = 'Overdue') and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk in (In Progress) and "
+					+ "DATEDIFF(valid_upto ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Insurance and alert_level_fk = Overdue) and (bg.released_fk = No or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert4List = jdbcTemplate.query( insuranceQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert4List) && insuranceQryAlert4List.size() > 0) {
@@ -229,35 +229,35 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************** Contract Period alerts*******************************************************/
 			
-			String cpQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d/%m/%Y') ) else '' end ) as alert_value," 
-					+ "concat('/get-contract?contract_id=',contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
-					+ "when doc is not null then DATE_FORMAT(doc,'%Y-%m-%d') else '' end ) as validity " 
+			String cpQryAlert1 = "select contract_id,1st Alert as alert_level,Contract Period as alert_type," 
+					+ "(case when (cr.action = Yes and cr.revised_doc is not null) then (CONCAT(Date of Completion : ,FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
+					+ "when doc is not null then CONCAT(Date of Completion : ,FORMAT(doc,'%d/%m/%Y') ) else  end ) as alert_value," 
+					+ "concat(/get-contract?contract_id=,contract_id,&tab_name=revisionDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "(case when (cr.action = Yes and cr.revised_doc is not null) then FORMAT(cr.revised_doc,'%Y-%m-%d') " 
+					+ "when doc is not null then FORMAT(doc,'%Y-%m-%d') else  end ) as validity " 
 					+ "from contract c " 
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk in ('In Progress') " 
-					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Contract Period' and alert_level_fk = '1st Alert') " 
-					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > (select second_condition_value from alert_conditions where alert_type_fk = 'Contract Period' and alert_level_fk = '1st Alert'))";
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = Yes and cr.revised_doc is not null " 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where c.contract_status_fk in (In Progress) " 
+					+ "and (DATEDIFF((CASE WHEN (cr.action = Yes and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE  END) ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Contract Period and alert_level_fk = 1st Alert) " 
+					+ "and DATEDIFF((CASE WHEN (cr.action = Yes and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE  END) ,GETDATE()) > (select second_condition_value from alert_conditions where alert_type_fk = Contract Period and alert_level_fk = 1st Alert))";
 			
 			List<Alerts> cpQryAlert1List = jdbcTemplate.query( cpQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert1List) && cpQryAlert1List.size() > 0) {
 				list.addAll(cpQryAlert1List);
 			}
-			String cpQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d/%m/%Y') ) else '' end ) as alert_value," 
-					+ "concat('/get-contract?contract_id=',contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
-					+ "when doc is not null then DATE_FORMAT(doc,'%Y-%m-%d') else '' end ) as validity "  
+			String cpQryAlert2 = "select contract_id,2nd Alert as alert_level,Contract Period as alert_type," 
+					+ "(case when (cr.action = Yes and cr.revised_doc is not null) then (CONCAT(Date of Completion : ,FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
+					+ "when doc is not null then CONCAT(Date of Completion : ,FORMAT(doc,'%d/%m/%Y') ) else  end ) as alert_value," 
+					+ "concat(/get-contract?contract_id=,contract_id,&tab_name=revisionDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "(case when (cr.action = Yes and cr.revised_doc is not null) then FORMAT(cr.revised_doc,'%Y-%m-%d') " 
+					+ "when doc is not null then FORMAT(doc,'%Y-%m-%d') else  end ) as validity "  
 					+ "from contract c " 
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk in ('In Progress') " 
-					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Contract Period' and alert_level_fk = '2nd Alert') " 
-					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > (select second_condition_value from alert_conditions where alert_type_fk = 'Contract Period' and alert_level_fk = '2nd Alert'))";
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = Yes and cr.revised_doc is not null "
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where c.contract_status_fk in (In Progress) " 
+					+ "and (DATEDIFF((CASE WHEN (cr.action = Yes and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE  END) ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Contract Period and alert_level_fk = 2nd Alert) " 
+					+ "and DATEDIFF((CASE WHEN (cr.action = Yes and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE  END) ,GETDATE()) > (select second_condition_value from alert_conditions where alert_type_fk = Contract Period and alert_level_fk = 2nd Alert))";
 			
 			List<Alerts> cpQryAlert2List = jdbcTemplate.query( cpQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert2List) && cpQryAlert2List.size() > 0) {
@@ -265,35 +265,35 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			
-			String cpQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d/%m/%Y') ) else '' end ) as alert_value," 
-					+ "concat('/get-contract?contract_id=',contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
-					+ "when doc is not null then DATE_FORMAT(doc,'%Y-%m-%d') else '' end ) as validity " 
+			String cpQryAlert3 = "select contract_id,3rd Alert as alert_level,Contract Period as alert_type," 
+					+ "(case when (cr.action = Yes and cr.revised_doc is not null) then (CONCAT(Date of Completion : ,FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
+					+ "when doc is not null then CONCAT(Date of Completion : ,FORMAT(doc,'%d/%m/%Y') ) else  end ) as alert_value," 
+					+ "concat(/get-contract?contract_id=,contract_id,&tab_name=revisionDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "(case when (cr.action = Yes and cr.revised_doc is not null) then FORMAT(cr.revised_doc,'%Y-%m-%d') " 
+					+ "when doc is not null then FORMAT(doc,'%Y-%m-%d') else  end ) as validity " 
 					+ "from contract c " 
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk in ('In Progress') " 
-					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Contract Period' and alert_level_fk = '3rd Alert') " 
-					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > (select second_condition_value from alert_conditions where alert_type_fk = 'Contract Period' and alert_level_fk = '3rd Alert'))";
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = Yes and cr.revised_doc is not null "
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where c.contract_status_fk in (In Progress) " 
+					+ "and (DATEDIFF((CASE WHEN (cr.action = Yes and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE  END) ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Contract Period and alert_level_fk = 3rd Alert) " 
+					+ "and DATEDIFF((CASE WHEN (cr.action = Yes and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE  END) ,GETDATE()) > (select second_condition_value from alert_conditions where alert_type_fk = Contract Period and alert_level_fk = 3rd Alert))";
 			
 			List<Alerts> cpQryAlert3List = jdbcTemplate.query( cpQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert3List) && cpQryAlert3List.size() > 0) {
 				list.addAll(cpQryAlert3List);
 			}
 			
-			String cpQryAlert4 = "select contract_id,'Overdue' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d/%m/%Y') ) else '' end ) as alert_value," 
-					+ "concat('/get-contract?contract_id=',contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
-					+ "when doc is not null then DATE_FORMAT(doc,'%Y-%m-%d') else '' end ) as validity " 
+			String cpQryAlert4 = "select contract_id,Overdue as alert_level,Contract Period as alert_type," 
+					+ "(case when (cr.action = Yes and cr.revised_doc is not null) then (CONCAT(Date of Completion : ,FORMAT(cr.revised_doc,'%d/%m/%Y') )) " 
+					+ "when doc is not null then CONCAT(Date of Completion : ,FORMAT(doc,'%d/%m/%Y') ) else  end ) as alert_value," 
+					+ "concat(/get-contract?contract_id=,contract_id,&tab_name=revisionDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "(case when (cr.action = Yes and cr.revised_doc is not null) then FORMAT(cr.revised_doc,'%Y-%m-%d') " 
+					+ "when doc is not null then FORMAT(doc,'%Y-%m-%d') else  end ) as validity " 
 					+ "from contract c " 
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk in ('In Progress') " 
-					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= (select first_condition_value from alert_conditions where alert_type_fk = 'Contract Period' and alert_level_fk = 'Overdue')) ";
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = Yes and cr.revised_doc is not null "
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where c.contract_status_fk in (In Progress) " 
+					+ "and (DATEDIFF((CASE WHEN (cr.action = Yes and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE  END) ,GETDATE()) <= (select first_condition_value from alert_conditions where alert_type_fk = Contract Period and alert_level_fk = Overdue)) ";
 			
 			List<Alerts> cpQryAlert4List = jdbcTemplate.query( cpQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert4List) && cpQryAlert4List.size() > 0) {
@@ -302,22 +302,22 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************** Contract Value alerts*******************************************************/
 			
-			String cvQryAlert1 = "select c.contract_id,'1st Alert' as alert_level,'Contract Value' as alert_type,"
+			String cvQryAlert1 = "select c.contract_id,1st Alert as alert_level,Contract Value as alert_type,"
 					+ "(select CAST(SUM(x.gross_work_done*x.gross_work_done_units) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) as cumulative_expenditure,"
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END) as awarded_or_revised_cost,"
-					+ "CONCAT('Cumulative expenditure : Rs ',"  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END) as awarded_or_revised_cost,"
+					+ "CONCAT(Cumulative expenditure : Rs ,"  
 					+ "(select CAST(SUM(x.gross_work_done*x.gross_work_done_units) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : Rs ' WHEN awarded_cost is not null THEN ', Awarded Cost : Rs ' ELSE '' END), "  
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END)"  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN , Revised Cost : Rs  WHEN awarded_cost is not null THEN , Awarded Cost : Rs  ELSE  END), "  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END)"  
 					+ ") AS alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=revisionDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from contract c "  
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null "
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk in ('In Progress') " 
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = Yes and cr.revised_amount is not null "
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where c.contract_status_fk in (In Progress) " 
 					+ "having (cumulative_expenditure >= 0 "    
-					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) >= (select first_condition_value from alert_conditions where alert_type_fk = 'Contract Value' and alert_level_fk = '1st Alert') "  
-					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) < (select second_condition_value from alert_conditions where alert_type_fk = 'Contract Value' and alert_level_fk = '1st Alert') )";
+					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) >= (select first_condition_value from alert_conditions where alert_type_fk = Contract Value and alert_level_fk = 1st Alert) "  
+					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) < (select second_condition_value from alert_conditions where alert_type_fk = Contract Value and alert_level_fk = 1st Alert) )";
 			
 			List<Alerts> cvQryAlert1List = jdbcTemplate.query( cvQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cvQryAlert1List) && cvQryAlert1List.size() > 0) {
@@ -325,22 +325,22 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			
-			String cvQryAlert2 = "select c.contract_id,'2nd Alert' as alert_level,'Contract Value' as alert_type,"
+			String cvQryAlert2 = "select c.contract_id,2nd Alert as alert_level,Contract Value as alert_type,"
 					+ "(select CAST(SUM(x.gross_work_done*x.gross_work_done_units) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) as cumulative_expenditure,"
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END) as awarded_or_revised_cost,"
-					+ "CONCAT('Cumulative expenditure : Rs ',"  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END) as awarded_or_revised_cost,"
+					+ "CONCAT(Cumulative expenditure : Rs ,"  
 					+ "(select CAST(SUM(x.gross_work_done*x.gross_work_done_units) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : Rs ' WHEN awarded_cost is not null THEN ', Awarded Cost : Rs ' ELSE '' END), "  
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END)"  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN , Revised Cost : Rs  WHEN awarded_cost is not null THEN , Awarded Cost : Rs  ELSE  END), "  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END)"  
 					+ ") AS alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=revisionDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from contract c "  
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk in ('In Progress') " 
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = Yes and cr.revised_amount is not null " 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where c.contract_status_fk in (In Progress) " 
 					+ "having (cumulative_expenditure >= 0 "   
-					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) >= (select first_condition_value from alert_conditions where alert_type_fk = 'Contract Value' and alert_level_fk = '2nd Alert') "  
-					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) < (select second_condition_value from alert_conditions where alert_type_fk = 'Contract Value' and alert_level_fk = '2nd Alert') )";
+					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) >= (select first_condition_value from alert_conditions where alert_type_fk = Contract Value and alert_level_fk = 2nd Alert) "  
+					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) < (select second_condition_value from alert_conditions where alert_type_fk = Contract Value and alert_level_fk = 2nd Alert) )";
 			
 			
 			List<Alerts> cvQryAlert2List = jdbcTemplate.query( cvQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -348,43 +348,43 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(cvQryAlert2List);
 			}
 			
-			String cvQryAlert3 = "select c.contract_id,'3rd Alert' as alert_level,'Contract Value' as alert_type,"
+			String cvQryAlert3 = "select c.contract_id,3rd Alert as alert_level,Contract Value as alert_type,"
 					+ "(select CAST(SUM(x.gross_work_done*x.gross_work_done_units) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) as cumulative_expenditure,"
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END) as awarded_or_revised_cost,"
-					+ "CONCAT('Cumulative expenditure : Rs ',"  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END) as awarded_or_revised_cost,"
+					+ "CONCAT(Cumulative expenditure : Rs ,"  
 					+ "(select CAST(SUM(x.gross_work_done*x.gross_work_done_units) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : Rs ' WHEN awarded_cost is not null THEN ', Awarded Cost : Rs ' ELSE '' END), "  
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END)"  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN , Revised Cost : Rs  WHEN awarded_cost is not null THEN , Awarded Cost : Rs  ELSE  END), "  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END)"  
 					+ ") AS alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=revisionDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from contract c "  
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk in ('In Progress') " 
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = Yes and cr.revised_amount is not null " 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where c.contract_status_fk in (In Progress) " 
 					+ "having (cumulative_expenditure >= 0 "   
-					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) >= (select first_condition_value from alert_conditions where alert_type_fk = 'Contract Value' and alert_level_fk = '3rd Alert') "  
-					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) < (select second_condition_value from alert_conditions where alert_type_fk = 'Contract Value' and alert_level_fk = '3rd Alert') )";
+					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) >= (select first_condition_value from alert_conditions where alert_type_fk = Contract Value and alert_level_fk = 3rd Alert) "  
+					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) < (select second_condition_value from alert_conditions where alert_type_fk = Contract Value and alert_level_fk = 3rd Alert) )";
 			
 			List<Alerts> cvQryAlert3List = jdbcTemplate.query( cvQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cvQryAlert3List) && cvQryAlert3List.size() > 0) {
 				list.addAll(cvQryAlert3List);
 			}
 			
-			String cvQryAlert4 = "select c.contract_id,'Overdue' as alert_level,'Contract Value' as alert_type,"
+			String cvQryAlert4 = "select c.contract_id,Overdue as alert_level,Contract Value as alert_type,"
 					+ "(select CAST(SUM(x.gross_work_done*x.gross_work_done_units) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) as cumulative_expenditure,"
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END) as awarded_or_revised_cost,"
-					+ "CONCAT('Cumulative expenditure : Rs ',"  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END) as awarded_or_revised_cost,"
+					+ "CONCAT(Cumulative expenditure : Rs ,"  
 					+ "(select CAST(SUM(x.gross_work_done*x.gross_work_done_units) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : Rs ' WHEN awarded_cost is not null THEN ', Awarded Cost : Rs ' ELSE '' END), "  
-					+ "(CASE WHEN (cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END)"  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN , Revised Cost : Rs  WHEN awarded_cost is not null THEN , Awarded Cost : Rs  ELSE  END), "  
+					+ "(CASE WHEN (cr.revision_amounts_status = Yes and cr.revised_amount is not null) THEN cr.revised_amount*cr.revised_amount_units WHEN awarded_cost is not null THEN awarded_cost*awarded_cost_units ELSE 0 END)"  
 					+ ") AS alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=revisionDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=revisionDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from contract c "  
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes' and cr.revised_amount is not null "
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk in ('In Progress') " 
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = Yes and cr.revised_amount is not null "
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where c.contract_status_fk in (In Progress) " 
 					+ "having (cumulative_expenditure >= 0 "  
-					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) >= (select first_condition_value from alert_conditions where alert_type_fk = 'Contract Value' and alert_level_fk = 'Overdue') )";
+					+ "and (( cumulative_expenditure* 100) / (awarded_or_revised_cost)) >= (select first_condition_value from alert_conditions where alert_type_fk = Contract Value and alert_level_fk = Overdue) )";
 	
 	
 			List<Alerts> cvQryAlert4List = jdbcTemplate.query( cvQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -394,7 +394,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			
-			String cvQryAlert5 = "select c.contract_id,'Flag' as alert_level,'Execution' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,concat('actual progress lagging by ', substring(round(ifnull(physical_planned-physical_actual,0),4)*100,1,LENGTH(round(ifnull(physical_planned-physical_actual,0),4)*100)-2),'%') as alert_value,concat('/new-activities-update?contract_id=',c.contract_id) as redirect_url "
+			String cvQryAlert5 = "select c.contract_id,Flag as alert_level,Execution as alert_type,hod_user_id_fk,dy_hod_user_id_fk,concat(actual progress lagging by , substring(round(ISNULL(physical_planned-physical_actual,0),4)*100,1,LENGTH(round(ISNULL(physical_planned-physical_actual,0),4)*100)-2),'%') as alert_value,concat(/new-activities-update?contract_id=,c.contract_id) as redirect_url "
 					+ "from contract_progress c left join contract c1 on c1.contract_id=c.contract_id where physical_planned-physical_actual>0.1 and DATEDIFF(curdate(), c1.modified_date)>=90";
 	
 	
@@ -404,9 +404,9 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 	
 			
-			String cvQryAlert6 = "select w.work_id,'Flag' as alert_level,'R&R' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
+			String cvQryAlert6 = "select w.work_id,Flag as alert_level,R&R as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
 					+ "concat(structure_id,\" structures in \",location_name,\" not updated in last \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
-					+ "concat('/get-rr/',r.rr_id) as redirect_url\r\n"
+					+ "concat(/get-rr/,r.rr_id) as redirect_url\r\n"
 					+ " from rr r left JOIN work w ON w.work_id=r.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(curdate(), r.modified_date)>=90 and r.handed_over_to_execution is null group by sub_location_name,w.work_id";
 	
 	
@@ -416,10 +416,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			
-			String cvQryAlert7 = "select w.work_id,'Flag' as alert_level,'Land Acquisition' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
+			String cvQryAlert7 = "select w.work_id,Flag as alert_level,Land Acquisition as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n"
 					+ "concat(\"Land activity of for \",chainage_from,\" to \",chainage_to,\" not updated in last \", DATEDIFF(curdate(), r.modified_date), \" days\") as alert_value,\r\n"
-					+ "concat('/get-land-acquisition/',r.la_id) as redirect_url\r\n"
-					+ " from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join land_executives re on re.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and r.la_land_status_fk <> 'Acquired' group by village,w.work_id";
+					+ "concat(/get-land-acquisition/,r.la_id) as redirect_url\r\n"
+					+ " from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join land_executives re on re.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and r.la_land_status_fk <> Acquired group by village,w.work_id";
 	
 	
 			List<Alerts> cvQryAlert7List = jdbcTemplate.query( cvQryAlert7, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -427,9 +427,9 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(cvQryAlert7List);
 			}
 			
-			String cvQryAlert8 = "select distinct c1.contract_id,'Flag' as alert_level,'Contract Milestone' as alert_type,hod_user_id_fk,dy_hod_user_id_fk,\r\n"
-					+ "concat(\"Milestone \",milestone_id,\" Completion Date of \", c1.contract_short_name, \" has passed i.e. \",(select DATE_FORMAT(min(milestone_date),'%d/%m/%Y') from contract_milestones mc where mc.contract_id_fk=r.contract_id_fk)) as alert_value,concat('/get-contract/',c1.contract_id,'/#milestoneDetails') as redirect_url\r\n"
-					+ " from contract_milestones r left join contract c1 on c1.contract_id=r.contract_id_fk  where curdate()>milestone_date and c1.status='Open' and contract_status_fk='In Progress' ";
+			String cvQryAlert8 = "select distinct c1.contract_id,Flag as alert_level,Contract Milestone as alert_type,hod_user_id_fk,dy_hod_user_id_fk,\r\n"
+					+ "concat(\"Milestone \",milestone_id,\" Completion Date of \", c1.contract_short_name, \" has passed i.e. \",(select FORMAT(min(milestone_date),'%d/%m/%Y') from contract_milestones mc where mc.contract_id_fk=r.contract_id_fk)) as alert_value,concat(/get-contract/,c1.contract_id,/#milestoneDetails) as redirect_url\r\n"
+					+ " from contract_milestones r left join contract c1 on c1.contract_id=r.contract_id_fk  where curdate()>milestone_date and c1.status=Open and contract_status_fk=In Progress ";
 	
 	
 			List<Alerts> cvQryAlert8List = jdbcTemplate.query( cvQryAlert8, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -438,7 +438,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}	
 			
 			
-			String cvQryAlert9 = "select distinct c1.contract_id,'Flag' as alert_level,'Drawing' as alert_type,hod AS hod_user_id_fk,dy_hod AS dy_hod_user_id_fk,concat(\"Drawing No. \",r.mrvc_drawing_no,\" has not been approved by \",r.approving_railway,\" in \", DATEDIFF(curdate(), ds.submitted_date), \" days\") as alert_value,concat('/get-design/',r.design_id) as redirect_url from DESIGN r left join contract c1 on c1.contract_id=r.contract_id_fk  left join design_status ds on ds.design_id_fk=r.design_id   where DATEDIFF(curdate(), ds.submitted_date)>=60 and gfc_released is Null";
+			String cvQryAlert9 = "select distinct c1.contract_id,Flag as alert_level,Drawing as alert_type,hod AS hod_user_id_fk,dy_hod AS dy_hod_user_id_fk,concat(\"Drawing No. \",r.mrvc_drawing_no,\" has not been approved by \",r.approving_railway,\" in \", DATEDIFF(curdate(), ds.submitted_date), \" days\") as alert_value,concat(/get-design/,r.design_id) as redirect_url from DESIGN r left join contract c1 on c1.contract_id=r.contract_id_fk  left join design_status ds on ds.design_id_fk=r.design_id   where DATEDIFF(curdate(), ds.submitted_date)>=60 and gfc_released is Null";
 	
 	
 			List<Alerts> cvQryAlert9List = jdbcTemplate.query( cvQryAlert9, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -447,7 +447,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			
-			String cvQryAlert10 = "select 'Flag' as alert_level,'Utility Shifting' as alert_type,concat(utility_shifting_id,\" is not shifted by \", owner_name,\" beyond \",ifnull(requirement_stage_fk,''),ifnull(DATE_FORMAT(start_date,'%d/%m/%Y'),'')) as alert_value,concat('/get-utility-shifting/',r.utility_shifting_id) as redirect_url,ue.executive_user_id_fk as hod_user_id_fk from utility_shifting r left join work w on w.work_id=r.work_id_fk  left join utility_shifting_executives ue on ue.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and shifting_status_fk!='Completed' group by utility_category_fk";
+			String cvQryAlert10 = "select Flag as alert_level,Utility Shifting as alert_type,concat(utility_shifting_id,\" is not shifted by \", owner_name,\" beyond \",ISNULL(requirement_stage_fk,''),ISNULL(FORMAT(start_date,'%d/%m/%Y'),'')) as alert_value,concat(/get-utility-shifting/,r.utility_shifting_id) as redirect_url,ue.executive_user_id_fk as hod_user_id_fk from utility_shifting r left join work w on w.work_id=r.work_id_fk  left join utility_shifting_executives ue on ue.work_id_fk=r.work_id_fk where DATEDIFF(curdate(), r.modified_date)>=90 and shifting_status_fk!=Completed group by utility_category_fk";
 	
 	
 			List<Alerts> cvQryAlert10List = jdbcTemplate.query( cvQryAlert10, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -462,7 +462,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			jdbcTemplate.update(updateQry,pValues);	
 			
 			
-			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,details,valid_upto,amendment_not_required_in_contract,work_id)"
+			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,count,remarks,redirect_url,details,valid_upto,amendment_not_required_in_contract,work_id)"
 					+ " VALUES  (?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 			String qryAlertsSendManually = "select user_id_fk,alert_type_fk,alert_level_fk from alerts_send_manually ";			
@@ -617,7 +617,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/*Date date = new Date();
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(date); // don't forget this if date is arbitrary
+			cal.setTime(date); // dont forget this if date is arbitrary
 			
 			SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
 			String month = monthFormat.format(date).toUpperCase();
@@ -644,13 +644,13 @@ public class AlertsDaoImpl implements AlertsDao{
 		List<Alerts> list = new ArrayList<Alerts>();
 		try {
 			/***************************** BG alerts*******************************************************/
-			String bgQryAlert1 = "select c.contract_id, '1st Alert' as alert_level,'Bank Guarantee' as alert_type,"  
-					+ "CONCAT('PBG for new contract to be submitted') as alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+			String bgQryAlert1 = "select c.contract_id, 1st Alert as alert_level,Bank Guarantee as alert_type,"  
+					+ "CONCAT(PBG for new contract to be submitted) as alert_value," 
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=bgDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ "from contract c " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
-					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 30 and DATEDIFF(loa_date ,NOW()) > 20)" 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in (In Progress) and bg_required = Yes and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,GETDATE()) <= 30 and DATEDIFF(loa_date ,GETDATE()) > 20)" 
 					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 				
 			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -658,13 +658,13 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(bgQryAlert1List);
 			}
 			
-			String bgQryAlert2 = "select c.contract_id, '2nd Alert' as alert_level,'Bank Guarantee' as alert_type,"  
-					+ "CONCAT('PBG for new contract to be submitted') as alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+			String bgQryAlert2 = "select c.contract_id, 2nd Alert as alert_level,Bank Guarantee as alert_type,"  
+					+ "CONCAT(PBG for new contract to be submitted) as alert_value," 
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=bgDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ "from contract c " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
-					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 20 and DATEDIFF(loa_date ,NOW()) > 10)" 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in (In Progress) and bg_required = Yes and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,GETDATE()) <= 20 and DATEDIFF(loa_date ,GETDATE()) > 10)" 
 					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -672,13 +672,13 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(bgQryAlert2List);
 			}
 			
-			String bgQryAlert3 = "select c.contract_id, '3rd Alert' as alert_level,'Bank Guarantee' as alert_type,"  
-					+ "CONCAT('PBG for new contract to be submitted') as alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+			String bgQryAlert3 = "select c.contract_id, 3rd Alert as alert_level,Bank Guarantee as alert_type,"  
+					+ "CONCAT(PBG for new contract to be submitted) as alert_value," 
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=bgDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ "from contract c " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
-					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 10 and DATEDIFF(loa_date ,NOW()) > 0)" 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in (In Progress) and bg_required = Yes and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,GETDATE()) <= 10 and DATEDIFF(loa_date ,GETDATE()) > 0)" 
 					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -686,13 +686,13 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(bgQryAlert3List);
 			}
 
-			String bgQryAlert4 = "select c.contract_id, 'Overdue' as alert_level,'Bank Guarantee' as alert_type,"  
-					+ "CONCAT('PBG for new contract to be submitted') as alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=bgDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
+			String bgQryAlert4 = "select c.contract_id, Overdue as alert_level,Bank Guarantee as alert_type,"  
+					+ "CONCAT(PBG for new contract to be submitted) as alert_value," 
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=bgDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
 					+ "from contract c " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
-					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 0)" 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in (In Progress) and bg_required = Yes and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,GETDATE()) <= 0)" 
 					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert4List = jdbcTemplate.query( bgQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -709,13 +709,13 @@ public class AlertsDaoImpl implements AlertsDao{
 		List<Alerts> list = new ArrayList<Alerts>();
 		try {
 			/***************************** Insurance alerts*******************************************************/
-			String bgQryAlert1 = "select c.contract_id, '1st Alert' as alert_level,'Insurance' as alert_type,"  
-					+ "CONCAT('Insurance for new contract to be submitted') as alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+			String bgQryAlert1 = "select c.contract_id, 1st Alert as alert_level,Insurance as alert_type,"  
+					+ "CONCAT(Insurance for new contract to be submitted) as alert_value," 
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=insuranceDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ "from contract c " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
-					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 30 and DATEDIFF(loa_date ,NOW()) > 20)" 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in (In Progress) and insurance_required = Yes and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,GETDATE()) <= 30 and DATEDIFF(loa_date ,GETDATE()) > 20)" 
 					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 				
 			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -723,13 +723,13 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(bgQryAlert1List);
 			}
 			
-			String bgQryAlert2 = "select c.contract_id, '2nd Alert' as alert_level,'Insurance' as alert_type,"  
-					+ "CONCAT('Insurance for new contract to be submitted') as alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+			String bgQryAlert2 = "select c.contract_id, 2nd Alert as alert_level,Insurance as alert_type,"  
+					+ "CONCAT(Insurance for new contract to be submitted) as alert_value," 
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=insuranceDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ "from contract c " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
-					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 20 and DATEDIFF(loa_date ,NOW()) > 10)" 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in (In Progress) and insurance_required = Yes and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,GETDATE()) <= 20 and DATEDIFF(loa_date ,GETDATE()) > 10)" 
 					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -737,13 +737,13 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(bgQryAlert2List);
 			}
 			
-			String bgQryAlert3 = "select c.contract_id, '3rd Alert' as alert_level,'Insurance' as alert_type,"  
-					+ "CONCAT('Insurance for new contract to be submitted') as alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+			String bgQryAlert3 = "select c.contract_id, 3rd Alert as alert_level,Insurance as alert_type,"  
+					+ "CONCAT(Insurance for new contract to be submitted) as alert_value," 
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=insuranceDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ "from contract c " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
-					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 10 and DATEDIFF(loa_date ,NOW()) > 0)" 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in (In Progress) and insurance_required = Yes and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,GETDATE()) <= 10 and DATEDIFF(loa_date ,GETDATE()) > 0)" 
 					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -751,13 +751,13 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(bgQryAlert3List);
 			}
 
-			String bgQryAlert4 = "select c.contract_id, 'Overdue' as alert_level,'Insurance' as alert_type,"  
-					+ "CONCAT('Insurance for new contract to be submitted') as alert_value," 
-					+ "concat('/get-contract?contract_id=',c.contract_id,'&tab_name=insuranceDetails') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
+			String bgQryAlert4 = "select c.contract_id, Overdue as alert_level,Insurance as alert_type,"  
+					+ "CONCAT(Insurance for new contract to be submitted) as alert_value," 
+					+ "concat(/get-contract?contract_id=,c.contract_id,&tab_name=insuranceDetails) as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
 					+ "from contract c " 
-					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
-					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 0)" 
+					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in (In Progress) and insurance_required = Yes and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,GETDATE()) <= 0)" 
 					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert4List = jdbcTemplate.query( bgQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -806,7 +806,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		Contract obj = null;
 		try {
 			String qry ="SELECT executive_user_id_fk,u.user_name,u.designation from contract_executive c "
-					+ "left join user u on c.executive_user_id_fk = u.user_id where contract_id_fk = ? and  department_id_fk = ?";
+					+ "left join [user] u on c.executive_user_id_fk = u.user_id where contract_id_fk = ? and  department_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
 			stmt.setString(2, departmentID);
@@ -950,16 +950,16 @@ public class AlertsDaoImpl implements AlertsDao{
 			connection = dataSource.getConnection();
 			/***************************** Issue alerts*******************************************************/
 			
-			String qryAlert1 = "select contract_id_fk as contract_id, '1st Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat(i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
-					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
+			String qryAlert1 = "select contract_id_fk as contract_id, 1st Alert as alert_level,Issue as alert_type,"
+					+ "concat(i.title,<br>Pending Since : ,DATEDIFF(GETDATE(), date), days.) as alert_value,"
+					+ "(CASE WHEN status_fk = Closed THEN concat(/InfoViz/issues/closed-issues/,issue_id) ELSE concat(/InfoViz/issues/open-issues/,issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,i.corrective_measure,i.remarks "
 					+ "from issue i "
 					+ "LEFT JOIN contract c ON i.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN department d ON c.department_fk  = d.department "
-					+ "where status_fk <> 'Closed' "
-					+ "and DATEDIFF(NOW(),date) >= (select first_condition_value from alert_conditions where alert_type_fk = 'Issue' and alert_level_fk = '1st Alert') and DATEDIFF(NOW(),date) < (select second_condition_value from alert_conditions where alert_type_fk = 'Issue' and alert_level_fk = '1st Alert')";
+					+ "where status_fk <> Closed "
+					+ "and DATEDIFF(GETDATE(),date) >= (select first_condition_value from alert_conditions where alert_type_fk = Issue and alert_level_fk = 1st Alert) and DATEDIFF(GETDATE(),date) < (select second_condition_value from alert_conditions where alert_type_fk = Issue and alert_level_fk = 1st Alert)";
 			
 		
 			List<Alerts> alert1List = jdbcTemplate.query( qryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -967,32 +967,32 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(alert1List);
 			}			
 			
-			String qryAlert2 = "select contract_id_fk as contract_id, '2nd Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat(i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
-					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
+			String qryAlert2 = "select contract_id_fk as contract_id, 2nd Alert as alert_level,Issue as alert_type,"
+					+ "concat(i.title,<br>Pending Since : ,DATEDIFF(GETDATE(), date), days.) as alert_value,"
+					+ "(CASE WHEN status_fk = Closed THEN concat(/InfoViz/issues/closed-issues/,issue_id) ELSE concat(/InfoViz/issues/open-issues/,issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,i.corrective_measure,i.remarks "
 					+ "from issue i "
 					+ "LEFT JOIN contract c ON i.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN department d ON c.department_fk  = d.department "
-					+ "where status_fk <> 'Closed' "
-					+ "and DATEDIFF(NOW(),date) >= (select first_condition_value from alert_conditions where alert_type_fk = 'Issue' and alert_level_fk = '2nd Alert') and DATEDIFF(NOW(),date) < (select second_condition_value from alert_conditions where alert_type_fk = 'Issue' and alert_level_fk = '2nd Alert')";
+					+ "where status_fk <> Closed "
+					+ "and DATEDIFF(GETDATE(),date) >= (select first_condition_value from alert_conditions where alert_type_fk = Issue and alert_level_fk = 2nd Alert) and DATEDIFF(GETDATE(),date) < (select second_condition_value from alert_conditions where alert_type_fk = Issue and alert_level_fk = 2nd Alert)";
 			
 			List<Alerts> alert2List = jdbcTemplate.query( qryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(alert2List) && alert2List.size() > 0) {
 				list.addAll(alert2List);
 			}	
 			
-			/*String qryAlert3 = "select contract_id_fk as contract_id, '3rd Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat(i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
-					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
+			/*String qryAlert3 = "select contract_id_fk as contract_id, 3rd Alert as alert_level,Issue as alert_type,"
+					+ "concat(i.title,<br>Pending Since : ,DATEDIFF(GETDATE(), date), days.) as alert_value,"
+					+ "(CASE WHEN status_fk = Closed THEN concat(/InfoViz/issues/closed-issues/,issue_id) ELSE concat(/InfoViz/issues/open-issues/,issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,i.corrective_measure,i.remarks "
 					+ "from issue i "
 					+ "LEFT JOIN contract c ON i.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN department d ON c.department_fk  = d.department "
-					+ "where status_fk <> 'Closed' "
-					+ "and DATEDIFF(NOW(),date) >= (select first_condition_value from alert_conditions where alert_type_fk = 'Issue' and alert_level_fk = '3rd Alert')";
+					+ "where status_fk <> Closed "
+					+ "and DATEDIFF(GETDATE(),date) >= (select first_condition_value from alert_conditions where alert_type_fk = Issue and alert_level_fk = 3rd Alert)";
 			
 			List<Alerts> alert3List = jdbcTemplate.query( qryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(alert3List) && alert3List.size() > 0) {
@@ -1002,7 +1002,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/*************************Alerts insertion********************************************/
 			
-			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url) VALUES  (?,?,?,?,?,?,?,?)";		
+			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,count,remarks,redirect_url) VALUES  (?,?,?,?,?,?,?,?)";		
 			
 			for (Alerts obj : list) {
 				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
@@ -1148,9 +1148,9 @@ public class AlertsDaoImpl implements AlertsDao{
 			String work_ids_qry = "select rwh.sub_work,rwh.work_id_fk as work_id,hod_user_id_fk,work_name,work_short_name,reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from risk_work_hod rwh "
 					+ "left join work w on rwh.work_id_fk = w.work_id " 
-					+ "left join user u on rwh.hod_user_id_fk = u.user_id " 
-					+ "where (risk_work_completed is null or risk_work_completed = 'No' or risk_work_completed = '') "
-					+ "and (select count(*) from risk r1 left join risk_revision rr1 on r1.risk_id_pk = rr1.risk_id_pk_fk where r1.sub_work = rwh.sub_work and DATE_FORMAT(rr1.`date`,'%m-%Y') = DATE_FORMAT(NOW(),'%m-%Y')) <= 0 "
+					+ "left join [user] u on rwh.hod_user_id_fk = u.user_id " 
+					+ "where (risk_work_completed is null or risk_work_completed = No or risk_work_completed = ) "
+					+ "and (select count(*) from risk r1 left join risk_revision rr1 on r1.risk_id_pk = rr1.risk_id_pk_fk where r1.sub_work = rwh.sub_work and FORMAT(rr1.date,'%m-%Y') = FORMAT(GETDATE(),'%m-%Y')) <= 0 "
 					+ "and (select count(*) from risk r1 left join risk_revision rr1 on r1.risk_id_pk = rr1.risk_id_pk_fk where r1.sub_work = rwh.sub_work) >= 1 "
 					+ "group by rwh.sub_work,hod_user_id_fk";		
 			risk_alerts = jdbcTemplate.query( work_ids_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -1160,7 +1160,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				 Date date = new Date();
 				 //Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2021-06-06"); 
 				 Calendar cal = Calendar.getInstance();
-	             cal.setTime(date); // don't forget this if date is arbitrary
+	             cal.setTime(date); // dont forget this if date is arbitrary
 	             
 	             SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
 	             String month = monthFormat.format(date).toUpperCase();
@@ -1198,7 +1198,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			/*************************Alerts insertion********************************************/
 			
-			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,work_id) VALUES  (?,?,?,?,?,?,?,?,?)";		
+			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,count,remarks,redirect_url,work_id) VALUES  (?,?,?,?,?,?,?,?,?)";		
 			
 			for (Alerts obj : list) {
 				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
@@ -1301,21 +1301,21 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			connection = dataSource.getConnection();
 			
-			String mitigation_alerts_qry = "select r.sub_work,owner,u.user_id as owner_user_id,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date,"
+			String mitigation_alerts_qry = "select r.sub_work,owner,u.user_id as owner_user_id,FORMAT(date,'%d-%b-%Y') as assessment_date,"
 					+ "(CASE "
-					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 1) THEN '1st Alert' "
-					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 2) THEN '2nd Alert' " 
-					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 3) THEN '3rd Alert' "
-					+ "ELSE 'Overdue' "
+					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 1) THEN 1st Alert "
+					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 2) THEN 2nd Alert " 
+					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 3) THEN 3rd Alert "
+					+ "ELSE Overdue "
 					+ "END "
 					+ ") as alert_level,(select r1.work_id_fk from risk_work_hod r1 where r1.sub_work = r.sub_work) as work_id "
 					+ "from risk_revision rr " 
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk "
 					+ "left join risk_work_hod r1 on r1.sub_work = r.sub_work "
-					+ "left join user u on owner = u.designation " 
-					+ "where date = (SELECT MAX(`date`) FROM `risk_revision` LEFT JOIN `risk` ON `risk_id_pk` = `risk_id_pk_fk` WHERE `sub_work` = `r`.`sub_work`) " 
-					+ "and priority_fk <> 'Accepted' " 
-					+ "and (mitigation_plan is null or mitigation_plan = '') " 
+					+ "left join [user] u on owner = u.designation " 
+					+ "where date = (SELECT MAX(date) FROM risk_revision LEFT JOIN risk ON risk_id_pk = risk_id_pk_fk WHERE sub_work = r.sub_work) " 
+					+ "and priority_fk <> Accepted " 
+					+ "and (mitigation_plan is null or mitigation_plan = ) " 
 					+ "group by r.sub_work,owner";
 			
 			List<Alerts> risk_mitigation_alerts = jdbcTemplate.query( mitigation_alerts_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -1336,21 +1336,21 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/****************************************************************************************/
 
-			String atr_alerts_qry = "select distinct r.sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date, "
+			String atr_alerts_qry = "select distinct r.sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount,FORMAT(date,'%d-%b-%Y') as assessment_date, "
 					+ "(CASE "
-					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 1) THEN '1st Alert' "
-					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 2) THEN '2nd Alert' " 
-					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 3) THEN '3rd Alert' "
-					+ "ELSE 'Overdue' "
+					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 1) THEN 1st Alert "
+					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 2) THEN 2nd Alert " 
+					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 3) THEN 3rd Alert "
+					+ "ELSE Overdue "
 					+ "END "
 					+ ") as alert_level,(select r1.work_id_fk from risk_work_hod r1 where r1.sub_work = r.sub_work) as work_id "
 					+ "from risk_revision rr "  
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk "
 					+ "left join risk_action ra on risk_revision_id_fk = risk_revision_id "
-					+ "left join user u1 on owner = u1.designation "
-					+ "left join user u2 on responsible_person = u2.designation " 
-					+ "where date = (SELECT MAX(`date`) FROM `risk_revision` LEFT JOIN `risk` ON `risk_id_pk` = `risk_id_pk_fk` WHERE `sub_work` = `r`.`sub_work`) " 
-					+ "and priority_fk <> 'Accepted' " 
+					+ "left join [user] u1 on owner = u1.designation "
+					+ "left join [user] u2 on responsible_person = u2.designation " 
+					+ "where date = (SELECT MAX(date) FROM risk_revision LEFT JOIN risk ON risk_id_pk = risk_id_pk_fk WHERE sub_work = r.sub_work) " 
+					+ "and priority_fk <> Accepted " 
 					+ "group by r.sub_work,risk_revision_id having racount = 0 "  
 					+ "order by r.sub_work";
 			
@@ -1378,7 +1378,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/*************************Alerts insertion********************************************/
 			
 			String qryInsert = "INSERT INTO alerts "
-					+ "(alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,hod_email,work_id)"
+					+ "(alert_level,alert_type_fk,contract_id,alert_status,alert_value,count,remarks,redirect_url,hod_email,work_id)"
 					+ " VALUES  (?,?,?,?,?,?,?,?,?,?)";		
 			
 			for (Alerts obj : list) {
@@ -1480,9 +1480,9 @@ public class AlertsDaoImpl implements AlertsDao{
 			String userIdQry = "SELECT user_id_fk,u2.email_id "
 					+ "FROM alerts a " 
 					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
-					+ "left join user u2 on u.user_id_fk = u2.user_id " 
-					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
+					+ "left join [user] u2 on u.user_id_fk = u2.user_id " 
+					+ "where a.alert_status = Active and count <> 0 "
+					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract =  or amendment_not_required_in_contract = No) and u2.email_id is not null and u2.email_id <>  and a.alert_type_fk <> Risk ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(alert_type)) {
@@ -1520,8 +1520,8 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id "
 						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+						+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
+						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract =  or amendment_not_required_in_contract = No) and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> Risk ";
 				
 				arrSize = 2;
 				if(!StringUtils.isEmpty(alert_type)) {
@@ -1554,15 +1554,15 @@ public class AlertsDaoImpl implements AlertsDao{
 				for (Alerts lObj : alert_levels) {
 					
 					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-							+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,ISNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 							+ "left join contract c on a.contract_id = c.contract_id " 
 							+ "left join work w on c.work_id_fk = w.work_id "
 							+ "left outer join work w1 on w1.work_id = a.work_id "
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-							+ "left join user u on c.hod_user_id_fk = u.user_id " 
-							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+							+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
+							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract =  or amendment_not_required_in_contract = No) and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> Risk ";
 					
 					arrSize = 3;
 					if(!StringUtils.isEmpty(alert_type)) {
@@ -1689,9 +1689,9 @@ public class AlertsDaoImpl implements AlertsDao{
 			String userIdQry = "SELECT user_id_fk,u2.email_id "
 					+ "FROM alerts a " 
 					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
-					+ "left join user u2 on u.user_id_fk = u2.user_id " 
-					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
+					+ "left join [user] u2 on u.user_id_fk = u2.user_id " 
+					+ "where a.alert_status = Active and count <> 0 "
+					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract =  or amendment_not_required_in_contract = No) and u2.email_id is not null and u2.email_id <>  and a.alert_type_fk <> Risk ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(alert_type)) {
@@ -1728,8 +1728,8 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id "
 						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+						+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
+						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract =  or amendment_not_required_in_contract = No) and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> Risk ";
 				
 				arrSize = 2;
 				if(!StringUtils.isEmpty(alert_type)) {
@@ -1762,15 +1762,15 @@ public class AlertsDaoImpl implements AlertsDao{
 				for (Alerts lObj : alert_levels) {
 					
 					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-							+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,ISNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 							+ "left join contract c on a.contract_id = c.contract_id " 
 							+ "left join work w on c.work_id_fk = w.work_id " 
 							+ "left outer join work w1 on w1.work_id = a.work_id "
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-							+ "left join user u on c.hod_user_id_fk = u.user_id " 
-							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+							+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
+							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract =  or amendment_not_required_in_contract = No) and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> Risk ";
 					
 					arrSize = 3;
 					if(!StringUtils.isEmpty(alert_type)) {
@@ -1843,10 +1843,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String userIdQry = "SELECT au.user_id_fk,u.email_id,ucc.email_id as reporting_to_email_id,u.reporting_to_id_srfk as reporting_to_user_id "
 					+ "FROM alerts a " 
 					+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
-					+ "left join user u on au.user_id_fk = u.user_id "
-					+ "left join user ucc on u.reporting_to_id_srfk = ucc.user_id "
-					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and u.email_id is not null and u.email_id <> '' and a.alert_type_fk = 'Risk' and no_email is null "
+					+ "left join [user] u on au.user_id_fk = u.user_id "
+					+ "left join [user] ucc on u.reporting_to_id_srfk = ucc.user_id "
+					+ "where a.alert_status = Active and count <> 0 "
+					+ "and u.email_id is not null and u.email_id <>  and a.alert_type_fk = Risk and no_email is null "
 					+ "group by au.user_id_fk";
 			
 			List<Alerts> userIdList = jdbcTemplate.query( userIdQry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -1858,11 +1858,11 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "WHEN a.hod_email is null THEN u.designation "
 							+ "ELSE a.hod_email "
 							+ "END ) as hod,"
-							+ "IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "ISNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id "
-							+ "left join user u on au.user_id_fk = u.user_id " 
-							+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk = 'Risk' "
+							+ "left join [user] u on au.user_id_fk = u.user_id " 
+							+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk = Risk "
 							+ "order by hod,alert_level desc";
 					
 					Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
@@ -1925,7 +1925,7 @@ public class AlertsDaoImpl implements AlertsDao{
 								
 						Date date = new Date();
 						Calendar cal = Calendar.getInstance();
-						cal.setTime(date); // don't forget this if date is arbitrary
+						cal.setTime(date); // dont forget this if date is arbitrary
 						
 						SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
 						String month = monthFormat.format(date).toUpperCase();
@@ -1943,7 +1943,7 @@ public class AlertsDaoImpl implements AlertsDao{
 									mail.setMailCc(uObj.getReporting_to_email_id());
 								}
 								if(isOverdue && "PMIS_SU_002".equals(uObj.getReporting_to_user_id())) {
-									List<String> ccmails = jdbcTemplate.queryForList("select email_id from `user` where user_id in('PMIS_SU_006','PMIS_SU_052')",String.class);
+									List<String> ccmails = jdbcTemplate.queryForList("select email_id from user where user_id in(PMIS_SU_006,PMIS_SU_052)",String.class);
 									if(!StringUtils.isEmpty(ccmails) && ccmails.size() > 0) {
 										String ccemails = org.apache.commons.lang3.StringUtils.join(ccmails, ',');
 										mail.setMailCc(mail.getMailCc()+","+ccemails);
@@ -2005,8 +2005,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join contract c on a.contract_id = c.contract_id " 
 					+ "left join work w on c.work_id_fk = w.work_id " 
 					+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left join user u on c.hod_user_id_fk = u.user_id " 
-					+ "where alert_status = ? and count <> 0 and a.alert_type_fk <> 'Risk' "
+					+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
+					+ "where alert_status = ? and count <> 0 and a.alert_type_fk <> Risk "
 					+ "group by alert_type_fk order by alert_type_fk desc";
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
 			List<Alerts> alert_types = jdbcTemplate.query( aTypeQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));*/
@@ -2042,16 +2042,16 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(!StringUtils.isEmpty(alert_type)) {
 				Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
 				String aLevelQry = "select alert_level,"
-						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = 'Bank Guarantee' and ac.alert_level_fk = a.alert_level) as bg_condition_value, " 
-						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = 'Insurance' and ac.alert_level_fk = a.alert_level) as insure_condition_value, " 
-						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = 'Contract Period' and ac.alert_level_fk = a.alert_level) as cp_condition_value, " 
-						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = 'Contract Value' and ac.alert_level_fk = a.alert_level) as cv_condition_value " 
+						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = Bank Guarantee and ac.alert_level_fk = a.alert_level) as bg_condition_value, " 
+						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = Insurance and ac.alert_level_fk = a.alert_level) as insure_condition_value, " 
+						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = Contract Period and ac.alert_level_fk = a.alert_level) as cp_condition_value, " 
+						+ "(select first_condition_value from alert_conditions ac where ac.alert_type_fk = Contract Value and ac.alert_level_fk = a.alert_level) as cv_condition_value " 
 						+ "from alerts a " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
 						+ "left join work w on c.work_id_fk = w.work_id "
 						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-						+ "left join user u on c.hod_user_id_fk = u.user_id "
+						+ "left join [user] u on c.hod_user_id_fk = u.user_id "
 						+ "where alert_status = ? and count <> 0 "; 
 						//+ "where alert_status = ? and a.alert_type_fk = ? "
 						//+ "group by alert_level order by alert_level desc";
@@ -2086,13 +2086,13 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				for (Alerts lObj : alert_levels) {	
 					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-							+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end,contract_short_name,contractor_name,ISNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join contract c on a.contract_id = c.contract_id " 
 							+ "left join work w on c.work_id_fk = w.work_id "
 							+ "left outer join work w1 on w1.work_id = a.work_id "
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-							+ "left join user u on c.hod_user_id_fk = u.user_id " 
+							+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
 							+ "where alert_level = ? and alert_status = ? and count <> 0 ";
 							//+ "where alert_level = ? and alert_status = ? and count <> 0 and a.alert_type_fk = ? "
 							//+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
@@ -2168,7 +2168,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				
 				if(alerts != null && alerts.size() > 0){					
-					String itAdminsEmailsQry = "SELECT group_concat(email_id) FROM user where email_id is not null and email_id <> '' and user_role_name_fk = 'IT Admin'";
+					String itAdminsEmailsQry = "SELECT STRING_AGG(email_id) FROM [user] where email_id is not null and email_id <>  and user_role_name_fk = IT Admin";
 					String itAdminsEmails = jdbcTemplate.queryForObject( itAdminsEmailsQry,String.class);
 					if(!StringUtils.isEmpty(itAdminsEmails)) {
 						EMailSender emailSender = new EMailSender();
@@ -2199,11 +2199,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			EMailSender emailSender = new EMailSender();
 			
 			String qry = "select alert_id,alert_level,alert_type_fk,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-					+ "IFNULL(a.remarks,'') as remarks,redirect_url " 
+					+ "ISNULL(a.remarks,'') as remarks,redirect_url " 
 					+ "from alerts a "  
-					+ "left join risk_work_hod rwh on ((rwh.sub_work = REPLACE(a.redirect_url,'/risk-assessment?sub_work=','')) "
+					+ "left join risk_work_hod rwh on ((rwh.sub_work = REPLACE(a.redirect_url,/risk-assessment?sub_work=','')) "
 					+ "or (rwh.sub_work = substring_index(REPLACE(a.redirect_url,'/risk-atr-update?sub_work=',''), '&assessment_date=',1) )) "
-					+ "left join `user` u on rwh.hod_user_id_fk = u.user_id " 
+					+ "LEFT JOIN [user] u on rwh.hod_user_id_fk = u.user_id " 
 					+ "where alert_status = ? and count <> 0 and a.alert_type_fk = ? "
 					+ "order by hod,alert_level desc";
 			
@@ -2251,7 +2251,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 	            String current_year = yearFormat.format(new Date()).toUpperCase();
 				
-	            String itAdminsEmailsQry = "SELECT group_concat(email_id) FROM user where email_id is not null and email_id <> '' and user_role_name_fk = 'IT Admin'";
+	            String itAdminsEmailsQry = "SELECT STRING_AGG(email_id) FROM [user] where email_id is not null and email_id <>  and user_role_name_fk = IT Admin";
 				String itAdminsEmails = jdbcTemplate.queryForObject( itAdminsEmailsQry,String.class);
 				if(!StringUtils.isEmpty(itAdminsEmails)) {
 					String emailSubject = "PMIS Risk Alerts";
@@ -2269,8 +2269,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				/******************************************************************/
 				/*String qryIncharge = "select module_name,incharge_user_id_fk,u.email_id "
 						+ "from module m "
-						+ "LEFT JOIN `user` u on m.incharge_user_id_fk = u.user_id "
-						+ "WHERE module_name = 'Risk'" ;				
+						+ "LEFT JOIN [user] u on m.incharge_user_id_fk = u.user_id "
+						+ "WHERE module_name = Risk" ;				
 				
 				List<Alerts> inchargeEmailList = jdbcTemplate.query( qryIncharge, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 				for (Alerts alerts : inchargeEmailList) {
@@ -2300,7 +2300,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getAlerts(Alerts obj) throws Exception {
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,ISNULL(a.remarks,'') as remarks,count,u.designation as hod,"
 					+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url "
 					+ "from alerts a "; 
 					if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -2311,7 +2311,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where  count <> 0 and alert_status = ? ";
 			
 			int arrSize = 1;
@@ -2395,9 +2395,9 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where alert_status = ? and  count <> 0 "
-					+ "and c.contractor_id_fk is not null and c.contractor_id_fk <> '' ";
+					+ "and c.contractor_id_fk is not null and c.contractor_id_fk <>  ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
@@ -2420,7 +2420,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				qry = qry + " and u.designation = ? ";
 				arrSize++;
 			}
-			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
+			qry = qry + " and a.alert_type_fk not in (Issue,Risk)";
 			qry = qry + " GROUP BY c.contractor_id_fk ORDER BY c.contractor_id_fk";
 			
 			Object[] pValues = new Object[arrSize];
@@ -2461,7 +2461,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where alert_status = ? and  count <> 0 ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2485,7 +2485,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				qry = qry + " and u.designation = ? ";
 				arrSize++;
 			}
-			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
+			qry = qry + " and a.alert_type_fk not in (Issue,Risk)";
 			qry = qry + " GROUP BY a.contract_id ORDER BY a.contract_id";
 			
 			Object[] pValues = new Object[arrSize];
@@ -2526,9 +2526,9 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where alert_status = ? and  count <> 0 "
-					+ "and u.designation is not null and u.designation <> '' ";
+					+ "and u.designation is not null and u.designation <>  ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
@@ -2551,8 +2551,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				qry = qry + " and u.designation = ? ";
 				arrSize++;
 			}
-			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
-			qry = qry + " GROUP BY u.designation ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),u.designation" ;
+			qry = qry + " and a.alert_type_fk not in (Issue,Risk)";
+			qry = qry + " GROUP BY u.designation ORDER BY FIELD(u.designation,ED Civil,CPM I,CPM II,CPM III,CPM V,CE,GGM Civil,ED S&T,CSTE,GM Electrical,CEE Project I,CEE Project II,ED Finance & Planning,FA&CAO,GM GA&S,CPO,COM,GM Procurement,OSD,CVO,Demo-HOD-Elec,Demo-HOD-Engg,Demo-HOD-S&T),u.designation" ;
 
 			
 			Object[] pValues = new Object[arrSize];
@@ -2593,9 +2593,9 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where alert_status = ? and  count <> 0 "
-					+ "and (c.work_id_fk is not null or w1.work_id is not null) and (c.work_id_fk <> '' or w1.work_id <> '') ";
+					+ "and (c.work_id_fk is not null or w1.work_id is not null) and (c.work_id_fk <>  or w1.work_id <> ) ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
@@ -2618,7 +2618,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				qry = qry + " and u.designation = ? ";
 				arrSize++;
 			}
-			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
+			qry = qry + " and a.alert_type_fk not in (Issue,Risk)";
 			qry = qry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk";
 			
 			Object[] pValues = new Object[arrSize];
@@ -2659,9 +2659,9 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where alert_status = ? and  count <> 0 "
-					+ "and (c.work_id_fk is not null or w1.work_id is not null) and (c.work_id_fk <> '' or w1.work_id <> '') ";
+					+ "and (c.work_id_fk is not null or w1.work_id is not null) and (c.work_id_fk <>  or w1.work_id <> ) ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
@@ -2684,7 +2684,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				qry = qry + " and u.designation = ? ";
 				arrSize++;
 			}
-			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
+			qry = qry + " and a.alert_type_fk not in (Issue,Risk)";
 			qry = qry + " GROUP BY alert_type_fk ORDER BY alert_type_fk";
 			
 			Object[] pValues = new Object[arrSize];
@@ -2759,7 +2759,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join work w on c.work_id_fk = w.work_id "
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left join user u on c.hod_user_id_fk = u.user_id " 
+					+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
 					+ "where alert_status = ? and count <> 0 ";
 					
 			int arrSize = 1;
@@ -2825,7 +2825,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				
 				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url ";
+						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,ISNULL(a.remarks,'') as remarks,redirect_url ";
 				
 						if(!"IT Admin".equals(obj.getUser_role_name())) {
 							qry = qry + ",au.alerts_user_id,au.read_time "; 
@@ -2841,7 +2841,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-						+ "left join user u on c.hod_user_id_fk = u.user_id " 
+						+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
 						+ "where alert_status = ? and count <> 0 ";
 				
 				arrSize = 1;
@@ -2930,7 +2930,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left join user u on c.hod_user_id_fk = u.user_id "
+					+ "left join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where alert_status = ? and count <> 0 ";
 			
 			int arrSize = 1;
@@ -3065,7 +3065,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where  count <> 0 and alert_status = ? ";
 			
 			int arrSize = 1;
@@ -3116,7 +3116,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				arrSize++;
 			}	
 			
-			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
+			qry = qry + " and a.alert_type_fk not in (Issue,Risk)";
 			
 			qry = qry + " order by u.designation,(case when w.work_short_name is null then w1.work_short_name else w.work_short_name end),a.contract_id asc, alert_level desc";
 			
@@ -3173,7 +3173,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getAlertsList(Alerts obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,ISNULL(a.remarks,'') as remarks,count,u.designation as hod,"
 					+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,case when c.work_id_fk is null then w1.work_id else c.work_id_fk end as work_id_fk,case when w.work_id is null then w1.work_id else w.work_id end as work_id ,case when w.work_name is null then w1.work_name else w.work_name end as work_name,c.contract_short_name,redirect_url,amendment_not_required_in_contract  "
 					+ "from alerts a "; 
 					if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -3184,7 +3184,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join work w1 on w1.work_id = a.work_id  "
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					//+ "where  count <> 0 and alert_status = ? ";
 					+ "where count <> 0 and alert_status = ? ";
 			
@@ -3235,11 +3235,11 @@ public class AlertsDaoImpl implements AlertsDao{
 				arrSize++;
 			}	
 			
-			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
+			qry = qry + " and a.alert_type_fk not in (Issue,Risk)";
 			
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
 				//qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc limit ?,?";
-				qry = qry + " order by alert_level desc limit ?,?";
+				qry = qry + " order by alert_level desc offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -3311,7 +3311,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join work w1 on w1.work_id = a.work_id "
 					+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left join user u on c.hod_user_id_fk = u.user_id " 
+					+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
 					+ "where alert_status = ? and count <> 0 ";
 					
 			int arrSize = 1;
@@ -3342,7 +3342,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				arrSize++;
 			}
 			
-			//qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
+			//qry = qry + " and a.alert_type_fk not in (Issue,Risk)";
 			
 			qry = qry + " group by alert_type_fk order by alert_type_fk ASC";
 			
@@ -3408,7 +3408,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		List<Alerts> sendToList = new ArrayList<Alerts>();
 		try {	
 			String qry = "select user_id,user_name,designation,email_id,user_role_name_fk,user_type_fk "
-					+ "from user where email_id is not null and email_id <> ''"; 
+					+ "FROM [user] where email_id is not null and email_id <> "; 
 			sendToList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -3485,13 +3485,13 @@ public class AlertsDaoImpl implements AlertsDao{
 			for (Alerts lObj : alert_levelsList) {
 				
 				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,ISNULL(a.remarks,'') as remarks,redirect_url " 
 						+ "from alerts a " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
 						+ "left join work w on c.work_id_fk = w.work_id "
 						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-						+ "left join user u on c.hod_user_id_fk = u.user_id " 
+						+ "left join [user] u on c.hod_user_id_fk = u.user_id " 
 						+ "where alert_level = ? and alert_status = ? and count <> 0  ";
 				
 				arrSize = 2;
@@ -3535,7 +3535,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							String workQry = "select rwh.sub_work,rwh.work_id_fk as work_id,hod_user_id_fk,work_name,work_short_name,u.designation as hod "  
 									+ "from risk_work_hod rwh "
 									+ "left join work w on rwh.work_id_fk = w.work_id "
-									+ "left join user u on rwh.hod_user_id_fk = u.user_id " 
+									+ "left join [user] u on rwh.hod_user_id_fk = u.user_id " 
 									+ "where rwh.sub_work = ?";			
 							List<Alerts> wObjList = jdbcTemplate.query( workQry,new Object[]{sub_work},new BeanPropertyRowMapper<Alerts>(Alerts.class));
 							if(wObjList != null && wObjList.size() > 0) {
@@ -3623,8 +3623,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					hodQry = hodQry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and u.designation is not null and alert_status = ? ";
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where  count <> 0 and a.alert_type_fk <> Issue and a.alert_type_fk <> Risk and u.designation is not null and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3687,9 +3687,9 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			List<Alerts> hodObjsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			for (Alerts hodObj : hodObjsList) {			
-				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
+				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,ISNULL(a.remarks,'') as remarks,count,u.designation as hod,"
 						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,w.work_id,w.work_name,c.contract_short_name,redirect_url,"
-						+ "a.details,DATE_FORMAT(a.valid_upto,'%d-%m-%y') as validity "
+						+ "a.details,FORMAT(a.valid_upto,'%d-%m-%y') as validity "
 						+ "from alerts a "; 
 						if(!"IT Admin".equals(obj.getUser_role_name())) {
 							qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
@@ -3699,8 +3699,8 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left outer join work w on c.work_id_fk = w.work_id " 
 						+ "left outer join work w1 on w1.work_id = a.work_id "
 						+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-						+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-						+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+						+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
+						+ "where  count <> 0 and a.alert_type_fk <> Issue and a.alert_type_fk <> Risk and alert_status = ? ";
 				
 				arrSize = 1;
 				if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3783,8 +3783,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where  count <> 0 and a.alert_type_fk <> Issue and a.alert_type_fk <> Risk and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3810,7 +3810,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			//qry = qry + " group by u.designation order by u.designation asc";
-			qry = qry + " GROUP BY u.designation ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),u.designation" ;
+			qry = qry + " GROUP BY u.designation ORDER BY FIELD(u.designation,ED Civil,CPM I,CPM II,CPM III,CPM V,CE,GGM Civil,ED S&T,CSTE,GM Electrical,CEE Project I,CEE Project II,ED Finance & Planning,FA&CAO,GM GA&S,CPO,COM,GM Procurement,OSD,CVO,Demo-HOD-Elec,Demo-HOD-Engg,Demo-HOD-S&T),u.designation" ;
 
 			
 			Object[] pValues = new Object[arrSize];
@@ -3855,8 +3855,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
 					+ "left outer join work w1 on w1.work_id = a.work_id "
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where  count <> 0 and a.alert_type_fk <> Issue and a.alert_type_fk <> Risk and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3924,8 +3924,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where  count <> 0 and a.alert_type_fk <> Issue and a.alert_type_fk <> Risk and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
@@ -3993,8 +3993,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where  count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
+					+ "where  count <> 0 and a.alert_type_fk <> Issue and a.alert_type_fk <> Risk and alert_status = ? ";
 			
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {

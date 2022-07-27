@@ -50,7 +50,7 @@ public class WebDocumentsDaoImpl implements WebDocumentsDao{
 		try {
 			String categoriesQry ="select id as category_id,category from web_documents_category where type_fk = ?";
 			
-			String docsQry ="select wd.id as web_document_id,title,file_name,category_id_fk,DATE_FORMAT(date_of_issue,'%d-%m-%Y') as date_of_issue,DATE_FORMAT(date_of_issue,'%d-%b-%y') as date_of_issue_ddmmmyy,DATE_FORMAT(upload_date,'%d-%b-%y') as upload_date,uploaded_by,"
+			String docsQry ="select wd.id as web_document_id,title,file_name,category_id_fk,FORMAT(date_of_issue,'%d-%m-%Y') as date_of_issue,FORMAT(date_of_issue,'%d-%b-%y') as date_of_issue_ddmmmyy,FORMAT(upload_date,'%d-%b-%y') as upload_date,uploaded_by,"
 					+ "wdc.id as category_id,type_fk,type_fk as type,category "
 					+ "from web_documents wd "
 					+ "LEFT JOIN web_documents_category wdc ON wd.category_id_fk = wdc.id "

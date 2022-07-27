@@ -61,7 +61,7 @@ public class SourceOfFundsDaoImpl implements SourceOfFundsDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `source_of_funds` from source_of_funds ";
+			String qry ="select source_of_funds from source_of_funds ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -75,7 +75,7 @@ public class SourceOfFundsDaoImpl implements SourceOfFundsDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `source_of_funds`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as source_of_funds,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -86,7 +86,7 @@ public class SourceOfFundsDaoImpl implements SourceOfFundsDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select `source_of_funds` from source_of_funds where `source_of_funds` NOT IN (?";
+					  String qry2 = "select source_of_funds from source_of_funds where source_of_funds NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -167,7 +167,7 @@ public class SourceOfFundsDaoImpl implements SourceOfFundsDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE source_of_funds SET `source_of_funds`= :value_new WHERE `source_of_funds`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE source_of_funds SET source_of_funds= :value_new WHERE source_of_funds= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -198,7 +198,7 @@ public class SourceOfFundsDaoImpl implements SourceOfFundsDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from source_of_funds WHERE `source_of_funds`= :source_of_funds; ";
+			String deleteQry ="DELETE from source_of_funds WHERE source_of_funds= :source_of_funds; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

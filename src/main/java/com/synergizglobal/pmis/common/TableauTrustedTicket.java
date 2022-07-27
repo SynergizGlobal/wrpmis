@@ -31,7 +31,7 @@ public class TableauTrustedTicket {
 			clientIp = "www.syntrackpro.com";
 		}else {
 			postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
-			username = "Synergiz"; 
+			username = "SynTrack"; 
 			server = ugObj.getIpAddress()+":8000";
 			clientIp = ugObj.getIpAddress();
 		}		 

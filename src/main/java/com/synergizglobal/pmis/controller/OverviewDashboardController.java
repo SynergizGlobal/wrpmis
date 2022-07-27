@@ -234,7 +234,7 @@ public class OverviewDashboardController {
 				}else if(!StringUtils.isEmpty(work_id)){
 					params = obj.getSource_field_name()+"="+work_id;
 				}
-				String server_name = "Syntrack";
+				String server_name = "MRVC";
 				if(dashboardUrl.contains(".com/")) {
 					server_name = "Syntrack";
 				}else {
@@ -242,21 +242,21 @@ public class OverviewDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
-				baseUrl = baseUrl.replace("{1}", trustedTokenId);
+				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
-				if(dashboardUrl.contains(".com/")) {
-					url = dashboardUrl.split(".com/");
-					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
-					baseUrl = baseUrl.replace("{1}", trustedTokenId);
-				}else {
+				//if(dashboardUrl.contains(".com/")) {
+				//	url = dashboardUrl.split(".com/");
+				//	//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				//	baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				//	baseUrl = baseUrl.replace("{1}", trustedTokenId);
+				//}else {
 					url = dashboardUrl.split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", ugObj.getIpAddress());
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "10.203.10.158");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
-				}
+				//}
 				
 				if(!StringUtils.isEmpty(params)) {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;

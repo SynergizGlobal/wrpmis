@@ -2127,7 +2127,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		java.sql.CallableStatement statement = null;
 		ResultSet resultSet = null;
 		try{
-				String concat="[";
+				String concat="";
 				for (int i = 0; i < obj.getActivity_ids().length; i++)
 				{
 					if(obj.getIds()[i].compareTo("1")==0)
@@ -2136,7 +2136,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					}
 				}
 				concat=concat.substring(0, concat.length() - 1);  
-				concat=concat+"]";
 				connection = dataSource.getConnection();		
 				statement = connection.prepareCall("{call deleteActivities(?)}");
 				statement.setString(1, concat);

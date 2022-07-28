@@ -305,7 +305,7 @@ public class StructureDaoImpl implements StructureDao {
 		List<Structure> objsList = null;
 		try {
 			String qry = "SELECT s.structure_id,s.status,s.structure,w.work_name,w.work_short_name,w.project_id_fk,p.project_name,s.work_id_fk,"
-					+ "STRING_AGG(CONCAT(structure_type_fk, ' - ', count) SEPARATOR ',') as structure_type_fk "
+					+ "STRING_AGG(CONCAT(structure_type_fk, ' - ', count) , ',') as structure_type_fk "
 					+ "FROM ( SELECT structure_id,status,structure, work_id_fk, structure_type_fk, COUNT(structure_type_fk) AS count FROM structure "
 					+ "JOIN work ON work.work_id = structure.work_id_fk where status = 'Active' GROUP BY work_id_fk, structure_type_fk) s "
 					+ "left join work w on s.work_id_fk = w.work_id    "

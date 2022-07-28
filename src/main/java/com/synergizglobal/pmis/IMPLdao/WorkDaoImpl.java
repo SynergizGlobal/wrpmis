@@ -52,8 +52,8 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> objsList = null;
 		try {
 			String qry ="SELECT DISTINCT work_id,work_name,work_short_name,work_code,work_code,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost,"
-					+ "(SELECT STRING_AGG(work_railway.railway_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway," 
-					+ "(SELECT STRING_AGG(work_railway.executed_by_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by,"
+					+ "(SELECT STRING_AGG(work_railway.railway_id_fk , ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway," 
+					+ "(SELECT STRING_AGG(work_railway.executed_by_id_fk , ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
 					+ ",w.remarks,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
 					+ "FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
@@ -74,7 +74,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getWorkStatusList(Work obj) throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry = "SELECT execution_status as work_status_fk from execution_status where execution_status in(Not Started,In Progress,Completed)";
+			String qry = "SELECT execution_status as work_status_fk from execution_status where execution_status in('Not Started','In Progress','Completed')";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -930,8 +930,8 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> objsList = null;
 		try {
 			String qry = "SELECT DISTINCT work_id,work_name,work_short_name,work_code,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost, " + 
-					"(SELECT STRING_AGG(work_railway.railway_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway, " + 
-					"(SELECT STRING_AGG(work_railway.executed_by_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by, " + 
+					"(SELECT STRING_AGG(work_railway.railway_id_fk , ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway, " + 
+					"(SELECT STRING_AGG(work_railway.executed_by_id_fk , ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by, " + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost "  + 
 					",w.remarks,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion, " + 
 					"FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
@@ -1010,7 +1010,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getWorkTypeList() throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry = "SELECT work_type as work_type_fk from work_type where work_type is not null and work_type <>  ";
+			String qry = "SELECT work_type as work_type_fk from work_type where work_type is not null and work_type <> '' ";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1076,8 +1076,8 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> objsList = null;
 		try {
 			String qry ="SELECT DISTINCT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost,"
-					+ "(SELECT STRING_AGG(work_railway.railway_id_fk SEPARATOR ,) FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway," 
-					+ "(SELECT STRING_AGG(work_railway.executed_by_id_fk SEPARATOR ,) FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by,"
+					+ "(SELECT STRING_AGG(work_railway.railway_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway," 
+					+ "(SELECT STRING_AGG(work_railway.executed_by_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
 					+ ",w.remarks,w.attachment,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion "
 					+ "FROM work w "  

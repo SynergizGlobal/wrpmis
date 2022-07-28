@@ -489,7 +489,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name from budget b " + 
 					"LEFT JOIN work w on b.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where work_id_fk is not null and work_id_fk <>  ";
+					"where work_id_fk is not null and work_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id_fk = ?";
@@ -529,7 +529,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			String qry = "SELECT p.project_id as project_id_fk,p.project_name from budget b " + 
 					"LEFT JOIN work w on b.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where project_id_fk is not null and project_id_fk <>  ";
+					"where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -569,7 +569,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			String qry = "SELECT b.financial_year_fk  from budget b " + 
 					"LEFT JOIN work w on b.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where financial_year_fk is not null and financial_year_fk <>  ";
+					"where financial_year_fk is not null and financial_year_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";

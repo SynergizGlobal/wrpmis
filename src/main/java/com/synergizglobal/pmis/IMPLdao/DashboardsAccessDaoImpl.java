@@ -52,7 +52,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			
 			int arrSize = 3;
 			if("MRVC".equals(obj.getUser_type_access())) {
-				qry = qry + " and d.dashboard_url IS NOT NULL and d.dashboard_url <>  ";
+				qry = qry + " and d.dashboard_url IS NOT NULL and d.dashboard_url <> '' ";
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and d.module_name_fk = ?";
@@ -95,7 +95,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		List<Dashboard> objsList = null;
 		try {
 			String qry = "SELECT module_name_fk from dashboard  " + 
-					"where module_name_fk is not null and module_name_fk <>  ";
+					"where module_name_fk is not null and module_name_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ?";
@@ -133,7 +133,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		List<Dashboard> objsList = null;
 		try {
 			String qry = "SELECT dashboard_type_fk from dashboard  " + 
-					"where dashboard_type_fk is not null and dashboard_type_fk <>  ";
+					"where dashboard_type_fk is not null and dashboard_type_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ?";
@@ -171,7 +171,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		List<Dashboard> objsList = null;
 		try {
 			String qry = "SELECT soft_delete_status_fk from dashboard  " + 
-					"where soft_delete_status_fk is not null and soft_delete_status_fk <>  ";
+					"where soft_delete_status_fk is not null and soft_delete_status_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ?";

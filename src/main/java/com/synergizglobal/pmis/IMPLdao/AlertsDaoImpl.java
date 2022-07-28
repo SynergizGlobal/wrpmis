@@ -2397,7 +2397,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where alert_status = ? and  count <> 0 "
-					+ "and c.contractor_id_fk is not null and c.contractor_id_fk <>  ";
+					+ "and c.contractor_id_fk is not null and c.contractor_id_fk <> '' ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";
@@ -2528,7 +2528,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left outer join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where alert_status = ? and  count <> 0 "
-					+ "and u.designation is not null and u.designation <>  ";
+					+ "and u.designation is not null and u.designation <> '' ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and (c.work_id_fk = ? or w1.work_id= ? )";

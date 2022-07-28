@@ -894,7 +894,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	private String getLandExecutives(String work_id) throws Exception {
 		String executives="";
 		try {
-			String qry = "SELECT  ISNULL(STRING_AGG(DISTINCT (u.user_id) SEPARATOR ','),'') as  user_id FROM land_executives re " + 
+			String qry = "SELECT  ISNULL(STRING_AGG(DISTINCT (u.user_id) , ','),'') as  user_id FROM land_executives re " + 
 					"LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
 			executives = (String) jdbcTemplate.queryForObject(qry, new Object[] { work_id }, String.class);
 		} catch (Exception e) {
@@ -906,7 +906,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	private String getLandExecutivesEmail(String work_id) throws Exception {
 		String executivesEmail="";
 		try {
-			String qry = "SELECT  ISNULL(STRING_AGG(DISTINCT (u.email_id) SEPARATOR ','),'') as email_id FROM land_executives re " + 
+			String qry = "SELECT  ISNULL(STRING_AGG(DISTINCT (u.email_id) , ','),'') as email_id FROM land_executives re " + 
 					"LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
 			executivesEmail = (String) jdbcTemplate.queryForObject(qry, new Object[] { work_id }, String.class);
 		} catch (Exception e) {

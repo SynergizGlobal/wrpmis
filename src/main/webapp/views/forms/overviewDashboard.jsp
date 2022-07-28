@@ -781,6 +781,12 @@
 				         				}
 				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
 			                      });
+			         			  
+			         			 var found = [];
+			         			$("#"+id+" option").each(function() {
+			         			  if($.inArray(this.value, found) != -1) $(this).remove();
+			         			  found.push(this.value);
+			         			});			         			  
 			         		  });
 			         		   $('.searchable').select2();
 			         	   }

@@ -34,7 +34,7 @@ public class LandResponsibleExecutivesDaoImpl implements LandResponsibleExecutiv
 	public List<TrainingType> getExecutivesDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(DISTINCT (u.user_name) SEPARATOR ',') user_name,STRING_AGG(DISTINCT (u.user_id) SEPARATOR ',') user_id FROM land_executives re "
+			String qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(DISTINCT (u.user_name) , ',') user_name,STRING_AGG(DISTINCT (u.user_id) , ',') user_id FROM land_executives re "
 					+ "LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id "
 					+ "left join work w on re.work_id_fk = w.work_id "
 					+ "GROUP BY work_id_fk;";

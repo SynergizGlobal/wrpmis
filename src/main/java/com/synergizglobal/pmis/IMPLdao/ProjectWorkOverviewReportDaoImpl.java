@@ -229,7 +229,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 	public List<Contract> getStructuralProgress(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT structure_type as strip_chart_type_fk,ISNULL(round(sum(structure_type_per)*100,2),0) as structure_type_per,ISNULL((select actual_completion_date from structure where structure_type_fk=structure_type and actual_completion_date is not null limit 1),'') as actual_completion_date FROM pmis.activities_scurve \r\n"
+			String qry = "SELECT structure_type as strip_chart_type_fk,ISNULL(round(sum(structure_type_per)*100,2),0) as structure_type_per,ISNULL((select actual_completion_date from structure where structure_type_fk=structure_type and actual_completion_date is not null offset 0 rows  fetch next 1 rows only),'') as actual_completion_date FROM pmis.activities_scurve \r\n"
 					+ "where structure_type is not null and category = 'Actual' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

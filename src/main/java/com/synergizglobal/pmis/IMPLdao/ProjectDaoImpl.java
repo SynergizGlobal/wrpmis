@@ -59,8 +59,8 @@ public class ProjectDaoImpl implements ProjectDao {
 		List<Project> objsList = null;
 		try {
 			String qry ="SELECT project_id, project_name, plan_head_number, remarks, project_status, benefits ,"
-					+ "(select financial_year_fk from project_pinkbook where project_id_fk = project_id order by project_pinkbook_id asc limit 1) as financial_year_fk,"
-					+ "(select pb_item_no from project_pinkbook where project_id_fk = project_id order by project_pinkbook_id asc limit 1) as pb_item_no "
+					+ "(select financial_year_fk from project_pinkbook where project_id_fk = project_id order by project_pinkbook_id asc offset 0 rows  fetch next 1 rows only) as financial_year_fk,"
+					+ "(select pb_item_no from project_pinkbook where project_id_fk = project_id order by project_pinkbook_id asc offset 0 rows  fetch next 1 rows only) as pb_item_no "
 					+ "FROM project";
 					
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
@@ -80,8 +80,8 @@ public class ProjectDaoImpl implements ProjectDao {
 		try {
 			connection = dataSource.getConnection();
 			String qry ="SELECT project_id,project_name,plan_head_number,remarks,project_status,benefits,"
-					+ "(select financial_year_fk from project_pinkbook where project_id_fk = ? order by project_pinkbook_id asc limit 1) as financial_year_fk, "
-					+ "(select pb_item_no from project_pinkbook where project_id_fk = ? order by project_pinkbook_id asc limit 1) as pb_item_no "
+					+ "(select financial_year_fk from project_pinkbook where project_id_fk = ? order by project_pinkbook_id asc offset 0 rows  fetch next 1 rows only) as financial_year_fk, "
+					+ "(select pb_item_no from project_pinkbook where project_id_fk = ? order by project_pinkbook_id asc offset 0 rows  fetch next 1 rows only) as pb_item_no "
 					+ "FROM project "
 					+ "where project_id = ?";
 			stmt = connection.prepareStatement(qry);

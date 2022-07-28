@@ -93,7 +93,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	public List<RiskReport> getWorkId(RiskReport obj) throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select work_id_fk from risk_work_hod where sub_work = ? limit 1";	
+			String qry = "select work_id_fk from risk_work_hod where sub_work = ? offset 0 rows  fetch next 1 rows only";	
 			Object[] pValues = new Object[] {obj.getSub_work()};
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			
@@ -108,20 +108,20 @@ public class RiskReportDaoImpl implements RiskReportDao{
 		RiskReport riskObject = null;
 		List<RiskReport> areaList = null;
 		try {
-			String workIdQuery = "select work_id_fk from risk_work_hod where sub_work = ? limit 1";
+			String workIdQuery = "select work_id_fk from risk_work_hod where sub_work = ? offset 0 rows  fetch next 1 rows only";
 			String work_id = jdbcTemplate.queryForObject( workIdQuery, new Object[] {obj.getSub_work()}, String.class);
 			obj.setWork_id(work_id);
 			
 			String qry = "select rwh.work_id_fk as work_id,rv.sub_work,FORMAT(date,'%d-%m-%Y') AS assessment_date,work_name,work_short_name,"
 					+ "project_id,project_name,owner,"
-					+ "(select ISNULL((select latest_revised_cost from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc limit 1),sanctioned_estimated_cost) from work where work_id = ?) as estimatedOrRevisedCost,"
-					+ "(select ISNULL((select financial_year from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc limit 1),sanctioned_year_fk) from work where work_id = ?) as estimatedOrRevisedDate "
+					+ "(select ISNULL((select latest_revised_cost from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc offset 0 rows  fetch next 1 rows only),sanctioned_estimated_cost) from work where work_id = ?) as estimatedOrRevisedCost,"
+					+ "(select ISNULL((select financial_year from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc offset 0 rows  fetch next 1 rows only),sanctioned_year_fk) from work where work_id = ?) as estimatedOrRevisedDate "
 					+ "from risk_revision_view rrv " 
 					+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk "
 					+ "left outer join risk_work_hod rwh on rv.sub_work = rwh.sub_work "
 					+ "left outer join work w on rwh.work_id_fk = w.work_id "
 					+ "left outer join project p on w.project_id_fk = p.project_id "
-					+ "where rwh.work_id_fk = ? and rv.sub_work = ? and date = ? order by date limit 1";
+					+ "where rwh.work_id_fk = ? and rv.sub_work = ? and date = ? order by date offset 0 rows  fetch next 1 rows only";
 			
 			Object[] pValues = new Object[] {obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
 			
@@ -279,7 +279,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					"where risk_work_completed='No' ) s " + 
 					"where r =1)ss " + 
 					"group by area,sub_area " + 
-					"order by sum(risk_rating) desc limit 10";
+					"order by sum(risk_rating) desc offset 0 rows  fetch next 1 rows only0";
 					
 			List<RiskReport> objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			

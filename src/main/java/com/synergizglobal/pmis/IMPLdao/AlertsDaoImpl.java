@@ -834,7 +834,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		String amendment_not_required_in_contract = null;
 		try {
 			String remarksQry ="select amendment_not_required_in_contract from alerts where contract_id = ? and alert_type_fk = ?  and alert_value = ?"
-					+ " AND created_date = (select max(created_date) from alerts where contract_id = ? and alert_type_fk = ? and alert_value = ? limit 1)  limit 1";
+					+ " AND created_date = (select max(created_date) from alerts where contract_id = ? and alert_type_fk = ? and alert_value = ? offset 0 rows  fetch next 1 rows only)  offset 0 rows  fetch next 1 rows only";
 			stmt = connection.prepareStatement(remarksQry);
 			int p = 1;
             stmt.setString(p++, contract_id);
@@ -876,7 +876,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(!StringUtils.isEmpty(contract_id)) {
 				qry = qry + " and contract_id = ?"; 
 			}		
-			qry = qry + "limit 1)  limit 1";
+			qry = qry + "offset 0 rows  fetch next 1 rows only)  offset 0 rows  fetch next 1 rows only";
 			
 			stmt = connection.prepareStatement(qry);
 			int p = 1;

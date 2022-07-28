@@ -73,7 +73,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "FROM p6_activities a "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract co on a.contract_id_fk = co.contract_id "	
-					+ "WHERE a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL('Completed',0) ";
+					+ "WHERE a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL(Completed,0) ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -126,7 +126,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "from p6_activities a "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "					
-					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL(Completed,0) " ;
 					
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -193,7 +193,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
-					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL(Completed,0) " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -1648,7 +1648,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "select a.contract_id_fk "
 					+ "FROM p6_activities a "
 					+ "left outer join contract co on a.contract_id_fk = co.contract_id "	
-					+ "WHERE a.contract_id_fk is not null  and a.scope <> ISNULL('Completed',0) ";
+					+ "WHERE a.contract_id_fk is not null  and a.scope <> ISNULL(Completed,0) ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -1721,7 +1721,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "select a.contract_id_fk "
 					+ "from p6_activities a "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "					
-					+ "where a.contract_id_fk is not null  and a.scope <> ISNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null  and a.scope <> ISNULL(Completed,0) " ;
 					
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -1809,7 +1809,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "from p6_activities a "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
-					+ "where a.contract_id_fk is not null  and a.scope <> ISNULL('Completed',0) " ;
+					+ "where a.contract_id_fk is not null  and a.scope <> ISNULL(Completed,0) " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";

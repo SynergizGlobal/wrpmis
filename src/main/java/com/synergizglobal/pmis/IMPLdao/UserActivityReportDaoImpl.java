@@ -601,7 +601,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 				qry = qry + " AND fh.work  = (select work_short_name from work where work_id = ?)";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY created_date DESC limit 1";
+			qry = qry + " ORDER BY created_date DESC offset 0 rows  fetch next 1 rows only";
 			//qry = qry + " GROUP BY u.user_id";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

@@ -305,7 +305,7 @@ public class DesignDaoImpl implements DesignDao{
 				arrSize++;
 			}	
 			
-			//qry = qry + " limit 10";
+			//qry = qry + " offset 0 rows  fetch next 1 rows only0";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1015,19 +1015,19 @@ public class DesignDaoImpl implements DesignDao{
 				 
 				if(!StringUtils.isEmpty(obj.getPrepared_by_id_fk())) {
 					String preparedByQry = "INSERT INTO design_prepared_by (prepared_by) SELECT * FROM (SELECT ?) AS tmp "
-							+ "WHERE NOT EXISTS ( SELECT prepared_by FROM design_prepared_by WHERE prepared_by = ? LIMIT 1 )";
+							+ "WHERE NOT EXISTS ( SELECT prepared_by FROM design_prepared_by WHERE prepared_by = ? offset 0 rows  fetch next 1 rows only )";
 					jdbcTemplate.update( preparedByQry, new Object[] {obj.getPrepared_by_id_fk(),obj.getPrepared_by_id_fk()});
 				}
 				
 				/*if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
 					String stQry = "INSERT INTO structure_type (structure_type) SELECT * FROM (SELECT ?) AS tmp "
-							+ "WHERE NOT EXISTS ( SELECT structure_type FROM structure_type WHERE structure_type = ? LIMIT 1 )";
+							+ "WHERE NOT EXISTS ( SELECT structure_type FROM structure_type WHERE structure_type = ? offset 0 rows  fetch next 1 rows only )";
 					jdbcTemplate.update( stQry, new Object[] {obj.getStructure_type_fk(),obj.getStructure_type_fk()});
 				}*/
 				
 				if(!StringUtils.isEmpty(obj.getDrawing_type_fk())) {
 					String dtQry = "INSERT INTO drawing_type (drawing_type) SELECT * FROM (SELECT ?) AS tmp "
-							+ "WHERE NOT EXISTS ( SELECT drawing_type FROM drawing_type WHERE drawing_type = ? LIMIT 1 )";
+							+ "WHERE NOT EXISTS ( SELECT drawing_type FROM drawing_type WHERE drawing_type = ? offset 0 rows  fetch next 1 rows only )";
 					jdbcTemplate.update( dtQry, new Object[] {obj.getDrawing_type_fk(),obj.getDrawing_type_fk()});
 				}
 				
@@ -1066,7 +1066,7 @@ public class DesignDaoImpl implements DesignDao{
 										
 										if(!StringUtils.isEmpty(revision_status_fk)) {
 											String dtQry = "INSERT INTO revision_status (revision_status) SELECT * FROM (SELECT ?) AS tmp "
-													+ "WHERE NOT EXISTS ( SELECT revision_status FROM revision_status WHERE revision_status = ? LIMIT 1 )";
+													+ "WHERE NOT EXISTS ( SELECT revision_status FROM revision_status WHERE revision_status = ? offset 0 rows  fetch next 1 rows only )";
 											jdbcTemplate.update( dtQry, new Object[] {revision_status_fk,revision_status_fk});
 										}
 										
@@ -1798,19 +1798,19 @@ public class DesignDaoImpl implements DesignDao{
 				obj.setHod(hod);obj.setDy_hod(dyHod);
 				if(!StringUtils.isEmpty(obj.getPrepared_by_id_fk())) {
 					String preparedByQry = "INSERT INTO design_prepared_by (prepared_by) SELECT * FROM (SELECT ?) AS tmp "
-							+ "WHERE NOT EXISTS ( SELECT prepared_by FROM design_prepared_by WHERE prepared_by = ? LIMIT 1 )";
+							+ "WHERE NOT EXISTS ( SELECT prepared_by FROM design_prepared_by WHERE prepared_by = ? offset 0 rows  fetch next 1 rows only )";
 					jdbcTemplate.update( preparedByQry, new Object[] {obj.getPrepared_by_id_fk(),obj.getPrepared_by_id_fk()});
 				}
 				
 				/*if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
 					String stQry = "INSERT INTO structure_type (structure_type) SELECT * FROM (SELECT ?) AS tmp "
-							+ "WHERE NOT EXISTS ( SELECT structure_type FROM structure_type WHERE structure_type = ? LIMIT 1 )";
+							+ "WHERE NOT EXISTS ( SELECT structure_type FROM structure_type WHERE structure_type = ? offset 0 rows  fetch next 1 rows only )";
 					jdbcTemplate.update( stQry, new Object[] {obj.getStructure_type_fk(),obj.getStructure_type_fk()});
 				}*/
 				
 				if(!StringUtils.isEmpty(obj.getDrawing_type_fk())) {
 					String dtQry = "INSERT INTO drawing_type (drawing_type) SELECT * FROM (SELECT ?) AS tmp "
-							+ "WHERE NOT EXISTS ( SELECT drawing_type FROM drawing_type WHERE drawing_type = ? LIMIT 1 )";
+							+ "WHERE NOT EXISTS ( SELECT drawing_type FROM drawing_type WHERE drawing_type = ? offset 0 rows  fetch next 1 rows only )";
 					jdbcTemplate.update( dtQry, new Object[] {obj.getDrawing_type_fk(),obj.getDrawing_type_fk()});
 				}
 				

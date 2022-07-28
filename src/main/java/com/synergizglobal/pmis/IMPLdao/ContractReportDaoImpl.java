@@ -517,7 +517,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		try {
 			
 			String hodQry ="select u.designation as hod_designation,c.hod_user_id_fk,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,doc as doc_date, "
-					+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revised_doc_temp "
+					+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id offset 0 rows  fetch next 1 rows only) as  revised_doc_temp "
 					+ "from contract c "
 					+ "left join work w on c.work_id_fk = w.work_id "  
 					+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "  
@@ -610,12 +610,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select DATE_FORMAT(revised_doc,'%d-%b-%Y') AS revised_doc from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revised_doc," 
 						+ "(select revised_doc from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revised_doc_temp," 
 						+ "(select remarks from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revision_remarks " */
-						+ "(select revision_number from contract_revision where revision_number is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revision_number," 
-						/*						+ "(select revision_date from contract_revision where revision_date is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revision_date," 
+						+ "(select revision_number from contract_revision where revision_number is not null and action = 'Yes' and contract_id_fk = c.contract_id offset 0 rows  fetch next 1 rows only) as  revision_number," 
+						/*						+ "(select revision_date from contract_revision where revision_date is not null and action = 'Yes' and contract_id_fk = c.contract_id offset 0 rows  fetch next 1 rows only) as  revision_date," 
 						*/						+ "(select cast((ISNULL(revised_amount,0)/10000000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and revision_amounts_status = 'Yes' and contract_id_fk = c.contract_id) as  revised_amount,"
-						+ "(select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revised_doc," 
-						+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as  revised_doc_temp," 
-						+ "(select remarks from contract_revision where action = 'Yes' and contract_id_fk = c.contract_id limit 1) as revision_remarks,"
+						+ "(select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = c.contract_id offset 0 rows  fetch next 1 rows only) as  revised_doc," 
+						+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = c.contract_id offset 0 rows  fetch next 1 rows only) as  revised_doc_temp," 
+						+ "(select remarks from contract_revision where action = 'Yes' and contract_id_fk = c.contract_id offset 0 rows  fetch next 1 rows only) as revision_remarks,"
 						
 						+ "(select cast((ISNULL(SUM(gross_work_done),0)/10000000) as CHAR) AS gross_work_done from expenditure where contract_id_fk = c.contract_id) as cumulative_expenditure, "
 						+ "(select STRING_AGG(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') SEPARATOR '\n<space>' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes')) as insurance_valid_till, "
@@ -1037,7 +1037,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				var conCatQry="(select STRING_AGG(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes') )";
 				
-				var conCatDocQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end ";
+				var conCatDocQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id offset 0 rows  fetch next 1 rows only) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id offset 0 rows  fetch next 1 rows only) else DATE_FORMAT(doc,'%d-%b-%y') end ";
 				
 
 				String qry ="select contract_short_name,contractor_name,STRING_AGG(DISTINCT doc SEPARATOR '\n' ) as doc,STRING_AGG(DISTINCT bg_valid_upto SEPARATOR '\n' ) as bg_valid_upto,STRING_AGG(DISTINCT insurance_valid_upto SEPARATOR '\n' ) as insurance_valid_upto,STRING_AGG(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "+conCatQry+" AS insurance_valid_upto,"
@@ -1057,7 +1057,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 + "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Bank Guarantee' and contract_id = c.contract_id and alert_value = (case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) limit 1) limit 1),'')),'\nBG-NO Data','')," +
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) offset 0 rows  fetch next 1 rows only) offset 0 rows  fetch next 1 rows only),'')),'\nBG-NO Data','')," +
 					
 					"replace((coalesce((select CONCAT('Insurance-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
@@ -1066,7 +1066,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 + "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id  and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is not null and i.insurance_number is null) then CONCAT(i.insurance_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) limit 1) limit 1),'')),'Insurance-NO Data',''))) AS ContractAlertRemarks "
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) offset 0 rows  fetch next 1 rows only) offset 0 rows  fetch next 1 rows only),'')),'Insurance-NO Data',''))) AS ContractAlertRemarks "
 					
 					
 						
@@ -1306,7 +1306,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				var conCatQry="(select STRING_AGG(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') order by valid_upto asc SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes') )";
 				
-				var conCatDocQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end ";
+				var conCatDocQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id offset 0 rows  fetch next 1 rows only) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id offset 0 rows  fetch next 1 rows only) else DATE_FORMAT(doc,'%d-%b-%y') end ";
 				
 
 				String qry ="select contract_short_name,contractor_name,STRING_AGG(DISTINCT doc SEPARATOR '\n' ) as doc,STRING_AGG(DISTINCT bg_valid_upto SEPARATOR '\n' ) as bg_valid_upto,STRING_AGG(DISTINCT insurance_valid_upto SEPARATOR '\n' ) as insurance_valid_upto,STRING_AGG(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "+conCatQry+" AS insurance_valid_upto,"
@@ -1326,7 +1326,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 + "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Bank Guarantee' and contract_id = c.contract_id and alert_value = (case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) limit 1) limit 1),'')),'\nBG-NO Data','')," +
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) offset 0 rows  fetch next 1 rows only) offset 0 rows  fetch next 1 rows only),'')),'\nBG-NO Data','')," +
 					
 					"replace((coalesce((select CONCAT('Insurance-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
@@ -1335,7 +1335,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 + "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id  and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is not null and i.insurance_number is null) then CONCAT(i.insurance_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) limit 1) limit 1),'')),'Insurance-NO Data',''))) AS ContractAlertRemarks "
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) offset 0 rows  fetch next 1 rows only) offset 0 rows  fetch next 1 rows only),'')),'Insurance-NO Data',''))) AS ContractAlertRemarks "
 					
 					
 						
@@ -1538,10 +1538,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			for (Contract hodObj : hodList) 
 			{
 				
-				var conCatQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end";
+				var conCatQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id offset 0 rows  fetch next 1 rows only) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  offset 0 rows  fetch next 1 rows only) else DATE_FORMAT(doc,'%d-%b-%y') end";
 				if(obj.getDate()!=null && obj.getDate()!="")
 				{
-					conCatQry="case when (case when (select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select  revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  limit 1) else doc end)>'"+obj.getDate()+"' then 'NO DOC' else (case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end) end";
+					conCatQry="case when (case when (select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id offset 0 rows  fetch next 1 rows only) is not null then (select  revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  offset 0 rows  fetch next 1 rows only) else doc end)>'"+obj.getDate()+"' then 'NO DOC' else (case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id offset 0 rows  fetch next 1 rows only) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  offset 0 rows  fetch next 1 rows only) else DATE_FORMAT(doc,'%d-%b-%y') end) end";
 				}
 								
 				
@@ -1928,7 +1928,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		try {
 			String qry ="select contract_status_fk,"
 					+ "(select cast(ISNULL(sum(gross_work_done * gross_work_done_units),0) as CHAR) from expenditure where contract_id_fk = c.contract_id) as payment_made, "
-					+ "(select cast(ISNULL(revised_amount,0) as CHAR) from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = c.contract_id limit 1) as revised_amount,"
+					+ "(select cast(ISNULL(revised_amount,0) as CHAR) from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = c.contract_id offset 0 rows  fetch next 1 rows only) as revised_amount,"
 					+ "cast(awarded_cost as CHAR) as awarded_cost,"
 					+ "(SELECT TRUNCATE(sum(contract_per)*100,2) FROM activities_scurve where contract_id = c.contract_id and category  = 'Actual') as actual_physical_progress,"
 					+ "DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc "

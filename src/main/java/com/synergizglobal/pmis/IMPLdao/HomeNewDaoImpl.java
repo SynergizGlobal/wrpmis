@@ -67,14 +67,14 @@ public class HomeNewDaoImpl implements HomeNewDao{
 					//+ "wr.projected_completion as projected_completion_year,"
 					+ "wr.attachment as work_attachment,"
 					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost,"
-					+ "(select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = work_id limit 1) as work_id_fk " 
+					+ "(select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = work_id offset 0 rows  fetch next 1 rows only) as work_id_fk " 
 					+ "from work wr "
 					+ "left join work_railway wy ON wr.work_id = wy.work_id_fk "
 					+ "left join railway ON executed_by_id_fk = railway_id "
 					+ "where wr.project_id_fk = ? and executed_by_id_fk <> '' group by work_id ORDER BY (CASE executed_by_id_fk WHEN 'MRVC' THEN 0 WHEN 'CR' THEN 1 WHEN 'WR' THEN 2 else 'Others' end),work_id;";
 			
 			
-			//String workQry = "select work_id,work_short_name,(select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = work_id limit 1) as work_id_fk from work where project_id_fk = ?";
+			//String workQry = "select work_id,work_short_name,(select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = work_id offset 0 rows  fetch next 1 rows only) as work_id_fk from work where project_id_fk = ?";
 			
 			
 			String projectGalleryQry = "select id,file_name,project_id_fk,created_date,created_by from project_gallery where project_id_fk = ? ";
@@ -104,7 +104,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 							work_id_for_dashboard = "P07W01";
 						}
 						if(!StringUtils.isEmpty(work_id_for_dashboard)) {
-							String qry = "select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = ? limit 1";
+							String qry = "select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = ? offset 0 rows  fetch next 1 rows only";
 							String work_id_fk = jdbcTemplate.queryForObject( qry,new Object[] {work_id_for_dashboard}, (String.class));	
 							if(!StringUtils.isEmpty(work_id_fk)) {
 								work.setWork_id_fk(work_id_fk);

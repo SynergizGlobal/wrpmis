@@ -291,7 +291,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				qry = qry + " and le.executive_user_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY li.work_id_fk ORDER BY li.work_id_fk";
+			qry = qry + "GROUP BY li.work_id_fk,w.work_name,w.work_short_name ORDER BY li.work_id_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
@@ -541,7 +541,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "lf.payment_status_fk as forest_payment_status_fk"
 					//lf.special_feature as forest_special_feature, 
 					+ " ,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,FORMAT(lr.online_submission,'%d-%m-%Y') AS railway_online_submission,"
-					+ "FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, FORMAT(lr.`submission_date_to_nodal_officer/CCF Nagpur`,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, "
+					+ "FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, FORMAT([submission_date_to_nodal_officer/CCF Nagpur] ,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, "
 					+ " FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS railway_submission_date_to_revenue_secretary_mantralaya, FORMAT(lr.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS railway_submission_date_to_regional_office_nagpur, FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'%d-%m-%Y') AS railway_date_of_approval_by_Rregional_Office_agpur,"
 					+ "FORMAT(lr.valuation_by_DyCFO ,'%d-%m-%Y') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, FORMAT(lr.approval_for_payment,'%d-%m-%Y') AS railway_approval_for_payment, FORMAT(lr.payment_date,'%d-%m-%Y') AS railway_payment_date,cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'%d-%m-%Y') AS railway_possession_date, lr.possession_status as railway_possession_status, "
 					+ " "
@@ -611,8 +611,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0){
 					String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(la_id, 3,4),LPAD(MAX(replace(la_id,'"+obj.getWork_code()+"-LA-',''))+1,"
 							+ "IFNULL ((SELECT length(max(replace(la_id,'"+obj.getWork_code()+"-LA-','')))FROM la_land_identification "
-							+ " where la_id like '"+obj.getWork_code()+"-LA%' group by length(la_id) order by length(la_id) desc limit 1),2),'0') ) AS la_id "
-							+ "FROM la_land_identification WHERE la_id LIKE '"+obj.getWork_code()+"-LA-%' group by length(la_id) order by length(la_id) desc limit 1 " ;
+							+ " where la_id like '"+obj.getWork_code()+"-LA%' group by length(la_id) order by length(la_id) desc offset 0 rows  fetch next 1 rows only),2),'0') ) AS la_id "
+							+ "FROM la_land_identification WHERE la_id LIKE '"+obj.getWork_code()+"-LA-%' group by length(la_id) order by length(la_id) desc offset 0 rows  fetch next 1 rows only " ;
 					dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 					laId = dObj.getLa_id();
 			}
@@ -677,7 +677,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					}else if(obj.getCategory_fk().equalsIgnoreCase("Railway")) {
 						String railwayInsertSubQry = " INSERT INTO la_railway_land_acquisition"
 						 		+ "(la_id_fk, online_submission, submission_date_to_DyCFO, "
-						 		+ "submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`, submission_date_to_revenue_secretary_mantralaya, "
+						 		+ "submission_date_to_CCF_Thane, submission_date_to_nodal_officer/CCF Nagpur, submission_date_to_revenue_secretary_mantralaya, "
 						 		+ "submission_date_to_regional_office_nagpur, date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO, demanded_amount, "
 						 		+ "approval_for_payment, payment_date, payment_amount, payment_status, possession_date, possession_status, "
 						 		+ "demanded_amount_units, payment_amount_units)"
@@ -1029,7 +1029,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getLandsListForLAForm(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry = "select la_category as type_of_land from `la_category`";
+			String qry = "select la_category as type_of_land from la_category";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1041,7 +1041,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getSubCategorysListForLAForm(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry = "select id,la_sub_category as sub_category_of_land,la_category_fk from `la_sub_category`";
+			String qry = "select id,la_sub_category as sub_category_of_land,la_category_fk from la_sub_category";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1053,8 +1053,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getSubCategoryList(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = new ArrayList<LandAcquisition>();
 		try {
-			String qry = "select id,la_sub_category as sub_category_of_land, la_category_fk from `la_sub_category` ls "
-					+ "LEFT OUTER JOIN `la_category` lc ON la_category_fk = la_category ";
+			String qry = "select id,la_sub_category as sub_category_of_land, la_category_fk from la_sub_category ls "
+					+ "LEFT OUTER JOIN la_category lc ON la_category_fk = la_category ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
@@ -1089,8 +1089,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		try {
 			String sub_category_of_land = getSubCategoryLand(obj.getSub_category_of_land());
 			obj.setSub_category_of_land(sub_category_of_land);
-			String qry = "select id as category_id,la_category as type_of_land, ls.la_sub_category as sub_category_of_land from `la_category` lc "
-					+ "LEFT OUTER JOIN `la_sub_category` ls ON la_category  = la_category_fk ";
+			String qry = "select id as category_id,la_category as type_of_land, ls.la_sub_category as sub_category_of_land from la_category lc "
+					+ "LEFT OUTER JOIN la_sub_category ls ON la_category  = la_category_fk ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
@@ -1231,7 +1231,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					}else if(obj.getCategory_fk().equalsIgnoreCase("Railway")) {
 						String railwayInsertSubQry = " INSERT INTO la_railway_land_acquisition"
 						 		+ "(la_id_fk, online_submission, submission_date_to_DyCFO, "
-						 		+ "submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`, submission_date_to_revenue_secretary_mantralaya, "
+						 		+ "submission_date_to_CCF_Thane, submission_date_to_nodal_officer/CCF Nagpur, submission_date_to_revenue_secretary_mantralaya, "
 						 		+ "submission_date_to_regional_office_nagpur, date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO, demanded_amount, "
 						 		+ "approval_for_payment, payment_date, payment_amount, payment_status, possession_date, possession_status, "
 						 		+ "  demanded_amount_units, payment_amount_units)"
@@ -1244,7 +1244,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						
 						String railwayUpdateSubQry = " UPDATE la_railway_land_acquisition SET "
 						 		+ "survey_number= :survey_number, online_submission= :railway_online_submission, submission_date_to_DyCFO= :railway_submission_date_to_DyCFO, "
-						 		+ "submission_date_to_CCF_Thane= :railway_submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`= :railway_submission_date_to_nodal_officer_CCF_Nagpur, submission_date_to_revenue_secretary_mantralaya= :railway_submission_date_to_revenue_secretary_mantralaya,  "
+						 		+ "submission_date_to_CCF_Thane= :railway_submission_date_to_CCF_Thane, submission_date_to_nodal_officer/CCF Nagpur= :railway_submission_date_to_nodal_officer_CCF_Nagpur, submission_date_to_revenue_secretary_mantralaya= :railway_submission_date_to_revenue_secretary_mantralaya,  "
 						 		+ "submission_date_to_regional_office_nagpur= :railway_submission_date_to_regional_office_nagpur,date_of_approval_by_Rregional_Office_agpur= :railway_date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO= :railway_valuation_by_DyCFO, demanded_amount= :railway_demanded_amount, "
 						 		+ "approval_for_payment= :railway_approval_for_payment, payment_date= :railway_payment_date, payment_amount= :railway_payment_amount, payment_status= :railway_payment_status, possession_date= :railway_possession_date, possession_status= :railway_possession_status, "//special_feature= :railway_special_feature, 
 						 		+ "demanded_amount_units= :demanded_amount_units, payment_amount_units= :payment_amount_units_railway   "
@@ -1445,7 +1445,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 									+ "lf.payment_status_fk as forest_payment_status_fk"
 									//lf.special_feature as forest_special_feature, 
 									+ " ,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,FORMAT(lr.online_submission,'%d-%m-%Y') AS railway_online_submission,"
-									+ "FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, FORMAT(lr.`submission_date_to_nodal_officer/CCF Nagpur`,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, "
+									+ "FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, FORMAT(lr.submission_date_to_nodal_officer/CCF Nagpur,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, "
 									+ " FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS railway_submission_date_to_revenue_secretary_mantralaya, FORMAT(lr.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS railway_submission_date_to_regional_office_nagpur, FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'%d-%m-%Y') AS railway_date_of_approval_by_Rregional_Office_agpur,"
 									+ "FORMAT(lr.valuation_by_DyCFO ,'%d-%m-%Y') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, FORMAT(lr.approval_for_payment,'%d-%m-%Y') AS railway_approval_for_payment, FORMAT(lr.payment_date,'%d-%m-%Y') AS railway_payment_date,cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'%d-%m-%Y') AS railway_possession_date, lr.possession_status as railway_possession_status, "
 									+ " "
@@ -1565,7 +1565,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 										+ "lf.payment_status_fk as forest_payment_status_fk"
 										//lf.special_feature as forest_special_feature, 
 										+ " ,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,FORMAT(lr.online_submission,'%d-%m-%Y') AS railway_online_submission,"
-										+ "FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, FORMAT(lr.`submission_date_to_nodal_officer/CCF Nagpur`,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, "
+										+ "FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, FORMAT(lr.submission_date_to_nodal_officer/CCF Nagpur,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, "
 										+ " FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS railway_submission_date_to_revenue_secretary_mantralaya, FORMAT(lr.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS railway_submission_date_to_regional_office_nagpur, FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'%d-%m-%Y') AS railway_date_of_approval_by_Rregional_Office_agpur,"
 										+ "FORMAT(lr.valuation_by_DyCFO ,'%d-%m-%Y') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, FORMAT(lr.approval_for_payment,'%d-%m-%Y') AS railway_approval_for_payment, FORMAT(lr.payment_date,'%d-%m-%Y') AS railway_payment_date,cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'%d-%m-%Y') AS railway_possession_date, lr.possession_status as railway_possession_status, "
 										+ " "
@@ -2135,7 +2135,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					subRow = sheet6;
 					String railwayInsertSubQry = " INSERT INTO la_railway_land_acquisition"
 					 		+ "(la_id_fk, online_submission, submission_date_to_DyCFO, "
-					 		+ "submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`, submission_date_to_revenue_secretary_mantralaya, "
+					 		+ "submission_date_to_CCF_Thane, submission_date_to_nodal_officer/CCF Nagpur, submission_date_to_revenue_secretary_mantralaya, "
 					 		+ "submission_date_to_regional_office_nagpur, date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO, demanded_amount, "
 					 		+ "approval_for_payment, payment_date, payment_amount, payment_status, possession_date, possession_status, "
 					 		+ "  demanded_amount_units, payment_amount_units)"
@@ -2148,7 +2148,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 					String railwayUpdateSubQry = " UPDATE la_railway_land_acquisition SET "
 					 		+ "survey_number= :survey_number, online_submission= :railway_online_submission, submission_date_to_DyCFO= :railway_submission_date_to_DyCFO, "
-					 		+ "submission_date_to_CCF_Thane= :railway_submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`= :railway_submission_date_to_nodal_officer_CCF_Nagpur, submission_date_to_revenue_secretary_mantralaya= :railway_submission_date_to_revenue_secretary_mantralaya,  "
+					 		+ "submission_date_to_CCF_Thane= :railway_submission_date_to_CCF_Thane, submission_date_to_nodal_officer/CCF Nagpur= :railway_submission_date_to_nodal_officer_CCF_Nagpur, submission_date_to_revenue_secretary_mantralaya= :railway_submission_date_to_revenue_secretary_mantralaya,  "
 					 		+ "submission_date_to_regional_office_nagpur= :railway_submission_date_to_regional_office_nagpur,date_of_approval_by_Rregional_Office_agpur= :railway_date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO= :railway_valuation_by_DyCFO, demanded_amount= :railway_demanded_amount, "
 					 		+ "approval_for_payment= :railway_approval_for_payment, payment_date= :railway_payment_date, payment_amount= :railway_payment_amount, payment_status= :railway_payment_status, possession_date= :railway_possession_date, possession_status= :railway_possession_status, "//special_feature= :railway_special_feature, 
 					 		+ "demanded_amount_units= :demanded_amount_units, payment_amount_units= :payment_amount_units_railway   "
@@ -2419,7 +2419,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		List<LandAcquisition> objList = null;
 		try {
 			String qry = "select la_id_fk,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,FORMAT(lr.online_submission,'%d-%m-%Y') AS railway_online_submission," + 
-					"FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, FORMAT(lr.`submission_date_to_nodal_officer/CCF Nagpur`,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, " + 
+					"FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, FORMAT(lr.submission_date_to_nodal_officer/CCF Nagpur,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, " + 
 					" FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS railway_submission_date_to_revenue_secretary_mantralaya, FORMAT(lr.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS railway_submission_date_to_regional_office_nagpur, FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'%d-%m-%Y') AS railway_date_of_approval_by_Rregional_Office_agpur," + 
 					"FORMAT(lr.valuation_by_DyCFO ,'%d-%m-%Y') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, FORMAT(lr.approval_for_payment,'%d-%m-%Y') AS railway_approval_for_payment, FORMAT(lr.payment_date,'%d-%m-%Y') AS railway_payment_date,cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'%d-%m-%Y') AS railway_possession_date, lr.possession_status as railway_possession_status" + 
 					" from la_railway_land_acquisition lr " + 
@@ -2434,6 +2434,13 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		}
 		return objList;
 	}
+
+	@Override
+	public boolean checkSurveyNumber(String survey_number, String village_id, String la_id) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 	
 

@@ -1422,7 +1422,7 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getFobDetailsList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "select fob_detail_id, fob_id_fk, detail_name, value from `fob_detail` GROUP BY detail_name ";
+			String qry = "select fob_detail_id, fob_id_fk, detail_name, value from fob_detail GROUP BY detail_name ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1543,7 +1543,7 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getFobFileTypeList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "select fob_file_type from `fob_file_type` ";
+			String qry = "select fob_file_type from fob_file_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);

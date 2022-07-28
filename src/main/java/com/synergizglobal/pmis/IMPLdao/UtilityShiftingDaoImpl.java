@@ -95,7 +95,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				qry = qry + " and us.executive_user_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY i.work_id_fk ";
+			qry = qry + " GROUP BY work_id,w.work_short_name ";
 
 			Object[] pValues = new Object[arrSize];
 
@@ -608,7 +608,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			}			
 			
 			
-			qry = qry + " order by work_id asc";
+			qry = qry + " order by project_id  asc";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -848,8 +848,8 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0){
 					String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(utility_shifting_id, 3,4),LPAD(MAX(replace(utility_shifting_id,'"+obj.getWork_code()+"-US-',''))+1,"
 							+ "IFNULL ((SELECT length(max(replace(utility_shifting_id,'"+obj.getWork_code()+"-US-','')))FROM utility_shifting "
-							+ " where utility_shifting_id like '"+obj.getWork_code()+"-US%' group by length(utility_shifting_id) order by length(utility_shifting_id) desc limit 1),2),'0') ) AS utility_shifting_id "
-							+ "FROM utility_shifting WHERE utility_shifting_id LIKE '"+obj.getWork_code()+"-US-%' group by length(utility_shifting_id) order by length(utility_shifting_id) desc limit 1 " ;
+							+ " where utility_shifting_id like '"+obj.getWork_code()+"-US%' group by length(utility_shifting_id) order by length(utility_shifting_id) desc offset 0 rows  fetch next 1 rows only),2),'0') ) AS utility_shifting_id "
+							+ "FROM utility_shifting WHERE utility_shifting_id LIKE '"+obj.getWork_code()+"-US-%' group by length(utility_shifting_id) order by length(utility_shifting_id) desc offset 0 rows  fetch next 1 rows only " ;
 					dObj = (UtilityShifting)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
 					laId = dObj.getUtility_shifting_id();
 			}
@@ -1345,7 +1345,6 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				qry = qry + " and shifting_status_fk ?";
 				arrSize++;
 			}
-			qry = qry + " group by utility_shifting_id";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;

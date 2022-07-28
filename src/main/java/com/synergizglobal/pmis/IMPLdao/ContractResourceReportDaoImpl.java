@@ -258,7 +258,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 			
 			for (ContractResource dataList : contractList) {
 				
-				String dataQry = "SELECT resource_type,resource_name,sum(quantity) As quantity,unit,format((sum(quantity)/(SELECT  DATEDIFF( ?, ? )+1  AS days FROM contract_resource limit 1)),2)+0 as average  "
+				String dataQry = "SELECT resource_type,resource_name,sum(quantity) As quantity,unit,format((sum(quantity)/(SELECT  DATEDIFF( ?, ? )+1  AS days FROM contract_resource offset 0 rows  fetch next 1 rows only)),2)+0 as average  "
 						+ " FROM contract_resource ";
 			
 				dataQry = dataQry + "WHERE (date BETWEEN ? AND ? ) ";

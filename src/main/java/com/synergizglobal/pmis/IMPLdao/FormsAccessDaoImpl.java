@@ -322,7 +322,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		String obj = null;
 		try {
 		
-			String qry = "select (form_id + 1) as form_id from form ORDER BY form_id DESC LIMIT 1";
+			String qry = "select (form_id + 1) as form_id from form ORDER BY form_id DESC offset 0 rows  fetch next 1 rows only";
 			ps  = con.prepareStatement(qry);
 			rs = ps.executeQuery();
 			if(rs.next()) {

@@ -69,7 +69,7 @@ public class TableauDashboardDaoImpl implements TableauDashboardDao {
 			connection = dataSource.getConnection();
 			String qry = "SELECT dashboard_id,dashboard_name "
 					+ "FROM dashboard "
-					+ "where parent_id_sr_fk = dashboard_id and soft_delete_status_id_fk = ? order by priority ASC limit 1";
+					+ "where parent_id_sr_fk = dashboard_id and soft_delete_status_id_fk = ? order by priority ASC offset 0 rows  fetch next 1 rows only";
 			
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);

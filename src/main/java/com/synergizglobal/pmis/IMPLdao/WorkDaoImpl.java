@@ -969,7 +969,7 @@ public class WorkDaoImpl implements WorkDao {
 		try {
 			String qry = "SELECT w.project_id_fk,p.project_name from work w " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where project_id_fk is not null and project_id_fk <>  ";
+					"where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -977,7 +977,7 @@ public class WorkDaoImpl implements WorkDao {
 				arrSize++;
 			}
 			
-			qry = qry + "GROUP BY project_id_fk ";
+			qry = qry + "GROUP BY project_id_fk,p.project_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			

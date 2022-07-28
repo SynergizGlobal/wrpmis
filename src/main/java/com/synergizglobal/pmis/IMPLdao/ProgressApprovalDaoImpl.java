@@ -92,7 +92,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			
-			qry = qry + " group by ap.progress_id ";
+			//qry = qry + " group by ap.progress_id ";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getApproval_status_fk())) 
 			{
@@ -200,7 +200,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			
-			qry = qry + " group by c.work_id_fk order by c.work_id_fk";
+			qry = qry + " group by c.work_id_fk,work_short_name order by c.work_id_fk";
 			
 			Object[] pValues = new Object[arrSize];			
 			
@@ -278,7 +278,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			
-			qry = qry + " group by a.contract_id_fk order by a.contract_id_fk";
+			qry = qry + " group by a.contract_id_fk,contract_short_name order by a.contract_id_fk";
 			
 			Object[] pValues = new Object[arrSize];			
 			
@@ -583,7 +583,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				
 				
 				if((completed+actual_for_the_day) <= scope) {
-					String updateQry = "UPDATE p6_activities SET completed = ? + ?";	
+					String updateQry = "UPDATE p6_activities SET completed = cast(? as decimal(10,2)) + cast(? as decimal(10,2))";	
 					int arrSize = 3;
 					
 					if(completed == 0) {

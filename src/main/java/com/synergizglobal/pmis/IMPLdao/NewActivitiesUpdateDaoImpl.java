@@ -995,6 +995,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			 
 			String[] SplitScope=obj.getScope().split(",");
 			String Message="Scope";
+			int loopTimes=0;
 			
 			for (int i = 0; i < arraySize; i++) 
 			{				
@@ -1054,7 +1055,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					    }
 					  if(insertFlag==true)
 					  {
-						  insertStmt.addBatch();
+						  //insertStmt.addBatch();
+						  insertStmt.executeUpdate();
+						  loopTimes++;
 					  }
 			    	}
 			    }
@@ -1096,14 +1099,16 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				  
 					  if(insertFlag==true)
 					  {
-						  insertStmt.addBatch();
+						  //insertStmt.addBatch();
+						  insertStmt.executeUpdate();
+						  loopTimes++;
 					  }					    			    	
 			    	
 			    }
 			}
-			int[] insertCount = insertStmt.executeBatch();
+			//int[] insertCount = insertStmt.executeBatch();
 			NamedParameterJdbcTemplate template1 = new NamedParameterJdbcTemplate(dataSource);			
-			if(insertCount.length > 0) {
+			if(loopTimes > 0) {
 				flag = true;
 				List<String> generatedIds = new ArrayList<String>();
 				ResultSet rs = insertStmt.getGeneratedKeys();
@@ -1418,9 +1423,10 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				/********************************************************************************/
 				if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
 					String qryUsers ="SELECT dy_hod_user_id_fk "
-							+ "FROM structure_contract_responsible_people "
-							+ "left join contract on contract_id_fk = contract_id "
-							+ "where dy_hod_user_id_fk is not null and structure_id_fk = ? group by dy_hod_user_id_fk";
+							+ "FROM structure_contract_responsible_people rs "
+							+ "left join contract c on rs.contract_id_fk = c.contract_id "
+							+ "left join structure s on s.structure_id=rs.structure_id_fk "
+							+ "where dy_hod_user_id_fk is not null and structure = ? ";
 					List<String> users = jdbcTemplate.queryForList( qryUsers,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
 					if(!StringUtils.isEmpty(users) && users.size() > 0) {
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -1451,7 +1457,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				formHistory.setModule_name_fk("Execution &  Monitoring");
 				formHistory.setForm_name("New Update Activities");
 				formHistory.setForm_action_type("Update");
-				formHistory.setForm_details(insertCount.length + " activities updated for "+obj.getStrip_chart_structure_id_fk());
+				formHistory.setForm_details(loopTimes + " activities updated for "+obj.getStrip_chart_structure_id_fk());
 				formHistory.setWork_id_fk(obj.getWork_id_fk());
 				formHistory.setContract(obj.getContract_id_fk());
 				

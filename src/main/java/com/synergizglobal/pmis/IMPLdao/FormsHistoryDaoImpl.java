@@ -32,7 +32,7 @@ public class FormsHistoryDaoImpl implements FormsHistoryDao{
 			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO forms_history"
-					+ "(module_name_fk,form_name,work_id_fk,contract_id_fk,work,contract,form_action_type,form_details,created_by_user_id_fk,user)"
+					+ "(module_name_fk,form_name,work_id_fk,contract_id_fk,work,contract,form_action_type,form_details,created_by_user_id_fk,[user])"
 					+ "VALUES"
 					+ "(:module_name_fk,:form_name,:work_id_fk,:contract_id_fk,"+qry+",(select contract_short_name from contract where contract_id=:contract_id_fk),:form_action_type,:form_details,:created_by_user_id_fk,:user)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -54,7 +54,7 @@ public class FormsHistoryDaoImpl implements FormsHistoryDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO forms_history"
-					+ "(module_name_fk,form_name,work,contract,form_action_type,form_details,created_by_user_id_fk,user)"
+					+ "(module_name_fk,form_name,work,contract,form_action_type,form_details,created_by_user_id_fk,[user])"
 					+ "VALUES"
 					+ "(:module_name_fk,:form_name,:work,:contract,:form_action_type,:form_details,:created_by_user_id_fk,:user)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 

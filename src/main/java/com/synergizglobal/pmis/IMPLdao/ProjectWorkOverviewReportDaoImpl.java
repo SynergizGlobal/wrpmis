@@ -134,7 +134,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "\r\n"
 					+ "ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1\r\n"
 					+ "					where contract_id_fk=c.contract_id and work_id='"+obj.getWork_id_fk()+"' \r\n"
-					+ "					and voucher_type=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTR(YEAR(GETDATE()),3,2)) END)\r\n"
+					+ "					and voucher_type=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTRING(YEAR(GETDATE()),3,2)) END)\r\n"
 					+ "					)\r\n"
 					+ "					 ,0) as expenditure_current_fy,\r\n"
 					+ "                     \r\n"
@@ -147,7 +147,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                     \r\n"
 					+ "   ISNULL((select budget_estimate from budget e1\r\n"
 					+ "					where work_id_fk='"+obj.getWork_id_fk()+"' and\r\n"
-					+ "					financial_year_fk=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTR(YEAR(GETDATE()),3,2)) END)\r\n"
+					+ "					financial_year_fk=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTRING(YEAR(GETDATE()),3,2)) END)\r\n"
 					+ "					)\r\n"
 					+ "					 ,0) as budget_grant_current_fy ,ISNULL(target_doc,'') as target_completion_date ,\r\n"
 					+ "                     \r\n"
@@ -159,8 +159,8 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "										LEFT JOIN work w on c.work_id_fk = w.work_id \r\n"
 					+ "					                  left join work_yearly_sanction wy on wy.work_id_fk=w.work_id\r\n"
 					+ "										LEFT JOIN project p on w.project_id_fk = p.project_id \r\n"
-					+ "					                  left join expenditure e on e.contract_id_fk= c.contract_id and e.voucher_type=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTR(YEAR(GETDATE()),3,2)) END)\r\n"
-					+ "					                  LEFT JOIN budget b on b.work_id_fk = w.work_id and b.financial_year_fk=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTR(YEAR(GETDATE()),3,2)) END)\r\n"
+					+ "					                  left join expenditure e on e.contract_id_fk= c.contract_id and e.voucher_type=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTRING(YEAR(GETDATE()),3,2)) END)\r\n"
+					+ "					                  LEFT JOIN budget b on b.work_id_fk = w.work_id and b.financial_year_fk=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTRING(YEAR(GETDATE()),3,2)) END)\r\n"
 					+ "					                  \r\n"
 					+ "										where c.work_id_fk is not null and c.work_id_fk <> '' and work_id='"+obj.getWork_id_fk()+"'\r\n";
 

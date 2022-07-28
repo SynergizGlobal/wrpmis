@@ -92,7 +92,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			}else {
 				qry = qry + ")";
 			}
-			qry = qry + "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk ORDER BY wr.project_id_fk ASC";	
+			qry = qry + "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk,p.project_id,p.project_name ORDER BY wr.project_id_fk ASC";	
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -151,7 +151,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				qry = qry + " and w.project_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk ASC";
+			qry = qry + " GROUP BY c.work_id_fk,w.work_id,w.work_name ,w.work_short_name ORDER BY c.work_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -193,7 +193,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
-					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL(Completed,0) " ;
+					+ "where c.work_id_fk is not null and contract_id not like '%ms%' and a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null) and s.structure_type_fk!='FOB' and a.scope <> ISNULL(Completed,0) " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -210,7 +210,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			}
 			
 			
-			qry = qry + " group by a.contract_id_fk ORDER BY a.contract_id_fk ASC ";
+			qry = qry + " group by a.contract_id_fk,c.work_id_fk,c.contract_name,c.contract_short_name ORDER BY a.contract_id_fk ASC ";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -526,7 +526,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				qry = qry + " and section = ?";
 			}	
 			
-			qry = qry + " group by component_id";
+			//qry = qry + " group by component_id";
 			
 			statement = connection.prepareStatement(qry);
 			int i = 1;
@@ -813,31 +813,31 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				qry = qry + "and component = ? ";
+				qry = qry + " and component = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + "and component_id = ? ";
+				qry = qry + " and component_id = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
-				qry = qry + "and p6_activity_id = ? ";
+				qry = qry + " and p6_activity_id = ? ";
 				arrSize++;
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + "and structure = ? ";
+				qry = qry + " and structure = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and a.contract_id_fk = ?";
+				qry = qry + " and a.contract_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
-				qry = qry + "and s11.structure_type_fk = ?";
+				qry = qry + " and s11.structure_type_fk = ?";
 				arrSize++;
 			}			
-			qry = qry + " group by p6_activity_id ";
+			//qry = qry + " group by p6_activity_id ";
 			
 			Object[] pValues = new Object[arrSize];
 			

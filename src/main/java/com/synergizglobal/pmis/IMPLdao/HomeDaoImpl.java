@@ -746,7 +746,7 @@ public class HomeDaoImpl implements HomeDao {
 			
 			String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
 					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, "
-					+ "(SELECT (CASE WHEN MONTH(max(wr.projected_completion)) >= 4 THEN concat(YEAR(max(wr.projected_completion)), '-',SUBSTR(YEAR(max(wr.projected_completion))+1,3,2)) ELSE concat(YEAR(max(wr.projected_completion))-1,'-', SUBSTR(YEAR(max(wr.projected_completion)),3,2)) END) AS financial_year) as projected_completion_year," 
+					+ "(SELECT (CASE WHEN MONTH(max(wr.projected_completion)) >= 4 THEN concat(YEAR(max(wr.projected_completion)), '-',SUBSTRING(YEAR(max(wr.projected_completion))+1,3,2)) ELSE concat(YEAR(max(wr.projected_completion))-1,'-', SUBSTRING(YEAR(max(wr.projected_completion)),3,2)) END) AS financial_year) as projected_completion_year," 
 					//+ "max(wr.projected_completion) as projected_completion_year,"
 					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join work w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? group by wr.project_id_fk";
@@ -754,7 +754,7 @@ public class HomeDaoImpl implements HomeDao {
 			String workQry = "select wr.work_id,wr.work_short_name,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
 					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 
 					+ "wr.completion_cost as completion_cost,"
-					+ "(SELECT (CASE WHEN MONTH(wr.projected_completion) >= 4 THEN concat(YEAR(wr.projected_completion), '-',SUBSTR(YEAR(wr.projected_completion)+1,3,2)) ELSE concat(YEAR(wr.projected_completion)-1,'-', SUBSTR(YEAR(wr.projected_completion),3,2)) END) AS financial_year) as projected_completion_year," 
+					+ "(SELECT (CASE WHEN MONTH(wr.projected_completion) >= 4 THEN concat(YEAR(wr.projected_completion), '-',SUBSTRING(YEAR(wr.projected_completion)+1,3,2)) ELSE concat(YEAR(wr.projected_completion)-1,'-', SUBSTRING(YEAR(wr.projected_completion),3,2)) END) AS financial_year) as projected_completion_year," 
 					//+ "wr.projected_completion as projected_completion_year,"
 					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost " 
 					+ "from work wr "

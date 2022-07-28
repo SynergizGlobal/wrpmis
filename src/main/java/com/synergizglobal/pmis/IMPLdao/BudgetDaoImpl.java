@@ -59,7 +59,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTR(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTRING(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
@@ -612,7 +612,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTR(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTRING(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -695,7 +695,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTR(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTRING(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
@@ -758,7 +758,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTR(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTR(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTRING(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;

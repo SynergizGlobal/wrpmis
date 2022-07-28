@@ -128,6 +128,7 @@
 	 });
      var viz,workbook,activeSheet;
      function initViz(globalWorkId) {
+     
           var containerDiv = document.getElementById("vizContainer"),
           url = "${url.tableauUrl}",
           options = {

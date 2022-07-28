@@ -20,6 +20,7 @@ public class TableauTrustedTicket {
 		UrlGenerator ugObj = new UrlGenerator();
 		String getResponseString = "";
 		
+		
 		String postURL = "http://"+"10.203.10.158"+":8000/trusted"; 
 		String username = "SynTrack"; 
 		//String server = "infoviz.syntrackpro.com"; 

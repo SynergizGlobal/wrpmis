@@ -314,6 +314,7 @@
 	    $(document).ready(function(){
 	    	
 	    	
+	    	
  		 	var currentHost = window.location.href; 
 
 

@@ -289,6 +289,7 @@
                                             <th> Type of Land</th>
                                             <th> Sub Category <br>of Land</th>
                                             <th> Area to be acquired (Ha)</th>
+                                            <th> Area acquired (Ha)</th>
                                             <th>Last Update</th>                                           
                                             <th class="no-sort">Action</th>
                                         </tr>
@@ -678,6 +679,8 @@
 			            } },
 			            { "mData": function(data,type,row){
 			            	if($.trim(data.area_to_be_acquired) == ''){ return '-'; }else{ return data.area_to_be_acquired; }
+			            } },{ "mData": function(data,type,row){
+			            	if($.trim(data.area_acquired) == ''){ return '-'; }else{ return data.area_acquired; }
 			            } },
 			            { "mData": function(data,type,row){
 			            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }
@@ -758,6 +761,7 @@
                        	rowArray.push($.trim(val.type_of_land));
                        	rowArray.push($.trim(val.sub_category_of_land));
                        	rowArray.push($.trim(val.area_of_plot));
+                       	rowArray.push($.trim(val.area_acquired));
                        	rowArray.push($.trim(actions));   	                   	
                        	
                         table.row.add(rowArray).draw( true );

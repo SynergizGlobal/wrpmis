@@ -512,7 +512,7 @@
        var dateTo = "15/"+ mm + '/' + yyyy;
        
        var dateFrom1 = "16/"+ mm + '/' + yyyy;
-       var dateTo1 = daysInMonth(mm,yyyy)+ mm + '/' + yyyy;      
+       var dateTo1 = daysInMonth(mm,yyyy)+"/"+ mm + '/' + yyyy;      
        
        
        var dateCheck = today;

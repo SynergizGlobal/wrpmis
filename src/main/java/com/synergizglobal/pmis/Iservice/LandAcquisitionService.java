@@ -63,8 +63,7 @@ public interface LandAcquisitionService {
 	public List<LandAcquisition> getForestList(String la_id) throws Exception;
 
 	public List<LandAcquisition> getRailwayList(String la_id) throws Exception;
-
-
 	
+	public boolean checkSurveyNumber(String survey_number,String village_id,String la_id) throws Exception;
 
 }

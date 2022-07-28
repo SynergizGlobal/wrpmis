@@ -160,6 +160,11 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	public List<LandAcquisition> getRailwayList(String la_id) throws Exception {
 		return dao.getRailwayList(la_id);
 	}
+	
+	@Override
+	public boolean checkSurveyNumber(String survey_number,String village_id,String la_id) throws Exception {
+		return dao.checkSurveyNumber(survey_number,village_id,la_id);
+	}	
 
 
 }

@@ -64,5 +64,7 @@ public interface LandAcquisitionDao {
 
 	public List<LandAcquisition> getRailwayList(String la_id) throws Exception;
 
+	public boolean checkSurveyNumber(String survey_number, String village_id,String la_id) throws Exception;
+
 
 }

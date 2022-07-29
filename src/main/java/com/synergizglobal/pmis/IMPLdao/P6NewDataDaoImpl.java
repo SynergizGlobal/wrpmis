@@ -98,7 +98,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 		try {
 			String qry ="SELECT contract_id_fk as contract_id,contract_name,contract_short_name FROM p6_data "
 					+ "LEFT OUTER JOIN contract ON contract_id_fk = contract_id "
-					+ "WHERE (fob_id_fk is null OR fob_id_fk = '') AND contract_id_fk is not null and contract_id_fk <> '' ";
+					+ "WHERE (fob_id_fk is null OR fob_id_fk = '') AND contract_id_fk is not null and contract_id_fk <> '' and contract_id not like '%MS%' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				qry = qry + "and contract_id_fk = ? ";
@@ -130,7 +130,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
-			qry = qry + "GROUP BY contract_id_fk";
+			qry = qry + "GROUP BY contract_id_fk,contract_name,contract_short_name ";
 			objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -715,7 +715,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry +"group by c.work_id_fk ";
+			qry = qry +"group by c.work_id_fk,work_id,work_name,work_short_name ";
 			Object[] pValues = new Object[arrSize]; 
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

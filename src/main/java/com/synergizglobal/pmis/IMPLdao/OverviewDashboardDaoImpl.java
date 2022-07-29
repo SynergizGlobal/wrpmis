@@ -295,11 +295,11 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 							filterQry = filterQry + " AND "+dObj.getParams();
 						}
 						
-						filterQry = filterQry + " GROUP BY ";
+						//filterQry = filterQry + " GROUP BY ";
 						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
-							filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
+							//filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
 						}
-						filterQry = filterQry + obj.getFilter_column_id();
+						//filterQry = filterQry + obj.getFilter_column_id();
 						if(!StringUtils.isEmpty(obj.getOrder_by())) {
 							filterQry = filterQry + " ORDER BY ";
 							if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {

@@ -165,18 +165,20 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			String qry ="";
 			if(!StringUtils.isEmpty(obj.getContract_short_name()) && !StringUtils.isEmpty(obj.getContract_short_name()))
 			{
-				qry = "SELECT distinct w.work_id as work_id_fk,fortnightly_plan_update_id,f.contract_id_fk,category,critical_item,period,st.structure,component,sum(cum_planned_last_structure) as cum_planned_last_structure,sum(cum_actual_last_structure) as cum_actual_last_structure,sum(planned_current_structure) as planned_current_structure  "
+				qry = "SELECT distinct w.work_id as work_id_fk,fortnightly_plan_update_id,f.contract_id_fk,category,critical_item,period,st.structure,component,sum(cast(cum_planned_last_structure as decimal(10,2))) as cum_planned_last_structure,\r\n" + 
+						"sum(cast(cum_actual_last_structure as decimal(10,2))) as cum_actual_last_structure,\r\n" + 
+						"sum(cast(planned_current_structure as decimal(10,2))) as planned_current_structure  "
 					+ "from fortnightly_plan f "
 					+ "LEFT join contract c ON c.contract_id  = f.contract_id_fk "
 					+ "LEFT JOIN work w on c.work_id_fk =w.work_id "
 					+ "LEFT JOIN fortnightly_plan_structure s ON s.fortnightly_plan_id  = f.fortnightly_plan_id "
 					+ "LEFT join structure st ON st.structure_id  = s.structure_id_fk "
 					+ "LEFT JOIN fortnightly_plan_update u ON u.fortnightly_plan_structure_id  = s.fortnightly_plan_structure_id  "
-					+ "where f.fortnightly_plan_id = "+obj.getFortnightly_plan_id()+" and u.status='Active' group by w.work_id,f.contract_id_fk,category,critical_item,period,st.structure,component";
+					+ "where f.fortnightly_plan_id = "+obj.getFortnightly_plan_id()+" and u.status='Active' group by fortnightly_plan_update_id,w.work_id,f.contract_id_fk,category,critical_item,period,st.structure,component";
 			}
 			else
 			{
-				qry="SELECT distinct fortnightly_plan_update_data_id as fortnightly_plan_id,u.category,'' as contract_short_name,structure,'' as structure_type_fk, " + 
+				qry="SELECT distinct fortnightly_plan_update_data_id as fortnightly_plan_id,work_id as work_id_fk,u.category,'' as contract_short_name,structure,'' as structure_type_fk, " + 
 						"planned_progress_on_last_fortnight as cum_planned_last_st,actual_progress_on_last_fortnight as cum_actual_last_st, " + 
 						"plan_for_the_current_fortnight as planned_current_st  from fortnightly_plan_update_data u LEFT JOIN work w on u.work_id =w.work_id where u.fortnightly_plan_update_data_id = "+obj.getFortnightly_plan_id();
 				

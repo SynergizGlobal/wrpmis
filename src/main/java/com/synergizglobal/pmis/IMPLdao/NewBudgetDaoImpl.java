@@ -48,12 +48,12 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 		try {
 		
 			String qry ="select new_budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate,cast(new_budget_grant as CHAR) as budget_grant, " 
-					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant, " 
+					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " 
 					+ " from new_budget b "+
 					"LEFT JOIN contract c on c.contract_id = b.contract_id_fk "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE new_budget_id is not null and status = ? ";
+					+ "WHERE new_budget_id is not null and b.status = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -68,7 +68,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}			
-			qry = qry +" GROUP BY contract_id_fk";
+			qry = qry +" group by new_budget_id,work_id_fk,work_name,work_short_name,project_id,project_name,new_budget_estimate,new_budget_grant,revised_estimate,revised_grant,final_estimate,final_grant";
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -391,18 +391,18 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 					"where work_id_fk is not null and work_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id_fk = ?";
+				qry = qry + " and project_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY work_id_fk ";
+			qry = qry + " GROUP BY work_id_fk,w.work_name,w.work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -432,18 +432,18 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 					"where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY project_id_fk ";
+			qry = qry + " GROUP BY project_id,p.project_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -473,7 +473,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 					"where financial_year_fk is not null and financial_year_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -481,10 +481,10 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}			
-			qry = qry + "GROUP BY b.financial_year_fk ";
+			qry = qry + " GROUP BY b.financial_year_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -516,15 +516,15 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 					+ "WHERE new_budget_id is not null and b.status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id = ?";
+				qry = qry + " and project_id = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}			
 			qry = qry +" order BY contract_id_fk asc,financial_year_fk desc";
@@ -573,7 +573,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			qry = qry +" order by contract_id asc";
@@ -604,11 +604,11 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + "and project_id_fk = ?";
+				qry = qry + "and project_id_fk = ? ";
 				arrSize++;
 			}
 			
-			qry = qry + " order by work_id asc";
+			qry = qry + " order by work_id asc ";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -638,15 +638,15 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id = ?";
+				qry = qry + " and project_id = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}				
 			if(!StringUtils.isEmpty(searchParameter)) {
@@ -707,15 +707,15 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id = ?";
+				qry = qry + " and project_id = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}				
 			
@@ -733,7 +733,8 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY contract_id_fk ORDER BY new_budget_id ASC offset ? rows  fetch next ? rows only";
+				qry = qry + " GROUP BY contract_id_fk,new_budget_id,work_id_fk,work_name,work_short_name,contract_id,contract_short_name,project_id,project_name,new_budget_estimate,new_budget_grant,revised_estimate,revised_grant,final_estimate,final_grant\r\n" + 
+						" ORDER BY new_budget_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -783,7 +784,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 					"where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -794,7 +795,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 				qry = qry + " and project_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY contract_id ";
+			qry = qry + " GROUP BY contract_id,contract_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

@@ -31,6 +31,11 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	}
 
 	@Override
+	public List<FortnightPlan> getFortnightPlanManual(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.getFortnightPlanManual(obj);
+	}
+	
+	@Override
 	public boolean updateFortnightPlan(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.updateFortnightPlan(obj);
 	}

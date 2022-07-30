@@ -46,21 +46,9 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> budgetList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			/*String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " + 
-					"cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " + 
-					",b.remarks from budget b " + 
-					"left join work w on b.work_id_fk = w.work_id " + 
-					"left join financial_year f on b.financial_year_fk = f.financial_year " + 
-					"left join project p on  w.project_id_fk = p.project_id where budget_id is not null and status = ? ";*/
 			
-			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " 
-					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant, " 
-					+ " from budget b "
-					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
-					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
-					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTRING(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
-					+ "AND budget_id is not null and status = ? ";
+			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant  from budget b LEFT JOIN work w on b.work_id_fk = w.work_id LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year LEFT JOIN project p on  w.project_id_fk = p.project_id WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GetDate()) >= 4 THEN concat(YEAR(GetDate()), '-',SUBSTRING(cast(YEAR(GetDate())+1 as varchar),3,2)) ELSE concat(cast(YEAR(GetDate())-1 as varchar),'-', \r\n" + 
+					"SUBSTRING(cast(YEAR(GetDate()) as varchar),3,2)) END) AS financial_year) AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -71,7 +59,7 @@ public class BudgetDaoImpl implements BudgetDao {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}	
-			qry = qry +" GROUP BY work_id_fk";
+			qry = qry +" group by budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,budget_estimate,budget_grant,revised_estimate,revised_grant,final_estimate,final_grant ";
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -196,6 +184,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					arraySize = budget.getFinal_grants().length;
 				}
 			}
+			int loopTimes=0;
 			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
 				    int p = 1;
@@ -210,12 +199,14 @@ public class BudgetDaoImpl implements BudgetDao {
 					    insertStmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
 					    insertStmt.setString(p++,CommonConstants.ACTIVE);
 					   
-					    insertStmt.addBatch();
+					    //insertStmt.addBatch();
+					    insertStmt.executeUpdate();
+					    loopTimes++;
 				    }
-				    insertCount = insertStmt.executeBatch();
+				    //insertCount = insertStmt.executeBatch();
 				    rs = insertStmt.getGeneratedKeys();
 				    
-				    if(insertCount.length > 0) {
+				    if(loopTimes > 0) {
 						flag = true;
 						String budgetId = null;
 						if (rs.next()) {
@@ -242,14 +233,15 @@ public class BudgetDaoImpl implements BudgetDao {
 														 insertStmt1.setString(k++,(budget.getBudget_id()));
 														 insertStmt1.setString(k++,(budget.getWork_id_fk()));
 														 insertStmt1.setString(k++,(budget.getAttachment()));
-														 insertStmt1.addBatch();
+														 //insertStmt1.addBatch();
+														 insertStmt.executeUpdate();
 														 j++;
 													 }
 											    }else {
 											    	j++;
 											    }
 										}
-								int[] insertCount1 = insertStmt1.executeBatch();
+								//int[] insertCount1 = insertStmt1.executeBatch();
 						}	
 						
 					}	
@@ -353,7 +345,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					arraySize = budget.getFinal_grants().length;
 				}
 			}
-			
+			int loopTimes=0;
 			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
 				    int p = 1;
@@ -368,12 +360,14 @@ public class BudgetDaoImpl implements BudgetDao {
 					    insertStmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
 					    insertStmt.setString(p++,CommonConstants.ACTIVE);
 					   
-					    insertStmt.addBatch();
+					    //insertStmt.addBatch();
+					    insertStmt.executeUpdate();
+					    loopTimes++;
 				    }
-				    insertCount = insertStmt.executeBatch();
+				    //insertCount = insertStmt.executeBatch();
 				    rs = insertStmt.getGeneratedKeys();
 				    
-				    if(insertCount.length > 0) {
+				    if(loopTimes > 0) {
 						flag = true;
 						String budgetId = null;
 						if (rs.next()) {
@@ -414,14 +408,15 @@ public class BudgetDaoImpl implements BudgetDao {
 															 insertStmt1.setString(k++,(budget.getBudget_id()));
 															 insertStmt1.setString(k++,(budget.getWork_id_fk()));
 															 insertStmt1.setString(k++,(budgetFileName));
-															 insertStmt1.addBatch();
+															 //insertStmt1.addBatch();
+															 insertStmt.executeUpdate();
 															 j++;
 														}
 											    }else {
 											    	j++;
 											    }
 										}
-								int[] insertCount1 = insertStmt1.executeBatch();
+								//int[] insertCount1 = insertStmt1.executeBatch();
 						}	
 						
 					}	
@@ -492,7 +487,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					"where work_id_fk is not null and work_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id_fk = ?";
+				qry = qry + " and project_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFinancial_year_fk())) {
@@ -500,10 +495,10 @@ public class BudgetDaoImpl implements BudgetDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY work_id_fk ";
+			qry = qry + " GROUP BY work_id_fk,w.work_name,w.work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -532,7 +527,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					"where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFinancial_year_fk())) {
@@ -543,7 +538,7 @@ public class BudgetDaoImpl implements BudgetDao {
 				qry = qry + " and project_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY project_id_fk ";
+			qry = qry + " GROUP BY project_id,p.project_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -572,7 +567,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					"where financial_year_fk is not null and financial_year_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -583,7 +578,7 @@ public class BudgetDaoImpl implements BudgetDao {
 				qry = qry + " and b.financial_year_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY b.financial_year_fk ";
+			qry = qry + " GROUP BY b.financial_year_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -616,14 +611,14 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "AND budget_id is not null and status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id = ?";
+				qry = qry + " and project_id = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}	
-			qry = qry +" order BY work_id_fk asc,financial_year_fk desc";
+			qry = qry +" order BY work_id_fk asc,financial_year_fk desc ";
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -665,7 +660,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + "and project_id_fk = ?";
+				qry = qry + "and project_id_fk = ? ";
 				arrSize++;
 			}
 			
@@ -695,16 +690,16 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTRING(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
-					+ "AND budget_id is not null and status = ? ";
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GetDate()) >= 4 THEN concat(YEAR(GetDate()), '-',SUBSTRING(cast(YEAR(GetDate())+1 as varchar),3,2)) ELSE concat(cast(YEAR(GetDate())-1 as varchar),'-', \r\n" + 
+					"SUBSTRING(cast(YEAR(GetDate()) as varchar),3,2)) END) AS financial_year) AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id = ?";
+				qry = qry + " and project_id = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
@@ -758,16 +753,17 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTRING(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GetDate()) >= 4 THEN concat(YEAR(GetDate()), '-',SUBSTRING(cast(YEAR(GetDate())+1 as varchar),3,2)) ELSE concat(cast(YEAR(GetDate())-1 as varchar),'-', \r\n" + 
+					"SUBSTRING(cast(YEAR(GetDate()) as varchar),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id = ?";
+				qry = qry + " and project_id = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
@@ -784,7 +780,7 @@ public class BudgetDaoImpl implements BudgetDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY work_id_fk ORDER BY budget_id ASC offset ? rows  fetch next ? rows only";
+				qry = qry + " group by budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,budget_estimate,budget_grant,revised_estimate,revised_grant,final_estimate,final_grant ORDER BY budget_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}

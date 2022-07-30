@@ -245,6 +245,38 @@ public class FortnightPlanController {
 		return model;
 	}
 	
+	@RequestMapping(value="/updateFortnighlytPlanManual/{FortnightPlan_id}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView updateFortnighlytPlanManual(@ModelAttribute FortnightPlan obj,@PathVariable("FortnightPlan_id") String FortnightPlan_id,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.updateFortnighlytPlanManual);
+			
+			List<FortnightPlan> FortnightPlanWorkList = FortnightPlanService.getFortnightPlanWorkList();
+			model.addObject("FortnightPlanWorkList", FortnightPlanWorkList);
+			
+			List<FortnightPlan> FortnightPlanContractList = FortnightPlanService.getFortnightPlanContractList(obj);
+			model.addObject("FortnightPlanContractList", FortnightPlanContractList);
+			
+			List<FortnightPlan> FortnightPlanCategoryList = FortnightPlanService.getFortnightPlanCategoryList();
+			model.addObject("FortnightPlanCategoryList", FortnightPlanCategoryList);
+			
+			List<FortnightPlan> FortnightPlanCriticalItemList = FortnightPlanService.getFortnightPlanCriticalItemList();
+			model.addObject("FortnightPlanCriticalItemList", FortnightPlanCriticalItemList);
+			
+			List<FortnightPlan> FortnightPlanPeriodList = FortnightPlanService.getFortnightPlanPeriodList();
+			model.addObject("FortnightPlanPeriodList", FortnightPlanPeriodList);
+
+			obj.setFortnightly_plan_id(FortnightPlan_id);
+			
+			List<FortnightPlan> FortnightPlan = FortnightPlanService.getFortnightPlanManual(obj);
+			model.addObject("FortnightPlan", FortnightPlan);
+		} catch (Exception e) {
+			attributes.addFlashAttribute("error", commonError);
+			logger.error("getFortnightPlan : " + e.getMessage());
+		}
+		return model;
+	}	
+	
 	@RequestMapping(value="/get-FortnightPlan/{FortnightPlan_id}",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getFortnightPlan(@ModelAttribute FortnightPlan obj,@PathVariable("FortnightPlan_id") String FortnightPlan_id,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
@@ -266,17 +298,6 @@ public class FortnightPlanController {
 			List<FortnightPlan> FortnightPlanPeriodList = FortnightPlanService.getFortnightPlanPeriodList();
 			model.addObject("FortnightPlanPeriodList", FortnightPlanPeriodList);
 
-			
-			String Str="c-";
-			
-			if(FortnightPlan_id.indexOf(Str)!=-1)
-			{
-			}
-			else
-			{
-				obj.setContract_short_name("Yes");
-			}
-			FortnightPlan_id=FortnightPlan_id.replace("c-", "");
 			obj.setFortnightly_plan_id(FortnightPlan_id);
 			
 			List<FortnightPlan> FortnightPlan = FortnightPlanService.getFortnightPlan(obj);

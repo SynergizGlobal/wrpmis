@@ -114,6 +114,13 @@
     	.mb2em{margin-bottom: 2em;}
     }
     
+.dataTables_scrollBody
+{
+ overflow-x:hidden !important;
+ overflow-y:auto !important;
+ width:100%;
+}
+    
     </style>
 </head>
 <body>
@@ -209,10 +216,10 @@
 												<th class="w20em">Contract</th>
 												<th class="pdla">Critical Item</th>
 												<th class="pdla">Structure ID</th>
-												<th class="pdla">Cum Planned Last Fortnight</th>
-												<th class="pdla">Cum Actual Last Fortnight</th>
-												<th class="pdla">Plan for Current Fortnight</th>
-												<th class="pdla">Actual progress</th>
+												<th class="pdla">Cum Planned<br> Last Fortnight</th>
+												<th class="pdla">Cum Actual<br> Last Fortnight</th>
+												<th class="pdla">Plan for<br> Current Fortnight</th>
+												<th class="pdla">Actual<br> progress</th>
 												<th class="no-sort w10px">Update</th>
 											</tr>
 										</thead>
@@ -578,7 +585,7 @@
     		$("#fortnightly_plan_id").val(fortnightly_plan_id);
     			if(cname=="")
     			{
-    				window.location.href="/pmis/get-FortnightPlan/c-"+fortnightly_plan_id;
+    				window.location.href="/pmis/updateFortnighlytPlanManual/"+fortnightly_plan_id;
     			}
     			else
     			{

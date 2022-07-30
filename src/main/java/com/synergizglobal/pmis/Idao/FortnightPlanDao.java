@@ -34,5 +34,7 @@ public interface FortnightPlanDao {
 	List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception;
 
 	List<FortnightPlan> getPeriodListFilter(FortnightPlan obj) throws Exception;
+
+	List<FortnightPlan> getFortnightPlanManual(FortnightPlan obj) throws Exception;
 }
  

@@ -34,7 +34,7 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 	public List<TrainingType> getTemplatesList() throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select id, template_name, attachment, FORMAT(uploaded_on,'%d-%m-%Y') AS uploaded_on, uploaded_by,u.user_name, status from upload_templates ut "
+			String qry ="select id, template_name, attachment, FORMAT(uploaded_on,'dd-MM-yyyy') AS uploaded_on, uploaded_by,u.user_name, status from upload_templates ut "
 					+ "LEFT JOIN [user] u on ut.uploaded_by = u.user_id "
 					+ " where status = ?";
 			int arrSize = 1;
@@ -45,7 +45,7 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 			
 			for (TrainingType session : objsList) {
 				List<TrainingType> objsList1 = null;
-				String qryDetails = "select id, template_name, attachment, FORMAT(uploaded_on,'%d-%m-%Y') AS uploaded_on,u.user_name, uploaded_by, status " + 
+				String qryDetails = "select id, template_name, attachment, FORMAT(uploaded_on,'dd-MM-yyyy') AS uploaded_on,u.user_name, uploaded_by, status " + 
 						"from upload_templates ut "
 						+ "LEFT JOIN [user] u on ut.uploaded_by = u.user_id "
 						+"where  template_name = ? and status = ? ORDER BY uploaded_on desc";

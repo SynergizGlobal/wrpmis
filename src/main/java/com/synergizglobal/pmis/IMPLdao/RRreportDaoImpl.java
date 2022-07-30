@@ -278,10 +278,10 @@ public class RRreportDaoImpl implements RRreportDao{
 			if(objsList.size() > 0) {
 					
 				String qry2 = "SELECT rr_id,location_name,work_short_name,r.work_id ,sub_location_name,type_of_use," + 
-						"FORMAT(physical_verification,'%d-%m-%Y') as physical_verification," + 
-						"FORMAT(encroachment_removal,'%d-%m-%Y') as encroachment_removal," + 
-						"FORMAT(boundary_wall_doc,'%d-%m-%Y') as boundary_wall_doc" + 
-						",FORMAT(handed_over_to_execution,'%d-%m-%Y') as handed_over_to_execution " + 
+						"FORMAT(physical_verification,'dd-MM-yyyy') as physical_verification," + 
+						"FORMAT(encroachment_removal,'dd-MM-yyyy') as encroachment_removal," + 
+						"FORMAT(boundary_wall_doc,'dd-MM-yyyy') as boundary_wall_doc" + 
+						",FORMAT(handed_over_to_execution,'dd-MM-yyyy') as handed_over_to_execution " + 
 						"from rr r "
 						+ "left join work w on r.work_id = w.work_id "
 						+ "left join project p on w.project_id_fk = p.project_id "

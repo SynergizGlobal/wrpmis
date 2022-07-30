@@ -60,7 +60,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public List<SourceOfFund> fundsList(SourceOfFund obj) throws Exception {
 		List<SourceOfFund> objsList = null;
 		
-		String qry = "SELECT funds_id,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
+		String qry = "SELECT funds_id,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,FORMAT(funding_date,'dd-MM-yyyy') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
 				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,f.project_id_fk,p.project_name,fund_amount_units,m.unit as amount_unit  "
 				+ "from funds f "
 				+ "LEFT JOIN project p on f.project_id_fk = p.project_id  "
@@ -164,7 +164,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public SourceOfFund getFunds(SourceOfFund obj) throws Exception {
 		SourceOfFund funds = null;
 		try {
-			String qry = "SELECT funds_id,f.project_id_fk,p.project_name, source_of_funds_fk, sub_category_railway_id_fk, FORMAT(funding_date,'%d-%m-%Y') AS funding_date, "+
+			String qry = "SELECT funds_id,f.project_id_fk,p.project_name, source_of_funds_fk, sub_category_railway_id_fk, FORMAT(funding_date,'dd-MM-yyyy') AS funding_date, "+
 					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account,f.fund_amount_units "
 					+ "from funds f " + 
 					"LEFT JOIN project p on f.project_id_fk = p.project_id " + 
@@ -500,7 +500,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			throws Exception {
 		List<SourceOfFund> objsList = null;
 		
-		String qry = "SELECT funds_id,f.project_id_fk,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
+		String qry = "SELECT funds_id,f.project_id_fk,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,FORMAT(funding_date,'dd-MM-yyyy') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
 				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,f.project_id_fk,p.project_name "
 				+ "from funds f "
 				+ "LEFT JOIN project p on f.project_id_fk = p.project_id  "

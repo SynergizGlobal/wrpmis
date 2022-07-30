@@ -237,11 +237,11 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 	public List<Safety> getSafetyReportData(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,c.contract_short_name,title,d.department_name,description,FORMAT(date,'%d-%m-%y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,"
-					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,"
+			String qry = "SELECT safety_id,contract_id_fk,c.contract_short_name,title,d.department_name,description,FORMAT(date,'dd-MM-yyyy') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,"
+					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MM-yyyy') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "FORMAT(investigation_completed,'dd-MM-yyyy') AS investigation_completed,corrective_measure_short_term,"
 					+ "corrective_measure_long_term,cast(compensation as CHAR) as compensation,"
-					+ "FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,work_short_name,"
+					+ "FORMAT(payment_date,'dd-MM-yyyy') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,work_short_name,"
 					+ "project_id_fk,project_name,s.hod_user_id_fk,designation,user_name as hod_name,contract_id,contractor_name "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
@@ -298,11 +298,11 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 	public List<Safety> getSafetySummaryReport(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,c.contract_short_name,title,d.department_name,description,FORMAT(date,'%d-%m-%y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,"
-					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,"
+			String qry = "SELECT safety_id,contract_id_fk,c.contract_short_name,title,d.department_name,description,FORMAT(date,'dd-MM-yyyy') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,"
+					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MM-yyyy') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "FORMAT(investigation_completed,'dd-MM-yyyy') AS investigation_completed,corrective_measure_short_term,"
 					+ "corrective_measure_long_term,cast(compensation as CHAR) as compensation,"
-					+ "FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,work_short_name,"
+					+ "FORMAT(payment_date,'dd-MM-yyyy') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,work_short_name,"
 					+ "project_id_fk,project_name,s.hod_user_id_fk,designation,user_name as hod_name,contract_id,contractor_name "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "

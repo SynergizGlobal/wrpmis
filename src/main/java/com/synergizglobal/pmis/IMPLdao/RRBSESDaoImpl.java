@@ -280,8 +280,8 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		try {
 			String qry ="select id as rrbses_id, work_id_fk,work_short_name, hod,u.user_name,u.designation as designation,"
 					+ " uu.user_name as res_user_name,uu.designation as res_designation,mrvc_responsible_person, bses_agency_name, agency_responsible_person, r.contact_number, r.email_id as bses_email, "
-					+ "FORMAT(submission_date_report_ca,'%d-%m-%Y') AS submission_date_report_ca, FORMAT(actual_submission_date_bses_report_to_mrvc,'%d-%m-%Y') AS actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, FORMAT(report_submission_date_to_mrvc,'%d-%m-%Y') AS report_submission_date_to_mrvc, "
-					+ "FORMAT(approval_date_by_mrvc,'%d-%m-%Y') AS approval_date_by_mrvc from rr_agency r "
+					+ "FORMAT(submission_date_report_ca,'dd-MM-yyyy') AS submission_date_report_ca, FORMAT(actual_submission_date_bses_report_to_mrvc,'dd-MM-yyyy') AS actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, FORMAT(report_submission_date_to_mrvc,'dd-MM-yyyy') AS report_submission_date_to_mrvc, "
+					+ "FORMAT(approval_date_by_mrvc,'dd-MM-yyyy') AS approval_date_by_mrvc from rr_agency r "
 					+ "LEFT JOIN work w on r.work_id_fk = w.work_id " 
 					+ "left join [user] u on r.hod = u.user_id "
 					+ "left join [user] uu on r.mrvc_responsible_person = uu.user_id "
@@ -303,7 +303,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 			obj = (RandRMain)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRrbses_id())) {
 				List<RandRMain> objsList = null;
-				String qryDetails = "select rrr.id, rr_agency_id_fk, FORMAT(date_of_appointment,'%d-%m-%Y') AS date_of_appointment, name_of_representative, phone_no, rrr.email_id "
+				String qryDetails = "select rrr.id, rr_agency_id_fk, FORMAT(date_of_appointment,'dd-MM-yyyy') AS date_of_appointment, name_of_representative, phone_no, rrr.email_id "
 						+ "from rr_appointment_of_committee rrr " 
 						+"left join rr_agency r1 on rrr.rr_agency_id_fk = r1.id where rr_agency_id_fk = ?  ";
 				

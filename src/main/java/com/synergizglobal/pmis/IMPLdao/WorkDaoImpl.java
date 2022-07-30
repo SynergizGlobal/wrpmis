@@ -55,8 +55,8 @@ public class WorkDaoImpl implements WorkDao {
 					+ "(SELECT STRING_AGG(work_railway.railway_id_fk , ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway," 
 					+ "(SELECT STRING_AGG(work_railway.executed_by_id_fk , ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
-					+ "FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
+					+ ",w.remarks,FORMAT(w.projected_completion,'dd-MM-yyyy') AS projected_completion,"
+					+ "FORMAT(w.projected_completion_date,'dd-MM-yyyy') AS projected_completion_date,work_status_fk,work_type_fk "
 					+ "FROM work w "  
 					+"LEFT JOIN project p ON w.project_id_fk = p.project_id ";
 		
@@ -93,8 +93,8 @@ public class WorkDaoImpl implements WorkDao {
 			connection = dataSource.getConnection();
 			String qry ="SELECT work_id,work_name,work_short_name,work_code,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," 
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
-					+ "FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
+					+ ",w.remarks,FORMAT(w.projected_completion,'dd-MM-yyyy') AS projected_completion,"
+					+ "FORMAT(w.projected_completion_date,'dd-MM-yyyy') AS projected_completion_date,work_status_fk,work_type_fk "
 					+ "FROM work w " 
 					+ "LEFT JOIN project p ON w.project_id_fk = p.project_id " 
 				    + "where work_id = ?";
@@ -933,8 +933,8 @@ public class WorkDaoImpl implements WorkDao {
 					"(SELECT STRING_AGG(work_railway.railway_id_fk , ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway, " + 
 					"(SELECT STRING_AGG(work_railway.executed_by_id_fk , ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by, " + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost "  + 
-					",w.remarks,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion, " + 
-					"FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk,work_type_fk "
+					",w.remarks,FORMAT(w.projected_completion,'dd-MM-yyyy') AS projected_completion, " + 
+					"FORMAT(w.projected_completion_date,'dd-MM-yyyy') AS projected_completion_date,work_status_fk,work_type_fk "
 					+ "FROM work w  " + 
 					"LEFT JOIN project p ON w.project_id_fk = p.project_id  "+
 					//"LEFT JOIN money_unit m ON w.sanctioned_estimated_cost_unit = m.value  "+
@@ -1079,7 +1079,7 @@ public class WorkDaoImpl implements WorkDao {
 					+ "(SELECT STRING_AGG(work_railway.railway_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS railway," 
 					+ "(SELECT STRING_AGG(work_railway.executed_by_id_fk SEPARATOR ',') FROM work_railway WHERE (work_railway.work_id_fk = w.work_id)) AS executed_by,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,w.attachment,FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion "
+					+ ",w.remarks,w.attachment,FORMAT(w.projected_completion,'dd-MM-yyyy') AS projected_completion "
 					+ "FROM work w "  
 					+"LEFT JOIN project p ON w.project_id_fk = p.project_id where work_id is not null ";
 			int arrSize = 0;

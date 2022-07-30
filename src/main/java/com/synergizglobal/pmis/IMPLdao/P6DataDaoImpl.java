@@ -341,7 +341,7 @@ public class P6DataDaoImpl implements P6DataDao {
 	public List<P6Data> getActivityDataList(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="select contract_id_fk, fob_id_fk,upload_type, FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk,"
+			String qry ="select contract_id_fk, fob_id_fk,upload_type, FORMAT(data_date,'dd-MM-yyyy') as data_date, soft_delete_status_fk,"
 					+ " p6_file_path, uploaded_by_user_id_fk, FORMAT(uploaded_date,'%d-%m-%Y  %h:%i %p')  uploaded_date  "
 					+ "from p6_activity_data "
 					+ "WHERE fob_id_fk is not null ";

@@ -161,12 +161,12 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 				List<ActivitiesProgressReport> totalContractProgresList = new ArrayList<ActivitiesProgressReport>();
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select p6_activity_id as activity_id,activity_name,structure as fob_id_fk,FORMAT(baseline_start,'%d-%m-%Y') AS planned_start,FORMAT(baseline_finish,'%d-%m-%Y') AS planned_finish,case  " + 
+					String contractProgressDatesQry = "select p6_activity_id as activity_id,activity_name,structure as fob_id_fk,FORMAT(baseline_start,'dd-MM-yyyy') AS planned_start,FORMAT(baseline_finish,'dd-MM-yyyy') AS planned_finish,case  " + 
 							"  when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-							"  when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
-							"  else (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
+							"  when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+							"  else (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
 							"  when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-							"  when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+							"  when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
 							"  else '' end as actual_finish,unit,ISNULL(NULLIF(scope, '' ), 0) AS scope,ISNULL(NULLIF(completed, '' ), 0) AS completed,contract_id_fk,work_id,project_id,project_name "
 							+ "from  p6_activities a "
 							+ "left join structure s on s.structure_id = a.structure_id_fk "

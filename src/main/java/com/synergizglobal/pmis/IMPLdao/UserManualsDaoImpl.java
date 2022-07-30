@@ -33,7 +33,7 @@ public class UserManualsDaoImpl implements UserManualsDao{
 	public List<UserManuals> getUserManuals(UserManuals obj) throws Exception {
 		List<UserManuals>  objsList = null;
 		try {
-			String qry ="SELECT manual_id,title,file_name,FORMAT(created_date,'%d-%b-%Y') as created_date,created_by,status,priority FROM pmis_manuals "
+			String qry ="SELECT manual_id,title,file_name,FORMAT(created_date,'dd-MMM-yy') as created_date,created_by,status,priority FROM pmis_manuals "
 					+ "where manual_id is not null ";
 			
 			int arrSize = 0;

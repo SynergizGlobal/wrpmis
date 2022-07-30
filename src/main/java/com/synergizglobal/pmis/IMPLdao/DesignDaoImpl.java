@@ -66,7 +66,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no"
 					+",d.hq_drawing_no,d.drawing_title,"+
-					 "FORMAT(d.required_date,'%d-%m-%Y') AS required_date, FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,"
+					 "FORMAT(d.required_date,'dd-MM-yyyy') AS required_date, FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,"
 					 + "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
 					 "then  (SELECT submssion_purpose FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc) " + 
 					 "else (SELECT submssion_purpose FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submission_purpose," + 
@@ -79,7 +79,7 @@ public class DesignDaoImpl implements DesignDao{
 					 "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
 					 "then  (SELECT submitted_to FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc) " + 
 					 "else (SELECT submitted_to FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submitted_to ,"
-					 + "FORMAT(max(ds.submitted_date) ,'%d-%m-%Y') AS submitted_date, FORMAT(required_date ,'%d-%m-%Y') AS required_date ,"
+					 + "FORMAT(max(ds.submitted_date) ,'dd-MM-yyyy') AS submitted_date, FORMAT(required_date ,'dd-MM-yyyy') AS required_date ,"
 					 + "u.user_name,u.designation as hod_designation,u1.user_name,u1.designation as dy_hod_designation,dt.department_name ,"
 					 + "c1.contract_short_name as consult_contarct, c2.contract_short_name as proof_consult_contarct  "
 					+ "from design d "  
@@ -157,7 +157,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,w.work_name,d.structure_id_fk,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"
-					+",FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.remarks,d.modified_by,FORMAT(d.modified_date,'%d-%m-%Y') as modified_date   "
+					+",FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,d.modified_by,FORMAT(d.modified_date,'dd-MM-yyyy') as modified_date   "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
@@ -432,10 +432,10 @@ public class DesignDaoImpl implements DesignDao{
 	public Design getDesignDetails(Design obj)throws Exception{
 		Design dObj = null;
 		try {
-			String qry ="select design_id,approving_railway,approval_authority_fk,structure_id_fk,FORMAT(d.required_date,'%d-%m-%Y') AS required_date,d.work_id_fk,w.project_id_fk,p.project_name,c.contract_short_name,w.work_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
+			String qry ="select design_id,approving_railway,approval_authority_fk,structure_id_fk,FORMAT(d.required_date,'dd-MM-yyyy') AS required_date,d.work_id_fk,w.project_id_fk,p.project_name,c.contract_short_name,w.work_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"+
-					",FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,"
+					",FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,"
 					+ "d.remarks "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
@@ -444,9 +444,9 @@ public class DesignDaoImpl implements DesignDao{
 					+ "where design_id is not null and design_id = ?" ;
 			
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
-			//FORMAT(consultant_submission,'%d-%m-%Y') AS consultant_submission,
+			//FORMAT(consultant_submission,'dd-MM-yyyy') AS consultant_submission,
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry2 ="select revision,current,FORMAT(revision_date,'%d-%m-%Y') AS revision_date,remarks,revision_status_fk from design_revisions where design_id_fk = ?";
+				String qry2 ="select revision,current,FORMAT(revision_date,'dd-MM-yyyy') AS revision_date,remarks,revision_status_fk from design_revisions where design_id_fk = ?";
 				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignRevisions(objList);
 			}
@@ -457,7 +457,7 @@ public class DesignDaoImpl implements DesignDao{
 				dObj.setDesignFilesList(objList);
 			}
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,FORMAT(submitted_date,'%d-%m-%Y') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and (latest is null or latest = 'Yes' ) order by DATE(submitted_date) DESC, id DESC ";
+				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,FORMAT(submitted_date,'dd-MM-yyyy') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and (latest is null or latest = 'Yes' ) order by DATE(submitted_date) DESC, id DESC ";
 				List<Design> objList = jdbcTemplate.query( qry3,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignStatusList(objList);
 			}

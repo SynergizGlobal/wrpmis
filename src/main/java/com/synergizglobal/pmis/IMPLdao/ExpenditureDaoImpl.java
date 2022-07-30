@@ -39,7 +39,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	public List<Expenditure> getExpendituresList(Expenditure obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<Expenditure> objsList = null;
 		try {
-			String qry  ="SELECT expenditure_id,c.work_id_fk,c.contract_short_name,w.work_short_name,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'%d-%m-%Y') AS date,voucher_type,voucher_no, "
+			String qry  ="SELECT expenditure_id,c.work_id_fk,c.contract_short_name,w.work_short_name,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'dd-MM-yyyy') AS date,voucher_type,voucher_no, "
 					+ "narration,cast(net_paid as CHAR) as net_paid,cast(gross_work_done as CHAR) as gross_work_done,cast(sd_payable as CHAR) as sd_payable,cast(contractor_income_tax as CHAR) as contractor_income_tax,"
 					+ "cast(cgst_tds as CHAR) as cgst_tds,cast(sgst_tds as CHAR) as sgst_tds,cast(igst_tds as CHAR) as igst_tds,cast(vat_wct as CHAR) as vat_wct,cast(mob_advance as CHAR) as mob_advance,"
 					+ "cast(interest on_mob_adv as CHAR) as interest_on_mob_adv,cast(amount_withheld as CHAR) as amount_withheld,e.remarks from  expenditure e "
@@ -222,7 +222,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		Expenditure expenditure = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry = "SELECT expenditure_id,w.project_id_fk,p.project_name,c.work_id_fk,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'%d-%m-%Y') AS date,voucher_type , " + 
+			String qry = "SELECT expenditure_id,w.project_id_fk,p.project_name,c.work_id_fk,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'dd-MM-yyyy') AS date,voucher_type , " + 
 					"voucher_no,narration,cast(net_paid as CHAR) as net_paid,cast(gross_work_done as CHAR) as gross_work_done,cast(sd_payable as CHAR) as sd_payable,cast(contractor_income_tax as CHAR) as contractor_income_tax,"+
 					"cast(cgst_tds as CHAR) as cgst_tds,cast(sgst_tds as CHAR) as sgst_tds,cast(igst_tds as CHAR) as igst_tds,cast(vat_wct as CHAR) as vat_wct,cast(mob_advance as CHAR) as mob_advance,cast(interest on_mob_adv as CHAR) as [interest on_mob_adv]," + 
 					"cast(amount_withheld as CHAR) as amount_withheld,e.remarks,e.net_paid_units,e.gross_work_done_units,e.sd_payable_units,e.contractor_income_tax_units,e.cgst_tds_units,e.sgst_tds_units,e.igst_tds_units,e.vat_wct_units,e.mob_advance_units,e.interest_on_mob_adv_units,e.amount_withheld_units,m.unit " + 
@@ -847,7 +847,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	public List<Expenditure> getExpendituresListForExport(Expenditure obj) throws Exception {
 		List<Expenditure> objsList = null;
 		try {
-			String qry  ="SELECT expenditure_id,c.work_id_fk,c.contract_short_name,w.work_short_name,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'%d-%m-%Y') AS date,voucher_type,voucher_no, "
+			String qry  ="SELECT expenditure_id,c.work_id_fk,c.contract_short_name,w.work_short_name,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'dd-MM-yyyy') AS date,voucher_type,voucher_no, "
 					+ "narration,cast(net_paid as CHAR) as net_paid,cast(gross_work_done as CHAR) as gross_work_done,cast(sd_payable as CHAR) as sd_payable,cast(contractor_income_tax as CHAR) as contractor_income_tax,"
 					+ "cast(cgst_tds as CHAR) as cgst_tds,cast(sgst_tds as CHAR) as sgst_tds,cast(igst_tds as CHAR) as igst_tds,cast(vat_wct as CHAR) as vat_wct,cast(mob_advance as CHAR) as mob_advance,"
 					+ "cast(interest on_mob_adv as CHAR) as interest_on_mob_adv,cast(amount_withheld as CHAR) as amount_withheld,e.remarks,e.net_paid_units,e.gross_work_done_units,e.sd_payable_units,"

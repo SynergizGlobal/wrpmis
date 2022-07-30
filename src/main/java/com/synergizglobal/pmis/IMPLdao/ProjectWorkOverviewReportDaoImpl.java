@@ -203,7 +203,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 	public List<Contract> getProjectPhotos(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "select FORMAT(sd.created_date,'%d-%m-%Y') as Date,sd.attachment,s.structure_type_fk as strip_chart_type_fk,structure as name "
+			String qry = "select FORMAT(sd.created_date,'dd-MM-yyyy') as Date,sd.attachment,s.structure_type_fk as strip_chart_type_fk,structure as name "
 					+ "from structure s "
 					+ "inner join structure_documents sd on sd.structure_id_fk=s.structure_id "
 					+ "inner join work w on s.work_id_fk = w.work_id "

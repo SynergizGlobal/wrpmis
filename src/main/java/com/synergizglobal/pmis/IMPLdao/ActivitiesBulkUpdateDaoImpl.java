@@ -471,8 +471,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			String qry = "select activity_id AS strip_chart_activity_id,scv.contract_id_fk AS contract_id,scv.structure AS strip_chart_structure_id,scv.component_id AS strip_chart_component_id_name,"
 					+ "scv.component AS strip_chart_component,scv.activity_name AS strip_chart_activity_name,"
 					+ "scv.line AS strip_chart_line,scv.structure AS structure_type,scv.section AS strip_chart_section_name,completed,scope,remaining,units as unit_fk,scv.status AS status_name,scv.remarks,"
-					+ "FORMAT(scv.actual_start,'%d-%m-%Y') AS actual_start,FORMAT(scv.actual_finish,'%d-%m-%Y') AS actual_finish,FORMAT(scv.planned_start,'%d-%m-%Y') AS planned_start,"
-					+ "FORMAT(scv.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
+					+ "FORMAT(scv.actual_start,'dd-MM-yyyy') AS actual_start,FORMAT(scv.actual_finish,'dd-MM-yyyy') AS actual_finish,FORMAT(scv.planned_start,'dd-MM-yyyy') AS planned_start,"
+					+ "FORMAT(scv.planned_finish,'dd-MM-yyyy') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
 					+ "from activities scv "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
@@ -800,8 +800,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		StripChart sObj = null;
 		try {
 			String qry = "select activity_id,"
-					+ "FORMAT(actual_start,'%d-%m-%Y') AS actual_start,FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish,FORMAT(planned_start,'%d-%m-%Y') AS planned_start,"
-					+ "FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,"
+					+ "FORMAT(actual_start,'dd-MM-yyyy') AS actual_start,FORMAT(actual_finish,'dd-MM-yyyy') AS actual_finish,FORMAT(planned_start,'dd-MM-yyyy') AS planned_start,"
+					+ "FORMAT(planned_finish,'dd-MM-yyyy') AS planned_finish,"
 					+ "component_id as strip_chart_component_id_name,completed as completed,scope as scope,remaining as remaining, units as unit_fk "
 					+ "from activities "
 					+ "where activity_id is not null and structure_type_fk='FOB' and component_id = ? and structure = ? and activity_id = ? ";
@@ -842,8 +842,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	public List<StripChart> getActivitiesfiltersList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,FORMAT(planned_start,'%d-%b-%y') AS planned_start "  
-					+",FORMAT(planned_finish,'%d-%b-%y') AS planned_finish,ISNULL(NULLIF(scope, '' ), 0) as scope,ISNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from activities  " 
+			String qry = "select activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,FORMAT(planned_start,'dd-MMM-yy') AS planned_start "  
+					+",FORMAT(planned_finish,'dd-MMM-yy') AS planned_finish,ISNULL(NULLIF(scope, '' ), 0) as scope,ISNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from activities  " 
 					+ " where activity_id is not null and structure_type_fk='FOB' ";
 			
 				if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))

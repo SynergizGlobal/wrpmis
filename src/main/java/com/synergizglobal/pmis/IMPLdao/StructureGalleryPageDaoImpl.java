@@ -27,7 +27,7 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 		List<Structure> objsList = null;
 		try {
 		
-			String qry ="select id, structure_id_fk, name, sd.attachment,w.work_short_name,w.work_name, structure_file_type_fk, FORMAT(sd.created_date,'%d-%m-%Y') AS created_date " 
+			String qry ="select id, structure_id_fk, name, sd.attachment,w.work_short_name,w.work_name, structure_file_type_fk, FORMAT(sd.created_date,'dd-MM-yyyy') AS created_date " 
 					+ " from structure_documents sd "
 					+ "LEFT JOIN structure s on sd.structure_id_fk = s.structure_id "
 					+ "LEFT JOIN work w on s.work_id_fk = w.work_id "

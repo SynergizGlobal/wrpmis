@@ -509,10 +509,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				
 				List<Issue> worksList = jdbcTemplate.query( workQry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 				for (Issue work : worksList) {
-					String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,i.title,i.description,FORMAT(date,'%d-%m-%Y') AS date,location,reported_by,responsible_person,other_organization,c.department_fk," 
-							+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,"
+					String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,i.title,i.description,FORMAT(date,'dd-MM-yyyy') AS date,location,reported_by,responsible_person,other_organization,c.department_fk," 
+							+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'dd-MM-yyyy') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,"
 							+ "i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
-							+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(GETDATE(), date) as pending_since,FORMAT(date,'%d-%m-%Y') AS date, "
+							+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(GETDATE(), date) as pending_since,FORMAT(date,'dd-MM-yyyy') AS date, "
 							+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 							+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation "
 							+ "from issue i "

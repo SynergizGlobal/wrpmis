@@ -76,7 +76,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	public List<RiskReport> getAssessmentDateListInRiskReport(RiskReport obj) throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select FORMAT(date,'%d-%b-%Y') AS assessment_date "
+			String qry = "select FORMAT(date,'dd-MMM-yy') AS assessment_date "
 					+ "from risk_revision rr "
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk " 
 					+ "where sub_work = ? group by date order by date desc";
@@ -112,7 +112,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 			String work_id = jdbcTemplate.queryForObject( workIdQuery, new Object[] {obj.getSub_work()}, String.class);
 			obj.setWork_id(work_id);
 			
-			String qry = "select rwh.work_id_fk as work_id,rv.sub_work,FORMAT(date,'%d-%m-%Y') AS assessment_date,work_name,work_short_name,"
+			String qry = "select rwh.work_id_fk as work_id,rv.sub_work,FORMAT(date,'dd-MM-yyyy') AS assessment_date,work_name,work_short_name,"
 					+ "project_id,project_name,owner,"
 					+ "(select ISNULL((select latest_revised_cost from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc offset 0 rows  fetch next 1 rows only),sanctioned_estimated_cost) from work where work_id = ?) as estimatedOrRevisedCost,"
 					+ "(select ISNULL((select financial_year from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc offset 0 rows  fetch next 1 rows only),sanctioned_year_fk) from work where work_id = ?) as estimatedOrRevisedDate "
@@ -207,7 +207,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 			
 			String qry = "select risk_revision_id,rwh.work_id_fk as work_id,area,area_item_no,sub_area,sub_area_item_no,date,"
 					+ "priority_fk as priority,probability,impact,risk_rating,classification,owner,"
-					+ "responsible_person,mitigation_plan,action_taken,FORMAT(atr_date,'%d-%m-%Y') as atr_date "
+					+ "responsible_person,mitigation_plan,action_taken,FORMAT(atr_date,'dd-MM-yyyy') as atr_date "
 					+ "from risk_revision_view rrv " 
 					+ "left outer join risk_action ra on rrv.risk_revision_id = ra.risk_revision_id_fk " 
 					+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk " 
@@ -232,7 +232,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	public List<RiskReport> getSummaryOfRiskAssessmentOfProjects() throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select r.sub_work,FORMAT(max(rr.date),'%d-%m-%Y') as last_assessment_date,u.designation as owner," + 
+			String qry = "select r.sub_work,FORMAT(max(rr.date),'dd-MM-yyyy') as last_assessment_date,u.designation as owner," + 
 					"(select max(probability)*max(impact) from risk_revision where date = max(rr.date) and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as risk_score, " + 
 					"(select sum(probability*impact) from risk_revision where date = max(rr.date) and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_risk_rating," + 
 					"(select count(classification) from risk_revision_view where date = max(rr.date) and classification = 'High' and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_high_risks," + 

@@ -404,9 +404,9 @@ public class StructureFormDaoImpl implements StructureFormDao{
 		Structure structure = null;
 		try {
 			String qry = "select structure_id, s.work_id_fk, structure_type_fk, structure,w.work_name,p.project_name,w.work_short_name,w.project_id_fk, "
-					+ "s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude,  FORMAT(s.target_date,'%d-%m-%Y') AS target_date, "
-					+ "s.estimated_cost,s.completion_cost,s.completion_cost_units,FORMAT(s.commissioning_date,'%d-%m-%Y') AS commissioning_date,FORMAT(s.actual_completion_date,'%d-%m-%Y') AS actual_completion_date, s.estimated_cost_units,"
-					+ " FORMAT(s.construction_start_date,'%d-%m-%Y') AS construction_start_date, FORMAT(s.revised_completion,'%d-%m-%Y') AS revised_completion, s.remarks "
+					+ "s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude,  FORMAT(s.target_date,'dd-MM-yyyy') AS target_date, "
+					+ "s.estimated_cost,s.completion_cost,s.completion_cost_units,FORMAT(s.commissioning_date,'dd-MM-yyyy') AS commissioning_date,FORMAT(s.actual_completion_date,'dd-MM-yyyy') AS actual_completion_date, s.estimated_cost_units,"
+					+ " FORMAT(s.construction_start_date,'dd-MM-yyyy') AS construction_start_date, FORMAT(s.revised_completion,'dd-MM-yyyy') AS revised_completion, s.remarks "
 					+ "from structure s " + 
 					"left join work w on s.work_id_fk = w.work_id " +
 					"left join project p on w.project_id_fk = p.project_id where s.status <> 'Inactive' and structure_id is not null " ; 

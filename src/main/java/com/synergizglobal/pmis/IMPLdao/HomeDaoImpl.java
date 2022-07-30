@@ -764,9 +764,9 @@ public class HomeDaoImpl implements HomeDao {
 			
 			String projectGalleryQry = "select id,file_name,project_id_fk,created_date,created_by from project_gallery where project_id_fk = ? ";
 			
-			String projectDocumentsQry = "select id, project_id_fk, attachment, project_file_type_fk,FORMAT(created_date,'%d-%m-%Y') AS created_date from project_files where project_id_fk = ? ";
+			String projectDocumentsQry = "select id, project_id_fk, attachment, project_file_type_fk,FORMAT(created_date,'dd-MM-yyyy') AS created_date from project_files where project_id_fk = ? ";
 			
-			String workDocumentsQry = "select id, work_id_fk, attachment, work_file_type_fk,FORMAT(created_date,'%d-%m-%Y') AS created_date from work_files where work_id_fk = ? ";
+			String workDocumentsQry = "select id, work_id_fk, attachment, work_file_type_fk,FORMAT(created_date,'dd-MM-yyyy') AS created_date from work_files where work_id_fk = ? ";
 
 			objsList = jdbcTemplate.query( projectQry, new BeanPropertyRowMapper<Project>(Project.class));
 			

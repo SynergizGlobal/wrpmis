@@ -226,7 +226,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		ResultSet rs = null;
 		List<Project> filesObj = new ArrayList<Project>();
 		try{
-			String qry = "select id,file_name,project_id_fk,FORMAT(created_date,'%d-%m-%Y') AS created_date,created_by from project_gallery where project_id_fk = ?";
+			String qry = "select id,file_name,project_id_fk,FORMAT(created_date,'dd-MM-yyyy') AS created_date,created_by from project_gallery where project_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1,project_id);
 			rs = stmt.executeQuery();  

@@ -619,7 +619,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 			
 			if(StringUtils.isEmpty(tempObj)){
 				inactiveUser = new UserActivityReport();
-				qry = "SELECT FORMAT(MAX(created_date),'%d-%b-%Y') AS last_updated_date "
+				qry = "SELECT FORMAT(MAX(created_date),'dd-MMM-yy') AS last_updated_date "
 						+ "FROM forms_history fh "
 						+ "WHERE module_name_fk = ? "
 						+ "AND created_by_user_id_fk = ? ";

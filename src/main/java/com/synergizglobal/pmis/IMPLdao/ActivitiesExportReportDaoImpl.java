@@ -166,15 +166,15 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public StripChart generateActivitiesExportReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT a.p6_activity_id as activity_id, FORMAT(a.baseline_start,'%d-%m-%Y') as baseline_start, FORMAT(a.baseline_finish,'%d-%m-%Y') as baseline_finish,"
-					+ " FORMAT(a.start,'%d-%m-%Y') as start, FORMAT(a.finish,'%d-%m-%Y') as finish,pcv.status, a.contract_id_fk,contract_short_name, a.from_structure_id, a.to_structure_id, s11.structure_type_fk, a.section, a.line, s11.structure, a.component, a.component_id, a.order_x, a.order_y, "
-					+ "a.p6_activity_name as activity_name, FORMAT(a.baseline_start,'%d-%m-%Y') as planned_start, FORMAT(a.baseline_finish,'%d-%m-%Y') as planned_finish, "
+			String qry = "SELECT a.p6_activity_id as activity_id, FORMAT(a.baseline_start,'dd-MM-yyyy') as baseline_start, FORMAT(a.baseline_finish,'dd-MM-yyyy') as baseline_finish,"
+					+ " FORMAT(a.start,'dd-MM-yyyy') as start, FORMAT(a.finish,'dd-MM-yyyy') as finish,pcv.status, a.contract_id_fk,contract_short_name, a.from_structure_id, a.to_structure_id, s11.structure_type_fk, a.section, a.line, s11.structure, a.component, a.component_id, a.order_x, a.order_y, "
+					+ "a.p6_activity_name as activity_name, FORMAT(a.baseline_start,'dd-MM-yyyy') as planned_start, FORMAT(a.baseline_finish,'dd-MM-yyyy') as planned_finish, "
 					+ "case  " + 
 					" when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
-					" else (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
+					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+					" else (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
 					" when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
 					" else '' end as actual_finish, a.unit, a.scope, a.completed, CAST(a.weightage AS DECIMAL(10,2)) as weightage, a.component_details, a.remarks, "
 					+ "a.created_date, a.created_by_user_id_fk, a.modified_date, a.modified_by_user_id_fk, a.task_code as p6_task_code " + 
 					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk "

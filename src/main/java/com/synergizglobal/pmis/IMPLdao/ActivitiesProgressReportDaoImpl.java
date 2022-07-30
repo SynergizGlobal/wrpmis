@@ -1100,7 +1100,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	    String remarks = null;
 			try {
 				con = dataSource.getConnection();
-				String qry = "select STRING_AGG(DISTINCT concat(FORMAT(reporting_date,'%d-%m-%Y'),' - ',remarks) SEPARATOR '\n') as remarks from fobdailyupdate where structure =? and reporting_date>=? and reporting_date<=?";
+				String qry = "select STRING_AGG(DISTINCT concat(FORMAT(reporting_date,'dd-MM-yyyy'),' - ',remarks) SEPARATOR '\n') as remarks from fobdailyupdate where structure =? and reporting_date>=? and reporting_date<=?";
 				stmt = con.prepareStatement(qry);
 				stmt.setString(1,structure);
 				stmt.setString(2,from_date);

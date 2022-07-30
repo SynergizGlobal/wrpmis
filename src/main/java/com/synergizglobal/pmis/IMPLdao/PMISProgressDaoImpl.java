@@ -36,8 +36,8 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 	public List<StripChart> getMileStoneFilterList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select id,milestone_fk,cm.milestone_name,activity_description,FORMAT(planned_start_date,'%d-%m-%Y') as planned_start "  
-					+",FORMAT(planned_finish_date,'%d-%m-%Y') as planned_finish,FORMAT(actual_start_date,'%d-%m-%Y') as actual_start,FORMAT(actual_finish_date,'%d-%m-%Y') as actual_finish,"
+			String qry = "select id,milestone_fk,cm.milestone_name,activity_description,FORMAT(planned_start_date,'dd-MM-yyyy') as planned_start "  
+					+",FORMAT(planned_finish_date,'dd-MM-yyyy') as planned_finish,FORMAT(actual_start_date,'dd-MM-yyyy') as actual_start,FORMAT(actual_finish_date,'dd-MM-yyyy') as actual_finish,"
 					+ "ISNULL(NULLIF(total_scope, '' ), 0) as total_scope,ISNULL(NULLIF(completed, '' ), 0) as completed from pmis_strip_chart psc "
 					+ "LEFT JOIN contract_milestones cm on milestone_fk = contract_milestones_id "
 					+ "LEFT JOIN contract c  on psc.contract_id_fk = c.contract_id  "  

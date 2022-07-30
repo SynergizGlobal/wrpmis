@@ -144,7 +144,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		    
 		    for (Training tObj : objsList) {
-		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,FORMAT(start_time,'%d-%m-%Y') AS date,FORMAT(start_time,'%h:%i %p') AS start_time,FORMAT(end_time,'%h:%i %p') AS end_time "
+		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,FORMAT(start_time,'dd-MM-yyyy') AS date,FORMAT(start_time,'%h:%i %p') AS start_time,FORMAT(end_time,'%h:%i %p') AS end_time "
 						+ "from training_session "
 						+ "where training_id_fk = ? ORDER BY training_session_id ASC";
 		    	List<Training> sessonObjsList = jdbcTemplate.query( sessionsQry,new Object[] {tObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));
@@ -181,7 +181,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
     				+ ",u.designation as reporting_to_designation,u.designation as trainee_designation,u.user_name,"
     				+ "(select count(*) from training_attendees where user_id= ? and required_fk = ?) as nominated,"
     				+ "(select count(*) from training_attendees where user_id= ? and participated_fk = ?) as attended,"
-    				+ "training_center,session_no,title,description,training_category_fk as category,FORMAT(start_time,'%d-%m-%Y') AS date,status_fk " 
+    				+ "training_center,session_no,title,description,training_category_fk as category,FORMAT(start_time,'dd-MM-yyyy') AS date,status_fk " 
 					+ "from training_attendees ta "
 					+ "left join [user] u on ta.user_id = u.user_id "
 					+ "LEFT JOIN department d on u.department_fk = d.department "
@@ -246,7 +246,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		    
 		    for (Training tObj : objsList) {
-		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,FORMAT(start_time,'%d-%m-%Y') AS date,FORMAT(start_time,'%h:%i %p') AS start_time,FORMAT(end_time,'%h:%i %p') AS end_time "
+		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,FORMAT(start_time,'dd-MM-yyyy') AS date,FORMAT(start_time,'%h:%i %p') AS start_time,FORMAT(end_time,'%h:%i %p') AS end_time "
 						+ "from training_session "
 						+ "where training_id_fk = ? ORDER BY training_session_id ASC";
 		    	List<Training> sessonObjsList = jdbcTemplate.query( sessionsQry,new Object[] {tObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));
@@ -306,7 +306,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 				String attendeesQry = "select training_attendees_id, participated_fk,ta.training_id_fk, ta.training_session_id_fk,"
 						+ "(select count(*) from training_attendees ta LEFT JOIN training t on ta.training_id_fk = t.training_id where user_id= ? and required_fk = ? and status_fk = ?) as nominated,"
 						+ "(select count(*) from training_attendees ta LEFT JOIN training t on ta.training_id_fk = t.training_id where user_id= ? and participated_fk = ? and status_fk = ?) as attended,"
-	    				+ "training_center,session_no,title,description,training_category_fk as category,FORMAT(start_time,'%d-%m-%Y') AS date,status_fk " 
+	    				+ "training_center,session_no,title,description,training_category_fk as category,FORMAT(start_time,'dd-MM-yyyy') AS date,status_fk " 
 						+ "from training_attendees ta "
 						+ "left join [user] u on ta.user_id = u.user_id "
 						+ "LEFT JOIN training t on ta.training_id_fk = t.training_id "

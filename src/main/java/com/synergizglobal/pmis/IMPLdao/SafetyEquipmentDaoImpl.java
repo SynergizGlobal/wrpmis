@@ -50,8 +50,8 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		List<SafetyEquipment> objsList = null;
 		try {
 			String qry = "select safety_equipment_id,contract_id_fk,c.contract_name,c.contract_short_name, safety_equipment_number,safety_equipment_detail, "
-					+ "FORMAT(max(validity_date),'%d-%m-%Y') AS validity_date, "
-					+ "inspecting_official,FORMAT(max(last_inspection_date),'%d-%m-%Y') AS last_inspection_date,FORMAT(max(next_inspection_due),'%d-%m-%Y') AS next_inspection_due "
+					+ "FORMAT(max(validity_date),'dd-MM-yyyy') AS validity_date, "
+					+ "inspecting_official,FORMAT(max(last_inspection_date),'dd-MM-yyyy') AS last_inspection_date,FORMAT(max(next_inspection_due),'dd-MM-yyyy') AS next_inspection_due "
 					+ "from safety_equipment s "  
 					+"left join contract c on  s.contract_id_fk = c.contract_id  where safety_equipment_id is not null";
 			
@@ -104,8 +104,8 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			
 				List<SafetyEquipment> objsList = null;
 			String qryDetails = "select safety_equipment_id,contract_id_fk, safety_equipment_number,"
-					+"safety_equipment_detail, FORMAT(validity_date,'%d-%m-%Y') AS validity_date,remarks,attachment, "
-					+ "inspecting_official,FORMAT(last_inspection_date,'%d-%m-%Y') AS last_inspection_date,FORMAT(next_inspection_due,'%d-%m-%Y') AS next_inspection_due "
+					+"safety_equipment_detail, FORMAT(validity_date,'dd-MM-yyyy') AS validity_date,remarks,attachment, "
+					+ "inspecting_official,FORMAT(last_inspection_date,'dd-MM-yyyy') AS last_inspection_date,FORMAT(next_inspection_due,'dd-MM-yyyy') AS next_inspection_due "
 					+ "from safety_equipment "
 					+"where safety_equipment_id is not null and contract_id_fk = ? ";
 			
@@ -520,8 +520,8 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		List<SafetyEquipment> objsList = null;
 		try {
 			String qry = "select safety_equipment_id,contract_id_fk,c.contract_name, safety_equipment_number,safety_equipment_detail, "
-					+ "FORMAT(validity_date,'%d-%m-%Y') AS validity_date, "
-					+ "inspecting_official,FORMAT(last_inspection_date,'%d-%m-%Y') AS last_inspection_date,FORMAT(next_inspection_due,'%d-%m-%Y') AS next_inspection_due,s.remarks "
+					+ "FORMAT(validity_date,'dd-MM-yyyy') AS validity_date, "
+					+ "inspecting_official,FORMAT(last_inspection_date,'dd-MM-yyyy') AS last_inspection_date,FORMAT(next_inspection_due,'dd-MM-yyyy') AS next_inspection_due,s.remarks "
 					+ "from safety_equipment s "  
 					+"left join contract c on  s.contract_id_fk = c.contract_id  where safety_equipment_id is not null";
 			

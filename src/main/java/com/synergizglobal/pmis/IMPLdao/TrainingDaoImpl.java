@@ -78,7 +78,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList = null;
 		try {
 			String qry ="select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,title,faculty_name,status_fk,t.designation, description, training_center, status_fk, t.remarks,"
-					+ "FORMAT(start_time,'%d-%m-%Y')  as date,FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
+					+ "FORMAT(start_time,'dd-MM-yyyy')  as date,FORMAT(min(start_time),'dd-MM-yyyy')  as start_time ,FORMAT(max(end_time),'dd-MM-yyyy') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
 					+ " FROM training_session ts where ts.training_id_fk  = training_id group by training_id_fk) as hours "
 					+ "from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
@@ -1278,7 +1278,7 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getTrainingSessionsList(String id) throws Exception {
 		List<Training> sessionsList = null;
 		try {
-			  String qry = "select training_session_id,ts.training_id_fk as training_id,sum(ta.required_fk = ?) as nominated,t.description,sum(ta.participated_fk = ?) as attended,session_no,FORMAT(start_time,'%d-%m-%Y')  as date,"
+			  String qry = "select training_session_id,ts.training_id_fk as training_id,sum(ta.required_fk = ?) as nominated,t.description,sum(ta.participated_fk = ?) as attended,session_no,FORMAT(start_time,'dd-MM-yyyy')  as date,"
 	  					+" time_format(start_time,'%h:%i:%s') as start_time,time_format(end_time,'%h:%i:%s') as end_time  "
 	  					+ "from training_session ts "
 	  					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
@@ -1392,7 +1392,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		int totalRecords = 0;
 		try {
 			String qry ="select count(distinct training_id) as total_records from(select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = 'Yes') as nominated,sum(ta.participated_fk = 'Yes') as attended,title,faculty_name,t.designation, description, training_center, status_fk, t.remarks,"
-					+ "FORMAT(start_time,'%d-%m-%Y')  as date,FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
+					+ "FORMAT(start_time,'dd-MM-yyyy')  as date,FORMAT(min(start_time),'dd-MM-yyyy')  as start_time ,FORMAT(max(end_time),'dd-MM-yyyy') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
 					+ " FROM training_session ts where ts.training_id_fk  = training_id group by training_id_fk) as hours "
 					+ "from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
@@ -1467,7 +1467,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList = null;
 		try {
 			String qry ="select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,title,faculty_name,status_fk,t.designation, description, training_center, status_fk, t.remarks,"
-					+ "FORMAT(start_time,'%d-%m-%Y')  as date,FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
+					+ "FORMAT(start_time,'dd-MM-yyyy')  as date,FORMAT(min(start_time),'dd-MM-yyyy')  as start_time ,FORMAT(max(end_time),'dd-MM-yyyy') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
 					+ " FROM training_session ts where ts.training_id_fk  = training_id group by training_id_fk) as hours "
 					+ "from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "

@@ -219,7 +219,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry = "SELECT *,s.modified_by,FORMAT(s.modified_date,'%d-%m-%Y') as modified_date "
+			String qry = "SELECT *,s.modified_by,FORMAT(s.modified_date,'dd-MM-yyyy') as modified_date "
 					+ "from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON s.work_id_fk  = w.work_id "
@@ -1021,8 +1021,8 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					
 					UtilityShifting sobj = null;
 
-					String query = "SELECT s.*,FORMAT(identification,'%d-%m-%Y') as identification,FORMAT(start_date,'%d-%m-%Y') as start_date,"
-							+ "FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date,FORMAT(shifting_completion_date,'%d-%m-%Y') as shifting_completion_date,"
+					String query = "SELECT s.*,FORMAT(identification,'dd-MM-yyyy') as identification,FORMAT(start_date,'dd-MM-yyyy') as start_date,"
+							+ "FORMAT(planned_completion_date,'dd-MM-yyyy') as planned_completion_date,FORMAT(shifting_completion_date,'dd-MM-yyyy') as shifting_completion_date,"
 							+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk "
 							+ "from utility_shifting s "
 							+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
@@ -1312,8 +1312,8 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public UtilityShifting getUtilityShifting(UtilityShifting obj) throws Exception {
 		UtilityShifting sobj = null;
 		try {
-			String qry = "SELECT s.*,(select executive_user_id_fk from utility_shifting_executives re where s.work_id_fk = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk,FORMAT(identification,'%d-%m-%Y') as identification,FORMAT(start_date,'%d-%m-%Y') as start_date,"
-					+ "FORMAT(planned_completion_date,'%d-%m-%Y') as planned_completion_date,FORMAT(shifting_completion_date,'%d-%m-%Y') as shifting_completion_date,"
+			String qry = "SELECT s.*,(select executive_user_id_fk from utility_shifting_executives re where s.work_id_fk = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk,FORMAT(identification,'dd-MM-yyyy') as identification,FORMAT(start_date,'dd-MM-yyyy') as start_date,"
+					+ "FORMAT(planned_completion_date,'dd-MM-yyyy') as planned_completion_date,FORMAT(shifting_completion_date,'dd-MM-yyyy') as shifting_completion_date,"
 					+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk "
 					+ "from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
@@ -1373,7 +1373,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				if(!StringUtils.isEmpty(objsList)) {
 					sobj.setUtilityShiftingFilesList(objsList);
 				}
-				String filesCMQry ="select id, FORMAT(progress_date,'%d-%m-%Y') as progress_date, progress_of_work from utility_shifting_progress where utility_shifting_id = ? ";					
+				String filesCMQry ="select id, FORMAT(progress_date,'dd-MM-yyyy') as progress_date, progress_of_work from utility_shifting_progress where utility_shifting_id = ? ";					
 				List<UtilityShifting> objsCMList = jdbcTemplate.query( filesCMQry,new Object[] {obj.getUtility_shifting_id()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));					
 				if(!StringUtils.isEmpty(objsCMList)) {
 					sobj.setUtilityShiftingProgressDetailsList(objsCMList);
@@ -1402,7 +1402,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getRDetailsList(String utility_shifting_id) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry ="select rc.id, FORMAT(progress_date ,'%d-%m-%Y') AS progress_date, progress_of_work, r.utility_shifting_id as utility_shifting_id  from utility_shifting_progress rc "
+			String qry ="select rc.id, FORMAT(progress_date ,'dd-MM-yyyy') AS progress_date, progress_of_work, r.utility_shifting_id as utility_shifting_id  from utility_shifting_progress rc "
 					+ "LEFT JOIN utility_shifting r on rc.utility_shifting_id = r.id "
 					+ "WHERE rc.utility_shifting_id is not null ";
 			int arrSize = 0;
@@ -1427,9 +1427,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry = "SELECT s.id, utility_shifting_id, s.work_id_fk,w.work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,FORMAT(s.identification ,'%d-%m-%Y') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
-					+ "utility_category_fk, s.owner_name, execution_agency_fk, contract_id_fk,  FORMAT(s.start_date ,'%d-%m-%Y') AS start_date, s.scope, s.completed, s.shifting_status_fk, FORMAT(shifting_completion_date ,'%d-%m-%Y') AS shifting_completion_date, "
-					+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, FORMAT(s.planned_completion_date ,'%d-%m-%Y') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
+			String qry = "SELECT s.id, utility_shifting_id, s.work_id_fk,w.work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,FORMAT(s.identification ,'dd-MM-yyyy') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
+					+ "utility_category_fk, s.owner_name, execution_agency_fk, contract_id_fk,  FORMAT(s.start_date ,'dd-MM-yyyy') AS start_date, s.scope, s.completed, s.shifting_status_fk, FORMAT(shifting_completion_date ,'dd-MM-yyyy') AS shifting_completion_date, "
+					+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, FORMAT(s.planned_completion_date ,'dd-MM-yyyy') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
 					+ " s.modified_date from utility_shifting s "
 					+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "

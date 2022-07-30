@@ -56,11 +56,11 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getIssuesList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,title,FORMAT(date,'%d-%b-%Y') AS date,location,reported_by,responsible_person,c.department_fk,"
-					+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'%d-%b-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,"
-					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,FORMAT(assigned_date,'%d-%b-%Y') AS assigned_date,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,other_organization,FORMAT(i.created_date,'%d-%b-%Y') AS created_date,FORMAT(escalation_date,'%d-%b-%Y') AS escalation_date,"
-					+ "other_org_resposible_person_name,other_org_resposible_person_designation,description,i.modified_by,FORMAT(i.modified_date,'%d-%m-%Y') as modified_date " 
+			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,title,FORMAT(date,'dd-MMM-yy') AS date,location,reported_by,responsible_person,c.department_fk,"
+					+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'dd-MMM-yy') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,"
+					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,FORMAT(assigned_date,'dd-MMM-yy') AS assigned_date,"
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,other_organization,FORMAT(i.created_date,'dd-MMM-yy') AS created_date,FORMAT(escalation_date,'dd-MMM-yy') AS escalation_date,"
+					+ "other_org_resposible_person_name,other_org_resposible_person_designation,description,i.modified_by,FORMAT(i.modified_date,'dd-MM-yyyy') as modified_date " 
 					+ "from issue i "
 					+ "left outer join [user] u2 on i.responsible_person = u2.user_id "
 					+ "left outer join [user] u3 on i.escalated_to = u3.user_id "
@@ -557,9 +557,9 @@ public class IssueDaoImpl implements IssueDao {
 	public Issue getIssue(Issue obj) throws Exception {
 		Issue iObj = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,title,FORMAT(date,'%d-%m-%Y') AS date,location,reported_by,responsible_person,c.department_fk,"
-					+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,other_organization,"
-					+ "FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date,FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date, "
+			String qry = "select issue_id,contract_id_fk,title,FORMAT(date,'dd-MM-yyyy') AS date,location,reported_by,responsible_person,c.department_fk,"
+					+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'dd-MM-yyyy') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,other_organization,"
+					+ "FORMAT(escalation_date,'dd-MM-yyyy') AS escalation_date,FORMAT(assigned_date,'dd-MM-yyyy') AS assigned_date, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,i.status_fk as existing_status_fk,other_org_resposible_person_name,other_org_resposible_person_designation,description  "
 					+ "from issue i " + "left outer join [user] u2 on i.responsible_person = u2.user_id "
@@ -2101,11 +2101,11 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getPendingIssues(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,title,FORMAT(date,'%d-%b-%Y') AS date,location,reported_by,responsible_person,c.department_fk,"
-					+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'%d-%b-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,"
-					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,FORMAT(assigned_date,'%d-%b-%Y') AS assigned_date,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,other_organization,FORMAT(i.created_date,'%d-%b-%Y') AS created_date,FORMAT(escalation_date,'%d-%b-%Y') AS escalation_date,"
-					+ "other_org_resposible_person_name,other_org_resposible_person_designation,description,i.modified_by,FORMAT(i.modified_date,'%d-%m-%Y') as modified_date,(select count(*) from issue i 					left outer join [user] u2 on i.responsible_person = u2.user_id \r\n"
+			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,title,FORMAT(date,'dd-MMM-yy') AS date,location,reported_by,responsible_person,c.department_fk,"
+					+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'dd-MMM-yy') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,"
+					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,FORMAT(assigned_date,'dd-MMM-yy') AS assigned_date,"
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,other_organization,FORMAT(i.created_date,'dd-MMM-yy') AS created_date,FORMAT(escalation_date,'dd-MMM-yy') AS escalation_date,"
+					+ "other_org_resposible_person_name,other_org_resposible_person_designation,description,i.modified_by,FORMAT(i.modified_date,'dd-MM-yyyy') as modified_date,(select count(*) from issue i 					left outer join [user] u2 on i.responsible_person = u2.user_id \r\n"
 					+ "					left outer join [user] u3 on i.escalated_to = u3.user_id \r\n"
 					+ "					LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id \r\n"
 					+ "					left outer join [user] u on c.hod_user_id_fk = u.user_id \r\n"

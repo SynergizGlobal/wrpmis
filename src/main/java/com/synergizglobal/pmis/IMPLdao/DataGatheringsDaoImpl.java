@@ -36,7 +36,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 	public List<DataGathering> getDataGatheringsList(DataGathering obj) throws Exception {
 		List<DataGathering> objsList = null;
 		try {
-			String qry ="select id,contract_id_fk,contract_name,contract_short_name,w.work_short_name, dg.work_id_fk,w.work_name, FORMAT(target_date,'%d-%m-%Y') AS target_date, FORMAT(start_date,'%d-%m-%Y') AS start_date, FORMAT(finish_date,'%d-%m-%Y') AS finish_date,dg.description, status_fk,dg.remarks"
+			String qry ="select id,contract_id_fk,contract_name,contract_short_name,w.work_short_name, dg.work_id_fk,w.work_name, FORMAT(target_date,'dd-MM-yyyy') AS target_date, FORMAT(start_date,'dd-MM-yyyy') AS start_date, FORMAT(finish_date,'dd-MM-yyyy') AS finish_date,dg.description, status_fk,dg.remarks"
 					+ " from data_gathering dg " + 
 					"left join work w on dg.work_id_fk = w.work_id "+
 					"left join project p on w.project_id_fk = p.project_id "
@@ -222,7 +222,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 	public DataGathering getDataGathering(DataGathering obj) throws Exception {
 		DataGathering dataGathering = null;
 		try {
-			String qry = "select id, project_id as project_id_fk,project_name, dg.work_id_fk as DGwork_id_fk,dg.contract_id_fk,c.contract_short_name,c.work_id_fk,wo.work_short_name ,w.work_short_name as DGwork_name, FORMAT(target_date,'%d-%m-%Y') AS target_date,FORMAT(start_date,'%d-%m-%Y') AS start_date, FORMAT(finish_date,'%d-%m-%Y') AS finish_date, status_fk,dg.description, dg.remarks "
+			String qry = "select id, project_id as project_id_fk,project_name, dg.work_id_fk as DGwork_id_fk,dg.contract_id_fk,c.contract_short_name,c.work_id_fk,wo.work_short_name ,w.work_short_name as DGwork_name, FORMAT(target_date,'dd-MM-yyyy') AS target_date,FORMAT(start_date,'dd-MM-yyyy') AS start_date, FORMAT(finish_date,'dd-MM-yyyy') AS finish_date, status_fk,dg.description, dg.remarks "
 					+ "from data_gathering dg  " + 
 					"left join work w on dg.work_id_fk = w.work_id " + 
 					"LEFT JOIN contract c on dg.contract_id_fk = c.contract_id " + 
@@ -566,7 +566,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			String searchParameter) throws Exception {
 		List<DataGathering> objsList = null;
 		try {
-			String qry ="select id,contract_id_fk,contract_name,contract_short_name,w.work_short_name, dg.work_id_fk,w.work_name, FORMAT(target_date,'%d-%m-%Y') AS target_date, FORMAT(start_date,'%d-%m-%Y') AS start_date, FORMAT(finish_date,'%d-%m-%Y') AS finish_date,dg.description, status_fk,dg.remarks"
+			String qry ="select id,contract_id_fk,contract_name,contract_short_name,w.work_short_name, dg.work_id_fk,w.work_name, FORMAT(target_date,'dd-MM-yyyy') AS target_date, FORMAT(start_date,'dd-MM-yyyy') AS start_date, FORMAT(finish_date,'dd-MM-yyyy') AS finish_date,dg.description, status_fk,dg.remarks"
 					+ " from data_gathering dg " + 
 					"left join work w on dg.work_id_fk = w.work_id "+
 					"left join project p on w.project_id_fk = p.project_id "

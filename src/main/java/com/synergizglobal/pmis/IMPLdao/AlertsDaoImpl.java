@@ -1301,7 +1301,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			connection = dataSource.getConnection();
 			
-			String mitigation_alerts_qry = "select r.sub_work,owner,u.user_id as owner_user_id,FORMAT(date,'%d-%b-%Y') as assessment_date,"
+			String mitigation_alerts_qry = "select r.sub_work,owner,u.user_id as owner_user_id,FORMAT(date,'dd-MMM-yy') as assessment_date,"
 					+ "(CASE "
 					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 1) THEN 1st Alert "
 					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 2) THEN 2nd Alert " 
@@ -1336,7 +1336,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/****************************************************************************************/
 
-			String atr_alerts_qry = "select distinct r.sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount,FORMAT(date,'%d-%b-%Y') as assessment_date, "
+			String atr_alerts_qry = "select distinct r.sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount,FORMAT(date,'dd-MMM-yy') as assessment_date, "
 					+ "(CASE "
 					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 1) THEN 1st Alert "
 					+ "WHEN (rr.date is not null and DATEDIFF(GETDATE(),rr.date) = 2) THEN 2nd Alert " 
@@ -3689,7 +3689,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			for (Alerts hodObj : hodObjsList) {			
 				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,a.created_date,alert_status,alert_value,ISNULL(a.remarks,'') as remarks,count,u.designation as hod,"
 						+ "case when w.work_short_name is null then w1.work_short_name else w.work_short_name end as work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,w.work_id,w.work_name,c.contract_short_name,redirect_url,"
-						+ "a.details,FORMAT(a.valid_upto,'%d-%m-%y') as validity "
+						+ "a.details,FORMAT(a.valid_upto,'dd-MM-yyyy') as validity "
 						+ "from alerts a "; 
 						if(!"IT Admin".equals(obj.getUser_role_name())) {
 							qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 

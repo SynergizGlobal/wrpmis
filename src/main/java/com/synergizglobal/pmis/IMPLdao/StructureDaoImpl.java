@@ -530,7 +530,7 @@ public class StructureDaoImpl implements StructureDao {
 					}
 						/*if(!StringUtils.isEmpty(objList1)) {
 							for(Structure subdetails : list.getStructureSubList()) {
-								String subdetailsQry ="select structure_id, structure,s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude, FORMAT(s.target_date,'%d-%m-%Y') AS target_date, s.estimated_cost, s.estimated_cost_units, FORMAT(s.construction_start_date,'%d-%m-%Y') AS construction_start_date, FORMAT(s.revised_completion,'%d-%m-%Y') AS revised_completion, s.remarks"
+								String subdetailsQry ="select structure_id, structure,s.work_status_fk,s.structure_name,cast(s.latitude as CHAR) as latitude,cast(s.longitude as CHAR) as longitude, FORMAT(s.target_date,'dd-MM-yyyy') AS target_date, s.estimated_cost, s.estimated_cost_units, FORMAT(s.construction_start_date,'dd-MM-yyyy') AS construction_start_date, FORMAT(s.revised_completion,'dd-MM-yyyy') AS revised_completion, s.remarks"
 										+ " from structure s where  structure_id = ? ";
 								List<Structure> subdetailsList = jdbcTemplate.query( subdetailsQry,new Object[] {subdetails.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 								subdetails.setStructureSubList2(subdetailsList);
@@ -1503,7 +1503,7 @@ public class StructureDaoImpl implements StructureDao {
 	public List<Structure> getStructureUploadsList(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT id, uploaded_file, sd.status, sd.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
+			String qry = "SELECT id, uploaded_file, sd.status, sd.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'dd-MMM-yy') as uploaded_on "
 					+ "from structure_data sd " + "left join [user] u ON sd.uploaded_by_user_id_fk = u.user_id "
 					+ "where id is not null";
 

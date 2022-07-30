@@ -60,10 +60,10 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getSafetyList(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,u.department_fk,"
-					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name, "
-					+ "compensation_units,m.unit as compensation_unit,s.modified_by,FORMAT(s.modified_date,'%d-%m-%Y') as modified_date,reported_by,u2.designation as responsible_person "
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,FORMAT(date,'dd-MM-yyyy') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,u.department_fk,"
+					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MM-yyyy') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "FORMAT(investigation_completed,'dd-MM-yyyy') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'dd-MM-yyyy') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name, "
+					+ "compensation_units,m.unit as compensation_unit,s.modified_by,FORMAT(s.modified_date,'dd-MM-yyyy') as modified_date,reported_by,u2.designation as responsible_person "
 					+ "from safety s "
 					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
@@ -615,9 +615,9 @@ public class SafetyDaoImpl implements SafetyDao {
 	public Safety getSafety(Safety obj) throws Exception {
 		Safety sobj = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,w.work_short_name,title,description,FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,u.department_fk,"
-					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,"
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,w.work_short_name,title,description,FORMAT(date,'dd-MM-yyyy') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,u.department_fk,"
+					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MM-yyyy') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "FORMAT(investigation_completed,'dd-MM-yyyy') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'dd-MM-yyyy') AS payment_date,s.remarks,contract_name,"
 					+ "work_id_fk,work_name,project_id_fk,project_name,s.compensation_units,s.committee_member_name,"
 					+ "(select STRING_AGG(committee_member_name) from safety_committee_members where safety_id_fk = ?) as committe_members,nominated_authority,safety_incident,approve_corrective_measure "
 					+ "from safety s "
@@ -1596,9 +1596,9 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getSafetyList(Safety obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,u2.designation as responsible_person,u.department_fk,"
-					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
-					+ "FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,s.modified_by,FORMAT(s.modified_date,'%d-%m-%Y') as modified_date  "
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,FORMAT(date,'dd-MM-yyyy') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,u2.designation as responsible_person,u.department_fk,"
+					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MM-yyyy') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "FORMAT(investigation_completed,'dd-MM-yyyy') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'dd-MM-yyyy') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,s.modified_by,FORMAT(s.modified_date,'dd-MM-yyyy') as modified_date  "
 					+ "from safety s "
 					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "					
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "

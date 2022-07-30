@@ -366,7 +366,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			
 			List<Document> objsList = null;
 			String qryDetails = "select id,document_no_fk,revision_no, status_fk,document_attachment,"
-					+" FORMAT(submission_date,'%d-%m-%Y') AS submission_date,remarks, FORMAT(approval_date,'%d-%m-%Y') AS approval_date "
+					+" FORMAT(submission_date,'dd-MM-yyyy') AS submission_date,remarks, FORMAT(approval_date,'dd-MM-yyyy') AS approval_date "
 					+ "from documents_revisions "
 					+"where document_no_fk is not null and document_no_fk = ? ";
 			

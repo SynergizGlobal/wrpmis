@@ -532,8 +532,8 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 		StripChart sObj = null;
 		try {
 			String qry = "select activity_id,"
-					+ "FORMAT(actual_start,'%d-%m-%Y') AS actual_start,FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish,FORMAT(planned_start,'%d-%m-%Y') AS planned_start,"
-					+ "FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,"
+					+ "FORMAT(actual_start,'dd-MM-yyyy') AS actual_start,FORMAT(actual_finish,'dd-MM-yyyy') AS actual_finish,FORMAT(planned_start,'dd-MM-yyyy') AS planned_start,"
+					+ "FORMAT(planned_finish,'dd-MM-yyyy') AS planned_finish,"
 					+ "component_id as strip_chart_component_id_name,completed as completed,scope as scope,(scope - completed) as remaining, unit as unit_fk "
 					+ "from activities "
 					+ "where activity_id is not null and component_id = ? and structure = ? and activity_id = ? ";
@@ -863,8 +863,8 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			String qry = "select a.activity_id,a.contract_id_fk AS contract_id,a.structure AS strip_chart_structure_id,a.component_id AS strip_chart_component_id,"
 					+ "a.component AS strip_chart_component,a.activity_id AS strip_chart_activity_id,a.activity_name AS strip_chart_activity_name,"
 					+ "a.line AS strip_chart_line,a.structure AS structure_type,a.section AS strip_chart_section_id,completed,scope,(scope - completed) as remaining,unit as unit_fk,a.remarks,"
-					+ "FORMAT(a.actual_start,'%d-%m-%Y') AS actual_start,FORMAT(a.actual_finish,'%d-%m-%Y') AS actual_finish,FORMAT(a.planned_start,'%d-%m-%Y') AS planned_start,"
-					+ "FORMAT(a.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
+					+ "FORMAT(a.actual_start,'dd-MM-yyyy') AS actual_start,FORMAT(a.actual_finish,'dd-MM-yyyy') AS actual_finish,FORMAT(a.planned_start,'dd-MM-yyyy') AS planned_start,"
+					+ "FORMAT(a.planned_finish,'dd-MM-yyyy') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
 					+ "from activities a " + "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id " + "where activity_id = ? ";
 

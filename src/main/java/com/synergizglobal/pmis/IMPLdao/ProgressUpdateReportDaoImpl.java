@@ -587,7 +587,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 		List<ActivitiesProgressReport> datāL̥īśt = null;
 		
 		try {
-			String progressQry = "SELECT distinct FORMAT(progress_date,'%d-%b-%y') as progress_date,"
+			String progressQry = "SELECT distinct FORMAT(progress_date,'dd-MMM-yy') as progress_date,"
 					//+ "d.department_name,"
 					+ "a.contract_id_fk,c.hod_user_id_fk,"
 					+ "u2.designation as hod_designation,u3.designation as dyhod_designation,c.work_id_fk,w.work_short_name,p.project_name, c.contract_short_name,structure as structure_type_fk,u.user_id,u.designation,u.user_name,c.department_fk," 

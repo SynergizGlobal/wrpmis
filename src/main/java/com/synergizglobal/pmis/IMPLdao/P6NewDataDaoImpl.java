@@ -408,8 +408,8 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 	public List<P6Data> getActivityDataList(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="select contract_id_fk, fob_id_fk,upload_type, FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk,"
-					+ " p6_file_path, uploaded_by_user_id_fk, FORMAT(uploaded_date,'%d-%m-%Y  %h:%i %p') uploaded_date  "
+			String qry ="select contract_id_fk, fob_id_fk,upload_type, FORMAT(data_date,'dd-MM-yyyy') as data_date, soft_delete_status_fk,"
+					+ " p6_file_path, uploaded_by_user_id_fk, FORMAT(uploaded_date,'dd-MM-yyyy  hh:mm ss') uploaded_date  "
 					+ "from p6_data "
 					+ "WHERE (fob_id_fk is null OR fob_id_fk = '') ";
 			int arrSize = 0;
@@ -429,7 +429,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 				qry = qry + "and soft_delete_status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY  FORMAT(uploaded_date,'%y-%m-%d %H : %i : %s') desc ";
+			qry = qry + " ORDER BY  FORMAT(uploaded_date,'yyyy-MM-dd hh:mm ss') desc ";
 			Object[] pValues = new Object[arrSize]; 
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

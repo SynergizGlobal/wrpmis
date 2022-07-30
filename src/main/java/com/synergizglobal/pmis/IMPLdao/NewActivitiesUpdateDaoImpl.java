@@ -423,12 +423,12 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "scv.line AS strip_chart_line,scv.structure AS structure_type,scv.section AS strip_chart_section_name,completed,scope,remaining,units as unit_fk,scv.status AS status_name,scv.remarks,"
 					+ "case  " + 
 					" when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
-					" else (select FORMAT(min(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
+					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+					" else (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
 					" when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'%d-%m-%Y') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
-					" else '' end as actual_finish,FORMAT(scv.baseline_start,'%d-%m-%Y') AS planned_start,"
-					+ "FORMAT(scv.baseline_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
+					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+					" else '' end as actual_finish,FORMAT(scv.baseline_start,'dd-MM-yyyy') AS planned_start,"
+					+ "FORMAT(scv.baseline_finish,'dd-MM-yyyy') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
 					+ "from p6_activities scv "
 					+ "left join structure s on s.structure_id = scv.structure_id_fk "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
@@ -760,8 +760,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		StripChart sObj = null;
 		try {
 			String qry = "select p6_activity_id as activity_id,"
-					+ "FORMAT(start,'%d-%m-%Y') AS actual_start,FORMAT(finish,'%d-%m-%Y') AS actual_finish,FORMAT(baseline_start,'%d-%m-%Y') AS planned_start,"
-					+ "FORMAT(baseline_finish,'%d-%m-%Y') AS planned_finish,"
+					+ "FORMAT(start,'dd-MM-yyyy') AS actual_start,FORMAT(finish,'dd-MM-yyyy') AS actual_finish,FORMAT(baseline_start,'dd-MM-yyyy') AS planned_start,"
+					+ "FORMAT(baseline_finish,'dd-MM-yyyy') AS planned_finish,"
 					+ "component_id as strip_chart_component_id_name,completed as completed,scope as scope,remaining as remaining, units as unit_fk "
 					+ "from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk"
 					+ "where p6_activity_id is not null and s11.structure_type_fk!='FOB' and (component_details != 'OBC' or component_details is null) and component_id = ? and structure = ? and activity_id = ? ";

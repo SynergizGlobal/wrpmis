@@ -381,7 +381,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY work_id";
+			qry = qry + " GROUP BY work_id,work_name,work_short_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {

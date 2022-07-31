@@ -56,8 +56,7 @@ public class RiskDaoImpl implements RiskDao{
 		try {
 			String qry ="select work_id,work_name,work_short_name "
 					+ "from risk_work_hod rwh "
-					+ "left join work on work_id_fk = work_id "
-					+ "group by work_id_fk";
+					+ "left join work on work_id_fk = work_id ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
@@ -69,7 +68,7 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getSubWorksList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "select sub_work from risk_work_hod group by sub_work order by priority asc";
+			String qry = "select sub_work from risk_work_hod order by priority asc";
 			
 			Object[] pValues = new Object[] {};
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
@@ -87,7 +86,7 @@ public class RiskDaoImpl implements RiskDao{
 			String qry = "SELECT sub_work, hod_user_id_fk "
 					+ "from risk_work_hod "
 					+ "where hod_user_id_fk = ? and (risk_work_completed = 'No' or risk_work_completed is null or risk_work_completed = '')";
-			qry = qry + " group by sub_work order by priority asc";
+			qry = qry + " order by priority asc";
 			Object[] pValues = new Object[] {obj.getUser_id()};			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
@@ -420,7 +419,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 				arrSize++;
 			} 
 			
-			qry = qry + " order by CAST(SUBSTRING(priority_fk FROM 2) AS UNSIGNED)";
+			qry = qry + " order by CAST(SUBSTRING(priority_fk, 2, 1) as int)";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 
@@ -455,7 +454,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 	public List<Risk> getSubWorksFilterListInRiskAssessmnt(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT r.sub_work,risk_area_fk from risk r " + 
+			String qry = "SELECT distinct r.sub_work from risk r " + 
 					"LEFT JOIN risk_sub_area rs on r.sub_area_fk = rs.sub_area "+
 					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
 					"left join risk_work_hod rwh on r.sub_work = rwh.sub_work " + 
@@ -480,7 +479,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 				arrSize++;
 			} 
 			
-			qry = qry + " group by r.sub_work ORDER BY rwh.priority asc";
+			//qry = qry + " ORDER BY rwh.priority asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
@@ -857,7 +856,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 	public List<Risk> getRiskAssessmentUploadsList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT risk_upload_id,sub_work,r.attachment,status,r.remarks,uploaded_by_user_id_fk,FORMAT(uploaded_on,'%d-%b-%Y %h:%i %p') as uploaded_on,user_name as uploaded_by,FORMAT(assessment_date,'dd-MMM-yy') as assessment_date "
+			String qry = "SELECT risk_upload_id,sub_work,r.attachment,status,r.remarks,uploaded_by_user_id_fk,FORMAT(uploaded_on,'dd-MMM-yyyy hh:mm tt') as uploaded_on,user_name as uploaded_by,FORMAT(assessment_date,'dd-MMM-yy') as assessment_date "
 					+ "from risk_upload r " 
 					+ "LEFT JOIN [user] u ON r.uploaded_by_user_id_fk = u.user_id "
 					+ "where sub_work is not null";
@@ -884,10 +883,10 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 	public List<Risk> getSubWorksListFromRiskUploads(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT ru.sub_work "
-					+ "from risk_upload ru "
-					+ "LEFT JOIN risk_work_hod rwh ON ru.sub_work = rwh.sub_work "
-					+ "GROUP BY ru.sub_work ORDER BY rwh.priority asc";
+			String qry = "SELECT ru.sub_work, rwh.priority\r\n" + 
+					"					from risk_upload ru \r\n" + 
+					"					LEFT JOIN risk_work_hod rwh ON ru.sub_work = rwh.sub_work \r\n" + 
+					"					GROUP BY ru.sub_work, rwh.priority ORDER BY rwh.priority asc";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));
 		}catch(Exception e){ 
 			throw new Exception(e);

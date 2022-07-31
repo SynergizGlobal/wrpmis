@@ -50,7 +50,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY project_id";
+			qry = qry + " GROUP BY project_id,project_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			

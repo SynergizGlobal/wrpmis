@@ -375,7 +375,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 	public List<ContractResource> getSubResourceTypeListForContractResourceForm(ContractResource obj) throws Exception {
 		List<ContractResource> objsList = null;
 		try {
-			String qry ="select resource_type_fk as resource_type,sub_resource_type from sub_resource_type where sub_resource_type is not null and sub_resource_type <>   ";
+			String qry ="select resource_type_fk as resource_type,sub_resource_type from sub_resource_type where sub_resource_type is not null and sub_resource_type <> ''  ";
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResource_type())) {
 				qry = qry + " and resource_type_fk = ?";

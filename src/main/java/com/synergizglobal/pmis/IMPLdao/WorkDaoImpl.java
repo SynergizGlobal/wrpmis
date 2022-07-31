@@ -1023,7 +1023,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getworkCodeList(Work obj) throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry = "SELECT work_code from work where work_code is not null and work_code <>  and work_code = "+obj.getWork_code()+"";
+			String qry = "SELECT work_code from work where work_code is not null and work_code <> '' and work_code = "+obj.getWork_code()+"";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
 			throw new Exception(e);

@@ -141,7 +141,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                     \r\n"
 					+ " ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1\r\n"
 					+ "					where contract_id_fk=c.contract_id and work_id='"+obj.getWork_id_fk()+"' and\r\n"
-					+ "					date<=(SELECT FORMAT(str_to_date(concat(YEAR(CURDATE())-1,'-03-31'), '%Y-%m-%d'), '%Y-%m-%d'))\r\n"
+					+ "					date<=(SELECT FORMAT(str_to_date(concat(YEAR(getDate())-1,'-03-31'), '%Y-%m-%d'), '%Y-%m-%d'))\r\n"
 					+ "					)\r\n"
 					+ "					 ,0) as expenditure_end_of_fy ,\r\n"
 					+ "                     \r\n"

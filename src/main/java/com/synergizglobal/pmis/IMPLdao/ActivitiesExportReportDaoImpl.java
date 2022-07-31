@@ -47,7 +47,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 			}
 		
 			
-			qry = qry + " GROUP BY project_id";
+			qry = qry + " GROUP BY project_id,project_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -94,7 +94,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 			}
 		
 			
-			qry = qry + " GROUP BY work_id_fk";
+			qry = qry + " GROUP BY work_id_fk,work_short_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			

@@ -295,7 +295,7 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
-			qry = qry + " group by w.project_id_fk order by w.project_id_fk asc";
+			qry = qry + " order by w.project_id_fk asc";
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
@@ -356,7 +356,7 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
-			qry = qry + " group by w.work_id order by w.work_id asc";
+			qry = qry + " order by w.work_id asc";
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 
@@ -415,7 +415,7 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
-			qry = qry + " group by contract_id order by contract_id asc";
+			qry = qry + " order by contract_id asc";
 			
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 
@@ -616,7 +616,7 @@ public class IssueDaoImpl implements IssueDao {
 					iObj.setIssueFilesList(objsList);
 				}
 
-				String fileNamesQry = "select STRING_AGG(file_name) as attachments from issue_files where issue_id_fk = ? ";
+				String fileNamesQry = "select STRING_AGG(file_name,',') as attachments from issue_files where issue_id_fk = ? ";
 				Issue fileNames = jdbcTemplate.queryForObject(fileNamesQry, new Object[] { obj.getIssue_id() },
 						new BeanPropertyRowMapper<Issue>(Issue.class));
 				if (!StringUtils.isEmpty(fileNames)) {
@@ -1394,7 +1394,7 @@ public class IssueDaoImpl implements IssueDao {
 				arrSize++;
 			}
 
-			qry = qry + " GROUP BY contract_id_fk";
+			qry = qry + " GROUP BY contract_id_fk,c.contract_id,contract_name,contract_short_name";
 
 			Object[] pValues = new Object[arrSize];
 
@@ -1487,7 +1487,7 @@ public class IssueDaoImpl implements IssueDao {
 				arrSize++;
 			}
 
-			qry = qry + " GROUP BY c.department_fk";
+			qry = qry + " GROUP BY c.department_fk,department,department_name";
 
 			Object[] pValues = new Object[arrSize];
 
@@ -1763,7 +1763,7 @@ public class IssueDaoImpl implements IssueDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + " GROUP BY work_id_fk ";
+			qry = qry + " GROUP BY work_id,w.work_short_name ";
 
 			Object[] pValues = new Object[arrSize];
 
@@ -1855,7 +1855,7 @@ public class IssueDaoImpl implements IssueDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + " GROUP BY responsible_person ";
+			qry = qry + " GROUP BY responsible_person,u.user_name ";
 
 			Object[] pValues = new Object[arrSize];
 
@@ -1948,7 +1948,7 @@ public class IssueDaoImpl implements IssueDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + " group by u.designation ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+			qry = qry + " group by u.designation,hod_user_id_fk ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 
@@ -2050,7 +2050,7 @@ public class IssueDaoImpl implements IssueDao {
 		List<Issue> objsList = null;
 		try {
 			String qry = "SELECT user_id as reported_by_user_id,designation as reported_by_designation " + "FROM [user] "
-					+ "where user_type_fk = ? group by designation order by designation";
+					+ "where user_type_fk = ? group by user_id,designation order by designation";
 
 			Object[] pValues = new Object[] { CommonConstants.USER_TYPE_HOD };
 
@@ -2072,7 +2072,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + "and department_fk = (select department from department where department_name = ?)";
 				arrSize++;
 			}
-			qry = qry + "group by designation order by designation";
+			qry = qry + "group by user_id,designation order by designation";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.USER_TYPE_DYHOD;
@@ -2093,7 +2093,7 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			String qry = "SELECT user_id as escalated_to_user_id,designation as escalated_to_designation "
 					+ "FROM [user] "
-					+ "where (user_type_fk = ? or user_type_fk = ?) group by designation order by designation";
+					+ "where (user_type_fk = ? or user_type_fk = ?) group by user_id,designation order by designation";
 
 			Object[] pValues = new Object[] { CommonConstants.USER_TYPE_HOD, CommonConstants.USER_TYPE_MANAGEMENT };
 

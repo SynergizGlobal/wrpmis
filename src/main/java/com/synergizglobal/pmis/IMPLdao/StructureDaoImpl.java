@@ -318,8 +318,7 @@ public class StructureDaoImpl implements StructureDao {
 					"					\r\n" + 
 					"					left join project p on w.project_id_fk = p.project_id  \r\n" + 
 					"					\r\n" + 
-					"					where status = 'Active' and work_id is not null GROUP BY work_id_fk,work_id, structure_type_fk,structure_id,status,work_name,work_short_name,\r\n" + 
-					"					project_id_fk,project_name ";
+					"					where status = 'Active' and work_id is not null ";
 
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -344,7 +343,7 @@ public class StructureDaoImpl implements StructureDao {
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY structure_id ASC offset ? rows  fetch next ? rows only";
+				qry = qry + " GROUP BY work_id_fk,work_id, structure_type_fk,structure_id,status,work_name,work_short_name,project_id_fk,project_name ORDER BY structure_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -711,7 +710,6 @@ public class StructureDaoImpl implements StructureDao {
 		int j = 0, dCount = 0, fCount = 0;
 		;
 		boolean flag = false;
-		ResultSet rs = null;
 		int[] insertCount = { 0 };
 		int[] updateCount = { 0 };
 		try {
@@ -810,7 +808,8 @@ public class StructureDaoImpl implements StructureDao {
 				if (stmt != null) {
 					stmt.close();
 				}
-
+				int loopTimes=0;
+				int loopTimes1=0;
 				for (int i = 0; i < arraySize; i++) {
 					if (!StringUtils.isEmpty(obj.getStructure_type_fks()[i])
 							&& !StringUtils.isEmpty(obj.getStructures()[i])) {
@@ -828,6 +827,7 @@ public class StructureDaoImpl implements StructureDao {
 								updateStmt.setString(k++, (sId));
 								//updateStmt.addBatch();
 								updateStmt.executeUpdate();
+								loopTimes1++;
 							}
 						} else {
 							int p = 1;
@@ -845,19 +845,21 @@ public class StructureDaoImpl implements StructureDao {
 
 								//insertStmt.addBatch();
 								insertStmt.executeUpdate();
+								loopTimes++;
 							}
 						}
 
-						//insertCount = insertStmt.executeBatch();
-						//updateCount = updateStmt.executeBatch();
-						rs = insertStmt.getGeneratedKeys();
-						if (rs.next()) {
-							String structure_id = rs.getString(1);
-							obj.setStructure_id(structure_id);
-						}
+					   if(loopTimes>0)
+					   {
+							ResultSet rs = insertStmt.getGeneratedKeys();
+							if (rs.next()) {
+								String structure_id = rs.getString(1);
+								obj.setStructure_id(structure_id);
+							}
+					   }
 					}
 				}
-				int result = updateCount.length + insertCount.length;
+				int result = loopTimes1 + loopTimes;
 				if (result > 0) {
 					flag = true;
 					FormHistory formHistory = new FormHistory();
@@ -880,7 +882,7 @@ public class StructureDaoImpl implements StructureDao {
 			e.printStackTrace();
 			throw new Exception(e);
 		} finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 			if (executivesInsertStmt != null) {
 				executivesInsertStmt.close();
 			}

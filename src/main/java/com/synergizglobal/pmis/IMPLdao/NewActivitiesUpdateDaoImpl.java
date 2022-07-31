@@ -587,7 +587,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				//	if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_name())) {
 					//	qry = qry + " and s2.section = ?";
 					//}	
-					//qry = qry + ") < CURDATE() ) > 0) then 'delayed' "  
+					//qry = qry + ") < getDate() ) > 0) then 'delayed' "  
 					+" when ((select count(*) from p6_activities s3 left join structure s11 on s11.structure_id = s3.structure_id_fk where s11.structure_type_fk!='FOB' and (s3.component_details != 'OBC' or s3.component_details is null) and ISNULL(s3.completed,0) = 0 and scope <> 0 "
 					+ "and s3.contract_id_fk = ? and s11.structure = ? and s3.component_id = ? and s3.component = ? AND p6_activity_id=a.p6_activity_id ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {

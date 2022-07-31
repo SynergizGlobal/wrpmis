@@ -55,9 +55,9 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 			mObj.setUrlTypes(urlTypesList);
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUrl_type())) {
 				String urls_qry ="SELECT f1.form_id,f1.module_name_fk,f1.form_name,f1.web_form_url as form_url,f1.priority,f1.soft_delete_status_fk, "
-						+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
-						+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
-						+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
+						+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
+						+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
+						+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
 						+ "FROM form f1 "
 						+ "where f1.web_form_url is not null ";
 				
@@ -441,7 +441,7 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 				qry = qry + "AND soft_delete_status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY soft_delete_status_fk";
+			//qry = qry + "GROUP BY soft_delete_status_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name())) {

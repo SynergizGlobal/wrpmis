@@ -1196,24 +1196,24 @@ public class SafetyDaoImpl implements SafetyDao {
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
-				qry = qry + " and category_fk = ?";
+				qry = qry + " and category_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
-				qry = qry + " and status_fk = ?";
+				qry = qry + " and status_fk = ? ";
 				arrSize++;
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and u.department_fk = ?";
+				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}
 			
@@ -1221,7 +1221,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
 				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
-						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1233,7 +1233,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY work_id_fk";
+			qry = qry + " GROUP BY work_id_fk,work_short_name";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;

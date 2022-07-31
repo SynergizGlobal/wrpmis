@@ -36,12 +36,12 @@ public class WbsTreeDaoImpl implements WbsTreeDao{
 			String qry ="select pv.activity_name,wbs_4_name,wbs_3_name,wbs_2_name,wbs_1_name,"
 					+ "CAST(sum(ISNULL((((completed)/(scope))*100) * (weightage),0)) AS DECIMAL(10,2)) as actual,"
 					+ "CAST(ISNULL(sum(weightage),0) AS DECIMAL(10,2)) as weightage,"
-					+ " CASE  WHEN baseline_finish <= CURDATE() THEN 100 WHEN baseline_start > CURDATE() "
+					+ " CASE  WHEN baseline_finish <= getDate() THEN 100 WHEN baseline_start > getDate() "
 					+ " THEN 0 ELSE CAST(sum(( ((datediff(GETDATE(),baseline_start)+1)/(datediff(baseline_finish , baseline_start)+1))*100 ) * (weightage)) AS DECIMAL(10,2)) END as 'planned' " + 
 					" from p6_view pv "
 					+ "left join activities a on (a.activity_name = pv.activity_name and a.structure = pv.wbs_3_name " + 
 					"and a.contract_id_fk = pv.contract_id and a.structure_type_fk = pv.wbs_4_name and a.component = pv.wbs_2_name and a.component_id = pv.wbs_1_name " + 
-					") where wbs_4_name is not null and wbs_4_name <> '' and baseline_finish > CURDATE() and baseline_start < CURDATE() ";
+					") where wbs_4_name is not null and wbs_4_name <> '' and baseline_finish > getDate() and baseline_start < getDate() ";
 			
 			int arrSize = 0;
 
@@ -107,7 +107,7 @@ public class WbsTreeDaoImpl implements WbsTreeDao{
 					+ "left join p6_view pv on pv.contract_id = c.contract_id  "
 					 +"left join activities a on (a.activity_name = pv.activity_name and a.structure = pv.wbs_3_name " + 
 						"and a.contract_id_fk = pv.contract_id and a.structure_type_fk = pv.wbs_4_name and a.component = pv.wbs_2_name and a.component_id = pv.wbs_1_name " + 
-						") where wbs_4_name is not null and wbs_4_name <> '' and baseline_finish > CURDATE() and baseline_start < CURDATE() ";
+						") where wbs_4_name is not null and wbs_4_name <> '' and baseline_finish > getDate() and baseline_start < getDate() ";
 			
 			int arrSize = 0;
 
@@ -115,7 +115,7 @@ public class WbsTreeDaoImpl implements WbsTreeDao{
 				qry = qry + "and work_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry +" GROUP BY pv.contract_id";
+			qry = qry +" GROUP BY pv.contract_id,contract_short_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 	

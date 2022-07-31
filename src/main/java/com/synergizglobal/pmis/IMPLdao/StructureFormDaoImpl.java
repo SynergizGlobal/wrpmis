@@ -847,24 +847,6 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,GetDate())";
 
 					int arraySize =0, docArrSize = 0;
-				/*	if (!StringUtils.isEmpty(obj.getFileNamesStructure()) && obj.getFileNamesStructure().length > 0) {
-						obj.setFileNamesStructure(CommonMethods.replaceEmptyByNullInSringArray(obj.getFileNamesStructure()));
-						if (docArrSize < obj.getFileNamesStructure().length) {
-							docArrSize = obj.getFileNamesStructure().length;
-						}
-					}
-					if (!StringUtils.isEmpty(obj.getStructureDoc_file_types()) && obj.getStructureDoc_file_types().length > 0) {
-						obj.setStructureDoc_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructureDoc_file_types()));
-						if (docArrSize < obj.getStructureDoc_file_types().length) {
-							docArrSize = obj.getStructureDoc_file_types().length;
-						}
-					}
-					if (!StringUtils.isEmpty(obj.getDocumentNamesStructure()) && obj.getDocumentNamesStructure().length > 0) {
-						obj.setDocumentNamesStructure(CommonMethods.replaceEmptyByNullInSringArray(obj.getDocumentNamesStructure()));
-						if (docArrSize < obj.getDocumentNamesStructure().length) {
-							docArrSize = obj.getDocumentNamesStructure().length;
-						}
-					}*/
 					
 					if (!StringUtils.isEmpty(obj.getStructureFileNames()) && obj.getStructureFileNames().length > 0) {
 						obj.setStructureFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructureFileNames()));
@@ -884,13 +866,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 							docArrSize = obj.getStructureDocumentNames().length;
 						}
 					}
-					
-					/*if (!StringUtils.isEmpty(obj.getStructure_file_types()) && obj.getStructure_file_types().length > 0) {
-						obj.setStructure_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_file_types()));
-						if (arraySize < obj.getStructure_file_types().length) {
-							arraySize = obj.getStructure_file_types().length;
-						} 
-					}*/
+
 					for (int i = 0; i < docArrSize; i++) {
 						if (!StringUtils.isEmpty(obj.getStructureFiles()) && obj.getStructureFiles().length > 0) {
 							MultipartFile multipartFile = obj.getStructureFiles()[i];

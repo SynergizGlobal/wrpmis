@@ -37,13 +37,13 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getLeftMenuList(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url, order, parent_id, dashboard_url, status,source_field_name, "  
-					+ "(select STRING_AGG(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_role') as user_roles, "
-					+ "(select STRING_AGG(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_type') as user_types, "
-					+ "(select STRING_AGG(access_value) from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user') as users, "	
-					+ "(select STRING_AGG(archive_date) from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_dates, "
-					+ "(select STRING_AGG(archive_url) from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_urls "
-					+" FROM left_menu l where dashboard_id is not null and show_left_menu = ?";
+			String qry ="SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url, [order], parent_id, dashboard_url, status,source_field_name,   \r\n" + 
+					"					(select STRING_AGG(access_value,',') from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_role') as user_roles, \r\n" + 
+					"					(select STRING_AGG(access_value,',') from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user_type') as user_types, \r\n" + 
+					"					(select STRING_AGG(access_value,',') from left_menu_access where dashboard_id = l.dashboard_id and access_type = 'user') as users, 	\r\n" + 
+					"					(select STRING_AGG(archive_date,',') from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_dates, \r\n" + 
+					"					(select STRING_AGG(archive_url,',') from left_menu_archive_details where dashboard_id = l.dashboard_id) as archive_urls \r\n" + 
+					"					FROM left_menu l where dashboard_id is not null and show_left_menu = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getParent_id())) {
@@ -454,7 +454,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	public List<TrainingType> getParentList() throws Exception {
 		List<TrainingType> list = null;
 		try {
-			String qry = "SELECT dashboard_id,dashboard_name from left_menu WHERE parent_id = ? and show_left_menu = ? GROUP BY dashboard_id";
+			String qry = "SELECT dashboard_id,dashboard_name from left_menu WHERE parent_id = ? and show_left_menu = ? GROUP BY dashboard_id,dashboard_name";
 			 list = jdbcTemplate.query( qry,new Object[]{"0","Yes"}, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();

@@ -396,7 +396,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE dashboard set "
-					+ "mobile_view= :mobile_view,priority= :priority,modified_by_user_id_fk = :modified_by_user_id_fk, modified_on= CURDATE(),soft_delete_status_fk= :soft_delete_status_fk "
+					+ "mobile_view= :mobile_view,priority= :priority,modified_by_user_id_fk = :modified_by_user_id_fk, modified_on= getDate(),soft_delete_status_fk= :soft_delete_status_fk "
 					+ "where dashboard_id= :dashboard_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			

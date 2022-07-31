@@ -185,7 +185,8 @@ public class HomeNewDaoImpl implements HomeNewDao{
 					+ "from work_details "
 					+ "LEFT JOIN work ON work_id_fk = work_id "		
 					+ "WHERE work_id_fk = ? and soft_delete_status_fk = ? "
-					+ "ORDER BY FIELD(title_fk,'Sanctions Details','Salient Features',title_fk)";
+					+ "ORDER BY case when title_fk='Sanctions Details' then 1\r\n" + 
+					"when title_fk='Salient Features' then 2 end asc";
 			
 			objsList = jdbcTemplate.query( qry, new Object[]{work_id_fk,CommonConstants.ACTIVE}, new BeanPropertyRowMapper<WorkFeatures>(WorkFeatures.class));
 		}catch(Exception e){ 

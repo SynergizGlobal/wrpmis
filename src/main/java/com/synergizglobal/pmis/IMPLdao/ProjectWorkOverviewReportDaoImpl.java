@@ -261,7 +261,8 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 				qry = qry + " and c.work_id = ?";
 				arrSize++;
 			}
-			qry=qry+" group by contract_id order by FIELD(c.department,'Engineering','Electrical','Signalling & Telecom')";
+			qry=qry+" group by contract_id ORDER BY case when c.department='Engineering' then 1\r\n" + 
+					"when c.department='Electrical' then 2 when c.department='Signalling & Telecom' then 3  end asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -474,7 +475,8 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "                    and contract_name <> 'Miscellaneous' and  contract_name <> 'Land'\r\n"
 					+ "                    \r\n"
 					+ "                                      \r\n"
-					+ "                    group by hoddt.department_name) as a  ORDER BY FIELD(work_name,'Engineering','Electrical','Signalling & Telecom')";
+					+ "                    group by hoddt.department_name) as a  ORDER BY case when work_name='Engineering' then 1\r\n" + 
+					"when work_name='Electrical' then 2 when work_name='Signalling & Telecom' then 3  end asc";
 			
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<Contract>(Contract.class));
 			

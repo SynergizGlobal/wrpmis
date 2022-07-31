@@ -460,7 +460,8 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
-			qry = qry +" group by status_fk  ORDER BY FIELD(status_fk,'In Progress','Not Started','Completed',status_fk) ";
+			qry = qry +" group by status_fk  ORDER BY case when status_fk='In Progress' then 1\r\n" + 
+					"when status_fk='Not Started' then 2 when status_fk='Completed' then 3 end asc ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {

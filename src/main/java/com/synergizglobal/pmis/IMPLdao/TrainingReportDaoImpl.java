@@ -298,7 +298,8 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 					+ "LEFT JOIN department d on u.department_fk = d.department "
 					+ "LEFT JOIN training t on ta.training_id_fk = t.training_id "
 					+ "LEFT JOIN training_session ts on ta.training_session_id_fk = ts.training_session_id "
-					+ "where ta.user_id = ?  and status_fk in ('Completed','Scheduled') group by status_fk  order by field(status_fk,'Scheduled','Completed') ";
+					+ "where ta.user_id = ?  and status_fk in ('Completed','Scheduled') group by status_fk  ORDER BY case when status_fk='Scheduled' then 1\r\n" + 
+					"when status_fk='Completed' then 2  end asc ";
 			Object[] pValues = new Object[] {obj.getAttendee(),obj.getAttendee(),CommonConstants.YES,obj.getAttendee(),CommonConstants.YES,obj.getAttendee()};
 			statusList = jdbcTemplate.query(statusQry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
 			obj.setStatusList(statusList);

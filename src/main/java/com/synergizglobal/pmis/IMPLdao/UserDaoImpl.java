@@ -999,7 +999,64 @@ public class UserDaoImpl implements UserDao{
 				arrSize++;
 			}
 			qry = qry + " GROUP BY u.reporting_to_id_srfk ";
-			qry = qry + " ORDER BY FIELD(usr.user_type_fk,'Management','HOD','DyHOD','Officers ( Jr./Sr. Scale )','Others','Training'), FIELD(usr.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T',usr.designation)" ;
+			qry = qry + " ORDER BY \\r\\n\" + \r\n" + 
+					"					\"					case when user_type_fk='HOD' then 1\\r\\n\" + \r\n" + 
+					"					\"					when user_type_fk='DYHOD' then 2\\r\\n\" + \r\n" + 
+					"					\"					when user_type_fk='Officers ( Jr./Sr. Scale )' then 3\\r\\n\" + \r\n" + 
+					"					\"					when user_type_fk='Others' then 4 when user_type_fk='Training' then 5 \\r\\n\" + \r\n" + 
+					"					\"					end asc, case when usr.designation='ED Civil' then 1 \r\n" + 
+					"   when usr.designation='CPM I' then 2 \r\n" + 
+					"   when usr.designation='CPM II' then3\r\n" + 
+					"   when usr.designation='CPM III' then 4 \r\n" + 
+					"   when usr.designation='CPM V' then 5\r\n" + 
+					"   when usr.designation='CE' then 6 \r\n" + 
+					"   when usr.designation='ED S&T' then 7 \r\n" + 
+					"   when usr.designation='CSTE' then 8\r\n" + 
+					"   when usr.designation='GM Electrical' then 9\r\n" + 
+					"   when usr.designation='CEE Project I' then 10\r\n" + 
+					"   when usr.designation='CEE Project II' then 11\r\n" + 
+					"   when usr.designation='ED Finance & Planning' then 12\r\n" + 
+					"   when usr.designation='AGM Civil' then 13\r\n" + 
+					"   when usr.designation='DyCPM Civil' then 14\r\n" + 
+					"   when usr.designation='DyCPM III' then 15\r\n" + 
+					"   when usr.designation='DyCPM V' then 16\r\n" + 
+					"   when usr.designation='DyCE EE' then 17\r\n" + 
+					"   when usr.designation='DyCE Badlapur' then 18\r\n" + 
+					"   when usr.designation='DyCPM Pune' then 19\r\n" + 
+					"   when usr.designation='DyCE Proj' then 20\r\n" + 
+					"   when usr.designation='DyCEE I' then 21\r\n" + 
+					"   when usr.designation='DyCEE Projects' then 22\r\n" + 
+					"   when usr.designation='DyCEE PSI' then 23\r\n" + 
+					"   when usr.designation='DyCSTE I' then 24\r\n" + 
+					"   when usr.designation='DyCSTE IT' then 25\r\n" + 
+					"   when usr.designation='DyCSTE Projects' then 26\r\n" + 
+					"   when usr.designation='XEN Consultant' then 27\r\n" + 
+					"   when usr.designation='AEN Adhoc' then 28\r\n" + 
+					"   when usr.designation='AEN Project' then 29\r\n" + 
+					"   when usr.designation='AEN P-Way' then 30\r\n" + 
+					"   when usr.designation='AEN' then 31\r\n" + 
+					"   when usr.designation='Sr Manager Signal' then 32 \r\n" + 
+					"   when usr.designation='Manager Signal' then 33\r\n" + 
+					"   when usr.designation='Manager Civil' then 34 \r\n" + 
+					"   when usr.designation='Manager OHE' then 35\r\n" + 
+					"   when usr.designation='Manager GS' then 36\r\n" + 
+					"   when usr.designation='Manager Finance' then 37\r\n" + 
+					"   when usr.designation='Planning Manager' then 38\r\n" + 
+					"   when usr.designation='Manager Project' then 39\r\n" + 
+					"   when usr.designation='Manager' then 40 \r\n" + 
+					"   when usr.designation='SSE' then 41\r\n" + 
+					"   when usr.designation='SSE Project' then 42\r\n" + 
+					"   when usr.designation='SSE Works' then 43\r\n" + 
+					"   when usr.designation='SSE Drg' then 44\r\n" + 
+					"   when usr.designation='SSE BR' then 45\r\n" + 
+					"   when usr.designation='SSE P-Way' then 46\r\n" + 
+					"   when usr.designation='SSE OHE' then 47\r\n" + 
+					"   when usr.designation='SPE' then 48\r\n" + 
+					"   when usr.designation='PE' then 49\r\n" + 
+					"   when usr.designation='JE' then 50\r\n" + 
+					"   when usr.designation='Demo-HOD-Elec' then 51\r\n" + 
+					"   when usr.designation='Demo-HOD-Engg' then 52\r\n" + 
+					"   when usr.designation='Demo-HOD-S&T' then 53" ;
 
 			Object[] pValues = new Object[arrSize];
 			
@@ -1116,7 +1173,12 @@ public class UserDaoImpl implements UserDao{
 				qry = qry + " and u.user_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY u.user_type_fk order by field (u.user_type_fk,'Management','HOD','DyHOD','Officers ( Jr./Sr. Scale )','Others','Training')";
+			qry = qry + " GROUP BY u.user_type_fk ORDER BY \r\n" + 
+					"					case when user_type_fk='HOD' then 1\r\n" + 
+					"					when user_type_fk='DYHOD' then 2\r\n" + 
+					"					when user_type_fk='Officers ( Jr./Sr. Scale )' then 3\r\n" + 
+					"					when user_type_fk='Others' then 4 when user_type_fk='Training' then 5 \r\n" + 
+					"					end asc";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -1358,8 +1420,21 @@ public class UserDaoImpl implements UserDao{
 					+ " left join user_module um on m.module_name = um.module_fk where module_name in ('Contracts','Design','Execution &  Monitoring','Finance',"
 					+ "'Issues','Land Acquisition','R & R','Risk','Safety','Training','Unmanned Aerial Vehicle','Utility Shifting','Works')"
 					+ " and soft_delete_status_fk = 'Active' and executive_id_fk = ?  group by module_name "
-					+ "order by field(module_name,'Contracts','Risk','Land Acquisition','R & R','Utility Shifting',"
-					+ "'Works','Safety','Design','Execution &  Monitoring','Finance','Issues','Training','Unmanned Aerial Vehicle')";
+					+ "order by case when module_name='Contracts' then 1\r\n" + 
+					"when module_name='Risk' then 2\r\n" + 
+					"when module_name='Land Acquisition' then 3\r\n" + 
+					"when module_name='R & R' then 4\r\n" + 
+					"when module_name='Utility Shifting' then 5\r\n" + 
+					"when module_name='Works' then 6\r\n" + 
+					"when module_name='Safety' then 7\r\n" + 
+					"when module_name='Design' then 8\r\n" + 
+					"when module_name='Execution &  Monitoring' then 9 \r\n" + 
+					"when module_name='Finance' then 10 \r\n" + 
+					"when module_name='Issues' then 11 \r\n" + 
+					"when module_name='Training' then 12 \r\n" + 
+					"when module_name='Unmanned Aerial Vehicle' then 13 \r\n" + 
+					"\r\n" + 
+					"end asc";
 			
 			int arrSize = 1;
 			Object[] pValues = new Object[arrSize];
@@ -1380,8 +1455,21 @@ public class UserDaoImpl implements UserDao{
 					+ " where module_name in ('Contracts','Design','Execution &  Monitoring','Finance',"
 					+ "'Issues','Land Acquisition','R & R','Risk','Safety','Training','Unmanned Aerial Vehicle','Utility Shifting','Works')"
 					+ " and soft_delete_status_fk = 'Active' group by module_name  "
-					+ "order by field(module_name,'Contracts','Risk','Land Acquisition','R & R','Utility Shifting',"
-					+ "'Works','Safety','Design','Execution &  Monitoring','Finance','Issues','Training','Unmanned Aerial Vehicle')";
+					+ "order by case when module_name='Contracts' then 1\r\n" + 
+					"when module_name='Risk' then 2\r\n" + 
+					"when module_name='Land Acquisition' then 3\r\n" + 
+					"when module_name='R & R' then 4\r\n" + 
+					"when module_name='Utility Shifting' then 5\r\n" + 
+					"when module_name='Works' then 6\r\n" + 
+					"when module_name='Safety' then 7\r\n" + 
+					"when module_name='Design' then 8\r\n" + 
+					"when module_name='Execution &  Monitoring' then 9 \r\n" + 
+					"when module_name='Finance' then 10 \r\n" + 
+					"when module_name='Issues' then 11 \r\n" + 
+					"when module_name='Training' then 12 \r\n" + 
+					"when module_name='Unmanned Aerial Vehicle' then 13 \r\n" + 
+					"\r\n" + 
+					"end asc";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 

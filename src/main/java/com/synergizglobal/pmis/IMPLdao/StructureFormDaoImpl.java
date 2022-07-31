@@ -65,22 +65,22 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					"where s.work_status_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and s.work_status_fk = ?";
+				qry = qry + " and s.work_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and s.work_id_fk = ?";
+				qry = qry + " and s.work_id_fk = ?  ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
-				qry = qry + " and cp.contract_id_fk = ?";
+				qry = qry + " and cp.contract_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and  cp.responsible_people_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY s.work_status_fk ";
+			qry = qry + " GROUP BY s.work_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -114,11 +114,11 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					"where s.work_id_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and s.work_status_fk = ?";
+				qry = qry + " and s.work_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and s.work_id_fk = ?";
+				qry = qry + " and s.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
@@ -129,7 +129,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 				qry = qry + " and  cp.responsible_people_id_fk = ? ";
 				arrSize++;
 			}	
-			qry = qry + "GROUP BY s.work_id_fk ";
+			qry = qry + "GROUP BY s.work_id_fk,w.work_short_name,work_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -156,29 +156,29 @@ public class StructureFormDaoImpl implements StructureFormDao{
 	public List<Structure> getContractsListForFilter(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT cp.contract_id_fk ,c.contract_short_name,c.contract_name "
-					+ "FROM structure s " + 
-					"left join structure_contract_responsible_people cp on cp.structure_id_fk = s.structure_id " + 
-					"left join contract c on cp.contract_id_fk = c.contract_id "+
-					"where cp.contract_id_fk is not null and s.status <> 'Inactive' ";
+			String qry = "SELECT cp.contract_id_fk ,c.contract_short_name,c.contract_name \r\n" + 
+					"					FROM structure s \r\n" + 
+					"					left join structure_contract_responsible_people cp on cp.structure_id_fk = s.structure_id  \r\n" + 
+					"					left join contract c on cp.contract_id_fk = c.contract_id \r\n" + 
+					"					where cp.contract_id_fk is not null and s.status <> 'Inactive' and contract_name is not null and contract_id not like '%MS%' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and s.work_status_fk = ?";
+				qry = qry + " and s.work_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and s.work_id_fk = ?";
+				qry = qry + " and s.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
-				qry = qry + " and cp.contract_id_fk = ?";
+				qry = qry + " and cp.contract_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and  cp.responsible_people_id_fk = ? ";
 				arrSize++;
 			}	
-			qry = qry + "GROUP BY cp.contract_id_fk ";
+			qry = qry + " GROUP BY cp.contract_id_fk,c.contract_short_name,c.contract_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -214,19 +214,19 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					+"where structure_id is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and s.work_status_fk = ?";
+				qry = qry + " and s.work_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and s.work_id_fk = ?";
+				qry = qry + " and s.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
-				qry = qry + " and cp.contract_id_fk = ?";
+				qry = qry + " and cp.contract_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
-				qry = qry + " and structure_type_fk = ?";
+				qry = qry + " and structure_type_fk = ? ";
 				arrSize++;
 			}				
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
@@ -235,7 +235,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (cp.contract_id_fk like ? or c.contract_short_name like ? or s.work_id_fk like ? or w.work_short_name like ?  "
-						+ "or s.work_status_fk like ? or structure_type_fk like ? or structure like ? or structure_name like ?)";
+						+ "or s.work_status_fk like ? or structure_type_fk like ? or structure like ? or structure_name like ?) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -288,7 +288,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 			throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry ="SELECT structure_id,s.work_id_fk,w.work_short_name,work_name,cp.contract_id_fk,c.contract_name,c.contract_short_name,s.structure_name, " + 
+			String qry ="SELECT distinct structure_id,s.work_id_fk,w.work_short_name,work_name,cp.contract_id_fk,c.contract_name,c.contract_short_name,s.structure_name, " + 
 					"s.structure,s.work_status_fk,structure_type_fk "
 					+ "FROM structure s " + 
 					"left join structure_contract_responsible_people cp on s.structure_id =  cp.structure_id_fk " + 
@@ -298,19 +298,19 @@ public class StructureFormDaoImpl implements StructureFormDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and s.work_status_fk = ?";
+				qry = qry + " and s.work_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and s.work_id_fk = ?";
+				qry = qry + " and s.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
-				qry = qry + " and cp.contract_id_fk = ?";
+				qry = qry + " and cp.contract_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
-				qry = qry + " and structure_type_fk = ?";
+				qry = qry + " and structure_type_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
@@ -319,7 +319,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (cp.contract_id_fk like ? or c.contract_short_name like ? or s.work_id_fk like ? or w.work_short_name like ?  "
-						+ "or s.work_status_fk like ? or structure_type_fk like ? or structure like ? or structure_name like ?)";
+						+ "or s.work_status_fk like ? or structure_type_fk like ? or structure like ? or structure_name like ?) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -330,7 +330,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + "group by  ISNULL(cp.contract_id_fk,structure_id), structure_id  ORDER BY structure_id ASC offset ? rows  fetch next ? rows only";
+				qry = qry + " ORDER BY structure_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -412,7 +412,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					"left join project p on w.project_id_fk = p.project_id where s.status <> 'Inactive' and structure_id is not null " ; 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			Object[] pValues = new Object[arrSize];
@@ -434,13 +434,32 @@ public class StructureFormDaoImpl implements StructureFormDao{
 				}
 				if(!StringUtils.isEmpty(structure)) {
 					String detailsQry ="select id, structure_id_fk, structure_detail, value as structure_value from structure_details sd where  structure_id_fk = ? ";
-					detailsQry = detailsQry + " and structure_detail in('Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos') order by field(structure_detail,'Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos')";
+					detailsQry = detailsQry + " and structure_detail in('Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos') order by \r\n" + 
+							"case\r\n" + 
+							"when structure_detail='Type' then 1\r\n" + 
+							"when structure_detail='Location of FOB' then 2\r\n" + 
+							"when structure_detail='KM' then 3\r\n" + 
+							"when structure_detail='FOB Length (m)' then 4\r\n" + 
+							"when structure_detail='FOB Width (m)' then 5\r\n" + 
+							"when structure_detail='Platforms Connecting' then 6\r\n" + 
+							"when structure_detail='No. of Staircases' then 7\r\n" + 
+							"when structure_detail='No. of Skywalk' then 8\r\n" + 
+							"when structure_detail='Future Provision Escalators nos' then 9 end asc";
 
 					List<Structure> detailsList = jdbcTemplate.query( detailsQry,new Object[] {structure.getStructure_id()}, new BeanPropertyRowMapper<Structure>(Structure.class));
 					if(StringUtils.isEmpty(detailsList) || detailsList.size() == 0) {
 						detailsQry = "select structure_detail from structure_details sd " ;
 						detailsQry = detailsQry + " where structure_detail in('Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos') "
-								+ "group by structure_detail order by field(structure_detail,'Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos')";
+								+ "group by structure_detail order by case\r\n" + 
+								"when structure_detail='Type' then 1\r\n" + 
+								"when structure_detail='Location of FOB' then 2\r\n" + 
+								"when structure_detail='KM' then 3 \r\n" + 
+								"when structure_detail='FOB Length (m)' then 4\r\n" + 
+								"when structure_detail='FOB Width (m)' then 5\r\n" + 
+								"when structure_detail='Platforms Connecting' then 6\r\n" + 
+								"when structure_detail='No. of Staircases' then 7\r\n" + 
+								"when structure_detail='No. of Skywalk' then 8\r\n" + 
+								"when structure_detail='Future Provision Escalators nos' then 9 end asc";
 						
 						detailsList = jdbcTemplate.query(detailsQry, new Object[] {}, new BeanPropertyRowMapper<Structure>(Structure.class));
 					}
@@ -531,7 +550,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 		            });
 				
 					//String file_insert_qry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date,fob_file_type_fk,name) VALUES (:fob_id,:attachment,:created_date,:fob_file_type_fk,:name)";
-					String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CURDATE())";
+					String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,GetDate())";
 
 					int arraySize =0, docArrSize = 0;
 				/*	if (!StringUtils.isEmpty(obj.getFileNamesStructure()) && obj.getFileNamesStructure().length > 0) {
@@ -825,7 +844,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					count = namedParamJdbcTemplate.update(docDeleteQry, paramSource);
 					
 					//String file_insert_qry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date,fob_file_type_fk,name) VALUES (:fob_id,:attachment,:created_date,:fob_file_type_fk,:name)";
-					String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CURDATE())";
+					String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,GetDate())";
 
 					int arraySize =0, docArrSize = 0;
 				/*	if (!StringUtils.isEmpty(obj.getFileNamesStructure()) && obj.getFileNamesStructure().length > 0) {
@@ -1065,22 +1084,22 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					"where cp.contract_id_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and s.work_status_fk = ?";
+				qry = qry + " and s.work_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and s.work_id_fk = ?";
+				qry = qry + " and s.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
-				qry = qry + " and cp.contract_id_fk = ?";
+				qry = qry + " and cp.contract_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and  cp.responsible_people_id_fk = ? ";
 				arrSize++;
 			}	
-			qry = qry + "GROUP BY s.structure_type_fk ";
+			qry = qry + " GROUP BY s.structure_type_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -1113,22 +1132,22 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					"where cp.contract_id_fk is not null and s.status <> 'Inactive' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and s.work_status_fk = ?";
+				qry = qry + " and s.work_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and s.work_id_fk = ?";
+				qry = qry + " and s.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
-				qry = qry + " and cp.contract_id_fk = ?";
+				qry = qry + " and cp.contract_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and  cp.responsible_people_id_fk = ? ";
 				arrSize++;
 			}	
-			qry = qry + "GROUP BY s.work_status_fk ";
+			qry = qry + " GROUP BY s.work_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){

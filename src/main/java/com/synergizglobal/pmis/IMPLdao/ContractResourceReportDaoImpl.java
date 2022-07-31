@@ -117,7 +117,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id "
 					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
-					+ "where designation is not null and designation <> and user_type_fk = ?";
+					+ "where designation is not null and designation <> '' and user_type_fk = ?";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id_fk = ?";

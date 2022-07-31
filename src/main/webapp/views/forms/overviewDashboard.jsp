@@ -687,7 +687,7 @@
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
-	         	    $("#dashboardOpen").attr("src",dashboard_url);
+	         	   // $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
 	         	    $(".page-loader").hide();
 	            },error: function(xhr){
@@ -772,21 +772,11 @@
 				         					filter_option_id = value2.filter_option_id;
 				         				}
 				         				var selectedFlag = "";
-				         				/* if($.trim(length) != '' && length == 1){
-				         					selectedFlag = 'selected';
-				         				} */
-				         				/* if(((value.is_first_option_selected == 'YES') && (index2 == 0)) || length == 1){ */
 				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0))){
 				         					selectedFlag = 'selected';
 				         				}
 				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
 			                      });
-			         			  
-			         			 var found = [];
-			         			$("#"+id+" option").each(function() {
-			         			  if($.inArray(this.value, found) != -1) $(this).remove();
-			         			  found.push(this.value);
-			         			});			         			  
 			         		  });
 			         		   $('.searchable').select2();
 			         	   }

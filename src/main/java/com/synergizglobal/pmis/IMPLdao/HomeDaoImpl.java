@@ -705,7 +705,13 @@ public class HomeDaoImpl implements HomeDao {
 		try {
 			connection = dataSource.getConnection();
 			
-			String qry = "select execution_status from execution_status where execution_status is not null and execution_status <> '' ORDER BY FIELD(execution_status,'Not Started','In Progress','On Hold','Commissioned','Completed','Dropped')";
+			String qry = "select execution_status from execution_status where execution_status is not null and execution_status <> '' \r\n" + 
+					"   ORDER BY case when execution_status='Not Started' then 1\r\n" + 
+					"		    when execution_status='In Progress' then 2\r\n" + 
+					"		    when execution_status='On Hold' then 3\r\n" + 
+					"		    when execution_status='Commissioned' then 4\r\n" + 
+					"		    when execution_status='Completed' then 5\r\n" + 
+					"		    when execution_status='Dropped' then 6  end asc";
 			statement = connection.prepareStatement(qry);
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {

@@ -61,7 +61,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractList(Contract obj)throws Exception{
 		List<Contract> objsList = null;
 		try {
-			String qry ="select w.work_name,w.work_short_name, STRING_AGG(DISTINCT dt.department_name SEPARATOR ',' ) as department_name,hoddt.department_name as hod_department,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+			String qry ="select w.work_name,w.work_short_name, dt.department_name as department_name,hoddt.department_name as hod_department,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 					",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,FORMAT(date_of_start,'dd-MM-yyyy') AS date_of_start,FORMAT(doc,'dd-MM-yyyy') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MM-yyyy') AS loa_date,ca_no,FORMAT(ca_date,'dd-MM-yyyy') AS ca_date,FORMAT(actual_completion_date,'dd-MM-yyyy') AS actual_completion_date,"
 					+"FORMAT(contract_closure_date,'dd-MM-yyyy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MM-yyyy') AS completion_certificate_release,FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 					+"FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,contract_status_fk,bg_required,insurance_required,modified_by,FORMAT(modified_date,'dd-MM-yyyy') as modified_date " + 
@@ -113,7 +113,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			
-			qry = qry + "GROUP BY contract_id ORDER BY contract_id ASC ";
+			//qry = qry + "GROUP BY contract_id ORDER BY contract_id ASC ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -191,8 +191,62 @@ public class ContractDaoImpl implements ContractDao {
 			String qry ="select user_id,user_name,designation,department_fk,d.contract_id_code "
 					+ "FROM [user] u "
 					+ "LEFT JOIN department d on  u.department_fk = d.department "
-					+ "where designation is not null and designation <> '' and user_type_fk = ? group by user_id";
-			qry = qry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),designation" ;
+					+ "where designation is not null and designation <> '' and user_type_fk = ? group by user_id,user_name,designation,department_fk,d.contract_id_code";
+			qry = qry + " order by case when u.designation='ED Civil' then 1 \r\n" + 
+					"   when u.designation='CPM I' then 2 \r\n" + 
+					"   when u.designation='CPM II' then 3\r\n" + 
+					"   when u.designation='CPM III' then 4 \r\n" + 
+					"   when u.designation='CPM V' then 5\r\n" + 
+					"   when u.designation='CE' then 6 \r\n" + 
+					"   when u.designation='ED S&T' then 7 \r\n" + 
+					"   when u.designation='CSTE' then 8\r\n" + 
+					"   when u.designation='GM Electrical' then 9\r\n" + 
+					"   when u.designation='CEE Project I' then 10\r\n" + 
+					"   when u.designation='CEE Project II' then 11\r\n" + 
+					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
+					"   when u.designation='AGM Civil' then 13\r\n" + 
+					"   when u.designation='DyCPM Civil' then 14\r\n" + 
+					"   when u.designation='DyCPM III' then 15\r\n" + 
+					"   when u.designation='DyCPM V' then 16\r\n" + 
+					"   when u.designation='DyCE EE' then 17\r\n" + 
+					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
+					"   when u.designation='DyCPM Pune' then 19\r\n" + 
+					"   when u.designation='DyCE Proj' then 20\r\n" + 
+					"   when u.designation='DyCEE I' then 21\r\n" + 
+					"   when u.designation='DyCEE Projects' then 22\r\n" + 
+					"   when u.designation='DyCEE PSI' then 23\r\n" + 
+					"   when u.designation='DyCSTE I' then 24\r\n" + 
+					"   when u.designation='DyCSTE IT' then 25\r\n" + 
+					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
+					"   when u.designation='XEN Consultant' then 27\r\n" + 
+					"   when u.designation='AEN Adhoc' then 28\r\n" + 
+					"   when u.designation='AEN Project' then 29\r\n" + 
+					"   when u.designation='AEN P-Way' then 30\r\n" + 
+					"   when u.designation='AEN' then 31\r\n" + 
+					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
+					"   when u.designation='Manager Signal' then 33\r\n" + 
+					"   when u.designation='Manager Civil' then 34 \r\n" + 
+					"   when u.designation='Manager OHE' then 35\r\n" + 
+					"   when u.designation='Manager GS' then 36\r\n" + 
+					"   when u.designation='Manager Finance' then 37\r\n" + 
+					"   when u.designation='Planning Manager' then 38\r\n" + 
+					"   when u.designation='Manager Project' then 39\r\n" + 
+					"   when u.designation='Manager' then 40 \r\n" + 
+					"   when u.designation='SSE' then 41\r\n" + 
+					"   when u.designation='SSE Project' then 42\r\n" + 
+					"   when u.designation='SSE Works' then 43\r\n" + 
+					"   when u.designation='SSE Drg' then 44\r\n" + 
+					"   when u.designation='SSE BR' then 45\r\n" + 
+					"   when u.designation='SSE P-Way' then 46\r\n" + 
+					"   when u.designation='SSE OHE' then 47\r\n" + 
+					"   when u.designation='SPE' then 48\r\n" + 
+					"   when u.designation='PE' then 49\r\n" + 
+					"   when u.designation='JE' then 50\r\n" + 
+					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
+					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
+					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
+					"\r\n" + 
+					"   end asc" ;
 
 
 			int arrSize = 1;
@@ -1063,7 +1117,7 @@ public class ContractDaoImpl implements ContractDao {
 		try {
 			String qry ="SELECT id, contract_id_fk, department_id_fk,department_name, executive_user_id_fk from contract_executive ce  "
 					+ "Left JOIN department dt on ce.department_id_fk = dt.department  "
-					+ " where contract_id_fk = ? group by department_id_fk";
+					+ " where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
 			resultSet = stmt.executeQuery();
@@ -1095,8 +1149,61 @@ public class ContractDaoImpl implements ContractDao {
 		try {
 			String qry ="SELECT executive_user_id_fk,u.user_name,u.designation from contract_executive c "
 					+ "left join [user] u on c.executive_user_id_fk = u.user_id where contract_id_fk = ? and  department_id_fk = ?"
-					+ " ORDER BY FIELD(u.designation,ED Civil,CPM I,CPM II,CPM III,CPM V,CE,GGM Civil,ED S&T,CSTE,GM Electrical,CEE Project I,CEE Project II,ED Finance & Planning,FA&CAO,GM GA&S,CPO,COM,GM Procurement,OSD,CVO,Demo-HOD-Elec,Demo-HOD-Engg,Demo-HOD-S&T), " + 
-					" u.designation";
+					+ " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+					"   when u.designation='CPM I' then 2 \r\n" + 
+					"   when u.designation='CPM II' then 3\r\n" + 
+					"   when u.designation='CPM III' then 4 \r\n" + 
+					"   when u.designation='CPM V' then 5\r\n" + 
+					"   when u.designation='CE' then 6 \r\n" + 
+					"   when u.designation='ED S&T' then 7 \r\n" + 
+					"   when u.designation='CSTE' then 8\r\n" + 
+					"   when u.designation='GM Electrical' then 9\r\n" + 
+					"   when u.designation='CEE Project I' then 10\r\n" + 
+					"   when u.designation='CEE Project II' then 11\r\n" + 
+					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
+					"   when u.designation='AGM Civil' then 13\r\n" + 
+					"   when u.designation='DyCPM Civil' then 14\r\n" + 
+					"   when u.designation='DyCPM III' then 15\r\n" + 
+					"   when u.designation='DyCPM V' then 16\r\n" + 
+					"   when u.designation='DyCE EE' then 17\r\n" + 
+					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
+					"   when u.designation='DyCPM Pune' then 19\r\n" + 
+					"   when u.designation='DyCE Proj' then 20\r\n" + 
+					"   when u.designation='DyCEE I' then 21\r\n" + 
+					"   when u.designation='DyCEE Projects' then 22\r\n" + 
+					"   when u.designation='DyCEE PSI' then 23\r\n" + 
+					"   when u.designation='DyCSTE I' then 24\r\n" + 
+					"   when u.designation='DyCSTE IT' then 25\r\n" + 
+					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
+					"   when u.designation='XEN Consultant' then 27\r\n" + 
+					"   when u.designation='AEN Adhoc' then 28\r\n" + 
+					"   when u.designation='AEN Project' then 29\r\n" + 
+					"   when u.designation='AEN P-Way' then 30\r\n" + 
+					"   when u.designation='AEN' then 31\r\n" + 
+					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
+					"   when u.designation='Manager Signal' then 33\r\n" + 
+					"   when u.designation='Manager Civil' then 34 \r\n" + 
+					"   when u.designation='Manager OHE' then 35\r\n" + 
+					"   when u.designation='Manager GS' then 36\r\n" + 
+					"   when u.designation='Manager Finance' then 37\r\n" + 
+					"   when u.designation='Planning Manager' then 38\r\n" + 
+					"   when u.designation='Manager Project' then 39\r\n" + 
+					"   when u.designation='Manager' then 40 \r\n" + 
+					"   when u.designation='SSE' then 41\r\n" + 
+					"   when u.designation='SSE Project' then 42\r\n" + 
+					"   when u.designation='SSE Works' then 43\r\n" + 
+					"   when u.designation='SSE Drg' then 44\r\n" + 
+					"   when u.designation='SSE BR' then 45\r\n" + 
+					"   when u.designation='SSE P-Way' then 46\r\n" + 
+					"   when u.designation='SSE OHE' then 47\r\n" + 
+					"   when u.designation='SPE' then 48\r\n" + 
+					"   when u.designation='PE' then 49\r\n" + 
+					"   when u.designation='JE' then 50\r\n" + 
+					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
+					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
+					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
+					"\r\n" + 
+					"   end asc";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
 			stmt.setString(2, departmentID);
@@ -1104,8 +1211,8 @@ public class ContractDaoImpl implements ContractDao {
 			while(resultSet.next()) {
 				obj = new Contract();
 				obj.setExecutive_user_id_fk(resultSet.getString("executive_user_id_fk"));
-				obj.setUser_name(resultSet.getString("u.user_name"));
-				obj.setDesignation(resultSet.getString("u.designation"));
+				obj.setUser_name(resultSet.getString("user_name"));
+				obj.setDesignation(resultSet.getString("designation"));
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
@@ -2211,7 +2318,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + " GROUP BY contractor_id_fk ";
+			qry = qry + " GROUP BY contractor_id_fk,cr.contractor_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2259,7 +2366,7 @@ public class ContractDaoImpl implements ContractDao {
 					"where work_id_fk is not null and work_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -2279,16 +2386,16 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
-				qry = qry + " and c.status = ?";
+				qry = qry + " and c.status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				qry = qry + " and c.contract_status_fk = ?";
+				qry = qry + " and c.contract_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -2297,7 +2404,7 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.department_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY work_id_fk ";
+			qry = qry + " GROUP BY work_id_fk,w.work_name,w.work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2348,7 +2455,7 @@ public class ContractDaoImpl implements ContractDao {
 					"where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -2368,21 +2475,21 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
-				qry = qry + " and c.status = ?";
+				qry = qry + " and c.status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				qry = qry + " and c.contract_status_fk = ?";
+				qry = qry + " and c.contract_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + "GROUP BY project_id_fk ";
+			qry = qry + " GROUP BY project_id_fk,p.project_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2442,7 +2549,7 @@ public class ContractDaoImpl implements ContractDao {
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + "and project_id_fk = ?";
+				qry = qry + "and project_id_fk = ? ";
 				arrSize++;
 			}
 			
@@ -2477,7 +2584,7 @@ public class ContractDaoImpl implements ContractDao {
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -2507,12 +2614,66 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + "GROUP BY c.hod_user_id_fk ORDER BY FIELD(u.designation,ED Civil,CPM I,CPM II,CPM III,CPM V,CE,GGM Civil,ED S&T,CSTE,GM Electrical,CEE Project I,CEE Project II,ED Finance & Planning,FA&CAO,GM GA&S,CPO,COM,GM Procurement,OSD,CVO,Demo-HOD-Elec,Demo-HOD-Engg,Demo-HOD-S&T),u.designation" ;
+			qry = qry + " GROUP BY c.hod_user_id_fk,u.designation ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+					"   when u.designation='CPM I' then 2 \r\n" + 
+					"   when u.designation='CPM II' then 3\r\n" + 
+					"   when u.designation='CPM III' then 4 \r\n" + 
+					"   when u.designation='CPM V' then 5\r\n" + 
+					"   when u.designation='CE' then 6 \r\n" + 
+					"   when u.designation='ED S&T' then 7 \r\n" + 
+					"   when u.designation='CSTE' then 8\r\n" + 
+					"   when u.designation='GM Electrical' then 9\r\n" + 
+					"   when u.designation='CEE Project I' then 10\r\n" + 
+					"   when u.designation='CEE Project II' then 11\r\n" + 
+					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
+					"   when u.designation='AGM Civil' then 13\r\n" + 
+					"   when u.designation='DyCPM Civil' then 14\r\n" + 
+					"   when u.designation='DyCPM III' then 15\r\n" + 
+					"   when u.designation='DyCPM V' then 16\r\n" + 
+					"   when u.designation='DyCE EE' then 17\r\n" + 
+					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
+					"   when u.designation='DyCPM Pune' then 19\r\n" + 
+					"   when u.designation='DyCE Proj' then 20\r\n" + 
+					"   when u.designation='DyCEE I' then 21\r\n" + 
+					"   when u.designation='DyCEE Projects' then 22\r\n" + 
+					"   when u.designation='DyCEE PSI' then 23\r\n" + 
+					"   when u.designation='DyCSTE I' then 24\r\n" + 
+					"   when u.designation='DyCSTE IT' then 25\r\n" + 
+					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
+					"   when u.designation='XEN Consultant' then 27\r\n" + 
+					"   when u.designation='AEN Adhoc' then 28\r\n" + 
+					"   when u.designation='AEN Project' then 29\r\n" + 
+					"   when u.designation='AEN P-Way' then 30\r\n" + 
+					"   when u.designation='AEN' then 31\r\n" + 
+					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
+					"   when u.designation='Manager Signal' then 33\r\n" + 
+					"   when u.designation='Manager Civil' then 34 \r\n" + 
+					"   when u.designation='Manager OHE' then 35\r\n" + 
+					"   when u.designation='Manager GS' then 36\r\n" + 
+					"   when u.designation='Manager Finance' then 37\r\n" + 
+					"   when u.designation='Planning Manager' then 38\r\n" + 
+					"   when u.designation='Manager Project' then 39\r\n" + 
+					"   when u.designation='Manager' then 40 \r\n" + 
+					"   when u.designation='SSE' then 41\r\n" + 
+					"   when u.designation='SSE Project' then 42\r\n" + 
+					"   when u.designation='SSE Works' then 43\r\n" + 
+					"   when u.designation='SSE Drg' then 44\r\n" + 
+					"   when u.designation='SSE BR' then 45\r\n" + 
+					"   when u.designation='SSE P-Way' then 46\r\n" + 
+					"   when u.designation='SSE OHE' then 47\r\n" + 
+					"   when u.designation='SPE' then 48\r\n" + 
+					"   when u.designation='PE' then 49\r\n" + 
+					"   when u.designation='JE' then 50\r\n" + 
+					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
+					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
+					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
+					"\r\n" + 
+					"   end asc" ;
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -2563,7 +2724,7 @@ public class ContractDaoImpl implements ContractDao {
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -2583,21 +2744,21 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
-				qry = qry + " and c.status = ?";
+				qry = qry + " and c.status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				qry = qry + " and c.contract_status_fk = ?";
+				qry = qry + " and c.contract_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + "GROUP BY c.dy_hod_user_id_fk ORDER BY u.designation ";
+			qry = qry + " GROUP BY c.dy_hod_user_id_fk,u.designation  ORDER BY u.designation ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2645,7 +2806,7 @@ public class ContractDaoImpl implements ContractDao {
 					"where status is not null and status <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -2665,21 +2826,23 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
-				qry = qry + " and c.status = ?";
+				qry = qry + " and c.status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				qry = qry + " and c.contract_status_fk = ?";
+				qry = qry + " and c.contract_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + " GROUP BY c.status ORDER BY FIELD(status,Open,Closed,Yet to be Awarded)";
+			qry = qry + " GROUP BY c.status ORDER BY case when status='Open' then 1\r\n" + 
+					"   when status='Closed' then 2 \r\n" + 
+					"   when status='Yet to be Awarded' then 3 end asc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -2728,7 +2891,7 @@ public class ContractDaoImpl implements ContractDao {
 					"where contract_status_fk is not null and contract_status_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -2748,7 +2911,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
-				qry = qry + " and c.status = ?";
+				qry = qry + " and c.status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
@@ -2757,7 +2920,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -2766,8 +2929,13 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.department_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY contract_status_fk ";
-			qry = qry + " ORDER BY FIELD(contract_status_fk,Commissioned,Completed,In Progress,On Hold,Dropped,Not Started)";
+			qry = qry + " GROUP BY contract_status_fk ";
+			qry = qry + "    ORDER BY case when contract_status_fk='Commissioned' then 1\r\n" + 
+					"   when contract_status_fk='Completed' then 2\r\n" + 
+					"   when contract_status_fk='In Progress' then 3\r\n" + 
+					"   when contract_status_fk='On Hold' then 4\r\n" + 
+					"   when contract_status_fk='Dropped' then 5\r\n" + 
+					"   when contract_status_fk='Not Started' then 6 end asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2813,7 +2981,7 @@ public class ContractDaoImpl implements ContractDao {
 		try {
 			String qry ="SELECT u.user_id as dy_hod_user_id_fk,u.user_name,u.designation,u.department_fk,u.reporting_to_id_srfk as reporting_to_id_srfk FROM [user] u " + 
 					"left join [user] u1 on u.reporting_to_id_srfk = u1.user_id "
-					+ "where u.designation is not null and u.designation <> and u.user_type_fk = ?";
+					+ "where u.designation is not null and u.designation <> '' and u.user_type_fk = ?";
 
 			int arrSize = 1;
 			Object[] pValues = new Object[arrSize];
@@ -2838,7 +3006,7 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and user_id = ? ";
 				arrSize++;
 			}	
-			qry = qry + "GROUP BY department_fk ";
+			qry = qry + " GROUP BY department_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
@@ -2869,11 +3037,11 @@ public class ContractDaoImpl implements ContractDao {
 					+"where contract_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-				qry = qry + " and c.contractor_id_fk = ?";
+				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -2966,7 +3134,7 @@ public class ContractDaoImpl implements ContractDao {
 			throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select w.work_name,w.work_short_name, STRING_AGG(DISTINCT dt.department_name SEPARATOR ',' ) as department_name,hoddt.department_name as hod_department,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+			String qry ="select w.work_name,w.work_short_name, STRING_AGG(DISTINCT dt.department_name ,',' ) as department_name,hoddt.department_name as hod_department,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 					",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,FORMAT(date_of_start,'dd-MM-yyyy') AS date_of_start,FORMAT(doc,'dd-MM-yyyy') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MM-yyyy') AS loa_date,ca_no,FORMAT(ca_date,'dd-MM-yyyy') AS ca_date,FORMAT(actual_completion_date,'dd-MM-yyyy') AS actual_completion_date,"
 					+"FORMAT(contract_closure_date,'dd-MM-yyyy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MM-yyyy') AS completion_certificate_release,FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 					+"FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,contract_status_fk,bg_required,insurance_required " + 
@@ -2983,11 +3151,11 @@ public class ContractDaoImpl implements ContractDao {
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-				qry = qry + " and c.contractor_id_fk = ?";
+				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -3007,7 +3175,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				qry = qry + " and c.contract_status_fk = ?";
+				qry = qry + " and c.contract_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -3019,7 +3187,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id like ?"
-						+ " or c.contract_short_name like ? or cr.contractor_name like ? or dt.department_name like ? or u.designation like ? or us.designation like ?)";
+						+ " or c.contract_short_name like ? or cr.contractor_name like ? or dt.department_name like ? or u.designation like ? or us.designation like ?) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -3030,7 +3198,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + "GROUP BY contract_id ORDER BY contract_id ASC offset ? rows  fetch next ? rows only";
+				qry = qry + " GROUP BY contract_id ORDER BY contract_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -3142,86 +3310,6 @@ public class ContractDaoImpl implements ContractDao {
 		
 	}
 
-	/*private List<Contract> getExecutivesList(Contract obj) throws Exception {
-		List<Contract> objsList = null;
-		try {
-			String qry ="SELECT id, w.work_name,w.work_short_name, STRING_AGG(DISTINCT dt.department_name SEPARATOR ',' ) as department_name,contract_id_fk as contract_id,"
-					+ "hoddt.department_name as hod_department,dt.contract_id_code,w.project_id_fk,p.project_name,c.hod_user_id_fk as hod_user_id,u.designation,us.designation as dy_hod_designation,u.user_name,"
-					+ "c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_status_fk,c.dy_hod_user_id_fk as dy_hod_user_id,"
-					+ "c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk, department_id_fk as department_fk,"
-					+ " executive_user_id_fk FROM contract_executive ce "
-					+ "LEFT JOIN contract c on ce.contract_id_fk = c.contract_id "+
-					"left join work w on c.work_id_fk = w.work_id  " + 
-					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
-					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join [user] u on c.hod_user_id_fk = u.user_id "+
-					"left join department hoddt on u.department_fk = hoddt.department "
-					+"left join department dt on ce.department_id_fk = dt.department "+
-					"left join [user] us on c.dy_hod_user_id_fk = us.user_id where contract_id is not null ";
-			
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-				qry = qry + " and c.contractor_id_fk = ?";
-				arrSize++;
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and w.project_id_fk = ? ";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and c.hod_user_id_fk = ? ";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and c.dy_hod_user_id_fk = ? ";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				qry = qry + " and c.contract_status_fk = ?";
-				arrSize++;
-			}
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
-				qry = qry + " and  executive_user_id_fk = ? ";
-				arrSize++;
-			}
-			qry = qry + " group by contract_id_fk ";
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-				pValues[i++] = obj.getContractor_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				pValues[i++] = obj.getDesignation();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				pValues[i++] = obj.getDy_hod_designation();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				pValues[i++] = obj.getContract_status_fk();
-			}
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
-				pValues[i++] = obj.getUser_id();
-			}
-			
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-				
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return objsList;
-	}*/
 
 	@Override
 	public List<Contract> getHodList(Contract obj) throws Exception {
@@ -3238,7 +3326,61 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and u.user_id = ? ";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY FIELD(u.designation,ED Civil,CPM I,CPM II,CPM III,CPM V,CE,GGM Civil,ED S&T,CSTE,GM Electrical,CEE Project I,CEE Project II,ED Finance & Planning,FA&CAO,GM GA&S,CPO,COM,GM Procurement,OSD,CVO,Demo-HOD-Elec,Demo-HOD-Engg,Demo-HOD-S&T),u.designation" ;
+			qry = qry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+					"   when u.designation='CPM I' then 2 \r\n" + 
+					"   when u.designation='CPM II' then 3\r\n" + 
+					"   when u.designation='CPM III' then 4 \r\n" + 
+					"   when u.designation='CPM V' then 5\r\n" + 
+					"   when u.designation='CE' then 6 \r\n" + 
+					"   when u.designation='ED S&T' then 7 \r\n" + 
+					"   when u.designation='CSTE' then 8\r\n" + 
+					"   when u.designation='GM Electrical' then 9\r\n" + 
+					"   when u.designation='CEE Project I' then 10\r\n" + 
+					"   when u.designation='CEE Project II' then 11\r\n" + 
+					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
+					"   when u.designation='AGM Civil' then 13\r\n" + 
+					"   when u.designation='DyCPM Civil' then 14\r\n" + 
+					"   when u.designation='DyCPM III' then 15\r\n" + 
+					"   when u.designation='DyCPM V' then 16\r\n" + 
+					"   when u.designation='DyCE EE' then 17\r\n" + 
+					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
+					"   when u.designation='DyCPM Pune' then 19\r\n" + 
+					"   when u.designation='DyCE Proj' then 20\r\n" + 
+					"   when u.designation='DyCEE I' then 21\r\n" + 
+					"   when u.designation='DyCEE Projects' then 22\r\n" + 
+					"   when u.designation='DyCEE PSI' then 23\r\n" + 
+					"   when u.designation='DyCSTE I' then 24\r\n" + 
+					"   when u.designation='DyCSTE IT' then 25\r\n" + 
+					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
+					"   when u.designation='XEN Consultant' then 27\r\n" + 
+					"   when u.designation='AEN Adhoc' then 28\r\n" + 
+					"   when u.designation='AEN Project' then 29\r\n" + 
+					"   when u.designation='AEN P-Way' then 30\r\n" + 
+					"   when u.designation='AEN' then 31\r\n" + 
+					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
+					"   when u.designation='Manager Signal' then 33\r\n" + 
+					"   when u.designation='Manager Civil' then 34 \r\n" + 
+					"   when u.designation='Manager OHE' then 35\r\n" + 
+					"   when u.designation='Manager GS' then 36\r\n" + 
+					"   when u.designation='Manager Finance' then 37\r\n" + 
+					"   when u.designation='Planning Manager' then 38\r\n" + 
+					"   when u.designation='Manager Project' then 39\r\n" + 
+					"   when u.designation='Manager' then 40 \r\n" + 
+					"   when u.designation='SSE' then 41\r\n" + 
+					"   when u.designation='SSE Project' then 42\r\n" + 
+					"   when u.designation='SSE Works' then 43\r\n" + 
+					"   when u.designation='SSE Drg' then 44\r\n" + 
+					"   when u.designation='SSE BR' then 45\r\n" + 
+					"   when u.designation='SSE P-Way' then 46\r\n" + 
+					"   when u.designation='SSE OHE' then 47\r\n" + 
+					"   when u.designation='SPE' then 48\r\n" + 
+					"   when u.designation='PE' then 49\r\n" + 
+					"   when u.designation='JE' then 50\r\n" + 
+					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
+					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
+					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
+					"\r\n" + 
+					"   end asc" ;
 
 			//qry = qry + " ORDER BY Field(u.designation, ED Civil,CPM I,CPM II,CPM III,CPM V,CE,ED S&T,CSTE,GM Electrical,GGM Civil,CEE Project I,CEE Project II,ED Finance & Planning)";
 			Object[] pValues = new Object[arrSize];
@@ -3301,7 +3443,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getResponsiblePeopleList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,department_fk FROM [user] where user_name not like %user% and pmis_key_fk not like %SGS% and user_type_fk not in(Others) ";
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM [user] where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and user_type_fk not in('Others') ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -3317,20 +3459,75 @@ public class ContractDaoImpl implements ContractDao {
 			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk "
 					+ "FROM [user] u " 
 					+ "left join department d on u.department_fk = d.department "
-					+ "where  user_id is not null and user_type_fk <>   and u.user_type_fk not in(Others)  ";
+					+ "where  user_id is not null and user_type_fk <> ''  and u.user_type_fk not in('Others')  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " and user_name not like %user% and pmis_key_fk not like %SGS%";// and department_fk in(Engg,Elec,S&T) 
+			qry = qry + " and user_name not like '%user%' and pmis_key_fk not like '%SGS%'";// and department_fk in(Engg,Elec,S&T) 
 			
-			qry = qry + " ORDER BY FIELD(user_type_fk,HOD,DYHOD,Officers ( Jr./Sr. Scale ),Others),"
-					+ "FIELD(u.designation,ED Civil,CPM I,CPM II,CPM III,CPM V,CE,ED S&T,CSTE,GM Electrical,CEE Project I,CEE Project II,ED Finance & Planning,AGM Civil," 
-					+ " DyCPM Civil,DyCPM III,DyCPM V,DyCE EE,DyCE Badlapur,DyCPM Pune,DyCE Proj,DyCEE I,DyCEE Projects,DyCEE PSI,DyCSTE I,DyCSTE IT,DyCSTE Projects,XEN Consultant," 
-					+ " AEN Adhoc,AEN Project,AEN P-Way,AEN,Sr Manager Signal,Manager Signal,Manager Civil,Manager OHE,Manager GS,Manager Finance,Planning Manager," 
-					+ " Manager Project,Manager,SSE,SSE Project,SSE Works,SSE Drg,SSE BR,SSE P-Way,SSE OHE,SPE,PE,JE,Demo-HOD-Elec,Demo-HOD-Engg,Demo-HOD-S&T)";
+			qry = qry + " ORDER BY 					case when user_type_fk='HOD' then 1\r\n" + 
+					"					when user_type_fk='DYHOD' then 2\r\n" + 
+					"					when user_type_fk='Officers ( Jr./Sr. Scale )' then 3\r\n" + 
+					"					when user_type_fk='Others' then 4\r\n" + 
+					"					end asc ,"
+					+ "case when u.designation='ED Civil' then 1 \r\n" + 
+					"   when u.designation='CPM I' then 2 \r\n" + 
+					"   when u.designation='CPM II' then 3\r\n" + 
+					"   when u.designation='CPM III' then 4 \r\n" + 
+					"   when u.designation='CPM V' then 5\r\n" + 
+					"   when u.designation='CE' then 6 \r\n" + 
+					"   when u.designation='ED S&T' then 7 \r\n" + 
+					"   when u.designation='CSTE' then 8\r\n" + 
+					"   when u.designation='GM Electrical' then 9\r\n" + 
+					"   when u.designation='CEE Project I' then 10\r\n" + 
+					"   when u.designation='CEE Project II' then 11\r\n" + 
+					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
+					"   when u.designation='AGM Civil' then 13\r\n" + 
+					"   when u.designation='DyCPM Civil' then 14\r\n" + 
+					"   when u.designation='DyCPM III' then 15\r\n" + 
+					"   when u.designation='DyCPM V' then 16\r\n" + 
+					"   when u.designation='DyCE EE' then 17\r\n" + 
+					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
+					"   when u.designation='DyCPM Pune' then 19\r\n" + 
+					"   when u.designation='DyCE Proj' then 20\r\n" + 
+					"   when u.designation='DyCEE I' then 21\r\n" + 
+					"   when u.designation='DyCEE Projects' then 22\r\n" + 
+					"   when u.designation='DyCEE PSI' then 23\r\n" + 
+					"   when u.designation='DyCSTE I' then 24\r\n" + 
+					"   when u.designation='DyCSTE IT' then 25\r\n" + 
+					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
+					"   when u.designation='XEN Consultant' then 27\r\n" + 
+					"   when u.designation='AEN Adhoc' then 28\r\n" + 
+					"   when u.designation='AEN Project' then 29\r\n" + 
+					"   when u.designation='AEN P-Way' then 30\r\n" + 
+					"   when u.designation='AEN' then 31\r\n" + 
+					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
+					"   when u.designation='Manager Signal' then 33\r\n" + 
+					"   when u.designation='Manager Civil' then 34 \r\n" + 
+					"   when u.designation='Manager OHE' then 35\r\n" + 
+					"   when u.designation='Manager GS' then 36\r\n" + 
+					"   when u.designation='Manager Finance' then 37\r\n" + 
+					"   when u.designation='Planning Manager' then 38\r\n" + 
+					"   when u.designation='Manager Project' then 39\r\n" + 
+					"   when u.designation='Manager' then 40 \r\n" + 
+					"   when u.designation='SSE' then 41\r\n" + 
+					"   when u.designation='SSE Project' then 42\r\n" + 
+					"   when u.designation='SSE Works' then 43\r\n" + 
+					"   when u.designation='SSE Drg' then 44\r\n" + 
+					"   when u.designation='SSE BR' then 45\r\n" + 
+					"   when u.designation='SSE P-Way' then 46\r\n" + 
+					"   when u.designation='SSE OHE' then 47\r\n" + 
+					"   when u.designation='SPE' then 48\r\n" + 
+					"   when u.designation='PE' then 49\r\n" + 
+					"   when u.designation='JE' then 50\r\n" + 
+					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
+					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
+					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
+					"\r\n" + 
+					"   end asc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -3363,7 +3560,10 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getContractStatus() throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry =" select distinct contract_status from general_status ORDER BY FIELD(contract_status,Open,Closed,Yet to be Awarded)";
+			String qry =" select distinct contract_status from general_status ";
+					//" ORDER BY case when contract_status='Open' then 1\r\n " + 
+					//"   when contract_status='Closed' then 2\r\n" + 
+					//"   when contract_status='Yet to be Awarded' then 3 end asc";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -3377,13 +3577,18 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> objsList = null;
 		try {
 			//String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN (Commissioned, Dropped,On Hold) ";
-			String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN (Terminated,Not Started) ";
+			String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN ('Terminated','Not Started') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
 				qry = qry + " and contract_status = ? ";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY FIELD(general_status,Commissioned,Completed,In Progress,On Hold,Dropped,Not Started)";
+			qry = qry + "    ORDER BY case when general_status='Commissioned' then 1\r\n" + 
+					"   when general_status='Completed' then 2\r\n" + 
+					"   when general_status='In Progress' then 3\r\n" + 
+					"   when general_status='On Hold' then 4\r\n" + 
+					"   when general_status='Dropped' then 5\r\n" + 
+					"   when general_status='Not Started' then 6 end asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
@@ -3866,7 +4071,13 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and contract_status_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY FIELD(department_fk,Engg,Elec,S&T),FIELD(contract_status_fk,In Progress,Not Awarded,Completed)";
+			qry = qry + "    ORDER BY case when department_fk='Engg' then 1\r\n" + 
+					"   when department_fk='Elec' then 2\r\n" + 
+					"   when department_fk='S&T' then 3 end asc ,\r\n" + 
+					"   \r\n" + 
+					"   case when contract_status_fk='In Progress' then 1\r\n" + 
+					"   when contract_status_fk='Not Awarded' then 2\r\n" + 
+					"   when contract_status_fk='Completed' then 3 end asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -3935,7 +4146,9 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			qry = qry + " GROUP BY u.department_fk "
-					  + " ORDER BY FIELD(u.department_fk,Engg,Elec,S&T)";
+					  + "    ORDER BY case when department_fk='Engg' then 1\r\n" + 
+					  "   when department_fk='Elec' then 2\r\n" + 
+					  "   when department_fk='S&T' then 3 end asc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

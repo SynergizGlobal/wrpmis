@@ -3042,6 +3042,20 @@ public class AlertsDaoImpl implements AlertsDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends create_user_calendar_dates :"+ new Date());
 			
+			logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
+			String qry7 = "call 4_scurve()";			
+			stmt = connection.prepareCall(qry7);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
+			
+			logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
+			String qry8 = "call 5_scurve_wo_ms()";			
+			stmt = connection.prepareCall(qry8);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());				
+			
 			flag = true;
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -4103,6 +4117,20 @@ public class AlertsDaoImpl implements AlertsDao{
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
+			
+			logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
+			String qry4 = "call 4_scurve()";			
+			stmt = connection.prepareCall(qry4);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
+			
+			logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
+			String qry5 = "call 5_scurve_wo_ms()";			
+			stmt = connection.prepareCall(qry5);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());			
 			
 			flag = true;
 		}catch(Exception e){ 

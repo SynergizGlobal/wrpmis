@@ -31,7 +31,7 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 			String qry = "select issue_id,contract_id_fk,title,i.description,FORMAT(date,'dd-MM-yyyy') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
 					+ "d.department_name,priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'dd-MM-yyyy') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,"
 					+ "c.contract_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,other_organization,"
-					+ "FORMAT(escalation_date,'dd-MM-yyyy') AS escalation_date,FORMAT(assigned_date,'dd-MM-yyyy') AS assigned_date,DATEDIFF(getDate(),date) AS pending_Since, "
+					+ "FORMAT(escalation_date,'dd-MM-yyyy') AS escalation_date,FORMAT(assigned_date,'dd-MM-yyyy') AS assigned_date,DATEDIFF(CONVERT(date, getdate()),date) AS pending_Since, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,ctr.contractor_id,ctr.contractor_name,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,u4.designation as hod_designation,u5.designation as dyHod_designation,i.status_fk as existing_status_fk,"
 					+ "FORMAT(i.created_date,'dd-MM-yyyy') AS created_date,other_org_resposible_person_name,other_org_resposible_person_designation "

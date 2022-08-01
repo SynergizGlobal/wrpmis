@@ -47,8 +47,8 @@ public class BudgetDaoImpl implements BudgetDao {
 		List<Budget> objsList = null;
 		try {
 			
-			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant  from budget b LEFT JOIN work w on b.work_id_fk = w.work_id LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year LEFT JOIN project p on  w.project_id_fk = p.project_id WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GetDate()) >= 4 THEN concat(YEAR(GetDate()), '-',SUBSTRING(cast(YEAR(GetDate())+1 as varchar),3,2)) ELSE concat(cast(YEAR(GetDate())-1 as varchar),'-', \r\n" + 
-					"SUBSTRING(cast(YEAR(GetDate()) as varchar),3,2)) END) AS financial_year) AND budget_id is not null and status = ? ";
+			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant  from budget b LEFT JOIN work w on b.work_id_fk = w.work_id LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year LEFT JOIN project p on  w.project_id_fk = p.project_id WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', \r\n" + 
+					"SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END) AS financial_year) AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -607,7 +607,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), -,SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,-, SUBSTRING(YEAR(GETDATE()),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), -,SUBSTRING(YEAR(CONVERT(date, getdate()))+1,3,2)) ELSE concat(YEAR(CONVERT(date, getdate()))-1,-, SUBSTRING(YEAR(CONVERT(date, getdate())),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -690,8 +690,8 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GetDate()) >= 4 THEN concat(YEAR(GetDate()), '-',SUBSTRING(cast(YEAR(GetDate())+1 as varchar),3,2)) ELSE concat(cast(YEAR(GetDate())-1 as varchar),'-', \r\n" + 
-					"SUBSTRING(cast(YEAR(GetDate()) as varchar),3,2)) END) AS financial_year) AND budget_id is not null and status = ? ";
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', \r\n" + 
+					"SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END) AS financial_year) AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -753,8 +753,8 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(GetDate()) >= 4 THEN concat(YEAR(GetDate()), '-',SUBSTRING(cast(YEAR(GetDate())+1 as varchar),3,2)) ELSE concat(cast(YEAR(GetDate())-1 as varchar),'-', \r\n" + 
-					"SUBSTRING(cast(YEAR(GetDate()) as varchar),3,2)) END) AS financial_year) " 
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', \r\n" + 
+					"SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END) AS financial_year) " 
 					+ "AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;

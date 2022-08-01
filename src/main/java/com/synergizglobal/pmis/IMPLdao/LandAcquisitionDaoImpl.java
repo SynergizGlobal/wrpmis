@@ -867,7 +867,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 					if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
 						if(!StringUtils.isEmpty(obj.getIssue_category_id())){
-							String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,getDate())";				
+							String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,CONVERT(date, getdate()))";				
 							jdbcTemplate.update(new PreparedStatementCreator() {
 								@Override
 								public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -1719,7 +1719,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 					if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
 						if(!StringUtils.isEmpty(obj.getIssue_category_id())){
-							String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,getDate())";				
+							String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,CONVERT(date, getdate()))";				
 							jdbcTemplate.update(new PreparedStatementCreator() {
 								@Override
 								public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {

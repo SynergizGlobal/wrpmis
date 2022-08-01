@@ -74,7 +74,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 				qry = qry + " and w.project_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY work_id_fk ";
+			qry = qry + "GROUP BY work_id_fk,w.work_name,w.work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -108,7 +108,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 				qry = qry + " and w.project_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY project_id_fk ";
+			qry = qry + " GROUP BY project_id_fk,p.project_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -134,20 +134,20 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "\r\n"
 					+ "ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1\r\n"
 					+ "					where contract_id_fk=c.contract_id and work_id='"+obj.getWork_id_fk()+"' \r\n"
-					+ "					and voucher_type=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTRING(YEAR(GETDATE()),3,2)) END)\r\n"
+					+ "					and voucher_type=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(YEAR(CONVERT(date, getdate()))+1,3,2)) ELSE concat(YEAR(CONVERT(date, getdate()))-1,'-', SUBSTRING(YEAR(CONVERT(date, getdate())),3,2)) END)\r\n"
 					+ "					)\r\n"
 					+ "					 ,0) as expenditure_current_fy,\r\n"
 					+ "                     \r\n"
 					+ "                     \r\n"
 					+ " ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1\r\n"
 					+ "					where contract_id_fk=c.contract_id and work_id='"+obj.getWork_id_fk()+"' and\r\n"
-					+ "					date<=(SELECT FORMAT(str_to_date(concat(YEAR(getDate())-1,'-03-31'), '%Y-%m-%d'), '%Y-%m-%d'))\r\n"
+					+ "					date<=(SELECT FORMAT(str_to_date(concat(YEAR(CONVERT(date, getdate()))-1,'-03-31'), '%Y-%m-%d'), '%Y-%m-%d'))\r\n"
 					+ "					)\r\n"
 					+ "					 ,0) as expenditure_end_of_fy ,\r\n"
 					+ "                     \r\n"
 					+ "   ISNULL((select budget_estimate from budget e1\r\n"
 					+ "					where work_id_fk='"+obj.getWork_id_fk()+"' and\r\n"
-					+ "					financial_year_fk=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTRING(YEAR(GETDATE()),3,2)) END)\r\n"
+					+ "					financial_year_fk=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(YEAR(CONVERT(date, getdate()))+1,3,2)) ELSE concat(YEAR(CONVERT(date, getdate()))-1,'-', SUBSTRING(YEAR(CONVERT(date, getdate())),3,2)) END)\r\n"
 					+ "					)\r\n"
 					+ "					 ,0) as budget_grant_current_fy ,ISNULL(target_doc,'') as target_completion_date ,\r\n"
 					+ "                     \r\n"
@@ -159,8 +159,8 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "										LEFT JOIN work w on c.work_id_fk = w.work_id \r\n"
 					+ "					                  left join work_yearly_sanction wy on wy.work_id_fk=w.work_id\r\n"
 					+ "										LEFT JOIN project p on w.project_id_fk = p.project_id \r\n"
-					+ "					                  left join expenditure e on e.contract_id_fk= c.contract_id and e.voucher_type=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTRING(YEAR(GETDATE()),3,2)) END)\r\n"
-					+ "					                  LEFT JOIN budget b on b.work_id_fk = w.work_id and b.financial_year_fk=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()), '-',SUBSTRING(YEAR(GETDATE())+1,3,2)) ELSE concat(YEAR(GETDATE())-1,'-', SUBSTRING(YEAR(GETDATE()),3,2)) END)\r\n"
+					+ "					                  left join expenditure e on e.contract_id_fk= c.contract_id and e.voucher_type=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(YEAR(CONVERT(date, getdate()))+1,3,2)) ELSE concat(YEAR(CONVERT(date, getdate()))-1,'-', SUBSTRING(YEAR(CONVERT(date, getdate())),3,2)) END)\r\n"
+					+ "					                  LEFT JOIN budget b on b.work_id_fk = w.work_id and b.financial_year_fk=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(YEAR(CONVERT(date, getdate()))+1,3,2)) ELSE concat(YEAR(CONVERT(date, getdate()))-1,'-', SUBSTRING(YEAR(CONVERT(date, getdate())),3,2)) END)\r\n"
 					+ "					                  \r\n"
 					+ "										where c.work_id_fk is not null and c.work_id_fk <> '' and work_id='"+obj.getWork_id_fk()+"'\r\n";
 
@@ -502,8 +502,8 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "left join contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes'\r\n"
 					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "left join department hoddt on u.department_fk = hoddt.department\r\n"
-					+ "and date>=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()),'-04-01') ELSE concat(YEAR(GETDATE())-1,'-04-01') END)\r\n"
-					+ "and date<=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE())+1,'-03-31') else concat(YEAR(GETDATE()),'-03-31') end )\r\n"
+					+ "and date>=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())),'-04-01') ELSE concat(YEAR(CONVERT(date, getdate()))-1,'-04-01') END)\r\n"
+					+ "and date<=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate()))+1,'-03-31') else concat(YEAR(CONVERT(date, getdate())),'-03-31') end )\r\n"
 					+ "where c.status='Open' and c.contract_name not like '%Miscellaneous-%' and  c.contract_name not like '%Land-%'\r\n"
 					+ "and category='planned' and c.work_id_fk='"+obj.getWork_id_fk()+"' and hoddt.department_name='Engineering'\r\n"
 					+ "group by c.contract_id\r\n"
@@ -519,8 +519,8 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 					+ "left join contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes'\r\n"
 					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id\r\n"
 					+ "left join department hoddt on u.department_fk = hoddt.department\r\n"
-					+ "and date>=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE()),'-04-01') ELSE concat(YEAR(GETDATE())-1,'-04-01') END)\r\n"
-					+ "and date<=(SELECT CASE WHEN MONTH(GETDATE()) >= 4 THEN concat(YEAR(GETDATE())+1,'-03-31') else concat(YEAR(GETDATE()),'-03-31') end )\r\n"
+					+ "and date>=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())),'-04-01') ELSE concat(YEAR(CONVERT(date, getdate()))-1,'-04-01') END)\r\n"
+					+ "and date<=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate()))+1,'-03-31') else concat(YEAR(CONVERT(date, getdate())),'-03-31') end )\r\n"
 					+ "where c.status='Open' and c.contract_name not like '%Miscellaneous-%' and  c.contract_name not like '%Land-%'\r\n"
 					+ "and category='planned' and c.work_id_fk='"+obj.getWork_id_fk()+"' and hoddt.department_name in('Engineering','Signalling & Telecom')\r\n"
 					+ "group by c.contract_id";

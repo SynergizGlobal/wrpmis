@@ -64,7 +64,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				contractsQry = contractsQry + " and f.structure_type_fk = ?";
 				arrSize++;
 			}
-			contractsQry = contractsQry + " GROUP BY f.structure_type_fk ORDER BY case when a.component='New FOB site on PF' then 1 \r\n" + 
+			contractsQry = contractsQry + " GROUP BY contract_id,c.work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name,f.work_status_fk,f.structure_type_fk ORDER BY case when a.component='New FOB site on PF' then 1 \r\n" + 
 					"		 when a.component='PF and service buildings' then 2\r\n" + 
 					"		 when a.component='New Constructed FOB' then 3\r\n" + 
 					"		 when a.component='New Constructed  FOB' then 4\r\n" + 
@@ -207,7 +207,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qryDetails = "select structure as fob_id_fk,contract_id_fk as contract_id from p6_activities a left join structure s on s.structure_id = a.structure_id_fk "
-					+"where contract_id_fk = ? and s.structure_type_fk<>'FOB' group by structure";
+					+"where contract_id_fk = ? and s.structure_type_fk<>'FOB' group by structure,contract_id_fk";
 			
 			objsList = jdbcTemplate.query(qryDetails, new Object[] {obj.getContract_id()}, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 		}catch(Exception e){ 
@@ -242,15 +242,19 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				qry = qry + " and c.contract_id = ?";
 				arrSize++;
 			}
+			qry = qry +" GROUP BY p.project_id,p.project_name";
 			
-			qry = qry + " GROUP BY p.project_id ORDER BY case when a.component='New FOB site on PF' then 1 \r\n" + 
-					"		 when a.component='PF and service buildings' then 2\r\n" + 
-					"		 when a.component='New Constructed FOB' then 3\r\n" + 
-					"		 when a.component='New Constructed  FOB' then 4\r\n" + 
-					"		 when a.component='PF sheds Under new FOB' then 5\r\n" + 
-					"		 when a.component='Dismantling of old & unservicable FOB' then 6\r\n" + 
-					"		 when a.component='PF s cover shed of dismantalling FOB' then 7\r\n" + 
-					"		 when a.component='Station' then 8 end asc";
+			/*
+			 * qry = qry +
+			 * " GROUP BY p.project_id,p.project_name ORDER BY case when a.component='New FOB site on PF' then 1 \r\n"
+			 * + "		 when a.component='PF and service buildings' then 2\r\n" +
+			 * "		 when a.component='New Constructed FOB' then 3\r\n" +
+			 * "		 when a.component='New Constructed  FOB' then 4\r\n" +
+			 * "		 when a.component='PF sheds Under new FOB' then 5\r\n" +
+			 * "		 when a.component='Dismantling of old & unservicable FOB' then 6\r\n"
+			 * + "		 when a.component='PF s cover shed of dismantalling FOB' then 7\r\n"
+			 * + "		 when a.component='Station' then 8 end asc";
+			 */
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -294,7 +298,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				qry = qry + " and w.project_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY w.work_id ORDER BY w.work_id ASC";
+			qry = qry + " GROUP BY w.work_id,w.work_name,w.work_short_name ORDER BY w.work_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -333,7 +337,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.contract_id ORDER BY c.contract_id ASC";
+			qry = qry + " group by w.project_id_fk,c.work_id_fk,c.contract_id,c.contract_name,c.contract_short_name ORDER BY c.contract_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -394,7 +398,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 		try {
 			String qryDetails = "select contract_id_fk as contract_id,c.contract_short_name from p6_activities a left join structure s on s.structure_id = a.structure_id_fk "
 					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
-					+"where contract_id_fk is not null and contract_id_fk <> '' and s.structure_type_fk<>'FOB' group by contract_id";
+					+"where contract_id_fk is not null and contract_id_fk <> '' and s.structure_type_fk<>'FOB' group by contract_id_fk,c.contract_short_name";
 			
 			objsList = jdbcTemplate.query(qryDetails, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 		}catch(Exception e){ 

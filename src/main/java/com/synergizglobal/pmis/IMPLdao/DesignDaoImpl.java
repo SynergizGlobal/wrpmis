@@ -678,7 +678,7 @@ public class DesignDaoImpl implements DesignDao{
 				
 				String issueId = null;
 				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-					String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date)VALUES(?,?,?,?,?,?,getDate())";				
+					String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date)VALUES(?,?,?,?,?,?,CONVERT(date, getdate()))";				
 					KeyHolder holder = new GeneratedKeyHolder();
 					jdbcTemplate.update(new PreparedStatementCreator() {
 						@Override
@@ -944,7 +944,7 @@ public class DesignDaoImpl implements DesignDao{
 				
 				String issueId = null;
 				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-					String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date)VALUES(?,?,?,?,?,?,getDate())";				
+					String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date)VALUES(?,?,?,?,?,?,CONVERT(date, getdate()))";				
 					KeyHolder holder = new GeneratedKeyHolder();
 					jdbcTemplate.update(new PreparedStatementCreator() {
 						@Override

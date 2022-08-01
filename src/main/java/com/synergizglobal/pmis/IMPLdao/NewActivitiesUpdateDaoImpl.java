@@ -2137,7 +2137,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				}
 				concat=concat.substring(0, concat.length() - 1);  
 				connection = dataSource.getConnection();		
-				statement = connection.prepareCall("{call deleteActivities(?)}");
+				statement = connection.prepareCall("{exec deleteActivities(?)}");
 				statement.setString(1, concat);
 
 				boolean hadResults = statement.execute();

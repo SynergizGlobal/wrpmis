@@ -550,7 +550,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 		            });
 				
 					//String file_insert_qry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date,fob_file_type_fk,name) VALUES (:fob_id,:attachment,:created_date,:fob_file_type_fk,:name)";
-					String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,GetDate())";
+					String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CONVERT(date, getdate()))";
 
 					int arraySize =0, docArrSize = 0;
 				/*	if (!StringUtils.isEmpty(obj.getFileNamesStructure()) && obj.getFileNamesStructure().length > 0) {
@@ -844,7 +844,7 @@ public class StructureFormDaoImpl implements StructureFormDao{
 					count = namedParamJdbcTemplate.update(docDeleteQry, paramSource);
 					
 					//String file_insert_qry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date,fob_file_type_fk,name) VALUES (:fob_id,:attachment,:created_date,:fob_file_type_fk,:name)";
-					String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,GetDate())";
+					String document_insert_qry = "INSERT into  structure_documents ( structure_id_fk, attachment,structure_file_type_fk,name,created_date) VALUES (:structure_id,:attachment,:structure_file_type_fk,:name,CONVERT(date, getdate()))";
 
 					int arraySize =0, docArrSize = 0;
 					

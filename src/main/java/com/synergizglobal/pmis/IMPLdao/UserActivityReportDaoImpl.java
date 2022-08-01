@@ -591,7 +591,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 			String qry = "SELECT form_history_id,module_name_fk,form_name,work,contract,form_action_type,"
 					+ "form_details,created_by_user_id_fk,user,created_date "
 					+ "FROM forms_history fh "
-					+ "WHERE (FORMAT(created_date,'%Y-%m-%d') BETWEEN FORMAT((GETDATE() - INTERVAL ? DAY),'%Y-%m-%d') AND FORMAT(GETDATE(),'%Y-%m-%d')) "
+					+ "WHERE (FORMAT(created_date,'%Y-%m-%d') BETWEEN FORMAT((CONVERT(date, getdate()) - INTERVAL ? DAY),'%Y-%m-%d') AND FORMAT(CONVERT(date, getdate()),'%Y-%m-%d')) "
 					+ "AND module_name_fk = ? "
 					+ "AND created_by_user_id_fk = ? ";
 			

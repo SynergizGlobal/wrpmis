@@ -217,7 +217,7 @@ public class ProfileDaoImpl implements ProfileDao {
 			String qry = "SELECT distinct l.user_leave_id,employee_id as user_id,from_date,to_date,"
 					+ "STRING_AGG(module) as modules,STRING_AGG(responsible_person) as responsible_persons "
 					+ " FROM pmis.user_leave_responsibility l "
-					+ "inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id where delete_status='No' and employee_id=? and from_date>=? and to_date>=getDate() ";
+					+ "inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id where delete_status='No' and employee_id=? and from_date>=? and to_date>=CONVERT(date, getdate()) ";
 					
 			
 			int arrSize = 2;
@@ -262,7 +262,7 @@ public class ProfileDaoImpl implements ProfileDao {
 		ResultSet resultSet = null;
 		try {
 				connection = dataSource.getConnection();		
-				String qry = "select * from user_leave_responsibility l inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id where delete_status='No' and getDate()>=from_date and getDate()<=to_date";
+				String qry = "select * from user_leave_responsibility l inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id where delete_status='No' and CONVERT(date, getdate())>=from_date and CONVERT(date, getdate())<=to_date";
 				statement = connection.prepareStatement(qry);
 				resultSet = statement.executeQuery();  
 				while(resultSet.next()) 
@@ -494,7 +494,7 @@ public class ProfileDaoImpl implements ProfileDao {
 		ResultSet resultSet = null;
 		try {
 				connection = dataSource.getConnection();		
-				String qry = "select * from user_leave_responsibility l inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id where delete_status='No' and to_date=SUBDATE(getDate(),1)";
+				String qry = "select * from user_leave_responsibility l inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id where delete_status='No' and to_date=SUBDATE(CONVERT(date, getdate()),1)";
 				statement = connection.prepareStatement(qry);
 				resultSet = statement.executeQuery();  
 				while(resultSet.next()) 

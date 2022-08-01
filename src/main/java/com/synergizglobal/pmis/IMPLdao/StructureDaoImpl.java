@@ -1219,12 +1219,12 @@ public class StructureDaoImpl implements StructureDao {
 				
 				if(obj.getStructure_ids().length>1)
 				{
-					statement = connection.prepareCall("{call deleteMultipleStructure(?,?)}");
+					statement = connection.prepareCall("{exec deleteMultipleStructure(?,?)}");
 
 				}	
 				else
 				{
-					statement = connection.prepareCall("{call deleteStructure(?,?)}");
+					statement = connection.prepareCall("{exec deleteStructure(?,?)}");
 				}
 				statement.setString(1, concat);
 				statement.setString(2, obj.getStructure_type_fk());
@@ -1256,7 +1256,7 @@ public class StructureDaoImpl implements StructureDao {
 						concat=concat+obj.getStructure_ids()[i]+",";
 				}
 				concat=concat.substring(0, concat.length() - 1);				
-				statement = connection.prepareCall("{call getStructureCount(?,?)}");
+				statement = connection.prepareCall("{execgetStructureCount(?,?)}");
 				statement.setString(1, obj.getWork_id_fk());
 				statement.setString(2, concat);
 				statement.setString(3, obj.getStructure_type_fk());
@@ -1298,7 +1298,7 @@ public class StructureDaoImpl implements StructureDao {
 				{
 					concat=concat+"]";
 				}					
-				statement = connection.prepareCall("{call getStructureTypeCount(?,?)}");
+				statement = connection.prepareCall("{exec getStructureTypeCount(?,?)}");
 				statement.setString(1, obj.getWork_id_fk());
 				statement.setString(2, concat);
 				statement.setString(3, obj.getStructure_type_fk());

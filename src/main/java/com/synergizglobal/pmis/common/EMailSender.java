@@ -87,7 +87,7 @@ public class EMailSender {
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(toAddress));
 			message.setSubject(subject);
 			message.setText(body);
-			//Transport.send(message);
+			Transport.send(message);
 			logger.info("Email sent successfully");
 			isSend = true;
 		} catch (MessagingException e) {
@@ -205,7 +205,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -311,7 +311,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -417,7 +417,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -523,7 +523,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -628,7 +628,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -733,7 +733,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -838,7 +838,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -943,7 +943,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -1049,7 +1049,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -1154,7 +1154,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -1247,7 +1247,7 @@ public class EMailSender {
 			 message.setSentDate(new Date());
 			 
 			 // send the message
-			 //Transport.send(message);
+			 Transport.send(message);
 			 
 		 }catch (MessagingException mex) {
 			 mex.printStackTrace();
@@ -1376,7 +1376,7 @@ public class EMailSender {
 			 message.setSentDate(new Date());
 			 
 			 // send the message
-			 //Transport.send(message);
+			 Transport.send(message);
 			 
 		 }catch (MessagingException mex) {
 			 mex.printStackTrace();
@@ -1432,7 +1432,7 @@ public class EMailSender {
 			 message.setSentDate(new Date());
 			 
 			 // send the message
-			 //Transport.send(message);
+			 Transport.send(message);
 			 
 		 }catch (MessagingException mex) {
 			 mex.printStackTrace();
@@ -1532,7 +1532,7 @@ public class EMailSender {
 			 message.setSentDate(new Date());
 			 
 			 // send the message
-			 //Transport.send(message);
+			 Transport.send(message);
 			 
 		 }catch (MessagingException mex) {
 			 mex.printStackTrace();

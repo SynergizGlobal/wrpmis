@@ -94,7 +94,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 			}
 		
 			
-			qry = qry + " GROUP BY work_id_fk,work_short_name";
+			qry = qry + " GROUP BY work_id,work_short_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -119,7 +119,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> getContractListInActivitiesExportReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT work_id as work_id_fk,work_short_name,contract_id_fk,contract_short_name from p6_activities a "
+			String qry = "SELECT distinct work_id as work_id_fk,work_short_name,contract_id_fk,contract_short_name from p6_activities a "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "left join work w on work_id = c.work_id_fk "
 					+ "left join project p on w.project_id_fk = p.project_id "
@@ -141,7 +141,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 			}
 		
 			
-			qry = qry + " GROUP BY contract_id_fk";
+			//qry = qry + " GROUP BY contract_id_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -199,7 +199,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + "  order by ISNULL(a.task_code), a.task_code ASC,a.p6_activity_id";
+			qry = qry + "  order by ISNULL(a.task_code,''), a.task_code ASC,a.p6_activity_id";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

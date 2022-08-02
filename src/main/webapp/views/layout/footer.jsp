@@ -203,12 +203,12 @@
       }); 
       
      function switchEnvironment(val){
-    	 var current_url = $(location).attr('href');
+    	 var current_url = $(location).attr('href')+":" + window.location.port ;
     	 current_url = current_url.replace("/pmis/",val);
     	 current_url = current_url.replace("/pmis_qa/",val);
     	 $("#current_url").val(current_url);
     	 //alert($(location).attr('protocol')+"//"+$(location).attr('hostname')+val+"login");
-    	 $("#switchEnv").attr("action",$(location).attr('protocol')+"//"+$(location).attr('hostname')+val+"login");
+    	 $("#switchEnv").attr("action",$(location).attr('protocol')+"//"+$(location).attr('host')+val+"login");
     	 $("#switchEnv").submit();
     	 /* alert("host = " 
     			    + $(location).attr('host') 

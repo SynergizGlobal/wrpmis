@@ -3066,56 +3066,128 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			connection = dataSource.getConnection();
 			
-			logger.error("callingStoredProcedures Start 1_scurve_planned :"+ new Date());	
-			String qry1 = "exec dbo.[1_scurve_planned]";			
-			stmt = connection.prepareCall(qry1);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 1_scurve_planned :"+ new Date());
 			
-			logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
-			String qry2 = "exec dbo.[2_scurve_expected]";			
-			stmt = connection.prepareCall(qry2);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
+			try    
+		    {  
+				logger.error("callingStoredProcedures Start 1_scurve_planned :"+ new Date());	
+				String qry1 = "exec dbo.[1_scurve_planned]";			
+				stmt = connection.prepareCall(qry1);			
+				stmt.executeQuery();  
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				logger.error("callingStoredProcedures Ends 1_scurve_planned :"+ new Date());
+				
+				logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
+				String qry2 = "exec dbo.[2_scurve_expected]";			
+				stmt = connection.prepareCall(qry2);			
+				stmt.executeQuery();  
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());				
+				
+		    }catch(Exception e1){ 
+		    	
+		    	 	try{
+						logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
+						String qry2 = "exec dbo.[2_scurve_expected]";			
+						stmt = connection.prepareCall(qry2);			
+						stmt.executeQuery();  
+						DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+						logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
+		              }catch(Exception e2){
+		            	  
+
+				    	 	try{
+								logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
+								String qry2 = "exec dbo.[2_scurve_expected]";			
+								stmt = connection.prepareCall(qry2);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
+								
+								logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
+								String qry3 = "exec dbo.[3_scurve_obc]";			
+								stmt = connection.prepareCall(qry3);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
+								
+								logger.error("callingStoredProcedures Start create_calendar_dates :"+ new Date());	
+								String qry5 = "exec dbo.[create_calendar_dates]";			
+								stmt = connection.prepareCall(qry5);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends create_calendar_dates :"+ new Date());
+								
+								logger.error("callingStoredProcedures Start create_user_calendar_dates :"+ new Date());
+								String qry6 = "exec dbo.[create_user_calendar_dates]";			
+								stmt = connection.prepareCall(qry6);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends create_user_calendar_dates :"+ new Date());
+								
+								
+								logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
+								String qry7 = "exec dbo.[4_scurve]";			
+								stmt = connection.prepareCall(qry7);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
+								
+								
+								logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
+								String qry8 = "exec dbo.[5_scurve_wo_ms]";			
+								stmt = connection.prepareCall(qry8);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());								
+				              }catch(Exception e3){
+				            	  
+				      			logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
+				    			String qry3 = "exec dbo.[3_scurve_obc]";			
+				    			stmt = connection.prepareCall(qry3);			
+				    			stmt.executeQuery();  
+				    			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				    			logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
+				    			
+				    			logger.error("callingStoredProcedures Start create_calendar_dates :"+ new Date());	
+				    			String qry5 = "exec dbo.[create_calendar_dates]";			
+				    			stmt = connection.prepareCall(qry5);			
+				    			stmt.executeQuery();  
+				    			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				    			logger.error("callingStoredProcedures Ends create_calendar_dates :"+ new Date());
+				    			
+				    			logger.error("callingStoredProcedures Start create_user_calendar_dates :"+ new Date());
+				    			String qry6 = "exec dbo.[create_user_calendar_dates]";			
+				    			stmt = connection.prepareCall(qry6);			
+				    			stmt.executeQuery();  
+				    			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				    			logger.error("callingStoredProcedures Ends create_user_calendar_dates :"+ new Date());
+				    			
+				    			
+				    			logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
+				    			String qry7 = "exec dbo.[4_scurve]";			
+				    			stmt = connection.prepareCall(qry7);			
+				    			stmt.executeQuery();  
+				    			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				    			logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
+				    			
+				    			
+				    			logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
+				    			String qry8 = "exec dbo.[5_scurve_wo_ms]";			
+				    			stmt = connection.prepareCall(qry8);			
+				    			stmt.executeQuery();  
+				    			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				    			logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());				            	  
+				                
+				              }		
+		            	  
+		                
+		              }		    	
 			
-			logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
-			String qry3 = "exec dbo.[3_scurve_obc]";			
-			stmt = connection.prepareCall(qry3);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
+			}
 			
-			logger.error("callingStoredProcedures Start create_calendar_dates :"+ new Date());	
-			String qry5 = "exec dbo.[create_calendar_dates]";			
-			stmt = connection.prepareCall(qry5);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends create_calendar_dates :"+ new Date());
+
 			
-			logger.error("callingStoredProcedures Start create_user_calendar_dates :"+ new Date());
-			String qry6 = "exec dbo.[create_user_calendar_dates]";			
-			stmt = connection.prepareCall(qry6);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends create_user_calendar_dates :"+ new Date());
-			
-			
-			logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
-			String qry7 = "exec dbo.[4_scurve]";			
-			stmt = connection.prepareCall(qry7);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
-			
-			
-			logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
-			String qry8 = "exec dbo.[5_scurve_wo_ms]";			
-			stmt = connection.prepareCall(qry8);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());				
+				
 			
 			
 			flag = true;
@@ -4210,49 +4282,105 @@ public class AlertsDaoImpl implements AlertsDao{
 		CallableStatement stmt = null;
 		ResultSet resultSet = null;
 		boolean flag = false;
+		
 		try {
 			connection = dataSource.getConnection();
 			
-			logger.error("callingStoredProcedures Start 1_scurve_planned :"+ new Date());	
-			String qry1 = "exec dbo.[1_scurve_planned]";			
-			stmt = connection.prepareCall(qry1);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 1_scurve_planned :"+ new Date());
 			
-			logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
-			String qry2 = "exec dbo.[2_scurve_expected]";			
-			stmt = connection.prepareCall(qry2);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
+			try    
+		    {  
+				logger.error("callingStoredProcedures Start 1_scurve_planned :"+ new Date());	
+				String qry1 = "exec dbo.[1_scurve_planned]";			
+				stmt = connection.prepareCall(qry1);			
+				stmt.executeQuery();  
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				logger.error("callingStoredProcedures Ends 1_scurve_planned :"+ new Date());
+				
+				logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
+				String qry2 = "exec dbo.[2_scurve_expected]";			
+				stmt = connection.prepareCall(qry2);			
+				stmt.executeQuery();  
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());				
+				
+		    }catch(Exception e1){ 
+		    	
+		    	 	try{
+						logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
+						String qry2 = "exec dbo.[2_scurve_expected]";			
+						stmt = connection.prepareCall(qry2);			
+						stmt.executeQuery();  
+						DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+						logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
+		              }catch(Exception e2){
+		            	  
+
+				    	 	try{
+								logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
+								String qry2 = "exec dbo.[2_scurve_expected]";			
+								stmt = connection.prepareCall(qry2);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
+								
+								logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
+								String qry3 = "exec dbo.[3_scurve_obc]";			
+								stmt = connection.prepareCall(qry3);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
+								
+								
+								logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
+								String qry4 = "exec dbo.[4_scurve]";			
+								stmt = connection.prepareCall(qry4);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
+								
+								
+								logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
+								String qry5 = "exec dbo.[5_scurve_wo_ms]";			
+								stmt = connection.prepareCall(qry5);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());								
+				              }catch(Exception e3){
+				            	  
+				      			logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
+				    			String qry3 = "exec dbo.[3_scurve_obc]";			
+				    			stmt = connection.prepareCall(qry3);			
+				    			stmt.executeQuery();  
+				    			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+				    			logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
+				    			
+
+								logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
+								String qry4 = "exec dbo.[4_scurve]";			
+								stmt = connection.prepareCall(qry4);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
+								
+								
+								logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
+								String qry5 = "exec dbo.[5_scurve_wo_ms]";			
+								stmt = connection.prepareCall(qry5);			
+								stmt.executeQuery();  
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+								logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());				            	  
+				                
+				              }		
+		            	  
+		                
+		              }		    	
 			
-			logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
-			String qry3 = "exec dbo.[3_scurve_obc]";			
-			stmt = connection.prepareCall(qry3);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
-			
-			logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
-			String qry4 = "exec dbo.[4_scurve]";			
-			stmt = connection.prepareCall(qry4);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
-			
-			
-			logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
-			String qry5 = "exec dbo.[5_scurve_wo_ms]";			
-			stmt = connection.prepareCall(qry5);			
-			stmt.executeQuery();  
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-			logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());			
-			
+			}
+
 			flag = true;
 		}catch(Exception e){ 
 			throw new Exception(e);
-		}
+		}		
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
 		}

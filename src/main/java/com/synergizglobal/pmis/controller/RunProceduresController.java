@@ -32,7 +32,7 @@ public class RunProceduresController {
 			boolean flag = alertService.runPlannedNormalDistributionDay();
 			logger.error("runPlannedNormalDistributionDay() : "+flag);
 			if(flag) {
-				attributes.addFlashAttribute("procedureResult", "Procedure executed successfully");
+				attributes.addFlashAttribute("procedureResult", "Scurve refreshed successfully");
 			}else {
 				attributes.addFlashAttribute("procedureResult", "Procedure not executed");
 			}

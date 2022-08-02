@@ -267,7 +267,7 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="<%=request.getContextPath()%>/update-fortnight-plan" id="getForm" name="getForm" method="post">
+                    <form action="<%=request.getContextPath()%>/update-fortnightly-plan" id="getForm" name="getForm" method="post">
                         <div class="container container-no-margin">
                             <div class="row">  
                                 <h5 class="center-align" style="margin-bottom: 40px;"></h5>

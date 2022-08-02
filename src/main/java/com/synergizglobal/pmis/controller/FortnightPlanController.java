@@ -308,7 +308,7 @@ public class FortnightPlanController {
 		}
 		return model;
 	}
-	@RequestMapping(value="/update-fortnight-plan",method=RequestMethod.POST)
+	@RequestMapping(value="/update-fortnightly-plan",method=RequestMethod.POST)
 	public ModelAndView updateFortnightlyPlan(@ModelAttribute FortnightPlan obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
@@ -321,7 +321,7 @@ public class FortnightPlanController {
 			
 			boolean flag = FortnightPlanService.updateFortnightlyPlan(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "FortnightPlan updated successfully");
+				attributes.addFlashAttribute("success", "FortnightPlan added successfully");
 			}else {
 				attributes.addFlashAttribute("error", "Updating FortnightPlan is failed. Try again.");
 			}

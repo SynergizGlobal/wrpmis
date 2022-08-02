@@ -222,7 +222,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				formHistory.setWork_id_fk(obj.getWork_id_fk());
 				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
-				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				flag = formsHistoryDao.saveFormHistory(formHistory);
 
 			transactionManager.commit(status);
 		}
@@ -653,7 +653,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 
 		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRemarks())) 
 		{
-			for (int i = 0; i < obj.getActivity()[i].length(); i++) 
+			for (int i = 0; i < obj.getActivity().length; i++) 
 			{
 		      preparedStmt.setString(1, obj.getWork_id_fk());
 		      preparedStmt.setString(2, obj.getCategory()!=null ?obj.getCategory():null);
@@ -682,7 +682,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			formHistory.setWork_id_fk(obj.getWork_id_fk());
 			formHistory.setContract_id_fk(obj.getContract_id_fk());
 			
-			boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+			flag = formsHistoryDao.saveFormHistory(formHistory);
 			transactionManager.commit(status);
 		}
 		catch(Exception e){ 

@@ -49,23 +49,23 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					+ "where expenditure_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
-				qry = qry + " and ledger_account like CONCAT(?,'%')";
+				qry = qry + " and ledger_account like CONCAT(?,'%') ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
-				qry = qry + " and e.contractor_name = ?";
+				qry = qry + " and e.contractor_name = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
-				qry = qry + " and voucher_type = ?";
+				qry = qry + " and voucher_type = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
@@ -223,9 +223,9 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		try {
 			connection = dataSource.getConnection();
 			String qry = "SELECT expenditure_id,w.project_id_fk,p.project_name,c.work_id_fk,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'dd-MM-yyyy') AS date,voucher_type , " + 
-					"voucher_no,narration,cast(net_paid as CHAR) as net_paid,cast(gross_work_done as CHAR) as gross_work_done,cast(sd_payable as CHAR) as sd_payable,cast(contractor_income_tax as CHAR) as contractor_income_tax,"+
-					"cast(cgst_tds as CHAR) as cgst_tds,cast(sgst_tds as CHAR) as sgst_tds,cast(igst_tds as CHAR) as igst_tds,cast(vat_wct as CHAR) as vat_wct,cast(mob_advance as CHAR) as mob_advance,cast([interest on_mob_adv] as CHAR) as [interest on_mob_adv]," + 
-					"cast(amount_withheld as CHAR) as amount_withheld,e.remarks,e.net_paid_units,e.gross_work_done_units,e.sd_payable_units,e.contractor_income_tax_units,e.cgst_tds_units,e.sgst_tds_units,e.igst_tds_units,e.vat_wct_units,e.mob_advance_units,e.interest_on_mob_adv_units,e.amount_withheld_units,m.unit " + 
+					"voucher_no,narration,net_paid,gross_work_done,sd_payable,contractor_income_tax,"+
+					"cgst_tds,sgst_tds,igst_tds,vat_wct,mob_advance,[interest on_mob_adv]," + 
+					"amount_withheld,e.remarks,e.net_paid_units,e.gross_work_done_units,e.sd_payable_units,e.contractor_income_tax_units,e.cgst_tds_units,e.sgst_tds_units,e.igst_tds_units,e.vat_wct_units,e.mob_advance_units,e.interest_on_mob_adv_units,e.amount_withheld_units,m.unit " + 
 					" from expenditure e " + 
 					"LEFT JOIN contract c on e.contract_id_fk = c.contract_id  " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -382,7 +382,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					+ "voucher_type= ?, voucher_no= ?,narration= ?, "
 					+ "net_paid= ?, gross_work_done= ?, sd_payable = ?, contractor_income_tax= ?, "
 					+ "cgst_tds= ?, sgst_tds= ?,igst_tds= ?, vat_wct = ?, mob_advance= ?, "
-					+ "interest on_mob_adv= ? , amount_withheld= ?, remarks = ? ,net_paid_units = ?,gross_work_done_units = ?,sd_payable_units = ?,contractor_income_tax_units = ?,"
+					+ "[interest on_mob_adv]= ? , amount_withheld= ?, remarks = ? ,net_paid_units = ?,gross_work_done_units = ?,sd_payable_units = ?,contractor_income_tax_units = ?,"
 					+ "cgst_tds_units = ?,sgst_tds_units = ?,igst_tds_units = ?,vat_wct_units = ?,mob_advance_units = ?,interest_on_mob_adv_units = ?,amount_withheld_units = ? "
 					+ "where expenditure_id= ?";
 			int p = 1;
@@ -490,7 +490,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				qry = qry + " and e.voucher_type = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY w.work_id,w.work_name,w.work_short_name ";
+			qry = qry + " GROUP BY w.work_id,w.work_name,w.work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -545,7 +545,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				qry = qry + " and e.voucher_type = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY contract_id_fk,c.contract_short_name ";
+			qry = qry + " GROUP BY contract_id_fk,c.contract_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -599,7 +599,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				qry = qry + " and e.voucher_type = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY ledger_account ";
+			qry = qry + " GROUP BY ledger_account ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -653,7 +653,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				qry = qry + " and e.voucher_type = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY contractor_name ";
+			qry = qry + " GROUP BY contractor_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -688,11 +688,11 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					"where voucher_type is not null and voucher_type <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and e.contract_id_fk = ?";
+				qry = qry + " and e.contract_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
@@ -707,7 +707,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				qry = qry + " and e.voucher_type = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY voucher_type ";
+			qry = qry + " GROUP BY voucher_type ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -788,7 +788,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			qry = qry + " order by c.contract_id asc";
@@ -872,23 +872,23 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					+ "where expenditure_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
-				qry = qry + " and ledger_account like CONCAT(?,'%')";
+				qry = qry + " and ledger_account like CONCAT(?,'%') ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
-				qry = qry + " and e.contractor_name = ?";
+				qry = qry + " and e.contractor_name = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
-				qry = qry + " and voucher_type = ?";
+				qry = qry + " and voucher_type = ? ";
 				arrSize++;
 			}	
 			qry = qry + " ORDER BY expenditure_id ASC";

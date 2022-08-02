@@ -2173,7 +2173,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				
 				if(alerts != null && alerts.size() > 0){					
-					String itAdminsEmailsQry = "SELECT group_concat(email_id) from [user] where email_id is not null and email_id <> '' and user_role_name_fk = 'IT Admin'";
+					String itAdminsEmailsQry = "SELECT STRING_AGG(email_id,',') from [user] where email_id is not null and email_id <> '' and user_role_name_fk = 'IT Admin'";
 					String itAdminsEmails = jdbcTemplate.queryForObject( itAdminsEmailsQry,String.class);
 					if(!StringUtils.isEmpty(itAdminsEmails)) {
 						EMailSender emailSender = new EMailSender();
@@ -2207,7 +2207,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "ISNULL(a.remarks,'') as remarks,redirect_url " 
 					+ "from alerts a "  
 					+ "left join risk_work_hod rwh on ((rwh.sub_work = REPLACE(a.redirect_url,'/risk-assessment?sub_work=','')) "
-					+ "or (rwh.sub_work = substring_index(REPLACE(a.redirect_url,'/risk-atr-update?sub_work=',''), '&assessment_date=',1) )) "
+					+ "or (rwh.sub_work = dbo.SUBSTRING_INDEX(REPLACE(a.redirect_url,'/risk-atr-update?sub_work=',''), '&assessment_date=',1) )) "
 					+ "LEFT JOIN [user] u on rwh.hod_user_id_fk = u.user_id " 
 					+ "where alert_status = ? and count <> 0 and a.alert_type_fk = ? "
 					+ "order by hod,alert_level desc";
@@ -2256,7 +2256,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 	            String current_year = yearFormat.format(new Date()).toUpperCase();
 				
-	            String itAdminsEmailsQry = "SELECT group_concat(email_id) from [user] where email_id is not null and email_id <> '' and user_role_name_fk = 'IT Admin'";
+	            String itAdminsEmailsQry = "SELECT STRING_AGG(email_id,',') from [user] where email_id is not null and email_id <> '' and user_role_name_fk = 'IT Admin'";
 				String itAdminsEmails = jdbcTemplate.queryForObject( itAdminsEmailsQry,String.class);
 				if(!StringUtils.isEmpty(itAdminsEmails)) {
 					String emailSubject = "PMIS Risk Alerts";
@@ -3067,39 +3067,56 @@ public class AlertsDaoImpl implements AlertsDao{
 			connection = dataSource.getConnection();
 			
 			logger.error("callingStoredProcedures Start 1_scurve_planned :"+ new Date());	
-			String qry1 = "exec 1_scurve_planned()";			
+			String qry1 = "exec dbo.[1_scurve_planned]";			
 			stmt = connection.prepareCall(qry1);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends 1_scurve_planned :"+ new Date());
 			
 			logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
-			String qry2 = "exec 2_scurve_expected()";			
+			String qry2 = "exec dbo.[2_scurve_expected]";			
 			stmt = connection.prepareCall(qry2);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
 			
 			logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
-			String qry3 = "exec 3_scurve_obc()";			
+			String qry3 = "exec dbo.[3_scurve_obc]";			
 			stmt = connection.prepareCall(qry3);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
 			
 			logger.error("callingStoredProcedures Start create_calendar_dates :"+ new Date());	
-			String qry5 = "exec create_calendar_dates()";			
+			String qry5 = "exec dbo.[create_calendar_dates]";			
 			stmt = connection.prepareCall(qry5);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends create_calendar_dates :"+ new Date());
 			
 			logger.error("callingStoredProcedures Start create_user_calendar_dates :"+ new Date());
-			String qry6 = "exec create_user_calendar_dates()";			
+			String qry6 = "exec dbo.[create_user_calendar_dates]";			
 			stmt = connection.prepareCall(qry6);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends create_user_calendar_dates :"+ new Date());
+			
+			
+			logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
+			String qry7 = "exec dbo.[4_scurve]";			
+			stmt = connection.prepareCall(qry7);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
+			
+			
+			logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
+			String qry8 = "exec dbo.[5_scurve_wo_ms]";			
+			stmt = connection.prepareCall(qry8);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());				
+			
 			
 			flag = true;
 		}catch(Exception e){ 
@@ -4197,25 +4214,40 @@ public class AlertsDaoImpl implements AlertsDao{
 			connection = dataSource.getConnection();
 			
 			logger.error("callingStoredProcedures Start 1_scurve_planned :"+ new Date());	
-			String qry1 = "exec 1_scurve_planned()";			
+			String qry1 = "exec dbo.[1_scurve_planned]";			
 			stmt = connection.prepareCall(qry1);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends 1_scurve_planned :"+ new Date());
 			
 			logger.error("callingStoredProcedures Start 2_scurve_expected :"+ new Date());	
-			String qry2 = "exec 2_scurve_expected()";			
+			String qry2 = "exec dbo.[2_scurve_expected]";			
 			stmt = connection.prepareCall(qry2);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends 2_scurve_expected :"+ new Date());
 			
 			logger.error("callingStoredProcedures Start 3_scurve_obc :"+ new Date());	
-			String qry3 = "exec 3_scurve_obc()";			
+			String qry3 = "exec dbo.[3_scurve_obc]";			
 			stmt = connection.prepareCall(qry3);			
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			logger.error("callingStoredProcedures Ends 3_scurve_obc :"+ new Date());
+			
+			logger.error("callingStoredProcedures Start 4_scurve :"+ new Date());	
+			String qry4 = "exec dbo.[4_scurve]";			
+			stmt = connection.prepareCall(qry4);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 4_scurve :"+ new Date());
+			
+			
+			logger.error("callingStoredProcedures Start 5_scurve_wo_ms :"+ new Date());	
+			String qry5 = "exec dbo.[5_scurve_wo_ms]";			
+			stmt = connection.prepareCall(qry5);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			logger.error("callingStoredProcedures Ends 5_scurve_wo_ms :"+ new Date());			
 			
 			flag = true;
 		}catch(Exception e){ 

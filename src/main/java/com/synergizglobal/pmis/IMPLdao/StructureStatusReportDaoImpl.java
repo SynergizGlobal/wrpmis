@@ -39,7 +39,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String contractsQry = "select contract_id,c.work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name,f.work_status_fk,f.structure_type_fk as structure_type " + 
+			String contractsQry = "select distinct contract_id,c.work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name,f.work_status_fk,f.structure_type_fk as structure_type " + 
 					"from contract c " + 
 					"left outer join work w on work_id_fk = work_id " + 
 					"left join p6_activities a on c.contract_id = a.contract_id_fk "
@@ -64,14 +64,14 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				contractsQry = contractsQry + " and f.structure_type_fk = ?";
 				arrSize++;
 			}
-			contractsQry = contractsQry + " GROUP BY contract_id,c.work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name,f.work_status_fk,f.structure_type_fk ORDER BY case when a.component='New FOB site on PF' then 1 \r\n" + 
+			/*contractsQry = contractsQry + " GROUP BY contract_id,c.work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name,f.work_status_fk,f.structure_type_fk ORDER BY case when a.component='New FOB site on PF' then 1 \r\n" + 
 					"		 when a.component='PF and service buildings' then 2\r\n" + 
 					"		 when a.component='New Constructed FOB' then 3\r\n" + 
 					"		 when a.component='New Constructed  FOB' then 4\r\n" + 
 					"		 when a.component='PF sheds Under new FOB' then 5\r\n" + 
 					"		 when a.component='Dismantling of old & unservicable FOB' then 6\r\n" + 
 					"		 when a.component='PF s cover shed of dismantalling FOB' then 7\r\n" + 
-					"		 when a.component='Station' then 8 end asc";
+					"		 when a.component='Station' then 8 end asc";*/
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
@@ -285,7 +285,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name "+
+			String qry = "SELECT distinct c.work_id_fk,w.work_id,w.work_name,w.work_short_name "+
 					"from p6_activities a left join structure s on s.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -298,7 +298,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				qry = qry + " and w.project_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY w.work_id,w.work_name,w.work_short_name ORDER BY w.work_id ASC";
+			qry = qry + "  ORDER BY w.work_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			

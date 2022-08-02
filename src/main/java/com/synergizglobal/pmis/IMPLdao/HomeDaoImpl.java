@@ -990,7 +990,7 @@ public class HomeDaoImpl implements HomeDao {
 			con.setAutoCommit(false);
 			
 			List<User> user_ids = new ArrayList<User>();
-			String qry = "SELECT user_login_id,user_id_fk FROM [user]_login_details WHERE logout_date_time is null and last_active_date_time < (GETDATE() - INTERVAL 30 MINUTE)";
+			String qry = "SELECT user_login_id,user_id_fk FROM [user]_login_details WHERE logout_date_time is null and last_active_date_time < (DATEADD(minute, -30, GETDATE()))";
 			stmt = con.prepareStatement(qry);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -1002,7 +1002,7 @@ public class HomeDaoImpl implements HomeDao {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			String insertQry = "UPDATE user_login_details SET logout_date_time = CURRENT_TIMESTAMP,logout_type_fk = ? "
-					+ "WHERE logout_date_time is null and last_active_date_time < (GETDATE() - INTERVAL 30 MINUTE)";
+					+ "WHERE logout_date_time is null and last_active_date_time < (DATEADD(minute, -30, GETDATE()))";
 			stmt = con.prepareStatement(insertQry);
 			int p = 1;
 			stmt.setString(p++,CommonConstants2.LOGOUT_TYPE_TIMEOUT);			

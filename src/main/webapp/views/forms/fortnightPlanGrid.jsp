@@ -178,11 +178,11 @@
 	                                    <p>Critical</p>
 	                                    <p>
 	                                        <label>
-	                                            <input class="with-gap" name="critical" id="critical" type="radio" value="Yes" />
+	                                            <input class="with-gap" name="critical" id="critical" type="radio" value="Yes" onchange="getFortnightlyPlanList();" />
 	                                            <span>Yes</span>
 	                                        </label>
 	                                        <label>
-	                                            <input class="with-gap" name="critical" id="critical" type="radio" value="No" />
+	                                            <input class="with-gap" name="critical" id="critical" type="radio" value="No" onchange="getFortnightlyPlanList();" />
 	                                            <span>No</span>
 	                                        </label>
 	                                    </p>
@@ -214,8 +214,8 @@
 												<th class="w10px">S.No</th>
 												<th class="pdla">Category</th>
 												<th class="w20em">Contract</th>
-												<th class="pdla">Critical Item</th>
 												<th class="pdla">Structure ID</th>
+												<th class="pdla">Critical Item</th>
 												<th class="pdla">Cum Planned<br> Last Fortnight</th>
 												<th class="pdla">Cum Actual<br> Last Fortnight</th>
 												<th class="pdla">Plan for<br> Current Fortnight</th>
@@ -421,7 +421,7 @@
             }).rows().remove().draw();
     		table.state.clear();		
     	 
-    	 	var myParams = {work_id_fk : work_id_fk, period : period, category:category};
+    	 	var myParams = {work_id_fk : work_id_fk, period : period, category:category,critical:critical};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFortnightPlanList",
 	    			type:"POST",
 	    			data:myParams,cache: false,async:false,
@@ -441,8 +441,8 @@
                             rowArray.push($.trim(key+1));
     	                   	rowArray.push($.trim(val.category));
     	                   	rowArray.push($.trim(val.contract_short_name));
-    	                   	rowArray.push($.trim(val.structure_type_fk));
     	                   	rowArray.push($.trim(val.structure));
+    	                   	rowArray.push($.trim(val.structure_type_fk));
     	                   	rowArray.push($.trim(val.cum_planned_last_st));
     	                   	rowArray.push($.trim(val.cum_actual_last_st));
     	                   	rowArray.push($.trim(val.planned_current_st));
@@ -465,7 +465,7 @@
         	
         }
         
-        function getPeriodFilterList(work_status){
+        function getPeriodFilterList(period){
         	$(".page-loader").show();
     	 	var work_id_fk = $("#work_id_fk").val();
     	 	var period = $("#period").val(); 
@@ -479,7 +479,7 @@
                     success: function (data) {
                        if(data != null && data != '' && data.length > 0){  
                             $.each(data, function (i, val) {
-                            		var selectedFlag = (work_status == val.period)?'selected':'';
+                            		var selectedFlag = (period == val.period)?'selected':'';
     	                           $("#period").append('<option value="' + val.period + '"'+selectedFlag+'>' + $.trim(val.period) + '</option>');
                             });
                         }
@@ -543,8 +543,8 @@
                     	if(data != null && data != '' && data.length > 0){  
                             $.each(data, function (i, val) {
                                  if ($.trim(val.category) != '') { category = ' - ' + $.trim(val.category) }
-                                 var selectedFlag = (category == val.module_name)?'selected':'';
-    	                         $("#category").append('<option value="' + val.module_name + '"'+selectedFlag+'>'+$.trim(val.module_name)+'</option>');
+                                 var selectedFlag = (category == val.category)?'selected':'';
+    	                         $("#category").append('<option value="' + val.category + '"'+selectedFlag+'>'+$.trim(val.category)+'</option>');
                             });
                         }
                         $('.searchable').select2();

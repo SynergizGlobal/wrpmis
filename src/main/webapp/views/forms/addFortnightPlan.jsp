@@ -336,7 +336,7 @@
 															1
 													</td>
 													<td class="input-field">
-						                                    <select id="critical_item0" class="searchable" name="critical_item" disabled>
+						                                    <select id="critical_item0" class="searchable" name="critical_item">
 						                                        <option value="">Select</option>
 						                                         <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
 						                                            <option value= "${obj.critical_item}" <c:if test="${FortnightPlan.critical_item eq obj.critical_item}">selected</c:if>>${obj.critical_item}</option>
@@ -612,16 +612,16 @@
 	   		var completionstatus="";
 	   	   for(var r=0;r<$('#app_com_table tbody tr').length;r++)
 		   {
-		   			if($("#structure"+r).val()=="")
+		   			if($("#critical_item"+r).val()=="")
 		   			{
-		   				$("#errormsg").html("Structure Required.");
-		   				$("#structure"+r).css('border-color', 'red');
+		   				$("#errormsg").html("Critical Item Required.");
+		   				$("#critical_item"+r).css('border-color', 'red');
 		   				return false;
 		   			}
 		   			else
 	   				{
 		   				$("#errormsg").html("");
-		   				$("#structure"+r).css('border-color', '');	   				
+		   				$("#critical_item"+r).css('border-color', '');	   				
 	   				}
 		   			if($("#activity"+r).val()=="")
 		   			{
@@ -708,19 +708,17 @@
 	    var rowNo = $("#rowNo").val();
         var rNo = Number(rowNo)+1;
         var value = rNo+1;
-    	var html ='<tr id="fortnightplanRow0">';
+    	var html ='<tr id="removeFortnight'+rNo+'">';
     	 html += '<td data-head="Financial Year" class="input-field">'+value;
     	 html +=	'</td>';
     		 html +=	'<td class="input-field">';
-    		 html += '<input type="text" id="critical_item'+rNo+'"  name="critical item" placeholder="critical_item" value="" maxlength="25"> ';
-    		 html +='</td>';
-    		 
-    		 html +='<select id="critical_item0" class="searchable" name="critical_item" disabled>';
-    		 html +='<option value="">Select</option>';
-              <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
-                 <option value= "${obj.critical_item}" <c:if test="${FortnightPlan.critical_item eq obj.critical_item}">selected</c:if>>${obj.critical_item}</option>
-             </c:forEach>                                       
-             html +='</select>';   		 
+	    		 html +='<select id="critical_item'+rNo+'" class="searchable" name="critical_item">';
+	    		 html +='<option value="">Select</option>';
+	              <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
+	              html +='<option value= "${obj.critical_item}" <c:if test="${FortnightPlan.critical_item eq obj.critical_item}">selected</c:if>>${obj.critical_item}</option>';
+	             </c:forEach>                                       
+	             html +='</select>';  
+             html +='</td>';
    		 
     		 html +='<td class="input-field">';
     		 html +=		 '<input type="text" id="activity'+rNo+'" name="activity"   placeholder="activity" maxlength="100">';
@@ -743,14 +741,14 @@
     		 html +='<td class="input-field">';
     		 html +=		 '<input type="text" id="remarks'+rNo+'" name="remarks" placeholder="remarks" maxlength="100"><input type="hidden" id="chkcompletion_status'+rNo+'" name="chkcompletion_status" maxlength="100" value="No">';
     		 html +='</td>';																								
-    		 html +='<td class="mobile_btn_close "></td>';
+    		 html +='<td class="mobile_btn_close "><a onclick="removeFortnight('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></td>';
     		 html +='</tr>';
         $('#stBody').append(html);
 		$("#rowNo").val(rNo);
         $('.searchable').select2();	   
    }
    
-   function removeFortnight(){
+   function removeFortnight(rowNo){
    	$("#fortnight"+rowNo).remove();
    }    
    

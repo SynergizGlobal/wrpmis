@@ -8,7 +8,7 @@ public class FortnightPlan {
 	private String fortnightly_plan_id,contract_id_fk,category,fortnightly_plan_structure_id,
 	component,fortnightly_plan_update_id,  period, cum_planned_last_structure, 
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
-	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,contract_short_name,structure,user_type_fk,structure_type_fk,remarks;
+	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical;
 	
 	
 	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,chkcompletion_status;
@@ -308,6 +308,14 @@ public class FortnightPlan {
 
 	public void setCritical_item(String [] critical_item) {
 		this.critical_item = critical_item;
+	}
+
+	public String getCritical() {
+		return critical;
+	}
+
+	public void setCritical(String critical) {
+		this.critical = critical;
 	}
 
 

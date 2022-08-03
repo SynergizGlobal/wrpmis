@@ -262,12 +262,12 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h5>Update Fortnightly Plan</h5>
+                                <h5>Add Fortnightly Plan</h5>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="<%=request.getContextPath()%>/update-fortnight-plan" id="getForm" name="getForm" method="post">
+                    <form action="<%=request.getContextPath()%>/update-fortnightly-plan" id="getForm" name="getForm" method="post">
                         <div class="container container-no-margin">
                             <div class="row">  
                                 <h5 class="center-align" style="margin-bottom: 40px;"></h5>
@@ -291,8 +291,8 @@
                                     </select>
                                 </div>   
                                  <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Critical Item: </p>
-                                    <input type="text" class="input-field" id="critical_item" name="critical_item" maxlength="50"  placeholder="Critical Item" style="padding-top:0px;"/>
+                                    <p class="searchable_label"> Structure: </p>
+                                    <input type="text" class="input-field" id="structure" name="structure" maxlength="50"  placeholder="Structure" style="padding-top:0px;"/>
                                 </div>
                             </div>
                             
@@ -320,7 +320,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="w60">S No </th>
-                                                        <th class="w2em">Structure </th>
+                                                        <th class="w2em">Critical Item </th>
                                                         <th class="w2em">Activity </th>
                                                         <th class="w2em">Scope of Work </th>
                                                         <th class="w2em">Planned Progress on Last Fortnight </th>
@@ -336,7 +336,12 @@
 															1
 													</td>
 													<td class="input-field">
-															 <input type="text" id="structure0"  name="structure" placeholder="structure" value="N / A" maxlength="25"> 
+						                                    <select id="critical_item0" class="searchable" name="critical_item">
+						                                        <option value="">Select</option>
+						                                        <c:forEach var="obj" items="${FortnightPlanCriticalItemList}">
+						                                            <option value= "${obj.module_name}">${obj.module_name}</option>
+						                                        </c:forEach>                                      
+						                                    </select>															 
 													</td>
 													<td class="input-field">
 															 <input type="text" id="activity0" name="activity"   placeholder="activity" maxlength="100">
@@ -442,9 +447,36 @@
    <script>
    $(document).ready(function() {
 	   
+	   
 	   $("#work_id_fk").val("${FortnightPlan[0].work_id_fk}");
-	   $("#category").val("${FortnightPlan[0].category}");
-	   $("#critical_item").val("${FortnightPlan[0].critical_item}");	   
+	   $("#category").val("Others");
+	   $("#structure").val("${FortnightPlan[0].structure}");
+	   
+	   
+	   
+   	if("${(fn:length(FortnightPlan))>0}")
+	{
+   		var i=0;	  			 
+ 		<c:forEach var="tempobj" items="${FortnightPlan}">
+ 			
+ 		   $("#critical_item"+i).val("${tempobj.critical_item}");
+ 		   $("#activity"+i).val("${tempobj.activity}");
+ 		   $("#scope_of_work"+i).val("${tempobj.scope_of_work}");
+ 		   
+ 		   $("#planned_progress_on_last_fortnight"+i).val("${tempobj.planned_progress_on_last_fortnight}");
+ 		   $("#actual_progress_on_last_fortnight"+i).val("${tempobj.actual_progress_on_last_fortnight}");
+ 		   $("#plan_for_the_current_fortnight"+i).val("${tempobj.plan_for_the_current_fortnight}");
+ 		   
+ 		   $("#completion_status"+i).val("${tempobj.completion_status}");
+ 		   $("#remarks"+i).val("${tempobj.remarks}");
+ 		   
+ 			i++;
+        </c:forEach>           					  			 
+
+	} 	   
+	   
+	   
+	   
 	   
 	   $("[data-length]").each(function(i,val){
 	    	$('#'+val.id).characterCounter();
@@ -611,16 +643,16 @@
 	   		var completionstatus="";
 	   	   for(var r=0;r<$('#app_com_table tbody tr').length;r++)
 		   {
-		   			if($("#structure"+r).val()=="")
+		   			if($("#critical_item"+r).val()=="")
 		   			{
-		   				$("#errormsg").html("Structure Required.");
-		   				$("#structure"+r).css('border-color', 'red');
+		   				$("#errormsg").html("Critical Item Required.");
+		   				$("#critical_item"+r).css('border-color', 'red');
 		   				return false;
 		   			}
 		   			else
 	   				{
 		   				$("#errormsg").html("");
-		   				$("#structure"+r).css('border-color', '');	   				
+		   				$("#critical_item"+r).css('border-color', '');	   				
 	   				}
 		   			if($("#activity"+r).val()=="")
 		   			{
@@ -707,12 +739,18 @@
 	    var rowNo = $("#rowNo").val();
         var rNo = Number(rowNo)+1;
         var value = rNo+1;
-    	var html ='<tr id="fortnightplanRow0">';
+    	var html ='<tr id="removeFortnight'+rNo+'">';
     	 html += '<td data-head="Financial Year" class="input-field">'+value;
     	 html +=	'</td>';
     		 html +=	'<td class="input-field">';
-    		 html += '<input type="text" id="structure'+rNo+'"  name="structure" placeholder="structure" value="N / A" maxlength="25"> ';
-    		 html +='</td>';
+	    		 html +='<select id="critical_item'+rNo+'" class="searchable" name="critical_item">';
+	    		 html +='<option value="">Select</option>';
+	              <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
+	              html +='<option value= "${obj.module_name}">${obj.module_name}</option>';
+	             </c:forEach>                                       
+	             html +='</select>';  
+             html +='</td>';
+   		 
     		 html +='<td class="input-field">';
     		 html +=		 '<input type="text" id="activity'+rNo+'" name="activity"   placeholder="activity" maxlength="100">';
     		 html +='</td>';
@@ -734,12 +772,16 @@
     		 html +='<td class="input-field">';
     		 html +=		 '<input type="text" id="remarks'+rNo+'" name="remarks" placeholder="remarks" maxlength="100"><input type="hidden" id="chkcompletion_status'+rNo+'" name="chkcompletion_status" maxlength="100" value="No">';
     		 html +='</td>';																								
-    		 html +='<td class="mobile_btn_close "></td>';
+    		 html +='<td class="mobile_btn_close "><a onclick="removeFortnight('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></td>';
     		 html +='</tr>';
         $('#stBody').append(html);
 		$("#rowNo").val(rNo);
         $('.searchable').select2();	   
    }
+   
+   function removeFortnight(rowNo){
+   	$("#removeFortnight"+rowNo).remove();
+   }    
    
    function changeWork()
    {

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FortnightPlan {
-	private String fortnightly_plan_id,contract_id_fk,category,fortnightly_plan_structure_id,
-	component,fortnightly_plan_update_id,  period, cum_planned_last_structure, 
+	private String fortnightly_plan_id,contract_id_fk,category,fortnightly_plan_structure_id,data_id,
+	component,fortnightly_plan_update_id,  period, cum_planned_last_structure,period_value, 
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
 	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical;
 	
@@ -316,6 +316,22 @@ public class FortnightPlan {
 
 	public void setCritical(String critical) {
 		this.critical = critical;
+	}
+
+	public String getPeriod_value() {
+		return period_value;
+	}
+
+	public void setPeriod_value(String period_value) {
+		this.period_value = period_value;
+	}
+
+	public String getData_id() {
+		return data_id;
+	}
+
+	public void setData_id(String data_id) {
+		this.data_id = data_id;
 	}
 
 

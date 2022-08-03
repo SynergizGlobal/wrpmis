@@ -262,7 +262,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h5>Update Fortnightly Plan</h5>
+                                <h5>Add Fortnightly Plan</h5>
                             </div>
                         </span>
                     </div>
@@ -338,9 +338,9 @@
 													<td class="input-field">
 						                                    <select id="critical_item0" class="searchable" name="critical_item">
 						                                        <option value="">Select</option>
-						                                         <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
-						                                            <option value= "${obj.critical_item}" <c:if test="${FortnightPlan.critical_item eq obj.critical_item}">selected</c:if>>${obj.critical_item}</option>
-						                                        </c:forEach>                                       
+						                                        <c:forEach var="obj" items="${FortnightPlanCriticalItemList}">
+						                                            <option value= "${obj.module_name}">${obj.module_name}</option>
+						                                        </c:forEach>                                      
 						                                    </select>															 
 													</td>
 													<td class="input-field">
@@ -715,7 +715,7 @@
 	    		 html +='<select id="critical_item'+rNo+'" class="searchable" name="critical_item">';
 	    		 html +='<option value="">Select</option>';
 	              <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
-	              html +='<option value= "${obj.critical_item}" <c:if test="${FortnightPlan.critical_item eq obj.critical_item}">selected</c:if>>${obj.critical_item}</option>';
+	              html +='<option value= "${obj.module_name}">${obj.module_name}</option>';
 	             </c:forEach>                                       
 	             html +='</select>';  
              html +='</td>';
@@ -749,7 +749,7 @@
    }
    
    function removeFortnight(rowNo){
-   	$("#fortnight"+rowNo).remove();
+   	$("#removeFortnight"+rowNo).remove();
    }    
    
    function changeWork()

@@ -97,8 +97,11 @@ public class FortnightPlanController {
 			List<FortnightPlan> FortnightPlanWorkList = FortnightPlanService.getFortnightPlanWorkList();
 			model.addObject("FortnightPlanWorkList", FortnightPlanWorkList);
 			
-			List<FortnightPlan> FortnightPlanCategoryList = FortnightPlanService.getFortnightPlanCategoryList();
+			List<FortnightPlan> FortnightPlanCategoryList = FortnightPlanService.getFortnightPlanModuleCategoryList();
 			model.addObject("FortnightPlanCategoryList", FortnightPlanCategoryList);
+			
+			List<FortnightPlan> FortnightPlanCriticalItemList = FortnightPlanService.getFortnightPlanCriticalItemList();
+			model.addObject("FortnightPlanCriticalItemList", FortnightPlanCriticalItemList);			
 			
 		}catch (Exception e) {
 				logger.error("addFortnightlyPlan : " + e.getMessage());
@@ -257,7 +260,7 @@ public class FortnightPlanController {
 			List<FortnightPlan> FortnightPlanContractList = FortnightPlanService.getFortnightPlanContractList(obj);
 			model.addObject("FortnightPlanContractList", FortnightPlanContractList);
 			
-			List<FortnightPlan> FortnightPlanCategoryList = FortnightPlanService.getFortnightPlanCategoryList();
+			List<FortnightPlan> FortnightPlanCategoryList = FortnightPlanService.getFortnightPlanModuleCategoryList();
 			model.addObject("FortnightPlanCategoryList", FortnightPlanCategoryList);
 			
 			List<FortnightPlan> FortnightPlanCriticalItemList = FortnightPlanService.getFortnightPlanCriticalItemList();

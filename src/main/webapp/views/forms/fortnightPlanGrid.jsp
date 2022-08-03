@@ -178,11 +178,11 @@
 	                                    <p>Critical</p>
 	                                    <p>
 	                                        <label>
-	                                            <input class="with-gap" name="critical" id="critical" type="radio" value="Yes" onchange="getFortnightlyPlanList();" />
+	                                            <input class="with-gap" name="critical" id="critical1" type="radio" value="Yes" onchange="getFortnightlyPlanList();" />
 	                                            <span>Yes</span>
 	                                        </label>
 	                                        <label>
-	                                            <input class="with-gap" name="critical" id="critical" type="radio" value="No" onchange="getFortnightlyPlanList();" />
+	                                            <input class="with-gap" name="critical" id="critical2" type="radio" value="No" onchange="getFortnightlyPlanList();" />
 	                                            <span>No</span>
 	                                        </label>
 	                                    </p>
@@ -355,6 +355,15 @@
         	var work_id_fk = $("#work_id_fk").val();
         	var period = $("#period").val();
         	var category = $("#category").val();
+        	var critical = "";
+        	
+ 	 		if($("#critical1").prop('checked') )
+ 	 		{
+ 	 			critical="Yes";
+	 		}else if($("#critical2").prop('checked') )
+	 		{
+	 			critical="No";
+	 		}        	
         	
         	var filters = '';
         	Object.keys(filtersMap).forEach(function (key) {
@@ -433,7 +442,7 @@
     	         			var cname="";
     	         			if ($.trim(val.contract_short_name) != '') { cname =  "Yes" } 
     	         			
-    	                    var actions = '<a href="javascript:void(0);"  onclick=getFortnightPlan('+fortnightly_plan_id+',"'+cname+'"); class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+    	                    var actions = '<a href="javascript:void(0);"  onclick=getFortnightPlan('+fortnightly_plan_id+',"'+cname+'",'+val.data_id+'); class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
     	                   	var rowArray = [];    	                  
     	                   	var workName = '';
                             if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
@@ -480,7 +489,7 @@
                        if(data != null && data != '' && data.length > 0){  
                             $.each(data, function (i, val) {
                             		var selectedFlag = (period == val.period)?'selected':'';
-    	                           $("#period").append('<option value="' + val.period + '"'+selectedFlag+'>' + $.trim(val.period) + '</option>');
+    	                           $("#period").append('<option value="' + val.period_value + '"'+selectedFlag+'>' + $.trim(val.period) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -581,11 +590,11 @@
          }
         
         
-        function getFortnightPlan(fortnightly_plan_id,cname) {
+        function getFortnightPlan(fortnightly_plan_id,cname,data_id) {
     		$("#fortnightly_plan_id").val(fortnightly_plan_id);
     			if(cname=="")
     			{
-    				window.location.href="/pmis/updateFortnighlytPlanManual/"+fortnightly_plan_id;
+    				window.location.href="/pmis/updateFortnighlytPlanManual/"+data_id;
     			}
     			else
     			{

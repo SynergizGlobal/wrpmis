@@ -24,7 +24,11 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 		return fortnightPlanDao.getFortnightPlanCategoryList();
 	}
 
-
+	@Override
+	public List<FortnightPlan> getFortnightPlanModuleCategoryList() throws Exception {
+		return fortnightPlanDao.getFortnightPlanModuleCategoryList();
+	}
+	
 	@Override
 	public List<FortnightPlan> getFortnightPlan(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.getFortnightPlan(obj);

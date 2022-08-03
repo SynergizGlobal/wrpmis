@@ -771,7 +771,7 @@ public class TrainingDaoImpl implements TrainingDao{
 							    		user_id = getMaxUserId(role_code);obj.setDesignation(obj.getTrainee_designations()[a]);
 							    		obj.setUser_id(user_id);
 										namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-										String addUserQry = "INSERT INTO user"
+										String addUserQry = "INSERT INTO [user]"
 												+ "(user_id,user_name,designation,email_id,mobile_number,department_fk,reporting_to_id_srfk,user_type_fk) "
 												+ "VALUES "
 												+ "(:user_id,:user_name,:designation,:email,:mobile_no,:department_fk,:hod_user_id_fk,:user_type_fk)";		 
@@ -967,7 +967,7 @@ public class TrainingDaoImpl implements TrainingDao{
 								    		user_id = getMaxUserId(role_code);obj.setDesignation(obj.getTrainee_designations()[a]);
 								    		obj.setUser_id(user_id);
 											namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-											String addUserQry = "INSERT INTO user"
+											String addUserQry = "INSERT INTO [user]"
 													+ "(user_id,user_name,designation,email_id,mobile_number,department_fk,reporting_to_id_srfk,user_type_fk) "
 													+ "VALUES "
 													+ "(:user_id,:user_name,:designation,:email,:mobile_no,:department_fk,:hod_user_id_fk,:user_type_fk)";		 

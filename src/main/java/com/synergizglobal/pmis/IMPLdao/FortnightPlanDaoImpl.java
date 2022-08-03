@@ -648,7 +648,6 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		preparedStmt = con.prepareStatement(query);
 	    
 		String Str2[]=obj.getRemarks().split(",");
-		String Str1[]=obj.getStructure().split(",");
 		String Str3[]=obj.getRemarks().split(",");
 
 		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRemarks())) 
@@ -657,9 +656,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			{
 		      preparedStmt.setString(1, obj.getWork_id_fk());
 		      preparedStmt.setString(2, obj.getCategory()!=null ?obj.getCategory():null);
-		      preparedStmt.setString(3, obj.getCritical_item()!=null ?obj.getCritical_item():null);
+		      preparedStmt.setString(3, obj.getCritical_item()[i]);
 		      preparedStmt.setString(4, obj.getPeriod());
-		      preparedStmt.setString(5, Str1[i]);
+		      preparedStmt.setString(5, obj.getStructure());
 		      preparedStmt.setString(6, obj.getActivity()[i]);
 		      preparedStmt.setString(7, obj.getScope_of_work()[i]);
 		      preparedStmt.setString(8, obj.getPlanned_progress_on_last_fortnight()[i]);

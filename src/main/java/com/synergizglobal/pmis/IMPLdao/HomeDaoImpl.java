@@ -1012,7 +1012,7 @@ public class HomeDaoImpl implements HomeDao {
 			}
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
-			String updateQry = "UPDATE user set single_login_session_id = ? WHERE user_id = ?";
+			String updateQry = "UPDATE [user] set single_login_session_id = ? WHERE user_id = ?";
 			stmt = con.prepareStatement(updateQry);
 			for (User user : user_ids) {
 				stmt.setString(1, null);

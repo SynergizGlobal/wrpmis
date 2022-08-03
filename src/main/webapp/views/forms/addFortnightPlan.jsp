@@ -291,8 +291,8 @@
                                     </select>
                                 </div>   
                                  <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Critical Item: </p>
-                                    <input type="text" class="input-field" id="critical_item" name="critical_item" maxlength="50"  placeholder="Critical Item" style="padding-top:0px;"/>
+                                    <p class="searchable_label"> Structure: </p>
+                                    <input type="text" class="input-field" id="structure" name="structure" maxlength="50"  placeholder="Structure" style="padding-top:0px;"/>
                                 </div>
                             </div>
                             
@@ -320,7 +320,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="w60">S No </th>
-                                                        <th class="w2em">Structure </th>
+                                                        <th class="w2em">Critical Item </th>
                                                         <th class="w2em">Activity </th>
                                                         <th class="w2em">Scope of Work </th>
                                                         <th class="w2em">Planned Progress on Last Fortnight </th>
@@ -336,7 +336,12 @@
 															1
 													</td>
 													<td class="input-field">
-															 <input type="text" id="structure0"  name="structure" placeholder="structure" value="N / A" maxlength="25"> 
+						                                    <select id="critical_item0" class="searchable" name="critical_item" disabled>
+						                                        <option value="">Select</option>
+						                                         <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
+						                                            <option value= "${obj.critical_item}" <c:if test="${FortnightPlan.critical_item eq obj.critical_item}">selected</c:if>>${obj.critical_item}</option>
+						                                        </c:forEach>                                       
+						                                    </select>															 
 													</td>
 													<td class="input-field">
 															 <input type="text" id="activity0" name="activity"   placeholder="activity" maxlength="100">
@@ -707,8 +712,16 @@
     	 html += '<td data-head="Financial Year" class="input-field">'+value;
     	 html +=	'</td>';
     		 html +=	'<td class="input-field">';
-    		 html += '<input type="text" id="structure'+rNo+'"  name="structure" placeholder="structure" value="N / A" maxlength="25"> ';
+    		 html += '<input type="text" id="critical_item'+rNo+'"  name="critical item" placeholder="critical_item" value="" maxlength="25"> ';
     		 html +='</td>';
+    		 
+    		 html +='<select id="critical_item0" class="searchable" name="critical_item" disabled>';
+    		 html +='<option value="">Select</option>';
+              <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
+                 <option value= "${obj.critical_item}" <c:if test="${FortnightPlan.critical_item eq obj.critical_item}">selected</c:if>>${obj.critical_item}</option>
+             </c:forEach>                                       
+             html +='</select>';   		 
+   		 
     		 html +='<td class="input-field">';
     		 html +=		 '<input type="text" id="activity'+rNo+'" name="activity"   placeholder="activity" maxlength="100">';
     		 html +='</td>';
@@ -736,6 +749,10 @@
 		$("#rowNo").val(rNo);
         $('.searchable').select2();	   
    }
+   
+   function removeFortnight(){
+   	$("#fortnight"+rowNo).remove();
+   }    
    
    function changeWork()
    {

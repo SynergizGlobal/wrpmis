@@ -170,7 +170,7 @@ public class UserDaoImpl implements UserDao{
 			String user_id = getMaxUserId(obj.getUser_role_code());
 			obj.setUser_id(user_id);
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-			String qry = "INSERT INTO user"
+			String qry = "INSERT INTO [user]"
 					+ "(user_id,user_name,password,designation,email_id,mobile_number,personal_contact_number,landline,extension,department_fk,reporting_to_id_srfk,user_type_fk,pmis_key_fk,user_role_name_fk,remarks,user_image) "
 					+ "VALUES "
 					+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:personal_contact_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:user_type_fk,:pmis_key_fk,:user_role_name_fk,:remarks,:user_image)";		 
@@ -512,7 +512,7 @@ public class UserDaoImpl implements UserDao{
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {			  
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-			String qry = "UPDATE user SET user_name=:user_name,designation=:designation,email_id=:email_id,user_type_fk= :user_type_fk,mobile_number=:mobile_number,personal_contact_number=:personal_contact_number,landline=:landline,extension=:extension,department_fk=:department_fk,reporting_to_id_srfk=:reporting_to_id_srfk,pmis_key_fk=:pmis_key_fk,user_role_name_fk=:user_role_name_fk,user_image=:user_image "
+			String qry = "UPDATE [user] SET user_name=:user_name,designation=:designation,email_id=:email_id,user_type_fk= :user_type_fk,mobile_number=:mobile_number,personal_contact_number=:personal_contact_number,landline=:landline,extension=:extension,department_fk=:department_fk,reporting_to_id_srfk=:reporting_to_id_srfk,pmis_key_fk=:pmis_key_fk,user_role_name_fk=:user_role_name_fk,user_image=:user_image "
 					+ "WHERE user_id = :user_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -760,7 +760,7 @@ public class UserDaoImpl implements UserDao{
 					user.setReporting_to_id_srfk(reporting_to);
 					if(StringUtils.isEmpty(userId)) {
 						NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-						String qry = "INSERT INTO user"
+						String qry = "INSERT INTO [user]"
 								+ "(user_id,user_name,password,designation,email_id,mobile_number,personal_contact_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
 								+ "VALUES "
 								+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:personal_contact_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks)";		 
@@ -768,7 +768,7 @@ public class UserDaoImpl implements UserDao{
 						count = namedParamJdbcTemplate.update(qry, paramSource);
 					}else {
 						NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-						String qry = "UPDATE user set "
+						String qry = "UPDATE [user] set "
 								+ "user_name = :user_name,designation =:designation,email_id =:email_id,mobile_number =:mobile_number,"
 								+ "department_fk =:department_fk,reporting_to_id_srfk =:reporting_to_id_srfk,user_role_name_fk =:user_role_name_fk"
 								+ " where user_id = :user_id";
@@ -779,7 +779,7 @@ public class UserDaoImpl implements UserDao{
 				}else {
 					if(StringUtils.isEmpty(userId)) {
 						NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-						String qry = "INSERT INTO user"
+						String qry = "INSERT INTO [user]"
 								+ "(user_id,user_name,password,designation,email_id,mobile_number,personal_contact_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
 								+ "VALUES "
 								+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:personal_contact_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks)";		 
@@ -787,7 +787,7 @@ public class UserDaoImpl implements UserDao{
 						count = namedParamJdbcTemplate.update(qry, paramSource);
 					}else {
 						NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-						String qry = "UPDATE user set "
+						String qry = "UPDATE [user] set "
 								+ "user_name = :user_name,designation =:designation,email_id =:email_id,mobile_number =:mobile_number,"
 								+ "department_fk =:department_fk,reporting_to_id_srfk =:reporting_to_id_srfk,user_role_name_fk =:user_role_name_fk"
 								+ " where user_id = :user_id";

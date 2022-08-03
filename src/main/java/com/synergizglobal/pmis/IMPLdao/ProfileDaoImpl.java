@@ -74,7 +74,7 @@ public class ProfileDaoImpl implements ProfileDao {
 		boolean flag = false;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-			String updateQry = "UPDATE user set "
+			String updateQry = "UPDATE [user] set "
 					+ "user_name= :user_name, email_id= :email_id, mobile_number= :mobile_number,"
 					+ "personal_contact_number= :personal_contact_number, landline= :landline, extension= :extension,user_image= :user_image "
 					+ "where user_id= :user_id";

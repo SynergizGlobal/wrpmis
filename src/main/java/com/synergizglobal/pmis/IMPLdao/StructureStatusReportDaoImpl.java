@@ -410,7 +410,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 	public List<ActivitiesProgressReport> getHodFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {			
-			String qry = "SELECT user_id,user_name,designation "+
+			String qry = "SELECT distinct user_id,user_name,designation "+
 					"from p6_activities a left join structure s on s.structure_id = a.structure_id_fk " +
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " +
@@ -450,7 +450,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.hod_user_id_fk  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+			/*qry = qry + "  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 
@@ -504,7 +504,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
 					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
 					"\r\n" + 
-					"   end asc" ;
+					"   end,user_id,user_name asc" ;*/
 
 			
 			Object[] pValues = new Object[arrSize];
@@ -544,7 +544,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 	public List<ActivitiesProgressReport> getDyhodFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation "+
+			String qry = "SELECT distinct user_id,user_name,designation "+
 					"from p6_activities a left join structure s on s.structure_id = a.structure_id_fk " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +
@@ -583,7 +583,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.dy_hod_user_id_fk ORDER BY c.dy_hod_user_id_fk ASC";
+			qry = qry + " ORDER BY user_id,user_name,designation ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -752,7 +752,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				arrSize++;
 			}
 			
-			contractsQry = contractsQry + " GROUP BY s.structure_type_fk ORDER BY a.contract_id_fk ASC";
+			contractsQry = contractsQry + " ORDER BY a.contract_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -818,7 +818,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 					arrSize++;
 				}
 				
-				progressStructuresQry = progressStructuresQry + " GROUP BY s.structure ORDER BY s.structure ASC";
+				progressStructuresQry = progressStructuresQry + " ORDER BY s.structure ASC";
 				
 				pValues = new Object[arrSize];
 				
@@ -911,8 +911,9 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 							arrSize++;
 						}
 						
-						progressQry = progressQry + " group by ap.p6_activity_id_fk";
-						
+						/*
+						 * progressQry = progressQry + " group by ap.p6_activity_id_fk";
+						 */						
 						pValues = new Object[arrSize];
 						
 						i = 0;
@@ -1122,8 +1123,9 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				arrSize++;
 			}			
 			
-			qry = qry + " GROUP BY s.structure_type_fk ";
-			
+			/*
+			 * qry = qry + " GROUP BY s.structure_type_fk ";
+			 */			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -1164,7 +1166,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 	public List<ActivitiesProgressReport> getAllContractDetails(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,u1.designation as hod_designation,u.designation as dyhod_designation,cr.contractor_name,c.dy_hod_user_id_fk as dyhod ,c.hod_user_id_fk as hod,c.contractor_id_fk as contractor_id "+
+			String qry = "SELECT distinct contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,u1.designation as hod_designation,u.designation as dyhod_designation,cr.contractor_name,c.dy_hod_user_id_fk as dyhod ,c.hod_user_id_fk as hod,c.contractor_id_fk as contractor_id "+
 					"from p6_activities a left join structure s on s.structure_id = a.structure_id_fk " +
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +
@@ -1209,8 +1211,9 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				arrSize++;
 			}			
 			
-			qry = qry + " GROUP BY contract_id order by s.structure_type_fk ";
-			
+			/*
+			 * qry = qry + " order by s.structure_type_fk ";
+			 */			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -1273,8 +1276,10 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				arrSize++;
 			}
 			
-			progressStructuresQry = progressStructuresQry + " GROUP BY s.structure ORDER BY s.structure ASC";
-			
+		/*
+		 * progressStructuresQry = progressStructuresQry +
+		 * " GROUP BY ap.remarks,s.structure ORDER BY s.structure,ap.remarks ASC";
+		 */			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -1302,7 +1307,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 	    String remarks = null;
 			try {
 				con = dataSource.getConnection();
-				String qry = "select STRING_AGG(DISTINCT concat(FORMAT(reporting_date,'dd-MM-yyyy'),' - ',remarks) SEPARATOR '\n') as remarks from fobdailyupdate where structure =? and reporting_date>=? and reporting_date<=?";
+				String qry = "select STRING_AGG(concat(FORMAT(reporting_date,'dd-MM-yyyy'),' - ',remarks) , '\n') as remarks from fobdailyupdate where structure =? and reporting_date>=? and reporting_date<=?";
 				stmt = con.prepareStatement(qry);
 				stmt.setString(1,structure);
 				stmt.setString(2,from_date);

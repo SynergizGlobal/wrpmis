@@ -167,7 +167,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 		List<StripChart> objsList = null;
 		try {
 			String qry = "SELECT a.p6_activity_id as activity_id, FORMAT(a.baseline_start,'dd-MM-yyyy') as baseline_start, FORMAT(a.baseline_finish,'dd-MM-yyyy') as baseline_finish,"
-					+ " FORMAT(a.start,'dd-MM-yyyy') as start, FORMAT(a.finish,'dd-MM-yyyy') as finish,pcv.status, a.contract_id_fk,contract_short_name, a.from_structure_id, a.to_structure_id, s11.structure_type_fk, a.section, a.line, s11.structure, a.component, a.component_id, a.order_x, a.order_y, "
+					+ " FORMAT(a.start,'dd-MM-yyyy') as start, FORMAT(a.finish,'dd-MM-yyyy') as finish, a.contract_id_fk,contract_short_name, a.from_structure_id, a.to_structure_id, s11.structure_type_fk, a.section, a.line, s11.structure, a.component, a.component_id, a.order_x, a.order_y, "
 					+ "a.p6_activity_name as activity_name, FORMAT(a.baseline_start,'dd-MM-yyyy') as planned_start, FORMAT(a.baseline_finish,'dd-MM-yyyy') as planned_finish, "
 					+ "case  " + 
 					" when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
@@ -178,7 +178,6 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					" else '' end as actual_finish, a.unit, a.scope, a.completed, CAST(a.weightage AS DECIMAL(10,2)) as weightage, a.component_details, a.remarks, "
 					+ "a.created_date, a.created_by_user_id_fk, a.modified_date, a.modified_by_user_id_fk, a.task_code as p6_task_code " + 
 					"from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk "
-					+ "left join p6_contract_view pcv on pcv.contract_id = a.contract_id_fk and a.task_code = pcv.task_code "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "left join work w on c.work_id_fk = w.work_id "
 					+ "left join project p on w.project_id_fk = p.project_id "

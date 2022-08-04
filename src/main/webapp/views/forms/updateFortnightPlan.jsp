@@ -397,8 +397,8 @@
 					                                   <c:forEach var="obj" items="${FortnightPlan}">
 					           					  			 <tr>
 						           					  			 <td></td>
-						           					  			 <td><input type="text" name="structure" id="structure" value="${obj.structure}"></td>
-						           					  			 <td><input type="text" name="component" id="component" value="${obj.component}"></td>
+						           					  			 <td><input type="text" name="structure" id="structure" value="${obj.structure}" disabled></td>
+						           					  			 <td><input type="text" name="component" id="component" value="${obj.component}" disabled></td>
 						           					  			 <td>${obj.cum_planned_last_structure}</td>
 						           					  			 <td>${obj.planned_current_structure}</td>
 						           					  			 <td>${obj.cum_actual_last_structure}</td>

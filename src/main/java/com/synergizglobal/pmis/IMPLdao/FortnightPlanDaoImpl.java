@@ -180,7 +180,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 			String qry = "SELECT distinct w.work_id as work_id_fk,ID AS fortnightly_plan_id,f.contract_id_fk,category,category as critical_item,sum(cast(isnull(planned_last_fortnight,0) as decimal(10,2))) as cum_planned_last_structure,\r\n" + 
-					"sum(cast(isnull(actual_last_fortnight,0) as decimal(10,2))) as cum_actual_last_structure,sum(cast(isnull(planned_current_fortnight,0) as decimal(10,2))) as planned_current_structure  \r\n" + 
+					"sum(cast(isnull(actual_last_fortnight,0) as decimal(10,2))) as cum_actual_last_structure,sum(cast(isnull(planned_current_fortnight,0) as decimal(10,2))) as planned_current_structure,structure,component  \r\n" + 
 					"from fortnight_temp f \r\n" + 
 					"LEFT join contract c ON c.contract_id  = f.contract_id_fk \r\n" + 
 					"LEFT JOIN work w on c.work_id_fk =w.work_id \r\n" + 
@@ -686,6 +686,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 
 		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRemarks())) 
 		{
+			int dataid=getMaxDataId();
 			for (int i = 0; i < obj.getActivity().length; i++) 
 			{
 		      preparedStmt.setString(1, obj.getWork_id_fk());
@@ -700,7 +701,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		      preparedStmt.setString(10, obj.getPlan_for_the_current_fortnight()[i]);
 		      preparedStmt.setString(11, obj.getChkcompletion_status()[i]);
 		      preparedStmt.setString(12, Str3[i]);
-		      preparedStmt.setInt(13, getMaxDataId());
+		      preparedStmt.setInt(13, dataid);
 		      preparedStmt.execute();
 			}
 		}

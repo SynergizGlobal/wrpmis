@@ -214,8 +214,8 @@
 												<th class="w10px">S.No</th>
 												<th class="pdla">Category</th>
 												<th class="w20em">Contract</th>
+												<th class="pdla">Structure</th>
 												<th class="pdla">Structure ID</th>
-												<th class="pdla">Critical Item</th>
 												<th class="pdla">Cum Planned<br> Last Fortnight</th>
 												<th class="pdla">Cum Actual<br> Last Fortnight</th>
 												<th class="pdla">Plan for<br> Current Fortnight</th>
@@ -450,12 +450,12 @@
                             rowArray.push($.trim(key+1));
     	                   	rowArray.push($.trim(val.category));
     	                   	rowArray.push($.trim(val.contract_short_name));
-    	                   	rowArray.push($.trim(val.structure));
     	                   	rowArray.push($.trim(val.structure_type_fk));
+    	                   	rowArray.push($.trim(val.structure));
     	                   	rowArray.push($.trim(val.cum_planned_last_st));
     	                   	rowArray.push($.trim(val.cum_actual_last_st));
     	                   	rowArray.push($.trim(val.planned_current_st));
-    	                   	rowArray.push($.trim(val.planned_current_st));
+    	                   	rowArray.push($.trim(val.actual_current_st));
     	                   	rowArray.push($.trim(actions));    	                   	
     	                   	
     	                    table.row.add(rowArray).draw( true );

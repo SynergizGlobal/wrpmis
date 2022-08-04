@@ -357,7 +357,7 @@
                             </div>
                             <div class="row" style="margin-top: 20px;">
                                  <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Critical Item: </p>
+                                    <p class="searchable_label"> Structure: </p>
                                     <select id="critical_item" class="searchable" name="critical_item" disabled>
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${FortnightPlanCriticalItemList }">
@@ -365,6 +365,12 @@
                                         </c:forEach>                                       
                                     </select>
                                 </div>
+                                 <div class="col s6 m4 input-field">
+                                    <p class="searchable_label"> Structure ID: </p>
+                                    <select id="structure" class="searchable" name="structure" disabled>
+                                        <option value="">Select</option>
+                                    </select>
+                                </div>                                
                                  <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Period: </p>
                                     <input type="text" id="period" name="period" disabled>
@@ -383,7 +389,6 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="w60">S No </th>
-                                                        <th class="w2em">Structure </th>
                                                         <th class="w2em">Component </th>
                                                         <th class="w2em">Cumulative Planned Last Fortnight </th>
                                                         <th class="w2em">Cumulative Actual Last Fortnight </th>
@@ -397,7 +402,6 @@
 					                                   <c:forEach var="obj" items="${FortnightPlan}">
 					           					  			 <tr>
 						           					  			 <td></td>
-						           					  			 <td><input type="text" name="structure" id="structure" value="${obj.structure}" disabled></td>
 						           					  			 <td><input type="text" name="component" id="component" value="${obj.component}" disabled></td>
 						           					  			 <td>${obj.cum_planned_last_structure}</td>
 						           					  			 <td>${obj.planned_current_structure}</td>
@@ -481,11 +485,14 @@
 	   
 	   $("#work_id_fk").val("${FortnightPlan[0].work_id_fk}");
 	   $("#contract_id_fk").val("${FortnightPlan[0].contract_id_fk}");
+	   
+	   $('#structure').append(new Option("${FortnightPlan[0].structure}", "${FortnightPlan[0].structure}"));
        
        $('#category').append(new Option("${FortnightPlan[0].category}", "${FortnightPlan[0].category}"));
        $('#critical_item').append(new Option("${FortnightPlan[0].total_items}", "${FortnightPlan[0].total_items}"));
 	   
 	   $("#category").val("${FortnightPlan[0].category}");
+	   $("#structure").val("${FortnightPlan[0].structure}");
 	   $("#critical_item").val("${FortnightPlan[0].total_items}");
 	   
 	   

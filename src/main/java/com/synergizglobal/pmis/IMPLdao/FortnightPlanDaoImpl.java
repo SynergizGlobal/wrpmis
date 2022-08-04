@@ -65,11 +65,16 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT distinct F.ID as fortnightly_plan_id,category,contract_short_name,structure_type as structure_type_fk,structure,cast(sum(cast(isnull(planned_last_fortnight,0) as decimal(10,2))) as varchar) as cum_planned_last_st,cast(sum(cast(isnull(actual_last_fortnight,0) as decimal(10,2))) as varchar) as cum_actual_last_st,cast(sum(cast(isnull(planned_current_fortnight,0) as decimal(10,2)))  as varchar) as planned_current_st,0 as data_id "
-					+ "from fortnight_temp f "
-					+ "LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk "
-					+ "LEFT JOIN work w on c.work_id_fk =w.work_id "
-					+ "where f.status='Active'" ;
+			String qry = "SELECT distinct min(F.ID) as fortnightly_plan_id,category,contract_short_name,structure_type as structure_type_fk,structure,\r\n" + 
+					"cast(max(isnull(s_cum_planned_till_date,0)) as varchar) as cum_planned_last_st,\r\n" + 
+					"cast(max(isnull(s_cum_actual_till_date,0)) as varchar) as cum_actual_last_st,\r\n" + 
+					"cast(max(isnull(s_planned_current_fortnight,0)) as varchar) as planned_current_st,\r\n" + 
+					"\r\n" + 
+					"cast(max(isnull(s_actual_current_fortnight,0)) as varchar)  as actual_current_st,0 as data_id \r\n" + 
+					"from fortnight_temp f \r\n" + 
+					"LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk \r\n" + 
+					"LEFT JOIN work w on c.work_id_fk =w.work_id \r\n" + 
+					"where f.status='Active'" ;
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -100,7 +105,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				arrSize++;
 			}			
 			
-			qry = qry + " group by F.ID,category,contract_short_name,structure_type,structure ";
+			qry = qry + " group by category,contract_short_name,structure_type,structure  ";
 			
 			
 			qry = qry + " union all ";
@@ -108,7 +113,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 
 			qry = qry +" SELECT distinct fortnightly_plan_update_data_id as fortnightly_plan_id,u.category,'' as contract_short_name,structure,'' as structure_type_fk, " + 
 					"planned_progress_on_last_fortnight as cum_planned_last_st,actual_progress_on_last_fortnight as cum_actual_last_st, " + 
-					"plan_for_the_current_fortnight as planned_current_st,data_id  " + 
+					"plan_for_the_current_fortnight as planned_current_st,'' as actual_current_st,data_id  " + 
 					"from fortnightly_plan_update_data u " + 
 					"LEFT JOIN work w on u.work_id =w.work_id  " + 
 					"where 0=0 "; 	
@@ -192,7 +197,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					"					where f.ID = "+obj.getFortnightly_plan_id()+" and f.status='Active' \r\n" + 
 					"					group by w.work_id,f.ID,f.contract_id_fk,f.category,structure,component,structure_type) as a\r\n" + 
 					"\r\n" + 
-					"					on a.contract_id_fk=t.contract_id_fk and a.work_id_fk=t.work_id and a.critical_item=t.structure_type and a.category=t.category";
+					"					on a.contract_id_fk=t.contract_id_fk and a.work_id_fk=t.work_id and a.critical_item=t.structure_type and a.category=t.category and a.structure=t.structure ";
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 

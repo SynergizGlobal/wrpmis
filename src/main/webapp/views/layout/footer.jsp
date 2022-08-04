@@ -203,7 +203,7 @@
       }); 
       
      function switchEnvironment(val){
-    	 var current_url = $(location).attr('href')+":" + window.location.port ;
+    	 var current_url = $(location).attr('href');
     	 current_url = current_url.replace("/pmis/",val);
     	 current_url = current_url.replace("/pmis_qa/",val);
     	 $("#current_url").val(current_url);

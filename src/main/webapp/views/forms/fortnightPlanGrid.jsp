@@ -447,15 +447,25 @@
     	                   	var workName = '';
                             if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
     	                   	
+                            var a1=parseFloat(val.cum_planned_last_st)*100;
+                            a1=a1.toFixed(2)+'%';
+                            var a2=parseFloat(val.cum_actual_last_st)*100;
+                            a2=a2.toFixed(2)+'%';
+                            var a3=parseFloat(val.planned_current_st)*100;
+                            a3=a3.toFixed(2)+'%';
+                            var a4=parseFloat(val.actual_current_st)*100;
+                            a4=a4.toFixed(2)+'%';
+                            
+                            
                             rowArray.push($.trim(key+1));
     	                   	rowArray.push($.trim(val.category));
     	                   	rowArray.push($.trim(val.contract_short_name));
     	                   	rowArray.push($.trim(val.structure_type_fk));
     	                   	rowArray.push($.trim(val.structure));
-    	                   	rowArray.push($.trim(val.cum_planned_last_st));
-    	                   	rowArray.push($.trim(val.cum_actual_last_st));
-    	                   	rowArray.push($.trim(val.planned_current_st));
-    	                   	rowArray.push($.trim(val.actual_current_st));
+    	                   	rowArray.push(a1);
+    	                   	rowArray.push(a2);
+    	                   	rowArray.push(a3);
+    	                   	rowArray.push(a4);
     	                   	rowArray.push($.trim(actions));    	                   	
     	                   	
     	                    table.row.add(rowArray).draw( true );

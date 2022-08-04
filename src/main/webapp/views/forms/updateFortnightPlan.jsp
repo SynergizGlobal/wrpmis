@@ -436,7 +436,7 @@
                                 </div>
                                 <div class="col s12 m6 l6 mt-brdr ">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s">Cancel</button>
+                                        <button type="button" class="btn waves-effect waves-light bg-s" onclick="window.location.href='/pmis/FortnightPlan'">Cancel</button>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

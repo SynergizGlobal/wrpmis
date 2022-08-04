@@ -8,7 +8,7 @@ public class FortnightPlan {
 	private String fortnightly_plan_id,contract_id_fk,category,fortnightly_plan_structure_id,data_id,
 	component,fortnightly_plan_update_id,  period, cum_planned_last_structure,period_value, 
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
-	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical;
+	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope;
 	
 	
 	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,chkcompletion_status;
@@ -332,6 +332,22 @@ public class FortnightPlan {
 
 	public void setData_id(String data_id) {
 		this.data_id = data_id;
+	}
+
+	public String getActivity_name() {
+		return activity_name;
+	}
+
+	public void setActivity_name(String activity_name) {
+		this.activity_name = activity_name;
+	}
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
 	}
 
 

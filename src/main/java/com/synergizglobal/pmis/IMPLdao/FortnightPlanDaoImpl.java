@@ -662,6 +662,14 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		TransactionStatus status = transactionManager.getTransaction(def);
 		Connection connection = null;
 		PreparedStatement updateStmt = null;	
+		
+		NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+		
+		String deleteQry = "DELETE from fortnightly_plan_update_data where data_id = :data_id";		 
+		paramSource = new BeanPropertySqlParameterSource(obj);		 
+		int count = namedParamJdbcTemplate.update(deleteQry, paramSource);		
+		
 
 		String query = " insert into fortnightly_plan_update_data (work_id, category, critical_item, period, structure, activity, scope_of_work, planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight, completion_status, remarks,data_id)"
 	               + " values (?,?,?, ?, ?, ?,?,?,?, ?, ?, ?,?)";
@@ -727,20 +735,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 
-			 String qry="SELECT [fortnightly_plan_update_data_id]\r\n" + 
-			 		"      ,[work_id] as work_id_fk\r\n" + 
-			 		"      ,[category]\r\n" + 
-			 		"      ,[critical_item]\r\n" + 
-			 		"      ,[period]\r\n" + 
-			 		"      ,[structure]\r\n" + 
-			 		"      ,[activity]\r\n" + 
-			 		"      ,[scope_of_work]\r\n" + 
-			 		"      ,[planned_progress_on_last_fortnight]\r\n" + 
-			 		"      ,[actual_progress_on_last_fortnight]\r\n" + 
-			 		"      ,[plan_for_the_current_fortnight]\r\n" + 
-			 		"      ,[completion_status]\r\n" + 
-			 		"      ,[remarks]\r\n" + 
-			 		"      ,[data_id]  from fortnightly_plan_update_data u LEFT JOIN work w on u.work_id =w.work_id where u.data_id = "+obj.getFortnightly_plan_id();
+			 String qry="SELECT distinct fortnightly_plan_update_data_id as fortnightly_plan_id,w.work_id as work_id_fk,critical_item as total_items,u.category,'' as contract_short_name,structure,'' as structure_type_fk, " + 
+						"planned_progress_on_last_fortnight as cum_planned_last_st,actual_progress_on_last_fortnight as cum_actual_last_st, " + 
+						"plan_for_the_current_fortnight as planned_current_st,activity as activity_name,scope_of_work as scope,completion_status,u.remarks,data_id,period  from fortnightly_plan_update_data u LEFT JOIN work w on u.work_id =w.work_id where u.data_id = "+obj.getFortnightly_plan_id();
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 
 		}catch(Exception e){ 

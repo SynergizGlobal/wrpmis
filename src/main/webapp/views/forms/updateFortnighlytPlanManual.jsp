@@ -293,6 +293,7 @@
                                  <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Structure: </p>
                                     <input type="text" class="input-field" id="structure" name="structure" maxlength="50"  placeholder="Structure" style="padding-top:0px;"/>
+                                     <input type="hidden" id="data_id" name="data_id"/>
                                 </div>
                             </div>
                             
@@ -452,26 +453,38 @@
 	   $("#category").val("Others");
 	   $("#structure").val("${FortnightPlan[0].structure}");
 	   
+	   $("#data_id").val("${FortnightPlan[0].data_id}");
+	   
 	   
 	   
    	if("${(fn:length(FortnightPlan))>0}")
 	{
    		var i=0;	  			 
  		<c:forEach var="tempobj" items="${FortnightPlan}">
- 			
- 		   $("#critical_item"+i).val("${tempobj.critical_item}");
- 		   $("#activity"+i).val("${tempobj.activity}");
- 		   $("#scope_of_work"+i).val("${tempobj.scope_of_work}");
- 		   
- 		   $("#planned_progress_on_last_fortnight"+i).val("${tempobj.planned_progress_on_last_fortnight}");
- 		   $("#actual_progress_on_last_fortnight"+i).val("${tempobj.actual_progress_on_last_fortnight}");
- 		   $("#plan_for_the_current_fortnight"+i).val("${tempobj.plan_for_the_current_fortnight}");
- 		   
- 		   $("#completion_status"+i).val("${tempobj.completion_status}");
- 		   $("#remarks"+i).val("${tempobj.remarks}");
- 		   
- 			i++;
-        </c:forEach>           					  			 
+
+ 		   		if(i>0)
+ 			   {
+  		  		addFortnightPlan();
+ 			   }
+ 		   		
+ 	 			
+ 	 		   $("#critical_item"+i).val("${tempobj.total_items}");
+ 	 		   $("#activity"+i).val("${tempobj.activity_name}");
+ 	 		   $("#scope_of_work"+i).val("${tempobj.scope}");
+ 	 		   
+ 	 		   $("#planned_progress_on_last_fortnight"+i).val("${tempobj.cum_planned_last_st}");
+ 	 		   $("#actual_progress_on_last_fortnight"+i).val("${tempobj.cum_actual_last_st}");
+ 	 		   $("#plan_for_the_current_fortnight"+i).val("${tempobj.planned_current_st}");
+ 	 		   
+ 	 		   		if("${tempobj.remarks}"=="Completed")
+ 	 			   {
+ 	 		   		$("#completion_status"+i).prop("checked",true);
+ 	 			   }
+ 	 		   $("#remarks"+i).val("${tempobj.remarks}");		   		
+
+ 		  i++;
+        </c:forEach> 
+       
 
 	} 	   
 	   

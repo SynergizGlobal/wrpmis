@@ -95,9 +95,20 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
-				qry = qry + " and fortnight_start = ? and fortnight_finish=?";
-				arrSize++;
-				arrSize++;
+				String Str[]=obj.getPeriod().split("_");
+				if(Str.length==2)
+				{
+					qry = qry + " and fortnight_start = ? and fortnight_finish=?";
+					arrSize++;
+					arrSize++;
+				}
+				else
+				{
+					qry = qry + " and (cast(fortnight_start as varchar) = ? or cast(fortnight_finish as varchar)=?)";
+					arrSize++;
+					arrSize++;					
+				}
+
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical())) {
@@ -122,7 +133,12 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and u.work_id = ? ";
 				arrSize++;
-			}		
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
+				qry = qry + " and period=? ";
+				arrSize++;
+			}			
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -143,8 +159,16 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
 				String Str[]=obj.getPeriod().split("_");
-				pValues[i++] = Str[0];
-				pValues[i++] = Str[1];
+				if(Str.length==2)
+				{
+					pValues[i++] = Str[0];
+					pValues[i++] = Str[1];
+				}
+				else
+				{
+					pValues[i++] = obj.getPeriod();
+					pValues[i++] = obj.getPeriod();
+				}
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical())) {
@@ -153,7 +177,12 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
-			}			
+			}	
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
+				pValues[i++] = obj.getPeriod();
+			}	
+			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -170,7 +199,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					+ "from fortnight_temp f "
 					+ "LEFT join contract c ON c.contract_id  = f.contract_id_fk "
 					+ "LEFT JOIN work w on c.work_id_fk =w.work_id "
-					+ "where f.status='Active' " ;			
+					+ "where f.status='Active' union all\r\n" + 
+					"select distinct category   from fortnightly_plan_update_data " ;			
 		
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
 		} catch (Exception e) {
@@ -542,7 +572,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 		
-			String qry = "SELECT w.work_id as work_id_fk,w.work_short_name  "
+			String qry = "select distinct work_id_fk,work_short_name from (SELECT w.work_id as work_id_fk,w.work_short_name  "
 					+ "from fortnight_temp f "
 					+ "LEFT join contract c ON c.contract_id  = f.contract_id_fk "
 					+ "LEFT JOIN work w on c.work_id_fk =w.work_id "
@@ -557,7 +587,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}	
-			qry = qry+ " group by w.work_id,w.work_short_name";
+			qry = qry+ " group by w.work_id,w.work_short_name union all\r\n" + 
+					"select w.work_id as work_id_fk,w.work_short_name    from fortnightly_plan_update_data f LEFT JOIN work w on f.work_id =w.work_id group by w.work_id,w.work_short_name) as a ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -622,7 +653,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 		
-			String qry = "SELECT distinct FORMAT (fortnight_start, 'dd MMMM, yy')+'-'+FORMAT (fortnight_finish, 'dd MMMM, yy') as period,cast(fortnight_start as varchar)+'_'+cast(fortnight_finish as varchar) as period_value  "
+			String qry = "select distinct period,period_value from(SELECT distinct FORMAT (fortnight_start, 'dd MMMM, yy')+'-'+FORMAT (fortnight_finish, 'dd MMMM, yy') as period,cast(fortnight_start as varchar)+'_'+cast(fortnight_finish as varchar) as period_value  "
 					+ "from fortnight_temp f "
 					+ "LEFT join contract c ON c.contract_id  = f.contract_id_fk "
 					+ "LEFT JOIN work w on c.work_id_fk =w.work_id "
@@ -637,6 +668,10 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}	
+			qry = qry + " union all\r\n" + 
+					"select distinct period,\r\n" + 
+					"period as period_value   from fortnightly_plan_update_data) as a ";
+
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

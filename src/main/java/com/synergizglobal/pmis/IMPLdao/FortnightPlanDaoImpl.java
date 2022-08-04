@@ -113,7 +113,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 
 			qry = qry +" SELECT distinct fortnightly_plan_update_data_id as fortnightly_plan_id,u.category,'' as contract_short_name,structure,critical_item as structure_type_fk, " + 
 					"planned_progress_on_last_fortnight as cum_planned_last_st,actual_progress_on_last_fortnight as cum_actual_last_st, " + 
-					"plan_for_the_current_fortnight as planned_current_st,'' as actual_current_st,data_id  " + 
+					"plan_for_the_current_fortnight as planned_current_st,u.remarks as actual_current_st,data_id  " + 
 					"from fortnightly_plan_update_data u " + 
 					"LEFT JOIN work w on u.work_id =w.work_id  " + 
 					"where 0=0 "; 	

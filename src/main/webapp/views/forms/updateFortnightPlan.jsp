@@ -408,7 +408,7 @@
 		                                                        </td>
 		                                                        <td data-head="Remarks" class="input-field">
 		                                                        <textarea id="remarks" name="remarks" class="pmis-textarea pdr4em w85 my-valid-class" data-length="1000" maxlength="1000"></textarea>
-		                                                        <input type="hidden" name="fortnightly_plan_update_id" id="fortnightly_plan_update_id" value="${obj.fortnightly_plan_update_id}">
+		                                                        <input type="hidden" name="fortnightly_plan_update_id" id="fortnightly_plan_update_id" value="${obj.fortnightly_plan_id}">
 		                                                        </td>
 					           					  			 </tr>
 					           					  			 <c:set var="count" value="${count+1}" />  
@@ -481,8 +481,12 @@
 	   
 	   $("#work_id_fk").val("${FortnightPlan[0].work_id_fk}");
 	   $("#contract_id_fk").val("${FortnightPlan[0].contract_id_fk}");
+       
+       $('#category').append(new Option("${FortnightPlan[0].category}", "${FortnightPlan[0].category}"));
+       $('#critical_item').append(new Option("${FortnightPlan[0].total_items}", "${FortnightPlan[0].total_items}"));
+	   
 	   $("#category").val("${FortnightPlan[0].category}");
-	   $("#critical_item").val("${FortnightPlan[0].critical_item}");
+	   $("#critical_item").val("${FortnightPlan[0].total_items}");
 	   
 	   
 	   $("[data-length]").each(function(i,val){

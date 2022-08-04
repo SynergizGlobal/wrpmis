@@ -179,13 +179,20 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightPlan(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT distinct w.work_id as work_id_fk,ID AS fortnightly_plan_id,f.contract_id_fk,category,category as critical_item,sum(cast(isnull(planned_last_fortnight,0) as decimal(10,2))) as cum_planned_last_structure,\r\n" + 
-					"sum(cast(isnull(actual_last_fortnight,0) as decimal(10,2))) as cum_actual_last_structure,sum(cast(isnull(planned_current_fortnight,0) as decimal(10,2))) as planned_current_structure,structure,component  \r\n" + 
-					"from fortnight_temp f \r\n" + 
-					"LEFT join contract c ON c.contract_id  = f.contract_id_fk \r\n" + 
-					"LEFT JOIN work w on c.work_id_fk =w.work_id \r\n" + 
-					"where f.ID = "+obj.getFortnightly_plan_id()+" and f.status='Active'\r\n" + 
-					"group by w.work_id,f.ID,f.contract_id_fk,f.category";
+			String qry = "SELECT  work_id as work_id_fk,ID AS fortnightly_plan_id,t.contract_id_fk,t.category,t.structure_type as total_items,cum_planned_last_structure,\r\n" + 
+					"					cum_actual_last_structure, planned_current_structure,t.structure,t.component					\r\n" + 
+					"					\r\n" + 
+					"					from fortnight_temp t\r\n" + 
+					"\r\n" + 
+					"					inner join (SELECT  w.work_id as work_id_fk,ID AS fortnightly_plan_id,f.contract_id_fk,category,structure_type as critical_item,sum(cast(isnull(planned_last_fortnight,0) as decimal(10,2))) as cum_planned_last_structure,\r\n" + 
+					"					sum(cast(isnull(actual_last_fortnight,0) as decimal(10,2))) as cum_actual_last_structure,sum(cast(isnull(planned_current_fortnight,0) as decimal(10,2))) as planned_current_structure,structure,component\r\n" + 
+					"					from fortnight_temp f \r\n" + 
+					"					LEFT join contract c ON c.contract_id  = f.contract_id_fk\r\n" + 
+					"					LEFT JOIN work w on c.work_id_fk =w.work_id \r\n" + 
+					"					where f.ID = "+obj.getFortnightly_plan_id()+" and f.status='Active' \r\n" + 
+					"					group by w.work_id,f.ID,f.contract_id_fk,f.category,structure,component,structure_type) as a\r\n" + 
+					"\r\n" + 
+					"					on a.contract_id_fk=t.contract_id_fk and a.work_id_fk=t.work_id and a.critical_item=t.structure_type and a.category=t.category";
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 
@@ -204,7 +211,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		PreparedStatement updateStmt = null;		
 		try {
 			connection = dataSource.getConnection();
-			String qry = "UPDATE fortnightly_plan_update SET remarks=? WHERE fortnightly_plan_update_id = ? ";	
+			String qry = "UPDATE fortnight_temp SET remarks=? WHERE ID = ? ";	
 			
 			String Str2[]=obj.getRemarks().split(",");
 			String Str1[]=obj.getFortnightly_plan_update_id().split(",");			

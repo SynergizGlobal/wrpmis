@@ -65,7 +65,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT distinct F.ID as fortnightly_plan_id,category,contract_short_name,structure_type as structure_type_fk,structure,sum(cast(isnull(planned_last_fortnight,0) as decimal(10,2))) as cum_planned_last_st,sum(cast(isnull(actual_last_fortnight,0) as decimal(10,2))) as cum_actual_last_st,sum(cast(isnull(planned_current_fortnight,0) as decimal(10,2))) as planned_current_st,0 as data_id "
+			String qry = "SELECT distinct F.ID as fortnightly_plan_id,category,contract_short_name,structure_type as structure_type_fk,structure,cast(sum(cast(isnull(planned_last_fortnight,0) as decimal(10,2))) as varchar) as cum_planned_last_st,cast(sum(cast(isnull(actual_last_fortnight,0) as decimal(10,2))) as varchar) as cum_actual_last_st,cast(sum(cast(isnull(planned_current_fortnight,0) as decimal(10,2)))  as varchar) as planned_current_st,0 as data_id "
 					+ "from fortnight_temp f "
 					+ "LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk "
 					+ "LEFT JOIN work w on c.work_id_fk =w.work_id "

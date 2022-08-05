@@ -47,7 +47,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
-				qry = qry + " and user = ?";
+				qry = qry + " and [user] = ?";
 				arrSize++;
 			}
 			
@@ -93,7 +93,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
-				qry = qry + " and user = ?";
+				qry = qry + " and [user] = ?";
 				arrSize++;
 			}
 			
@@ -123,7 +123,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 	public List<UserActivityReport> getHODsFilterListInUserActivityReport(UserActivityReport obj) throws Exception {
 		List<UserActivityReport> objsList = null;
 		try {
-			String qry = "SELECT user from forms_history where user is not null and user <> '' ";
+			String qry = "SELECT [user] from forms_history where [user] is not null and [user] <> ''  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
@@ -139,11 +139,11 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
-				qry = qry + " and user = ?";
+				qry = qry + " and [user] = ?";
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY user";
+			qry = qry + " GROUP BY [user] ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
@@ -185,7 +185,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
-				qry = qry + " and user = ?";
+				qry = qry + " and [user] = ?";
 				arrSize++;
 			}
 			
@@ -218,10 +218,10 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 		UserActivityReport uObj = null;
 		try {
 			
-			String qry = "SELECT DISTINCT user"
+			String qry = "SELECT DISTINCT [user]"
 					+ " FROM forms_history " + 
 					"LEFT JOIN [user] u on created_by_user_id_fk = u.user_id  "
-					+ "where DATE(created_date) >= ?  and DATE(created_date) <= ?";
+					+ "where created_date >= ?  and created_date <= ?";
 			int arrSize = 2;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 				qry = qry + " and module_name_fk = ? ";
@@ -236,10 +236,10 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
-				qry = qry + " and user = ?";
+				qry = qry + " and [user] = ?";
 				arrSize++;
 			}
-			qry = qry + " order by user asc ";
+			qry = qry + " order by [user] asc ";
 			
 			
 			Object[] pValues = new Object[arrSize];
@@ -268,7 +268,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 				String qry1 = "SELECT form_history_id, module_name_fk,form_name, work, u.user_name,contract, form_action_type, form_details, created_by_user_id_fk, user,created_date as date,FORMAT(created_date,'%H:%i ') time"
 						+ " FROM forms_history " + 
 						"LEFT JOIN [user] u on created_by_user_id_fk = u.user_id  "
-						+ "where user=? and DATE(created_date) >= ?  and DATE(created_date) <= ? ";
+						+ "where user=? and created_date >= ?  and created_date <= ? ";
 				int arrSize1 = 3;
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 					qry1 = qry1 + " and module_name_fk = ? ";
@@ -283,7 +283,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 					arrSize1++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
-					qry1 = qry1 + " and user = ?";
+					qry1 = qry1 + " and [user] = ?";
 					arrSize1++;
 				}
 				qry = qry + " order by time asc ";
@@ -322,10 +322,8 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 		List<UserActivityReport> objtList = null;
 		try {
 		
-				String qry = "SELECT form_history_id, module_name_fk,form_name, work, u.user_name,contract, form_action_type, form_details, created_by_user_id_fk, user,FORMAT(created_date,'%H:%i ') time"
-						+ " FROM forms_history " + 
-						"LEFT JOIN [user] u on created_by_user_id_fk = u.user_id  "
-						+ "where DATE(created_date) between ? and ?  ";
+				String qry = "SELECT form_history_id, module_name_fk,form_name, work, u.user_name,contract, form_action_type, form_details, created_by_user_id_fk, [user],FORMAT(created_date,'hh:m ') time \r\n" + 
+						"FROM forms_history LEFT JOIN [user] u on created_by_user_id_fk = u.user_id  where created_date between ? and ?  ";
 				int arrSize = 2;
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
 					qry = qry + " and module_name_fk = ? ";
@@ -340,7 +338,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 					arrSize++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser())) {
-					qry = qry + " and user = ?";
+					qry = qry + " and [user] = ?";
 					arrSize++;
 				}
 				qry = qry + " order by time asc ";
@@ -467,17 +465,17 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 					
 					String qry = "SELECT user,user_id_fk,contract_id,contract_name,contract_short_name "
 							+ "FROM "
-							+ "(SELECT CONCAT(u.designation,' - ',u.user_name) as user,hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name "
+							+ "(SELECT CONCAT(u.designation,' - ',u.user_name) as [user],hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name "
 							+ "FROM contract c "
 							+ "LEFT JOIN [user] u ON hod_user_id_fk = user_id "
 							+ "where hod_user_id_fk IS NOT NULL AND status = ? AND c.work_id_fk = ? group by hod_user_id_fk "
 							+ "UNION ALL "
-							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as user,dy_hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name "
+							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as [user],dy_hod_user_id_fk as user_id_fk,contract_id,contract_name,contract_short_name "
 							+ "FROM contract c "
 							+ "LEFT JOIN [user] u ON dy_hod_user_id_fk = user_id "
 							+ "where dy_hod_user_id_fk IS NOT NULL AND status = ? AND c.work_id_fk = ? group by dy_hod_user_id_fk "
 							+ "UNION ALL "
-							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as user,executive_user_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
+							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as [user],executive_user_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
 							+ "FROM contract_executive ce "
 							+ "LEFT JOIN [user] u ON executive_user_id_fk = user_id "
 							+ "LEFT JOIN contract c on ce.contract_id_fk = c.contract_id "
@@ -529,21 +527,16 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 						+ "left join contract c on scr.contract_id_fk = c.contract_id "
 						+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? group by responsible_people_id_fk";*/
 					
-					String qry = "SELECT user,user_id_fk,contract_id,contract_name,contract_short_name "
-							+ "FROM "
-							+ "(SELECT CONCAT(u.designation,' - ',u.user_name) as user, responsible_people_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
-							+ "FROM fob_contract_responsible_people fcr "
-							+ "LEFT JOIN [user] u ON responsible_people_id_fk = user_id "
-							+ "LEFT JOIN contract c on fcr.contract_id_fk = c.contract_id "
-							+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? AND c.work_id_fk = ? group by responsible_people_id_fk "
-							+ "UNION ALL "
-							+ "SELECT CONCAT(u.designation,' - ',u.user_name) as user,responsible_people_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
-							+ "FROM structure_contract_responsible_people scr "
-							+ "LEFT JOIN [user] u ON responsible_people_id_fk = user_id "
-							+ "LEFT JOIN contract c on scr.contract_id_fk = c.contract_id "
-							+ "where responsible_people_id_fk IS NOT NULL AND c.status = ? AND c.work_id_fk = ? group by responsible_people_id_fk"
-							+ ") t "
-							+ "GROUP BY user_id_fk,contract_id ";
+					String qry = "SELECT [user],user_id_fk,contract_id,contract_name,contract_short_name FROM (SELECT CONCAT(u.designation,' - ',u.user_name) as [user], responsible_people_id_fk as user_id_fk,c.contract_id,\r\n" + 
+							"c.contract_name,c.contract_short_name FROM fob_contract_responsible_people fcr LEFT JOIN [user] u ON responsible_people_id_fk = user_id LEFT JOIN contract c on fcr.contract_id_fk = c.contract_id \r\n" + 
+							"where responsible_people_id_fk IS NOT NULL AND c.status = ? AND c.work_id_fk = ?\r\n" + 
+							"group by responsible_people_id_fk ,u.designation,u.user_name,contract_id,contract_name,contract_short_name\r\n" + 
+							"\r\n" + 
+							"UNION ALL SELECT CONCAT(u.designation,' - ',u.user_name) as [user],\r\n" + 
+							"responsible_people_id_fk as user_id_fk,c.contract_id,c.contract_name,c.contract_short_name FROM structure_contract_responsible_people scr \r\n" + 
+							"LEFT JOIN [user] u ON responsible_people_id_fk = user_id LEFT JOIN contract c on scr.contract_id_fk = c.contract_id \r\n" + 
+							"where responsible_people_id_fk IS NOT NULL  AND c.status = ? AND c.work_id_fk = ? group by responsible_people_id_fk,u.designation,u.user_name,contract_id,contract_name,contract_short_name) t \r\n" + 
+							"GROUP BY user_id_fk,contract_id,[user],contract_name,contract_short_name";
 					
 					int arrSize = 4;
 					Object[] pValues = new Object[arrSize];

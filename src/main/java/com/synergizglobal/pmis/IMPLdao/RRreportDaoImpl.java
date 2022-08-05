@@ -230,7 +230,7 @@ public class RRreportDaoImpl implements RRreportDao{
 	public RandRMain getRandRMainData(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "SELECT rr_id,r.work_id,work_short_name,location_name ,type_of_use,count(identification_no)structure_id,count(physical_verification)physical_verification,count(encroachment_removal)encroachment_removal," + 
+			String qry = "SELECT r.work_id,work_short_name,location_name ,type_of_use,count(identification_no)structure_id,count(physical_verification)physical_verification,count(encroachment_removal)encroachment_removal," + 
 					"count(boundary_wall_doc)boundary_wall_doc" + 
 					",count(handed_over_to_execution)handed_over_to_execution " + 
 					"from rr r "
@@ -257,7 +257,7 @@ public class RRreportDaoImpl implements RRreportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY location_name,type_of_use order by work_id,location_name";
+			qry = qry + " GROUP BY r.work_id,work_short_name,location_name,type_of_use order by work_id,location_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -277,7 +277,7 @@ public class RRreportDaoImpl implements RRreportDao{
 			obj.setReport1List(objsList);
 			if(objsList.size() > 0) {
 					
-				String qry2 = "SELECT rr_id,location_name,work_short_name,r.work_id ,sub_location_name,type_of_use," + 
+				String qry2 = "SELECT rr_id, location_name,work_short_name,r.work_id ,sub_location_name,type_of_use," + 
 						"FORMAT(physical_verification,'dd-MM-yyyy') as physical_verification," + 
 						"FORMAT(encroachment_removal,'dd-MM-yyyy') as encroachment_removal," + 
 						"FORMAT(boundary_wall_doc,'dd-MM-yyyy') as boundary_wall_doc" + 
@@ -305,7 +305,6 @@ public class RRreportDaoImpl implements RRreportDao{
 					qry2 = qry2 + " and location_name = ?";
 					arrSize1++;
 				}
-				
 				Object[] pValues1 = new Object[arrSize1];
 				int j = 0;
 				

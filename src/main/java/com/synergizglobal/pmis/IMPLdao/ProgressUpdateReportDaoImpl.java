@@ -31,7 +31,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 		try {
 			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name "+
 					"from p6_validation acp "
-					+"left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk  " + 
+					+"left join p6_activities a on  a.p6_activity_id = acp.p6_activity_id_fk  " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
@@ -68,7 +68,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.contract_id ORDER BY c.contract_id ASC";
+			qry = qry + " GROUP BY c.contract_id,c.contract_name,c.contract_short_name ORDER BY c.contract_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -110,7 +110,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 		try {
 			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name "+
 					"from p6_validation acp "
-					+"left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk  " + 
+					+"left join p6_activities a on  a.p6_activity_id = acp.p6_activity_id_fk  " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
@@ -147,7 +147,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY w.work_id ORDER BY w.work_id ASC";
+			qry = qry + " GROUP BY c.work_id_fk,w.work_id,w.work_name,w.work_short_name ORDER BY w.work_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -190,7 +190,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			
 			String qry = "SELECT c.contractor_id_fk,contractor_id,contractor_name "+
 					"from p6_validation acp "
-					+"left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk  " + 
+					+"left join p6_activities a on  a.p6_activity_id = acp.p6_activity_id_fk  " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN contractor ctr on c.contractor_id_fk = ctr.contractor_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -228,7 +228,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.contractor_id_fk ORDER BY c.contractor_id_fk ASC";
+			qry = qry + " GROUP BY c.contractor_id_fk,contractor_id,contractor_name ORDER BY c.contractor_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -270,7 +270,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 		try {			
 			String qry = "SELECT user_id,user_name,designation "+
 					"from p6_validation acp "
-					+"left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk  " + 
+					+"left join p6_activities a on  a.p6_activity_id = acp.p6_activity_id_fk  " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -309,7 +309,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.hod_user_id_fk  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+			qry = qry + " GROUP BY c.hod_user_id_fk,user_id,user_name,designation  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 
@@ -406,7 +406,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 		try {
 			String qry = "SELECT user_id,user_name,designation "+
 					"from p6_validation acp "
-					+"left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk  " + 
+					+"left join p6_activities a on  a.p6_activity_id = acp.p6_activity_id_fk  " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -444,7 +444,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.dy_hod_user_id_fk ORDER BY c.dy_hod_user_id_fk ASC";
+			qry = qry + " GROUP BY c.dy_hod_user_id_fk,user_id,user_name,designation ORDER BY c.dy_hod_user_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -486,7 +486,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 		try {
 			String qry = "SELECT p.project_id,p.project_name "+
 					"from p6_validation acp "
-					+"left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk  " + 
+					+"left join p6_activities a on  a.p6_activity_id = acp.p6_activity_id_fk  " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
@@ -522,7 +522,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 				qry = qry + " and c.dy_hod_user_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY p.project_id ORDER BY p.project_id ASC";
+			qry = qry + " GROUP BY p.project_id,p.project_name ORDER BY p.project_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -564,7 +564,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			
 			String qry = "SELECT fob_id,fob_name "+
 					"from p6_validation acp "
-					+"left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk  " + 
+					+"left join p6_activities a on  a.p6_activity_id = acp.p6_activity_id_fk  " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
@@ -646,15 +646,15 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 					+ "a.contract_id_fk,c.hod_user_id_fk,"
 					+ "u2.designation as hod_designation,u3.designation as dyhod_designation,c.work_id_fk,w.work_short_name,p.project_name, c.contract_short_name,structure as structure_type_fk,u.user_id,u.designation,u.user_name,c.department_fk," 
 					//+ "(select  count(distinct progress_date)) as progress_dates,"
-					+ " COALESCE( (select COUNT(a1.created_by_user_id_fk) FROM p6_validation a1 left join p6_activities a2 on  a2.p6_activity_id = a1.activity_id_fk where a1.created_by_user_id_fk = acp.created_by_user_id_fk and a2.structure=a.structure  and a1.created_by_user_id_fk is not null "
+					+ " COALESCE( (select COUNT(a1.created_by_user_id_fk) FROM p6_validation a1 left join p6_activities a2 on  a2.p6_activity_id = a1.p6_activity_id_fk left join structure s on s.structure_id = a2.structure_id_fk where a1.created_by_user_id_fk = acp.created_by_user_id_fk  and a1.created_by_user_id_fk is not null "
 					+ "  and a1.progress_date >= ? and a1.progress_date <= ? and a1.progress_date=acp.progress_date), 0)  as updated,"
-					+ " COALESCE((select count(a11.approval_status_fk) FROM p6_validation a11  left join p6_activities a12 on  a12.p6_activity_id = a11.activity_id_fk where approval_status_fk = 'approved' and a11.created_by_user_id_fk = acp.created_by_user_id_fk and a12.structure=a.structure "
+					+ " COALESCE((select count(a11.approval_status_fk) FROM p6_validation a11  left join p6_activities a12 on  a12.p6_activity_id = a11.p6_activity_id_fk left join structure s1 on s1.structure_id = a12.structure_id_fk where approval_status_fk = 'approved' and a11.created_by_user_id_fk = acp.created_by_user_id_fk  "
 					+ " and a11.created_by_user_id_fk is not null "
 					+ "  and a11.progress_date >= ? and a11.progress_date <= ? and a11.progress_date=acp.progress_date), 0) as approved, "
-					+ " COALESCE((select count(a13.approval_status_fk) FROM p6_validation a13   left join p6_activities a14 on  a14.p6_activity_id = a13.activity_id_fk where approval_status_fk = 'rejected' and a13.created_by_user_id_fk = acp.created_by_user_id_fk and a14.structure=a.structure and a13.created_by_user_id_fk is not null "
+					+ " COALESCE((select count(a13.approval_status_fk) FROM p6_validation a13   left join p6_activities a14 on  a14.p6_activity_id = a13.p6_activity_id_fk left join structure s2 on s2.structure_id = a14.structure_id_fk where approval_status_fk = 'rejected' and a13.created_by_user_id_fk = acp.created_by_user_id_fk and a13.created_by_user_id_fk is not null "
 					+ "  and a13.progress_date >= ? and a13.progress_date <= ? and a13.progress_date=acp.progress_date), 0) as rejected "
 					+ " FROM p6_validation acp  "
-					+ "left join p6_activities a on  a.p6_activity_id = acp.activity_id_fk   "
+					+ "left join p6_activities a on  a.p6_activity_id = acp.p6_activity_id_fk   "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left join contract c on a.contract_id_fk = c.contract_id "  
 					+ " left join contractor cr on c.contractor_id_fk = cr.contractor_id  "
@@ -712,7 +712,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			}
 			
 			//progressQry = progressQry + " GROUP BY structure";
-			progressQry = progressQry + " order by date(progress_date) desc";
+			progressQry = progressQry + " order by progress_date desc";
 			
 			Object[] pValues1 = new Object[arrSize];
 			

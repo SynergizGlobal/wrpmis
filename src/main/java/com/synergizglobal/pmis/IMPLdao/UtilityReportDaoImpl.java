@@ -159,12 +159,20 @@ public class UtilityReportDaoImpl implements UtilityReportDao{
 	public UtilityShifting getUtilityShiftingData(UtilityShifting obj) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry = "SELECT work_short_name,work_id_fk,count(*) as utilities,execution_agency_fk, sum(shifting_status_fk = 'Completed') as remaining,"
-					+ "count(*)-sum(shifting_status_fk = 'Completed') as balance " + 
-					" FROM utility_shifting u "
-					+ "left join work w on u.work_id_fk = w.work_id "
-					+ "left join project p on w.project_id_fk = p.project_id "
-					+ " where execution_agency_fk is not null and execution_agency_fk <> '' ";
+			String qry = "SELECT work_short_name,work_id_fk,count(*) as utilities,execution_agency_fk, (select count(*)\r\n" + 
+					"FROM utility_shifting u \r\n" + 
+					"left join work w on u.work_id_fk = w.work_id \r\n" + 
+					"left join project p on w.project_id_fk = p.project_id \r\n" + 
+					"	where execution_agency_fk is not null and execution_agency_fk <> '' and shifting_status_fk='Completed') as remaining,\r\n" + 
+					"count(*)-(select count(*)\r\n" + 
+					"FROM utility_shifting u \r\n" + 
+					"left join work w on u.work_id_fk = w.work_id \r\n" + 
+					"left join project p on w.project_id_fk = p.project_id \r\n" + 
+					"	where execution_agency_fk is not null and execution_agency_fk <> '' and shifting_status_fk='Completed') as balance \r\n" + 
+					"FROM utility_shifting u \r\n" + 
+					"left join work w on u.work_id_fk = w.work_id \r\n" + 
+					"left join project p on w.project_id_fk = p.project_id \r\n" + 
+					"	where execution_agency_fk is not null and execution_agency_fk <> '' ";
 			
 			int arrSize = 0;
 
@@ -181,7 +189,7 @@ public class UtilityReportDaoImpl implements UtilityReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY execution_agency_fk";
+			qry = qry + " group by work_short_name,work_id_fk,execution_agency_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getExecution_agency_fk())) {

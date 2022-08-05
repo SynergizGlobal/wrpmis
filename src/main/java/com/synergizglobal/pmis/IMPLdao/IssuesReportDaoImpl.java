@@ -71,7 +71,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
-			qry = qry + " GROUP BY work_id_fk ORDER BY work_id_fk ";
+			qry = qry + " GROUP BY work_id,w.work_short_name ORDER BY work_id_fk ";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -120,7 +120,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
-			qry = qry + " GROUP BY contract_id_fk ORDER BY contract_id_fk";
+			qry = qry + " GROUP BY contract_id_fk,c.contract_id,contract_name,contract_short_name ORDER BY contract_id_fk";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -133,7 +133,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 	public List<Issue> getHODListInIssuesReport(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name,hod_user_id_fk,u.designation,u.user_name as hod_name "
+			String qry = "SELECT hod_user_id_fk,u.designation,u.user_name as hod_name "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id "
 					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
@@ -175,7 +175,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			qry = qry + " GROUP BY hod_user_id_fk  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+			qry = qry + " GROUP BY hod_user_id_fk,u.designation,u.user_name  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 
@@ -510,7 +510,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			hodQry = hodQry + " GROUP BY hod_user_id_fk ";
+			hodQry = hodQry + " GROUP BY contract_id_fk,c.contract_id,contract_name,contract_short_name,hod_user_id_fk,u.designation,u.user_name ";
 			hodQry = hodQry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
@@ -596,7 +596,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 					arrSize++;
 				}
 				
-				workQry = workQry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk";
+				workQry = workQry + " GROUP BY c.work_id_fk,work_name,work_short_name ORDER BY c.work_id_fk";
 				
 				pValues = new Object[arrSize];
 				
@@ -620,7 +620,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 					String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,i.title,i.description,FORMAT(date,'dd-MM-yyyy') AS date,location,reported_by,responsible_person,other_organization,c.department_fk," 
 							+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'dd-MM-yyyy') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,"
 							+ "i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
-							+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(CONVERT(date, getdate()), date) as pending_since,FORMAT(date,'dd-MM-yyyy') AS date, "
+							+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(day,CONVERT(date, getdate()), date) as pending_since,FORMAT(date,'dd-MM-yyyy') AS date, "
 							+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 							+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation "
 							+ "from issue i "
@@ -740,7 +740,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
 			
-			hodQry = hodQry + " GROUP BY hod_user_id_fk ";
+			hodQry = hodQry + " GROUP BY hod_user_id_fk,u.designation ";
 			hodQry = hodQry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
@@ -851,7 +851,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 	
 			
-			hodQry = hodQry + " GROUP BY hod_user_id_fk ";
+			hodQry = hodQry + " GROUP BY hod_user_id_fk,u.designation ";
 			hodQry = hodQry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 

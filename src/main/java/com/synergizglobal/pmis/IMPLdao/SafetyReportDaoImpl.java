@@ -68,7 +68,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
-			qry = qry + " GROUP BY work_id_fk ";
+			qry = qry + " GROUP BY work_id,work_short_name ";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -119,7 +119,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
-			qry = qry + " GROUP BY contract_id_fk";
+			qry = qry + " GROUP BY c.work_id_fk,contract_id_fk,c.contract_id,contract_name,contract_short_name";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
@@ -187,7 +187,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			String qry = "SELECT s.hod_user_id_fk,designation,user_name as hod_name "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN [user] u ON s.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where s.hod_user_id_fk is not null and s.hod_user_id_fk <> '' and designation  <> '' ";
 					
@@ -224,7 +224,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
-			qry = qry + " GROUP BY s.hod_user_id_fk  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+			qry = qry + " GROUP BY s.hod_user_id_fk,designation,user_name  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 
@@ -300,7 +300,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN contractor ctr ON c.contractor_id_fk = ctr.contractor_id "
-					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN [user] u ON s.hod_user_id_fk= u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
@@ -361,7 +361,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN contractor ctr ON c.contractor_id_fk = ctr.contractor_id "
-					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN [user] u ON s.hod_user_id_fk= u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "

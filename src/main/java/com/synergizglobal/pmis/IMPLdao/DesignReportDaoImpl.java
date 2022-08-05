@@ -30,7 +30,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 	public List<DesignReport> getWorksListInDesignReport(DesignReport obj) throws Exception {
 		List<DesignReport> objsList = null;
 		try {
-			String qry = "select work_id_fk, work_id,work_name,work_short_name from design left join work on work_id_fk = work_id group by work_id_fk order by work_id_fk asc";
+			String qry = "select work_id_fk, work_id,work_name,work_short_name from design left join work on work_id_fk = work_id group by work_id_fk, work_id,work_name,work_short_name order by work_id_fk asc";
 			
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
@@ -45,14 +45,14 @@ public class DesignReportDaoImpl implements DesignReportDao{
 	public List<DesignReport> getHodListInDesignReport(DesignReport obj) throws Exception {
 		List<DesignReport> objsList = null;
 		try {
-			String qry = "select hod from design d LEFT JOIN [user] u on d.hod = u.designation where hod is not null  ";
+			String qry = "select hod,u.designation from design d LEFT JOIN [user] u on d.hod = u.designation where hod is not null  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by hod  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+			qry = qry + " group by hod,designation  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 
@@ -198,7 +198,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 				workWiseQry = workWiseQry + " and d1.hod = ?";
 				arrSize = arrSize + 1 + 6;
 			}
-			workWiseQry = workWiseQry + " group by d1.work_id_fk order by d1.work_id_fk";
+			workWiseQry = workWiseQry + " group by concat(work_id_fk,' - ',work_short_name),work_id_fk,work_name,work_short_name order by d1.work_id_fk";
 			
 			Object[] pValues = new Object[arrSize];
 			

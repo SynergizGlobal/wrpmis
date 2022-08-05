@@ -61,7 +61,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 			String qry = "select r.sub_work "
 					+ "from risk r "
 					+ "LEFT JOIN risk_work_hod rwh ON r.sub_work = rwh.sub_work "
-					+ "group by sub_work ORDER BY rwh.priority asc";
+					+ "group by r.sub_work";
 			
 			Object[] pValues = new Object[] {};
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
@@ -108,7 +108,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 		RiskReport riskObject = null;
 		List<RiskReport> areaList = null;
 		try {
-			String workIdQuery = "select work_id_fk from risk_work_hod where sub_work = ? offset 0 rows  fetch next 1 rows only";
+			String workIdQuery = "select work_id_fk from risk_work_hod where sub_work = ? order by work_id_fk offset 0 rows  fetch next 1 rows only";
 			String work_id = jdbcTemplate.queryForObject( workIdQuery, new Object[] {obj.getSub_work()}, String.class);
 			obj.setWork_id(work_id);
 			
@@ -137,7 +137,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 						+ "left outer join risk_work_hod rwh on rv.sub_work = rwh.sub_work "
 						+ "left outer join work w on rwh.work_id_fk = w.work_id "
 						+ "left outer join project p on w.project_id_fk = p.project_id "
-						+ "where rwh.work_id_fk = ? and rv.sub_work = ? and date = ? group by area order by area_item_no";
+						+ "where rwh.work_id_fk = ? and rv.sub_work = ? and date = ? order by area_item_no";
 				
 				pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
 				
@@ -182,7 +182,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 							+ "left outer join work w on rwh.work_id_fk = w.work_id "
 							+ "left outer join project p on w.project_id_fk = p.project_id "
 							+ "where rwh.work_id_fk = ? and rv.sub_work = ? and date = ? and priority_fk <> 'Accepted' "
-							+ "ORDER BY CONCAT( REPEAT(  '0', 8 - LENGTH( priority_fk ) ) , priority_fk ) asc, area_item_no ASC , sub_area_item_no ASC ";
+							+ "ORDER BY CONCAT( REPLICATE(  '0', 8 - LEN( priority_fk ) ) , priority_fk ) asc, area_item_no ASC , sub_area_item_no ASC ";
 					
 			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
 					
@@ -215,7 +215,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					+ "left outer join work w on rwh.work_id_fk = w.work_id "
 					+ "left outer join project p on w.project_id_fk = p.project_id "
 					+ "where rwh.work_id_fk = ? and rv.sub_work = ? and date = ? and priority_fk <> 'Accepted'  "
-					+ "ORDER BY CONCAT( REPEAT(  '0', 8 - LENGTH( priority_fk ) ) , priority_fk ) asc, area_item_no ASC , sub_area_item_no ASC, FORMAT(atr_date,'%Y-%m-%d') ASC";
+					+ "ORDER BY CONCAT( REPLICATE(  '0', 8 - LEN( priority_fk ) ) , priority_fk ) asc, area_item_no ASC , sub_area_item_no ASC, FORMAT(atr_date,'%Y-%m-%d') ASC";
 			
 					
 			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
@@ -244,7 +244,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					"LEFT JOIN risk_revision rr on rr.risk_id_pk_fk = r.risk_id_pk " + 
 					"LEFT JOIN risk_work_hod rwh on rwh.sub_work = r.sub_work "
 					+ "LEFT JOIN [user] u on rwh.hod_user_id_fk = u.user_id " + 
-					"WHERE (rwh.risk_work_completed is null or rwh.risk_work_completed = '' or rwh.risk_work_completed = 'No') group by r.sub_work "+
+					"WHERE (rwh.risk_work_completed is null or rwh.risk_work_completed = '' or rwh.risk_work_completed = 'No') group by r.sub_work,designation,priority "+
 					"order by rwh.priority asc ";			
 					//"order by max(rr.date) desc";
 			
@@ -273,13 +273,13 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					"WHERE " + 
 					"(sa.sub_area = r.sub_area_fk)) AS area, " + 
 					"r.sub_area_fk AS sub_area, " + 
-					"dense_rank() over(partition by sub_work order by date desc ) as r from  risk_revision rr " + 
+					"dense_rank() over(partition by rw.sub_work order by date desc ) as r from  risk_revision rr " + 
 					"left join risk  r  on r.risk_id_pk=rr.risk_id_pk_fk " + 
-					"left join  pmis.risk_work_hod rw on r.sub_work=rw.sub_work " + 
+					"left join  risk_work_hod rw on r.sub_work=rw.sub_work " + 
 					"where risk_work_completed='No' ) s " + 
 					"where r =1)ss " + 
 					"group by area,sub_area " + 
-					"order by sum(risk_rating) desc offset 0 rows  fetch next 1 rows only0";
+					"order by sum(risk_rating) desc offset 0 rows  fetch next 1 rows only";
 					
 			List<RiskReport> objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			

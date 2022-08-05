@@ -4079,7 +4079,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				arrSize++;
 			}
 			
-			qry = qry + " group by c.work_id_fk order by c.work_id_fk asc";
+			qry = qry + " group by c.work_id_fk,w.work_short_name,w1.work_short_name order by c.work_id_fk asc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

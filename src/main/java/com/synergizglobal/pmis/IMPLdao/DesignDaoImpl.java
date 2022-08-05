@@ -1507,7 +1507,7 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and drawing_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by work_id_fk,w.work_short_name";
+			qry = qry + " group by work_id,w.work_short_name";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

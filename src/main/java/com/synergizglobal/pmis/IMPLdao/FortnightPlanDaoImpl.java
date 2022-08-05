@@ -227,7 +227,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					"					where f.ID = "+obj.getFortnightly_plan_id()+" and f.status='Active' \r\n" + 
 					"					group by w.work_id,f.ID,f.contract_id_fk,f.category,structure,component,structure_type) as a\r\n" + 
 					"\r\n" + 
-					"					on a.contract_id_fk=t.contract_id_fk and a.work_id_fk=t.work_id and a.critical_item=t.structure_type and a.category=t.category and a.structure=t.structure ";
+					"					on a.contract_id_fk=t.contract_id_fk and a.work_id_fk=t.work_id and a.critical_item=t.structure_type and a.category=t.category and a.structure=t.structure and t.status='Active' ";
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 

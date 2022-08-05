@@ -198,7 +198,7 @@ public class RiskReportController {
 		try{
             //String directory = CommonConstants.EARTH_WORK_REPORTS_FILE_SAVING_PATH;
 			
-			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
+			//obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
             
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");

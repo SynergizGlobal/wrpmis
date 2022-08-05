@@ -52,7 +52,7 @@ public class RRreportDaoImpl implements RRreportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY r.work_id";
+			qry = qry + " GROUP BY r.work_id,w.work_short_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			

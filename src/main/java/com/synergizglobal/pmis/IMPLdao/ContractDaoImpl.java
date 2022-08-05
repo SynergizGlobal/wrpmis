@@ -61,7 +61,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractList(Contract obj)throws Exception{
 		List<Contract> objsList = null;
 		try {
-			String qry ="select w.work_name,w.work_short_name, dt.department_name as department_name,hoddt.department_name as hod_department,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+			String qry ="select distinct w.work_name,w.work_short_name, dt.department_name as department_name,hoddt.department_name as hod_department,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 					",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,FORMAT(date_of_start,'dd-MM-yyyy') AS date_of_start,FORMAT(doc,'dd-MM-yyyy') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MM-yyyy') AS loa_date,ca_no,FORMAT(ca_date,'dd-MM-yyyy') AS ca_date,FORMAT(actual_completion_date,'dd-MM-yyyy') AS actual_completion_date,"
 					+"FORMAT(contract_closure_date,'dd-MM-yyyy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MM-yyyy') AS completion_certificate_release,FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 					+"FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,contract_status_fk,bg_required,insurance_required,modified_by,FORMAT(modified_date,'dd-MM-yyyy') as modified_date " + 
@@ -326,7 +326,7 @@ public class ContractDaoImpl implements ContractDao {
 	public boolean addContract(Contract contract)throws Exception{
 		Connection con = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		//ResultSet rs = null;
 		int count = 0;
 		boolean flag = false;
 		int[] c = {};
@@ -808,18 +808,20 @@ public class ContractDaoImpl implements ContractDao {
 					}
 				}
 				String[] documentNames = new String[arraySize];
-				
+				int loop=0;
 				for (int i = 0; i < arraySize; i++) {
 					int k = 1;
 					stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
 					stmt.setString(k++,(documentNames.length > 0)?documentNames[i]:null);					
 					stmt.setString(k++,contract_id);
 					stmt.setString(k++,(contract.getContract_file_types().length > 0)?contract.getContract_file_types()[i]:null);
-					stmt.addBatch();
+					//stmt.addBatch();
+					stmt.executeUpdate();
+					loop++;
 				}
-				c = stmt.executeBatch();
-				rs = stmt.getGeneratedKeys();
-				if(c.length > 0) {
+				//c = stmt.executeBatch();
+				if(loop > 0) {
+					ResultSet rs = stmt.getGeneratedKeys();
 					flag = true;
 					if(!StringUtils.isEmpty(contract.getContractDocumentFiles()) && contract.getContractDocumentFiles().length > 0) {
 						if(arraySize < contract.getContractDocumentFiles().length) {
@@ -849,9 +851,10 @@ public class ContractDaoImpl implements ContractDao {
 								int p = 1;
 								stmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);					
 								stmt.setString(p++,contract.getContract_documents_id());
-								stmt.addBatch();
+								//stmt.addBatch();
+								stmt.executeUpdate();
 							}
-							c = stmt.executeBatch();
+							//c = stmt.executeBatch();
 						}
 					}
 					
@@ -962,9 +965,12 @@ public class ContractDaoImpl implements ContractDao {
 		ResultSet rs = null;
 		String contract_id = null;
 		try{
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(contract_id, 1, LENGTH(contract_id)-4),"+department_code+",LPAD(MAX(SUBSTRING(contract_id, 9, LENGTH(contract_id)))+1,2,0) ) AS maxId FROM contract WHERE contract_id LIKE ?";
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(contract_id, 1, LEN(contract_id)-4),'"+department_code+"',\r\n" + 
+					"IIF(\r\n" + 
+					"SUBSTRING(CAST(MAX(SUBSTRING(contract_id, 9, LEN(contract_id)))+1 AS VARCHAR),0,3)>9,SUBSTRING(CAST(MAX(SUBSTRING(contract_id, 9, LEN(contract_id)))+1 AS VARCHAR),0,3),CONCAT('0',SUBSTRING(CAST(MAX(SUBSTRING(contract_id, 9, LEN(contract_id)))+1 AS VARCHAR),0,3)))\r\n" + 
+					"\r\n" + 
+					") AS maxId FROM contract WHERE contract_id LIKE 'P04W01ST%' group by contract_id ORDER BY maxId desc ";
 			stmt = con.prepareStatement(maxIdQry);
-			stmt.setString(1, work_id+department_code+"%");
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
 				contract_id = rs.getString("maxId");
@@ -1559,7 +1565,8 @@ public class ContractDaoImpl implements ContractDao {
 										multiExecutiveStmt.setString(k++,(contract.getContract_id()));
 										multiExecutiveStmt.setString(k++,(deptName));
 										multiExecutiveStmt.setString(k++,(contract.getResponsible_people_id_fks().length > 0)?contract.getResponsible_people_id_fks()[a]:null);
-										multiExecutiveStmt.addBatch();
+										//multiExecutiveStmt.addBatch();
+										multiExecutiveStmt.executeUpdate();
 		   	}
 				j++;
 		   }else 
@@ -1569,7 +1576,7 @@ public class ContractDaoImpl implements ContractDao {
 							}
 						}
 						//if(multiExecutiveStmt != null){multiExecutiveStmt.close();}
-						int[] insertCount1 = multiExecutiveStmt.executeBatch();
+						//int[] insertCount1 = multiExecutiveStmt.executeBatch();
 
 					}
 					
@@ -1654,11 +1661,12 @@ public class ContractDaoImpl implements ContractDao {
 								stmt.setString(k++,DateParser.parse((contract.getBg_dates().length > 0)?contract.getBg_dates()[i]:null));
 								stmt.setString(k++,DateParser.parse((contract.getRelease_dates().length > 0)?contract.getRelease_dates()[i]:null));
 								stmt.setString(k++,(contract.getBg_value_unitss().length > 0)?contract.getBg_value_unitss()[i]:null);
-								stmt.addBatch();
+								//stmt.addBatch();
+								stmt.executeUpdate();
 							}
 						}
 					}
-				    int[] c = stmt.executeBatch();
+				   // int[] c = stmt.executeBatch();
 					if(stmt != null){stmt.close();}
 					
 					deleteQry = "DELETE from insurance where contract_id_fk = ?";
@@ -1747,11 +1755,13 @@ public class ContractDaoImpl implements ContractDao {
 								//stmt.setString(k++,(contract.getInsurance_revisions().length > 0)?contract.getInsurance_revisions()[i]:null);
 								stmt.setString(k++,(contract.getInsuranceStatus().length > 0)?contract.getInsuranceStatus()[i]:null);
 								stmt.setString(k++,(contract.getInsurance_value_unitss().length > 0)?contract.getInsurance_value_unitss()[i]:null);
-								stmt.addBatch();
+								//stmt.addBatch();
+								stmt.executeUpdate();
+								
 	   }
 						}
 					}
-					c = stmt.executeBatch(); 
+					//c = stmt.executeBatch(); 
 					if(stmt != null){stmt.close();}
 				
 					String inactiveQry = "UPDATE contract_milestones set status = ? where contract_id_fk = ?";		 
@@ -1835,12 +1845,14 @@ public class ContractDaoImpl implements ContractDao {
 										stmt.setString(k++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
 										stmt.setString(k++,contract.getContract_id());
 										stmt.setString(k++,CommonConstants.ACTIVE);
-										stmt.addBatch();
+										//stmt.addBatch();
+										stmt.executeUpdate();
+										
 				}
 								}
 						}
 					}
-					c = stmt.executeBatch();
+					//c = stmt.executeBatch();
 					int[] updateCount = updateStmt.executeBatch();
 					if(stmt != null || updateStmt != null ){stmt.close();updateStmt.close();}
 				
@@ -1912,11 +1924,12 @@ public class ContractDaoImpl implements ContractDao {
 								stmt.setString(k++,contract.getContract_id());
 								stmt.setString(k++,(contract.getRevised_amount_unitss().length > 0)?contract.getRevised_amount_unitss()[i]:null);
 								stmt.setString(k++,(contract.getRevision_amounts_statuss().length > 0)?contract.getRevision_amounts_statuss()[i]:null);
-								stmt.addBatch();
+								//stmt.addBatch();
+								stmt.executeUpdate();
 		}
 						}
 					}
-					c = stmt.executeBatch();
+					//c = stmt.executeBatch();
 					
 					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 					
@@ -1965,11 +1978,12 @@ public class ContractDaoImpl implements ContractDao {
 							stmt.setString(k++,contract.getContract_id());
 							stmt.setString(k++,(contract.getContractKeyPersonnelDesignations().length > 0)?contract.getContractKeyPersonnelDesignations()[i]:null);
 							
-							stmt.addBatch();
+							//stmt.addBatch();
+							stmt.executeUpdate();
 						}
 					}
 					}
-					c = stmt.executeBatch();
+					//c = stmt.executeBatch();
 					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 					
 					arraySize = 0;
@@ -2058,12 +2072,13 @@ public class ContractDaoImpl implements ContractDao {
 								stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
 								stmt.setString(k++,(docFileName));					
 								stmt.setString(k++,(contract.getContract_file_types().length > 0)?contract.getContract_file_types()[i]:null);
-								stmt.addBatch();
+								//stmt.addBatch();
+								stmt.executeUpdate();
 								
 							}
 						}
 					}
-					c = stmt.executeBatch();
+					//c = stmt.executeBatch();
 					int[] update_count = updateStmt.executeBatch();
 					DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
 					

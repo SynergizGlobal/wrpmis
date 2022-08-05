@@ -63,7 +63,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
-			qry = qry + " GROUP BY contract_id_fk ORDER BY contract_id_fk";
+			qry = qry + " GROUP BY contract_id_fk,c.contract_id,contract_name,contract_short_name ORDER BY contract_id_fk";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
@@ -79,7 +79,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name,c.hod_user_id_fk,u.designation,u.user_name as hod_name "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN [user] u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' ";
 					
@@ -118,7 +118,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			qry = qry + " GROUP BY c.hod_user_id_fk  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+			qry = qry + " GROUP BY contract_id_fk,c.contract_id,contract_name,contract_short_name,c.hod_user_id_fk,u.designation,u.user_name  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 
@@ -225,7 +225,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
-			qry = qry + " GROUP BY work_id_fk ORDER BY work_id_fk ";
+			qry = qry + " GROUP BY work_id,w.work_short_name ORDER BY work_id_fk ";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -473,9 +473,9 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN contractor cr ON c.contractor_id_fk= cr.contractor_id  "
 					+ "LEFT OUTER JOIN department d ON c.department_fk= d.department "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN user u1 ON c.dy_hod_user_id_fk= u1.user_id "
-					+ "LEFT OUTER JOIN user u2 ON sc.committee_member_name= u2.user_id "
+					+ "LEFT OUTER JOIN [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN [user] u1 ON c.dy_hod_user_id_fk= u1.user_id "
+					+ "LEFT OUTER JOIN [user] u2 ON sc.committee_member_name= u2.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "where safety_id = ? ";
@@ -502,7 +502,11 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and location = ?";
 				arrSize++;
 			}
-			
+			qry=qry+" group by safety_id,contract_id_fk,s.hod_user_id_fk,c.hod_user_id_fk,u.designation,contract_short_name,\r\n" + 
+					"work_short_name,title,description,date,location,latitude,longitude,reported_by,responsible_person,c.department_fk,department_name,contractor_id_fk,contractor_name,\r\n" + 
+					"dy_hod_user_id_fk,u2.designation,u.designation,u1.designation,category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,\r\n" + 
+					"committee_required_fk,investigation_completed,corrective_measure_short_term,corrective_measure_long_term,compensation,compensation_units,payment_date,s.remarks,c.contract_name,c.work_id_fk\r\n" + 
+					",w.work_name,w.project_id_fk,p.project_name ";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;

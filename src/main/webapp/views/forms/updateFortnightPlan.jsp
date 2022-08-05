@@ -202,6 +202,13 @@
         .w2em{
         	width: 3em;
         }
+        .w10em{
+        	width: 10em;
+        }
+        .w10px{
+        	max-width: 0px;
+    		width: 10px;
+        }
         .w1em{
         	width: 1em;
         }
@@ -380,7 +387,7 @@
                             
                             </div>
 
-                            <div class="container-xl container-no-margin">
+                            <div class="">
                              <div class="row exe-box w100" style="margin-top: 20px;">
                                 <div class="col s12 m12">
                                     <div class="row fixed-width">
@@ -389,11 +396,11 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="w60">S No </th>
-                                                        <th class="w2em">Component </th>
+                                                        <th class="w10em">Component </th>
                                                         <th class="w2em">Cumulative Planned Last Fortnight </th>
                                                         <th class="w2em">Cumulative Actual Last Fortnight </th>
                                                         <th class="w2em">Current Fortnight Planned </th>
-                                                        <th class="w1em">Navigation</th>
+                                                        <th class="w10px">Navigation</th>
                                                         <th class="w20em">Remarks</th>
                                                     </tr>
                                                 </thead>

@@ -628,7 +628,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				arrSize++;
 			}
 			
-			hodQry = hodQry + " c.hod_user_id_fk,u.designation,doc,contract_id ";
+			hodQry = hodQry + " group by c.hod_user_id_fk,u.designation,doc,contract_id ";
 			hodQry = hodQry + " order by case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 

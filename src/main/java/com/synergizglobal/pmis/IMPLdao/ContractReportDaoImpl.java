@@ -78,7 +78,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				arrSize++;
 			}
 			
-			qry = qry + " group by u.designation";
+			qry = qry + " group by hod_user_id_fk,user_id,user_name,designation";
 			
 			qry = qry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
@@ -207,7 +207,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				qry = qry + " and c.contract_id = ?";
 				arrSize++;
 			}
-			qry = qry + " group by c.work_id_fk order by c.work_id_fk ";
+			qry = qry + " group by work_id_fk,work_id,work_name,work_short_name order by c.work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
@@ -280,7 +280,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				qry = qry + " and c.contract_id = ?";
 				arrSize++;
 			}
-			qry = qry + " group by c.contractor_id_fk order by c.contractor_id_fk ";
+			qry = qry + " group by contractor_id_fk,contractor_id,contractor_name order by c.contractor_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) 
@@ -541,7 +541,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				qry = qry + " and c.contract_id = ?";
 				arrSize++;
 			}
-			qry = qry + " group by contract_id order by contract_id ";
+			qry = qry + " group by contract_id,contract_name,contract_short_name order by contract_id ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1164,7 +1164,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " ) ";
 			}
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
+			hodQry = hodQry + " GROUP BY u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name";
 			hodQry = hodQry + " order by case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 

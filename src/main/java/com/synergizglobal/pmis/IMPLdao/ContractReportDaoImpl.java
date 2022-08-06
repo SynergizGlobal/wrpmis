@@ -909,7 +909,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			 * = hodQry + " and bg.valid_upto <= ?"; arrSize++; }
 			 */
 			
-			hodQry = hodQry + " GROUP BY u.designation,us.designation,u.user_name ";
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk,us.designation,u.designation,u.user_name ";
 			hodQry = hodQry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
@@ -1488,7 +1488,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " ) ";
 			}
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk,u.designation,us.designation,u.user_name";
+			hodQry = hodQry + " GROUP BY u.designation,us.designation,u.user_name";
 			hodQry = hodQry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
@@ -2024,7 +2024,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			 * = hodQry + " and i.valid_upto <= ?"; arrSize++; }
 			 */
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
+			hodQry = hodQry + " GROUP BY u.designation,us.designation,u.user_name";
 			hodQry = hodQry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 

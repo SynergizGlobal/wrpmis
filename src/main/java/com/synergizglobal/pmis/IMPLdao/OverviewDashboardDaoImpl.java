@@ -391,7 +391,7 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 						+ ""+ obj.getFilters_table()+ "";
 						
 						filterQry = filterQry + " WHERE "
-								+ "'"+ obj.getFilter_column_id()+ "'"
+								+ ""+ obj.getFilter_column_id()+ ""
 								+ " IS NOT NULL ";
 						if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
 							filterQry = filterQry + " AND "
@@ -598,25 +598,25 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 					obj.setFilter(filter);
 				}else if(!StringUtils.isEmpty(obj.getFilter_column_name()) && !StringUtils.isEmpty(obj.getFilters_table())) {
 					String filterQry = "SELECT "
-					+ "'" + obj.getFilter_column_name() + "' as filter_option_value ";
+					+ "" + obj.getFilter_column_name() + " as filter_option_value ";
 					if(!StringUtils.isEmpty(obj.getFilter_column_id())) {
-						filterQry = filterQry + ",'" + obj.getFilter_column_id() + "' as filter_option_id ";
+						filterQry = filterQry + "," + obj.getFilter_column_id() + " as filter_option_id ";
 					}
 					filterQry = filterQry + " FROM "
-					+ "'"+ obj.getFilters_table()+ "'";
+					+ ""+ obj.getFilters_table()+ "";
 					
 					filterQry = filterQry + " WHERE "
-							+ "'"+ obj.getFilter_column_id()+ "'"
+							+ ""+ obj.getFilter_column_id()+ ""
 							+ " IS NOT NULL ";
 					if(!StringUtils.isEmpty(tempObj) && !StringUtils.isEmpty(tempObj.getSource_field_name()) && !StringUtils.isEmpty(dObj.getWork_id())) {
 						filterQry = filterQry + " AND "
-						+ "'"+ tempObj.getSource_field_name()+ "'"
+						+ ""+ tempObj.getSource_field_name()+ ""
 						+ " = "
 						+ "'"+ dObj.getWork_id()+ "'";
 					}
 					if(!StringUtils.isEmpty(obj.getDefault_filter_column()) && !StringUtils.isEmpty(obj.getDefault_filter_value())) {
 						filterQry = filterQry + " AND "
-						+ "'"+ obj.getDefault_filter_column()+ "'"
+						+ ""+ obj.getDefault_filter_column()+ ""
 						+ " = "
 						+ "'"+ obj.getDefault_filter_value()+ "'";
 					}
@@ -626,7 +626,7 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 					}
 					
 					
-					filterQry = filterQry + " GROUP BY " + "'"+ obj.getFilter_column_id()+ "'";
+					/*filterQry = filterQry + " GROUP BY " + "'"+ obj.getFilter_column_id()+ "'";*/
 					if(!StringUtils.isEmpty(obj.getOrder_by())) {
 						filterQry = filterQry + " ORDER BY ";
 						if(!StringUtils.isEmpty(obj.getFilters_table_alias_name()) && !obj.getOrder_by().contains("FIELD") && !obj.getOrder_by().contains("CONCAT")) {

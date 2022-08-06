@@ -980,7 +980,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public RandRMain getRandRMainForm(RandRMain rr) throws Exception {
 		RandRMain obj = null;
 		try {
-			String qry = "select rr_id, r.work_id,(select executive_user_id_fk from rr_executives re where r.work_id = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk, identification_no,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, "
+			String qry = "select distinct rr_id, r.work_id,(select executive_user_id_fk from rr_executives re where r.work_id = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk, identification_no,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, "
 					+ "type_of_structure_wall, type_of_structure_floor, r.carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, FORMAT(physical_verification ,'dd-MM-yyyy') AS physical_verification, verification_by,FORMAT(approval_by_committee ,'dd-MM-yyyy') AS  approval_by_committee,r.remarks,estimation_amount_units,estimated_by_mmrda_amount_units,"
 					+ "FORMAT(rr_approval_status_by_mrvc ,'dd-MM-yyyy') AS  rr_approval_status_by_mrvc, estimation_amount,FORMAT(estimate_approval_date ,'dd-MM-yyyy') AS estimate_approval_date,FORMAT(letter_to_mmrda ,'dd-MM-yyyy') AS letter_to_mmrda, estimates_by_mmrda, FORMAT(payment_to_mmrda ,'dd-MM-yyyy') AS payment_to_mmrda, FORMAT(alternate_housing_allotment ,'dd-MM-yyyy') AS alternate_housing_allotment,FORMAT(relocation ,'dd-MM-yyyy') AS relocation,FORMAT(encroachment_removal ,'dd-MM-yyyy') AS encroachment_removal, boundary_wall_status, "
 					+ "FORMAT(boundary_wall_doc ,'dd-MM-yyyy') AS boundary_wall_doc,FORMAT(handed_over_to_execution ,'dd-MM-yyyy') AS handed_over_to_execution, occupier_name_during_verification,"
@@ -998,7 +998,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and rr_id = ?";
 				arrSize++;
 			}
-			qry = qry + " group by rr_id";
+			//qry = qry + " group by rr_id";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = rr.getUser_id();

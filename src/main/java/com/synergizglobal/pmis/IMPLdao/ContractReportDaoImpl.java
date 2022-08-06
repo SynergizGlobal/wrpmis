@@ -581,7 +581,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		try {
 			
 			String hodQry ="select u.designation as hod_designation,c.hod_user_id_fk,DATE_FORMAT(doc,'dd-MMM-yy') AS doc,doc as doc_date, "
-					+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id offset 0 rows  fetch next 1 rows only) as  revised_doc_temp "
+					+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  order by revised_doc offset 0 rows  fetch next 1 rows only) as  revised_doc_temp "
 					+ "from contract c "
 					+ "left join work w on c.work_id_fk = w.work_id "  
 					+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "  
@@ -628,8 +628,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				arrSize++;
 			}
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ";
-			hodQry = hodQry + " case when u.designation='ED Civil' then 1 \r\n" + 
+			hodQry = hodQry + " c.hod_user_id_fk,u.designation,doc,contract_id ";
+			hodQry = hodQry + " order by case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 
@@ -909,7 +909,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			 * = hodQry + " and bg.valid_upto <= ?"; arrSize++; }
 			 */
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
+			hodQry = hodQry + " GROUP BY u.designation,us.designation,u.user_name ";
 			hodQry = hodQry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
@@ -1164,7 +1164,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " ) ";
 			}
 			
-			hodQry = hodQry + " GROUP BY u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name";
+			hodQry = hodQry + " GROUP BY u.designation,us.designation,u.user_name";
 			hodQry = hodQry + " order by case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 

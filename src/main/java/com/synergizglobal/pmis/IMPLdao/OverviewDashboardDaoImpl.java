@@ -512,7 +512,7 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 					
 					//filterQry = filterQry + " GROUP BY ";
 					if(!StringUtils.isEmpty(obj.getFilters_table_alias_name())) {
-						filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
+						//filterQry = filterQry + obj.getFilters_table_alias_name() + ".";
 					}
 					//filterQry = filterQry + obj.getFilter_column_id();
 					if(!StringUtils.isEmpty(obj.getOrder_by())) {

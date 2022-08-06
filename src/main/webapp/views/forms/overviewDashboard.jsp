@@ -595,6 +595,7 @@
 						         			if((value.is_first_option_selected != 'YES')){
 						         				filters = filters + '<option value="" selected>All</option>';
 					         			    }
+						         			var optionArray=new Array();
 					         			  	$.each( value.filter, function( index2, value2 ){
 						         			  	var filter_option_id = value2.filter_option_value;
 						         				if($.trim(value2.filter_option_id) != ''){
@@ -604,7 +605,13 @@
 						         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
 						         					selectedFlag = 'selected';
 						         				}
-						         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+						         				
+					         					if(optionArray.indexOf(filter_option_id)==-1)
+					         					{
+						         					optionArray.push(filter_option_id);
+							         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+					         					}
+					         					
 												
 					                     	});
 						         			

@@ -212,11 +212,11 @@ public class SafetyDaoImpl implements SafetyDao {
 			String qry = "INSERT INTO safety"
 					+ "(contract_id_fk,hod_user_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,category_fk,impact_fk,root_cause_fk,status_fk,"
 					+ "closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,investigation_completed,corrective_measure_short_term,"
-					+ "corrective_measure_long_term,compensation,payment_date,remarks,compensation_units,committee_member_name,created_by,created_date,nominated_authority,approve_corrective_measure,safety_incident) "
+					+ "corrective_measure_long_term,compensation,payment_date,remarks,compensation_units,committee_member_name,created_by,created_date,approve_corrective_measure,safety_incident) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:hod_user_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:category_fk,:impact_fk,:root_cause_fk,:status_fk,:"
 					+ "closure_date,:lti_hours,:equipment_impact,:people_impact,:work_impact,:committee_formed_fk,:committee_required_fk,:investigation_completed,:corrective_measure_short_term,:"
-					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:compensation_units,:committee_member_name,:created_by_user_id_fk,CURRENT_TIMESTAMP,:nominated_authority,:approve_corrective_measure,:safety_incident)";	
+					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:compensation_units,:committee_member_name,:created_by_user_id_fk,CURRENT_TIMESTAMP,:approve_corrective_measure,:safety_incident)";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 		    int count = template.update(qry, paramSource, keyHolder);
@@ -283,7 +283,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,impact_fk,"
 					+ " i.remarks,corrective_measure_long_term,i.created_by as reported_by_user_id,u6.email_id as reported_by_email_id,"
 					+ "corrective_measure_short_term,"
-					+ "(select STRING_AGG(user_name) from safety_committee_members cmb left join [user] u7 on cmb.committee_member_name = u7.user_id where safety_id_fk = i.safety_id) as committe_members,u7.user_name as modified_by "
+					+ "(select STRING_AGG(user_name,',') from safety_committee_members cmb left join [user] u7 on cmb.committee_member_name = u7.user_id where safety_id_fk = i.safety_id) as committe_members,u7.user_name as modified_by "
 					+ "from safety i " 
 					+ "left outer join [user] u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id "
@@ -301,7 +301,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			
 			if(!StringUtils.isEmpty(iObj)) {
 				
-				String committe_user_ids_query = "select user_name as committee_member_name from safety_committee_members m left join [user] u on u.user_id=m.committee_member_name where safety_id_fk = ? group by committee_member_name";
+				String committe_user_ids_query = "select user_name as committee_member_name from safety_committee_members m left join [user] u on u.user_id=m.committee_member_name where safety_id_fk = ? group by user_name";
 				String committe_user_email_ids_query = "select email_id FROM [user] where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
 				String committe_users_query = "select user_id FROM [user] where user_id in(select committee_member_name from safety_committee_members where safety_id_fk = ? group by committee_member_name)";
 
@@ -619,7 +619,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MM-yyyy') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
 					+ "FORMAT(investigation_completed,'dd-MM-yyyy') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation as CHAR) as compensation,FORMAT(payment_date,'dd-MM-yyyy') AS payment_date,s.remarks,contract_name,"
 					+ "work_id_fk,work_name,project_id_fk,project_name,s.compensation_units,s.committee_member_name,"
-					+ "(select STRING_AGG(committee_member_name) from safety_committee_members where safety_id_fk = ?) as committe_members,nominated_authority,safety_incident,approve_corrective_measure "
+					+ "(select STRING_AGG(committee_member_name,',') from safety_committee_members where safety_id_fk = ?) as committe_members,nominated_authority,safety_incident,approve_corrective_measure "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
@@ -863,7 +863,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY contract_id_fk";
+			qry = qry + " GROUP BY contract_id_fk,c.contract_id,contract_name,contract_short_name";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -956,7 +956,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY u.department_fk";
+			qry = qry + " GROUP BY u.department_fk,department,department_name";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -1233,7 +1233,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY work_id_fk,work_short_name";
+			qry = qry + " GROUP BY work_id,work_short_name";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -1327,7 +1327,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.hod_user_id_fk ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+			qry = qry + " GROUP BY c.hod_user_id_fk,u.designation,u.user_name,u.designation ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 

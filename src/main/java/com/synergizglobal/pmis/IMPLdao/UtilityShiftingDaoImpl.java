@@ -846,10 +846,10 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));	
 			
 			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0){
-					String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(utility_shifting_id, 3,4),LPAD(MAX(replace(utility_shifting_id,'"+obj.getWork_code()+"-US-',''))+1,"
-							+ "IFNULL ((SELECT length(max(replace(utility_shifting_id,'"+obj.getWork_code()+"-US-','')))FROM utility_shifting "
-							+ " where utility_shifting_id like '"+obj.getWork_code()+"-US%' group by length(utility_shifting_id) order by length(utility_shifting_id) desc offset 0 rows  fetch next 1 rows only),2),'0') ) AS utility_shifting_id "
-							+ "FROM utility_shifting WHERE utility_shifting_id LIKE '"+obj.getWork_code()+"-US-%' group by length(utility_shifting_id) order by length(utility_shifting_id) desc offset 0 rows  fetch next 1 rows only " ;
+					String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(utility_shifting_id, 3,4),SUBSTRING(cast(MAX(replace(utility_shifting_id,'"+obj.getWork_code()+"-US-',''))+1 as varchar),0,"
+							+ "IFNULL ((SELECT LEN(max(replace(utility_shifting_id,'"+obj.getWork_code()+"-US-','')))FROM utility_shifting "
+							+ " where utility_shifting_id like '"+obj.getWork_code()+"-US%' group by LEN(utility_shifting_id) order by LEN(utility_shifting_id) desc offset 0 rows  fetch next 1 rows only),2)) ) AS utility_shifting_id "
+							+ "FROM utility_shifting WHERE utility_shifting_id LIKE '"+obj.getWork_code()+"-US-%' group by LEN(utility_shifting_id) order by LEN(utility_shifting_id) desc offset 0 rows  fetch next 1 rows only " ;
 					dObj = (UtilityShifting)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
 					laId = dObj.getUtility_shifting_id();
 			}

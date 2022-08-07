@@ -37,9 +37,9 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		try {
 			String qry ="SELECT f1.form_id,f1.module_name_fk,f1.form_name,f1.parent_form_id_sr_fk,f1.web_form_url,f1.mobile_form_url,f1.priority,f1.soft_delete_status_fk,"
 					+ "f2.form_name as folder_name,f1.display_in_mobile, "
-					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
-					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
-					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
+					+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
+					+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
+					+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
 					+ "FROM form f1 "
 					+ "LEFT OUTER JOIN form f2 on f1.parent_form_id_sr_fk = f2.form_id "
 					+ "where f1.parent_form_id_sr_fk is not null";
@@ -204,9 +204,9 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		try {
 			String qry ="SELECT f1.form_id,f1.module_name_fk,f1.form_name,f1.parent_form_id_sr_fk,f1.web_form_url,f1.mobile_form_url,f1.priority,f1.soft_delete_status_fk,"
 					+ "f2.form_name as folder_name,f1.display_in_mobile,f1.url_type, "
-					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
-					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
-					+ "(select STRING_AGG(access_value) from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
+					+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_role_access, "
+					+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_type_access, "
+					+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
 					+ "FROM form f1 " 
 					+ "LEFT OUTER JOIN form f2 on f1.parent_form_id_sr_fk = f2.form_id "
 					+ "where f1.form_id = ?" ;
@@ -419,7 +419,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 	public List<Form> getUserRolesInFormAccess(Form obj) throws Exception {
 		List<Form> objsList = null;
 		try {
-			String qry = "select user_role_name as access_value_id FROM [user]_role";
+			String qry = "select user_role_name as access_value_id FROM user_role";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
 		}catch(Exception e){ 
@@ -432,7 +432,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 	public List<Form> getUserTypesInFormAccess(Form obj) throws Exception {
 		List<Form> objsList = null;
 		try {
-			String qry = "select user_type as access_value_id FROM [user]_type";
+			String qry = "select user_type as access_value_id FROM user_type";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
 		}catch(Exception e){ 

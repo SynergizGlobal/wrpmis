@@ -41,9 +41,9 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		try {
 			String qry ="SELECT d.dashboard_id,d1.dashboard_name as folder,c.contract_short_name,w.work_short_name,d.dashboard_name,d.work_id_fk,d.contract_id_fk,d.module_name_fk,d.parent_dashboard_id_sr_fk,d.dashboard_url,d.mobile_view,d.dashboard_type_fk,d.priority, " + 
 					" d.icon_path,d.published_by_user_id_fk,d.published_on,d.modified_by_user_id_fk,d.modified_on,d.soft_delete_status_fk,"
-					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
-					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
-					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
+					+ "(select STRING_AGG(access_value,',') from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
+					+ "(select STRING_AGG(access_value,',') from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
+					+ "(select STRING_AGG(access_value,',') from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
 					+ "FROM dashboard d " + 
 					" left join dashboard d1 on d.parent_dashboard_id_sr_fk = d1.dashboard_id " + 
 					" left join work w on d.work_id_fk = w.work_id " + 
@@ -312,9 +312,9 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 		try {
 			String qry ="SELECT d.dashboard_id,d1.dashboard_name as folder,c.contract_short_name,w.work_short_name,d.dashboard_name,d.work_id_fk,d.contract_id_fk,d.module_name_fk,d.parent_dashboard_id_sr_fk,d.dashboard_url,d.mobile_view,d.dashboard_type_fk,d.priority, " + 
 					"d.icon_path,d.published_by_user_id_fk,d.published_on,d.modified_by_user_id_fk,d.modified_on,d.soft_delete_status_fk, "
-					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
-					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
-					+ "(select STRING_AGG(access_value) from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
+					+ "(select STRING_AGG(access_value,',') from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_role_access, "
+					+ "(select STRING_AGG(access_value,',') from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_type_access, "
+					+ "(select STRING_AGG(access_value,',') from dashboard_access where dashboard_id_fk = d.dashboard_id and access_type = ?) as user_access "
 					+ "FROM dashboard d  " + 
 					"left join dashboard d1 on d.parent_dashboard_id_sr_fk = d1.dashboard_id  " + 
 					"left join work w on d.work_id_fk = w.work_id  " + 
@@ -351,7 +351,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception {
 		List<Dashboard> objsList = null;
 		try {
-			String qry = "select user_role_name as access_value_id FROM [user]_role";
+			String qry = "select user_role_name as access_value_id FROM user_role";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
 		}catch(Exception e){ 
@@ -364,7 +364,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 	public List<Dashboard> getUserTypesInDashboardAccess(Dashboard obj) throws Exception {
 		List<Dashboard> objsList = null;
 		try {
-			String qry = "select user_type as access_value_id FROM [user]_type";
+			String qry = "select user_type as access_value_id FROM user_type";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
 		}catch(Exception e){ 

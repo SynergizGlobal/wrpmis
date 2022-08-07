@@ -49,7 +49,7 @@ public class AlertConditionsDaoImpl implements AlertConditionsDao{
 	public List<AlertConditions> getAlertConditions(AlertConditions obj) throws Exception {
 		List<AlertConditions> objsList = null;
 		try {
-			String qry = "SELECT alert_type_fk,condition_info,first_condition,STRING_AGG(first_condition_value) AS first_condition_value,second_condition,STRING_AGG(second_condition_value) AS second_condition_value "
+			String qry = "SELECT alert_type_fk,condition_info,first_condition,STRING_AGG(first_condition_value,',') AS first_condition_value,second_condition,STRING_AGG(second_condition_value,',') AS second_condition_value "
 					+ "FROM alert_conditions "
 					+ "WHERE alert_type_fk IS NOT NULL";
 			int arrSize = 0;
@@ -57,7 +57,7 @@ public class AlertConditionsDaoImpl implements AlertConditionsDao{
 				qry = qry + " and alert_type_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY alert_type_fk";
+			qry = qry + " group by alert_type_fk,condition_info,first_condition,second_condition";
 			
 			Object[] pValues = new Object[arrSize];
 			

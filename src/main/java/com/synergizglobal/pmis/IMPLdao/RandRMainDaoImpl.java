@@ -1390,10 +1390,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
 			
 			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0){
-					String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(rr_id, 3,4),LPAD(MAX(replace(rr_id,'"+obj.getWork_code()+"-RR-',''))+1,"
-							+ "IFNULL ((SELECT length(max(replace(rr_id,'"+obj.getWork_code()+"-RR-','')))FROM rr "
-							+ " where rr_id like '"+obj.getWork_code()+"-RR%' group by length(rr_id) order by length(rr_id) desc offset 0 rows  fetch next 1 rows only),2),'0') ) AS rr_id "
-							+ "FROM rr WHERE rr_id LIKE '"+obj.getWork_code()+"-RR-%' group by length(rr_id) order by length(rr_id) desc offset 0 rows  fetch next 1 rows only " ;
+					String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(rr_id, 3,4),SUBSTRING(cast(MAX(replace(rr_id,'"+obj.getWork_code()+"-RR-',''))+1 as varchar),0,"
+							+ "IFNULL ((SELECT LEN(max(replace(rr_id,'"+obj.getWork_code()+"-RR-','')))FROM rr "
+							+ " where rr_id like '"+obj.getWork_code()+"-RR%' group by LEN(rr_id) order by LEN(rr_id) desc offset 0 rows  fetch next 1 rows only),2)) ) AS rr_id "
+							+ "FROM rr WHERE rr_id LIKE '"+obj.getWork_code()+"-RR-%' group by LEN(rr_id) order by LEN(rr_id) desc offset 0 rows  fetch next 1 rows only " ;
 					dObj = (RandRMain)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 					laId = dObj.getRr_id();
 			}

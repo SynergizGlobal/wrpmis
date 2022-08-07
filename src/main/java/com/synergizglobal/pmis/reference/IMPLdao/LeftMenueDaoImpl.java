@@ -141,7 +141,7 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			connection = dataSource.getConnection();
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO left_menu"
-					+ "(dashboard_name,order, parent_id,dashboard_url,status,source_field_name) VALUES (?,?,?,?,?,?)";
+					+ "(dashboard_name,[order], parent_id,dashboard_url,status,source_field_name) VALUES (?,?,?,?,?,?)";
 			
 			stmt = connection.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, obj.getDashboard_name());
@@ -272,11 +272,12 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 			List<TrainingType> list = getDataDetails(obj);
 			obj.setdList(list);
 
-			String disableQry = "SET foreign_key_checks = 0 ";
+			String disableQry = "Alter Table left_menu\r\n" + 
+					"    NOCHECK Constraint All";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE left_menu SET dashboard_name= :value_new,order= :order,"
+			String  updatereferenceTableQry = "UPDATE left_menu SET dashboard_name= :value_new,[order]= :order,"
 					+ "parent_id= :parent_id, dashboard_url= :dashboard_url, status= :status,source_field_name = :source_field_name WHERE dashboard_id= :dashboard_id " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
@@ -288,7 +289,8 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 				 paramSource = new BeanPropertySqlParameterSource(obj);		 
 				 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
 			}
-			String  enableQry =	"SET foreign_key_checks = 1";
+			String  enableQry =	"Alter Table left_menu\r\n" + 
+					"    CHECK Constraint ALL";
 			paramSource = new BeanPropertySqlParameterSource(obj);	
 			namedParamJdbcTemplate.update(enableQry, paramSource);
 			if(count > 0) 
@@ -424,8 +426,11 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	private List<TrainingType> getTablesList(TrainingType obj) throws Exception {
 		List<TrainingType> tablesList = null;
 		try {
-			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'left_menu' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+			String qry = "select distinct t.name as  tName,'' as CONSTRAINT_NAME,t.name as REFERENCED_TABLE_NAME,c.name as REFERENCED_COLUMN_NAME  \r\n" + 
+					"from sys.schemas s \r\n" + 
+					"inner join sys.tables t on s.schema_id=t.schema_id\r\n" + 
+					"inner join sys.columns c on c.object_id=t.object_id \r\n" + 
+					"where t.name='left_menu' and s.name='dbo'";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -439,8 +444,11 @@ public class LeftMenueDaoImpl implements LeftMenueDao{
 	private List<TrainingType> getDataDetails(TrainingType obj) throws Exception {
 		List<TrainingType> list = null;
 		try {
-			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'left_menu' and TABLE_SCHEMA = 'pmis'";
+			String qry = "select distinct t.name as  tName,'' as CONSTRAINT_NAME,t.name as REFERENCED_TABLE_NAME,c.name as REFERENCED_COLUMN_NAME  \r\n" + 
+					"from sys.schemas s \r\n" + 
+					"inner join sys.tables t on s.schema_id=t.schema_id\r\n" + 
+					"inner join sys.columns c on c.object_id=t.object_id \r\n" + 
+					"where t.name='left_menu' and s.name='pmis'";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 

@@ -853,7 +853,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		String user_id = null;;
 		try{
 			connection = dataSource.getConnection();
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(user_id, 1, LENGTH(user_id)-7),'_"+role_code+"_',LPAD(MAX(SUBSTRING(user_id, 9, LENGTH(user_id)))+1,3,'0') ) AS maxId "
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(user_id, 1, LEN(user_id)-7),'_"+role_code+"_',SUBSTRING(cast(MAX(SUBSTRING(user_id, 9, LEN(user_id)))+1 as varchar),0,3) ) AS maxId "
 					+ "FROM [user] WHERE user_id LIKE 'PMIS_%'";
 			
 			stmt = connection.prepareStatement(maxIdQry);

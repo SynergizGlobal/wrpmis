@@ -2136,15 +2136,22 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					}
 				}
 				concat=concat.substring(0, concat.length() - 1);  
-				connection = dataSource.getConnection();		
-				statement = connection.prepareCall("{exec deleteActivities(?)}");
+				connection = dataSource.getConnection();	
+				
+				String qry1 = "exec dbo.[deleteActivities] ?";			
+		
+				
+				statement = connection.prepareCall(qry1);
 				statement.setString(1, concat);
-
 				boolean hadResults = statement.execute();
+				
+				return true;
+
+				/*boolean hadResults = statement.execute();
 				if(hadResults)
 				{
 					return true;
-				}
+				}*/
 		}catch(Exception e){ 
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);

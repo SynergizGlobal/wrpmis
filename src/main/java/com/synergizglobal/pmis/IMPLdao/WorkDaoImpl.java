@@ -784,7 +784,7 @@ public class WorkDaoImpl implements WorkDao {
 		ResultSet rs = null;
 		String workId = null;
 		try{			
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(work_id, 1, LENGTH(work_id)-3),W,LPAD(MAX(SUBSTRING(work_id, 5, LENGTH(work_id)))+1,2,0) ) AS maxId FROM work WHERE work_id LIKE ?";
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(work_id, 1, LEN(work_id)-3),'W',SUBSTRING(cast(MAX(SUBSTRING(work_id, 5, LEN(work_id)))+1 as varchar),0,2) ) AS maxId FROM work WHERE work_id LIKE ? GROUP BY WORK_ID";
 			stmt = con.prepareStatement(maxIdQry);
 			stmt.setString(1, projectId+"%");
 			rs = stmt.executeQuery();  

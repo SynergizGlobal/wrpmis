@@ -427,7 +427,7 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 	public List<ModulePermission> getModuleStatusListForFilter(ModulePermission obj) throws Exception {
 		List<ModulePermission>  objsList = null;
 		try {
-			String qry ="SELECT module_name,incharge_user_id_fk,user_name as incharge_user_name,soft_delete_status_fk "
+			String qry ="SELECT distinct soft_delete_status_fk "
 					+ "FROM module m "
 					+ "left join [user] u on incharge_user_id_fk = user_id "
 					+ "WHERE soft_delete_status_fk IS NOT NULL ";

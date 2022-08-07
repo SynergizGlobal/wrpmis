@@ -114,8 +114,17 @@ public class DeliverableTypeDaoImpl implements DeliverableTypeDao{
 	private List<TrainingType> getTablesList(TrainingType obj) throws Exception {
 		List<TrainingType> tablesList = null;
 		try {
-			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'deliverable_type' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+			String qry = "select  object_name(fkx.fkeyid) as tName,\r\n" + 
+					"        \r\n" + 
+					"        col_name(fkx.fkeyid, fkx.fkey) as COLUMN_NAME,\r\n" + 
+					"		'' as CONSTRAINT_NAME,\r\n" + 
+					"        object_name(fkx.rkeyid) as REFERENCED_TABLE_NAME,\r\n" + 
+					"        col_name(fkx.rkeyid, fkx.rkey) as REFERENCED_COLUMN_NAME\r\n" + 
+					"from sysforeignkeys fkx \r\n" + 
+					"inner join sys.tables t on object_name(fkx.rkeyid)=t.name \r\n" + 
+					"inner join sys.schemas s on s.schema_id=t.schema_id \r\n" + 
+					"where object_name(fkx.rkeyid)='deliverable_type' and s.name='dbo'\r\n" + 
+					"order by object_name(fkx.fkeyid), fkx.keyno";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -129,8 +138,17 @@ public class DeliverableTypeDaoImpl implements DeliverableTypeDao{
 	private List<TrainingType> getDataDetails(TrainingType obj) throws Exception {
 		List<TrainingType> list = null;
 		try {
-			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'deliverable_type' and TABLE_SCHEMA = 'pmis' ";
+			String qry = "select  object_name(fkx.fkeyid) as TABLE_NAME,\r\n" + 
+					"        \r\n" + 
+					"        col_name(fkx.fkeyid, fkx.fkey) as COLUMN_NAME,\r\n" + 
+					"		'' as CONSTRAINT_NAME,\r\n" + 
+					"        object_name(fkx.rkeyid) as REFERENCED_TABLE_NAME,\r\n" + 
+					"        col_name(fkx.rkeyid, fkx.rkey) as REFERENCED_COLUMN_NAME\r\n" + 
+					"from sysforeignkeys fkx \r\n" + 
+					"inner join sys.tables t on object_name(fkx.rkeyid)=t.name \r\n" + 
+					"inner join sys.schemas s on s.schema_id=t.schema_id \r\n" + 
+					"where object_name(fkx.rkeyid)='deliverable_type' and s.name='dbo'\r\n" + 
+					"order by object_name(fkx.fkeyid), fkx.keyno ";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -151,7 +169,7 @@ public class DeliverableTypeDaoImpl implements DeliverableTypeDao{
 			List<TrainingType> list = getDataDetails(obj);
 			obj.setdList(list);
 
-			String disableQry = "SET foreign_key_checks = 0 ";
+			String disableQry = "Alter Table deliverable_type NOCHECK Constraint All ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
@@ -166,7 +184,7 @@ public class DeliverableTypeDaoImpl implements DeliverableTypeDao{
 				 paramSource = new BeanPropertySqlParameterSource(obj);		 
 				 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
 			}
-			String  enableQry =	"SET foreign_key_checks = 1";
+			String  enableQry =	"Alter Table deliverable_type CHECK Constraint All";
 			paramSource = new BeanPropertySqlParameterSource(obj);	
 			namedParamJdbcTemplate.update(enableQry, paramSource);
 			if(count > 0) {

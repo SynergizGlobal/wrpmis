@@ -31,7 +31,7 @@ public class ReferenceFormsAccessDaoImpl implements ReferenceFormsAccessDao{
 			String qry ="select form_id as reference_forms_id, form_name as name, web_form_url as form_url, module_name_fk as module_fk "
 					+ "from form f "
 					+ "LEFT JOIN module m ON module_name_fk = module_name "
-					+ "WHERE form_id = parent_form_id_sr_fk AND url_type = ? AND m.soft_delete_status_fk = ? GROUP BY module_name_fk ";
+					+ "WHERE form_id = parent_form_id_sr_fk AND url_type = ? AND m.soft_delete_status_fk = ? and web_form_url is not null GROUP BY form_id,module_name_fk,form_name,web_form_url ";
 			
 			objsList = jdbcTemplate.query( qry,new Object[]{"Reference Forms",CommonConstants.ACTIVE}, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
 		}catch(Exception e){ 

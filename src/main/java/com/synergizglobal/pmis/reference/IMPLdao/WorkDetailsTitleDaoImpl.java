@@ -83,8 +83,23 @@ public class WorkDetailsTitleDaoImpl implements WorkDetailsTitleDao{
 	private List<WorkFeatures> getTablesList(WorkFeatures obj) throws Exception {
 		List<WorkFeatures> tablesList = null;
 		try {
-			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'work_details_title' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+			String qry = "select t1.name as tname,(select c2.name from sys.columns c2 where c2.object_id=t1.object_id\r\n" + 
+					"and c2.name like CONCAT('%',(SELECT c.name FROM\r\n" + 
+					"sys.columns c\r\n" + 
+					"left join sys.tables t on t.object_id = c.object_id\r\n" + 
+					"left join sys.schemas s on s.schema_id = t.schema_id\r\n" + 
+					"WHERE t.name = 'work_details_title' and s.name = 'dbo'),'%')) as COLUMN_NAME,'' as CONSTRAINT_NAME,\r\n" + 
+					"'work_details_title' as REFERENCED_TABLE_NAME,\r\n" + 
+					"(select c2.name from sys.columns c2 where c2.object_id = (select object_id from sys.tables t2\r\n" + 
+					"left join sys.schemas s2 on s2.schema_id = t2.schema_id\r\n" + 
+					"WHERE t2.name = 'work_details_title' and s2.name = 'dbo')) as REFERENCED_COLUMN_NAME\r\n" + 
+					"from sys.tables t1 where t1.object_id in\r\n" + 
+					"(select c1.object_id from sys.columns c1 where c1.name like CONCAT('%',(SELECT c.name FROM\r\n" + 
+					"sys.columns c\r\n" + 
+					"left join sys.tables t on t.object_id = c.object_id\r\n" + 
+					"left join sys.schemas s on s.schema_id = t.schema_id\r\n" + 
+					"WHERE t.name = 'work_details_title' and s.name = 'dbo'),'%'))\r\n" + 
+					"and t1.name !=  'work_details_title'";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkFeatures>(WorkFeatures.class));		
 		}catch(Exception e){ 
@@ -98,8 +113,23 @@ public class WorkDetailsTitleDaoImpl implements WorkDetailsTitleDao{
 	private List<WorkFeatures> getDataDetails(WorkFeatures obj) throws Exception {
 		List<WorkFeatures> list = null;
 		try {
-			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'work_details_title' and TABLE_SCHEMA = 'pmis'";
+			String qry = "select t1.name as tname,(select c2.name from sys.columns c2 where c2.object_id=t1.object_id\r\n" + 
+					"and c2.name like CONCAT('%',(SELECT c.name FROM\r\n" + 
+					"sys.columns c\r\n" + 
+					"left join sys.tables t on t.object_id = c.object_id\r\n" + 
+					"left join sys.schemas s on s.schema_id = t.schema_id\r\n" + 
+					"WHERE t.name = 'work_details_title' and s.name = 'dbo'),'%')) as COLUMN_NAME,'' as CONSTRAINT_NAME,\r\n" + 
+					"'work_details_title' as REFERENCED_TABLE_NAME,\r\n" + 
+					"(select c2.name from sys.columns c2 where c2.object_id = (select object_id from sys.tables t2\r\n" + 
+					"left join sys.schemas s2 on s2.schema_id = t2.schema_id\r\n" + 
+					"WHERE t2.name = 'work_details_title' and s2.name = 'dbo')) as REFERENCED_COLUMN_NAME\r\n" + 
+					"from sys.tables t1 where t1.object_id in\r\n" + 
+					"(select c1.object_id from sys.columns c1 where c1.name like CONCAT('%',(SELECT c.name FROM\r\n" + 
+					"sys.columns c\r\n" + 
+					"left join sys.tables t on t.object_id = c.object_id\r\n" + 
+					"left join sys.schemas s on s.schema_id = t.schema_id\r\n" + 
+					"WHERE t.name = 'work_details_title' and s.name = 'dbo'),'%'))\r\n" + 
+					"and t1.name !=  'work_details_title'";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkFeatures>(WorkFeatures.class));		
 		}catch(Exception e){ 

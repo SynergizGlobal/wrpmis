@@ -115,23 +115,17 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 	private List<TrainingType> getTablesList(TrainingType obj) throws Exception {
 		List<TrainingType> tablesList = null;
 		try {
-			String qry = "select t1.name as tname,(select c2.name from sys.columns c2 where c2.object_id=t1.object_id\r\n" + 
-					"and c2.name like CONCAT('%',(SELECT c.name FROM\r\n" + 
-					"sys.columns c\r\n" + 
-					"left join sys.tables t on t.object_id = c.object_id\r\n" + 
-					"left join sys.schemas s on s.schema_id = t.schema_id\r\n" + 
-					"WHERE t.name = 'soft_delete_status' and s.name = 'dbo'),'%')) as COLUMN_NAME,'' as CONSTRAINT_NAME,\r\n" + 
-					"'soft_delete_status' as REFERENCED_TABLE_NAME,\r\n" + 
-					"(select c2.name from sys.columns c2 where c2.object_id = (select object_id from sys.tables t2\r\n" + 
-					"left join sys.schemas s2 on s2.schema_id = t2.schema_id\r\n" + 
-					"WHERE t2.name = 'soft_delete_status' and s2.name = 'dbo')) as REFERENCED_COLUMN_NAME\r\n" + 
-					"from sys.tables t1 where t1.object_id in\r\n" + 
-					"(select c1.object_id from sys.columns c1 where c1.name like CONCAT('%',(SELECT c.name FROM\r\n" + 
-					"sys.columns c\r\n" + 
-					"left join sys.tables t on t.object_id = c.object_id\r\n" + 
-					"left join sys.schemas s on s.schema_id = t.schema_id\r\n" + 
-					"WHERE t.name = 'soft_delete_status' and s.name = 'dbo'),'%'))\r\n" + 
-					"and t1.name !=  'soft_delete_status'";
+			String qry = "select  object_name(fkx.fkeyid) as tName,\r\n" + 
+					"        \r\n" + 
+					"        col_name(fkx.fkeyid, fkx.fkey) as COLUMN_NAME,\r\n" + 
+					"		'' as CONSTRAINT_NAME,\r\n" + 
+					"        object_name(fkx.rkeyid) as REFERENCED_TABLE_NAME,\r\n" + 
+					"        col_name(fkx.rkeyid, fkx.rkey) as REFERENCED_COLUMN_NAME\r\n" + 
+					"from sysforeignkeys fkx \r\n" + 
+					"inner join sys.tables t on object_name(fkx.rkeyid)=t.name \r\n" + 
+					"inner join sys.schemas s on s.schema_id=t.schema_id \r\n" + 
+					"where object_name(fkx.rkeyid)='soft_delete_status' and s.name='dbo'\r\n" + 
+					"order by object_name(fkx.fkeyid), fkx.keyno";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -145,23 +139,17 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 	private List<TrainingType> getDataDetails(TrainingType obj) throws Exception {
 		List<TrainingType> list = null;
 		try {
-			String qry = "select t1.name as tname,(select c2.name from sys.columns c2 where c2.object_id=t1.object_id\r\n" + 
-					"and c2.name like CONCAT('%',(SELECT c.name FROM\r\n" + 
-					"sys.columns c\r\n" + 
-					"left join sys.tables t on t.object_id = c.object_id\r\n" + 
-					"left join sys.schemas s on s.schema_id = t.schema_id\r\n" + 
-					"WHERE t.name = 'soft_delete_status' and s.name = 'dbo'),'%')) as COLUMN_NAME,'' as CONSTRAINT_NAME,\r\n" + 
-					"'soft_delete_status' as REFERENCED_TABLE_NAME,\r\n" + 
-					"(select c2.name from sys.columns c2 where c2.object_id = (select object_id from sys.tables t2\r\n" + 
-					"left join sys.schemas s2 on s2.schema_id = t2.schema_id\r\n" + 
-					"WHERE t2.name = 'soft_delete_status' and s2.name = 'dbo')) as REFERENCED_COLUMN_NAME\r\n" + 
-					"from sys.tables t1 where t1.object_id in\r\n" + 
-					"(select c1.object_id from sys.columns c1 where c1.name like CONCAT('%',(SELECT c.name FROM\r\n" + 
-					"sys.columns c\r\n" + 
-					"left join sys.tables t on t.object_id = c.object_id\r\n" + 
-					"left join sys.schemas s on s.schema_id = t.schema_id\r\n" + 
-					"WHERE t.name = 'soft_delete_status' and s.name = 'dbo'),'%'))\r\n" + 
-					"and t1.name !=  'soft_delete_status' ";
+			String qry = "select  object_name(fkx.fkeyid) as TABLE_NAME,\r\n" + 
+					"        \r\n" + 
+					"        col_name(fkx.fkeyid, fkx.fkey) as COLUMN_NAME,\r\n" + 
+					"		'' as CONSTRAINT_NAME,\r\n" + 
+					"        object_name(fkx.rkeyid) as REFERENCED_TABLE_NAME,\r\n" + 
+					"        col_name(fkx.rkeyid, fkx.rkey) as REFERENCED_COLUMN_NAME\r\n" + 
+					"from sysforeignkeys fkx \r\n" + 
+					"inner join sys.tables t on object_name(fkx.rkeyid)=t.name \r\n" + 
+					"inner join sys.schemas s on s.schema_id=t.schema_id \r\n" + 
+					"where object_name(fkx.rkeyid)='soft_delete_status' and s.name='dbo'\r\n" + 
+					"order by object_name(fkx.fkeyid), fkx.keyno";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -181,7 +169,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 			List<TrainingType> list = getDataDetails(obj);
 			obj.setdList(list);
 
-			String disableQry = "SET foreign_key_checks = 0 ";
+			String disableQry = "Alter Table soft_delete_status NOCHECK Constraint All ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
@@ -196,7 +184,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 				 paramSource = new BeanPropertySqlParameterSource(obj);		 
 				 namedParamJdbcTemplate.update(updateTableQry, paramSource);	
 			}
-			String  enableQry =	"SET foreign_key_checks = 1";
+			String  enableQry =	"Alter Table soft_delete_status CHECK Constraint All";
 			paramSource = new BeanPropertySqlParameterSource(obj);	
 			namedParamJdbcTemplate.update(enableQry, paramSource);
 			if(count > 0) {

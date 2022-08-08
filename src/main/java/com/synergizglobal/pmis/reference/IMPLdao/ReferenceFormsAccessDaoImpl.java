@@ -28,10 +28,10 @@ public class ReferenceFormsAccessDaoImpl implements ReferenceFormsAccessDao{
 		List<ReferenceForms> objsList = null;
 		try {
 			
-			String qry ="select form_id as reference_forms_id, form_name as name, web_form_url as form_url, module_name_fk as module_fk "
+			String qry ="select distinct  module_name_fk as module_fk "
 					+ "from form f "
 					+ "LEFT JOIN module m ON module_name_fk = module_name "
-					+ "WHERE form_id = parent_form_id_sr_fk AND url_type = ? AND m.soft_delete_status_fk = ? and web_form_url is not null GROUP BY form_id,module_name_fk,form_name,web_form_url ";
+					+ "WHERE form_id = parent_form_id_sr_fk AND url_type = ? AND m.soft_delete_status_fk = ? and web_form_url is not null ";
 			
 			objsList = jdbcTemplate.query( qry,new Object[]{"Reference Forms",CommonConstants.ACTIVE}, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
 		}catch(Exception e){ 
@@ -45,7 +45,7 @@ public class ReferenceFormsAccessDaoImpl implements ReferenceFormsAccessDao{
 		List<ReferenceForms> objsList = null;
 		try {
 			
-			String qry = "SELECT form_id as reference_forms_id, form_name as name, web_form_url as form_url, module_name_fk as module_fk "
+			String qry = "SELECT distinct form_id as reference_forms_id, form_name as name, web_form_url as form_url, module_name_fk as module_fk "
 					+ "from form "
 					+ "WHERE form_id = parent_form_id_sr_fk AND url_type = ? AND web_form_url is not null AND web_form_url <> '' ";
 			int arrSize = 1;

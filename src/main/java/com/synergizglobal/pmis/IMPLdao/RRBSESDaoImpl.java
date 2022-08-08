@@ -67,7 +67,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 				qry = qry + "and work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by work_id ";
+			qry = qry + " group by work_id_fk,work_name,work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -103,7 +103,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 				qry = qry + "and work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by hod ";
+			qry = qry + " group by hod,user_name,designation ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -212,7 +212,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY id ORDER BY id ASC offset ? rows  fetch next ? rows only";
+				qry = qry + " ORDER BY id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -292,7 +292,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 				qry = qry + " and id = ?";
 				arrSize++;
 			}
-			qry = qry + " group by id";
+			//qry = qry + " group by id";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			//pValues[i++] = rr.getUser_id();

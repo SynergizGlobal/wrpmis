@@ -256,15 +256,13 @@ public class IssueDaoImpl implements IssueDao {
 			
 			if (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name,"
-						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk " 
+				qry = "select distinct project_id_fk,project_name "
 						+ "from contract c "
 						+ "LEFT JOIN work w ON work_id_fk = w.work_id "
 						+ "LEFT JOIN project p ON w.project_id_fk = p.project_id "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
 			} else {
-				qry = "SELECT work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name,"
-						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
+				qry = "SELECT distinct project_id_fk,project_name "
 						+ "FROM contract c "
 						+ "LEFT JOIN work w ON work_id_fk = w.work_id "
 						+ "LEFT JOIN project p ON w.project_id_fk = p.project_id "
@@ -312,14 +310,12 @@ public class IssueDaoImpl implements IssueDao {
 			
 			if (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk,"
-						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk " 
+				qry = "select distinct work_id as work_id_fk ,work_name,work_short_name " 
 						+ "from contract c "
 						+ "LEFT JOIN work w ON work_id_fk = w.work_id "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
 			} else {
-				qry = "SELECT work_id as work_id_fk ,work_name,work_short_name,project_id_fk,"
-						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
+				qry = "SELECT distinct work_id as work_id_fk ,work_name,work_short_name "
 						+ "FROM contract c "
 						+ "LEFT JOIN work w ON work_id_fk = w.work_id "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
@@ -374,13 +370,11 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "";
 			if (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = "select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
-						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk " 
+				qry = "select distinct contract_id as contract_id_fk,contract_name,contract_short_name "
 						+ "from contract c "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
 			} else {
-				qry = "SELECT contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
-						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
+				qry = "SELECT distinct contract_id as contract_id_fk,contract_name,contract_short_name "
 						+ "FROM contract c "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
 			}

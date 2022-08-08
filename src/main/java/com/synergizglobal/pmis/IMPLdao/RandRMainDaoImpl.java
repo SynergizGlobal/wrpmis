@@ -94,7 +94,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and re.executive_user_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY r.work_id ";
+			qry = qry + "GROUP BY r.work_id,w.work_code,w.work_name,w.work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -621,7 +621,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY rr_id ORDER BY rr_id ASC offset ? rows  fetch next ? rows only";
+				qry = qry + " ORDER BY rr_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -2223,7 +2223,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getRRUploadsList(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "SELECT rr_data_id, uploaded_file, rru.status, rru.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'%d-%b-%Y  %h:%i %p') as uploaded_on "
+			String qry = "SELECT rr_data_id, uploaded_file, rru.status, rru.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'dd-MMM-yy hh:mm tt') as uploaded_on "
 					+ ",uploaded_on as date from rr_upload_data rru " 
 					+ "LEFT JOIN [user] u ON rru.uploaded_by_user_id_fk = u.user_id "
 					+ "where rr_data_id is not null order by rr_data_id desc ";

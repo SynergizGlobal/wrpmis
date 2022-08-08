@@ -969,8 +969,9 @@ public class ContractDaoImpl implements ContractDao {
 					"IIF(\r\n" + 
 					"SUBSTRING(CAST(MAX(SUBSTRING(contract_id, 9, LEN(contract_id)))+1 AS VARCHAR),0,3)>9,SUBSTRING(CAST(MAX(SUBSTRING(contract_id, 9, LEN(contract_id)))+1 AS VARCHAR),0,3),CONCAT('0',SUBSTRING(CAST(MAX(SUBSTRING(contract_id, 9, LEN(contract_id)))+1 AS VARCHAR),0,3)))\r\n" + 
 					"\r\n" + 
-					") AS maxId FROM contract WHERE contract_id LIKE 'P04W01ST%' group by contract_id ORDER BY maxId desc ";
+					") AS maxId FROM contract WHERE contract_id LIKE ? group by contract_id ORDER BY maxId desc ";
 			stmt = con.prepareStatement(maxIdQry);
+			stmt.setString(1, work_id+department_code+"%");
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
 				contract_id = rs.getString("maxId");

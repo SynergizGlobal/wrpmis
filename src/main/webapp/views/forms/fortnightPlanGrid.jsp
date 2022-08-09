@@ -141,9 +141,12 @@
     									<a href="<%=request.getContextPath()%>/add-fortnightly-plan"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
-										<a href="javascript:void(0);" onclick="exportBudget();"
+										<a href="javascript:void(0);" onclick="exportFortnight();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export</strong></a>
+											class="fa fa-cloud-download"></i>Execution Export</strong></a>
+										<a href="javascript:void(0);" onclick="uploadFortnight();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i>Execution Upload</strong></a>											
     								</div>
     							</div>								
 							</div>
@@ -628,6 +631,27 @@
     				window.location.href="/pmis/get-FortnightPlan/"+fortnightly_plan_id;
     			}
     	}
+        
+        function exportFortnight(){
+        	var work_id_fk = $("#work_id_fk").val();
+        	var period = $("#period").val();
+        	var category = $("#category").val();
+        	var critical = "";
+        	
+ 	 		if($("#critical1").prop('checked') )
+ 	 		{
+ 	 			critical="Yes";
+	 		}else if($("#critical2").prop('checked') )
+	 		{
+	 			critical="No";
+	 		} 
+ 	 		
+          	 $("#exportWork_id_fk").val(work_id_fk);
+          	 $("#exportPeriod").val(period);
+          	 $("#exportCategory").val(category);
+          	 $("#exportCritical").val(critical);          	 
+          	 $("#exportFortnightplanForm").submit();
+       	}       
 
     </script>
 </body>

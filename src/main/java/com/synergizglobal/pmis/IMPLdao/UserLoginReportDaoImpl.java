@@ -29,8 +29,8 @@ public class UserLoginReportDaoImpl implements UserLoginReportDao{
 					"FROM user_login_details left join [user] u on user_id_fk = u.user_id  " + 
 					"left join [user] u2 on u2.user_id = u.reporting_to_id_srfk " + 
 					"left join department on u.department_fk = department " + 
-					"where u.department_fk IS NOT NULL and u.department_fk <> '' and user_id_fk like 'PMIS_%' and login_date_time >= DATE(CONVERT(date, getdate())) - INTERVAL 7 DAY " + 
-					"group by department_name " + 
+					"where u.department_fk IS NOT NULL and u.department_fk <> '' and user_id_fk like 'PMIS_%' and login_date_time >= DATEADD(day, -7, GETDATE())  " + 
+					"group by department_name ,login_date_time, u2.designation, u.designation,u2.user_name, u.user_name " + 
 					"order by department_name, u2.designation, u.designation";
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));
@@ -55,8 +55,8 @@ public class UserLoginReportDaoImpl implements UserLoginReportDao{
 					"FROM user_login_details left join [user] u on user_id_fk = u.user_id  " + 
 					"left join [user] u2 on u2.user_id = u.reporting_to_id_srfk " + 
 					"left join department on u.department_fk = department " + 
-					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(CONVERT(date, getdate())) - INTERVAL 7 DAY and department_name = ? " + 
-					"group by u2.designation " + 
+					"where user_id_fk like 'PMIS_%' and login_date_time >= DATEADD(day, -7, GETDATE())  and department_name = ? " + 
+					"group by u2.designation,login_date_time ,department_name,u.user_name,u2.user_name,u.designation " + 
 					"order by department_name, u2.designation, u.designation";
 			
 		    objsList = jdbcTemplate.query( qry, new Object[] {dObj.getDepartment_name()}, new BeanPropertyRowMapper<User>(User.class));
@@ -75,8 +75,8 @@ public class UserLoginReportDaoImpl implements UserLoginReportDao{
 					"FROM user_login_details left join [user] u on user_id_fk = u.user_id  " + 
 					"left join [user] u2 on u2.user_id = u.reporting_to_id_srfk " + 
 					"left join department on u.department_fk = department " + 
-					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(CONVERT(date, getdate())) - INTERVAL 7 DAY and department_name = ? and u2.designation = ? " + 
-					"group by department_name, u2.designation, u.designation " + 
+					"where user_id_fk like 'PMIS_%' and login_date_time >= DATEADD(day, -7, GETDATE())  and department_name = ? and u2.designation = ? " + 
+					"group by department_name, u2.designation, u.designation,login_date_time,u.user_name,u2.user_name " + 
 					"order by department_name, u2.designation, u.designation";
 			
 		    objsList = jdbcTemplate.query( qry, new Object[] {dObj.getDepartment_name(),dObj.getReporting_to_designation()}, new BeanPropertyRowMapper<User>(User.class));

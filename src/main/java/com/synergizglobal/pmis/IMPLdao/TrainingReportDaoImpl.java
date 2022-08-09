@@ -33,7 +33,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 			String qry ="select ta.user_id,department_fk,user_name ,designation  "
 					+ "from training_attendees ta "
 					+ "left join [user] u on ta.user_id = u.user_id where ta.user_id <> '' "
-					+ "GROUP BY ta.user_id ORDER BY ta.user_id ASC";
+					+ "GROUP BY ta.user_id,department_fk,user_name,designation ORDER BY ta.user_id ASC";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);

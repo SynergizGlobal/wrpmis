@@ -196,10 +196,10 @@ public class ProfileDaoImpl implements ProfileDao {
 		List<User> objsList = null;
 		try {
 			String qry = "SELECT distinct l.user_leave_id,employee_id as user_id,from_date,to_date,"
-					+ "STRING_AGG(module) as modules,STRING_AGG(concat(u.designation,'-',u.user_name)) as responsible_persons "
-					+ " FROM pmis.user_leave_responsibility l "
-					+ "inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id inner join user u on u.user_id=a.responsible_person  where employee_id=? and delete_status='No' "
-					+ " group by l.user_leave_id order by user_leave_id " ;
+					+ "STRING_AGG(module,',') as modules,STRING_AGG(concat(u.designation,'-',u.user_name),',') as responsible_persons "
+					+ " FROM user_leave_responsibility l "
+					+ "inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id inner join [user] u on u.user_id=a.responsible_person  where employee_id=? and delete_status='No' "
+					+ " group by l.user_leave_id,employee_id,from_date,to_date order by user_leave_id " ;
 			objsList = jdbcTemplate.query( qry,new Object[] { obj.getUser_id() },new BeanPropertyRowMapper<User>(User.class));
 	
 			
@@ -215,8 +215,8 @@ public class ProfileDaoImpl implements ProfileDao {
 		List<User> objsList = null;
 		try {
 			String qry = "SELECT distinct l.user_leave_id,employee_id as user_id,from_date,to_date,"
-					+ "STRING_AGG(module) as modules,STRING_AGG(responsible_person) as responsible_persons "
-					+ " FROM pmis.user_leave_responsibility l "
+					+ "STRING_AGG(module,',') as modules,STRING_AGG(responsible_person,',') as responsible_persons "
+					+ " FROM user_leave_responsibility l "
 					+ "inner join user_assign_responsibility a on a.user_leave_id=l.user_leave_id where delete_status='No' and employee_id=? and from_date>=? and to_date>=CONVERT(date, getdate()) ";
 					
 			
@@ -229,7 +229,7 @@ public class ProfileDaoImpl implements ProfileDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry =qry+ " group by l.user_leave_id" ;
+			qry =qry+ " group by l.user_leave_id,employee_id,from_date,to_date" ;
 			Object[] pValues = new Object[arrSize];
 
 			int i = 0;
@@ -292,12 +292,12 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("hod_user_id_fk")==0)
 							{
-								qry5 = "select STRING_AGG(contract_id) as contract_id from contract where hod_user_id_fk=?";
+								qry5 = "select STRING_AGG(contract_id,',') as contract_id from contract where hod_user_id_fk=?";
 								qryString = "select contract_id  from contract where hod_user_id_fk=?";
 							}
 							else if(columnname.compareTo("dy_hod_user_id_fk")==0)
 							{
-								qry5 = "select STRING_AGG(contract_id) as group_concat from contract where dy_hod_user_id_fk=?";
+								qry5 = "select STRING_AGG(contract_id,',') as group_concat from contract where dy_hod_user_id_fk=?";
 								qryString = "select contract_id from contract where dy_hod_user_id_fk=?";
 							}
 						}
@@ -305,7 +305,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("executive_user_id_fk")==0)
 							{
-								qry5 = "select STRING_AGG(id) as id from contract_executive where executive_user_id_fk=?";
+								qry5 = "select STRING_AGG(id,',') as id from contract_executive where executive_user_id_fk=?";
 								qryString = "select id from contract_executive where executive_user_id_fk=?";
 							}
 						}
@@ -313,7 +313,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("hod_user_id_fk")==0)
 							{							
-								qry5 = "select STRING_AGG(risk_work_hod_id) as risk_work_hod_id from risk_work_hod where hod_user_id_fk=?";
+								qry5 = "select STRING_AGG(risk_work_hod_id,',') as risk_work_hod_id from risk_work_hod where hod_user_id_fk=?";
 								qryString = "select risk_work_hod_id from risk_work_hod where hod_user_id_fk=?";
 							}
 						}
@@ -321,7 +321,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("responsible_people_id_fk")==0)
 							{							
-								qry5 = "select STRING_AGG(id) as id from fob_contract_responsible_people where responsible_people_id_fk=?";
+								qry5 = "select STRING_AGG(id,',') as id from fob_contract_responsible_people where responsible_people_id_fk=?";
 								qryString = "select id from fob_contract_responsible_people where responsible_people_id_fk=?";
 							}
 						}						
@@ -329,7 +329,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("responsible_person")==0)
 							{							
-								qry5 = "select STRING_AGG(safety_id) as safety_id from safety where responsible_person=?";
+								qry5 = "select STRING_AGG(safety_id,',') as safety_id from safety where responsible_person=?";
 								qryString = "select safety_id from safety where responsible_person=?";
 							}
 						}	
@@ -337,7 +337,7 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("committee_member_name")==0)
 							{							
-								qry5 = "select STRING_AGG(id) as id from safety_committee_members where committee_member_name=?";
+								qry5 = "select STRING_AGG(id,',') as id from safety_committee_members where committee_member_name=?";
 								qryString = "select id from safety_committee_members where committee_member_name=?";
 							}
 						}
@@ -345,12 +345,12 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("responsible_person")==0)
 							{
-								qry5 = "select STRING_AGG(issue_id) as issue_id  from issue where responsible_person=?";
+								qry5 = "select STRING_AGG(issue_id,',') as issue_id  from issue where responsible_person=?";
 								qryString = "select issue_id  from issue where responsible_person=?";
 							}
 							else if(columnname.compareTo("escalated_to")==0)
 							{
-								qry5 = "select STRING_AGG(issue_id) as issue_id from issue where escalated_to=?";
+								qry5 = "select STRING_AGG(issue_id,',') as issue_id from issue where escalated_to=?";
 								qryString = "select issue_id from issue where escalated_to=?";
 							}
 						}
@@ -358,12 +358,12 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("hod")==0)
 							{
-								qry5 = "select STRING_AGG(design_id) as design_id from design where hod=?";
+								qry5 = "select STRING_AGG(design_id,',') as design_id from design where hod=?";
 								qryString = "select design_id from design where hod=?";
 							}
 							else if(columnname.compareTo("dy_hod")==0)
 							{
-								qry5 = "select STRING_AGG(design_id) as design_id from design where dy_hod=?";
+								qry5 = "select STRING_AGG(design_id,',') as design_id from design where dy_hod=?";
 								qryString = "select design_id from design where dy_hod=?";
 							}
 						}						
@@ -525,66 +525,65 @@ public class ProfileDaoImpl implements ProfileDao {
 						{
 							if(columnname.compareTo("hod_user_id_fk")==0)
 							{
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( contract_id VARCHAR(100) PATH \"$\" )) AS  jt1";
+								qryString="SELECT value as contract_id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 							else if(columnname.compareTo("dy_hod_user_id_fk")==0)
 							{
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( contract_id VARCHAR(100) PATH \"$\" )) AS  jt1";
+								qryString="SELECT value as contract_id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 						}
 						else if(tablename.compareTo("contract_executive")==0)
 						{
-							qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( id VARCHAR(100) PATH \"$\" )) AS  jt1";
+							qryString="SELECT value as id FROM STRING_SPLIT('"+fnlValue+"',',')";
 						}
 						else if(tablename.compareTo("risk_work_hod")==0)
 						{
 							if(columnname.compareTo("hod_user_id_fk")==0)
 							{
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( risk_work_hod_id VARCHAR(100) PATH \"$\" )) AS  jt1";
-								
+								qryString="SELECT value as risk_work_hod_id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 						}
 						else if(tablename.compareTo("fob_contract_responsible_people")==0)
 						{
 							if(columnname.compareTo("responsible_people_id_fk")==0)
 							{							
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( id VARCHAR(100) PATH \"$\" )) AS  jt1";
+								qryString="SELECT value as id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 						}						
 						else if(tablename.compareTo("safety")==0)
 						{
 							if(columnname.compareTo("responsible_person")==0)
-							{							
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( safety_id VARCHAR(100) PATH \"$\" )) AS  jt1";
+							{	
+								qryString="SELECT value as safety_id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 						}	
 						else if(tablename.compareTo("safety_committee_members")==0)
 						{
 							if(columnname.compareTo("committee_member_name")==0)
-							{							
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( id VARCHAR(100) PATH \"$\" )) AS  jt1";
+							{	
+								qryString="SELECT value as id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 						}
 						else if(tablename.compareTo("issue")==0)
 						{
 							if(columnname.compareTo("responsible_person")==0)
 							{
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( issue_id VARCHAR(100) PATH \"$\" )) AS  jt1";
+								qryString="SELECT value as issue_id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 							else if(columnname.compareTo("escalated_to")==0)
 							{
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( issue_id VARCHAR(100) PATH \"$\" )) AS  jt1";
+								qryString="SELECT value as issue_id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 						}
 						else if(tablename.compareTo("design")==0)
 						{
 							if(columnname.compareTo("hod")==0)
 							{
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( design_id VARCHAR(100) PATH \"$\" )) AS  jt1";
+								qryString="SELECT value as design_id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 							else if(columnname.compareTo("dy_hod")==0)
 							{
-								qryString="SELECT * FROM JSON_TABLE('["+fnlValue+"]',\"$[*]\" COLUMNS( design_id VARCHAR(100) PATH \"$\" )) AS  jt1";
+								qryString="SELECT value as design_id FROM STRING_SPLIT('"+fnlValue+"',',')";
 							}
 						}							
 						

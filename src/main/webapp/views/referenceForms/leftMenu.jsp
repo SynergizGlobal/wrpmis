@@ -220,7 +220,7 @@
 	                        </div>
 	                        <div class="row no-mar">
 	                        	<div class="input-field col s12">
-	                                <input id="dashboard_url" name="dashboard_url" type="url" class="validate" >
+	                                <input id="dashboard_url" name="dashboard_url" type="text" class="validate" >
 	                                <label for="dashboard_url">Link</label>
 	                                <span id="dashboard_urlError" class="error-msg" ></span>
 	                        	</div>
@@ -321,7 +321,7 @@
 									                                
 		                                                        </td>
 		                                                        <td class="input-field">
-										                                <input name="archive_url" type="url" class="validate" id="archive_url0">
+										                                <input name="archive_url" type="text" class="validate" id="archive_url0">
 										                                <span id="archive_urlError" class="error-msg" ></span>
 										                            
 		                                                        </td>
@@ -515,7 +515,7 @@
 									                                
 		                                                        </td>
 		                                                        <td class="input-field">
-										                                 <input name="archive_url" type="url" class="validate" id="archive_url1">
+										                                 <input name="archive_url" type="text" class="validate" id="archive_url1">
 										                                <span id="archive_urlError" class="error-msg" ></span>
 										                            
 		                                                        </td>
@@ -620,7 +620,7 @@
         + '<span id="archive_dateError' + rNo + 'Error" class="error-msg"></span>'
         + '</td>'
         + '<td class="input-field">'
-        + '<input name="archive_url" type="url" class="validate" id="archive_url' + rNo + '">'
+        + '<input name="archive_url" type="text" class="validate" id="archive_url' + rNo + '">'
         + '<span id="archive_urlError' + rNo + 'Error" class="error-msg"></span>' 
         + '</td>'
 		+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
@@ -645,7 +645,7 @@
         + '<span id="archive_dateError' + rNo + 'Error" class="error-msg"></span>'
         + '</td>'
         + '<td class="input-field">'
-        + '<input name="archive_url" type="url" class="validate" id="archive_url'+ rNo+'">'
+        + '<input name="archive_url" type="text" class="validate" id="archive_url'+ rNo+'">'
         + '<span id="archive_urlError' + rNo + 'Error" class="error-msg"></span>' 
         + '</td>'
 		+ '<td><a onclick="removeAction(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';

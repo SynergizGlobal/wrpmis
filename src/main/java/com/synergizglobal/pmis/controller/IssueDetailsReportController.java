@@ -169,6 +169,23 @@ public class IssueDetailsReportController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/generate-and-download-issue-details-work-report/{work_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateAndDownloadIssueDetailsWorkReport(@ModelAttribute Issue obj,@PathVariable("work_id") String work_id,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/issue-details-report");
+		try{            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+            obj.setWork_id_fk(work_id);
+			boolean flag = getIssuesDetailsReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateAndDownloadIssueDetailsReport : " + e.getMessage());
+		}
+		return model;
+     }
+	
 	@RequestMapping(value = "/generate-and-download-issue-details-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateAndDownloadIssueDetailsReport(@ModelAttribute Issue obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/issue-details-report");
@@ -183,7 +200,7 @@ public class IssueDetailsReportController {
 			logger.error("generateAndDownloadIssueDetailsReport : " + e.getMessage());
 		}
 		return model;
-     }
+     }	
 
 	private boolean getIssuesDetailsReport(HttpServletResponse response, String currentDate, Issue obj) {
 		//XWPFDocument document = new XWPFDocument(); 

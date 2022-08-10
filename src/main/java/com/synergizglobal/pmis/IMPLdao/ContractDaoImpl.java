@@ -4161,10 +4161,10 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY u.department_fk "
-					  + "    ORDER BY case when department_fk='Engg' then 1\r\n" + 
-					  "   when department_fk='Elec' then 2\r\n" + 
-					  "   when department_fk='S&T' then 3 end asc";
+			qry = qry + " GROUP BY u.department_fk,dt.department_name  "
+					  + "    ORDER BY case when u.department_fk='Engg' then 1\r\n" + 
+					  "   when u.department_fk='Elec' then 2\r\n" + 
+					  "   when u.department_fk='S&T' then 3 end asc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

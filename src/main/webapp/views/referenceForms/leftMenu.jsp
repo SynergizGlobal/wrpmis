@@ -414,7 +414,7 @@
 	                        </div>
 	                        <div class="row no-mar">	                        	
 	                        	<div class="input-field col s12">
-	                                <input id="update_dashboard_url" name="dashboard_url" type="url" class="validate" >
+	                                <input id="update_dashboard_url" name="dashboard_url" type="text" class="validate" >
 	                                <label for="update_dashboard_url">Link</label>
 	                                <span id="update_dashboard_urlError" class="error-msg" ></span>
 	                        	</div>

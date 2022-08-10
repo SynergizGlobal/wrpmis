@@ -999,11 +999,11 @@ public class ContractDaoImpl implements ContractDao {
 			con = dataSource.getConnection();
 			String contract_updateQry = "select w.work_name,w.work_short_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,"
 									+ "c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,dt.department_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,  " 
-									+ "scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,FORMAT(date_of_start,'dd-MM-yyyy') AS date_of_start,"
-									+ "FORMAT(doc,'dd-MM-yyyy') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MM-yyyy') AS loa_date,"
+									+ "scope_of_contract,cast(estimated_cost as float) as estimated_cost,FORMAT(date_of_start,'dd-MM-yyyy') AS date_of_start,"
+									+ "FORMAT(doc,'dd-MM-yyyy') AS doc,cast(awarded_cost as float) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MM-yyyy') AS loa_date,"
 									+ "ca_no,FORMAT(ca_date,'dd-MM-yyyy') AS ca_date,FORMAT(actual_completion_date,'dd-MM-yyyy') AS actual_completion_date,"
 									+ "FORMAT(contract_closure_date,'dd-MM-yyyy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MM-yyyy') AS completion_certificate_release,"
-									+ "FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
+									+ "FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as float) as completed_cost,"
 									+ "FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,contract_status_fk,bg_required,"
 									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,FORMAT(target_doc,'dd-MM-yyyy') AS target_doc,"
 									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,FORMAT(actual_date_of_commissioning,'dd-MM-yyyy') AS actual_date_of_commissioning,is_contract_closure_initiated,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,c.remarks,FORMAT(planned_date_of_completion,'dd-MM-yyyy') AS planned_date_of_completion " + 

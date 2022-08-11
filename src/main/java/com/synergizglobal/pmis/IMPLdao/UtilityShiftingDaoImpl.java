@@ -1074,7 +1074,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	private String getUtilityExecutives(String work_id) throws Exception {
 		String executives="";
 		try {
-			String qry = "SELECT  STRING_AGG(DISTINCT (u.user_id) , ',') user_id FROM utility_shifting_executives re " + 
+			String qry = "SELECT  STRING_AGG(u.user_id , ',') user_id FROM utility_shifting_executives re " + 
 					"LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
 			executives = (String) jdbcTemplate.queryForObject(qry, new Object[] { work_id }, String.class);
 		} catch (Exception e) {
@@ -1086,7 +1086,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	private String getUtilityExecutivesEmail(String work_id) throws Exception {
 		String executivesEmail="";
 		try {
-			String qry = "SELECT  STRING_AGG(DISTINCT (u.email_id) , ',') email_id FROM utility_shifting_executives re " + 
+			String qry = "SELECT  STRING_AGG(u.email_id , ',') email_id FROM utility_shifting_executives re " + 
 					"LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where work_id=?";
 			executivesEmail = (String) jdbcTemplate.queryForObject(qry, new Object[] { work_id }, String.class);
 		} catch (Exception e) {

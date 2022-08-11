@@ -1513,7 +1513,7 @@ public class LandAcquisitionController {
 													val = getCellDataType(workbook,row2.getCell(7));
 												}
 											
-												pObj1.setAgriculture_tree_nos(val);}
+												pObj1.setAgriculture_tree_nos(Double.parseDouble(val));}
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
 											if(!StringUtils.isEmpty(val)) { 
@@ -1539,7 +1539,7 @@ public class LandAcquisitionController {
 												if(c != 2) {
 													val = getCellDataType(workbook,row2.getCell(10));
 												}
-												pObj1.setForest_tree_nos(val);}
+												pObj1.setForest_tree_nos(Double.parseDouble(val));}
 											
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
 											if(!StringUtils.isEmpty(val)) { 

@@ -43,7 +43,7 @@ public class RrResponsibleExecutivesDaoImpl implements RrResponsibleExecutivesDa
 	public List<TrainingType> getExecutivesDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(DISTINCT (u.user_name) , ',') user_name,STRING_AGG(DISTINCT (u.user_id) , ',') user_id FROM rr_executives re "
+			String qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id FROM rr_executives re "
 					+ "left join [user] u on re.executive_user_id_fk = u.user_id "
 					+ "left join work w on re.work_id_fk = w.work_id "
 					+ "GROUP BY work_id_fk;";

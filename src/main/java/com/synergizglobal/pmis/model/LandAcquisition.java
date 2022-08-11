@@ -16,7 +16,7 @@ public class LandAcquisition {
     area_acquired, remarks,gov_remarks,amount_demanded_units,amount_paid_units,user_type_fk,user_role_code,balance_area,
     
     //private
-    name_of_the_owner,private_area_to_be_acquired,private_area_acquired, basic_rate,private_attachment_no, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos, forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, 
+    name_of_the_owner,private_area_to_be_acquired,private_area_acquired, basic_rate,private_attachment_no, attachment_no,  agriculture_tree_rate,  forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, 
     private_possession_status_fk, private_special_feature, hundred_percent_Solatium, extra_25_percent, total_rate_divide_m2, land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation,
     forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, structure_survey,private_remarks,
     structure_valuation, borewell_survey, borewell_valuation, horticulture_tree_valuation_status_fk, structure_valuation_status_fk, borewell_valuation_status_fk, 
@@ -47,6 +47,8 @@ public class LandAcquisition {
 	private List<LandAcquisition> forestList;
 	private List<LandAcquisition> govList;
 	private String[] laFileNames,laDocumentFileNames,laDocumentNames,la_file_typess;
+	
+	private Double agriculture_tree_nos,forest_tree_nos;
 	
 	public String getBalance_area() {
 		return balance_area;
@@ -1416,28 +1418,12 @@ public class LandAcquisition {
 		this.attachment_no = attachment_no;
 	}
 
-	public String getAgriculture_tree_nos() {
-		return agriculture_tree_nos;
-	}
-
-	public void setAgriculture_tree_nos(String agriculture_tree_nos) {
-		this.agriculture_tree_nos = agriculture_tree_nos;
-	}
-
 	public String getAgriculture_tree_rate() {
 		return agriculture_tree_rate;
 	}
 
 	public void setAgriculture_tree_rate(String agriculture_tree_rate) {
 		this.agriculture_tree_rate = agriculture_tree_rate;
-	}
-
-	public String getForest_tree_nos() {
-		return forest_tree_nos;
-	}
-
-	public void setForest_tree_nos(String forest_tree_nos) {
-		this.forest_tree_nos = forest_tree_nos;
 	}
 
 	public String getForest_tree_rate() {
@@ -2010,6 +1996,22 @@ public class LandAcquisition {
 
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+
+	public Double getAgriculture_tree_nos() {
+		return agriculture_tree_nos;
+	}
+
+	public void setAgriculture_tree_nos(Double agriculture_tree_nos) {
+		this.agriculture_tree_nos = agriculture_tree_nos;
+	}
+
+	public Double getForest_tree_nos() {
+		return forest_tree_nos;
+	}
+
+	public void setForest_tree_nos(Double forest_tree_nos) {
+		this.forest_tree_nos = forest_tree_nos;
 	}
 
 }

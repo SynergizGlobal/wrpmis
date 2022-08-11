@@ -310,12 +310,12 @@ public class IssueDaoImpl implements IssueDao {
 			
 			if (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = "select distinct work_id as work_id_fk ,work_name,work_short_name " 
+				qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk "
 						+ "from contract c "
 						+ "LEFT JOIN work w ON work_id_fk = w.work_id "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
 			} else {
-				qry = "SELECT distinct work_id as work_id_fk ,work_name,work_short_name "
+				qry = "SELECT work_id as work_id_fk ,work_name,work_short_name,project_id_fk "
 						+ "FROM contract c "
 						+ "LEFT JOIN work w ON work_id_fk = w.work_id "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
@@ -370,11 +370,13 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "";
 			if (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = "select distinct contract_id as contract_id_fk,contract_name,contract_short_name "
+				qry = "select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
+						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk " 
 						+ "from contract c "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
 			} else {
-				qry = "SELECT distinct contract_id as contract_id_fk,contract_name,contract_short_name "
+				qry = "SELECT contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
+						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
 						+ "FROM contract c "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
 			}
@@ -409,7 +411,7 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
-			qry = qry + " order by contract_id asc";
+			qry = qry + " group by contract_id,contract_name,contract_short_name,work_id_fk,hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk order by contract_id asc";
 			
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 

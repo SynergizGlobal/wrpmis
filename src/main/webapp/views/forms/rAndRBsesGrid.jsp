@@ -168,7 +168,7 @@
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a> -->
 									<a href="<%=request.getContextPath()%>/add-rr-bses" class="btn waves-effect waves-light bg-s t-c right-align">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Contract</strong></a>
+                                        <strong><i class="fa fa-plus-circle"></i> Add Agency</strong></a>
 								</div>
 							</div>
                             

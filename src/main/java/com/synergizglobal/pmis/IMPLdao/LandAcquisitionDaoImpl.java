@@ -70,7 +70,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry ="select distinct la_id,survey_number,li.remarks,li.area_to_be_acquired,li.category_fk as type_of_land,li.la_land_status_fk,li.work_id_fk,w.work_name,w.project_id_fk,p.project_name,ISNULL(li.category_fk,c.la_category) as type_of_land ,sc.la_sub_category as sub_category_of_land, w.work_short_name,village_id,la_sub_category_fk,village,cast(area_of_plot as CHAR) as area_of_plot,modified_by,FORMAT(modified_date,'dd-MM-yyyy') as modified_date " + 
+			String qry ="select distinct la_id,survey_number,li.remarks,li.area_to_be_acquired,li.category_fk as type_of_land,li.la_land_status_fk,li.work_id_fk,w.work_name,w.project_id_fk,p.project_name,ISNULL(li.category_fk,c.la_category) as type_of_land ,sc.la_sub_category as sub_category_of_land, w.work_short_name,village_id,la_sub_category_fk,village,area_of_plot  as area_of_plot,modified_by,FORMAT(modified_date,'dd-MM-yyyy') as modified_date " + 
 					" from la_land_identification li " + 
 					"left join work w on li.work_id_fk = w.work_id "
 					+ "left join land_executives le on li.work_id_fk = le.work_id_fk  "+
@@ -528,14 +528,14 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		LandAcquisition LADetails = null;
 		try {
 			String qry = "select distinct la_id,li.remarks,(select executive_user_id_fk from land_executives re where li.work_id_fk = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk,\r\n" + 
-					"cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,ISNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk, work_id_fk,w.project_id_fk,p.project_name,\r\n" + 
+					"li.area_to_be_acquired as area_to_be_acquired,ISNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk, work_id_fk,w.project_id_fk,p.project_name,\r\n" + 
 					"w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo, li.collector, \r\n" + 
-					"FORMAT(proposal_submission_date_to_collector,'dd-MM-yyyy') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, \r\n" + 
-					"jm_fee_amount,jm_fee_amount_units, li.special_feature,cast(li.area_acquired as CHAR) as area_acquired,li.private_land_process,cast(chainage_from as CHAR) as chainage_from,\r\n" + 
-					"cast(chainage_to as CHAR) as chainage_to, FORMAT(jm_fee_letter_received_date,'dd-MM-yyyy') AS jm_fee_letter_received_date,FORMAT(jm_fee_paid_date,'dd-MM-yyyy') AS jm_fee_paid_date,\r\n" + 
+					"FORMAT(proposal_submission_date_to_collector,'dd-MM-yyyy') AS proposal_submission_date_to_collector, area_of_plot as area_of_plot, \r\n" + 
+					"jm_fee_amount,jm_fee_amount_units, li.special_feature,li.area_acquired as area_acquired,li.private_land_process,chainage_from,\r\n" + 
+					"chainage_to, FORMAT(jm_fee_letter_received_date,'dd-MM-yyyy') AS jm_fee_letter_received_date,FORMAT(jm_fee_paid_date,'dd-MM-yyyy') AS jm_fee_paid_date,\r\n" + 
 					"FORMAT(jm_start_date,'dd-MM-yyyy') AS  jm_start_date,FORMAT(jm_completion_date,'dd-MM-yyyy') AS jm_completion_date, FORMAT(jm_sheet_date_to_sdo,'dd-MM-yyyy') AS jm_sheet_date_to_sdo,\r\n" + 
 					"jm_remarks, jm_approval, li.issues,lg.id, lg.la_id_fk,FORMAT(lg.proposal_submission,'dd-MM-yyyy') AS proposal_submission, lg.proposal_submission_status_fk, \r\n" + 
-					"FORMAT(lg.valuation_date,'dd-MM-yyyy') AS valuation_date, FORMAT(lg.letter_for_payment,'dd-MM-yyyy') AS letter_for_payment,lg.amount_demanded,cast(lg.lfp_status_fk as CHAR) as lfp_status_fk,\r\n" + 
+					"FORMAT(lg.valuation_date,'dd-MM-yyyy') AS valuation_date, FORMAT(lg.letter_for_payment,'dd-MM-yyyy') AS letter_for_payment,lg.amount_demanded,lg.lfp_status_fk as lfp_status_fk,\r\n" + 
 					"FORMAT(lg.approval_for_payment,'dd-MM-yyyy') AS approval_for_payment,FORMAT(lg.payment_date,'dd-MM-yyyy') AS payment_date, lg.amount_paid, lg.payment_status_fk, \r\n" + 
 					"FORMAT(lg.possession_date,'dd-MM-yyyy') AS possession_date,lg.possession_status_fk,lf.demanded_amount_units as demanded_amount_units_forest,\r\n" + 
 					"lf.payment_amount_units as payment_amount_units_forest, lg.amount_demanded_units,lg.amount_paid_units, FORMAT(lf.on_line_submission,'dd-MM-yyyy') AS forest_online_submission, \r\n" + 
@@ -544,8 +544,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"FORMAT(lf.submission_date_to_revenue_secretary_mantralaya,'dd-MM-yyyy') AS forest_submission_date_to_revenue_secretary_mantralaya, \r\n" + 
 					"FORMAT(lf.submission_date_to_regional_office_nagpur,'dd-MM-yyyy') AS forest_submission_date_to_regional_office_nagpur, \r\n" + 
 					"FORMAT(lf.date_of_approval_by_regional_office_nagpur,'dd-MM-yyyy') AS forest_date_of_approval_by_regional_office_nagpur,\r\n" + 
-					"FORMAT(cast(lf.valuation_by_DyCFO as date)  ,'dd-MM-yyyy') AS forest_valuation_by_dycfo,cast(lf.demanded_amount as CHAR) as forest_demanded_amount,\r\n" + 
-					"cast(lf.payment_amount  as CHAR) as forest_payment_amount, FORMAT(lf.approval_for_payment,'dd-MM-yyyy') AS forest_approval_for_payment,\r\n" + 
+					"FORMAT(cast(lf.valuation_by_DyCFO as date)  ,'dd-MM-yyyy') AS forest_valuation_by_dycfo,lf.demanded_amount as forest_demanded_amount,\r\n" + 
+					"lf.payment_amount as forest_payment_amount, FORMAT(lf.approval_for_payment,'dd-MM-yyyy') AS forest_approval_for_payment,\r\n" + 
 					"FORMAT(lf.payment_date,'dd-MM-yyyy') AS forest_payment_date,FORMAT(lf.possession_date,'dd-MM-yyyy') AS forest_possession_date,\r\n" + 
 					"lf.possession_status_fk as forest_possession_status_fk,lf.payment_status_fk as forest_payment_status_fk ,\r\n" + 
 					"lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,FORMAT(lr.online_submission,'dd-MM-yyyy') AS railway_online_submission,\r\n" + 
@@ -554,17 +554,17 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'dd-MM-yyyy') AS railway_submission_date_to_revenue_secretary_mantralaya, \r\n" + 
 					"FORMAT(lr.submission_date_to_regional_office_nagpur,'dd-MM-yyyy') AS railway_submission_date_to_regional_office_nagpur, \r\n" + 
 					"FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'dd-MM-yyyy') AS railway_date_of_approval_by_Rregional_Office_agpur,\r\n" + 
-					"FORMAT(cast(lr.valuation_by_DyCFO as date)  ,'dd-MM-yyyy') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, \r\n" + 
+					"FORMAT(cast(lr.valuation_by_DyCFO as date)  ,'dd-MM-yyyy') AS railway_valuation_by_DyCFO, lr.demanded_amount as railway_demanded_amount, \r\n" + 
 					"FORMAT(cast(lr.approval_for_payment as date),'dd-MM-yyyy') AS railway_approval_for_payment, FORMAT(lr.payment_date,'dd-MM-yyyy') AS railway_payment_date,\r\n" + 
-					"cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'dd-MM-yyyy') AS railway_possession_date,\r\n" + 
+					"lr.payment_amount as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'dd-MM-yyyy') AS railway_possession_date,\r\n" + 
 					"lr.possession_status as railway_possession_status,  lpa.basic_rate_units,lpa.agriculture_tree_rate_units,lpa.forest_tree_rate_units, \r\n" + 
 					"lpa.name_of_the_owner, lpa.basic_rate, lpa.agriculture_tree_nos, lpa.agriculture_tree_rate, lpa.forest_tree_nos,lpa.forest_tree_rate,\r\n" + 
 					"FORMAT(lpa.consent_from_owner,'dd-MM-yyyy') AS consent_from_owner, FORMAT(lpa.legal_search_report,'dd-MM-yyyy') AS legal_search_report, \r\n" + 
 					"FORMAT(lpa.date_of_registration,'dd-MM-yyyy') AS date_of_registration, FORMAT(lpa.date_of_possession,'dd-MM-yyyy') AS date_of_possession,\r\n" + 
-					"lpa.possession_status_fk as private_possession_status_fk, cast(lpa.hundred_percent_Solatium as CHAR) as hundred_percent_Solatium,\r\n" + 
-					"cast(lpa.extra_25_percent as CHAR) as extra_25_percent, cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation, \r\n" + 
-					"cast(lpa.agriculture_tree_compensation as CHAR) as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,\r\n" + 
-					"cast(lpa.structure_compensation as CHAR) as structure_compensation,cast(lpa.borewell_compensation as CHAR) as borewell_compensation,cast(lpa.total_compensation as CHAR) as total_compensation,\r\n" + 
+					"lpa.possession_status_fk as private_possession_status_fk, lpa.hundred_percent_Solatium as hundred_percent_Solatium,\r\n" + 
+					"lpa.extra_25_percent as extra_25_percent, cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation, \r\n" + 
+					"lpa.agriculture_tree_compensation as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,\r\n" + 
+					"lpa.structure_compensation as structure_compensation,lpa.borewell_compensation as borewell_compensation,lpa.total_compensation as total_compensation,\r\n" + 
 					"lpv.payment_amount_units,FORMAT(lpv.forest_tree_survey ,'dd-MM-yyyy') AS forest_tree_survey,FORMAT(lpv.forest_tree_valuation ,'dd-MM-yyyy') AS forest_tree_valuation, \r\n" + 
 					"lpv.forest_tree_valuation_status_fk,FORMAT(lpv.horticulture_tree_survey ,'dd-MM-yyyy') AS horticulture_tree_survey,\r\n" + 
 					"FORMAT(lpv.horticulture_tree_valuation ,'dd-MM-yyyy') AS horticulture_tree_valuation, FORMAT(lpv.structure_survey ,'dd-MM-yyyy') AS structure_survey,\r\n" + 
@@ -573,14 +573,14 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"lpv.structure_valuation_status_fk, lpv.borewell_valuation_status_fk, lpv.rfp_to_adtp_status_fk, \r\n" + 
 					"FORMAT(lpv.date_of_rfp_to_adtp ,'dd-MM-yyyy') AS date_of_rfp_to_adtp,FORMAT(lpv.date_of_rate_fixation_of_land ,'dd-MM-yyyy') AS date_of_rate_fixation_of_land, \r\n" + 
 					"FORMAT(lpv.sdo_demand_for_payment ,'dd-MM-yyyy') AS sdo_demand_for_payment,FORMAT(lpv.date_of_approval_for_payment ,'dd-MM-yyyy') AS date_of_approval_for_payment, \r\n" + 
-					"cast(lpv.payment_amount as CHAR) as payment_amount, FORMAT(lpv.payment_date ,'dd-MM-yyyy') AS private_payment_date   ,ira.collector as private_ira_collector, \r\n" + 
+					"lpv.payment_amount as payment_amount, FORMAT(lpv.payment_date ,'dd-MM-yyyy') AS private_payment_date   ,ira.collector as private_ira_collector, \r\n" + 
 					"FORMAT(submission_of_proposal_to_GM ,'dd-MM-yyyy') AS submission_of_proposal_to_GM,FORMAT(approval_of_GM ,'dd-MM-yyyy') AS  approval_of_GM,\r\n" + 
 					"FORMAT(draft_letter_to_con_for_approval_rp ,'dd-MM-yyyy') AS draft_letter_to_con_for_approval_rp,\r\n" + 
 					"FORMAT(date_of_approval_of_construction_rp ,'dd-MM-yyyy') AS  date_of_approval_of_construction_rp,\r\n" + 
 					"FORMAT(date_of_uploading_of_gazette_notification_rp ,'dd-MM-yyyy') AS date_of_uploading_of_gazette_notification_rp,\r\n" + 
 					"FORMAT(publication_in_gazette_rp ,'dd-MM-yyyy') AS publication_in_gazette_rp,\r\n" + 
 					"FORMAT(date_of_proposal_to_DC_for_nomination ,'dd-MM-yyyy') AS  date_of_proposal_to_DC_for_nomination, \r\n" + 
-					"FORMAT(date_of_nomination_of_competenta_authority ,'dd-MM-yyyy') AS date_of_nomination_of_competenta_authority  "
+					"FORMAT(date_of_nomination_of_competenta_authority ,'dd-MM-yyyy') AS date_of_nomination_of_competenta_authority,longitude,latitude  "
 					+"from la_land_identification li "
 					+"left join la_government_land_acquisition lg on li.la_id = lg.la_id_fk " 
 					+"left join la_forest_land_acquisition lf on li.la_id = lf.la_id_fk " 
@@ -1448,15 +1448,15 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 							
 							LandAcquisition sobj = null;
 
-							String qry = "select distinct la_id,li.remarks,cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,ISNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk,\r\n" + 
+							String qry = "select distinct la_id,li.remarks,li.area_to_be_acquired  as area_to_be_acquired,ISNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk,\r\n" + 
 									"work_id_fk,w.project_id_fk,p.project_name,w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo,\r\n" + 
-									"li.collector, FORMAT(proposal_submission_date_to_collector,'dd-MM-yyyy') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, \r\n" + 
-									"jm_fee_amount,jm_fee_amount_units, li.special_feature,cast(li.area_acquired as CHAR) as area_acquired,li.private_land_process,cast(chainage_from as CHAR) as chainage_from,\r\n" + 
-									"cast(chainage_to as CHAR) as chainage_to, FORMAT(jm_fee_letter_received_date,'dd-MM-yyyy') AS jm_fee_letter_received_date,FORMAT(jm_fee_paid_date,'dd-MM-yyyy') AS jm_fee_paid_date,\r\n" + 
+									"li.collector, FORMAT(proposal_submission_date_to_collector,'dd-MM-yyyy') AS proposal_submission_date_to_collector, area_of_plot, \r\n" + 
+									"jm_fee_amount,jm_fee_amount_units, li.special_feature,li.area_acquired as area_acquired,li.private_land_process,chainage_from,\r\n" + 
+									"chainage_to, FORMAT(jm_fee_letter_received_date,'dd-MM-yyyy') AS jm_fee_letter_received_date,FORMAT(jm_fee_paid_date,'dd-MM-yyyy') AS jm_fee_paid_date,\r\n" + 
 									"FORMAT(jm_start_date,'dd-MM-yyyy') AS  jm_start_date,FORMAT(jm_completion_date,'dd-MM-yyyy') AS jm_completion_date, FORMAT(jm_sheet_date_to_sdo,'dd-MM-yyyy') AS jm_sheet_date_to_sdo,\r\n" + 
 									"jm_remarks, jm_approval, li.issues,lg.id, lg.la_id_fk,FORMAT(lg.proposal_submission,'dd-MM-yyyy') AS proposal_submission, lg.proposal_submission_status_fk, \r\n" + 
 									"FORMAT(lg.valuation_date,'dd-MM-yyyy') AS valuation_date, FORMAT(lg.letter_for_payment,'dd-MM-yyyy') AS letter_for_payment,lg.amount_demanded,\r\n" + 
-									"cast(lg.lfp_status_fk as CHAR) as lfp_status_fk,FORMAT(lg.approval_for_payment,'dd-MM-yyyy') AS approval_for_payment,FORMAT(lg.payment_date,'dd-MM-yyyy') AS payment_date,\r\n" + 
+									"lg.lfp_status_fk as lfp_status_fk,FORMAT(lg.approval_for_payment,'dd-MM-yyyy') AS approval_for_payment,FORMAT(lg.payment_date,'dd-MM-yyyy') AS payment_date,\r\n" + 
 									"lg.amount_paid, lg.payment_status_fk, FORMAT(lg.possession_date,'dd-MM-yyyy') AS possession_date,lg.possession_status_fk,\r\n" + 
 									"lf.demanded_amount_units as demanded_amount_units_forest,lf.payment_amount_units as payment_amount_units_forest, lg.amount_demanded_units,\r\n" + 
 									"lg.amount_paid_units, FORMAT(lf.on_line_submission,'dd-MM-yyyy') AS forest_online_submission, FORMAT(lf.submission_date_to_dycfo,'dd-MM-yyyy') AS forest_submission_date_to_dycfo, \r\n" + 
@@ -1464,8 +1464,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 									"FORMAT(lf.submission_date_to_revenue_secretary_mantralaya,'dd-MM-yyyy') AS forest_submission_date_to_revenue_secretary_mantralaya, \r\n" + 
 									"FORMAT(lf.submission_date_to_regional_office_nagpur,'dd-MM-yyyy') AS forest_submission_date_to_regional_office_nagpur, \r\n" + 
 									"FORMAT(lf.date_of_approval_by_regional_office_nagpur,'dd-MM-yyyy') AS forest_date_of_approval_by_regional_office_nagpur,\r\n" + 
-									"FORMAT(lf.valuation_by_dycfo,'dd-MM-yyyy') AS forest_valuation_by_dycfo,cast(lf.demanded_amount as CHAR) as forest_demanded_amount,\r\n" + 
-									"cast(lf.payment_amount  as CHAR) as forest_payment_amount, FORMAT(lf.approval_for_payment,'dd-MM-yyyy') AS forest_approval_for_payment, \r\n" + 
+									"FORMAT(lf.valuation_by_dycfo,'dd-MM-yyyy') AS forest_valuation_by_dycfo,lf.demanded_amount as forest_demanded_amount,\r\n" + 
+									"lf.payment_amount as forest_payment_amount, FORMAT(lf.approval_for_payment,'dd-MM-yyyy') AS forest_approval_for_payment, \r\n" + 
 									"FORMAT(lf.payment_date,'dd-MM-yyyy') AS forest_payment_date,FORMAT(lf.possession_date,'dd-MM-yyyy') AS forest_possession_date,lf.possession_status_fk as forest_possession_status_fk,\r\n" + 
 									"lf.payment_status_fk as forest_payment_status_fk ,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,\r\n" + 
 									"FORMAT(lr.online_submission,'dd-MM-yyyy') AS railway_online_submission,FORMAT(lr.submission_date_to_DyCFO,'dd-MM-yyyy') AS railway_submission_date_to_DyCFO,\r\n" + 
@@ -1474,18 +1474,18 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 									"FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'dd-MM-yyyy') AS railway_submission_date_to_revenue_secretary_mantralaya, \r\n" + 
 									"FORMAT(lr.submission_date_to_regional_office_nagpur,'dd-MM-yyyy') AS railway_submission_date_to_regional_office_nagpur, \r\n" + 
 									"FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'dd-MM-yyyy') AS railway_date_of_approval_by_Rregional_Office_agpur,\r\n" + 
-									"FORMAT(cast(lr.valuation_by_DyCFO as date) ,'dd-MM-yyyy') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, \r\n" + 
+									"FORMAT(cast(lr.valuation_by_DyCFO as date) ,'dd-MM-yyyy') AS railway_valuation_by_DyCFO, lr.demanded_amount as railway_demanded_amount, \r\n" + 
 									"FORMAT(cast(lr.approval_for_payment as date),'dd-MM-yyyy') AS railway_approval_for_payment, FORMAT(lr.payment_date,'dd-MM-yyyy') AS railway_payment_date,\r\n" + 
-									"cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'dd-MM-yyyy') AS railway_possession_date, \r\n" + 
+									"lr.payment_amount as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'dd-MM-yyyy') AS railway_possession_date, \r\n" + 
 									"lr.possession_status as railway_possession_status,  lpa.basic_rate_units,lpa.agriculture_tree_rate_units,lpa.forest_tree_rate_units, lpa.name_of_the_owner, \r\n" + 
 									"lpa.basic_rate, lpa.agriculture_tree_nos, lpa.agriculture_tree_rate, lpa.forest_tree_nos,lpa.forest_tree_rate,FORMAT(lpa.consent_from_owner,'dd-MM-yyyy') AS consent_from_owner,\r\n" + 
 									"FORMAT(lpa.legal_search_report,'dd-MM-yyyy') AS legal_search_report, FORMAT(lpa.date_of_registration,'dd-MM-yyyy') AS date_of_registration,\r\n" + 
 									"FORMAT(lpa.date_of_possession,'dd-MM-yyyy') AS date_of_possession, lpa.possession_status_fk as private_possession_status_fk, \r\n" + 
-									"cast(lpa.hundred_percent_Solatium as CHAR) as hundred_percent_Solatium,cast(lpa.extra_25_percent as CHAR) as extra_25_percent, \r\n" + 
-									"cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation, \r\n" + 
-									"cast(lpa.agriculture_tree_compensation as CHAR) as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,\r\n" + 
-									"cast(lpa.structure_compensation as CHAR) as structure_compensation,cast(lpa.borewell_compensation as CHAR) as borewell_compensation,\r\n" + 
-									"cast(lpa.total_compensation as CHAR) as total_compensation,lpv.payment_amount_units,FORMAT(lpv.forest_tree_survey ,'dd-MM-yyyy') AS forest_tree_survey,\r\n" + 
+									"lpa.hundred_percent_Solatium as hundred_percent_Solatium,lpa.extra_25_percent as extra_25_percent, \r\n" + 
+									"lpa.total_rate_divide_m2  as total_rate_divide_m2,lpa.land_compensation as land_compensation, \r\n" + 
+									"lpa.agriculture_tree_compensation  as agriculture_tree_compensation,lpa.forest_tree_compensation as forest_tree_compensation,\r\n" + 
+									"lpa.structure_compensation  as structure_compensation,lpa.borewell_compensation as borewell_compensation,\r\n" + 
+									"lpa.total_compensation  as total_compensation,lpv.payment_amount_units,FORMAT(lpv.forest_tree_survey ,'dd-MM-yyyy') AS forest_tree_survey,\r\n" + 
 									"FORMAT(lpv.forest_tree_valuation ,'dd-MM-yyyy') AS forest_tree_valuation, lpv.forest_tree_valuation_status_fk,\r\n" + 
 									"FORMAT(lpv.horticulture_tree_survey ,'dd-MM-yyyy') AS horticulture_tree_survey,FORMAT(lpv.horticulture_tree_valuation ,'dd-MM-yyyy') AS horticulture_tree_valuation,\r\n" + 
 									"FORMAT(lpv.structure_survey ,'dd-MM-yyyy') AS structure_survey,FORMAT(lpv.structure_valuation ,'dd-MM-yyyy') AS structure_valuation,\r\n" + 
@@ -1493,7 +1493,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 									"lpv.structure_valuation_status_fk, lpv.borewell_valuation_status_fk, lpv.rfp_to_adtp_status_fk, \r\n" + 
 									"FORMAT(lpv.date_of_rfp_to_adtp ,'dd-MM-yyyy') AS date_of_rfp_to_adtp,FORMAT(lpv.date_of_rate_fixation_of_land ,'dd-MM-yyyy') AS date_of_rate_fixation_of_land,\r\n" + 
 									"FORMAT(lpv.sdo_demand_for_payment ,'dd-MM-yyyy') AS sdo_demand_for_payment,FORMAT(lpv.date_of_approval_for_payment ,'dd-MM-yyyy') AS date_of_approval_for_payment, \r\n" + 
-									"cast(lpv.payment_amount as CHAR) as payment_amount, FORMAT(lpv.payment_date ,'dd-MM-yyyy') AS private_payment_date   ,ira.collector as private_ira_collector, \r\n" + 
+									"lpv.payment_amount as payment_amount, FORMAT(lpv.payment_date ,'dd-MM-yyyy') AS private_payment_date   ,ira.collector as private_ira_collector, \r\n" + 
 									"FORMAT(submission_of_proposal_to_GM ,'dd-MM-yyyy') AS submission_of_proposal_to_GM,FORMAT(approval_of_GM ,'dd-MM-yyyy') AS  approval_of_GM,\r\n" + 
 									"FORMAT(draft_letter_to_con_for_approval_rp ,'dd-MM-yyyy') AS draft_letter_to_con_for_approval_rp,\r\n" + 
 									"FORMAT(date_of_approval_of_construction_rp ,'dd-MM-yyyy') AS  date_of_approval_of_construction_rp,\r\n" + 
@@ -1600,15 +1600,15 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 								
 								LandAcquisition sobj = null;
 
-								String qry = "select distinct la_id,li.remarks,cast(li.area_to_be_acquired as CHAR) as area_to_be_acquired,ISNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk,\r\n" + 
+								String qry = "select distinct la_id,li.remarks,li.area_to_be_acquired as area_to_be_acquired,ISNULL(li.category_fk,c.la_category) as type_of_land,li.la_land_status_fk,\r\n" + 
 										"work_id_fk,w.project_id_fk,p.project_name,w.work_short_name,sc.la_sub_category as sub_category_of_land, li.survey_number, li.village_id, li.village, taluka, dy_slr, sdo,\r\n" + 
-										"li.collector, FORMAT(proposal_submission_date_to_collector,'dd-MM-yyyy') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, \r\n" + 
-										"jm_fee_amount,jm_fee_amount_units, li.special_feature,cast(li.area_acquired as CHAR) as area_acquired,li.private_land_process,cast(chainage_from as CHAR) as chainage_from,\r\n" + 
-										"cast(chainage_to as CHAR) as chainage_to, FORMAT(jm_fee_letter_received_date,'dd-MM-yyyy') AS jm_fee_letter_received_date,FORMAT(jm_fee_paid_date,'dd-MM-yyyy') AS jm_fee_paid_date,\r\n" + 
+										"li.collector, FORMAT(proposal_submission_date_to_collector,'dd-MM-yyyy') AS proposal_submission_date_to_collector, area_of_plot, \r\n" + 
+										"jm_fee_amount,jm_fee_amount_units, li.special_feature,li.area_acquired as area_acquired,li.private_land_process,chainage_from,\r\n" + 
+										"chainage_to, FORMAT(jm_fee_letter_received_date,'dd-MM-yyyy') AS jm_fee_letter_received_date,FORMAT(jm_fee_paid_date,'dd-MM-yyyy') AS jm_fee_paid_date,\r\n" + 
 										"FORMAT(jm_start_date,'dd-MM-yyyy') AS  jm_start_date,FORMAT(jm_completion_date,'dd-MM-yyyy') AS jm_completion_date, FORMAT(jm_sheet_date_to_sdo,'dd-MM-yyyy') AS jm_sheet_date_to_sdo,\r\n" + 
 										"jm_remarks, jm_approval, li.issues,lg.id, lg.la_id_fk,FORMAT(lg.proposal_submission,'dd-MM-yyyy') AS proposal_submission, lg.proposal_submission_status_fk, \r\n" + 
 										"FORMAT(lg.valuation_date,'dd-MM-yyyy') AS valuation_date, FORMAT(lg.letter_for_payment,'dd-MM-yyyy') AS letter_for_payment,lg.amount_demanded,\r\n" + 
-										"cast(lg.lfp_status_fk as CHAR) as lfp_status_fk,FORMAT(lg.approval_for_payment,'dd-MM-yyyy') AS approval_for_payment,FORMAT(lg.payment_date,'dd-MM-yyyy') AS payment_date,\r\n" + 
+										"lg.lfp_status_fk as lfp_status_fk,FORMAT(lg.approval_for_payment,'dd-MM-yyyy') AS approval_for_payment,FORMAT(lg.payment_date,'dd-MM-yyyy') AS payment_date,\r\n" + 
 										"lg.amount_paid, lg.payment_status_fk, FORMAT(lg.possession_date,'dd-MM-yyyy') AS possession_date,lg.possession_status_fk,\r\n" + 
 										"lf.demanded_amount_units as demanded_amount_units_forest,lf.payment_amount_units as payment_amount_units_forest, lg.amount_demanded_units,\r\n" + 
 										"lg.amount_paid_units, FORMAT(lf.on_line_submission,'dd-MM-yyyy') AS forest_online_submission, FORMAT(lf.submission_date_to_dycfo,'dd-MM-yyyy') AS forest_submission_date_to_dycfo, \r\n" + 
@@ -1616,8 +1616,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 										"FORMAT(lf.submission_date_to_revenue_secretary_mantralaya,'dd-MM-yyyy') AS forest_submission_date_to_revenue_secretary_mantralaya, \r\n" + 
 										"FORMAT(lf.submission_date_to_regional_office_nagpur,'dd-MM-yyyy') AS forest_submission_date_to_regional_office_nagpur, \r\n" + 
 										"FORMAT(lf.date_of_approval_by_regional_office_nagpur,'dd-MM-yyyy') AS forest_date_of_approval_by_regional_office_nagpur,\r\n" + 
-										"FORMAT(lf.valuation_by_dycfo,'dd-MM-yyyy') AS forest_valuation_by_dycfo,cast(lf.demanded_amount as CHAR) as forest_demanded_amount,\r\n" + 
-										"cast(lf.payment_amount  as CHAR) as forest_payment_amount, FORMAT(lf.approval_for_payment,'dd-MM-yyyy') AS forest_approval_for_payment, \r\n" + 
+										"FORMAT(lf.valuation_by_dycfo,'dd-MM-yyyy') AS forest_valuation_by_dycfo,lf.demanded_amount as forest_demanded_amount,\r\n" + 
+										"lf.payment_amount  as forest_payment_amount, FORMAT(lf.approval_for_payment,'dd-MM-yyyy') AS forest_approval_for_payment, \r\n" + 
 										"FORMAT(lf.payment_date,'dd-MM-yyyy') AS forest_payment_date,FORMAT(lf.possession_date,'dd-MM-yyyy') AS forest_possession_date,lf.possession_status_fk as forest_possession_status_fk,\r\n" + 
 										"lf.payment_status_fk as forest_payment_status_fk ,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,\r\n" + 
 										"FORMAT(lr.online_submission,'dd-MM-yyyy') AS railway_online_submission,FORMAT(lr.submission_date_to_DyCFO,'dd-MM-yyyy') AS railway_submission_date_to_DyCFO,\r\n" + 
@@ -1626,18 +1626,18 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 										"FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'dd-MM-yyyy') AS railway_submission_date_to_revenue_secretary_mantralaya, \r\n" + 
 										"FORMAT(lr.submission_date_to_regional_office_nagpur,'dd-MM-yyyy') AS railway_submission_date_to_regional_office_nagpur, \r\n" + 
 										"FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'dd-MM-yyyy') AS railway_date_of_approval_by_Rregional_Office_agpur,\r\n" + 
-										"FORMAT(cast(lr.valuation_by_DyCFO as date) ,'dd-MM-yyyy') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, \r\n" + 
+										"FORMAT(cast(lr.valuation_by_DyCFO as date) ,'dd-MM-yyyy') AS railway_valuation_by_DyCFO, lr.demanded_amount as railway_demanded_amount, \r\n" + 
 										"FORMAT(cast(lr.approval_for_payment as date),'dd-MM-yyyy') AS railway_approval_for_payment, FORMAT(lr.payment_date,'dd-MM-yyyy') AS railway_payment_date,\r\n" + 
-										"cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'dd-MM-yyyy') AS railway_possession_date, \r\n" + 
+										"lr.payment_amount as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'dd-MM-yyyy') AS railway_possession_date, \r\n" + 
 										"lr.possession_status as railway_possession_status,  lpa.basic_rate_units,lpa.agriculture_tree_rate_units,lpa.forest_tree_rate_units, lpa.name_of_the_owner, \r\n" + 
 										"lpa.basic_rate, lpa.agriculture_tree_nos, lpa.agriculture_tree_rate, lpa.forest_tree_nos,lpa.forest_tree_rate,FORMAT(lpa.consent_from_owner,'dd-MM-yyyy') AS consent_from_owner,\r\n" + 
 										"FORMAT(lpa.legal_search_report,'dd-MM-yyyy') AS legal_search_report, FORMAT(lpa.date_of_registration,'dd-MM-yyyy') AS date_of_registration,\r\n" + 
 										"FORMAT(lpa.date_of_possession,'dd-MM-yyyy') AS date_of_possession, lpa.possession_status_fk as private_possession_status_fk, \r\n" + 
-										"cast(lpa.hundred_percent_Solatium as CHAR) as hundred_percent_Solatium,cast(lpa.extra_25_percent as CHAR) as extra_25_percent, \r\n" + 
-										"cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation, \r\n" + 
-										"cast(lpa.agriculture_tree_compensation as CHAR) as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,\r\n" + 
-										"cast(lpa.structure_compensation as CHAR) as structure_compensation,cast(lpa.borewell_compensation as CHAR) as borewell_compensation,\r\n" + 
-										"cast(lpa.total_compensation as CHAR) as total_compensation,lpv.payment_amount_units,FORMAT(lpv.forest_tree_survey ,'dd-MM-yyyy') AS forest_tree_survey,\r\n" + 
+										"lpa.hundred_percent_Solatium as hundred_percent_Solatium,lpa.extra_25_percent as extra_25_percent, \r\n" + 
+										"lpa.total_rate_divide_m2 as total_rate_divide_m2,lpa.land_compensation as land_compensation, \r\n" + 
+										"lpa.agriculture_tree_compensation as agriculture_tree_compensation,lpa.forest_tree_compensation as forest_tree_compensation,\r\n" + 
+										"lpa.structure_compensation as structure_compensation,lpa.borewell_compensation as borewell_compensation,\r\n" + 
+										"lpa.total_compensation as total_compensation,lpv.payment_amount_units,FORMAT(lpv.forest_tree_survey ,'dd-MM-yyyy') AS forest_tree_survey,\r\n" + 
 										"FORMAT(lpv.forest_tree_valuation ,'dd-MM-yyyy') AS forest_tree_valuation, lpv.forest_tree_valuation_status_fk,\r\n" + 
 										"FORMAT(lpv.horticulture_tree_survey ,'dd-MM-yyyy') AS horticulture_tree_survey,FORMAT(lpv.horticulture_tree_valuation ,'dd-MM-yyyy') AS horticulture_tree_valuation,\r\n" + 
 										"FORMAT(lpv.structure_survey ,'dd-MM-yyyy') AS structure_survey,FORMAT(lpv.structure_valuation ,'dd-MM-yyyy') AS structure_valuation,\r\n" + 
@@ -1645,7 +1645,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 										"lpv.structure_valuation_status_fk, lpv.borewell_valuation_status_fk, lpv.rfp_to_adtp_status_fk, \r\n" + 
 										"FORMAT(lpv.date_of_rfp_to_adtp ,'dd-MM-yyyy') AS date_of_rfp_to_adtp,FORMAT(lpv.date_of_rate_fixation_of_land ,'dd-MM-yyyy') AS date_of_rate_fixation_of_land,\r\n" + 
 										"FORMAT(lpv.sdo_demand_for_payment ,'dd-MM-yyyy') AS sdo_demand_for_payment,FORMAT(lpv.date_of_approval_for_payment ,'dd-MM-yyyy') AS date_of_approval_for_payment, \r\n" + 
-										"cast(lpv.payment_amount as CHAR) as payment_amount, FORMAT(lpv.payment_date ,'dd-MM-yyyy') AS private_payment_date   ,ira.collector as private_ira_collector, \r\n" + 
+										"lpv.payment_amount as payment_amount, FORMAT(lpv.payment_date ,'dd-MM-yyyy') AS private_payment_date   ,ira.collector as private_ira_collector, \r\n" + 
 										"FORMAT(submission_of_proposal_to_GM ,'dd-MM-yyyy') AS submission_of_proposal_to_GM,FORMAT(approval_of_GM ,'dd-MM-yyyy') AS  approval_of_GM,\r\n" + 
 										"FORMAT(draft_letter_to_con_for_approval_rp ,'dd-MM-yyyy') AS draft_letter_to_con_for_approval_rp,\r\n" + 
 										"FORMAT(date_of_approval_of_construction_rp ,'dd-MM-yyyy') AS  date_of_approval_of_construction_rp,\r\n" + 
@@ -2502,7 +2502,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String qry = "select la_id_fk,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,FORMAT(lr.online_submission,'dd-MM-yyyy') AS railway_online_submission," + 
 					"FORMAT(lr.submission_date_to_DyCFO,'dd-MM-yyyy') AS railway_submission_date_to_DyCFO, FORMAT(lr.submission_date_to_CCF_Thane,'dd-MM-yyyy') AS railway_submission_date_to_CCF_Thane, FORMAT(lr.[submission_date_to_nodal_officer/CCF Nagpur],'dd-MM-yyyy') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, " + 
 					" FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'dd-MM-yyyy') AS railway_submission_date_to_revenue_secretary_mantralaya, FORMAT(lr.submission_date_to_regional_office_nagpur,'dd-MM-yyyy') AS railway_submission_date_to_regional_office_nagpur, FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'dd-MM-yyyy') AS railway_date_of_approval_by_Rregional_Office_agpur," + 
-					"FORMAT(cast(lr.valuation_by_DyCFO as date) ,'dd-MM-yyyy') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, FORMAT(cast(lr.approval_for_payment as date),'dd-MM-yyyy') AS railway_approval_for_payment, FORMAT(lr.payment_date,'dd-MM-yyyy') AS railway_payment_date,cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'dd-MM-yyyy') AS railway_possession_date, lr.possession_status as railway_possession_status" + 
+					"FORMAT(cast(lr.valuation_by_DyCFO as date) ,'dd-MM-yyyy') AS railway_valuation_by_DyCFO, lr.demanded_amount as railway_demanded_amount, FORMAT(cast(lr.approval_for_payment as date),'dd-MM-yyyy') AS railway_approval_for_payment, FORMAT(lr.payment_date,'dd-MM-yyyy') AS railway_payment_date,lr.payment_amount as railway_payment_amount, lr.payment_status as railway_payment_status, FORMAT(lr.possession_date,'dd-MM-yyyy') AS railway_possession_date, lr.possession_status as railway_possession_status" + 
 					" from la_railway_land_acquisition lr " + 
 					"left join la_land_identification li on lr.la_id_fk = li.la_id  " + 
 					"where la_id_fk = ? ";

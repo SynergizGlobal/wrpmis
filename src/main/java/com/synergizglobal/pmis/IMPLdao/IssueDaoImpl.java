@@ -310,12 +310,12 @@ public class IssueDaoImpl implements IssueDao {
 			
 			if (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk "
+				qry = "select distinct work_id as work_id_fk ,work_name,work_short_name "
 						+ "from contract c "
 						+ "LEFT JOIN work w ON work_id_fk = w.work_id "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
 			} else {
-				qry = "SELECT work_id as work_id_fk ,work_name,work_short_name,project_id_fk "
+				qry = "SELECT distinct work_id as work_id_fk ,work_name,work_short_name "
 						+ "FROM contract c "
 						+ "LEFT JOIN work w ON work_id_fk = w.work_id "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";

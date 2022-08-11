@@ -153,7 +153,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY la_sub_category";
+			qry = qry + " GROUP BY la_sub_category_fk,la_sub_category";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -204,7 +204,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY la.work_id_fk";
+			qry = qry + " GROUP BY la.work_id_fk,w.work_short_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			

@@ -2548,7 +2548,7 @@ public class LandAcquisitionController {
 						
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getAgriculture_tree_nos());
+						cell1.setCellValue(String.valueOf(obj.getAgriculture_tree_nos()));
 
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
@@ -2560,7 +2560,7 @@ public class LandAcquisitionController {
 
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getForest_tree_nos());
+						cell1.setCellValue(String.valueOf(obj.getForest_tree_nos()));
 						
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);

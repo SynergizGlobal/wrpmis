@@ -978,7 +978,6 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			}			
 			
 			
-			qry = qry + " order by work_id asc";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -1021,7 +1020,6 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			}			
 			
 			
-			qry = qry + " order by work_id asc";
 			
 			Object[] pValues = new Object[arrSize];
 			

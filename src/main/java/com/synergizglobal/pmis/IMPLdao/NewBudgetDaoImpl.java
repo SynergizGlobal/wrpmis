@@ -111,7 +111,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 			budget = (Budget)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Budget>(Budget.class));	
 			if(!StringUtils.isEmpty(budget) && !StringUtils.isEmpty(budget.getBudget_id())) {
 				List<Budget> objsList = null;
-				String qryDetails = "select new_budget_id as budget_id,FORMAT(CONCAT(b.financial_year_fk,'-00'),'%Y-%m') AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate,"+
+				String qryDetails = "select new_budget_id as budget_id,b.financial_year_fk AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate,"+
 						"cast(new_budget_grant as CHAR) as budget_grant, cast(revised_grant as CHAR) as revised_grant, cast(final_grant as CHAR) as final_grant "
 						+ "from new_budget b " 
 						+" where contract_id_fk = ?  ORDER BY financial_year_fk DESC";
@@ -384,7 +384,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 	public List<Budget> getNewBudgetWorksList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name from new_budget b " + 
+			String qry = "SELECT distinct work_id_fk,w.work_name,w.work_short_name from new_budget b " + 
 					"LEFT JOIN contract c on c.contract_id = b.contract_id_fk "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
@@ -507,7 +507,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 	public List<Budget> getNewBudgetExportList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="SELECT new_budget_id as budget_id,c.contract_id,work_id_fk,w.work_name,p.project_id,p.project_name,FORMAT(CONCAT(b.financial_year_fk,'-00'),'%Y-%m') AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate,cast(new_budget_grant as CHAR) as budget_grant, " 
+			String qry ="SELECT new_budget_id as budget_id,c.contract_id,work_id_fk,w.work_name,p.project_id,p.project_name,b.financial_year_fk AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate,cast(new_budget_grant as CHAR) as budget_grant, " 
 					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " 
 					+ " from new_budget b "+ 
 					"LEFT JOIN contract c on c.contract_id = b.contract_id_fk "+

@@ -111,8 +111,8 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 			budget = (Budget)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Budget>(Budget.class));	
 			if(!StringUtils.isEmpty(budget) && !StringUtils.isEmpty(budget.getBudget_id())) {
 				List<Budget> objsList = null;
-				String qryDetails = "select new_budget_id as budget_id,b.financial_year_fk AS financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate,"+
-						"cast(new_budget_grant as CHAR) as budget_grant, cast(revised_grant as CHAR) as revised_grant, cast(final_grant as CHAR) as final_grant "
+				String qryDetails = "select new_budget_id as budget_id,b.financial_year_fk AS financial_year_fk,new_budget_estimate as budget_estimate, revised_estimate as revised_estimate, final_estimate,"+
+						"new_budget_grant as budget_grant, revised_grant, final_grant "
 						+ "from new_budget b " 
 						+" where contract_id_fk = ?  ORDER BY financial_year_fk DESC";
 				

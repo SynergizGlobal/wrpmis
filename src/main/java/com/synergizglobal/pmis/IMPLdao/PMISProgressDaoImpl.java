@@ -113,7 +113,7 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 				arrSize++;
 			}
 			
-			qry = qry + "GROUP BY milestone_fk ";
+			qry = qry + "GROUP BY milestone_fk,milestone_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -200,7 +200,7 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 	public List<StripChart> getContractsFilterList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT psc.contract_id_fk,c.contract_short_name from pmis_strip_chart  psc " + 
+			String qry = "SELECT distinct psc.contract_id_fk,c.contract_short_name from pmis_strip_chart  psc " + 
 					"LEFT JOIN contract c on psc.contract_id_fk = contract_id  "
 					+"LEFT JOIN work w  on c.work_id_fk = w.work_id  " + 
 					"LEFT JOIN project p  on w.project_id_fk = p.project_id " + 
@@ -223,7 +223,7 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 				arrSize++;
 			}
 			
-			qry = qry + "GROUP BY psc.contract_id_fk ";
+			qry = qry + "GROUP BY psc.contract_id_fk,contract_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -249,7 +249,7 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 	public List<StripChart> getProjectsFilterList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT project_id as project_id_fk,p.project_name from pmis_strip_chart  psc " + 
+			String qry = "SELECT distinct project_id as project_id_fk,p.project_name from pmis_strip_chart  psc " + 
 					"LEFT JOIN contract c on psc.contract_id_fk = contract_id  "
 					+"LEFT JOIN work w  on c.work_id_fk = w.work_id  " + 
 					"LEFT JOIN project p  on w.project_id_fk = p.project_id " + 
@@ -272,7 +272,7 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 				arrSize++;
 			}
 			
-			qry = qry + "GROUP BY project_id ";
+			qry = qry + "GROUP BY project_id,project_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -298,7 +298,7 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 	public List<StripChart> getWorksFilterList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT c.work_id_fk,w.work_short_name from pmis_strip_chart  psc " + 
+			String qry = "SELECT distinct c.work_id_fk,w.work_short_name from pmis_strip_chart  psc " + 
 					"LEFT JOIN contract c on psc.contract_id_fk = contract_id  "
 					+"LEFT JOIN work w  on c.work_id_fk = w.work_id  " + 
 					"LEFT JOIN project p  on w.project_id_fk = p.project_id " + 
@@ -321,7 +321,7 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 				arrSize++;
 			}
 			
-			qry = qry + "GROUP BY work_id_fk ";
+			qry = qry + "GROUP BY work_id_fk,work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {

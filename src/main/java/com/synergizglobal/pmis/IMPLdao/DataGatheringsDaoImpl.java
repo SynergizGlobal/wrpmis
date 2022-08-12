@@ -136,7 +136,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 	public List<DataGathering> getDataGatherigsProjectsList(DataGathering obj) throws Exception {
 		List<DataGathering> objsList = null;
 		try {
-			String qry = "SELECT project_id as project_id_fk,project_name "
+			String qry = "SELECT distinct project_id as project_id_fk,project_name "
 					+ "from data_gathering dg "
 					+ "LEFT JOIN contract c on dg.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id  "
@@ -159,7 +159,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + " GROUP BY project_id_fk ";
+			qry = qry + " GROUP BY project_id,project_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -349,7 +349,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + " GROUP BY work_id_fk ";
+			qry = qry + " GROUP BY work_id,work_name,work_short_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -375,7 +375,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 	public List<DataGathering> getDataGatherigsContractsList(DataGathering obj) throws Exception {
 		List<DataGathering> objsList = null;
 		try {
-			String qry = "SELECT contract_id_fk,contract_name,contract_short_name from data_gathering dg "
+			String qry = "SELECT distinct contract_id_fk,contract_name,contract_short_name from data_gathering dg "
 					+ "LEFT JOIN contract c on dg.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id  "
 					+ "LEFT JOIN project p on p.project_id = w.project_id_fk "
@@ -398,7 +398,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + " GROUP BY contract_id_fk ";
+			qry = qry + " GROUP BY contract_id_fk ,contract_name,contract_short_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {

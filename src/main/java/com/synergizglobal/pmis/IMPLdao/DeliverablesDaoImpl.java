@@ -150,7 +150,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public List<Deliverables> getDeliverablesProjectsList(Deliverables obj) throws Exception {
 		List<Deliverables> objsList = null;
 		try {
-			String qry = "SELECT project_id_fk,p.project_name from deliverables d"
+			String qry = "SELECT distinct project_id_fk, p.project_name from deliverables d"
 					+ "LEFT JOIN project p on project_id_fk = p.project_id "
 					+ "where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
@@ -170,7 +170,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				qry = qry + " and project_id_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + " GROUP BY project_id_fk ";
+			qry = qry + " GROUP BY project_id_fk,project_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -196,7 +196,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public List<Deliverables> getDeliverablesWorksList(Deliverables obj) throws Exception {
 		List<Deliverables> objsList = null;
 		try {
-			String qry = "SELECT work_id_fk,w.work_short_name from deliverables d "
+			String qry = "SELECT distinct work_id_fk,w.work_short_name from deliverables d "
 					+ "LEFT JOIN work w on d.work_id_fk = w.work_id "
 					+ " where work_id_fk is not null and work_id_fk <> '' ";
 			int arrSize = 0;
@@ -216,7 +216,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + " GROUP BY work_id_fk ";
+			qry = qry + " GROUP BY work_id_fk,work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -242,7 +242,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public List<Deliverables> getDeliverablesContarctsList(Deliverables obj) throws Exception {
 		List<Deliverables> objsList = null;
 		try {
-			String qry = "SELECT contract_id_fk,c.contract_short_name from deliverables d "
+			String qry = "SELECT distinct contract_id_fk,c.contract_short_name from deliverables d "
 					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
 					+ " where contract_id_fk is not null and contract_id_fk <> '' ";
 			int arrSize = 0;
@@ -262,7 +262,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY contract_id_fk ";
+			qry = qry + " GROUP BY contract_id_fk,contract_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

@@ -730,7 +730,7 @@ public class WorkDaoImpl implements WorkDao {
 				
 				/********************************************************************************/
 				
-				String qryUsers ="SELECT incharge_user_id_fk as user_id FROM module where module_name = Works ";
+				String qryUsers ="SELECT incharge_user_id_fk as user_id FROM module where module_name = 'Works' ";
 				List<String> users = jdbcTemplate.queryForList( qryUsers, String.class);	
 				if(!StringUtils.isEmpty(users) && users.size() > 0) {
 					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);

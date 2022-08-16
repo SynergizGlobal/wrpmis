@@ -149,10 +149,10 @@
 											class="fa fa-plus-circle"></i> Add</strong></a>
 										<a href="javascript:void(0);" onclick="exportFortnight();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i>Execution Export</strong></a>
+											class="fa fa-cloud-download"></i> Execution Export</strong></a>
 										<a href="javascript:void(0);" onclick="uploadFortnight();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-upload"></i>Execution Upload</strong></a>											
+											class="fa fa-cloud-upload"></i> Execution Upload</strong></a>											
     								</div>
     							</div>								
 							</div>

@@ -34,4 +34,6 @@ public interface FortnightPlanService {
 	public List<FortnightPlan> getContractListFilter(FortnightPlan obj) throws Exception;
 	List<FortnightPlan> getFortnightPlanModuleCategoryList() throws Exception;
 
+	boolean refreshExecutionActivities(String UserId) throws Exception;
+
 } 

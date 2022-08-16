@@ -38,5 +38,7 @@ public interface FortnightPlanDao {
 	List<FortnightPlan> getFortnightPlanManual(FortnightPlan obj) throws Exception;
 
 	List<FortnightPlan> getFortnightPlanModuleCategoryList() throws Exception;
+
+	boolean refreshExecutionActivities(String userId) throws Exception;
 }
  

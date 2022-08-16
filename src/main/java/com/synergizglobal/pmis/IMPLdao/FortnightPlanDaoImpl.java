@@ -809,6 +809,26 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		return objsList;
 	}
 
+	@Override
+	public boolean refreshExecutionActivities(String userId) throws Exception {
+		Connection connection = null;
+		java.sql.CallableStatement statement = null;
+		ResultSet resultSet = null;
+		try{
+				connection = dataSource.getConnection();	
+				String qry1 = "exec [dbo].[fortnight] ?";			
+				statement = connection.prepareCall(qry1);
+				statement.setString(1, userId);
+				boolean hadResults = statement.execute();
+				return true;
+
+		}catch(Exception e){ 
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return false;	
+	}
+
 	
 
 }

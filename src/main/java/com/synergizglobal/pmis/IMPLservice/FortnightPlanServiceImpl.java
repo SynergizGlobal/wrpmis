@@ -23,6 +23,11 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	public List<FortnightPlan> getFortnightPlanCategoryList() throws Exception {
 		return fortnightPlanDao.getFortnightPlanCategoryList();
 	}
+	
+	@Override
+	public boolean refreshExecutionActivities(String UserId) throws Exception {
+		return fortnightPlanDao.refreshExecutionActivities(UserId);
+	}		
 
 	@Override
 	public List<FortnightPlan> getFortnightPlanModuleCategoryList() throws Exception {

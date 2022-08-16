@@ -134,9 +134,15 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<!-- <h6 class="hide-on-med-and-down">Update Budget</h6> -->
 								<h6 class="mob-mar">Fortnightly Plan</h6>
-								<div class="col s12 m12 right-align exportButton">
+								<div class="col s12 m2">
+    								<div class="m-n1">
+    									<a href="<%=request.getContextPath()%>/refresh-execution-activities"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-refresh"></i> Refresh Execution Activities</strong></a>
+    								</div>
+    							</div>								
+								<div class="col s12 m10 right-align exportButton">
     								<div class="m-n1">
     									<a href="<%=request.getContextPath()%>/add-fortnightly-plan"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -146,7 +152,7 @@
 											class="fa fa-cloud-download"></i>Execution Export</strong></a>
 										<a href="javascript:void(0);" onclick="uploadFortnight();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i>Execution Upload</strong></a>											
+											class="fa fa-cloud-upload"></i>Execution Upload</strong></a>											
     								</div>
     							</div>								
 							</div>

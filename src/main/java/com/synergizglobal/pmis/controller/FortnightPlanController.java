@@ -159,6 +159,25 @@ public class FortnightPlanController {
 			logger.error("getWorksListFilter : " + e.getMessage());
 		}
 		return fortnight;
+	}
+	
+	@RequestMapping(value = "/refresh-execution-activities", method = {RequestMethod.GET})
+	public ModelAndView refreshExecutionActivities(RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView("redirect:/");
+		try {
+			User uObj = (User) session.getAttribute("user");
+			boolean flag = FortnightPlanService.refreshExecutionActivities(uObj.getUser_id());
+			logger.error("refreshExecutionActivities() : "+flag);
+			if(flag) {
+				attributes.addFlashAttribute("procedureResult", "Refreshed Execution Activities successfully");
+			}else {
+				attributes.addFlashAttribute("procedureResult", "Procedure not executed");
+			}
+		} catch (Exception e) {
+			attributes.addFlashAttribute("procedureResult", "Oops! Something went wrong");
+			logger.error("refreshExecutionActivities() : "+e.getMessage());
+		}
+		return model;
 	}	
 	
 	

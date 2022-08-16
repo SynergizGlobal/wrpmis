@@ -233,6 +233,7 @@
     
 	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="budget_id" id="budget_id" />
+    	<input type="hidden" name="contract_id_fk" id="contract_id_fk" />
     </form>
     
      <form action="<%=request.getContextPath() %>/export-new-budget" name="exportBudgetForm" id="exportBudgetForm" target="_blank" method="post">	
@@ -477,7 +478,7 @@
     		            } }, */ 
     		         	{ "mData": function(data,type,row){
     		         		var budget_id = "'"+data.budget_id+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+    	                    var actions = '<a href="javascript:void(0);"  onclick=getBudget('+budget_id+',"'+data.contract_id+'"); class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
     		            	return actions;
     		            } }
     		            
@@ -547,7 +548,7 @@
 			if(data != null && data != '' && data.length > 0){    					
          		$.each(data,function(key,val){
          			var budget_id = "'"+val.budget_id+"'";
-                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+                    var actions = '<a href="javascript:void(0);"  onclick=getBudget('+budget_id+',"'+val.contract_id+'"); class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
 /*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
  */                   	var rowArray = [];    	                 
                    	
@@ -672,8 +673,9 @@
         }
     } 
     
-    function getBudget(budget_id){
+    function getBudget(budget_id,contract_id){
     	$("#budget_id").val(budget_id);
+    	$("#contract_id").val(contract_id);
     	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-new-budget');
     	$('#getForm').submit();
     }

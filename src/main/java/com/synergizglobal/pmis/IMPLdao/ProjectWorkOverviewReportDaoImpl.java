@@ -261,7 +261,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 				qry = qry + " and c.work_id = ?";
 				arrSize++;
 			}
-			qry=qry+" group by contract_id ORDER BY case when c.department='Engineering' then 1\r\n" + 
+			qry=qry+" ORDER BY case when c.department='Engineering' then 1\r\n" + 
 					"when c.department='Electrical' then 2 when c.department='Signalling & Telecom' then 3  end asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

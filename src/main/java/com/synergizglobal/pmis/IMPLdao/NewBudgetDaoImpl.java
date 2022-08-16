@@ -97,16 +97,16 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 			String qry = "select new_budget_id as budget_id, work_id_fk,b.contract_id_fk as contract_id,w.work_name,p.project_name,w.work_short_name,w.project_id_fk from new_budget b " + 
 					"LEFT JOIN contract c on c.contract_id = b.contract_id_fk "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id "+ 
-					"left join project p on w.project_id_fk = p.project_id where new_budget_id is not null" ; 
+					"left join project p on w.project_id_fk = p.project_id where new_budget_id is not null " ; 
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBudget_id())) {
-				qry = qry + " and new_budget_id = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBudget_id())) {
-				pValues[i++] = obj.getBudget_id();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
 			}
 			budget = (Budget)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Budget>(Budget.class));	
 			if(!StringUtils.isEmpty(budget) && !StringUtils.isEmpty(budget.getBudget_id())) {
@@ -697,8 +697,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 	public List<Budget> getNewBudgetList(Budget obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="select new_budget_id as budget_id,work_id_fk,w.work_name,w.work_short_name,c.contract_id,c.contract_short_name as contract_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(new_budget_estimate as CHAR) as budget_estimate,cast(new_budget_grant as CHAR) as budget_grant, " 
-					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " 
+			String qry ="select distinct work_id_fk,w.work_name,w.work_short_name,c.contract_id,c.contract_short_name as contract_name,p.project_id,p.project_name " 
 					+ " from new_budget b "+
 					"LEFT JOIN contract c on c.contract_id = b.contract_id_fk "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -734,7 +733,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
 				qry = qry + " GROUP BY contract_id_fk,new_budget_id,work_id_fk,work_name,work_short_name,contract_id,contract_short_name,project_id,project_name,new_budget_estimate,new_budget_grant,revised_estimate,revised_grant,final_estimate,final_grant\r\n" + 
-						" ORDER BY new_budget_id ASC offset ? rows  fetch next ? rows only";
+						" ORDER BY work_id_fk ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}

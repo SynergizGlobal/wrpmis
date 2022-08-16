@@ -18,9 +18,13 @@
 	     	} */
 	.nav-wrapper{z-index: 1000;padding-left: 0;}
 	nav .menu-active, nav .menu-active.blue {
-		background-color: #f56661 !important;
-		box-shadow: 0 0 5px #bababa inset;
+		/* background-color: #f56661 !important; */
+		background: rgb(101, 150, 255, .75) !important;
+		/* box-shadow: 0 0 5px #bababa inset */;
 		transition: all 1s ease-in;
+	}
+	.blue.lighten-1, .blue.darken-3, .blue.darken-2, .blue, .blue.darken-1{
+		background: #000063 !important;
 	}
 	li.item.row {
 	    margin-bottom: 0;

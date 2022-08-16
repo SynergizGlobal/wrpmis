@@ -451,7 +451,7 @@
             margin: 0;
             font-family: 'Open Sans', sans-serif;
             /* background: black url("/pmis/resources/images/login-background.jpg") no-repeat center center; */
-            background: #6596ff;
+            /* background: #6596ff; */
             background-size: cover;
             background-repeat-y: repeat;
             
@@ -664,7 +664,450 @@
             } */
         
         /* 2nd demo end */
-        
+        /* 3rd demo start */
+        main {
+	 /* position: relative;
+	 height: 95vh;
+	 z-index: -10;
+	 background: linear-gradient(to top, rgba(27, 29, 29, 1), rgba(255, 255, 255, .75)); */
+	 position: absolute;
+    height: 100%;
+    z-index: 0;
+    /* background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75)); */
+    width: 100%;
+    bottom: 2em;
+}
+ body {
+	 background-color: rgba(37, 38, 39, 1);
+}
+.gr-bg{
+	background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
+	position: absolute;
+    height: 90%;
+    width: 100%;
+}
+
+ .crane__list, .skyscrappers__list, .tree__container {
+	 position: absolute;
+	 width: 100%;
+	 bottom: 0;
+}
+ .advice {
+	 display: flex;
+	 height: 50vh;
+	 width: 100vw;
+	 flex-flow: column nowrap;
+	 justify-content: center;
+	 align-items: center;
+}
+ .advice__title {
+	 font-size: 3rem;
+	 text-align: center;
+}
+ .advice__description {
+	 margin-top: 1rem;
+	 font-size: 2rem;
+	 text-align: center;
+}
+ .advice__description span:first-child {
+	 margin-right: -0.7rem;
+}
+ .advice__description span:last-child {
+	 margin-left: -0.7rem;
+}
+ .city-stuff {
+	 display: flex;
+	 position: absolute;
+	 justify-content: center;
+	 width: 100%;
+	 height: 100%;
+	 bottom: -2em;
+	 overflow: hidden;
+	 box-shadow: inset 0 -60px 0 -30px rgba(75, 175, 172, 1);
+}
+ .skyscrappers__list {
+	 width: 100%;
+	 height: 86.6666666667px;
+	 left: 0;
+}
+ .skyscrappers__list .skyscrapper__item {
+	 position: absolute;
+	 height: inherit;
+	 bottom: 15%;
+	 width: 43.3333333333px;
+	 background: linear-gradient(115deg, rgba(75, 175, 172, 1) 73%, rgba(60, 139, 137, 1) 73%, rgba(60, 139, 137, 1) 100%);
+}
+ .skyscrappers__list .skyscrapper__item:after {
+	 content: "";
+	 position: absolute;
+	 width: 80%;
+	 height: 80%;
+	 left: 10%;
+	 bottom: 10%;
+	 background: url("/pmis/resources/images/sky-list.png");
+}
+ .skyscrappers__list .skyscrapper__item:last-child:not(:only-child) {
+	 background: rgba(75, 175, 172, 1);
+}
+ .skyscrappers__list .skyscrapper-1 {
+	 width: 121.3333333333px;
+	 height: 138.6666666667px;
+	 right: 25%;
+	 bottom: 0;
+	 z-index: 10;
+	 transform: rotate(180deg);
+}
+ @media screen and (max-width: 450px) {
+	 .skyscrappers__list .skyscrapper-1 {
+		 display: none;
+	}
+}
+ .skyscrappers__list .skyscrapper-2 {
+	 width: 60.6666666667px;
+	 height: 69.3333333333px;
+	 right: 35%;
+	 bottom: 0;
+	 z-index: 10;
+	 transform: rotate(180deg);
+	 bottom: 10%;
+}
+ @media screen and (max-width: 900px) {
+	 .skyscrappers__list .skyscrapper-2 {
+		 display: none;
+	}
+}
+ @media screen and (max-width: 450px) {
+	 .skyscrappers__list .skyscrapper-1 {
+		 display: none;
+	}
+}
+ .skyscrappers__list .skyscrapper-3 {
+	 width: 40.4444444444px;
+	 height: 46.2222222222px;
+	 right: 45%;
+	 bottom: 0;
+	 z-index: 10;
+	 transform: rotate(180deg);
+	 height: 115.5555555556px;
+}
+ @media screen and (max-width: 900px) {
+	 .skyscrappers__list .skyscrapper-3 {
+		 display: none;
+	}
+}
+ @media screen and (max-width: 450px) {
+	 .skyscrappers__list .skyscrapper-1 {
+		 display: none;
+	}
+}
+ .skyscrappers__list .skyscrapper-4 {
+	 width: 30.3333333333px;
+	 height: 34.6666666667px;
+	 right: 55%;
+	 bottom: 0;
+	 z-index: 10;
+	 transform: rotate(180deg);
+	 height: 86.6666666667px;
+}
+ .skyscrappers__list .skyscrapper-4:after {
+	 width: 20%;
+	 height: 60%;
+	 left: 25%;
+}
+ @media screen and (max-width: 450px) {
+	 .skyscrappers__list .skyscrapper-1 {
+		 display: none;
+	}
+}
+ .skyscrappers__list .skyscrapper-5 {
+	 width: 24.2666666667px;
+	 height: 27.7333333333px;
+	 right: 65%;
+	 bottom: 0;
+	 z-index: 10;
+	 transform: rotate(180deg);
+	 width: 7%;
+	 right: 67%;
+	 height: 50%;
+	 z-index: 11;
+}
+ .skyscrappers__list .skyscrapper-5:after {
+	 height: 0;
+}
+ @media screen and (max-width: 450px) {
+	 .skyscrappers__list .skyscrapper-1 {
+		 display: none;
+	}
+}
+ .crane-cabin, .crane-arm, .crane-picker {
+	 transform-origin: 80% center;
+	 animation: crane__movement 12s infinite alternate;
+}
+ .crane__list {
+	 width: 260px;
+	 height: 173.3333333333px;
+	 z-index: 0;
+	 perspective: 600px;
+}
+ .crane__list .crane__item {
+	 position: absolute;
+	 border: solid 1px rgba(75, 175, 172, 1);
+	 border-radius: 2px;
+}
+ .crane__list .crane-cable {
+	 width: 1px;
+	 height: 1px;
+	 border: none;
+	 outline: 1px solid transparent;
+	 background: rgba(75, 175, 172, 1);
+	 z-index: 0;
+}
+ .crane__list .crane-cable-1 {
+	 width: 60%;
+	 top: 0;
+	 left: 11%;
+	 transform-origin: right 0;
+	 animation: cable-1__movement 12s infinite alternate;
+}
+ .crane__list .crane-cable-2 {
+	 width: 19%;
+	 top: 0;
+	 right: 8%;
+	 transform-origin: top left;
+	 animation: cable-2__movement 12s infinite alternate;
+}
+ .crane__list .crane-cable-3 {
+	 height: 30%;
+	 top: 22%;
+	 left: 9%;
+	 transform-origin: right center;
+	 animation: cable-3__movement 12s ease-in-out infinite alternate;
+}
+ .crane__list .crane-cable-3:after {
+	 content: "";
+	 display: block;
+	 position: absolute;
+	 height: 0.2em;
+	 width: 9000%;
+	 bottom: 0;
+	 left: -4500%;
+	 background: rgba(144, 208, 205, 1);
+	 border: 1px solid rgba(75, 175, 172, 1);
+}
+ .crane__list .crane-stand {
+	 width: 5%;
+	 height: 100%;
+	 right: 25%;
+	 z-index: 1;
+	 background: linear-gradient(to top, rgba(75, 175, 172, 1), rgba(191, 212, 211, 1));
+}
+ .crane__list .crane-weight {
+	 width: 8%;
+	 height: 20%;
+	 right: 4%;
+	 top: 12%;
+	 z-index: 2;
+	 background: rgba(169, 209, 207, 1);
+	 transform-origin: 0 center;
+	 animation: crane-weight__movement 12s infinite alternate;
+}
+ .crane__list .crane-cabin {
+	 width: 12%;
+	 height: 9%;
+	 right: 24%;
+	 top: 20%;
+	 z-index: 2;
+	 background: rgba(169, 209, 207, 1);
+}
+ .crane__list .crane-cabin:after {
+	 content: "";
+	 display: block;
+	 position: absolute;
+	 width: 100%;
+	 height: 10%;
+	 top: 60%;
+	 left: 0;
+	 background: rgba(255, 255, 255, 1);
+}
+ .crane__list .crane-arm {
+	 width: 100%;
+	 height: 7%;
+	 top: 15%;
+	 border-top-left-radius: 10px;
+	 z-index: 3;
+	 background: rgba(169, 209, 207, 1);
+}
+ .crane-1 {
+	 left: 20%;
+	 z-index: 10;
+}
+ .crane-2 {
+	 left: 30%;
+	 z-index: 10;
+	 bottom: -1rem;
+	 z-index: -1;
+	 transform: scale(0.75) scaleX(-1);
+}
+ @media screen and (max-width: 900px) {
+	 .crane-2 {
+		 display: none;
+	}
+}
+ .crane-2 .crane-cable-3 {
+	 animation-delay: 3s;
+}
+ .crane-3 {
+	 left: 40%;
+	 z-index: 10;
+	 bottom: -0.5rem;
+	 transform: scale(0.8);
+}
+ @media screen and (max-width: 900px) {
+	 .crane-3 {
+		 z-index: -1;
+		 transform: scale(0.75) scaleX(-1);
+	}
+}
+ @media screen and (max-width: 900px) {
+	 .crane-3 {
+		 display: none;
+	}
+}
+ .crane-3 .crane-cable-3 {
+	 animation-delay: 4.5s;
+}
+ .tree__container {
+	 width: 100%;
+	 height: 62.6666666667px;
+	 left: 0;
+	 margin-bottom: 4px;
+}
+ .tree__item {
+	 display: flex;
+	 flex-flow: column nowrap;
+	 position: absolute;
+	 justify-content: flex-end;
+	 align-items: center;
+	 left: 60%;
+}
+ .tree__trunk {
+	 order: 2;
+	 display: block;
+	 position: absolute;
+	 width: 4px;
+	 height: 8px;
+	 margin-top: 8px;
+	 border-radius: 2px;
+	 background: rgba(87, 71, 61, 1);
+}
+ .tree__leaves {
+	 order: 1;
+	 position: relative;
+	 border-top: 0 solid transparent;
+	 border-right: 4px solid transparent;
+	 border-bottom: 32px solid rgba(75, 175, 172, 1);
+	 border-left: 4px solid transparent;
+}
+ .tree__leaves:after {
+	 content: "";
+	 position: absolute;
+	 height: 100%;
+	 left: -4px;
+	 border-top: 0;
+	 border-right: 0;
+	 border-bottom: 32px solid rgba(60, 139, 137, 1);
+	 border-left: 4px solid transparent;
+}
+ .tree-1 {
+	 left: 66%;
+}
+ @media screen and (max-width: 768px) {
+	 .tree-1 {
+		 display: none;
+	}
+}
+ .tree-2 {
+	 left: 67%;
+}
+ @media screen and (max-width: 768px) {
+	 .tree-2 {
+		 display: none;
+	}
+}
+ .tree-4 {
+	 left: 57%;
+}
+ .tree-5 {
+	 left: 58%;
+}
+ .tree-7 {
+	 left: 51%;
+}
+ @media screen and (max-width: 450px) {
+	 .tree-7 {
+		 display: none;
+	}
+}
+ .tree-8 {
+	 left: 52%;
+}
+ @media screen and (max-width: 450px) {
+	 .tree-8 {
+		 display: none;
+	}
+}
+ @keyframes cable-1__movement {
+	 0%, 20% {
+		 transform: rotateY(0) rotateZ(-10deg);
+	}
+	 70%, 100% {
+		 transform: rotateY(45deg) rotateZ(-10deg);
+	}
+}
+ @keyframes cable-2__movement {
+	 0%, 20% {
+		 transform: rotateY(0) rotateZ(29deg);
+	}
+	 70%, 100% {
+		 transform: rotateY(15deg) rotateZ(29deg);
+	}
+}
+ @keyframes cable-3__movement {
+	 0% {
+		 transform: translate(0, 0);
+	}
+	 20% {
+		 transform: translate(2500%, -18%);
+	}
+	 60% {
+		 transform: translate(11000%, -25%);
+	}
+	 70% {
+		 height: 30%;
+		 transform: translate(9100%, -25%);
+	}
+	 90%, 100% {
+		 height: 80%;
+		 transform: translate(9100%, -15%);
+	}
+}
+ @keyframes crane__movement {
+	 0%, 20% {
+		 transform: rotateY(0);
+	}
+	 70%, 100% {
+		 transform: rotateY(45deg);
+	}
+}
+ @keyframes crane-weight__movement {
+	 0%, 20% {
+		 transform: rotateY(0) translateX(0);
+	}
+	 70%, 100% {
+		 transform: rotateY(45deg) translateX(-50%);
+	}
+}
+/* 3rd demo end */
        
     </style>
 </head>
@@ -680,81 +1123,158 @@
     <!-- li ends  -->
 
    <!-- <div class="bg" id="train"></div> -->
-   	<div class="container">
-        <div class="row">
-            <div class="col s12 m12 l12">
-            	<div class="row">
-            	<div class="col s1 m1 l1"></div>
-            		<div class="col s2 m1 l1">
-            		<div class="heading">
-            			<img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
-            		</div>
-            	</div>
-                <div class="col l8 m8 s7">
-                	<div class="heading color-change-2x">
-                    <center>
-                    
-                    <h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation Limited</h3></center>
-                </div>
-                </div>
-                <div class="col l1 m1 s1">
-                <div class="map-btn-holder">
-                        <a class="waves-effect waves-light btn modal-trigger" href="#mapmodal" title="click to see map">
-                            <!-- <span class="material-icons">map</span> -->
-                            <i class="fa fa-globe"></i>
-                        </a>
-                        <!-- Modal Structure -->
-                        <div id="mapmodal" class="modal">
-                            <div class="modal-content">
-                                <h4 class="modal-header">Map with MUTP 3A Corridors <span
-                                        class="right modal-action modal-close"><span
-                                            class="material-icons">close</span></span></h4>
-                                <img src="/pmis/resources/images/final_map.png" alt="Map Image" width="100%">
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-            	</div>
-                <div class="btn-menu">
-                    <%-- <ul>
-                    	<c:forEach var="project" items="${projects }">
-	                        <a href="javascript:getProjectOverview('${project.project_id }');"><li class="col s6 m4 l4">
-	                            
-	                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="130px" viewBox="0 0 1440 130" preserveAspectRatio="none" style="transform-origin: 50% 50%;position: absolute;height: 25px;left: 0; top: -23px;">
-	                               <path id="wave-bottom-white" fill="white" d="M0,56.050526 C121.352261,18.683509 262.172393,0 422.460394,0 C662.892396,0 818.88453,115.474324 1058.94661,115.474324 C1218.988,115.474324 1342.92081,94.808741 1440,56 L1440,130 L0,130 L0,56.050526 Z"/></svg>
-	                                    ${project.project_name }
-	                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="130px" viewBox="0 0 1440 130" preserveAspectRatio="none" style="transform-origin: 50% 50%; transform: scale(-1, -1);position: absolute;height: 23px; left: 0;top: 62px;">
-	                                            <path id="wave-bottom-white" fill="white" d="M0,56.050526 C121.352261,18.683509 262.172393,0 422.460394,0 C662.892396,0 818.88453,115.474324 1058.94661,115.474324 C1218.988,115.474324 1342.92081,94.808741 1440,56 L1440,130 L0,130 L0,56.050526 Z"/></svg>
-	                        </li></a>
-                        </c:forEach>
-                    </ul> --%>
-                    
-                    <%-- <ul class="">
-                    	<c:forEach var="project" items="${projects }">
-	                        <a href="javascript:getProjectOverview('${project.project_id }');">
-	                        	<li class="col s6 m4 l4 text-align-left">
-	                            	<button class="explore slide">${project.project_name }<span class="icon-right"></span></button>
-	                        </li></a>
-                        </c:forEach>
-                    </ul> --%>
-                    <div class="row">
-                    	<ul class="">
-                    	<c:forEach var="project" items="${projects }">
-	                        <a href="javascript:getProjectOverview('${project.project_id }');">
-	                        	<li class="col s6 m4 l4 text-align-left">
-	                            <div id="diamond">
-								    <div class="btn diamond">
-								         <span>${project.project_name }</span>
-								    </div>
-								</div>
-	                        </li></a>
-                        </c:forEach>
-                    </ul>
-                    </div>                    
-                </div>
-            </div>
-        </div>
-    </div>
+   	<div class="gr-bg">
+   	<main>
+  
+  <section class="city-stuff">
+    <ul class="skyscrappers__list">
+      <li class="skyscrapper__item skyscrapper-1"></li>
+      <li class="skyscrapper__item skyscrapper-2"></li>
+      <li class="skyscrapper__item skyscrapper-3"></li>
+      <li class="skyscrapper__item skyscrapper-4"></li>
+      <li class="skyscrapper__item skyscrapper-5"></li>
+    </ul>
+    <ul class="tree__container">
+      <li class="tree__list">
+        <ul class="tree__item tree-1">
+          <li class="tree__trunk"></li>
+          <li class="tree__leaves"></li>
+        </ul>
+        <ul class="tree__item tree-2">
+          <li class="tree__trunk"></li>
+          <li class="tree__leaves"></li>
+        </ul>
+        <ul class="tree__item tree-3">
+          <li class="tree__trunk"></li>
+          <li class="tree__leaves"></li>
+        </ul>  
+        <ul class="tree__item tree-4">
+          <li class="tree__trunk"></li>
+          <li class="tree__leaves"></li>
+        </ul>  
+        <ul class="tree__item tree-5">
+          <li class="tree__trunk"></li>
+          <li class="tree__leaves"></li>
+        </ul>  
+        <ul class="tree__item tree-6">
+          <li class="tree__trunk"></li>
+          <li class="tree__leaves"></li>
+        </ul>  
+        <ul class="tree__item tree-7">
+          <li class="tree__trunk"></li>
+          <li class="tree__leaves"></li>
+        </ul>  
+        <ul class="tree__item tree-8">
+          <li class="tree__trunk"></li>
+          <li class="tree__leaves"></li>
+        </ul>  
+      </li>
+    </ul>
+    <ul class="crane__list crane-1">
+      <li class="crane__item crane-cable crane-cable-1"></li>
+      <li class="crane__item crane-cable crane-cable-2"></li>
+      <li class="crane__item crane-cable crane-cable-3"></li>
+      <li class="crane__item crane-stand"></li>
+      <li class="crane__item crane-weight"></li>
+      <li class="crane__item crane-cabin"></li>
+      <li class="crane__item crane-arm"></li>
+    </ul>
+    <ul class="crane__list crane-2">
+      <li class="crane__item crane-cable crane-cable-1"></li>
+      <li class="crane__item crane-cable crane-cable-2"></li>
+      <li class="crane__item crane-cable crane-cable-3"></li>
+      <li class="crane__item crane-stand"></li>
+      <li class="crane__item crane-weight"></li>
+      <li class="crane__item crane-cabin"></li>
+      <li class="crane__item crane-arm"></li>
+    </ul>
+    <ul class="crane__list crane-3">
+      <li class="crane__item crane-cable crane-cable-1"></li>
+      <li class="crane__item crane-cable crane-cable-2"></li>
+      <li class="crane__item crane-cable crane-cable-3"></li>
+      <li class="crane__item crane-stand"></li>
+      <li class="crane__item crane-weight"></li>
+      <li class="crane__item crane-cabin"></li>
+      <li class="crane__item crane-arm"></li>
+    </ul>
+  </section>
+</main>
+   		<div class="container">
+	        <div class="row">
+	            <div class="col s12 m12 l12">
+	            	<div class="row">
+	            	<div class="col s1 m1 l1"></div>
+	            		<div class="col s2 m1 l1">
+	            		<div class="heading">
+	            			<img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
+	            		</div>
+	            	</div>
+	                <div class="col l8 m8 s7">
+	                	<div class="heading color-change-2x">
+	                    <center>
+	                    
+	                    <h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation Limited</h3></center>
+	                </div>
+	                </div>
+	                <div class="col l1 m1 s1">
+	                <div class="map-btn-holder">
+	                        <a class="waves-effect waves-light btn modal-trigger" href="#mapmodal" title="click to see map">
+	                            <!-- <span class="material-icons">map</span> -->
+	                            <i class="fa fa-globe"></i>
+	                        </a>
+	                        <!-- Modal Structure -->
+	                        <div id="mapmodal" class="modal">
+	                            <div class="modal-content">
+	                                <h4 class="modal-header">Map with MUTP 3A Corridors <span
+	                                        class="right modal-action modal-close"><span
+	                                            class="material-icons">close</span></span></h4>
+	                                <img src="/pmis/resources/images/final_map.png" alt="Map Image" width="100%">
+	                            </div>
+	                        </div>
+	                    </div>
+	                    </div>
+	            	</div>
+	                <div class="btn-menu">
+	                    <%-- <ul>
+	                    	<c:forEach var="project" items="${projects }">
+		                        <a href="javascript:getProjectOverview('${project.project_id }');"><li class="col s6 m4 l4">
+		                            
+		                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="130px" viewBox="0 0 1440 130" preserveAspectRatio="none" style="transform-origin: 50% 50%;position: absolute;height: 25px;left: 0; top: -23px;">
+		                               <path id="wave-bottom-white" fill="white" d="M0,56.050526 C121.352261,18.683509 262.172393,0 422.460394,0 C662.892396,0 818.88453,115.474324 1058.94661,115.474324 C1218.988,115.474324 1342.92081,94.808741 1440,56 L1440,130 L0,130 L0,56.050526 Z"/></svg>
+		                                    ${project.project_name }
+		                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="130px" viewBox="0 0 1440 130" preserveAspectRatio="none" style="transform-origin: 50% 50%; transform: scale(-1, -1);position: absolute;height: 23px; left: 0;top: 62px;">
+		                                            <path id="wave-bottom-white" fill="white" d="M0,56.050526 C121.352261,18.683509 262.172393,0 422.460394,0 C662.892396,0 818.88453,115.474324 1058.94661,115.474324 C1218.988,115.474324 1342.92081,94.808741 1440,56 L1440,130 L0,130 L0,56.050526 Z"/></svg>
+		                        </li></a>
+	                        </c:forEach>
+	                    </ul> --%>
+	                    
+	                    <%-- <ul class="">
+	                    	<c:forEach var="project" items="${projects }">
+		                        <a href="javascript:getProjectOverview('${project.project_id }');">
+		                        	<li class="col s6 m4 l4 text-align-left">
+		                            	<button class="explore slide">${project.project_name }<span class="icon-right"></span></button>
+		                        </li></a>
+	                        </c:forEach>
+	                    </ul> --%>
+	                    <div class="row">
+	                    	<ul class="">
+	                    	<c:forEach var="project" items="${projects }">
+		                        <a href="javascript:getProjectOverview('${project.project_id }');">
+		                        	<li class="col s6 m4 l4 text-align-left">
+		                            <div id="diamond">
+									    <div class="btn diamond">
+									         <span>${project.project_name }</span>
+									    </div>
+									</div>
+		                        </li></a>
+	                        </c:forEach>
+	                    </ul>
+	                    </div>                    
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+   	</div>
    
     
     <form action="<%=request.getContextPath()%>/project-overview" id="projectOverviewForm" method="post">

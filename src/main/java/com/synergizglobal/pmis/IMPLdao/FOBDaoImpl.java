@@ -1187,7 +1187,7 @@ public class FOBDaoImpl implements FOBDao {
 				qry = qry + " and  responsible_people_id_fk = ? ";
 				arrSize++;
 			}	
-			qry = qry + " GROUP BY work_id_fk,work_name,work_short_name ";
+			qry = qry + " GROUP BY c.work_id_fk,work_name,work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){

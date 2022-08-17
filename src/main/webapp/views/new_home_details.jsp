@@ -383,7 +383,8 @@
             margin: 0;
             font-family: 'Open Sans', sans-serif;
             /* background: black url("/pmis/resources/images/login-background.jpg") no-repeat center center; */
-            background: #6596ff;
+            background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
+            /* background: #6596ff; */
             background-size: cover;
             background-repeat-y: repeat;
         }

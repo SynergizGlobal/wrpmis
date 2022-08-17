@@ -672,7 +672,7 @@
 	 background: linear-gradient(to top, rgba(27, 29, 29, 1), rgba(255, 255, 255, .75)); */
 	 position: absolute;
     height: 100%;
-    z-index: 0;
+    z-index: 1;
     /* background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75)); */
     width: 100%;
     bottom: 2em;
@@ -682,11 +682,13 @@
 .btn-menu{
 	position:relative;
 	margin-top: -4em;
+	
 }
 @media(max-width: 1920px){
 .btn-menu{
 	position:relative;
 	margin-top: -1em;
+	z-index: 11;
 }
 }
 @media(max-width: 1560px){
@@ -1125,6 +1127,44 @@
 		 transform: rotateY(45deg) translateX(-50%);
 	}
 }
+.tran{
+	overflow: hidden !important;
+	position: absolute;
+    width: 100%;
+    bottom: 2.5em;
+}
+.trans{
+	width: 150px;
+}
+.slide-right {
+	-webkit-animation: slide-right 9s ease-in-out infinite alternate-reverse both;
+	        animation: slide-right 9s ease-in-out infinite alternate-reverse both;
+	        overflow: hidden;
+}
+@-webkit-keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(-1300px);
+            transform: translateX(-1300px);
+  }
+  100% {
+    -webkit-transform: translateX(1500px);
+            transform: translateX(1500px);
+  }
+}
+@keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(-1300px);
+            transform: translateX(-1300px);
+  }
+  100% {
+    -webkit-transform: translateX(1500px);
+            transform: translateX(1500px);
+  }
+}
+.line{
+	height: 1px;
+	background:#000;
+}
 /* 3rd demo end */
        
     </style>
@@ -1291,7 +1331,12 @@
 	            </div>
 	        </div>
 	    </div>
-   
+   <div class="tran">
+   	 <div class="row">
+   	 	<img src="/pmis/resources/images/train.png" alt="Logo" class="trans slide-right">
+   	 	<div class="line"></div>
+   	 </div>
+   </div>
     
     <form action="<%=request.getContextPath()%>/project-overview" id="projectOverviewForm" method="post">
     	<input type="hidden" id="project_id_overview" name="project_id">

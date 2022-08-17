@@ -44,12 +44,14 @@
 		.ui-accordion .ui-accordion-content{
 			padding: 0em 0em 0 2.2em;
 			height: auto !important;
+			background: transparent;
 		}
 		.ui-accordion-content p{
 			margin: 5px 0; 
 		}
 		.ui-accordion-content p a{
 			margin: 5px 0; 
+			background-color: #fff;
 		}
 		.ds-none{display:none !important;}
 		.non-active{background: #fff;color: #000 !important;}
@@ -67,6 +69,7 @@
 		
 		.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
 		   color:#000!important;
+		   bac
 		}
 
 		.main-menu-collapse{
@@ -158,6 +161,7 @@
 		 .timeline_body{
 		 	border:3px solid #4498d3dd;
 		 	border-radius:14px;
+		 	background-color: #fff;
 		 }
 		 .filterHolder{
 		 	max-width:100%;
@@ -170,6 +174,7 @@
 		 .filterHolder label{
 		 	margin-top:-.4rem;
 		 	display:block;
+		 	color: #000;
 		 }
 		 .clearHolder{
 		 	padding: .3rem .6rem;

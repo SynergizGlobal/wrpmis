@@ -476,6 +476,18 @@ public class LoginDaoImpl implements LoginDao{
 			throw new SQLException(e);
 		}
 		return count;
+	}
+
+	@Override
+	public String getUserNameByEmail(String email) throws Exception {
+		String username="";
+		try {
+			String qry = "select user_name from [user] where email_id=?";
+			username = (String) jdbcTemplate.queryForObject(qry, new Object[] { email }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return username;
 	}	
 
 }

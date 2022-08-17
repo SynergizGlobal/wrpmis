@@ -25,6 +25,7 @@ public interface LoginService {
 
 	public String resetPassword(User user) throws Exception;
 	public String getEmailbyUserId(String UserId) throws Exception;
+	public String getUserNameByEmail(String Email) throws Exception;
 
 	public int encryptUserPasswords() throws Exception;
 	

@@ -28,6 +28,8 @@ public interface LoginDao {
 	public int encryptUserPasswords() throws Exception;
 
 	public String getEmailbyUserId(String userId) throws Exception;
+
+	public String getUserNameByEmail(String email) throws Exception;
 }
 
 

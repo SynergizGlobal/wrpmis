@@ -223,6 +223,7 @@
 					              <input type="text" name="user_id" id="user_id">
 					              <label for="user_id">User Name</label>
 					            </div>
+					           	<div class="col offset-s1 s10" style="text-align:center;"><span style="color:#ffffff;">OR</span></div>
 					            <div class="input-field col offset-s1 s10">
 					              <input type="text" name="email_id" id="email_id" >
 					              <label for="email_id">Confirm Email</label>

@@ -467,7 +467,7 @@ public class LoginController {
 		String recipients=loginuser.getEmail_id();
 		if (!StringUtils.isEmpty(recipients)) {
 			EMailSender emailSender = new EMailSender();
-			emailSender.sendOTPEmail(recipients,OTP);
+			emailSender.sendOTPEmail(recipients,OTP,"");
 		}
 		return 1;
 	}
@@ -486,9 +486,11 @@ public class LoginController {
 			recipients=temp;
 		}
 		
+		String UserName = loginService.getUserNameByEmail(recipients);
+		
 		if (!StringUtils.isEmpty(recipients)) {
 			EMailSender emailSender = new EMailSender();
-			emailSender.sendOTPEmail(recipients,OTP);
+			emailSender.sendOTPEmail(recipients,OTP,UserName);
 		}
 		return 1;
 	}		

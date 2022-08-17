@@ -1386,7 +1386,7 @@ public class EMailSender {
 	}
 	
 	
-	public void sendOTPEmail(String recipient, int OTP) {
+	public void sendOTPEmail(String recipient, int OTP,String UserName) {
 		 try {
 			 // create a message
 			 MimeMessage message = new MimeMessage( getSession() );
@@ -1408,7 +1408,17 @@ public class EMailSender {
 			 }
 
 			 String subject = "Here's your One Time Password (OTP) - Expire in 5 minutes!";
-			 String content = "One Time Password to reset your password : "+ OTP +" Note: this OTP is set to expire in 5 minutes.";
+			 String content = "Dear "+UserName+",\r\n" + 
+			 		"\r\n" + 
+			 		"We recieved a request to reset password to your PMIS Account.\r\n" + 
+			 		"\r\n" + 
+			 		"The OTP to reset your password is "+OTP+".\r\n" + 
+			 		"\r\n" + 
+			 		"Please enter the OTP details within 5 mins in the PMIS webpage before the OTP expires and enter your new password details.\r\n" + 
+			 		"\r\n" + 
+			 		"Cheers,\r\n" + 
+			 		"\r\n" + 
+			 		"PMIS Team";
 		 
 			 
 			 message.setSubject(subject);

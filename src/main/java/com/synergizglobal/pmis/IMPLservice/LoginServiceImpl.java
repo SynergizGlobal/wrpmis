@@ -85,4 +85,10 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.getEmailbyUserId(UserId);
 	}
 	
+	@Override
+	public String getUserNameByEmail(String Email) throws Exception
+	{
+		return loginDao.getUserNameByEmail(Email);
+	}	
+	
 }

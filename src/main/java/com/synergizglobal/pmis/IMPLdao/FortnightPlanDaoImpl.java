@@ -820,13 +820,12 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				statement = connection.prepareCall(qry1);
 				statement.setString(1, userId);
 				boolean hadResults = statement.execute();
-				return true;
 
 		}catch(Exception e){ 
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
-		return false;	
+		return true;	
 	}
 
 	@Override

@@ -446,10 +446,10 @@ public class NewActivitiesUpdateController {
 				attributes.addFlashAttribute("success", "Acivities Deleted Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Delete Acivities are failed. Try again.");
+				attributes.addFlashAttribute("error","Deleting Acivities failed.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Delete Acivities are failed. Try again.");
+			attributes.addFlashAttribute("error","Deleting Acivities failed.");
 			logger.error("deleteActivitiesBulk : " + e.getMessage());
 		}
 		return model;

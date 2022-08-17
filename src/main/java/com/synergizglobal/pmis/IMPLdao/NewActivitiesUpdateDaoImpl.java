@@ -2144,8 +2144,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				statement = connection.prepareCall(qry1);
 				statement.setString(1, concat);
 				boolean hadResults = statement.execute();
-				
-				return true;
 
 				/*boolean hadResults = statement.execute();
 				if(hadResults)
@@ -2156,7 +2154,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
-		return false;				
+		return true;				
 	}	
 
 }

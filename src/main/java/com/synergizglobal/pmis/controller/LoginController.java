@@ -474,8 +474,18 @@ public class LoginController {
 	
 	@RequestMapping(value = "/ajax/sendOTPtomailforResetPassword", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public static int sendOTPtomailforResetPassword(int OTP,String Email) {
-		String recipients=Email;
+	public int sendOTPtomailforResetPassword(int OTP,String Email,String UserId) throws Exception {
+		String recipients="";
+		if (!StringUtils.isEmpty(Email)) 
+		{
+			recipients=Email;
+		}
+		else
+		{
+			String temp = loginService.getEmailbyUserId(UserId);
+			recipients=temp;
+		}
+		
 		if (!StringUtils.isEmpty(recipients)) {
 			EMailSender emailSender = new EMailSender();
 			emailSender.sendOTPEmail(recipients,OTP);

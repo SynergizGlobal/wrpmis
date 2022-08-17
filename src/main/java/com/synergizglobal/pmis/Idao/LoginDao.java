@@ -26,6 +26,8 @@ public interface LoginDao {
 	public String resetPassword(User user) throws Exception;
 
 	public int encryptUserPasswords() throws Exception;
+
+	public String getEmailbyUserId(String userId) throws Exception;
 }
 
 

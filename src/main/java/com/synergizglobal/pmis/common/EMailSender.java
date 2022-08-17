@@ -1432,7 +1432,7 @@ public class EMailSender {
 			 message.setSentDate(new Date());
 			 
 			 // send the message
-			 //Transport.send(message);
+			 Transport.send(message);
 			 
 		 }catch (MessagingException mex) {
 			 mex.printStackTrace();

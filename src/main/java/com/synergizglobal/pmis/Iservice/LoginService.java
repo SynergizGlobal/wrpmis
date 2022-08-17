@@ -24,6 +24,7 @@ public interface LoginService {
 	public boolean checkUserEmail(String Email) throws SQLException;
 
 	public String resetPassword(User user) throws Exception;
+	public String getEmailbyUserId(String UserId) throws Exception;
 
 	public int encryptUserPasswords() throws Exception;
 	

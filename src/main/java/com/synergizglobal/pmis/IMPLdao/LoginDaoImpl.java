@@ -287,6 +287,18 @@ public class LoginDaoImpl implements LoginDao{
 		return temp;
 	}
 	
+	@Override
+	public String getEmailbyUserId(String UserId) throws Exception {
+		String email="";
+		try {
+			String qry = "select email_id from [user] where user_id=?";
+			email = (String) jdbcTemplate.queryForObject(qry, new Object[] { UserId }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return email;
+	}	
+	
 
 	@Override
 	public boolean addUserLogoutDateTime(User uObj) throws SQLException {

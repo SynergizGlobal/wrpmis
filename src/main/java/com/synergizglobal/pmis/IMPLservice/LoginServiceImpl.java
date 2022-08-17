@@ -79,4 +79,10 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.encryptUserPasswords();
 	}
 	
+	@Override
+	public String getEmailbyUserId(String UserId) throws Exception
+	{
+		return loginDao.getEmailbyUserId(UserId);
+	}
+	
 }

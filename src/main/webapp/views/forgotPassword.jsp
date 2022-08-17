@@ -368,10 +368,193 @@
 			
 			function login() {
 				//window.localStorage.clear();
-				var flag = $('#forgotPasswordForm').valid();
-				if(flag){
-					$('#forgotPasswordForm').submit();
-				}
+				//var flag = $('#forgotPasswordForm').valid();
+				
+							if($("#user_id").val()=="" && $("#email_id").val()=="")
+							{
+								document.getElementById("message").innerHTML="Please enter User ID or Email ID ";
+								return false;
+							}
+							
+
+
+							 
+							 if($("#user_id").val()!="" && $("#email_id").val()=="")
+								 {
+									 if(checkUserId()==true)
+										 {
+			                    	 	$("#user_id").prop("readonly", true);
+			                    	 	$("#email_id").prop("readonly", true);	
+			                    	 
+				                    	 //$("#newPassword").prop("readonly", true);
+				                    	 //$("#confirmPassword").prop("readonly", true);	
+					                	 if(glbProcess==false)
+				                		 {
+					                		 $("#accessMsg").html("");
+					                    	 $("#divOTP").show();
+					                    	 $("#firstDiv").hide();
+						                	 $("#btnSubmit").hide();
+						                	 
+						                	 var OTP=generateOTP();
+						                	 $("#hdnPass").val(OTP);
+						                	 
+						                	 var myParams = { OTP: OTP,Email: $("#email_id").val(),UserId:$("#user_id").val()};
+						                	 
+						                	 $.ajax({
+						                         url: "<%=request.getContextPath()%>/ajax/sendOTPtomailforResetPassword",
+						                         data: myParams, cache: false,
+						                         success: function (data) 
+						                         {
+						                             
+						                         }
+						                     });
+				                		 }
+					                	 else
+				                		 {
+				                		     if($("#newPassword").val()=="")
+				                			 {
+				                		    	 $("#accessMsg").html("New Password Required");
+				                		    	 return false;
+				                			 }
+				                		     if($("#confirmPassword").val()=="")
+				                			 {
+				                		    	 $("#accessMsg").html("Confirm Password Required");
+				                		    	 return false;
+				                			 }
+					                		 if($("#newPassword").val()!=$("#confirmPassword").val())
+				                			 {
+					                			 $("#accessMsg").html("Confirm password must be same as New Password");
+					                			 return false;
+				                			 }
+					                		 if($("#newPassword").val().length<8 || $("#newPassword").val().length>20)
+				                			 {
+					                			 $("#accessMsg").html("Your password must be at least 8 characters long and at most 20 characters long");
+					                			 return false;
+				                			 }
+					                		 if($("#confirmPassword").val().length<8 || $("#confirmPassword").val().length>20)
+				                			 {
+					                			 $("#accessMsg").html("Your password must be at least 8 characters long and at most 20 characters long");
+					                			 return false;
+				                			 }
+					                	     var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
+					                	     if (!regex.test($("#newPassword").val()))
+				                			 {
+					                			 $("#accessMsg").html("newPassword should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character");
+					                			 return false;			                			 
+				                			 }
+					                	     if (!regex.test($("#confirmPassword").val()))
+				                			 {
+					                			 $("#accessMsg").html("confirmPassword should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character");
+					                			 return false;			                			 
+				                			 }				                		 
+					                	     $('#forgotPasswordForm').submit();
+				                		 }				                	 
+				                    	 
+			                    	
+									 }
+									 else
+									 {
+										 $("#accessMsg").html("User ID wrong ");
+									 }								 
+								 }
+							 	else  if($("#user_id").val()=="" && $("#email_id").val()!="")
+							 		{
+							 		
+									 if(checkLoggedInUserEmail()==true)
+									 {
+		                    	 	$("#user_id").prop("readonly", true);
+		                    	 	$("#email_id").prop("readonly", true);	
+		                    	 
+			                    	 //$("#newPassword").prop("readonly", true);
+			                    	 //$("#confirmPassword").prop("readonly", true);	
+				                	 if(glbProcess==false)
+			                		 {
+				                		 $("#accessMsg").html("");
+				                    	 $("#divOTP").show();
+				                    	 $("#firstDiv").hide();
+					                	 $("#btnSubmit").hide();
+					                	 
+					                	 var OTP=generateOTP();
+					                	 $("#hdnPass").val(OTP);
+					                	 
+					                	 var myParams = { OTP: OTP,Email: $("#email_id").val(),UserId:$("#user_id").val()};
+					                	 
+					                	 $.ajax({
+					                         url: "<%=request.getContextPath()%>/ajax/sendOTPtomailforResetPassword",
+					                         data: myParams, cache: false,
+					                         success: function (data) 
+					                         {
+					                             
+					                         }
+					                     });
+			                		 }
+				                	 else
+			                		 {
+			                		     if($("#newPassword").val()=="")
+			                			 {
+			                		    	 $("#accessMsg").html("New Password Required");
+			                		    	 return false;
+			                			 }
+			                		     if($("#confirmPassword").val()=="")
+			                			 {
+			                		    	 $("#accessMsg").html("Confirm Password Required");
+			                		    	 return false;
+			                			 }
+				                		 if($("#newPassword").val()!=$("#confirmPassword").val())
+			                			 {
+				                			 $("#accessMsg").html("Confirm password must be same as New Password");
+				                			 return false;
+			                			 }
+				                		 if($("#newPassword").val().length<8 || $("#newPassword").val().length>20)
+			                			 {
+				                			 $("#accessMsg").html("Your password must be at least 8 characters long and at most 20 characters long");
+				                			 return false;
+			                			 }
+				                		 if($("#confirmPassword").val().length<8 || $("#confirmPassword").val().length>20)
+			                			 {
+				                			 $("#accessMsg").html("Your password must be at least 8 characters long and at most 20 characters long");
+				                			 return false;
+			                			 }
+				                	     var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
+				                	     if (!regex.test($("#newPassword").val()))
+			                			 {
+				                			 $("#accessMsg").html("newPassword should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character");
+				                			 return false;			                			 
+			                			 }
+				                	     if (!regex.test($("#confirmPassword").val()))
+			                			 {
+				                			 $("#accessMsg").html("confirmPassword should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character");
+				                			 return false;			                			 
+			                			 }				                		 
+				                	     $('#forgotPasswordForm').submit();
+			                		 }				                	 
+			                    	 
+		                    	
+								 }
+								 else
+								 {
+									 $("#accessMsg").html("Email ID wrong ");
+								 }								 		
+							 		
+							 		}
+
+	    	 		
+			    		
+/* 			    	 	else
+		    	 		{
+			    	 		$("#accessMsg").html("User ID or Email wrong ");
+		    	 		} */
+				
+				
+				
+				
+				
+				
+				
+				
+				//if(flag){
+					//$('#forgotPasswordForm').submit();
+				//}
 			}
 		    
 			//form validations and footer related code 
@@ -399,7 +582,7 @@
 			 });
 			
 			
-		    $('#forgotPasswordForm').validate({
+<%-- 		    $('#forgotPasswordForm').validate({
 			    rules: {
 			     		"user_id":{
 			     			required:true
@@ -558,7 +741,7 @@
 			    	    //});
 			    	
 			    }
-			});
+			}); --%>
 		    
 		    //material components initialization
 		    $(document).ready(function(){
@@ -640,6 +823,8 @@
 	        {
 	        
 	        	var bool = false;
+	        	if($("#email_id").val()!="")
+	        		{
 	           	 $.ajax({
 	                 url: "<%=request.getContextPath()%>/ajax/checkUserEmail",
 	                 data: {email_id:$("#email_id").val()},type: 'POST',
@@ -652,25 +837,28 @@
 	                     }
 	                 }
 	             });
+	        		}
 	           	return trueOrFalse(bool);
 	        }
 	        
 	        function checkUserId()
 	        {
-
 	        	var bool = false;
-	           	 $.ajax({
-	                 url: "<%=request.getContextPath()%>/ajax/checkUserId",
-	                 data: {user_id:$("#user_id").val()},type: 'POST',
-	                 async: false,
-	                 dataType: 'json',
-	                 success: function (data) 
-	                 {
-	                	 if (data == true) {
-	                         bool = true;
-	                     }
-	                 }
-	             });
+	        	if($("#user_id").val()!="")
+	        		{
+			           	 $.ajax({
+			                 url: "<%=request.getContextPath()%>/ajax/checkUserId",
+			                 data: {user_id:$("#user_id").val()},type: 'POST',
+			                 async: false,
+			                 dataType: 'json',
+			                 success: function (data) 
+			                 {
+			                	 if (data == true) {
+			                         bool = true;
+			                     }
+			                 }
+			             });
+	        		}
 	           	return trueOrFalse(bool);
 	        }	
 	        

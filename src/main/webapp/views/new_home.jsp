@@ -675,17 +675,20 @@
     z-index: 0;
     /* background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75)); */
     width: 100%;
-    bottom: 2em;
+    bottom: auto;
+}
+.btn-menu{
+	position:relative;
 }
  body {
-	 background-color: rgba(37, 38, 39, 1);
+	 background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
 }
-.gr-bg{
+/* .gr-bg{
 	background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
 	position: absolute;
     height: 90%;
     width: 100%;
-}
+} */
 
  .crane__list, .skyscrappers__list, .tree__container {
 	 position: absolute;
@@ -721,7 +724,7 @@
 	 justify-content: center;
 	 width: 100%;
 	 height: 100%;
-	 bottom: -2em;
+	 bottom: 1em;
 	 overflow: hidden;
 	 box-shadow: inset 0 -60px 0 -30px rgba(75, 175, 172, 1);
 }

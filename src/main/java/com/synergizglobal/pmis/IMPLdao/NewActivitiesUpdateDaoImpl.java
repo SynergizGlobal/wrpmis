@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -40,6 +41,7 @@ import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.Structure;
 @Repository
 public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
+	public static Logger logger = Logger.getLogger(NewActivitiesUpdateDaoImpl.class);
 	
 	@Autowired
 	DataSource dataSource;
@@ -2123,6 +2125,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 
 	@Override
 	public boolean deleteAcivitiesBulk(StripChart obj) throws Exception {
+		boolean flag=false;
 		Connection connection = null;
 		java.sql.CallableStatement statement = null;
 		ResultSet resultSet = null;
@@ -2138,12 +2141,15 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				concat=concat.substring(0, concat.length() - 1);  
 				connection = dataSource.getConnection();	
 				
-				String qry1 = "exec dbo.[deleteActivities] ?";			
-		
 				
+				logger.error("callingStoredProcedures deleteActivities :"+ new Date());	
+				String qry1 = "exec dbo.[deleteActivities] ?";			
 				statement = connection.prepareCall(qry1);
 				statement.setString(1, concat);
-				boolean hadResults = statement.execute();
+				statement.executeQuery();
+				flag=true;
+				DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+				logger.error("callingStoredProcedures Ends deleteActivities :"+ new Date());				
 
 				/*boolean hadResults = statement.execute();
 				if(hadResults)

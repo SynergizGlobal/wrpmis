@@ -811,15 +811,20 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 
 	@Override
 	public boolean refreshExecutionActivities(String userId) throws Exception {
+		boolean flag=false;
 		Connection connection = null;
 		java.sql.CallableStatement statement = null;
 		ResultSet resultSet = null;
 		try{
 				connection = dataSource.getConnection();	
-				String qry1 = "exec [dbo].[fortnight] ?";			
+				logger.error("callingStoredProcedures fortnight :"+ new Date());	
+				String qry1 = "exec dbo.[fortnight] ?";			
 				statement = connection.prepareCall(qry1);
 				statement.setString(1, userId);
-				boolean hadResults = statement.execute();
+				statement.executeQuery();
+				flag=true;
+				DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+				logger.error("callingStoredProcedures Ends fortnight :"+ new Date());	
 
 		}catch(Exception e){ 
 		}finally {
